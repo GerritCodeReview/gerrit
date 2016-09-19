@@ -15,8 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.RevId;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -28,44 +26,31 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-class RevisionNoteMap {
+public class RobotCommentsRevisionNoteMap {
   final NoteMap noteMap;
-  final ImmutableMap<RevId, RevisionNote> revisionNotes;
+  final ImmutableMap<RevId, RobotCommentsRevisionNote> revisionNotes;
 
-  static RevisionNoteMap parse(ChangeNoteUtil noteUtil,
-      Change.Id changeId, ObjectReader reader, NoteMap noteMap,
-      PatchLineComment.Status status)
-      throws ConfigInvalidException, IOException {
-    Map<RevId, ChangeRevisionNote> result = new HashMap<>();
-    for (Note note : noteMap) {
-      ChangeRevisionNote rn = new ChangeRevisionNote(
-          noteUtil, changeId, reader, note.getData(), status);
-      rn.parse();
-      result.put(new RevId(note.name()), rn);
-    }
-    return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));
-  }
-
-  static RevisionNoteMap parseRobotComments(ChangeNoteUtil noteUtil,
-      ObjectReader reader, NoteMap noteMap)
+  static RobotCommentsRevisionNoteMap parse(
+      ChangeNoteUtil noteUtil, ObjectReader reader, NoteMap noteMap)
           throws ConfigInvalidException, IOException {
     Map<RevId, RobotCommentsRevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
-      RobotCommentsRevisionNote rn = new RobotCommentsRevisionNote(
-          noteUtil, reader, note.getData());
+      RobotCommentsRevisionNote rn =
+          new RobotCommentsRevisionNote(noteUtil, reader, note.getData());
       rn.parse();
       result.put(new RevId(note.name()), rn);
     }
-    return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));
+    return new RobotCommentsRevisionNoteMap(noteMap,
+        ImmutableMap.copyOf(result));
   }
 
-  static RevisionNoteMap emptyMap() {
-    return new RevisionNoteMap(NoteMap.newEmptyMap(),
-        ImmutableMap.<RevId, RevisionNote> of());
+  static RobotCommentsRevisionNoteMap emptyMap() {
+    return new RobotCommentsRevisionNoteMap(NoteMap.newEmptyMap(),
+        ImmutableMap.<RevId, RobotCommentsRevisionNote> of());
   }
 
-  private RevisionNoteMap(NoteMap noteMap,
-      ImmutableMap<RevId, RevisionNote> revisionNotes) {
+  private RobotCommentsRevisionNoteMap(NoteMap noteMap,
+      ImmutableMap<RevId, RobotCommentsRevisionNote> revisionNotes) {
     this.noteMap = noteMap;
     this.revisionNotes = revisionNotes;
   }

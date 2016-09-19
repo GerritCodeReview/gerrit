@@ -633,15 +633,15 @@ class ChangeNotesParser {
     Map<RevId, RevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<RevId, RevisionNote> e : rns.entrySet()) {
-      for (Comment c : e.getValue().comments) {
+      for (Comment c : e.getValue().getComments()) {
         comments.put(e.getKey(), c);
       }
     }
 
     for (PatchSet ps : patchSets.values()) {
-      RevisionNote rn = rns.get(ps.getRevision());
-      if (rn != null && rn.pushCert != null) {
-        ps.setPushCertificate(rn.pushCert);
+      ChangeRevisionNote rn = (ChangeRevisionNote)rns.get(ps.getRevision());
+      if (rn != null && rn.getPushCert() != null) {
+        ps.setPushCertificate(rn.getPushCert());
       }
     }
   }

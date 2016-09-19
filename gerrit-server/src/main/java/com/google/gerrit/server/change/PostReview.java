@@ -43,10 +43,12 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -59,6 +61,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -76,6 +79,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -91,6 +95,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -118,6 +123,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final CommentAdded commentAdded;
   private final PostReviewers postReviewers;
   private final String serverId;
+  private final NotesMigration migration;
 
   @Inject
   PostReview(Provider<ReviewDb> db,
@@ -133,7 +139,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       PostReviewers postReviewers,
-      @GerritServerId String serverId) {
+      @GerritServerId String serverId,
+      NotesMigration migration) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
@@ -148,6 +155,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.commentAdded = commentAdded;
     this.postReviewers = postReviewers;
     this.serverId = serverId;
+    this.migration = migration;
   }
 
   @Override
@@ -172,6 +180,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     if (input.comments != null) {
       checkComments(revision, input.comments);
+    }
+    if (input.robotComments != null) {
+      checkComments(revision, input.robotComments);
     }
     if (input.notify == null) {
       log.warn("notify = null; assuming notify = NONE");
@@ -316,16 +327,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void checkComments(RevisionResource revision, Map<String, List<CommentInput>> in)
-      throws BadRequestException, OrmException {
-    Iterator<Map.Entry<String, List<CommentInput>>> mapItr =
-        in.entrySet().iterator();
+  private <T extends CommentInput> void checkComments(RevisionResource revision,
+      Map<String, List<T>> in)
+          throws BadRequestException, MethodNotAllowedException, OrmException {
+    Iterator<? extends Map.Entry<String, List<T>>> mapItr =
+            in.entrySet().iterator();
     Set<String> filePaths =
         Sets.newHashSet(changeDataFactory.create(
             db.get(), revision.getControl()).filePaths(
                 revision.getPatchSet()));
     while (mapItr.hasNext()) {
-      Map.Entry<String, List<CommentInput>> ent = mapItr.next();
+      Map.Entry<String, List<T>> ent = mapItr.next();
       String path = ent.getKey();
       if (!filePaths.contains(path) && !Patch.isMagic(path)) {
         throw new BadRequestException(String.format(
@@ -333,7 +345,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             path, revision.getChange().currentPatchSetId()));
       }
       if (Patch.isMagic(path)) {
-        for (CommentInput comment : ent.getValue()) {
+        for (T comment : ent.getValue()) {
           if (comment.side == Side.PARENT && comment.parent == null) {
             throw new BadRequestException(
                 String.format("cannot comment on %s on auto-merge", path));
@@ -341,15 +353,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      List<CommentInput> list = ent.getValue();
+      List<T> list = ent.getValue();
       if (list == null) {
         mapItr.remove();
         continue;
       }
 
-      Iterator<CommentInput> listItr = list.iterator();
+      Iterator<T> listItr = list.iterator();
       while (listItr.hasNext()) {
-        CommentInput c = listItr.next();
+        T c = listItr.next();
         if (c == null) {
           listItr.remove();
           continue;
@@ -362,6 +374,21 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         c.message = Strings.nullToEmpty(c.message).trim();
         if (c.message.isEmpty()) {
           listItr.remove();
+        }
+        if (c instanceof RobotCommentInput) {
+          if (!migration.commitChangeWrites()) {
+            throw new MethodNotAllowedException("robot comments not supported");
+          }
+
+          RobotCommentInput rc = (RobotCommentInput) c;
+          if (rc.robotId == null) {
+            throw new BadRequestException(String
+                .format("robotId is missing for robot comment on %s", path));
+          }
+          if (rc.robotRunId == null) {
+            throw new BadRequestException(String
+                .format("robotRunId is missing for robot comment on %s", path));
+          }
         }
       }
       if (list.isEmpty()) {
@@ -452,10 +479,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private boolean insertComments(ChangeContext ctx) throws OrmException {
-      Map<String, List<CommentInput>> map = in.comments;
-      if (map == null) {
-        map = Collections.emptyMap();
-      }
+      Map<String, List<CommentInput>> map = join(in.comments, in.robotComments);
 
       Map<String, Comment> drafts = Collections.emptyMap();
       if (!map.isEmpty() || in.drafts != DraftHandling.KEEP) {
@@ -478,7 +502,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         for (CommentInput c : ent.getValue()) {
           String parent = Url.decode(c.inReplyTo);
           Comment e = drafts.remove(Url.decode(c.id));
-          if (e == null) {
+          if (e == null
+              || c instanceof RobotCommentInput != e instanceof RobotComment) {
             e = new Comment(
                 new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path,
                     psId.get()),
@@ -487,6 +512,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                 c.side(),
                 c.message,
                 serverId);
+            if (c instanceof RobotCommentInput) {
+              RobotCommentInput rci = (RobotCommentInput) c;
+              RobotComment r = new RobotComment(e, rci.robotId, rci.robotRunId);
+              r.url = rci.url;
+              e = r;
+            }
           } else {
             e.writtenOn = ctx.getWhen();
             e.side = c.side();
@@ -528,6 +559,29 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       commentsUtil.putComments(ctx.getDb(), u, Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toDel.isEmpty() || !toPublish.isEmpty();
+    }
+
+    @SafeVarargs
+    public final Map<String, List<CommentInput>> join(
+        Map<String, ? extends List<? extends CommentInput>>... in) {
+      List<Map<String, ? extends List<? extends CommentInput>>> input =
+          new ArrayList<>(Arrays.asList(in));
+      input.removeIf(e -> e == null);
+
+      if (input.isEmpty()) {
+        return Collections.emptyMap();
+      }
+
+      int size = input.stream().mapToInt(l -> l.size()).sum();
+      Map<String, List<CommentInput>> out =
+          Maps.newHashMapWithExpectedSize(size);
+      input.stream().forEach(m -> m.forEach((k, v) -> {
+        if (!out.containsKey(k)) {
+          out.put(k, new ArrayList<>(v.size()));
+        }
+        out.get(k).addAll(v);
+      }));
+      return out;
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)

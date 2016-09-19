@@ -21,12 +21,15 @@ import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,11 +59,20 @@ class CommentJson {
   }
 
   CommentInfo format(Comment c) throws OrmException {
+    return format(c, CommentInfo.class);
+  }
+
+  RobotCommentInfo format(RobotComment c) throws OrmException {
+    return format(c, RobotCommentInfo.class);
+  }
+
+  private <IN extends Comment, OUT extends CommentInfo> OUT format(IN c,
+      Class<OUT> clazz) throws OrmException {
     AccountLoader loader = null;
     if (fillAccounts) {
       loader = accountLoaderFactory.create(true);
     }
-    CommentInfo commentInfo = toCommentInfo(c, loader);
+    OUT commentInfo = toCommentInfo(c, clazz, loader);
     if (fillAccounts) {
       loader.fill();
     }
@@ -69,14 +81,23 @@ class CommentJson {
 
   Map<String, List<CommentInfo>> format(Iterable<Comment> l)
       throws OrmException {
-    Map<String, List<CommentInfo>> out = new TreeMap<>();
-    AccountLoader accountLoader = fillAccounts
-        ? accountLoaderFactory.create(true)
-        : null;
+    return format(l, CommentInfo.class);
+  }
 
-    for (Comment c : l) {
-      CommentInfo o = toCommentInfo(c, accountLoader);
-      List<CommentInfo> list = out.get(o.path);
+  Map<String, List<RobotCommentInfo>> formatRobotComments(
+      Iterable<RobotComment> l) throws OrmException {
+    return format(l, RobotCommentInfo.class);
+  }
+
+  private <IN extends Comment, OUT extends CommentInfo> Map<String, List<OUT>> format(
+      Iterable<IN> l, Class<OUT> clazz) throws OrmException {
+    Map<String, List<OUT>> out = new TreeMap<>();
+    AccountLoader accountLoader =
+        fillAccounts ? accountLoaderFactory.create(true) : null;
+
+    for (IN c : l) {
+      OUT o = toCommentInfo(c, clazz, accountLoader);
+      List<OUT> list = out.get(o.path);
       if (list == null) {
         list = new ArrayList<>();
         out.put(o.path, list);
@@ -85,7 +106,7 @@ class CommentJson {
       list.add(o);
     }
 
-    for (List<CommentInfo> list : out.values()) {
+    for (List<OUT> list : out.values()) {
       Collections.sort(list, COMMENT_INFO_ORDER);
     }
 
@@ -96,14 +117,22 @@ class CommentJson {
     return out;
   }
 
-  List<CommentInfo> formatAsList(Iterable<Comment> l)
+  List<CommentInfo> formatCommentsAsList(Iterable<Comment> l)
       throws OrmException {
-    AccountLoader accountLoader = fillAccounts
-        ? accountLoaderFactory.create(true)
-        : null;
-    List<CommentInfo> out = FluentIterable
-        .from(l)
-        .transform(c -> toCommentInfo(c, accountLoader))
+    return formatAsList(l, CommentInfo.class);
+  }
+
+  List<RobotCommentInfo> formatRobotCommentsAsList(Iterable<RobotComment> l)
+      throws OrmException {
+    return formatAsList(l, RobotCommentInfo.class);
+  }
+
+  private <IN extends Comment, OUT extends CommentInfo> List<OUT> formatAsList(
+      Iterable<IN> l, Class<OUT> clazz) throws OrmException {
+    AccountLoader accountLoader =
+        fillAccounts ? accountLoaderFactory.create(true) : null;
+    List<OUT> out = FluentIterable.from(l)
+        .transform(c -> toCommentInfo(c, clazz, accountLoader))
         .toSortedList(COMMENT_INFO_ORDER);
 
     if (accountLoader != null) {
@@ -113,31 +142,46 @@ class CommentJson {
     return out;
   }
 
-  private CommentInfo toCommentInfo(Comment c, AccountLoader loader) {
-    CommentInfo r = new CommentInfo();
-    if (fillPatchSet) {
-      r.patchSet = c.key.patchSetId;
-    }
-    r.id = Url.encode(c.key.uuid);
-    r.path = c.key.filename;
-    if (c.side <= 0) {
-      r.side = Side.PARENT;
-      if (c.side < 0) {
-        r.parent = -c.side;
+  private <IN extends Comment, OUT extends CommentInfo> OUT toCommentInfo(IN c,
+      Class<OUT> clazz, AccountLoader loader) {
+    try {
+      OUT r = clazz.getDeclaredConstructor().newInstance();
+      if (r instanceof RobotCommentInfo && c instanceof RobotComment) {
+        RobotComment rc = (RobotComment) c;
+        RobotCommentInfo rci = (RobotCommentInfo) r;
+        rci.robotId = rc.robotId;
+        rci.robotRunId = rc.robotRunId;
+        rci.url = rc.url;
       }
+      if (fillPatchSet) {
+        r.patchSet = c.key.patchSetId;
+      }
+      r.id = Url.encode(c.key.uuid);
+      r.path = c.key.filename;
+      if (c.side <= 0) {
+        r.side = Side.PARENT;
+        if (c.side < 0) {
+          r.parent = -c.side;
+        }
+      }
+      if (c.lineNbr > 0) {
+        r.line = c.lineNbr;
+      }
+      r.inReplyTo = Url.encode(c.parentUuid);
+      r.message = Strings.emptyToNull(c.message);
+      r.updated = c.writtenOn;
+      r.range = toRange(c.range);
+      r.tag = c.tag;
+      if (loader != null) {
+        r.author = loader.get(c.author.getId());
+      }
+      return r;
+    } catch (InstantiationException | IllegalAccessException
+        | IllegalArgumentException | InvocationTargetException
+        | NoSuchMethodException | SecurityException e) {
+      throw new IllegalStateException(
+          String.format("Cannot instantiate %s", clazz.getName()));
     }
-    if (c.lineNbr > 0) {
-      r.line = c.lineNbr;
-    }
-    r.inReplyTo = Url.encode(c.parentUuid);
-    r.message = Strings.emptyToNull(c.message);
-    r.updated = c.writtenOn;
-    r.range = toRange(c.range);
-    r.tag = c.tag;
-    if (loader != null) {
-      r.author = loader.get(c.author.getId());
-    }
-    return r;
   }
 
   private Range toRange(Comment.Range commentRange) {

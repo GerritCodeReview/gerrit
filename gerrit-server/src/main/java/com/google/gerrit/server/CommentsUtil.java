@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Optional;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -34,6 +35,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
@@ -221,6 +223,14 @@ public class CommentsUtil {
         commentsOnPatchSet(notes.load().getComments().values(), psId));
   }
 
+  public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes,
+      PatchSet.Id psId) throws OrmException {
+    if (!migration.readChanges()) {
+      return ImmutableList.of();
+    }
+    return commentsOnPatchSet(notes.load().getRobotComments().values(), psId);
+  }
+
   /**
    * For the commit message the A side in a diff view is always empty when a
    * comparison against an ancestor is done, so there can't be any comments on
@@ -352,11 +362,11 @@ public class CommentsUtil {
     return sort(result);
   }
 
-  private static List<Comment> commentsOnPatchSet(
-      Collection<Comment> allComments,
+  private static <T extends Comment> List<T> commentsOnPatchSet(
+      Collection<T> allComments,
       PatchSet.Id psId) {
-    List<Comment> result = new ArrayList<>(allComments.size());
-    for (Comment c : allComments) {
+    List<T> result = new ArrayList<>(allComments.size());
+    for (T c : allComments) {
       if (c.key.patchSetId == psId.get()) {
         result.add(c);
       }
@@ -400,7 +410,7 @@ public class CommentsUtil {
         RefNames.refsDraftCommentsPrefix(changeId)).values();
   }
 
-  private static List<Comment> sort(List<Comment> comments) {
+  private static <T extends Comment> List<T> sort(List<T> comments) {
     Collections.sort(comments, COMMENT_ORDER);
     return comments;
   }

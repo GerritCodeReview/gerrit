@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_82297ca9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T12:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_822fbcfa",
+      "revId": "0a96786529b004d3e363c1762a5b2f3dc8a2dcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_c2f70475",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-09-19T09:11:13Z",
       "side": 1,
       "message": "s/sute/site/",
+      "range": {
+        "startLine": 896,
+        "startChar": 34,
+        "endLine": 896,
+        "endChar": 38
+      },
+      "revId": "0a96786529b004d3e363c1762a5b2f3dc8a2dcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_624b987b",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T12:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_c2f70475",
       "range": {
         "startLine": 896,
         "startChar": 34,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_0399f024",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T12:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_63a71caa",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 4
+      },
+      "revId": "0a96786529b004d3e363c1762a5b2f3dc8a2dcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_e3d5ecdf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2016-09-19T09:11:13Z",
       "side": 1,
       "message": "I\u0027m not sure about having site administrators here. They are meant to administrate the server not do code review or \"administrate\" reviews.\n\nThey still should be able to assign \"edit assignee\" to them, but IMO this should not be the default behaviour",
+      "range": {
+        "startLine": 430,
+        "startChar": 10,
+        "endLine": 430,
+        "endChar": 62
+      },
+      "revId": "0a96786529b004d3e363c1762a5b2f3dc8a2dcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_42549419",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T12:48:02Z",
+      "side": 1,
+      "message": "Done\nGood point!",
+      "parentUuid": "4be70257_e3d5ecdf",
       "range": {
         "startLine": 430,
         "startChar": 10,

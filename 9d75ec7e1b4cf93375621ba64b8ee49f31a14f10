@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_6220b8a9",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T13:09:37Z",
+      "side": 1,
+      "message": "now this is inconsistent with the code, site admins are not longer able to change assignee by default",
+      "range": {
+        "startLine": 896,
+        "startChar": 33,
+        "endLine": 896,
+        "endChar": 52
+      },
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

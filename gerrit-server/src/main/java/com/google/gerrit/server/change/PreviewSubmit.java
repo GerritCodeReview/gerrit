@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.ObjectId;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -38,10 +35,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
-import org.apache.commons.compress.archivers.ArchiveOutputStream;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;

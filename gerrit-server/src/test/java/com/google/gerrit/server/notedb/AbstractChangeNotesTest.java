@@ -67,7 +67,6 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;

@@ -54,6 +54,7 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -124,7 +125,7 @@ class ChangeNotesParser {
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
-  private final Multimap<RevId, PatchLineComment> comments;
+  private final Multimap<RevId, Comment> comments;
   private final TreeMap<PatchSet.Id, PatchSet> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
@@ -617,8 +618,8 @@ class ChangeNotesParser {
     Map<RevId, RevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<RevId, RevisionNote> e : rns.entrySet()) {
-      for (PatchLineComment plc : e.getValue().comments) {
-        comments.put(e.getKey(), plc);
+      for (Comment c : e.getValue().comments) {
+        comments.put(e.getKey(), c);
       }
     }
 
@@ -861,9 +862,9 @@ class ChangeNotesParser {
         it.remove();
       }
     }
-    for (Iterator<PatchLineComment> it = comments.values().iterator();
+    for (Iterator<Comment> it = comments.values().iterator();
         it.hasNext();) {
-      PatchSet.Id psId = it.next().getKey().getParentKey().getParentKey();
+      PatchSet.Id psId = new PatchSet.Id(id, it.next().key.patchSetId);
       if (!all.contains(psId)) {
         it.remove();
       }

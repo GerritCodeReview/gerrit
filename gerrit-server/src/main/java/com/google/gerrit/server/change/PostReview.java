@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
@@ -54,20 +54,21 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.CommentRange;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -109,13 +110,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final PostReviewers postReviewers;
+  private final String serverId;
 
   @Inject
   PostReview(Provider<ReviewDb> db,
@@ -124,18 +126,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
-      PostReviewers postReviewers) {
+      PostReviewers postReviewers,
+      @GerritServerId String serverId) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
     this.changeDataFactory = changeDataFactory;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.approvalsUtil = approvalsUtil;
@@ -144,6 +147,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.email = email;
     this.commentAdded = commentAdded;
     this.postReviewers = postReviewers;
+    this.serverId = serverId;
   }
 
   @Override
@@ -371,25 +375,27 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
    */
   @AutoValue
   abstract static class CommentSetEntry {
-    private static CommentSetEntry create(Patch.Key key,
-        Integer line, Side side, HashCode message, CommentRange range) {
-      return new AutoValue_PostReview_CommentSetEntry(key, line, side, message,
-          range);
+    private static CommentSetEntry create(String filename, int patchSetId,
+        Integer line, Side side, HashCode message, Comment.Range range) {
+      return new AutoValue_PostReview_CommentSetEntry(filename, patchSetId,
+          line, side, message, range);
     }
 
-    public static CommentSetEntry create(PatchLineComment comment) {
-      return create(comment.getKey().getParentKey(),
-          comment.getLine(),
-          Side.fromShort(comment.getSide()),
-          Hashing.sha1().hashString(comment.getMessage(), UTF_8),
-          comment.getRange());
+    public static CommentSetEntry create(Comment comment) {
+      return create(comment.key.filename,
+          comment.key.patchSetId,
+          comment.lineNbr,
+          Side.fromShort(comment.side),
+          Hashing.sha1().hashString(comment.message, UTF_8),
+          comment.range);
     }
 
-    abstract Patch.Key key();
+    abstract String filename();
+    abstract int patchSetId();
     @Nullable abstract Integer line();
     abstract Side side();
     abstract HashCode message();
-    @Nullable abstract CommentRange range();
+    @Nullable abstract Comment.Range range();
   }
 
   private class Op extends BatchUpdate.Op {
@@ -401,7 +407,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private ChangeNotes notes;
     private PatchSet ps;
     private ChangeMessage message;
-    private List<PatchLineComment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
     private List<String> labelDelta = new ArrayList<>();
     private Map<String, Short> approvals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
@@ -451,7 +457,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         map = Collections.emptyMap();
       }
 
-      Map<String, PatchLineComment> drafts = Collections.emptyMap();
+      Map<String, Comment> drafts = Collections.emptyMap();
       if (!map.isEmpty() || in.drafts != DraftHandling.KEEP) {
         if (in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS) {
           drafts = changeDrafts(ctx);
@@ -460,8 +466,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      List<PatchLineComment> del = new ArrayList<>();
-      List<PatchLineComment> ups = new ArrayList<>();
+      List<Comment> toDel = new ArrayList<>();
+      List<Comment> toPublish = new ArrayList<>();
 
       Set<CommentSetEntry> existingIds = in.omitDuplicateComments
           ? readExistingComments(ctx)
@@ -471,37 +477,33 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         String path = ent.getKey();
         for (CommentInput c : ent.getValue()) {
           String parent = Url.decode(c.inReplyTo);
-          PatchLineComment e = drafts.remove(Url.decode(c.id));
+          Comment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
-            e = new PatchLineComment(
-                new PatchLineComment.Key(new Patch.Key(psId, path), null),
-                c.line != null ? c.line : 0,
+            e = new Comment(
+                new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path,
+                    psId.get()),
                 user.getAccountId(),
-                parent, ctx.getWhen());
-          } else if (parent != null) {
-            e.setParentUuid(parent);
+                ctx.getWhen(),
+                c.side(),
+                c.message,
+                serverId);
+          } else {
+            e.writtenOn = ctx.getWhen();
+            e.side = c.side();
+            e.message = c.message;
           }
-          e.setStatus(PatchLineComment.Status.PUBLISHED);
-          e.setWrittenOn(ctx.getWhen());
-          e.setSide(c.side());
+
+          if (parent != null) {
+            e.parentUuid = parent;
+          }
           setCommentRevId(e, patchListCache, ctx.getChange(), ps);
-          e.setMessage(c.message);
-          e.setTag(in.tag);
-          if (c.range != null) {
-            e.setRange(new CommentRange(
-                c.range.startLine,
-                c.range.startCharacter,
-                c.range.endLine,
-                c.range.endCharacter));
-            e.setLine(c.range.endLine);
-          }
+          e.setLineNbrAndRange(c.line, c.range);
+          e.tag = in.tag;
+
           if (existingIds.contains(CommentSetEntry.create(e))) {
             continue;
           }
-          if (e.getKey().get() == null) {
-            e.getKey().set(ChangeUtil.messageUUID(ctx.getDb()));
-          }
-          ups.add(e);
+          toPublish.add(e);
         }
       }
 
@@ -510,51 +512,51 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         default:
           break;
         case DELETE:
-          del.addAll(drafts.values());
+          toDel.addAll(drafts.values());
           break;
         case PUBLISH:
-          for (PatchLineComment e : drafts.values()) {
-            ups.add(publishComment(ctx, e, ps));
+          for (Comment e : drafts.values()) {
+            toPublish.add(publishComment(ctx, e, ps));
           }
           break;
         case PUBLISH_ALL_REVISIONS:
-          publishAllRevisions(ctx, drafts, ups);
+          publishAllRevisions(ctx, drafts, toPublish);
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
-      plcUtil.deleteComments(ctx.getDb(), u, del);
-      plcUtil.putComments(ctx.getDb(), u, ups);
-      comments.addAll(ups);
-      return !del.isEmpty() || !ups.isEmpty();
+      commentsUtil.deleteComments(ctx.getDb(), u, toDel);
+      commentsUtil.putComments(ctx.getDb(), u, Status.PUBLISHED, toPublish);
+      comments.addAll(toPublish);
+      return !toDel.isEmpty() || !toPublish.isEmpty();
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)
         throws OrmException {
       Set<CommentSetEntry> r = new HashSet<>();
-      for (PatchLineComment c : plcUtil.publishedByChange(ctx.getDb(),
+      for (Comment c : commentsUtil.publishedByChange(ctx.getDb(),
             ctx.getNotes())) {
         r.add(CommentSetEntry.create(c));
       }
       return r;
     }
 
-    private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)
+    private Map<String, Comment> changeDrafts(ChangeContext ctx)
         throws OrmException {
-      Map<String, PatchLineComment> drafts = new HashMap<>();
-      for (PatchLineComment c : plcUtil.draftByChangeAuthor(
+      Map<String, Comment> drafts = new HashMap<>();
+      for (Comment c : commentsUtil.draftByChangeAuthor(
           ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
-        c.setTag(in.tag);
-        drafts.put(c.getKey().get(), c);
+        c.tag = in.tag;
+        drafts.put(c.key.uuid, c);
       }
       return drafts;
     }
 
-    private Map<String, PatchLineComment> patchSetDrafts(ChangeContext ctx)
+    private Map<String, Comment> patchSetDrafts(ChangeContext ctx)
         throws OrmException {
-      Map<String, PatchLineComment> drafts = new HashMap<>();
-      for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(ctx.getDb(),
+      Map<String, Comment> drafts = new HashMap<>();
+      for (Comment c : commentsUtil.draftByPatchSetAuthor(ctx.getDb(),
           psId, user.getAccountId(), ctx.getNotes())) {
-        drafts.put(c.getKey().get(), c);
+        drafts.put(c.key.uuid, c);
       }
       return drafts;
     }
@@ -568,21 +570,20 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return labels;
     }
 
-    private PatchLineComment publishComment(ChangeContext ctx,
-        PatchLineComment c, PatchSet ps) throws OrmException {
-      c.setStatus(PatchLineComment.Status.PUBLISHED);
-      c.setWrittenOn(ctx.getWhen());
-      c.setTag(in.tag);
+    private Comment publishComment(ChangeContext ctx,
+        Comment c, PatchSet ps) throws OrmException {
+      c.writtenOn = ctx.getWhen();
+      c.tag = in.tag;
       setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
       return c;
     }
 
     private void publishAllRevisions(ChangeContext ctx,
-        Map<String, PatchLineComment> drafts, List<PatchLineComment> ups)
+        Map<String, Comment> drafts, List<Comment> ups)
         throws OrmException {
       boolean needOtherPatchSets = false;
-      for (PatchLineComment c : drafts.values()) {
-        if (!c.getPatchSetId().equals(psId)) {
+      for (Comment c : drafts.values()) {
+        if (c.key.patchSetId != psId.get()) {
           needOtherPatchSets = true;
           break;
         }
@@ -590,8 +591,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Map<PatchSet.Id, PatchSet> patchSets = needOtherPatchSets
           ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
           : ImmutableMap.of(psId, ps);
-      for (PatchLineComment e : drafts.values()) {
-        ups.add(publishComment(ctx, e, patchSets.get(e.getPatchSetId())));
+      for (Comment e : drafts.values()) {
+        ups.add(publishComment(ctx, e, patchSets
+            .get(new PatchSet.Id(ctx.getChange().getId(), e.key.patchSetId))));
       }
     }
 

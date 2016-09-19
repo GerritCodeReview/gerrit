@@ -27,8 +27,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.UserIdentity;
@@ -398,10 +398,10 @@ public class EventFactory {
   }
 
   public void addPatchSetComments(PatchSetAttribute patchSetAttribute,
-      Collection<PatchLineComment> patchLineComments) {
-    for (PatchLineComment comment : patchLineComments) {
-      if (comment.getKey().getParentKey().getParentKey().get()
-          == Integer.parseInt(patchSetAttribute.number)) {
+      Collection<Comment> comments) {
+    for (Comment comment : comments) {
+      if (comment.key.patchSetId ==
+          Integer.parseInt(patchSetAttribute.number)) {
         if (patchSetAttribute.comments == null) {
           patchSetAttribute.comments = new ArrayList<>();
         }
@@ -637,12 +637,12 @@ public class EventFactory {
     return a;
   }
 
-  public PatchSetCommentAttribute asPatchSetLineAttribute(PatchLineComment c) {
+  public PatchSetCommentAttribute asPatchSetLineAttribute(Comment c) {
     PatchSetCommentAttribute a = new PatchSetCommentAttribute();
-    a.reviewer = asAccountAttribute(c.getAuthor());
-    a.file = c.getKey().getParentKey().get();
-    a.line = c.getLine();
-    a.message = c.getMessage();
+    a.reviewer = asAccountAttribute(c.author.getId());
+    a.file = c.key.filename;
+    a.line = c.lineNbr;
+    a.message = c.message;
     return a;
   }
 

@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
@@ -41,8 +41,8 @@ class CommentByPredicate extends ChangeIndexPredicate {
         return true;
       }
     }
-    for (PatchLineComment c : cd.publishedComments()) {
-      if (Objects.equals(c.getAuthor(), id)) {
+    for (Comment c : cd.publishedComments()) {
+      if (Objects.equals(c.author.getId(), id)) {
         return true;
       }
     }

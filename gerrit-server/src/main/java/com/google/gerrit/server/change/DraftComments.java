@@ -20,10 +20,10 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,19 +35,19 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
   private final Provider<CurrentUser> user;
   private final ListRevisionDrafts list;
   private final Provider<ReviewDb> dbProvider;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
 
   @Inject
   DraftComments(DynamicMap<RestView<DraftCommentResource>> views,
       Provider<CurrentUser> user,
       ListRevisionDrafts list,
       Provider<ReviewDb> dbProvider,
-      PatchLineCommentsUtil plcUtil) {
+      CommentsUtil commentsUtil) {
     this.views = views;
     this.user = user;
     this.list = list;
     this.dbProvider = dbProvider;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
   }
 
   @Override
@@ -66,9 +66,9 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
       throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
-    for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(dbProvider.get(),
+    for (Comment c : commentsUtil.draftByPatchSetAuthor(dbProvider.get(),
         rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes())) {
-      if (uuid.equals(c.getKey().get())) {
+      if (uuid.equals(c.key.uuid)) {
         return new DraftCommentResource(rev, c);
       }
     }

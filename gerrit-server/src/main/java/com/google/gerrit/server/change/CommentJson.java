@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.COMMENT_INFO_ORDER;
+import static com.google.gerrit.server.CommentsUtil.COMMENT_INFO_ORDER;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
@@ -22,8 +22,7 @@ import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.CommentRange;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -56,7 +55,7 @@ class CommentJson {
     return this;
   }
 
-  CommentInfo format(PatchLineComment c) throws OrmException {
+  CommentInfo format(Comment c) throws OrmException {
     AccountLoader loader = null;
     if (fillAccounts) {
       loader = accountLoaderFactory.create(true);
@@ -68,14 +67,14 @@ class CommentJson {
     return commentInfo;
   }
 
-  Map<String, List<CommentInfo>> format(Iterable<PatchLineComment> l)
+  Map<String, List<CommentInfo>> format(Iterable<Comment> l)
       throws OrmException {
     Map<String, List<CommentInfo>> out = new TreeMap<>();
     AccountLoader accountLoader = fillAccounts
         ? accountLoaderFactory.create(true)
         : null;
 
-    for (PatchLineComment c : l) {
+    for (Comment c : l) {
       CommentInfo o = toCommentInfo(c, accountLoader);
       List<CommentInfo> list = out.get(o.path);
       if (list == null) {
@@ -97,7 +96,7 @@ class CommentJson {
     return out;
   }
 
-  List<CommentInfo> formatAsList(Iterable<PatchLineComment> l)
+  List<CommentInfo> formatAsList(Iterable<Comment> l)
       throws OrmException {
     AccountLoader accountLoader = fillAccounts
         ? accountLoaderFactory.create(true)
@@ -114,41 +113,41 @@ class CommentJson {
     return out;
   }
 
-  private CommentInfo toCommentInfo(PatchLineComment c, AccountLoader loader) {
+  private CommentInfo toCommentInfo(Comment c, AccountLoader loader) {
     CommentInfo r = new CommentInfo();
     if (fillPatchSet) {
-      r.patchSet = c.getKey().getParentKey().getParentKey().get();
+      r.patchSet = c.key.patchSetId;
     }
-    r.id = Url.encode(c.getKey().get());
-    r.path = c.getKey().getParentKey().getFileName();
-    if (c.getSide() <= 0) {
+    r.id = Url.encode(c.key.uuid);
+    r.path = c.key.filename;
+    if (c.side <= 0) {
       r.side = Side.PARENT;
-      if (c.getSide() < 0) {
-        r.parent = -c.getSide();
+      if (c.side < 0) {
+        r.parent = -c.side;
       }
     }
-    if (c.getLine() > 0) {
-      r.line = c.getLine();
+    if (c.lineNbr > 0) {
+      r.line = c.lineNbr;
     }
-    r.inReplyTo = Url.encode(c.getParentUuid());
-    r.message = Strings.emptyToNull(c.getMessage());
-    r.updated = c.getWrittenOn();
-    r.range = toRange(c.getRange());
-    r.tag = c.getTag();
+    r.inReplyTo = Url.encode(c.parentUuid);
+    r.message = Strings.emptyToNull(c.message);
+    r.updated = c.writtenOn;
+    r.range = toRange(c.range);
+    r.tag = c.tag;
     if (loader != null) {
-      r.author = loader.get(c.getAuthor());
+      r.author = loader.get(c.author.getId());
     }
     return r;
   }
 
-  private Range toRange(CommentRange commentRange) {
+  private Range toRange(Comment.Range commentRange) {
     Range range = null;
     if (commentRange != null) {
       range = new Range();
-      range.startLine = commentRange.getStartLine();
-      range.startCharacter = commentRange.getStartCharacter();
-      range.endLine = commentRange.getEndLine();
-      range.endCharacter = commentRange.getEndCharacter();
+      range.startLine = commentRange.startLine;
+      range.startCharacter = commentRange.startChar;
+      range.endLine = commentRange.endLine;
+      range.endCharacter = commentRange.endChar;
     }
     return range;
   }

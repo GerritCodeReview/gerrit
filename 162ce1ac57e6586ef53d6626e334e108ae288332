@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474289923 +0200\nnonce AE+e84YKNCzEk5k48osUqqLfi5akbq5ZohQA9VEnk+Sn/TimhKhOYwSJzhdmO8o0Fp2XkoDf9yAu\n\n0000000000000000000000000000000000000000 162ce1ac57e6586ef53d6626e334e108ae288332 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX3+EDAAoJEF/XxZqaEoiMdUUQAOCj1nJbsdoFrdAnij6PPx9h\nDXkqCZloEZB0pummjsA9sZtJplM58m0s5lWGdv/il8G+kM9cdLLeIRSQ1P3Leor6\nbLoQWVVz0KKn5FqTdc+MQmwt0XtGwTCrDKXIDk04OacykRkdjSo83H4MDBzjFKY/\nSrpyORmv2ogOC50JuxR2G3UqwnMghMkseYk2osK00np7IYP01zEOLEXksO9WJe7R\nk4oHMyBg1Mpexc+T/0NeF55uqfpwRDtp2rAoPAJ3yvr1iFrOcORXZQDEBrLuskMF\n8rk/DVR/y+jgd5HBbLr+SR46LDcW4744Wke4a5ujmONvW77zIPa+FOBwIm2/077n\ndB5xKzPjzrtqnX0tvgn20kryMhfFawfWKqJhRHimsIsxE9pZT39bXKsT7woYAMvf\naY9xSPDse/ItvmPyRRJETc/E3axTOsC65mmBS/CguLZYP85NPoGRqSlDv2fFPxRd\n+aGKOCOiRfRIy3tMt6ltiNeLqVK/qG9moON/hV8uBf0LpHbivEHfOfkcODwr9lC8\nvGhzvnCC98vZYTlLlsTJz8tvx20U5TOOQjOJQzMWe2i6ECEqAXh89eeFrNsgD+Jb\nKYcjta6CltaDHhxSJuT7DMnSVfGhV3VJVTdcA2Vh8IMyceHrKIhmvAz4JnIh5GAt\nQRDDsRKyGrLpaqWr5oWw\n\u003d/tO7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_424bf455",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:28:02Z",
+      "side": 1,
+      "message": "We might need to return true even if no cookie is present, but siteDefault was set to true on l. 525.",
+      "revId": "162ce1ac57e6586ef53d6626e334e108ae288332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

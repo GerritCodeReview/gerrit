@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -33,17 +33,17 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
 
   @Inject
   ListChangeComments(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      PatchLineCommentsUtil plcUtil) {
+      CommentsUtil commentsUtil) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
   }
 
   @Override
@@ -53,6 +53,6 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentJson.get()
         .setFillAccounts(true)
         .setFillPatchSet(true)
-        .format(plcUtil.publishedByChange(db.get(), cd.notes()));
+        .format(commentsUtil.publishedByChange(db.get(), cd.notes()));
   }
 }

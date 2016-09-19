@@ -19,9 +19,9 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -33,16 +33,16 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
   private final DynamicMap<RestView<CommentResource>> views;
   private final ListRevisionComments list;
   private final Provider<ReviewDb> dbProvider;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
 
   @Inject
   Comments(DynamicMap<RestView<CommentResource>> views,
       ListRevisionComments list, Provider<ReviewDb> dbProvider,
-      PatchLineCommentsUtil plcUtil) {
+      CommentsUtil commentsUtil) {
     this.views = views;
     this.list = list;
     this.dbProvider = dbProvider;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
   }
 
   @Override
@@ -61,9 +61,9 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 
-    for (PatchLineComment c : plcUtil.publishedByPatchSet(dbProvider.get(),
+    for (Comment c : commentsUtil.publishedByPatchSet(dbProvider.get(),
         notes, rev.getPatchSet().getId())) {
-      if (uuid.equals(c.getKey().get())) {
+      if (uuid.equals(c.key.uuid)) {
         return new CommentResource(rev, c);
       }
     }

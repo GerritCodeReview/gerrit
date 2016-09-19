@@ -22,6 +22,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -69,17 +70,17 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @AutoValue
   abstract static class Key {
-    abstract RevId revId();
-    abstract PatchLineComment.Key key();
+    abstract String revId();
+    abstract Comment.Key key();
   }
 
-  private static Key key(PatchLineComment c) {
-    return new AutoValue_ChangeDraftUpdate_Key(c.getRevId(), c.getKey());
+  private static Key key(Comment c) {
+    return new AutoValue_ChangeDraftUpdate_Key(c.revId, c.key);
   }
 
   private final AllUsersName draftsProject;
 
-  private List<PatchLineComment> put = new ArrayList<>();
+  private List<Comment> put = new ArrayList<>();
   private Set<Key> delete = new HashSet<>();
 
   @AssistedInject
@@ -114,24 +115,22 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     this.draftsProject = allUsers;
   }
 
-  public void putComment(PatchLineComment c) {
+  public void putComment(Comment c) {
     verifyComment(c);
-    checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
-        "Cannot insert a published comment into a ChangeDraftUpdate");
     put.add(c);
   }
 
-  public void deleteComment(PatchLineComment c) {
+  public void deleteComment(Comment c) {
     verifyComment(c);
     delete.add(key(c));
   }
 
-  public void deleteComment(RevId revId, PatchLineComment.Key key) {
+  public void deleteComment(String revId, Comment.Key key) {
     delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
   }
 
-  private void verifyComment(PatchLineComment comment) {
-    checkArgument(comment.getAuthor().equals(accountId),
+  private void verifyComment(Comment comment) {
+    checkArgument(comment.author.getId().equals(accountId),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", accountId, comment);
   }
@@ -144,13 +143,13 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
-    for (PatchLineComment c : put) {
+    for (Comment c : put) {
       if (!delete.contains(key(c))) {
-        cache.get(c.getRevId()).putComment(c);
+        cache.get(new RevId(c.revId)).putComment(c);
       }
     }
     for (Key k : delete) {
-      cache.get(k.revId()).deleteComment(k.key());
+      cache.get(new RevId(k.revId())).deleteComment(k.key());
     }
 
     Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();

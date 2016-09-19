@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -39,6 +40,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -47,10 +49,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
@@ -128,6 +131,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private final PersonIdent serverIdent;
   private final ProjectCache projectCache;
   private final String anonymousCowardName;
+  private final String serverId;
 
   @Inject
   ChangeRebuilderImpl(SchemaFactory<ReviewDb> schemaFactory,
@@ -141,7 +145,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent serverIdent,
       @Nullable ProjectCache projectCache,
-      @AnonymousCowardName String anonymousCowardName) {
+      @AnonymousCowardName String anonymousCowardName,
+      @GerritServerId String serverId) {
     super(schemaFactory);
     this.accountCache = accountCache;
     this.bundleReader = bundleReader;
@@ -154,6 +159,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     this.serverIdent = serverIdent;
     this.projectCache = projectCache;
     this.anonymousCowardName = anonymousCowardName;
+    this.serverId = serverId;
   }
 
   @Override
@@ -324,14 +330,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           new PatchSetEvent(change, ps, manager.getChangeRepo().rw);
       patchSetEvents.put(ps.getId(), pse);
       events.add(pse);
-      for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
+      for (Comment c : getComments(bundle, serverId, Status.PUBLISHED, ps)) {
         PatchLineCommentEvent e =
             new PatchLineCommentEvent(c, change, ps, patchListCache);
-        if (c.getStatus() == Status.PUBLISHED) {
-          events.add(e.addDep(pse));
-        } else {
-          draftCommentEvents.put(c.getAuthor(), e);
-        }
+        events.add(e.addDep(pse));
+      }
+      for (Comment c : getComments(bundle, serverId, Status.DRAFT, ps)) {
+        PatchLineCommentEvent e =
+            new PatchLineCommentEvent(c, change, ps, patchListCache);
+        draftCommentEvents.put(c.author.getId(), e);
       }
     }
 
@@ -410,12 +417,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return minPsNum;
   }
 
-  private static List<PatchLineComment> getPatchLineComments(ChangeBundle bundle,
-      final PatchSet ps) {
-    return bundle.getPatchLineComments().stream()
-        .filter(c -> c.getPatchSetId().equals(ps.getId()))
-        .sorted(PatchLineCommentsUtil.PLC_ORDER)
-        .collect(toList());
+  private static List<Comment> getComments(ChangeBundle bundle, String serverId,
+      PatchLineComment.Status status, PatchSet ps) {
+    return FluentIterable
+        .from(bundle.getPatchLineComments().stream()
+            .filter(c -> c.getPatchSetId().equals(ps.getId())
+                && c.getStatus() == status)
+            .collect(toList()))
+        .transform(plc -> plc.asComment(serverId))
+        .toSortedList(CommentsUtil.COMMENT_ORDER);
   }
 
   private void sortAndFillEvents(Change change, Change noteDbChange,

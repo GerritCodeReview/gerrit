@@ -31,7 +31,7 @@ import com.google.common.collect.Table;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ReviewerSet;
@@ -555,8 +555,8 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<String> r = new HashSet<>();
-          for (PatchLineComment c : input.publishedComments()) {
-            r.add(c.getMessage());
+          for (Comment c : input.publishedComments()) {
+            r.add(c.message);
           }
           for (ChangeMessage m : input.messages()) {
             r.add(m.getMessage());
@@ -633,8 +633,8 @@ public class ChangeField {
               r.add(m.getAuthor().get());
             }
           }
-          for (PatchLineComment c : input.publishedComments()) {
-            r.add(c.getAuthor().get());
+          for (Comment c : input.publishedComments()) {
+            r.add(c.author.getId().get());
           }
           return r;
         }

@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
+import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -52,7 +52,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         PatchSet patchSet,
         IdentifiedUser user,
         ChangeMessage message,
-        List<PatchLineComment> comments);
+        List<Comment> comments);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -66,7 +66,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final PatchSet patchSet;
   private final IdentifiedUser user;
   private final ChangeMessage message;
-  private List<PatchLineComment> comments;
+  private List<Comment> comments;
   private ReviewDb db;
 
   @Inject
@@ -81,7 +81,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,
       @Assisted ChangeMessage message,
-      @Assisted List<PatchLineComment> comments) {
+      @Assisted List<Comment> comments) {
     this.sendEmailsExecutor = executor;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
@@ -92,7 +92,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.patchSet = patchSet;
     this.user = user;
     this.message = message;
-    this.comments = PLC_ORDER.sortedCopy(comments);
+    this.comments = COMMENT_ORDER.sortedCopy(comments);
   }
 
   void sendAsync() {

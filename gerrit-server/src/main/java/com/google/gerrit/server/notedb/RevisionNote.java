@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -65,7 +66,7 @@ class RevisionNote {
   }
 
   final byte[] raw;
-  final ImmutableList<PatchLineComment> comments;
+  final ImmutableList<Comment> comments;
   final String pushCert;
 
   RevisionNote(ChangeNoteUtil noteUtil, Change.Id changeId,
@@ -83,7 +84,7 @@ class RevisionNote {
 
     if (isJson(raw, p.value)) {
       RevisionNoteData data = parseJson(noteUtil, p.value);
-      comments = data.exportComments(changeId, status);
+      comments = ImmutableList.copyOf(data.comments);
       if (status == PatchLineComment.Status.PUBLISHED) {
         pushCert = data.pushCert;
       } else {
@@ -98,8 +99,7 @@ class RevisionNote {
     } else {
       pushCert = null;
     }
-    comments = ImmutableList.copyOf(
-        noteUtil.parseNote(raw, p, changeId, status));
+    comments = ImmutableList.copyOf(noteUtil.parseNote(raw, p, changeId));
   }
 
   private static boolean isJson(byte[] raw, int offset) {

@@ -90,7 +90,6 @@ class RevisionNoteData {
     int lineNbr;
     Identity author;
     Timestamp writtenOn;
-    char status;
     short side;
     String message;
     String parentUuid;
@@ -104,7 +103,6 @@ class RevisionNoteData {
       lineNbr = plc.getLine();
       author = new Identity(plc.getAuthor());
       writtenOn = plc.getWrittenOn();
-      status = plc.getStatus().getCode();
       side = plc.getSide();
       message = plc.getMessage();
       parentUuid = plc.getParentUuid();
@@ -114,17 +112,17 @@ class RevisionNoteData {
       this.serverId = serverId;
     }
 
-    PatchLineComment export() {
+    PatchLineComment export(PatchLineComment.Status status) {
       PatchLineComment plc = new PatchLineComment(
           key.export(), lineNbr, author.export(), parentUuid, writtenOn);
       plc.setSide(side);
-      plc.setStatus(PatchLineComment.Status.forCode(status));
       plc.setMessage(message);
       if (range != null) {
         plc.setRange(range.export());
       }
       plc.setTag(tag);
       plc.setRevId(new RevId(revId));
+      plc.setStatus(status);
       return plc;
     }
   }
@@ -139,9 +137,7 @@ class RevisionNoteData {
         comments.stream()
             .map(
                 c -> {
-                  PatchLineComment plc = c.export();
-                  plc.setStatus(status);
-                  return plc;
+                  return c.export(status);
                 })
             .collect(toList()));
   }

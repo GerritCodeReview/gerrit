@@ -23,6 +23,30 @@
       "revId": "e8b7303fb97afc0c585bb916f718575abc6aa55e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e2a048a7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T16:01:07Z",
+      "side": 1,
+      "message": "I blame git in this case. I added the hunk in the previous change during an interactive rebase, then git re-added it during the next pick :(",
+      "parentUuid": "2bec8e3b_42af749d",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "e8b7303fb97afc0c585bb916f718575abc6aa55e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

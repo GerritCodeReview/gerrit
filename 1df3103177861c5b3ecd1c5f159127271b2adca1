@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_6269d8b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_6203986a",
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_c2626440",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AssigneeInput.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-09-19T09:32:04Z",
       "side": 1,
       "message": "how about using Account.Id here instead of raw String?",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_2216b051",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AssigneeInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Since it not an Account.Id it\u0027s an id string that I later give to AccountsCollection.parse() https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsCollection.java#80",
+      "parentUuid": "2bec8e3b_c2626440",
       "range": {
         "startLine": 18,
         "startChar": 9,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_0363b013",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done\nMuscle memory :)",
+      "parentUuid": "2bec8e3b_026d6c2e",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 8
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_42577456",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 2
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_e367ac1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_42577456",
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_c249c4ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 2
@@ -93,6 +177,30 @@
       "writtenOn": "2016-09-19T09:32:04Z",
       "side": 1,
       "message": "make those filed final, since they are class dependencies and should not change over time.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 40
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e22a0886",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_c249c4ba",
       "range": {
         "startLine": 42,
         "startChar": 2,
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_a25be025",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_02444c9c",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 35
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_625ef871",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 2
@@ -139,6 +271,30 @@
       "writtenOn": "2016-09-19T09:32:04Z",
       "side": 1,
       "message": "make those filed final, since they are class dependencies and should not change over time.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e265e8e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_625ef871",
       "range": {
         "startLine": 46,
         "startChar": 0,
@@ -197,6 +353,54 @@
     },
     {
       "key": {
+        "uuid": "4be70257_43549819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_82617c38",
+      "range": {
+        "startLine": 50,
+        "startChar": 23,
+        "endLine": 50,
+        "endChar": 53
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_033a90f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done\nIt doesn\u0027t have to be, muscle memory again...",
+      "parentUuid": "2bec8e3b_2254f04f",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_23dfd4f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 2
@@ -220,6 +424,47 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_22487057",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Done\nI know, it was just for clarity, removed it.",
+      "parentUuid": "4be70257_23dfd4f7",
+      "range": {
+        "startLine": 60,
+        "startChar": 3,
+        "endLine": 60,
+        "endChar": 28
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_8377c0c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "set the previous assignee as newAssignee",
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_83dce001",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 2
@@ -231,6 +476,30 @@
       "writtenOn": "2016-09-19T09:32:04Z",
       "side": 1,
       "message": "do you need this method at all?",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 3
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_834ea089",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T14:08:27Z",
+      "side": 1,
+      "message": "Yes. In PutAssignee, when it after ChangeUpdate has done it\u0027s stuff we want to let the caller know who the new assignee is.",
+      "parentUuid": "4be70257_83dce001",
       "range": {
         "startLine": 128,
         "startChar": 1,

@@ -37,8 +37,8 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -49,7 +49,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -319,7 +319,7 @@ public class ChangeData {
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
@@ -337,7 +337,7 @@ public class ChangeData {
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files;
   private Map<Integer, Optional<PatchList>> patchLists;
-  private Collection<PatchLineComment> publishedComments;
+  private Collection<Comment> publishedComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
@@ -367,7 +367,7 @@ public class ChangeData {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
@@ -385,7 +385,7 @@ public class ChangeData {
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
@@ -405,7 +405,7 @@ public class ChangeData {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
@@ -422,7 +422,7 @@ public class ChangeData {
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
@@ -443,7 +443,7 @@ public class ChangeData {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
@@ -460,7 +460,7 @@ public class ChangeData {
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
@@ -482,7 +482,7 @@ public class ChangeData {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
@@ -499,7 +499,7 @@ public class ChangeData {
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
@@ -522,7 +522,7 @@ public class ChangeData {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
@@ -541,7 +541,7 @@ public class ChangeData {
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
@@ -1001,13 +1001,13 @@ public class ChangeData {
     return reviewerUpdates;
   }
 
-  public Collection<PatchLineComment> publishedComments()
+  public Collection<Comment> publishedComments()
       throws OrmException {
     if (publishedComments == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      publishedComments = plcUtil.publishedByChange(db, notes());
+      publishedComments = commentsUtil.publishedByChange(db, notes());
     }
     return publishedComments;
   }
@@ -1123,8 +1123,8 @@ public class ChangeData {
         return Collections.emptySet();
       }
       draftsByUser = new HashSet<>();
-      for (PatchLineComment sc : plcUtil.draftByChange(db, notes)) {
-        draftsByUser.add(sc.getAuthor());
+      for (Comment sc : commentsUtil.draftByChange(db, notes)) {
+        draftsByUser.add(sc.author.getId());
       }
     }
     return draftsByUser;

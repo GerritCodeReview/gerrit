@@ -15,15 +15,13 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
+import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.RevId;
 
 import java.io.ByteArrayOutputStream;
@@ -63,9 +61,9 @@ class RevisionNoteBuilder {
   }
 
   final byte[] baseRaw;
-  final List<PatchLineComment> baseComments;
-  final Map<PatchLineComment.Key, PatchLineComment> put;
-  final Set<PatchLineComment.Key> delete;
+  final List<Comment> baseComments;
+  final Map<Comment.Key, Comment> put;
+  final Set<Comment.Key> delete;
 
   private String pushCert;
 
@@ -94,13 +92,13 @@ class RevisionNoteBuilder {
     return out.toByteArray();
   }
 
-  void putComment(PatchLineComment comment) {
-    checkArgument(!delete.contains(comment.getKey()),
-        "cannot both delete and put %s", comment.getKey());
-    put.put(comment.getKey(), comment);
+  void putComment(Comment comment) {
+    checkArgument(!delete.contains(comment.key),
+        "cannot both delete and put %s", comment.key);
+    put.put(comment.key, comment);
   }
 
-  void deleteComment(PatchLineComment.Key key) {
+  void deleteComment(Comment.Key key) {
     checkArgument(!put.containsKey(key), "cannot both delete and put %s", key);
     delete.add(key);
   }
@@ -109,17 +107,17 @@ class RevisionNoteBuilder {
     this.pushCert = pushCert;
   }
 
-  private Multimap<PatchSet.Id, PatchLineComment> buildCommentMap() {
-    Multimap<PatchSet.Id, PatchLineComment> all = ArrayListMultimap.create();
+  private Multimap<Integer, Comment> buildCommentMap() {
+    Multimap<Integer, Comment> all = ArrayListMultimap.create();
 
-    for (PatchLineComment c : baseComments) {
-      if (!delete.contains(c.getKey()) && !put.containsKey(c.getKey())) {
-        all.put(c.getPatchSetId(), c);
+    for (Comment c : baseComments) {
+      if (!delete.contains(c.key) && !put.containsKey(c.key)) {
+        all.put(c.key.patchSetId, c);
       }
     }
-    for (PatchLineComment c : put.values()) {
-      if (!delete.contains(c.getKey())) {
-        all.put(c.getPatchSetId(), c);
+    for (Comment c : put.values()) {
+      if (!delete.contains(c.key)) {
+        all.put(c.key.patchSetId, c);
       }
     }
     return all;
@@ -127,16 +125,13 @@ class RevisionNoteBuilder {
 
   private void buildNoteJson(final ChangeNoteUtil noteUtil, OutputStream out)
       throws IOException {
-    Multimap<PatchSet.Id, PatchLineComment> comments = buildCommentMap();
+    Multimap<Integer, Comment> comments = buildCommentMap();
     if (comments.isEmpty() && pushCert == null) {
       return;
     }
 
     RevisionNoteData data = new RevisionNoteData();
-    data.comments = comments.values().stream()
-        .sorted(PLC_ORDER)
-        .map(plc -> new RevisionNoteData.Comment(plc, noteUtil.getServerId()))
-        .collect(toList());
+    data.comments = COMMENT_ORDER.sortedCopy(comments.values());
     data.pushCert = pushCert;
 
     try (OutputStreamWriter osw = new OutputStreamWriter(out)) {

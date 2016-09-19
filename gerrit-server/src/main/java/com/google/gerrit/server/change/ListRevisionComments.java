@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -28,8 +28,8 @@ public class ListRevisionComments extends ListRevisionDrafts {
   @Inject
   ListRevisionComments(Provider<ReviewDb> db,
       Provider<CommentJson> commentJson,
-      PatchLineCommentsUtil plcUtil) {
-    super(db, commentJson, plcUtil);
+      CommentsUtil commentsUtil) {
+    super(db, commentJson, commentsUtil);
   }
 
   @Override
@@ -38,9 +38,10 @@ public class ListRevisionComments extends ListRevisionDrafts {
   }
 
   @Override
-  protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
+  protected Iterable<Comment> listComments(RevisionResource rsrc)
       throws OrmException {
     ChangeNotes notes = rsrc.getNotes();
-    return plcUtil.publishedByPatchSet(db.get(), notes, rsrc.getPatchSet().getId());
+    return commentsUtil.publishedByPatchSet(db.get(), notes,
+        rsrc.getPatchSet().getId());
   }
 }

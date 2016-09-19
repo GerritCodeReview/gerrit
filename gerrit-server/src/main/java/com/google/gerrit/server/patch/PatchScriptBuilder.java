@@ -22,8 +22,8 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.inject.Inject;
@@ -283,8 +283,8 @@ class PatchScriptBuilder {
     int lastLine;
 
     lastLine = -1;
-    for (PatchLineComment plc : comments.getCommentsA()) {
-      final int a = plc.getLine();
+    for (Comment c : comments.getCommentsA()) {
+      final int a = c.lineNbr;
       if (lastLine != a) {
         final int b = mapA2B(a - 1);
         if (0 <= b) {
@@ -295,8 +295,8 @@ class PatchScriptBuilder {
     }
 
     lastLine = -1;
-    for (PatchLineComment plc : comments.getCommentsB()) {
-      final int b = plc.getLine();
+    for (Comment c : comments.getCommentsB()) {
+      int b = c.lineNbr;
       if (lastLine != b) {
         final int a = mapB2A(b - 1);
         if (0 <= a) {

@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
@@ -57,7 +57,7 @@ public class NoteDbChecker {
   private final ChangeBundleReader bundleReader;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeRebuilder changeRebuilder;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
 
   @Inject
   NoteDbChecker(Provider<ReviewDb> dbProvider,
@@ -66,14 +66,14 @@ public class NoteDbChecker {
       ChangeBundleReader bundleReader,
       ChangeNotes.Factory notesFactory,
       ChangeRebuilder changeRebuilder,
-      PatchLineCommentsUtil plcUtil) {
+      CommentsUtil commentsUtil) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.bundleReader = bundleReader;
     this.notesMigration = notesMigration;
     this.notesFactory = notesFactory;
     this.changeRebuilder = changeRebuilder;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
   }
 
   public void rebuildAndCheckAllChanges() throws Exception {
@@ -157,7 +157,7 @@ public class NoteDbChecker {
         ChangeBundle actual;
         try {
           actual = ChangeBundle.fromNotes(
-              plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
+              commentsUtil, notesFactory.create(db, c.getProject(), c.getId()));
         } catch (Throwable t) {
           String msg = "Error converting change: " + c;
           msgs.add(msg);

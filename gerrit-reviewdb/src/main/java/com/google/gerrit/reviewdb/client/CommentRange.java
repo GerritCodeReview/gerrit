@@ -72,6 +72,10 @@ public class CommentRange {
     endCharacter = ec;
   }
 
+  public Comment.Range asCommentRange() {
+    return new Comment.Range(startLine, startCharacter, endLine, endCharacter);
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof CommentRange) {

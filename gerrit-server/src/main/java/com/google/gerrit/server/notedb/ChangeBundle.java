@@ -50,7 +50,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gwtorm.client.Column;
@@ -83,16 +83,18 @@ public class ChangeBundle {
     REVIEW_DB, NOTE_DB;
   }
 
-  public static ChangeBundle fromNotes(PatchLineCommentsUtil plcUtil,
+  public static ChangeBundle fromNotes(CommentsUtil commentsUtil,
       ChangeNotes notes) throws OrmException {
     return new ChangeBundle(
         notes.getChange(),
         notes.getChangeMessages(),
         notes.getPatchSets().values(),
         notes.getApprovals().values(),
-        Iterables.concat(
-            plcUtil.draftByChange(null, notes),
-            plcUtil.publishedByChange(null, notes)),
+        Iterables.concat(CommentsUtil.toPatchLineComments(notes.getChangeId(),
+            PatchLineComment.Status.DRAFT, commentsUtil.draftByChange(null, notes)),
+            CommentsUtil.toPatchLineComments(notes.getChangeId(),
+                PatchLineComment.Status.PUBLISHED,
+                commentsUtil.publishedByChange(null, notes))),
         notes.getReviewers(),
         Source.NOTE_DB);
   }

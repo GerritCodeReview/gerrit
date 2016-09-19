@@ -17,9 +17,9 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -34,17 +34,17 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
 
   @Inject
   ListChangeDrafts(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      PatchLineCommentsUtil plcUtil) {
+      CommentsUtil commentsUtil) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
   }
 
   @Override
@@ -54,7 +54,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
       throw new AuthException("Authentication required");
     }
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
-    List<PatchLineComment> drafts = plcUtil.draftByChangeAuthor(
+    List<Comment> drafts = commentsUtil.draftByChangeAuthor(
         db.get(), cd.notes(), rsrc.getControl().getUser().getAccountId());
     return commentJson.get()
         .setFillAccounts(false)

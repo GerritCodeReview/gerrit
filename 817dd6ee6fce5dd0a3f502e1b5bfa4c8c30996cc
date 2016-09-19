@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_620438b9",
+        "filename": "gerrit-gwtui-common/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-19T15:41:40Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 10
+      },
+      "revId": "817dd6ee6fce5dd0a3f502e1b5bfa4c8c30996cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

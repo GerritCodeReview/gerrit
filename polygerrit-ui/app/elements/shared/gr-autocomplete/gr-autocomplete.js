@@ -117,14 +117,6 @@
 
     },
 
-    attached: function() {
-      this.listen(document.body, 'click', '_handleBodyClick');
-    },
-
-    detached: function() {
-      this.unlisten(document.body, 'click', '_handleBodyClick');
-    },
-
     get focusStart() {
       return this.$.input;
     },
@@ -145,6 +137,15 @@
       this._disableSuggestions = true;
       this.text = text;
       this._disableSuggestions = false;
+    },
+
+    _onInputFocus: function() {
+      this._focused = true;
+      this._updateSuggestions();
+    },
+
+    _onInputBlur: function() {
+      this._focused = false;
     },
 
     _updateSuggestions: function() {
@@ -226,18 +227,6 @@
       } else {
         this.value = completed;
       }
-    },
-
-    _handleBodyClick: function(e) {
-      var eventPath = Polymer.dom(e).path;
-      for (var i = 0; i < eventPath.length; i++) {
-        if (eventPath[i] == this) {
-          this._focused = true;
-          return;
-        }
-      }
-      this._suggestions = [];
-      this._focused = false;
     },
 
     _handleSuggestionTap: function(e) {

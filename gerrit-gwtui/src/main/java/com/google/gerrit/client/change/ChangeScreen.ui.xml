@@ -463,7 +463,7 @@ limitations under the License.
                 </g:FlowPanel>
               </td>
             </tr>
-            <tr>
+            <tr ui:field='assigneeRow'>
               <th><ui:msg>Assignee</ui:msg></th>
               <td>
                 <c:Assignee ui:field='assignee'/>

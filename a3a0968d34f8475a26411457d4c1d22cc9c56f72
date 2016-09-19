@@ -16,6 +16,24 @@
       "revId": "a3a0968d34f8475a26411457d4c1d22cc9c56f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_2e5e0771",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-09-19T15:41:58Z",
+      "side": 1,
+      "message": "I didn\u0027t want to cache empty list. If the caller changes a ChangeData to lazyLoad(true) we should generate the list here instead of continuing to return empty list.",
+      "parentUuid": "2bec8e3b_4283f4b4",
+      "revId": "a3a0968d34f8475a26411457d4c1d22cc9c56f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -330,5 +330,21 @@ limitations under the License.
           element.$$('a').getAttribute('href'),
           '/c/42/2/foo+bar/my%252Bfile.txt%2525');
     });
+
+    test('increment button is functional', function(done) {
+      flush(function() {
+        element._files = [];
+        var files = [];
+        assert.isTrue(element.$.incrementButton.hasAttribute('hidden'));
+        for (var i = 0; i < 99; i++) {
+          files.push({__path: 'foo bar/my+file.txt%'});
+        }
+        element._files = files;
+        assert.isFalse(element.$.incrementButton.hasAttribute('hidden'));
+        MockInteractions.tap(element.$.incrementButton);
+        assert.isTrue(element.$.incrementButton.hasAttribute('hidden'));
+        done();
+      });
+    });
   });
 </script>

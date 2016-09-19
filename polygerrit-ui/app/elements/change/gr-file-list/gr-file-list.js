@@ -53,6 +53,10 @@
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
+      _numFilesShown: {
+        type: Number,
+        value: 75,
+      },
     },
 
     behaviors: [
@@ -421,6 +425,10 @@
       return !expanded;
     },
 
+    _computeFilesShown: function(numFilesShown, files) {
+      return files.slice(0, numFilesShown);
+    },
+
     _filesChanged: function() {
       this.async(function() {
         var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
@@ -429,6 +437,18 @@
         this.$.cursor.splice.apply(this.$.cursor,
             ['diffs', 0, this.$.cursor.diffs.length].concat(diffElements));
       }.bind(this), 1);
+    },
+
+    _incrementNumFilesShown: function() {
+      this._numFilesShown += 25;
+    },
+
+    _computeIncrementHidden: function(numFilesShown, files) {
+      return numFilesShown >= files.length;
+    },
+
+    _computeIncrementText: function(numFilesShown, files) {
+      return 'Show ' + Math.min(25, files.length - numFilesShown) + ' more';
     },
   });
 })();

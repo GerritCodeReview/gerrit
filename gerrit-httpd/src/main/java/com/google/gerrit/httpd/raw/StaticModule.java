@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
@@ -22,6 +23,7 @@ import com.google.common.base.Enums;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.httpd.GerritOptions;
+import com.google.gerrit.httpd.GerritOptions.UiPreference;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -110,12 +112,6 @@ public class StaticModule extends ServletModule {
 
   private static final int GERRIT_UI_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
-  enum UiPreference {
-    NONE,
-    GWT,
-    POLYGERRIT;
-  }
-
   private final GerritOptions options;
   private Paths paths;
 
@@ -145,7 +141,9 @@ public class StaticModule extends ServletModule {
             .weigher(ResourceServlet.Weigher.class);
       }
     });
-    install(new CoreStaticModule());
+    if (!options.headless()) {
+      install(new CoreStaticModule());
+    }
     if (options.enablePolyGerrit()) {
       install(new PolyGerritModule());
     }
@@ -449,6 +447,8 @@ public class StaticModule extends ServletModule {
       this.polygerritUI = polygerritUI;
       this.bowerComponentServlet = bowerComponentServlet;
       this.fontServlet = fontServlet;
+      checkState(options.enablePolyGerrit(),
+          "can't install PolyGerritFilter when PolyGerrit is disabled");
     }
 
     @Override
@@ -509,6 +509,9 @@ public class StaticModule extends ServletModule {
 
     private boolean isPolyGerritEnabled(HttpServletRequest req,
         HttpServletResponse res) {
+      if (!options.enableGwtUi()) {
+        return true;
+      }
       String param = req.getParameter("polygerrit");
       if ("1".equals(param)) {
         return setPolyGerritCookie(req, res, UiPreference.POLYGERRIT);
@@ -520,10 +523,7 @@ public class StaticModule extends ServletModule {
     }
 
     private boolean isPolyGerritCookie(HttpServletRequest req) {
-      UiPreference pref = UiPreference.GWT;
-      if (options.enablePolyGerrit() && !options.enableGwtUi()) {
-        pref = UiPreference.POLYGERRIT;
-      }
+      UiPreference pref = options.defaultUi();
       Cookie[] all = req.getCookies();
       if (all != null) {
         for (Cookie c : all) {

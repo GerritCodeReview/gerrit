@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_62a718aa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T07:55:49Z",
+      "side": 1,
+      "message": "Thanks for the suggestion Björn, we will do something like this.",
+      "parentUuid": "398b03e2_e02bc2e6",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "880c85ef_b9dcbf29",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
         "patchSetId": 4

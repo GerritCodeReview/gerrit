@@ -19,11 +19,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
-import com.google.common.base.Enums;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.httpd.GerritOptions;
-import com.google.gerrit.httpd.GerritOptions.UiPreference;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -514,34 +513,36 @@ public class StaticModule extends ServletModule {
       }
       String param = req.getParameter("polygerrit");
       if ("1".equals(param)) {
-        return setPolyGerritCookie(req, res, UiPreference.POLYGERRIT);
+        return setPolyGerritCookie(req, res, UiType.POLYGERRIT);
       } else if ("0".equals(param)) {
-        return setPolyGerritCookie(req, res, UiPreference.GWT);
+        return setPolyGerritCookie(req, res, UiType.GWT);
       } else {
         return isPolyGerritCookie(req);
       }
     }
 
     private boolean isPolyGerritCookie(HttpServletRequest req) {
-      UiPreference pref = options.defaultUi();
+      UiType type = options.defaultUi();
       Cookie[] all = req.getCookies();
       if (all != null) {
         for (Cookie c : all) {
           if (GERRIT_UI_COOKIE.equals(c.getName())) {
-            String v = c.getValue().toUpperCase();
-            pref = Enums.getIfPresent(UiPreference.class, v).or(pref);
-            break;
+            UiType t = UiType.parse(c.getValue());
+            if (t != null) {
+              type = t;
+              break;
+            }
           }
         }
       }
-      return pref == UiPreference.POLYGERRIT;
+      return type == UiType.POLYGERRIT;
     }
 
     private boolean setPolyGerritCookie(HttpServletRequest req,
-        HttpServletResponse res, UiPreference pref) {
+        HttpServletResponse res, UiType pref) {
       // Only actually set a cookie if both UIs are enabled in the server;
       // otherwise clear it.
-      Cookie cookie = new Cookie(GERRIT_UI_COOKIE, pref.name().toLowerCase());
+      Cookie cookie = new Cookie(GERRIT_UI_COOKIE, pref.name());
       if (options.enablePolyGerrit() && options.enableGwtUi()) {
         cookie.setPath("/");
         cookie.setSecure(isSecure(req));
@@ -551,7 +552,7 @@ public class StaticModule extends ServletModule {
         cookie.setMaxAge(0);
       }
       res.addCookie(cookie);
-      return pref == UiPreference.POLYGERRIT;
+      return pref == UiType.POLYGERRIT;
     }
 
     private static boolean isSecure(HttpServletRequest req) {

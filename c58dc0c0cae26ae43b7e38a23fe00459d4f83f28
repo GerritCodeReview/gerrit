@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4be70257_c3e3889b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-19T12:27:48Z",
+      "side": 1,
+      "message": "We are not planning to cover this use-case by the reviewer suggestion extension point that we plan to do, at least not with the first versions.",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "c58dc0c0cae26ae43b7e38a23fe00459d4f83f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_e3cb2c15",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 1

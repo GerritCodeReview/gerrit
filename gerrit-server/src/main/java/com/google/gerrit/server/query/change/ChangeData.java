@@ -55,6 +55,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -75,6 +76,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -303,7 +305,7 @@ public class ChangeData {
    */
   public static ChangeData createForTest(Project.NameKey project, Change.Id id,
       int currentPatchSetId) {
-    ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
+    ChangeData cd = new ChangeData(null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
@@ -326,6 +328,7 @@ public class ChangeData {
   private final MergeabilityCache mergeabilityCache;
   private final StarredChangesUtil starredChangesUtil;
   private final Change.Id legacyId;
+  private final boolean showAssignee;
   private Project.NameKey project;
   private Change change;
   private ChangeNotes notes;
@@ -360,6 +363,7 @@ public class ChangeData {
 
   @AssistedInject
   private ChangeData(
+      @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
@@ -394,10 +398,13 @@ public class ChangeData {
     this.starredChangesUtil = starredChangesUtil;
     this.project = project;
     this.legacyId = id;
+    this.showAssignee =
+        cfg.getBoolean("change", "showAssignee", true);
   }
 
   @AssistedInject
   private ChangeData(
+      @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
@@ -429,6 +436,8 @@ public class ChangeData {
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
     this.starredChangesUtil = starredChangesUtil;
+    this.showAssignee =
+        cfg.getBoolean("change", "showAssignee", true);
     legacyId = c.getId();
     change = c;
     project = c.getProject();
@@ -436,6 +445,7 @@ public class ChangeData {
 
   @AssistedInject
   private ChangeData(
+      @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
@@ -467,6 +477,8 @@ public class ChangeData {
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
     this.starredChangesUtil = starredChangesUtil;
+    this.showAssignee =
+        cfg.getBoolean("change", "showAssignee", true);
     legacyId = cn.getChangeId();
     change = cn.getChange();
     project = cn.getProjectName();
@@ -475,6 +487,7 @@ public class ChangeData {
 
   @AssistedInject
   private ChangeData(
+      @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
@@ -506,6 +519,8 @@ public class ChangeData {
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
     this.starredChangesUtil = starredChangesUtil;
+    this.showAssignee =
+        cfg.getBoolean("change", "showAssignee", true);
     legacyId = c.getId();
     change = c.getChange();
     changeControl = c;
@@ -515,6 +530,7 @@ public class ChangeData {
 
   @AssistedInject
   private ChangeData(
+      @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
@@ -550,6 +566,8 @@ public class ChangeData {
     this.starredChangesUtil = starredChangesUtil;
     this.legacyId = id;
     this.project = null;
+    this.showAssignee =
+        cfg.getBoolean("change", "showAssignee", true);
   }
 
   public ChangeData setLazyLoad(boolean load) {
@@ -1167,6 +1185,9 @@ public class ChangeData {
   }
 
   public Account.Id assignee() throws OrmException {
+    if (!showAssignee) {
+      return null;
+    }
     if (assignee == null) {
       if (!lazyLoad) {
         return null;

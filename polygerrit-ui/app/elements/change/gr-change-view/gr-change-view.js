@@ -112,6 +112,11 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
+      this.listen(window, 'scroll', '_handleScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleScroll');
     },
 
     _handleEditCommitMessage: function(e) {
@@ -279,6 +284,16 @@
       this._openReplyDialog(target);
     },
 
+    _handleScroll: function() {
+      this.debounce('scroll', function() {
+        history.replaceState(
+            {scrollTop: document.body.scrollTop,
+              path: location.pathname,
+            },
+            location.pathname);
+      }, 150);
+    },
+
     _paramsChanged: function(value) {
       if (value.view !== this.tagName.toLowerCase()) { return; }
 
@@ -291,7 +306,14 @@
       this._reload().then(function() {
         // Allow the message list to render before scrolling.
         this.async(function() {
-          this._maybeScrollToMessage();
+          if (typeof history.state.scrollTop == 'undefined' ||
+              history.state.scrollTop === 0) {
+            this._maybeScrollToMessage();
+
+          } else {
+            document.documentElement.scrollTop =
+                document.body.scrollTop = history.state.scrollTop;
+          }
         }.bind(this), 1);
 
         this._maybeShowReplyDialog();

@@ -330,5 +330,47 @@ limitations under the License.
           element.$$('a').getAttribute('href'),
           '/c/42/2/foo+bar/my%252Bfile.txt%2525');
     });
+
+    test('increment button is functional', function(done) {
+      flush(function() {
+        element._files = [];
+        var files = [];
+        assert.isTrue(element.$.incrementButton.hasAttribute('hidden'));
+        assert.isTrue(element.$.showAllButton.hasAttribute('hidden'));
+        for (var i = 0; i < 99; i++) {
+          files.push({__path: 'foo bar/my+file.txt%'});
+        }
+        element._files = files;
+        assert.equal(
+            element.$.incrementButton.textContent.trim(), 'Show 24 more');
+        assert.isFalse(element.$.incrementButton.hasAttribute('hidden'));
+        assert.isFalse(element.$.showAllButton.hasAttribute('hidden'));
+        MockInteractions.tap(element.$.incrementButton);
+        assert.isTrue(element.$.incrementButton.hasAttribute('hidden'));
+        assert.isTrue(element.$.showAllButton.hasAttribute('hidden'));
+        done();
+      });
+    });
+
+    test('show all button is functional', function(done) {
+      flush(function() {
+        element._files = [];
+        var files = [];
+        assert.isTrue(element.$.incrementButton.hasAttribute('hidden'));
+        assert.isTrue(element.$.showAllButton.hasAttribute('hidden'));
+        for (var i = 0; i < 99; i++) {
+          files.push({__path: 'foo bar/my+file.txt%'});
+        }
+        element._files = files;
+        assert.equal(
+            element.$.showAllButton.textContent.trim(), 'Show all 99 files');
+        assert.isFalse(element.$.incrementButton.hasAttribute('hidden'));
+        assert.isFalse(element.$.showAllButton.hasAttribute('hidden'));
+        MockInteractions.tap(element.$.showAllButton);
+        assert.isTrue(element.$.showAllButton.hasAttribute('hidden'));
+        assert.isTrue(element.$.incrementButton.hasAttribute('hidden'));
+        done();
+      });
+    });
   });
 </script>

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_43bbf8bf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-19T09:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_c3c6e83f",
+      "revId": "4853336c87da49d7e168f551600511d4b5e1b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_83aa2072",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 22
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-19T09:06:51Z",
       "side": 1,
       "message": "Looks like this comment doesn\u0027t apply anymore and can be removed?",
+      "revId": "4853336c87da49d7e168f551600511d4b5e1b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_83c50030",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 2324,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-19T09:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_83aa2072",
       "revId": "4853336c87da49d7e168f551600511d4b5e1b700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

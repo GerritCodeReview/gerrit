@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gwtorm.server.OrmException;
@@ -28,13 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class ListRevisionDrafts implements RestReadView<RevisionResource> {
+public class ListRobotComments implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   protected final Provider<CommentJson> commentJson;
   protected final CommentsUtil commentsUtil;
 
   @Inject
-  ListRevisionDrafts(Provider<ReviewDb> db,
+  ListRobotComments(Provider<ReviewDb> db,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil) {
     this.db = db;
@@ -42,28 +42,26 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(RevisionResource rsrc)
-      throws OrmException {
-    return commentsUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
-        rsrc.getAccountId(), rsrc.getNotes());
-  }
-
-  protected boolean includeAuthorInfo() {
-    return false;
-  }
-
   @Override
-  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
+  public Map<String, List<RobotCommentInfo>> apply(RevisionResource rsrc)
       throws OrmException {
     return commentJson.get()
-        .setFillAccounts(includeAuthorInfo())
-        .newCommentFormatter().format(listComments(rsrc));
+        .setFillAccounts(true)
+        .newRobotCommentFormatter()
+        .format(listComments(rsrc));
   }
 
-  public List<CommentInfo> getComments(RevisionResource rsrc)
+  public List<RobotCommentInfo> getComments(RevisionResource rsrc)
       throws OrmException {
     return commentJson.get()
-        .setFillAccounts(includeAuthorInfo())
-        .newCommentFormatter().formatAsList(listComments(rsrc));
+        .setFillAccounts(true)
+        .newRobotCommentFormatter()
+        .formatAsList(listComments(rsrc));
+  }
+
+  private Iterable<RobotComment> listComments(RevisionResource rsrc)
+      throws OrmException {
+    return commentsUtil.robotCommentsByPatchSet(
+        rsrc.getNotes(), rsrc.getPatchSet().getId());
   }
 }

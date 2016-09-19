@@ -51,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -110,6 +111,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private final AccountCache accountCache;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
+  private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
@@ -135,6 +137,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean isAllowWriteToNewtRef;
 
   private ChangeDraftUpdate draftUpdate;
+  private RobotCommentUpdate robotCommentUpdate;
 
   @AssistedInject
   private ChangeUpdate(
@@ -144,11 +147,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
+      RobotCommentUpdate.Factory robotCommentUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       ChangeNoteUtil noteUtil) {
     this(serverIdent, anonymousCowardName, migration, accountCache,
-        updateManagerFactory, draftUpdateFactory,
+        updateManagerFactory, draftUpdateFactory, robotCommentUpdateFactory,
         projectCache, ctl, serverIdent.getWhen(), noteUtil);
   }
 
@@ -160,13 +164,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
+      RobotCommentUpdate.Factory robotCommentUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       ChangeNoteUtil noteUtil) {
     this(serverIdent, anonymousCowardName, migration, accountCache,
-        updateManagerFactory, draftUpdateFactory, ctl,
-        when,
+        updateManagerFactory, draftUpdateFactory, robotCommentUpdateFactory,
+        ctl, when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         noteUtil);
   }
@@ -188,6 +193,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
+      RobotCommentUpdate.Factory robotCommentUpdateFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
@@ -196,6 +202,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
+    this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.approvals = approvals(labelNameComparator);
   }
@@ -208,6 +215,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
+      RobotCommentUpdate.Factory robotCommentUpdateFactory,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
       @Assisted @Nullable Account.Id accountId,
@@ -218,6 +226,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         accountId, authorIdent, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
+    this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.approvals = approvals(labelNameComparator);
   }
@@ -320,6 +329,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
+  public void putRobotComment(RobotComment c) {
+    verifyComment(c);
+    createRobotCommentUpdateIfNull();
+    robotCommentUpdate.putComment(c);
+  }
+
   public void deleteComment(Comment c) {
     verifyComment(c);
     createDraftUpdateIfNull().deleteComment(c);
@@ -338,6 +353,21 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
     return draftUpdate;
+  }
+
+  @VisibleForTesting
+  RobotCommentUpdate createRobotCommentUpdateIfNull() {
+    if (robotCommentUpdate == null) {
+      ChangeNotes notes = getNotes();
+      if (notes != null) {
+        robotCommentUpdate =
+            robotCommentUpdateFactory.create(notes, accountId, authorIdent, when);
+      } else {
+        robotCommentUpdate = robotCommentUpdateFactory.create(
+            getChange(), accountId, authorIdent, when);
+      }
+    }
+    return robotCommentUpdate;
   }
 
   private void verifyComment(Comment c) {
@@ -415,7 +445,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (comments.isEmpty() && pushCert == null) {
       return null;
     }
-    RevisionNoteMap rnm = getRevisionNoteMap(rw, curr);
+    RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
 
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
     for (Comment c : comments) {
@@ -431,15 +461,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       ObjectId data = inserter.insert(
-          OBJ_BLOB, e.getValue().build(noteUtil));
+          OBJ_BLOB, e.getValue().build(noteUtil, noteUtil.getWriteJson()));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 
     return rnm.noteMap.writeTree(inserter);
   }
 
-  private RevisionNoteMap getRevisionNoteMap(RevWalk rw, ObjectId curr)
-      throws ConfigInvalidException, OrmException, IOException {
+  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw,
+      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
@@ -467,12 +497,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         PatchLineComment.Status.PUBLISHED);
   }
 
-  private void checkComments(Map<RevId, RevisionNote> existingNotes,
+  private void checkComments(Map<RevId, ChangeRevisionNote> existingNotes,
       Map<RevId, RevisionNoteBuilder> toUpdate) throws OrmException {
     // Prohibit various kinds of illegal operations on comments.
     Set<Comment.Key> existing = new HashSet<>();
-    for (RevisionNote rn : existingNotes.values()) {
-      for (Comment c : rn.comments) {
+    for (ChangeRevisionNote rn : existingNotes.values()) {
+      for (Comment c : rn.getComments()) {
         existing.add(c.key);
         if (draftUpdate != null) {
           // Take advantage of an existing update on All-Users to prune any
@@ -675,6 +705,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   ChangeDraftUpdate getDraftUpdate() {
     return draftUpdate;
+  }
+
+  RobotCommentUpdate getRobotCommentUpdate() {
+    return robotCommentUpdate;
   }
 
   public void setAllowWriteToNewRef(boolean allow) {

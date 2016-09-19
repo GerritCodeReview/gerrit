@@ -70,7 +70,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final NoteDbUpdateManager.Result rebuildResult;
 
   private ImmutableListMultimap<RevId, Comment> comments;
-  private RevisionNoteMap revisionNoteMap;
+  private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   @AssistedInject
   DraftCommentNotes(
@@ -103,7 +103,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     this.rebuildResult = rebuildResult;
   }
 
-  RevisionNoteMap getRevisionNoteMap() {
+  RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap() {
     return revisionNoteMap;
   }
 
@@ -144,8 +144,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
         args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
         PatchLineComment.Status.DRAFT);
     Multimap<RevId, Comment> cs = ArrayListMultimap.create();
-    for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
-      for (Comment c : rn.comments) {
+    for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
+      for (Comment c : rn.getComments()) {
         cs.put(new RevId(c.revId), c);
       }
     }

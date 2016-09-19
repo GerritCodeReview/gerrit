@@ -149,7 +149,7 @@ class ChangeNotesParser {
   private String submissionId;
   private String tag;
   private PatchSet.Id currentPatchSetId;
-  private RevisionNoteMap revisionNoteMap;
+  private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   ChangeNotesParser(Change.Id changeId, ObjectId tip, ChangeNotesRevWalk walk,
       ChangeNoteUtil noteUtil, NoteDbMetrics metrics) {
@@ -195,7 +195,7 @@ class ChangeNotesParser {
     return buildState();
   }
 
-  RevisionNoteMap getRevisionNoteMap() {
+  RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap() {
     return revisionNoteMap;
   }
 
@@ -630,18 +630,18 @@ class ChangeNotesParser {
     revisionNoteMap = RevisionNoteMap.parse(
         noteUtil, id, reader, NoteMap.read(reader, tipCommit),
         PatchLineComment.Status.PUBLISHED);
-    Map<RevId, RevisionNote> rns = revisionNoteMap.revisionNotes;
+    Map<RevId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
-    for (Map.Entry<RevId, RevisionNote> e : rns.entrySet()) {
-      for (Comment c : e.getValue().comments) {
+    for (Map.Entry<RevId, ChangeRevisionNote> e : rns.entrySet()) {
+      for (Comment c : e.getValue().getComments()) {
         comments.put(e.getKey(), c);
       }
     }
 
     for (PatchSet ps : patchSets.values()) {
-      RevisionNote rn = rns.get(ps.getRevision());
-      if (rn != null && rn.pushCert != null) {
-        ps.setPushCertificate(rn.pushCert);
+      ChangeRevisionNote rn = rns.get(ps.getRevision());
+      if (rn != null && rn.getPushCert() != null) {
+        ps.setPushCertificate(rn.getPushCert());
       }
     }
   }

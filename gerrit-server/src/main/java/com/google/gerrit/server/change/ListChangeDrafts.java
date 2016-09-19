@@ -59,6 +59,6 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     return commentJson.get()
         .setFillAccounts(false)
         .setFillPatchSet(true)
-        .format(drafts);
+        .newCommentFormatter().format(drafts);
   }
 }

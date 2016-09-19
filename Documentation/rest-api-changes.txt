@@ -3904,6 +3904,100 @@ describes the published comment.
   }
 ----
 
+[[list-comments]]
+=== List Robot Comments
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/'
+--
+
+Lists the robot comments of a revision.
+
+As result a map is returned that maps the file path to a list of
+link:#robot-comment-info[RobotCommentInfo] entries. The entries in the
+map are sorted by file path.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/robotcomments/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "unused import",
+        "updated": "2016-02-26 15:40:43.986000000",
+        "author": {
+          "_account_id": 1000110,
+          "name": "Code Analyzer",
+          "email": "code.analyzer@example.com"
+        },
+        "robotId": "importChecker",
+        "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+      },
+      {
+        "id": "TveXwFiA",
+        "line": 49,
+        "message": "wrong indention",
+        "updated": "2016-02-26 15:40:45.328000000",
+        "author": {
+          "_account_id": 1000110,
+          "name": "Code Analyzer",
+          "email": "code.analyzer@example.com"
+        },
+        "robotId": "styleChecker",
+        "robotRunId": "5c606c425dd45184484f9d0a2ffd725a7607839b"
+      }
+    ]
+  }
+----
+
+[[get-robot-comment]]
+=== Get Robot Comment
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/link:#comment-id[\{comment-id\}]'
+--
+
+Retrieves a robot comment of a revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/robotcomments/TvcXrmjM HTTP/1.0
+----
+
+As response a link:#robot-comment-info[RobotCommentInfo] entity is
+returned that describes the robot comment.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "TvcXrmjM",
+    "line": 23,
+    "message": "unused import",
+    "updated": "2016-02-26 15:40:43.986000000",
+    "author": {
+      "_account_id": 1000110,
+      "name": "Code Analyzer",
+      "email": "code.analyzer@example.com"
+    },
+    "robotId": "importChecker",
+    "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+  }
+----
+
 [[list-files]]
 === List Files
 --
@@ -5590,6 +5684,29 @@ patch set as a link:#push-certificate-info[PushCertificateInfo] entity.
 This field is always set if the option is requested; if no push
 certificate was provided, it is set to an empty object.
 |===========================
+
+[[robot-comment-info]]
+=== RobotCommentInfo
+The `RobotCommentInfo` entity contains information about a robot inline
+comment.
+
+`RobotCommentInfo` has the same fields as link:#[CommentInfo].
+In addition `RobotCommentInfo` has the following fields:
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name     ||Description
+|`robot_id`     ||The ID of the robot that generated this comment.
+|`robot_run_id` ||An ID of the run of the robot.
+|`url`          |optional|URL to more information.
+|===========================
+
+[[robot-comment-input]]
+=== RobotCommentInput
+The `RobotCommentInput` entity contains information for creating an inline
+robot comment.
+
+`RobotCommentInput` has the same fields as link:#[RobotCommentInfo].
 
 [[rule-input]]
 === RuleInput

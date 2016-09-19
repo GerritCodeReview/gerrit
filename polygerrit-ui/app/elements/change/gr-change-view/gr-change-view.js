@@ -112,7 +112,12 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
-      window.addEventListener('scroll', this._handleScroll.bind(this));
+      this.scrollListener = this._handleScroll.bind(this);
+      window.addEventListener('scroll', this.scrollListener);
+    },
+
+    detached: function() {
+      window.removeEventListener('scroll', this.scrollListener);
     },
 
     _handleEditCommitMessage: function(e) {

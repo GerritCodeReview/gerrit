@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b62a290_6ba71d5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:32:06Z",
+      "side": 1,
+      "message": "You can use this.listen(...) which doesn’t require you to store the bound func on the object: https://www.polymer-project.org/1.0/docs/api/Polymer.Base#method-listen",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 61
+      },
+      "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5c36da_880e173e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:32:06Z",
+      "side": 1,
+      "message": "can you put this on its own line?\n\nalso, I’m assuming that replaceState doesn’t mess with the way the back button works?",
+      "range": {
+        "startLine": 291,
+        "startChar": 13,
+        "endLine": 291,
+        "endChar": 48
+      },
+      "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b62a290_2ba12545",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:32:06Z",
+      "side": 1,
+      "message": "This should go in paramsChanged. Take a look at the call to _maybeScrollToMessage.",
+      "range": {
+        "startLine": 638,
+        "startChar": 10,
+        "endLine": 639,
+        "endChar": 64
+      },
+      "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

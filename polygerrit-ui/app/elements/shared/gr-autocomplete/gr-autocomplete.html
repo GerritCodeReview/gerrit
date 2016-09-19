@@ -55,7 +55,8 @@ limitations under the License.
         bind-value="{{text}}"
         placeholder="[[placeholder]]"
         on-keydown="_handleInputKeydown"
-        on-focus="_updateSuggestions"
+        on-focus="_onInputFocus"
+        on-blur="_onInputBlur"
         autocomplete="off" />
     <div
         id="suggestions"

@@ -266,6 +266,15 @@ limitations under the License.
       assert.isTrue(commitHandler.called);
     });
 
+    test('_focused flag properly triggered', function() {
+      flushAsynchronousOperations();
+      assert.isFalse(element._focused);
+      element.$.input.focus();
+      assert.isTrue(element._focused);
+      element.$.input.blur();
+      assert.isFalse(element._focused);
+    });
+
     test('_focused flag shows/hides the suggestions', function() {
       var suggestions = ['hello', 'its me'];
       assert.isTrue(element._computeSuggestionsHidden(suggestions, false));

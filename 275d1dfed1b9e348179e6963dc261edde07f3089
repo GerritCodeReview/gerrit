@@ -22,6 +22,41 @@
       "revId": "275d1dfed1b9e348179e6963dc261edde07f3089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_a23000f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:14:21Z",
+      "side": 1,
+      "message": "I think you can just drop this comment. The first-value-seen-wins semantics are very common in ChangeNotesParser and we don\u0027t document it every time it happens.",
+      "parentUuid": "4be70257_83a4e056",
+      "revId": "275d1dfed1b9e348179e6963dc261edde07f3089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_c358a85d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:14:21Z",
+      "side": 1,
+      "message": "Set another assignee and assert that it changes to the new one?",
+      "revId": "275d1dfed1b9e348179e6963dc261edde07f3089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb5c36da_087787c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T17:36:46Z",
+      "side": 1,
+      "message": "Can you point to docs on this?",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "f05373ea182120eaf4a6a2cd4d070a1b322216cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5c36da_686abbe6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T17:36:46Z",
+      "side": 1,
+      "message": "quotes around values",
+      "range": {
+        "startLine": 159,
+        "startChar": 73,
+        "endLine": 159,
+        "endChar": 75
+      },
+      "revId": "f05373ea182120eaf4a6a2cd4d070a1b322216cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

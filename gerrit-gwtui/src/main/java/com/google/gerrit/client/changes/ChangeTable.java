@@ -20,6 +20,7 @@ import static com.google.gerrit.client.FormatUtil.shortFormat;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.info.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
@@ -56,7 +57,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   // ChangeIT#defaultSearchDoesNotTouchDatabase().
   static final Set<ListChangesOption> OPTIONS =
       Collections.unmodifiableSet(EnumSet.of(
-          ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS));
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS));
 
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
@@ -261,71 +264,34 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       String name = labelNames.get(idx);
 
       LabelInfo label = c.label(name);
+
       if (label == null) {
         fmt.getElement(row, col).setTitle(Gerrit.C.labelNotApplicable());
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().labelNotApplicable());
         continue;
       }
 
-      String user;
-      String info;
-      ReviewCategoryStrategy reviewCategoryStrategy =
-          Gerrit.getUserPreferences().reviewCategoryStrategy();
-      if (label.rejected() != null) {
-        user = label.rejected().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.rejected());
-        if (info != null) {
-          FlowPanel panel = new FlowPanel();
-          panel.add(new Image(Gerrit.RESOURCES.redNot()));
-          panel.add(new InlineLabel(info));
-          table.setWidget(row, col, panel);
-        } else {
-          table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
+      FlowPanel panel = new FlowPanel();
+      populateLabelPanel(name, label, panel);
+      if (Gerrit.getUserPreferences().showMyVotesInChangeTable()) {
+        ApprovalInfo userVote = label.forUser(Gerrit.getUserAccount().getId().get());
+        if (userVote != null && userVote.hasValue() && userVote.value() != 0) {
+          panel.add(new InlineLabel(";"));
+          String userScore = String.valueOf(userVote.value() > 0 ? "+" + userVote.value() : userVote.value());
+          InlineLabel userLabel = new InlineLabel(userScore);
+          if (userVote.value() > 0) {
+            userLabel.addStyleName(Gerrit.RESOURCES.css().posscore());
+          } else if (userVote.value() < 0) {
+            userLabel.addStyleName(Gerrit.RESOURCES.css().negscore());
+          }
+          panel.add(userLabel);
         }
-      } else if (label.approved() != null) {
-        user = label.approved().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.approved());
-        if (info != null) {
-          FlowPanel panel = new FlowPanel();
-          panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
-          panel.add(new InlineLabel(info));
-          table.setWidget(row, col, panel);
-        } else {
-          table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
-        }
-      } else if (label.disliked() != null) {
-        user = label.disliked().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.disliked());
-        String vstr = String.valueOf(label._value());
-        if (info != null) {
-          vstr = vstr + " " + info;
-        }
-        fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
-        table.setText(row, col, vstr);
-      } else if (label.recommended() != null) {
-        user = label.recommended().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.recommended());
-        String vstr = "+" + label._value();
-        if (info != null) {
-          vstr = vstr + " " + info;
-        }
-        fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
-        table.setText(row, col, vstr);
-      } else {
-        table.clearCell(row, col);
-        continue;
       }
-      fmt.addStyleName(row, col, Gerrit.RESOURCES.css().singleLine());
+      if (panel.getWidgetCount() > 0) {
+        table.setWidget(row, col, panel);
+      }
 
-      if (user != null) {
-        // Some web browsers ignore the embedded newline; some like it;
-        // so we include a space before the newline to accommodate both.
-        fmt.getElement(row, col).setTitle(name + " \nby " + user);
-      }
+      fmt.addStyleName(row, col, Gerrit.RESOURCES.css().singleLine());
     }
 
     boolean needHighlight = false;
@@ -337,6 +303,63 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         needHighlight);
 
     setRowItem(row, c);
+  }
+
+  public void populateLabelPanel(String name, LabelInfo label, FlowPanel panel) {
+    String user;
+    String info;
+    ReviewCategoryStrategy reviewCategoryStrategy =
+        Gerrit.getUserPreferences().reviewCategoryStrategy();
+    if (label.rejected() != null) {
+      user = label.rejected().name();
+      info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+          label.rejected());
+      if (info != null) {
+        panel.add(new Image(Gerrit.RESOURCES.redNot()));
+        panel.add(new InlineLabel(info));
+      } else {
+        panel.add(new Image(Gerrit.RESOURCES.redNot()));
+      }
+    } else if (label.approved() != null) {
+      user = label.approved().name();
+      info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+          label.approved());
+      if (info != null) {
+        panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
+        panel.add(new InlineLabel(info));
+      } else {
+        panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
+      }
+    } else if (label.disliked() != null) {
+      user = label.disliked().name();
+      info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+          label.disliked());
+      String vstr = String.valueOf(label._value());
+      if (info != null) {
+        vstr = vstr + " " + info;
+      }
+      InlineLabel vlabel = new InlineLabel(vstr);
+      vlabel.addStyleName(Gerrit.RESOURCES.css().posscore());
+      panel.add(vlabel);
+    } else if (label.recommended() != null) {
+      user = label.recommended().name();
+      info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+          label.recommended());
+      String vstr = "+" + label._value();
+      if (info != null) {
+        vstr = vstr + " " + info;
+      }
+      InlineLabel vlabel = new InlineLabel(vstr);
+      vlabel.addStyleName(Gerrit.RESOURCES.css().posscore());
+      panel.add(vlabel);
+    } else {
+      return;
+    }
+    if (user != null) {
+      // Some web browsers ignore the embedded newline; some like it;
+      // so we include a space before the newline to accommodate both.
+      panel.setTitle(name + " \nby " + user);
+    }
   }
 
   private static String getReviewCategoryDisplayInfo(

@@ -11,7 +11,6 @@ def acceptance_tests(
     flaky = 0,
     deps = [],
     labels = [],
-    source_under_test = [], #unused
     vm_args = ['-Xmx256m']):
   junit_tests(
     name = group,

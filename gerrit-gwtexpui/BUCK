@@ -80,7 +80,6 @@ java_test(
     '//lib/gwt:user',
     '//lib/gwt:dev',
   ],
-  source_under_test = [':SafeHtml'],
 )
 
 gwt_module(

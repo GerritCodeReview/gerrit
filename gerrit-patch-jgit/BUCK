@@ -33,7 +33,7 @@ genrule(
     'org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  out = 'edit.src.zip',
+  out = 'edit-sources.jar',
 )
 
 java_library(
@@ -61,6 +61,5 @@ java_test(
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib:junit',
   ],
-  source_under_test = [':server'],
   visibility = ['//tools/eclipse:classpath'],
 )

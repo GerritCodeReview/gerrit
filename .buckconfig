@@ -24,6 +24,7 @@
   target_level = 8
 
 [project]
+  allow_symlinks = allow
   ignore = .git, eclipse-out, bazel-gerrit
   parallel_parsing = true
 

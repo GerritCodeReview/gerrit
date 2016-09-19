@@ -46,6 +46,30 @@
       "revId": "71f16725ed89e930fe3e77c62030e1ffa183168d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_a38c8490",
+        "filename": "lib/easymock/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-19T15:22:03Z",
+      "side": 1,
+      "message": "My point was that it\u0027s a bit confusing that this was not changed when we did the original powermock/easymock upgrade [1] and now we\u0027re rolling back powermock/easymock but at the same time upgrading this to a newer version than before.\n\nBut if this is the correct dependency (i.e. it was actually wrong before), then OK.",
+      "parentUuid": "4be70257_03abb0e4",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "71f16725ed89e930fe3e77c62030e1ffa183168d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_a32f64af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:54:31Z",
+      "side": 1,
+      "message": "I have the same question. Based on this description it looks like you could just add another method to the group backend.",
+      "parentUuid": "4be70257_43d138c1",
+      "revId": "8ba041f2696c412410135d45b605970c6995c3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_a3c124f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembers.java",
         "patchSetId": 1

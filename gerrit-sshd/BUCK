@@ -56,5 +56,4 @@ java_test(
     '//lib:truth',
     '//lib/mina:sshd',
   ],
-  source_under_test = [':sshd'],
 )

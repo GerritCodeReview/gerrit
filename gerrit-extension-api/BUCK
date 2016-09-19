@@ -67,7 +67,6 @@ java_test(
     '//lib:truth',
     '//lib/guice:guice',
   ],
-  source_under_test = [':api'],
 )
 
 java_doc(

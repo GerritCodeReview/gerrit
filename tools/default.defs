@@ -201,7 +201,7 @@ def gerrit_plugin(
         ':%s__gwt_application' % name +
         ';cd $TMP' +
         ';zip -qr $OUT .',
-      out = '%s-static.zip' % name,
+      out = '%s-static.jar' % name,
     )
     gwt_binary(
       name = name + '__gwt_application',

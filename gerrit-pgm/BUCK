@@ -180,5 +180,4 @@ java_test(
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/jgit/org.eclipse.jgit.junit:junit',
   ],
-  source_under_test = [':pgm'],
 )

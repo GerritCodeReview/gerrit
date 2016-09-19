@@ -22,6 +22,7 @@
   src_roots = java, resources, src
 
 [project]
+  allow_symlinks = allow
   ignore = .git, eclipse-out, bazel-gerrit
   parallel_parsing = true
 

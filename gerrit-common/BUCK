@@ -62,7 +62,6 @@ java_test(
     '//lib:guava',
     '//lib:junit',
   ],
-  source_under_test = [':client'],
 )
 
 java_test(

@@ -8,7 +8,6 @@ def acceptance_tests(
     srcs,
     deps = [],
     labels = [],
-    source_under_test = [],
     vm_args = ['-Xmx256m']):
   from os import path
   if path.exists('/dev/urandom'):
@@ -20,11 +19,6 @@ def acceptance_tests(
     deps = deps + BOUNCYCASTLE + [
       '//gerrit-acceptance-tests:lib'
     ],
-    source_under_test = [
-      '//gerrit-httpd:httpd',
-      '//gerrit-sshd:sshd',
-      '//gerrit-server:server',
-    ] + source_under_test,
     labels = labels + [
       'acceptance',
       'slow',

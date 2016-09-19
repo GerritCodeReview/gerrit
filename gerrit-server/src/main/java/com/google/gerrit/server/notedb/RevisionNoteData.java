@@ -90,7 +90,6 @@ class RevisionNoteData {
     int lineNbr;
     Identity author;
     Timestamp writtenOn;
-    char status;
     short side;
     String message;
     String parentUuid;
@@ -104,7 +103,6 @@ class RevisionNoteData {
       lineNbr = plc.getLine();
       author = new Identity(plc.getAuthor());
       writtenOn = plc.getWrittenOn();
-      status = plc.getStatus().getCode();
       side = plc.getSide();
       message = plc.getMessage();
       parentUuid = plc.getParentUuid();
@@ -118,7 +116,6 @@ class RevisionNoteData {
       PatchLineComment plc = new PatchLineComment(
           key.export(), lineNbr, author.export(), parentUuid, writtenOn);
       plc.setSide(side);
-      plc.setStatus(PatchLineComment.Status.forCode(status));
       plc.setMessage(message);
       if (range != null) {
         plc.setRange(range.export());

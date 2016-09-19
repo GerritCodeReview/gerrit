@@ -47,6 +47,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -113,7 +114,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
-  private final List<PatchLineComment> comments = new ArrayList<>();
+  private final List<Comment> comments = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -304,10 +305,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.tag = tag;
   }
 
-  public void putComment(PatchLineComment c) {
+  public void putComment(PatchLineComment.Status status, Comment c) {
     verifyComment(c);
     createDraftUpdateIfNull();
-    if (c.getStatus() == PatchLineComment.Status.DRAFT) {
+    if (status == PatchLineComment.Status.DRAFT) {
       draftUpdate.putComment(c);
     } else {
       comments.add(c);
@@ -319,14 +320,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
-  public void deleteComment(PatchLineComment c) {
+  public void deleteComment(Comment c) {
     verifyComment(c);
-    if (c.getStatus() == PatchLineComment.Status.DRAFT) {
-      createDraftUpdateIfNull().deleteComment(c);
-    } else {
-      throw new IllegalArgumentException(
-          "Cannot delete published comment " + c);
-    }
+    createDraftUpdateIfNull().deleteComment(c);
   }
 
   @VisibleForTesting
@@ -344,9 +340,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return draftUpdate;
   }
 
-  private void verifyComment(PatchLineComment c) {
-    checkArgument(c.getRevId() != null, "RevId required for comment: %s", c);
-    checkArgument(c.getAuthor().equals(getAccountId()),
+  private void verifyComment(Comment c) {
+    checkArgument(c.revId != null, "RevId required for comment: %s", c);
+    checkArgument(c.author.getId().equals(getAccountId()),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", getAccountId(), c);
 
@@ -417,9 +413,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     RevisionNoteMap rnm = getRevisionNoteMap(rw, curr);
 
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
-    for (PatchLineComment c : comments) {
-      c.setTag(tag);
-      cache.get(c.getRevId()).putComment(c);
+    for (Comment c : comments) {
+      c.tag = tag;
+      cache.get(new RevId(c.revId)).putComment(c);
     }
     if (pushCert != null) {
       checkState(commit != null);
@@ -469,10 +465,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private void checkComments(Map<RevId, RevisionNote> existingNotes,
       Map<RevId, RevisionNoteBuilder> toUpdate) throws OrmException {
     // Prohibit various kinds of illegal operations on comments.
-    Set<PatchLineComment.Key> existing = new HashSet<>();
+    Set<Comment.Key> existing = new HashSet<>();
     for (RevisionNote rn : existingNotes.values()) {
-      for (PatchLineComment c : rn.comments) {
-        existing.add(c.getKey());
+      for (Comment c : rn.comments) {
+        existing.add(c.key);
         if (draftUpdate != null) {
           // Take advantage of an existing update on All-Users to prune any
           // published comments from drafts. NoteDbUpdateManager takes care of
@@ -489,14 +485,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           // separate commit. But note that we don't care much about the commit
           // graph of the draft ref, particularly because the ref is completely
           // deleted when all drafts are gone.
-          draftUpdate.deleteComment(c.getRevId(), c.getKey());
+          draftUpdate.deleteComment(c.revId, c.key);
         }
       }
     }
 
     for (RevisionNoteBuilder b : toUpdate.values()) {
-      for (PatchLineComment c : b.put.values()) {
-        if (existing.contains(c.getKey())) {
+      for (Comment c : b.put.values()) {
+        if (existing.contains(c.key)) {
           throw new OrmException(
               "Cannot update existing published comment: " + c);
         }

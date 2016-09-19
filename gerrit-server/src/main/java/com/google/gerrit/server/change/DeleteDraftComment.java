@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
@@ -23,10 +23,10 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DeleteDraftComment.Input;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -47,19 +47,19 @@ public class DeleteDraftComment
   }
 
   private final Provider<ReviewDb> db;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final BatchUpdate.Factory updateFactory;
   private final PatchListCache patchListCache;
 
   @Inject
   DeleteDraftComment(Provider<ReviewDb> db,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       BatchUpdate.Factory updateFactory,
       PatchListCache patchListCache) {
     this.db = db;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.updateFactory = updateFactory;
     this.patchListCache = patchListCache;
@@ -71,7 +71,7 @@ public class DeleteDraftComment
     try (BatchUpdate bu = updateFactory.create(
         db.get(), rsrc.getChange().getProject(), rsrc.getControl().getUser(),
         TimeUtil.nowTs())) {
-      Op op = new Op(rsrc.getComment().getKey());
+      Op op = new Op(rsrc.getComment().key);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
     }
@@ -79,28 +79,29 @@ public class DeleteDraftComment
   }
 
   private class Op extends BatchUpdate.Op {
-    private final PatchLineComment.Key key;
+    private final Comment.Key key;
 
-    private Op(PatchLineComment.Key key) {
+    private Op(Comment.Key key) {
       this.key = key;
     }
 
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
-      Optional<PatchLineComment> maybeComment =
-          plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
+      Optional<Comment> maybeComment =
+          commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }
-      PatchSet.Id psId = key.getParentKey().getParentKey();
+      PatchSet.Id psId =
+          new PatchSet.Id(ctx.getChange().getId(), key.patchSetId);
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
-      PatchLineComment c = maybeComment.get();
+      Comment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
-      plcUtil.deleteComments(
+      commentsUtil.deleteComments(
           ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
       ctx.bumpLastUpdatedOn(false);
       return true;

@@ -24,6 +24,7 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -68,7 +69,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final Account.Id author;
   private final NoteDbUpdateManager.Result rebuildResult;
 
-  private ImmutableListMultimap<RevId, PatchLineComment> comments;
+  private ImmutableListMultimap<RevId, Comment> comments;
   private RevisionNoteMap revisionNoteMap;
 
   @AssistedInject
@@ -110,13 +111,13 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return author;
   }
 
-  public ImmutableListMultimap<RevId, PatchLineComment> getComments() {
+  public ImmutableListMultimap<RevId, Comment> getComments() {
     return comments;
   }
 
-  public boolean containsComment(PatchLineComment c) {
-    for (PatchLineComment existing : comments.values()) {
-      if (c.getKey().equals(existing.getKey())) {
+  public boolean containsComment(Comment c) {
+    for (Comment existing : comments.values()) {
+      if (c.key.equals(existing.key)) {
         return true;
       }
     }
@@ -142,10 +143,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     revisionNoteMap = RevisionNoteMap.parse(
         args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
         PatchLineComment.Status.DRAFT);
-    Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
+    Multimap<RevId, Comment> cs = ArrayListMultimap.create();
     for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
-      for (PatchLineComment c : rn.comments) {
-        cs.put(c.getRevId(), c);
+      for (Comment c : rn.comments) {
+        cs.put(new RevId(c.revId), c);
       }
     }
     comments = ImmutableListMultimap.copyOf(cs);

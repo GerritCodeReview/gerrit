@@ -149,6 +149,7 @@ public final class Change {
       }
       int ce = nextNonDigit(ref, cs);
       if (ref.substring(ce).equals(RefNames.META_SUFFIX)
+          || ref.substring(ce).equals(RefNames.ROBOT_COMMENTS_SUFFIX)
           || PatchSet.Id.fromRef(ref, ce) >= 0) {
         return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
       }

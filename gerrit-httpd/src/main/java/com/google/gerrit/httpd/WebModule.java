@@ -25,6 +25,7 @@ import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;

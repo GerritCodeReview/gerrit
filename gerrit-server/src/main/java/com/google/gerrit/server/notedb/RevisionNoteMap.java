@@ -36,10 +36,24 @@ class RevisionNoteMap {
       Change.Id changeId, ObjectReader reader, NoteMap noteMap,
       PatchLineComment.Status status)
       throws ConfigInvalidException, IOException {
-    Map<RevId, RevisionNote> result = new HashMap<>();
+    Map<RevId, ChangeRevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
-      RevisionNote rn = new RevisionNote(
+      ChangeRevisionNote rn = new ChangeRevisionNote(
           noteUtil, changeId, reader, note.getData(), status);
+      rn.parse();
+      result.put(new RevId(note.name()), rn);
+    }
+    return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));
+  }
+
+  static RevisionNoteMap parseRobotComments(ChangeNoteUtil noteUtil,
+      ObjectReader reader, NoteMap noteMap)
+          throws ConfigInvalidException, IOException {
+    Map<RevId, RobotCommentsRevisionNote> result = new HashMap<>();
+    for (Note note : noteMap) {
+      RobotCommentsRevisionNote rn = new RobotCommentsRevisionNote(
+          noteUtil, reader, note.getData());
+      rn.parse();
       result.put(new RevId(note.name()), rn);
     }
     return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));

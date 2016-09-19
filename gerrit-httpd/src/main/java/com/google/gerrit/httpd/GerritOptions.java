@@ -73,10 +73,6 @@ public class GerritOptions {
     return headless;
   }
 
-  public boolean headless() {
-    return headless;
-  }
-
   public boolean enableGwtUi() {
     return !headless && enableGwtUi;
   }

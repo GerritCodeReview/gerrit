@@ -33,3 +33,4 @@
 
 [test]
   excluded_labels = manual
+  rule_timeout = 300000

@@ -27,7 +27,6 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -522,12 +521,10 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files();
     assertThat(files).hasSize(2);
-    assertThat(Iterables.all(files.keySet(), new Predicate<String>() {
-      @Override
-      public boolean apply(String file) {
-        return file.matches(FILE_NAME + '|' + COMMIT_MSG);
-      }
-    })).isTrue();
+    assertThat(
+            Iterables.all(
+                files.keySet(), f -> f.matches(FILE_NAME + '|' + COMMIT_MSG)))
+        .isTrue();
   }
 
   @Test

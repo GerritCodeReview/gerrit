@@ -19,8 +19,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
+import com.google.common.base.Predicate;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
@@ -38,6 +40,8 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +49,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
@@ -102,6 +108,7 @@ public class StaticModule extends ServletModule {
           "/scripts/*",
           "/styles/*");
 
+  private static final String POLYGERRIT_PARAM_NAME = "polygerrit";
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
@@ -463,7 +470,10 @@ public class StaticModule extends ServletModule {
         FilterChain chain) throws IOException, ServletException {
       HttpServletRequest req = (HttpServletRequest) request;
       HttpServletResponse res = (HttpServletResponse) response;
-      if (!isPolyGerritEnabled(req, res)) {
+      if (handlePolyGerritParam(req, res)) {
+        return;
+      }
+      if (!isPolyGerritEnabled(req)) {
         chain.doFilter(req, res);
         return;
       }
@@ -506,19 +516,47 @@ public class StaticModule extends ServletModule {
       return uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
     }
 
-    private boolean isPolyGerritEnabled(HttpServletRequest req,
-        HttpServletResponse res) {
+    private boolean handlePolyGerritParam(HttpServletRequest req,
+        HttpServletResponse res) throws IOException {
       if (!options.enableGwtUi()) {
-        return true;
+        return false;
       }
-      String param = req.getParameter("polygerrit");
+      boolean redirect = false;
+      String param = req.getParameter(POLYGERRIT_PARAM_NAME);
       if ("1".equals(param)) {
-        return setPolyGerritCookie(req, res, UiType.POLYGERRIT);
+        setPolyGerritCookie(req, res, UiType.POLYGERRIT);
+        redirect = true;
       } else if ("0".equals(param)) {
-        return setPolyGerritCookie(req, res, UiType.GWT);
-      } else {
-        return isPolyGerritCookie(req);
+        setPolyGerritCookie(req, res, UiType.GWT);
+        redirect = true;
       }
+      if (redirect) {
+        res.sendRedirect(stripPolyGerritParam(req));
+      }
+      return redirect;
+    }
+
+    private static String stripPolyGerritParam(HttpServletRequest req) {
+      StringBuffer url = req.getRequestURL();
+      if (req.getQueryString() != null) {
+        Charset charset = req.getCharacterEncoding() != null
+            ? Charset.forName(req.getCharacterEncoding())
+            : StandardCharsets.UTF_8;
+        Iterable<NameValuePair> params = Iterables.filter(
+            URLEncodedUtils.parse(req.getQueryString(), charset),
+            new Predicate<NameValuePair>() {
+              @Override
+              public boolean apply(NameValuePair in) {
+                return !POLYGERRIT_PARAM_NAME.equals(in.getName());
+              }
+            });
+        url.append('?').append(URLEncodedUtils.format(params, charset));
+      }
+      return url.toString();
+    }
+
+    private boolean isPolyGerritEnabled(HttpServletRequest req) {
+      return !options.enableGwtUi() || isPolyGerritCookie(req);
     }
 
     private boolean isPolyGerritCookie(HttpServletRequest req) {
@@ -538,7 +576,7 @@ public class StaticModule extends ServletModule {
       return type == UiType.POLYGERRIT;
     }
 
-    private boolean setPolyGerritCookie(HttpServletRequest req,
+    private void setPolyGerritCookie(HttpServletRequest req,
         HttpServletResponse res, UiType pref) {
       // Only actually set a cookie if both UIs are enabled in the server;
       // otherwise clear it.
@@ -552,7 +590,6 @@ public class StaticModule extends ServletModule {
         cookie.setMaxAge(0);
       }
       res.addCookie(cookie);
-      return pref == UiType.POLYGERRIT;
     }
 
     private static boolean isSecure(HttpServletRequest req) {

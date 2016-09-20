@@ -38,6 +38,12 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getChangeRevisionActions: function() {
           return Promise.resolve({
+            '/': {
+              method: 'DELETE',
+              label: 'Delete',
+              title: 'Delete draft revision 2',
+              enabled: true
+            },
             cherrypick: {
               method: 'POST',
               label: 'Cherry Pick',
@@ -52,9 +58,9 @@ limitations under the License.
             submit: {
               method: 'POST',
               label: 'Submit',
-              title: 'Submit patch set 1 into master',
+              title: 'Submit patch set 2 into master',
               enabled: true
-            }
+            },
           });
         },
         send: function(method, url, payload) {
@@ -79,14 +85,41 @@ limitations under the License.
       element = fixture('basic');
       element.changeNum = '42';
       element.patchNum = '2';
+      element.actions = {
+        '/': {
+          method: 'DELETE',
+          label: 'Delete',
+          title: 'Delete draft change 42',
+          enabled: true
+        },
+      };
       return element.reload();
     });
 
-    test('submit, rebase, and cherry-pick buttons show', function(done) {
+    test('buttons show', function(done) {
       flush(function() {
         var buttonEls = Polymer.dom(element.root).querySelectorAll('gr-button');
-        assert.equal(buttonEls.length, 3);
+        assert.equal(buttonEls.length, 5);
         assert.isFalse(element.hidden);
+        done();
+      });
+    });
+
+    test('delete buttons have explicit labels', function(done) {
+      flush(function() {
+        var buttonEls =
+            Polymer.dom(element.root).querySelectorAll('[data-action-key="/"]');
+        assert.equal(buttonEls.length, 2);
+        assert.notEqual(buttonEls[0].getAttribute('data-label'),
+            buttonEls[1].getAttribute['data-label']);
+        assert.isTrue(
+            buttonEls[0].getAttribute('data-label') === 'Delete Revision' ||
+            buttonEls[0].getAttribute('data-label') === 'Delete Change'
+        );
+        assert.isTrue(
+            buttonEls[1].getAttribute('data-label') === 'Delete Revision' ||
+            buttonEls[1].getAttribute('data-label') === 'Delete Change'
+        );
         done();
       });
     });

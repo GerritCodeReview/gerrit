@@ -162,6 +162,7 @@ import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
@@ -362,6 +363,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), AccountExternalIdCreator.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
     DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
+    DynamicSet.setOf(binder(), AssigneeValidationListener.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

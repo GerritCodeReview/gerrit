@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -377,21 +377,23 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   private Set<Account.Id> filterOnChangeVisibility(final ReviewDb db,
       final ChangeNotes notes, Set<Account.Id> accounts) {
-    return Sets.filter(accounts, new Predicate<Account.Id>() {
-      @Override
-      public boolean apply(Account.Id accountId) {
-        try {
-          IdentifiedUser user = userFactory.create(accountId);
-          return changeControlFactory.controlFor(notes, user).isVisible(db);
-        } catch (OrmException | NoSuchChangeException e) {
-          log.warn(
-              String.format("Failed to check if account %d can see change %d",
-                  accountId.get(), notes.getChangeId().get()),
-              e);
-          return false;
-        }
-      }
-    });
+    return accounts.stream()
+        .filter(
+            accountId -> {
+              try {
+                IdentifiedUser user = userFactory.create(accountId);
+                return changeControlFactory.controlFor(notes, user)
+                    .isVisible(db);
+              } catch (OrmException | NoSuchChangeException e) {
+                log.warn(
+                    String.format(
+                        "Failed to check if account %d can see change %d",
+                        accountId.get(), notes.getChangeId().get()),
+                    e);
+                return false;
+              }
+            })
+        .collect(toSet());
   }
 
   @Override

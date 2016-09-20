@@ -14,15 +14,13 @@
 
 package com.google.gerrit.server.change;
 
+import static java.util.stream.Collectors.joining;
+
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ParameterizedString;
@@ -282,14 +280,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
             return CHANGE_UNMERGEABLE;
           }
         }
-        return CHANGES_NOT_MERGEABLE + Joiner.on(", ").join(
-            Iterables.transform(unmergeable,
-                new Function<ChangeData, String>() {
-              @Override
-              public String apply(ChangeData cd) {
-                return String.valueOf(cd.getId().get());
-              }
-            }));
+        return CHANGES_NOT_MERGEABLE +
+            unmergeable.stream()
+                .map(c -> c.getId().toString())
+                .collect(joining(", "));
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
@@ -405,14 +399,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    */
   public ChangeMessage getConflictMessage(RevisionResource rsrc)
       throws OrmException {
-    return FluentIterable.from(cmUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(),
-        rsrc.getPatchSet().getId()))
-        .filter(new Predicate<ChangeMessage>() {
-          @Override
-          public boolean apply(ChangeMessage input) {
-            return input.getAuthor() == null;
-          }
-        })
+    return FluentIterable.from(
+            cmUtil.byPatchSet(
+                dbProvider.get(), rsrc.getNotes(), rsrc.getPatchSet().getId()))
+        .filter(cm -> cm.getAuthor() == null)
         .last()
         .orNull();
   }

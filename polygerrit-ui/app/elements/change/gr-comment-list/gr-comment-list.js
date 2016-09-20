@@ -21,6 +21,7 @@
       changeNum: Number,
       comments: Object,
       patchNum: Number,
+      projectConfig: Object,
     },
 
     _computeFilesFromComments: function(comments) {

@@ -121,7 +121,8 @@ limitations under the License.
             <gr-comment-list
                 comments="[[comments]]"
                 change-num="[[changeNum]]"
-                patch-num="[[message._revision_number]]"></gr-comment-list>
+                patch-num="[[message._revision_number]]"
+                project-config="[[projectConfig]]"></gr-comment-list>
           </div>
           <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
             <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>

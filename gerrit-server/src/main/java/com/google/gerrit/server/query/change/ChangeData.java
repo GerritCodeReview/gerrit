@@ -345,7 +345,7 @@ public class ChangeData {
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
-  private Account.Id assignee;
+  private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
@@ -1163,14 +1163,18 @@ public class ChangeData {
     this.reviewedBy = reviewedBy;
   }
 
-  public Account.Id assignee() throws OrmException {
+  public Optional<Account.Id> assignee() throws OrmException {
     if (assignee == null) {
       if (!lazyLoad) {
-        return null;
+        return Optional.absent();
       }
       assignee = notes().getAssignee();
     }
     return assignee;
+  }
+
+  public void setAssignee(Optional<Account.Id> assignee) {
+    this.assignee = assignee;
   }
 
   public Set<String> hashtags() throws OrmException {

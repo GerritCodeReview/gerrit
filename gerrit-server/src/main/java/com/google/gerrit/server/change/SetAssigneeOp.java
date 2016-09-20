@@ -30,7 +30,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
@@ -49,11 +51,14 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private final AccountInfoCacheFactory.Factory accountInfosFactory;
   private final NotesMigration notesMigration;
   private final DynamicSet<AssigneeValidationListener> validationListeners;
+  private final AssigneeChanged assigneeChanged;
   private final AssigneeInput input;
   private final String anonymousCowardName;
 
   private Change change;
+
   private Account newAssignee;
+  private Account oldAssignee;
 
   @AssistedInject
   SetAssigneeOp(AccountsCollection accounts,
@@ -61,6 +66,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
       DynamicSet<AssigneeValidationListener> validationListeners,
+      AssigneeChanged assigneeChanged,
       @AnonymousCowardName String anonymousCowardName,
       @Assisted AssigneeInput input) {
     this.accounts = accounts;
@@ -68,6 +74,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     this.cmUtil = cmUtil;
     this.accountInfosFactory = accountInfosFactory;
     this.validationListeners = validationListeners;
+    this.assigneeChanged = assigneeChanged;
     this.anonymousCowardName = anonymousCowardName;
     this.input = input;
   }
@@ -75,6 +82,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   @Override
   public boolean updateChange(BatchUpdate.ChangeContext ctx)
       throws OrmException, RestApiException {
+    change = ctx.getChange();
     if (!notesMigration.readChanges()) {
       throw new BadRequestException(
           "Cannot add Assignee; NoteDb is disabled");
@@ -82,7 +90,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     if (!ctx.getControl().canEditAssignee()) {
       throw new AuthException("Changing Assignee not permitted");
     }
-    ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     Optional<Account.Id> oldAssigneeId = update.getNotes().getAssignee();
     if (input.assignee == null) {
       if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
@@ -107,7 +115,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     if (!ctx.getControl().forUser(newAssigneeUser).isRefVisible()) {
       throw new AuthException(String.format(
           "Change %s is not visible to %s.",
-          ctx.getChange().getChangeId(),
+          change.getChangeId(),
           newAssigneeUser.getUserName()));
     }
     try {
@@ -138,12 +146,17 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     }
     ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(
-            ctx.getChange().getId(),
+            change.getId(),
             ChangeUtil.messageUUID(ctx.getDb())),
         ctx.getAccountId(), ctx.getWhen(),
-        ctx.getChange().currentPatchSetId());
+        change.currentPatchSetId());
     cmsg.setMessage(msg.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+  }
+
+  @Override
+  public void postUpdate(Context ctx) throws OrmException {
+    assigneeChanged.fire(change, ctx.getAccount(), oldAssignee, ctx.getWhen());
   }
 
   public Account getNewAssignee() {

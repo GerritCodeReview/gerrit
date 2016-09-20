@@ -16,9 +16,9 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -599,14 +599,10 @@ public class MergeUtil {
           Joiner.on("', '").join(topics));
     } else {
       return String.format("Merge changes %s%s",
-          Joiner.on(',').join(Iterables.transform(
-              Iterables.limit(merged, 5),
-              new Function<CodeReviewCommit, String>() {
-                @Override
-                public String apply(CodeReviewCommit in) {
-                  return in.change().getKey().abbreviate();
-                }
-              })),
+          FluentIterable.from(merged)
+              .limit(5)
+              .transform(c -> c.change().getKey().abbreviate())
+              .join(Joiner.on(',')),
           merged.size() > 5 ? ", ..." : "");
     }
   }

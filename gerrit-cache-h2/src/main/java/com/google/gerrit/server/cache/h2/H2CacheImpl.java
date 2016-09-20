@@ -144,24 +144,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     final ValueHolder<V> h = new ValueHolder<>(val);
     h.created = TimeUtil.nowMs();
     mem.put(key, h);
-    executor.execute(new Runnable() {
-      @Override
-      public void run() {
-        store.put(key, h);
-      }
-    });
+    executor.execute(() -> store.put(key, h));
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public void invalidate(final Object key) {
     if (keyType.getRawType().isInstance(key) && store.mightContain((K) key)) {
-      executor.execute(new Runnable() {
-        @Override
-        public void run() {
-          store.invalidate((K) key);
-        }
-      });
+      executor.execute(() -> store.invalidate((K) key));
     }
     mem.invalidate(key);
   }
@@ -212,12 +202,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     cal.add(Calendar.DAY_OF_MONTH, 1);
 
     long delay = cal.getTimeInMillis() - TimeUtil.nowMs();
-    service.schedule(new Runnable() {
-      @Override
-      public void run() {
-        prune(service);
-      }
-    }, delay, TimeUnit.MILLISECONDS);
+    service.schedule(() -> prune(service), delay, TimeUnit.MILLISECONDS);
   }
 
   static class ValueHolder<V> {
@@ -252,12 +237,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
 
       final ValueHolder<V> h = new ValueHolder<>(loader.load(key));
       h.created = TimeUtil.nowMs();
-      executor.execute(new Runnable() {
-        @Override
-        public void run() {
-          store.put(key, h);
-        }
-      });
+      executor.execute(() -> store.put(key, h));
       return h;
     }
   }
@@ -282,12 +262,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
 
       final ValueHolder<V> h = new ValueHolder<>(loader.call());
       h.created = TimeUtil.nowMs();
-      executor.execute(new Runnable() {
-        @Override
-        public void run() {
-          store.put(key, h);
-        }
-      });
+      executor.execute(() -> store.put(key, h));
       return h;
     }
   }

@@ -294,17 +294,14 @@ public abstract class ResourceServlet extends HttpServlet {
   }
 
   private Callable<Resource> newLoader(final Path p) {
-    return new Callable<Resource>() {
-      @Override
-      public Resource call() throws IOException {
-        try {
-          return new Resource(
-              getLastModifiedTime(p),
-              contentType(p.toString()),
-              Files.readAllBytes(p));
-        } catch (NoSuchFileException e) {
-          return Resource.NOT_FOUND;
-        }
+    return () -> {
+      try {
+        return new Resource(
+            getLastModifiedTime(p),
+            contentType(p.toString()),
+            Files.readAllBytes(p));
+      } catch (NoSuchFileException e) {
+        return Resource.NOT_FOUND;
       }
     };
   }

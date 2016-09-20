@@ -19,10 +19,8 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -274,9 +272,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private static String missingUserIds(Set<String> allowedUserIds) {
     StringBuilder sb = new StringBuilder("Key must contain a valid"
         + " certification for one of the following identities:\n");
-    Iterator<String> sorted = FluentIterable.from(allowedUserIds)
-        .toSortedList(Ordering.natural())
-        .iterator();
+    Iterator<String> sorted = allowedUserIds.stream().sorted().iterator();
     while (sorted.hasNext()) {
       sb.append("  ").append(sorted.next());
       if (sorted.hasNext()) {

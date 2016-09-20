@@ -504,8 +504,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(ps2List.get(2).message).isEqualTo("join lines");
     assertThat(ps2List.get(3).message).isEqualTo("typo: content");
 
-    ImmutableList<Message> messages =
-        email.getMessages(r2.getChangeId(), "comment");
+    List<Message> messages = email.getMessages(r2.getChangeId(), "comment");
     assertThat(messages).hasSize(1);
     String url = canonicalWebUrl.get();
     int c = r1.getChange().getId().get();

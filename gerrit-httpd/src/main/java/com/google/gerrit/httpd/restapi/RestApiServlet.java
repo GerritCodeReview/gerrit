@@ -26,6 +26,7 @@ import static com.google.common.net.HttpHeaders.VARY;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.joining;
 import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
@@ -41,9 +42,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -145,6 +144,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletException;
@@ -497,11 +497,13 @@ public class RestApiServlet extends HttpServlet {
     String headers = req.getHeader(ACCESS_CONTROL_REQUEST_HEADERS);
     if (headers != null) {
       res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
-      String badHeader = Iterables.getFirst(
-          Iterables.filter(
-              Splitter.on(',').trimResults().split(headers),
-              Predicates.not(Predicates.in(ALLOWED_CORS_REQUEST_HEADERS))),
-          null);
+      String badHeader =
+          StreamSupport.stream(
+                  Splitter.on(',').trimResults().split(headers).spliterator(),
+                  false)
+              .filter(h -> !ALLOWED_CORS_REQUEST_HEADERS.contains(h))
+              .findFirst()
+              .orElse(null);
       if (badHeader != null) {
         throw new BadRequestException(badHeader + " not allowed in CORS");
       }
@@ -1034,16 +1036,12 @@ public class RestApiServlet extends HttpServlet {
     } else if (r.isEmpty()) {
       throw new ResourceNotFoundException(projection);
     } else {
-      throw new AmbiguousViewException(String.format(
-        "Projection %s is ambiguous: %s",
-        name,
-        Joiner.on(", ").join(
-          Iterables.transform(r.keySet(), new Function<String, String>() {
-            @Override
-            public String apply(String in) {
-              return in + "~" + projection;
-            }
-          }))));
+      throw new AmbiguousViewException(
+          String.format(
+              "Projection %s is ambiguous: %s",
+              name,
+              r.keySet().stream().map(in -> in + "~" + projection)
+                  .collect(joining(", "))));
     }
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_46e7863c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-09-20T12:28:30Z",
+      "side": 1,
+      "message": "s/%/%s/",
+      "range": {
+        "startLine": 826,
+        "startChar": 40,
+        "endLine": 826,
+        "endChar": 42
+      },
+      "revId": "d2f6fadd68dddcdb98b4f8e3dcd86b90bf60feab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

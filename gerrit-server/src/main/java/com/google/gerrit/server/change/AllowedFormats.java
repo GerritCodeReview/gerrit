@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
@@ -28,7 +29,7 @@ import java.util.Set;
 @Singleton
 public class AllowedFormats {
   final ImmutableMap<String, ArchiveFormat> extensions;
-  final Set<ArchiveFormat> allowed;
+  final ImmutableSet<ArchiveFormat> allowed;
 
   @Inject
   AllowedFormats(DownloadConfig cfg) {
@@ -43,14 +44,8 @@ public class AllowedFormats {
 
     // Zip is not supported because it may be interpreted by a Java plugin as a
     // valid JAR file, whose code would have access to cookies on the domain.
-    allowed = Sets.filter(
-        cfg.getArchiveFormats(),
-        new Predicate<ArchiveFormat>() {
-          @Override
-          public boolean apply(ArchiveFormat format) {
-            return (format != ArchiveFormat.ZIP);
-          }
-        });
+    allowed = Sets.immutableEnumSet(
+        Iterables.filter(cfg.getArchiveFormats(), f -> f != ArchiveFormat.ZIP));
   }
 
   public Set<ArchiveFormat> getAllowed() {

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.base.Function;
+import static java.util.Comparator.comparingInt;
+
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -40,16 +41,8 @@ public class ChangeUtil {
   private static final String SUBJECT_CROP_APPENDIX = "...";
   private static final int SUBJECT_CROP_RANGE = 10;
 
-  public static final Function<PatchSet, Integer> TO_PS_ID =
-      new Function<PatchSet, Integer>() {
-        @Override
-        public Integer apply(PatchSet in) {
-          return in.getId().get();
-        }
-      };
-
-  public static final Ordering<PatchSet> PS_ID_ORDER = Ordering.natural()
-    .onResultOf(TO_PS_ID);
+  public static final Ordering<PatchSet> PS_ID_ORDER =
+      Ordering.from(comparingInt(PatchSet::getPatchSetId));
 
   /**
    * Generate a new unique identifier for change message entities.

@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 
 <dom-module id="gr-comment-list">
   <template>
@@ -39,8 +40,6 @@ limitations under the License.
       }
       .message {
         flex: 1;
-        white-space: pre-wrap;
-        word-wrap: break-word;
       }
     </style>
     <template is="dom-repeat" items="[[_computeFilesFromComments(comments)]]" as="file">
@@ -60,7 +59,10 @@ limitations under the License.
                File comment:
              </span>
           </a>
-          <div class="message">[[comment.message]]</div>
+          <gr-linked-text class="message"
+            pre
+            content="[[comment.message]]"
+            config="[[projectConfig.commentlinks]]"></gr-linked-text>
         </div>
       </template>
     </template>

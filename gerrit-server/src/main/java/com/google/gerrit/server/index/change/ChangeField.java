@@ -15,10 +15,11 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -246,13 +247,9 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ImmutableSet.copyOf(Iterables.transform(input.hashtags(),
-              new Function<String, String>() {
-            @Override
-            public String apply(String input) {
-              return input.toLowerCase();
-            }
-          }));
+          return input.hashtags().stream()
+              .map(String::toLowerCase)
+              .collect(toSet());
         }
       };
 
@@ -263,13 +260,9 @@ public class ChangeField {
         @Override
         public Iterable<byte[]> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ImmutableSet.copyOf(Iterables.transform(input.hashtags(),
-              new Function<String, byte[]>() {
-            @Override
-            public byte[] apply(String hashtag) {
-              return hashtag.getBytes(UTF_8);
-            }
-          }));
+          return input.hashtags().stream()
+              .map(t -> t.getBytes(UTF_8))
+              .collect(toSet());
         }
       };
 
@@ -656,13 +649,7 @@ public class ChangeField {
         @Override
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return Iterables.transform(input.starredBy(),
-              new Function<Account.Id, Integer>() {
-            @Override
-            public Integer apply(Account.Id accountId) {
-              return accountId.get();
-            }
-          });
+          return Iterables.transform(input.starredBy(), Account.Id::get);
         }
       };
 
@@ -675,14 +662,12 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return Iterables.transform(input.stars().entries(),
-              new Function<Map.Entry<Account.Id, String>, String>() {
-            @Override
-            public String apply(Map.Entry<Account.Id, String> e) {
-              return StarredChangesUtil.StarField.create(
-                  e.getKey(), e.getValue()).toString();
-            }
-          });
+          return Iterables.transform(
+              input.stars().entries(),
+              (Map.Entry<Account.Id, String> e) -> {
+                return StarredChangesUtil.StarField.create(
+                    e.getKey(), e.getValue()).toString();
+              });
         }
       };
 
@@ -738,13 +723,9 @@ public class ChangeField {
         @Override
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ImmutableSet.copyOf(Iterables.transform(input.editsByUser(),
-              new Function<Account.Id, Integer>() {
-            @Override
-            public Integer apply(Account.Id account) {
-              return account.get();
-            }
-          }));
+          return input.editsByUser().stream()
+              .map(Account.Id::get)
+              .collect(toSet());
         }
       };
 
@@ -756,13 +737,9 @@ public class ChangeField {
         @Override
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ImmutableSet.copyOf(Iterables.transform(input.draftsByUser(),
-              new Function<Account.Id, Integer>() {
-            @Override
-            public Integer apply(Account.Id account) {
-              return account.get();
-            }
-          }));
+          return input.draftsByUser().stream()
+              .map(Account.Id::get)
+              .collect(toSet());
         }
       };
 

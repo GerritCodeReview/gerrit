@@ -22,7 +22,6 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -77,6 +76,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
@@ -236,7 +236,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (args.migration.enabled()) {
         for (Change.Id cid : changeIds) {
           ChangeNotes cn = create(db, project, cid);
-          if (cn.getChange() != null && predicate.apply(cn)) {
+          if (cn.getChange() != null && predicate.test(cn)) {
             notes.add(cn);
           }
         }
@@ -246,7 +246,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       for (Change c : ReviewDbUtil.unwrapDb(db).changes().get(changeIds)) {
         if (c != null && project.equals(c.getDest().getParentKey())) {
           ChangeNotes cn = createFromChangeOnlyWhenNoteDbDisabled(c);
-          if (predicate.apply(cn)) {
+          if (predicate.test(cn)) {
             notes.add(cn);
           }
         }
@@ -262,7 +262,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           try (Repository repo = args.repoManager.openRepository(project)) {
             List<ChangeNotes> changes = scanNoteDb(repo, db, project);
             for (ChangeNotes cn : changes) {
-              if (predicate.apply(cn)) {
+              if (predicate.test(cn)) {
                 m.put(project, cn);
               }
             }
@@ -271,7 +271,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       } else {
         for (Change change : ReviewDbUtil.unwrapDb(db).changes().all()) {
           ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
-          if (predicate.apply(notes)) {
+          if (predicate.test(notes)) {
             m.put(change.getProject(), notes);
           }
         }
@@ -445,16 +445,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     // failed.
     Multimap<RevId, PatchLineComment> filtered = Multimaps.filterEntries(
         draftCommentNotes.getComments(),
-        new Predicate<Map.Entry<RevId, PatchLineComment>>() {
-          @Override
-          public boolean apply(Map.Entry<RevId, PatchLineComment> in) {
-            for (PatchLineComment c : published.get(in.getKey())) {
-              if (c.getKey().equals(in.getValue().getKey())) {
+        (Map.Entry<RevId, PatchLineComment> e) -> {
+            for (PatchLineComment c : published.get(e.getKey())) {
+              if (c.getKey().equals(e.getValue().getKey())) {
                 return false;
               }
             }
             return true;
-          }
         });
     return ImmutableListMultimap.copyOf(
         filtered);

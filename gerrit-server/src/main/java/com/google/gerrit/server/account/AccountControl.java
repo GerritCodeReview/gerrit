@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Sets;
+import static java.util.stream.Collectors.toSet;
+
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -28,7 +28,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /** Access control management for one account's access to other accounts. */
@@ -186,14 +185,9 @@ public class AccountControl {
   }
 
   private Set<AccountGroup.UUID> groupsOf(IdentifiedUser user) {
-    return new HashSet<>(Sets.filter(
-      user.getEffectiveGroups().getKnownGroups(),
-      new Predicate<AccountGroup.UUID>() {
-        @Override
-        public boolean apply(AccountGroup.UUID in) {
-          return !SystemGroupBackend.isSystemGroup(in);
-        }
-      }));
+    return user.getEffectiveGroups().getKnownGroups().stream()
+        .filter(a -> !SystemGroupBackend.isSystemGroup(a))
+        .collect(toSet());
   }
 
   private abstract static class OtherUser {

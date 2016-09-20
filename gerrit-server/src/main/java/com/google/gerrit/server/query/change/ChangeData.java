@@ -904,14 +904,11 @@ public class ChangeData {
    * @throws OrmException an error occurred reading the database.
    */
   public Collection<PatchSet> visiblePatchSets() throws OrmException {
-    Predicate<PatchSet> predicate = new Predicate<PatchSet>() {
-      @Override
-      public boolean apply(PatchSet input) {
-        try {
-          return changeControl().isPatchVisible(input, db);
-        } catch (OrmException e) {
-          return false;
-        }
+    Predicate<PatchSet> predicate = ps -> {
+      try {
+        return changeControl().isPatchVisible(ps, db);
+      } catch (OrmException e) {
+        return false;
       }
     };
     return FluentIterable.from(patchSets()).filter(predicate).toList();

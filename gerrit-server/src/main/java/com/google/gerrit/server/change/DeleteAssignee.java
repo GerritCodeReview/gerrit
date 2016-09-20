@@ -30,8 +30,10 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountJson;
 import com.google.gerrit.server.change.DeleteAssignee.Input;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -48,6 +50,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> db;
   private final AccountInfoCacheFactory.Factory accountInfos;
+  private final AssigneeChanged assigneeChanged;
   private final String anonymousCowardName;
 
   @Inject
@@ -55,11 +58,13 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       ChangeMessagesUtil cmUtil,
       Provider<ReviewDb> db,
       AccountInfoCacheFactory.Factory accountInfosFactory,
+      AssigneeChanged assigneeChanged,
       @AnonymousCowardName String anonymousCowardName) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.cmUtil = cmUtil;
     this.db = db;
     this.accountInfos = accountInfosFactory;
+    this.assigneeChanged = assigneeChanged;
     this.anonymousCowardName = anonymousCowardName;
   }
 
@@ -80,6 +85,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   }
 
   private class Op extends BatchUpdate.Op {
+    private Change change;
     private Account deletedAssignee;
 
     @Override
@@ -88,19 +94,18 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       if (!ctx.getControl().canEditAssignee()) {
         throw new AuthException("Delete Assignee not permitted");
       }
-      Change change = ctx.getChange();
+      change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       Account.Id currentAssigneeId = change.getAssignee();
       if (currentAssigneeId == null) {
         return false;
       }
-      Account account = accountInfos.create().get(currentAssigneeId);
+      deletedAssignee = accountInfos.create().get(currentAssigneeId);
       // noteDb
       update.removeAssignee();
       // reviewDb
       change.setAssignee(null);
-      addMessage(ctx, update, account);
-      deletedAssignee = account;
+      addMessage(ctx, update, deletedAssignee);
       return true;
     }
 
@@ -119,6 +124,11 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       cmsg.setMessage(
           "Assignee deleted: " + deleted.getName(anonymousCowardName));
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws OrmException {
+      assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee, ctx.getWhen());
     }
   }
 }

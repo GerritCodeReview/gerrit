@@ -30,7 +30,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -49,20 +51,25 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private final DynamicSet<AssigneeValidationListener> validationListeners;
   private final AssigneeInput input;
   private final String anonymousCowardName;
+  private final AssigneeChanged assigneeChanged;
 
+  private Change change;
   private Account newAssignee;
+  private Account oldAssignee;
 
   @AssistedInject
   SetAssigneeOp(AccountsCollection accounts,
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
       DynamicSet<AssigneeValidationListener> validationListeners,
+      AssigneeChanged assigneeChanged,
       @AnonymousCowardName String anonymousCowardName,
       @Assisted AssigneeInput input) {
     this.accounts = accounts;
     this.cmUtil = cmUtil;
     this.accountInfosFactory = accountInfosFactory;
     this.validationListeners = validationListeners;
+    this.assigneeChanged = assigneeChanged;
     this.anonymousCowardName = anonymousCowardName;
     this.input = input;
   }
@@ -73,17 +80,17 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     if (!ctx.getControl().canEditAssignee()) {
       throw new AuthException("Changing Assignee not permitted");
     }
-    Change change = ctx.getChange();
+    change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     Optional<Account.Id> oldAssigneeId =
-        Optional.fromNullable(ctx.getChange().getAssignee());
+        Optional.fromNullable(change.getAssignee());
     if (input.assignee == null) {
       if (oldAssigneeId.isPresent()) {
         throw new BadRequestException("Cannot set Assignee to empty");
       }
       return false;
     }
-    Account oldAssignee = null;
+    oldAssignee = null;
     if (oldAssigneeId.isPresent()) {
       oldAssignee = accountInfosFactory.create().get(oldAssigneeId.get());
     }
@@ -100,7 +107,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     if (!ctx.getControl().forUser(newAssigneeUser).isRefVisible()) {
       throw new AuthException(String.format(
           "Change %s is not visible to %s.",
-          ctx.getChange().getChangeId(),
+          change.getChangeId(),
           newAssigneeUser.getUserName()));
     }
     try {
@@ -134,12 +141,17 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     }
     ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(
-            ctx.getChange().getId(),
+            change.getId(),
             ChangeUtil.messageUUID(ctx.getDb())),
         ctx.getAccountId(), ctx.getWhen(),
-        ctx.getChange().currentPatchSetId());
+        change.currentPatchSetId());
     cmsg.setMessage(msg.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+  }
+
+  @Override
+  public void postUpdate(Context ctx) throws OrmException {
+    assigneeChanged.fire(change, ctx.getAccount(), oldAssignee, ctx.getWhen());
   }
 
   public Account getNewAssignee() {

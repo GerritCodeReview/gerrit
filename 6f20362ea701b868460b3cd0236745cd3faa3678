@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_a9baa574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T19:24:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure we yet want to go down the path of mixing com.google.common.base.Optional and java.util.Optional. We might do a giant conversion later (but not this week because I\u0027m already sick of java 8 :)\n\nTo answer Jonathan\u0027s actual question, we never set up the build glue necessary to include third-party modules as deps of our Gerrit GWT modules.",
+      "parentUuid": "4be70257_e99dcd10",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "6f20362ea701b868460b3cd0236745cd3faa3678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a56383_84dc4601",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/UiType.java",
         "patchSetId": 1

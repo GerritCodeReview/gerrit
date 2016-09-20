@@ -310,6 +310,31 @@ limitations under the License.
       element.fire('change', {}, {node: selectEl});
     });
 
+    test('don’t reload entire page when patchRange changes', function() {
+      var reloadStub = sinon.stub(element, '_reload',
+          function() { return Promise.resolve(); });
+      var reloadPatchDependentStub = sinon.stub(element,
+          '_reloadPatchNumDependentResources',
+          function() { return Promise.resolve(); });
+
+      var value = {
+        view: 'gr-change-view',
+        patchNum: '1',
+      };
+      element._paramsChanged(value);
+      assert.isTrue(reloadStub.calledOnce);
+      element._initialLoadComplete = true;
+
+      value.basePatchNum = '1';
+      value.patchNum = '2';
+      element._paramsChanged(value);
+      assert.isFalse(reloadStub.calledTwice);
+      assert.isTrue(reloadPatchDependentStub.calledOnce);
+
+      reloadStub.restore();
+      reloadPatchDependentStub.restore();
+    });
+
     test('change status new', function() {
       element._changeNum = '1';
       element._patchRange = {

@@ -88,6 +88,10 @@
         value: 'Reply',
         computed: '_computeReplyButtonLabel(_diffDrafts.*)',
       },
+      _initialLoadComplete: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -280,27 +284,60 @@
     },
 
     _paramsChanged: function(value) {
-      if (value.view !== this.tagName.toLowerCase()) { return; }
+      if (value.view !== this.tagName.toLowerCase()) {
+        this._initialLoadComplete = false;
+        return;
+      }
 
-      this._changeNum = value.changeNum;
-      this._patchRange = {
+      var patchChanged = this._patchRange &&
+          (this._patchRange.patchNum !== value.patchNum ||
+          this._patchRange.basePatchNum !== value.basePatchNum);
+
+      if (this._changeNum !== value.changeNum) {
+        this._initialLoadComplete = false;
+      }
+
+      var patchRange = {
         patchNum: value.patchNum,
         basePatchNum: value.basePatchNum || 'PARENT',
       };
 
+      if (this._initialLoadComplete && patchChanged) {
+        if (patchRange.patchNum == null) {
+          patchRange.patchNum = this._computeLatestPatchNum(this._allPatchSets);
+        }
+        this._patchRange = patchRange;
+        this._reloadPatchNumDependentResources().then(function() {
+          this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
+            change: this._change,
+            patchNum: patchRange.patchNum,
+          });
+        }.bind(this));
+        return;
+      }
+
+      this._changeNum = value.changeNum;
+      this._patchRange = patchRange;
+
       this._reload().then(function() {
-        // Allow the message list to render before scrolling.
-        this.async(function() {
-          this._maybeScrollToMessage();
-        }.bind(this), 1);
-
-        this._maybeShowReplyDialog();
-
-        this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
-          change: this._change,
-          patchNum: this._patchRange.patchNum,
-        });
+        this._performPostLoadTasks();
       }.bind(this));
+    },
+
+    _performPostLoadTasks: function() {
+      // Allow the message list to render before scrolling.
+      this.async(function() {
+        this._maybeScrollToMessage();
+      }.bind(this), 1);
+
+      this._maybeShowReplyDialog();
+
+      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
+        change: this._change,
+        patchNum: this._patchRange.patchNum,
+      });
+
+      this._initialLoadComplete = true;
     },
 
     _paramsAndChangeChanged: function(value) {

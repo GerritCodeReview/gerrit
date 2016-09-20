@@ -48,6 +48,7 @@ public class GeneralPreferences extends JavaScriptObject {
     p.downloadCommand(d.downloadCommand);
     p.dateFormat(d.getDateFormat());
     p.timeFormat(d.getTimeFormat());
+    p.highlightAssigneeInChangeTable(d.highlightAssigneeInChangeTable);
     p.relativeDateInChangeTable(d.relativeDateInChangeTable);
     p.sizeBarInChangeTable(d.sizeBarInChangeTable);
     p.legacycidInChangeTable(d.legacycidInChangeTable);
@@ -99,6 +100,9 @@ public class GeneralPreferences extends JavaScriptObject {
   }
   private native String timeFormatRaw()
   /*-{ return this.time_format }-*/;
+
+  public final native boolean highlightAssigneeInChangeTable()
+  /*-{ return this.highlight_assignee_in_change_table || false }-*/;
 
   public final native boolean relativeDateInChangeTable()
   /*-{ return this.relative_date_in_change_table || false }-*/;
@@ -177,6 +181,9 @@ public class GeneralPreferences extends JavaScriptObject {
   }
   private native void timeFormatRaw(String f)
   /*-{ this.time_format = f }-*/;
+
+  public final native void highlightAssigneeInChangeTable(boolean d)
+  /*-{ this.highlight_assignee_in_change_table = d }-*/;
 
   public final native void relativeDateInChangeTable(boolean d)
   /*-{ this.relative_date_in_change_table = d }-*/;

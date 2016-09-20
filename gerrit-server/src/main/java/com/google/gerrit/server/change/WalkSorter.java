@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -72,21 +71,17 @@ class WalkSorter {
       LoggerFactory.getLogger(WalkSorter.class);
 
   private static final Ordering<List<PatchSetData>> PROJECT_LIST_SORTER =
-      Ordering.natural().nullsFirst()
-          .onResultOf(
-            new Function<List<PatchSetData>, Project.NameKey>() {
-              @Override
-              public Project.NameKey apply(List<PatchSetData> in) {
-                if (in == null || in.isEmpty()) {
-                  return null;
-                }
-                try {
-                  return in.get(0).data().change().getProject();
-                } catch (OrmException e) {
-                  throw new IllegalStateException(e);
-                }
-              }
-            });
+      Ordering.natural().nullsFirst().onResultOf(
+          (List<PatchSetData> in) -> {
+            if (in == null || in.isEmpty()) {
+              return null;
+            }
+            try {
+              return in.get(0).data().change().getProject();
+            } catch (OrmException e) {
+              throw new IllegalStateException(e);
+            }
+          });
 
   private final GitRepositoryManager repoManager;
   private final Set<PatchSet.Id> includePatchSets;

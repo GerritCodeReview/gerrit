@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -357,13 +356,8 @@ public class PostReviewers
         }
         emailReviewers(rsrc.getChange(), addedReviewers, addedCCs);
         if (!addedReviewers.isEmpty()) {
-          List<Account.Id> reviewers = Lists.transform(addedReviewers,
-              new Function<PatchSetApproval, Account.Id>() {
-                @Override
-                public Account.Id apply(PatchSetApproval psa) {
-                  return psa.getAccountId();
-                }
-              });
+          List<Account.Id> reviewers =
+              Lists.transform(addedReviewers, PatchSetApproval::getAccountId);
           reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers,
               ctx.getAccount(), ctx.getWhen());
         }

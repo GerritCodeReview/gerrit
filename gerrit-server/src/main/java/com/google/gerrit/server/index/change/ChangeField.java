@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
@@ -694,8 +693,7 @@ public class ChangeField {
         @Override
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return Iterables.transform(input.stars().keySet(),
-              ReviewDbUtil.INT_KEY_FUNCTION);
+          return Iterables.transform(input.stars().keySet(), Account.Id::get);
         }
       };
 

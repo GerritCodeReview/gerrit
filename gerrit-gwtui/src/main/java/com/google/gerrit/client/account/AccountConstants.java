@@ -38,6 +38,7 @@ public interface AccountConstants extends Constants {
   String messageShowInReviewCategoryUsername();
   String messageShowInReviewCategoryAbbrev();
   String buttonSaveChanges();
+  String highlightAssigneeInChangeTable();
   String showRelativeDateInChangeTable();
   String showSizeBarInChangeTable();
   String showLegacycidInChangeTable();

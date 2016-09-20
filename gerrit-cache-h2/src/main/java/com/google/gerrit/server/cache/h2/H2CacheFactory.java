@@ -119,19 +119,8 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   public void start() {
     if (executor != null) {
       for (final H2CacheImpl<?, ?> cache : caches) {
-        executor.execute(new Runnable() {
-          @Override
-          public void run() {
-            cache.start();
-          }
-        });
-
-        cleanup.schedule(new Runnable() {
-          @Override
-          public void run() {
-            cache.prune(cleanup);
-          }
-        }, 30, TimeUnit.SECONDS);
+        executor.execute(cache::start);
+        cleanup.schedule(() -> cache.prune(cleanup), 30, TimeUnit.SECONDS);
       }
     }
   }

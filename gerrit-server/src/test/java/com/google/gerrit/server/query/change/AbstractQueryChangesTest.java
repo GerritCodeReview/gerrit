@@ -23,7 +23,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -1437,13 +1436,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     for (int i = 1; i <= 11; i++) {
       Iterable<ChangeData> cds = internalChangeQuery.byCommitsOnBranchNotMerged(
           repo.getRepository(), db, dest, shas, i);
-      Iterable<Integer> ids = FluentIterable.from(cds).transform(
-          new Function<ChangeData, Integer>() {
-            @Override
-            public Integer apply(ChangeData in) {
-              return in.getId().get();
-            }
-          });
+      Iterable<Integer> ids = FluentIterable.from(cds)
+          .transform(in -> in.getId().get());
       String name = "limit " + i;
       assertThat(ids).named(name).hasSize(n);
       assertThat(ids).named(name)
@@ -1640,24 +1634,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     StringBuilder b = new StringBuilder();
     b.append("query '").append(query.getQuery())
      .append("' with expected changes ");
-    b.append(format(Iterables.transform(Arrays.asList(expectedChanges),
-        new Function<Change, Integer>() {
-          @Override
-          public Integer apply(Change change) {
-            return change.getChangeId();
-          }
-        })));
+    b.append(format(
+        Arrays.stream(expectedChanges).map(Change::getChangeId).iterator()));
     b.append(" and result ");
     b.append(format(actualIds));
     return b.toString();
   }
 
   private String format(Iterable<Integer> changeIds) throws RestApiException {
+    return format(changeIds.iterator());
+  }
+
+  private String format(Iterator<Integer> changeIds) throws RestApiException {
     StringBuilder b = new StringBuilder();
     b.append("[");
-    Iterator<Integer> it = changeIds.iterator();
-    while (it.hasNext()) {
-      int id = it.next();
+    while (changeIds.hasNext()) {
+      int id = changeIds.next();
       ChangeInfo c = gApi.changes().id(id).get();
       b.append("{").append(id).append(" (").append(c.changeId)
           .append("), ").append("dest=").append(
@@ -1666,7 +1658,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           .append("status=").append(c.status).append(", ")
           .append("lastUpdated=").append(c.updated.getTime())
           .append("}");
-      if (it.hasNext()) {
+      if (changeIds.hasNext()) {
         b.append(", ");
       }
     }
@@ -1675,23 +1667,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected static Iterable<Integer> ids(Change... changes) {
-    return FluentIterable.from(Arrays.asList(changes)).transform(
-        new Function<Change, Integer>() {
-          @Override
-          public Integer apply(Change in) {
-            return in.getId().get();
-          }
-        });
+    return FluentIterable.from(Arrays.asList(changes))
+        .transform(in -> in.getId().get());
   }
 
   protected static Iterable<Integer> ids(Iterable<ChangeInfo> changes) {
-    return FluentIterable.from(changes).transform(
-        new Function<ChangeInfo, Integer>() {
-          @Override
-          public Integer apply(ChangeInfo in) {
-            return in._number;
-          }
-        });
+    return FluentIterable.from(changes)
+        .transform(in -> in._number);
   }
 
   protected static long lastUpdatedMs(Change c) {

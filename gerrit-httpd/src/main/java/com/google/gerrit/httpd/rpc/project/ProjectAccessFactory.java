@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
@@ -238,14 +237,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         }
       }
     }
-    return Maps.filterEntries(
-      infos,
-      new Predicate<Map.Entry<AccountGroup.UUID, GroupInfo>>() {
-        @Override
-        public boolean apply(Map.Entry<AccountGroup.UUID, GroupInfo> in) {
-          return in.getValue() != null;
-        }
-      });
+    return Maps.filterEntries(infos, in -> in.getValue() != null);
   }
 
   private ProjectControl open() throws NoSuchProjectException {

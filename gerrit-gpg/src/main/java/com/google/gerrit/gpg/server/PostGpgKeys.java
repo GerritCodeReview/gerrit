@@ -18,7 +18,6 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -161,13 +160,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       if (!newExtIds.isEmpty()) {
         db.get().accountExternalIds().insert(newExtIds);
       }
-      db.get().accountExternalIds().deleteKeys(Iterables.transform(toRemove,
-          new Function<Fingerprint, AccountExternalId.Key>() {
-            @Override
-            public AccountExternalId.Key apply(Fingerprint fp) {
-              return toExtIdKey(fp.get());
-            }
-          }));
+      db.get().accountExternalIds().deleteKeys(
+          Iterables.transform(toRemove, fp -> toExtIdKey(fp.get())));
       accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }

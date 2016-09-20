@@ -39,37 +39,31 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class WebLinks {
   private static final Logger log = LoggerFactory.getLogger(WebLinks.class);
+
   private static final Predicate<WebLinkInfo> INVALID_WEBLINK =
-      new Predicate<WebLinkInfo>() {
-
-        @Override
-        public boolean apply(WebLinkInfo link) {
-          if (link == null) {
-            return false;
-          } else if (Strings.isNullOrEmpty(link.name)
-              || Strings.isNullOrEmpty(link.url)) {
-            log.warn(String.format("%s is missing name and/or url",
-                link.getClass().getName()));
-            return false;
-          }
-          return true;
+      link -> {
+        if (link == null) {
+          return false;
+        } else if (Strings.isNullOrEmpty(link.name)
+            || Strings.isNullOrEmpty(link.url)) {
+          log.warn(String.format("%s is missing name and/or url",
+              link.getClass().getName()));
+          return false;
         }
+        return true;
       };
-  private static final Predicate<WebLinkInfoCommon> INVALID_WEBLINK_COMMON =
-      new Predicate<WebLinkInfoCommon>() {
 
-        @Override
-        public boolean apply(WebLinkInfoCommon link) {
-          if (link == null) {
-            return false;
-          } else if (Strings.isNullOrEmpty(link.name)
-              || Strings.isNullOrEmpty(link.url)) {
-            log.warn(String.format("%s is missing name and/or url", link
-                .getClass().getName()));
-            return false;
-          }
-          return true;
+  private static final Predicate<WebLinkInfoCommon> INVALID_WEBLINK_COMMON =
+      link -> {
+        if (link == null) {
+          return false;
+        } else if (Strings.isNullOrEmpty(link.name)
+            || Strings.isNullOrEmpty(link.url)) {
+          log.warn(String.format("%s is missing name and/or url", link
+              .getClass().getName()));
+          return false;
         }
+        return true;
       };
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
@@ -85,8 +79,7 @@ public class WebLinks {
       DynamicSet<FileHistoryWebLink> fileLogLinks,
       DynamicSet<DiffWebLink> diffLinks,
       DynamicSet<ProjectWebLink> projectLinks,
-      DynamicSet<BranchWebLink> branchLinks
-      ) {
+      DynamicSet<BranchWebLink> branchLinks) {
     this.patchSetLinks = patchSetLinks;
     this.fileLinks = fileLinks;
     this.fileHistoryLinks = fileLogLinks;
@@ -101,15 +94,11 @@ public class WebLinks {
    * @param commit SHA1 of commit.
    * @return Links for patch sets.
    */
-  public FluentIterable<WebLinkInfo> getPatchSetLinks(final Project.NameKey project,
-      final String commit) {
-    return filterLinks(patchSetLinks, new Function<WebLink, WebLinkInfo>() {
-
-      @Override
-      public WebLinkInfo apply(WebLink webLink) {
-        return ((PatchSetWebLink)webLink).getPatchSetWebLink(project.get(), commit);
-      }
-    });
+  public FluentIterable<WebLinkInfo> getPatchSetLinks(Project.NameKey project,
+      String commit) {
+    return filterLinks(
+        patchSetLinks,
+        webLink -> webLink.getPatchSetWebLink(project.get(), commit));
   }
 
   /**
@@ -119,15 +108,11 @@ public class WebLinks {
    * @param file File name.
    * @return Links for files.
    */
-  public FluentIterable<WebLinkInfo> getFileLinks(final String project, final String revision,
-      final String file) {
-    return filterLinks(fileLinks, new Function<WebLink, WebLinkInfo>() {
-
-      @Override
-      public WebLinkInfo apply(WebLink webLink) {
-        return ((FileWebLink)webLink).getFileWebLink(project, revision, file);
-      }
-    });
+  public FluentIterable<WebLinkInfo> getFileLinks(String project,
+      String revision, String file) {
+    return filterLinks(
+        fileLinks,
+        webLink -> webLink.getFileWebLink(project, revision, file));
   }
 
   /**
@@ -137,39 +122,31 @@ public class WebLinks {
    * @param file File name.
    * @return Links for file history
    */
-  public FluentIterable<WebLinkInfo> getFileHistoryLinks(final String project,
-      final String revision, final String file) {
-    return filterLinks(fileHistoryLinks, new Function<WebLink, WebLinkInfo>() {
-
-      @Override
-      public WebLinkInfo apply(WebLink webLink) {
-        return ((FileHistoryWebLink) webLink).getFileHistoryWebLink(project,
-            revision, file);
-      }
-    });
+  public FluentIterable<WebLinkInfo> getFileHistoryLinks(String project,
+      String revision, String file) {
+    return filterLinks(
+        fileHistoryLinks,
+        webLink -> webLink.getFileHistoryWebLink(project, revision, file));
   }
 
   public FluentIterable<WebLinkInfoCommon> getFileHistoryLinksCommon(
-      final String project, final String revision, final String file) {
+      String project, String revision, String file) {
     return FluentIterable
         .from(fileHistoryLinks)
-        .transform(new Function<WebLink, WebLinkInfoCommon>() {
-          @Override
-          public WebLinkInfoCommon apply(WebLink webLink) {
-            WebLinkInfo info =
-                ((FileHistoryWebLink) webLink).getFileHistoryWebLink(project,
-                    revision, file);
-            if (info == null) {
-              return null;
-            }
-            WebLinkInfoCommon commonInfo = new WebLinkInfoCommon();
-            commonInfo.name = info.name;
-            commonInfo.imageUrl = info.imageUrl;
-            commonInfo.url = info.url;
-            commonInfo.target = info.target;
-            return commonInfo;
-          }
-        })
+        .transform(
+            webLink -> {
+              WebLinkInfo info =
+                  webLink.getFileHistoryWebLink(project, revision, file);
+              if (info == null) {
+                return null;
+              }
+              WebLinkInfoCommon commonInfo = new WebLinkInfoCommon();
+              commonInfo.name = info.name;
+              commonInfo.imageUrl = info.imageUrl;
+              commonInfo.url = info.url;
+              commonInfo.target = info.target;
+              return commonInfo;
+            })
         .filter(INVALID_WEBLINK_COMMON);
   }
 
@@ -190,14 +167,10 @@ public class WebLinks {
       final int patchSetIdB, final String revisionB, final String fileB) {
    return FluentIterable
        .from(diffLinks)
-       .transform(new Function<WebLink, DiffWebLinkInfo>() {
-         @Override
-         public DiffWebLinkInfo apply(WebLink webLink) {
-            return ((DiffWebLink) webLink).getDiffLink(project, changeId,
+       .transform(webLink ->
+            webLink.getDiffLink(project, changeId,
                 patchSetIdA, revisionA, fileA,
-                patchSetIdB, revisionB, fileB);
-          }
-       })
+                patchSetIdB, revisionB, fileB))
        .filter(INVALID_WEBLINK);
  }
 
@@ -207,13 +180,9 @@ public class WebLinks {
    * @return Links for projects.
    */
   public FluentIterable<WebLinkInfo> getProjectLinks(final String project) {
-    return filterLinks(projectLinks, new Function<WebLink, WebLinkInfo>() {
-
-      @Override
-      public WebLinkInfo apply(WebLink webLink) {
-        return ((ProjectWebLink)webLink).getProjectWeblink(project);
-      }
-    });
+    return filterLinks(
+        projectLinks,
+        webLink -> webLink.getProjectWeblink(project));
   }
 
   /**
@@ -223,17 +192,13 @@ public class WebLinks {
    * @return Links for branches.
    */
   public FluentIterable<WebLinkInfo> getBranchLinks(final String project, final String branch) {
-    return filterLinks(branchLinks, new Function<WebLink, WebLinkInfo>() {
-
-      @Override
-      public WebLinkInfo apply(WebLink webLink) {
-        return ((BranchWebLink)webLink).getBranchWebLink(project, branch);
-      }
-    });
+    return filterLinks(
+        branchLinks,
+        webLink -> webLink.getBranchWebLink(project, branch));
   }
 
-  private FluentIterable<WebLinkInfo> filterLinks(DynamicSet<? extends WebLink> links,
-      Function<WebLink, WebLinkInfo> transformer) {
+  private <T extends WebLink> FluentIterable<WebLinkInfo> filterLinks(DynamicSet<T> links,
+      Function<T, WebLinkInfo> transformer) {
     return FluentIterable
         .from(links)
         .transform(transformer)

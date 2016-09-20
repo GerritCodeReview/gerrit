@@ -589,8 +589,8 @@ maven_jar(
 
 maven_jar(
   name = 'jimfs',
-  artifact = 'com.google.jimfs:jimfs:1.0',
-  sha1 = 'edd65a2b792755f58f11134e76485a928aab4c97',
+  artifact = 'com.google.jimfs:jimfs:1.1',
+  sha1 = '8fbd0579dc68aba6186935cc1bee21d2f3e7ec1c',
 )
 
 maven_jar(

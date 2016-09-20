@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_a92f45af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T20:23:08Z",
+      "side": 1,
+      "message": "I would still like you to guard this so that we don\u0027t populate the field unless the current search index version contains the assignee field. That way we don\u0027t accidentally load the notes when reaching this code via a search result path.\n\nSpecifically, inject the ChangeIndexCollection into ChangeJson, and do\n\n if (index.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE)",
+      "revId": "f49a8fa68ab43646d2368179e1d65ae5f8d4d4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_89936150",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T14:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_882fdbfa",
+      "revId": "0530da3b38d0516b20c5212ac2f141f9b5ecca5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_682c1706",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_69909d43",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T14:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_682c1706",
+      "revId": "0530da3b38d0516b20c5212ac2f141f9b5ecca5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_66044ab9",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2016-09-20T13:29:03Z",
       "side": 1,
       "message": "Nit: long line.",
+      "revId": "0530da3b38d0516b20c5212ac2f141f9b5ecca5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_88f23b5f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1670,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T14:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_66044ab9",
       "revId": "0530da3b38d0516b20c5212ac2f141f9b5ecca5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

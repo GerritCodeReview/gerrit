@@ -21,6 +21,9 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -30,15 +33,11 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTF
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -48,7 +47,6 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
@@ -681,14 +679,9 @@ public class ReceiveCommits {
   }
 
   private void reportMessages() {
-    Iterable<CreateRequest> created =
-        Iterables.filter(newChanges, new Predicate<CreateRequest>() {
-          @Override
-          public boolean apply(CreateRequest input) {
-            return input.change != null;
-          }
-        });
-    if (!Iterables.isEmpty(created)) {
+    List<CreateRequest> created =
+        newChanges.stream().filter(r -> r.change != null).collect(toList());
+    if (!created.isEmpty()) {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
@@ -699,21 +692,10 @@ public class ReceiveCommits {
       addMessage("");
     }
 
-    List<ReplaceRequest> updated = FluentIterable
-        .from(replaceByChange.values())
-        .filter(new Predicate<ReplaceRequest>() {
-          @Override
-          public boolean apply(ReplaceRequest input) {
-            return !input.skip && input.inputCommand.getResult() == OK;
-          }
-        })
-        .toSortedList(Ordering.natural().onResultOf(
-            new Function<ReplaceRequest, Integer>() {
-              @Override
-              public Integer apply(ReplaceRequest in) {
-                return in.notes.getChangeId().get();
-              }
-            }));
+    List<ReplaceRequest> updated = replaceByChange.values().stream()
+        .filter(r -> !r.skip && r.inputCommand.getResult() == OK)
+        .sorted(comparingInt(r -> r.notes.getChangeId().get()))
+        .collect(toList());
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
@@ -831,7 +813,7 @@ public class ReceiveCommits {
       // One or more new references failed to create. Assume the
       // system isn't working correctly anymore and abort.
       reject(magicBranch.cmd, "Unable to create changes: "
-          + Joiner.on(' ').join(lastCreateChangeErrors));
+          + lastCreateChangeErrors.stream().collect(joining(" ")));
       logError(String.format(
           "Only %d of %d new change refs created in %s; aborting",
           okToInsert, replaceCount + newChanges.size(), project.getName()));
@@ -1056,11 +1038,12 @@ public class ReceiveCommits {
                         .getPluginConfig(e.getPluginName())
                         .getString(e.getExportName());
                 if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
-                  List<String> l =
-                      Arrays.asList(projectControl.getProjectState()
-                          .getConfig().getPluginConfig(e.getPluginName())
-                          .getStringList(e.getExportName()));
-                  oldValue = Joiner.on("\n").join(l);
+                  oldValue =
+                    Arrays.stream(
+                        projectControl.getProjectState()
+                            .getConfig().getPluginConfig(e.getPluginName())
+                            .getStringList(e.getExportName()))
+                      .collect(joining("\n"));
                 }
 
                 if ((value == null ? oldValue != null : !value.equals(oldValue)) &&
@@ -1796,14 +1779,10 @@ public class ReceiveCommits {
         List<ChangeData> changes = p.destChanges;
         if (changes.size() > 1) {
           logDebug("Multiple changes in project with Change-Id {}: {}",
-              p.changeKey, Lists.transform(
-                  changes,
-                  new Function<ChangeData, String>() {
-                    @Override
-                    public String apply(ChangeData in) {
-                      return in.getId().toString();
-                    }
-                  }));
+              p.changeKey,
+              changes.stream()
+                  .map(cd -> cd.getId().toString())
+                  .collect(joining()));
           // WTF, multiple changes in this project have the same key?
           // Since the commit is new, the user should recreate it with
           // a different Change-Id. In practice, we should never see
@@ -2188,14 +2167,8 @@ public class ReceiveCommits {
     Collection<ChangeNotes> allNotes =
         notesFactory.create(
             db,
-            Collections2.transform(
-                replaceByChange.values(),
-                new Function<ReplaceRequest, Change.Id>() {
-                  @Override
-                  public Change.Id apply(ReplaceRequest in) {
-                    return in.ontoChange;
-                  }
-                }));
+            replaceByChange.values().stream()
+                .map(r -> r.ontoChange).collect(toList()));
     for (ChangeNotes notes : allNotes) {
       replaceByChange.get(notes.getChangeId()).notes = notes;
     }

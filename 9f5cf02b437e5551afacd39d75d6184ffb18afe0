@@ -282,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_093591fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T20:23:08Z",
+      "side": 1,
+      "message": "Excellent point, SGTM",
+      "parentUuid": "2bec8e3b_654ba27b",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_6690ca43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 3

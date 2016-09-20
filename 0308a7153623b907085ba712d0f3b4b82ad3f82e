@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_a6c132f9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-20T09:15:41Z",
+      "side": 1,
+      "message": "On removing this cast:\n\n The method assertThat(Path) is ambiguous for the type RepositoryConfigTest",
+      "range": {
+        "startLine": 151,
+        "startChar": 15,
+        "endLine": 151,
+        "endChar": 23
+      },
+      "revId": "0308a7153623b907085ba712d0f3b4b82ad3f82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_06c73e0b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-20T09:15:41Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 167,
+        "startChar": 15,
+        "endLine": 167,
+        "endChar": 23
+      },
+      "revId": "0308a7153623b907085ba712d0f3b4b82ad3f82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

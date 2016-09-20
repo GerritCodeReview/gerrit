@@ -15,14 +15,12 @@
 package com.google.gerrit.server;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
@@ -249,29 +247,11 @@ public class StarredChangesUtil {
   public Set<Account.Id> byChange(final Change.Id changeId,
       final String label) throws OrmException {
     try (final Repository repo = repoManager.openRepository(allUsers)) {
-      return FluentIterable
-          .from(getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId)))
-          .transform(new Function<String, Account.Id>() {
-            @Override
-            public Account.Id apply(String refPart) {
-              return Account.Id.parse(refPart);
-            }
-          })
-          .filter(new Predicate<Account.Id>() {
-            @Override
-            public boolean apply(Account.Id accountId) {
-              try {
-                return readLabels(repo,
-                    RefNames.refsStarredChanges(changeId, accountId))
-                        .contains(label);
-              } catch (IOException e) {
-                log.error(String.format(
-                    "Cannot query stars by account %d on change %d",
-                    accountId.get(), changeId.get()), e);
-                return false;
-              }
-            }
-          }).toSet();
+      return getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId))
+          .stream()
+          .map(Account.Id::parse)
+          .filter(accountId -> hasStar(repo, changeId, accountId, label))
+          .collect(toSet());
     } catch (IOException e) {
       throw new OrmException(
           String.format("Get accounts that starred change %d failed",
@@ -283,40 +263,30 @@ public class StarredChangesUtil {
   // To be used only for IsStarredByLegacyPredicate.
   public Set<Change.Id> byAccount(final Account.Id accountId,
       final String label) throws OrmException {
-    try (final Repository repo = repoManager.openRepository(allUsers)) {
-      return FluentIterable
-          .from(getRefNames(repo, RefNames.REFS_STARRED_CHANGES))
-          .filter(new Predicate<String>() {
-            @Override
-            public boolean apply(String refPart) {
-              return refPart.endsWith("/" + accountId.get());
-            }
-          })
-          .transform(new Function<String, Change.Id>() {
-            @Override
-            public Change.Id apply(String refPart) {
-              return Change.Id.fromRefPart(refPart);
-            }
-          })
-          .filter(new Predicate<Change.Id>() {
-            @Override
-            public boolean apply(Change.Id changeId) {
-              try {
-                return readLabels(repo,
-                    RefNames.refsStarredChanges(changeId, accountId))
-                        .contains(label);
-              } catch (IOException e) {
-                log.error(String.format(
-                    "Cannot query stars by account %d on change %d",
-                    accountId.get(), changeId.get()), e);
-                return false;
-              }
-            }
-          }).toSet();
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return getRefNames(repo, RefNames.REFS_STARRED_CHANGES).stream()
+          .filter(refPart -> refPart.endsWith("/" + accountId.get()))
+          .map(Change.Id::fromRefPart)
+          .filter(changeId -> hasStar(repo, changeId, accountId, label))
+          .collect(toSet());
     } catch (IOException e) {
       throw new OrmException(
           String.format("Get changes that were starred by %d failed",
               accountId.get()), e);
+    }
+  }
+
+  private boolean hasStar(Repository repo, Change.Id changeId,
+      Account.Id accountId, String label) {
+    try {
+      return readLabels(repo,
+          RefNames.refsStarredChanges(changeId, accountId))
+              .contains(label);
+    } catch (IOException e) {
+      log.error(String.format(
+          "Cannot query stars by account %d on change %d",
+          accountId.get(), changeId.get()), e);
+      return false;
     }
   }
 

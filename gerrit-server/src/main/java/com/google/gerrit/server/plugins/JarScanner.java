@@ -17,7 +17,6 @@ package com.google.gerrit.server.plugins;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.Iterables.transform;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
@@ -59,15 +58,6 @@ import java.util.jar.Manifest;
 public class JarScanner implements PluginContentScanner {
   private static final int SKIP_ALL = ClassReader.SKIP_CODE
       | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
-  private static final Function<ClassData, ExtensionMetaData> CLASS_DATA_TO_EXTENSION_META_DATA =
-      new Function<ClassData, ExtensionMetaData>() {
-        @Override
-        public ExtensionMetaData apply(ClassData classData) {
-          return new ExtensionMetaData(classData.className,
-              classData.annotationValue);
-        }
-      };
-
   private final JarFile jarFile;
 
   public JarScanner(Path src) throws IOException {
@@ -128,8 +118,11 @@ public class JarScanner implements PluginContentScanner {
       Collection<ClassData> values =
           firstNonNull(discoverdData, Collections.<ClassData> emptySet());
 
-      result.put(annotoation,
-          transform(values, CLASS_DATA_TO_EXTENSION_META_DATA));
+      result.put(
+          annotoation,
+          transform(
+              values,
+              cd -> new ExtensionMetaData(cd.className, cd.annotationValue)));
     }
 
     return result.build();
@@ -307,15 +300,12 @@ public class JarScanner implements PluginContentScanner {
   public Enumeration<PluginEntry> entries() {
     return Collections.enumeration(Lists.transform(
         Collections.list(jarFile.entries()),
-        new Function<JarEntry, PluginEntry>() {
-          @Override
-          public PluginEntry apply(JarEntry jarEntry) {
-            try {
-              return resourceOf(jarEntry);
-            } catch (IOException e) {
-              throw new IllegalArgumentException("Cannot convert jar entry "
-                  + jarEntry + " to a resource", e);
-            }
+        jarEntry -> {
+          try {
+            return resourceOf(jarEntry);
+          } catch (IOException e) {
+            throw new IllegalArgumentException("Cannot convert jar entry "
+                + jarEntry + " to a resource", e);
           }
         }));
   }

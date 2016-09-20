@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2bec8e3b_05abb6e4",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-20T10:05:24Z",
+      "side": 1,
+      "message": "do we need the sha256 here?",
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_852986a9",
         "filename": "gerrit-gwtui/gwt.bzl",
         "patchSetId": 5

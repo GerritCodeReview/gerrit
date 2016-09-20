@@ -359,7 +359,7 @@ public class PatchLineCommentsUtil {
     return sort(result);
   }
 
-  public static RevId setCommentRevId(PatchLineComment c,
+  public static void setCommentRevId(PatchLineComment c,
       PatchListCache cache, Change change, PatchSet ps) throws OrmException {
     checkArgument(c.getPatchSetId().equals(ps.getId()),
         "cannot set RevId for patch set %s on comment %s", ps.getId(), c);
@@ -380,7 +380,6 @@ public class PatchLineCommentsUtil {
         throw new OrmException(e);
       }
     }
-    return c.getRevId();
   }
 
   public Collection<Ref> getDraftRefs(Change.Id changeId)

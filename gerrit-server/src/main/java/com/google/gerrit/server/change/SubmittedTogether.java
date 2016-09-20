@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -32,7 +34,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -44,13 +45,17 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
-@Singleton
 public class SubmittedTogether implements RestReadView<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(
       SubmittedTogether.class);
 
   private final EnumSet<SubmittedTogetherOption> options =
       EnumSet.noneOf(SubmittedTogetherOption.class);
+
+  private final EnumSet<ListChangesOption> jsonOpt = EnumSet.of(
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.CURRENT_COMMIT);
+
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -58,8 +63,22 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final Provider<WalkSorter> sorter;
 
   @Option(name = "-o", usage = "Output options")
-  void addOption(SubmittedTogetherOption o) {
-    options.add(o);
+  void addOption(String option) {
+    for (ListChangesOption o : ListChangesOption.values()) {
+      if (o.name().equals(option)) {
+        jsonOpt.add(o);
+        return;
+      }
+    }
+
+    for (SubmittedTogetherOption o : SubmittedTogetherOption.values()) {
+      if (o.name().equals(option)) {
+        options.add(o);
+        return;
+      }
+    }
+
+    throw new IllegalArgumentException("option not recognized: " + option);
   }
 
   @Inject
@@ -75,19 +94,29 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     this.sorter = sorter;
   }
 
+  public SubmittedTogether addListChangesOption(EnumSet<ListChangesOption> o) {
+    jsonOpt.addAll(o);
+    return this;
+  }
+
+  public SubmittedTogether addSubmittedTogetherOption(
+      EnumSet<SubmittedTogetherOption> o) {
+    options.addAll(o);
+    return this;
+  }
+
   @Override
   public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException,
       ResourceConflictException, IOException, OrmException {
-    SubmittedTogetherInfo info = apply(resource, options);
+    SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {
       return info.changes;
     }
     return info;
   }
 
-  public SubmittedTogetherInfo apply(ChangeResource resource,
-      EnumSet<SubmittedTogetherOption> options)
+  public SubmittedTogetherInfo applyInfo(ChangeResource resource)
       throws AuthException, IOException, OrmException {
     Change c = resource.getChange();
     try {
@@ -109,7 +138,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       }
 
       if (hidden != 0
-          && !options.contains(SubmittedTogetherOption.NON_VISIBLE_CHANGES)) {
+          && !options.contains(NON_VISIBLE_CHANGES)) {
         throw new AuthException(
             "change would be submitted with a change that you cannot see");
       }
@@ -123,9 +152,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       }
 
       SubmittedTogetherInfo info = new SubmittedTogetherInfo();
-      info.changes = json.create(EnumSet.of(
-          ListChangesOption.CURRENT_REVISION,
-          ListChangesOption.CURRENT_COMMIT))
+      info.changes = json.create(jsonOpt)
         .includeSubmittable(true)
         .formatChangeDatas(cds);
       info.nonVisibleChanges = hidden;

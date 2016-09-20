@@ -23,8 +23,11 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -41,6 +44,63 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
+  }
+
+  @Test
+  public void doesNotIncludeCurrentFiles() throws Exception {
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master", false);
+
+    SubmittedTogetherInfo info =
+        gApi.changes()
+            .id(id2)
+            .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
+    assertThat(info.changes).hasSize(2);
+    assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
+    assertThat(info.changes.get(1).currentRevision).isEqualTo(c1_1.name());
+
+    assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
+    RevisionInfo rev = info.changes.get(0).revisions.get(c2_1.name());
+    assertThat(rev.files).isNull();
+  }
+
+  @Test
+  public void returnsCurrentFilesIfOptionRequested() throws Exception {
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master", false);
+
+    SubmittedTogetherInfo info =
+        gApi.changes()
+            .id(id2)
+            .submittedTogether2(
+                EnumSet.of(ListChangesOption.CURRENT_FILES),
+                EnumSet.of(NON_VISIBLE_CHANGES));
+    assertThat(info.changes).hasSize(2);
+    assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
+    assertThat(info.changes.get(1).currentRevision).isEqualTo(c1_1.name());
+
+    assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
+    RevisionInfo rev = info.changes.get(0).revisions.get(c2_1.name());
+    assertThat(rev).isNotNull();
+    FileInfo file = rev.files.get("b.txt");
+    assertThat(file).isNotNull();
+    assertThat(file.status).isEqualTo('A');
   }
 
   @Test

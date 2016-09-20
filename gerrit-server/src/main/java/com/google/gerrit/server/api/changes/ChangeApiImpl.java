@@ -61,6 +61,7 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
@@ -84,7 +85,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Abandon abandon;
   private final Revert revert;
   private final Restore restore;
-  private final SubmittedTogether submittedTogether;
+  private final Provider<SubmittedTogether> submittedTogether;
   private final PublishDraftPatchSet.CurrentRevision
     publishDraftChange;
   private final DeleteDraftChange deleteDraftChange;
@@ -111,7 +112,7 @@ class ChangeApiImpl implements ChangeApi {
       Abandon abandon,
       Revert revert,
       Restore restore,
-      SubmittedTogether submittedTogether,
+      Provider<SubmittedTogether> submittedTogether,
       PublishDraftPatchSet.CurrentRevision publishDraftChange,
       DeleteDraftChange deleteDraftChange,
       GetTopic getTopic,
@@ -248,21 +249,37 @@ class ChangeApiImpl implements ChangeApi {
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public List<ChangeInfo> submittedTogether() throws RestApiException {
-    try {
-      return (List<ChangeInfo>) submittedTogether.apply(change);
-    } catch (IOException | OrmException e) {
-      throw new RestApiException("Cannot query submittedTogether", e);
-    }
+    SubmittedTogetherInfo info = submittedTogether2(
+        EnumSet.noneOf(ListChangesOption.class),
+        EnumSet.noneOf(SubmittedTogetherOption.class));
+    return info.changes;
   }
 
   @Override
   public SubmittedTogetherInfo submittedTogether(
       EnumSet<SubmittedTogetherOption> options) throws RestApiException {
+    return submittedTogether2(EnumSet.noneOf(ListChangesOption.class), options);
+  }
+
+  @Override
+  public SubmittedTogetherInfo submittedTogether2(
+      EnumSet<ListChangesOption> options) throws RestApiException {
+    return submittedTogether2(
+        options,
+        EnumSet.noneOf(SubmittedTogetherOption.class));
+  }
+
+  @Override
+  public SubmittedTogetherInfo submittedTogether2(
+      EnumSet<ListChangesOption> listOptions,
+      EnumSet<SubmittedTogetherOption> submitOptions) throws RestApiException {
     try {
-      return submittedTogether.apply(change, options);
+      return submittedTogether.get()
+          .addListChangesOption(listOptions)
+          .addSubmittedTogetherOption(submitOptions)
+          .applyInfo(change);
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot query submittedTogether", e);
     }

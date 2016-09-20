@@ -631,8 +631,12 @@ public abstract class OutgoingEmail {
     return obj != null ? obj.toString() : "";
   }
 
+  protected final boolean useHtml() {
+    return args.settings.html && supportsHtml();
+  }
+
   /** Override this method to enable HTML in a subclass. */
-  protected boolean useHtml() {
+  protected boolean supportsHtml() {
     return false;
   }
 }

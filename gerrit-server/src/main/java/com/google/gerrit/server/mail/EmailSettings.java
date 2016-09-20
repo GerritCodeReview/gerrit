@@ -22,11 +22,13 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class EmailSettings {
+  public final boolean html;
   public final boolean includeDiff;
   public final int maximumDiffSize;
 
   @Inject
   EmailSettings(@GerritServerConfig Config cfg) {
+    html = cfg.getBoolean("sendemail", "html", true);
     includeDiff = cfg.getBoolean("sendemail", "includeDiff", false);
     maximumDiffSize = cfg.getInt("sendemail", "maximumDiffSize", 256 << 10);
   }

@@ -81,7 +81,9 @@ public class AddKeySender extends OutgoingEmail {
   @Override
   protected void format() throws EmailException {
     appendText(textTemplate("AddKey"));
-    appendHtml(soyHtmlTemplate("AddKeyHtml"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("AddKeyHtml"));
+    }
   }
 
   public String getEmail() {
@@ -123,7 +125,7 @@ public class AddKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected boolean useHtml() {
+  protected boolean supportsHtml() {
     return true;
   }
 }

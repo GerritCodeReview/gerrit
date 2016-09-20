@@ -48,11 +48,13 @@ public class RevertedSender extends ReplyToChangeSender {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("Reverted"));
-    appendHtml(soyHtmlTemplate("RevertedHtml"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("RevertedHtml"));
+    }
   }
 
   @Override
-  protected boolean useHtml() {
+  protected boolean supportsHtml() {
     return true;
   }
 }

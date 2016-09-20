@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_456dbefb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T09:02:44Z",
+      "side": 1,
+      "message": "I think we should guard this so it only populates the field when the search index is a new enough version to contain the field as a stored value. If we don\u0027t, then we have to load the ChangeNotes on every search result, which can be pretty slow.\n\nI would rebase the change that disables the assignee functionality in the UI so that we can reuse that logic here.",
+      "revId": "da26ab191ff38148d537ec87602c751b02112719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

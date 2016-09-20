@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "d0a56383_24f8f261",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-20T17:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b62a290_6bb2bd53",
+      "revId": "5d53117d9cd8cab4265a8fd0c9901afa6bf2986c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb5c36da_48133f13",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 486,
         "endChar": 29
       },
+      "revId": "5d53117d9cd8cab4265a8fd0c9901afa6bf2986c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a2af7a_23f8ea61",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-20T17:55:14Z",
+      "side": 1,
+      "message": "I guess I could just check for falsy variables... I wanted to allow for, say, 0 as an optional param, but I suppose that wouldnt really make much sense.",
+      "parentUuid": "eb5c36da_48133f13",
       "revId": "5d53117d9cd8cab4265a8fd0c9901afa6bf2986c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

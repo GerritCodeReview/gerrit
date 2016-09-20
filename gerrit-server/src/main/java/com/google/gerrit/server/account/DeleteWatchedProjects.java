@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -105,13 +105,10 @@ public class DeleteWatchedProjects
 
   private void deleteFromGit(Account.Id accountId, List<ProjectWatchInfo> input)
       throws IOException, ConfigInvalidException {
-    watchConfig.deleteProjectWatches(accountId, Lists.transform(input,
-        new Function<ProjectWatchInfo, ProjectWatchKey>() {
-          @Override
-          public ProjectWatchKey apply(ProjectWatchInfo info) {
-            return ProjectWatchKey.create(new Project.NameKey(info.project),
-                info.filter);
-          }
-        }));
+    watchConfig.deleteProjectWatches(
+        accountId,
+        input.stream().map(w -> ProjectWatchKey.create(
+                new Project.NameKey(w.project), w.filter))
+            .collect(toList()));
   }
 }

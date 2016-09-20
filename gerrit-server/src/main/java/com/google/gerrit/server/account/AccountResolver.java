@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
+import static java.util.stream.Collectors.toSet;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -191,14 +191,9 @@ public class AccountResolver {
 
       // At this point we have no clue. Just perform a whole bunch of suggestions
       // and pray we come up with a reasonable result list.
-      return FluentIterable
-          .from(accountQueryProvider.get().byDefault(nameOrEmail))
-          .transform(new Function<AccountState, Account.Id>() {
-            @Override
-            public Account.Id apply(AccountState accountState) {
-              return accountState.getAccount().getId();
-            }
-          }).toSet();
+      return accountQueryProvider.get().byDefault(nameOrEmail).stream()
+          .map(a -> a.getAccount().getId())
+          .collect(toSet());
     }
 
     List<Account> m = db.accounts().byFullName(nameOrEmail).toList();

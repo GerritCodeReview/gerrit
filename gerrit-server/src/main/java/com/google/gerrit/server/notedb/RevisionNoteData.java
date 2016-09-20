@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
@@ -136,13 +135,10 @@ class RevisionNoteData {
   ImmutableList<PatchLineComment> exportComments(
       final PatchLineComment.Status status) {
     return ImmutableList.copyOf(
-        Lists.transform(comments, new Function<Comment, PatchLineComment>() {
-          @Override
-          public PatchLineComment apply(Comment c) {
-            PatchLineComment plc = c.export();
-            plc.setStatus(status);
-            return plc;
-          }
+        Lists.transform(comments, c -> {
+          PatchLineComment plc = c.export();
+          plc.setStatus(status);
+          return plc;
         }));
   }
 }

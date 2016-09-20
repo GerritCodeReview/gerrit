@@ -36,12 +36,7 @@ import java.util.Set;
 
 public class AccountState {
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
-      new Function<AccountState, Account.Id>() {
-        @Override
-        public Account.Id apply(AccountState in) {
-          return in.getAccount().getId();
-        }
-      };
+      a -> a.getAccount().getId();
 
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;

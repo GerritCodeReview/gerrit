@@ -345,54 +345,36 @@ public class ChangeBundle {
 
   private Map<PatchSetApproval.Key, PatchSetApproval>
       filterPatchSetApprovals() {
-    return limitToValidPatchSets(patchSetApprovals,
-        new Function<PatchSetApproval.Key, PatchSet.Id>() {
-          @Override
-          public PatchSet.Id apply(PatchSetApproval.Key in) {
-            return in.getParentKey();
-          }
-        });
+    return limitToValidPatchSets(
+        patchSetApprovals, PatchSetApproval.Key::getParentKey);
   }
 
   private Map<PatchLineComment.Key, PatchLineComment>
       filterPatchLineComments() {
-    return limitToValidPatchSets(patchLineComments,
-        new Function<PatchLineComment.Key, PatchSet.Id>() {
-          @Override
-          public PatchSet.Id apply(PatchLineComment.Key in) {
-            return in.getParentKey().getParentKey();
-          }
-        });
+    return limitToValidPatchSets(
+        patchLineComments,
+        k -> k.getParentKey().getParentKey());
   }
 
   private <K, V> Map<K, V> limitToValidPatchSets(Map<K, V> in,
-      final Function<K, PatchSet.Id> func) {
+      Function<K, PatchSet.Id> func) {
     return Maps.filterKeys(
         in, Predicates.compose(validPatchSetPredicate(), func));
   }
 
   private Predicate<PatchSet.Id> validPatchSetPredicate() {
-    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
-    return new Predicate<PatchSet.Id>() {
-      @Override
-      public boolean apply(PatchSet.Id in) {
-        return upToCurrent.apply(in) && patchSets.containsKey(in);
-      }
-    };
+    Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
+    return p -> upToCurrent.apply(p) && patchSets.containsKey(p);
   }
 
   private Collection<ChangeMessage> filterChangeMessages() {
     final Predicate<PatchSet.Id> validPatchSet = validPatchSetPredicate();
-    return Collections2.filter(changeMessages,
-        new Predicate<ChangeMessage>() {
-          @Override
-          public boolean apply(ChangeMessage in) {
-            PatchSet.Id psId = in.getPatchSetId();
-            if (psId == null) {
-              return true;
-            }
-            return validPatchSet.apply(psId);
+    return Collections2.filter(changeMessages, m -> {
+          PatchSet.Id psId = m.getPatchSetId();
+          if (psId == null) {
+            return true;
           }
+          return validPatchSet.apply(psId);
         });
   }
 

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.extensions.events;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -72,18 +71,10 @@ public class ReviewerAdded {
       return;
     }
 
-    List<AccountInfo> transformed = Lists.transform(reviewers,
-        new Function<Account.Id, AccountInfo>() {
-          @Override
-          public AccountInfo apply(Account.Id account) {
-            return util.accountInfo(account);
-          }
-        });
-
     try {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
-          transformed,
+          Lists.transform(reviewers, util::accountInfo),
           util.accountInfo(adder),
           when);
     } catch (PatchListNotAvailableException | GpgException | IOException

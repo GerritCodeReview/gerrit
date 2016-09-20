@@ -16,7 +16,6 @@ package com.google.gerrit.server.query;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -157,12 +156,7 @@ public class AndSource<T> extends AndPredicate<T>
 
   private Iterable<T> buffer(ResultSet<T> scanner) {
     return FluentIterable.from(Iterables.partition(scanner, 50))
-        .transformAndConcat(new Function<List<T>, List<T>>() {
-          @Override
-          public List<T> apply(List<T> buffer) {
-            return transformBuffer(buffer);
-          }
-        });
+        .transformAndConcat(this::transformBuffer);
   }
 
   protected List<T> transformBuffer(List<T> buffer) throws OrmRuntimeException {

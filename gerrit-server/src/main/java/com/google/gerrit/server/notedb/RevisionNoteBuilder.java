@@ -17,10 +17,9 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -134,13 +133,10 @@ class RevisionNoteBuilder {
     }
 
     RevisionNoteData data = new RevisionNoteData();
-    data.comments = FluentIterable.from(PLC_ORDER.sortedCopy(comments.values()))
-        .transform(new Function<PatchLineComment, RevisionNoteData.Comment>() {
-          @Override
-          public RevisionNoteData.Comment apply(PatchLineComment plc) {
-            return new RevisionNoteData.Comment(plc, noteUtil.getServerId());
-          }
-        }).toList();
+    data.comments = comments.values().stream()
+        .sorted(PLC_ORDER)
+        .map(plc -> new RevisionNoteData.Comment(plc, noteUtil.getServerId()))
+        .collect(toList());
     data.pushCert = pushCert;
 
     try (OutputStreamWriter osw = new OutputStreamWriter(out)) {

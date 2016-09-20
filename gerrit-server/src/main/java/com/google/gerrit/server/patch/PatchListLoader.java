@@ -16,12 +16,12 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.common.base.Function;
 import com.google.common.base.Throwables;
-import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -70,6 +70,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Stream;
 
 public class PatchListLoader implements Callable<PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
@@ -179,16 +180,11 @@ public class PatchListLoader implements Callable<PatchList> {
             key.getNewId(), key.getWhitespace());
         PatchListKey oldKey = PatchListKey.againstDefaultBase(
             key.getOldId(), key.getWhitespace());
-        paths = FluentIterable
-            .from(patchListCache.get(newKey, project).getPatches())
-            .append(patchListCache.get(oldKey, project).getPatches())
-            .transform(new Function<PatchListEntry, String>() {
-              @Override
-              public String apply(PatchListEntry entry) {
-                return entry.getNewName();
-              }
-            })
-            .toSet();
+        paths = Stream.concat(
+                patchListCache.get(newKey, project).getPatches().stream(),
+                patchListCache.get(oldKey, project).getPatches().stream())
+            .map(PatchListEntry::getNewName)
+            .collect(toSet());
       }
 
       int cnt = diffEntries.size();

@@ -19,7 +19,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -89,12 +88,8 @@ public class ApprovalsUtil {
 
   private static Iterable<PatchSetApproval> filterApprovals(
       Iterable<PatchSetApproval> psas, final Account.Id accountId) {
-    return Iterables.filter(psas, new Predicate<PatchSetApproval>() {
-      @Override
-      public boolean apply(PatchSetApproval input) {
-        return Objects.equals(input.getAccountId(), accountId);
-      }
-    });
+    return Iterables.filter(
+        psas, a -> Objects.equals(a.getAccountId(), accountId));
   }
 
   private final NotesMigration migration;

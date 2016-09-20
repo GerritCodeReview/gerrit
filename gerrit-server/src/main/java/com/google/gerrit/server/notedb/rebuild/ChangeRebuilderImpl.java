@@ -20,13 +20,13 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
@@ -391,13 +391,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private static List<PatchLineComment> getPatchLineComments(ChangeBundle bundle,
       final PatchSet ps) {
-    return FluentIterable.from(bundle.getPatchLineComments())
-        .filter(new Predicate<PatchLineComment>() {
-          @Override
-          public boolean apply(PatchLineComment in) {
-            return in.getPatchSetId().equals(ps.getId());
-          }
-        }).toSortedList(PatchLineCommentsUtil.PLC_ORDER);
+    return bundle.getPatchLineComments().stream()
+        .filter(c -> c.getPatchSetId().equals(ps.getId()))
+        .sorted(PatchLineCommentsUtil.PLC_ORDER)
+        .collect(toList());
   }
 
   private void sortAndFillEvents(Change change, Change noteDbChange,

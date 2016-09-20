@@ -383,13 +383,8 @@ public class ChangeBundle {
     if (current == null) {
       return Predicates.alwaysFalse();
     }
-    final int max = current.get();
-    return new Predicate<PatchSet.Id>() {
-      @Override
-      public boolean apply(PatchSet.Id in) {
-        return in.get() <= max;
-      }
-    };
+    int max = current.get();
+    return p -> p.get() <= max;
   }
 
   private Map<PatchSet.Id, PatchSet> filterPatchSets() {

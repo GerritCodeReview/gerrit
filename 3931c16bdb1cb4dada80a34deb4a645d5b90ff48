@@ -22,6 +22,30 @@
       "revId": "3931c16bdb1cb4dada80a34deb4a645d5b90ff48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e87ca779",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/InitStep.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-20T19:36:07Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/#/c/86395/",
+      "parentUuid": "eb5c36da_081d471c",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "3931c16bdb1cb4dada80a34deb4a645d5b90ff48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

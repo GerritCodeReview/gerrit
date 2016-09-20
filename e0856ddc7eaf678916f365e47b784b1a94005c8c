@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_2393545b",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T08:44:32Z",
+      "side": 1,
+      "message": "We fixed it in pkg_war.bzl, but not yet in gwt.bzl. Done.",
+      "parentUuid": "4be70257_e35b2cf3",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "e0856ddc7eaf678916f365e47b784b1a94005c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_c2cf047c",
         "filename": "gerrit-gwtui/gwt.bzl",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-19T15:44:38Z",
       "side": 1,
       "message": "create a list and then do \u0027 \u0027.join(..) to avoid excessive copying.",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "e0856ddc7eaf678916f365e47b784b1a94005c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_4583feb4",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T08:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_c2cf047c",
       "range": {
         "startLine": 41,
         "startChar": 5,

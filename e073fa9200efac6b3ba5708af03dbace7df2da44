@@ -22,6 +22,24 @@
       "revId": "e073fa9200efac6b3ba5708af03dbace7df2da44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50509348_98b695d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-20T21:04:20Z",
+      "side": 1,
+      "message": "It is possible via a plugin that someone may create an action that has redundant naming, but I feel that it’s the responsibility of the plugin author to deal with that.\n\nAs for other actions, nope.",
+      "parentUuid": "d0a56383_e4f5fa4a",
+      "revId": "e073fa9200efac6b3ba5708af03dbace7df2da44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

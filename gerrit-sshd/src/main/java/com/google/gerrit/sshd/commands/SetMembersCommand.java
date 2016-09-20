@@ -14,11 +14,10 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
@@ -110,55 +109,37 @@ public class SetMembersCommand extends SshCommand {
   private void reportMembersAction(String action, GroupResource group,
       List<Account.Id> accountIdList) throws UnsupportedEncodingException,
       IOException {
-    out.write(String.format(
-        "Members %s group %s: %s\n",
-        action,
-        group.getName(),
-        Joiner.on(", ").join(
-            Iterables.transform(accountIdList,
-                new Function<Account.Id, String>() {
-                  @Override
-                  public String apply(Account.Id accountId) {
-                    return MoreObjects.firstNonNull(accountCache.get(accountId)
-                        .getAccount().getPreferredEmail(), "n/a");
-                  }
-                }))).getBytes(ENC));
+    String names = accountIdList.stream()
+        .map(accountId ->
+            MoreObjects.firstNonNull(
+                accountCache.get(accountId).getAccount().getPreferredEmail(),
+                "n/a"))
+        .collect(joining(", "));
+    out.write(
+        String.format(
+                "Members %s group %s: %s\n", action, group.getName(), names)
+            .getBytes(ENC));
   }
 
   private void reportGroupsAction(String action, GroupResource group,
       List<AccountGroup.UUID> groupUuidList)
       throws UnsupportedEncodingException, IOException {
-    out.write(String.format(
-        "Groups %s group %s: %s\n",
-        action,
-        group.getName(),
-        Joiner.on(", ").join(
-            Iterables.transform(groupUuidList,
-                new Function<AccountGroup.UUID, String>() {
-                  @Override
-                  public String apply(AccountGroup.UUID uuid) {
-                    return groupCache.get(uuid).getName();
-                  }
-                }))).getBytes(ENC));
+    String names = groupUuidList.stream()
+      .map(uuid -> groupCache.get(uuid).getName())
+      .collect(joining(", "));
+    out.write(
+        String.format(
+                "Groups %s group %s: %s\n", action, group.getName(), names)
+            .getBytes(ENC));
   }
 
   private AddIncludedGroups.Input fromGroups(List<AccountGroup.UUID> accounts) {
-    return AddIncludedGroups.Input.fromGroups(Lists.newArrayList(Iterables
-        .transform(accounts, new Function<AccountGroup.UUID, String>() {
-          @Override
-          public String apply(AccountGroup.UUID uuid) {
-            return uuid.toString();
-          }
-        })));
+    return AddIncludedGroups.Input.fromGroups(
+        accounts.stream().map(Object::toString).collect(toList()));
   }
 
   private AddMembers.Input fromMembers(List<Account.Id> accounts) {
-    return AddMembers.Input.fromMembers(Lists.newArrayList(Iterables.transform(
-        accounts, new Function<Account.Id, String>() {
-          @Override
-          public String apply(Account.Id id) {
-            return id.toString();
-          }
-        })));
+    return AddMembers.Input.fromMembers(
+        accounts.stream().map(Object::toString).collect(toList()));
   }
 }

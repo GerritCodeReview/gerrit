@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -140,13 +139,7 @@ final class CreateProjectCommand extends SshCommand {
         ProjectInput input = new ProjectInput();
         input.name = projectName;
         if (ownerIds != null) {
-          input.owners = Lists.transform(ownerIds,
-            new Function<AccountGroup.UUID, String>() {
-              @Override
-              public String apply(AccountGroup.UUID uuid) {
-                return uuid.get();
-              }
-            });
+          input.owners = Lists.transform(ownerIds, AccountGroup.UUID::get);
         }
         if (newParent != null) {
           input.parent = newParent.getProject().getName();

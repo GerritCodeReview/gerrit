@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
@@ -143,18 +142,12 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     return Iterables.getFirst(parameters.get(name), null);
   }
 
-  private static final Function<Collection<String>, String[]> STRING_COLLECTION_TO_ARRAY =
-      new Function<Collection<String>, String[]>() {
-        @Override
-        public String[] apply(Collection<String> values) {
-          return values.toArray(new String[0]);
-        }
-      };
-
   @Override
   public Map<String, String[]> getParameterMap() {
     return Collections.unmodifiableMap(
-        Maps.transformValues(parameters.asMap(), STRING_COLLECTION_TO_ARRAY));
+        Maps.transformValues(
+            parameters.asMap(),
+            vs -> vs.toArray(new String[0])));
   }
 
   @Override
@@ -164,7 +157,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public String[] getParameterValues(String name) {
-    return STRING_COLLECTION_TO_ARRAY.apply(parameters.get(name));
+    return parameters.get(name).toArray(new String[0]);
   }
 
   public void setQueryString(String qs) {

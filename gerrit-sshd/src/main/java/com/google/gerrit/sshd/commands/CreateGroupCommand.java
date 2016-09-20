@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -123,30 +123,15 @@ final class CreateGroupCommand extends SshCommand {
 
   private void addMembers(GroupResource rsrc) throws RestApiException,
       OrmException, IOException {
-    AddMembers.Input input =
-        AddMembers.Input.fromMembers(FluentIterable
-            .from(initialMembers)
-            .transform(new Function<Account.Id, String>() {
-              @Override
-              public String apply(Account.Id id) {
-                return String.valueOf(id.get());
-              }
-            })
-            .toList());
+    AddMembers.Input input = AddMembers.Input.fromMembers(
+        initialMembers.stream().map(Object::toString).collect(toList()));
     addMembers.apply(rsrc, input);
   }
 
   private void addIncludedGroups(GroupResource rsrc) throws RestApiException,
       OrmException {
-    AddIncludedGroups.Input input =
-        AddIncludedGroups.Input.fromGroups(FluentIterable.from(initialGroups)
-            .transform(new Function<AccountGroup.UUID, String>() {
-              @Override
-              public String apply(AccountGroup.UUID id) {
-                return id.get();
-              }
-            }).toList());
-
+    AddIncludedGroups.Input input = AddIncludedGroups.Input.fromGroups(
+        initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));
     addIncludedGroups.apply(rsrc, input);
   }
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_a6a5b210",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-09-20T12:04:16Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "range": {
+        "startLine": 31,
+        "startChar": 81,
+        "endLine": 31,
+        "endChar": 82
+      },
+      "revId": "4c0a300bc602ae42a4eeb8237260b5955c80d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_8534e694",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-09-20T12:04:16Z",
+      "side": 1,
+      "message": "shouldn\u0027t this control be initiated to \u0027on\u0027 too?",
+      "range": {
+        "startLine": 286,
+        "startChar": 46,
+        "endLine": 286,
+        "endChar": 83
+      },
+      "revId": "4c0a300bc602ae42a4eeb8237260b5955c80d719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -94,7 +94,7 @@ public class EventUtil {
       Map<String, Short> approvals, Timestamp ts) {
     Map<String, ApprovalInfo> result = new HashMap<>();
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
-      Integer value = e.getValue() != null ? new Integer(e.getValue()) : null;
+      Integer value = e.getValue() != null ? Integer.valueOf(e.getValue()) : null;
       result.put(e.getKey(),
           ChangeJson.getApprovalInfo(a.getId(), value, null, ts));
     }

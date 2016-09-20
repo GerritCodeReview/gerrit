@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_08358bfb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-20T14:52:26Z",
+      "side": 1,
+      "message": "Actually I initially named it DiffBase, but in PatchSetSelectBox this class is used to represent any side (A or B), here \u0027DiffBase\u0027 for the B side would be confusing. I\u0027m not particularly happy with \u0027DiffObject\u0027, so other suggestions are welcome.",
+      "parentUuid": "2bec8e3b_e8cb0715",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "ae75f028eec70897c722d742e5dff2760edd1bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_e6a05aa7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 1

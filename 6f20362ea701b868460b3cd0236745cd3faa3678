@@ -23,6 +23,46 @@
       "revId": "6f20362ea701b868460b3cd0236745cd3faa3678",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a56383_e4df3af4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-20T16:15:31Z",
+      "side": 1,
+      "message": "not about this change: why don\u0027t we use Optional in GWT code? It\u0027s @GwtCompatible.",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "6f20362ea701b868460b3cd0236745cd3faa3678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a56383_84dc4601",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/UiType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-20T16:15:31Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "6f20362ea701b868460b3cd0236745cd3faa3678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

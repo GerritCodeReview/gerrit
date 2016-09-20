@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b62a290_6bb2bd53",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-20T17:50:45Z",
+      "side": 1,
+      "message": "No space after { or before }",
+      "range": {
+        "startLine": 473,
+        "startChar": 20,
+        "endLine": 473,
+        "endChar": 21
+      },
+      "revId": "5d53117d9cd8cab4265a8fd0c9901afa6bf2986c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5c36da_48133f13",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-20T17:50:45Z",
+      "side": 1,
+      "message": "What happens if this is null?",
+      "range": {
+        "startLine": 486,
+        "startChar": 10,
+        "endLine": 486,
+        "endChar": 29
+      },
+      "revId": "5d53117d9cd8cab4265a8fd0c9901afa6bf2986c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

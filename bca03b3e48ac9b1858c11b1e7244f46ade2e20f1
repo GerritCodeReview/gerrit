@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_46bb06c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:35:15Z",
+      "side": 1,
+      "message": "This should be stored if you plan to render it in the dashboard, so we don\u0027t have to load the ChangeNotes for each result.",
+      "range": {
+        "startLine": 329,
+        "startChar": 64,
+        "endLine": 329,
+        "endChar": 69
+      },
+      "revId": "bca03b3e48ac9b1858c11b1e7244f46ade2e20f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_66c28a27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AssigneePredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:35:15Z",
+      "side": 1,
+      "message": ".equals",
+      "revId": "bca03b3e48ac9b1858c11b1e7244f46ade2e20f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -46,14 +45,11 @@ public class CodeReviewCommit extends RevCommit {
    * AnyObjectId} and only orders on SHA-1.
    */
   public static final Ordering<CodeReviewCommit> ORDER = Ordering.natural()
-      .onResultOf(new Function<CodeReviewCommit, Integer>() {
-        @Override
-        public Integer apply(CodeReviewCommit in) {
-          return in.getPatchsetId() != null
-              ? in.getPatchsetId().getParentKey().get()
-              : null;
-        }
-      }).nullsFirst();
+      .onResultOf((CodeReviewCommit c) ->
+          c.getPatchsetId() != null
+              ? c.getPatchsetId().getParentKey().get()
+              : null)
+      .nullsFirst();
 
   public static CodeReviewRevWalk newRevWalk(Repository repo) {
     return new CodeReviewRevWalk(repo);

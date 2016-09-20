@@ -16,15 +16,5 @@ package com.google.gerrit.extensions.api.changes;
 
 /** Output options available for submitted_together requests. */
 public enum SubmittedTogetherOption {
-  NON_VISIBLE_CHANGES(0);
-
-  private final int value;
-
-  SubmittedTogetherOption(int v) {
-    value = v;
-  }
-
-  public int getValue() {
-    return value;
-  }
+  NON_VISIBLE_CHANGES;
 }

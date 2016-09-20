@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.events.AssigneeChangedListener;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
@@ -73,6 +74,7 @@ import java.util.Map.Entry;
 
 @Singleton
 public class StreamEventsApiListener implements
+    AssigneeChangedListener,
     ChangeAbandonedListener,
     ChangeMergedListener,
     ChangeRestoredListener,
@@ -91,6 +93,8 @@ public class StreamEventsApiListener implements
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
+      DynamicSet.bind(binder(), AssigneeChangedListener.class)
+        .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeAbandonedListener.class)
         .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeMergedListener.class)
@@ -177,8 +181,8 @@ public class StreamEventsApiListener implements
         new Supplier<AccountAttribute>() {
           @Override
           public AccountAttribute get() {
-            return eventFactory.asAccountAttribute(
-                new Account.Id(account._accountId));
+            return account != null ? eventFactory.asAccountAttribute(
+                new Account.Id(account._accountId)) : null;
           }
         });
   }
@@ -263,6 +267,22 @@ public class StreamEventsApiListener implements
           new String[hashtags.size()]);
     }
     return null;
+  }
+
+  @Override
+  public void onAssigneeChanged(AssigneeChangedListener.Event ev) {
+    try {
+      Change change = getChange(ev.getChange());
+      AssigneeChangedEvent event = new AssigneeChangedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.changer = accountAttributeSupplier(ev.getWho());
+      event.oldAssignee = accountAttributeSupplier(ev.getOldAssignee());
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException e) {
+      log.error("Failed to dispatch event", e);
+    }
   }
 
   @Override

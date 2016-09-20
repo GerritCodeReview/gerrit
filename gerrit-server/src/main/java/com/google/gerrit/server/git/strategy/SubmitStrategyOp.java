@@ -182,13 +182,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       }
     }
     Collections.sort(commits, ReviewDbUtil.intKeyOrdering().reverse()
-        .onResultOf(
-          new Function<CodeReviewCommit, PatchSet.Id>() {
-            @Override
-            public PatchSet.Id apply(CodeReviewCommit in) {
-              return in.getPatchsetId();
-            }
-          }));
+        .onResultOf(c -> c.getPatchsetId()));
     CodeReviewCommit result = MergeUtil.findAnyMergedInto(rw, commits, tip);
     if (result == null) {
       return null;

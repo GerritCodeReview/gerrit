@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static java.util.Comparator.comparing;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -30,7 +31,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.RefCache;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -163,7 +163,7 @@ public class NoteDbChangeState {
   public static String toString(ObjectId changeMetaId,
       Map<Account.Id, ObjectId> draftIds) {
     List<Account.Id> accountIds = Lists.newArrayList(draftIds.keySet());
-    Collections.sort(accountIds, ReviewDbUtil.intKeyOrdering());
+    Collections.sort(accountIds, comparing(Account.Id::get));
     StringBuilder sb = new StringBuilder(changeMetaId.name());
     for (Account.Id id : accountIds) {
       sb.append(',')

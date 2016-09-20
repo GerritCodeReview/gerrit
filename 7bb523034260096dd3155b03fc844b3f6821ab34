@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_e6485ab4",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-20T09:11:05Z",
+      "side": 1,
+      "message": "you use this only once. isnt it easier to understand for everyone if you just expand the call in the BUILD file?\n\nif you do this, use ui \u003d \"\" as the default value.",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 11
+      },
+      "revId": "7bb523034260096dd3155b03fc844b3f6821ab34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

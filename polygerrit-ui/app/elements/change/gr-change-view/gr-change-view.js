@@ -325,10 +325,14 @@
     },
 
     _performPostLoadTasks: function() {
-      // Allow the message list to render before scrolling.
-      this.async(function() {
-        this._maybeScrollToMessage();
-      }.bind(this), 1);
+      // Allow the message list and related changes to render before scrolling.
+      // Related changes are loaded here (after everything else) because they
+      // take the longest and are secondary information. Because the element may
+      // alter the total height of the page, the call to potentially scroll to
+      // a linked message is performed after related changes is fully loaded.
+      this.$.relatedChanges.reload().then(function() {
+        this.async(function() { this._maybeScrollToMessage(); }, 1);
+      }.bind(this));
 
       this._maybeShowReplyDialog();
 
@@ -668,7 +672,6 @@
         return Promise.all([
           this._getLatestCommitMessage(),
           this.$.actions.reload(),
-          this.$.relatedChanges.reload(),
         ]);
       }.bind(this));
     },

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_c6ed56ba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:37:04Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_45f81e43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:37:04Z",
+      "side": 1,
+      "message": "Surely there is some code you can reuse here from the owner panel?",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_06e8dea5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:37:04Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow, how can this happen?",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_a6f2d293",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:37:04Z",
+      "side": 1,
+      "message": "ai._accountId().toString()",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

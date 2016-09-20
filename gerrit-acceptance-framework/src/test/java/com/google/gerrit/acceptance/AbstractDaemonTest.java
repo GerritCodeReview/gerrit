@@ -20,7 +20,6 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -887,13 +886,7 @@ public abstract class AbstractDaemonTest {
   }
 
   private static Iterable<String> changeIds(Iterable<ChangeInfo> changes) {
-    return Iterables.transform(changes,
-        new Function<ChangeInfo, String>() {
-          @Override
-          public String apply(ChangeInfo input) {
-            return input.changeId;
-          }
-        });
+    return Iterables.transform(changes, i -> i.changeId);
   }
 
   protected void assertSubmittedTogether(String chId, String... expected)

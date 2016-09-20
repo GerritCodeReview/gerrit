@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.revwalk.RevFlag.UNINTERESTING;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -158,13 +157,7 @@ public class GroupCollector {
   private static Multimap<ObjectId, PatchSet.Id> transformRefs(
       Multimap<ObjectId, Ref> refs) {
     return Multimaps.transformValues(
-        refs,
-        new Function<Ref, PatchSet.Id>() {
-          @Override
-          public PatchSet.Id apply(Ref in) {
-            return PatchSet.Id.fromRef(in.getName());
-          }
-        });
+        refs, r -> PatchSet.Id.fromRef(r.getName()));
   }
 
   @VisibleForTesting

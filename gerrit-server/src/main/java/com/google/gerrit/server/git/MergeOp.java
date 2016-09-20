@@ -17,12 +17,11 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Comparator.comparing;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
@@ -31,7 +30,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -122,13 +120,10 @@ public class MergeOp implements AutoCloseable {
       }
       byBranch = bb.build();
       commits = new HashMap<>();
-      problems = MultimapBuilder.treeKeys(
-          Ordering.natural().onResultOf(new Function<Change.Id, Integer>() {
-            @Override
-            public Integer apply(Change.Id in) {
-              return in.get();
-            }
-          })).arrayListValues(1).build();
+      problems = MultimapBuilder
+          .treeKeys(comparing(Change.Id::get))
+          .arrayListValues(1)
+          .build();
     }
 
     public ImmutableSet<Change.Id> getChangeIds() {
@@ -264,12 +259,7 @@ public class MergeOp implements AutoCloseable {
     if (in == null) {
       return Optional.absent();
     }
-    return Iterables.tryFind(in, new Predicate<SubmitRecord>() {
-      @Override
-      public boolean apply(SubmitRecord input) {
-        return input.status == SubmitRecord.Status.OK;
-      }
-    });
+    return Iterables.tryFind(in, r -> r.status == SubmitRecord.Status.OK);
   }
 
   public static void checkSubmitRule(ChangeData cd)

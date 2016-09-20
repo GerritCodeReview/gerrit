@@ -17,7 +17,6 @@ package com.google.gerrit.server.util;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -94,12 +93,7 @@ public abstract class RegexListSearcher<T> implements Function<T, String> {
 
     return Iterables.filter(
         list.subList(begin, end),
-        new Predicate<T>() {
-          @Override
-          public boolean apply(T in) {
-            return pattern.run(RegexListSearcher.this.apply(in));
-          }
-        });
+        x -> pattern.run(apply(x)));
   }
 
   public boolean hasMatch(List<T> list) {

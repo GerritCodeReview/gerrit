@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1473926719 +0200\nnonce AE+e84YdL465Txa6bP+pF82NhjXREuRnLpfLB7Tz7nFTksn3ymE8v+wlcul9352unzpyKlwqMX6S\n\n0000000000000000000000000000000000000000 b5bfb193f339ca71afc6827152278233394c222f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX2lY/AAoJEFG1/Zeg0O9Ru0gIAJOpfgT0u33JDz05QEx16gRJ\nRDYH+6QKieA3889UTRH/WueabwWMb+CYEv6OdKUyJFKEaEKK8t2SkRuagURVozAq\nMLpzDuUuqalU3lteDIWiCqH5FkcgOWa+f4fHjWTh0otdco8WBrV18/k51AfW4Pvq\n11BN9nXDMdhNqJC6I2UdJQox6pLlj4aQdtt44SmWVFQLhq55u8egTIP18KSoG5Jk\njqReB1dVUyoh7YafvIE7PASUGnXz+XUokbTSWZhiHKVvlmoenwWz2DEZPzY3m2bY\nLYg3F4qCpiLaVq0k6KlkIMfcQ5UyghlBmPMre3FuE19KkBzkhrixV0m8gTA5co8\u003d\n\u003dLgNK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_2909758c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-20T14:46:26Z",
+      "side": 1,
+      "message": "This definition may not be bulletproof: during the time I am reviewing PS-1 the owner may push PS-2. My reply on PS-1 is posted after PS-2 was created.\nBy the above definition PS-2 would be the last seen patch-set but actually PS-1 is the latest I reviewed.",
+      "range": {
+        "startLine": 14,
+        "startChar": 47,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "b5bfb193f339ca71afc6827152278233394c222f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -138,7 +138,7 @@ limitations under the License.
       assert.isFalse(element._canAddProject({id: 'project b'}, 'filter 1'));
       assert.isFalse(element._canAddProject({id: 'project b'}, 'filter 2'));
 
-      // Can add a projec that is in the list using a new filter.
+      // Can add a project that is in the list using a new filter.
       assert.isTrue(element._canAddProject({id: 'project b'}, 'filter 3'));
     });
 
@@ -181,9 +181,11 @@ limitations under the License.
 
     test('_handleRemoveProject', function() {
       assert.equal(element._projectsToRemove, 0);
-
       var button = element.$$('table tbody tr:nth-child(2) gr-button');
       MockInteractions.tap(button);
+
+      // Flush needed after MockInteractions.tap(). See issue 4598.
+      flushAsynchronousOperations();
 
       var rows = element.$$('table tbody').querySelectorAll('tr');
       assert.equal(rows.length, 3);

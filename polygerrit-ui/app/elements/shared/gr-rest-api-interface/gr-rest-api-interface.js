@@ -470,25 +470,21 @@
     },
 
     getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      return this.fetchJSON('/groups/', opt_errFn, opt_ctx, {
-        s: inputVal,
-        n: opt_n,
-      });
+      var params = { s: inputVal };
+      if (opt_n !== undefined) { params.n = opt_n; }
+      return this.fetchJSON('/groups/', opt_errFn, opt_ctx, params);
     },
 
     getSuggestedProjects: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, {
-        p: inputVal,
-        n: opt_n,
-      });
+      var params = { p: inputVal };
+      if (opt_n !== undefined) { params.n = opt_n; }
+      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
     },
 
     getSuggestedAccounts: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, {
-        q: inputVal,
-        n: opt_n,
-        suggest: null,
-      });
+      var params = { q: inputVal, suggest: null };
+      if (opt_n !== undefined) { params.n = opt_n; }
+      return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
     },
 
     addChangeReviewer: function(changeNum, reviewerID) {
@@ -551,7 +547,7 @@
       ].join(' ');
       var params = {
         O: options,
-        q: query
+        q: query,
       };
       return this.fetchJSON('/changes/', null, null, params);
     },

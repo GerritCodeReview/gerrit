@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.index.account;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
@@ -47,13 +45,7 @@ public class AccountField {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
           return Iterables.transform(
-              input.getExternalIds(),
-              new Function<AccountExternalId, String>() {
-                @Override
-                public String apply(AccountExternalId in) {
-                  return in.getKey().get();
-                }
-              });
+              input.getExternalIds(), id -> id.getKey().get());
         }
       };
 
@@ -68,12 +60,7 @@ public class AccountField {
               fullName,
               Iterables.transform(
                   input.getExternalIds(),
-                  new Function<AccountExternalId, String>() {
-                    @Override
-                    public String apply(AccountExternalId in) {
-                      return in.getEmailAddress();
-                    }
-                  }));
+                  AccountExternalId::getEmailAddress));
 
           // Additional values not currently added by getPersonParts.
           // TODO(dborowitz): Move to getPersonParts and remove this hack.
@@ -108,23 +95,11 @@ public class AccountField {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
           return FluentIterable.from(input.getExternalIds())
-            .transform(
-                new Function<AccountExternalId, String>() {
-                  @Override
-                  public String apply(AccountExternalId in) {
-                    return in.getEmailAddress();
-                  }
-                })
+            .transform(AccountExternalId::getEmailAddress)
             .append(
                 Collections.singleton(input.getAccount().getPreferredEmail()))
             .filter(Predicates.notNull())
-            .transform(
-                new Function<String, String>() {
-                  @Override
-                  public String apply(String in) {
-                    return in.toLowerCase();
-                  }
-                })
+            .transform(String::toLowerCase)
             .toSet();
         }
       };
@@ -153,12 +128,8 @@ public class AccountField {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
           return FluentIterable.from(input.getProjectWatches().keySet())
-              .transform(new Function<ProjectWatchKey, String>() {
-            @Override
-            public String apply(ProjectWatchKey in) {
-              return in.project().get();
-            }
-          }).toSet();
+              .transform(k -> k.project().get())
+              .toSet();
         }
       };
 

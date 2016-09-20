@@ -16,11 +16,10 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -60,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 /**
  * Utility functions to manipulate PatchLineComments.
@@ -178,13 +178,7 @@ public class PatchLineCommentsUtil {
       ResultSet<PatchLineComment> comments,
       final PatchLineComment.Status status) {
     return Lists.newArrayList(
-      Iterables.filter(comments, new Predicate<PatchLineComment>() {
-        @Override
-        public boolean apply(PatchLineComment input) {
-          return (input.getStatus() == status);
-        }
-      })
-    );
+      Iterables.filter(comments, c -> c.getStatus() == status));
   }
 
   public List<PatchLineComment> byPatchSet(ReviewDb db,
@@ -251,16 +245,11 @@ public class PatchLineCommentsUtil {
       throws OrmException {
     if (!migration.readChanges()) {
       final Change.Id matchId = notes.getChangeId();
-      return FluentIterable
-          .from(db.patchComments().draftByAuthor(author))
-          .filter(new Predicate<PatchLineComment>() {
-            @Override
-            public boolean apply(PatchLineComment in) {
-              Change.Id changeId =
-                  in.getKey().getParentKey().getParentKey().getParentKey();
-              return changeId.equals(matchId);
-            }
-          }).toSortedList(PLC_ORDER);
+      return StreamSupport.stream(
+              db.patchComments().draftByAuthor(author).spliterator(), false)
+          .filter(c -> c.getPatchSetId().getParentKey().equals(matchId))
+          .sorted(PLC_ORDER)
+          .collect(toList());
     }
     List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(notes.getDraftComments(author).values());

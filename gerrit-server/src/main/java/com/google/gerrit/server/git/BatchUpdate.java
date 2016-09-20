@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -226,7 +227,7 @@ public class BatchUpdate implements AutoCloseable {
       this.dbWrapper = dbWrapper;
       this.threadLocalRepo = repo;
       this.threadLocalRevWalk = rw;
-      updates = new TreeMap<>(ReviewDbUtil.intKeyOrdering());
+      updates = new TreeMap<>(comparing(PatchSet.Id::get));
     }
 
     @Override

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Comparator.comparing;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
@@ -33,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 
@@ -115,7 +115,7 @@ public abstract class ChangeNotesState {
             status),
         assignee,
         ImmutableSet.copyOf(hashtags),
-        ImmutableSortedMap.copyOf(patchSets, ReviewDbUtil.intKeyOrdering()),
+        ImmutableSortedMap.copyOf(patchSets, comparing(PatchSet.Id::get)),
         ImmutableListMultimap.copyOf(approvals),
         reviewers,
         ImmutableList.copyOf(allPastReviewers),

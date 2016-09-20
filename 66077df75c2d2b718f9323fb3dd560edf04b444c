@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_c8ed63ba",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-20T13:15:46Z",
+      "side": 0,
+      "message": "nit: why was this blank line removed?",
+      "revId": "66077df75c2d2b718f9323fb3dd560edf04b444c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

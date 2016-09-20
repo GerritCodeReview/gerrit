@@ -40,6 +40,24 @@
       "revId": "b499d00c640c66dfb117923e5543f7b73ff11231",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b62a290_ab3e75e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-20T00:48:39Z",
+      "side": 1,
+      "message": "If history.state.scrollTop is defined, then you want to prefer that over the code that scrolls to the selected message.\n\nAlso, again, what happens when you nav away from the change and you want to clear the state?",
+      "parentUuid": "d0a56383_44740e2b",
+      "revId": "b499d00c640c66dfb117923e5543f7b73ff11231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

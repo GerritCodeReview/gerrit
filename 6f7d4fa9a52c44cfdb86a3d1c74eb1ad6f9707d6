@@ -22,6 +22,24 @@
       "revId": "6f7d4fa9a52c44cfdb86a3d1c74eb1ad6f9707d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0f8038c_6c7e7b0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-20T21:18:26Z",
+      "side": 1,
+      "message": "I want to catch instances of both null and undefined.",
+      "parentUuid": "10f37bac_4e83b306",
+      "revId": "6f7d4fa9a52c44cfdb86a3d1c74eb1ad6f9707d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -35,6 +35,24 @@
       "revId": "da0ed3b80dd3f327bdc15f4773ada23d330a3d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e54852b4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:09:59Z",
+      "side": 1,
+      "message": "Shawn says in https://gerrit-review.googlesource.com/#/c/57570/57/gerrit-httpd/BUCK@32 we can\u0027t have an httpclient dep in this part of core. J2EE is crap. Guava has something for this but it\u0027s closed source. I\u0027m going to go back to stripping all query params, this is not worth my time.",
+      "parentUuid": "2bec8e3b_25099a8c",
+      "revId": "da0ed3b80dd3f327bdc15f4773ada23d330a3d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

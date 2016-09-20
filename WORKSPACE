@@ -118,6 +118,12 @@ maven_jar(
   sha1 = 'cdb2dcb4e22b83d6b32b93095f644c3462739e82',
 )
 
+http_jar(
+  name = "javax_validation_src",
+  url = "http://repo1.maven.org/maven2/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar",
+  sha256 = 'a394d52a9b7fe2bb14f0718d2b3c8308ffe8f37e911956012398d55c9f9f9b54',
+)
+
 JGIT_VERS = '4.4.1.201607150455-r.118-g1096652'
 
 maven_jar(
@@ -745,4 +751,30 @@ maven_jar(
   name = 'xerces',
   artifact = 'xerces:xercesImpl:2.8.1',
   sha1 = '25101e37ec0c907db6f0612cbf106ee519c1aef1',
+)
+
+maven_jar(
+  name = 'postgresql',
+  artifact = 'postgresql:postgresql:9.1-901-1.jdbc4',
+  sha1 = '9bfabe48876ec38f6cbaa6931bad05c64a9ea942',
+)
+
+CM_VERSION = '5.18.2'
+
+maven_jar(
+  name = 'codemirror_minified',
+  artifact = 'org.webjars.npm:codemirror-minified:' + CM_VERSION,
+  sha1 = '6755af157a7eaf2401468906bef67bbacc3c97f6',
+)
+
+maven_jar(
+  name = 'codemirror_original',
+  artifact = 'org.webjars.npm:codemirror:' + CM_VERSION,
+  sha1 = '18c721ae88eed27cddb458c42f5d221fa3d9713e',
+)
+
+maven_jar(
+  name = 'diff_match_patch',
+  artifact = 'org.webjars:google-diff-match-patch:20121119-1',
+  sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
 )

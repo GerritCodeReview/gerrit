@@ -208,3 +208,12 @@ junit_tests(
   ],
   visibility = ['//visibility:public'],
 )
+
+load('//tools/bzl:javadoc.bzl', 'java_doc')
+
+java_doc(
+  name = 'doc',
+  title = 'Gerrit Review Server Documentation',
+  libs = [':server'],
+  pkgs = ['com.google.gerrit'],
+)

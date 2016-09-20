@@ -66,7 +66,9 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("DeleteReviewer"));
-    appendHtml(soyHtmlTemplate("DeleteReviewerHtml"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("DeleteReviewerHtml"));
+    }
   }
 
   public List<String> getReviewerNames() {
@@ -87,7 +89,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected boolean useHtml() {
+  protected boolean supportsHtml() {
     return true;
   }
 }

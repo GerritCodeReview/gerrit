@@ -68,7 +68,9 @@ public abstract class NewChangeSender extends ChangeEmail {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("NewChange"));
-    appendHtml(soyHtmlTemplate("NewChangeHtml"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("NewChangeHtml"));
+    }
   }
 
   public List<String> getReviewerNames() {
@@ -89,7 +91,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected boolean useHtml() {
+  protected boolean supportsHtml() {
     return true;
   }
 }

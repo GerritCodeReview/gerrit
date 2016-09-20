@@ -50,11 +50,13 @@ public class DeleteVoteSender extends ReplyToChangeSender {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("DeleteVote"));
-    appendHtml(soyHtmlTemplate("DeleteVoteHtml"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("DeleteVoteHtml"));
+    }
   }
 
   @Override
-  protected boolean useHtml() {
+  protected boolean supportsHtml() {
     return true;
   }
 }

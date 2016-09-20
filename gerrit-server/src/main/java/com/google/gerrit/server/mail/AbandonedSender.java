@@ -51,11 +51,13 @@ public class AbandonedSender extends ReplyToChangeSender {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("Abandoned"));
-    appendHtml(soyHtmlTemplate("AbandonedHtml"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("AbandonedHtml"));
+    }
   }
 
   @Override
-  protected boolean useHtml() {
+  protected boolean supportsHtml() {
     return true;
   }
 }

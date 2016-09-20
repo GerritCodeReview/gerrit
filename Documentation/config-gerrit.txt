@@ -3327,6 +3327,14 @@ and all other properties of section sendemail are ignored.
 +
 By default, true, allowing notifications to be sent.
 
+[[sendemail.html]]sendemail.html::
++
+If false, Gerrit will only send plain-text emails.
+If true, Gerrit will send multi-part emails with an HTML and
+plain text part.
++
+By default, true, allowing HTML in the emails Gerrit sends.
+
 [[sendemail.connectTimeout]]sendemail.connectTimeout::
 +
 The connection timeout of opening a socket connected to a

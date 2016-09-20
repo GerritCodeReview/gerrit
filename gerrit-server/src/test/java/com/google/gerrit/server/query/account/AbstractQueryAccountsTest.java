@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.account;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -476,22 +475,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected static Iterable<Integer> ids(AccountInfo... accounts) {
-    return FluentIterable.from(Arrays.asList(accounts)).transform(
-        new Function<AccountInfo, Integer>() {
-          @Override
-          public Integer apply(AccountInfo in) {
-            return in._accountId;
-          }
-        });
+    return FluentIterable.of(accounts).transform(a -> a._accountId);
   }
 
   protected static Iterable<Integer> ids(Iterable<AccountInfo> accounts) {
-    return FluentIterable.from(accounts).transform(
-        new Function<AccountInfo, Integer>() {
-          @Override
-          public Integer apply(AccountInfo in) {
-            return in._accountId;
-          }
-        });
+    return FluentIterable.from(accounts).transform(a -> a._accountId);
   }
 }

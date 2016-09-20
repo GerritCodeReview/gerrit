@@ -14,11 +14,8 @@
 
 package com.google.gerrit.server.extensions.webui;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Iterables;
-import com.google.gerrit.common.Nullable;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestCollection;
@@ -33,16 +30,13 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class UiActions {
   private static final Logger log = LoggerFactory.getLogger(UiActions.class);
 
   public static Predicate<UiAction.Description> enabled() {
-    return new Predicate<UiAction.Description>() {
-      @Override
-      public boolean apply(UiAction.Description input) {
-        return input.isEnabled();
-      }
-    };
+    return UiAction.Description::isEnabled;
   }
 
   public static <R extends RestResource> Iterable<UiAction.Description> from(
@@ -56,58 +50,52 @@ public class UiActions {
       DynamicMap<RestView<R>> views,
       final R resource,
       final Provider<CurrentUser> userProvider) {
-    return Iterables.filter(
-      Iterables.transform(
-        views,
-        new Function<DynamicMap.Entry<RestView<R>>, UiAction.Description> () {
-          @Override
-          @Nullable
-          public UiAction.Description apply(DynamicMap.Entry<RestView<R>> e) {
-            int d = e.getExportName().indexOf('.');
-            if (d < 0) {
-              return null;
-            }
+    return FluentIterable.from(views)
+        .transform((DynamicMap.Entry<RestView<R>> e) -> {
+              int d = e.getExportName().indexOf('.');
+              if (d < 0) {
+                return null;
+              }
 
-            RestView<R> view;
-            try {
-              view = e.getProvider().get();
-            } catch (RuntimeException err) {
-              log.error(String.format(
-                  "error creating view %s.%s",
-                  e.getPluginName(), e.getExportName()), err);
-              return null;
-            }
+              RestView<R> view;
+              try {
+                view = e.getProvider().get();
+              } catch (RuntimeException err) {
+                log.error(String.format(
+                    "error creating view %s.%s",
+                    e.getPluginName(), e.getExportName()), err);
+                return null;
+              }
 
-            if (!(view instanceof UiAction)) {
-              return null;
-            }
+              if (!(view instanceof UiAction)) {
+                return null;
+              }
 
-            try {
-              CapabilityUtils.checkRequiresCapability(userProvider,
-                  e.getPluginName(), view.getClass());
-            } catch (AuthException exc) {
-              return null;
-            }
+              try {
+                CapabilityUtils.checkRequiresCapability(userProvider,
+                    e.getPluginName(), view.getClass());
+              } catch (AuthException exc) {
+                return null;
+              }
 
-            UiAction.Description dsc =
-                ((UiAction<R>) view).getDescription(resource);
-            if (dsc == null || !dsc.isVisible()) {
-              return null;
-            }
+              UiAction.Description dsc =
+                  ((UiAction<R>) view).getDescription(resource);
+              if (dsc == null || !dsc.isVisible()) {
+                return null;
+              }
 
-            String name = e.getExportName().substring(d + 1);
-            PrivateInternals_UiActionDescription.setMethod(
-                dsc,
-                e.getExportName().substring(0, d));
-            PrivateInternals_UiActionDescription.setId(
-                dsc,
-                "gerrit".equals(e.getPluginName())
-                  ? name
-                  : e.getPluginName() + '~' + name);
-            return dsc;
-          }
-        }),
-      Predicates.notNull());
+              String name = e.getExportName().substring(d + 1);
+              PrivateInternals_UiActionDescription.setMethod(
+                  dsc,
+                  e.getExportName().substring(0, d));
+              PrivateInternals_UiActionDescription.setId(
+                  dsc,
+                  "gerrit".equals(e.getPluginName())
+                    ? name
+                    : e.getPluginName() + '~' + name);
+              return dsc;
+            })
+        .filter(Objects::nonNull);
   }
 
   private UiActions() {

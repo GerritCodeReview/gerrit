@@ -15,9 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.git.ProjectConfig.ACCESS;
+import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -67,18 +66,16 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
       Set<String> names = config.getNames(ACCESS, subsection);
       if (names.contains(name)) {
         List<String> values =
-            Arrays.asList(config.getStringList(ACCESS, subsection, name));
-        values = Lists.transform(values, new Function<String, String>() {
-          @Override
-          public String apply(String ruleString) {
-            PermissionRule rule = PermissionRule.fromString(ruleString, false);
-            if (rule.getForce()) {
-              rule.setForce(false);
-              updated = true;
-            }
-            return rule.asString(false);
-          }
-        });
+            Arrays.stream(config.getStringList(ACCESS, subsection, name))
+                .map(r -> {
+                      PermissionRule rule = PermissionRule.fromString(r, false);
+                      if (rule.getForce()) {
+                        rule.setForce(false);
+                        updated = true;
+                      }
+                      return rule.asString(false);
+                    })
+                .collect(toList());
         config.setStringList(ACCESS, subsection, name, values);
       }
     }

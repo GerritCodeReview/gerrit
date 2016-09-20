@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.account;
 
-import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
@@ -124,13 +123,9 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   public Predicate<AccountState> defaultQuery(String query) {
     return Predicate.and(
-        Lists.transform(Splitter.on(' ').omitEmptyStrings().splitToList(query),
-            new Function<String, Predicate<AccountState>>() {
-              @Override
-              public Predicate<AccountState> apply(String s) {
-                return defaultField(s);
-              }
-            }));
+        Lists.transform(
+            Splitter.on(' ').omitEmptyStrings().splitToList(query),
+            this::defaultField));
   }
 
   @Override

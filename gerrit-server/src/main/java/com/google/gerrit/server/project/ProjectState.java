@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.common.data.PermissionRule.Action.ALLOW;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -72,6 +71,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 /** Cached information on a project. */
 public class ProjectState {
@@ -378,75 +378,35 @@ public class ProjectState {
   }
 
   public boolean isUseContributorAgreements() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getUseContributorAgreements();
-      }
-    });
+    return getInheritableBoolean(Project::getUseContributorAgreements);
   }
 
   public boolean isUseContentMerge() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getUseContentMerge();
-      }
-    });
+    return getInheritableBoolean(Project::getUseContentMerge);
   }
 
   public boolean isUseSignedOffBy() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getUseSignedOffBy();
-      }
-    });
+    return getInheritableBoolean(Project::getUseSignedOffBy);
   }
 
   public boolean isRequireChangeID() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getRequireChangeID();
-      }
-    });
+    return getInheritableBoolean(Project::getRequireChangeID);
   }
 
   public boolean isCreateNewChangeForAllNotInTarget() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getCreateNewChangeForAllNotInTarget();
-      }
-    });
+    return getInheritableBoolean(Project::getCreateNewChangeForAllNotInTarget);
   }
 
   public boolean isEnableSignedPush() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getEnableSignedPush();
-      }
-    });
+    return getInheritableBoolean(Project::getEnableSignedPush);
   }
 
   public boolean isRequireSignedPush() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getRequireSignedPush();
-      }
-    });
+    return getInheritableBoolean(Project::getRequireSignedPush);
   }
 
   public boolean isRejectImplicitMerges() {
-    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
-      @Override
-      public InheritableBoolean apply(Project input) {
-        return input.getRejectImplicitMerges();
-      }
-    });
+    return getInheritableBoolean(Project::getRejectImplicitMerges);
   }
 
   public LabelTypes getLabelTypes() {
@@ -551,7 +511,8 @@ public class ProjectState {
     return Files.exists(p) ? new String(Files.readAllBytes(p), UTF_8) : null;
   }
 
-  private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {
+  private boolean getInheritableBoolean(
+      Function<Project, InheritableBoolean> func) {
     for (ProjectState s : tree()) {
       switch (func.apply(s.getProject())) {
         case TRUE:

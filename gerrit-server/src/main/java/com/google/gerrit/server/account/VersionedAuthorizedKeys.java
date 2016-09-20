@@ -15,8 +15,8 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Comparator.comparing;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -278,13 +278,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * @param newKeys the new public SSH keys
    */
   public void setKeys(Collection<AccountSshKey> newKeys) {
-    Ordering<AccountSshKey> o =
-        Ordering.natural().onResultOf(new Function<AccountSshKey, Integer>() {
-          @Override
-          public Integer apply(AccountSshKey sshKey) {
-            return sshKey.getKey().get();
-          }
-        });
+    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.getKey().get()));
     keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).getKey().get(),
         Optional.<AccountSshKey> absent()));
     for (AccountSshKey key : newKeys) {

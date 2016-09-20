@@ -483,4 +483,56 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
         .isFalse();
     assertThat(hasSubmodule(subRepo, "dev", "super-project")).isFalse();
   }
+
+  @Test
+  public void testProjectNoSubscriptionWholeTopic() throws Exception {
+    TestRepository<?> repoA = createProjectWithPush("project-a");
+    TestRepository<?> repoB = createProjectWithPush("project-b");
+    // bootstrap the dev branch
+    ObjectId a0 = pushChangeTo(repoA, "dev");
+
+    // bootstrap the dev branch
+    ObjectId b0 = pushChangeTo(repoB, "dev");
+
+    // create a change for master branch in repo a
+    ObjectId aHead =
+        pushChangeTo(repoA, "refs/for/master", "master.txt", "content master A",
+            "some message in a master.txt", "same-topic");
+
+    // create a change for master branch in repo b
+    ObjectId bHead =
+        pushChangeTo(repoB, "refs/for/master", "master.txt", "content master B",
+            "some message in b master.txt", "same-topic");
+
+    // create a change for dev branch in repo a
+    repoA.reset(a0);
+    ObjectId aDevHead =
+        pushChangeTo(repoA, "refs/for/dev", "dev.txt", "content dev A",
+            "some message in a dev.txt", "same-topic");
+
+    // create a change for dev branch in repo b
+    repoB.reset(b0);
+    ObjectId bDevHead =
+        pushChangeTo(repoB, "refs/for/dev", "dev.txt", "content dev B",
+            "some message in b dev.txt", "same-topic");
+
+    approve(getChangeId(repoA, aHead).get());
+    approve(getChangeId(repoB, bHead).get());
+    approve(getChangeId(repoA, aDevHead).get());
+    approve(getChangeId(repoB, bDevHead).get());
+
+    gApi.changes().id(getChangeId(repoA, aDevHead).get()).current().submit();
+    assertThat(
+        getRemoteHead(name("project-a"), "refs/heads/master").getShortMessage())
+        .contains("some message in a master.txt");
+    assertThat(
+        getRemoteHead(name("project-a"), "refs/heads/dev").getShortMessage())
+        .contains("some message in a dev.txt");
+    assertThat(
+        getRemoteHead(name("project-b"), "refs/heads/master").getShortMessage())
+        .contains("some message in b master.txt");
+    assertThat(
+        getRemoteHead(name("project-b"), "refs/heads/dev").getShortMessage())
+        .contains("some message in b dev.txt");
+  }
 }

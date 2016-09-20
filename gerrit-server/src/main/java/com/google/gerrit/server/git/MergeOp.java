@@ -447,23 +447,19 @@ public class MergeOp implements AutoCloseable {
         "cannot integrate hidden changes into history");
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
-    logDebug("Perform the merges");
 
-    Multimap<Project.NameKey, Branch.NameKey> br;
     Multimap<Branch.NameKey, ChangeData> cbb;
     try {
-      br = cs.branchesByProject();
       cbb = cs.changesByBranch();
     } catch (OrmException e) {
       throw new IntegrationException("Error reading changes to submit", e);
     }
-    Set<Project.NameKey> projects = br.keySet();
     Set<Branch.NameKey> branches = cbb.keySet();
-    openRepos(projects);
-
     for (Branch.NameKey branch : branches) {
-      OpenRepo or = orm.getRepo(branch.getParentKey());
-      toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+      OpenRepo or = openRepo(branch.getParentKey());
+      if (or != null) {
+        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+      }
     }
     // Done checks that don't involve running submit strategies.
     commits.maybeFailVerbose();
@@ -471,12 +467,7 @@ public class MergeOp implements AutoCloseable {
     try {
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp);
       Set<Project.NameKey> allProjects = submoduleOp.getProjectsInOrder();
-      // in case superproject subscription is disabled, allProjects would be null
-      if (allProjects == null) {
-        allProjects = projects;
-      }
-      BatchUpdate.execute(
-          orm.batchUpdates(allProjects),
+      BatchUpdate.execute(orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commits),
           submissionId);
     } catch (UpdateException | SubmoduleException e) {
@@ -503,11 +494,6 @@ public class MergeOp implements AutoCloseable {
       throws IntegrationException {
     List<SubmitStrategy> strategies = new ArrayList<>();
     Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
-    // in case superproject subscription is disabled, allBranches would be null
-    if (allBranches == null) {
-      allBranches = toSubmit.keySet();
-    }
-
     for (Branch.NameKey branch : allBranches) {
       OpenRepo or = orm.getRepo(branch.getParentKey());
       if (toSubmit.containsKey(branch)) {
@@ -727,19 +713,18 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void openRepos(Collection<Project.NameKey> projects)
+  private OpenRepo openRepo(Project.NameKey project)
       throws IntegrationException {
-    for (Project.NameKey project : projects) {
-      try {
-        orm.openRepo(project);
-      } catch (NoSuchProjectException noProject) {
-        logWarn("Project " + noProject.project() + " no longer exists, "
-            + "abandoning open changes");
-        abandonAllOpenChangeForDeletedProject(noProject.project());
-      } catch (IOException e) {
-        throw new IntegrationException("Error opening project " + project, e);
-      }
+    try {
+      return orm.openRepo(project);
+    } catch (NoSuchProjectException noProject) {
+      logWarn("Project " + noProject.project() + " no longer exists, "
+          + "abandoning open changes");
+      abandonAllOpenChangeForDeletedProject(noProject.project());
+    } catch (IOException e) {
+      throw new IntegrationException("Error opening project " + project, e);
     }
+    return null;
   }
 
   private void abandonAllOpenChangeForDeletedProject(

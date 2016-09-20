@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.base.Function;
+import static java.util.Comparator.comparing;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -68,19 +68,17 @@ import java.util.Set;
 public class ReviewersUtil {
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final Ordering<SuggestedReviewerInfo> ORDERING =
-      Ordering.natural().onResultOf(new Function<SuggestedReviewerInfo, String>() {
-        @Nullable
-        @Override
-        public String apply(@Nullable SuggestedReviewerInfo suggestedReviewerInfo) {
-          if (suggestedReviewerInfo == null) {
-            return null;
-          }
-          return suggestedReviewerInfo.account != null
-              ? MoreObjects.firstNonNull(suggestedReviewerInfo.account.email,
-              Strings.nullToEmpty(suggestedReviewerInfo.account.name))
-              : Strings.nullToEmpty(suggestedReviewerInfo.group.name);
-        }
-      });
+      Ordering.from(comparing(
+          suggestedReviewerInfo -> {
+            if (suggestedReviewerInfo == null) {
+              return null;
+            }
+            return suggestedReviewerInfo.account != null
+                ? MoreObjects.firstNonNull(suggestedReviewerInfo.account.email,
+                Strings.nullToEmpty(suggestedReviewerInfo.account.name))
+                : Strings.nullToEmpty(suggestedReviewerInfo.group.name);
+          }));
+
   private final AccountLoader accountLoader;
   private final AccountCache accountCache;
   private final AccountIndexCollection indexes;

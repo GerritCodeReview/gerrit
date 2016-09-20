@@ -14,9 +14,8 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.PluginData;
@@ -42,6 +41,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {
@@ -237,16 +237,10 @@ public class Init extends BaseInit {
     if (nullOrEmpty(installPlugins) || nullOrEmpty(plugins)) {
       return;
     }
-    ArrayList<String> copy = Lists.newArrayList(installPlugins);
-    List<String> pluginNames = Lists.transform(plugins, new Function<PluginData, String>() {
-      @Override
-      public String apply(PluginData input) {
-        return input.name;
-      }
-    });
-    copy.removeAll(pluginNames);
-    if (!copy.isEmpty()) {
-      ui.message("Cannot find plugin(s): %s\n", Joiner.on(", ").join(copy));
+    Set<String> missing = Sets.newHashSet(installPlugins);
+    plugins.stream().forEach(p -> missing.remove(p.name));
+    if (!missing.isEmpty()) {
+      ui.message("Cannot find plugin(s): %s\n", Joiner.on(", ").join(missing));
       listPlugins = true;
     }
   }

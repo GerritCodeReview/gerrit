@@ -355,6 +355,11 @@ limitations under the License.
       padding-top: 5px;
     }
 
+    .historyExtension {
+      display: inline-block;
+      float: right;
+    }
+
     .pushCertStatus {
       padding-left: 5px;
     }
@@ -601,6 +606,7 @@ limitations under the License.
           <ui:attribute name='title'/>
           <div><ui:msg>Collapse All</ui:msg></div>
         </g:Button>
+        <g:SimplePanel ui:field='historyExtensionRight' styleName='{style.historyExtension}'/>
       </div>
     </div>
     <c:History ui:field='history'/>

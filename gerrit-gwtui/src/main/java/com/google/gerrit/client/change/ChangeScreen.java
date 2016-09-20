@@ -204,6 +204,7 @@ public class ChangeScreen extends Screen {
   @UiField FileTable files;
   @UiField ListBox diffBase;
   @UiField History history;
+  @UiField SimplePanel historyExtensionRight;
 
   @UiField Button includedIn;
   @UiField Button patchSets;
@@ -361,6 +362,9 @@ public class ChangeScreen extends Screen {
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK,
         commitExtension, change, rev);
+    addExtensionPoint(
+        GerritUiExtensionPoint.CHANGE_SCREEN_HISTORY_RIGHT_OF_BUTTONS,
+        historyExtensionRight, change, rev);
   }
 
   private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,

@@ -126,9 +126,10 @@
     },
 
     _handlePatchChange: function(e) {
-      this.set('patchRange.basePatchNum', Polymer.dom(e).rootTarget.value);
+      var patchRange = Object.assign({}, this.patchRange);
+      patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
       page.show('/c/' + encodeURIComponent(this.changeNum) + '/' +
-          encodeURIComponent(this._patchRangeStr(this.patchRange)));
+          encodeURIComponent(this._patchRangeStr(patchRange)));
     },
 
     _forEachDiff: function(fn) {

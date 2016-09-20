@@ -17,7 +17,6 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
@@ -720,12 +719,9 @@ public class PluginLoader implements LifecycleListener {
 
   private static Iterable<Path> filterDisabledPlugins(
       Collection<Path> paths) {
-    return Iterables.filter(paths, new Predicate<Path>() {
-      @Override
-      public boolean apply(Path p) {
-        return !p.getFileName().toString().endsWith(".disabled");
-      }
-    });
+    return Iterables.filter(
+        paths,
+        p -> !p.getFileName().toString().endsWith(".disabled"));
   }
 
   public String getGerritPluginName(Path srcPath) {

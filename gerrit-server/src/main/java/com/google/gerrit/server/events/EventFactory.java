@@ -15,11 +15,10 @@
 package com.google.gerrit.server.events;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Comparator.comparing;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -64,14 +63,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -80,6 +71,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EventFactory {
@@ -298,22 +295,21 @@ public class EventFactory {
       }
     }
     // Sort by original parent order.
-    Collections.sort(ca.dependsOn, Ordering.natural().onResultOf(
-        new Function<DependencyAttribute, Integer>() {
-          @Override
-          public Integer apply(DependencyAttribute d) {
-            for (int i = 0; i < parentNames.size(); i++) {
-              if (parentNames.get(i).equals(d.revision)) {
-                return i;
+    Collections.sort(
+        ca.dependsOn,
+        comparing(
+            (DependencyAttribute d) -> {
+              for (int i = 0; i < parentNames.size(); i++) {
+                if (parentNames.get(i).equals(d.revision)) {
+                  return i;
+                }
               }
-            }
-            return parentNames.size() + 1;
-          }
-        }));
+              return parentNames.size() + 1;
+            }));
   }
 
-  private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change,
-      PatchSet currentPs) throws OrmException, IOException {
+  private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
+      throws OrmException, IOException {
     if (currentPs.getGroups().isEmpty()) {
       return;
     }

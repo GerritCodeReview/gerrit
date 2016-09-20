@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -445,13 +444,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     } else if (matchSubstring != null) {
       checkMatchOptions(matchPrefix == null && matchRegex == null);
       return Iterables.filter(projectCache.all(),
-          new Predicate<Project.NameKey>() {
-            @Override
-            public boolean apply(Project.NameKey in) {
-              return in.get().toLowerCase(Locale.US)
-                  .contains(matchSubstring.toLowerCase(Locale.US));
-            }
-          });
+          p -> p.get().toLowerCase(Locale.US)
+              .contains(matchSubstring.toLowerCase(Locale.US)));
     } else if (matchRegex != null) {
       checkMatchOptions(matchPrefix == null && matchSubstring == null);
       RegexListSearcher<Project.NameKey> searcher;

@@ -43,6 +43,29 @@
     },
     {
       "key": {
+        "uuid": "d0a56383_a4d94210",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-20T16:59:44Z",
+      "side": 1,
+      "message": "not about this patch: This would be simpler if it could return a Stream.",
+      "range": {
+        "startLine": 47,
+        "startChar": 41,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_68fd37ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
         "patchSetId": 1
@@ -107,6 +130,47 @@
         "endLine": 20,
         "endChar": 48
       },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a2af7a_e320920d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-20T16:59:44Z",
+      "side": 1,
+      "message": "import static when it makes code more readable is fine (e.g., see checkArgument above).",
+      "parentUuid": "4be70257_89db61e1",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 48
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a56383_241f92c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-20T16:59:44Z",
+      "side": 1,
+      "message": "Can simplify using streams:\n\n return ImmutableList.copyOf(\n   comments.stream().map(c -\u003e ...).collect(toList());",
       "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

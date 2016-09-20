@@ -323,8 +323,8 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          Account.Id id = input.assignee();
-          return id != null ? id.get() : NO_ASSIGNEE;
+          Optional<Account.Id> id = input.assignee();
+          return id.isPresent() ? id.get().get() : NO_ASSIGNEE;
         }
       };
 

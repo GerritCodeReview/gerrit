@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_050c564d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/EventSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T09:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_f0153ea9",
+      "revId": "dd4dd28b31291c8a16df82ca9ae9b9b97fbfe151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_d01042bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/EventSorter.java",
         "patchSetId": 1

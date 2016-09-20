@@ -208,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_86deae27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-20T13:39:44Z",
+      "side": 1,
+      "message": "I think we\u0027ll stabilize the noteDb track a little first and work on reviewDb compatibility later if that\u0027s ok.",
+      "parentUuid": "2bec8e3b_8538662a",
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_223d10ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3

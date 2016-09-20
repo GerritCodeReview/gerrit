@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -34,6 +35,8 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.validators.AssigneeValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -50,6 +53,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private final NotesMigration notesMigration;
   private final String anonymousCowardName;
   private final AssigneeChanged assigneeChanged;
+  private final DynamicSet<AssigneeValidationListener> validationListeners;
+
   private Change change;
 
   private Account newAssignee;
@@ -62,7 +67,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       AccountInfoCacheFactory.Factory accountInfosFactory,
       @AnonymousCowardName String anonymousCowardName,
       @Assisted AssigneeInput input,
-      AssigneeChanged assigneChanged) {
+      AssigneeChanged assigneChanged,
+      DynamicSet<AssigneeValidationListener> validationListeners) {
     this.input = input;
     this.accounts = accounts;
     this.notesMigration = notesMigration;
@@ -70,6 +76,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     this.accountInfosFactory = accountInfosFactory;
     this.anonymousCowardName = anonymousCowardName;
     this.assigneeChanged = assigneChanged;
+    this.validationListeners = validationListeners;
   }
 
   @Override
@@ -111,6 +118,13 @@ public class SetAssigneeOp extends BatchUpdate.Op {
           "Change %s is not visible to %s.",
           change.getChangeId(),
           newAssigneeUser.getUserName()));
+    }
+    try {
+      for (AssigneeValidationListener validator : validationListeners) {
+        validator.validateAssignee(change, newAssigneeUser.getAccount());
+      }
+    } catch (ValidationException e) {
+      throw new BadRequestException(e.getMessage());
     }
     update.setAssignee(newAssigneeUser.getAccountId());
     this.newAssignee = newAssigneeUser.getAccount();

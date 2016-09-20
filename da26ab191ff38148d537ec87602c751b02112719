@@ -16,6 +16,24 @@
       "revId": "da26ab191ff38148d537ec87602c751b02112719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_c62a76a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-20T12:09:13Z",
+      "side": 1,
+      "message": "Right we never get assignee from the index, will revisit when the change that collects it from the index is in place and this change is rebased on top of it.",
+      "parentUuid": "2bec8e3b_456dbefb",
+      "revId": "da26ab191ff38148d537ec87602c751b02112719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

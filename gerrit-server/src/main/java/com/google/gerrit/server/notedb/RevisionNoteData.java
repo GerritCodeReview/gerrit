@@ -99,7 +99,7 @@ class RevisionNoteData {
     String revId;
     String serverId;
 
-    public Comment(PatchLineComment plc, String serverId) {
+    Comment(PatchLineComment plc, String serverId) {
       key = new CommentKey(plc.getKey());
       lineNbr = plc.getLine();
       author = new Identity(plc.getAuthor());

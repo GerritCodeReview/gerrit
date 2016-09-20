@@ -105,6 +105,7 @@ public class SubmoduleOp {
   private final boolean enableSuperProjectSubscriptions;
   private final Multimap<Branch.NameKey, SubmoduleSubscription> targets;
   private final Set<Branch.NameKey> updatedBranches;
+  private final Set<Branch.NameKey> affectedBranches;
   private final MergeOpRepoManager orm;
   private final Map<Branch.NameKey, CodeReviewCommit> branchTips;
   private final Map<Branch.NameKey, GitModules> branchGitModules;
@@ -131,6 +132,7 @@ public class SubmoduleOp {
     this.orm = orm;
     this.updatedBranches = updatedBranches;
     this.targets = HashMultimap.create();
+    this.affectedBranches = new HashSet<>();
     this.branchTips = new HashMap<>();
     this.branchGitModules = new HashMap<>();
     this.sortedBranches = calculateSubscriptionMap();
@@ -154,8 +156,11 @@ public class SubmoduleOp {
           allVisited);
     }
 
-    // Since the searchForSuperprojects will add the superprojects before one
-    // submodule in sortedBranches, need reverse the order of it
+    // Since the searchForSuperprojects will add all branches (related or
+    // unrelated) and ensure the superproject's branches get added first before
+    // a submodule branch. Need remove all unrelated branches and reverse
+    // the order.
+    allVisited.retainAll(affectedBranches);
     reverse(allVisited);
     return ImmutableSet.copyOf(allVisited);
   }
@@ -184,6 +189,8 @@ public class SubmoduleOp {
         Branch.NameKey superProject = sub.getSuperProject();
         searchForSuperprojects(superProject, currentVisited, allVisited);
         targets.put(superProject, sub);
+        affectedBranches.add(superProject);
+        affectedBranches.add(sub.getSubmodule());
       }
     } catch (IOException e) {
       throw new SubmoduleException("Cannot find superprojects for " + current,
@@ -543,30 +550,36 @@ public class SubmoduleOp {
 
   public ImmutableSet<Project.NameKey> getProjectsInOrder()
       throws SubmoduleException {
-    if (sortedBranches == null) {
-      return null;
-    }
-
     LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
-    Project.NameKey prev = null;
-    for (Branch.NameKey branch : sortedBranches) {
-      Project.NameKey project = branch.getParentKey();
-      if (!project.equals(prev)) {
-        if (projects.contains(project)) {
-          throw new SubmoduleException(
-              "Project level circular subscriptions detected:  " +
-                  printCircularPath(projects, project));
+    if (sortedBranches != null) {
+      Project.NameKey prev = null;
+      for (Branch.NameKey branch : sortedBranches) {
+        Project.NameKey project = branch.getParentKey();
+        if (!project.equals(prev)) {
+          if (projects.contains(project)) {
+            throw new SubmoduleException(
+                "Project level circular subscriptions detected:  " +
+                    printCircularPath(projects, project));
+          }
+          projects.add(project);
         }
-        projects.add(project);
+        prev = project;
       }
-      prev = project;
     }
 
+    for (Branch.NameKey branch : updatedBranches) {
+      projects.add(branch.getParentKey());
+    }
     return ImmutableSet.copyOf(projects);
   }
 
   public ImmutableSet<Branch.NameKey> getBranchesInOrder() {
-    return sortedBranches;
+    LinkedHashSet<Branch.NameKey> branches = new LinkedHashSet<>();
+    if (sortedBranches != null) {
+      branches.addAll(sortedBranches);
+    }
+    branches.addAll(updatedBranches);
+    return ImmutableSet.copyOf(branches);
   }
 
   public boolean hasSubscription(Branch.NameKey branch) {

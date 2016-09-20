@@ -57,6 +57,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.common.base.Optional;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -402,8 +403,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   /**
    * @return an Account.Id of the user assigned to this change.
    */
-  public Account.Id getAssignee() {
-    return state.assignee();
+  public Optional<Account.Id> getAssignee() {
+    return Optional.fromNullable(state.assignee());
   }
 
   /**

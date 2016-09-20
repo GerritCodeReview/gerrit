@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_8806bb78",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-20T13:31:21Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 4
+      },
+      "revId": "9c8e7e692e83ca67ef3b175dd8eb61754799264e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

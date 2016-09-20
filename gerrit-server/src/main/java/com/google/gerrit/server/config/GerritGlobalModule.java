@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
+import com.google.gerrit.extensions.events.AssigneeChangedListener;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
@@ -306,6 +307,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CacheRemovalListener.class);
     DynamicMap.mapOf(binder(), CapabilityDefinition.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+    DynamicSet.setOf(binder(), AssigneeChangedListener.class);
     DynamicSet.setOf(binder(), ChangeAbandonedListener.class);
     DynamicSet.setOf(binder(), CommentAddedListener.class);
     DynamicSet.setOf(binder(), DraftPublishedListener.class);

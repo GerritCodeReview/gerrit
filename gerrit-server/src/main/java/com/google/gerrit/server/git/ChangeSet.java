@@ -85,16 +85,6 @@ public class ChangeSet {
     return changeData;
   }
 
-  public SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject()
-      throws OrmException {
-    SetMultimap<Project.NameKey, Branch.NameKey> ret =
-        HashMultimap.create();
-    for (ChangeData cd : changeData.values()) {
-      ret.put(cd.change().getProject(), cd.change().getDest());
-    }
-    return ret;
-  }
-
   public Multimap<Branch.NameKey, ChangeData> changesByBranch()
       throws OrmException {
     ListMultimap<Branch.NameKey, ChangeData> ret =

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_c9e3a99b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-20T16:02:13Z",
+      "side": 1,
+      "message": "I had problems with using static references like this in Gerrit today, did this work for you? Did it compile?",
+      "parentUuid": "2bec8e3b_68fd37ff",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 32
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_89db61e1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
         "patchSetId": 1

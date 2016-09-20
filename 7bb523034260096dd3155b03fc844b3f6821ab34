@@ -64,6 +64,24 @@
       "revId": "7bb523034260096dd3155b03fc844b3f6821ab34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_66528a05",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T11:54:26Z",
+      "side": 1,
+      "message": "Yes, i would prefer to keep it in sync with Buck build (default is \u0027ui_optdbg\u0027), But, yes changed the null UI to be Python None (like in Buck too). Fixed.",
+      "parentUuid": "2bec8e3b_652602d7",
+      "revId": "7bb523034260096dd3155b03fc844b3f6821ab34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

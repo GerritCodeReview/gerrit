@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474319153 +0200\nnonce AE+e84ZPuyKCqJKWCbwZKkj5HirRoOeXihzgQehn6m3Y2LA5M0JuFa1V7B/grZKQc5EJtn3UUzXs\n\n0000000000000000000000000000000000000000 415c0bb2c79eca055d145b926981398d1f4b6481 refs/for/master%topic\u003dpolygerrit-switch,r\u003dekempin@google.com,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX4FM0AAoJEF/XxZqaEoiMxMEP/1syfEwmH46vFZDXENP+2mpk\n1bRJum6fT3/mevZVFDUwSvyfkwsRDqWOOYdpUvsiYYkEO3beco8ho+V4ICArYXCg\n5Jx0yRWo6dEpSOTBva23XNY/fE40GuIuQHYppK+kd86Haj5lI9OqH33qcOzhcmhf\nKRvz7RG9JDleUutYRjIa/lQU1Mmxivpx0oxX/RJ9IcEMSLKoXIXZdTEG4/D9fEs0\n3T82aLTRiTMdOU9WBfH1dM2BwhRDIDMVNw7IvvTGr9Y9MDgOFEOR4hbNhfryRCNl\nVs37PJw6uCPDgniJEDve8Y03w2DUZKXPzkVN+1/6CjvI1Jf4amZSRj5CyrvhRToE\nn6funN4DGdcii6JPZW561m3bp9I8nw1MUhhsHmYJuFdcLCy0j5Sr1d9k3yyxmYIA\nz68ibNYuhP2jJt4gL0ybvrQMSp7BVXtRIp+qh085Y9kPfCKljfYGEVkDsuyLWDJY\n5cdK2A8xIArprI724V8/LtiSXB4HYdD0x3jS0Q+tAdZqbxAmSQIrj9aW0j5GZv+u\nEmdd5YakYZAdIJ6kgMIJhf0pMzaJM9hciwsoEYTplmJ9uH64LiM44jI/b1UAvrKQ\nezM7XERLTGvadT47z//BmDkXoAUqHGiy+6Ul0NHUxdBBy83u5i2A1iG5LapMq6BD\nLOeAK0xcarrph/Bdg3EB\n\u003d3Fit\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_8334e094",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-20T07:18:51Z",
+      "side": 1,
+      "message": "method",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "6f20362ea701b868460b3cd0236745cd3faa3678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,5 +1,4 @@
 = gerrit stream-events
-
 == NAME
 gerrit stream-events - Monitor events occurring in real time
 
@@ -59,6 +58,21 @@ this JSON stream should deal with that appropriately.
 
 [[events]]
 == EVENTS
+=== Assignee Changed
+
+Sent when a user have been assigned to a change.
+
+type:: "assignee-changed"
+
+change:: link:json.html#change[change attribute]
+
+changer:: link:json.html#account[account attribute]
+
+oldAssignee:: Assignee before it was changed.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 === Change Abandoned
 
 Sent when a change has been abandoned.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_a8ba9f74",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T14:19:06Z",
+      "side": 1,
+      "message": "This isn\u0027t a repeated field, use Iterables.getFirst as in other non-repeated examples.",
+      "revId": "7cf903bb7807c0bc4ce7a79309a1aa2b13cbd663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

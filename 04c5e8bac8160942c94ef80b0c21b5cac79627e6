@@ -26,6 +26,23 @@
     },
     {
       "key": {
+        "uuid": "b0a2af7a_031a8ed8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-20T16:41:44Z",
+      "side": 1,
+      "message": "Does collect populate the full list or is it lazy like the one produced by Iterables.transform?\n\nIf the former, this can be made lazy by making ids a Stream and passing ids::iterator to containsAnyOf.\n\nOr containsAnyOf could learn to accept Stream.",
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_68fd37ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
         "patchSetId": 1

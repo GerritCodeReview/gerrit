@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_66fd6aff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T11:21:40Z",
+      "side": 1,
+      "message": "This part SGTM. Except the implementation here changes the existing field. We can\u0027t do that; you have to add a new field, and have the query parser emit a different predicate type depending on what\u0027s live in the server.\n\nMaybe \"owner\" instead of \"change_owner\"? Or do you think there is some ambiguity, e.g. someone might interpret \"owner\" as \"project owner\"?",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 49
+      },
+      "revId": "1e3e4dd2c23530e0cf66873aad5f1bf1b99e1713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_060f3e3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T11:21:40Z",
+      "side": 1,
+      "message": "I don\u0027t have any strong objection to this, but I don\u0027t see why this additional shorthand is necessary.",
+      "range": {
+        "startLine": 34,
+        "startChar": 55,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "1e3e4dd2c23530e0cf66873aad5f1bf1b99e1713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e586926c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T11:21:40Z",
+      "side": 1,
+      "message": "Meh. Adding one field at a time is fine.",
+      "range": {
+        "startLine": 36,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 62
+      },
+      "revId": "1e3e4dd2c23530e0cf66873aad5f1bf1b99e1713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_8596a696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T11:21:40Z",
+      "side": 1,
+      "message": "Hm, isn\u0027t there another way to represent group names that doesn\u0027t require the illegal character \u0027:\u0027? For example there are no \u0027:\u0027s in the group autocomplete results.\n\nFWIW you can escape predicate values in our query language like op:\"foo:bar\" or op:{foo:bar}. But I agree with you that having a shorthand like change_owner is nicer than requiring quotes.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "1e3e4dd2c23530e0cf66873aad5f1bf1b99e1713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
@@ -30,18 +28,11 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Collection;
+import java.util.stream.StreamSupport;
 
 /** Implementation of GroupBackend for the internal group system. */
 @Singleton
 public class InternalGroupBackend implements GroupBackend {
-  private static final Function<AccountGroup, GroupReference> ACT_GROUP_TO_GROUP_REF =
-      new Function<AccountGroup, GroupReference>() {
-        @Override
-        public GroupReference apply(AccountGroup group) {
-          return GroupReference.forGroup(group);
-        }
-      };
-
   private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
   private final IncludingGroupMembership.Factory groupMembershipFactory;
@@ -77,16 +68,13 @@ public class InternalGroupBackend implements GroupBackend {
   @Override
   public Collection<GroupReference> suggest(final String name,
       final ProjectControl project) {
-    Iterable<AccountGroup> filtered = Iterables.filter(groupCache.all(),
-        new Predicate<AccountGroup>() {
-          @Override
-          public boolean apply(AccountGroup group) {
+    return StreamSupport.stream(groupCache.all().spliterator(), false)
+        .filter(group ->
             // startsWithIgnoreCase && isVisible
-            return group.getName().regionMatches(true, 0, name, 0, name.length())
-                && groupControlFactory.controlFor(group).isVisible();
-          }
-        });
-    return Lists.newArrayList(Iterables.transform(filtered, ACT_GROUP_TO_GROUP_REF));
+            group.getName().regionMatches(true, 0, name, 0, name.length())
+                && groupControlFactory.controlFor(group).isVisible())
+        .map(GroupReference::forGroup)
+        .collect(toList());
   }
 
   @Override

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -60,13 +59,9 @@ public class GetSshKeys implements RestReadView<AccountResource> {
 
   public List<SshKeyInfo> apply(IdentifiedUser user)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    return Lists.transform(authorizedKeys.getKeys(user.getAccountId()),
-        new Function<AccountSshKey, SshKeyInfo>() {
-          @Override
-          public SshKeyInfo apply(AccountSshKey key) {
-            return newSshKeyInfo(key);
-          }
-        });
+    return Lists.transform(
+        authorizedKeys.getKeys(user.getAccountId()),
+        GetSshKeys::newSshKeyInfo);
   }
 
   public static SshKeyInfo newSshKeyInfo(AccountSshKey sshKey) {

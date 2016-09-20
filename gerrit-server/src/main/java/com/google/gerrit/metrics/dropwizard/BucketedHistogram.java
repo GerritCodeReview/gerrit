@@ -14,7 +14,6 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
@@ -96,13 +95,6 @@ abstract class BucketedHistogram implements BucketedMetric {
 
   @Override
   public Map<Object, Metric> getCells() {
-    return Maps.transformValues(
-        cells,
-        new Function<HistogramImpl, Metric> () {
-          @Override
-          public Metric apply(HistogramImpl in) {
-            return in.metric;
-          }
-        });
+    return Maps.transformValues(cells, h -> h.metric);
   }
 }

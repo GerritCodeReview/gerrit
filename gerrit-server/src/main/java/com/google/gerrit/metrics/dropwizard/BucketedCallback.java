@@ -14,7 +14,6 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
@@ -124,14 +123,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
 
   @Override
   public Map<Object, Metric> getCells() {
-    return Maps.transformValues(
-        cells,
-        new Function<ValueGauge, Metric> () {
-          @Override
-          public Metric apply(ValueGauge in) {
-            return in;
-          }
-        });
+    return Maps.transformValues(cells, in -> (Metric) in);
   }
 
   final class ValueGauge implements Gauge<V> {

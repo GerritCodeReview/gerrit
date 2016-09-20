@@ -14,15 +14,14 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Function;
+import static com.google.common.base.Predicates.not;
+
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
@@ -32,6 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +98,7 @@ public class CapabilityControl {
     if (canEmailReviewers == null) {
       canEmailReviewers =
           matchAny(capabilities.emailReviewers, ALLOWED_RULE)
-          || !matchAny(capabilities.emailReviewers, Predicates.not(ALLOWED_RULE));
+          || !matchAny(capabilities.emailReviewers, not(ALLOWED_RULE));
 
     }
     return canEmailReviewers;
@@ -279,23 +279,16 @@ public class CapabilityControl {
     return mine;
   }
 
-  private static final Predicate<PermissionRule> ALLOWED_RULE = new Predicate<PermissionRule>() {
-    @Override
-    public boolean apply(PermissionRule rule) {
-      return rule.getAction() == Action.ALLOW;
-    }
-  };
+  private static final Predicate<PermissionRule> ALLOWED_RULE =
+      r -> r.getAction() == Action.ALLOW;
 
-  private boolean matchAny(Iterable<PermissionRule> rules, Predicate<PermissionRule> predicate) {
-    Iterable<AccountGroup.UUID> ids = Iterables.transform(
-        Iterables.filter(rules, predicate),
-        new Function<PermissionRule, AccountGroup.UUID>() {
-          @Override
-          public AccountGroup.UUID apply(PermissionRule rule) {
-            return rule.getGroup().getUUID();
-          }
-        });
-    return user.getEffectiveGroups().containsAnyOf(ids);
+  private boolean matchAny(Collection<PermissionRule> rules,
+      Predicate<PermissionRule> predicate) {
+    return user.getEffectiveGroups()
+        .containsAnyOf(
+            FluentIterable.from(rules)
+                .filter(predicate)
+                .transform(r -> r.getGroup().getUUID()));
   }
 
   private static boolean match(GroupMembership groups,

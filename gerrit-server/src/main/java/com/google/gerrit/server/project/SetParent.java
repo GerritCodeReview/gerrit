@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -124,13 +123,10 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
             + " not found");
       }
 
-      if (Iterables.tryFind(parent.tree(), new Predicate<ProjectState>() {
-        @Override
-        public boolean apply(ProjectState input) {
-          return input.getProject().getNameKey()
-              .equals(ctl.getProject().getNameKey());
-        }
-      }).isPresent()) {
+      if (Iterables.tryFind(parent.tree(), p -> {
+            return p.getProject().getNameKey()
+                .equals(ctl.getProject().getNameKey());
+          }).isPresent()) {
         throw new ResourceConflictException("cycle exists between "
             + ctl.getProject().getName() + " and "
             + parent.getProject().getName());

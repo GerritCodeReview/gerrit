@@ -19,7 +19,6 @@ import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
@@ -94,12 +93,9 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       public Iterator<ChangeData> iterator() {
         return Iterables.transform(
             rs,
-            new Function<ChangeData, ChangeData>() {
-              @Override
-              public ChangeData apply(ChangeData cd) {
-                fromSource.put(cd, currSource);
-                return cd;
-              }
+            cd -> {
+              fromSource.put(cd, currSource);
+              return cd;
             }).iterator();
       }
 

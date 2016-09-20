@@ -17,7 +17,6 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -110,19 +109,11 @@ public class IndexModule extends LifecycleModule {
             accounts,
             changes);
     Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
-        .transform(new Function<SchemaDefinitions<?>, String>() {
-          @Override
-          public String apply(SchemaDefinitions<?> in) {
-            return in.getName();
-          }
-        }).toSet();
+        .transform(SchemaDefinitions::getName)
+        .toSet();
     Set<String> actual = FluentIterable.from(result)
-        .transform(new Function<IndexDefinition<?, ?, ?>, String>() {
-          @Override
-          public String apply(IndexDefinition<?, ?, ?> in) {
-            return in.getName();
-          }
-        }).toSet();
+        .transform(IndexDefinition::getName)
+        .toSet();
     if (!expected.equals(actual)) {
       throw new ProvisionException(
           "need index definitions for all schemas: "

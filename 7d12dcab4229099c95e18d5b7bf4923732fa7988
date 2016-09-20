@@ -35,6 +35,24 @@
       "revId": "7d12dcab4229099c95e18d5b7bf4923732fa7988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e5717208",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T07:50:53Z",
+      "side": 1,
+      "message": "I\u0027m going to clean this and the other GWT redirect code up in a followup.",
+      "parentUuid": "b0a2af7a_a3a7faa9",
+      "revId": "7d12dcab4229099c95e18d5b7bf4923732fa7988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

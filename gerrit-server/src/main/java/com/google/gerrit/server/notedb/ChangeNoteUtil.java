@@ -65,6 +65,7 @@ import java.util.Locale;
 import java.util.Set;
 
 public class ChangeNoteUtil {
+  public static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
   public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
@@ -210,7 +209,7 @@ public class DeleteReviewer
     }
 
     private Iterable<PatchSetApproval> approvals(ChangeContext ctx,
-        final Account.Id accountId) throws OrmException {
+        Account.Id accountId) throws OrmException {
       Change.Id changeId = ctx.getNotes().getChangeId();
       Iterable<PatchSetApproval> approvals;
 
@@ -229,14 +228,7 @@ public class DeleteReviewer
             approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
       }
 
-      return Iterables.filter(
-          approvals,
-          new Predicate<PatchSetApproval>() {
-            @Override
-            public boolean apply(PatchSetApproval input) {
-              return accountId.equals(input.getAccountId());
-            }
-          });
+      return Iterables.filter(approvals, accountId::equals);
     }
 
     private String formatLabelValue(short value) {

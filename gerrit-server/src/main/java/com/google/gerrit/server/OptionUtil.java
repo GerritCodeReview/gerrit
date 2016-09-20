@@ -15,7 +15,6 @@
 package com.google.gerrit.server;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
@@ -24,16 +23,10 @@ public class OptionUtil {
   private static final Splitter COMMA_OR_SPACE =
       Splitter.on(CharMatcher.anyOf(", ")).omitEmptyStrings().trimResults();
 
-  private static final Function<String, String> TO_LOWER_CASE =
-      new Function<String, String>() {
-        @Override
-        public String apply(String input) {
-          return input.toLowerCase();
-        }
-      };
-
   public static Iterable<String> splitOptionValue(String value) {
-    return Iterables.transform(COMMA_OR_SPACE.split(value), TO_LOWER_CASE);
+    return Iterables.transform(
+        COMMA_OR_SPACE.split(value),
+        String::toLowerCase);
   }
 
   private OptionUtil() {

@@ -16,10 +16,8 @@ package com.google.gerrit.pgm;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static java.util.stream.Collectors.toSet;
 
-import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -134,14 +132,8 @@ public class Reindex extends SiteProgram {
     }
 
     checkNotNull(indexDefs, "Called this method before injectMembers?");
-    Set<String> valid = FluentIterable.from(indexDefs).transform(
-        new Function<IndexDefinition<?, ?, ?>, String>() {
-          @Override
-          public String apply(IndexDefinition<?, ?, ?> input) {
-            return input.getName();
-          }
-        }).toSortedSet(Ordering.natural());
-
+    Set<String> valid = indexDefs.stream()
+        .map(IndexDefinition::getName).sorted().collect(toSet());
     Set<String> invalid = Sets.difference(Sets.newHashSet(indices), valid);
     if (invalid.isEmpty()) {
       return;

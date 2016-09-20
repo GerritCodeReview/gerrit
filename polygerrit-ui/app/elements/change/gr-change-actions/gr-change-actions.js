@@ -211,13 +211,13 @@
     _computeRevisionActionValues: function(actionsChangeRecord,
         primariesChangeRecord, additionalActionsChangeRecord) {
       return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, 'revision');
+          additionalActionsChangeRecord, ActionType.REVISION);
     },
 
     _computeChangeActionValues: function(actionsChangeRecord,
         primariesChangeRecord, additionalActionsChangeRecord) {
       return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, 'change');
+          additionalActionsChangeRecord, ActionType.CHANGE);
     },
 
     _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
@@ -234,6 +234,15 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
+        if (actions[a].label === 'Delete') {
+          // This label is common within change and revision actions. Make it
+          // more explicit to the user.
+          if (type === ActionType.CHANGE) {
+            actions[a].label += ' Change';
+          } else if (type === ActionType.REVISION) {
+            actions[a].label += ' Revision';
+          }
+        }
         // Triggers a re-render by ensuring object inequality.
         // TODO(andybons): Polyfill for Object.assign.
         result.push(Object.assign({}, actions[a]));

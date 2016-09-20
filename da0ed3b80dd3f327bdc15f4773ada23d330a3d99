@@ -17,6 +17,24 @@
       "revId": "da0ed3b80dd3f327bdc15f4773ada23d330a3d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_25099a8c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T07:44:48Z",
+      "side": 1,
+      "message": "I fixed it, but then it turns out that the redirector to convert between fragments and path elements also strips them. Oh well.",
+      "parentUuid": "b0a2af7a_c3b0f6e4",
+      "revId": "da0ed3b80dd3f327bdc15f4773ada23d330a3d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

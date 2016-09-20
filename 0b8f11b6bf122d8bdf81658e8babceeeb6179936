@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_25dfdaf7",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T07:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_63939ca8",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_821dfc1e",
         "filename": "tools/bzl/build.bzl",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-19T15:33:20Z",
       "side": 1,
       "message": "add a comment.",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_85dce601",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T07:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_821dfc1e",
       "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_c3ba68df",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T07:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_03fd70cc",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_e244c8fe",
         "filename": "tools/bzl/build.bzl",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_65d9e20f",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T07:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_e244c8fe",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_c24544fd",
         "filename": "tools/bzl/build.bzl",
         "patchSetId": 9
@@ -81,6 +153,24 @@
       "writtenOn": "2016-09-19T15:33:20Z",
       "side": 1,
       "message": "drop debug print",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_a3bf64cd",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T07:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_c24544fd",
       "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

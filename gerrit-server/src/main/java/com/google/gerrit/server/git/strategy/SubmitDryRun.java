@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -70,12 +69,7 @@ public class SubmitDryRun {
     return FluentIterable
         .from(repo.getRefDatabase().getRefs(Constants.R_HEADS).values())
         .append(repo.getRefDatabase().getRefs(Constants.R_TAGS).values())
-        .transform(new Function<Ref, ObjectId>() {
-          @Override
-          public ObjectId apply(Ref r) {
-            return r.getObjectId();
-          }
-        });
+        .transform(Ref::getObjectId);
   }
 
   public static Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw)

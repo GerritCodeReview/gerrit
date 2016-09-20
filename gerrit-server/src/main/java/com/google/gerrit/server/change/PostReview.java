@@ -809,8 +809,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           psId);
       message.setTag(in.tag);
       message.setMessage(String.format(
-          "Patch Set %d:%s",
-          psId.get(),
+          "%s:%s",
+          formatPatchSetPrefix(ctx, psId.get()),
           buf.toString()));
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
       return true;
@@ -818,6 +818,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     private void addLabelDelta(String name, short value) {
       labelDelta.add(LabelVote.create(name, value).format());
+    }
+
+    private String formatPatchSetPrefix(ChangeContext ctx, int psId) {
+      PatchSet.Id currentId = ctx.getChange().currentPatchSetId();
+      if (currentId.get() == psId) {
+        return String.format("Patch Set %", psId);
+      }
+
+      return String.format("Patch Set %s (Not Current)", psId);
     }
   }
 }

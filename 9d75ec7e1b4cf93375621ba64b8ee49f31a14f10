@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_8538662a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:13:21Z",
+      "side": 1,
+      "message": "I mean storing assignee in ReviewDb by making it a @Column in Change.",
+      "parentUuid": "2bec8e3b_82f17cf6",
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_223d10ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a56383_c4879e10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-20T05:37:40Z",
+      "side": 1,
+      "message": "IIUC, user can either add a ListChangesOption or SubmittedTogetherOption, but not both. It seems to me that these two kinds can live together. Can user add two options like \"-o option1 option2\"?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 5
+      },
+      "revId": "58bc79f7708b995a3c11c1b45ba3b3b70a1422a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a2af7a_439de658",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-20T05:37:40Z",
+      "side": 1,
+      "message": "recognized:",
+      "range": {
+        "startLine": 81,
+        "startChar": 51,
+        "endLine": 81,
+        "endChar": 62
+      },
+      "revId": "58bc79f7708b995a3c11c1b45ba3b3b70a1422a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

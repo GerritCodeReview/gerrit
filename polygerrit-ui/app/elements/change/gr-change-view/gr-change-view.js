@@ -604,32 +604,47 @@
       }.bind(this));
       this._getComments();
 
-      var reloadPatchNumDependentResources = function() {
-        return Promise.all([
-          this._getCommitInfo(),
-          this.$.fileList.reload(),
-        ]);
-      }.bind(this);
-      var reloadDetailDependentResources = function() {
-        if (!this._change) { return Promise.resolve(); }
+      if (this._patchRange.patchNum) {
+        return this._reloadPatchNumDependentResources().then(function() {
+          return detailCompletes;
+        }).then(function() {
+          return this._reloadDetailDependentResources();
+        }.bind(this));
+      } else {
+        // The patch number is reliant on the change detail request.
+        return detailCompletes.then(function() {
+          this._reloadPatchNumDependentResources();
+        }.bind(this)).then(function() {
+          this._reloadDetailDependentResources();
+        }.bind(this));
+      }
+    },
 
+    /**
+     * Kicks off requests for resources that rely on the change detail
+     * (`this._change`) being loaded.
+     */
+    _reloadDetailDependentResources: function() {
+      if (!this._change) { return Promise.resolve(); }
+
+      return this._getProjectConfig().then(function() {
         return Promise.all([
           this._getLatestCommitMessage(),
           this.$.actions.reload(),
           this.$.relatedChanges.reload(),
-          this._getProjectConfig(),
         ]);
-      }.bind(this);
+      }.bind(this));
+    },
 
-      if (this._patchRange.patchNum) {
-        return reloadPatchNumDependentResources().then(function() {
-          return detailCompletes;
-        }).then(reloadDetailDependentResources);
-      } else {
-        // The patch number is reliant on the change detail request.
-        return detailCompletes.then(reloadPatchNumDependentResources).then(
-            reloadDetailDependentResources);
-      }
+    /**
+     * Kicks off requests for resources that rely on the patch range
+     * (`this._patchRange`) being defined.
+     */
+    _reloadPatchNumDependentResources: function() {
+      return Promise.all([
+        this._getCommitInfo(),
+        this.$.fileList.reload(),
+      ]);
     },
   });
 })();

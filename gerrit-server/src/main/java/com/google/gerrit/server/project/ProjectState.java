@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.common.data.PermissionRule.Action.ALLOW;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -365,8 +366,8 @@ public class ProjectState {
    *         from the immediate parent of this project and progresses up the
    *         hierarchy to All-Projects.
    */
-  public Iterable<ProjectState> parents() {
-    return Iterables.skip(tree(), 1);
+  public FluentIterable<ProjectState> parents() {
+    return FluentIterable.from(tree()).skip(1);
   }
 
   public boolean isAllProjects() {

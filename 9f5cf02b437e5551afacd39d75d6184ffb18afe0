@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_2316b451",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AssigneeInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "@DefaultInput?",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_832340b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAssignee.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "This returns 204 No Content. Is that preferable to 404? What do we do in the case of reviewer?",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_a33004f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Unnecessary blank line",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_c32b888c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_43401838",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Where is this used? (I think it\u0027s correct to return an AccountInfo from this handler.)",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_032610c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Too much indentation.",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_c5bc2e8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "This is identical to EventUtil#accountInfo. Can we make a static method somewhere common, maybe an AccountJson class?",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_65d8c2e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Why does this need to be a public class outside PutAssignee? Do you intend to use it somewhere else? You could avoid the Factory boilerplate if you moved it to a non-static inner class in PutAssignee.",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_6690ca43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "final",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_a5c12af9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_46894624",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_05c7360b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "load() should be unnecessary here, it\u0027s already loaded on creation.",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_c69b9666",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "input can\u0027t be null unless you mark it @Nullable in the Factory method. FWIW I think disallowing null input is fine (but do allow null input.assignee).",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_a6a01298",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "No period at the end of this message, for consistency with other messages",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_25ceba24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "It\u0027s confusing that \"previous assignee\" is the account associated with \"current assignee\", I would have guessed that \"previous\" and \"current\" were two different ones.\n\nHow about Account.Id oldAssigneeId and Account oldAssignee",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_2686c213",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_86934e50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Unnecessary space",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_85db46e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "Users might not have usernames. Try newAssignee.getName(anonymousCowardName)",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_66a72aaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T08:30:32Z",
+      "side": 1,
+      "message": "This may be run multiple times, if the result from getAssignee() is actually null. Although in fairness, it\u0027s a cheap call.\n\nYou could also make this (and ChangeNotes) return Optional\u003cAccount.Id\u003e, which is a slightly nicer API and lets you avoid recomputing.",
+      "revId": "9f5cf02b437e5551afacd39d75d6184ffb18afe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

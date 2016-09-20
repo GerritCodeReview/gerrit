@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_85822635",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-20T11:56:12Z",
+      "side": 1,
+      "message": "I usually do \n\n find . -exec touch -d 19800101 \u0027{}\u0027 \u0027;\u0027\n zip -r $@ .\n\nyou can leave as is for now though.",
+      "parentUuid": "4be70257_66372ae8",
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_46f82643",
         "filename": "tools/bzl/gwt.bzl",
         "patchSetId": 5

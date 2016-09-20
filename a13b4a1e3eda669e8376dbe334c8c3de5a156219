@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_c9ed69ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T14:18:16Z",
+      "side": 1,
+      "message": "Make a sentinel constant for this named something like NO_ASSIGNEE.",
+      "range": {
+        "startLine": 334,
+        "startChar": 41,
+        "endLine": 334,
+        "endChar": 43
+      },
+      "revId": "a13b4a1e3eda669e8376dbe334c8c3de5a156219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_a9f2a593",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AssigneePredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T14:18:16Z",
+      "side": 1,
+      "message": "You need to handle -1 here.",
+      "revId": "a13b4a1e3eda669e8376dbe334c8c3de5a156219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

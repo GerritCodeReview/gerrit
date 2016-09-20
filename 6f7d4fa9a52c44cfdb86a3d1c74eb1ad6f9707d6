@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10f37bac_4e83b306",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-20T21:14:38Z",
+      "side": 1,
+      "message": "Strict equality?",
+      "range": {
+        "startLine": 306,
+        "startChar": 12,
+        "endLine": 306,
+        "endChar": 39
+      },
+      "revId": "6f7d4fa9a52c44cfdb86a3d1c74eb1ad6f9707d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

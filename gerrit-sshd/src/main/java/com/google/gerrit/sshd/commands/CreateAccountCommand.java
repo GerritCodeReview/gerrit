@@ -16,7 +16,6 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -74,12 +73,7 @@ final class CreateAccountCommand extends SshCommand {
     input.name = fullName;
     input.sshKey = readSshKey();
     input.httpPassword = httpPassword;
-    input.groups = Lists.transform(groups, new Function<AccountGroup.Id, String>() {
-      @Override
-      public String apply(AccountGroup.Id id) {
-        return id.toString();
-      }
-    });
+    input.groups = Lists.transform(groups, AccountGroup.Id::toString);
     try {
       createAccountFactory.create(username).apply(TopLevelResource.INSTANCE, input);
     } catch (RestApiException e) {

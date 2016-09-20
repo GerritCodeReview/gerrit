@@ -24,7 +24,6 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 
-import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
@@ -585,17 +584,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setStars(stars);
   }
 
-  private void decodeReviewers(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodeReviewers(Multimap<String, IndexableField> doc,
+      ChangeData cd) {
     cd.setReviewers(
         ChangeField.parseReviewerFieldValues(
             FluentIterable.from(doc.get(REVIEWER_FIELD))
-                .transform(
-                    new Function<IndexableField, String>() {
-                      @Override
-                      public String apply(IndexableField in) {
-                        return in.stringValue();
-                      }
-                    })));
+                .transform(IndexableField::stringValue)));
   }
 
   private static <T> List<T> decodeProtos(Multimap<String, IndexableField> doc,

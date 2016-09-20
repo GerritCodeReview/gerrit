@@ -18,14 +18,13 @@ import static com.google.gerrit.common.FileUtil.lastModified;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODING;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
@@ -74,6 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Predicate;
 import java.util.jar.Attributes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -378,34 +378,28 @@ class HttpPluginServlet extends HttpServlet
     List<PluginEntry> docs = new ArrayList<>();
     PluginEntry about = null;
 
-    Predicate<PluginEntry> filter = new Predicate<PluginEntry>() {
-      @Override
-      public boolean apply(PluginEntry entry) {
-        String name = entry.getName();
-        Optional<Long> size = entry.getSize();
-        if (name.startsWith(prefix)
-            && (name.endsWith(".md") || name.endsWith(".html"))
-            && size.isPresent()) {
-          if (size.get() <= 0 || size.get() > SMALL_RESOURCE) {
-            log.warn(String.format(
-                "Plugin %s: %s omitted from document index. "
-                  + "Size %d out of range (0,%d).",
-                pluginName,
-                name.substring(prefix.length()),
-                size.get(),
-                SMALL_RESOURCE));
-            return false;
+    Predicate<PluginEntry> filter =
+        entry -> {
+          String name = entry.getName();
+          Optional<Long> size = entry.getSize();
+          if (name.startsWith(prefix)
+              && (name.endsWith(".md") || name.endsWith(".html"))
+              && size.isPresent()) {
+            if (size.get() <= 0 || size.get() > SMALL_RESOURCE) {
+              log.warn(
+                  String.format(
+                      "Plugin %s: %s omitted from document index. "
+                          + "Size %d out of range (0,%d).",
+                      pluginName, name.substring(prefix.length()), size.get(), SMALL_RESOURCE));
+              return false;
+            }
+            return true;
           }
-          return true;
-        }
-        return false;
-      }
-    };
+          return false;
+        };
 
-    List<PluginEntry> entries = FluentIterable
-        .from(Collections.list(scanner.entries()))
-        .filter(filter)
-        .toList();
+    List<PluginEntry> entries = Collections.list(scanner.entries()).stream()
+        .filter(filter).collect(toList());
     for (PluginEntry entry: entries) {
       String name = entry.getName().substring(prefix.length());
       if (name.startsWith("cmd-")) {

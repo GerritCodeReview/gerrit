@@ -21,21 +21,7 @@ import com.google.gwtorm.client.IntKey;
 
 /** Static utilities for ReviewDb types. */
 public class ReviewDbUtil {
-  public static final Function<IntKey<?>, Integer> INT_KEY_FUNCTION =
-      new Function<IntKey<?>, Integer>() {
-        @Override
-        public Integer apply(IntKey<?> in) {
-          return in.get();
-        }
-      };
-
-  private static final Function<Change, Change.Id> CHANGE_ID_FUNCTION =
-      new Function<Change, Change.Id>() {
-        @Override
-        public Change.Id apply(Change in) {
-          return in.getId();
-        }
-      };
+  public static final Function<IntKey<?>, Integer> INT_KEY_FUNCTION = IntKey::get;
 
   private static final Ordering<? extends IntKey<?>> INT_KEY_ORDERING =
       Ordering.natural().nullsFirst().onResultOf(INT_KEY_FUNCTION).nullsFirst();
@@ -46,7 +32,7 @@ public class ReviewDbUtil {
   }
 
   public static Function<Change, Change.Id> changeIdFunction() {
-    return CHANGE_ID_FUNCTION;
+    return Change::getId;
   }
 
   public static ReviewDb unwrapDb(ReviewDb db) {

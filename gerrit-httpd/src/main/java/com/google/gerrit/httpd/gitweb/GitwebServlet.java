@@ -609,45 +609,39 @@ class GitwebServlet extends HttpServlet {
       final OutputStream dst) throws IOException {
     final int contentLength = req.getContentLength();
     final InputStream src = req.getInputStream();
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
+    new Thread(() -> {
+      try {
         try {
-          try {
-            final byte[] buf = new byte[bufferSize];
-            int remaining = contentLength;
-            while (0 < remaining) {
-              final int max = Math.max(buf.length, remaining);
-              final int n = src.read(buf, 0, max);
-              if (n < 0) {
-                throw new EOFException("Expected " + remaining + " more bytes");
-              }
-              dst.write(buf, 0, n);
-              remaining -= n;
+          final byte[] buf = new byte[bufferSize];
+          int remaining = contentLength;
+          while (0 < remaining) {
+            final int max = Math.max(buf.length, remaining);
+            final int n = src.read(buf, 0, max);
+            if (n < 0) {
+              throw new EOFException("Expected " + remaining + " more bytes");
             }
-          } finally {
-            dst.close();
+            dst.write(buf, 0, n);
+            remaining -= n;
           }
-        } catch (IOException e) {
-          log.debug("Unexpected error copying input to CGI", e);
+        } finally {
+          dst.close();
         }
+      } catch (IOException e) {
+        log.debug("Unexpected error copying input to CGI", e);
       }
     }, "Gitweb-InputFeeder").start();
   }
 
   private void copyStderrToLog(final InputStream in) {
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try (BufferedReader br =
-            new BufferedReader(new InputStreamReader(in, ISO_8859_1.name()))) {
-          String line;
-          while ((line = br.readLine()) != null) {
-            log.error("CGI: " + line);
-          }
-        } catch (IOException e) {
-          log.debug("Unexpected error copying stderr from CGI", e);
+    new Thread(() -> {
+      try (BufferedReader br =
+          new BufferedReader(new InputStreamReader(in, ISO_8859_1.name()))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+          log.error("CGI: " + line);
         }
+      } catch (IOException e) {
+        log.debug("Unexpected error copying stderr from CGI", e);
       }
     }, "Gitweb-ErrorLogger").start();
   }

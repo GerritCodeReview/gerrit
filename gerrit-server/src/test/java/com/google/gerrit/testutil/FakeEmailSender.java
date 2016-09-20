@@ -14,9 +14,9 @@
 
 package com.google.gerrit.testutil;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.errors.EmailException;
@@ -111,17 +111,14 @@ public class FakeEmailSender implements EmailSender {
     }
   }
 
-  public ImmutableList<Message> getMessages(String changeId, String type) {
+  public List<Message> getMessages(String changeId, String type) {
     final String idFooter = "\nGerrit-Change-Id: " + changeId + "\n";
     final String typeFooter = "\nGerrit-MessageType: " + type + "\n";
-    return FluentIterable.from(getMessages())
-        .filter(new Predicate<Message>() {
-          @Override
-          public boolean apply(Message in) {
-            return in.body().contains(idFooter)
-                && in.body().contains(typeFooter);
-          }
-        }).toList();
+    return getMessages()
+        .stream()
+        .filter(in -> in.body().contains(idFooter)
+            && in.body().contains(typeFooter))
+        .collect(toList());
   }
 
   private void waitForEmails() {

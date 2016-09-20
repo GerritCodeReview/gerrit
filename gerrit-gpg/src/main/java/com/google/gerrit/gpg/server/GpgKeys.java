@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
@@ -211,14 +210,8 @@ public class GpgKeys implements
   @VisibleForTesting
   public static FluentIterable<AccountExternalId> getGpgExtIds(ReviewDb db,
       Account.Id accountId) throws OrmException {
-    return FluentIterable
-        .from(db.accountExternalIds().byAccount(accountId))
-        .filter(new Predicate<AccountExternalId>() {
-          @Override
-          public boolean apply(AccountExternalId in) {
-            return in.isScheme(SCHEME_GPGKEY);
-          }
-        });
+    return FluentIterable.from(db.accountExternalIds().byAccount(accountId))
+        .filter(in -> in.isScheme(SCHEME_GPGKEY));
   }
 
   private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc)

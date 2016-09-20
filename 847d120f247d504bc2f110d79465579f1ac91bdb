@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b62a290_cb87296b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-20T18:24:27Z",
+      "side": 1,
+      "message": "No need for this. This is straightforward enough.",
+      "range": {
+        "startLine": 187,
+        "startChar": 52,
+        "endLine": 187,
+        "endChar": 67
+      },
+      "revId": "847d120f247d504bc2f110d79465579f1ac91bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

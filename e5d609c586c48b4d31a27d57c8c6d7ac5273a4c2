@@ -16,6 +16,24 @@
       "revId": "e5d609c586c48b4d31a27d57c8c6d7ac5273a4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_491f9977",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-20T20:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_48e7933c",
+      "revId": "e5d609c586c48b4d31a27d57c8c6d7ac5273a4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

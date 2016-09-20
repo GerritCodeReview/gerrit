@@ -253,8 +253,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       if (c.assignee() != null) {
         table.setWidget(row, C_ASSIGNEE,
             AccountLinkPanel.forAssignee(c.assignee()));
-        if (Objects.equals(c.assignee().getId(),
-            Gerrit.getUserAccount().getId())) {
+        if (Gerrit.getUserPreferences().highlightAssigneeInChangeTable()
+            && Objects.equals(c.assignee().getId(),
+                Gerrit.getUserAccount().getId())) {
           table.getRowFormatter().addStyleName(row,
               Gerrit.RESOURCES.css().cASSIGNEDTOME());
         }
@@ -264,7 +265,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     table.setWidget(row, C_PROJECT, new ProjectLink(c.projectNameKey()));
-    table.setWidget(row, C_BRANCH, new BranchLink(c.projectNameKey(), c
+    table.setWidget(row, C_BRANCH,
+        new BranchLink(c.projectNameKey(), c
         .status(), c.branch(), c.topic()));
     if (Gerrit.getUserPreferences().relativeDateInChangeTable()) {
       table.setText(row, C_LAST_UPDATE, relativeFormat(c.updated()));

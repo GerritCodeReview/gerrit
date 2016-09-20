@@ -463,7 +463,10 @@ public class StaticModule extends ServletModule {
         FilterChain chain) throws IOException, ServletException {
       HttpServletRequest req = (HttpServletRequest) request;
       HttpServletResponse res = (HttpServletResponse) response;
-      if (!isPolyGerritEnabled(req, res)) {
+      if (handlePolyGerritParam(req, res)) {
+        return;
+      }
+      if (!isPolyGerritEnabled(req)) {
         chain.doFilter(req, res);
         return;
       }
@@ -506,19 +509,33 @@ public class StaticModule extends ServletModule {
       return uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
     }
 
-    private boolean isPolyGerritEnabled(HttpServletRequest req,
-        HttpServletResponse res) {
+    private boolean handlePolyGerritParam(HttpServletRequest req,
+        HttpServletResponse res) throws IOException {
       if (!options.enableGwtUi()) {
-        return true;
+        return false;
       }
+      boolean redirect = false;
       String param = req.getParameter("polygerrit");
       if ("1".equals(param)) {
-        return setPolyGerritCookie(req, res, UiType.POLYGERRIT);
+        setPolyGerritCookie(req, res, UiType.POLYGERRIT);
+        redirect = true;
       } else if ("0".equals(param)) {
-        return setPolyGerritCookie(req, res, UiType.GWT);
-      } else {
-        return isPolyGerritCookie(req);
+        setPolyGerritCookie(req, res, UiType.GWT);
+        redirect = true;
       }
+      if (redirect) {
+        // Strip polygerrit param from URL. This actually strips all params,
+        // which is a similar behavior to the JS PolyGerrit redirector code.
+        // Stripping just one param is frustratingly difficult without the use
+        // of Apache httpclient, which is a dep we don't want here:
+        // https://gerrit-review.googlesource.com/#/c/57570/57/gerrit-httpd/BUCK@32
+        res.sendRedirect(req.getRequestURL().toString());
+      }
+      return redirect;
+    }
+
+    private boolean isPolyGerritEnabled(HttpServletRequest req) {
+      return !options.enableGwtUi() || isPolyGerritCookie(req);
     }
 
     private boolean isPolyGerritCookie(HttpServletRequest req) {
@@ -538,7 +555,7 @@ public class StaticModule extends ServletModule {
       return type == UiType.POLYGERRIT;
     }
 
-    private boolean setPolyGerritCookie(HttpServletRequest req,
+    private void setPolyGerritCookie(HttpServletRequest req,
         HttpServletResponse res, UiType pref) {
       // Only actually set a cookie if both UIs are enabled in the server;
       // otherwise clear it.
@@ -552,7 +569,6 @@ public class StaticModule extends ServletModule {
         cookie.setMaxAge(0);
       }
       res.addCookie(cookie);
-      return pref == UiType.POLYGERRIT;
     }
 
     private static boolean isSecure(HttpServletRequest req) {

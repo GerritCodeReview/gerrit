@@ -1176,6 +1176,10 @@ public class ChangeData {
     return assignee;
   }
 
+  public void setAssignee(Account.Id assignee) {
+    this.assignee = assignee;
+  }
+
   public Set<String> hashtags() throws OrmException {
     if (hashtags == null) {
       if (!lazyLoad) {

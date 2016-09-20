@@ -17,7 +17,6 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.GeneralPreferences;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.i18n.client.NumberFormat;
 
 import java.util.Date;

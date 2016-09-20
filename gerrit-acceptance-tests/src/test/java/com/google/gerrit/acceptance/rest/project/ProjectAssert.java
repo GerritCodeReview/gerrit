@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -45,13 +44,8 @@ public class ProjectAssert {
           .that(Url.decode(info.id))
           .isEqualTo(info.name);
     }
-    return assertThat(Iterables.transform(actual,
-        new Function<ProjectInfo, Project.NameKey>() {
-          @Override
-          public Project.NameKey apply(ProjectInfo in) {
-            return new Project.NameKey(in.name);
-          }
-        }));
+    return assertThat(
+        Iterables.transform(actual, p -> new Project.NameKey(p.name)));
   }
 
   public static void assertProjectInfo(Project project, ProjectInfo info) {

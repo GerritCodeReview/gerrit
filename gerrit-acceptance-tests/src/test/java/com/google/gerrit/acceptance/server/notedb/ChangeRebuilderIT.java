@@ -22,7 +22,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -448,12 +447,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(
             Iterables.transform(
                 notes.getChangeMessages(),
-                new Function<ChangeMessage, String>() {
-                  @Override
-                  public String apply(ChangeMessage in) {
-                    return in.getMessage();
-                  }
-                }))
+                ChangeMessage::getMessage))
         .contains(msg);
   }
 

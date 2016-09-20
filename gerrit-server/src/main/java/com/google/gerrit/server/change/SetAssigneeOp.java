@@ -16,11 +16,13 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -31,6 +33,8 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.validators.AssigneeValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -46,6 +50,9 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private final AccountInfoCacheFactory.Factory accountInfosFactory;
   private final NotesMigration notesMigration;
   private final String anonymousCowardName;
+  private final DynamicSet<AssigneeValidationListener> validationListeners;
+
+  private Change change;
   private Account newAssignee;
 
   @AssistedInject
@@ -54,13 +61,15 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
       @AnonymousCowardName String anonymousCowardName,
-      @Assisted AssigneeInput input) {
+      @Assisted AssigneeInput input,
+      DynamicSet<AssigneeValidationListener> validationListeners) {
     this.accounts = accounts;
     this.notesMigration = notesMigration;
     this.cmUtil = cmUtil;
     this.accountInfosFactory = accountInfosFactory;
     this.anonymousCowardName = anonymousCowardName;
     this.input = input;
+    this.validationListeners = validationListeners;
   }
 
   @Override
@@ -100,6 +109,13 @@ public class SetAssigneeOp extends BatchUpdate.Op {
           "Change %s is not visible to %s.",
           ctx.getChange().getChangeId(),
           newAssigneeUser.getUserName()));
+    }
+    try {
+      for (AssigneeValidationListener validator : validationListeners) {
+        validator.validateAssignee(change, newAssigneeUser.getAccount());
+      }
+    } catch (ValidationException e) {
+      throw new BadRequestException(e.getMessage());
     }
     update.setAssignee(Optional.fromNullable(newAssigneeUser.getAccountId()));
     this.newAssignee = newAssigneeUser.getAccount();

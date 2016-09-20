@@ -29,11 +29,10 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Enums;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
@@ -866,13 +865,8 @@ class ChangeNotesParser {
       missing.add(FOOTER_SUBJECT);
     }
     if (!missing.isEmpty()) {
-      throw parseException("Missing footers: " + Joiner.on(", ")
-          .join(Lists.transform(missing, new Function<FooterKey, String>() {
-            @Override
-            public String apply(FooterKey input) {
-              return input.getName();
-            }
-          })));
+      throw parseException("Missing footers: "
+          + missing.stream().map(FooterKey::getName).collect(joining(", ")));
     }
   }
 

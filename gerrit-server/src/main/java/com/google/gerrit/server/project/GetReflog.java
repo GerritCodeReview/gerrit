@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -102,12 +101,7 @@ public class GetReflog implements RestReadView<BranchResource> {
           }
         }
       }
-      return Lists.transform(entries, new Function<ReflogEntry, ReflogEntryInfo>() {
-        @Override
-        public ReflogEntryInfo apply(ReflogEntry e) {
-          return new ReflogEntryInfo(e);
-        }
-      });
+      return Lists.transform(entries, ReflogEntryInfo::new);
     }
   }
 

@@ -161,17 +161,10 @@ public class Field<T> {
   private static <T> Function<T, String> initFormatter(Class<T> keyType) {
     if (keyType == String.class) {
       return (Function<T, String>) Functions.<String> identity();
-
     } else if (keyType == Integer.class || keyType == Boolean.class) {
       return (Function<T, String>) Functions.toStringFunction();
-
     } else if (Enum.class.isAssignableFrom(keyType)) {
-      return new Function<T, String>() {
-        @Override
-        public String apply(T in) {
-          return ((Enum<?>) in).name();
-        }
-      };
+      return in -> ((Enum<?>) in).name();
     }
     throw new IllegalStateException("unsupported type " + keyType.getName());
   }

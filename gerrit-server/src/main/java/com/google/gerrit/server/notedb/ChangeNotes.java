@@ -19,9 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -70,7 +70,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -84,22 +83,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private static final Logger log = LoggerFactory.getLogger(ChangeNotes.class);
 
   static final Ordering<PatchSetApproval> PSA_BY_TIME =
-      Ordering.natural().onResultOf(
-        new Function<PatchSetApproval, Timestamp>() {
-          @Override
-          public Timestamp apply(PatchSetApproval input) {
-            return input.getGranted();
-          }
-        });
+      Ordering.from(comparing(PatchSetApproval::getGranted));
 
   public static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
-      Ordering.natural().onResultOf(
-        new Function<ChangeMessage, Timestamp>() {
-          @Override
-          public Timestamp apply(ChangeMessage input) {
-            return input.getWrittenOn();
-          }
-        });
+      Ordering.from(comparing(ChangeMessage::getWrittenOn));
 
   public static ConfigInvalidException parseException(Change.Id changeId,
       String fmt, Object... args) {

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.metrics.dropwizard.MetricResource.METRIC_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -304,14 +303,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   @Override
   public synchronized RegistrationHandle newTrigger(
       Set<CallbackMetric<?>> metrics, Runnable trigger) {
-    final ImmutableSet<CallbackMetricGlue> all = FluentIterable.from(metrics)
-        .transform(
-          new Function<CallbackMetric<?>, CallbackMetricGlue>() {
-            @Override
-            public CallbackMetricGlue apply(CallbackMetric<?> input) {
-              return (CallbackMetricGlue) input;
-            }
-          })
+    ImmutableSet<CallbackMetricGlue> all = FluentIterable.from(metrics)
+        .transform(m -> (CallbackMetricGlue) m)
         .toSet();
 
     trigger = new CallbackGroup(trigger, all);

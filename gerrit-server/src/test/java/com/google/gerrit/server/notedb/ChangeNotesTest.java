@@ -24,7 +24,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -34,7 +33,6 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -47,6 +45,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -377,13 +376,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    List<PatchSetApproval> approvals = Ordering.natural().onResultOf(
-        new Function<PatchSetApproval, Integer>() {
-          @Override
-          public Integer apply(PatchSetApproval in) {
-            return in.getAccountId().get();
-          }
-        }).sortedCopy(notes.getApprovals().get(c.currentPatchSetId()));
+    List<PatchSetApproval> approvals = ReviewDbUtil.intKeyOrdering()
+        .onResultOf(PatchSetApproval::getAccountId)
+        .sortedCopy(notes.getApprovals().get(c.currentPatchSetId()));
     assertThat(approvals).hasSize(2);
 
     assertThat(approvals.get(0).getAccountId())

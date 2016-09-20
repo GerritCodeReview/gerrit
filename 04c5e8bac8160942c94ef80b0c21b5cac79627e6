@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1474380955 -0400\nnonce AE+e84bNjq+pcuMjxUDFxQSAlRCHJi5Dvb8UCUEAJpZrkO8r+ZYGbRCQXjRWmimkA26dy8jBHdmA\n\n0000000000000000000000000000000000000000 04c5e8bac8160942c94ef80b0c21b5cac79627e6 refs/for/master%r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX4USbAAoJEF/XxZqaEoiMNrIP/1gmD+oDUD4cL4ia/sIEkBxb\nhCotGHsrPvtWwWYr2SknZPRMWfx95hGwRAB5i/kXYjwAXUiEa7jVPREqQIQu3zd6\noPWXybQ695ZsaCXv4RJWMZcZwdrNxgNQ0EPIq7rZAxD+hI7avGE6NRmO0QCMn/Na\nixw/FNl5l8wMWasNrKBQrgR138GymMnkEwhUkngJ8IQ2Xb1hkMXseZrSjzq4v+Ag\nNs2rbPqC8IbEOyTGAb7crSk4NqvG/8L6jBmQDzKmjp0TUfkJGbTvE+Q0luJIcrit\nUM7JXZE5txlTib1ob6xOv4qS64M49svGtP/gupsgql1+dyf7VZy+jNyr05HNLxTS\nM6FctdQDjpKzGdFa2GVtXaYzTXnAC77H/+hNXMJbP9B8KCjoqbOeoNgt1baPdu6s\n7T2uh7FsZ5ygkIY/wj9ZghyhUFtqpiTKjcFqE4bwHgQ9+llcmjoVqx5EuaG2dCfc\nCkgsjFe+oVKc6ZqxP9UvZ/rCfe9tM1enPWF4LpsxvBfL216F6kR7TzLQZjMbbJdZ\nwkSe4kyOlN/AI3UosHKWBihnXmcWdgtQoxQVThFlxlw1I37eN8am0bYYyu9f0hcI\nD95klB2I0IHTkVlG74tYiS3knKXInn1jLjlwGpV78UozQwR8ermVoMr2oV2HUx9H\nn300aZLF1kTVjxRTod/4\n\u003dEPHc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_c949e9ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T15:56:15Z",
+      "side": 1,
+      "message": "That\u0027s weird. The base version was more verbose, but less weird, as it was obvious about the conversion:\n\n  public Metric apply(ValueGauge in) {\n    return in;\n  }\n\nSo it was obvious, that we downcast. I guess we still want the lambda version.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 49
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_68fd37ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T15:56:15Z",
+      "side": 1,
+      "message": "or:\n\n  filter(Objects::nonNull)",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 32
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_883a3bd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T15:56:15Z",
+      "side": 1,
+      "message": "nice.",
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_c85603fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T15:56:15Z",
+      "side": 1,
+      "message": "Add a blank line between com and java package static imports?",
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

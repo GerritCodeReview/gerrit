@@ -50,6 +50,8 @@ import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
+import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -175,6 +177,7 @@ public class InMemoryModule extends FactoryModule {
       .to(InMemoryH2Type.class);
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
         .to(InMemoryDatabase.class);
+    bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
 
     bind(SecureStore.class).to(DefaultSecureStore.class);
 

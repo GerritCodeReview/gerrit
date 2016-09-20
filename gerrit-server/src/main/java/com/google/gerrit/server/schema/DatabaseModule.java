@@ -18,6 +18,8 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
+import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Key;
@@ -37,5 +39,6 @@ public class DatabaseModule extends FactoryModule {
         .to(database)
         .in(SINGLETON);
     bind(database).toProvider(ReviewDbDatabaseProvider.class);
+    bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
   }
 }

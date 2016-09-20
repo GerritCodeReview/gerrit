@@ -50,7 +50,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
@@ -82,25 +81,6 @@ import java.util.TreeSet;
 public class ChangeBundle {
   public enum Source {
     REVIEW_DB, NOTE_DB;
-  }
-
-  public static ChangeBundle fromReviewDb(ReviewDb db, Change.Id id)
-      throws OrmException {
-    db.changes().beginTransaction(id);
-    try {
-      List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(id).toList();
-      return new ChangeBundle(
-          db.changes().get(id),
-          db.changeMessages().byChange(id),
-          db.patchSets().byChange(id),
-          approvals,
-          db.patchComments().byChange(id),
-          ReviewerSet.fromApprovals(approvals),
-          Source.REVIEW_DB);
-    } finally {
-      db.rollback();
-    }
   }
 
   public static ChangeBundle fromNotes(PatchLineCommentsUtil plcUtil,

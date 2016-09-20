@@ -97,6 +97,9 @@ public interface ChangeApi {
   List<ChangeInfo> submittedTogether() throws RestApiException;
   SubmittedTogetherInfo submittedTogether(
       EnumSet<SubmittedTogetherOption> options) throws RestApiException;
+  SubmittedTogetherInfo submittedTogether(
+      EnumSet<ListChangesOption> listOptions,
+      EnumSet<SubmittedTogetherOption> submitOptions) throws RestApiException;
 
   /**
    * Publishes a draft change.
@@ -358,6 +361,13 @@ public interface ChangeApi {
     @Override
     public SubmittedTogetherInfo submittedTogether(
         EnumSet<SubmittedTogetherOption> options) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SubmittedTogetherInfo submittedTogether(
+        EnumSet<ListChangesOption> a,
+        EnumSet<SubmittedTogetherOption> b) throws RestApiException {
       throw new NotImplementedException();
     }
   }

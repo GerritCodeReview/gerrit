@@ -51,6 +51,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   private final EnumSet<SubmittedTogetherOption> options =
       EnumSet.noneOf(SubmittedTogetherOption.class);
+
+  private final EnumSet<ListChangesOption> jsonOpt = EnumSet.of(
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.CURRENT_COMMIT);
+
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -58,8 +63,22 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final Provider<WalkSorter> sorter;
 
   @Option(name = "-o", usage = "Output options")
-  void addOption(SubmittedTogetherOption o) {
-    options.add(o);
+  void addOption(String option) {
+    for (ListChangesOption o : ListChangesOption.values()) {
+      if (o.name().equals(option)) {
+        jsonOpt.add(o);
+        break;
+      }
+    }
+
+    for (SubmittedTogetherOption o : SubmittedTogetherOption.values()) {
+      if (o.name().equals(option)) {
+        options.add(o);
+        break;
+      }
+    }
+
+    throw new IllegalArgumentException("option not recognized " + option);
   }
 
   @Inject
@@ -123,9 +142,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       }
 
       SubmittedTogetherInfo info = new SubmittedTogetherInfo();
-      info.changes = json.create(EnumSet.of(
-          ListChangesOption.CURRENT_REVISION,
-          ListChangesOption.CURRENT_COMMIT))
+      info.changes = json.create(jsonOpt)
         .includeSubmittable(true)
         .formatChangeDatas(cds);
       info.nonVisibleChanges = hidden;

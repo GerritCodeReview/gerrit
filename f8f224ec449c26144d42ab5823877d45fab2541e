@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_852986a9",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-20T10:03:25Z",
+      "side": 1,
+      "message": "use \" \".join(  and drop the extra spaces below,\n\ncompiler \u003d \" \".join([ .. ] )\ncmd \u003d \u0027 \u0026\u0026 \u0027.join([compiler, ... ])",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_e6e21a95",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-20T10:03:25Z",
+      "side": 1,
+      "message": "$(find .) is risky. It can easily overflow command line size limit. Can you use zip -r or similar?",
+      "range": {
+        "startLine": 47,
+        "startChar": 31,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_46f82643",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-20T10:03:25Z",
+      "side": 1,
+      "message": "you have 2 fies called gwt.bzl; sounds confusing. Maybe merge both, or rename one of them.",
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

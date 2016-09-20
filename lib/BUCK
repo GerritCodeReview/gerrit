@@ -39,9 +39,9 @@ define_license(name = 'DO_NOT_DISTRIBUTE')
 
 maven_jar(
   name = 'gwtorm_client',
-  id = 'com.google.gerrit:gwtorm:1.15',
-  bin_sha1 = '26a2459f543ed78977535f92e379dc0d6cdde8bb',
-  src_sha1 = '9524088d6e46e299b12791cb1a63c4ba6a478b96',
+  id = 'com.google.gerrit:gwtorm:1.16',
+  bin_sha1 = '3e41b6d7bb352fa0539ce23b9bce97cf8c26c3bf',
+  src_sha1 = 'f45b7bacc79a0e5a7f6cf799a2dba23cc5bca19b',
   license = 'Apache2.0',
 )
 
@@ -54,9 +54,9 @@ java_library(
 
 maven_jar(
   name = 'gwtjsonrpc',
-  id = 'com.google.gerrit:gwtjsonrpc:1.10',
-  bin_sha1 = '25adea6ef102b761993688e80dfc7203e0f5edf0',
-  src_sha1 = '4401b5868976460f8fac504cf730425ed95481ff',
+  id = 'com.google.gerrit:gwtjsonrpc:1.11',
+  bin_sha1 = '0990e7eec9eec3a15661edcf9232acbac4aeacec',
+  src_sha1 = 'a682afc46284fb58197a173cb5818770a1e7834a',
   license = 'Apache2.0',
 )
 

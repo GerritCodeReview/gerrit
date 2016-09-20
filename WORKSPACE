@@ -165,14 +165,14 @@ maven_jar(
 
 maven_jar(
   name = 'gwtjsonrpc',
-  artifact = 'com.google.gerrit:gwtjsonrpc:1.10',
-  sha1 = '25adea6ef102b761993688e80dfc7203e0f5edf0',
+  artifact = 'com.google.gerrit:gwtjsonrpc:1.11',
+  sha1 = '9587c6f88f1964f1aa61212a162c776c71d77456',
 )
 
 http_jar(
   name = 'gwtjsonrpc_src',
-  sha256 = '009c4c7574eaddf49d2c72dd015cfbd5b495fbeea4c3958c2ec548af2c186733',
-  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtjsonrpc/1.10/gwtjsonrpc-1.10-sources.jar',
+  sha256 = 'fc503488872c022073e244015fcb6806a64b65afe546bdac2db167a3875fb418',
+  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtjsonrpc/1.11/gwtjsonrpc-1.11-sources.jar',
 )
 
 maven_jar(
@@ -183,14 +183,14 @@ maven_jar(
 
 maven_jar(
   name = 'gwtorm_client',
-  artifact = 'com.google.gerrit:gwtorm:1.15',
-  sha1 = '26a2459f543ed78977535f92e379dc0d6cdde8bb',
+  artifact = 'com.google.gerrit:gwtorm:1.16',
+  sha1 = 'b91331724669f8136426f0f4846ddcec0f6eb22f',
 )
 
 http_jar(
   name = 'gwtorm_client_src',
-  sha256 = 'e0cf9382ed8c3cd1f0884ab77dabe634a04546676c4960d8b4c4b64a20132ef6',
-  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtorm/1.15/gwtorm-1.15-sources.jar',
+  sha256 = 'd3e482c9ac1f828aa853debe6545c16503fbbde3bda94b18f652d9830b7f84b1',
+  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtorm/1.16/gwtorm-1.16-sources.jar',
 )
 
 maven_jar(

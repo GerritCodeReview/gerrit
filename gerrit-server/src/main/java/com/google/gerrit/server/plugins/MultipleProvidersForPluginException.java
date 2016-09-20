@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.plugins;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
+import static java.util.stream.Collectors.joining;
 
 import java.nio.file.Path;
+import java.util.stream.StreamSupport;
 
 class MultipleProvidersForPluginException extends IllegalArgumentException {
   private static final long serialVersionUID = 1L;
@@ -32,14 +31,8 @@ class MultipleProvidersForPluginException extends IllegalArgumentException {
 
   private static String providersListToString(
       Iterable<ServerPluginProvider> providersHandlers) {
-    Iterable<String> providerNames =
-        Iterables.transform(providersHandlers,
-            new Function<ServerPluginProvider, String>() {
-              @Override
-              public String apply(ServerPluginProvider provider) {
-                return provider.getProviderPluginName();
-              }
-            });
-    return Joiner.on(", ").join(providerNames);
+    return StreamSupport.stream(providersHandlers.spliterator(), false)
+        .map(ServerPluginProvider::getProviderPluginName)
+        .collect(joining(", "));
   }
 }

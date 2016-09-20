@@ -50,15 +50,6 @@ import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
-
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,6 +58,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private static final Logger log =
@@ -379,14 +377,11 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
   private static Function<PatchSetApproval, PatchSetApproval>
       convertPatchSet(final PatchSet.Id psId) {
-    return new Function<PatchSetApproval, PatchSetApproval>() {
-      @Override
-      public PatchSetApproval apply(PatchSetApproval in) {
-        if (in.getPatchSetId().equals(psId)) {
-          return in;
-        }
-        return new PatchSetApproval(psId, in);
+    return psa -> {
+      if (psa.getPatchSetId().equals(psId)) {
+        return psa;
       }
+      return new PatchSetApproval(psId, psa);
     };
   }
 
@@ -397,14 +392,12 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
   private static Iterable<PatchSetApproval> zero(
       Iterable<PatchSetApproval> approvals) {
-    return Iterables.transform(approvals,
-        new Function<PatchSetApproval, PatchSetApproval>() {
-          @Override
-          public PatchSetApproval apply(PatchSetApproval in) {
-            PatchSetApproval copy = new PatchSetApproval(in.getPatchSetId(), in);
-            copy.setValue((short) 0);
-            return copy;
-          }
+    return Iterables.transform(
+        approvals,
+        a -> {
+          PatchSetApproval copy = new PatchSetApproval(a.getPatchSetId(), a);
+          copy.setValue((short) 0);
+          return copy;
         });
   }
 

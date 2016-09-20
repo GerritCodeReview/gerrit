@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_263d22ca",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T11:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_05abb6e4",
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_852986a9",
         "filename": "gerrit-gwtui/gwt.bzl",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_4606662d",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T11:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_852986a9",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_e6e21a95",
         "filename": "gerrit-gwtui/gwt.bzl",
         "patchSetId": 5
@@ -53,6 +95,30 @@
       "writtenOn": "2016-09-20T10:03:25Z",
       "side": 1,
       "message": "$(find .) is risky. It can easily overflow command line size limit. Can you use zip -r or similar?",
+      "range": {
+        "startLine": 47,
+        "startChar": 31,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "f8f224ec449c26144d42ab5823877d45fab2541e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_66372ae8",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-20T11:48:00Z",
+      "side": 1,
+      "message": "This is the common pattern to be used with zipper utility provided by Bazel, as -r isn\u0027t supported yet. We also use it in other places:\n\n  gerrit-antlr/BUILD: \u0027$$ROOT/$(location @bazel_tools//tools/zip:zipper) cC $$ROOT/$@ $$(find .)\u0027\n\nShould we generally replace it with native zip -r command? Could be done in follow up, though.",
+      "parentUuid": "4be70257_e6e21a95",
       "range": {
         "startLine": 47,
         "startChar": 31,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb5c36da_081d471c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/InitStep.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2016-09-20T18:51:56Z",
+      "side": 1,
+      "message": "All method declarations in an interface, including default methods, are implicitly public, so you can omit the public modifier.",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "3931c16bdb1cb4dada80a34deb4a645d5b90ff48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

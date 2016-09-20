@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a56383_a45ce277",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-20T18:49:27Z",
+      "side": 1,
+      "message": "I\u0027d recommend a call to flushAsynchronousOperations() after any time you call MockInteractions.tap. It may not be necessary for the tests to pass now, but if anyone ever adds another listener to save or if save becomes more elaborate the test may fail... And if it fails, it\u0027ll only fail *sometimes* because of varying asynchronicity.",
+      "revId": "3a2ab61aa0f839c5efb605d074eeb8680edf0802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a56383_444baeb0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-20T18:49:27Z",
+      "side": 1,
+      "message": "Add break; after this line.",
+      "range": {
+        "startLine": 258,
+        "startChar": 10,
+        "endLine": 258,
+        "endChar": 28
+      },
+      "revId": "3a2ab61aa0f839c5efb605d074eeb8680edf0802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a56383_64502a5a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-20T18:49:27Z",
+      "side": 1,
+      "message": "Delete this line.",
+      "revId": "3a2ab61aa0f839c5efb605d074eeb8680edf0802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

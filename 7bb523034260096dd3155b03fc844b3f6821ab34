@@ -46,6 +46,24 @@
       "revId": "7bb523034260096dd3155b03fc844b3f6821ab34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_652602d7",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-20T09:31:31Z",
+      "side": 1,
+      "message": "fair enough. I suggest to make ui\u003d\"\" the default, but if you insist on this, use \n\n  ui \u003d \"\"\n\nrather than \n\n  ui \u003d []\n\nin the call",
+      "parentUuid": "4be70257_263b6228",
+      "revId": "7bb523034260096dd3155b03fc844b3f6821ab34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -89,6 +89,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.timeFormat = TimeFormat.HHMM_24;
     i.emailStrategy = EmailStrategy.DISABLED;
     i.defaultBaseForMerges = DefaultBase.AUTO_MERGE;
+    i.highlightAssigneeInChangeTable ^= true;
     i.relativeDateInChangeTable ^= true;
     i.sizeBarInChangeTable ^= true;
     i.legacycidInChangeTable ^= true;

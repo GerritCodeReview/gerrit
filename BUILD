@@ -1,11 +1,10 @@
-load('//tools/bzl:genrule2.bzl', 'genrule2')
 load('//tools/bzl:pkg_war.bzl', 'pkg_war')
 
-genrule2(
-  name = 'version',
-  srcs = ['VERSION'],
-  cmd = "grep GERRIT_VERSION $< | cut -d \"'\" -f 2 >$@",
-  out = 'version.txt',
+genrule(
+  name = 'gen_version',
+  stamp = 1,
+  cmd = "grep STABLE_BUILD_GERRIT_LABEL < bazel-out/volatile-status.txt | cut -d ' ' -f 2 > $@",
+  outs = ['version.txt'],
   visibility = ['//visibility:public'],
 )
 

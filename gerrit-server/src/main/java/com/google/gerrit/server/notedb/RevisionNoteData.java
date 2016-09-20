@@ -48,19 +48,17 @@ class RevisionNoteData {
     String uuid;
     String filename;
     int patchSetId;
-    int changeId;
 
     CommentKey(PatchLineComment.Key k) {
       uuid = k.get();
       filename = k.getParentKey().getFileName();
       patchSetId = k.getParentKey().getParentKey().get();
-      changeId = k.getParentKey().getParentKey().getParentKey().get();
     }
 
-    PatchLineComment.Key export() {
+    PatchLineComment.Key export(Change.Id changeId) {
       return new PatchLineComment.Key(
           new Patch.Key(
-              new PatchSet.Id(new Change.Id(changeId), patchSetId),
+              new PatchSet.Id(changeId, patchSetId),
               filename),
           uuid);
     }
@@ -112,9 +110,9 @@ class RevisionNoteData {
       this.serverId = serverId;
     }
 
-    PatchLineComment export() {
+    PatchLineComment export(Change.Id changeId) {
       PatchLineComment plc = new PatchLineComment(
-          key.export(), lineNbr, author.export(), parentUuid, writtenOn);
+          key.export(changeId), lineNbr, author.export(), parentUuid, writtenOn);
       plc.setSide(side);
       plc.setMessage(message);
       if (range != null) {
@@ -130,13 +128,13 @@ class RevisionNoteData {
   String pushCert;
   List<Comment> comments;
 
-  ImmutableList<PatchLineComment> exportComments(
+  ImmutableList<PatchLineComment> exportComments(final Change.Id changeId,
       final PatchLineComment.Status status) {
     return ImmutableList.copyOf(
         Lists.transform(comments, new Function<Comment, PatchLineComment>() {
           @Override
           public PatchLineComment apply(Comment c) {
-            PatchLineComment plc = c.export();
+            PatchLineComment plc = c.export(changeId);
             plc.setStatus(status);
             return plc;
           }

@@ -83,7 +83,7 @@ class RevisionNote {
 
     if (isJson(raw, p.value)) {
       RevisionNoteData data = parseJson(noteUtil, p.value);
-      comments = data.exportComments(status);
+      comments = data.exportComments(changeId, status);
       if (status == PatchLineComment.Status.PUBLISHED) {
         pushCert = data.pushCert;
       } else {

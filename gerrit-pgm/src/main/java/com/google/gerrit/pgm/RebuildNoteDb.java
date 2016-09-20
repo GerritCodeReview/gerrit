@@ -17,7 +17,6 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
@@ -234,13 +233,8 @@ public class RebuildNoteDb extends SiteProgram {
         ArrayListMultimap.create();
     try (ReviewDb db = schemaFactory.open()) {
       if (projects.isEmpty() && !changes.isEmpty()) {
-        Iterable<Change> todo = unwrapDb(db).changes().get(
-            Iterables.transform(changes, new Function<Integer, Change.Id>() {
-              @Override
-              public Change.Id apply(Integer in) {
-                return new Change.Id(in);
-              }
-            }));
+        Iterable<Change> todo = unwrapDb(db).changes()
+            .get(Iterables.transform(changes, Change.Id::new));
         for (Change c : todo) {
           changesByProject.put(c.getProject(), c.getId());
         }

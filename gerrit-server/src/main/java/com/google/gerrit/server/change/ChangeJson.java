@@ -35,8 +35,9 @@ import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPD
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
@@ -298,13 +299,8 @@ public class ChangeJson {
   public List<List<ChangeInfo>> formatQueryResults(
       List<QueryResult<ChangeData>> in) throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    ensureLoaded(FluentIterable.from(in).transformAndConcat(
-        new Function<QueryResult<ChangeData>, List<ChangeData>>() {
-          @Override
-          public List<ChangeData> apply(QueryResult<ChangeData> in) {
-            return in.entities();
-          }
-        }));
+    ensureLoaded(
+        FluentIterable.from(in).transformAndConcat(QueryResult::entities));
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     Map<Change.Id, ChangeInfo> out = new HashMap<>();
@@ -599,7 +595,7 @@ public class ChangeJson {
       ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
       : labelsForClosedChange(cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(
-        Maps.transformValues(withStatus, LabelWithStatus.TO_LABEL_INFO));
+        Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
   private Map<String, LabelWithStatus> labelsForOpenChange(ChangeControl ctl,
@@ -952,14 +948,10 @@ public class ChangeJson {
 
   private Collection<AccountInfo> toAccountInfo(
       Collection<Account.Id> accounts) {
-    return FluentIterable.from(accounts)
-        .transform(new Function<Account.Id, AccountInfo>() {
-          @Override
-          public AccountInfo apply(Account.Id id) {
-            return accountLoader.get(id);
-          }
-        })
-        .toSortedList(AccountInfoComparator.ORDER_NULLS_FIRST);
+    return accounts.stream()
+        .map(accountLoader::get)
+        .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
+        .collect(toList());
   }
 
   @Nullable
@@ -1185,14 +1177,6 @@ public class ChangeJson {
 
   @AutoValue
   abstract static class LabelWithStatus {
-    private static final Function<LabelWithStatus, LabelInfo> TO_LABEL_INFO =
-        new Function<LabelWithStatus, LabelInfo>() {
-          @Override
-          public LabelInfo apply(LabelWithStatus in) {
-            return in.label();
-          }
-        };
-
     private static LabelWithStatus create(LabelInfo label,
         SubmitRecord.Label.Status status) {
       return new AutoValue_ChangeJson_LabelWithStatus(label, status);

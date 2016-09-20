@@ -19,13 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
-import static com.google.gerrit.server.ChangeUtil.TO_PS_ID;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.FooterConstants;
@@ -255,13 +252,10 @@ public class ConsistencyChecker {
 
     Map<String, Ref> refs;
     try {
-    refs = repo.getRefDatabase().exactRef(
-        Lists.transform(all, new Function<PatchSet, String>() {
-          @Override
-          public String apply(PatchSet ps) {
-            return ps.getId().toRefName();
-          }
-        }).toArray(new String[all.size()]));
+      refs = repo.getRefDatabase().exactRef(
+          all.stream()
+              .map(ps -> ps.getId().toRefName())
+              .toArray(i -> new String[i]));
     } catch (IOException e) {
       error("error reading refs", e);
       refs = Collections.emptyMap();
@@ -319,7 +313,7 @@ public class ConsistencyChecker {
       if (e.getValue().size() > 1) {
         problem(String.format("Multiple patch sets pointing to %s: %s",
             e.getKey().name(),
-            Collections2.transform(e.getValue(), TO_PS_ID)));
+            Collections2.transform(e.getValue(), PatchSet::getPatchSetId)));
       }
     }
 

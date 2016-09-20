@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.mail.Address;
@@ -29,13 +28,7 @@ import java.util.Arrays;
 public class TestAccount {
   public static FluentIterable<Account.Id> ids(
       Iterable<TestAccount> accounts) {
-    return FluentIterable.from(accounts)
-        .transform(new Function<TestAccount, Account.Id>() {
-          @Override
-          public Account.Id apply(TestAccount in) {
-            return in.id;
-          }
-        });
+    return FluentIterable.from(accounts).transform(a -> a.id);
   }
 
   public static FluentIterable<Account.Id> ids(TestAccount... accounts) {
@@ -43,13 +36,7 @@ public class TestAccount {
   }
 
   public static FluentIterable<String> names(Iterable<TestAccount> accounts) {
-    return FluentIterable.from(accounts)
-        .transform(new Function<TestAccount, String>() {
-          @Override
-          public String apply(TestAccount in) {
-            return in.fullName;
-          }
-        });
+    return FluentIterable.from(accounts).transform(a -> a.fullName);
   }
 
   public static FluentIterable<String> names(TestAccount... accounts) {

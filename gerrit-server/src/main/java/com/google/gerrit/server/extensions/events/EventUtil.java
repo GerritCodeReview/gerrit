@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountJson;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -82,11 +83,7 @@ public class EventUtil {
     if (a == null || a.getId() == null) {
       return null;
     }
-    AccountInfo ai = new AccountInfo(a.getId().get());
-    ai.email = a.getPreferredEmail();
-    ai.name = a.getFullName();
-    ai.username = a.getUserName();
-    return ai;
+    return AccountJson.toAccountInfo(a);
   }
 
   public AccountInfo accountInfo(Account.Id accountId) {

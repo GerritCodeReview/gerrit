@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1474274488 +0200\nnonce AE+e84b2xahExbbyn28zb265bTyiBG9Ph95E1iiYxmJXtmKBMmN4f1ZjBWq8HY3jJCZFoJT/YVIN\n\n0000000000000000000000000000000000000000 f9f6aa952e1ce4e3c0d669e4652f26405350ea55 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX36S4AAoJEHFVO370GiZW7L8H/jIaRBk3a1mlzGlLEDjBDstp\nACgE+Un7WRqq3IV8OqbioBUaMrq0I4qJrywJ1Km3i8CbgU8FQccyS6e4/1d58JWs\n5E1d6k9a/fpQRWK0Ft1tJKOn0blXzzIevHF6M1g0eIb0OLXgizfpj6ChkZzVPa3W\ncOq/Zf6+qAIZGl2r/o/Ni7sazK2s31ruDowyiDYCWURToTv4ffx7xY+sDLUU7Qg+\nNyC9PlbZrXTbaHfdhhuBlgPoVLra33CcCY3hEDGesnnLHaymGnmJuEnWsRPszFeh\nulT7R4iZSBiBPxHeaaHDb/tf0HrB1ctemRqijZbU2zFbrrj/3TI1CRji5FQOe90\u003d\n\u003deK9S\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_88c51b30",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T13:16:39Z",
+      "side": 1,
+      "message": "assertThat(contentEntry.b).containsExactlyElementsIn(expectedLines).inOrder()",
+      "range": {
+        "startLine": 1138,
+        "startChar": 4,
+        "endLine": 1141,
+        "endChar": 5
+      },
+      "revId": "303450d1e29d7715af3052f503aa847a7b558db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_661a8a26",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/FileInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T13:16:39Z",
+      "side": 1,
+      "message": "There are constants for these, right?",
+      "revId": "303450d1e29d7715af3052f503aa847a7b558db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_a64ad20a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/MergeListBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-20T13:16:39Z",
+      "side": 1,
+      "message": "Why is this not static, do you expect to have some injected members later?",
+      "revId": "303450d1e29d7715af3052f503aa847a7b558db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

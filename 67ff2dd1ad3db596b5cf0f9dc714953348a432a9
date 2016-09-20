@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a2af7a_6367c251",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-20T18:43:55Z",
+      "side": 1,
+      "message": "Could you put a short comment describing what these functions do? No need for full fledged JSDoc, but it\u0027s not completely clear to me why they\u0027re returning what they are.",
+      "revId": "67ff2dd1ad3db596b5cf0f9dc714953348a432a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

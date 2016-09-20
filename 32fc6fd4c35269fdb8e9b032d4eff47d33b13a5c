@@ -68,6 +68,29 @@
       "revId": "32fc6fd4c35269fdb8e9b032d4eff47d33b13a5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_c5a0ae02",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-09-20T10:00:41Z",
+      "side": 1,
+      "message": "not only milliseconds are supported, time unit are so I will fix this in next ps",
+      "range": {
+        "startLine": 1431,
+        "startChar": 1,
+        "endLine": 1432,
+        "endChar": 21
+      },
+      "revId": "32fc6fd4c35269fdb8e9b032d4eff47d33b13a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

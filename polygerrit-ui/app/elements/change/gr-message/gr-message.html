@@ -42,7 +42,6 @@ limitations under the License.
         color: #777;
         white-space: nowrap;
         overflow-x: hidden;
-        text-overflow: ellipsis;
       }
       .showAvatar.expanded .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 2.5em);
@@ -51,6 +50,11 @@ limitations under the License.
       .showAvatar.collapsed .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 1.75em);
       }
+      .showAvatar.collapsed .contentContainer,
+      .hideAvatar.collapsed .contentContainer
+      {
+        margin-right: calc(var(--default-horizontal-margin) + 2.25em);
+      }
       .hideAvatar.collapsed .contentContainer,
       .hideAvatar.expanded .contentContainer {
         margin-left: 0;
@@ -58,7 +62,7 @@ limitations under the License.
       .showAvatar.collapsed .contentContainer,
       .hideAvatar.collapsed .contentContainer,
       .hideAvatar.expanded .contentContainer {
-        padding: .75em 5em .75em 0;
+        padding: .75em 0;
       }
       .collapsed gr-avatar {
         top: .5em;

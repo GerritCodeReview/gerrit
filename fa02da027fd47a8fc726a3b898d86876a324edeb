@@ -893,6 +893,30 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_ad524964",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T23:24:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_2bf719f0",
+      "range": {
+        "startLine": 6,
+        "startChar": 40,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_eaec271f",
         "filename": "lib/elasticsearch/BUCK",
         "patchSetId": 65
@@ -928,6 +952,30 @@
       "side": 1,
       "message": "Should be 5.5.2 to match ES or 5.5.3 to match gerrit.\n\nSince it\u0027s only a minor difference between those two (in fact there doesn\u0027t even seem to be any Lucene change) it should be OK to build with the version used in Gerrit.",
       "parentUuid": "9084cb25_eaec271f",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_ee243fd0",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T23:24:45Z",
+      "side": 1,
+      "message": "We can go with 5.5.3 from Gerrit core, it seams to  be compatible with 5.5.2.\n\nWhen versions diverge we can also use different versions for elasticsearch and gerrit-core since they seams to work in this setup",
+      "parentUuid": "b091cf63_cb969599",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -993,6 +1041,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_6e120f6a",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T23:24:45Z",
+      "side": 1,
+      "message": "As David mentioned his pull request won\u0027t be merged, but we good to go with same version of lucene that is used in gerrit core. It is different from one that is used in elasticesearch 2.4.0 but still it works ;)",
+      "parentUuid": "b091cf63_8b172d4f",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_ea37c7e6",
         "filename": "lib/httpcomponents/BUCK",
         "patchSetId": 65
@@ -1021,6 +1087,24 @@
       "writtenOn": "2016-09-21T11:47:45Z",
       "side": 1,
       "message": "When I did this there was not a common version used across all the org.apache.httpcomponents artifacts.  We should check what versions ES is using now.",
+      "parentUuid": "9084cb25_ea37c7e6",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023d73a_d9739342",
+        "filename": "lib/httpcomponents/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T23:24:45Z",
+      "side": 1,
+      "message": "httpasyncclient is right now in version 4.1.2 and niossl is still 4.0-alpha6",
       "parentUuid": "9084cb25_ea37c7e6",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

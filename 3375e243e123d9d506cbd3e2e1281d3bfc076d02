@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "90b68be5_3aa201a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-21T04:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30debff7_8f91b54a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 35
+      },
+      "revId": "3375e243e123d9d506cbd3e2e1281d3bfc076d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0c9cf46_2b9c395a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "90b68be5_5a97b539",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-21T04:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0c9cf46_2b9c395a",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "3375e243e123d9d506cbd3e2e1281d3bfc076d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30debff7_af8ef927",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2016-09-19T22:47:47Z",
       "side": 1,
       "message": "For example it simplifies ...",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "3375e243e123d9d506cbd3e2e1281d3bfc076d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bbd7d1_199d4b5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-21T04:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30debff7_af8ef927",
       "range": {
         "startLine": 11,
         "startChar": 48,
@@ -105,6 +177,54 @@
       "writtenOn": "2016-09-19T22:47:47Z",
       "side": 1,
       "message": "s/final//",
+      "range": {
+        "startLine": 463,
+        "startChar": 6,
+        "endLine": 463,
+        "endChar": 11
+      },
+      "revId": "3375e243e123d9d506cbd3e2e1281d3bfc076d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_7a9c795b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-21T04:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0c9cf46_4b9d0559",
+      "range": {
+        "startLine": 463,
+        "startChar": 12,
+        "endLine": 463,
+        "endChar": 16
+      },
+      "revId": "3375e243e123d9d506cbd3e2e1281d3bfc076d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_9ab06de4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-21T04:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0c9cf46_ab8ee927",
       "range": {
         "startLine": 463,
         "startChar": 6,

@@ -222,6 +222,10 @@ public class AllChangesIndexer
         try (Repository repo = repoManager.openRepository(project);
             ReviewDb db = schemaFactory.open()) {
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
+          // TODO(dborowitz): Pre-loading all notes is almost certainly a
+          // terrible idea for performance. If we can get rid of walking by
+          // commit (see note below), then all we need to discover here is the
+          // change IDs.
           for (ChangeNotes cn : notesFactory.scan(repo, db, project)) {
             Ref r = refs.get(cn.getChange().currentPatchSetId().toRefName());
             if (r != null) {
@@ -290,6 +294,9 @@ public class AllChangesIndexer
           }
         }
 
+        // TODO(dborowitz): This is basically pointless; it computes
+        // currentFilePaths faster than going through PatchListCache, but we
+        // still need to go through PatchListCache for changedLines.
         RevCommit bCommit;
         while ((bCommit = walk.next()) != null && !byId.isEmpty()) {
           if (byId.containsKey(bCommit)) {

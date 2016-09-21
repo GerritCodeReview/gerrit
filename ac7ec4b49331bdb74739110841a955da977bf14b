@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_aaadcf8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-09-21T07:03:05Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s a convention but we usually put assisted parameters after non assisted ones.",
+      "range": {
+        "startLine": 64,
+        "startChar": 5,
+        "endLine": 64,
+        "endChar": 36
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

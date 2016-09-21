@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_8be56d37",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:47:45Z",
+      "side": 1,
+      "message": "This was done by Janice IIRC.  There should be reasoning for it in the original commit that was squashed into this one.",
+      "parentUuid": "9084cb25_ea6987b5",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_0aa09bff",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 65
@@ -325,6 +343,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "Using a hard-coded port means you can\u0027t have two instances of the test running at once. There should be some way of either a) picking an unused port in advance or b) using :0 to get a randomly assigned unused port and finding out after the fact what it was.",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_6a5bd7f3",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:47:45Z",
+      "side": 1,
+      "message": "Magnus Back raised the same comment.  I wasn\u0027t able to find a clean way to fire up a server and then find out what port it\u0027s running on.",
+      "parentUuid": "9084cb25_2a8e3f88",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -486,6 +522,47 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_cbef7511",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:47:45Z",
+      "side": 1,
+      "message": "They have different package names IIRC so that\u0027s why it works.",
+      "parentUuid": "9084cb25_caef6311",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_2bf719f0",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:47:45Z",
+      "side": 1,
+      "message": "Latest is 2.4.0",
+      "range": {
+        "startLine": 6,
+        "startChar": 40,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_eaec271f",
         "filename": "lib/elasticsearch/BUCK",
         "patchSetId": 65
@@ -497,6 +574,30 @@
       "writtenOn": "2016-09-21T11:31:09Z",
       "side": 1,
       "message": "Extract this constant in external file to make sure the same Lcuene version is used across different index backends?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_cb969599",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:47:45Z",
+      "side": 1,
+      "message": "Should be 5.5.2 to match ES or 5.5.3 to match gerrit.\n\nSince it\u0027s only a minor difference between those two (in fact there doesn\u0027t even seem to be any Lucene change) it should be OK to build with the version used in Gerrit.",
+      "parentUuid": "9084cb25_eaec271f",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -544,6 +645,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_8b9c8dbb",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:47:45Z",
+      "side": 1,
+      "message": "IIRC these are only needed by the ES instance that we run up during the tests. I\u0027m not sure if any of them are needed at runtime due to the dependency we have on ES via Jest.\n\nNote that we can\u0027t currently use exactly the same version of Lucene between Gerrit and ES.  Gerrit moved to 5.5.3 but my PR to upgrade to that on ES was rejected [1].\n\n[1] https://github.com/elastic/elasticsearch/pull/20533",
+      "parentUuid": "b091cf63_8bb3ad56",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_ea37c7e6",
         "filename": "lib/httpcomponents/BUCK",
         "patchSetId": 65
@@ -555,6 +674,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "Are there not 4.4.1 versions of all of these? Or is it just these versions that are used by ES? Is ES not compatible with the later, non-alpha versions?",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_2b8e3988",
+        "filename": "lib/httpcomponents/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:47:45Z",
+      "side": 1,
+      "message": "When I did this there was not a common version used across all the org.apache.httpcomponents artifacts.  We should check what versions ES is using now.",
+      "parentUuid": "9084cb25_ea37c7e6",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

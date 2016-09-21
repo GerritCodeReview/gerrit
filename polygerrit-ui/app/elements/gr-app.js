@@ -43,11 +43,13 @@
       _showSettingsView: Boolean,
       _viewState: Object,
       _lastError: Object,
+      _lastSearchPage: String,
     },
 
     listeners: {
       'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
+      'location-change': '_handleSearchPageChange',
     },
 
     observers: [
@@ -155,6 +157,13 @@
           err.moreInfo = text;
           this._lastError = err;
         }.bind(this));
+      }
+    },
+
+    _handleSearchPageChange: function(e) {
+      var viewsToCheck = ['gr-change-list-view', 'gr-dashboard-view'];
+      if (viewsToCheck.indexOf(this.params.view) != -1) {
+        this.set('_lastSearchPage', location.pathname);
       }
     },
 

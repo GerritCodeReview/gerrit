@@ -104,7 +104,8 @@ limitations under the License.
         <gr-change-view
             params="[[params]]"
             server-config="[[_serverConfig]]"
-            view-state="{{_viewState.changeView}}"></gr-change-view>
+            view-state="{{_viewState.changeView}}"
+            back-page="{{_lastSearchPage}}"></gr-change-view>
       </template>
       <template is="dom-if" if="[[_showDiffView]]" restamp="true">
         <gr-diff-view

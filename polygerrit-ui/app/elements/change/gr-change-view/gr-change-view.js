@@ -561,7 +561,7 @@
     },
 
     _handleReloadChange: function() {
-      page.show(this.changePath(this._changeNum));
+      this._reload();
     },
 
     _handleGetChangeDetailError: function(response) {

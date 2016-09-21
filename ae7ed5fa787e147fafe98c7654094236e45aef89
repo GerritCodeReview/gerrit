@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_0d58b558",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/AssigneeSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-21T21:21:58Z",
+      "side": 1,
+      "message": "This shares quite some code with ReviewSuggestOracle. The pla is to rework and extend this with additional functionality in later iterations. For instance support for allowing easier selection of previously selected assignees.",
+      "revId": "ae7ed5fa787e147fafe98c7654094236e45aef89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

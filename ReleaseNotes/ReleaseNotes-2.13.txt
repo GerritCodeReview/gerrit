@@ -327,6 +327,18 @@ event an administrator removed all groups from the `administrateServer`
 capability, or to ensure that specific groups always have administration
 capabilities.
 
+* New configuration options to configure JGit repository cache parameters.
++
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#core.repositoryCacheCleanupDelay[
+core.repositoryCacheCleanupDelay] and
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#core.repositoryCacheExpireAfter[
+core.repositoryCacheExpireAfter] can be configured.
+
+* Accept `-b` as an alias of `--batch` in the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/pgm-init.html[
+init program].
+
+
 == Bug Fixes
 
 * Don't add the same SSH key multiple times.
@@ -400,6 +412,22 @@ The error message now includes the sha1 of the commit, so that it is
 easier to track down which commit failed validation when multiple commits
 are pushed at the same time.
 
+* Don't check mergeability of draft changes.
++
+Draft changes can be deleted but not abandoned so there is no way for
+an administrator to get rid of the them on behalf of the users. This can
+become a problem when there many draft changes because the mergeability
+check can be costly.
++
+The mergeability check is no longer done for draft changes, but will be
+done when the draft change is published.
+
+* Fix internal server error when plugin-provided file history weblink
+is null.
++
+It is valid for a plugin to provide a null weblink, but doing so resulted
+in an internal server error.
+
 == Dependency updates
 
 * Add dependency on blame-cache 0.1-9
@@ -430,7 +458,7 @@ are pushed at the same time.
 
 * Upgrade Jetty to 9.2.14.v20151106
 
-* Upgrade JGit to 4.4.1.201607150455-r.144-gb67df51
+* Upgrade JGit to 4.5.0.201609210915-r
 
 * Upgrade joda-convert to 1.8.1
 

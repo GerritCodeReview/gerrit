@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b091cf63_2e09e736",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-21T23:01:41Z",
+      "side": 1,
+      "message": "nit: missing white space?",
+      "range": {
+        "startLine": 491,
+        "startChar": 4,
+        "endLine": 491,
+        "endChar": 8
+      },
+      "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_6d12116a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-21T23:01:41Z",
+      "side": 1,
+      "message": "nit: missing white space?",
+      "range": {
+        "startLine": 494,
+        "startChar": 4,
+        "endLine": 494,
+        "endChar": 9
+      },
+      "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_ad03291b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-21T23:01:41Z",
+      "side": 1,
+      "message": "should the content be the same here as below?\n\nDoes it matter? (If not please use different content, or if it does, add an explanation comment?)",
+      "range": {
+        "startLine": 499,
+        "startChar": 63,
+        "endLine": 499,
+        "endChar": 78
+      },
+      "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

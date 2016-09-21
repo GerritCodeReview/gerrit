@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474447000 +0200\nnonce AKOpmBWnzVhkqrHGkmD04AyIhEPknPDi6pfAb25I8AELpAF7wNzPnc63Nfc8Utd8OD5qRxhSgWjU\n\n0000000000000000000000000000000000000000 55fe81b1cf61cb6ac916586fda0fc46ad8f5e566 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX4kaYAAoJEF/XxZqaEoiM7XgQAI2Tm03nCGIMvPBAs0G3zN3y\n+KJ2vVhpY597/Gjxt0JJDG51CUGexbG2vTMJTP/CCY/miFrz6JCQ/N8X/PpPTntH\nXZIHi1EB1ShNWkOnR1AwDzrXNdcEn1SK0Z0pXpKmRvy+gKtIx4DjExWj3B6zF0ck\n78RXa/UZJwrZTIfYNXqXkbPB1+ygjongrM9eBmg6IenpV9fytjK+bTRhGTMNnq55\nJyTkOSchNs99xSA8P/JUW9vhGq33Gque1pTjOQYmqHhhwa7ccmMuwePElEDR+vo0\nNwXHKkMMHKQuircongxixuS+VidBR4PLIhWk9LauFLhAomsWYmVEKVC6wJL6mU8G\n36OFZQu6vJfU2Oxh1aiyjIyYFLugLgSxCrJrpdyPUxyaS9zGvf/xXmqgh9A8JXVx\nVtGO5BjwvZmBChVHTn5pGFe6Dmw9fRIwgmlPjU6J1h5Fo9SPXV0kc99TeqdAlLXd\nz2DJF7hqY2hhjVz6b7M3f4qCeRdcghdIwVtZ+legsjRPsbZocIqspPyRPcsg59mT\nwUbfFuXDkk9671i439M6smO/xKw1qPPJK+bmZB1L+tX4BLjkvE9adfZXB+gCo7+u\nhqWYXiO8Plgp815hDKj3T/f2aOJ4EqqoiuyVRCUE89eohhuNK+fkY1foOBdyeTVj\n8LMAxBhEU8j8kFotpYGD\n\u003dVJDC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_6a9d970e",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T08:43:53Z",
+      "side": 1,
+      "message": "It\u0027s in theory possible that during a rollout to multiple servers, web_uis will not be present in the gerrit block at all. Does this mean I should do config.gerrit.web_uis \u0026\u0026 config.gerrit.web_uis.indexOf(\u0027GWT\u0027)?",
+      "revId": "55fe81b1cf61cb6ac916586fda0fc46ad8f5e566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

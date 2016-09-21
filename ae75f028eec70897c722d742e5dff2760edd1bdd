@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_ea5c2779",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_88235bb6",
+      "range": {
+        "startLine": 20,
+        "startChar": 54,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "ae75f028eec70897c722d742e5dff2760edd1bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_a6a652c1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-20T13:56:28Z",
       "side": 1,
       "message": "used as a diff-base.",
+      "range": {
+        "startLine": 21,
+        "startChar": 35,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "ae75f028eec70897c722d742e5dff2760edd1bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_0a4b3bb1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:18:01Z",
+      "side": 1,
+      "message": "Leaving \u0027diffed\u0027 as it\u0027s not always a diff base, but the object can also represent side B of a diff.",
+      "parentUuid": "4be70257_a6a652c1",
       "range": {
         "startLine": 21,
         "startChar": 35,
@@ -108,6 +156,30 @@
       "side": 1,
       "message": "DiffObject may also be understood as an object which represents a diff.\n\nI don\u0027t have a really good suggestion right now...",
       "parentUuid": "2bec8e3b_08358bfb",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "ae75f028eec70897c722d742e5dff2760edd1bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_2a50ff58",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:18:01Z",
+      "side": 1,
+      "message": "Ok, leaving the \u0027DiffObject\u0027 if we can\u0027t find a better name.\nAt least there is javadoc explaining what it represents.",
+      "parentUuid": "9084cb25_ca06837b",
       "range": {
         "startLine": 25,
         "startChar": 13,

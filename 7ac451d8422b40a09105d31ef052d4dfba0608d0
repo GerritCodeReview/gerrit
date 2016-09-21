@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b091cf63_0e626b41",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T15:39:27Z",
+      "side": 0,
+      "message": "JARs from Central are signed. We patch the JGit files, so that it cannot work any more. In Buck build we unsign them as custom step in the maven_jar() rule.",
+      "revId": "7ac451d8422b40a09105d31ef052d4dfba0608d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

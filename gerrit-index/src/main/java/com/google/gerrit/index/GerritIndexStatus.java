@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.lucene;
+package com.google.gerrit.index;
 
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.config.SitePaths;
@@ -24,13 +24,13 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
 
-class GerritIndexStatus {
+public class GerritIndexStatus {
   private static final String SECTION = "index";
   private static final String KEY_READY = "ready";
 
   private final FileBasedConfig cfg;
 
-  GerritIndexStatus(SitePaths sitePaths)
+  public GerritIndexStatus(SitePaths sitePaths)
       throws ConfigInvalidException, IOException {
     cfg = new FileBasedConfig(
         sitePaths.index_dir.resolve("gerrit_index.config").toFile(),
@@ -39,16 +39,16 @@ class GerritIndexStatus {
     convertLegacyConfig();
   }
 
-  void setReady(String indexName, int version, boolean ready) {
+  public void setReady(String indexName, int version, boolean ready) {
     cfg.setBoolean(SECTION, indexDirName(indexName, version), KEY_READY, ready);
   }
 
-  boolean getReady(String indexName, int version) {
+  public boolean getReady(String indexName, int version) {
     return cfg.getBoolean(SECTION, indexDirName(indexName, version), KEY_READY,
         false);
   }
 
-  void save() throws IOException {
+  public void save() throws IOException {
     cfg.save();
   }
 

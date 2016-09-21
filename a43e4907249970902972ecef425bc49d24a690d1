@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e5c38220_2daa0d1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-21T00:09:48Z",
+      "side": 1,
+      "message": "Use old behavior (create a separate commit) for Fast-forward strategy.",
+      "parentUuid": "65c1521d_a9dd9d08",
+      "revId": "a43e4907249970902972ecef425bc49d24a690d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65c1521d_89e0d9bf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
         "patchSetId": 1
@@ -48,6 +66,42 @@
       "side": 1,
       "message": "I\u0027d rather have a new MergeOneOp on top of the FastForwardOP?",
       "parentUuid": "65c1521d_89e0d9bf",
+      "revId": "a43e4907249970902972ecef425bc49d24a690d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_3a792121",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-21T00:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65c1521d_89e0d9bf",
+      "revId": "a43e4907249970902972ecef425bc49d24a690d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_5a7ed509",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-21T00:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85848625_8a8bab17",
       "revId": "a43e4907249970902972ecef425bc49d24a690d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

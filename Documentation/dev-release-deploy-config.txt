@@ -89,17 +89,15 @@ Bucket to store Gerrit Subproject Artifacts (e.g. `gwtjsonrpc` etc.).
 
 To upload artifacts to a bucket the user must authenticate with a
 username and password. The username and password need to be retrieved
-from the link:https://console.developers.google.com/project/164060093628[
-Google Developers Console]:
+from the link:https://console.cloud.google.com/storage/settings?project=api-project-164060093628[
+Storage Setting in the Google Cloud Platform Console]:
 
-* In the menu on the left select `Storage` -> `Cloud Storage` >
-> `Storage access`
-* Select the `Interoperability` tab
-* If no keys are listed under `Interoperable storage access keys`, select "Create a new key"
-* Use the `Access Key` as username, and `Secret` as the password
+Select the `Interoperability` tab, and if no keys are listed under
+`Interoperable storage access keys`, select 'Create a new key'.
 
-To make the username and password known to Maven, they must be
-configured in the `~/.m2/settings.xml` file.
+Using `Access Key` as username and `Secret` as the password, add the
+configuration in the `~/.m2/settings.xml` file to make the credentials
+known to Maven:
 
 ----
   <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"

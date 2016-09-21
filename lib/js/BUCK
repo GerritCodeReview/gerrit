@@ -108,6 +108,14 @@ bower_component(
 )
 
 bower_component(
+  name = 'es6-shim',
+  package = 'paulmillr/es6-shim',
+  version = '0.35.1',
+  license = 'es6-shim',
+  sha1 = '98fef7ee2aa24d39c9f20b94f95997407be7cf6b',
+)
+
+bower_component(
   name = 'fetch',
   package = 'fetch',
   version = '1.0.0',

@@ -22,7 +22,7 @@
   src_roots = java, resources, src
 
 [project]
-  ignore = .git, eclipse-out, bazel-gerrit
+  ignore = .git, eclipse-out, bazel-gerrit, bin
   parallel_parsing = true
 
 [cache]

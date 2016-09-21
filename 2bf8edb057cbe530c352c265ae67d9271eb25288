@@ -22,6 +22,30 @@
       "revId": "2bf8edb057cbe530c352c265ae67d9271eb25288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_badff1f4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-09-21T12:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_0a47bb06",
+      "range": {
+        "startLine": 17,
+        "startChar": 33,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "2bf8edb057cbe530c352c265ae67d9271eb25288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

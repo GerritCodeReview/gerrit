@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_4d454d9a",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T16:15:12Z",
+      "side": 1,
+      "message": "It ould be nice to find a way to not repeat all the time \"LICENSE-\" prefix, like it done with Buck. So may be java_library2 and pass llicense in, and add in the implementation the prefix, and pass it to data set. Can be done later, though.",
+      "revId": "7c694867dd81a29a42c325275ce11b806b018d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

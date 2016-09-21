@@ -78,7 +78,7 @@ class Rule(object):
     self.version = bower_json['version']
     self.deps = bower_json.get('dependencies', {})
     self.license = bower_json.get('license', 'NO LICENSE')
-    self.sha1 = util.hash_bower_component(
+    self.sha1 = bowerutil.hash_bower_component(
         hashlib.sha1(), os.path.dirname(bower_json_path)).hexdigest()
 
   def to_rule(self, packages):
@@ -106,6 +106,7 @@ class Rule(object):
 
 
 def build_bower_json(targets, buck_out):
+  """create bower.json so 'bower install' fetches transitive deps"""
   bower_json = collections.OrderedDict()
   bower_json['name'] = 'bower2buck-output'
   bower_json['version'] = '0.0.0'
@@ -117,6 +118,9 @@ def build_bower_json(targets, buck_out):
       ['buck', 'query', '-v', '0',
        "filter('__download_bower', deps(%s))" % '+'.join(targets)],
       env=BUCK_ENV)
+
+  # __bower_version contains the version number coming from version
+  # attr in BUCK/BUILD
   deps = deps.replace('__download_bower', '__bower_version').split()
   subprocess.check_call(['buck', 'build'] + deps, env=BUCK_ENV)
 

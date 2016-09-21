@@ -25,6 +25,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
@@ -51,7 +52,6 @@ import org.apache.lucene.search.ReferenceManager.RefreshListener;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,17 +73,6 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   static String sortFieldName(FieldDef<?, ?> f) {
     return f.getName() + "_SORT";
-  }
-
-  public static void setReady(SitePaths sitePaths, String name, int version,
-      boolean ready) throws IOException {
-    try {
-      GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
-      cfg.setReady(name, version, ready);
-      cfg.save();
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
-    }
   }
 
   private final Schema<V> schema;
@@ -198,7 +187,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    setReady(sitePaths, name, schema.getVersion(), ready);
+    IndexUtils.setReady(sitePaths, name, schema.getVersion(), ready);
   }
 
   @Override

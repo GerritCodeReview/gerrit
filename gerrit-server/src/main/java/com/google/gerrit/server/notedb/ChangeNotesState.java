@@ -60,6 +60,7 @@ public abstract class ChangeNotesState {
         change.getId(),
         null,
         null,
+        ImmutableSet.<Account.Id>of(),
         ImmutableSet.<String>of(),
         ImmutableSortedMap.<PatchSet.Id, PatchSet>of(),
         ImmutableListMultimap.<PatchSet.Id, PatchSetApproval>of(),
@@ -86,6 +87,7 @@ public abstract class ChangeNotesState {
       @Nullable String submissionId,
       @Nullable Change.Status status,
       @Nullable Account.Id assignee,
+      @Nullable Set<Account.Id> pastAssignees,
       @Nullable Set<String> hashtags,
       Map<PatchSet.Id, PatchSet> patchSets,
       Multimap<PatchSet.Id, PatchSetApproval> approvals,
@@ -114,6 +116,7 @@ public abstract class ChangeNotesState {
             submissionId,
             status),
         assignee,
+        ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableSortedMap.copyOf(patchSets, comparing(PatchSet.Id::get)),
         ImmutableListMultimap.copyOf(approvals),
@@ -157,6 +160,7 @@ public abstract class ChangeNotesState {
 
   // Other related to this Change.
   @Nullable abstract Account.Id assignee();
+  abstract ImmutableSet<Account.Id> pastAssignees();
   abstract ImmutableSet<String> hashtags();
   abstract ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets();
   abstract ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals();

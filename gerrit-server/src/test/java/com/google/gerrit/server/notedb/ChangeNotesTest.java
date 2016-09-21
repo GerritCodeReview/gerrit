@@ -599,7 +599,31 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     assertThat(notes.getAssignee().get()).isEqualTo(changeOwner.getAccountId());
+  }
 
+  @Test
+  public void pastAssigneesChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.fromNullable(otherUserId));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.fromNullable(changeOwner.getAccountId()));
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.fromNullable(otherUserId));
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.absent());
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getPastAssignees()).hasSize(2);
   }
 
   @Test

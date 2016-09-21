@@ -353,7 +353,7 @@ public abstract class AbstractDaemonTest {
     baseConfig.setString("gerrit", null, "tempSiteDir",
         tempSiteDir.getRoot().getPath());
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
-    if (classDesc.equals(methodDesc)) {
+    if (classDesc.equals(methodDesc) || classDesc.hermetic()) {
       if (commonServer == null) {
         commonServer = GerritServer.start(classDesc, baseConfig);
       }

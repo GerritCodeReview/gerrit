@@ -14,39 +14,35 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.client.IntKey;
 
 /** Static utilities for ReviewDb types. */
 public class ReviewDbUtil {
-  public static final Function<IntKey<?>, Integer> INT_KEY_FUNCTION =
-      new Function<IntKey<?>, Integer>() {
-        @Override
-        public Integer apply(IntKey<?> in) {
-          return in.get();
-        }
-      };
-
-  private static final Function<Change, Change.Id> CHANGE_ID_FUNCTION =
-      new Function<Change, Change.Id>() {
-        @Override
-        public Change.Id apply(Change in) {
-          return in.getId();
-        }
-      };
-
   private static final Ordering<? extends IntKey<?>> INT_KEY_ORDERING =
-      Ordering.natural().nullsFirst().onResultOf(INT_KEY_FUNCTION).nullsFirst();
+      Ordering.natural()
+          .nullsFirst()
+          .<IntKey<?>>onResultOf(IntKey::get)
+          .nullsFirst();
 
+  /**
+   * Null-safe ordering over arbitrary subclass of {@code IntKey}.
+   * <p>
+   * In some cases, {@code Comparator.comparing(Change.Id::get)} may be shorter
+   * and cleaner. However, this method may be preferable in some cases:
+   * <ul>
+   * <li>This ordering is null-safe over both input and the result of {@link
+   *   IntKey#get()}; {@code comparing} is only a good idea if all inputs are
+   *   obviously non-null.</li>
+   * <li>{@code intKeyOrdering().sortedCopy(iterable)} is shorter than the
+   *   stream equivalent.</li>
+   * <li>Creating derived comparators may be more readable with {@link Ordering}
+   *   method chaining rather than static {@code Comparator} methods.
+   * </ul>
+   */
   @SuppressWarnings("unchecked")
   public static <K extends IntKey<?>> Ordering<K> intKeyOrdering() {
     return (Ordering<K>) INT_KEY_ORDERING;
-  }
-
-  public static Function<Change, Change.Id> changeIdFunction() {
-    return CHANGE_ID_FUNCTION;
   }
 
   public static ReviewDb unwrapDb(ReviewDb db) {

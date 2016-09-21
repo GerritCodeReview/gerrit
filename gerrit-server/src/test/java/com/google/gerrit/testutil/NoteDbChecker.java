@@ -15,9 +15,10 @@
 package com.google.gerrit.testutil;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -29,6 +30,9 @@ import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
+import com.google.gwtorm.client.IntKey;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,6 +45,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Singleton
 public class NoteDbChecker {
@@ -73,16 +78,14 @@ public class NoteDbChecker {
 
   public void rebuildAndCheckAllChanges() throws Exception {
     rebuildAndCheckChanges(
-        Iterables.transform(
-            getUnwrappedDb().changes().all(),
-            ReviewDbUtil.changeIdFunction()));
+        getUnwrappedDb().changes().all().toList().stream().map(Change::getId));
   }
 
   public void rebuildAndCheckChanges(Change.Id... changeIds) throws Exception {
-    rebuildAndCheckChanges(Arrays.asList(changeIds));
+    rebuildAndCheckChanges(Arrays.stream(changeIds));
   }
 
-  public void rebuildAndCheckChanges(Iterable<Change.Id> changeIds)
+  private void rebuildAndCheckChanges(Stream<Change.Id> changeIds)
       throws Exception {
     ReviewDb db = getUnwrappedDb();
 
@@ -111,11 +114,7 @@ public class NoteDbChecker {
   }
 
   public void checkChanges(Change.Id... changeIds) throws Exception {
-    checkChanges(Arrays.asList(changeIds));
-  }
-
-  public void checkChanges(Iterable<Change.Id> changeIds) throws Exception {
-    checkActual(readExpected(changeIds), new ArrayList<String>());
+    checkActual(readExpected(Arrays.stream(changeIds)), new ArrayList<>());
   }
 
   public void assertNoChangeRef(Project.NameKey project, Change.Id changeId)
@@ -125,21 +124,23 @@ public class NoteDbChecker {
     }
   }
 
-  private List<ChangeBundle> readExpected(Iterable<Change.Id> changeIds)
+  private List<ChangeBundle> readExpected(Stream<Change.Id> changeIds)
       throws Exception {
-    ReviewDb db = getUnwrappedDb();
     boolean old = notesMigration.readChanges();
     try {
       notesMigration.setReadChanges(false);
-      List<Change.Id> sortedIds =
-          ReviewDbUtil.intKeyOrdering().sortedCopy(changeIds);
-      List<ChangeBundle> expected = new ArrayList<>(sortedIds.size());
-      for (Change.Id id : sortedIds) {
-        expected.add(bundleReader.fromReviewDb(db, id));
-      }
-      return expected;
+      return changeIds.sorted(comparing(IntKey::get))
+          .map(this::readBundleUnchecked).collect(toList());
     } finally {
       notesMigration.setReadChanges(old);
+    }
+  }
+
+  private ChangeBundle readBundleUnchecked(Change.Id id) {
+    try {
+      return bundleReader.fromReviewDb(getUnwrappedDb(), id);
+    } catch (OrmException e) {
+      throw new OrmRuntimeException(e);
     }
   }
 

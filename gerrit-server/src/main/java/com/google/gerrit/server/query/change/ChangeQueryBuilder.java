@@ -16,9 +16,9 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -26,7 +26,6 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NotSignedInException;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -632,14 +631,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // expand a group predicate into multiple user predicates
     if (group != null) {
       Set<Account.Id> allMembers =
-          new HashSet<>(Lists.transform(
-              args.listMembers.get().setRecursive(true).apply(group),
-              new Function<AccountInfo, Account.Id>() {
-                @Override
-                public Account.Id apply(AccountInfo accountInfo) {
-                  return new Account.Id(accountInfo._accountId);
-                }
-              }));
+          args.listMembers.get().setRecursive(true).apply(group).stream()
+              .map(a -> new Account.Id(a._accountId))
+              .collect(toSet());
       int maxLimit = args.indexConfig.maxLimit();
       if (allMembers.size() > maxLimit) {
         // limit the number of query terms otherwise Gerrit will barf

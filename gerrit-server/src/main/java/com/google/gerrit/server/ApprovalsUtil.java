@@ -16,9 +16,9 @@ package com.google.gerrit.server;
 
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -52,7 +52,6 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -81,14 +80,7 @@ public class ApprovalsUtil {
       LoggerFactory.getLogger(ApprovalsUtil.class);
 
   private static final Ordering<PatchSetApproval> SORT_APPROVALS =
-      Ordering.natural()
-          .onResultOf(
-              new Function<PatchSetApproval, Timestamp>() {
-                @Override
-                public Timestamp apply(PatchSetApproval a) {
-                  return a.getGranted();
-                }
-              });
+      Ordering.from(comparing(PatchSetApproval::getGranted));
 
   public static List<PatchSetApproval> sortApprovals(
       Iterable<PatchSetApproval> approvals) {

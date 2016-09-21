@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.base.Function;
+import static java.util.Comparator.comparing;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -124,13 +125,7 @@ public class Schema_124 extends SchemaVersion {
 
   private Collection<AccountSshKey> fixInvalidSequenceNumbers(
       Collection<AccountSshKey> keys) {
-    Ordering<AccountSshKey> o =
-        Ordering.natural().onResultOf(new Function<AccountSshKey, Integer>() {
-          @Override
-          public Integer apply(AccountSshKey sshKey) {
-            return sshKey.getKey().get();
-          }
-        });
+    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.getKey().get()));
     List<AccountSshKey> fixedKeys = new ArrayList<>(keys);
     AccountSshKey minKey = o.min(keys);
     while (minKey.getKey().get() <= 0) {

@@ -22,7 +22,6 @@ import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -191,20 +190,14 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
       }
     }
 
-    return Lists.transform(notesFactory.create(db, branch.getParentKey(),
-        changeIds, new com.google.common.base.Predicate<ChangeNotes>() {
-          @Override
-          public boolean apply(ChangeNotes notes) {
-            Change c = notes.getChange();
+    List<ChangeNotes> notes = notesFactory.create(
+        db, branch.getParentKey(), changeIds,
+        cn -> {
+            Change c = cn.getChange();
             return c.getDest().equals(branch)
                 && c.getStatus() != Change.Status.MERGED;
-          }
-        }), new Function<ChangeNotes, ChangeData>() {
-          @Override
-          public ChangeData apply(ChangeNotes notes) {
-            return changeDataFactory.create(db, notes);
-          }
         });
+    return Lists.transform(notes, n -> changeDataFactory.create(db, n));
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(

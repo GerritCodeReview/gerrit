@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
@@ -137,14 +137,9 @@ public class ProjectConfigEntry {
       T defaultValue, Class<T> permittedValues, boolean inheritable,
       String description) {
     this(displayName, defaultValue.name(), ProjectConfigEntryType.LIST,
-        Lists.transform(
-            Arrays.asList(permittedValues.getEnumConstants()),
-            new Function<Enum<?>, String>() {
-              @Override
-              public String apply(Enum<?> e) {
-                return e.name();
-              }
-            }), inheritable, description);
+        Arrays.stream(permittedValues.getEnumConstants())
+            .map(Enum::name).collect(toList()),
+        inheritable, description);
   }
 
   public ProjectConfigEntry(String displayName, String defaultValue,

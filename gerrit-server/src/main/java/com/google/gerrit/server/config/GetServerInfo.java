@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.client.UiType;
@@ -230,14 +230,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             getDownloadSchemeInfo(scheme, downloadCommands, cloneCommands));
       }
     }
-    info.archives = Lists.newArrayList(Iterables.transform(
-        archiveFormats.getAllowed(),
-        new Function<ArchiveFormat, String>() {
-          @Override
-          public String apply(ArchiveFormat in) {
-            return in.getShortName();
-          }
-        }));
+    info.archives = archiveFormats.getAllowed().stream()
+        .map(ArchiveFormat::getShortName).collect(toList());
     return info;
   }
 

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -91,14 +90,7 @@ public class BanCommit implements RestModifyView<ProjectResource, Input> {
     if (commits == null || commits.isEmpty()) {
       return null;
     }
-
-    return Lists.transform(commits,
-        new Function<ObjectId, String>() {
-          @Override
-          public String apply(ObjectId id) {
-            return id.getName();
-          }
-        });
+    return Lists.transform(commits, ObjectId::getName);
   }
 
   public static class BanResultInfo {

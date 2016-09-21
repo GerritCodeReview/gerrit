@@ -14,7 +14,6 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
@@ -98,13 +97,6 @@ abstract class BucketedCounter implements BucketedMetric {
 
   @Override
   public Map<Object, Metric> getCells() {
-    return Maps.transformValues(
-        cells,
-        new Function<CounterImpl, Metric> () {
-          @Override
-          public Metric apply(CounterImpl in) {
-            return in.metric;
-          }
-        });
+    return Maps.transformValues(cells, c -> c.metric);
   }
 }

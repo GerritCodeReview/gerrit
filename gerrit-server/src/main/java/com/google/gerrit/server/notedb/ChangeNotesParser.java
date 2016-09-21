@@ -29,11 +29,11 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Enums;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
@@ -60,7 +60,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -165,7 +164,7 @@ class ChangeNotesParser {
     allChangeMessages = new ArrayList<>();
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
-    patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
+    patchSets = Maps.newTreeMap(comparing(PatchSet.Id::get));
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
   }
@@ -883,13 +882,8 @@ class ChangeNotesParser {
       missing.add(FOOTER_SUBJECT);
     }
     if (!missing.isEmpty()) {
-      throw parseException("Missing footers: " + Joiner.on(", ")
-          .join(Lists.transform(missing, new Function<FooterKey, String>() {
-            @Override
-            public String apply(FooterKey input) {
-              return input.getName();
-            }
-          })));
+      throw parseException("Missing footers: "
+          + missing.stream().map(FooterKey::getName).collect(joining(", ")));
     }
   }
 

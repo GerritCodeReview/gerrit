@@ -151,6 +151,14 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
         open()));
   }
 
+  public List<ChangeData> byBranchNew(Branch.NameKey branch)
+      throws OrmException {
+    return query(and(
+        ref(branch),
+        project(branch.getParentKey()),
+        status(Change.Status.NEW)));
+  }
+
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo,
       ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
       throws OrmException, IOException {

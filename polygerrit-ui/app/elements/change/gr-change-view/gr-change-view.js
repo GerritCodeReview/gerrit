@@ -654,9 +654,9 @@
       } else {
         // The patch number is reliant on the change detail request.
         return detailCompletes.then(function() {
-          this._reloadPatchNumDependentResources();
+          return this._reloadPatchNumDependentResources();
         }.bind(this)).then(function() {
-          this._reloadDetailDependentResources();
+          return this._reloadDetailDependentResources();
         }.bind(this));
       }
     },

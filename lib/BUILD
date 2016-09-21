@@ -1,6 +1,11 @@
+exports_files([
+  "LICENSE-DO_NOT_DISTRIBUTE"
+])
+
 java_library(
   name = 'servlet-api-3_1',
   neverlink = 1,
+  data = [ ":LICENSE-Apache2.0" ],
   exports = ['@servlet_api_3_1//jar'],
   visibility = ['//visibility:public'],
 )
@@ -75,6 +80,7 @@ java_library(
   name = 'jsch',
   exports = ['@jsch//jar'],
   visibility = ['//visibility:public'],
+  data = [ ":LICENSE-jsch" ],
 )
 
 java_library(

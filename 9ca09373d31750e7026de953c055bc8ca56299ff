@@ -22,6 +22,24 @@
       "revId": "9ca09373d31750e7026de953c055bc8ca56299ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_6a1f57c8",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-21T07:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_0640dee8",
+      "revId": "9ca09373d31750e7026de953c055bc8ca56299ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

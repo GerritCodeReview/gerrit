@@ -19,10 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.GerritConfigs;
-import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.*;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
@@ -41,6 +38,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+@Hermethic
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject
   private CreateGroup.Factory createGroupFactory;

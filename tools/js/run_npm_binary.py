@@ -25,8 +25,6 @@ import sys
 import tarfile
 import tempfile
 
-from tools import util
-
 
 def extract(path, outdir, bin):
   if os.path.exists(os.path.join(outdir, bin)):
@@ -59,19 +57,21 @@ def extract(path, outdir, bin):
     # finished.
     extract_one(tar.getmember(bin))
 
-
 def main(args):
   path = args[0]
   suffix = '.npm_binary.tgz'
   tgz = os.path.basename(path)
+
   parts = tgz[:-len(suffix)].split('@')
 
   if not tgz.endswith(suffix) or len(parts) != 2:
     print('usage: %s <path/to/npm_binary>' % sys.argv[0], file=sys.stderr)
     return 1
 
-  name, version = parts
-  sha1 = util.hash_file(hashlib.sha1(), path).hexdigest()
+  name, _ = parts
+
+  # Avoid importing from gerrit because we don't want to depend on the right CWD.
+  sha1 = hashlib.sha1(open(path, 'rb').read()).hexdigest()
   outdir = '%s-%s' % (path[:-len(suffix)], sha1)
   rel_bin = os.path.join('package', 'bin', name)
   bin = os.path.join(outdir, rel_bin)

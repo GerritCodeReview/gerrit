@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1474468239 +0200\nnonce AKOpmBXMiz0c+moy5UliO5Prw5xEEEzF2z5LzhkgXkACwRyWbkcyH0sHBzLOA8XXU9oQiDaaGRkU\n\n0000000000000000000000000000000000000000 c335776f213c1fdb79261d8ea50c27678b46ebd4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX4pmPAAoJEHFVO370GiZWlcUIALQxtXYEI2UEYiVRb/e8/xhl\n96+MW3FrfIHXQGK43Zh96fc7VJSeETkF+1FcZJxdK2RQsoJsKmgOYn4imwaEZ75+\nr5rWXB3dBd+VeCm0LtZ51cxiqgA4yj0mrZashydTBPP+1HnYazEhABTabCspZBii\nnfilMzguyNfrQX1pi/cAVkeR+J3OBP2KwvyQkBiZz+hZYVMMNay3j8eQGN+3qnFo\noWTHlJiWn/9fxh2HJUQe3JCCRabVIobXMeMHaloO+qd+uAcR2nCTo5CA4Vg2RwcI\ncSBjF9PswbMyAds31bwDtbA+WTtwp93Ym6UuIrIs54RUrsD9XEjr5/L41uNEypM\u003d\n\u003deRCH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b091cf63_6eb68f92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T21:43:41Z",
+      "side": 1,
+      "message": "classes",
+      "range": {
+        "startLine": 21,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_cea4e359",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T21:43:41Z",
+      "side": 1,
+      "message": "I see, it was copied from RevisionNoteData.Comment, but is it  used?",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 24
+      },
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

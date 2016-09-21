@@ -34,7 +34,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
-
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;

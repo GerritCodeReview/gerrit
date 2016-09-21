@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
-
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;

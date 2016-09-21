@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server;
 
-import static java.util.stream.Collectors.toList;
-
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toList;

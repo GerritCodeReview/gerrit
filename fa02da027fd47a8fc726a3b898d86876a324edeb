@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_8ace4bab",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 65
+      },
+      "lineNbr": 2541,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_2a5b9f26",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_4a60d3d6",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 65
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "Nit: Logger should be static and the first member in the class. Also, long line.",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_6b884179",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_4a60d3d6",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_eac50787",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_cb2135b0",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_6a6597e5",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 65
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "Optional: firstNonNull(cfg..., DEFAULT_INDEX_NAME)",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_0a4c1b3f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_6a6597e5",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_2a51dfd5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_ea50a7fd",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_2a847f77",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 65
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "I think this can just be Iterables.getOnlyElement(values).",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_4bfc65d0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_2a847f77",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_6b0121dd",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_0a7fbb6f",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_aa6f8fba",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 65
@@ -132,6 +258,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "JsonArray is an Iterable, so you could replace this all with:\n\n return FluentIterable.from(doc.getAsJsonArray(fieldName))\n     .transform(i -\u003e codec.decode(decodeBase64(i.toString())))\n     .toList();\n\n(I will refrain from making too many more suggestions to use lambdas in this change :)",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_8a5f2bde",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_aa6f8fba",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +368,24 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_ca69238f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_0aa09bff",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_2aa55f10",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 65
@@ -235,6 +397,30 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "aId",
+      "range": {
+        "startLine": 365,
+        "startChar": 16,
+        "endLine": 365,
+        "endChar": 20
+      },
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_0bdb3d6f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_2aa55f10",
       "range": {
         "startLine": 365,
         "startChar": 16,
@@ -264,6 +450,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_2be0f91e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_6aaf57ee",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_4b60e5d6",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
         "patchSetId": 65
@@ -275,6 +479,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "Not just to make tests pass but to make the server work at all ;)",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_6a74b760",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_4b60e5d6",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -332,6 +554,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_4b5625cf",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_eaba6726",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_2a8e3f88",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
         "patchSetId": 65
@@ -367,6 +607,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_2ecba748",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "I found a hack-ish way how we can use :0 and obtain the value using REST interface",
+      "parentUuid": "9084cb25_2a8e3f88",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_6a883779",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 65
@@ -384,6 +642,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_6b5be1f3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_6a883779",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_4a83735f",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
         "patchSetId": 65
@@ -395,6 +671,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "For databases we prompt for this information, see DatabaseConfigInitializer implementations.",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_0b75fd5e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_4a83735f",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -452,6 +746,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_2b7ab94d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_cb6cd5c8",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_eb6991b5",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
         "patchSetId": 65
@@ -463,6 +775,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "Please do the same reflection-based construction that we do in luceneIndexModule below. The goal is to not have to compile against Lucene/ES when building these tests to run against our custom backend.",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_6b74c160",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-21T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_eb6991b5",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

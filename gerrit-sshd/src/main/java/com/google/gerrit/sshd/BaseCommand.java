@@ -385,14 +385,6 @@ public abstract class BaseCommand implements Command {
     }
   }
 
-  public void checkExclusivity(final Object arg1, final String arg1name,
-      final Object arg2, final String arg2name) throws UnloggedFailure {
-    if (arg1 != null && arg2 != null) {
-      throw new UnloggedFailure(String.format(
-          "%s and %s options are mutually exclusive.", arg1name, arg2name));
-    }
-  }
-
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
     private final String taskName;

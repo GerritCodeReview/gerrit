@@ -23,6 +23,30 @@
       "revId": "a401ba602cbb4ba6f14ea3246837f4cbccceb0bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_abb0694a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T11:30:45Z",
+      "side": 1,
+      "message": "Yes, I\u0027m on an older version (Mars.1 Release (4.5.1)), but I would prefer if I would not need to upgrade due to this.",
+      "parentUuid": "b091cf63_4baaa5df",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "a401ba602cbb4ba6f14ea3246837f4cbccceb0bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

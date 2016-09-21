@@ -124,4 +124,36 @@ public abstract class FieldDef<I, T> {
 
   /** @return whether the field is repeatable. */
   public abstract boolean isRepeatable();
+
+  /**
+   * Copy field values from one document to another, if possible.
+   * <p>
+   * The primary use case for this method is to avoid recomputing values that
+   * are expensive to compute, in particular during schema upgrades.
+   * <p>
+   * Implementations cannot blindly copy such values, because the values from
+   * primary storage may not be consistent with the previous values from the
+   * index, due to races or stale data. For example, a list of changed files can
+   * be copied between two change documents only if the current patch set SHA-1
+   * is the same. Implementations are strongly advised to take this into
+   * account.
+   *
+   * @param from document to copy values for this field from, typically
+   *     initialized from the index via {@link Index#get}.
+   * @param to document to copy values for this field to, typically initialized
+   *     from the primary storage.
+   *
+   * @throws OrmException
+   */
+  public void maybeCopy(I from, I to) throws OrmException {
+    // By default, don't copy.
+  }
+
+  /**
+   * @return whether copying is ever possible for this field, i.e. whether there
+   *     are any inputs for which {@link #maybeCopy} would do anything.
+   */
+  public boolean isCopyingPossible() {
+    return false;
+  }
 }

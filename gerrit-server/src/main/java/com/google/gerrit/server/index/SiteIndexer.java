@@ -68,6 +68,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   protected OutputStream progressOut = NullOutputStream.INSTANCE;
   protected PrintWriter verboseWriter =
       new PrintWriter(NullOutputStream.INSTANCE);
+  protected I oldIndex;
 
   public void setTotalWork(int num) {
     totalWork = num;
@@ -79,6 +80,10 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
 
   public void setVerboseOut(OutputStream out) {
     verboseWriter = new PrintWriter(checkNotNull(out));
+  }
+
+  public void setOldIndex(I oldIndex) {
+    this.oldIndex = oldIndex;
   }
 
   public abstract Result indexAll(I index);

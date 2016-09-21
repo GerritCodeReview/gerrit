@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
+
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -28,6 +32,7 @@ import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -36,12 +41,16 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -94,6 +103,7 @@ public class AllChangesIndexer
   private final ProjectCache projectCache;
   private final ThreeWayMergeStrategy mergeStrategy;
   private final AutoMerger autoMerger;
+  private final IndexConfig indexConfig;
 
   @Inject
   AllChangesIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -104,7 +114,8 @@ public class AllChangesIndexer
       ChangeNotes.Factory notesFactory,
       @GerritServerConfig Config config,
       ProjectCache projectCache,
-      AutoMerger autoMerger) {
+      AutoMerger autoMerger,
+      IndexConfig indexConfig) {
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
@@ -114,6 +125,7 @@ public class AllChangesIndexer
     this.projectCache = projectCache;
     this.mergeStrategy = MergeUtil.getMergeStrategy(config);
     this.autoMerger = autoMerger;
+    this.indexConfig = indexConfig;
   }
 
   private static class ProjectHolder implements Comparable<ProjectHolder> {
@@ -176,8 +188,8 @@ public class AllChangesIndexer
 
     for (final ProjectHolder project : projects) {
       ListenableFuture<?> future = executor.submit(reindexProject(
-          indexerFactory.create(executor, index), project.name, doneTask,
-          failedTask, verboseWriter));
+          indexerFactory.create(executor, index), index, project.name,
+          doneTask, failedTask, verboseWriter));
       addErrorListener(future, "project " + project.name, projTask, ok);
       futures.add(future);
     }
@@ -210,7 +222,8 @@ public class AllChangesIndexer
   }
 
   private Callable<Void> reindexProject(final ChangeIndexer indexer,
-      final Project.NameKey project, final Task done, final Task failed,
+      final ChangeIndex newIndex, final Project.NameKey project,
+      final Task done, final Task failed,
       final PrintWriter verboseWriter) {
     return new Callable<Void>() {
       @Override
@@ -239,7 +252,9 @@ public class AllChangesIndexer
               repo,
               done,
               failed,
-              verboseWriter).call();
+              verboseWriter,
+              oldIndex,
+              buildCopyOptions(newIndex)).call();
         } catch (RepositoryNotFoundException rnfe) {
           log.error(rnfe.getMessage());
         }
@@ -253,6 +268,24 @@ public class AllChangesIndexer
     };
   }
 
+  private QueryOptions buildCopyOptions(ChangeIndex newIndex) {
+    if (oldIndex == null) {
+      return null;
+    }
+    // When looking up document in old index, only request fields that can
+    // possibly be copied, and also exist in the new index.
+    Collection<FieldDef<ChangeData, ?>> oldFields =
+        oldIndex.getSchema().getFields().values();
+    ImmutableSet.Builder<String> copyFields = ImmutableSet.builder();
+    for (FieldDef<ChangeData, ?> oldField : oldFields) {
+      if (oldField.isCopyingPossible()
+          && newIndex.getSchema().hasField(oldField)) {
+        copyFields.add(oldField.getName());
+      }
+    }
+    return QueryOptions.create(indexConfig, 0, 0, copyFields.build());
+  }
+
   private static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
     private final ThreeWayMergeStrategy mergeStrategy;
@@ -262,6 +295,8 @@ public class AllChangesIndexer
     private final ProgressMonitor failed;
     private final PrintWriter verboseWriter;
     private final Repository repo;
+    private final ChangeIndex oldIndex;
+    private final QueryOptions copyOptions;
 
     private ProjectIndexer(ChangeIndexer indexer,
         ThreeWayMergeStrategy mergeStrategy,
@@ -270,7 +305,9 @@ public class AllChangesIndexer
         Repository repo,
         ProgressMonitor done,
         ProgressMonitor failed,
-        PrintWriter verboseWriter) {
+        PrintWriter verboseWriter,
+        @Nullable ChangeIndex oldIndex,
+        @Nullable QueryOptions copyOptions) {
       this.indexer = indexer;
       this.mergeStrategy = mergeStrategy;
       this.autoMerger = autoMerger;
@@ -279,6 +316,8 @@ public class AllChangesIndexer
       this.done = done;
       this.failed = failed;
       this.verboseWriter = verboseWriter;
+      this.oldIndex = oldIndex;
+      this.copyOptions = copyOptions;
     }
 
     @Override
@@ -327,6 +366,7 @@ public class AllChangesIndexer
           Iterator<ChangeData> cdit = cds.iterator();
           for (ChangeData cd ; cdit.hasNext(); cdit.remove()) {
             cd = cdit.next();
+            copyOldFields(cd);
             try {
               cd.setCurrentFilePaths(paths);
               indexer.index(cd);
@@ -343,6 +383,41 @@ public class AllChangesIndexer
         fail("Failed to index commit " + b.name(), false, e);
         for (ChangeData cd : cds) {
           fail("Failed to index change " + cd.getId(), true, null);
+        }
+      }
+    }
+
+    private void copyOldFields(ChangeData to) {
+      if (oldIndex == null) {
+        return;
+      }
+      ChangeData from;
+      try {
+        Optional<ChangeData> maybeFrom = oldIndex.get(to.getId(), copyOptions);
+        if (!maybeFrom.isPresent()) {
+          return;
+        }
+        from = maybeFrom.get();
+      } catch (IOException e) {
+        return; // Ignore, don't copy.
+      }
+      for (String fieldName : copyOptions.fields()) {
+        FieldDef<ChangeData, ?> field =
+            checkNotNull(oldIndex.getSchema().getFields().get(fieldName));
+        try {
+          // It's hacky that FieldDef has an actual method that does the work of
+          // copying without calling get(), rather than a more general approach.
+          //
+          // A more general approach would involve creating a map of FieldDef to
+          // Schema.Values and passing that through the ChangeIndexer interface.
+          // However, that requires a fair amount of plumbing, as Values are
+          // used in a relatively low level.
+          //
+          // This was easier to implement for the small number of fields we care
+          // about.
+          field.maybeCopy(from, to);
+        } catch (OrmException e) {
+          // Ignore, don't copy.
         }
       }
     }

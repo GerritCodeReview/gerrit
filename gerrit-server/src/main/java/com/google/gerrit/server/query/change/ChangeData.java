@@ -676,8 +676,16 @@ public class ChangeData {
     changedLines = Optional.of(new ChangedLines(insertions, deletions));
   }
 
+  public void setChangedLines(Optional<ChangedLines> changedLines) {
+    changedLines = checkNotNull(changedLines);
+  }
+
   public void setNoChangedLines() {
     changedLines = Optional.absent();
+  }
+
+  public boolean hasChangedLines() {
+    return changedLines != null && changedLines.isPresent();
   }
 
   public Change.Id getId() {

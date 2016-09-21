@@ -224,6 +224,8 @@ public class ChangeField {
           return firstNonNull(input.currentFilePaths(),
               ImmutableList.<String> of());
         }
+
+        // Don't return true for canCopy because field is not stored.
       };
 
   public static Set<String> getFileParts(ChangeData cd) throws OrmException {
@@ -594,6 +596,30 @@ public class ChangeField {
         }
       };
 
+  private static boolean currentPatchSetsMatch(ChangeData a, ChangeData b) {
+    try {
+      PatchSet aPs = a.currentPatchSet();
+      PatchSet bPs = b.currentPatchSet();
+      if (aPs == null || bPs == null) {
+        return false;
+      }
+      return aPs.getId().equals(bPs.getId());
+    } catch (OrmException e) {
+      return false;
+    }
+  }
+
+  private static boolean canCopyChangedLines(ChangeData from, ChangeData to) {
+    return from.hasChangedLines() && currentPatchSetsMatch(from, to);
+  }
+
+  private static void maybeCopyChangedLines(ChangeData from, ChangeData to)
+      throws OrmException {
+    if (canCopyChangedLines(from, to)) {
+      to.setChangedLines(from.changedLines());
+    }
+  }
+
   /** The number of inserted lines in this change. */
   public static final FieldDef<ChangeData, Integer> ADDED =
       new FieldDef.Single<ChangeData, Integer>(
@@ -604,6 +630,17 @@ public class ChangeField {
           return input.changedLines().isPresent()
               ? input.changedLines().get().insertions
               : null;
+        }
+
+        @Override
+        public void maybeCopy(ChangeData from, ChangeData to)
+            throws OrmException {
+          maybeCopyChangedLines(from, to);
+        }
+
+        @Override
+        public boolean isCopyingPossible() {
+          return true;
         }
       };
 
@@ -618,6 +655,17 @@ public class ChangeField {
               ? input.changedLines().get().deletions
               : null;
         }
+
+        @Override
+        public void maybeCopy(ChangeData from, ChangeData to)
+            throws OrmException {
+          maybeCopyChangedLines(from, to);
+        }
+
+        @Override
+        public boolean isCopyingPossible() {
+          return true;
+        }
       };
 
   /** The total number of modified lines in this change. */
@@ -631,6 +679,17 @@ public class ChangeField {
           return changedLines.isPresent()
               ? changedLines.get().insertions + changedLines.get().deletions
               : null;
+        }
+
+        @Override
+        public void maybeCopy(ChangeData from, ChangeData to)
+            throws OrmException {
+          maybeCopyChangedLines(from, to);
+        }
+
+        @Override
+        public boolean isCopyingPossible() {
+          return true;
         }
       };
 

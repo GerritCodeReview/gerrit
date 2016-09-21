@@ -1,3 +1,5 @@
+workspace(name="gerrit")
+
 ANTLR_VERS = '3.5.2'
 
 maven_jar(
@@ -785,4 +787,12 @@ maven_jar(
   name = 'commons_io',
   artifact = 'commons-io:commons-io:1.4',
   sha1 = 'a8762d07e76cfde2395257a5da47ba7c1dbd3dce',
+)
+
+load("//tools/bzl:js.bzl", "npm_binary")
+
+npm_binary(
+  name = "bower",
+  version = '1.7.9',
+  sha1 = 'b7296c2393e0d75edaa6ca39648132dd255812b0',
 )

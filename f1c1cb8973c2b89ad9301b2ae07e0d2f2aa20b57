@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_6a2d9754",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T12:16:47Z",
+      "side": 1,
+      "message": "It looks like the reason this was done was to prevent needing a dependency on //gerrit-server:server-tests",
+      "parentUuid": "9084cb25_4a6ff38e",
+      "range": {
+        "startLine": 48,
+        "startChar": 23,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7a6832_6b140168",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/AdjustableTicker.java",
         "patchSetId": 18

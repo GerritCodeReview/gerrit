@@ -48,19 +48,17 @@ class RevisionNoteData {
     String uuid;
     String filename;
     int patchSetId;
-    int changeId;
 
     CommentKey(PatchLineComment.Key k) {
       uuid = k.get();
       filename = k.getParentKey().getFileName();
       patchSetId = k.getParentKey().getParentKey().get();
-      changeId = k.getParentKey().getParentKey().getParentKey().get();
     }
 
-    PatchLineComment.Key export() {
+    PatchLineComment.Key export(Change.Id changeId) {
       return new PatchLineComment.Key(
           new Patch.Key(
-              new PatchSet.Id(new Change.Id(changeId), patchSetId),
+              new PatchSet.Id(changeId, patchSetId),
               filename),
           uuid);
     }
@@ -90,7 +88,6 @@ class RevisionNoteData {
     int lineNbr;
     Identity author;
     Timestamp writtenOn;
-    char status;
     short side;
     String message;
     String parentUuid;
@@ -104,7 +101,6 @@ class RevisionNoteData {
       lineNbr = plc.getLine();
       author = new Identity(plc.getAuthor());
       writtenOn = plc.getWrittenOn();
-      status = plc.getStatus().getCode();
       side = plc.getSide();
       message = plc.getMessage();
       parentUuid = plc.getParentUuid();
@@ -114,17 +110,18 @@ class RevisionNoteData {
       this.serverId = serverId;
     }
 
-    PatchLineComment export() {
+    PatchLineComment export(Change.Id changeId,
+        PatchLineComment.Status status) {
       PatchLineComment plc = new PatchLineComment(
-          key.export(), lineNbr, author.export(), parentUuid, writtenOn);
+          key.export(changeId), lineNbr, author.export(), parentUuid, writtenOn);
       plc.setSide(side);
-      plc.setStatus(PatchLineComment.Status.forCode(status));
       plc.setMessage(message);
       if (range != null) {
         plc.setRange(range.export());
       }
       plc.setTag(tag);
       plc.setRevId(new RevId(revId));
+      plc.setStatus(status);
       return plc;
     }
   }
@@ -133,16 +130,12 @@ class RevisionNoteData {
   String pushCert;
   List<Comment> comments;
 
-  ImmutableList<PatchLineComment> exportComments(
+
+  ImmutableList<PatchLineComment> exportComments(Change.Id changeId,
       PatchLineComment.Status status) {
     return ImmutableList.copyOf(
         comments.stream()
-            .map(
-                c -> {
-                  PatchLineComment plc = c.export();
-                  plc.setStatus(status);
-                  return plc;
-                })
+            .map(c -> c.export(changeId, status))
             .collect(toList()));
   }
 }

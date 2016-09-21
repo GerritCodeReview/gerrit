@@ -1,40 +1,6 @@
-exports_files([
-  "LICENSE-antlr",
-  "LICENSE-Apache1.1",
-  "LICENSE-Apache2.0",
-  "LICENSE-args4j",
-  "LICENSE-asciidoctor",
-  "LICENSE-automaton",
-  "LICENSE-bouncycastle",
-  "LICENSE-CC-BY3.0-unported",
-  "LICENSE-clippy",
-  "LICENSE-codemirror-minified",
-  "LICENSE-codemirror-original",
-  "LICENSE-diffy",
-  "LICENSE-es6-promise",
-  "LICENSE-fetch",
-  "LICENSE-h2",
-  "LICENSE-highlightjs",
-  "LICENSE-icu4j",
-  "LICENSE-jgit",
-  "LICENSE-jsch",
-  "LICENSE-MPL1.1",
-  "LICENSE-moment",
-  "LICENSE-OFL1.1",
-  "LICENSE-ow2",
-  "LICENSE-page.js",
-  "LICENSE-polymer",
-  "LICENSE-postgresql",
-  "LICENSE-prologcafe",
-  "LICENSE-promise-polyfill",
-  "LICENSE-protobuf",
-  "LICENSE-PublicDomain",
-  "LICENSE-silk_icons",
-  "LICENSE-slf4j",
-  "LICENSE-xz",
-
-  "LICENSE-DO_NOT_DISTRIBUTE",
-])
+exports_files(glob([
+  "LICENSE-*"
+]))
 
 filegroup(
   name = 'all-licenses',

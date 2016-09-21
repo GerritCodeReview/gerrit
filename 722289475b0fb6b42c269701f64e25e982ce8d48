@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_cd2dbd03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAllAssignees.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:51:40Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_0df99569",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAllAssignees.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:51:40Z",
+      "side": 1,
+      "message": "This is a stable order but I don\u0027t think it\u0027s necessarily the best order. Is there a more natural order e.g. based on the original order in which they were added as assignees.\n\nYou could implement this proposed order in ChangeNotesParser by:\n\n* collecting assignees in a list, which will be in reverse order\n* converting the reverse of that list into a LinkedHashSet after parsing all commits",
+      "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_ee5c3f79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAllAssignees.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:51:40Z",
+      "side": 1,
+      "message": "As mentioned I don\u0027t think you should keep this order, but FYI the fun java 8 way to do this is:\n\n new TreeSet\u003c\u003e(comparing(i -\u003e i._accountId));\n\n(where comparing is a static import of java.util.Comparator.comparing)",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 51,
+        "endChar": 7
+      },
+      "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_2dfe5952",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:51:40Z",
+      "side": 1,
+      "message": "See my comments on the previous change on naming.",
+      "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

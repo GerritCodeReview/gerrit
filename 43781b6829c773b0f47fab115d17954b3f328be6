@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Shawn Pearce \u003csop@google.com\u003e 1474411604 -0700\npushee rpc://gerrit/gerrit\nnonce AE+e84aDwW9iOfRn4X2XzKU8Qe4GjbBzInPGjZ145XgO1uLQdbg2fGEPwWmGXs84cF1dfkU2b+rG\n\n0000000000000000000000000000000000000000 43781b6829c773b0f47fab115d17954b3f328be6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABCAAGBQJX4bxUAAoJECJXHAqdrPzxPFYP/jPKdxOfDgdmbYRnzjRBbxUh\nsmNQsBXpzNuDQIROb2rpnO9lLLOUA6R3VY8BT4N7Lq1Su2C87BEJDjn0/W+H3t3e\n/l0oIeawDS+3Lf+3N46E8Zpzv31Ccx578bKytDnYyZhe6ox2zgTm5EZ7/37/zB+J\n4R2HzJItB0g65Jxx7bj2XWfbKgLUIcdtJ8B8/j0JoFy+xfjzMjl5yXui0XxF+hEH\nePwAkbMpuYaS73m1341wQ0YkielxR8HXe6fXRb1aTRCMyt9dM0SEmgVGMy9vVJA7\n5TRq+p8p8EVLN7DMBUkN9yK2esGNYi8fq8iayVxGw8qsVTNbUYjunI6csAyjp0LG\nTMeFuCuIakpQRuAQOFwejzm/2cNr6Kdw2YzQ7b7v/KR7iCu4/C6MxdV93pDd0pFz\nupXyLzTQw38wQSr+nyymxEPvUljoMmkGR16ne0l+LKxQ0m8V8+jzuimwPlO+IpI6\nqAgLQ3Z0++Z7ytTI54b2C9hiSOmaKXzz7WmwtaSF+q7gGmmoba8zW6QXBrpPCEKC\nOQRqhZ0J55OAqjF3F9cTUUrtIriYbqiteHB9eU4MoNhnkExWraNkMRsC63EdfWpc\n/rJ3u5u4gxb+v7Bt7a9YjRxkxgs80umE9GcDURXDzymn5usrQmH2U095OLwG+xRQ\nT5kwpW3m8pIxil0RhlAD\n\u003dFfk0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_0a741b2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T05:42:28Z",
+      "side": 1,
+      "message": "Provider is not needed in the request scope, even though, SubmittedTogether is not singleton any more. See also: [1] for more context: [1].\n\n* [1] https://gerrit-review.googlesource.com/76882",
+      "range": {
+        "startLine": 88,
+        "startChar": 16,
+        "endLine": 88,
+        "endChar": 24
+      },
+      "revId": "43781b6829c773b0f47fab115d17954b3f328be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_2a79df20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T05:42:28Z",
+      "side": 1,
+      "message": "Wouldn\u0027t equalsIgnoreCase be safer?",
+      "range": {
+        "startLine": 68,
+        "startChar": 19,
+        "endLine": 68,
+        "endChar": 25
+      },
+      "revId": "43781b6829c773b0f47fab115d17954b3f328be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_8b872d11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T05:42:28Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 75,
+        "startChar": 19,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "43781b6829c773b0f47fab115d17954b3f328be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

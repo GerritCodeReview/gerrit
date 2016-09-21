@@ -1,3 +1,5 @@
+workspace(name="gerrit")
+
 ANTLR_VERS = '3.5.2'
 
 maven_jar(
@@ -785,4 +787,86 @@ maven_jar(
   name = 'commons_io',
   artifact = 'commons-io:commons-io:1.4',
   sha1 = 'a8762d07e76cfde2395257a5da47ba7c1dbd3dce',
+)
+
+load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
+
+npm_binary(
+  name = "bower",
+)
+
+#load("//lib/js:bower_archives.bzl", "load_bower_archives")
+#load_bower_archives()
+
+# bower_archive() seed components.
+bower_archive(
+  name = 'iron-autogrow-textarea',
+  package = 'polymerelements/iron-autogrow-textarea',
+  version = '1.0.12',
+  sha1 = 'b9b6874c9a2b5be435557a827ff8bd6661672ee3',
+)
+
+bower_archive(
+  name = 'es6-promise',
+  package = 'stefanpenner/es6-promise',
+  version = '3.3.0',
+  sha1 = 'a3a797bb22132f1ef75f9a2556173f81870c2e53',
+)
+
+bower_archive(
+  name = 'fetch',
+  package = 'fetch',
+  version = '1.0.0',
+  sha1 = '1b05a2bb40c73232c2909dc196de7519fe4db7a9',
+)
+bower_archive(
+  name = 'iron-dropdown',
+  package = 'polymerelements/iron-dropdown',
+  version = '1.4.0',
+  sha1 = '63e3d669a09edaa31c4f05afc76b53b919ef0595',
+)
+bower_archive(
+  name = 'iron-input',
+  package = 'polymerelements/iron-input',
+  version = '1.0.10',
+  sha1 = '9bc0c8e81de2527125383cbcf74dd9f27e7fa9ac',
+)
+bower_archive(
+  name = 'iron-overlay-behavior',
+  package = 'polymerelements/iron-overlay-behavior',
+  version = '1.7.6',
+  sha1 = '83181085fda59446ce74fd0d5ca30c223f38ee4a',
+)
+bower_archive(
+  name = 'iron-selector',
+  package = 'polymerelements/iron-selector',
+  version = '1.5.2',
+  sha1 = 'c57235dfda7fbb987c20ad0e97aac70babf1a1bf',
+)
+bower_archive(
+  name = 'moment',
+  package = 'moment/moment',
+  version = '2.13.0',
+  sha1 = 'fc8ce2c799bab21f6ced7aff928244f4ca8880aa',
+)
+
+bower_archive(
+  name = 'page',
+  package = 'visionmedia/page.js',
+  version = '1.7.1',
+  sha1 = '51a05428dd4f68fae1df5f12d0e2b61ba67f7757',
+)
+
+bower_archive(
+  name = 'polymer',
+  package = 'polymer/polymer',
+  version = '1.4.0',
+  sha1 = 'b84725939ead7c7bdf9917b065f68ef8dc790d06',
+)
+
+bower_archive(
+  name = 'promise-polyfill',
+  package = 'polymerlabs/promise-polyfill',
+  version = '1.0.0',
+  sha1 = 'a3b598c06cbd7f441402e666ff748326030905d6',
 )

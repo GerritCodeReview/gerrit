@@ -1,6 +1,6 @@
-exports_files([
-  "LICENSE-DO_NOT_DISTRIBUTE"
-])
+exports_files(glob([
+  "LICENSE-*"
+]))
 
 java_library(
   name = 'servlet-api-3_1',

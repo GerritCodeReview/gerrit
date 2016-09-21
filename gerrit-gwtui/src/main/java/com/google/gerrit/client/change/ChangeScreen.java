@@ -1305,6 +1305,18 @@ public class ChangeScreen extends Screen {
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
 
+    RevisionInfo currentRev = changeInfo.revision(info.currentRevision());
+    JsArray<MessageInfo> messages = info.messages();
+    // current revision number is always 0 in edit mode
+    if (messages != null && !currentRev.isEdit()) {
+      MessageInfo msg = messages.get(messages.length()-1);
+      int n = history.getWidgetCount();
+      if (msg._revisionNumber() != currentRev._number()) {
+        // indicate that last comment does not apply to current patchset
+        history.getWidget(n-1).getElement().addClassName(style.notCurrentPatchSet());
+      }
+    }
+
     if (current && info.status().isOpen()) {
       quickApprove.set(info, revision, replyAction);
       renderSubmitType(info.status(), isSubmittable(info), info.submitType());

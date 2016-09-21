@@ -1112,6 +1112,10 @@ Panel will be shown below the change info block.
 +
 Panel will be shown below the related info block.
 
+** `GerritUiExtensionPoint.CHANGE_SCREEN_HISTORY_RIGHT_OF_BUTTONS`:
++
+Panel will be shown in the history bar on the right side of the buttons.
+
 ** The following parameters are provided:
 *** `GerritUiExtensionPoint.Key.CHANGE_INFO`:
 +

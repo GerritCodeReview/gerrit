@@ -541,7 +541,7 @@
           break;
         case 85:  // 'u'
           e.preventDefault();
-          page.show('/');
+          history.back();
           break;
       }
     },

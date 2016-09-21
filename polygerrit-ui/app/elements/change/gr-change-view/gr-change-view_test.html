@@ -44,11 +44,11 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', function() {
-      test('U should navigate to /', function() {
-        var showStub = sinon.stub(page, 'show');
+      test('U should navigate back to previous page', function() {
+        var backStub = sinon.stub(history, 'back');
         MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
-        assert(showStub.lastCall.calledWithExactly('/'));
-        showStub.restore();
+        assert.isTrue(backStub.called);
+        backStub.restore();
       });
 
       test('A should toggle overlay', function() {

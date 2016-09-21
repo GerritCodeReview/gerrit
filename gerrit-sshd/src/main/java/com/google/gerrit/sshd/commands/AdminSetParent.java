@@ -14,9 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -200,15 +197,11 @@ final class AdminSetParent extends SshCommand {
     return childProjects;
   }
 
-  private Set<Project.NameKey> getAllParents(final Project.NameKey projectName) {
+  private Set<Project.NameKey> getAllParents(Project.NameKey projectName) {
     ProjectState ps = projectCache.get(projectName);
-    return ImmutableSet.copyOf(Iterables.transform(
-      ps != null ? ps.parents() : Collections.<ProjectState> emptySet(),
-      new Function<ProjectState, Project.NameKey> () {
-        @Override
-        public Project.NameKey apply(ProjectState in) {
-          return in.getProject().getNameKey();
-        }
-      }));
+    if (ps == null) {
+      return Collections.emptySet();
+    }
+    return ps.parents().transform(s -> s.getProject().getNameKey()).toSet();
   }
 }

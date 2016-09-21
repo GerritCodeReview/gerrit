@@ -16,7 +16,6 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -56,14 +55,8 @@ public class BanCommitCommand extends SshCommand {
   @Override
   protected void run() throws Failure {
     try {
-      BanCommit.Input input =
-          BanCommit.Input.fromCommits(Lists.transform(commitsToBan,
-              new Function<ObjectId, String>() {
-                @Override
-                public String apply(ObjectId oid) {
-                  return oid.getName();
-                }
-              }));
+      BanCommit.Input input = BanCommit.Input.fromCommits(
+          Lists.transform(commitsToBan, ObjectId::getName));
       input.reason = reason;
 
       BanResultInfo r = banCommit.apply(new ProjectResource(projectControl), input);

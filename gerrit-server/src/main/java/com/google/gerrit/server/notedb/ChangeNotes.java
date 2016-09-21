@@ -408,6 +408,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /**
+   * @return an ImmutableSet of Account.Ids of all users that have been assigned
+   * to this change.
+   */
+  public ImmutableSet<Account.Id> getHistoricalAssignees() {
+    return state.historicalAssignees();
+  }
+
+  /**
    *
    * @return a ImmutableSet of all hashtags for this change sorted in alphabetical order.
    */

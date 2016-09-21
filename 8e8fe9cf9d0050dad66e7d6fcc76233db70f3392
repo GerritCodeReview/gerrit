@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b091cf63_0e042b20",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-21T22:58:52Z",
+      "side": 1,
+      "message": "Super nitpicky... But in the rest of the codebase, we don\u0027t do open/close brackets on a newline, and I much prefer that because it doesn\u0027t squeeze content to the right and force you to be creative with your line breaks.",
+      "range": {
+        "startLine": 294,
+        "startChar": 12,
+        "endLine": 297,
+        "endChar": 14
+      },
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_4d0d4d49",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-21T22:58:52Z",
+      "side": 1,
+      "message": "Delete newline",
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_8d1d8580",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-21T22:58:52Z",
+      "side": 1,
+      "message": "Capitalize",
+      "range": {
+        "startLine": 465,
+        "startChar": 11,
+        "endLine": 465,
+        "endChar": 19
+      },
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_ad1a4983",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-21T22:58:52Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_0d135570",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-21T22:58:52Z",
+      "side": 1,
+      "message": "Putting function() { on the same line as the stub declaration might make everything look neater and with less indentation... Personal preference, though.",
+      "range": {
+        "startLine": 473,
+        "startChar": 10,
+        "endLine": 474,
+        "endChar": 26
+      },
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

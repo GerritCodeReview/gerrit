@@ -66,8 +66,9 @@ abstract class Event implements Comparable<Event> {
         who, update.getNullableAccountId());
   }
 
-  void addDep(Event e) {
+  Event addDep(Event e) {
     deps.add(e);
+    return this;
   }
 
   /**
@@ -77,10 +78,6 @@ abstract class Event implements Comparable<Event> {
   abstract boolean uniquePerUpdate();
 
   abstract void apply(ChangeUpdate update) throws OrmException, IOException;
-
-  protected boolean isPatchSet() {
-    return false;
-  }
 
   @Override
   public String toString() {
@@ -94,6 +91,7 @@ abstract class Event implements Comparable<Event> {
   @Override
   public int compareTo(Event other) {
     return ComparisonChain.start()
+        .compareFalseFirst(this.isFinalUpdates(), other.isFinalUpdates())
         .compare(this.when, other.when)
         .compareTrueFirst(isPatchSet(), isPatchSet())
         .compareTrueFirst(this.predatesChange, other.predatesChange)
@@ -101,5 +99,13 @@ abstract class Event implements Comparable<Event> {
         .compare(this.psId, other.psId,
             ReviewDbUtil.intKeyOrdering().nullsLast())
         .result();
+  }
+
+  private boolean isPatchSet() {
+    return this instanceof PatchSetEvent;
+  }
+
+  private boolean isFinalUpdates() {
+    return this instanceof FinalUpdatesEvent;
   }
 }

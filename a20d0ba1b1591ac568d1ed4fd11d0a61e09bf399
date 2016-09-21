@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70bbd7d1_59f34389",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-21T17:06:52Z",
+      "side": 1,
+      "message": "Why the dollar sign here?",
+      "range": {
+        "startLine": 163,
+        "startChar": 30,
+        "endLine": 163,
+        "endChar": 36
+      },
+      "revId": "a20d0ba1b1591ac568d1ed4fd11d0a61e09bf399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bbd7d1_39fe8f52",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-21T17:06:52Z",
+      "side": 1,
+      "message": "Break this up into multiple lines.",
+      "revId": "a20d0ba1b1591ac568d1ed4fd11d0a61e09bf399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_ba09b18c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-21T17:06:52Z",
+      "side": 1,
+      "message": "Break this up into multiple lines.",
+      "revId": "a20d0ba1b1591ac568d1ed4fd11d0a61e09bf399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_da06657b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-21T17:06:52Z",
+      "side": 1,
+      "message": "Break this into multiple lines.",
+      "revId": "a20d0ba1b1591ac568d1ed4fd11d0a61e09bf399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

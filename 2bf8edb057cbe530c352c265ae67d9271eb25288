@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_0a47bb06",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-09-21T12:45:29Z",
+      "side": 1,
+      "message": "either add javadoc or remove that comment",
+      "range": {
+        "startLine": 17,
+        "startChar": 33,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "2bf8edb057cbe530c352c265ae67d9271eb25288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

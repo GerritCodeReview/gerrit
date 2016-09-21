@@ -4,6 +4,7 @@ bower_components(
   name = 'polygerrit_components',
   deps = [
     '//lib/js:es6-promise',
+    '//lib/js:es6-shim',
     '//lib/js:fetch',
     '//lib/js:highlightjs',
     '//lib/js:iron-a11y-keys-behavior',

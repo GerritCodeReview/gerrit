@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
@@ -50,9 +49,9 @@ class HasDraftByLegacyPredicate extends ChangeOperatorPredicate
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     Set<Change.Id> ids = new HashSet<>();
-    for (PatchLineComment sc :
-        args.plcUtil.draftByAuthor(args.db.get(), accountId)) {
-      ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
+    for (Change.Id changeId : args.plcUtil
+        .changesWithDraftsByAuthor(args.db.get(), accountId)) {
+      ids.add(changeId);
     }
 
     List<ChangeData> r = new ArrayList<>(ids.size());

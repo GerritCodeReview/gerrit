@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_a95d854b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T06:42:32Z",
+      "side": 1,
+      "message": "It is weird, I agree. I added an explicit cast to make the intention clearer.\n\nI think if we wrap this in Collections.unmodifiableMap (or ImmutableMap.copy), then it makes it safe to do the covariant cast as:\n\n  (Map\u003cObject, Metric\u003e) (Collections.unmodifiableMap(cells))\n\nIOW the cast is safe only if you can\u0027t put a non-ValueGauge Metric in the map.\n\nBut honestly that is too much for my brain right now, so I will stick with the obviously correct boilerplate reduction.",
+      "parentUuid": "4be70257_c949e9ba",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 49
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a2af7a_031a8ed8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
         "patchSetId": 1
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_c887236b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T06:42:32Z",
+      "side": 1,
+      "message": "It\u0027s not lazy, you\u0027re right. containsAnyOf takes Iterable, and it\u0027s nontrivial to get a lazy Iterable from a Stream; in this series I was trying not to modify public interfaces. There are lots of Iterable interfaces that might do better to take Iterator or Stream.\n\nI was thinking when I wrote this that the list would be small enough that we don\u0027t care about eagerly storing it. However, since then, I realized that in these kinds of cases the easiest way to achieve laziness + readability is to use FluentIterable, so will change to that.",
+      "parentUuid": "b0a2af7a_031a8ed8",
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a56383_a4d94210",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
         "patchSetId": 1
@@ -54,6 +96,30 @@
       "writtenOn": "2016-09-20T16:59:44Z",
       "side": 1,
       "message": "not about this patch: This would be simpler if it could return a Stream.",
+      "range": {
+        "startLine": 47,
+        "startChar": 41,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_e9678d1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T06:42:32Z",
+      "side": 1,
+      "message": "Yeah, as I said elsewhere, there are lots of interfaces that could be rethought with Stream in mind, which I\u0027m not doing in this series. The one gotcha to keep in mind is that unlike Iterables, Streams can be consumed only once.\n\nYou could replace FluentIterable.from(views).transform(...).filter(...) with views.map(...).transform(...).filter(...). That uses the JDK exclusively rather than Guava, but I\u0027m not sure it\u0027s really \"simpler\".",
+      "parentUuid": "d0a56383_a4d94210",
       "range": {
         "startLine": 47,
         "startChar": 41,
@@ -113,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_e886676c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T06:42:32Z",
+      "side": 1,
+      "message": "Works for me.",
+      "parentUuid": "4be70257_c9e3a99b",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 32
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_89db61e1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
         "patchSetId": 1
@@ -160,6 +250,30 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_28b20f52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T06:42:32Z",
+      "side": 1,
+      "message": "For the specific case of Collectors.*, I think it is much more readable to see collect(toList()), which you can read directly in English as \"collect to [a] list\". This sounds better in my head than \"collect collector to [a] list\"",
+      "parentUuid": "b0a2af7a_e320920d",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 48
+      },
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a56383_241f92c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
         "patchSetId": 1
@@ -171,6 +285,24 @@
       "writtenOn": "2016-09-20T16:59:44Z",
       "side": 1,
       "message": "Can simplify using streams:\n\n return ImmutableList.copyOf(\n   comments.stream().map(c -\u003e ...).collect(toList());",
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_489cb3ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T06:42:32Z",
+      "side": 1,
+      "message": "Arguably not simpler, but done.\n\n(Will definitely be a win once toImmutableList() exists in Guava :)",
+      "parentUuid": "d0a56383_241f92c9",
       "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -205,6 +337,24 @@
       "writtenOn": "2016-09-20T15:56:15Z",
       "side": 1,
       "message": "Add a blank line between com and java package static imports?",
+      "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_496dd9fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T06:42:32Z",
+      "side": 1,
+      "message": "No, we actually don\u0027t do that, try it for yourself in Eclipse.\n\nIf you see me doing it it\u0027s because I have a buggy script (written by someone else) for organizing imports in my editor and I forgot to fix it.",
+      "parentUuid": "2bec8e3b_c85603fe",
       "revId": "04c5e8bac8160942c94ef80b0c21b5cac79627e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

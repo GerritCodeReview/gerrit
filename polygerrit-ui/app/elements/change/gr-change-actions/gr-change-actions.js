@@ -320,6 +320,10 @@
     },
 
     _handleConfirmDialogCancel: function() {
+      this._hideAllDialogs();
+    },
+
+    _hideAllDialogs: function() {
       var dialogEls =
           Polymer.dom(this.root).querySelectorAll('.confirmDialog');
       for (var i = 0; i < dialogEls.length; i++) {
@@ -343,7 +347,7 @@
         payload.base = el.base;
       }
       this.$.overlay.close();
-      el.hidden = false;
+      el.hidden = true;
       this._fireAction('/rebase', this._revisionActions.rebase, true, payload);
     },
 
@@ -359,7 +363,7 @@
         return;
       }
       this.$.overlay.close();
-      el.hidden = false;
+      el.hidden = true;
       this._fireAction(
           '/cherrypick',
           this._revisionActions.cherrypick,
@@ -374,7 +378,7 @@
     _handleRevertDialogConfirm: function() {
       var el = this.$.confirmRevertDialog;
       this.$.overlay.close();
-      el.hidden = false;
+      el.hidden = true;
       this._fireAction('/revert', this.actions.revert, false,
           {message: el.message});
     },
@@ -382,7 +386,7 @@
     _handleAbandonDialogConfirm: function() {
       var el = this.$.confirmAbandonDialog;
       this.$.overlay.close();
-      el.hidden = false;
+      el.hidden = true;
       this._fireAction('/abandon', this.actions.abandon, false,
           {message: el.message});
     },
@@ -405,6 +409,8 @@
     },
 
     _showActionDialog: function(dialog) {
+      this._hideAllDialogs();
+
       dialog.hidden = false;
       this.$.overlay.open().then(function() {
         if (dialog.resetFocus) {

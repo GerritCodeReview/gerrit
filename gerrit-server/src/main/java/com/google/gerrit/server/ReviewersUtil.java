@@ -68,7 +68,7 @@ import java.util.Set;
 public class ReviewersUtil {
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final Ordering<SuggestedReviewerInfo> ORDERING =
-      Ordering.from(comparing(
+      Ordering.<SuggestedReviewerInfo> from(comparing(
           suggestedReviewerInfo -> {
             if (suggestedReviewerInfo == null) {
               return null;

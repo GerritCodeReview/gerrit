@@ -41,7 +41,7 @@ prebuilt_jar(
   binary_jar = ':diffy_image_files_ln',
   deps = [
     '//lib:LICENSE-diffy',
-    '//lib:LICENSE-CC-BY3.0',
+    '//lib:LICENSE-CC-BY3.0-unported',
   ],
   visibility = ['PUBLIC'],
 )

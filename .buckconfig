@@ -25,7 +25,7 @@
 
 [project]
   allow_symlinks = allow
-  ignore = .git, eclipse-out, bazel-gerrit
+  ignore = .git, eclipse-out, bazel-gerrit, bin
   parallel_parsing = true
 
 [cache]

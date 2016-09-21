@@ -47,7 +47,6 @@ java_library(
   name = 'silk_icons',
   deps = [
     '//lib:LICENSE-silk_icons',
-    '//lib:LICENSE-CC-BY3.0',
   ],
 )
 

@@ -16,6 +16,24 @@
       "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0bf23c0_7439e8f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-21T17:29:46Z",
+      "side": 1,
+      "message": "Or the gr-linked-text should have the message class.",
+      "parentUuid": "90b68be5_9a0ced9d",
+      "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

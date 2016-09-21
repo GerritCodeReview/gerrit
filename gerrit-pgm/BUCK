@@ -47,7 +47,7 @@ java_library(
     ':init-api',
     ':util',
     '//gerrit-common:annotations',
-    '//gerrit-lucene:lucene',
+    '//gerrit-index:index',
     '//lib:args4j',
     '//lib:derby',
     '//lib:gwtjsonrpc',

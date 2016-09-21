@@ -450,6 +450,47 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_caef6311",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T11:31:09Z",
+      "side": 1,
+      "message": "IIRC, we can\u0027t because the velocity depends on it. Yet another reason to get rid of it and only let soy template engine. But I think those packages are different.",
+      "parentUuid": "b091cf63_6b13e164",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_eaec271f",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T11:31:09Z",
+      "side": 1,
+      "message": "Extract this constant in external file to make sure the same Lcuene version is used across different index backends?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_8b172d4f",
         "filename": "lib/elasticsearch/BUCK",
         "patchSetId": 65
@@ -461,6 +502,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "Why do we have a separate copy of Lucene here? I thought David Pursehouse had been trying to ensure we upgrade Gerrit to the same version of Lucene used by ES, to avoid exactly this scenario.",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_8bb3ad56",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T11:31:09Z",
+      "side": 1,
+      "message": "Are those different artifacts?",
+      "parentUuid": "b091cf63_8b172d4f",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

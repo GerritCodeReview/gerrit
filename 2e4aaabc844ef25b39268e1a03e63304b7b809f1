@@ -16,6 +16,24 @@
       "revId": "2e4aaabc844ef25b39268e1a03e63304b7b809f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bbd7d1_d991134a",
+        "filename": "lib/LICENSE-CC-BY3.0",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-21T02:19:06Z",
+      "side": 1,
+      "message": "Silk icons \u003chttp://famfamfam.com/lab/icons/silk/\u003e say:\n\n The icons can also be used under Creative Commons Attribution 3.0 License\n \u003chttp://creativecommons.org/licenses/by/3.0/\u003e (Hi Debian folks!) with the \n following requirements:\n\n As an author, I would appreciate a reference to my authorship of the Silk\n icon set contents within a readme file or equivalent documentation for\n the software which includes the set or a subset of the icons contained\n within.\n\nSo I guess we should put that addendum in lib/LICENSE-silk_icons.\n\nhttps://groups.google.com/d/msg/repo-discuss/nLCvwG2POpM/OOSUrSONIWAJ describes the license for diffy. That message also links to the unported version.\n\nSo I think we want the unported text.",
+      "parentUuid": "b46d31b6_d3041467",
+      "revId": "2e4aaabc844ef25b39268e1a03e63304b7b809f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

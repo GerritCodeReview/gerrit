@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_ca06837b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-21T07:58:38Z",
+      "side": 1,
+      "message": "DiffObject may also be understood as an object which represents a diff.\n\nI don\u0027t have a really good suggestion right now...",
+      "parentUuid": "2bec8e3b_08358bfb",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "ae75f028eec70897c722d742e5dff2760edd1bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_e6a05aa7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 1

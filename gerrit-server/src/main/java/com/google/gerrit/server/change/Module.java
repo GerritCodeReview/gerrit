@@ -54,6 +54,7 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     get(CHANGE_KIND, "in").to(IncludedIn.class);
     get(CHANGE_KIND, "assignee").to(GetAssignee.class);
+    get(CHANGE_KIND, "past_assignees").to(GetPastAssignees.class);
     put(CHANGE_KIND, "assignee").to(PutAssignee.class);
     delete(CHANGE_KIND, "assignee").to(DeleteAssignee.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);

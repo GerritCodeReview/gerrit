@@ -30,6 +30,9 @@ public interface Resources extends ClientBundle {
   @Source("user_add.png")
   ImageResource addUser();
 
+  @Source("user_edit.png")
+  ImageResource editUser();
+
   // derived from resultset_next.png
   @Source("resultset_down_gray.png")
   ImageResource arrowDown();

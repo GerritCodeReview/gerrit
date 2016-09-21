@@ -69,6 +69,8 @@ public interface ChangeConstants extends Constants {
   String patchTableNext();
   String patchTableOpenDiff();
 
+  String approvalTableEditAssigneeHint();
+
   String approvalTableAddReviewerHint();
   String approvalTableAddManyReviewersConfirmationDialogTitle();
 

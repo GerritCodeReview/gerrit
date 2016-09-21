@@ -22,7 +22,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.lucene.LuceneChangeIndex;
+import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
@@ -239,7 +239,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         sort.setIgnoreUnmapped();
       }
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
-      fields = LuceneChangeIndex.fields(getSchema(), opts);
+      fields = IndexUtils.fields(getSchema(), opts);
       SearchSourceBuilder searchSource = new SearchSourceBuilder()
           .query(qb)
           .from(opts.start())

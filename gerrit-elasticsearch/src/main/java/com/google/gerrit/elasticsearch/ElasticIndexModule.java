@@ -14,9 +14,9 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.gerrit.index.SingleVersionModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneAccountIndex;
-import com.google.gerrit.lucene.LuceneIndexModule.SingleVersionModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;

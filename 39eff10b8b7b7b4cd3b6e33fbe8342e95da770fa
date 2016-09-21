@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70bbd7d1_99e23bc4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-09-21T13:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_cb1bf526",
+      "range": {
+        "startLine": 456,
+        "startChar": 77,
+        "endLine": 456,
+        "endChar": 81
+      },
+      "revId": "39eff10b8b7b7b4cd3b6e33fbe8342e95da770fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_4a41b3ed",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 21
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-21T13:06:33Z",
       "side": 1,
       "message": "`HTTP_LDAP`",
+      "range": {
+        "startLine": 458,
+        "startChar": 68,
+        "endLine": 458,
+        "endChar": 77
+      },
+      "revId": "39eff10b8b7b7b4cd3b6e33fbe8342e95da770fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bbd7d1_b9dffff4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-09-21T13:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_4a41b3ed",
       "range": {
         "startLine": 458,
         "startChar": 68,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "90b68be5_1a10ddb9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-09-21T13:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_eb18b12c",
+      "range": {
+        "startLine": 474,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 17
+      },
+      "revId": "39eff10b8b7b7b4cd3b6e33fbe8342e95da770fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_4b41c5ed",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 21
@@ -82,6 +154,30 @@
       "writtenOn": "2016-09-21T13:06:33Z",
       "side": 1,
       "message": "no backtics",
+      "range": {
+        "startLine": 475,
+        "startChar": 73,
+        "endLine": 475,
+        "endChar": 79
+      },
+      "revId": "39eff10b8b7b7b4cd3b6e33fbe8342e95da770fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_3a15a1aa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-09-21T13:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_4b41c5ed",
       "range": {
         "startLine": 475,
         "startChar": 73,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "90b68be5_5a1a55d9",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-09-21T13:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_ab378999",
+      "range": {
+        "startLine": 29,
+        "startChar": 25,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "39eff10b8b7b7b4cd3b6e33fbe8342e95da770fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_6a467708",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
         "patchSetId": 21
@@ -128,6 +248,30 @@
       "writtenOn": "2016-09-21T13:04:16Z",
       "side": 1,
       "message": "Why is this commented out? Can we just remove it?",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 7
+      },
+      "revId": "39eff10b8b7b7b4cd3b6e33fbe8342e95da770fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b68be5_fad9690f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-09-21T13:08:58Z",
+      "side": 1,
+      "message": "For sure, sorry. Done.",
+      "parentUuid": "9084cb25_6a467708",
       "range": {
         "startLine": 153,
         "startChar": 0,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_eafd0700",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T09:16:54Z",
+      "side": 1,
+      "message": "After the other change to LICENSE-silk_icons, this can just be removed from the dep list.",
+      "revId": "8a4982c49a3df0e6f54fdfe40e38649feb94018b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

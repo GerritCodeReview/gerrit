@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_4a7e130a",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T05:40:43Z",
+      "side": 1,
+      "message": "This section is more or less redundant now that gwtorm and gwtjsonrpc are deployed to Maven Central.  AFAIK this should only be needed to deploy prolog cafe releases and JGit snapshots.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 48
+      },
+      "revId": "ec0f2c80582d508ebf95cd1e4b669e0bfdaf21eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

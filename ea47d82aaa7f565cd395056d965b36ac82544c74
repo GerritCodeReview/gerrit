@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474445519 +0200\nnonce AKOpmBUVuTlEfe8rZLnyQyNjtdlg3y2/OUaT0n1UQ4yjqqDK37wTqmVu7k2NnJOgYbsnz5lBfPb6\n\n0000000000000000000000000000000000000000 ea47d82aaa7f565cd395056d965b36ac82544c74 refs/for/master%r\u003dandybons@chromium.org,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX4kDRAAoJEF/XxZqaEoiMIysP/3bRDP0bWPpPfaAQtdEiN0fw\nTo38XBj4Y8MY8sIg2Ql3DbWiGOgz4+w63PQv5/guyiA/VYl4A1dIH/oXf6WU9Usr\nGlgmIun/4W0wiX4sQDLERQBOY4GzHmKTInFEmoUGs6jcgsLGSATpoj7ZKeRykJma\ng6e4MIw89Hfucew1PBO22pDYNDPl/EfAFpJkfQvlGLrdpFTo1s2d4IpeY3OezsZ6\n0buRhf4uS0ixgDQbSGS6EGTNLxjoUYOP4GbG8ybvqcxSw7gJik12SFfuLLxGvh9J\nFjblnEo0RYywv0+Cux31J2kJhzCmJrih11Sx4KSb72OP/0QRGvXAqmtsIk4pjWDr\nQRM50YZJ7IlgnmIp618zIbW1Tt8bo03e38HkrvfIzxFY23zaZcINanTLDGBq0vSv\ns/8gZFLkjDGR+Ed2XAg+izGKDii9dgel6X8DhG6It7exk3kt3Z5VTGL/uAjTBCnG\nU3VnXw6kQOPTDqavLaljM1pEoZfWMVQK2ToltXY3iDRIeWAT2L98T1/VsVMiSh82\n8Nn5xvPuyD4haFbnYZLD2QLONgiWc4IDva2Jckbho6N8yl7fn5vc1+GnwpW1BCLn\n6GWcZiFpWx/41Y/n2gZ3TLXEONQFn1maOg7IjWxEeklBKLS/q99dRPP5rt4anyuL\n4QxrMTrSKoc0zaIO1uZ/\n\u003d2Xcw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b091cf63_6b712107",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T08:13:23Z",
+      "side": 1,
+      "message": "This doesn\u0027t work: the link somehow gets intercepted by the JS app and redirects back to /q/status:open. How do I tell it: no really please make this request to the server?",
+      "range": {
+        "startLine": 132,
+        "startChar": 17,
+        "endLine": 132,
+        "endChar": 31
+      },
+      "revId": "ea47d82aaa7f565cd395056d965b36ac82544c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

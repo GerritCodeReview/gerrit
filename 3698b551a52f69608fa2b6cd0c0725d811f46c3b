@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_aa686feb",
+        "filename": "lib/LICENSE-silk_icons",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T08:55:10Z",
+      "side": 1,
+      "message": "Oh, I missed the part where there is a choice of [CC-BY 2.5] _or_ [CC-BY-3.0 plus addendum].\n\nCan you remove the reference to 2.5 and just leave the reference to 3.0 (to avoid confusion), then paste the full contents of /by/3.0 after the initial paragraphs.",
+      "revId": "3698b551a52f69608fa2b6cd0c0725d811f46c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

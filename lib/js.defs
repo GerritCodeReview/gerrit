@@ -124,7 +124,8 @@ def _combine_components(deps):
   cmds = ['cd $TMP']
   for d in deps:
     cmds.append('unzip -qo $(location %s)' % d)
-  cmds.append('zip -r $OUT bower_components')
+  cmds.append("find bower_components -exec touch -t 198001010000 '{}' ';'")
+  cmds.append('zip -r $OUT bower_components/*')
   return ' && '.join(cmds)
 
 

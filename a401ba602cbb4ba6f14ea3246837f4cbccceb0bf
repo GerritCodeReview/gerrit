@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1474457135 +0200\nnonce AKOpmBUZHFV96PziwLdxtdfKIXCxtpgk+D2/TprCJ5P/XT/4CIQXwHHztu7KWlYzhaOT+CLCMda2\n\n0000000000000000000000000000000000000000 a401ba602cbb4ba6f14ea3246837f4cbccceb0bf refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX4m4vAAoJEHFVO370GiZWihIH/1hUh0lr5rVib6UVdvRCMf+6\nmPoElLiJ1L+jKdvjPGlN2IIoEq6PDjD0meiSNi/9sL9etAhsucFerVODcyvuWQ8M\nNVel7oloYvJhmrrMNWidHexQwYbBSl0fgq3qJlNIf8uzxDuEaaCIHU6l3ghTXWHq\nysa3uQAUxBWu898UWnarlLWPohSQcvDVAARWFx8v7QwWdE7cEpoQWDKO8uSNC7W8\n2jz3jWDdBaFY8/D87hyZIHfuorcbxE2+KU4nXYh9DIp4iCzxQQH9zIP6dXrbURIf\npNWnrmLHVA3cvfjAK2zy8bkjQuTudrKiPl6rkPwbvkczbhReXY3Sw/PrrriNeMg\u003d\n\u003dp01B\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b091cf63_4baaa5df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T11:28:36Z",
+      "side": 1,
+      "message": "I don\u0027t see this error.  I\u0027m using Eclipse:\n\n Version: Neon Release (4.6.0)\n Build id: 20160613-1800\n\non OSX 10.11.6 with JDK 1.8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "a401ba602cbb4ba6f14ea3246837f4cbccceb0bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

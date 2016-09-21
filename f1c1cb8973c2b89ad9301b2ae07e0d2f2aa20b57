@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_0b4c1d3f",
+        "filename": "gerrit-cache-h2/BUCK",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T12:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a6832_4beee5a3",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce6be468_caa72382",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/TickerTimeProvider.java",
         "patchSetId": 18
@@ -130,6 +154,30 @@
       "writtenOn": "2016-04-07T14:47:26Z",
       "side": 1,
       "message": "You also define class with same name for tests in gerrit-server how about having one such a class?",
+      "range": {
+        "startLine": 48,
+        "startChar": 23,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_4a6ff38e",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T12:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6be468_aab66fb4",
       "range": {
         "startLine": 48,
         "startChar": 23,

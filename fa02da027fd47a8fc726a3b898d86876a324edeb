@@ -468,6 +468,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_0b897d7f",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 65
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T11:47:04Z",
+      "side": 1,
+      "message": "I believe you that it\u0027s necessary, I\u0027m just surprised it *works*.\n\nWe should see if we can kill Velocity soon :)",
+      "parentUuid": "9084cb25_caef6311",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_eaec271f",
         "filename": "lib/elasticsearch/BUCK",
         "patchSetId": 65

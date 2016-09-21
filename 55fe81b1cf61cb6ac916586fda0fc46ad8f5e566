@@ -35,6 +35,24 @@
       "revId": "55fe81b1cf61cb6ac916586fda0fc46ad8f5e566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0bf23c0_7467281f",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-21T15:56:39Z",
+      "side": 1,
+      "message": "Yes. Correct. Assuming web_uis is always an array when it’s defined.",
+      "parentUuid": "9084cb25_6a9d970e",
+      "revId": "55fe81b1cf61cb6ac916586fda0fc46ad8f5e566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

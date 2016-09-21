@@ -303,6 +303,9 @@ public class SiteIndexer {
           }
         }
 
+        // TODO(dborowitz): This is basically pointless; it computes
+        // currentFilePaths faster than going through PatchListCache, but we
+        // still need to go through PatchListCache for changedLines.
         RevCommit bCommit;
         while ((bCommit = walk.next()) != null && !byId.isEmpty()) {
           if (byId.containsKey(bCommit)) {

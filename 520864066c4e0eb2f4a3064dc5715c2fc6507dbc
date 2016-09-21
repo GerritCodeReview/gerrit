@@ -22,6 +22,30 @@
       "revId": "520864066c4e0eb2f4a3064dc5715c2fc6507dbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_aa930f59",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-09-21T14:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_8a964b4a",
+      "range": {
+        "startLine": 461,
+        "startChar": 18,
+        "endLine": 461,
+        "endChar": 19
+      },
+      "revId": "520864066c4e0eb2f4a3064dc5715c2fc6507dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

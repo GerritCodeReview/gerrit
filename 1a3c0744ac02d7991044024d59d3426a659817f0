@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_cbd935e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_45e77e3c",
+      "revId": "1a3c0744ac02d7991044024d59d3426a659817f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_86234eb6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 7
@@ -31,6 +49,30 @@
       "writtenOn": "2016-09-20T11:31:12Z",
       "side": 1,
       "message": "This comment \"compared to its ancestor\" is inconsistent with againstParent(1) below. I think what it\u0027s saying is, we don\u0027t have an auto-merge base available for octopus commits, so fall back to diffing against the first parent, even though this wasn\u0027t what was requested. Either way, please clarify the comment.",
+      "range": {
+        "startLine": 158,
+        "startChar": 44,
+        "endLine": 158,
+        "endChar": 68
+      },
+      "revId": "1a3c0744ac02d7991044024d59d3426a659817f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_6acbd715",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_86234eb6",
       "range": {
         "startLine": 158,
         "startChar": 44,

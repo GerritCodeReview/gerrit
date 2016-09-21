@@ -47,6 +47,29 @@
       "revId": "c1ce1365b24f7f47e56149e73c5af6812554cab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_4ae9b3a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T07:25:35Z",
+      "side": 1,
+      "message": "One-liner:\n\n ReviewDbUtil.intKeyOrdering().onResultOf(ChangeData::getId).sortedCopy(submitted)\n\nAlthough TBH I think what we actually want is for ChangeSet to use deterministic ordering in all its public methods.",
+      "range": {
+        "startLine": 638,
+        "startChar": 25,
+        "endLine": 638,
+        "endChar": 41
+      },
+      "revId": "c1ce1365b24f7f47e56149e73c5af6812554cab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "ec0f2c80582d508ebf95cd1e4b669e0bfdaf21eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_aab6afd4",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T07:14:43Z",
+      "side": 1,
+      "message": "This is already covered in the separate document for releasing a JGit snapshot:\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-release-jgit.html\n\nIt would probably be better to consolidate them into a single page.",
+      "parentUuid": "b091cf63_8bb00de4",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 48
+      },
+      "revId": "ec0f2c80582d508ebf95cd1e4b669e0bfdaf21eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

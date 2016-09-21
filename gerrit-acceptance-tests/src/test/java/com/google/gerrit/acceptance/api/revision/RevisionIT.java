@@ -20,11 +20,13 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
+import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -45,7 +47,6 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -539,7 +540,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files()
         .keySet()
-      ).containsExactly(COMMIT_MSG, "foo", "bar");
+      ).containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "bar");
 
     // list files against parent 1
     assertThat(gApi.changes()
@@ -547,7 +548,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files(1)
         .keySet()
-      ).containsExactly(COMMIT_MSG, "bar");
+      ).containsExactly(COMMIT_MSG, MERGE_LIST, "bar");
 
     // list files against parent 2
     assertThat(gApi.changes()
@@ -555,7 +556,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files(2)
         .keySet()
-      ).containsExactly(COMMIT_MSG, "foo");
+      ).containsExactly(COMMIT_MSG, MERGE_LIST, "foo");
   }
 
   @Test
@@ -853,66 +854,40 @@ public class RevisionIT extends AbstractDaemonTest {
         .file(path)
         .diff();
 
-    List<String> expectedLines = new ArrayList<>();
+    List<String> headers = new ArrayList<>();
     if (path.equals(COMMIT_MSG)) {
       RevCommit c = pushResult.getCommit();
 
       RevCommit parentCommit = c.getParents()[0];
       String parentCommitId = testRepo.getRevWalk().getObjectReader()
           .abbreviate(parentCommit.getId(), 8).name();
-      expectedLines.add("Parent:     " + parentCommitId + " ("
+      headers.add("Parent:     " + parentCommitId + " ("
           + parentCommit.getShortMessage() + ")");
 
       SimpleDateFormat dtfmt =
           new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);
       PersonIdent author = c.getAuthorIdent();
       dtfmt.setTimeZone(author.getTimeZone());
-      expectedLines.add("Author:     " + author.getName() + " <"
+      headers.add("Author:     " + author.getName() + " <"
           + author.getEmailAddress() + ">");
-      expectedLines.add("AuthorDate: "
+      headers.add("AuthorDate: "
           + dtfmt.format(Long.valueOf(author.getWhen().getTime())));
 
       PersonIdent committer = c.getCommitterIdent();
       dtfmt.setTimeZone(committer.getTimeZone());
-      expectedLines.add("Commit:     " + committer.getName() + " <"
+      headers.add("Commit:     " + committer.getName() + " <"
           + committer.getEmailAddress() + ">");
-      expectedLines.add("CommitDate: "
+      headers.add("CommitDate: "
           + dtfmt.format(Long.valueOf(committer.getWhen().getTime())));
-      expectedLines.add("");
+      headers.add("");
     }
 
-    for (String line : expectedContentSideB.split("\n")) {
-      expectedLines.add(line);
+    if (!headers.isEmpty()) {
+      String header = Joiner.on("\n").join(headers);
+      expectedContentSideB = header + "\n" + expectedContentSideB;
     }
 
-    assertThat(diff.binary).isNull();
-    assertThat(diff.changeType).isEqualTo(ChangeType.ADDED);
-    assertThat(diff.diffHeader).isNotNull();
-    assertThat(diff.intralineStatus).isNull();
-    assertThat(diff.webLinks).isNull();
-
-    assertThat(diff.metaA).isNull();
-    assertThat(diff.metaB).isNotNull();
-    assertThat(diff.metaB.commitId).isEqualTo(pushResult.getCommit().name());
-    assertThat(diff.metaB.contentType).isEqualTo(
-        path.equals(COMMIT_MSG)
-            ? "text/x-gerrit-commit-message"
-            : "text/plain");
-    assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
-    assertThat(diff.metaB.name).isEqualTo(path);
-    assertThat(diff.metaB.webLinks).isNull();
-
-    assertThat(diff.content).hasSize(1);
-    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
-    assertThat(contentEntry.b).hasSize(expectedLines.size());
-    for (int i = 0; i < contentEntry.b.size(); i++) {
-      assertThat(contentEntry.b.get(i)).isEqualTo(expectedLines.get(i));
-    }
-    assertThat(contentEntry.a).isNull();
-    assertThat(contentEntry.ab).isNull();
-    assertThat(contentEntry.common).isNull();
-    assertThat(contentEntry.editA).isNull();
-    assertThat(contentEntry.editB).isNull();
-    assertThat(contentEntry.skip).isNull();
+    assertDiffForNewFile(diff, pushResult.getCommit(), path,
+        expectedContentSideB);
   }
 }

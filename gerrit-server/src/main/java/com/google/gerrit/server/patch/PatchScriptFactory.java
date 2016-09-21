@@ -260,7 +260,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     b.setRepository(git, project);
     b.setChange(change);
     b.setDiffPrefs(diffPrefs);
-    b.setTrees(list.isAgainstParent(), list.getOldId(), list.getNewId());
+    b.setTrees(list.getComparisonType(), list.getOldId(), list.getNewId());
     return b;
   }
 

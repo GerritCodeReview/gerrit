@@ -44,9 +44,8 @@ public class PatchFile {
   private Text a;
   private Text b;
 
-  public PatchFile(final Repository repo, final PatchList patchList,
-      final String fileName) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException {
+  public PatchFile(Repository repo, PatchList patchList, String fileName)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
     this.repo = repo;
     this.entry = patchList.get(fileName);
 
@@ -55,7 +54,7 @@ public class PatchFile {
       final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
 
       if (Patch.COMMIT_MSG.equals(fileName)) {
-        if (patchList.isAgainstParent()) {
+        if (patchList.getComparisonType().isAgainstParentOrAutoMerge()) {
           a = Text.EMPTY;
         } else {
           // For the initial commit, we have an empty tree on Side A
@@ -68,7 +67,16 @@ public class PatchFile {
 
         aTree = null;
         bTree = null;
+      } else if (Patch.MERGE_LIST.equals(fileName)) {
+        // For the initial commit, we have an empty tree on Side A
+        RevObject object = rw.parseAny(patchList.getOldId());
+        a = object instanceof RevCommit
+            ? Text.forMergeList(patchList.getComparisonType(), reader, object)
+            : Text.EMPTY;
+        b = Text.forMergeList(patchList.getComparisonType(), reader, bCommit);
 
+        aTree = null;
+        bTree = null;
       } else {
         if (patchList.getOldId() != null) {
           aTree = rw.parseTree(patchList.getOldId());

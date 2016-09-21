@@ -66,7 +66,7 @@ class PatchScriptBuilder {
   private ObjectReader reader;
   private Change change;
   private DiffPreferencesInfo diffPrefs;
-  private boolean againstParent;
+  private ComparisonType comparisonType;
   private ObjectId aId;
   private ObjectId bId;
 
@@ -79,7 +79,8 @@ class PatchScriptBuilder {
   private int context;
 
   @Inject
-  PatchScriptBuilder(final FileTypeRegistry ftr, final PatchListCache plc) {
+  PatchScriptBuilder(FileTypeRegistry ftr,
+      PatchListCache plc) {
     a = new Side();
     b = new Side();
     registry = ftr;
@@ -106,8 +107,8 @@ class PatchScriptBuilder {
     }
   }
 
-  void setTrees(final boolean ap, final ObjectId a, final ObjectId b) {
-    againstParent = ap;
+  void setTrees(final ComparisonType ct, final ObjectId a, final ObjectId b) {
+    comparisonType = ct;
     aId = a;
     bId = b;
   }
@@ -435,7 +436,8 @@ class PatchScriptBuilder {
       try {
         final boolean reuse;
         if (Patch.COMMIT_MSG.equals(path)) {
-          if (againstParent && (aId == within || within.equals(aId))) {
+          if (comparisonType.isAgainstParentOrAutoMerge()
+              && (aId == within || within.equals(aId))) {
             id = ObjectId.zeroId();
             src = Text.EMPTY;
             srcContent = Text.NO_BYTES;
@@ -453,7 +455,26 @@ class PatchScriptBuilder {
             }
           }
           reuse = false;
-
+        } else if (Patch.MERGE_LIST.equals(path)) {
+          if (comparisonType.isAgainstParentOrAutoMerge()
+              && (aId == within || within.equals(aId))) {
+            id = ObjectId.zeroId();
+            src = Text.EMPTY;
+            srcContent = Text.NO_BYTES;
+            mode = FileMode.MISSING;
+            displayMethod = DisplayMethod.NONE;
+          } else {
+            id = within;
+            src = Text.forMergeList(comparisonType, reader, within);
+            srcContent = src.getContent();
+            if (src == Text.EMPTY) {
+              mode = FileMode.MISSING;
+              displayMethod = DisplayMethod.NONE;
+            } else {
+              mode = FileMode.REGULAR_FILE;
+            }
+          }
+          reuse = false;
         } else {
           final TreeWalk tw = find(within);
 

@@ -267,9 +267,16 @@ public class FileTable extends FlowPanel {
     if (table != null) {
       String self = Gerrit.selfRedirect(null);
       for (FileInfo info : Natives.asList(table.list)) {
-        Window.open(self + "#" + url(info), "_blank", null);
+        if (canOpen(info.path())) {
+          Window.open(self + "#" + url(info), "_blank", null);
+        }
       }
     }
+  }
+
+  private boolean canOpen(String path) {
+    return mode != Mode.EDIT || !Patch.isMagic(path)
+        || Patch.COMMIT_MSG.equals(path);
   }
 
   private void setTable(MyTable table) {
@@ -429,7 +436,10 @@ public class FileTable extends FlowPanel {
     @Override
     protected void onOpenRow(int row) {
       if (1 <= row && row <= list.length()) {
-        Gerrit.display(url(list.get(row - 1)));
+        FileInfo info = list.get(row - 1);
+        if (canOpen(info.path())) {
+          Gerrit.display(url(info));
+        }
       }
     }
 
@@ -452,7 +462,10 @@ public class FileTable extends FlowPanel {
 
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        Gerrit.display(url(list.get(index)));
+        FileInfo info = list.get(index);
+        if (canOpen(info.path())) {
+          Gerrit.display(url(info));
+        }
       }
     }
   }
@@ -538,7 +551,7 @@ public class FileTable extends FlowPanel {
       bytesDeleted = 0;
       for (int i = 0; i < list.length(); i++) {
         FileInfo info = list.get(i);
-        if (!Patch.COMMIT_MSG.equals(info.path())) {
+        if (!Patch.isMagic(info.path())) {
           if (!info.binary()) {
             hasNonBinaryFile = true;
             inserted += info.linesInserted();
@@ -628,7 +641,7 @@ public class FileTable extends FlowPanel {
     private void columnDeleteRestore(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().restoreDelete());
       if (hasUser) {
-        if (!Patch.COMMIT_MSG.equals(info.path())) {
+        if (!Patch.isMagic(info.path())) {
           boolean editable = isEditable(info);
           sb.openDiv()
             .openElement("button")
@@ -659,7 +672,7 @@ public class FileTable extends FlowPanel {
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().status());
-      if (!Patch.COMMIT_MSG.equals(info.path())
+      if (!Patch.isMagic(info.path())
           && info.status() != null
           && !ChangeType.MODIFIED.matches(info.status())) {
         sb.append(info.status());
@@ -668,20 +681,43 @@ public class FileTable extends FlowPanel {
     }
 
     private void columnPath(SafeHtmlBuilder sb, FileInfo info) {
-      sb.openTd()
-        .setStyleName(R.css().pathColumn())
-        .openAnchor();
-
       String path = info.path();
+
+      sb.openTd()
+        .setStyleName(R.css().pathColumn());
+
+      if (!canOpen(path)) {
+        sb.openDiv();
+        appendPath(path);
+        sb.closeDiv();
+        sb.closeTd();
+        return;
+      }
+
+      sb.openAnchor();
+
       if (mode == Mode.EDIT && !isEditable(info)) {
         sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
       } else {
         sb.setAttribute("href", "#" + url(info))
           .setAttribute("onclick", OPEN + "(event," + info._row() + ")");
       }
+      appendPath(path);
+      sb.closeAnchor();
+      if (info.oldPath() != null) {
+        sb.br();
+        sb.openSpan().setStyleName(R.css().renameCopySource())
+          .append(info.oldPath())
+          .closeSpan();
+      }
+      sb.closeTd();
+    }
 
+    private void appendPath(String path) {
       if (Patch.COMMIT_MSG.equals(path)) {
         sb.append(Util.C.commitMessage());
+      } else if (Patch.MERGE_LIST.equals(path)) {
+        sb.append(Util.C.mergeList());
       } else if (Gerrit.getUserPreferences().muteCommonPathPrefixes()) {
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {
@@ -694,15 +730,6 @@ public class FileTable extends FlowPanel {
       } else {
         sb.append(path);
       }
-
-      sb.closeAnchor();
-      if (info.oldPath() != null) {
-        sb.br();
-        sb.openSpan().setStyleName(R.css().renameCopySource())
-          .append(info.oldPath())
-          .closeSpan();
-      }
-      sb.closeTd();
     }
 
     private int commonPrefix(String path) {
@@ -784,7 +811,7 @@ public class FileTable extends FlowPanel {
 
     private void columnDelta1(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn1());
-      if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
+      if (!Patch.isMagic(info.path()) && !info.binary()) {
         if (showChangeSizeBars) {
           sb.append(info.linesInserted() + info.linesDeleted());
         } else if (!ChangeType.DELETED.matches(info.status())) {
@@ -813,7 +840,7 @@ public class FileTable extends FlowPanel {
     private void columnDelta2(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn2());
       if (showChangeSizeBars
-          && !Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
+          && !Patch.isMagic(info.path()) && !info.binary()
           && (info.linesInserted() != 0 || info.linesDeleted() != 0)) {
         int w = 80;
         int t = inserted + deleted;

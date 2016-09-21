@@ -75,7 +75,7 @@ public class CommentSender extends ReplyToChangeSender {
     Set<String> paths = new HashSet<>();
     for (PatchLineComment c : plc) {
       Patch.Key p = c.getKey().getParentKey();
-      if (!Patch.COMMIT_MSG.equals(p.getFileName())) {
+      if (!Patch.isMagic(p.getFileName())) {
         paths.add(p.getFileName());
       }
     }
@@ -137,6 +137,8 @@ public class CommentSender extends ReplyToChangeSender {
           }
           if (Patch.COMMIT_MSG.equals(pk.get())) {
             cmts.append("Commit Message:\n\n");
+          } else if (Patch.MERGE_LIST.equals(pk.get())) {
+            cmts.append("Merge List:\n\n");
           } else {
             cmts.append("File ").append(pk.get()).append(":\n\n");
           }
@@ -144,8 +146,7 @@ public class CommentSender extends ReplyToChangeSender {
 
           if (patchList != null) {
             try {
-              currentFileData =
-                  new PatchFile(repo, patchList, pk.get());
+              currentFileData = new PatchFile(repo, patchList, pk.get());
             } catch (IOException e) {
               log.warn(String.format(
                   "Cannot load %s from %s in %s",

@@ -122,6 +122,8 @@ public class Header extends Composite {
     SafeHtmlBuilder b = new SafeHtmlBuilder();
     if (Patch.COMMIT_MSG.equals(path)) {
       return b.append(Util.C.commitMessage());
+    } else if (Patch.MERGE_LIST.equals(path)) {
+      return b.append(Util.C.mergeList());
     }
 
     int s = path.lastIndexOf('/') + 1;

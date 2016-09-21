@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
+import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
@@ -48,6 +50,8 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeType;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -67,6 +71,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -546,21 +551,26 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result createMergeCommitChange(String ref)
       throws Exception {
+    return createMergeCommitChange(ref, "foo");
+  }
+
+  protected PushOneCommit.Result createMergeCommitChange(String ref, String file)
+      throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
     PushOneCommit.Result p1 = pushFactory.create(db, admin.getIdent(),
-        testRepo, "parent 1", ImmutableMap.of("foo", "foo-1", "bar", "bar-1"))
+        testRepo, "parent 1", ImmutableMap.of(file, "foo-1", "bar", "bar-1"))
         .to(ref);
 
     // reset HEAD in order to create a sibling of the first change
     testRepo.reset(initial);
 
     PushOneCommit.Result p2 = pushFactory.create(db, admin.getIdent(),
-        testRepo, "parent 2", ImmutableMap.of("foo", "foo-2", "bar", "bar-2"))
+        testRepo, "parent 2", ImmutableMap.of(file, "foo-2", "bar", "bar-2"))
         .to(ref);
 
     PushOneCommit m = pushFactory.create(db, admin.getIdent(), testRepo, "merge",
-        ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
+        ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
     m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
     PushOneCommit.Result result = m.to(ref);
     result.assertOkStatus();
@@ -1085,5 +1095,46 @@ public abstract class AbstractDaemonTest {
       assertThat(trees.get(b)).isEqualTo(refValues.get(b));
     }
     assertThat(refValues.keySet()).containsAnyIn(trees.keySet());
+  }
+
+  protected void assertDiffForNewFile(DiffInfo diff, RevCommit commit,
+      String path, String expectedContentSideB) throws Exception {
+    List<String> expectedLines = new ArrayList<>();
+    for (String line : expectedContentSideB.split("\n")) {
+      expectedLines.add(line);
+    }
+
+    assertThat(diff.binary).isNull();
+    assertThat(diff.changeType).isEqualTo(ChangeType.ADDED);
+    assertThat(diff.diffHeader).isNotNull();
+    assertThat(diff.intralineStatus).isNull();
+    assertThat(diff.webLinks).isNull();
+
+    assertThat(diff.metaA).isNull();
+    assertThat(diff.metaB).isNotNull();
+    assertThat(diff.metaB.commitId).isEqualTo(commit.name());
+
+    String expectedContentType = "text/plain";
+    if (COMMIT_MSG.equals(path)) {
+      expectedContentType = FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE;
+    } else if (MERGE_LIST.equals(path)) {
+      expectedContentType = FileContentUtil.TEXT_X_GERRIT_MERGE_LIST;
+    }
+    assertThat(diff.metaB.contentType).isEqualTo(expectedContentType);
+
+    assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
+    assertThat(diff.metaB.name).isEqualTo(path);
+    assertThat(diff.metaB.webLinks).isNull();
+
+    assertThat(diff.content).hasSize(1);
+    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
+    assertThat(contentEntry.b).containsExactlyElementsIn(expectedLines)
+        .inOrder();
+    assertThat(contentEntry.a).isNull();
+    assertThat(contentEntry.ab).isNull();
+    assertThat(contentEntry.common).isNull();
+    assertThat(contentEntry.editA).isNull();
+    assertThat(contentEntry.editB).isNull();
+    assertThat(contentEntry.skip).isNull();
   }
 }

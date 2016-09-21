@@ -324,10 +324,18 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     while (mapItr.hasNext()) {
       Map.Entry<String, List<CommentInput>> ent = mapItr.next();
       String path = ent.getKey();
-      if (!filePaths.contains(path) && !Patch.COMMIT_MSG.equals(path)) {
+      if (!filePaths.contains(path) && !Patch.isMagic(path)) {
         throw new BadRequestException(String.format(
             "file %s not found in revision %s",
             path, revision.getChange().currentPatchSetId()));
+      }
+      if (Patch.isMagic(path)) {
+        for (CommentInput comment : ent.getValue()) {
+          if (comment.side == Side.PARENT && comment.parent == null) {
+            throw new BadRequestException(
+                String.format("cannot comment on %s on auto-merge", path));
+          }
+        }
       }
 
       List<CommentInput> list = ent.getValue();

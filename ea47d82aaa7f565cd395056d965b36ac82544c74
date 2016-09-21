@@ -46,6 +46,24 @@
       "revId": "ea47d82aaa7f565cd395056d965b36ac82544c74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_abcce92b",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T08:33:31Z",
+      "side": 1,
+      "message": "That does work, thank you. I\u0027m still hoping there is some less messy way to do this, like a magic attribute on the \u003ca\u003e that polymer will recognize somehow.",
+      "parentUuid": "b091cf63_ab3b0924",
+      "revId": "ea47d82aaa7f565cd395056d965b36ac82544c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -65,6 +65,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gwt.thirdparty.guava.common.base.Strings;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -138,6 +139,7 @@ class ChangeNotesParser {
   private Change.Status status;
   private String topic;
   private Account.Id assignee;
+  private Set<Account.Id> historicalAssignees;
   private Set<String> hashtags;
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
@@ -214,6 +216,7 @@ class ChangeNotesParser {
         status,
 
         assignee,
+        historicalAssignees,
         hashtags,
         patchSets,
         buildApprovals(),
@@ -322,6 +325,8 @@ class ChangeNotesParser {
     parseHashtags(commit);
 
     parseAssignee(commit);
+
+    parseHistoricalAssignees(commit);
 
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
@@ -495,6 +500,18 @@ class ChangeNotesParser {
       PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
       assignee = noteUtil.parseIdent(ident, id);
       isAssigneeParsed = true;
+    }
+  }
+
+  private void parseHistoricalAssignees(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    if (historicalAssignees == null) {
+      historicalAssignees = Sets.newHashSet();
+    }
+    String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
+    if(!Strings.isNullOrEmpty(assigneeValue)) {
+      PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
+      historicalAssignees.add(noteUtil.parseIdent(ident, id));
     }
   }
 

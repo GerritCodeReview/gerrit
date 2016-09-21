@@ -1,3 +1,5 @@
+workspace(name="gerrit")
+
 ANTLR_VERS = '3.5.2'
 
 maven_jar(
@@ -777,4 +779,12 @@ maven_jar(
   name = 'diff_match_patch',
   artifact = 'org.webjars:google-diff-match-patch:20121119-1',
   sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
+)
+
+load("//tools/bzl:js.bzl", "npm_binary")
+
+npm_binary(
+  name = "bower",
+  version = '1.7.9',
+  sha1 = 'b7296c2393e0d75edaa6ca39648132dd255812b0',
 )

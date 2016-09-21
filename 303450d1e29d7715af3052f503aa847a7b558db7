@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_aaf5cf4b",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:50:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_88c51b30",
+      "range": {
+        "startLine": 1138,
+        "startChar": 4,
+        "endLine": 1141,
+        "endChar": 5
+      },
+      "revId": "303450d1e29d7715af3052f503aa847a7b558db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_661a8a26",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/FileInfo.java",
         "patchSetId": 11
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_abf5c94b",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/FileInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:50:28Z",
+      "side": 1,
+      "message": "Only in gerrit-gwtui, but not in gerrit-gwtui-common :(",
+      "parentUuid": "4be70257_661a8a26",
+      "revId": "303450d1e29d7715af3052f503aa847a7b558db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_a64ad20a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/MergeListBuilder.java",
         "patchSetId": 11
@@ -54,6 +96,24 @@
       "writtenOn": "2016-09-20T13:16:39Z",
       "side": 1,
       "message": "Why is this not static, do you expect to have some injected members later?",
+      "revId": "303450d1e29d7715af3052f503aa847a7b558db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_4a98d31f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/MergeListBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T08:50:28Z",
+      "side": 1,
+      "message": "Making it static, makes all much nicer. Thanks. Not sure why I didn\u0027t consider it.\n\nDone",
+      "parentUuid": "4be70257_a64ad20a",
       "revId": "303450d1e29d7715af3052f503aa847a7b558db7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

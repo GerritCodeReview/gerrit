@@ -43,11 +43,13 @@
       _showSettingsView: Boolean,
       _viewState: Object,
       _lastError: Object,
+      _lastSearchPage: String,
     },
 
     listeners: {
       'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
+      'search-page-change': '_handleSearchPageChange',
     },
 
     observers: [
@@ -155,6 +157,12 @@
           err.moreInfo = text;
           this._lastError = err;
         }.bind(this));
+      }
+    },
+
+    _handleSearchPageChange: function(e) {
+      if (e.detail.path) {
+        this.set('_lastSearchPage', e.detail.path);
       }
     },
 

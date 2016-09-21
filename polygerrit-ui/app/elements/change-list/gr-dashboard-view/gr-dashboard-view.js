@@ -21,6 +21,11 @@
      * Fired when the title of the page should change.
      *
      * @event title-change
+     *
+     *
+     * Fired when the last search page to go back to changed
+     *
+     * @event search-page-change
      */
 
     properties: {
@@ -51,6 +56,7 @@
 
     attached: function() {
       this.fire('title-change', {title: 'My Reviews'});
+      this.fire('search-page-change', {path: location.pathname});
 
       this._loading = true;
       this._getDashboardChanges().then(function(results) {

@@ -44,10 +44,18 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', function() {
-      test('U should navigate to /', function() {
+      test('U should navigate to / if no backPage set', function() {
         var showStub = sinon.stub(page, 'show');
         MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
         assert(showStub.lastCall.calledWithExactly('/'));
+        showStub.restore();
+      });
+
+      test('U should navigate to backPage if set', function() {
+        element.backPage = '/dashboard/self';
+        var showStub = sinon.stub(page, 'show');
+        MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
+        assert(showStub.lastCall.calledWithExactly('/dashboard/self'));
         showStub.restore();
       });
 

@@ -17,6 +17,12 @@
   Polymer({
     is: 'gr-change-list',
 
+    /**
+     * Fired when the last search page to go back to changed
+     *
+     * @event search-page-change
+     */
+
     hostAttributes: {
       tabindex: 0,
     },
@@ -80,6 +86,7 @@
 
     attached: function() {
       this._loadPreferences();
+      this.fire('search-page-change', {path: location.pathname});
     },
 
     _loadPreferences: function() {

@@ -121,7 +121,7 @@ public class ReviewersUtil {
 
   public List<SuggestedReviewerInfo> suggestReviewers(
       SuggestReviewers suggestReviewers, ProjectControl projectControl,
-      VisibilityControl visibilityControl)
+      VisibilityControl visibilityControl, boolean excludeGroups)
       throws IOException, OrmException, BadRequestException {
     String query = suggestReviewers.getQuery();
     boolean suggestAccounts = suggestReviewers.getSuggestAccounts();
@@ -147,20 +147,22 @@ public class ReviewersUtil {
       reviewer.add(info);
     }
 
-    for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
-      GroupAsReviewer result = suggestGroupAsReviewer(
-          suggestReviewers, projectControl.getProject(), g, visibilityControl);
-      if (result.allowed || result.allowedWithConfirmation) {
-        GroupBaseInfo info = new GroupBaseInfo();
-        info.id = Url.encode(g.getUUID().get());
-        info.name = g.getName();
-        SuggestedReviewerInfo suggestedReviewerInfo = new SuggestedReviewerInfo();
-        suggestedReviewerInfo.group = info;
-        suggestedReviewerInfo.count = result.size;
-        if (result.allowedWithConfirmation) {
-          suggestedReviewerInfo.confirm = true;
+    if (!excludeGroups) {
+      for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
+        GroupAsReviewer result = suggestGroupAsReviewer(
+            suggestReviewers, projectControl.getProject(), g, visibilityControl);
+        if (result.allowed || result.allowedWithConfirmation) {
+          GroupBaseInfo info = new GroupBaseInfo();
+          info.id = Url.encode(g.getUUID().get());
+          info.name = g.getName();
+          SuggestedReviewerInfo suggestedReviewerInfo = new SuggestedReviewerInfo();
+          suggestedReviewerInfo.group = info;
+          suggestedReviewerInfo.count = result.size;
+          if (result.allowedWithConfirmation) {
+            suggestedReviewerInfo.confirm = true;
+          }
+          reviewer.add(suggestedReviewerInfo);
         }
-        reviewer.add(suggestedReviewerInfo);
       }
     }
 

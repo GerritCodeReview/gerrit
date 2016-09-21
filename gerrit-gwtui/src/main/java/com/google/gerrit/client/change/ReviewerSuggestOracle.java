@@ -36,7 +36,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   @Override
   protected void _onRequestSuggestions(final Request req, final Callback cb) {
-    ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit())
+    ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), false)
         .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
           @Override
           public void onSuccess(JsArray<SuggestReviewerInfo> result) {
@@ -59,7 +59,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     this.changeId = changeId;
   }
 
-  private static class RestReviewerSuggestion implements Suggestion {
+  public static class RestReviewerSuggestion implements Suggestion {
     private final String displayString;
     private final String replacementString;
 

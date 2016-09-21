@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b091cf63_ee035f68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:43:33Z",
+      "side": 1,
+      "message": "Nit: indentation",
+      "revId": "9b54a2b061c92a68487aa0dbf68257b181ec5aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_8e557b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:43:33Z",
+      "side": 1,
+      "message": "Let\u0027s be consistent between \"historical assignees\" here and \"all assignees\" in the next change. In the reviewer case we also have \"all past reviewers\", so maybe that should be consistent as well.\n\nI don\u0027t have a strong preference between \"all past\" and \"historical\", but I do not prefer \"all\" as it may imply that there is more than one _current_ assignee, which is of course impossible.",
+      "range": {
+        "startLine": 414,
+        "startChar": 34,
+        "endLine": 414,
+        "endChar": 56
+      },
+      "revId": "9b54a2b061c92a68487aa0dbf68257b181ec5aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_6d1f71c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:43:33Z",
+      "side": 1,
+      "message": "Merge this with parseAssignee. You should always do the parseOneFooter call and always add the result to historicalAssignees (if present), then short-circuit the rest of the method.",
+      "revId": "9b54a2b061c92a68487aa0dbf68257b181ec5aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

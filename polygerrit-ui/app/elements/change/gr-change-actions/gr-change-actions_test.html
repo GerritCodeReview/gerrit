@@ -42,24 +42,25 @@ limitations under the License.
               method: 'DELETE',
               label: 'Delete',
               title: 'Delete draft revision 2',
-              enabled: true
+              enabled: true,
             },
             cherrypick: {
               method: 'POST',
               label: 'Cherry Pick',
               title: 'Cherry pick change to a different branch',
-              enabled: true
+              enabled: true,
             },
             rebase: {
               method: 'POST',
               label: 'Rebase',
-              title: 'Rebase onto tip of branch or parent change'
+              title: 'Rebase onto tip of branch or parent change',
+              enabled: true,
             },
             submit: {
               method: 'POST',
               label: 'Submit',
               title: 'Submit patch set 2 into master',
-              enabled: true
+              enabled: true,
             },
           });
         },
@@ -162,6 +163,7 @@ limitations under the License.
           __key: 'rebase',
           __type: 'revision',
           __primary: false,
+          enabled: true,
           label: 'Rebase',
           method: 'POST',
           title: 'Rebase onto tip of branch or parent change',
@@ -183,6 +185,25 @@ limitations under the License.
           ['/rebase', rebaseAction, true, {base: ''}]);
 
         fireActionStub.restore();
+        done();
+      });
+    });
+
+    test('two dialogs are not shown at the same time', function(done) {
+      flush(function() {
+        var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+        assert.ok(rebaseButton);
+        MockInteractions.tap(rebaseButton);
+        flushAsynchronousOperations();
+        assert.isFalse(element.$.confirmRebase.hidden);
+
+        var cherryPickButton =
+            element.$$('gr-button[data-action-key="cherrypick"]');
+        assert.ok(cherryPickButton);
+        MockInteractions.tap(cherryPickButton);
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.confirmRebase.hidden);
+        assert.isFalse(element.$.confirmCherrypick.hidden);
         done();
       });
     });

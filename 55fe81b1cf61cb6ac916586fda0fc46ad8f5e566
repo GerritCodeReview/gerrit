@@ -17,6 +17,24 @@
       "revId": "55fe81b1cf61cb6ac916586fda0fc46ad8f5e566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_4b62a510",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T08:58:42Z",
+      "side": 1,
+      "message": "SGTM. You could test it locally, by temporarily removing the web_uis from the REST endpoint.",
+      "parentUuid": "9084cb25_6a9d970e",
+      "revId": "55fe81b1cf61cb6ac916586fda0fc46ad8f5e566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

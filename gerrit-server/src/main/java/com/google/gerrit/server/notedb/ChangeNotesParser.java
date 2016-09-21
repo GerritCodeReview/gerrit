@@ -137,6 +137,7 @@ class ChangeNotesParser {
   private Change.Status status;
   private String topic;
   private Optional<Account.Id> assignee;
+  private List<Account.Id> pastAssignees;
   private Set<String> hashtags;
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
@@ -185,6 +186,7 @@ class ChangeNotesParser {
       parseNotes();
       allPastReviewers.addAll(reviewers.rowKeySet());
       pruneReviewers();
+
       updatePatchSetStates();
       checkMandatoryFooters();
     }
@@ -212,6 +214,7 @@ class ChangeNotesParser {
         status,
 
         assignee != null ? assignee.orNull() : null,
+        Sets.newLinkedHashSet(Lists.reverse(pastAssignees)),
         hashtags,
         patchSets,
         buildApprovals(),
@@ -479,18 +482,25 @@ class ChangeNotesParser {
 
   private void parseAssignee(ChangeNotesCommit commit)
       throws ConfigInvalidException {
-    if (assignee != null) {
-      return;
+    if (pastAssignees == null) {
+      pastAssignees = Lists.newArrayList();
     }
     String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
-    if (assigneeValue == null){
-      //footer not found
-    } else if (assigneeValue.equals("")) {
-      // empty footer found, assignee deleted
-      assignee = Optional.absent();
-    } else {
-      PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
-      assignee = Optional.fromNullable(noteUtil.parseIdent(ident, id));
+    if (assigneeValue != null) {
+      Optional<Account.Id> parsedAssignee;
+      if (assigneeValue.equals("")) {
+        // Empty footer found, assignee deleted
+        parsedAssignee = Optional.absent();
+      } else {
+        PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
+        parsedAssignee = Optional.fromNullable(noteUtil.parseIdent(ident, id));
+      }
+      if (assignee == null) {
+        assignee = parsedAssignee;
+      }
+      if (parsedAssignee.isPresent()) {
+        pastAssignees.add(parsedAssignee.get());
+      }
     }
   }
 

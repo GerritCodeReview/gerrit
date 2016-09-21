@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -38,7 +39,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.DraftCommentNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -113,17 +113,14 @@ public class PatchLineCommentsUtil {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
-  private final DraftCommentNotes.Factory draftFactory;
   private final NotesMigration migration;
 
   @Inject
   PatchLineCommentsUtil(GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      DraftCommentNotes.Factory draftFactory,
       NotesMigration migration) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
-    this.draftFactory = draftFactory;
     this.migration = migration;
   }
 
@@ -275,13 +272,14 @@ public class PatchLineCommentsUtil {
   }
 
   @Deprecated // To be used only by HasDraftByLegacyPredicate.
-  public List<PatchLineComment> draftByAuthor(ReviewDb db,
+  public List<Change.Id> changesWithDraftsByAuthor(ReviewDb db,
       Account.Id author) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(db.patchComments().draftByAuthor(author).toList());
+      return FluentIterable.from(db.patchComments().draftByAuthor(author))
+          .transform(plc -> plc.getPatchSetId().getParentKey()).toList();
     }
 
-    List<PatchLineComment> comments = new ArrayList<>();
+    List<Change.Id> changes = new ArrayList<>();
     try (Repository repo = repoManager.openRepository(allUsers)) {
       for (String refName : repo.getRefDatabase()
           .getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {
@@ -290,17 +288,12 @@ public class PatchLineCommentsUtil {
         if (accountId == null || changeId == null) {
           continue;
         }
-        // Avoid loading notes for all affected changes just to be able to auto-
-        // rebuild. This is only used in a corner case in the search codepath,
-        // so returning slightly stale values is ok.
-        DraftCommentNotes notes =
-            draftFactory.createWithAutoRebuildingDisabled(changeId, author);
-        comments.addAll(notes.load().getComments().values());
+        changes.add(changeId);
       }
     } catch (IOException e) {
       throw new OrmException(e);
     }
-    return sort(comments);
+    return changes;
   }
 
   public void putComments(ReviewDb db, ChangeUpdate update,

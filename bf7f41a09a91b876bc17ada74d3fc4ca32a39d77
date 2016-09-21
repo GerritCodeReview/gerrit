@@ -22,6 +22,24 @@
       "revId": "bf7f41a09a91b876bc17ada74d3fc4ca32a39d77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a987a7_9d82c301",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-09-21T18:07:42Z",
+      "side": 1,
+      "message": "The \"Exclusive\" checkbox shows up when you enter the name of the permission to grant, not when you enter the name of a group to grant it to. The workflow looks like\n1) Navigate to project access page, click \"Edit\"\n2) Click \"Add reference\" -\u003e \"refs/for/*\"\n3) Click \"Add permission\" -\u003e \"Add Patch Set\"\n4) Click \"Exclusive\" checkbox\nThis results in a project.config stanza that looks like this:\n\"\"\"\n[access \"refs/for/*\"]\n    exclusiveGroupPermissions \u003d addPatchSet\n\"\"\"\nSo it\u0027s totally possible to exclusively grant a permission to no one, both in the UI and by directly committing to refs/meta/config.",
+      "parentUuid": "b091cf63_abb6a9d4",
+      "revId": "bf7f41a09a91b876bc17ada74d3fc4ca32a39d77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

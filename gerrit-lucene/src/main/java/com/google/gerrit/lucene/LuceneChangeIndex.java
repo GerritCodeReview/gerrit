@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.lucene.LuceneVersionManager.CHANGES_PREFIX;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
-import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
@@ -27,14 +26,13 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STA
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -91,7 +89,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -112,8 +109,6 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
-  public static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
-      "_", " ", ".", " ");
 
   static final String UPDATED_SORT_FIELD =
       sortFieldName(ChangeField.UPDATED);
@@ -316,7 +311,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         throw new OrmException("interrupted");
       }
 
-      final Set<String> fields = fields(schema, opts);
+      final Set<String> fields = IndexUtils.fields(schema, opts);
       return new ChangeDataResults(
           executor.submit(new Callable<List<Document>>() {
             @Override
@@ -402,31 +397,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     public void close() {
       future.cancel(false /* do not interrupt Lucene */);
     }
-  }
-
-  public static Set<String> fields(Schema<ChangeData> schema, QueryOptions opts) {
-    // Ensure we request enough fields to construct a ChangeData.
-    Set<String> fs = opts.fields();
-    if (fs.contains(CHANGE.getName())) {
-      // A Change is always sufficient.
-      return fs;
-    }
-
-    if (!schema.hasField(PROJECT)) {
-      // Schema is not new enough to have project field. Ensure we have ID
-      // field, and call createOnlyWhenNoteDbDisabled from toChangeData below.
-      if (fs.contains(LEGACY_ID.getName())) {
-        return fs;
-      }
-      return Sets.union(fs, ImmutableSet.of(LEGACY_ID.getName()));
-    }
-
-    // New enough schema to have project field, so ensure that is requested.
-    if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID.getName())) {
-      return fs;
-    }
-    return Sets.union(fs,
-        ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
   }
 
   private static Multimap<String, IndexableField> fields(Document doc,

@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.gerrit.lucene.AbstractLuceneIndex;
+import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -72,7 +72,7 @@ class InitIndex implements InitStep {
 
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
-        AbstractLuceneIndex.setReady(
+        IndexUtils.setReady(
             site, def.getName(), def.getLatest().getVersion(), true);
       }
     } else {

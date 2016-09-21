@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_aa7eafb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 63
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T08:44:26Z",
+      "side": 1,
+      "message": "Dariusz, you should add a line here for yourself too.",
+      "revId": "9abacebb992055cf5ddf29c2905781a6ecb84bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

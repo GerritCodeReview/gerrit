@@ -172,7 +172,7 @@ maven_jar(
 maven_jar(
   name = 'gwtjsonrpc',
   artifact = 'com.google.gerrit:gwtjsonrpc:1.11',
-  sha1 = '9587c6f88f1964f1aa61212a162c776c71d77456',
+  sha1 = '0990e7eec9eec3a15661edcf9232acbac4aeacec',
 )
 
 http_jar(
@@ -190,7 +190,7 @@ maven_jar(
 maven_jar(
   name = 'gwtorm_client',
   artifact = 'com.google.gerrit:gwtorm:1.16',
-  sha1 = 'b91331724669f8136426f0f4846ddcec0f6eb22f',
+  sha1 = '3e41b6d7bb352fa0539ce23b9bce97cf8c26c3bf',
 )
 
 http_jar(

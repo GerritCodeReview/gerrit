@@ -228,7 +228,8 @@ public class DeleteReviewer
             approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
       }
 
-      return Iterables.filter(approvals, accountId::equals);
+      return Iterables.filter(
+          approvals, psa -> accountId.equals(psa.getAccountId()));
     }
 
     private String formatLabelValue(short value) {

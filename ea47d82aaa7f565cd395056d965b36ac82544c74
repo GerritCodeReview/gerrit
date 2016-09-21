@@ -23,6 +23,29 @@
       "revId": "ea47d82aaa7f565cd395056d965b36ac82544c74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_ab3b0924",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-21T08:27:59Z",
+      "side": 1,
+      "message": "You could force the browser to go to that URL directly and bypass what PG thinks it should do:\n\n\u003ca href\u003d\"javascript:;\" onclick\u003d\"window.location\u003dlocation.origin + \u0027/?polygerrit\u003d0\u0027;\"\u003eGWT UI\u003e\u003c/a\u003e",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 15
+      },
+      "revId": "ea47d82aaa7f565cd395056d965b36ac82544c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

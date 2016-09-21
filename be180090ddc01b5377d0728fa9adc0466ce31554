@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1474445377 +0200\nnonce AKOpmBVvr+bFRgzcQ45+qAwnSpKePkiy2yOsi/XRB6SO3MV+hxTMiMaIp1VbdWzDYG6DP+olWNls\n\n0000000000000000000000000000000000000000 969995f00055c67387e4781c725685df92278af0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX4kBBAAoJEHFVO370GiZWN18H/0v+9DreyzlF9gZSKy8M6p/r\nbp8EaMCbOyuZzl/dN8TxxQtKR5vEo4Gq3OLQA4tmqR/COE30FNqp6lYPjEDf5mwB\n2wVCU5ZYWFDruQyd374X1IRkUiukZJBeFW4FUluuoOlSRHNixcUr7cbV3d2qTEGg\nNGXrXA56Zy6uOgPBD9aAd7pUVtIr4eZ3xDqT+J8m/eB9uDkTEU41v5uVrg9lOQWh\nVGjIFLvmZo9jYL5AaQSys2x+oCWNEktk1cdu4dCszGgAl9jMokh28MlgleWPwAeY\nmUbvRxzDaK5ENGcHS1k4KybotIsZ4+6eAYtMi8FJfJqgXqtq1VRv9DmSksgn85s\u003d\n\u003du5gx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_4a45339a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T08:16:25Z",
+      "side": 1,
+      "message": "Can be one line now: .map(c -\u003e c.export(status))",
+      "revId": "be180090ddc01b5377d0728fa9adc0466ce31554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

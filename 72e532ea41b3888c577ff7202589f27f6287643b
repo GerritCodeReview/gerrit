@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_cade8328",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T15:26:53Z",
+      "side": 1,
+      "message": ";-) I think, that why I tried to call it change_owner in the first patch set. But I still think that the probability that someone is called owner is negligible.",
+      "parentUuid": "b091cf63_2b4c7926",
+      "revId": "72e532ea41b3888c577ff7202589f27f6287643b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_eb3191a4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-21T13:13:53Z",
       "side": 1,
       "message": "Use Schema#getField.\n\nActually I would prefer the signature to be simplified to LabelPredicate(args, name, accounts, group) and you push all the getField stuff into LabelPredciate.",
+      "revId": "72e532ea41b3888c577ff7202589f27f6287643b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_4ac45357",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T15:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_eb3191a4",
       "revId": "72e532ea41b3888c577ff7202589f27f6287643b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_8bad6da6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T15:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_ca34c397",
+      "revId": "72e532ea41b3888c577ff7202589f27f6287643b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_0ae89bde",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-21T13:13:53Z",
       "side": 1,
       "message": "I don\u0027t think these tests are sufficient. There should be a change that is +2 by someone who is not the owner so we can ensure it\u0027s not included in the results.",
+      "revId": "72e532ea41b3888c577ff7202589f27f6287643b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_6e1f6fc8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-21T15:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_0ae89bde",
       "revId": "72e532ea41b3888c577ff7202589f27f6287643b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

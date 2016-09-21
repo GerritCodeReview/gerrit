@@ -170,6 +170,7 @@ public class ChangeScreen extends Screen {
   @UiField ToggleButton star;
   @UiField Anchor permalink;
 
+  @UiField Assignee assignee;
   @UiField Element ccText;
   @UiField Reviewers reviewers;
   @UiField Hashtags hashtags;
@@ -1260,6 +1261,7 @@ public class ChangeScreen extends Screen {
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
+    assignee.set(info);
     reviewers.set(info);
     if (Gerrit.isNoteDbEnabled()) {
       hashtags.set(info, revision);

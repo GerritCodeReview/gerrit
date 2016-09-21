@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
-import static com.google.gerrit.server.change.PutDraftComment.side;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
@@ -484,7 +483,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           }
           e.setStatus(PatchLineComment.Status.PUBLISHED);
           e.setWrittenOn(ctx.getWhen());
-          e.setSide(side(c));
+          e.setSide(c.side());
           setCommentRevId(e, patchListCache, ctx.getChange(), ps);
           e.setMessage(c.message);
           e.setTag(in.tag);

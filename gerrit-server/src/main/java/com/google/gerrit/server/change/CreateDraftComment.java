@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
-import static com.google.gerrit.server.change.PutDraftComment.side;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
@@ -119,7 +118,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
               ChangeUtil.messageUUID(ctx.getDb())),
           line, ctx.getAccountId(), Url.decode(in.inReplyTo),
           ctx.getWhen());
-      comment.setSide(side(in));
+      comment.setSide(in.side());
       comment.setMessage(in.message.trim());
       comment.setRange(in.range);
       comment.setTag(in.tag);

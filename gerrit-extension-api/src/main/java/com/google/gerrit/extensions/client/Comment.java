@@ -59,6 +59,13 @@ public abstract class Comment {
     }
   }
 
+  public short side() {
+    if (side == Side.PARENT) {
+      return (short) (parent == null ? 0 : -parent.shortValue());
+    }
+    return 1;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

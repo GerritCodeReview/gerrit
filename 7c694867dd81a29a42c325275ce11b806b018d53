@@ -16,6 +16,24 @@
       "revId": "7c694867dd81a29a42c325275ce11b806b018d53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_eeefdf77",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-21T18:33:55Z",
+      "side": 1,
+      "message": "seems like a non-issue to me. The LICENSE- prefix is not hard to type, and makes it easier to understand how the whole thing works.",
+      "parentUuid": "9084cb25_4d454d9a",
+      "revId": "7c694867dd81a29a42c325275ce11b806b018d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

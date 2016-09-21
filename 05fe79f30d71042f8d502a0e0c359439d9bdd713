@@ -23,6 +23,24 @@
       "revId": "05fe79f30d71042f8d502a0e0c359439d9bdd713",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_8b548d1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T09:01:36Z",
+      "side": 1,
+      "message": "Glad you noticed, I was happy with this one :)\n\nActually we could have done this and passed a Supplier\u003cI\u003e (or Provider\u003cI\u003e or whatever) prior to Java 8, it just would have been enough boilerplate to be longer than the repeated code.",
+      "parentUuid": "b091cf63_eba19146",
+      "revId": "05fe79f30d71042f8d502a0e0c359439d9bdd713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -100,11 +100,27 @@ bower_component(
 )
 
 bower_component(
+  name = 'es5-shim',
+  package = 'es-shims/es5-shim',
+  version = '4.5.9',
+  license = 'es5-shim',
+  sha1 = '9159ba55a2014c4feb813987e2b28e565128a86d',
+)
+
+bower_component(
   name = 'es6-promise',
   package = 'stefanpenner/es6-promise',
   version = '3.3.0',
   license = 'es6-promise',
   sha1 = 'a3a797bb22132f1ef75f9a2556173f81870c2e53',
+)
+
+bower_component(
+  name = 'es6-shim',
+  package = 'paulmillr/es6-shim',
+  version = '0.35.1',
+  license = 'es6-shim',
+  sha1 = '98fef7ee2aa24d39c9f20b94f95997407be7cf6b',
 )
 
 bower_component(

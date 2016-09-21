@@ -271,8 +271,6 @@ limitations under the License.
       assert.isFalse(element._focused);
       element.$.input.focus();
       assert.isTrue(element._focused);
-      element.$.input.blur();
-      assert.isFalse(element._focused);
     });
 
     test('_focused flag shows/hides the suggestions', function() {
@@ -282,14 +280,18 @@ limitations under the License.
     });
 
     test('tap on suggestion commits and refocuses on input', function() {
-      var focusStub = sinon.stub(element, 'focus');
+      var focusSpy = sinon.spy(element, 'focus');
+      var commitSpy = sinon.spy(element, '_commit');
       element._focused = true;
       element._suggestions = [{name: 'first suggestion'}];
       assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
       MockInteractions.tap(element.$$('#suggestions li:first-child'));
-      assert.isTrue(focusStub.called);
+      flushAsynchronousOperations();
+      assert.isTrue(focusSpy.called);
+      assert.isTrue(commitSpy.called);
       assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
-      focusStub.restore();
+      focusSpy.restore();
+      commitSpy.restore();
     });
   });
 </script>

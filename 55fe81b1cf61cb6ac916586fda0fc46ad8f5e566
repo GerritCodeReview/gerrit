@@ -53,6 +53,24 @@
       "revId": "55fe81b1cf61cb6ac916586fda0fc46ad8f5e566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_ed036168",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T15:57:13Z",
+      "side": 1,
+      "message": "Yes it is. Thanks for the edit.",
+      "parentUuid": "d0bf23c0_7467281f",
+      "revId": "55fe81b1cf61cb6ac916586fda0fc46ad8f5e566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

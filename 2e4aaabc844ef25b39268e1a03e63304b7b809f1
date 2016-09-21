@@ -34,6 +34,24 @@
       "revId": "2e4aaabc844ef25b39268e1a03e63304b7b809f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_ab09498c",
+        "filename": "lib/LICENSE-CC-BY3.0",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-21T07:52:15Z",
+      "side": 1,
+      "message": "I agree with Jonathan. Concrete things to do:\n\n* LICENSE-silk_icons should contain the two paragraphs Jonathan said above, *plus* the contents of exactly that link (the non-us version). Then the license of silk_icons can be just that file.\n* Diffy should use the unported version.\n* Rename this file LICENSE-CC-BY3.0-unported to clarify the version.\n\nSilk \u0026 Diffy are the only two packages that use this license, so those suggestions should cover all applicable cases.",
+      "parentUuid": "70bbd7d1_d991134a",
+      "revId": "2e4aaabc844ef25b39268e1a03e63304b7b809f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

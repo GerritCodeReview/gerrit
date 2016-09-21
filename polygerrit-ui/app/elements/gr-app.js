@@ -127,6 +127,11 @@
       return !!(account && Object.keys(account).length > 0);
     },
 
+    _computeShowGwtUiLink: function(config) {
+      return config.gerrit.web_uis &&
+          config.gerrit.web_uis.indexOf('GWT') !== -1;
+    },
+
     _handlePageError: function(e) {
       [
         '_showChangeListView',

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_6a13d764",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-09-21T09:20:48Z",
+      "side": 1,
+      "message": "Maybe move below the new button so that additional extensions appear to the right of buttons from gerrit core?",
+      "revId": "a0e7fdc8d942f1005f1e43e63296066283afd264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

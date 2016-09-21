@@ -1,3 +1,7 @@
+exports_files([
+  "LICENSE-DO_NOT_DISTRIBUTE"
+])
+
 java_library(
   name = 'servlet-api-3_1',
   neverlink = 1,

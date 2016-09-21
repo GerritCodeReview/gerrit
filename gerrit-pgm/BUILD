@@ -1,5 +1,6 @@
 load('//tools/bzl:java.bzl', 'java_library2')
 load('//tools/bzl:junit.bzl', 'junit_tests')
+load('//tools/bzl:license.bzl', 'license_test')
 
 SRCS = 'src/main/java/com/google/gerrit/pgm/'
 RSRCS = 'src/main/resources/com/google/gerrit/pgm/'
@@ -160,3 +161,7 @@ junit_tests(
     '//lib/jgit/org.eclipse.jgit.junit:junit',
   ],
 )
+
+license_test(
+  name = "pgm_license_test",
+  target = ":pgm")

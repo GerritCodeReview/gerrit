@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
@@ -110,6 +111,16 @@ public class ChangeApi {
       revision = "current";
     }
     return call(id, revision, "actions");
+  }
+
+  public static void deleteAssignee(int id, AsyncCallback<AccountInfo> cb) {
+    change(id).view("assignee").delete(cb);
+  }
+
+  public static void setAssignee(int id, String user, AsyncCallback<AccountInfo> cb) {
+    AssigneeInput input = AssigneeInput.create();
+    input.assignee(user);
+    change(id).view("assignee").put(user, cb);
   }
 
   public static RestApi comments(int id) {
@@ -242,6 +253,17 @@ public class ChangeApi {
     RebaseInput rebaseInput = RebaseInput.create();
     rebaseInput.setBase(base);
     call(id, commit, "rebase").post(rebaseInput, cb);
+  }
+
+  private static class AssigneeInput extends JavaScriptObject {
+    final native void assignee(String a) /*-{ if(a)this.assignee=a; }-*/;
+
+    static AssigneeInput create() {
+      return (AssigneeInput) createObject();
+    }
+
+    protected AssigneeInput() {
+    }
   }
 
   private static class Input extends JavaScriptObject {

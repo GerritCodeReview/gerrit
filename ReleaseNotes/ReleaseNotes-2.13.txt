@@ -458,7 +458,7 @@ in an internal server error.
 
 * Upgrade Jetty to 9.2.14.v20151106
 
-* Upgrade JGit to 4.4.1.201607150455-r.144-gb67df51
+* Upgrade JGit to 4.5.0.201609210915-r
 
 * Upgrade joda-convert to 1.8.1
 

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_4acb736e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T13:16:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_ab85c941",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "100bc2a6131ee48127f83a36aff342d1bc41774e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_0b1edd1e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2016-09-21T12:37:27Z",
       "side": 1,
       "message": "One of these can be replaced with getPatchsetId",
+      "revId": "100bc2a6131ee48127f83a36aff342d1bc41774e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_2ad63f17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-21T13:16:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_0b1edd1e",
       "revId": "100bc2a6131ee48127f83a36aff342d1bc41774e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

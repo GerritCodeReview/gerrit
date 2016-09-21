@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "70bbd7d1_d9dcb302",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-09-21T15:40:05Z",
+      "side": 1,
+      "message": "I did this intentionally because the code below takes arguments as options and adds them to the instance. If we don\u0027t make a new instance per invocation options from a prior invocation may affect a new invocation if the caller used the same ChangeApi instance.",
+      "parentUuid": "9084cb25_0a741b2a",
+      "revId": "43781b6829c773b0f47fab115d17954b3f328be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_2a79df20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 4
@@ -49,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "70bbd7d1_f9d9770f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-09-21T15:40:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_2a79df20",
+      "revId": "43781b6829c773b0f47fab115d17954b3f328be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_8b872d11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 4
@@ -66,6 +102,24 @@
         "endLine": 75,
         "endChar": 25
       },
+      "revId": "43781b6829c773b0f47fab115d17954b3f328be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bbd7d1_1910ebb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-09-21T15:40:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_8b872d11",
       "revId": "43781b6829c773b0f47fab115d17954b3f328be6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -3,7 +3,9 @@ include_defs('//lib/js.defs')
 bower_components(
   name = 'polygerrit_components',
   deps = [
+    '//lib/js:es5-shim',
     '//lib/js:es6-promise',
+    '//lib/js:es6-shim',
     '//lib/js:fetch',
     '//lib/js:highlightjs',
     '//lib/js:iron-a11y-keys-behavior',

@@ -74,6 +74,8 @@ import java.util.Set;
  * characters.
  */
 public class ChangeField {
+  public static final int NO_ASSIGNEE = -1;
+
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       new FieldDef.Single<ChangeData, Integer>("legacy_id",
@@ -311,6 +313,18 @@ public class ChangeField {
             r.add(a.getAccountId().get());
           }
           return r;
+        }
+      };
+
+  /** The user assigned to the change. */
+  public static final FieldDef<ChangeData, Integer> ASSIGNEE =
+      new FieldDef.Single<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_ASSIGNEE, FieldType.INTEGER, true) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Account.Id id = input.assignee();
+          return id != null ? id.get() : NO_ASSIGNEE;
         }
       };
 

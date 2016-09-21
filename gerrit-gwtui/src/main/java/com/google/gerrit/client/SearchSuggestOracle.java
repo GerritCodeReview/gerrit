@@ -31,7 +31,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
           new ProjectNameSuggestOracle()),
       new ParamSuggester(Arrays.asList(
           "owner:", "reviewer:", "commentby:", "reviewedby:", "author:",
-          "committer:", "from:"),
+          "committer:", "from:", "assignee:"),
           new AccountSuggestOracle() {
             @Override
             public void onRequestSuggestions(final Request request, final Callback done) {
@@ -120,6 +120,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("is:merged");
     suggestions.add("is:abandoned");
     suggestions.add("is:mergeable");
+    suggestions.add("is:assigned");
+    suggestions.add("is:unassigned");
 
     suggestions.add("status:");
     suggestions.add("status:open");
@@ -138,6 +140,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     if (Gerrit.isNoteDbEnabled()) {
       suggestions.add("hashtag:");
     }
+
+    suggestions.add("assignee:");
 
     suggestions.add("AND");
     suggestions.add("OR");

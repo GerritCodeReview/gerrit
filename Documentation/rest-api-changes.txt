@@ -1275,6 +1275,10 @@ link:#labels[`LABELS`], link:#detailed-labels[`DETAILED_LABELS`],
 link:#current-revision[`CURRENT_REVISION`], and
 link:#current-commit[`CURRENT_COMMIT`] options set.
 
+Standard link:#query-options[formatting options] can be specified
+with the `o` parameter, as well as the `submitted_together` specific
+option `NON_VISIBLE_CHANGES`.
+
 .Response
 ----
   HTTP/1.1 200 OK

@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9084cb25_8d54a51c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AssigneeInput.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "nit: wrong indentation",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_ad51692b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "Why add this here, rather than after \"owner\"?",
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_0e134b70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "Annotate this as @Singleton?",
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_cd4e9d8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "Should be final",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_2e180788",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "throws RestApiException",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 15
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_4e0d5349",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "RestApiException",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 90,
+        "endChar": 27
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_0d2a75a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "@Singleton?",
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_ae03171b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "accountInfo",
+      "range": {
+        "startLine": 28,
+        "startChar": 48,
+        "endLine": 28,
+        "endChar": 60
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_ce006311",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "accountInfo",
+      "range": {
+        "startLine": 31,
+        "startChar": 46,
+        "endLine": 31,
+        "endChar": 65
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_8e065b2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "account",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_2d2f39b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "@Singleton?",
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_4d346d01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "RestApiException?",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 22
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9084cb25_6d3931f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "nit: move after the injected params.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 23
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_eefd1f00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-21T22:53:17Z",
+      "side": 1,
+      "message": "A",
+      "range": {
+        "startLine": 80,
+        "startChar": 44,
+        "endLine": 80,
+        "endChar": 45
+      },
+      "revId": "08180b2d6a2c72e51f636d5a2fbe1c1e3e881e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

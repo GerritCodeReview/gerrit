@@ -95,15 +95,19 @@ opts.add_option('-v', help='expected content SHA-1')
 opts.add_option('-x', action='append', help='file to delete from ZIP')
 opts.add_option('--exclude_java_sources', action='store_true')
 opts.add_option('--unsign', action='store_true')
+opts.add_option('--skip_local_properties', action='store_true')
 args, _ = opts.parse_args()
 
-root_dir = args.o
-while root_dir:
-  root_dir, n = path.split(root_dir)
-  if n == 'buck-out':
-    break
+redirects = {}
 
-redirects = download_properties(root_dir)
+if not args.skip_local_properties:
+  root_dir = args.o
+  while root_dir:
+    root_dir, n = path.split(root_dir)
+    if n == 'buck-out':
+      break
+  redirects = download_properties(root_dir)
+
 cache_ent = cache_entry(args)
 legacy_cache_ent = legacy_cache_entry(args)
 src_url = resolve_url(args.u, redirects)

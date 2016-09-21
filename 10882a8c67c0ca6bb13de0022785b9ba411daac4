@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0bf23c0_941da480",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-21T18:23:48Z",
+      "side": 1,
+      "message": "fix indentation",
+      "range": {
+        "startLine": 120,
+        "startChar": 3,
+        "endLine": 120,
+        "endChar": 11
+      },
+      "revId": "10882a8c67c0ca6bb13de0022785b9ba411daac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0bf23c0_b41aa083",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-21T18:23:48Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d ?",
+      "range": {
+        "startLine": 239,
+        "startChar": 25,
+        "endLine": 239,
+        "endChar": 27
+      },
+      "revId": "10882a8c67c0ca6bb13de0022785b9ba411daac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

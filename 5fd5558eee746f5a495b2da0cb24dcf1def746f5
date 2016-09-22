@@ -16,6 +16,24 @@
       "revId": "5fd5558eee746f5a495b2da0cb24dcf1def746f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b5f342_90fd3457",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-22T09:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b5f342_90a1b49e",
+      "revId": "5fd5558eee746f5a495b2da0cb24dcf1def746f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

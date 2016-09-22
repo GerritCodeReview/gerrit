@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50b5f342_10b784d3",
+        "filename": "lib/jgit/org.eclipse.jgit/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-22T08:21:57Z",
+      "side": 1,
+      "message": "Give that th rest of build toolchain depends on :jgit, we should reverse the logic: this rule should just have the name \u0027jgit\u0027, and the above on line 3 should be called: \u0027jgit-signed\u0027.",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "ddd34a8d1669b7083ff24a80d04e2e2c48d9dd81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

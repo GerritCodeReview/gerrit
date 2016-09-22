@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_8ca1a79e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAllAssignees.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T09:44:36Z",
+      "side": 1,
+      "message": "GetPastAssignees.java",
+      "revId": "db3dbe35b718b39fea0c1c2ac0275a71d67491ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

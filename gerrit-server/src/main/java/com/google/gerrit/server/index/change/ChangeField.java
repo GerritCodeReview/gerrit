@@ -293,29 +293,6 @@ public class ChangeField {
         }
       };
 
-  /** Reviewer(s) associated with the change. */
-  @Deprecated
-  public static final FieldDef<ChangeData, Iterable<Integer>> LEGACY_REVIEWER =
-      new FieldDef.Repeatable<ChangeData, Integer>(
-          ChangeQueryBuilder.FIELD_REVIEWER, FieldType.INTEGER, false) {
-        @Override
-        public Iterable<Integer> get(ChangeData input, FillArgs args)
-            throws OrmException {
-          Change c = input.change();
-          if (c == null) {
-            return ImmutableSet.of();
-          }
-          Set<Integer> r = new HashSet<>();
-          if (!args.allowsDrafts && c.getStatus() == Change.Status.DRAFT) {
-            return r;
-          }
-          for (PatchSetApproval a : input.approvals().values()) {
-            r.add(a.getAccountId().get());
-          }
-          return r;
-        }
-      };
-
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
       new FieldDef.Single<ChangeData, Integer>(
@@ -679,18 +656,6 @@ public class ChangeField {
             r.add(c.author.getId().get());
           }
           return r;
-        }
-      };
-
-  /** Users who have starred this change. */
-  @Deprecated
-  public static final FieldDef<ChangeData, Iterable<Integer>> STARREDBY =
-      new FieldDef.Repeatable<ChangeData, Integer>(
-          ChangeQueryBuilder.FIELD_STARREDBY, FieldType.INTEGER, true) {
-        @Override
-        public Iterable<Integer> get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return Iterables.transform(input.starredBy(), Account.Id::get);
         }
       };
 

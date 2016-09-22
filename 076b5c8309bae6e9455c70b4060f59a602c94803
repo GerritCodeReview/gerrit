@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a54f1d_eb3ad1f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAssignee.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T13:00:09Z",
+      "side": 1,
+      "message": "Do we need this endpoint?  Shouldn\u0027t the assignee be returned in the change info?",
+      "revId": "076b5c8309bae6e9455c70b4060f59a602c94803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

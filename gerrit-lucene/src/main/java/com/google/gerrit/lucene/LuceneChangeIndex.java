@@ -319,7 +319,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         throw new OrmException("interrupted");
       }
 
-      final Set<String> fields = IndexUtils.fields(opts);
+      final Set<String> fields = IndexUtils.changeFields(opts);
       return new ChangeDataResults(
           executor.submit(new Callable<List<Document>>() {
             @Override

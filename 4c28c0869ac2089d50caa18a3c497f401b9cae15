@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "b0a54f1d_8b4fcdba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 67
+      },
+      "lineNbr": 2544,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T11:58:53Z",
+      "side": 1,
+      "message": "Lucene",
+      "range": {
+        "startLine": 2544,
+        "startChar": 21,
+        "endLine": 2544,
+        "endChar": 26
+      },
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_4c2b3fee",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 67

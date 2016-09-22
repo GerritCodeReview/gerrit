@@ -57,6 +57,40 @@
       "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_6c3b9bd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T13:52:06Z",
+      "side": 1,
+      "message": "Is it possible here to configure the default on-disk size to be larger?",
+      "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_4c385fd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T13:52:06Z",
+      "side": 1,
+      "message": "Should we also put the results into the file path cache too?",
+      "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

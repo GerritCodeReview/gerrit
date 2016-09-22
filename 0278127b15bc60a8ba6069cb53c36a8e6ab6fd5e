@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1474536736 +0200\nnonce AKOpmBWTLsi8v+HKdcC3GAuThh5jJ0f0BWH6hd65aXVBYfi7MYbZJ5CIp/Vq6U1ajlGWPk5rVjDw\n\n0000000000000000000000000000000000000000 0278127b15bc60a8ba6069cb53c36a8e6ab6fd5e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX46UgAAoJEHFVO370GiZWb9oH+wY1n7K9Hi0TAobJTD4HmO5p\neqX14oa16d1n+pkoT1oCR0uKMhymoF7N5199jxqhcnQFFoJo2NDlh3aazubuSSQu\nWLQ6PzuZdhYARkvDtOGJtDuxnbwba/zg+J5BgknLVzbK7t6771NjaA8kizCgG1kR\nOfEcKWqhZ4SNqkDOr0bre15ijlST+teKzKdO2YlhybdsMXFwP/XUypqZVZny4gnK\na0HyUV8Kn5IShAEFYLnIZdBtb6I2iA92zxBc8kUlWIBd/1LFCYwUngGbhBl3R0aO\nOKRoSeOmwH2kdH1A/gVDSUwCV7ZHCtKyDbbqC/zUMjNky/KwehS2k0OqRc/uRzY\u003d\n\u003dVroG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_cc828f02",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T09:37:00Z",
+      "side": 1,
+      "message": "Nit: separate paragraphs with \u003cp\u003e",
+      "revId": "0278127b15bc60a8ba6069cb53c36a8e6ab6fd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_2c88731f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T09:37:00Z",
+      "side": 1,
+      "message": "(but adding new optional fields is generally ok)",
+      "revId": "0278127b15bc60a8ba6069cb53c36a8e6ab6fd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

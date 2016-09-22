@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "90d84bb1_4adaf304",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-22T17:28:12Z",
+      "side": 1,
+      "message": "This is a style that we follow for both objects and functions.",
+      "parentUuid": "f0c8a7e8_e57dd60c",
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_4d0d4d49",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8

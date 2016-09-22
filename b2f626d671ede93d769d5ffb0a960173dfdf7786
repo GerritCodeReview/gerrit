@@ -45,6 +45,30 @@
       "revId": "b2f626d671ede93d769d5ffb0a960173dfdf7786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_2c9d13b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/SandboxTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-22T14:22:20Z",
+      "side": 1,
+      "message": "Because we want to see if the sandbox works :) @After is executed after each test, so irrespective of the order one of them will be run when an @After was already executed and we have persisted an account. If the sandbox breaks, the test will fail.",
+      "parentUuid": "d0a803f6_cc872f69",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "b2f626d671ede93d769d5ffb0a960173dfdf7786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

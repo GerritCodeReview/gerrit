@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -27,15 +28,19 @@ import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.Schema.Values;
+import com.google.gson.JsonObject;
+import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.searchbox.client.JestClientFactory;
@@ -49,6 +54,13 @@ import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
+  protected static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
+      ProtobufCodec<T> codec) {
+    return FluentIterable.from(doc.getAsJsonArray(fieldName))
+        .transform(i -> codec.decode(Base64.decodeBase64(i.toString())))
+        .toList();
+  }
+
   private static final String DEFAULT_INDEX_NAME = "gerrit";
 
   private final Schema<V> schema;
@@ -58,7 +70,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final boolean refresh;
   protected final String indexName;
   protected final JestHttpClient client;
-
 
   @Inject
   AbstractElasticIndex(@GerritServerConfig Config cfg,

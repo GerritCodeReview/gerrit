@@ -4,7 +4,6 @@ java_library(
   deps = [
     '//gerrit-antlr:query_exception',
     '//gerrit-extension-api:api',
-    '//gerrit-lucene:lucene', # only for LuceneAccountIndex
     '//gerrit-reviewdb:client',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',

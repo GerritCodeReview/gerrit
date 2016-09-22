@@ -34,6 +34,24 @@
       "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90d84bb1_aa61ef3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T18:27:00Z",
+      "side": 1,
+      "message": "When I added these styles, the formatting gets really messed up:\nhttps://drive.google.com/open?id\u003d0B8cCe3C3nOazQl9MSFA5aGVZUXM\nvs.\nhttps://drive.google.com/open?id\u003d0B8cCe3C3nOazY2JUV0xyN3llUVE",
+      "parentUuid": "d0bf23c0_7439e8f5",
+      "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

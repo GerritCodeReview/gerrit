@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a54f1d_8b922d01",
+        "filename": "gerrit-elasticsearch/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:31:48Z",
+      "side": 1,
+      "message": "The list is in alphabetical order, so move this up before gerrit-lucene.",
+      "revId": "28126ba600c6cc53648f53fdf0c585cc753999be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_2c551317",
+        "filename": "gerrit-index/src/main/java/com/google/gerrit/index/IndexUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:31:48Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "28126ba600c6cc53648f53fdf0c585cc753999be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_0c52d72e",
+        "filename": "gerrit-index/src/main/java/com/google/gerrit/index/SingleVersionModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:31:48Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "28126ba600c6cc53648f53fdf0c585cc753999be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_cb9c3515",
+        "filename": "gerrit-lucene/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:31:48Z",
+      "side": 1,
+      "message": "move to alphabetical order.",
+      "revId": "28126ba600c6cc53648f53fdf0c585cc753999be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_6c4f1b87",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:31:48Z",
+      "side": 1,
+      "message": "remove this?",
+      "revId": "28126ba600c6cc53648f53fdf0c585cc753999be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

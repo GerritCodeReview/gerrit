@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90d84bb1_4a04b371",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-22T18:00:06Z",
+      "side": 1,
+      "message": "what happens if I come to a change from a link and there is nothing to go back to?",
+      "revId": "b04eded3adaee91f7a02b10cc2b71406cd955589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

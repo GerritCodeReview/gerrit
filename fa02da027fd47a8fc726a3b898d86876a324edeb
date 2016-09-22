@@ -317,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "b0a54f1d_eb1931e5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "This is still better than strings, but not quite what I had in mind.\n\n class ChangeMappings {\n   MappingProperties openChanges;\n   MappingProperties closedChanges;\n }\n\n class MappingProperties {\n   Map\u003cString, FieldProperties\u003e properties;\n }\n\n class FieldProperties {\n   String type;\n   ...\n }\n\n(Except I don\u0027t actually know if this is a correct reconstruction of the XContentBuilder representation because it\u0027s rather unreadable right now :)\n\nThen you populate a new ChangeMappings and just call gson.toJson(changeMappings) to get the JSON string.\n\nIf there is something in the ES client library that already provides these classes, then all the better.",
+      "parentUuid": "7023d73a_59d0e3be",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_ca6cc3c8",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 65

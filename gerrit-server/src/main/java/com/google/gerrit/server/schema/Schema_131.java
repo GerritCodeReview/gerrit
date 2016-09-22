@@ -61,7 +61,7 @@ public class Schema_131 extends SchemaVersion {
           config.commit(md);
         }
       } catch (ConfigInvalidException | IOException ex) {
-        throw new OrmException(ex);
+        throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }
   }

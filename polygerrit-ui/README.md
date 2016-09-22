@@ -25,7 +25,7 @@ sudo apt-get install golang
 brew install go
 ```
 
-All other platforms: [download from golang.org](https//golang.org/)
+All other platforms: [download from golang.org](https://golang.org/)
 
 # Add [go] to your path
 

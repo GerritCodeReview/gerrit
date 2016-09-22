@@ -124,6 +124,12 @@ http_jar(
   sha256 = 'a394d52a9b7fe2bb14f0718d2b3c8308ffe8f37e911956012398d55c9f9f9b54',
 )
 
+http_jar(
+  name = "jsinterop_annotations_src",
+  url = "http://central.maven.org/maven2/com/google/jsinterop/jsinterop-annotations/1.0.0/jsinterop-annotations-1.0.0-sources.jar",
+  sha256 = '80d63c117736ae2fb9837b7a39576f3f0c5bd19cd75127886550c77b4c478f87',
+)
+
 JGIT_VERS = '4.4.1.201607150455-r.118-g1096652'
 
 maven_jar(

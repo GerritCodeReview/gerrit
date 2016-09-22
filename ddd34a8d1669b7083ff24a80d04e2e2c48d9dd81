@@ -22,6 +22,24 @@
       "revId": "ddd34a8d1669b7083ff24a80d04e2e2c48d9dd81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_ac12a369",
+        "filename": "lib/jgit/org.eclipse.jgit/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-22T12:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b5f342_10b784d3",
+      "revId": "ddd34a8d1669b7083ff24a80d04e2e2c48d9dd81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

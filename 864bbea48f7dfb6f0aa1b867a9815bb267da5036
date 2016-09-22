@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d013a30f_b4e4c0a5",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030339
+      },
+      "writtenOn": "2016-09-22T09:07:43Z",
+      "side": 1,
+      "message": "What about \u0027invalid repository: \"%s\", must be one of [GERRIT, NPMJS]\u0027.",
+      "range": {
+        "startLine": 18,
+        "startChar": 18,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "864bbea48f7dfb6f0aa1b867a9815bb267da5036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d013a30f_54d72cb4",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030339
+      },
+      "writtenOn": "2016-09-22T09:07:43Z",
+      "side": 1,
+      "message": "why not put the default NPMJS here and remove it in the _npm_binary_impl function?",
+      "range": {
+        "startLine": 37,
+        "startChar": 39,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "864bbea48f7dfb6f0aa1b867a9815bb267da5036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

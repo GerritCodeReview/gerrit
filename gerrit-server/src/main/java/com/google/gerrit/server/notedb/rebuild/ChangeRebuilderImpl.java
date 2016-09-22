@@ -300,7 +300,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
     List<Event> events = new ArrayList<>();
-    Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
+    Multimap<Account.Id, DraftCommentEvent> draftCommentEvents =
         ArrayListMultimap.create();
 
     events.addAll(getHashtagsEvents(change, manager));
@@ -325,11 +325,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       patchSetEvents.put(ps.getId(), pse);
       events.add(pse);
       for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
-        PatchLineCommentEvent e =
-            new PatchLineCommentEvent(c, change, ps, patchListCache);
         if (c.getStatus() == Status.PUBLISHED) {
+          CommentEvent e =
+              new CommentEvent(c, change, ps, patchListCache);
           events.add(e.addDep(pse));
         } else {
+          DraftCommentEvent e =
+              new DraftCommentEvent(c, change, ps, patchListCache);
           draftCommentEvents.put(c.getAuthor(), e);
         }
       }
@@ -376,9 +378,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     flushEventsToUpdate(manager, el, change);
 
-    EventList<PatchLineCommentEvent> plcel = new EventList<>();
+    EventList<DraftCommentEvent> plcel = new EventList<>();
     for (Account.Id author : draftCommentEvents.keys()) {
-      for (PatchLineCommentEvent e :
+      for (DraftCommentEvent e :
           Ordering.natural().sortedCopy(draftCommentEvents.get(author))) {
         if (!plcel.canAdd(e)) {
           flushEventsToDraftUpdate(manager, plcel, change);
@@ -490,7 +492,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private void flushEventsToDraftUpdate(NoteDbUpdateManager manager,
-      EventList<PatchLineCommentEvent> events, Change change)
+      EventList<DraftCommentEvent> events, Change change)
       throws OrmException {
     if (events.isEmpty()) {
       return;
@@ -501,7 +503,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         newAuthorIdent(events),
         events.getWhen());
     update.setPatchSetId(events.getPatchSetId());
-    for (PatchLineCommentEvent e : events) {
+    for (DraftCommentEvent e : events) {
       e.applyDraft(update);
     }
     manager.add(update);

@@ -25,13 +25,13 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 
-class PatchLineCommentEvent extends Event {
+class DraftCommentEvent extends Event {
   public final PatchLineComment c;
   private final Change change;
   private final PatchSet ps;
   private final PatchListCache cache;
 
-  PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps,
+  DraftCommentEvent(PatchLineComment c, Change change, PatchSet ps,
       PatchListCache cache) {
     super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(),
         c.getWrittenOn(), change.getCreatedOn(), c.getTag());
@@ -47,12 +47,8 @@ class PatchLineCommentEvent extends Event {
   }
 
   @Override
-  void apply(ChangeUpdate update) throws OrmException {
-    checkUpdate(update);
-    if (c.getRevId() == null) {
-      setCommentRevId(c, cache, change, ps);
-    }
-    update.putComment(c);
+  void apply(ChangeUpdate update) {
+    throw new UnsupportedOperationException();
   }
 
   void applyDraft(ChangeDraftUpdate draftUpdate) throws OrmException {

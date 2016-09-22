@@ -16,14 +16,15 @@ https://www.gerritcodereview.com/download/gerrit-2.13.war]
 
 *WARNING:* To use online reindexing for `changes` secondary index when upgrading
 to 2.13.x, the server must first be upgraded to 2.8 (or 2.9) and then through
-2.10, 2.11 and 2.12. Skipping a version will prevent online reindexer from
+2.10, 2.11 and 2.12. Skipping a version will prevent the online reindexer from
 working.
 
-Since 2.13 introduces a new secondary index for accounts, it must be indexed
-offline before starting Gerrit:
+Gerrit 2.13 introduces a new secondary index for accounts, and this must be
+indexed offline before starting Gerrit:
 ----
   java -jar gerrit.war reindex --index accounts -d site_path
 ----
+
 If reindexing will be done offline, you may ignore these warnings and upgrade
 directly to 2.13.x using the following command that will reindex both `changes`
 and `accounts` secondary indexes:
@@ -52,7 +53,7 @@ that make use of server side hooks must install this plugin during site init.
 === Large File Storage (LFS)
 
 Gerrit provides an
-link:https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#lfs-extension[
+link:https://gerrit-review.googlesource.com/Documentation/2.13/dev-plugins.html#lfs-extension[
 extension point] that enables development of plugins implementing the
 link:https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md[
 LFS protocol].
@@ -70,7 +71,7 @@ it is now only possible for a project to subscribe to a submodule if the
 submodule explicitly allows itself to be subscribed.
 
 Please see the
-link://https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/user-submodules.html[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/user-submodules.html[
 submodules user guide] for details.
 
 Note that when upgrading from an earlier version of Gerrit, permissions for
@@ -290,7 +291,7 @@ will be decoded by the Secure Store implementation.
 
 * Exported dependencies
 +
-Gson is now an exported dependency. Plugin no longer need to explicitly add
+Gson is now an exported dependency. Plugins no longer need to explicitly add
 a dependency on it.
 
 === Misc
@@ -391,7 +392,6 @@ Fix intraline diff for added spaces.
 Remove `no changes made` error case when the only difference between a new
 commit and the previous patch set of the change is the committer.
 
-Remove "no changes made" error case
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3831[Issue 3831]:
 Prevent creating groups with the same name as a system group.
 
@@ -406,7 +406,7 @@ Previously the behavior was not documented and it would default to type
 result in broken links due to `null` being used as the URL.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4488[Issue 4488]:
-Improve error message when Change-Id line is missing in commit message.
+Improve error message when `Change-Id` line is missing in commit message.
 +
 The error message now includes the sha1 of the commit, so that it is
 easier to track down which commit failed validation when multiple commits

@@ -1937,6 +1937,23 @@ public class ChangeIT extends AbstractDaemonTest {
         + r1.getChange().getId().id + ".");
   }
 
+  @Test
+  public void assignee() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    String username = name("new-user");
+    gApi.accounts().create(username);
+    gApi.changes().id(changeId).setAssignee(username);
+    assertThat(gApi.changes().id(changeId).get().assignee.username)
+        .isEqualTo(username);
+
+    gApi.changes().id(changeId).deleteAssignee();
+    assertThat(gApi.changes().id(changeId).get().assignee).isNull();
+  }
+
   private static Iterable<Account.Id> getReviewers(
       Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> new Account.Id(a._accountId));

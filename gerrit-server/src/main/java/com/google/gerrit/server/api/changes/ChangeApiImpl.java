@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.change.ChangeEdits;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Check;
+import com.google.gerrit.server.change.DeleteAssignee;
 import com.google.gerrit.server.change.DeleteDraftChange;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetTopic;
@@ -50,6 +52,7 @@ import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
+import com.google.gerrit.server.change.PutAssignee;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
@@ -101,6 +104,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Index index;
   private final ChangeEdits.Detail editDetail;
   private final Move move;
+  private final PutAssignee putAssignee;
+  private final DeleteAssignee deleteAssignee;
 
   @Inject
   ChangeApiImpl(Changes changeApi,
@@ -127,6 +132,8 @@ class ChangeApiImpl implements ChangeApi {
       Index index,
       ChangeEdits.Detail editDetail,
       Move move,
+      PutAssignee putAssignee,
+      DeleteAssignee deleteAssignee,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -153,6 +160,8 @@ class ChangeApiImpl implements ChangeApi {
     this.editDetail = editDetail;
     this.move = move;
     this.change = change;
+    this.putAssignee = putAssignee;
+    this.deleteAssignee = deleteAssignee;
   }
 
   @Override
@@ -324,6 +333,26 @@ class ChangeApiImpl implements ChangeApi {
       postReviewers.apply(change, in);
     } catch (OrmException | IOException | UpdateException e) {
       throw new RestApiException("Cannot add change reviewer", e);
+    }
+  }
+
+  @Override
+  public void setAssignee(String in) throws RestApiException {
+    AssigneeInput input = new AssigneeInput();
+    input.assignee = in;
+    try {
+      putAssignee.apply(change, input);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot set assignee", e);
+    }
+  }
+
+  @Override
+  public void deleteAssignee() throws RestApiException {
+    try {
+      deleteAssignee.apply(change, null);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot delete assignee", e);
     }
   }
 

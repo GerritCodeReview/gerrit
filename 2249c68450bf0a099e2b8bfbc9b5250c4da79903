@@ -95,6 +95,30 @@
       "revId": "2249c68450bf0a099e2b8bfbc9b5250c4da79903",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30d31f98_c7825e02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-22T16:02:04Z",
+      "side": 1,
+      "message": "I\u0027ve seen\n\n This reverts commits $sha1_1,\n $sha1_2, and $sha1_3.\n\nbefore. But I\u0027m also ignorant of tools that might parse it --- e.g., IIRC then gerrit only notices a revert when the \"revert\" button is used, right?",
+      "parentUuid": "50b5f342_d09cdc14",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "2249c68450bf0a099e2b8bfbc9b5250c4da79903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

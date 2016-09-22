@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "501413d4_18c4a531",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T06:38:48Z",
+      "side": 1,
+      "message": "This may be true in principle, but currently AbstractQueryChangesTest is not an AbstractDaemonTest. Do you have another motivating example in mind?\n\nThere are certainly some tests where we have to do extra work in @After to reset global state, such as when tests depend on setting capabilities in All-Projects.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "b64e792ff382db45fd796e01feb341a49e31d0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_8e549b1c",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 3

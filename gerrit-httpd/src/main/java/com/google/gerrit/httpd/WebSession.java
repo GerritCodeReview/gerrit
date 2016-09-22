@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.AccessPath;
@@ -22,7 +23,7 @@ import com.google.gerrit.server.account.AuthResult;
 
 public interface WebSession {
   boolean isSignedIn();
-  String getXGerritAuth();
+  @Nullable String getXGerritAuth();
   boolean isValidXGerritAuth(String keyIn);
   AccountExternalId.Key getLastLoginExternalId();
   CurrentUser getUser();

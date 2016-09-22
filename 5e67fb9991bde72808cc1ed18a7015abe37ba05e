@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_4c25ffc8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T12:39:57Z",
+      "side": 1,
+      "message": "Easier readability due to the last line-break. Aesthetic reasons. Should I let it be?",
+      "parentUuid": "d0a803f6_0c1bf78a",
+      "revId": "5e67fb9991bde72808cc1ed18a7015abe37ba05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_ec330b18",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-22T12:33:50Z",
       "side": 1,
       "message": "This was probably OK to leave as it was.",
+      "revId": "5e67fb9991bde72808cc1ed18a7015abe37ba05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_6c01db12",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T12:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_ec330b18",
       "revId": "5e67fb9991bde72808cc1ed18a7015abe37ba05e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

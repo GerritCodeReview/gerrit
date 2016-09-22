@@ -30,9 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
-import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -49,7 +47,6 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -58,8 +55,6 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
@@ -105,62 +100,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.changeDataFactory = changeDataFactory;
 
     queryBuilder = new ElasticQueryBuilder();
-  }
-
-  private static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
-      ProtobufCodec<T> codec) {
-    return FluentIterable.from(doc.getAsJsonArray(fieldName))
-        .transform(i -> codec.decode(Base64.decodeBase64(i.toString())))
-        .toList();
-  }
-
-  public static String getMappingProperties(String type) {
-    Schema<ChangeData> schema = ChangeSchemaDefinitions.INSTANCE.getLatest();
-    try {
-      XContentBuilder xcontent = XContentFactory.jsonBuilder()
-          .startObject()
-          .startObject(type)
-          .startObject("properties");
-      for (FieldDef<?, ?> field : schema.getFields().values()) {
-        String name = field.getName();
-        FieldType<?> fieldType = field.getType();
-        xcontent
-          .startObject(name);
-        if (fieldType == FieldType.EXACT) {
-            xcontent
-              .field("type", "string")
-              .startObject("fields")
-                .startObject("key")
-                  .field("type", "string")
-                  .field("index", "not_analyzed")
-                .endObject()
-              .endObject();
-        } else if (fieldType == FieldType.TIMESTAMP) {
-          xcontent
-            .field("type", "date")
-            .field("format", "dateOptionalTime");
-        } else if (fieldType == FieldType.INTEGER
-            || fieldType == FieldType.INTEGER_RANGE
-            || fieldType == FieldType.LONG) {
-          xcontent
-            .field("type", "long");
-        } else if (fieldType == FieldType.PREFIX
-            || fieldType == FieldType.FULL_TEXT
-            || fieldType == FieldType.STORED_ONLY) {
-          xcontent
-            .field("type", "string");
-        } else {
-          xcontent
-            .field("type", fieldType);
-        }
-        xcontent
-          .endObject();
-      }
-
-      return xcontent.endObject().endObject().endObject().string();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
@@ -218,8 +157,13 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   @Override
   protected String getMappings() {
-    return "{\"mappings\" : " + getMappingProperties("open_changes") + ","
-        + getMappingProperties("closed_changes") + "}";
+    return "{\"mappings\" : "
+        + getMappingProperties(ChangeSchemaDefinitions.INSTANCE.getLatest(),
+            "open_changes")
+        + ","
+        + getMappingProperties(ChangeSchemaDefinitions.INSTANCE.getLatest(),
+            "closed_changes")
+        + "}";
   }
 
   @Override
@@ -240,7 +184,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         sort.setIgnoreUnmapped();
       }
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
-      fields = IndexUtils.fields(getSchema(), opts);
+      fields = IndexUtils.changeDataFields(getSchema(), opts);
       SearchSourceBuilder searchSource = new SearchSourceBuilder()
           .query(qb)
           .from(opts.start())

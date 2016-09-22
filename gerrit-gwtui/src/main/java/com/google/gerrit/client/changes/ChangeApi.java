@@ -39,11 +39,12 @@ public class ChangeApi {
     call(id, "abandon").post(input, cb);
   }
 
-  /** Create a new change.
+  /**
+   * Create a new change.
    *
-   * The new change is created as DRAFT unless the draft workflow is disabled
-   * by `change.allowDrafts = false` in the configuration, in which case the
-   * new change is created as NEW.
+   * The new change is created as DRAFT unless the draft workflow is disabled by
+   * `change.allowDrafts = false` in the configuration, in which case the new
+   * change is created as NEW.
    *
    */
   public static void createChange(String project, String branch, String topic,
@@ -98,10 +99,7 @@ public class ChangeApi {
   }
 
   public static RestApi blame(PatchSet.Id id, String path, boolean base) {
-    return revision(id)
-        .view("files")
-        .id(path)
-        .view("blame")
+    return revision(id).view("files").id(path).view("blame")
         .addParameter("base", base);
   }
 
@@ -158,8 +156,7 @@ public class ChangeApi {
   }
 
   public static RestApi suggestReviewers(int id, String q, int n) {
-    return change(id).view("suggest_reviewers")
-        .addParameter("q", q)
+    return change(id).view("suggest_reviewers").addParameter("q", q)
         .addParameter("n", n);
   }
 
@@ -178,12 +175,14 @@ public class ChangeApi {
   public static RestApi hashtags(int changeId) {
     return change(changeId).view("hashtags");
   }
+
   public static RestApi hashtag(int changeId, String hashtag) {
     return change(changeId).view("hashtags").id(hashtag);
   }
 
   /** Submit a specific revision of a change. */
-  public static void cherrypick(int id, String commit, String destination, String message, AsyncCallback<ChangeInfo> cb) {
+  public static void cherrypick(int id, String commit, String destination,
+      String message, AsyncCallback<ChangeInfo> cb) {
     CherryPickInput cherryPickInput = CherryPickInput.create();
     cherryPickInput.setMessage(message);
     cherryPickInput.setDestination(destination);
@@ -199,13 +198,15 @@ public class ChangeApi {
   }
 
   /** Submit a specific revision of a change. */
-  public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
+  public static void submit(int id, String commit,
+      AsyncCallback<SubmitInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     call(id, commit, "submit").post(in, cb);
   }
 
   /** Publish a specific revision of a draft change. */
-  public static void publish(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
+  public static void publish(int id, String commit,
+      AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     call(id, commit, "publish").post(in, cb);
   }
@@ -216,7 +217,8 @@ public class ChangeApi {
   }
 
   /** Delete a specific draft patch set. */
-  public static void deleteRevision(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
+  public static void deleteRevision(int id, String commit,
+      AsyncCallback<JavaScriptObject> cb) {
     revision(id, commit).delete(cb);
   }
 
@@ -238,7 +240,8 @@ public class ChangeApi {
   }
 
   /** Rebase a revision onto the branch tip or another change. */
-  public static void rebase(int id, String commit, String base, AsyncCallback<ChangeInfo> cb) {
+  public static void rebase(int id, String commit, String base,
+      AsyncCallback<ChangeInfo> cb) {
     RebaseInput rebaseInput = RebaseInput.create();
     rebaseInput.setBase(base);
     call(id, commit, "rebase").post(rebaseInput, cb);
@@ -272,11 +275,17 @@ public class ChangeApi {
     }
 
     public final native void branch(String b) /*-{ if(b)this.branch=b; }-*/;
+
     public final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
+
     public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
+
     public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
-    public final native void baseChange(String b) /*-{ if(b)this.base_change=b; }-*/;
-    public final native void status(String s)  /*-{ if(s)this.status=s; }-*/;
+
+    public final native void baseChange(
+        String b) /*-{ if(b)this.base_change=b; }-*/;
+
+    public final native void status(String s) /*-{ if(s)this.status=s; }-*/;
 
     protected CreateChangeInput() {
     }
@@ -286,7 +295,9 @@ public class ChangeApi {
     static CherryPickInput create() {
       return (CherryPickInput) createObject();
     }
+
     final native void setDestination(String d) /*-{ this.destination = d; }-*/;
+
     final native void setMessage(String m) /*-{ this.message = m; }-*/;
 
     protected CherryPickInput() {
@@ -323,9 +334,7 @@ public class ChangeApi {
 
   public static void commitWithLinks(int changeId, String revision,
       Callback<CommitInfo> callback) {
-    revision(changeId, revision)
-        .view("commit")
-        .addParameterTrue("links")
+    revision(changeId, revision).view("commit").addParameterTrue("links")
         .get(callback);
   }
 }

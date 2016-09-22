@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_8c31a7fc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-22T12:59:32Z",
+      "side": 1,
+      "message": "Why the default is small? Below you say iz should be big enough. Should it be 128 M per default?",
+      "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_8b450d6e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-22T12:59:32Z",
+      "side": 1,
+      "message": "disk limit of this caches",
+      "range": {
+        "startLine": 708,
+        "startChar": 8,
+        "endLine": 708,
+        "endChar": 30
+      },
+      "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -88,7 +88,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       .add(ChangeField.REVIEWER)
       .build();
 
-  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V33 =
       schema(V32, ChangeField.ASSIGNEE);
 

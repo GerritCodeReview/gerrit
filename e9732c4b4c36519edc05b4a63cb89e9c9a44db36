@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a54f1d_cbe39599",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "Is there a command missing here?",
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_0ca8172a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "Will there be a distinction between:\n\n- Build the jar files\n- Build the jar files and install to local Maven repo\n- Build the jar files and deploy to Maven Central\n\n?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 4
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_4ca21f4c",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "Add \"TODO\" or something similar for parts that are intentionally missing?",
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_6ca55b52",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "Is this the correct anchor name?",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 6
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_ac57432a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "needs to be inside a preformatted block",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 16
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_0bf63d56",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 86
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_8c5c074e",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "Bazel",
+      "range": {
+        "startLine": 118,
+        "startChar": 59,
+        "endLine": 118,
+        "endChar": 63
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_cc660f22",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "BUILD",
+      "range": {
+        "startLine": 181,
+        "startChar": 18,
+        "endLine": 181,
+        "endChar": 22
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_2c6cf3fe",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "Should point to wherever bazel puts its cache",
+      "range": {
+        "startLine": 201,
+        "startChar": 21,
+        "endLine": 201,
+        "endChar": 31
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_6bf38166",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "Bazel",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 8
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_0c6937ef",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:27:06Z",
+      "side": 1,
+      "message": "bazel",
+      "range": {
+        "startLine": 213,
+        "startChar": 20,
+        "endLine": 213,
+        "endChar": 24
+      },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

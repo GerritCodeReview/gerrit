@@ -16,8 +16,7 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.index.account.AccountField.ID;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -56,7 +55,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class LuceneAccountIndex
@@ -164,7 +162,7 @@ public class LuceneAccountIndex
         List<AccountState> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
-          Document doc = searcher.doc(sd.doc, fields(opts));
+          Document doc = searcher.doc(sd.doc, IndexUtils.accountFields(opts));
           result.add(toAccountState(doc));
         }
         final List<AccountState> r = Collections.unmodifiableList(result);
@@ -196,13 +194,6 @@ public class LuceneAccountIndex
         }
       }
     }
-  }
-
-  private Set<String> fields(QueryOptions opts) {
-    Set<String> fs = opts.fields();
-    return fs.contains(ID.getName())
-        ? fs
-        : Sets.union(fs, ImmutableSet.of(ID.getName()));
   }
 
   private AccountState toAccountState(Document doc) {

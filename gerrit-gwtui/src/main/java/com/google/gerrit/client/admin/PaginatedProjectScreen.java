@@ -21,7 +21,7 @@ import com.google.gwt.http.client.URL;
 
 abstract class PaginatedProjectScreen extends ProjectScreen {
   protected int pageSize;
-  protected String match;
+  protected String match = "";
   protected int start;
 
   PaginatedProjectScreen(Project.NameKey toShow) {

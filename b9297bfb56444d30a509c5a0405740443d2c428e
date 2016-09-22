@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a54f1d_4b36853d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T12:03:41Z",
+      "side": 1,
+      "message": "It would be better to make this extend JavaScriptObject.\n\nThe only reason the input previously had both topic and message is because there was a feature to add a message when changing the topic.  That was removed ages ago, but it seems this bit was missed.",
+      "range": {
+        "startLine": 258,
+        "startChar": 34,
+        "endLine": 258,
+        "endChar": 54
+      },
+      "revId": "b9297bfb56444d30a509c5a0405740443d2c428e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

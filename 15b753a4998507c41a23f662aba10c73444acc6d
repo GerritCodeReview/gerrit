@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_cc2c4f5b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-22T15:15:20Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d0a803f6_2c56b35b",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 73
+      },
+      "revId": "15b753a4998507c41a23f662aba10c73444acc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_2cd073be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_ec402bed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-22T15:15:20Z",
+      "side": 0,
+      "message": "I will double-check.",
+      "parentUuid": "d0a803f6_2cd073be",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 252,
+        "endChar": 5
+      },
+      "revId": "15b753a4998507c41a23f662aba10c73444acc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b5f342_303f2814",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2016-09-22T08:42:55Z",
       "side": 0,
       "message": "Is this setting documented?  If so it should be removed from there too.",
+      "revId": "15b753a4998507c41a23f662aba10c73444acc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_2b9df9b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-22T15:15:20Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "50b5f342_303f2814",
       "revId": "15b753a4998507c41a23f662aba10c73444acc6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

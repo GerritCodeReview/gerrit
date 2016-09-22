@@ -611,6 +611,7 @@ Default is 1024 for most caches, except:
 * `"adv_bases"`: default is `4096`
 * `"diff"`: default is `10m` (10 MiB of memory)
 * `"diff_intraline"`: default is `10m` (10 MiB of memory)
+* `"diff_file_path_list"`: default is `10m` (10 MiB of memory)
 * `"plugin_resources"`: default is 2m (2 MiB of memory)
 
 +
@@ -697,6 +698,16 @@ Entries in this cache are relatively large, so memoryLimit is an
 estimate in bytes of memory used. Administrators should try to target
 cache.diff.memoryLimit to fit all files users will view in a 1 or 2
 day span.
+
+cache `"diff_file_path_list"`::
++
+Each item caches list of file paths which are different between two
+commits. Gerrit uses this cache to accelerate computing of the list
+of paths of changed files.
++
+Ideally, disk limit of this cache is large enough to cover all changes.
+This should significantly speed up change reindexing, especially
+full offline reindexing.
 
 cache `"git_tags"`::
 +

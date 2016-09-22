@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -59,9 +58,9 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.patch.FilePathList;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -337,6 +336,7 @@ public class ChangeData {
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files;
   private Map<Integer, Optional<PatchList>> patchLists;
+  private Map<Integer, Optional<FilePathList>> filePathLists;
   private Collection<Comment> publishedComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
@@ -589,7 +589,7 @@ public class ChangeData {
         return null;
       }
 
-      Optional<PatchList> p = getPatchList(c, ps);
+      Optional<FilePathList> p = getFilePathList(c, ps);
       if (!p.isPresent()) {
         List<String> emptyFileList = Collections.emptyList();
         if (lazyLoad) {
@@ -598,28 +598,7 @@ public class ChangeData {
         return emptyFileList;
       }
 
-      r = new ArrayList<>(p.get().getPatches().size());
-      for (PatchListEntry e : p.get().getPatches()) {
-        if (Patch.isMagic(e.getNewName())) {
-          continue;
-        }
-        switch (e.getChangeType()) {
-          case ADDED:
-          case MODIFIED:
-          case DELETED:
-          case COPIED:
-          case REWRITE:
-            r.add(e.getNewName());
-            break;
-
-          case RENAMED:
-            r.add(e.getOldName());
-            r.add(e.getNewName());
-            break;
-        }
-      }
-      Collections.sort(r);
-      r = Collections.unmodifiableList(r);
+      r = p.get().getPaths();
       files.put(psId, r);
     }
     return r;
@@ -641,6 +620,26 @@ public class ChangeData {
         r = Optional.absent();
       }
       patchLists.put(psId, r);
+    }
+    return r;
+  }
+
+  private Optional<FilePathList> getFilePathList(Change c, PatchSet ps) {
+    Integer psId = ps.getId().get();
+    if (filePathLists == null) {
+      filePathLists = new HashMap<>();
+    }
+    Optional<FilePathList> r = filePathLists.get(psId);
+    if (r == null) {
+      if (!lazyLoad) {
+        return Optional.absent();
+      }
+      try {
+        r = Optional.of(patchListCache.getFilePaths(c, ps));
+      } catch (PatchListNotAvailableException e) {
+        r = Optional.absent();
+      }
+      filePathLists.put(psId, r);
     }
     return r;
   }

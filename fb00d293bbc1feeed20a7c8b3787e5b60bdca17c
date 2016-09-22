@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_ace74310",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T15:16:46Z",
+      "side": 1,
+      "message": "use the same pattern here as at line 437.",
+      "range": {
+        "startLine": 456,
+        "startChar": 6,
+        "endLine": 459,
+        "endChar": 23
+      },
+      "revId": "fb00d293bbc1feeed20a7c8b3787e5b60bdca17c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

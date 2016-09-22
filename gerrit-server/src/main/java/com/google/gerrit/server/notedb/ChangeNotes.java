@@ -395,8 +395,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /**
-   *
-   * @return a ImmutableSet of all hashtags for this change sorted in alphabetical order.
+   * @return an ImmutableSet of Account.Ids of all users that have been assigned
+   *         to this change.
+   */
+  public ImmutableSet<Account.Id> getPastAssignees() {
+    return state.pastAssignees();
+  }
+
+  /**
+   * @return a ImmutableSet of all hashtags for this change sorted in
+   *         alphabetical order.
    */
   public ImmutableSet<String> getHashtags() {
     return ImmutableSortedSet.copyOf(state.hashtags());

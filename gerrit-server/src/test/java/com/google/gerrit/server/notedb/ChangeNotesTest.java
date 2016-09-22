@@ -24,6 +24,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -565,7 +566,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void assigneeCommit() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setAssignee(otherUserId);
+    update.setAssignee(Optional.fromNullable(otherUserId));
     ObjectId result = update.commit();
     assertThat(result).isNotNull();
     try (RevWalk rw = new RevWalk(repo)) {
@@ -587,19 +588,43 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void assigneeChangeNotes() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setAssignee(otherUserId);
+    update.setAssignee(Optional.fromNullable(otherUserId));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getAssignee().get()).isEqualTo(otherUserId);
 
     update = newUpdate(c, changeOwner);
-    update.setAssignee(changeOwner.getAccountId());
+    update.setAssignee(Optional.fromNullable(changeOwner.getAccountId()));
     update.commit();
 
     notes = newNotes(c);
     assertThat(notes.getAssignee().get()).isEqualTo(changeOwner.getAccountId());
+  }
 
+  @Test
+  public void pastAssigneesChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.fromNullable(otherUserId));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.fromNullable(changeOwner.getAccountId()));
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.fromNullable(otherUserId));
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(Optional.absent());
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getPastAssignees()).hasSize(2);
   }
 
   @Test

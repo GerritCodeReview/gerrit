@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_6c2efbff",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 67
+      },
+      "lineNbr": 2543,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "ElasticSearch implementation is incomplete.",
+      "range": {
+        "startLine": 2543,
+        "startChar": 9,
+        "endLine": 2543,
+        "endChar": 50
+      },
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_4c2b3fee",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_cb1ef5ca",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "Long line.\n\nGenerally in tests \"throws Exception\" is fine.",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_6b2ee1ff",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "IIUC you are creating one index that is shared by all test methods in the test class, which seems like it would fail. Is there somewhere here where you\u0027re clearing the index in between tests?",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_ccf72f73",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "Long lines here and below.",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_2b24d91f",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "You might be able to make these shorter or more readable by using checkState",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_0b211d10",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_8b14edae",
+        "filename": "lib/lucene/BUCK",
+        "patchSetId": 67
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:22:43Z",
+      "side": 1,
+      "message": "Nit: sort the rules in this file.",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0c8a7e8_a573de42",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T17:12:38Z",
+      "side": 1,
+      "message": "added.",
+      "parentUuid": "70dd979f_c9d431e6",
+      "revId": "a6c8b55fcd38070ec10ca3d4404619b1aed88d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90d84bb1_eacf6750",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-22T14:37:18Z",
       "side": 1,
       "message": "changing this negates the align-items property. are things properly centered (vertically) on mobile and desktop?",
+      "revId": "a6c8b55fcd38070ec10ca3d4404619b1aed88d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30d31f98_87a1869e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T17:12:38Z",
+      "side": 1,
+      "message": "I did some more investigation. The vertical align thing wasn\u0027t an issue, but the way the tiles appeared in the reviewers section got a bit messed up when wrapping lines (didn\u0027t look like one solid tile anymore, got broken up). So, I changed this stuff back. I think for now we can deal with the tiles cut off not having ellipses.",
+      "parentUuid": "90d84bb1_eacf6750",
       "revId": "a6c8b55fcd38070ec10ca3d4404619b1aed88d5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

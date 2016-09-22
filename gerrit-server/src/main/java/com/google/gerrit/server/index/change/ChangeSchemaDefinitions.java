@@ -66,12 +66,18 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V33 =
       schema(V32, ChangeField.ASSIGNEE);
 
-  @SuppressWarnings("deprecation")
+  @Deprecated
   static final Schema<ChangeData> V34 = new Schema.Builder<ChangeData>()
       .add(V33)
       .remove(ChangeField.LABEL)
       .add(ChangeField.LABEL2)
       .build();
+
+  static final Schema<ChangeData> V35 =
+      schema(V34,
+          ChangeField.SUBMIT_RECORD,
+          ChangeField.STORED_SUBMIT_RECORD_LENIENT,
+          ChangeField.STORED_SUBMIT_RECORD_STRICT);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE =

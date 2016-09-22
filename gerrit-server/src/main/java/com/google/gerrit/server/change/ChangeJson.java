@@ -108,9 +108,8 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -142,6 +141,22 @@ import java.util.TreeMap;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
+
+  // Submit rule options in this class should always use fastEvalLabels for
+  // efficiency reasons. Callers that care about accuracy should be looking at
+  // the submit action.
+  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
+      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT
+          .toBuilder()
+          .fastEvalLabels(true)
+          .build();
+
+  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
+      ChangeField.SUBMIT_RULE_OPTIONS_STRICT
+          .toBuilder()
+          .fastEvalLabels(true)
+          .build();
+
   public static final Set<ListChangesOption> NO_OPTIONS =
       Collections.emptySet();
 
@@ -559,10 +574,8 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) throws OrmException {
-    List<SubmitRecord> records = new SubmitRuleEvaluator(cd)
-        .setFastEvalLabels(true)
-        .evaluate();
-    for (SubmitRecord sr : records) {
+    for (SubmitRecord sr
+        : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
       if (sr.status == SubmitRecord.Status.OK) {
         return true;
       }
@@ -570,14 +583,8 @@ public class ChangeJson {
     return false;
   }
 
-  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS =
-      SubmitRuleOptions.defaults()
-          .fastEvalLabels(true)
-          .allowDraft(true)
-          .build();
-
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
-    return cd.submitRecords(SUBMIT_RULE_OPTIONS);
+    return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
   private Map<String, LabelInfo> labelsFor(ChangeControl ctl,

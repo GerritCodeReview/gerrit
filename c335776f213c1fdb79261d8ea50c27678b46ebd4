@@ -50,6 +50,23 @@
     },
     {
       "key": {
+        "uuid": "b091cf63_4ec63311",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "Add some javadoc for this class, in particular describing its relation to PLC. Otehrwise it\u0027s somewhat surprising to have a class in reviewdb.client that has no @Columns",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_cea4e359",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2
@@ -91,6 +108,125 @@
         "endLine": 159,
         "endChar": 24
       },
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_aeccf72b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "I think as a general rule you shouldn\u0027t mix Streams and FluentIterables.\n\nIn this case I think you can stick with streams and just add a .map call to the original, between .sorted and .collect",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023d73a_19dd8bfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "Unnecessary finals.",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023d73a_39dacf04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "I think all the callers just use Iterable, not List, so maybe this can just return FluentIterable",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501413d4_f8c0d1f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "While you\u0027re here, can be final.",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70b4b747_b1732043",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "501413d4_58d0ddbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "Don\u0027t mix FluentIterable and streams",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d013a30f_b4732043",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/PatchLineCommentEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:53:24Z",
+      "side": 1,
+      "message": "This was a little hard to follow. I think I would prefer to split this up into two classes CommentEvent and DraftCommentEvent, where DraftCommentEevent#apply throws UnsupportedOperationException\n\nThat can come as a separate cleanup.",
       "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

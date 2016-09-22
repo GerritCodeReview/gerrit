@@ -16,6 +16,24 @@
       "revId": "924d93f9f9e7b236ec22a476ff3c741cdb255a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70dd979f_09e009bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T17:31:58Z",
+      "side": 0,
+      "message": "that was a mistake. I meant to just remove the one in the other file. added back.",
+      "parentUuid": "90d84bb1_2ae33fcb",
+      "revId": "924d93f9f9e7b236ec22a476ff3c741cdb255a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

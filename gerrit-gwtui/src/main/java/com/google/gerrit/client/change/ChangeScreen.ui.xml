@@ -606,6 +606,20 @@ limitations under the License.
           <ui:attribute name='title'/>
           <div><ui:msg>Collapse All</ui:msg></div>
         </g:Button>
+        <g:Button ui:field='hideTaggedComments'
+            styleName=''
+            visible='false'
+            title='Hide tagged comments'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Hide tagged comments</ui:msg></div>
+        </g:Button>
+        <g:Button ui:field='showTaggedComments'
+            styleName=''
+            visible='false'
+            title='Show tagged comments'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Show tagged comments</ui:msg></div>
+        </g:Button>
         <g:SimplePanel ui:field='historyExtensionRight' styleName='{style.historyExtension}'/>
       </div>
     </div>

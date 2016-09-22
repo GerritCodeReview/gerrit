@@ -225,6 +225,8 @@ public class ChangeScreen extends Screen {
   @UiField Button renameFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
+  @UiField Button hideTaggedComments;
+  @UiField Button showTaggedComments;
   @UiField QuickApprove quickApprove;
 
   private ReplyAction replyAction;
@@ -300,6 +302,13 @@ public class ChangeScreen extends Screen {
                       .defaultBaseForMerges().getBase();
                 }
                 loadConfigInfo(info, base);
+                JsArray<MessageInfo> mAr = info.messages();
+                for (int i = 0; i < mAr.length(); i++) {
+                  if (mAr.get(i).tag() != null) {
+                    hideTaggedComments.setVisible(true);
+                    break;
+                  }
+                }
               }
             });
             group.done();
@@ -905,6 +914,30 @@ public class ChangeScreen extends Screen {
     if (0 <= idx) {
       String n = diffBase.getValue(idx);
       loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+    }
+  }
+
+  @UiHandler("showTaggedComments")
+  void onShowTaggedComments(@SuppressWarnings("unused") ClickEvent e) {
+    showTaggedComments.setVisible(false);
+    hideTaggedComments.setVisible(true);
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      Message m = ((Message) history.getWidget(i));
+      m.setVisible(true);
+    }
+  }
+
+  @UiHandler("hideTaggedComments")
+  void onHideTaggedComments(@SuppressWarnings("unused") ClickEvent e) {
+    hideTaggedComments.setVisible(false);
+    showTaggedComments.setVisible(true);
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      Message m = ((Message) history.getWidget(i));
+      if (m.getMessageInfo().tag() != null) {
+        m.setVisible(false);
+      }
     }
   }
 

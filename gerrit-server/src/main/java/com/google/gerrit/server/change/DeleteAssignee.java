@@ -71,8 +71,7 @@ public class DeleteAssignee implements
 
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException
-       {
+      throws RestApiException, UpdateException {
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
         rsrc.getProject(),
         rsrc.getUser(), TimeUtil.nowTs())) {

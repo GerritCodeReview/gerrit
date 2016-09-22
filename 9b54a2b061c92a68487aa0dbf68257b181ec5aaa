@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_ed4b6177",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T07:45:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_ee035f68",
+      "revId": "9b54a2b061c92a68487aa0dbf68257b181ec5aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_8e557b51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9084cb25_cd277dd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T07:45:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_8e557b51",
+      "range": {
+        "startLine": 414,
+        "startChar": 34,
+        "endLine": 414,
+        "endChar": 56
+      },
+      "revId": "9b54a2b061c92a68487aa0dbf68257b181ec5aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_6d1f71c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2016-09-21T15:43:33Z",
       "side": 1,
       "message": "Merge this with parseAssignee. You should always do the parseOneFooter call and always add the result to historicalAssignees (if present), then short-circuit the rest of the method.",
+      "revId": "9b54a2b061c92a68487aa0dbf68257b181ec5aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b091cf63_6e13ef64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T07:45:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_6d1f71c8",
       "revId": "9b54a2b061c92a68487aa0dbf68257b181ec5aaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

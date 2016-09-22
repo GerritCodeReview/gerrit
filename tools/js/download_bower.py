@@ -23,8 +23,7 @@ import shutil
 import subprocess
 import sys
 
-from tools import util
-
+import bowerutil
 
 CACHE_DIR = os.path.expanduser(os.path.join(
     '~', '.gerritcodereview', 'buck-cache', 'downloaded-artifacts'))
@@ -43,12 +42,12 @@ def bower_info(bower, name, package, version):
   out, err = p.communicate()
   if p.returncode:
     sys.stderr.write(err)
-    raise OSError('Command failed: %s' % cmd)
+    raise OSError('Command failed: %s' % ' '.join(cmd))
 
   try:
     info = json.loads(out)
   except ValueError:
-    raise ValueError('invalid JSON from %s:\n%s' % (cmd, out))
+    raise ValueError('invalid JSON from %s:\n%s' % (" ".join(cmd), out))
   info_name = info.get('name')
   if info_name != name:
     raise ValueError('expected package name %s, got: %s' % (name, info_name))
@@ -82,7 +81,11 @@ def main(args):
   opts.add_option('-v', help='version number')
   opts.add_option('-s', help='expected content sha1')
   opts.add_option('-o', help='output file location')
-  opts, _ = opts.parse_args()
+  opts, args_ = opts.parse_args(args)
+
+  assert opts.p
+  assert opts.v
+  assert opts.n
 
   cwd = os.getcwd()
   outzip = os.path.join(cwd, opts.o)
@@ -100,7 +103,7 @@ def main(args):
 
     if opts.s:
       path = os.path.join(bc, opts.n)
-      sha1 = util.hash_bower_component(hashlib.sha1(), path).hexdigest()
+      sha1 = bowerutil.hash_bower_component(hashlib.sha1(), path).hexdigest()
       if opts.s != sha1:
         print((
           '%s#%s:\n'

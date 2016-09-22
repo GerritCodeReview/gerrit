@@ -92,7 +92,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
         throws RestApiException, OrmException{
       if (!notesMigration.readChanges()) {
         throw new BadRequestException(
-            "Cannot add Assignee; NoteDb is disabled");
+            "Cannot delete Assignee; NoteDb is disabled");
       }
       if (!ctx.getControl().canEditAssignee()) {
         throw new AuthException("Delete Assignee not permitted");

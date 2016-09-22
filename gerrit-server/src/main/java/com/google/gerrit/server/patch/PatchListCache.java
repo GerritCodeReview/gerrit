@@ -28,4 +28,7 @@ public interface PatchListCache {
 
   public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
       IntraLineDiffArgs args);
+
+  FileList getFileList(Change change, PatchSet patchSet)
+      throws PatchListNotAvailableException;
 }

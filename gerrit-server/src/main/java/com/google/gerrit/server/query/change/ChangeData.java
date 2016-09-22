@@ -31,7 +31,6 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -48,9 +47,9 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
+import com.google.gerrit.server.patch.FileList;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -458,37 +457,17 @@ public class ChangeData {
         return null;
       }
 
-      PatchList p;
+      FileList p;
       try {
-        p = patchListCache.get(c, ps);
+        p = patchListCache.getFileList(c, ps);
       } catch (PatchListNotAvailableException e) {
         List<String> emptyFileList = Collections.emptyList();
         files.put(ps.getPatchSetId(), emptyFileList);
         return emptyFileList;
       }
 
-      List<String> r = new ArrayList<>(p.getPatches().size());
-      for (PatchListEntry e : p.getPatches()) {
-        if (Patch.COMMIT_MSG.equals(e.getNewName())) {
-          continue;
-        }
-        switch (e.getChangeType()) {
-          case ADDED:
-          case MODIFIED:
-          case DELETED:
-          case COPIED:
-          case REWRITE:
-            r.add(e.getNewName());
-            break;
-
-          case RENAMED:
-            r.add(e.getOldName());
-            r.add(e.getNewName());
-            break;
-        }
-      }
-      Collections.sort(r);
-      files.put(ps.getPatchSetId(), Collections.unmodifiableList(r));
+      List<String> r = p.getPaths();
+      files.put(ps.getPatchSetId(), r);
     }
     return files.get(ps.getPatchSetId());
   }

@@ -106,6 +106,7 @@ class Rule(object):
 
 
 def build_bower_json(targets, buck_out):
+  """create bower.json so 'bower install' fetches transitive deps"""
   bower_json = collections.OrderedDict()
   bower_json['name'] = 'bower2buck-output'
   bower_json['version'] = '0.0.0'
@@ -117,6 +118,9 @@ def build_bower_json(targets, buck_out):
       ['buck', 'query', '-v', '0',
        "filter('__download_bower', deps(%s))" % '+'.join(targets)],
       env=BUCK_ENV)
+
+  # __bower_version contains the version number coming from version
+  # attr in BUCK/BUILD
   deps = deps.replace('__download_bower', '__bower_version').split()
   subprocess.check_call(['buck', 'build'] + deps, env=BUCK_ENV)
 

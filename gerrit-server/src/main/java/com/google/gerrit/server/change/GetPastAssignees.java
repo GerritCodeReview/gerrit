@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountJson;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.Collections;
@@ -37,7 +38,7 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
 
   @Override
   public Response<Set<AccountInfo>> apply(ChangeResource rsrc)
-      throws Exception {
+      throws OrmException {
 
     Set<Account.Id> pastAssignees =
         rsrc.getControl().getNotes().load().getPastAssignees();

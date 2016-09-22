@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "50b5f342_7039b02b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T08:43:31Z",
+      "side": 1,
+      "message": "Never mind.  I just saw the comments you wrote while I was reviewing.",
+      "parentUuid": "50b5f342_d0f7bc72",
+      "range": {
+        "startLine": 164,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 9
+      },
+      "revId": "4eaa8f0e83cbd1f30b149691b793493a89ca55f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b5f342_100ae47f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 1

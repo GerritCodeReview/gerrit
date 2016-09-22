@@ -110,7 +110,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       cm.setPatchSet(patchSet,
           patchSetInfoFactory.get(notes.getProjectName(), patchSet));
       cm.setChangeMessage(message.getMessage(), message.getWrittenOn());
-      cm.setPatchLineComments(comments);
+      cm.setComments(comments);
       cm.setNotify(notify);
       cm.send();
     } catch (Exception e) {

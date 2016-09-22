@@ -64,12 +64,12 @@ public class CommentSender extends ReplyToChangeSender {
     this.commentsUtil = commentsUtil;
   }
 
-  public void setPatchLineComments(List<Comment> plc)
+  public void setComments(List<Comment> comments)
       throws OrmException {
-    inlineComments = plc;
+    inlineComments = comments;
 
     Set<String> paths = new HashSet<>();
-    for (Comment c : plc) {
+    for (Comment c : comments) {
       if (!Patch.isMagic(c.key.filename)) {
         paths.add(c.key.filename);
       }

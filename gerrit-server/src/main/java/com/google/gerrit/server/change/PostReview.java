@@ -371,7 +371,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   /**
-   * Used to compare PatchLineComments with CommentInput comments.
+   * Used to compare Comments with CommentInput comments.
    */
   @AutoValue
   abstract static class CommentSetEntry {

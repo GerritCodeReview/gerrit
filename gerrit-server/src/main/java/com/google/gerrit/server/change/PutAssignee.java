@@ -32,9 +32,9 @@ import com.google.inject.Singleton;
 public class PutAssignee
     implements RestModifyView<ChangeResource, AssigneeInput> {
 
-  private SetAssigneeOp.Factory assigneeFactory;
-  private BatchUpdate.Factory batchUpdateFactory;
-  private Provider<ReviewDb> db;
+  private final SetAssigneeOp.Factory assigneeFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
+  private final Provider<ReviewDb> db;
 
   @Inject
   PutAssignee(SetAssigneeOp.Factory assigneeFactory,

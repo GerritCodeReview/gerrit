@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a54f1d_0bae3d87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-09-22T10:02:23Z",
+      "side": 1,
+      "message": "if I understand it correct it will cause com.google.gerrit.server.change.ChangeJson.setAllApprovals(ChangeControl, ChangeData, Map\u003cString, LabelWithStatus\u003e) being called unconditionally which is my main concern a it will slow things down regardless if feature is enabled or disabled",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 44
+      },
+      "revId": "03980e90884b41bf608c97a56f12c3bba47233cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_8cf3679a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-09-22T10:02:23Z",
+      "side": 1,
+      "message": "according to the comment above it should be added to ChangeIT - have actually done that and it was working fine",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 43
+      },
+      "revId": "03980e90884b41bf608c97a56f12c3bba47233cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_ece82ba8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-09-22T10:02:23Z",
+      "side": 1,
+      "message": "do you thing it makes sense to extract formatting function and re-use it again populateLabelPanel?",
+      "range": {
+        "startLine": 280,
+        "startChar": 29,
+        "endLine": 280,
+        "endChar": 110
+      },
+      "revId": "03980e90884b41bf608c97a56f12c3bba47233cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

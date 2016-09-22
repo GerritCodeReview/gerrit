@@ -1163,20 +1163,6 @@ public class ChangeData {
     this.reviewedBy = reviewedBy;
   }
 
-  public Optional<Account.Id> assignee() throws OrmException {
-    if (assignee == null) {
-      if (!lazyLoad) {
-        return Optional.absent();
-      }
-      assignee = notes().getAssignee();
-    }
-    return assignee;
-  }
-
-  public void setAssignee(Optional<Account.Id> assignee) {
-    this.assignee = assignee;
-  }
-
   public Set<String> hashtags() throws OrmException {
     if (hashtags == null) {
       if (!lazyLoad) {

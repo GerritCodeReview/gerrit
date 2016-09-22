@@ -22,7 +22,6 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -385,13 +384,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableList<ReviewerStatusUpdate> getReviewerUpdates() {
     return state.reviewerUpdates();
-  }
-
-  /**
-   * @return an Account.Id of the user assigned to this change.
-   */
-  public Optional<Account.Id> getAssignee() {
-    return Optional.fromNullable(state.assignee());
   }
 
   /**

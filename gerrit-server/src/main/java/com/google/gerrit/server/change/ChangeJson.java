@@ -442,8 +442,8 @@ public class ChangeJson {
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     if (indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE)) {
-      if (cd.assignee().isPresent()) {
-        out.assignee = accountLoader.get(cd.assignee().get());
+      if (cd.change().getAssignee() != null) {
+        out.assignee = accountLoader.get(cd.change().getAssignee());
       }
     }
     out.hashtags = cd.hashtags();

@@ -572,7 +572,11 @@ public class LuceneChangeIndex implements ChangeIndex {
         assignee = new Account.Id(id);
       }
     }
-    cd.setAssignee(Optional.fromNullable(assignee));
+    try {
+      cd.change().setAssignee(assignee);
+    } catch (OrmException e) {
+      throw new IDontKnowHowIEndedUpHereException(e);
+    }
   }
 
   private void decodeHashtags(Multimap<String, IndexableField> doc, ChangeData cd) {

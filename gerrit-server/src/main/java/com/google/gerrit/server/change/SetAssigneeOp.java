@@ -17,10 +17,10 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Optional;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -30,7 +30,6 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -44,19 +43,16 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private final AccountsCollection accounts;
   private final ChangeMessagesUtil cmUtil;
   private final AccountInfoCacheFactory.Factory accountInfosFactory;
-  private final NotesMigration notesMigration;
   private final String anonymousCowardName;
   private Account newAssignee;
 
   @AssistedInject
   SetAssigneeOp(AccountsCollection accounts,
-      NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
       @AnonymousCowardName String anonymousCowardName,
       @Assisted AssigneeInput input) {
     this.accounts = accounts;
-    this.notesMigration = notesMigration;
     this.cmUtil = cmUtil;
     this.accountInfosFactory = accountInfosFactory;
     this.anonymousCowardName = anonymousCowardName;
@@ -66,15 +62,13 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   @Override
   public boolean updateChange(BatchUpdate.ChangeContext ctx)
       throws OrmException, RestApiException {
-    if (!notesMigration.readChanges()) {
-      throw new BadRequestException(
-          "Cannot add Assignee; NoteDb is disabled");
-    }
     if (!ctx.getControl().canEditAssignee()) {
       throw new AuthException("Changing Assignee not permitted");
     }
-    ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    Optional<Account.Id> oldAssigneeId = update.getNotes().getAssignee();
+    Change change = ctx.getChange();
+    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
+    Optional<Account.Id> oldAssigneeId =
+        Optional.fromNullable(ctx.getChange().getAssignee());
     if (input.assignee == null) {
       if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
         throw new AuthException("Cannot set Assignee to empty");
@@ -101,7 +95,10 @@ public class SetAssigneeOp extends BatchUpdate.Op {
           ctx.getChange().getChangeId(),
           newAssigneeUser.getUserName()));
     }
+    // notedb
     update.setAssignee(newAssigneeUser.getAccountId());
+    // reviewdb
+    change.setAssignee(newAssigneeUser.getAccountId());
     this.newAssignee = newAssigneeUser.getAccount();
     addMessage(ctx, update, oldAssignee);
     return true;

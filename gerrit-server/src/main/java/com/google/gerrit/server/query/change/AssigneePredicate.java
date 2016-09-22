@@ -30,10 +30,10 @@ class AssigneePredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     if (id.get() == ChangeField.NO_ASSIGNEE) {
-      Optional<Account.Id> assignee = object.notes().load().getAssignee();
+      Optional<Account.Id> assignee = object.assignee();
       return assignee == null || !assignee.isPresent();
     }
-    return id.equals(object.notes().load().getAssignee().get());
+    return id.equals(object.change().getAssignee());
   }
 
   @Override

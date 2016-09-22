@@ -591,14 +591,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getAssignee()).isEqualTo(otherUserId);
+    assertThat(notes.getAssignee().get()).isEqualTo(otherUserId);
 
     update = newUpdate(c, changeOwner);
     update.setAssignee(changeOwner.getAccountId());
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getAssignee()).isEqualTo(changeOwner.getAccountId());
+    assertThat(notes.getAssignee().get()).isEqualTo(changeOwner.getAccountId());
 
   }
 

@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -354,10 +355,10 @@ public class ChangeControl {
 
   /** Is this user assigned to this change? */
   public boolean isAssignee() {
-    Account.Id currentAssignee = notes.getAssignee();
-    if (currentAssignee != null && getUser().isIdentifiedUser()) {
+    Optional<Account.Id> currentAssignee = notes.getAssignee();
+    if (currentAssignee.isPresent() && getUser().isIdentifiedUser()) {
       Account.Id id = getUser().getAccountId();
-      return id.equals(currentAssignee);
+      return id.equals(currentAssignee.get());
     }
     return false;
   }

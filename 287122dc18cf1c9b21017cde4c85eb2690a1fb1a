@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_ccd9ef74",
+        "filename": "gerrit-gwtui-common/src/main/resources/com/google/gerrit/client/user_edit.png",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T14:49:09Z",
+      "side": 1,
+      "message": "What is the source of this icon?  Is it from silk icons?  If so please mention it in the commit message.\n\nIf it\u0027s from somewhere else we\u0027ll need to check the license.",
+      "revId": "287122dc18cf1c9b21017cde4c85eb2690a1fb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_4b6a05ab",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T14:49:09Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "287122dc18cf1c9b21017cde4c85eb2690a1fb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_ab9f29b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestChangeReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T14:49:09Z",
+      "side": 1,
+      "message": "exclude-groups?",
+      "range": {
+        "startLine": 41,
+        "startChar": 20,
+        "endLine": 41,
+        "endChar": 33
+      },
+      "revId": "287122dc18cf1c9b21017cde4c85eb2690a1fb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_8ba4ed14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestChangeReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T14:49:09Z",
+      "side": 1,
+      "message": "nit: long line",
+      "range": {
+        "startLine": 41,
+        "startChar": 81,
+        "endLine": 41,
+        "endChar": 90
+      },
+      "revId": "287122dc18cf1c9b21017cde4c85eb2690a1fb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

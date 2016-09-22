@@ -787,10 +787,15 @@ maven_jar(
   sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
 )
 
-load("//tools/bzl:js.bzl", "npm_binary")
+load("//tools/bzl:js.bzl", "npm_binary", "bower_tarball")
 
 npm_binary(
   name = "bower",
-  version = '1.7.9',
-  sha1 = 'b7296c2393e0d75edaa6ca39648132dd255812b0',
+)
+
+bower_tarball(
+  name = 'accessibility-developer-tools',
+  package = 'accessibility-developer-tools',
+  version = '2.10.0',
+  sha1 = 'bc1a5e56ff1bed7a7a6ef22a4b4e8300e4822aa5',
 )

@@ -17,6 +17,8 @@ package com.google.gerrit.elasticsearch;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -44,6 +46,7 @@ import com.google.gerrit.server.index.change.ChangeField.PatchSetApprovalProtoFi
 import com.google.gerrit.server.index.change.ChangeField.PatchSetProtoField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -148,7 +151,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
       ProtobufCodec<T> codec) {
     return FluentIterable.from(doc.getAsJsonArray(fieldName))
-        .transform(i -> codec.decode(Base64.decodeBase64(i.toString())))
+        .transform(i -> codec.decode(decodeBase64(i.toString())))
         .toList();
   }
 
@@ -383,7 +386,27 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setReviewers(ReviewerSet.empty());
       }
 
+      decodeSubmitRecords(source,
+          ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(),
+          ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
+      decodeSubmitRecords(source,
+          ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),
+          ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
+
       return cd;
+    }
+
+    private void decodeSubmitRecords(JsonObject doc, String fieldName,
+        SubmitRuleOptions opts, ChangeData out) {
+      JsonArray records = doc.getAsJsonArray(fieldName);
+      if (records == null) {
+        return;
+      }
+      ChangeField.parseSubmitRecords(
+          FluentIterable.from(records)
+              .transform(i -> new String(decodeBase64(i.toString()), UTF_8))
+              .toList(),
+          opts, out);
     }
   }
 }

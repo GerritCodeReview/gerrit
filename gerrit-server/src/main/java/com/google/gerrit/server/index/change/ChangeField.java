@@ -15,7 +15,9 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -27,21 +29,25 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gson.Gson;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
@@ -73,6 +79,8 @@ import java.util.Set;
  */
 public class ChangeField {
   public static final int NO_ASSIGNEE = -1;
+
+  private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -773,6 +781,169 @@ public class ChangeField {
           return result;
         }
       };
+
+  // Submit rule options in this class should never use fastEvalLabels. This
+  // slows down indexing slightly but produces correct search results.
+  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
+      SubmitRuleOptions.defaults()
+          .allowClosed(true)
+          .allowDraft(true)
+          .build();
+
+  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
+      SubmitRuleOptions.defaults().build();
+
+  /**
+   * JSON type for storing SubmitRecords.
+   * <p>
+   * Stored fields need to use a stable format over a long period; this type
+   * insulates the index from implementation changes in SubmitRecord itself.
+   */
+  static class StoredSubmitRecord {
+    static class StoredLabel {
+      String label;
+      SubmitRecord.Label.Status status;
+      Integer appliedBy;
+    }
+
+    SubmitRecord.Status status;
+    List<StoredLabel> labels;
+    String errorMessage;
+
+    StoredSubmitRecord(SubmitRecord rec) {
+      this.status = rec.status;
+      this.errorMessage = rec.errorMessage;
+      if (rec.labels != null) {
+        this.labels = new ArrayList<>(rec.labels.size());
+        for (SubmitRecord.Label label : rec.labels) {
+          StoredLabel sl = new StoredLabel();
+          sl.label = label.label;
+          sl.status = label.status;
+          sl.appliedBy =
+              label.appliedBy != null ? label.appliedBy.get() : null;
+          this.labels.add(sl);
+        }
+      }
+    }
+
+    private SubmitRecord toSubmitRecord() {
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = status;
+      rec.errorMessage = errorMessage;
+      if (labels != null) {
+        rec.labels = new ArrayList<>(labels.size());
+        for (StoredLabel label : labels) {
+          SubmitRecord.Label srl = new SubmitRecord.Label();
+          srl.label = label.label;
+          srl.status = label.status;
+          srl.appliedBy = label.appliedBy != null
+              ? new Account.Id(label.appliedBy)
+              : null;
+          rec.labels.add(srl);
+        }
+      }
+      return rec;
+    }
+  }
+
+  public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "submit_record", FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return formatSubmitRecordValues(input);
+        }
+      };
+
+  public static final FieldDef<ChangeData, Iterable<byte[]>>
+      STORED_SUBMIT_RECORD_STRICT =
+          new FieldDef.Repeatable<ChangeData, byte[]>(
+              "full_submit_record_strict", FieldType.STORED_ONLY, true) {
+            @Override
+            public Iterable<byte[]> get(ChangeData input, FillArgs args)
+                throws OrmException {
+              return storedSubmitRecords(input, SUBMIT_RULE_OPTIONS_STRICT);
+            }
+          };
+
+  public static final FieldDef<ChangeData, Iterable<byte[]>>
+      STORED_SUBMIT_RECORD_LENIENT =
+          new FieldDef.Repeatable<ChangeData, byte[]>(
+              "full_submit_record_lenient", FieldType.STORED_ONLY, true) {
+            @Override
+            public Iterable<byte[]> get(ChangeData input, FillArgs args)
+                throws OrmException {
+              return storedSubmitRecords(input, SUBMIT_RULE_OPTIONS_LENIENT);
+            }
+          };
+
+  public static void parseSubmitRecords(
+      Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
+    checkArgument(!opts.fastEvalLabels());
+    List<SubmitRecord> records = parseSubmitRecords(values);
+    if (records.isEmpty()) {
+      // Assume no values means the field is not in the index;
+      // SubmitRuleEvaluator ensures the list is non-empty.
+      return;
+    }
+    out.setSubmitRecords(opts, records);
+
+    // Cache the fastEvalLabels variant as well so it can be used by
+    // ChangeJson.
+    out.setSubmitRecords(
+        opts.toBuilder().fastEvalLabels(true).build(),
+        records);
+  }
+
+  @VisibleForTesting
+  static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
+    return values.stream()
+        .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
+        .collect(toList());
+  }
+
+  @VisibleForTesting
+  static List<byte[]> storedSubmitRecords(List<SubmitRecord> records) {
+    return Lists.transform(
+        records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
+  }
+
+  private static Iterable<byte[]> storedSubmitRecords(
+      ChangeData cd, SubmitRuleOptions opts) throws OrmException {
+    return storedSubmitRecords(cd.submitRecords(opts));
+  }
+
+  public static List<String> formatSubmitRecordValues(ChangeData cd)
+      throws OrmException {
+    return formatSubmitRecordValues(
+        cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT),
+        cd.change().getOwner());
+  }
+
+  @VisibleForTesting
+  static List<String> formatSubmitRecordValues(List<SubmitRecord> records,
+      Account.Id changeOwner) {
+    List<String> result = new ArrayList<>();
+    for (SubmitRecord rec : records) {
+      result.add(rec.status.name());
+      if (rec.labels == null) {
+        continue;
+      }
+      for (SubmitRecord.Label label : rec.labels) {
+        String sl = label.status.toString() + ',' + label.label.toLowerCase();
+        result.add(sl);
+        String slc = sl + ',';
+        if (label.appliedBy != null) {
+          result.add(slc + label.appliedBy.get());
+          if (label.appliedBy.equals(changeOwner)) {
+            result.add(slc + ChangeQueryBuilder.OWNER_ACCOUNT_ID.get());
+          }
+        }
+      }
+    }
+    return result;
+  }
 
   public static final Integer NOT_REVIEWED = -1;
 

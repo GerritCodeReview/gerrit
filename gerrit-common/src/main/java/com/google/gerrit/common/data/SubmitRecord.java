@@ -16,14 +16,27 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Describes the state required to submit a change.
  */
 public class SubmitRecord {
+  public static Optional<SubmitRecord> findOkRecord(
+      Collection<SubmitRecord> in) {
+    if (in == null) {
+      return Optional.empty();
+    }
+    return in.stream().filter(r -> r.status == Status.OK).findFirst();
+  }
+
   public enum Status {
+    // NOTE: These values are persisted in the index, so deleting or changing
+    // the name of any values requires a schema upgrade.
+
     /** The change is ready for submission. */
     OK,
 
@@ -50,6 +63,9 @@ public class SubmitRecord {
 
   public static class Label {
     public enum Status {
+      // NOTE: These values are persisted in the index, so deleting or changing
+      // the name of any values requires a schema upgrade.
+
       /**
        * This label provides what is necessary for submission.
        * <p>

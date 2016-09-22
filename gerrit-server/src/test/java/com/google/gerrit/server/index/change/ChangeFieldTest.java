@@ -15,10 +15,14 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -69,5 +73,64 @@ public class ChangeFieldTest extends GerritBaseTests {
 
     assertThat(ChangeField.parseReviewerFieldValues(values))
         .isEqualTo(reviewers);
+  }
+
+  @Test
+  public void formatSubmitRecordValues() {
+    assertThat(
+            ChangeField.formatSubmitRecordValues(
+                ImmutableList.of(
+                    record(
+                        SubmitRecord.Status.OK,
+                        label(SubmitRecord.Label.Status.MAY, "Label-1", null),
+                        label(SubmitRecord.Label.Status.OK, "Label-2", 1))),
+                new Account.Id(1)))
+        .containsExactly(
+            "OK",
+            "MAY,label-1",
+            "OK,label-2",
+            "OK,label-2,0",
+            "OK,label-2,1");
+  }
+
+  @Test
+  public void storedSubmitRecords() {
+    assertStoredRecordRoundTrip(record(SubmitRecord.Status.CLOSED));
+    assertStoredRecordRoundTrip(
+        record(
+            SubmitRecord.Status.OK,
+            label(SubmitRecord.Label.Status.MAY, "Label-1", null),
+            label(SubmitRecord.Label.Status.OK, "Label-2", 1)));
+  }
+
+  private static SubmitRecord record(SubmitRecord.Status status,
+      SubmitRecord.Label... labels) {
+    SubmitRecord r = new SubmitRecord();
+    r.status = status;
+    if (labels.length > 0) {
+      r.labels = ImmutableList.copyOf(labels);
+    }
+    return r;
+  }
+
+  private static SubmitRecord.Label label(SubmitRecord.Label.Status status,
+      String label, Integer appliedBy) {
+    SubmitRecord.Label l = new SubmitRecord.Label();
+    l.status = status;
+    l.label = label;
+    if (appliedBy != null) {
+      l.appliedBy = new Account.Id(appliedBy);
+    }
+    return l;
+  }
+
+  private static void assertStoredRecordRoundTrip(SubmitRecord... records) {
+    List<SubmitRecord> recordList = ImmutableList.copyOf(records);
+    List<String> stored = ChangeField.storedSubmitRecords(recordList).stream()
+        .map(s -> new String(s, UTF_8))
+        .collect(toList());
+    assertThat(ChangeField.parseSubmitRecords(stored))
+        .named("JSON %s" + stored)
+        .isEqualTo(recordList);
   }
 }

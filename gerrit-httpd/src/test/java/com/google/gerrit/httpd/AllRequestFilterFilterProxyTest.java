@@ -144,7 +144,7 @@ public class AllRequestFilterFilterProxyTest {
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock(FilterChain.class);
 
-    Capture<FilterChain> capturedChain = new Capture();
+    Capture<FilterChain> capturedChain = new Capture<>();
 
     AllRequestFilter filter = mockControl.createMock(AllRequestFilter.class);
     filter.init(config);
@@ -209,8 +209,8 @@ public class AllRequestFilterFilterProxyTest {
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock(FilterChain.class);
 
-    Capture<FilterChain> capturedChainA = new Capture();
-    Capture<FilterChain> capturedChainB = new Capture();
+    Capture<FilterChain> capturedChainA = new Capture<>();
+    Capture<FilterChain> capturedChainB = new Capture<>();
 
     AllRequestFilter filterA = mockControl.createMock(AllRequestFilter.class);
     AllRequestFilter filterB = mockControl.createMock(AllRequestFilter.class);
@@ -251,9 +251,9 @@ public class AllRequestFilterFilterProxyTest {
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock("chain", FilterChain.class);
 
-    Capture<FilterChain> capturedChainA1 = new Capture();
-    Capture<FilterChain> capturedChainA2 = new Capture();
-    Capture<FilterChain> capturedChainB = new Capture();
+    Capture<FilterChain> capturedChainA1 = new Capture<>();
+    Capture<FilterChain> capturedChainA2 = new Capture<>();
+    Capture<FilterChain> capturedChainB = new Capture<>();
 
     AllRequestFilter filterA = mockControl.createMock("filterA", AllRequestFilter.class);
     AllRequestFilter filterB = mockControl.createMock("filterB", AllRequestFilter.class);
@@ -307,9 +307,9 @@ public class AllRequestFilterFilterProxyTest {
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock("chain", FilterChain.class);
 
-    Capture<FilterChain> capturedChainA1 = new Capture();
-    Capture<FilterChain> capturedChainB1 = new Capture();
-    Capture<FilterChain> capturedChainB2 = new Capture();
+    Capture<FilterChain> capturedChainA1 = new Capture<>();
+    Capture<FilterChain> capturedChainB1 = new Capture<>();
+    Capture<FilterChain> capturedChainB2 = new Capture<>();
 
     AllRequestFilter filterA = mockControl.createMock("filterA", AllRequestFilter.class);
     AllRequestFilter filterB = mockControl.createMock("filterB", AllRequestFilter.class);

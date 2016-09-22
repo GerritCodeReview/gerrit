@@ -430,7 +430,8 @@ public class MergeSuperSet {
     Set<String> fields = ImmutableSet.of(
         ChangeField.CHANGE.getName(),
         ChangeField.PATCH_SET.getName(),
-        ChangeField.MERGEABLE.getName());
+        ChangeField.MERGEABLE.getName(),
+        ChangeField.STORED_SUBMIT_RECORD_STRICT.getName());
     return queryProvider.get().setRequestedFields(fields);
   }
 

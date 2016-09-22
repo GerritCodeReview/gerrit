@@ -193,7 +193,6 @@ public class ChangeJson {
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
-  private boolean includeSubmittable;
   private FixInput fix;
 
   @AssistedInject
@@ -246,11 +245,6 @@ public class ChangeJson {
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
-  }
-
-  public ChangeJson includeSubmittable(boolean include) {
-    includeSubmittable = include;
-    return this;
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -469,9 +463,7 @@ public class ChangeJson {
         out.submitType = str.type;
       }
       out.mergeable = cd.isMergeable();
-      if (includeSubmittable) {
-        out.submittable = submittable(cd);
-      }
+      out.submittable = submittable(cd);
     }
     Optional<ChangedLines> changedLines = cd.changedLines();
     if (changedLines.isPresent()) {
@@ -573,9 +565,13 @@ public class ChangeJson {
     return result;
   }
 
-  private boolean submittable(ChangeData cd) throws OrmException {
-    for (SubmitRecord sr
-        : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
+  private Boolean submittable(ChangeData cd) {
+    List<SubmitRecord> records =
+        cd.getSubmitRecords(SUBMIT_RULE_OPTIONS_STRICT);
+    if (records == null || records.isEmpty()) {
+      return null;
+    }
+    for (SubmitRecord sr : records) {
       if (sr.status == SubmitRecord.Status.OK) {
         return true;
       }

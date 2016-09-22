@@ -481,6 +481,13 @@ public final class Change {
   @Column(id = 18, notNull = false)
   protected String submissionId;
 
+  /**
+   * Allows assigning a change to an user.
+   */
+  @Column(id = 19, notNull = false)
+  protected Account.Id assignee;
+
+
   /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
   @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
   protected String noteDbState;
@@ -500,6 +507,7 @@ public final class Change {
   }
 
   public Change(Change other) {
+    assignee = other.assignee;
     changeId = other.changeId;
     changeKey = other.changeKey;
     rowVersion = other.rowVersion;
@@ -533,6 +541,14 @@ public final class Change {
 
   public void setKey(final Change.Key k) {
     changeKey = k;
+  }
+
+  public Account.Id getAssignee() {
+    return assignee;
+  }
+
+  public void setAssignee(Account.Id a) {
+    assignee = a;
   }
 
   public Timestamp getCreatedOn() {

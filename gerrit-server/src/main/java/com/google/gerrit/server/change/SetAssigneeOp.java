@@ -66,15 +66,12 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   @Override
   public boolean updateChange(BatchUpdate.ChangeContext ctx)
       throws OrmException, RestApiException {
-    if (!notesMigration.readChanges()) {
-      throw new BadRequestException(
-          "Cannot add Assignee; NoteDb is disabled");
-    }
     if (!ctx.getControl().canEditAssignee()) {
       throw new AuthException("Changing Assignee not permitted");
     }
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    Optional<Account.Id> oldAssigneeId = update.getNotes().getAssignee();
+    Optional<Account.Id> oldAssigneeId =
+        Optional.fromNullable(ctx.getChange().getAssignee());
     if (input.assignee == null) {
       if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
         throw new AuthException("Cannot set Assignee to empty");

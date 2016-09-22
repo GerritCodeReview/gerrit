@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -24,7 +26,6 @@ import com.google.inject.Inject;
 
 import java.util.Collections;
 import java.util.Set;
-import static java.util.stream.Collectors.toSet;
 
 public class GetPastAssignees implements RestReadView<ChangeResource> {
   private final AccountInfoCacheFactory.Factory accountInfos;

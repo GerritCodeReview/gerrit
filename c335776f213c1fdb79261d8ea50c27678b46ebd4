@@ -67,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "50b5f342_90c094f5",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_4ec63311",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_cea4e359",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2
@@ -131,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "d013a30f_f44478a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_aeccf72b",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7023d73a_19dd8bfb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
         "patchSetId": 2
@@ -142,6 +178,24 @@
       "writtenOn": "2016-09-22T07:53:24Z",
       "side": 1,
       "message": "Unnecessary finals.",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b5f342_10cdc426",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7023d73a_19dd8bfb",
       "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -165,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "d013a30f_d4497cb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7023d73a_39dacf04",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "501413d4_f8c0d1f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
         "patchSetId": 2
@@ -176,6 +248,24 @@
       "writtenOn": "2016-09-22T07:53:24Z",
       "side": 1,
       "message": "While you\u0027re here, can be final.",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b5f342_70da50de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "501413d4_f8c0d1f5",
       "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -199,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "50b5f342_b0e4b8a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b4b747_b1732043",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "501413d4_58d0ddbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
         "patchSetId": 2
@@ -216,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "d013a30f_7439882b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "501413d4_58d0ddbe",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d013a30f_b4732043",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/PatchLineCommentEvent.java",
         "patchSetId": 2
@@ -227,6 +353,24 @@
       "writtenOn": "2016-09-22T07:53:24Z",
       "side": 1,
       "message": "This was a little hard to follow. I think I would prefer to split this up into two classes CommentEvent and DraftCommentEvent, where DraftCommentEevent#apply throws UnsupportedOperationException\n\nThat can come as a separate cleanup.",
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b5f342_704ff086",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/PatchLineCommentEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:32:43Z",
+      "side": 1,
+      "message": "Done in a predecessor change:\n  https://gerrit-review.googlesource.com/86758",
+      "parentUuid": "d013a30f_b4732043",
       "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -429,25 +429,46 @@ public class ChangeField {
       };
 
   /** List of labels on the current patch set. */
+  @Deprecated
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_LABEL, FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          Set<String> allApprovals = new HashSet<>();
-          Set<String> distinctApprovals = new HashSet<>();
-          for (PatchSetApproval a : input.currentApprovals()) {
-            if (a.getValue() != 0 && !a.isLegacySubmit()) {
-              allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
-                  a.getAccountId()));
-              distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
-            }
-          }
-          allApprovals.addAll(distinctApprovals);
-          return allApprovals;
+          return getLabels(input, false);
         }
       };
+
+  /** List of labels on the current patch set including change owner votes. */
+  public static final FieldDef<ChangeData, Iterable<String>> LABEL2 =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "label2", FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return getLabels(input, true);
+        }
+      };
+
+  private static Iterable<String> getLabels(ChangeData input, boolean owners)
+      throws OrmException {
+    Set<String> allApprovals = new HashSet<>();
+    Set<String> distinctApprovals = new HashSet<>();
+    for (PatchSetApproval a : input.currentApprovals()) {
+      if (a.getValue() != 0 && !a.isLegacySubmit()) {
+        allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
+            a.getAccountId()));
+        if (owners && input.change().getOwner().equals(a.getAccountId())) {
+          allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
+              ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+        }
+        distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
+      }
+    }
+    allApprovals.addAll(distinctApprovals);
+    return allApprovals;
+  }
 
   public static Set<String> getAuthorParts(ChangeData cd) throws OrmException {
     try {
@@ -544,7 +565,14 @@ public class ChangeField {
 
   public static String formatLabel(String label, int value, Account.Id accountId) {
     return label.toLowerCase() + (value >= 0 ? "+" : "") + value
-        + (accountId != null ? "," + accountId.get() : "");
+        + (accountId != null ? "," + formatAccount(accountId) : "");
+  }
+
+  private static String formatAccount(Account.Id accountId) {
+    if (ChangeQueryBuilder.OWNER_ACCOUNT_ID.equals(accountId)) {
+      return ChangeQueryBuilder.ARG_ID_OWNER;
+    }
+    return Integer.toString(accountId.get());
   }
 
   /** Commit message of the current patch set. */

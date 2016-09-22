@@ -15,10 +15,38 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.Schema;
 
 import java.util.Map;
 
 class ElasticMapping {
+  static MappingProperties createMapping(Schema<?> schema) {
+    ElasticMapping.Builder mapping = new ElasticMapping.Builder();
+    for (FieldDef<?, ?> field : schema.getFields().values()) {
+      String name = field.getName();
+      FieldType<?> fieldType = field.getType();
+      if (fieldType == FieldType.EXACT) {
+        mapping.addExactField(name);
+      } else if (fieldType == FieldType.TIMESTAMP) {
+        mapping.addTimestamp(name);
+      } else if (fieldType == FieldType.INTEGER
+          || fieldType == FieldType.INTEGER_RANGE
+          || fieldType == FieldType.LONG) {
+        mapping.addNumber(name);
+      } else if (fieldType == FieldType.PREFIX
+          || fieldType == FieldType.FULL_TEXT
+          || fieldType == FieldType.STORED_ONLY) {
+        mapping.addString(name);
+      } else {
+        throw new IllegalStateException(
+            "Unsupported filed type: " + fieldType.getName());
+      }
+    }
+    return mapping.build();
+  }
+
   static class Builder {
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();

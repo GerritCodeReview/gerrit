@@ -15,7 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
-import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
+import com.google.gerrit.server.query.account.AbstractQueryAccountsTest;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
 
 import java.util.concurrent.ExecutionException;
 
-public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
+public class ElasticQueryAccountsTest extends AbstractQueryAccountsTest {
   private static ElasticNodeInfo nodeInfo;
 
   @BeforeClass
@@ -40,20 +40,20 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     nodeInfo = ElasticTestUtils.startElasticsearchNode();
   }
 
-  @After
-  public void cleanupIndex() {
-    if (nodeInfo != null) {
-      ElasticTestUtils.deleteIndexes(nodeInfo.node);
-      ElasticTestUtils.createIndexes(nodeInfo.node);
-    }
-  }
-
   @AfterClass
   public static void stopElasticsearchServer() {
     if (nodeInfo != null) {
       nodeInfo.node.close();
       nodeInfo.elasticDir.delete();
       nodeInfo = null;
+    }
+  }
+
+  @After
+  public void cleanupIndex() {
+    if (nodeInfo != null) {
+      ElasticTestUtils.deleteIndexes(nodeInfo.node);
+      ElasticTestUtils.createIndexes(nodeInfo.node);
     }
   }
 

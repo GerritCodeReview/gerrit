@@ -35,9 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
-import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -56,7 +54,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -94,30 +91,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     MappingProperties closedChanges;
 
     ChangeMapping(Schema<ChangeData> schema) {
-      ElasticMapping.Builder mappingBuilder = new ElasticMapping.Builder();
-      for (FieldDef<?, ?> field : schema.getFields().values()) {
-        String name = field.getName();
-        FieldType<?> fieldType = field.getType();
-        if (fieldType == FieldType.EXACT) {
-          mappingBuilder.addExactField(name);
-        } else if (fieldType == FieldType.TIMESTAMP) {
-          mappingBuilder.addTimestamp(name);
-        } else if (fieldType == FieldType.INTEGER
-            || fieldType == FieldType.INTEGER_RANGE
-            || fieldType == FieldType.LONG) {
-          mappingBuilder.addNumber(name);
-        } else if (fieldType == FieldType.PREFIX
-            || fieldType == FieldType.FULL_TEXT
-            || fieldType == FieldType.STORED_ONLY) {
-          mappingBuilder.addString(name);
-        } else {
-          throw new IllegalArgumentException(
-              "Unsupported filed type " + fieldType.getName());
-        }
-      }
-      MappingProperties mapping = mappingBuilder.build();
-      openChanges = mapping;
-      closedChanges = mapping;
+      MappingProperties mapping = ElasticMapping.createMapping(schema);
+      this.openChanges = mapping;
+      this.closedChanges = mapping;
     }
   }
 
@@ -146,13 +122,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.queryBuilder = new ElasticQueryBuilder();
     this.gson = new GsonBuilder()
         .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
-  }
-
-  private static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
-      ProtobufCodec<T> codec) {
-    return FluentIterable.from(doc.getAsJsonArray(fieldName))
-        .transform(i -> codec.decode(decodeBase64(i.toString())))
-        .toList();
   }
 
   @Override
@@ -231,7 +200,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         sort.setIgnoreUnmapped();
       }
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
-      fields = IndexUtils.fields(opts);
+      fields = IndexUtils.changeFields(opts);
       SearchSourceBuilder searchSource = new SearchSourceBuilder()
           .query(qb)
           .from(opts.start())

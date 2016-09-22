@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
@@ -45,7 +46,13 @@ public final class IndexUtils {
     }
   }
 
-  public static Set<String> fields(QueryOptions opts) {
+  public static Set<String> accountFields(QueryOptions opts) {
+    Set<String> fs = opts.fields();
+    return fs.contains(ID.getName()) ? fs
+        : Sets.union(fs, ImmutableSet.of(ID.getName()));
+  }
+
+  public static Set<String> changeFields(QueryOptions opts) {
     // Ensure we request enough fields to construct a ChangeData. We need both
     // change ID and project, which can either come via the Change field or
     // separate fields.

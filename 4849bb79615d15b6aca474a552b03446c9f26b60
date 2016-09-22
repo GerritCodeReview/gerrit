@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a54f1d_0b947d40",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-09-22T20:47:57Z",
+      "side": 1,
+      "message": "Those two blocks look almost identical to me, the only difference is that with HTTP fails immediately if password do not match whilst with HTTP_LDAP allows an LDAP fallback.\n\nWhy not unifying the two blocks and checking for HTTP_LDAP for the else part?\n\nSomething like:\n```\nif (gitBasicAuthPolicy \u003d\u003d HTTP || gitBasicAuthPolicy \u003d\u003d HTTP_LDAP) {\n  if(passwordMatchesTheUserGeneratedOne(who, username, password)) {\n    return succeedAuthentication(who);\n  }\n}\n\nif(gitBasicAuthPolicy \u003d\u003d HTTP) {\n  return failAuthentication(rsp, username);\n} \n```",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 40
+      },
+      "revId": "4849bb79615d15b6aca474a552b03446c9f26b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

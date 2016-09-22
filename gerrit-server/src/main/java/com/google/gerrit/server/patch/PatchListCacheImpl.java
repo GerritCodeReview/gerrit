@@ -39,6 +39,7 @@ import java.util.concurrent.ExecutionException;
 public class PatchListCacheImpl implements PatchListCache {
   static final String FILE_NAME = "diff";
   static final String INTRA_NAME = "diff_intraline";
+  static final String FILE_PATH_LIST = "diff_file_path_list";
 
   public static Module module() {
     return new CacheModule() {
@@ -46,13 +47,15 @@ public class PatchListCacheImpl implements PatchListCache {
       protected void configure() {
         factory(PatchListLoader.Factory.class);
         persist(FILE_NAME, PatchListKey.class, PatchList.class)
-            .maximumWeight(10 << 20)
-            .weigher(PatchListWeigher.class);
+            .maximumWeight(10 << 20).weigher(PatchListWeigher.class);
 
         factory(IntraLineLoader.Factory.class);
         persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
-            .maximumWeight(10 << 20)
-            .weigher(IntraLineWeigher.class);
+            .maximumWeight(10 << 20).weigher(IntraLineWeigher.class);
+
+        factory(FilePathListLoader.Factory.class);
+        persist(FILE_PATH_LIST, PatchListKey.class, FilePathList.class)
+            .maximumWeight(10 << 20).weigher(FilePathListWeigher.class);
 
         bind(PatchListCacheImpl.class);
         bind(PatchListCache.class).to(PatchListCacheImpl.class);
@@ -62,25 +65,29 @@ public class PatchListCacheImpl implements PatchListCache {
 
   private final Cache<PatchListKey, PatchList> fileCache;
   private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
+  private final Cache<PatchListKey, FilePathList> filePathsCache;
   private final PatchListLoader.Factory fileLoaderFactory;
   private final IntraLineLoader.Factory intraLoaderFactory;
+  private final FilePathListLoader.Factory filePathListLoaderFactory;
   private final boolean computeIntraline;
 
   @Inject
-  PatchListCacheImpl(
-      @Named(FILE_NAME) Cache<PatchListKey, PatchList> fileCache,
+  PatchListCacheImpl(@Named(FILE_NAME) Cache<PatchListKey, PatchList> fileCache,
       @Named(INTRA_NAME) Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
+      @Named(FILE_PATH_LIST) Cache<PatchListKey, FilePathList> filePathsCache,
       PatchListLoader.Factory fileLoaderFactory,
       IntraLineLoader.Factory intraLoaderFactory,
+      FilePathListLoader.Factory filePathListLoaderFactory,
       @GerritServerConfig Config cfg) {
     this.fileCache = fileCache;
     this.intraCache = intraCache;
+    this.filePathsCache = filePathsCache;
     this.fileLoaderFactory = fileLoaderFactory;
     this.intraLoaderFactory = intraLoaderFactory;
+    this.filePathListLoaderFactory = filePathListLoaderFactory;
 
-    this.computeIntraline =
-        cfg.getBoolean("cache", INTRA_NAME, "enabled",
-            cfg.getBoolean("cache", "diff", "intraline", true));
+    this.computeIntraline = cfg.getBoolean("cache", INTRA_NAME, "enabled",
+        cfg.getBoolean("cache", "diff", "intraline", true));
   }
 
   @Override
@@ -139,5 +146,31 @@ public class PatchListCacheImpl implements PatchListCache {
       }
     }
     return new IntraLineDiff(IntraLineDiff.Status.DISABLED);
+  }
+
+  @Override
+  public FilePathList getFilePaths(Change change, PatchSet patchSet)
+      throws PatchListNotAvailableException {
+    Project.NameKey project = change.getProject();
+    ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
+    Whitespace ws = Whitespace.IGNORE_NONE;
+    return getFilePaths(PatchListKey.againstDefaultBase(b, ws), project);
+  }
+
+  private FilePathList getFilePaths(PatchListKey key, Project.NameKey project)
+      throws PatchListNotAvailableException {
+    try {
+      return filePathsCache.get(key,
+          filePathListLoaderFactory.create(key, project));
+    } catch (ExecutionException e) {
+      PatchListLoader.log.warn("Error computing " + key, e);
+      throw new PatchListNotAvailableException(e);
+    } catch (UncheckedExecutionException e) {
+      if (e.getCause() instanceof LargeObjectException) {
+        PatchListLoader.log.warn("Error computing " + key, e);
+        throw new PatchListNotAvailableException(e);
+      }
+      throw e;
+    }
   }
 }

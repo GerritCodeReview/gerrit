@@ -1,0 +1,65 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.patch;
+
+import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
+
+public class FilePathList implements Serializable {
+  private static final long serialVersionUID = PatchListKey.serialVersionUID;
+
+  private transient String[] paths;
+
+  public FilePathList(String[] paths) {
+    this.paths = paths;
+  }
+
+  public List<String> getPaths() {
+    return Collections.unmodifiableList(Arrays.asList(paths));
+  }
+
+  private void writeObject(ObjectOutputStream output) throws IOException {
+    ByteArrayOutputStream buf = new ByteArrayOutputStream();
+    try (DeflaterOutputStream out = new DeflaterOutputStream(buf)) {
+      writeString(out, Joiner.on('\n').join(paths));
+    }
+    writeBytes(output, buf.toByteArray());
+  }
+
+  private void readObject(ObjectInputStream input) throws IOException {
+    ByteArrayInputStream buf = new ByteArrayInputStream(readBytes(input));
+    try (InflaterInputStream in = new InflaterInputStream(buf)) {
+      List<String> l = Splitter.on('\n').splitToList(readString(in));
+      paths = l.toArray(new String[l.size()]);
+    }
+  }
+}

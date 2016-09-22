@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474554193 +0200\nnonce AKOpmBWQ/ebN4A4WGLYopHKgA3u90EJbYi3mZS2kEZcMK7Xol5jyji0giUGIRXyQJznydgIv74S7\n\n0000000000000000000000000000000000000000 87ab66f85411d5ec000666c179487f3e665fc075 refs/for/master%topic\u003dold-index-schemas,r\u003dhugo.ares@ericsson.com,r\u003dekempin@google.com,t\u003dsap16\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX4+lTAAoJEF/XxZqaEoiMSfkP/ixTcUr6d2ZpL4DrzQV3upEr\nznRe7wmHBOACgxa96g7y9m45zNVwOKGLqA94A8Oy3VX6nVzsDLY2twO/9HEcSEk7\nDFDuiX+8ADoiZ0LaWIYuterIkd/tpUFrN7snBnXl1Yw7yT6JLR6pI6oELKNKQyDM\nD7oci+Q7/+Zrlf++mnW/XwVEIJMZusm6AYAr2Y0Ez5wT8tkC9ozBvFh0LYw+4hfR\njZXTnQIQUQEEwVseuiz7aiZqNLXdK8oyVrW/SbaMQmY8zACRQd+bgiwa/elfa2y/\nWG2xDllcecPFjv3CGjd/20YsCPCxtjhJxcop35R8BoBDw2Aylfv70G3WKiE4Z2v3\nV3pbFc0dtg2MXpDKRnfYXwkKjYyOytnHfJo3ZDFCRr+8OTD3HN8C+YYXCE5dnAVM\nadj3YrPmZ8DrjP0v1pDzXkAVL0YakRi+xKo5HURbRC+CLVmeRSUYkCNEUkXhfuJp\nQdeiPvvdp/RVpsTVavuqYes5pCr/NDIBdZ1oaeWMmlDEkQIZEqnJKtOafxOEDSkd\nc2fguQXlXsfEGF7Y4PMGjsjul5jtUv+tgiznd4Tc1wLRDtobf+vc6Hx8C9Kiwi2M\nB+qk8Wgjs2JgZGsq4wt9GaUM89yE1hCYA5NhZZNcOkrdW7+iS/V//5FTty/Oj4cL\ncKu0OlQJtpAJblMSnX29\n\u003dhpou\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_4cc69f93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T14:51:18Z",
+      "side": 1,
+      "message": "I think this can also be removed now.",
+      "range": {
+        "startLine": 692,
+        "startChar": 4,
+        "endLine": 699,
+        "endChar": 5
+      },
+      "revId": "3d95510be81e92842acf89ea771a2b1cc83428de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

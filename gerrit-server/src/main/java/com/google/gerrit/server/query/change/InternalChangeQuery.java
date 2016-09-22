@@ -25,7 +25,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -282,10 +281,5 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
       groupPredicates.add(new GroupPredicate(g));
     }
     return query(and(project(project), or(groupPredicates)));
-  }
-
-  @SuppressWarnings("deprecation")
-  public List<ChangeData> byIsStarred(Account.Id id) throws OrmException {
-    return query(new IsStarredByPredicate(id));
   }
 }

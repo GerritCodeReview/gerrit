@@ -130,8 +130,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String HASHTAG_FIELD =
       ChangeField.HASHTAG_CASE_AWARE.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
-  @Deprecated
-  private static final String STARREDBY_FIELD = ChangeField.STARREDBY.getName();
 
   static Term idTerm(ChangeData cd) {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
@@ -485,9 +483,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(HASHTAG_FIELD)) {
       decodeHashtags(doc, cd);
     }
-    if (fields.contains(STARREDBY_FIELD)) {
-      decodeStarredBy(doc, cd);
-    }
     if (fields.contains(STAR_FIELD)) {
       decodeStar(doc, cd);
     }
@@ -575,17 +570,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       hashtags.add(r.binaryValue().utf8ToString());
     }
     cd.setHashtags(hashtags);
-  }
-
-  @Deprecated
-  private void decodeStarredBy(Multimap<String, IndexableField> doc, ChangeData cd) {
-    Collection<IndexableField> starredBy = doc.get(STARREDBY_FIELD);
-    Set<Account.Id> accounts =
-        Sets.newHashSetWithExpectedSize(starredBy.size());
-    for (IndexableField r : starredBy) {
-      accounts.add(new Account.Id(r.numericValue().intValue()));
-    }
-    cd.setStarredBy(accounts);
   }
 
   private void decodeStar(Multimap<String, IndexableField> doc, ChangeData cd) {

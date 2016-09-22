@@ -689,10 +689,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new StarPredicate(who, StarredChangesUtil.DEFAULT_LABEL);
     }
 
-    if (args.getSchema().hasField(ChangeField.STARREDBY)) {
-      return new IsStarredByPredicate(who);
-    }
-
     try {
       // starred changes are not contained in the index, we must read them from
       // git

@@ -26,21 +26,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ReviewerPredicate extends ChangeIndexPredicate {
-  @SuppressWarnings("deprecation")
   static Predicate<ChangeData> create(Arguments args, Account.Id id) {
     List<Predicate<ChangeData>> and = new ArrayList<>(2);
-    if (args.getSchema().hasField(ChangeField.REVIEWER)) {
-      ReviewerStateInternal[] states = ReviewerStateInternal.values();
-      List<Predicate<ChangeData>> or = new ArrayList<>(states.length - 1);
-      for (ReviewerStateInternal state : states) {
-        if (state != ReviewerStateInternal.REMOVED) {
-          or.add(new ReviewerPredicate(state, id));
-        }
+    ReviewerStateInternal[] states = ReviewerStateInternal.values();
+    List<Predicate<ChangeData>> or = new ArrayList<>(states.length - 1);
+    for (ReviewerStateInternal state : states) {
+      if (state != ReviewerStateInternal.REMOVED) {
+        or.add(new ReviewerPredicate(state, id));
       }
-      and.add(Predicate.or(or));
-    } else {
-      and.add(new LegacyReviewerPredicate(id));
     }
+    and.add(Predicate.or(or));
 
     // TODO(dborowitz): This really belongs much higher up e.g. QueryProcessor.
     if (!args.allowsDrafts) {

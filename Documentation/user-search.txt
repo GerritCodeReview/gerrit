@@ -321,6 +321,20 @@ is:merged, is:abandoned::
 +
 Same as <<status,status:'STATE'>>.
 
+is:submittable::
++
+True if the change is submittable according to the submit rules for
+the project, for example if all necessary labels have been voted on.
++
+This operator only takes into account one change at a time, not any
+related changes, and does not guarantee that the submit button will
+appear for matching changes. To check whether a submit button appears,
+use the
+link:rest-api-changes.html#get-revision-actions[Get Revision Actions]
+API.
++
+Equivalent to <<submittable,submittable:ok>>.
+
 [[mergeable]]
 is:mergeable::
 +
@@ -394,6 +408,15 @@ Changes where 'COMMITTER' is the committer of the current patch set.
 'COMMITTER' may be the committer's exact email address, or part of the name or
 email address.
 
+[[submittable]]
+submittable:'SUBMIT_STATUS'::
++
+Changes having the given submit record status after applying submit
+rules. Valid statuses are in the `status` field of
+link:rest-api-changes.html#submit-record[SubmitRecord]. This operator
+only applies to the top-level status; individual label statuses can be
+searched link:#labels[by label].
+
 
 == Argument Quoting
 
@@ -448,8 +471,10 @@ A label name is any of the following:
   ('user=' or 'group=').  If an LDAP group is being referenced make
   sure to use 'ldap/<groupname>'.
 
-A label name must be followed by a score, or an operator and a score.
-The easiest way to explain this is by example.
+A label name must be followed by either a score with optional operator,
+or a label status. The easiest way to explain this is by example.
++
+First, some examples of scores with operators:
 
 `label:Code-Review=2`::
 `label:Code-Review=+2`::
@@ -473,8 +498,20 @@ Scores of +2 are not matched, even though they are higher.
 `label:Code-Review>=1`::
 +
 Matches changes with either a +1, +2, or any higher score.
++
+Instead of a numeric vote, you can provide a label status corresponding
+to one of the fields in the
+link:rest-api-changes.html#submit-record[SubmitRecord] REST API entity.
+
+`label:Non-Author-Code-Review=need`::
++
+Matches changes where the submit rules indicate that a label named
+`Non-Author-Code-Review` is needed. (See the
+link:prolog-cookbook.html#NonAuthorCodeReview[Prolog Cookbook] for how
+this label can be configured.)
 
 `label:Code-Review=+2,aname`::
+`label:Code-Review=ok,aname`::
 +
 Matches changes with a +2 code review where the reviewer or group is aname.
 
@@ -483,7 +520,9 @@ Matches changes with a +2 code review where the reviewer or group is aname.
 Matches changes with a +2 code review where the reviewer is jsmith.
 
 `label:Code-Review=+2,user=owner`::
+`label:Code-Review=ok,user=owner`::
 `label:Code-Review=+2,owner`::
+`label:Code-Review=ok,owner`::
 +
 The special "owner" parameter corresponds to the change owner.  Matches
 all changes that have a +2 vote from the change owner.
@@ -498,10 +537,14 @@ ldap/linux.workflow group.
 Matches changes with either a -1, -2, or any lower score.
 
 `is:open label:Code-Review+2 label:Verified+1 NOT label:Verified-1 NOT label:Code-Review-2`::
+`is:open label:Code-Review=ok label:Verified=ok`::
 +
-Matches changes that are ready to be submitted.
+Matches changes that are ready to be submitted according to one common
+label configuration. (For a more general check, use
+link:#submittable[submittable:ok].)
 
 `is:open (label:Verified-1 OR label:Code-Review-2)`::
+`is:open (label:Verified=reject OR label:Code-Review:reject)`::
 +
 Changes that are blocked from submission due to a blocking score.
 

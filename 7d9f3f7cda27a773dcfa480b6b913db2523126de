@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d013a30f_f496383c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-09-22T07:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7023d73a_797fe7b1",
+      "revId": "7d9f3f7cda27a773dcfa480b6b913db2523126de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "501413d4_583f7d12",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-22T07:34:15Z",
       "side": 1,
       "message": "Don\u0027t parse the text, use msg._revisionNumber()",
+      "revId": "7d9f3f7cda27a773dcfa480b6b913db2523126de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d013a30f_d49b3c62",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-09-22T07:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "501413d4_583f7d12",
       "revId": "7d9f3f7cda27a773dcfa480b6b913db2523126de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

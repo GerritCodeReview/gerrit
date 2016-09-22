@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_0cf65756",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T12:10:43Z",
+      "side": 1,
+      "message": "\u003e The only reason I can think of right now\n\nAnother possibility: we are recreating the database and git repositories on each test method invocation, but not recreating the index. So maybe the changes are getting filtered out because they belong to nonexistent projects or something.\n\nIf this is the case, I really think we need to fix it to be consistent. The tests are supposed to be somewhat realistic, and a polluted index with data that doesn\u0027t correspond to the state in ReviewDb is not exactly realistic.",
+      "parentUuid": "b0a54f1d_2b56995b",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_ccf72f73",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
         "patchSetId": 67

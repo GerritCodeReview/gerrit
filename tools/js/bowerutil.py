@@ -42,6 +42,6 @@ def hash_bower_component(hash_obj, path):
         continue
       p = os.path.join(root, f)
       hash_obj.update(p[len(path)+1:])
-      hash_file(hash_obj, p)
+      hash_obj.update(open(p).read())
 
   return hash_obj

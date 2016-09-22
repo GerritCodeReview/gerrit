@@ -1,6 +1,14 @@
+load('//tools/bzl:unsign.bzl', 'unsign_jars')
+
 java_library(
-  name = 'jgit-servlet',
+  name = 'jgit-servlet-unsigned',
   exports = ['@jgit_servlet//jar'],
   runtime_deps = ['//lib/jgit/org.eclipse.jgit:jgit'],
+  visibility = ['//visibility:public'],
+)
+
+unsign_jars(
+  name = 'jgit-servlet',
+  deps = [':jgit-servlet-unsigned'],
   visibility = ['//visibility:public'],
 )

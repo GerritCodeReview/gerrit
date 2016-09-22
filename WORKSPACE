@@ -787,15 +787,22 @@ maven_jar(
   sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
 )
 
-load("//tools/bzl:js.bzl", "npm_binary", "bower_tarball")
+load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
 npm_binary(
   name = "bower",
 )
 
-bower_tarball(
+bower_archive(
   name = 'accessibility-developer-tools',
   package = 'accessibility-developer-tools',
   version = '2.10.0',
   sha1 = 'bc1a5e56ff1bed7a7a6ef22a4b4e8300e4822aa5',
+)
+
+bower_archive(
+  name = 'iron-autogrow-textarea',
+  package = 'polymerelements/iron-autogrow-textarea',
+  version = '1.0.12',
+  sha1 = 'b9b6874c9a2b5be435557a827ff8bd6661672ee3',
 )

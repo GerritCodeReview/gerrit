@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "501413d4_f8f3f198",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:00:21Z",
+      "side": 1,
+      "message": "ImmutableList",
+      "revId": "0c038df2b7f64b2a62119ce145db68e42dc12ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023d73a_f91457af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T07:00:21Z",
+      "side": 1,
+      "message": "My suggestion was actually to collect these in a list without deduplicating here, since List#contains is O(n).\n\nThen in buildState above, call:\n\n Sets.newLinkedHashSet(Lists.reverse(pastAssignees))\n\nFor example, if the assignee order was:\n\n* user A\n* user B\n* user A\n* user C\n\nThen:\n\n* pastAssignees ends up as [C, A, B, A] (since we parse in reverse order)\n* reverse(pastAssignees) is [A, B, A, C]\n* creating a LinkedHashSet from this produces {A, B, C}\n\nIn other words the set contains each assignee exactly once (being a Set), in the order of first appearance.",
+      "revId": "0c038df2b7f64b2a62119ce145db68e42dc12ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

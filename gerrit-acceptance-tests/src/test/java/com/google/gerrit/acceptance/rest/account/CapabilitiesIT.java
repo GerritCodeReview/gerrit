@@ -26,7 +26,6 @@ import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -40,13 +39,9 @@ public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
   public void testCapabilitiesUser() throws Exception {
-    Iterable<String> all = Iterables.filter(GlobalCapability.getAllNames(),
-        new Predicate<String>() {
-          @Override
-          public boolean apply(String in) {
-            return !ADMINISTRATE_SERVER.equals(in) && !PRIORITY.equals(in);
-          }
-        });
+    Iterable<String> all = Iterables.filter(
+        GlobalCapability.getAllNames(),
+        c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c));
 
     allowGlobalCapabilities(REGISTERED_USERS, all);
     try {

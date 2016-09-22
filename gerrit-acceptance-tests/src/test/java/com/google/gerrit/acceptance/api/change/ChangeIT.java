@@ -30,7 +30,6 @@ import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -1940,12 +1939,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private static Iterable<Account.Id> getReviewers(
       Collection<AccountInfo> r) {
-    return Iterables.transform(r, new Function<AccountInfo, Account.Id>() {
-      @Override
-      public Account.Id apply(AccountInfo account) {
-        return new Account.Id(account._accountId);
-      }
-    });
+    return Iterables.transform(r, a -> new Account.Id(a._accountId));
   }
 
   private ChangeResource parseResource(PushOneCommit.Result r)

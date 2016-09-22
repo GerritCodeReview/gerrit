@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedListMultimap;
@@ -90,16 +89,6 @@ public class EventRecorder {
     return String.format("%s-%s-%s", type, project, ref);
   }
 
-  private static class RefEventTransformer<T extends RefEvent>
-      implements Function<RefEvent, T> {
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public T apply(RefEvent e) {
-      return (T) e;
-    }
-  }
-
   private ImmutableList<RefUpdatedEvent> getRefUpdatedEvents(String project,
       String refName, int expectedSize) {
     String key = refEventKey(RefUpdatedEvent.TYPE, project, refName);
@@ -111,7 +100,7 @@ public class EventRecorder {
     assertThat(recordedEvents).containsKey(key);
     ImmutableList<RefUpdatedEvent> events = FluentIterable
         .from(recordedEvents.get(key))
-        .transform(new RefEventTransformer<RefUpdatedEvent>())
+        .transform(RefUpdatedEvent.class::cast)
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
@@ -128,7 +117,7 @@ public class EventRecorder {
     assertThat(recordedEvents).containsKey(key);
     ImmutableList<ChangeMergedEvent> events = FluentIterable
         .from(recordedEvents.get(key))
-        .transform(new RefEventTransformer<ChangeMergedEvent>())
+        .transform(ChangeMergedEvent.class::cast)
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
@@ -144,7 +133,7 @@ public class EventRecorder {
     assertThat(recordedEvents).containsKey(key);
     ImmutableList<ReviewerDeletedEvent> events = FluentIterable
         .from(recordedEvents.get(key))
-        .transform(new RefEventTransformer<ReviewerDeletedEvent>())
+        .transform(ReviewerDeletedEvent.class::cast)
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;

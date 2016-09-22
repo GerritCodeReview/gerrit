@@ -19,7 +19,6 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThat
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -208,15 +207,14 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   private Iterable<ProjectInfo> filter(Iterable<ProjectInfo> infos) {
-    final String prefix = name("");
-    return Iterables.filter(infos, new Predicate<ProjectInfo>() {
-      @Override
-      public boolean apply(ProjectInfo in) {
-        return in.name != null && (
-            in.name.equals(allProjects.get())
-            || in.name.equals(allUsers.get())
-            || in.name.startsWith(prefix));
-      }
-    });
+    String prefix = name("");
+    return Iterables.filter(
+        infos,
+        p -> {
+          return p.name != null && (
+              p.name.equals(allProjects.get())
+              || p.name.equals(allUsers.get())
+              || p.name.startsWith(prefix));
+        });
   }
 }

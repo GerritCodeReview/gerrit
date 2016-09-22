@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 
@@ -48,12 +47,7 @@ public class BranchAssert {
   }
 
   private static Iterable<String> refs(Iterable<BranchInfo> infos) {
-    return Iterables.transform(infos, new Function<BranchInfo, String>() {
-      @Override
-      public String apply(BranchInfo in) {
-        return in.ref;
-      }
-    });
+    return Iterables.transform(infos, b -> b.ref);
   }
 
   private static boolean toBoolean(Boolean b) {

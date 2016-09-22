@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -722,29 +723,21 @@ public class CommentsIT extends AbstractDaemonTest {
     return c;
   }
 
-  private static Function<CommentInfo, CommentInput> infoToInput(
-      final String path) {
-    return new Function<CommentInfo, CommentInput>() {
-      @Override
-      public CommentInput apply(CommentInfo info) {
-        CommentInput ci = new CommentInput();
-        ci.path = path;
-        copy(info, ci);
-        return ci;
-      }
-    };
+  private static Function<CommentInfo, CommentInput> infoToInput(String path) {
+    return infoToInput(path, CommentInput::new);
   }
 
-  private static Function<CommentInfo, DraftInput> infoToDraft(
-      final String path) {
-    return new Function<CommentInfo, DraftInput>() {
-      @Override
-      public DraftInput apply(CommentInfo info) {
-        DraftInput di = new DraftInput();
-        di.path = path;
-        copy(info, di);
-        return di;
-      }
+  private static Function<CommentInfo, DraftInput> infoToDraft(String path) {
+    return infoToInput(path, DraftInput::new);
+  }
+
+  private static <I extends Comment> Function<CommentInfo, I> infoToInput(
+      String path, Supplier<I> supplier) {
+    return info -> {
+      I i = supplier.get();
+      i.path = path;
+      copy(info, i);
+      return i;
     };
   }
 

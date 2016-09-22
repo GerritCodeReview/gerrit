@@ -18,14 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -401,12 +399,8 @@ public class GroupsIT extends AbstractDaemonTest {
   public void testListAllGroups() throws Exception {
     List<String> expectedGroups = FluentIterable
           .from(groupCache.all())
-          .transform(new Function<AccountGroup, String>() {
-            @Override
-            public String apply(AccountGroup group) {
-              return group.getName();
-            }
-          }).toSortedList(Ordering.natural());
+          .transform(AccountGroup::getName)
+          .toSortedList(Ordering.natural());
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups).inOrder();
@@ -518,14 +512,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void assertMembers(Iterable<AccountInfo> members,
       String... expectedNames) {
-    Iterable<String> memberNames = Iterables.transform(members,
-        new Function<AccountInfo, String>() {
-          @Override
-          public String apply(@Nullable AccountInfo info) {
-            return info.name;
-          }
-        });
-    assertThat(memberNames)
+    assertThat(Iterables.transform(members, i -> i.name))
         .containsExactlyElementsIn(Arrays.asList(expectedNames)).inOrder();
   }
 
@@ -540,15 +527,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private static void assertIncludes(
       Iterable<GroupInfo> includes, String... expectedNames) {
-    Iterable<String> includeNames = Iterables.transform(
-        includes,
-        new Function<GroupInfo, String>() {
-          @Override
-          public String apply(@Nullable GroupInfo info) {
-            return info.name;
-          }
-        });
-    assertThat(includeNames)
+    assertThat(Iterables.transform(includes, i -> i.name))
         .containsExactlyElementsIn(Arrays.asList(expectedNames)).inOrder();
   }
 

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -36,13 +35,7 @@ public class AccountAssert {
       List<AccountInfo> actual) {
     Iterable<Account.Id> expectedIds = TestAccount.ids(expected);
     Iterable<Account.Id> actualIds = Iterables.transform(
-        actual,
-        new Function<AccountInfo, Account.Id>() {
-          @Override
-          public Account.Id apply(AccountInfo in) {
-            return new Account.Id(in._accountId);
-          }
-        });
+        actual, a -> new Account.Id(a._accountId));
     assertThat(actualIds).containsExactlyElementsIn(expectedIds).inOrder();
     for (int i = 0; i < expected.size(); i++) {
       AccountAssert.assertAccountInfo(expected.get(i), actual.get(i));

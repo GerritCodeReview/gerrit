@@ -31,7 +31,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -753,13 +752,7 @@ public class AccountIT extends AbstractDaemonTest {
     Map<String, GpgKeyInfo> keyMap = gApi.accounts().self().listGpgKeys();
     assertThat(keyMap.keySet())
         .named("keys returned by listGpgKeys()")
-        .containsExactlyElementsIn(
-          expected.transform(new Function<TestKey, String>() {
-            @Override
-            public String apply(TestKey in) {
-              return in.getKeyIdString();
-            }
-          }));
+        .containsExactlyElementsIn(expected.transform(TestKey::getKeyIdString));
 
     for (TestKey key : expected) {
       assertKeyEquals(key, gApi.accounts().self().gpgKey(
@@ -771,23 +764,13 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Check raw external IDs.
     Account.Id currAccountId = atrScope.get().getUser().getAccountId();
-    assertThat(
-        GpgKeys.getGpgExtIds(db, currAccountId)
-          .transform(new Function<AccountExternalId, String>() {
-            @Override
-            public String apply(AccountExternalId in) {
-              return in.getSchemeRest();
-            }
-          }))
+    Iterable<String> expectedFps = expected.transform(
+        k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
+    Iterable<String> actualFps = GpgKeys.getGpgExtIds(db, currAccountId)
+        .transform(AccountExternalId::getSchemeRest);
+    assertThat(actualFps)
         .named("external IDs in database")
-        .containsExactlyElementsIn(
-            expected.transform(new Function<TestKey, String>() {
-              @Override
-              public String apply(TestKey in) {
-                return BaseEncoding.base16().encode(
-                    in.getPublicKey().getFingerprint());
-              }
-            }));
+        .containsExactlyElementsIn(expectedFps);
 
     // Check raw stored keys.
     for (TestKey key : expected) {

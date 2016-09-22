@@ -16,8 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -287,13 +285,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private TestAccount user(String name, String fullName, String emailName,
       AccountGroup... groups) throws Exception {
-    String[] groupNames = FluentIterable.from(Arrays.asList(groups))
-        .transform(new Function<AccountGroup, String>() {
-          @Override
-          public String apply(AccountGroup in) {
-            return in.getName();
-          }
-        }).toArray(String.class);
+    String[] groupNames = Arrays.stream(groups)
+        .map(AccountGroup::getName)
+        .toArray(String[]::new);
     return accounts.create(name(name), name(emailName) + "@example.com",
         fullName, groupNames);
   }

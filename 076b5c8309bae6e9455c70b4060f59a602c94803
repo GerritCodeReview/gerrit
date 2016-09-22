@@ -16,6 +16,24 @@
       "revId": "076b5c8309bae6e9455c70b4060f59a602c94803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_ec5f8b0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAssignee.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T13:16:20Z",
+      "side": 1,
+      "message": "Discussed it F2F. Decided to keep it (at least for now) for consistency with other RESTApi points like topic and to scripting abilities.",
+      "parentUuid": "b0a54f1d_eb3ad1f3",
+      "revId": "076b5c8309bae6e9455c70b4060f59a602c94803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

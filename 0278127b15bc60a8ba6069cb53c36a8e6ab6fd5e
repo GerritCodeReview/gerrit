@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "b0a54f1d_ab73a942",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_cc828f02",
+      "revId": "0278127b15bc60a8ba6069cb53c36a8e6ab6fd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_2c88731f",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2016-09-22T09:37:00Z",
       "side": 1,
       "message": "(but adding new optional fields is generally ok)",
+      "revId": "0278127b15bc60a8ba6069cb53c36a8e6ab6fd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_cc9baf62",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T09:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_2c88731f",
       "revId": "0278127b15bc60a8ba6069cb53c36a8e6ab6fd5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

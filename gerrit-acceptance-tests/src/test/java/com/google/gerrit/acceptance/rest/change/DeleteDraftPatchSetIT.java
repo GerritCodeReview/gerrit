@@ -33,7 +33,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
@@ -152,8 +152,8 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     for (ChangeMessage m : cd.messages()) {
       assertThat(m.getPatchSetId()).named(m.toString()).isNotEqualTo(delPsId);
     }
-    for (PatchLineComment c : cd.publishedComments()) {
-      assertThat(c.getPatchSetId()).named(c.toString()).isNotEqualTo(delPsId);
+    for (Comment c : cd.publishedComments()) {
+      assertThat(c.key.patchSetId).named(c.toString()).isNotEqualTo(delPsId.get());
     }
   }
 
@@ -187,8 +187,8 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     for (ChangeMessage m : cd.messages()) {
       assertThat(m.getPatchSetId()).named(m.toString()).isNotEqualTo(delPsId);
     }
-    for (PatchLineComment c : cd.publishedComments()) {
-      assertThat(c.getPatchSetId()).named(c.toString()).isNotEqualTo(delPsId);
+    for (Comment c : cd.publishedComments()) {
+      assertThat(c.key.patchSetId).named(c.toString()).isNotEqualTo(delPsId.get());
     }
   }
 

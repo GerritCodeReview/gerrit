@@ -22,7 +22,7 @@ import com.google.gerrit.server.account.AuthResult;
 
 public interface WebSession {
   boolean isSignedIn();
-  String getXGerritAuth();
+  @Nullable String getXGerritAuth();
   boolean isValidXGerritAuth(String keyIn);
   AccountExternalId.Key getLastLoginExternalId();
   CurrentUser getUser();

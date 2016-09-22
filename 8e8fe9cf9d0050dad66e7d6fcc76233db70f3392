@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "f0c8a7e8_e57dd60c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T17:17:13Z",
+      "side": 1,
+      "message": "I feel this is different because it\u0027s an object, not a function. I do notice that the indentation is incorrect, though.",
+      "parentUuid": "b091cf63_0e042b20",
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_4d0d4d49",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8
@@ -36,6 +54,24 @@
       "writtenOn": "2016-09-21T22:58:52Z",
       "side": 1,
       "message": "Delete newline",
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0c8a7e8_c5825a02",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T17:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_4d0d4d49",
       "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
         "endLine": 465,
         "endChar": 19
       },
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70dd979f_a9ee1db2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T17:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_8d1d8580",
       "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +153,24 @@
         "endLine": 474,
         "endChar": 26
       },
+      "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70dd979f_89f3599a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-22T17:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_0d135570",
       "revId": "8e8fe9cf9d0050dad66e7d6fcc76233db70f3392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

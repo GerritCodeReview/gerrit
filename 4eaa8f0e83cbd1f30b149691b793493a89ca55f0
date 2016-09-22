@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0a803f6_ccf60fc0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3814,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T15:47:12Z",
+      "side": 1,
+      "message": "This is still used in QueryAccounts. We still want this feature for suggestion accounts when adding members to a group, only not for the reviewer suggestion. This means we want to keep the description, but update it to say when it applies and when not.",
+      "range": {
+        "startLine": 3814,
+        "startChar": 16,
+        "endLine": 3814,
+        "endChar": 28
+      },
+      "revId": "4eaa8f0e83cbd1f30b149691b793493a89ca55f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b5f342_f0f2c084",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 1
@@ -607,6 +630,24 @@
       "side": 1,
       "message": "There are a lot of places in Gerrit where we drop an exception that won\u0027t occur without a log. Are you sure we want a log here?",
       "parentUuid": "d0a803f6_2cf99346",
+      "revId": "4eaa8f0e83cbd1f30b149691b793493a89ca55f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_ab744963",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T15:47:12Z",
+      "side": 1,
+      "message": "We don\u0027t expect this to happen, so a log cannot harm.\nIf it appears in the log we know something is wrong with our assumption and we should do a fix. So I think it\u0027s worth logging.",
+      "parentUuid": "b0a54f1d_4bede517",
       "revId": "4eaa8f0e83cbd1f30b149691b793493a89ca55f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

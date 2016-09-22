@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
@@ -30,10 +29,10 @@ class AssigneePredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     if (id.get() == ChangeField.NO_ASSIGNEE) {
-      Optional<Account.Id> assignee = object.notes().load().getAssignee();
-      return assignee == null || !assignee.isPresent();
+      Account.Id assignee = object.change().getAssignee();
+      return assignee == null;
     }
-    return id.equals(object.notes().load().getAssignee().get());
+    return id.equals(object.change().getAssignee());
   }
 
   @Override

@@ -32,7 +32,6 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -48,23 +47,19 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private final AccountsCollection accounts;
   private final ChangeMessagesUtil cmUtil;
   private final AccountInfoCacheFactory.Factory accountInfosFactory;
-  private final NotesMigration notesMigration;
   private final String anonymousCowardName;
   private final DynamicSet<AssigneeValidationListener> validationListeners;
 
-  private Change change;
   private Account newAssignee;
 
   @AssistedInject
   SetAssigneeOp(AccountsCollection accounts,
-      NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
       @AnonymousCowardName String anonymousCowardName,
       @Assisted AssigneeInput input,
       DynamicSet<AssigneeValidationListener> validationListeners) {
     this.accounts = accounts;
-    this.notesMigration = notesMigration;
     this.cmUtil = cmUtil;
     this.accountInfosFactory = accountInfosFactory;
     this.anonymousCowardName = anonymousCowardName;
@@ -75,15 +70,13 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   @Override
   public boolean updateChange(BatchUpdate.ChangeContext ctx)
       throws OrmException, RestApiException {
-    if (!notesMigration.readChanges()) {
-      throw new BadRequestException(
-          "Cannot add Assignee; NoteDb is disabled");
-    }
     if (!ctx.getControl().canEditAssignee()) {
       throw new AuthException("Changing Assignee not permitted");
     }
-    ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    Optional<Account.Id> oldAssigneeId = update.getNotes().getAssignee();
+    Change change = ctx.getChange();
+    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
+    Optional<Account.Id> oldAssigneeId =
+        Optional.fromNullable(ctx.getChange().getAssignee());
     if (input.assignee == null) {
       if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
         throw new AuthException("Cannot set Assignee to empty");
@@ -117,7 +110,10 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     } catch (ValidationException e) {
       throw new BadRequestException(e.getMessage());
     }
+    // notedb
     update.setAssignee(newAssigneeUser.getAccountId());
+    // reviewdb
+    change.setAssignee(newAssigneeUser.getAccountId());
     this.newAssignee = newAssigneeUser.getAccount();
     addMessage(ctx, update, oldAssignee);
     return true;

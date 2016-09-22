@@ -24,7 +24,6 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
@@ -119,7 +118,6 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
-  private static final String ASSIGNEE_FIELD = ChangeField.ASSIGNEE.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
@@ -475,9 +473,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REVIEWEDBY_FIELD)) {
       decodeReviewedBy(doc, cd);
     }
-    if(fields.contains(ASSIGNEE_FIELD)) {
-      decodeAssignee(doc, cd);
-    }
     if (fields.contains(HASHTAG_FIELD)) {
       decodeHashtags(doc, cd);
     }
@@ -547,18 +542,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
       cd.setReviewedBy(accounts);
     }
-  }
-
-  private void decodeAssignee(Multimap<String, IndexableField> doc, ChangeData cd) {
-    IndexableField af = Iterables.getFirst(doc.get(ASSIGNEE_FIELD), null);
-    Account.Id assignee = null;
-    if (af != null) {
-      int id = af.numericValue().intValue();
-      if (id > 0) {
-        assignee = new Account.Id(id);
-      }
-    }
-    cd.setAssignee(Optional.fromNullable(assignee));
   }
 
   private void decodeHashtags(Multimap<String, IndexableField> doc, ChangeData cd) {

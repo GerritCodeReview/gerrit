@@ -299,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "7023d73a_59d0e3be",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-22T07:40:03Z",
+      "side": 1,
+      "message": "I can use XContentFactory here... but still it will me somehow \"manual\" json construction",
+      "parentUuid": "b091cf63_eb37d1e6",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_ca6cc3c8",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 65
@@ -520,6 +538,24 @@
     },
     {
       "key": {
+        "uuid": "501413d4_385de972",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-22T07:40:03Z",
+      "side": 1,
+      "message": "will remove this comment entirely",
+      "parentUuid": "9084cb25_8ab3ab56",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_6b65a1e5",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
         "patchSetId": 65
@@ -531,6 +567,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "I guess you\u0027re copying Lucene here but this seems like an incorrect heuristic. Ending with \"x\\\\\\$\" means the final $ is escaped.",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023d73a_198cabe0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-22T07:40:03Z",
+      "side": 1,
+      "message": "wlll add another condition for the $ with escaped backslash",
+      "parentUuid": "b091cf63_6b65a1e5",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -712,6 +766,24 @@
     },
     {
       "key": {
+        "uuid": "7023d73a_d9b63393",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-22T07:40:03Z",
+      "side": 1,
+      "message": "will remove this loop",
+      "parentUuid": "b091cf63_eb50b1fd",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_0af25bff",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 65
@@ -723,6 +795,24 @@
       "writtenOn": "2016-09-21T11:22:39Z",
       "side": 1,
       "message": "You want to restart the server on each test method invocation? That seems like it would be slow.\n\nFor our googlesource.com index implementation, starting the index server is extremely slow (tens of seconds). What we do is start up the index server in a @ClassRule, and pre-create one index on the server for each of the N test methods that we plan to execute. That way we get data isolation without having to start/top the server N times.\n\nI\u0027m not saying you have to do that now, but if this becomes too slow (say, slower than all the other acceptance test suites :) then it\u0027s something to consider.",
+      "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023d73a_99b0bb96",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 65
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-22T07:40:03Z",
+      "side": 1,
+      "message": "You are right, it is better to start elasticsearch once, will remove `startIndexSercive` method and rewrite initialization code in `ElasticQueryChangesTest`",
+      "parentUuid": "9084cb25_0af25bff",
       "revId": "fa02da027fd47a8fc726a3b898d86876a324edeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

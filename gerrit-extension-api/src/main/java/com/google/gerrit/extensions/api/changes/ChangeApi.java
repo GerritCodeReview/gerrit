@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -140,6 +141,26 @@ public interface ChangeApi {
    * @throws RestApiException
    */
   Set<String> getHashtags() throws RestApiException;
+
+  /**
+   * Set the assignee of a change.
+   */
+  AccountInfo setAssignee(AssigneeInput input) throws RestApiException;
+
+  /**
+   * Get the assignee of a change.
+   */
+  AccountInfo getAssignee() throws RestApiException;
+
+  /**
+   * Get all past assignees.
+  */
+  Set<AccountInfo> getPastAssignees() throws RestApiException;
+
+  /**
+   * Delete the assignee of a change.
+   */
+  AccountInfo deleteAssignee() throws RestApiException;
 
   /**
    * Get all published comments on a change.
@@ -325,6 +346,27 @@ public interface ChangeApi {
 
     @Override
     public Set<String> getHashtags() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountInfo setAssignee(AssigneeInput input)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountInfo getAssignee() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Set<AccountInfo> getPastAssignees() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountInfo deleteAssignee() throws RestApiException {
       throw new NotImplementedException();
     }
 

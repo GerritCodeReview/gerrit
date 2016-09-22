@@ -120,12 +120,7 @@ public class SubmitRuleEvaluator {
   public SubmitRuleEvaluator setOptions(SubmitRuleOptions opts) {
     checkNotStarted();
     if (opts != null) {
-      optsBuilder = SubmitRuleOptions.builder()
-          .fastEvalLabels(opts.fastEvalLabels())
-          .allowDraft(opts.allowDraft())
-          .allowClosed(opts.allowClosed())
-          .skipFilters(opts.skipFilters())
-          .rule(opts.rule());
+      optsBuilder = opts.toBuilder();
     } else {
       optsBuilder = SubmitRuleOptions.defaults();
     }

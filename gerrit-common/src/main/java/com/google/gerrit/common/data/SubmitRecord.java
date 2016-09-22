@@ -24,6 +24,9 @@ import java.util.Objects;
  */
 public class SubmitRecord {
   public enum Status {
+    // NOTE: These values are persisted in the index, so deleting or changing
+    // the name of any values requires a schema upgrade.
+
     /** The change is ready for submission. */
     OK,
 
@@ -50,6 +53,9 @@ public class SubmitRecord {
 
   public static class Label {
     public enum Status {
+      // NOTE: These values are persisted in the index, so deleting or changing
+      // the name of any values requires a schema upgrade.
+
       /**
        * This label provides what is necessary for submission.
        * <p>

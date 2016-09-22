@@ -55,4 +55,13 @@ public abstract class SubmitRuleOptions {
 
     public abstract SubmitRuleOptions build();
   }
+
+  public Builder toBuilder() {
+    return builder()
+        .fastEvalLabels(fastEvalLabels())
+        .allowDraft(allowDraft())
+        .allowClosed(allowClosed())
+        .skipFilters(skipFilters())
+        .rule(rule());
+  }
 }

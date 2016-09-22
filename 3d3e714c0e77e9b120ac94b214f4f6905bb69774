@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_6c06fbc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T15:36:10Z",
+      "side": 1,
+      "message": "This is the same as your HashtagValidatorLister, so it should be correct :)\n\nIt shows up as a red error message below the assignfield in the UI.",
+      "parentUuid": "d0a803f6_0c0f77e8",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 35
+      },
+      "revId": "3d3e714c0e77e9b120ac94b214f4f6905bb69774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_4c197f2e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/AssigneeValidationListener.java",
         "patchSetId": 2

@@ -71,6 +71,30 @@
       "revId": "2249c68450bf0a099e2b8bfbc9b5250c4da79903",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d013a30f_54a28c4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T09:21:04Z",
+      "side": 1,
+      "message": "Fair enough, will keep that in mind next time.",
+      "parentUuid": "d013a30f_94bb8479",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "2249c68450bf0a099e2b8bfbc9b5250c4da79903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

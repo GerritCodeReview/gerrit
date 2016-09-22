@@ -143,6 +143,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private Change loadChangeFromDb(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException {
       Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
+      checkArgument(project != null, "project is required");
       checkNotNull(change,
           "change %s not found in ReviewDb", changeId);
       checkArgument(change.getProject().equals(project),
@@ -180,17 +181,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createForBatchUpdate(Change change) throws OrmException {
       return new ChangeNotes(args, change, false, null).load();
-    }
-
-    // TODO(dborowitz): Remove when deleting index schemas <27.
-    public ChangeNotes createFromIdOnlyWhenNoteDbDisabled(
-        ReviewDb db, Change.Id changeId) throws OrmException {
-      checkState(!args.migration.readChanges(), "do not call"
-          + " createFromIdOnlyWhenNoteDbDisabled when NoteDb is enabled");
-      Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
-      checkNotNull(change,
-          "change %s not found in ReviewDb", changeId);
-      return new ChangeNotes(args, change).load();
     }
 
     public ChangeNotes createWithAutoRebuildingDisabled(Change change,

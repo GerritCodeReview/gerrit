@@ -243,3 +243,9 @@ java_library(
   exports = ['@postgresql//jar'],
   visibility = ['//visibility:public'],
 )
+
+java_library(
+  name = 'commons-io',
+  exports = ['@commons_io//jar'],
+  visibility = ['//visibility:public'],
+)

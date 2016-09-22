@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_ccd44fe6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-09-22T09:52:55Z",
+      "side": 1,
+      "message": "just to note, this is probably better it is inconsistent with how topic works.  topic returns 200 even if there\u0027s no topic.",
+      "revId": "29cca819ab848a34730d667b2576be4c6fa3a41d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

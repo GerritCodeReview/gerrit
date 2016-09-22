@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90d84bb1_eae807a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-22T17:24:38Z",
+      "side": 1,
+      "message": "place this on previous line.",
+      "revId": "9d696d85b9322c5164deef22d96b47cc7aeed062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70dd979f_c9ed51b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-22T17:24:38Z",
+      "side": 1,
+      "message": "why this change? I don’t see a functional difference in local testing?",
+      "revId": "9d696d85b9322c5164deef22d96b47cc7aeed062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90d84bb1_2ae33fcb",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-22T17:24:38Z",
+      "side": 0,
+      "message": "why remove this? it makes continuing text look pretty janky.",
+      "revId": "924d93f9f9e7b236ec22a476ff3c741cdb255a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

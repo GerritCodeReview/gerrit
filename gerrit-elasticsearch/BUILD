@@ -30,22 +30,34 @@ java_library(
 
 load('//tools/bzl:junit.bzl', 'junit_tests')
 
-junit_tests(
-  name = 'elasticsearch_tests',
-  tags = ['elastic', 'flaky'],
-  srcs = glob(['src/test/java/**/*.java']),
-  size = "large",
+java_library(
+  name = 'elasticsearch_test_utils',
+  srcs = glob(['src/test/java/**/ElasticTestUtils.java']),
   deps = [
-    ':elasticsearch',
     '//gerrit-extension-api:api',
     '//gerrit-server:server',
-    '//gerrit-server:testutil',
-    '//gerrit-server:query_tests_code',
     '//lib:gson',
     '//lib:guava',
     '//lib:junit',
     '//lib:truth',
     '//lib/elasticsearch:elasticsearch',
+    '//lib/jgit/org.eclipse.jgit:jgit',
+    '//lib/jgit/org.eclipse.jgit.junit:junit',
+  ],
+  testonly = 1,
+)
+
+junit_tests(
+  name = 'elasticsearch_tests',
+  tags = ['elastic', 'flaky'],
+  srcs = glob(['src/test/java/**/*Test.java']),
+  size = "large",
+  deps = [
+    ':elasticsearch_test_utils',
+    ':elasticsearch',
+    '//gerrit-server:query_tests_code',
+    '//gerrit-server:server',
+    '//gerrit-server:testutil',
     '//lib/guice:guice',
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/jgit/org.eclipse.jgit.junit:junit',

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50b5f342_d09b3c62",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T08:04:40Z",
+      "side": 1,
+      "message": "Did you confirm that messages is null instead of an empty list when there are no messages? If it\u0027s an empty list, then you will get ArrayIndexOutOfBoundsException below on line 1312.",
+      "revId": "8144fb00c1a31030d218bd28ee191e32b66db311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

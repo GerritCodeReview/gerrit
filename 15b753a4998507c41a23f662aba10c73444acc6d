@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0a803f6_2c56b35b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T12:14:43Z",
+      "side": 0,
+      "message": "If this is completely disabled for reviewer suggestions. Then the documentation for the suggest.from config parameter should be updated.",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 73
+      },
+      "revId": "15b753a4998507c41a23f662aba10c73444acc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_2cd073be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T12:14:43Z",
+      "side": 0,
+      "message": "If this is no longer needed, please remove it in a separate change.\n\nIIRC this was needed to return the matched email address for the users.\n\nE.g. if a user has 2 email addresses, foo@example.com (preferred) and bar@example.com, the user is matched for the query \u0027bar\u0027. But AccountLoader sets the preferred email address which is then displayed in the UI. So without fixing the email address in AccountInfo, if the query is \u0027bar\u0027 the suggested account would be shown as \u0027User \u003cfoo@example.com\u003e\u0027 and it\u0027s unclear why it matched.  In this case the suggestion should show \u0027User \u003cbar@example.com\u003e\u0027.\n\nIt might still work correctly if this code is removed here, as since then AccountLoader learnt to also return secondary email addresses and we set this option above. IIRC the UI is now choosing the matching email address itself by checking if it contains any of the query terms. But we should double-check this. Hence better a separate change.",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 252,
+        "endChar": 5
+      },
+      "revId": "15b753a4998507c41a23f662aba10c73444acc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b5f342_303f2814",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 1

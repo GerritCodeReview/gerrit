@@ -401,23 +401,14 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private Set<String> fields(QueryOptions opts) {
-    // Ensure we request enough fields to construct a ChangeData.
+    // Ensure we request enough fields to construct a ChangeData. We need both
+    // change ID and project, which can either come via the Change field or
+    // separate fields.
     Set<String> fs = opts.fields();
     if (fs.contains(CHANGE.getName())) {
       // A Change is always sufficient.
       return fs;
     }
-
-    if (!schema.hasField(PROJECT)) {
-      // Schema is not new enough to have project field. Ensure we have ID
-      // field, and call createOnlyWhenNoteDbDisabled from toChangeData below.
-      if (fs.contains(LEGACY_ID.getName())) {
-        return fs;
-      }
-      return Sets.union(fs, ImmutableSet.of(LEGACY_ID.getName()));
-    }
-
-    // New enough schema to have project field, so ensure that is requested.
     if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID.getName())) {
       return fs;
     }

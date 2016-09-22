@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_6c76fbce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T12:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a54f1d_ebc5b103",
+      "revId": "c06e27cd312f1b2f5bcf95abc073e7f539220830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a54f1d_8bc06df5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-22T12:05:31Z",
       "side": 1,
       "message": "Line wrapping was OK before.",
+      "revId": "c06e27cd312f1b2f5bcf95abc073e7f539220830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_8cbb6779",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T12:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a54f1d_8bc06df5",
       "revId": "c06e27cd312f1b2f5bcf95abc073e7f539220830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_2cab532a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T12:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_ecde6bcb",
+      "revId": "c06e27cd312f1b2f5bcf95abc073e7f539220830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a54f1d_abbba991",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-22T12:05:31Z",
       "side": 1,
       "message": "I\u0027m not sure it\u0027s necessary to have blank lines here.",
+      "revId": "c06e27cd312f1b2f5bcf95abc073e7f539220830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_2bf97946",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-22T12:28:39Z",
+      "side": 1,
+      "message": "I removed the bland lines.",
+      "parentUuid": "b0a54f1d_abbba991",
       "revId": "c06e27cd312f1b2f5bcf95abc073e7f539220830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -59,7 +59,6 @@ public abstract class ChangeNotesState {
     return new AutoValue_ChangeNotesState(
         change.getId(),
         null,
-        null,
         ImmutableSet.<Account.Id>of(),
         ImmutableSet.<String>of(),
         ImmutableSortedMap.<PatchSet.Id, PatchSet>of(),
@@ -85,8 +84,8 @@ public abstract class ChangeNotesState {
       @Nullable String topic,
       @Nullable String originalSubject,
       @Nullable String submissionId,
-      @Nullable Change.Status status,
       @Nullable Account.Id assignee,
+      @Nullable Change.Status status,
       @Nullable Set<Account.Id> pastAssignees,
       @Nullable Set<String> hashtags,
       Map<PatchSet.Id, PatchSet> patchSets,
@@ -114,8 +113,8 @@ public abstract class ChangeNotesState {
             topic,
             originalSubject,
             submissionId,
+            assignee,
             status),
-        assignee,
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableSortedMap.copyOf(patchSets, comparing(PatchSet.Id::get)),
@@ -150,6 +149,7 @@ public abstract class ChangeNotesState {
     @Nullable abstract String topic();
     @Nullable abstract String originalSubject();
     @Nullable abstract String submissionId();
+    @Nullable abstract Account.Id assignee();
     // TODO(dborowitz): Use a sensible default other than null
     @Nullable abstract Change.Status status();
   }
@@ -159,7 +159,6 @@ public abstract class ChangeNotesState {
   @Nullable abstract ChangeColumns columns();
 
   // Other related to this Change.
-  @Nullable abstract Account.Id assignee();
   abstract ImmutableSet<Account.Id> pastAssignees();
   abstract ImmutableSet<String> hashtags();
   abstract ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets();
@@ -187,6 +186,7 @@ public abstract class ChangeNotesState {
     change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setOwner(c.owner());
     change.setSubmissionId(c.submissionId());
+    change.setAssignee(c.assignee());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(

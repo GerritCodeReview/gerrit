@@ -46,8 +46,8 @@ def main(argv):
                  help='remote name or URL to push to')
   p.add_argument('-b', '--branch', default='', metavar='BRANCH',
                  help='remote branch name, refs/for/BRANCH')
-  p.add_argument('reviewers', nargs='*', metavar='REVIEWER',
-                 help='reviewer names or aliases')
+  p.add_argument('args', nargs='*', metavar='REVIEWER_OR_HASHTAG',
+                 help='reviewer names or aliases, or #hashtags')
   p.add_argument('-t', '--topic', default='', metavar='TOPIC',
                  help='topic for new changes')
   p.add_argument('--dry-run', action='store_true',
@@ -68,8 +68,12 @@ def main(argv):
     args.remote = args.remote or def_remote
     args.branch = args.branch or def_branch
 
+
   opts = collections.defaultdict(list)
-  opts['r'].extend((get_config('reviewer.' + r) or r) for r in args.reviewers)
+  is_hashtag = lambda x: x.startswith('#')
+  opts['r'].extend(
+      get_config('reviewer.' + r) for r in args.args if not is_hashtag(r))
+  opts['t'].extend(t[1:] for t in args.args if is_hashtag(t))
   if args.topic:
     opts['topic'].append(args.topic)
   opts_str = ','.join('%s=%s' % (k, v) for k in opts for v in opts[k])

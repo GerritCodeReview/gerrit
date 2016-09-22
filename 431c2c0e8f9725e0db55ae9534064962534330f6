@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "90d84bb1_0ae0fbba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-22T17:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_2e09e736",
+      "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_6d12116a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "90d84bb1_6add37fb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-22T17:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_6d12116a",
+      "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_ad03291b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 1
@@ -65,6 +101,42 @@
         "endLine": 499,
         "endChar": 78
       },
+      "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90d84bb1_8a14ebae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-22T17:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_ad03291b",
+      "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70dd979f_49da0105",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-22T17:39:29Z",
+      "side": 1,
+      "message": "Done. It doesn\u0027t matter they are the same or not.",
+      "parentUuid": "9084cb25_ad03291b",
       "revId": "431c2c0e8f9725e0db55ae9534064962534330f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

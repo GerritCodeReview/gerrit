@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7023d73a_b9ed7fb6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T06:32:51Z",
+      "side": 1,
+      "message": "You shouldn\u0027t have to parse the text here. History has all of the MessageInfo objects available; what\u0027s missing is a method that exposes the last MessageInfo.",
+      "revId": "7375e653542f3bd2160a419d10f3d8f227e3e31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

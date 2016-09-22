@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
@@ -42,6 +43,13 @@ public final class IndexUtils {
     } catch (ConfigInvalidException e) {
       throw new IOException(e);
     }
+  }
+
+  public static Set<String> accountFields(QueryOptions opts) {
+    Set<String> fs = opts.fields();
+    return fs.contains(ID.getName())
+        ? fs
+        : Sets.union(fs, ImmutableSet.of(ID.getName()));
   }
 
   public static Set<String> changeFields(QueryOptions opts) {

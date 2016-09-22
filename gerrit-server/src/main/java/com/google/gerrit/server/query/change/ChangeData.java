@@ -65,6 +65,7 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gwtorm.server.OrmException;
@@ -326,6 +327,9 @@ public class ChangeData {
   private final MergeabilityCache mergeabilityCache;
   private final StarredChangesUtil starredChangesUtil;
   private final Change.Id legacyId;
+  private final Map<SubmitRuleOptions, List<SubmitRecord>>
+      submitRecords = Maps.newLinkedHashMapWithExpectedSize(1);
+
   private Project.NameKey project;
   private Change change;
   private ChangeNotes notes;
@@ -341,7 +345,6 @@ public class ChangeData {
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
-  private List<SubmitRecord> submitRecords;
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
@@ -1020,12 +1023,30 @@ public class ChangeData {
     return messages;
   }
 
-  public void setSubmitRecords(List<SubmitRecord> records) {
-    submitRecords = records;
+  public List<SubmitRecord> submitRecords(
+      SubmitRuleOptions options) throws OrmException {
+    List<SubmitRecord> records = submitRecords.get(options);
+    if (records == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
+      records = new SubmitRuleEvaluator(this)
+          .setOptions(options)
+          .evaluate();
+      submitRecords.put(options, records);
+    }
+    return records;
   }
 
-  public List<SubmitRecord> getSubmitRecords() {
-    return submitRecords;
+  @Nullable
+  public List<SubmitRecord> getSubmitRecords(
+      SubmitRuleOptions options) {
+    return submitRecords.get(options);
+  }
+
+  public void setSubmitRecords(SubmitRuleOptions options,
+      List<SubmitRecord> records) {
+    submitRecords.put(options, records);
   }
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {

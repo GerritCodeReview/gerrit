@@ -108,6 +108,7 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.QueryResult;
@@ -178,7 +179,6 @@ public class ChangeJson {
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private boolean includeSubmittable;
-  private Map<Change.Id, List<SubmitRecord>> submitRecords;
   private FixInput fix;
 
   @AssistedInject
@@ -570,23 +570,14 @@ public class ChangeJson {
     return false;
   }
 
+  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS =
+      SubmitRuleOptions.defaults()
+          .fastEvalLabels(true)
+          .allowDraft(true)
+          .build();
+
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
-    // Maintain our own cache rather than using cd.getSubmitRecords(),
-    // since the latter may not have used the same values for
-    // fastEvalLabels/allowDraft/etc.
-    // TODO(dborowitz): Handle this better at the ChangeData level.
-    if (submitRecords == null) {
-      submitRecords = new HashMap<>();
-    }
-    List<SubmitRecord> records = submitRecords.get(cd.getId());
-    if (records == null) {
-      records = new SubmitRuleEvaluator(cd)
-        .setFastEvalLabels(true)
-        .setAllowDraft(true)
-        .evaluate();
-      submitRecords.put(cd.getId(), records);
-    }
-    return records;
+    return cd.submitRecords(SUBMIT_RULE_OPTIONS);
   }
 
   private Map<String, LabelInfo> labelsFor(ChangeControl ctl,

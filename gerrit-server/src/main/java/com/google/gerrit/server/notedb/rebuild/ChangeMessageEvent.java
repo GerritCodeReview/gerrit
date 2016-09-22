@@ -31,6 +31,11 @@ class ChangeMessageEvent extends Event {
   private static final Pattern TOPIC_REMOVED_REGEXP =
       Pattern.compile("^Topic (.+) removed$");
 
+  private static final Pattern STATUS_ABANDONED_REGEXP =
+      Pattern.compile("^Abandoned(\n.*)*$");
+  private static final Pattern STATUS_RESTORED_REGEXP =
+      Pattern.compile("^Restored(\n.*)*$");
+
   private final ChangeMessage message;
   private final Change noteDbChange;
 
@@ -52,6 +57,7 @@ class ChangeMessageEvent extends Event {
     checkUpdate(update);
     update.setChangeMessage(message.getMessage());
     setTopic(update);
+    setStatus(update);
   }
 
   private void setTopic(ChangeUpdate update) {
@@ -78,6 +84,23 @@ class ChangeMessageEvent extends Event {
     if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
       update.setTopic(null);
       noteDbChange.setTopic(null);
+    }
+  }
+
+  private void setStatus(ChangeUpdate update) {
+    String msg = message.getMessage();
+    if (msg == null) {
+      return;
+    }
+    if (STATUS_ABANDONED_REGEXP.matcher(msg).matches()) {
+      update.setStatus(Change.Status.ABANDONED);
+      noteDbChange.setStatus(Change.Status.ABANDONED);
+      return;
+    }
+
+    if (STATUS_RESTORED_REGEXP.matcher(msg).matches()) {
+      update.setStatus(Change.Status.NEW);
+      noteDbChange.setStatus(Change.Status.NEW);
     }
   }
 }

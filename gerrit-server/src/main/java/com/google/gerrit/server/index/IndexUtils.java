@@ -44,7 +44,7 @@ public final class IndexUtils {
     }
   }
 
-  public static Set<String> fields(QueryOptions opts) {
+  public static Set<String> changeFields(QueryOptions opts) {
     // Ensure we request enough fields to construct a ChangeData. We need both
     // change ID and project, which can either come via the Change field or
     // separate fields.

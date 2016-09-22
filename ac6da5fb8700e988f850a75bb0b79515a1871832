@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b0a54f1d_0b52bd2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-22T13:35:45Z",
+      "side": 1,
+      "message": "optional: With Java 8 these finals could be removed\n\nCan also be done in own change.",
+      "revId": "ac6da5fb8700e988f850a75bb0b79515a1871832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_4c369f3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1

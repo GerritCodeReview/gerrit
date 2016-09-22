@@ -42,12 +42,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteAssignee implements
-    RestModifyView<ChangeResource, Input> {
+public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   public static class Input {
 
   }
-  private BatchUpdate.Factory batchUpdateFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final NotesMigration notesMigration;
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> db;

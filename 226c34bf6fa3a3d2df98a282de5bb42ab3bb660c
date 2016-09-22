@@ -22,6 +22,52 @@
       "revId": "226c34bf6fa3a3d2df98a282de5bb42ab3bb660c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0246f48_5388c41f",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-09-22T01:01:31Z",
+      "side": 1,
+      "message": "they should resolve within the repository where the skylark file lives. If not that\u0027s a bug.",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 49
+      },
+      "revId": "226c34bf6fa3a3d2df98a282de5bb42ab3bb660c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0246f48_7385c006",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-09-22T01:01:31Z",
+      "side": 1,
+      "message": "I am even surprised this work, removing it should work just fine.",
+      "range": {
+        "startLine": 37,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 54
+      },
+      "revId": "226c34bf6fa3a3d2df98a282de5bb42ab3bb660c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

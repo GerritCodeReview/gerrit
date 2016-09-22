@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_2c41933d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T13:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_0c53f76b",
+      "revId": "ba925d55e3ffab1f0a047575dc32762d49408b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_4c5dff71",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_ac2c63a4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T13:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_4c5dff71",
+      "revId": "ba925d55e3ffab1f0a047575dc32762d49408b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a54f1d_ebf2d184",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -47,6 +83,30 @@
       "writtenOn": "2016-09-22T11:36:25Z",
       "side": 1,
       "message": "...?\n\nAlso, \"If there was no assignee...\"",
+      "range": {
+        "startLine": 954,
+        "startChar": 49,
+        "endLine": 954,
+        "endChar": 92
+      },
+      "revId": "ba925d55e3ffab1f0a047575dc32762d49408b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_cc2baf88",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T13:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a54f1d_ebf2d184",
       "range": {
         "startLine": 954,
         "startChar": 49,

@@ -38,7 +38,7 @@ public class GetAssignee implements RestReadView<ChangeResource> {
   public Response<AccountInfo> apply(ChangeResource rsrc) throws OrmException {
 
     Optional<Account.Id> assignee =
-        rsrc.getControl().getNotes().load().getAssignee();
+        Optional.fromNullable(rsrc.getChange().getAssignee());
     if (assignee.isPresent()) {
       Account account = accountInfo.create().get(assignee.get());
       return Response.ok(AccountJson.toAccountInfo(account));

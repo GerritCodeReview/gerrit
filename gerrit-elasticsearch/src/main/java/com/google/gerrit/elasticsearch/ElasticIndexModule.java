@@ -16,7 +16,6 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.index.SingleVersionModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.lucene.LuceneAccountIndex;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
@@ -56,9 +55,7 @@ public class ElasticIndexModule extends LifecycleModule {
             .build(ChangeIndex.Factory.class));
     install(
         new FactoryModuleBuilder()
-            // until we implement Elasticsearch index for accounts we need to
-            // use Lucene to make all tests green and Gerrit server to work
-            .implement(AccountIndex.class, LuceneAccountIndex.class)
+            .implement(AccountIndex.class, ElasticAccountIndex.class)
             .build(AccountIndex.Factory.class));
 
     install(new IndexModule(threads));

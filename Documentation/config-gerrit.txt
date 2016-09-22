@@ -2601,8 +2601,7 @@ Sample Lucene index configuration:
 
 ==== Elasticsearch configuration
 
-WARNING: ElasticSearch implementation is incomplete. Right now it is
-still using parts of Lucene index.
+WARNING: ElasticSearch implementation is incomplete.
 
 Open and closed changes are indexed in a single index, separated
 into types 'open_changes' and 'closed_changes' respectively.

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b0a54f1d_cb11d565",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-09-22T13:44:00Z",
+      "side": 1,
+      "message": "+1, owner makes more sense",
+      "parentUuid": "9084cb25_cade8328",
+      "revId": "72e532ea41b3888c577ff7202589f27f6287643b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_eb3191a4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 5

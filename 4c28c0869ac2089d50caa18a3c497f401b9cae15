@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "b0a54f1d_2b56995b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:54:18Z",
+      "side": 1,
+      "message": "That is very surprising. If you look at AbstractQueryChangesTest#byStatusOpen, it sure seems like those queries would end up returning more than change1 and change2 if there are other changes in the database.\n\nThe only reason I can think of right now for the observed behavior of the test passing is that it\u0027s returning other changes, but due to the fact that a new account is created for each test, they are getting filtered out by the implicit IsVisibleToPredicate.\n\nI would strongly prefer if you explicitly clear the index in between tests, or use a different index for each test.\n\nIf you really don\u0027t want to clear the index, I would at least like to have a clear and documented understanding of how it is that the tests are able to pass.",
+      "parentUuid": "b0a54f1d_eb6bf118",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_ccf72f73",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
         "patchSetId": 67
@@ -218,6 +236,24 @@
       "side": 1,
       "message": "didn\u0027t found a way how to do a \u0027checkState\u0027 so that I would get the http port number. This was the only way I found.",
       "parentUuid": "b0a54f1d_2b24d91f",
+      "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_ecc5cb03",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:54:18Z",
+      "side": 1,
+      "message": "I just meant:\n\n import static com.google.common.base.Preconditions.checkState;\n ...\n checkState(info.nodes !\u003d null \u0026\u0026 info.nodes.size \u003d\u003d 1,\n     \"Cannot extract local Elasticsearch http port);",
+      "parentUuid": "d0a803f6_ec44aba0",
       "revId": "4c28c0869ac2089d50caa18a3c497f401b9cae15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

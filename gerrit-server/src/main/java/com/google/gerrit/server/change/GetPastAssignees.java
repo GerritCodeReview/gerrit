@@ -18,10 +18,12 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountJson;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.Collections;
@@ -37,18 +39,23 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
 
   @Override
   public Response<Set<AccountInfo>> apply(ChangeResource rsrc)
-      throws Exception {
+      throws RestApiException {
 
-    Set<Account.Id> pastAssignees =
-        rsrc.getControl().getNotes().load().getPastAssignees();
-    if (pastAssignees == null) {
-      return Response.ok(Collections.emptySet());
+    try {
+      Set<Account.Id> pastAssignees =
+          rsrc.getControl().getNotes().load().getPastAssignees();
+      if (pastAssignees == null) {
+        return Response.ok(Collections.emptySet());
+      }
+      AccountInfoCacheFactory accountInfoFactory = accountInfos.create();
+
+      return Response.ok(pastAssignees.stream()
+          .map(accountInfoFactory::get)
+          .map(AccountJson::toAccountInfo)
+          .collect(toSet()));
     }
-    AccountInfoCacheFactory accountInfoFactory = accountInfos.create();
-
-    return Response.ok(pastAssignees.stream()
-        .map(accountInfoFactory::get)
-        .map(AccountJson::toAccountInfo)
-        .collect(toSet()));
+    catch (OrmException e) {
+      throw new RestApiException("Cannot get past assignees", e);
+    }
   }
 }

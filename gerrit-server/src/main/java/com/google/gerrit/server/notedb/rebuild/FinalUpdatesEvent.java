@@ -46,8 +46,7 @@ class FinalUpdatesEvent extends Event {
       // TODO(dborowitz): Stamp approximate approvals at this time.
       update.fixStatus(change.getStatus());
     }
-    if (change.getSubmissionId() != null
-        && noteDbChange.getSubmissionId() == null) {
+    if (change.getSubmissionId() != null) {
       update.setSubmissionId(change.getSubmissionId());
     }
     if (!update.isEmpty()) {

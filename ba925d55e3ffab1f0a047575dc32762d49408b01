@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_0c53f76b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:36:25Z",
+      "side": 1,
+      "message": "Long lines here and below.",
+      "revId": "ba925d55e3ffab1f0a047575dc32762d49408b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_4c5dff71",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:36:25Z",
+      "side": 1,
+      "message": "The ordering we did in ChangeNotesParser is first added first. Perhaps:\n\n\"Returns a list of every user ever assigned to a change, in the order in which they were first assigned.\"",
+      "revId": "ba925d55e3ffab1f0a047575dc32762d49408b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_ebf2d184",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:36:25Z",
+      "side": 1,
+      "message": "...?\n\nAlso, \"If there was no assignee...\"",
+      "range": {
+        "startLine": 954,
+        "startChar": 49,
+        "endLine": 954,
+        "endChar": 92
+      },
+      "revId": "ba925d55e3ffab1f0a047575dc32762d49408b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

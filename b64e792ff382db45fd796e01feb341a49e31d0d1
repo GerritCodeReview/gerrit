@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "501413d4_98e8b5a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-22T07:07:41Z",
+      "side": 1,
+      "message": "Another example is SuggestReviewersIT where we test the ranking of the reviewer suggestion. That uses the account index to create a candidate list and the change index to rank them. Quite hard to make these tests not depending on each other without @Hermetic",
+      "parentUuid": "501413d4_18c4a531",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "b64e792ff382db45fd796e01feb341a49e31d0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_8e549b1c",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 3

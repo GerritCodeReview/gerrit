@@ -38,6 +38,7 @@ class CacheProvider<K, V>
   private final TypeLiteral<V> valType;
   private boolean persist;
   private long maximumWeight;
+  private long diskLimit;
   private Long expireAfterWrite;
   private Provider<CacheLoader<K, V>> loader;
   private Provider<Weigher<K, V>> weigher;
@@ -86,6 +87,15 @@ class CacheProvider<K, V>
   }
 
   @Override
+  public CacheBinding<K, V> diskLimit(long limit) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    Preconditions.checkState(persist,
+        "diskLimit supported for persistent caches only");
+    diskLimit = limit;
+    return this;
+  }
+
+  @Override
   public CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit unit) {
     Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
     expireAfterWrite = SECONDS.convert(duration, unit);
@@ -127,6 +137,14 @@ class CacheProvider<K, V>
   @Override
   public long maximumWeight() {
     return maximumWeight;
+  }
+
+  @Override
+  public long diskLimit() {
+    if (diskLimit > 0) {
+      return diskLimit;
+    }
+    return 128 << 20;
   }
 
   @Override

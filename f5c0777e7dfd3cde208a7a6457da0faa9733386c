@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "904beb45_b278601e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-22T21:18:09Z",
+      "side": 1,
+      "message": "Can this be a reference to the const you defined?",
+      "range": {
+        "startLine": 166,
+        "startChar": 23,
+        "endLine": 166,
+        "endChar": 25
+      },
+      "revId": "f5c0777e7dfd3cde208a7a6457da0faa9733386c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904beb45_d27de40c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-22T21:18:09Z",
+      "side": 1,
+      "message": "Can you add a test for this, too?",
+      "range": {
+        "startLine": 220,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 16
+      },
+      "revId": "f5c0777e7dfd3cde208a7a6457da0faa9733386c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904beb45_f282e801",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-22T21:18:09Z",
+      "side": 1,
+      "message": "Should this match the 75 from gr-file-list?",
+      "range": {
+        "startLine": 156,
+        "startChar": 33,
+        "endLine": 156,
+        "endChar": 35
+      },
+      "revId": "f5c0777e7dfd3cde208a7a6457da0faa9733386c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -59,7 +59,7 @@ public class Schema_130 extends SchemaVersion {
         cfg.removeForceFromPermission("pushTag");
         cfg.save(serverUser, COMMIT_MSG);
       } catch (ConfigInvalidException | IOException ex) {
-        throw new OrmException(ex);
+        throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }
   }

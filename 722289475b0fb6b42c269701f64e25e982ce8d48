@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "50b5f342_10214410",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAllAssignees.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T08:34:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_cd2dbd03",
+      "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_0df99569",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAllAssignees.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2016-09-21T21:13:55Z",
       "side": 1,
       "message": "I didn\u0027t think about the chronology order. I thought it was sort of an odd question since the only order I could think of was by Account.Id which is very orderly, but not very useful (as you mentioned). Putting them in a list is the way to go.",
+      "parentUuid": "9084cb25_0df99569",
+      "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d013a30f_94fd4457",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetAllAssignees.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T08:34:44Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "9084cb25_0df99569",
       "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -112,6 +148,24 @@
       "writtenOn": "2016-09-21T15:51:40Z",
       "side": 1,
       "message": "See my comments on the previous change on naming.",
+      "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d013a30f_b4f84067",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-22T08:34:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_2dfe5952",
       "revId": "722289475b0fb6b42c269701f64e25e982ce8d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

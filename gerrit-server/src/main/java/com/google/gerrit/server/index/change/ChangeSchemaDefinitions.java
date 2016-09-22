@@ -22,7 +22,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
-  static final Schema<ChangeData> V25 = schema(
+  static final Schema<ChangeData> V32 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
       ChangeField.STATUS,
@@ -35,7 +35,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       ChangeField.FILE_PART,
       ChangeField.PATH,
       ChangeField.OWNER,
-      ChangeField.LEGACY_REVIEWER,
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
@@ -56,37 +55,12 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       ChangeField.REVIEWEDBY,
       ChangeField.EXACT_COMMIT,
       ChangeField.AUTHOR,
-      ChangeField.COMMITTER);
-
-  @Deprecated
-  static final Schema<ChangeData> V26 = schema(V25, ChangeField.DRAFTBY);
-
-  @Deprecated
-  static final Schema<ChangeData> V27 = schema(V26.getFields().values());
-
-  @Deprecated
-  static final Schema<ChangeData> V28 = schema(V27, ChangeField.STARREDBY);
-
-  @Deprecated
-  static final Schema<ChangeData> V29 =
-      schema(V28, ChangeField.HASHTAG_CASE_AWARE);
-
-  @Deprecated
-  static final Schema<ChangeData> V30 =
-      schema(V29, ChangeField.STAR, ChangeField.STARBY);
-
-  @Deprecated
-  static final Schema<ChangeData> V31 = new Schema.Builder<ChangeData>()
-      .add(V30)
-      .remove(ChangeField.STARREDBY)
-      .build();
-
-  @Deprecated
-  static final Schema<ChangeData> V32 = new Schema.Builder<ChangeData>()
-      .add(V31)
-      .remove(ChangeField.LEGACY_REVIEWER)
-      .add(ChangeField.REVIEWER)
-      .build();
+      ChangeField.COMMITTER,
+      ChangeField.DRAFTBY,
+      ChangeField.HASHTAG_CASE_AWARE,
+      ChangeField.STAR,
+      ChangeField.STARBY,
+      ChangeField.REVIEWER);
 
   static final Schema<ChangeData> V33 =
       schema(V32, ChangeField.ASSIGNEE);

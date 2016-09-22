@@ -673,8 +673,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return starredby(parseAccount(who));
   }
 
-  private Predicate<ChangeData> starredby(Set<Account.Id> who)
-      throws QueryParseException {
+  private Predicate<ChangeData> starredby(Set<Account.Id> who) {
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
     for (Account.Id id : who) {
       p.add(starredby(id));
@@ -682,25 +681,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return Predicate.or(p);
   }
 
-  @SuppressWarnings("deprecation")
-  private Predicate<ChangeData> starredby(Account.Id who)
-      throws QueryParseException {
-    if (args.getSchema().hasField(ChangeField.STAR)) {
-      return new StarPredicate(who, StarredChangesUtil.DEFAULT_LABEL);
-    }
-
-    if (args.getSchema().hasField(ChangeField.STARREDBY)) {
-      return new IsStarredByPredicate(who);
-    }
-
-    try {
-      // starred changes are not contained in the index, we must read them from
-      // git
-      return new IsStarredByLegacyPredicate(who, args.starredChangesUtil
-          .byAccount(who, StarredChangesUtil.DEFAULT_LABEL));
-    } catch (OrmException e) {
-      throw new QueryParseException("Failed to query starred changes.", e);
-    }
+  private Predicate<ChangeData> starredby(Account.Id who) {
+    return new StarPredicate(who, StarredChangesUtil.DEFAULT_LABEL);
   }
 
   @Operator
@@ -739,11 +721,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return Predicate.or(p);
   }
 
-  @SuppressWarnings("deprecation")
   private Predicate<ChangeData> draftby(Account.Id who) {
-    return args.getSchema().hasField(ChangeField.DRAFTBY)
-        ? new HasDraftByPredicate(who)
-        : new HasDraftByLegacyPredicate(args, who);
+    return new HasDraftByPredicate(who);
   }
 
   @Operator

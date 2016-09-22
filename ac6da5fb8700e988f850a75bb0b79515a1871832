@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474536748 +0200\nnonce AKOpmBXhhc6EFffFQdOhG36vdWHMUgTBKfpvmL44WD+ca1IMZuc6YpNvP+1aJqGpWbccev5yCyew\n\n0000000000000000000000000000000000000000 ac6da5fb8700e988f850a75bb0b79515a1871832 refs/for/master%topic\u003dcopy-fields,r\u003dsasa.zivkov@sap.com,r\u003dekempin@google.com,t\u003dsap16\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX46UuAAoJEF/XxZqaEoiMEZkQAMywY8tV6jC+npCTthIfbktl\n3jCUZKAfgYm2oyci+9ANdlpLvLlfvCxSbEBqXgWsYTGYp7NzLGYtdvdZa165CmwZ\neMP3ac10Da7zr3iEiMzapRWz//zKz/1QNorrZUmUXQAdOS2Z3B4/c8RzajGxDwE4\nLQxgSNABH87ZFCnkSRZ7TZlbgM0NRSjflGT6qSxZowabREPDHUPSOmHGb+0n2Op5\n1TwLy7MLUSyZ1Ouz1keErzbLT41ek9GlDcP+eZ+tm1BLpOIEZcGARhggl5qN4cRQ\nveWUMkTZHSoxvF0M/3Uds/gsOrvVrq/uaGwBI1Dikq7aoeBD+ocDbhn7YyBT5mM/\nNsSUgGEMcUnu7UoyQdQtedA24mpF/9YdUoTusqh6uanjQ4x9GGxA+t1MDbgsJ8v+\n531f4VdnSNM0QpBY/T4hKLI1BViXgYSUoZQpwpySo2RkQiDsP1q8y2GHpqSyj5uj\n+KZSsQM8BburJH2rPxcnau1G2+T7AjIheaPn9XTfb29nOTbYzXsJ3bwhmpK/Zr7b\n9tJEzGIXpjN2WvwRSiCba+JL8UEqrl/6X2JtxzE9/8PKkg5ypsUbPWIiUWGOZob3\nYhVKbrf2LQf87TTa9MsKqHxIu86AVicv/yATyBhB2KhO4Z4OeFeKcVzqSBu4kW9N\n1dRtNOL+A6DM2gLfyweD\n\u003d0rJi\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_4c369f3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-22T11:49:01Z",
+      "side": 1,
+      "message": "I thought about this some more and I think we might end up doing this anyway in order to improve reindex performance acceptable under NoteDb. Which is not to say we have to do it now, since that round of optimization is still some ways away.",
+      "range": {
+        "startLine": 411,
+        "startChar": 13,
+        "endLine": 411,
+        "endChar": 37
+      },
+      "revId": "ac6da5fb8700e988f850a75bb0b79515a1871832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

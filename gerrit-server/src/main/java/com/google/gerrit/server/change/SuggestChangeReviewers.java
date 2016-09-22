@@ -30,12 +30,18 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.List;
 
 public class SuggestChangeReviewers extends SuggestReviewers
     implements RestReadView<ChangeResource> {
+
+  @Option(name = "--exclude-groups", aliases = {"-e"},
+      usage = "exclude groups from query")
+  boolean excludeGroups;
+
   @Inject
   SuggestChangeReviewers(AccountVisibility av,
       GenericFactory identifiedUserFactory,
@@ -49,7 +55,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
       throws BadRequestException, OrmException, IOException {
     return reviewersUtil.suggestReviewers(this,
-        rsrc.getControl().getProjectControl(), getVisibility(rsrc));
+        rsrc.getControl().getProjectControl(), getVisibility(rsrc), excludeGroups);
   }
 
   private VisibilityControl getVisibility(final ChangeResource rsrc) {

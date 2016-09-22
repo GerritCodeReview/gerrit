@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a803f6_0c0f77e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T15:06:47Z",
+      "side": 1,
+      "message": "Is the correct exception to throw?  What happens in the UI?",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 35
+      },
+      "revId": "3d3e714c0e77e9b120ac94b214f4f6905bb69774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_4c197f2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/AssigneeValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-22T15:06:47Z",
+      "side": 1,
+      "message": "\"the assignee of a change is modified\"?",
+      "range": {
+        "startLine": 27,
+        "startChar": 30,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "3d3e714c0e77e9b120ac94b214f4f6905bb69774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

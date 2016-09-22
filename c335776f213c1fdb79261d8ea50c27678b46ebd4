@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "7023d73a_f94f77b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T07:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091cf63_6eb68f92",
+      "range": {
+        "startLine": 21,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b091cf63_cea4e359",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-21T21:43:41Z",
       "side": 1,
       "message": "I see, it was copied from RevisionNoteData.Comment, but is it  used?",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 24
+      },
+      "revId": "c335776f213c1fdb79261d8ea50c27678b46ebd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7023d73a_7953676b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-22T07:18:31Z",
+      "side": 1,
+      "message": "This is needed for being able to federate changes between servers (which is something we want to achieve with NoteDb in the long run). The author identity refers to an account ID, but account IDs are specific per server. If you want to resolve it you must know on which server the account is defined. Also see [1].\n\n[1] https://gerrit-review.googlesource.com/75610",
+      "parentUuid": "b091cf63_cea4e359",
       "range": {
         "startLine": 159,
         "startChar": 2,

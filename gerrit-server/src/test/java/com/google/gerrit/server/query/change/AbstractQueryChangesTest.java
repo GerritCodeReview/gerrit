@@ -1442,6 +1442,41 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void submitRecords() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    gApi.changes()
+        .id(change1.getId().get())
+        .current()
+        .review(ReviewInput.approve());
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes()
+        .id(change2.getId().get())
+        .current()
+        .review(ReviewInput.recommend());
+    requestContext.setContext(newRequestContext(user.getAccountId()));
+
+    assertQuery("is:submittable", change1);
+    assertQuery("-is:submittable", change2);
+    assertQuery("submittable:ok", change1);
+    assertQuery("submittable:not_ready", change2);
+
+    assertQuery("label:CodE-RevieW=ok", change1);
+    assertQuery("label:CodE-RevieW=ok,user=user", change1);
+    assertQuery("label:CodE-RevieW=ok,Administrators", change1);
+    assertQuery("label:CodE-RevieW=ok,group=Administrators", change1);
+    assertQuery("label:CodE-RevieW=ok,owner", change1);
+    assertQuery("label:CodE-RevieW=ok,user1");
+    assertQuery("label:CodE-RevieW=need", change2);
+    // NEED records don't have associated users.
+    assertQuery("label:CodE-RevieW=need,user1");
+    assertQuery("label:CodE-RevieW=need,user");
+  }
+
+  @Test
   public void byCommitsOnBranchNotMerged() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     int n = 10;

@@ -120,12 +120,7 @@ public class SubmitRuleEvaluator {
   public SubmitRuleEvaluator setOptions(SubmitRuleOptions opts) {
     checkNotStarted();
     if (opts != null) {
-      optsBuilder = SubmitRuleOptions.builder()
-          .fastEvalLabels(opts.fastEvalLabels())
-          .allowDraft(opts.allowDraft())
-          .allowClosed(opts.allowClosed())
-          .skipFilters(opts.skipFilters())
-          .rule(opts.rule());
+      optsBuilder = opts.toBuilder();
     } else {
       optsBuilder = SubmitRuleOptions.defaults();
     }
@@ -273,7 +268,10 @@ public class SubmitRuleEvaluator {
       }
       return createRuleError("Cannot submit draft changes");
     } catch (OrmException err) {
-      String msg = "Cannot check visibility of patch set " + patchSet.getId();
+      PatchSet.Id psId = patchSet != null
+          ? patchSet.getId()
+          : control.getChange().currentPatchSetId();
+      String msg = "Cannot check visibility of patch set " + psId;
       log.error(msg, err);
       return createRuleError(msg);
     }

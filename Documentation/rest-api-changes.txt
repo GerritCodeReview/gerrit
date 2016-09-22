@@ -5788,6 +5788,8 @@ If not set, the default is `ALL`.
 [[submit-record]]
 === SubmitRecord
 The `SubmitRecord` entity describes results from a submit_rule.
+Fields in this entity roughly correspond to the fields set by `LABELS`
+in link:#label-info[LabelInfo].
 
 [options="header",cols="1,^1,5"]
 |===========================

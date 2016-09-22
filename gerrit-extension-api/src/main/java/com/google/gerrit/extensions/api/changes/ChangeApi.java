@@ -117,6 +117,9 @@ public interface ChangeApi {
   void addReviewer(AddReviewerInput in) throws RestApiException;
   void addReviewer(String in) throws RestApiException;
 
+  void setAssignee(String in) throws RestApiException;
+  void deleteAssignee() throws RestApiException;
+
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
   SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException;
 
@@ -285,6 +288,16 @@ public interface ChangeApi {
 
     @Override
     public void addReviewer(String in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setAssignee(String in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteAssignee() throws RestApiException {
       throw new NotImplementedException();
     }
 

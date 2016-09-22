@@ -34,7 +34,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class ChangeApi {
   /** Abandon the change, ending its review. */
   public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
-    Input input = Input.create();
+    MessageInput input = MessageInput.create();
     input.message(emptyToNull(msg));
     call(id, "abandon").post(input, cb);
   }
@@ -64,14 +64,14 @@ public class ChangeApi {
 
   /** Restore a previously abandoned change to be open again. */
   public static void restore(int id, String msg, AsyncCallback<ChangeInfo> cb) {
-    Input input = Input.create();
+    MessageInput input = MessageInput.create();
     input.message(emptyToNull(msg));
     call(id, "restore").post(input, cb);
   }
 
   /** Create a new change that reverts the delta caused by this change. */
   public static void revert(int id, String msg, AsyncCallback<ChangeInfo> cb) {
-    Input input = Input.create();
+    MessageInput input = MessageInput.create();
     input.message(emptyToNull(msg));
     call(id, "revert").post(input, cb);
   }
@@ -81,7 +81,7 @@ public class ChangeApi {
     RestApi call = call(id, "topic");
     topic = emptyToNull(topic);
     if (topic != null) {
-      Input input = Input.create();
+      TopicInput input = TopicInput.create();
       input.topic(topic);
       call.put(input, NativeString.unwrap(cb));
     } else {
@@ -244,15 +244,25 @@ public class ChangeApi {
     call(id, commit, "rebase").post(rebaseInput, cb);
   }
 
-  private static class Input extends JavaScriptObject {
-    final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
+  private static class MessageInput extends JavaScriptObject {
     final native void message(String m) /*-{ if(m)this.message=m; }-*/;
 
-    static Input create() {
-      return (Input) createObject();
+    static MessageInput create() {
+      return (MessageInput) createObject();
     }
 
-    protected Input() {
+    protected MessageInput() {
+    }
+  }
+
+  private static class TopicInput extends JavaScriptObject {
+    final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
+
+    static TopicInput create() {
+      return (TopicInput) createObject();
+    }
+
+    protected TopicInput() {
     }
   }
 

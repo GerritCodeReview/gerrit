@@ -116,6 +116,11 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
+      this.listen(window, 'scroll', '_handleScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleScroll');
     },
 
     _handleEditCommitMessage: function(e) {
@@ -283,6 +288,17 @@
       this._openReplyDialog(target);
     },
 
+    _handleScroll: function() {
+      this.debounce('scroll', function() {
+        history.replaceState(
+            {
+              scrollTop: document.body.scrollTop,
+              path: location.pathname,
+            },
+            location.pathname);
+      }, 150);
+    },
+
     _paramsChanged: function(value) {
       if (value.view !== this.tagName.toLowerCase()) {
         this._initialLoadComplete = false;
@@ -331,7 +347,15 @@
       // alter the total height of the page, the call to potentially scroll to
       // a linked message is performed after related changes is fully loaded.
       this.$.relatedChanges.reload().then(function() {
-        this.async(function() { this._maybeScrollToMessage(); }, 1);
+        this.async(function() {
+          if (!history.state.scrollTop) {
+            this._maybeScrollToMessage();
+
+          } else {
+            document.documentElement.scrollTop =
+                document.body.scrollTop = history.state.scrollTop;
+          }
+        }, 1);
       }.bind(this));
 
       this._maybeShowReplyDialog();

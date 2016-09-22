@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -69,7 +70,7 @@ public class DeleteAssignee implements
   }
 
   @Override
-  public Object apply(ChangeResource rsrc, Input input)
+  public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException
        {
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),

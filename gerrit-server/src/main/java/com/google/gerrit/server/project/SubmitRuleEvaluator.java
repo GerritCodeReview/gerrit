@@ -91,12 +91,9 @@ public class SubmitRuleEvaluator {
   private final ChangeData cd;
   private final ChangeControl control;
 
+  private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.defaults();
+  private SubmitRuleOptions opts;
   private PatchSet patchSet;
-  private boolean fastEvalLabels;
-  private boolean allowDraft;
-  private boolean allowClosed;
-  private boolean skipFilters;
-  private String rule;
   private boolean logErrors = true;
   private long reductionsConsumed;
 
@@ -105,6 +102,34 @@ public class SubmitRuleEvaluator {
   public SubmitRuleEvaluator(ChangeData cd) throws OrmException {
     this.cd = cd;
     this.control = cd.changeControl();
+  }
+
+  /**
+   * @return immutable snapshot of options configured options so far. If neither
+   *     {@link #getSubmitRule()} nor {@link #getSubmitType()} have been called
+   *     yet, state within this instance is still mutable, so may change before
+   *     evaluation. The instance's options are frozen at evaluation time.
+   */
+  public SubmitRuleOptions getOptions() {
+    if (opts != null) {
+      return opts;
+    }
+    return optsBuilder.build();
+  }
+
+  public SubmitRuleEvaluator setOptions(SubmitRuleOptions opts) {
+    checkNotStarted();
+    if (opts != null) {
+      optsBuilder = SubmitRuleOptions.builder()
+          .fastEvalLabels(opts.fastEvalLabels())
+          .allowDraft(opts.allowDraft())
+          .allowClosed(opts.allowClosed())
+          .skipFilters(opts.skipFilters())
+          .rule(opts.rule());
+    } else {
+      optsBuilder = SubmitRuleOptions.defaults();
+    }
+    return this;
   }
 
   /**
@@ -127,7 +152,8 @@ public class SubmitRuleEvaluator {
    * @return this
    */
   public SubmitRuleEvaluator setFastEvalLabels(boolean fast) {
-    fastEvalLabels = fast;
+    checkNotStarted();
+    optsBuilder.fastEvalLabels(fast);
     return this;
   }
 
@@ -136,7 +162,8 @@ public class SubmitRuleEvaluator {
    * @return this
    */
   public SubmitRuleEvaluator setAllowClosed(boolean allow) {
-    allowClosed = allow;
+    checkNotStarted();
+    optsBuilder.allowClosed(allow);
     return this;
   }
 
@@ -145,7 +172,8 @@ public class SubmitRuleEvaluator {
    * @return this
    */
   public SubmitRuleEvaluator setAllowDraft(boolean allow) {
-    allowDraft = allow;
+    checkNotStarted();
+    optsBuilder.allowDraft(allow);
     return this;
   }
 
@@ -154,7 +182,8 @@ public class SubmitRuleEvaluator {
    * @return this
    */
   public SubmitRuleEvaluator setSkipSubmitFilters(boolean skip) {
-    skipFilters = skip;
+    checkNotStarted();
+    optsBuilder.skipFilters(skip);
     return this;
   }
 
@@ -163,7 +192,8 @@ public class SubmitRuleEvaluator {
    * @return this
    */
   public SubmitRuleEvaluator setRule(@Nullable String rule) {
-    this.rule = rule;
+    checkNotStarted();
+    optsBuilder.rule(rule);
     return this;
   }
 
@@ -188,13 +218,14 @@ public class SubmitRuleEvaluator {
    *     rules, including any errors.
    */
   public List<SubmitRecord> evaluate() {
+    initOptions();
     Change c = control.getChange();
-    if (!allowClosed && c.getStatus().isClosed()) {
+    if (!opts.allowClosed() && c.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
-    if (!allowDraft) {
+    if (!opts.allowDraft()) {
       if (c.getStatus() == Change.Status.DRAFT) {
         return cannotSubmitDraft();
       }
@@ -369,6 +400,7 @@ public class SubmitRuleEvaluator {
    * @return record from the evaluated rules.
    */
   public SubmitTypeRecord getSubmitType() {
+    initOptions();
     try {
       initPatchSet();
     } catch (OrmException e) {
@@ -453,7 +485,7 @@ public class SubmitRuleEvaluator {
     PrologEnvironment env = getPrologEnvironment(user);
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
-      if (fastEvalLabels) {
+      if (opts.fastEvalLabels()) {
         env.once("gerrit", "assume_range_from_label");
       }
 
@@ -476,7 +508,7 @@ public class SubmitRuleEvaluator {
       }
 
       Term resultsTerm = toListTerm(results);
-      if (!skipFilters) {
+      if (!opts.skipFilters()) {
         resultsTerm = runSubmitFilters(
             resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
       }
@@ -503,18 +535,19 @@ public class SubmitRuleEvaluator {
     ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
-      if (rule == null) {
+      if (opts.rule() == null) {
         env = projectState.newPrologEnvironment();
       } else {
-        env = projectState.newPrologEnvironment("stdin", new StringReader(rule));
+        env = projectState.newPrologEnvironment(
+            "stdin", new StringReader(opts.rule()));
       }
     } catch (CompileException err) {
       String msg;
-      if (rule == null && control.getProjectControl().isOwner()) {
+      if (opts.rule() == null && control.getProjectControl().isOwner()) {
         msg = String.format(
             "Cannot load rules.pl for %s: %s",
             getProjectName(), err.getMessage());
-      } else if (rule != null) {
+      } else if (opts.rule() != null) {
         msg = err.getMessage();
       } else {
         msg = String.format("Cannot load rules.pl for %s", getProjectName());
@@ -548,7 +581,7 @@ public class SubmitRuleEvaluator {
       Term filterRule =
           parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
       try {
-        if (fastEvalLabels) {
+        if (opts.fastEvalLabels()) {
           env.once("gerrit", "assume_range_from_label");
         }
 
@@ -606,6 +639,17 @@ public class SubmitRuleEvaluator {
 
   public String getSubmitRuleName() {
     return submitRule != null ? submitRule.toString() : "<unknown rule>";
+  }
+
+  private void checkNotStarted() {
+    checkState(opts == null, "cannot set options after starting evaluation");
+  }
+
+  private void initOptions() {
+    if (opts == null) {
+      opts = optsBuilder.build();
+      optsBuilder = null;
+    }
   }
 
   private void initPatchSet() throws OrmException {

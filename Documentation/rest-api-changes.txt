@@ -511,6 +511,57 @@ describes the change.
   }
 ----
 
+[[update-change]]
+=== Update Change
+--
+'POST /changes/link:#change-id[\{change-id\}]/merge'
+--
+
+Update an existing change by using a link:#merge-input[MergeInput] entity.
+Gerrit will create a merge commit using the MergeInput and the branch of the
+change and update the change with the new merge commit by a patchset.
+
+.Request
+----
+  POST /changes/test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc/merge  HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "source": "dev_branch"
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that describes
+the resulting change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc",
+    "project": "test",
+    "branch": "master",
+    "hashtags": [],
+    "change_id": "Ic5466d107c5294414710935a8ef3b0180fb848dc",
+    "subject": "Merge dev_branch into master",
+    "status": "NEW",
+    "created": "2016-09-23 18:08:53.238000000",
+    "updated": "2016-09-23 18:09:25.934000000",
+    "submit_type": "MERGE_IF_NECESSARY",
+    "mergeable": true,
+    "insertions": 5,
+    "deletions": 0,
+    "_number": 72,
+    "owner": {
+      "_account_id": 1000000
+    }
+  }
+----
+
 [[get-change-detail]]
 === Get Change Detail
 --

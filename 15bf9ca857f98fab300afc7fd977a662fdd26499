@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_0d261524",
+        "filename": "lib/jgit/org.eclipse.jgit.http.server/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-23T13:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_4d9f6d59",
+      "range": {
+        "startLine": 4,
+        "startChar": 23,
+        "endLine": 4,
+        "endChar": 31
+      },
+      "revId": "15bf9ca857f98fab300afc7fd977a662fdd26499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_2d943939",
         "filename": "lib/jgit/org.eclipse.jgit.http.server/BUILD",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_7036ee3d",
+        "filename": "lib/jgit/org.eclipse.jgit.http.server/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-23T13:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_2d943939",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "15bf9ca857f98fab300afc7fd977a662fdd26499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_3053866c",
         "filename": "lib/jgit/org.eclipse.jgit/BUILD",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2016-09-23T13:09:57Z",
       "side": 1,
       "message": "nit: extra space",
+      "range": {
+        "startLine": 18,
+        "startChar": 24,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "15bf9ca857f98fab300afc7fd977a662fdd26499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_b0c056f5",
+        "filename": "lib/jgit/org.eclipse.jgit/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-23T13:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_3053866c",
       "range": {
         "startLine": 18,
         "startChar": 24,

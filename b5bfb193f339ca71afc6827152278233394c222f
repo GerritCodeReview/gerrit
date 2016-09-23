@@ -71,6 +71,24 @@
       "revId": "b5bfb193f339ca71afc6827152278233394c222f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_90c51a37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T12:20:38Z",
+      "side": 1,
+      "message": "I have no better idea right now...",
+      "parentUuid": "4be70257_69037d6a",
+      "revId": "b5bfb193f339ca71afc6827152278233394c222f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

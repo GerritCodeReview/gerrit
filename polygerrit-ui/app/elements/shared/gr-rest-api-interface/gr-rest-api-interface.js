@@ -395,13 +395,13 @@
 
     getChangeFilePathsAsSpeciallySortedArray: function(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(function(files) {
-        return Object.keys(files).sort(this._specialFilePathCompare.bind(this));
+        return Object.keys(files).sort(this.specialFilePathCompare.bind(this));
       }.bind(this));
     },
 
     _normalizeChangeFilesResponse: function(response) {
       var paths = Object.keys(response).sort(
-          this._specialFilePathCompare.bind(this));
+          this.specialFilePathCompare.bind(this));
       var files = [];
       for (var i = 0; i < paths.length; i++) {
         var info = response[paths[i]];
@@ -413,7 +413,7 @@
       return files;
     },
 
-    _specialFilePathCompare: function(a, b) {
+    specialFilePathCompare: function(a, b) {
       var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
       // The commit message always goes first.
       if (a === COMMIT_MESSAGE_PATH) {

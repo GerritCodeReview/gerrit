@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_0de1758a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T14:15:15Z",
+      "side": 1,
+      "message": "This is not necessary as this is not a field and automatically initialized to null",
+      "revId": "2901b3ef37cb57c092f8c65c82a169909f0ff634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

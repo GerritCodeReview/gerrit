@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_854ea689",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T07:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_c6ed56ba",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_45f81e43",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-20T08:37:04Z",
       "side": 1,
       "message": "Surely there is some code you can reuse here from the owner panel?",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_c6e3969b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T07:28:46Z",
+      "side": 1,
+      "message": "While the code is based on AccountLinkPanel, I don\u0027t think we  want status included these searches (since a merged change should not have an assignee, there is really not much point of including status in searches).\n\nWith that in mind, there is not a lot of code to generalize.",
+      "parentUuid": "2bec8e3b_45f81e43",
       "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_46d146c1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T07:28:46Z",
+      "side": 1,
+      "message": "From account link panel used by owner searches. Just assumed the check was necessary. But I\u0027ll remove it.",
+      "parentUuid": "4be70257_06e8dea5",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_a6f2d293",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-20T08:37:04Z",
       "side": 1,
       "message": "ai._accountId().toString()",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_251cfa80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T07:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_a6f2d293",
       "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -215,27 +215,27 @@ limitations under the License.
     test('special file path sorting', function() {
       assert.deepEqual(
           ['.b', '/COMMIT_MSG', '.a', 'file'].sort(
-              element._specialFilePathCompare),
+              element.specialFilePathCompare),
           ['/COMMIT_MSG', '.a', '.b', 'file']);
 
       assert.deepEqual(
           ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.h'].sort(
-              element._specialFilePathCompare),
+              element.specialFilePathCompare),
           ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc']);
 
       assert.deepEqual(
           ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hpp'].sort(
-              element._specialFilePathCompare),
+              element.specialFilePathCompare),
           ['/COMMIT_MSG', '.b', 'foo/bar/baz.hpp', 'foo/bar/baz.cc']);
 
       assert.deepEqual(
           ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hxx'].sort(
-              element._specialFilePathCompare),
+              element.specialFilePathCompare),
           ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc']);
 
       assert.deepEqual(
           ['foo/bar.h', 'foo/bar.hxx', 'foo/bar.hpp'].sort(
-              element._specialFilePathCompare),
+              element.specialFilePathCompare),
           ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']);
 
       // Regression test for Issue 4448.
@@ -245,7 +245,7 @@ limitations under the License.
           'minidump/minidump_thread_writer.cc',
           'minidump/minidump_thread_writer.h',
           ]
-        .sort(element._specialFilePathCompare),
+        .sort(element.specialFilePathCompare),
           [
             'minidump/minidump_memory_writer.h',
             'minidump/minidump_memory_writer.cc',
@@ -258,7 +258,7 @@ limitations under the License.
           'task_test.go',
           'task.go',
           ]
-        .sort(element._specialFilePathCompare),
+        .sort(element.specialFilePathCompare),
           [
             'task.go',
             'task_test.go',

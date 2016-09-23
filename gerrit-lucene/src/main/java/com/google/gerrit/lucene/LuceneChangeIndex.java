@@ -130,8 +130,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String HASHTAG_FIELD =
       ChangeField.HASHTAG_CASE_AWARE.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
-  @Deprecated
-  private static final String STARREDBY_FIELD = ChangeField.STARREDBY.getName();
 
   static Term idTerm(ChangeData cd) {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
@@ -410,23 +408,14 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private Set<String> fields(QueryOptions opts) {
-    // Ensure we request enough fields to construct a ChangeData.
+    // Ensure we request enough fields to construct a ChangeData. We need both
+    // change ID and project, which can either come via the Change field or
+    // separate fields.
     Set<String> fs = opts.fields();
     if (fs.contains(CHANGE.getName())) {
       // A Change is always sufficient.
       return fs;
     }
-
-    if (!schema.hasField(PROJECT)) {
-      // Schema is not new enough to have project field. Ensure we have ID
-      // field, and call createOnlyWhenNoteDbDisabled from toChangeData below.
-      if (fs.contains(LEGACY_ID.getName())) {
-        return fs;
-      }
-      return Sets.union(fs, ImmutableSet.of(LEGACY_ID.getName()));
-    }
-
-    // New enough schema to have project field, so ensure that is requested.
     if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID.getName())) {
       return fs;
     }
@@ -491,9 +480,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
     if (fields.contains(HASHTAG_FIELD)) {
       decodeHashtags(doc, cd);
-    }
-    if (fields.contains(STARREDBY_FIELD)) {
-      decodeStarredBy(doc, cd);
     }
     if (fields.contains(STAR_FIELD)) {
       decodeStar(doc, cd);
@@ -582,17 +568,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       hashtags.add(r.binaryValue().utf8ToString());
     }
     cd.setHashtags(hashtags);
-  }
-
-  @Deprecated
-  private void decodeStarredBy(Multimap<String, IndexableField> doc, ChangeData cd) {
-    Collection<IndexableField> starredBy = doc.get(STARREDBY_FIELD);
-    Set<Account.Id> accounts =
-        Sets.newHashSetWithExpectedSize(starredBy.size());
-    for (IndexableField r : starredBy) {
-      accounts.add(new Account.Id(r.numericValue().intValue()));
-    }
-    cd.setStarredBy(accounts);
   }
 
   private void decodeStar(Multimap<String, IndexableField> doc, ChangeData cd) {

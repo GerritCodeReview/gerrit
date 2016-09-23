@@ -766,11 +766,7 @@ public class ChangeData {
   }
 
   public Change reloadChange() throws OrmException {
-    if (project == null) {
-      notes = notesFactory.createFromIdOnlyWhenNoteDbDisabled(db, legacyId);
-    } else {
-      notes = notesFactory.create(db, project, legacyId);
-    }
+    notes = notesFactory.create(db, project, legacyId);
     change = notes.getChange();
     if (change == null) {
       throw new OrmException("Unable to load change " + legacyId);

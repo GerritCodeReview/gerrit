@@ -2012,7 +2012,6 @@ public class ReceiveCommits {
       }
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit,
           ins.getPatchSetId().toRefName());
-      ins.setUpdateRefCommand(cmd);
       if (rp.getPushCertificate() != null) {
         ins.setPushCertificate(rp.getPushCertificate().toTextWithSignature());
       }
@@ -2051,7 +2050,7 @@ public class ReceiveCommits {
             .setNotify(magicBranch.notify)
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
-            .setUpdateRef(true));
+            .setUpdateRef(false));
         if (!magicBranch.hashtags.isEmpty()) {
           bu.addOp(
               changeId,

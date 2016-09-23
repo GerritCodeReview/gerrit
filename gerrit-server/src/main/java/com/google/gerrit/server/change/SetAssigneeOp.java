@@ -102,13 +102,13 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     }
     if (!newAssigneeUser.getAccount().isActive()) {
       throw new UnprocessableEntityException(String.format(
-          "Account of %s is not active", newAssigneeUser.getUserName()));
+          "Account of %s is not active", input.assignee));
     }
     if (!ctx.getControl().forUser(newAssigneeUser).isRefVisible()) {
       throw new AuthException(String.format(
           "Change %s is not visible to %s.",
           change.getChangeId(),
-          newAssigneeUser.getUserName()));
+          input.assignee));
     }
     try {
       for (AssigneeValidationListener validator : validationListeners) {

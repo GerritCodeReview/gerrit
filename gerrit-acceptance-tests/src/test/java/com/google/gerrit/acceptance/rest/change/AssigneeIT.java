@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

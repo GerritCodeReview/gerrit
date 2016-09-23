@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_eae967d3",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-23T12:22:54Z",
+      "side": 1,
+      "message": "We need this to build core replication plugin. In Bazel non hermetic stuff (e.g. fetching external dependencies) can only takes place in WORKSPACE file.",
+      "revId": "c48e6c9730361d146c94b53e4a8d9468f10d05e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

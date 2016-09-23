@@ -24,7 +24,8 @@
     },
 
     _computeFilesFromComments: function(comments) {
-      return Object.keys(comments || {}).sort();
+      var arr = Object.keys(comments || {});
+      return arr.sort(this.$.restAPI.specialFilePathCompare);
     },
 
     _computeFileDiffURL: function(file, changeNum, patchNum) {
@@ -55,6 +56,6 @@
         return 'PS' + comment.patch_set + ', ';
       }
       return '';
-    }
+    },
   });
 })();

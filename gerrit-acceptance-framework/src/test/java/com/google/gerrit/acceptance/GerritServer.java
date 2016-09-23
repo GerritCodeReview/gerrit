@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -81,7 +82,8 @@ public class GerritServer {
           testDesc.getAnnotation(GerritConfigs.class));
     }
 
-    private static boolean has(Class annotation, Class<?> clazz) {
+    private static boolean has(
+        Class<? extends Annotation> annotation, Class<?> clazz) {
       for (; clazz != null; clazz = clazz.getSuperclass()) {
         if (clazz.getAnnotation(annotation) != null) {
           return true;

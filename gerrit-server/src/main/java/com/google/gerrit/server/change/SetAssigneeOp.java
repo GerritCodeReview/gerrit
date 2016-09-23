@@ -79,7 +79,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
         Optional.fromNullable(ctx.getChange().getAssignee());
     if (input.assignee == null) {
       if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
-        throw new AuthException("Cannot set Assignee to empty");
+        throw new BadRequestException("Cannot set Assignee to empty");
       }
       return false;
     }

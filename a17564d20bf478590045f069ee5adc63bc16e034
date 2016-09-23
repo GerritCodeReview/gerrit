@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_ea596759",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-23T08:44:22Z",
+      "side": 0,
+      "message": "need to set the assignee in Change as well.",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 23
+      },
+      "revId": "a17564d20bf478590045f069ee5adc63bc16e034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

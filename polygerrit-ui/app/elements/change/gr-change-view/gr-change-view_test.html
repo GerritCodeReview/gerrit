@@ -485,5 +485,48 @@ limitations under the License.
         reloadStub.restore();
       });
     });
+
+    suite('reply dialog tests', function() {
+      setup(function() {
+        sinon.stub(element.$.replyDialog, '_draftChanged');
+      });
+
+      test('reply from comment adds quote text', function() {
+        var e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('reply from comment replaces quote text', function() {
+        element.$.replyDialog.draft = '> old quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> old quote text\n\n';
+        var e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('reply from same comment preserves quote text', function() {
+        element.$.replyDialog.draft = '> quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> quote text\n\n';
+        var e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft,
+            '> quote text\n\n some draft text');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('reply from top of page contains previous draft', function() {
+        var div = document.createElement('div');
+        element.$.replyDialog.draft = '> quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> quote text\n\n';
+        var e = {target: div, preventDefault: sinon.spy()};
+        element._handleReplyTap(e);
+        assert.equal(element.$.replyDialog.draft,
+            '> quote text\n\n some draft text');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+    });
   });
 </script>

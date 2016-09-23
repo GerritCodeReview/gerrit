@@ -263,7 +263,11 @@
       var msg = e.detail.message.message;
       var quoteStr = msg.split('\n').map(
           function(line) { return '> ' + line; }).join('\n') + '\n\n';
-      this.$.replyDialog.draft += quoteStr;
+
+      if (quoteStr !== this.$.replyDialog.quote) {
+        this.$.replyDialog.draft = quoteStr;
+      }
+      this.$.replyDialog.quote = quoteStr;
       this._openReplyDialog();
     },
 

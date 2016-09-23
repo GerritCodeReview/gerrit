@@ -75,6 +75,9 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
       }
     }
     Collections.sort(r);
-    return new DiffSummary(r.toArray(new String[r.size()]));
+    return new DiffSummary(
+        r.toArray(new String[r.size()]),
+        patchList.getInsertions(),
+        patchList.getDeletions());
   }
 }

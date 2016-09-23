@@ -31,6 +31,9 @@ public class DiffSummaryWeigher implements
     // ... plus new-line separators between paths
     size += value.getPaths().size() - 1;
 
+    // ... plus insertions/deletions.
+    size += 8;
+
     return size;
   }
 }

@@ -1,0 +1,21 @@
+= Release notes for Gerrit 2.13.1
+
+Gerrit 2.13.1 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.13.1.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.13.1.war]
+
+== Schema Upgrade
+
+There are no schema changes from link:ReleaseNotes-2.13.html[2.13].
+
+== Bug Fixes
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4618[Issue 4618]:
+Fix internal server error after online reindexing completed.
+
+* Fix internal server error when cloning from slaves and not all refs are
+visible.
+
+* Fix JSON deserialization error causing stream event client to no longer receive
+events.

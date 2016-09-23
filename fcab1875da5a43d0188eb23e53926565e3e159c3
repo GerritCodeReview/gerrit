@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f03b47ab_4d6a3984",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T10:13:04Z",
+      "side": 1,
+      "message": "Add a default constructor that provides a value for boolean:\n\n public Module() {\n   this(false);\n }\n\nso that it\u0027s not necessary to explicitly pass false for cases where it\u0027s not slave. Then this patch touches fewer files.",
+      "revId": "fcab1875da5a43d0188eb23e53926565e3e159c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_ed5a05ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
         "patchSetId": 1

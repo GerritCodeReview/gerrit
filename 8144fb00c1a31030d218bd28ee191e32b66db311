@@ -52,6 +52,52 @@
       "revId": "8144fb00c1a31030d218bd28ee191e32b66db311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_d00de242",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T14:29:36Z",
+      "side": 1,
+      "message": "nit: space before/after",
+      "range": {
+        "startLine": 1312,
+        "startChar": 54,
+        "endLine": 1312,
+        "endChar": 55
+      },
+      "revId": "8144fb00c1a31030d218bd28ee191e32b66db311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_4db52d82",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1316,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T14:29:36Z",
+      "side": 1,
+      "message": "nit: space before/after",
+      "range": {
+        "startLine": 1316,
+        "startChar": 27,
+        "endLine": 1316,
+        "endChar": 28
+      },
+      "revId": "8144fb00c1a31030d218bd28ee191e32b66db311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

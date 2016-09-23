@@ -36,6 +36,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import com.google.inject.util.Providers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,17 +53,32 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
   static final String ID_CACHE = "changes";
 
   public static class Module extends CacheModule {
+    private final boolean slave;
+
+    public Module() {
+      this(false);
+    }
+
+    public Module(boolean slave) {
+      this.slave = slave;
+    }
+
     @Override
     protected void configure() {
-      cache(ID_CACHE,
-          Project.NameKey.class,
-          new TypeLiteral<List<CachedChange>>() {})
-        .maximumWeight(0)
-        .loader(Loader.class);
+      if (slave) {
+        bind(SearchingChangeCacheImpl.class)
+            .toProvider(Providers.<SearchingChangeCacheImpl> of(null));
+      } else {
+        cache(ID_CACHE,
+            Project.NameKey.class,
+            new TypeLiteral<List<CachedChange>>() {})
+          .maximumWeight(0)
+          .loader(Loader.class);
 
-      bind(SearchingChangeCacheImpl.class);
-      DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
-          .to(SearchingChangeCacheImpl.class);
+        bind(SearchingChangeCacheImpl.class);
+        DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+            .to(SearchingChangeCacheImpl.class);
+      }
     }
   }
 

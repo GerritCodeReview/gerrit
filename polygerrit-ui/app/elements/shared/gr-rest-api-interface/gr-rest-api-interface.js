@@ -67,6 +67,7 @@
 
   Polymer({
     is: 'gr-rest-api-interface',
+    behaviors: [Gerrit.PathListBehavior],
 
     /**
      * Fired when an server error occurs.
@@ -395,13 +396,12 @@
 
     getChangeFilePathsAsSpeciallySortedArray: function(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(function(files) {
-        return Object.keys(files).sort(this._specialFilePathCompare.bind(this));
+        return Object.keys(files).sort(this.specialFilePathCompare);
       }.bind(this));
     },
 
     _normalizeChangeFilesResponse: function(response) {
-      var paths = Object.keys(response).sort(
-          this._specialFilePathCompare.bind(this));
+      var paths = Object.keys(response).sort(this.specialFilePathCompare);
       var files = [];
       for (var i = 0; i < paths.length; i++) {
         var info = response[paths[i]];
@@ -411,41 +411,6 @@
         files.push(info);
       }
       return files;
-    },
-
-    _specialFilePathCompare: function(a, b) {
-      var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
-      // The commit message always goes first.
-      if (a === COMMIT_MESSAGE_PATH) {
-        return -1;
-      }
-      if (b === COMMIT_MESSAGE_PATH) {
-        return 1;
-      }
-
-      var aLastDotIndex = a.lastIndexOf('.');
-      var aExt = a.substr(aLastDotIndex + 1);
-      var aFile = a.substr(0, aLastDotIndex);
-
-      var bLastDotIndex = b.lastIndexOf('.');
-      var bExt = b.substr(bLastDotIndex + 1);
-      var bFile = b.substr(0, bLastDotIndex);
-
-      // Sort header files above others with the same base name.
-      var headerExts = ['h', 'hxx', 'hpp'];
-      if (aFile.length > 0 && aFile === bFile) {
-        if (headerExts.indexOf(aExt) !== -1 &&
-            headerExts.indexOf(bExt) !== -1) {
-          return a.localeCompare(b);
-        }
-        if (headerExts.indexOf(aExt) !== -1) {
-          return -1;
-        }
-        if (headerExts.indexOf(bExt) !== -1) {
-          return 1;
-        }
-      }
-      return aFile.localeCompare(bFile) || a.localeCompare(b);
     },
 
     getChangeRevisionActions: function(changeNum, patchNum) {

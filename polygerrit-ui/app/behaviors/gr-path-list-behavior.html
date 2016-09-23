@@ -1,0 +1,61 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<script>
+(function(window) {
+  'use strict';
+
+  /** @polymerBehavior Gerrit.PathListBehavior */
+  var PathListBehavior = {
+    specialFilePathCompare: function(a, b) {
+      var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+      // The commit message always goes first.
+      if (a === COMMIT_MESSAGE_PATH) {
+        return -1;
+      }
+      if (b === COMMIT_MESSAGE_PATH) {
+        return 1;
+      }
+
+      var aLastDotIndex = a.lastIndexOf('.');
+      var aExt = a.substr(aLastDotIndex + 1);
+      var aFile = a.substr(0, aLastDotIndex);
+
+      var bLastDotIndex = b.lastIndexOf('.');
+      var bExt = b.substr(bLastDotIndex + 1);
+      var bFile = b.substr(0, bLastDotIndex);
+
+      // Sort header files above others with the same base name.
+      var headerExts = ['h', 'hxx', 'hpp'];
+      if (aFile.length > 0 && aFile === bFile) {
+        if (headerExts.indexOf(aExt) !== -1 &&
+            headerExts.indexOf(bExt) !== -1) {
+          return a.localeCompare(b);
+        }
+        if (headerExts.indexOf(aExt) !== -1) {
+          return -1;
+        }
+        if (headerExts.indexOf(bExt) !== -1) {
+          return 1;
+        }
+      }
+      return aFile.localeCompare(bFile) || a.localeCompare(b);
+    },
+  };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.PathListBehavior = PathListBehavior;
+})(window);
+</script>

@@ -32,6 +32,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 import static java.util.stream.Collectors.toList;
@@ -177,7 +178,6 @@ public class ChangeJson {
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
-  private boolean includeSubmittable;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
   private FixInput fix;
 
@@ -231,11 +231,6 @@ public class ChangeJson {
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
-  }
-
-  public ChangeJson includeSubmittable(boolean include) {
-    includeSubmittable = include;
-    return this;
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -454,7 +449,7 @@ public class ChangeJson {
         out.submitType = str.type;
       }
       out.mergeable = cd.isMergeable();
-      if (includeSubmittable) {
+      if (has(SUBMITTABLE)) {
         out.submittable = submittable(cd);
       }
     }

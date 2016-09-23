@@ -301,6 +301,12 @@ default. Optional fields are:
     link:user-search.html#reviewedby[reviewedby:self].
 --
 
+[[submittable]]
+--
+* `SUBMITTABLE`: include the `submittable` field in link:#commit-info[CommitInfo],
+  which can be used to tell if the change is reviewed and ready for submit.
+--
+
 [[web-links]]
 --
 * `WEB_LINKS`: include the `web_links` field in link:#commit-info[CommitInfo],
@@ -1420,8 +1426,9 @@ changes to be merged.
 The listed changes use the same format as in
 link:#list-changes[Query Changes] with the
 link:#labels[`LABELS`], link:#detailed-labels[`DETAILED_LABELS`],
-link:#current-revision[`CURRENT_REVISION`], and
-link:#current-commit[`CURRENT_COMMIT`] options set.
+link:#current-revision[`CURRENT_REVISION`],
+link:#current-commit[`CURRENT_COMMIT`], and
+link:#submittable[`SUBMITTABLE`] options set.
 
 Standard link:#query-options[formatting options] can be specified
 with the `o` parameter, as well as the `submitted_together` specific
@@ -4640,7 +4647,7 @@ Whether the change is mergeable. +
 Not set for merged changes, or if the change has not yet been tested.
 |`submittable`        |optional|
 Whether the change has been approved by the project submit rules. +
-Provided only by link:#submitted-together[submitted_together].
+Only set if link:#submittable[requested].
 |`insertions`         ||
 Number of inserted lines.
 |`deletions`          ||

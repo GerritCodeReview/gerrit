@@ -69,7 +69,10 @@ public enum ListChangesOption {
   PUSH_CERTIFICATES(18),
 
   /** Include change's reviewer updates. */
-  REVIEWER_UPDATES(19);
+  REVIEWER_UPDATES(19),
+
+  /** Set the submittable boolean. */
+  SUBMITTABLE(20);
 
   private final int value;
 

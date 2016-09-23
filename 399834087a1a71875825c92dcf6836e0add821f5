@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_902c3aa5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummary.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T14:37:25Z",
+      "side": 1,
+      "message": "This is not the only place where DeflaterOutputStream is used for serialization. PatchList.write is also using it. The question of using H2 support for compressing BLOB columns should be discussed out of the context of this change?",
+      "parentUuid": "f03b47ab_b02e96b1",
+      "revId": "399834087a1a71875825c92dcf6836e0add821f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_b05cd64d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummary.java",
         "patchSetId": 3

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_6a4c57cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-09-23T07:34:19Z",
+      "side": 1,
+      "message": "i think a reasonable option would be listing the merge in some sort of \"related commits\" view without it attempting to replace the actual commit.\n\nbut even when this is done, the argument given here in the commit message would be still valid, only a bit weaker.",
+      "parentUuid": "5637ab0c_60faf25e",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5637ab0c_806a9612",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
         "patchSetId": 4

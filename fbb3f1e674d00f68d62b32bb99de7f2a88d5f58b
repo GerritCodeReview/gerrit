@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_adec7df3",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T11:46:05Z",
+      "side": 1,
+      "message": "moved schema to the constructor",
+      "parentUuid": "a560afe5_aa680f85",
+      "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_ad4b9d0e",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 70
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-23T11:30:33Z",
       "side": 1,
       "message": "Is this actually a sensible default? Would it be better to throw an IllegalAgumentException?",
+      "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_0dae71a0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T11:46:05Z",
+      "side": 1,
+      "message": "It seams that for now we can go with IllegalArbumentException",
+      "parentUuid": "f03b47ab_ad4b9d0e",
       "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_0a715b6c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T11:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_4d1cf91f",
+      "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_2d0fade8",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 70
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-23T11:30:33Z",
       "side": 1,
       "message": "Nit: logger should be the first thing in the class, before any other fields or nested classes.",
+      "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_6d3295aa",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T11:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_2d0fade8",
       "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_8de7c110",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T11:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_cd270976",
+      "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_ca5b43f7",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
         "patchSetId": 70
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_2df96dad",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T11:46:05Z",
+      "side": 1,
+      "message": "Thank you, initially I was thinking that this is kind a overhead but it turned out to be pretty nice solution.",
+      "parentUuid": "a560afe5_ca5b43f7",
+      "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_ed2cc55a",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
         "patchSetId": 70
@@ -115,6 +223,24 @@
       "writtenOn": "2016-09-23T11:30:33Z",
       "side": 1,
       "message": "AOSP header.",
+      "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_cdf1c9ca",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T11:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_ed2cc55a",
       "revId": "fbb3f1e674d00f68d62b32bb99de7f2a88d5f58b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

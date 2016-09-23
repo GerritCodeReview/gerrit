@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_6a03371b",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T09:19:52Z",
+      "side": 1,
+      "message": "\"before they are\" or \"before being\"",
+      "range": {
+        "startLine": 88,
+        "startChar": 24,
+        "endLine": 88,
+        "endChar": 40
+      },
+      "revId": "b3a5da03337c6d5b539f8a15fe39d03bd298205e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

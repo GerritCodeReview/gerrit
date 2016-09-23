@@ -124,7 +124,7 @@ _pkg_war = rule(
   outputs = {'war' : '%{name}.war'},
 )
 
-def pkg_war(name, ui = 'ui_optdbg'):
+def pkg_war(name, ui = 'ui_optdbg', context = []):
   ui_deps = []
   if ui:
     ui_deps.append('//gerrit-gwtui:%s' % ui)
@@ -132,7 +132,7 @@ def pkg_war(name, ui = 'ui_optdbg'):
     name = name,
     libs = LIBS,
     pgmlibs = PGMLIBS,
-    context = ui_deps + [
+    context = context + ui_deps + [
       '//gerrit-main:main_bin_deploy.jar',
       '//gerrit-war:webapp_assets',
     ],

@@ -38,7 +38,7 @@ Example to abandon changes that have not been updated for 3 months:
 Supports dry-run mode to only list the stale changes but not actually
 abandon them.
 
-Requires pygerrit (https://github.com/sonyxperiadev/pygerrit).
+Requires pygerrit2 (https://github.com/dpursehouse/pygerrit2).
 
 """
 
@@ -47,8 +47,8 @@ import optparse
 import re
 import sys
 
-from pygerrit.rest import GerritRestAPI
-from pygerrit.rest.auth import HTTPBasicAuthFromNetrc, HTTPDigestAuthFromNetrc
+from pygerrit2.rest import GerritRestAPI
+from pygerrit2.rest.auth import HTTPBasicAuthFromNetrc, HTTPDigestAuthFromNetrc
 
 
 def _main():

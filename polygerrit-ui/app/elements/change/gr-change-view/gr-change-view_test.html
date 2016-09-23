@@ -35,6 +35,7 @@ limitations under the License.
 <script>
   suite('gr-change-view tests', function() {
     var element;
+    var TEST_SCROLL_TOP_PX = 100;
 
     setup(function() {
       stub('gr-rest-api-interface', {
@@ -426,13 +427,56 @@ limitations under the License.
 
       var e = {detail: {}};
       element._handleShowReplyDialog(e);
-      assert(openSpy.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
+      assert(openSpy.lastCall.calledWithExactly(
+          {opt_section: FocusTarget.REVIEWERS}),
           '_openReplyDialog should have been passed REVIEWERS');
 
       e.detail.value = {ccsOnly: true};
       element._handleShowReplyDialog(e);
-      assert(openSpy.lastCall.calledWithExactly(FocusTarget.CCS),
+      assert(openSpy.lastCall.calledWithExactly({opt_section: FocusTarget.CCS}),
           '_openReplyDialog should have been passed CCS');
+    });
+
+    test('reply from comment adds quote text', function() {
+      var openSpy = sinon.spy(element, '_openReplyDialog');
+
+      var e = {detail: {message: {message: 'quote text'}}};
+      element._handleMessageReply(e);
+      assert(openSpy.lastCall.calledWithExactly({quote: '> quote text\n\n'}),
+          '_openReplyDialog should have been passed quote text');
+    });
+
+    test('reply from comment replaces quote text', function() {
+      element.$.replyDialog.draft = 'some draft text';
+      var openSpy = sinon.spy(element, '_openReplyDialog');
+
+      var e = {detail: {message: {message: 'quote text'}}};
+      element._handleMessageReply(e);
+      assert(openSpy.lastCall.calledWithExactly({quote: '> quote text\n\n'}),
+          '_openReplyDialog should have been passed quote text');
+    });
+
+    test('reply from top of page is blank', function() {
+      var openSpy = sinon.spy(element, '_openReplyDialog');
+      var div = document.createElement('div');
+
+      var e = {target: div, preventDefault: sinon.spy()};
+      element._handleReplyTap(e);
+      assert(openSpy.lastCall.calledWithExactly(),
+          '_openReplyDialog should not be passed anything');
+      assert(e.preventDefault.called);
+    });
+
+    test('reply from top of page is reset', function() {
+      element.$.replyDialog.draft = 'some draft text';
+      var openSpy = sinon.spy(element, '_openReplyDialog');
+      var div = document.createElement('div');
+
+      var e = {target: div, preventDefault: sinon.spy()};
+      element._handleReplyTap(e);
+      assert(openSpy.lastCall.calledWithExactly(),
+          '_openReplyDialog should not be passed anything');
+      assert(e.preventDefault.called);
     });
 
     test('class is applied to file list on old patch set', function() {
@@ -469,18 +513,21 @@ limitations under the License.
 
       });
 
-      test('document scrolling calls function to set scroll height', function(done) {
-          var scrollStub = sinon.stub(element, '_handleScroll',
-              function() {
-                assert.isTrue(scrollStub.called);
-                document.getElementsByTagName('body')[0].style.height = originalHeight+'px';
-                scrollStub.restore();
-                done();
-              });
+      test('document scrolling calls function to set scroll height',
+          function(done) {
+            var scrollStub = sinon.stub(element, '_handleScroll',
+                function() {
+                  assert.isTrue(scrollStub.called);
+                  document.body.style.height =
+                      originalHeight + 'px';
+                  scrollStub.restore();
+                  done();
+                });
 
           var originalHeight = document.body.scrollHeight;
-          document.getElementsByTagName('body')[0].style.height = '10000px';
-          window.scroll(0,100);
+          document.body.style.height = '10000px';
+          document.body.scrollTop = TEST_SCROLL_TOP_PX;
+          element._handleScroll();
       });
     });
   });

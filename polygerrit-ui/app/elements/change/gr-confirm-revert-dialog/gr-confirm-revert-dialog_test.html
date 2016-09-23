@@ -63,7 +63,7 @@ limitations under the License.
       assert.equal(element.message, expected);
     });
 
-    test('revert a revert', function () {
+    test('revert a revert', function() {
       assert.isNotOk(element.message);
       element.populateRevertMessage(
           'Revert "one line commit"\n\nChange-Id: abcdefg\n');

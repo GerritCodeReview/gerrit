@@ -16,6 +16,58 @@
       "revId": "46cc65b25eecbe3490c0b0274e2ffddcecda2304",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_4c321faa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T07:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a54f1d_4bfe85fc",
+      "revId": "46cc65b25eecbe3490c0b0274e2ffddcecda2304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_0be3dd31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T07:51:29Z",
+      "side": 1,
+      "message": "Unnecessary code reformatting",
+      "revId": "46cc65b25eecbe3490c0b0274e2ffddcecda2304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_2c3b5388",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T07:51:29Z",
+      "side": 1,
+      "message": "Unnecessary code reformatting",
+      "revId": "46cc65b25eecbe3490c0b0274e2ffddcecda2304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

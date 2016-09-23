@@ -58,7 +58,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.patch.FileList;
+import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -336,7 +336,7 @@ public class ChangeData {
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files;
   private Map<Integer, Optional<PatchList>> patchLists;
-  private Map<Integer, Optional<FileList>> fileLists;
+  private Map<Integer, Optional<DiffSummary>> diffSummaries;
   private Collection<Comment> publishedComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
@@ -588,7 +588,7 @@ public class ChangeData {
         return null;
       }
 
-      Optional<FileList> p = getFileList(c, ps);
+      Optional<DiffSummary> p = getDiffSummary(c, ps);
       if (!p.isPresent()) {
         List<String> emptyFileList = Collections.emptyList();
         if (lazyLoad) {
@@ -623,22 +623,22 @@ public class ChangeData {
     return r;
   }
 
-  private Optional<FileList> getFileList(Change c, PatchSet ps) {
+  private Optional<DiffSummary> getDiffSummary(Change c, PatchSet ps) {
     Integer psId = ps.getId().get();
-    if (fileLists == null) {
-      fileLists = new HashMap<>();
+    if (diffSummaries == null) {
+      diffSummaries = new HashMap<>();
     }
-    Optional<FileList> r = fileLists.get(psId);
+    Optional<DiffSummary> r = diffSummaries.get(psId);
     if (r == null) {
       if (!lazyLoad) {
         return Optional.absent();
       }
       try {
-        r = Optional.of(patchListCache.getFileList(c, ps));
+        r = Optional.of(patchListCache.getDiffSummary(c, ps));
       } catch (PatchListNotAvailableException e) {
         r = Optional.absent();
       }
-      fileLists.put(psId, r);
+      diffSummaries.put(psId, r);
     }
     return r;
   }

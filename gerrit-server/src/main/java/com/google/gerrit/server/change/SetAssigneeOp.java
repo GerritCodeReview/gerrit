@@ -78,18 +78,18 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     Optional<Account.Id> oldAssigneeId =
         Optional.fromNullable(ctx.getChange().getAssignee());
     if (input.assignee == null) {
-      if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
+      if (oldAssigneeId.isPresent()) {
         throw new BadRequestException("Cannot set Assignee to empty");
       }
       return false;
     }
     Account oldAssignee = null;
-    if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
+    if (oldAssigneeId.isPresent()) {
       oldAssignee = accountInfosFactory.create().get(oldAssigneeId.get());
     }
     IdentifiedUser newAssigneeUser = accounts.parse(input.assignee);
-    if (oldAssigneeId != null &&
-        oldAssigneeId.equals(newAssigneeUser.getAccountId())) {
+    if (oldAssigneeId.isPresent() &&
+        oldAssigneeId.get().equals(newAssigneeUser.getAccountId())) {
       newAssignee = oldAssignee;
       return false;
     }

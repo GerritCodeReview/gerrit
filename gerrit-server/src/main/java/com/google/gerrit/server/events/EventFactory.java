@@ -158,6 +158,7 @@ public class EventFactory {
     }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
+    a.assignee = asAccountAttribute(change.getAssignee());
     a.status = change.getStatus();
     return a;
   }

@@ -22,6 +22,7 @@ public class EventTypes {
   private static final Map<String, Class<?>> typesByString = new HashMap<>();
 
   static {
+    register(AssigneeChangedEvent.TYPE, AssigneeChangedEvent.class);
     register(ChangeAbandonedEvent.TYPE, ChangeAbandonedEvent.class);
     register(ChangeMergedEvent.TYPE, ChangeMergedEvent.class);
     register(ChangeRestoredEvent.TYPE, ChangeRestoredEvent.class);

@@ -23,6 +23,30 @@
       "revId": "025e2d9079fb3b727a560795593c4f8fbd43dedb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_4ded2db1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryWeigher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T13:17:08Z",
+      "side": 1,
+      "message": "Yeah, one I haven\u0027t pushed yet. Bad rebase.",
+      "parentUuid": "a560afe5_8dbb25ba",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 14
+      },
+      "revId": "025e2d9079fb3b727a560795593c4f8fbd43dedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

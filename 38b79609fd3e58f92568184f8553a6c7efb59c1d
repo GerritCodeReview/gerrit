@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_6dd7f5b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:50:08Z",
+      "side": 1,
+      "message": "I disagree, but I\u0027ll come back and clean it up after submission so as to not slow you down :)",
+      "parentUuid": "4be70257_c6e3969b",
+      "revId": "38b79609fd3e58f92568184f8553a6c7efb59c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_06e8dea5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AssigneeLinkPanel.java",
         "patchSetId": 6

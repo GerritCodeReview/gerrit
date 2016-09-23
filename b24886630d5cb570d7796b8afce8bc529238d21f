@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "904beb45_b2f3009a",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-23T21:30:30Z",
+      "side": 1,
+      "message": "That definitely makes sense. It seems like we have no real home for utility functions as of right now, I know wyatta@ also ran up against this issue.\n\nThough to be fair, this is the first time this function has been exposed outside of the api-interface.",
+      "parentUuid": "65ef9770_a0bb9ab9",
+      "revId": "b24886630d5cb570d7796b8afce8bc529238d21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65ef9770_80e896a3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "904beb45_d2e884a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-23T21:30:30Z",
+      "side": 1,
+      "message": "Good idea. I left this file untouched except for a find/replace, but we can definitely get rid of the binds here.",
+      "parentUuid": "65ef9770_80e896a3",
+      "revId": "b24886630d5cb570d7796b8afce8bc529238d21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "904beb45_92eefcb2",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-09-23T21:25:09Z",
       "side": 1,
       "message": "And here as well.",
+      "revId": "b24886630d5cb570d7796b8afce8bc529238d21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ef9770_40e28ec1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-23T21:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "904beb45_92eefcb2",
       "revId": "b24886630d5cb570d7796b8afce8bc529238d21f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

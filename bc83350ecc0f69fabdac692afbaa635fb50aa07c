@@ -94,6 +94,30 @@
       "revId": "bc83350ecc0f69fabdac692afbaa635fb50aa07c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_f049feb5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T13:15:53Z",
+      "side": 1,
+      "message": "Ahh. I don\u0027t want to catch the exceptions from the stdout.print. Just the actual gson:ing. It is a catch-all, and some write() exceptions should probably travel up the stack.",
+      "parentUuid": "a560afe5_0d997571",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bc83350ecc0f69fabdac692afbaa635fb50aa07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

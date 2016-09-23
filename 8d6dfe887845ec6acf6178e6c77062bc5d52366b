@@ -23,6 +23,30 @@
       "revId": "8d6dfe887845ec6acf6178e6c77062bc5d52366b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_4d51ad61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T13:54:04Z",
+      "side": 1,
+      "message": "No, that\u0027s exactly the problem. PatchListKey.serialVersionUID \u003d\u003d PatchList.serialVersionUID, meaning if we change the contents of what we store in PatchList, we would end up invalidating the entire DiffSummary cache. But PatchList is a complicated beast--there\u0027s a good chance that a change to what is stored there would *not* require invalidating the DiffSummary cache.",
+      "parentUuid": "f03b47ab_70898ed0",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "8d6dfe887845ec6acf6178e6c77062bc5d52366b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

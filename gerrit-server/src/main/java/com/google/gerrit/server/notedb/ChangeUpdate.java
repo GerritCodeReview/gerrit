@@ -378,8 +378,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
-  public void setAssignee(Optional<Account.Id> assignee) {
-    this.assignee = assignee;
+  public void setAssignee(Account.Id assignee) {
+    checkArgument(assignee != null, "use removeAssignee");
+    this.assignee = Optional.of(assignee);
+  }
+
+  public void removeAssignee() {
+    this.assignee = Optional.absent();
   }
 
   public Map<Account.Id, ReviewerStateInternal> getReviewers() {

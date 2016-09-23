@@ -103,7 +103,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
         return false;
       }
       Account account = accountInfos.create().get(currentAssigneeId.get());
-      update.setAssignee(Optional.absent());
+      update.removeAssignee();
       addMessage(ctx, update, account);
       deletedAssignee = account;
       return true;

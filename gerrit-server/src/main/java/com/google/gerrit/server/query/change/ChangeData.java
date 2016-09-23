@@ -57,7 +57,6 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffSummary;
-import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -335,7 +334,6 @@ public class ChangeData {
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files;
-  private Map<Integer, Optional<PatchList>> patchLists;
   private Map<Integer, Optional<DiffSummary>> diffSummaries;
   private Collection<Comment> publishedComments;
   private CurrentUser visibleTo;
@@ -606,26 +604,6 @@ public class ChangeData {
     return r;
   }
 
-  private Optional<PatchList> getPatchList(Change c, PatchSet ps) {
-    Integer psId = ps.getId().get();
-    if (patchLists == null) {
-      patchLists = new HashMap<>();
-    }
-    Optional<PatchList> r = patchLists.get(psId);
-    if (r == null) {
-      if (!lazyLoad) {
-        return Optional.empty();
-      }
-      try {
-        r = Optional.of(patchListCache.get(c, ps));
-      } catch (PatchListNotAvailableException e) {
-        r = Optional.empty();
-      }
-      patchLists.put(psId, r);
-    }
-    return r;
-  }
-
   private Optional<DiffSummary> getDiffSummary(Change c, PatchSet ps) {
     Integer psId = ps.getId().get();
     if (diffSummaries == null) {
@@ -655,8 +633,11 @@ public class ChangeData {
     if (ps == null) {
       return Optional.empty();
     }
-    return getPatchList(c, ps).map(
-        p -> new ChangedLines(p.getInsertions(), p.getDeletions()));
+    Optional<DiffSummary> ds = getDiffSummary(c, ps);
+    if (ds.isPresent()) {
+      return Optional.of(ds.get().getChangedLines());
+    }
+    return Optional.empty();
   }
 
   public Optional<ChangedLines> changedLines() throws OrmException {
@@ -1283,7 +1264,7 @@ public class ChangeData {
     public final int insertions;
     public final int deletions;
 
-    ChangedLines(int insertions, int deletions) {
+    public ChangedLines(int insertions, int deletions) {
       this.insertions = insertions;
       this.deletions = deletions;
     }

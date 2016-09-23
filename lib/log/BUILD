@@ -2,6 +2,7 @@ java_library(
   name = 'api',
   exports = ['@log_api//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-slf4j'],
 )
 
 java_library(
@@ -9,6 +10,7 @@ java_library(
   exports = ['@log_nop//jar'],
   runtime_deps = [':api'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-slf4j'],
 )
 
 java_library(
@@ -16,18 +18,21 @@ java_library(
   exports = ['@impl_log4j//jar'],
   runtime_deps = [':log4j'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-slf4j'],
 )
 
 java_library(
   name = 'jcl-over-slf4j',
   exports = ['@jcl_over_slf4j//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-slf4j'],
 )
 
 java_library(
   name = 'log4j',
   exports = ['@log4j//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
@@ -38,10 +43,12 @@ java_library(
     '//lib/commons:lang'
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'json-smart',
   exports = ['@json_smart//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )

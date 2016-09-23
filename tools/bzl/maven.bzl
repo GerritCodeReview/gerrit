@@ -18,10 +18,7 @@ def cmd(jars):
   return ('$(location //tools:merge_jars) $@ '
           + ' '.join(['$(location %s)' % j for j in jars]))
 
-def merge_maven_jars(
-    name,
-    srcs,
-    visibility = []):
+def merge_maven_jars(name, srcs, **kwargs):
   native.genrule(
     name = '%s__merged_bin' % name,
     cmd = cmd(srcs),
@@ -31,5 +28,5 @@ def merge_maven_jars(
   native.java_import(
     name = name,
     jars = [':%s__merged_bin' % name],
-    visibility = visibility,
+    **kwargs
   )

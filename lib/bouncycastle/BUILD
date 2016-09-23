@@ -3,12 +3,14 @@ java_library(
   neverlink = 1,
   exports = ['@bcprov//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
   name = 'bcprov-without-neverlink',
   exports = ['@bcprov//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -16,12 +18,14 @@ java_library(
   neverlink = 1,
   exports = ['@bcpg//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
   name = 'bcpg-without-neverlink',
   exports = ['@bcpg//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -29,10 +33,12 @@ java_library(
   neverlink = 1,
   exports = ['@bcpkix//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
   name = 'bcpkix-without-neverlink',
   exports = ['@bcpkix//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )

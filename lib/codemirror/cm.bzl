@@ -215,15 +215,17 @@ CM_MODES = [
 VERSION = '5.18.2'
 TOP = 'META-INF/resources/webjars/codemirror/%s' % VERSION
 TOP_MINIFIED = 'META-INF/resources/webjars/codemirror-minified/%s' % VERSION
+LICENSE = '//lib:LICENSE-codemirror-original'
+LICENSE_MINIFIED = '//lib:LICENSE-codemirror-original-minified'
 
 DIFF_MATCH_PATCH_VERSION = '20121119-1'
 DIFF_MATCH_PATCH_TOP = ('META-INF/resources/webjars/google-diff-match-patch/%s'
     % DIFF_MATCH_PATCH_VERSION)
 
 def pkg_cm():
-  for archive, suffix, top in [
-      ('@codemirror_original//jar', '', TOP),
-      ('@codemirror_minified//jar', '_r', TOP_MINIFIED)
+  for archive, suffix, top, license in [
+      ('@codemirror_original//jar', '', TOP, LICENSE),
+      ('@codemirror_minified//jar', '_r', TOP_MINIFIED, LICENSE_MINIFIED)
   ]:
     # Main JavaScript and addons
     genrule2(
@@ -352,4 +354,5 @@ def pkg_cm():
       name = 'codemirror' + suffix,
       jars = [':jar%s' % suffix],
       visibility = ['//visibility:public'],
+      data = [license],
     )

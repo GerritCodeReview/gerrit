@@ -3,6 +3,7 @@ java_library(
   exports = ['@fluent_hc//jar'],
   runtime_deps = [':httpclient'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
@@ -14,16 +15,19 @@ java_library(
     '//lib/log:jcl-over-slf4j',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'httpcore',
   exports = ['@httpcore//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'httpmime',
   exports = ['@httpmime//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )

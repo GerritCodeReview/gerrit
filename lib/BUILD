@@ -1,55 +1,96 @@
 exports_files([
-  "LICENSE-DO_NOT_DISTRIBUTE"
+  "LICENSE-antlr",
+  "LICENSE-Apache1.1",
+  "LICENSE-Apache2.0",
+  "LICENSE-args4j",
+  "LICENSE-asciidoctor",
+  "LICENSE-automaton",
+  "LICENSE-bouncycastle",
+  "LICENSE-CC-BY3.0-unported",
+  "LICENSE-clippy",
+  "LICENSE-codemirror-minified",
+  "LICENSE-codemirror-original",
+  "LICENSE-diffy",
+  "LICENSE-es6-promise",
+  "LICENSE-fetch",
+  "LICENSE-h2",
+  "LICENSE-highlightjs",
+  "LICENSE-icu4j",
+  "LICENSE-jgit",
+  "LICENSE-jsch",
+  "LICENSE-MPL1.1",
+  "LICENSE-moment",
+  "LICENSE-OFL1.1",
+  "LICENSE-ow2",
+  "LICENSE-page.js",
+  "LICENSE-polymer",
+  "LICENSE-postgresql",
+  "LICENSE-prologcafe",
+  "LICENSE-promise-polyfill",
+  "LICENSE-protobuf",
+  "LICENSE-PublicDomain",
+  "LICENSE-silk_icons",
+  "LICENSE-slf4j",
+  "LICENSE-xz",
+
+  "LICENSE-DO_NOT_DISTRIBUTE",
 ])
 
 java_library(
   name = 'servlet-api-3_1',
   neverlink = 1,
-  data = [ ":LICENSE-Apache2.0" ],
   exports = ['@servlet_api_3_1//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'servlet-api-3_1-without-neverlink',
   exports = ['@servlet_api_3_1//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'gwtjsonrpc',
   exports = ['@gwtjsonrpc//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'gwtjsonrpc_src',
   exports = ['@gwtjsonrpc_src//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'gson',
   exports = ['@gson//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'gwtorm_client',
   exports = ['@gwtorm_client//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'gwtorm_client_src',
   exports = ['@gwtorm_client_src//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'protobuf',
   exports = ['@protobuf//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-protobuf'],
 )
 
 java_library(
@@ -63,6 +104,7 @@ java_library(
   name = 'guava',
   exports = ['@guava//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
@@ -74,31 +116,35 @@ java_library(
     '//lib/commons:oro',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'jsch',
   exports = ['@jsch//jar'],
   visibility = ['//visibility:public'],
-  data = [ ":LICENSE-jsch" ],
+  data = ['//lib:LICENSE-jsch'],
 )
 
 java_library(
   name = 'juniversalchardet',
   exports = ['@juniversalchardet//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-MPL1.1'],
 )
 
 java_library(
   name = 'args4j',
   exports = ['@args4j//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-args4j'],
 )
 
 java_library(
   name = 'automaton',
   exports = ['@automaton//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-automaton'],
 )
 
 java_library(
@@ -106,6 +152,7 @@ java_library(
   exports = ['@pegdown//jar'],
   runtime_deps = [':grappa'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
@@ -119,24 +166,28 @@ java_library(
     '//lib/ow2:ow2-asm-util',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'jitescript',
   exports = ['@jitescript//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'tukaani-xz',
   exports = ['@tukaani_xz//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-xz'],
 )
 
 java_library(
   name = 'mime-util',
   exports = ['@mime_util//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
@@ -144,17 +195,20 @@ java_library(
   exports = ['@guava_retrying//jar'],
   runtime_deps = [':jsr305'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'jsr305',
   exports = ['@jsr305//jar'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'blame-cache',
   exports = ['@blame_cache//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 
@@ -162,6 +216,7 @@ java_library(
   name = 'h2',
   exports = ['@h2//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-h2'],
 )
 
 
@@ -170,6 +225,7 @@ java_library(
   exports = ['@jimfs//jar'],
   runtime_deps = [':guava'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -180,12 +236,14 @@ java_library(
   ],
   runtime_deps = [':hamcrest-core'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
   name = 'hamcrest-core',
   exports = ['@hamcrest_core//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -196,18 +254,21 @@ java_library(
     ':junit',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
   name = 'javassist',
   exports = ['@javassist//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
   name = 'derby',
   exports = ['@derby//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
@@ -230,22 +291,26 @@ java_library(
     '//lib/ow2:ow2-asm-util',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'icu4j',
   exports = [ '@icu4j//jar' ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-icu4j'],
 )
 
 java_library(
   name = 'postgresql',
   exports = ['@postgresql//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-postgresql'],
 )
 
 java_library(
   name = 'commons-io',
   exports = ['@commons_io//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )

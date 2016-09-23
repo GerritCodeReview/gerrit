@@ -6,6 +6,7 @@ java_library(
     '//lib:junit',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -16,6 +17,7 @@ java_library(
     '//lib:junit',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -26,6 +28,7 @@ java_library(
     '//lib/easymock:objenesis',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -36,6 +39,7 @@ java_library(
     '//lib/easymock:easymock',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -47,6 +51,7 @@ java_library(
     '//lib:junit',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )
 
 java_library(
@@ -57,4 +62,5 @@ java_library(
     '//lib:junit',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
 )

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_109daab5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T15:44:26Z",
+      "side": 1,
+      "message": "IIUC we only need to care about this for cases when it\u0027s called via the web UI because we don\u0027t want the user to delete the ID that\u0027s tied to their current web session.\n\nI\u0027m not sure if that\u0027s a relevant concern if calling via the extension API or via the REST API on the command line.",
+      "parentUuid": "f03b47ab_50be521d",
+      "revId": "327526c41adf3f99288ad1751bec99c539d9695a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_70bb4e2c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-23T15:39:04Z",
       "side": 1,
       "message": "This is just because we generally treat usernames as immutable, right?",
+      "revId": "327526c41adf3f99288ad1751bec99c539d9695a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_d082425b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T15:44:26Z",
+      "side": 1,
+      "message": "I think so.  This is basically copied from the existing RPC implementation.",
+      "parentUuid": "f03b47ab_70bb4e2c",
       "revId": "327526c41adf3f99288ad1751bec99c539d9695a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

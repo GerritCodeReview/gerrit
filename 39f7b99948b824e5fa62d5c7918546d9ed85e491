@@ -95,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_0afddb51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T07:51:29Z",
+      "side": 1,
+      "message": "It wasn\u0027t possible by the CacheModule\u0027s DSL but I introduced it now in the parent change.",
+      "parentUuid": "d0a803f6_6c3b9bd5",
+      "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_4c385fd7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 3
@@ -106,6 +124,24 @@
       "writtenOn": "2016-09-22T13:52:06Z",
       "side": 1,
       "message": "Should we also put the results into the file path cache too?",
+      "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_8d61813f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T07:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_4c385fd7",
       "revId": "39f7b99948b824e5fa62d5c7918546d9ed85e491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

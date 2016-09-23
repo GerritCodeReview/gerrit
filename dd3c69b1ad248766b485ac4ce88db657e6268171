@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_ea44c747",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-23T10:06:15Z",
+      "side": 1,
+      "message": "previously we did not remove the change owner from the list of suggested reviewers, which I changed now as you can\u0027t review your own change",
+      "parentUuid": "b0a54f1d_0bcc7db1",
+      "range": {
+        "startLine": 208,
+        "startChar": 34,
+        "endLine": 208,
+        "endChar": 35
+      },
+      "revId": "dd3c69b1ad248766b485ac4ce88db657e6268171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a54f1d_6bc9c1a1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2016-09-22T15:47:12Z",
       "side": 1,
       "message": "nit: unneeded blank line",
+      "revId": "dd3c69b1ad248766b485ac4ce88db657e6268171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_2a377f04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-23T10:06:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a54f1d_6bc9c1a1",
       "revId": "dd3c69b1ad248766b485ac4ce88db657e6268171",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_cd047d27",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T15:43:07Z",
+      "side": 1,
+      "message": "I think I like DiffBase better than DiffObject, despite the potential ambiguity.\n\nA DiffBase is anything that can appear as the base of a diff. One kind of diff base is the base of a patch set, but it\u0027s not the only kind. Where there is ambiguity you should say \"diff base\" and \"base of patch set\".\n\nAlternatively: this class represents something that can appear on the left-hand side of a side-by-side diff. Would \"LHS\" get that across?",
+      "parentUuid": "9084cb25_2a50ff58",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "ae75f028eec70897c722d742e5dff2760edd1bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_e6a05aa7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 1

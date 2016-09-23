@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a560afe5_2d40b95a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 72
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:04:51Z",
+      "side": 1,
+      "message": "OK, I see that these topics are on the TODO list",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_104a0a51",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 72

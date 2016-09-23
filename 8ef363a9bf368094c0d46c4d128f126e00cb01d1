@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_4d2f6d93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 72
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "\u003e Also, are you just talking about tests here?\n\nExactly, I mean here the tests that (as you noticed) spines up ES instance. Seams that different Lucene version is somehow problematic for David Pursehouse during test execution in Eclipse.\n\nTest (seams to) always work from command line (after fixes to Daemon.createModule())",
+      "parentUuid": "a560afe5_cd1d9d85",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_2d40b95a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 72
@@ -36,6 +60,24 @@
       "writtenOn": "2016-09-23T15:04:51Z",
       "side": 1,
       "message": "OK, I see that these topics are on the TODO list",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_6d03511b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 72
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Yes, the TODO list is updated in follow up commits. Putting everything into one change would make it hard to review.",
+      "parentUuid": "a560afe5_2d40b95a",
       "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_4d088d35",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 72
+      },
+      "lineNbr": 2568,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "They will be solved and documented as we go ;)",
+      "parentUuid": "f03b47ab_104a0a51",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_0d6e15f5",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 72
@@ -70,6 +130,30 @@
       "writtenOn": "2016-09-23T15:03:32Z",
       "side": 1,
       "message": "Defaults",
+      "range": {
+        "startLine": 2583,
+        "startChar": 0,
+        "endLine": 2583,
+        "endChar": 7
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_2d0d5945",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 72
+      },
+      "lineNbr": 2583,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_0d6e15f5",
       "range": {
         "startLine": 2583,
         "startChar": 0,
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_90f19afd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 72
+      },
+      "lineNbr": 2593,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_cd6fdded",
+      "range": {
+        "startLine": 2593,
+        "startChar": 0,
+        "endLine": 2593,
+        "endChar": 12
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_10412a3d",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 72
@@ -116,6 +224,30 @@
       "writtenOn": "2016-09-23T15:03:32Z",
       "side": 1,
       "message": "wrong indentation",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_0d129565",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_10412a3d",
       "range": {
         "startLine": 119,
         "startChar": 0,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_ed162158",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "this formatting makes this code more readable",
+      "parentUuid": "f03b47ab_303e26c6",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_b05a1620",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 72
@@ -162,6 +318,30 @@
       "writtenOn": "2016-09-23T15:03:32Z",
       "side": 1,
       "message": "wrong indentation",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_b0f696f0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "this way code  is more readable",
+      "parentUuid": "f03b47ab_b05a1620",
       "range": {
         "startLine": 174,
         "startChar": 0,
@@ -191,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_cd135d66",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_d05fa20e",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_f0649eeb",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
         "patchSetId": 72
@@ -207,6 +405,53 @@
         "startChar": 0,
         "endLine": 90,
         "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_ad2029a4",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "having code formatted this way make it more readable",
+      "parentUuid": "f03b47ab_f0649eeb",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_d0fb22d7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Don\u0027t know why, but this seams to be problematic in during cookbook-plugin tests. After extracting and refactoring ternary operator before this  switch-case block they (magically) started to work.",
+      "range": {
+        "startLine": 410,
+        "startChar": 7,
+        "endLine": 415,
+        "endChar": 67
       },
       "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -231,6 +476,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_8d1d6574",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_50073277",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_ed862116",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
         "patchSetId": 72
@@ -242,6 +505,24 @@
       "writtenOn": "2016-09-23T12:44:15Z",
       "side": 1,
       "message": "Unused.",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_6d2a3185",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T18:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_ed862116",
       "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

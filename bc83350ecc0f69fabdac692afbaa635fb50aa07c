@@ -70,6 +70,30 @@
       "revId": "bc83350ecc0f69fabdac692afbaa635fb50aa07c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_d04402a1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T13:12:58Z",
+      "side": 1,
+      "message": "For example:\n\n try {\n   final String msg \u003d gson.toJson(message) + \"\\n\";\n   synchronized (stdout) {\n     stdout.print(msg);\n   }\n } catch (Exception e) {\n   log.warn(\"Could not deserialize the msg: \", e);\n }",
+      "parentUuid": "a560afe5_0d997571",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bc83350ecc0f69fabdac692afbaa635fb50aa07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

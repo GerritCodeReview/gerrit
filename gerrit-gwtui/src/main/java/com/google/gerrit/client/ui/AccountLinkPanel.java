@@ -22,30 +22,44 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+import java.util.function.Function;
+
 /** Link to any user's account dashboard. */
 public class AccountLinkPanel extends FlowPanel {
-  public AccountLinkPanel(AccountInfo info) {
-    this(info, Change.Status.NEW);
+  public static AccountLinkPanel create(AccountInfo ai) {
+    return withStatus(ai, Change.Status.NEW);
   }
 
-  public AccountLinkPanel(AccountInfo info, Change.Status status) {
+  public static AccountLinkPanel withStatus(AccountInfo ai,
+      Change.Status status) {
+    return new AccountLinkPanel(
+        ai, name -> PageLinks.toAccountQuery(name, status));
+  }
+
+  public static AccountLinkPanel forAssignee(AccountInfo ai) {
+    return new AccountLinkPanel(ai, PageLinks::toAssigneeQuery);
+  }
+
+  private AccountLinkPanel(AccountInfo ai,
+      Function<String, String> nameToQuery) {
     addStyleName(Gerrit.RESOURCES.css().accountLinkPanel());
 
     InlineHyperlink l =
-        new InlineHyperlink(FormatUtil.name(info), PageLinks.toAccountQuery(
-            owner(info), status)) {
-      @Override
-      public void go() {
-        Gerrit.display(getTargetHistoryToken());
-      }
-    };
-    l.setTitle(FormatUtil.nameEmail(info));
+        new InlineHyperlink(
+            FormatUtil.name(ai),
+            nameToQuery.apply(name(ai))) {
+          @Override
+          public void go() {
+            Gerrit.display(getTargetHistoryToken());
+          }
+        };
+    l.setTitle(FormatUtil.nameEmail(ai));
 
-    add(new AvatarImage(info));
+    add(new AvatarImage(ai));
     add(l);
   }
 
-  public static String owner(AccountInfo ai) {
+  private static String name(AccountInfo ai) {
     if (ai.email() != null) {
       return ai.email();
     } else if (ai.name() != null) {

@@ -22,7 +22,6 @@ import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.ui.AccountLinkPanel;
-import com.google.gerrit.client.ui.AssigneeLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -237,13 +236,15 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     if (c.owner() != null) {
-      table.setWidget(row, C_OWNER, new AccountLinkPanel(c.owner(), status));
+      table.setWidget(row, C_OWNER,
+          AccountLinkPanel.withStatus(c.owner(), status));
     } else {
       table.setText(row, C_OWNER, "");
     }
 
     if (c.assignee() != null) {
-      table.setWidget(row, C_ASSIGNEE, new AssigneeLinkPanel(c.assignee()));
+      table.setWidget(row, C_ASSIGNEE,
+          AccountLinkPanel.forAssignee(c.assignee()));
       if (Objects.equals(c.assignee().getId(),
           Gerrit.getUserAccount().getId())) {
         table.getRowFormatter().addStyleName(row,

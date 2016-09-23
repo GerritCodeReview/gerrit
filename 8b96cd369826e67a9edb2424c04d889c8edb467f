@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_ad171d59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-23T08:59:09Z",
+      "side": 1,
+      "message": "When https://gerrit-review.googlesource.com/#/c/86802 is merged we can remove it all together...",
+      "parentUuid": "b0a54f1d_0bb11d4e",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "8b96cd369826e67a9edb2424c04d889c8edb467f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_ecfb0bd7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
         "patchSetId": 1

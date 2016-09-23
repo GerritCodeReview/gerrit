@@ -22,6 +22,30 @@
       "revId": "1bc8be498ad61fae2c6b6a128fb47e4d5f90ad64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_6dbb752c",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T09:53:45Z",
+      "side": 1,
+      "message": "Looks like the rest of the comment got cut off when copying from the buck file.  Done.",
+      "parentUuid": "b0a54f1d_8b5ced4d",
+      "range": {
+        "startLine": 624,
+        "startChar": 42,
+        "endLine": 624,
+        "endChar": 68
+      },
+      "revId": "1bc8be498ad61fae2c6b6a128fb47e4d5f90ad64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

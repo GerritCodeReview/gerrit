@@ -50,6 +50,24 @@
       "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ef9770_c0d57edb",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-23T21:45:17Z",
+      "side": 1,
+      "message": "The reason that I had trouble with doing it as part of viewChanced is that if a user clicks the back/forward button, the path will have already changed, but if they click via a link, the path would not have changed yet at this point. The goal is to get the new path of either a dashboard or changelist view.  Any other ideas to get around this?",
+      "parentUuid": "65ef9770_00b5a6c7",
+      "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

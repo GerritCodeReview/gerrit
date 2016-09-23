@@ -48,6 +48,8 @@ import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
@@ -85,6 +87,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
   private final GerritOptions gerritOptions;
+  private final ChangeIndexCollection indexes;
 
   @Inject
   public GetServerInfo(
@@ -105,7 +108,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       NotesMigration migration,
       ProjectCache projectCache,
       AgreementJson agreementJson,
-      GerritOptions gerritOptions) {
+      GerritOptions gerritOptions,
+      ChangeIndexCollection indexes) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -124,6 +128,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
     this.gerritOptions = gerritOptions;
+    this.indexes = indexes;
   }
 
   @Override
@@ -203,9 +208,11 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     ChangeConfigInfo info = new ChangeConfigInfo();
     info.allowBlame = toBoolean(cfg.getBoolean("change", "allowBlame", true));
     info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
-    info.showAssignee =
-        toBoolean(cfg.getBoolean("change", "showAssignee", true)
-            && isNoteDbEnabled());
+    info.showAssignee = toBoolean(
+        cfg.getBoolean("change", "showAssignee", true)
+            && isNoteDbEnabled()
+            && indexes.getSearchIndex().getSchema()
+                .hasField(ChangeField.ASSIGNEE));
     info.largeChange = cfg.getInt("change", "largeChange", 500);
     info.replyTooltip =
         Optional.fromNullable(cfg.getString("change", null, "replyTooltip"))

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a560afe5_aa624f32",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/AssigneeChangedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:43:17Z",
+      "side": 1,
+      "message": "@Nullable?",
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9084cb25_aaadcf8c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 3
@@ -19,6 +36,81 @@
         "endLine": 64,
         "endChar": 36
       },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_8a5f8b72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:43:17Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "9084cb25_aaadcf8c",
+      "range": {
+        "startLine": 64,
+        "startChar": 5,
+        "endLine": 64,
+        "endChar": 36
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_6d5d3572",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/AssigneeChangedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:43:17Z",
+      "side": 1,
+      "message": "Dumb question: there is no newAssignee because it\u0027s already available via the ChangeAttribute, right?",
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_4a519361",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:43:17Z",
+      "side": 1,
+      "message": "Nit: indentation",
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_6ae21794",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/AssigneeChanged.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:43:17Z",
+      "side": 1,
+      "message": "(Completely unrelated to this change.) There is a lot of duplicate boilerplate in our event handler code that I bet we could reduce by using lambdas.",
       "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

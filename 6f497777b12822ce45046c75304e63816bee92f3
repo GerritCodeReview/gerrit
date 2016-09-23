@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03b47ab_ed45a5fa",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:45:02Z",
+      "side": 1,
+      "message": "Ah. You are overthinking it.\n\nNow that assignee is a field in Change, you can actually make the ASSIGNEE field non-stored. It will get populated from the CHANGE field in toChangeData above. You can then get rid of this whole decodeAssignee thing entirely.",
+      "revId": "6f497777b12822ce45046c75304e63816bee92f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_0d3bd187",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:45:02Z",
+      "side": 1,
+      "message": "aka in",
+      "range": {
+        "startLine": 445,
+        "startChar": 10,
+        "endLine": 445,
+        "endChar": 21
+      },
+      "revId": "6f497777b12822ce45046c75304e63816bee92f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_2a6c1f94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:45:02Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 446,
+        "startChar": 41,
+        "endLine": 446,
+        "endChar": 52
+      },
+      "revId": "6f497777b12822ce45046c75304e63816bee92f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_6ddc552f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:45:02Z",
+      "side": 1,
+      "message": "Per my comments in LuceneChangeIndex, you can set this to false.\n\n(Word of warning: normally when changing the semantics of an index field we would have to make a completely new field. In this case I don\u0027t think it\u0027s worth the effort, because this was submitted a day ago, nobody is running this in the wild.)",
+      "range": {
+        "startLine": 322,
+        "startChar": 64,
+        "endLine": 322,
+        "endChar": 68
+      },
+      "revId": "6f497777b12822ce45046c75304e63816bee92f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_6a19f73b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:45:02Z",
+      "side": 1,
+      "message": "This is what I was talking about on the way to lunch.\n\nWhen a ChangeNotes is created, it gets a Change object in its constructor. If NoteDb is enabled, the ChangeNotesParser parses the assignee (and the rest of these columns) from the NoteDb graph, then copies the result into the Change.\n\nIf NoteDb is disabled, the Factory path ensures that the Change object passed to the ChangeNotes constructor was already read from ReviewDb. Therefore its assignee column will already be up-to-date, even though ChangeNotesParser doesn\u0027t run.",
+      "revId": "6f497777b12822ce45046c75304e63816bee92f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_cdc3894e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:45:02Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "6f497777b12822ce45046c75304e63816bee92f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03b47ab_cd6b8919",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:29:04Z",
+      "side": 1,
+      "message": "I think you can group these together below. It\u0027s not worth this extra conditional just for the purpose of keeping all the \"is\" predicates together.",
+      "revId": "5aae948ba83273c6e529d15f1b260c7571e083d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_6d045572",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:29:04Z",
+      "side": 1,
+      "message": "Maybe factor out a field for showAssignee like we do for showLegacyId?",
+      "revId": "5aae948ba83273c6e529d15f1b260c7571e083d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

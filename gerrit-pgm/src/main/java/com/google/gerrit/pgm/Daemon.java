@@ -350,7 +350,7 @@ public class Daemon extends SiteProgram {
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
-    modules.add(new SearchingChangeCacheImpl.Module());
+    modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultCacheFactory.Module());
     if (emailModule != null) {

@@ -259,8 +259,7 @@
       var msg = e.detail.message.message;
       var quoteStr = msg.split('\n').map(
           function(line) { return '> ' + line; }).join('\n') + '\n\n';
-      this.$.replyDialog.draft += quoteStr;
-      this._openReplyDialog();
+      this._openReplyDialog({quote: quoteStr});
     },
 
     _handleReplyOverlayOpen: function(e) {
@@ -285,7 +284,7 @@
       if (e.detail.value && e.detail.value.ccsOnly) {
         target = this.$.replyDialog.FocusTarget.CCS;
       }
-      this._openReplyDialog(target);
+      this._openReplyDialog({opt_section: target});
     },
 
     _handleScroll: function() {
@@ -577,10 +576,11 @@
       });
     },
 
-    _openReplyDialog: function(opt_section) {
+    _openReplyDialog: function(args) {
       this.$.replyOverlay.open().then(function() {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
-        this.$.replyDialog.open(opt_section);
+        this.$.replyDialog.draft = args ? args.quote : '';
+        this.$.replyDialog.open(args ? args.opt_section : null);
       }.bind(this));
     },
 

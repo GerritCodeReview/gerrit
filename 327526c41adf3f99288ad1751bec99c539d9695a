@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03b47ab_50be521d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T15:39:04Z",
+      "side": 1,
+      "message": "I\u0027m fine with the general idea of storing this as a property on CurrentUser. However, some concerns:\n\n* PropertyKey doesn\u0027t support something like Guice\u0027s binding annotations, meaning this is the only AccountExternalId.Key that you can associate with a CurrentUser. Maybe that\u0027s ok though?\n* I don\u0027t think this path is called when using the extension API, which IIUC makes it impossible to delete even your own external IDs through the extension API. Is there another path in the API impl setup where you can set this? Even if so, what is the right \"last\" external ID to choose?",
+      "revId": "327526c41adf3f99288ad1751bec99c539d9695a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_70bb4e2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T15:39:04Z",
+      "side": 1,
+      "message": "This is just because we generally treat usernames as immutable, right?",
+      "revId": "327526c41adf3f99288ad1751bec99c539d9695a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_9088ba7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T15:39:04Z",
+      "side": 1,
+      "message": "external.ids?",
+      "revId": "327526c41adf3f99288ad1751bec99c539d9695a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

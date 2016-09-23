@@ -6,7 +6,6 @@ Bazel build is experimental. Major missing parts:
 * Documentation index
 * License tracking
 * Version stamping
-* Core plugins
 * Custom plugins
 * Eclipse project generation.
 * Publishing to maven.

@@ -784,3 +784,9 @@ maven_jar(
   artifact = 'org.webjars:google-diff-match-patch:20121119-1',
   sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
 )
+
+maven_jar(
+  name = 'commons_io',
+  artifact = 'commons-io:commons-io:1.4',
+  sha1 = 'a8762d07e76cfde2395257a5da47ba7c1dbd3dce',
+)

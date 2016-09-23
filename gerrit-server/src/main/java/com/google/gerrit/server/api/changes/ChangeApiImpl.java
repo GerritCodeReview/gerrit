@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
@@ -57,7 +58,9 @@ import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
+import com.google.gerrit.server.change.UpdateChangeByMerge;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -85,6 +88,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Abandon abandon;
   private final Revert revert;
   private final Restore restore;
+  private final UpdateChangeByMerge updateByMerge;
   private final Provider<SubmittedTogether> submittedTogether;
   private final PublishDraftPatchSet.CurrentRevision
     publishDraftChange;
@@ -112,6 +116,7 @@ class ChangeApiImpl implements ChangeApi {
       Abandon abandon,
       Revert revert,
       Restore restore,
+      UpdateChangeByMerge updateByMerge,
       Provider<SubmittedTogether> submittedTogether,
       PublishDraftPatchSet.CurrentRevision publishDraftChange,
       DeleteDraftChange deleteDraftChange,
@@ -137,6 +142,7 @@ class ChangeApiImpl implements ChangeApi {
     this.suggestReviewers = suggestReviewers;
     this.abandon = abandon;
     this.restore = restore;
+    this.updateByMerge = updateByMerge;
     this.submittedTogether = submittedTogether;
     this.publishDraftChange = publishDraftChange;
     this.deleteDraftChange = deleteDraftChange;
@@ -245,6 +251,16 @@ class ChangeApiImpl implements ChangeApi {
       return changeApi.id(revert.apply(change, in)._number);
     } catch (OrmException | IOException | UpdateException
         | NoSuchChangeException e) {
+      throw new RestApiException("Cannot revert change", e);
+    }
+  }
+
+  @Override
+  public void updateByMerge(MergeInput in) throws RestApiException {
+    try {
+      updateByMerge.apply(change, in);
+    } catch (OrmException | IOException | UpdateException
+        | NoSuchChangeException | InvalidChangeOperationException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }

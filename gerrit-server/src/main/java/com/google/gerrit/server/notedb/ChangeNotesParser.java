@@ -212,9 +212,9 @@ class ChangeNotesParser {
         topic,
         originalSubject,
         submissionId,
+        assignee != null ? assignee.orNull() : null,
         status,
 
-        assignee != null ? assignee.orNull() : null,
         Sets.newLinkedHashSet(Lists.reverse(pastAssignees)),
         hashtags,
         patchSets,

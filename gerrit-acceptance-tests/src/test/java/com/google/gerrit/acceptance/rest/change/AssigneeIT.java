@@ -36,11 +36,6 @@ import java.util.Set;
 @NoHttpd
 public class AssigneeIT extends AbstractDaemonTest {
 
-  @Before
-  public void before() {
-    assume().that(notesMigration.readChanges()).isTrue();
-  }
-
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -75,6 +70,7 @@ public class AssigneeIT extends AbstractDaemonTest {
 
   @Test
   public void testGetPastAssignees() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
     setAssignee(r, admin.email);

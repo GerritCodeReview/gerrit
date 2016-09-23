@@ -296,12 +296,12 @@ public class ChangeField {
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
       new FieldDef.Single<ChangeData, Integer>(
-          ChangeQueryBuilder.FIELD_ASSIGNEE, FieldType.INTEGER, true) {
+          ChangeQueryBuilder.FIELD_ASSIGNEE, FieldType.INTEGER, false) {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          Optional<Account.Id> id = input.assignee();
-          return id.isPresent() ? id.get().get() : NO_ASSIGNEE;
+          Account.Id id = input.change().getAssignee();
+          return id != null ? id.get() : NO_ASSIGNEE;
         }
       };
 

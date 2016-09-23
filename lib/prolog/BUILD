@@ -2,6 +2,7 @@ java_library(
   name = 'runtime',
   exports = ['@prolog_runtime//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-prologcafe'],
 )
 
 java_library(
@@ -12,11 +13,13 @@ java_library(
     ':runtime',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-prologcafe'],
 )
 
 java_library(
   name = 'io',
   exports = ['@prolog_io//jar'],
+  data = ['//lib:LICENSE-prologcafe'],
 )
 
 java_library(
@@ -27,6 +30,7 @@ java_library(
     'runtime',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-prologcafe'],
 )
 
 java_binary(

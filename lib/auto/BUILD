@@ -18,4 +18,5 @@ java_library(
   ],
   exports = ['@auto_value//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )

@@ -5,6 +5,7 @@ java_library(
   exports = ['@jgit_servlet//jar'],
   runtime_deps = ['//lib/jgit/org.eclipse.jgit:jgit'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-jgit'],
 )
 
 unsign_jars(

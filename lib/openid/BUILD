@@ -9,15 +9,18 @@ java_library(
     '//lib/guice:guice',
   ],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'nekohtml',
   exports = ['@nekohtml//jar'],
   runtime_deps = [':xerces'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'xerces',
   exports = ['@xerces//jar'],
+  data = ['//lib:LICENSE-Apache2.0'],
 )

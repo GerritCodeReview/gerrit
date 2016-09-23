@@ -21,6 +21,7 @@ def cmd(jars):
 def merge_maven_jars(
     name,
     srcs,
+    data,
     visibility = []):
   native.genrule(
     name = '%s__merged_bin' % name,
@@ -32,4 +33,5 @@ def merge_maven_jars(
     name = name,
     jars = [':%s__merged_bin' % name],
     visibility = visibility,
+    data = data,
   )

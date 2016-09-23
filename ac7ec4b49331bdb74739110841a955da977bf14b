@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "f03b47ab_4df31966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T07:52:15Z",
+      "side": 1,
+      "message": "\"when a change\u0027s assignee has been changed or removed\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_aaefef74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T07:52:15Z",
+      "side": 1,
+      "message": "assignment",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_aa624f32",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/AssigneeChangedListener.java",
         "patchSetId": 3

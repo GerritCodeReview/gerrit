@@ -16,3 +16,6 @@ Fix internal server error after online reindexing completed.
 
 * Fix internal server error when cloning from slaves and not all refs are
 visible.
+
+* Fix JSON deserialization error causing stream event client to no longer receive
+events.

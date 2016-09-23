@@ -1,0 +1,101 @@
+= Release notes for Gerrit 2.12.5
+
+Gerrit 2.12.5 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.12.5.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.12.5.war]
+
+== Schema Upgrade
+
+*WARNING:* There are no schema changes from link:ReleaseNotes-2.12.4.html[
+2.12.4] but a manual schema upgrade is necessary when upgrading from 2.12.
+
+When upgrading a site that is already running version 2.12, the `patch_sets`
+table must be manually migrated using the `gerrit gsql` SSH command or the
+`gqsl` site program.
+
+For the default H2 database, execute the command:
+
+----
+  alter table patch_sets modify push_certficate clob;
+----
+
+For MySQL, execute the command:
+
+----
+  alter table patch_sets modify push_certficate text;
+----
+
+For PostgreSQL, execute the command:
+
+----
+  alter table patch_sets alter column push_certficate type text;
+----
+
+For other database types, execute the appropriate equivalent command.
+
+Note that the misspelled `push_certficate` is the actual name of the
+column.
+
+When upgrading from a version earlier than 2.12, or from 2.12.1 or 2.12.2
+having already done the migration, this manual step is not necessary and
+should be omitted.
+
+== Known Issues
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4323[Issue 4323]:
+'value too long for type character varying(255)' in patch_sets table when
+migrating to schema version 108.
++
+This error may occur under some circumstances when running the schema
+migration from an earlier version of Gerrit.
++
+On sites where this occurs, it can be fixed with a manual schema update
+according to the comments in the issue.
+
+== New Features
+
+* New preference to enable line wrapping in diff screen and inline editor.
+
+== Bug Fixes
+
+* Fix the diff and edit preference dialogs for smaller screens.
++
+On smaller screens the options at the bottom of the dialogs would
+get cut off, making it difficult to change them.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4521[Issue 4521]:
+Fix internal server error during validation of email addresses.
++
+When creating a new account or adding a new email address to an existing
+account, the email validation crashed.
+
+* Lucene stability improvements.
++
+Each Lucene index is now written using a dedicated background thread. Lucene
+threads may not be cancelled, to prevent interruptions while writing.
+
+* Don't try to change username that is already set.
++
+Since Gerrit version 2.1.4 it is not allowed to change the username once
+it has been set, and attempting to do so results in an exception.
++
+If `ldap.accountSshUserName` is set in the `gerrit.config` using
+`${userPrincipalName.localPart}` to initialize the username from the user's
+email address, and then the email address is changed, the username gets
+resolved to something different and the account manager tried to change it.
+As a result, an exception was raised and the user could no longer log in.
++
+Instead of trying to change the username, a warning is logged.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4006[Issue 4006]:
+Prevent search limit parameter from exceeding maximum integer value.
+
+* Fix internal server error when generating task names.
+
+* Print proper names for query tasks in the output of the `show-queue` command.
+
+* Double-check change status when auto-abandoning changes.
++
+It was possible that changes could be updated in the time between the query
+results being returned and the change being abandoned.

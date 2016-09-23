@@ -210,7 +210,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
     info.showAssignee = toBoolean(
         cfg.getBoolean("change", "showAssignee", true)
-            && isNoteDbEnabled()
             && indexes.getSearchIndex().getSchema()
                 .hasField(ChangeField.ASSIGNEE));
     info.largeChange = cfg.getInt("change", "largeChange", 500);

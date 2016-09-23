@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_8a130b15",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 71
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T12:05:03Z",
+      "side": 1,
+      "message": "This change seams to be a never ending story... maybe we will even reach 80 patch sets.",
+      "parentUuid": "f03b47ab_ada71dbf",
+      "revId": "10c65edf7a62a8c68044522dc5b0d6317553f9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_cd9c696e",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
         "patchSetId": 71

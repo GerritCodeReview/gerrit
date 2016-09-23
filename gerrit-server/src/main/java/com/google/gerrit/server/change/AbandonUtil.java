@@ -31,6 +31,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -88,7 +89,8 @@ public class AbandonUtil {
       Multimap<Project.NameKey, ChangeControl> abandons = builder.build();
       String message = cfg.getAbandonMessage();
       for (Project.NameKey project : abandons.keySet()) {
-        Collection<ChangeControl> changes = abandons.get(project);
+        Collection<ChangeControl> changes =
+            getValidChanges(abandons.get(project), query);
         try {
           abandon.batchAbandon(project, internalUser, changes, message);
           count += changes.size();
@@ -108,5 +110,26 @@ public class AbandonUtil {
       log.error(
           "Failed to query inactive open changes for auto-abandoning.", e);
     }
+  }
+
+  private Collection<ChangeControl> getValidChanges(
+      Collection<ChangeControl> changeControls, String query)
+      throws OrmException, QueryParseException {
+    Collection<ChangeControl> validChanges = new ArrayList<>();
+    for (ChangeControl cc : changeControls) {
+      String newQuery = query + " change:" + cc.getId();
+      List<ChangeData> changesToAbandon =
+          queryProcessor.enforceVisibility(false)
+              .query(queryBuilder.parse(newQuery)).entities();
+      if (!changesToAbandon.isEmpty()) {
+        validChanges.add(cc);
+      } else {
+        log.debug(
+            "Change data with id \"{}\" does not satisfy the query \"{}\""
+                + " any more, hence skipping it in clean up",
+            cc.getId(), query);
+      }
+    }
+    return validChanges;
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_4a7d1373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_4df31966",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_aaefef74",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-23T07:52:15Z",
       "side": 1,
       "message": "assignment",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_2a72dfa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_aaefef74",
       "range": {
         "startLine": 13,
         "startChar": 36,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_8a4b0b54",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/AssigneeChangedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_aa624f32",
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_4dda39de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 3
@@ -76,6 +142,24 @@
       "writtenOn": "2016-09-23T07:51:20Z",
       "side": 1,
       "message": "put a blank line between final and non-final members?",
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_aa4ecf63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_4dda39de",
       "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -129,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_cda9c9eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9084cb25_aaadcf8c",
+      "range": {
+        "startLine": 64,
+        "startChar": 5,
+        "endLine": 64,
+        "endChar": 36
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_edca0511",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
         "patchSetId": 3
@@ -140,6 +248,30 @@
       "writtenOn": "2016-09-23T07:51:20Z",
       "side": 1,
       "message": "assignee",
+      "range": {
+        "startLine": 65,
+        "startChar": 22,
+        "endLine": 65,
+        "endChar": 29
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_edae85f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_edca0511",
       "range": {
         "startLine": 65,
         "startChar": 22,
@@ -175,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_0db4b13d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "It should never be null. Done.",
+      "parentUuid": "f03b47ab_8de421a6",
+      "range": {
+        "startLine": 146,
+        "startChar": 8,
+        "endLine": 146,
+        "endChar": 22
+      },
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_6d5d3572",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/AssigneeChangedEvent.java",
         "patchSetId": 3
@@ -192,6 +348,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_2db16d4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/AssigneeChangedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Exactly. Topic handles it this way.",
+      "parentUuid": "f03b47ab_6d5d3572",
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_4a519361",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/StreamEventsApiListener.java",
         "patchSetId": 3
@@ -203,6 +377,24 @@
       "writtenOn": "2016-09-23T07:43:17Z",
       "side": 1,
       "message": "Nit: indentation",
+      "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_6a78d784",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T11:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_4a519361",
       "revId": "ac7ec4b49331bdb74739110841a955da977bf14b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03b47ab_ada71dbf",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 71
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:53:58Z",
+      "side": 1,
+      "message": "Now that you\u0027ve put the Schema in the constructor I\u0027m going to make you do the rest :)\n\nThis should no longer be a class level constant, it should be a private final field. The Schema that you should pass to the constructor is the assisted injected schema arg on l. 141.",
+      "revId": "10c65edf7a62a8c68044522dc5b0d6317553f9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_cd9c696e",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 71
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T11:53:58Z",
+      "side": 1,
+      "message": "Since you don\u0027t yet have an ElasticIndexMethod yet, you should create a new ElasticChangeIndex(\u003ccurrent schema version\u003e) in this method.",
+      "revId": "10c65edf7a62a8c68044522dc5b0d6317553f9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

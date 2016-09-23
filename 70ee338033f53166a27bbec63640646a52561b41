@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_0a5a7bf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-23T11:15:11Z",
+      "side": 1,
+      "message": "Might be good to pass in the change (and user?) ID here",
+      "range": {
+        "startLine": 38,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 42
+      },
+      "revId": "70ee338033f53166a27bbec63640646a52561b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

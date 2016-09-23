@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03b47ab_50073277",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T12:44:15Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_ed862116",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T12:44:15Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

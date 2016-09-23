@@ -58,6 +58,10 @@
         value: '',
         observer: '_draftChanged',
       },
+      quote: {
+        type: String,
+        value: ''
+      },
       diffDrafts: Object,
       filterReviewerSuggestion: {
         type: Function,

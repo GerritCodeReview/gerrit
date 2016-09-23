@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_0a74bbf3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T07:31:04Z",
+      "side": 1,
+      "message": "The text should read \"Changes Table\" to be consistent with the other labels in this file. I admit it\u0027s a little silly that the variable names are all ChangeTable, but let\u0027s keep it consistent for now anyway.",
+      "range": {
+        "startLine": 31,
+        "startChar": 69,
+        "endLine": 31,
+        "endChar": 81
+      },
+      "revId": "94111c0f817740edd7dbf07267313f0d9e202786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

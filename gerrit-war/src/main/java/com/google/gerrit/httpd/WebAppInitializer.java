@@ -305,7 +305,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
-    modules.add(new SearchingChangeCacheImpl.Module());
+    modules.add(new SearchingChangeCacheImpl.Module(false));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());

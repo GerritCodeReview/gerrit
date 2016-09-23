@@ -30,7 +30,7 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 public class DiffSummary implements Serializable {
-  private static final long serialVersionUID = PatchListKey.serialVersionUID;
+  private static final long serialVersionUID = DiffSummaryKey.serialVersionUID;
 
   private transient String[] paths;
 

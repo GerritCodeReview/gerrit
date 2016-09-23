@@ -31,16 +31,16 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
   static final Logger log = LoggerFactory.getLogger(DiffSummaryLoader.class);
 
   public interface Factory {
-    DiffSummaryLoader create(PatchListKey key, Project.NameKey project);
+    DiffSummaryLoader create(DiffSummaryKey key, Project.NameKey project);
   }
 
   private final PatchListCache patchListCache;
-  private final PatchListKey key;
+  private final DiffSummaryKey key;
   private final Project.NameKey project;
 
   @AssistedInject
   DiffSummaryLoader(PatchListCache plc,
-      @Assisted PatchListKey k,
+      @Assisted DiffSummaryKey k,
       @Assisted Project.NameKey p) {
     patchListCache = plc;
     key = k;
@@ -49,7 +49,7 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
 
   @Override
   public DiffSummary call() throws Exception {
-    PatchList patchList = patchListCache.get(key, project);
+    PatchList patchList = patchListCache.get(key.toPatchListKey(), project);
     return toDiffSummary(patchList);
   }
 

@@ -118,6 +118,30 @@
       "revId": "bc83350ecc0f69fabdac692afbaa635fb50aa07c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_8dd205f0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T13:22:58Z",
+      "side": 1,
+      "message": "OK.  In that case we can probably move this if before the synchronized?",
+      "parentUuid": "f03b47ab_f049feb5",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bc83350ecc0f69fabdac692afbaa635fb50aa07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -86,7 +86,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     Optional<Account.Id> oldAssigneeId = update.getNotes().getAssignee();
     if (input.assignee == null) {
       if (oldAssigneeId != null && oldAssigneeId.isPresent()) {
-        throw new AuthException("Cannot set Assignee to empty");
+        throw new BadRequestException("Cannot set Assignee to empty");
       }
       return false;
     }

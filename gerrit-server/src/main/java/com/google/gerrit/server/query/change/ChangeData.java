@@ -48,7 +48,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.DiffSummary;
-import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -484,14 +483,14 @@ public class ChangeData {
         return null;
       }
 
-      PatchList p;
+      DiffSummary p;
       try {
-        p = patchListCache.get(c, ps);
+        p = patchListCache.getDiffSummary(c, ps);
       } catch (PatchListNotAvailableException e) {
         return null;
       }
 
-      changedLines = new ChangedLines(p.getInsertions(), p.getDeletions());
+      changedLines = p.getChangedLines();
     }
     return changedLines;
   }
@@ -865,7 +864,7 @@ public class ChangeData {
     public final int insertions;
     public final int deletions;
 
-    ChangedLines(int insertions, int deletions) {
+    public ChangedLines(int insertions, int deletions) {
       this.insertions = insertions;
       this.deletions = deletions;
     }

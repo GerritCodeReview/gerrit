@@ -61,9 +61,11 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.ChangeUpdateByMergeInput;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -71,6 +73,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -1928,6 +1931,29 @@ public class ChangeIT extends AbstractDaemonTest {
         r1.getChangeId(), "refs/drafts/master", user, userTestRepo);
     r2.assertErrorStatus("cannot add patch set to "
         + r1.getChange().getId().id + ".");
+  }
+
+  @Test
+  public void testUpdateChangeByMerge() throws Exception{
+    // create a change for master
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    // push a commit into dev branch
+    createBranch(new Branch.NameKey(project, "dev"));
+    PushOneCommit.Result changeA = pushFactory
+        .create(db, user.getIdent(), testRepo, "change A", "A.txt", "A content")
+        .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    ChangeUpdateByMergeInput in = new ChangeUpdateByMergeInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2";
+    gApi.changes().id(changeId).updateByMerge(in);
+    ChangeInfo changeInfo = gApi.changes().id(changeId)
+        .get(EnumSet.of(ListChangesOption.ALL_REVISIONS));
+    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.subject).isEqualTo(in.subject);
   }
 
   private static Iterable<Account.Id> getReviewers(

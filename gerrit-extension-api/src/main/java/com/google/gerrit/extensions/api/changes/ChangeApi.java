@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeUpdateByMergeInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -94,6 +95,9 @@ public interface ChangeApi {
    * @see Changes#id(int)
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
+
+  /** Update the change with a MergeInput. */
+  ChangeInfo updateByMerge(ChangeUpdateByMergeInput in) throws RestApiException;
 
   List<ChangeInfo> submittedTogether() throws RestApiException;
   SubmittedTogetherInfo submittedTogether(
@@ -410,6 +414,11 @@ public interface ChangeApi {
     public SubmittedTogetherInfo submittedTogether(
         EnumSet<ListChangesOption> a,
         EnumSet<SubmittedTogetherOption> b) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo updateByMerge(ChangeUpdateByMergeInput in) throws RestApiException {
       throw new NotImplementedException();
     }
   }

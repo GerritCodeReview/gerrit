@@ -40,6 +40,24 @@
       "revId": "29c7e4a45f3c0ef560e4beefe9c57acd8cfbcbef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5e98f6b_c2d8e2ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-23T23:57:38Z",
+      "side": 1,
+      "message": "Yes. Perhaps adding an optional argument to _openReplyDialog so that it displays what is passed?",
+      "parentUuid": "904beb45_72da7805",
+      "revId": "29c7e4a45f3c0ef560e4beefe9c57acd8cfbcbef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,7 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.gerrit.server.patch.FileListLoader.toFileList;
+
 import com.google.common.cache.Cache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;

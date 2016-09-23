@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_ad90294a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T13:04:41Z",
+      "side": 1,
+      "message": "Is this necessary?  Can\u0027t we just put this synchronized block after the gson.toJson call inside the try block?",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "bc83350ecc0f69fabdac692afbaa635fb50aa07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

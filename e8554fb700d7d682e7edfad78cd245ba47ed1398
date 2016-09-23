@@ -16,6 +16,24 @@
       "revId": "e8554fb700d7d682e7edfad78cd245ba47ed1398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904beb45_72a8b879",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-23T19:05:43Z",
+      "side": 1,
+      "message": "Sure -- that behavior is tested in line 365, but I can add it to both tests.",
+      "parentUuid": "65ef9770_809ad667",
+      "revId": "e8554fb700d7d682e7edfad78cd245ba47ed1398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

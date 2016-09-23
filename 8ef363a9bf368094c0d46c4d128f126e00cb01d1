@@ -2,6 +2,178 @@
   "comments": [
     {
       "key": {
+        "uuid": "f03b47ab_104a0a51",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 72
+      },
+      "lineNbr": 2568,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "What about other topics like: migration to a new index schema version, online/offline reindexing etc...?",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_0d6e15f5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 72
+      },
+      "lineNbr": 2583,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "Defaults",
+      "range": {
+        "startLine": 2583,
+        "startChar": 0,
+        "endLine": 2583,
+        "endChar": 7
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_cd6fdded",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 72
+      },
+      "lineNbr": 2593,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "this is almost the same as the parameter name, remove?",
+      "range": {
+        "startLine": 2593,
+        "startChar": 0,
+        "endLine": 2593,
+        "endChar": 12
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_10412a3d",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "wrong indentation",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_303e26c6",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "wrong indentation",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_b05a1620",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "wrong indentation",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_d05fa20e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_f0649eeb",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-23T15:03:32Z",
+      "side": 1,
+      "message": "wrong indentation",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_50073277",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 72

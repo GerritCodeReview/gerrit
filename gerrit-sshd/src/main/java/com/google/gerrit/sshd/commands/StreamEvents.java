@@ -40,6 +40,8 @@ import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,6 +53,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
 @CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time")
 final class StreamEvents extends BaseCommand {
+  private static final Logger log =
+      LoggerFactory.getLogger(StreamEvents.class);
+
   /** Maximum number of events that may be queued up for each connection. */
   private static final int MAX_EVENTS = 128;
 
@@ -262,9 +267,16 @@ final class StreamEvents extends BaseCommand {
   }
 
   private void write(final Object message) {
-    final String msg = gson.toJson(message) + "\n";
-    synchronized (stdout) {
-      stdout.print(msg);
+    String msg = null;
+    try {
+      msg = gson.toJson(message) + "\n";
+    } catch (Exception e) {
+      log.warn("Could not deserialize the msg: ", e);
+    }
+    if (msg != null) {
+      synchronized (stdout) {
+        stdout.print(msg);
+      }
     }
   }
 

@@ -315,7 +315,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
-      table.setWidget(row, 2, new AccountLinkPanel(i));
+      table.setWidget(row, 2, AccountLinkPanel.create(i));
       table.setText(row, 3, i.email());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

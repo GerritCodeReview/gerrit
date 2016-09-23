@@ -980,6 +980,13 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
+[[change.showAssignee]]change.showAssignee::
++
+Allow assignee workflow. If set to false, assignees will not be visible anywhere
+in UI.
++
+Default is true.
+
 [[change.submitLabel]]change.submitLabel::
 +
 Label name for the submit button.

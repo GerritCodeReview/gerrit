@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_0a3f1b74",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 71
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T12:18:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_ada71dbf",
+      "revId": "10c65edf7a62a8c68044522dc5b0d6317553f9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_cd9c696e",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
         "patchSetId": 71
@@ -48,6 +66,24 @@
       "writtenOn": "2016-09-23T11:53:58Z",
       "side": 1,
       "message": "Since you don\u0027t yet have an ElasticIndexMethod yet, you should create a new ElasticChangeIndex(\u003ccurrent schema version\u003e) in this method.",
+      "revId": "10c65edf7a62a8c68044522dc5b0d6317553f9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_6aefb7e4",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 71
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-23T12:18:12Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to create here ElasticChangeIndex.ChangeMapping(\u003clatest schema version\u003e)?",
+      "parentUuid": "f03b47ab_cd9c696e",
       "revId": "10c65edf7a62a8c68044522dc5b0d6317553f9b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

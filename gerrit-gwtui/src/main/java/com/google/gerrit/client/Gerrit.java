@@ -44,6 +44,7 @@ import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
 import com.google.gerrit.client.ui.ProjectLinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
@@ -287,6 +288,7 @@ public class Gerrit implements EntryPoint {
   }
 
   /** @return access token to prove user identity during REST API calls. */
+  @Nullable
   public static String getXGerritAuth() {
     return xGerritAuth;
   }

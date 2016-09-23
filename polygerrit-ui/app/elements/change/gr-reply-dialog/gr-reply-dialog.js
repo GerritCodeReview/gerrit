@@ -56,7 +56,6 @@
       draft: {
         type: String,
         value: '',
-        observer: '_draftChanged',
       },
       diffDrafts: Object,
       filterReviewerSuggestion: {
@@ -105,9 +104,6 @@
 
     open: function(opt_focusTarget) {
       this._focusOn(opt_focusTarget);
-      if (!this.draft || !this.draft.length) {
-        this.draft = this._loadStoredDraft();
-      }
     },
 
     focus: function() {
@@ -439,19 +435,6 @@
     _loadStoredDraft: function() {
       var draft = this.$.storage.getDraftComment(this._getStorageLocation());
       return draft ? draft.message : '';
-    },
-
-    _draftChanged: function(newDraft, oldDraft) {
-      this.debounce('store', function() {
-        if (!newDraft.length && oldDraft) {
-          // If the draft has been modified to be empty, then erase the storage
-          // entry.
-          this.$.storage.eraseDraftComment(this._getStorageLocation());
-        } else if (newDraft.length) {
-          this.$.storage.setDraftComment(this._getStorageLocation(),
-              this.draft);
-        }
-      }, STORAGE_DEBOUNCE_INTERVAL_MS);
     },
 
     _handleTextareaChanged: function(e) {

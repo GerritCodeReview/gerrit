@@ -22,6 +22,24 @@
       "revId": "29c7e4a45f3c0ef560e4beefe9c57acd8cfbcbef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904beb45_72da7805",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-23T23:54:08Z",
+      "side": 1,
+      "message": "Do we still want to display the quoted text? if we clear it when the dialogue is open I don\u0027t think we would see that?",
+      "parentUuid": "103ffb98_8e4a5bab",
+      "revId": "29c7e4a45f3c0ef560e4beefe9c57acd8cfbcbef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

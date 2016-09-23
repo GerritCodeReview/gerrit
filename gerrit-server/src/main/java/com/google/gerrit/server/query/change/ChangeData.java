@@ -47,7 +47,7 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
-import com.google.gerrit.server.patch.FileList;
+import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -457,9 +457,9 @@ public class ChangeData {
         return null;
       }
 
-      FileList p;
+      DiffSummary p;
       try {
-        p = patchListCache.getFileList(c, ps);
+        p = patchListCache.getDiffSummary(c, ps);
       } catch (PatchListNotAvailableException e) {
         List<String> emptyFileList = Collections.emptyList();
         files.put(ps.getPatchSetId(), emptyFileList);

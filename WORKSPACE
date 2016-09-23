@@ -130,28 +130,26 @@ http_jar(
   sha256 = '80d63c117736ae2fb9837b7a39576f3f0c5bd19cd75127886550c77b4c478f87',
 )
 
-JGIT_VERS = '4.4.1.201607150455-r.118-g1096652'
+JGIT_VERS = '4.5.0.201609210915-r'
 
 maven_jar(
   name = 'jgit',
-  repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit:' + JGIT_VERS,
-  sha1 = 'cd142b9030910babd119702f1c4eeae13ee90018',
+  sha1 = '3e3d0b73dcf4ad649f37758ea8502d92f3d299de',
 )
 
 maven_jar(
   name = 'jgit_servlet',
-  repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + JGIT_VERS,
-  sha1 = 'fa67bf925001cfc663bf98772f37d5c5c1abd756',
+  sha1 = '6e36638888918d9941dddec7e2abe1f162cc74d9',
 )
 
 # TODO(davido): Remove this hack when maven_jar supports pulling sources
 # https://github.com/bazelbuild/bazel/issues/308
 http_file(
   name = 'jgit_src',
-  sha256 = '1a0b2d637359b1b51eba4d094491ef39877a6fc192e2fc1da0422a9adf04f0b8',
-  url = 'http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/' +
+  sha256 = '426bf32d097a846a247d5fb1d258fcde1707dec3362b8a62c68785b953c2ae65',
+  url = 'http://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/' +
       '%s/org.eclipse.jgit-%s-sources.jar' % (JGIT_VERS, JGIT_VERS),
 )
 
@@ -163,16 +161,14 @@ maven_jar(
 
 maven_jar(
   name = 'jgit_archive',
-  repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + JGIT_VERS,
-  sha1 = '3f45cd199e40a7c68ee07a1743c06d1c3d07308a',
+  sha1 = '2db2e7666672a31fa41b7e1dadcba51df6d30954',
 )
 
 maven_jar(
   name = 'jgit_junit',
-  repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + JGIT_VERS,
-  sha1 = 'dc7edb9c3060655c7fb93ab9b9349e815bab266f',
+  sha1 = 'e8fb1d81f588c3174a9730bdecdbde9faa04140a',
 )
 
 maven_jar(

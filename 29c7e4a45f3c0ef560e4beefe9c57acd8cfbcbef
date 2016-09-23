@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103ffb98_8e4a5bab",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-23T22:23:57Z",
+      "side": 1,
+      "message": "Let’s clear the draft whenever the reply dialog is opened instead of in this one case.\n\nAlso, unit test :)",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 262,
+        "endChar": 42
+      },
+      "revId": "29c7e4a45f3c0ef560e4beefe9c57acd8cfbcbef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

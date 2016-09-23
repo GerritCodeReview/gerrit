@@ -35,6 +35,7 @@ limitations under the License.
 <script>
   suite('gr-change-view tests', function() {
     var element;
+    var TEST_SCROLL_TOP_PX = 100;
 
     setup(function() {
       stub('gr-rest-api-interface', {
@@ -435,54 +436,101 @@ limitations under the License.
           '_openReplyDialog should have been passed CCS');
     });
 
-    test('class is applied to file list on old patch set', function() {
-      var allPatcheSets = [1, 2, 4];
-      assert.equal(element._computePatchInfoClass('1', allPatcheSets),
-          'patchInfo--oldPatchSet');
-      assert.equal(element._computePatchInfoClass('2', allPatcheSets),
-          'patchInfo--oldPatchSet');
-      assert.equal(element._computePatchInfoClass('4', allPatcheSets), '');
-    });
+    suite('reply dialog tests', function() {
 
-    suite('scroll related tests', function() {
-      test('history is loaded correctly', function() {
-        history.replaceState(
-            {
-              scrollTop: 100,
-              path: location.pathname,
-            },
-            location.pathname);
+      setup(function() {
+        sinon.stub(element.$.replyDialog, '_draftChanged');
+      });
 
-        var reloadStub = sinon.stub(element, '_reload',
-            function() {
-              // When element is reloaded, ensure that the history
-              // state has the scrollTop set earlier. This will then
-              // be reset.
-              assert.isTrue(history.state.scrollTop == 100);
-              return Promise.resolve({});
-            });
+      test('reply from comment adds quote text', function() {
+        var e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
 
-        // simulate reloading component, which is done when route
-        // changes to match a regex of change view type.
-        element._paramsChanged({view: 'gr-change-view'});
-        reloadStub.restore();
+      test('reply from comment replaces quote text', function() {
+        element.$.replyDialog.draft = '> old quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> old quote text\n\n';
+        var e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
 
+      test('reply from same comment preserves quote text', function() {
+        element.$.replyDialog.draft = '> quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> quote text\n\n';
+        var e = {detail: {message: {message: 'quote text'}}};
+        element._handleMessageReply(e);
+        assert.equal(element.$.replyDialog.draft,
+            '> quote text\n\n some draft text');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('reply from top of page contains previous draft', function() {
+        var div = document.createElement('div');
+        element.$.replyDialog.draft = '> quote text\n\n some draft text';
+        element.$.replyDialog.quote = '> quote text\n\n';
+        var e = {target: div, preventDefault: sinon.spy()};
+        element._handleReplyTap(e);
+        assert.equal(element.$.replyDialog.draft,
+            '> quote text\n\n some draft text');
+        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      });
+
+      test('class is applied to file list on old patch set', function() {
+        var allPatcheSets = [1, 2, 4];
+        assert.equal(element._computePatchInfoClass('1', allPatcheSets),
+            'patchInfo--oldPatchSet');
+        assert.equal(element._computePatchInfoClass('2', allPatcheSets),
+            'patchInfo--oldPatchSet');
+        assert.equal(element._computePatchInfoClass('4', allPatcheSets), '');
       });
 
       test('document scrolling calls function to set scroll height',
           function(done) {
-          var scrollStub = sinon.stub(element, '_handleScroll', function() {
-              assert.isTrue(scrollStub.called);
-              document.getElementsByTagName('body')[0].style.height =
-                  originalHeight + 'px';
-              scrollStub.restore();
-              done();
+            var scrollStub = sinon.stub(element, '_handleScroll',
+                function() {
+                  assert.isTrue(scrollStub.called);
+                  document.body.style.height =
+                      originalHeight + 'px';
+                  scrollStub.restore();
+                  done();
+                });
+            var originalHeight = document.body.scrollHeight;
+            document.body.style.height = '10000px';
+            document.body.scrollTop = TEST_SCROLL_TOP_PX;
+            element._handleScroll();
           });
 
-          var originalHeight = document.body.scrollHeight;
-          document.getElementsByTagName('body')[0].style.height = '10000px';
-          window.scroll(0, 100);
+      suite('scroll related tests', function() {
+        test('history is loaded correctly', function() {
+          history.replaceState(
+              {
+                scrollTop: 100,
+                path: location.pathname,
+              },
+              location.pathname);
+
+          var reloadStub = sinon.stub(element, '_reload',
+              function() {
+                // When element is reloaded, ensure that the history
+                // state has the scrollTop set earlier. This will then
+                // be reset.
+                assert.isTrue(history.state.scrollTop == 100);
+                return Promise.resolve({});
+              });
+
+          // simulate reloading component, which is done when route
+          // changes to match a regex of change view type.
+          element._paramsChanged({view: 'gr-change-view'});
+          reloadStub.restore();
+
+        });
       });
+
+
     });
   });
 </script>

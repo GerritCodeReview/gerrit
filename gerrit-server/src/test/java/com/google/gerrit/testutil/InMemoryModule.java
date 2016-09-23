@@ -140,7 +140,7 @@ public class InMemoryModule extends FactoryModule {
     });
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
-    install(new SearchingChangeCacheImpl.Module());
+    install(new SearchingChangeCacheImpl.Module(false));
     factory(GarbageCollection.Factory.class);
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);

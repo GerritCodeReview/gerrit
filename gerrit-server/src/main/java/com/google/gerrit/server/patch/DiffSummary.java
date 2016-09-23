@@ -34,12 +34,12 @@ import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
-public class FileList implements Serializable {
+public class DiffSummary implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;
 
   private transient String[] paths;
 
-  public FileList(String[] paths) {
+  public DiffSummary(String[] paths) {
     this.paths = paths;
   }
 

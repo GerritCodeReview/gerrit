@@ -27,11 +27,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class FileListLoader implements Callable<FileList> {
-  static final Logger log = LoggerFactory.getLogger(FileListLoader.class);
+public class DiffSummaryLoader implements Callable<DiffSummary> {
+  static final Logger log = LoggerFactory.getLogger(DiffSummaryLoader.class);
 
   public interface Factory {
-    FileListLoader create(PatchListKey key, Project.NameKey project);
+    DiffSummaryLoader create(PatchListKey key, Project.NameKey project);
   }
 
   private final PatchListCache patchListCache;
@@ -39,7 +39,7 @@ public class FileListLoader implements Callable<FileList> {
   private final Project.NameKey project;
 
   @AssistedInject
-  FileListLoader(PatchListCache plc,
+  DiffSummaryLoader(PatchListCache plc,
       @Assisted PatchListKey k,
       @Assisted Project.NameKey p) {
     patchListCache = plc;
@@ -48,12 +48,12 @@ public class FileListLoader implements Callable<FileList> {
   }
 
   @Override
-  public FileList call() throws Exception {
+  public DiffSummary call() throws Exception {
     PatchList patchList = patchListCache.get(key, project);
-    return toFileList(patchList);
+    return toDiffSummary(patchList);
   }
 
-  static FileList toFileList(PatchList patchList) {
+  static DiffSummary toDiffSummary(PatchList patchList) {
     List<String> r = new ArrayList<>(patchList.getPatches().size());
     for (PatchListEntry e : patchList.getPatches()) {
       if (Patch.isMagic(e.getNewName())) {
@@ -75,6 +75,6 @@ public class FileListLoader implements Callable<FileList> {
       }
     }
     Collections.sort(r);
-    return new FileList(r.toArray(new String[r.size()]));
+    return new DiffSummary(r.toArray(new String[r.size()]));
   }
 }

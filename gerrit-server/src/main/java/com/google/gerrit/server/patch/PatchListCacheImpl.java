@@ -58,7 +58,7 @@ public class PatchListCacheImpl implements PatchListCache {
             .weigher(IntraLineWeigher.class);
 
         factory(DiffSummaryLoader.Factory.class);
-        persist(DIFF_SUMMARY, PatchListKey.class, DiffSummary.class)
+        persist(DIFF_SUMMARY, DiffSummaryKey.class, DiffSummary.class)
             .maximumWeight(10 << 20)
             .weigher(DiffSummaryWeigher.class)
             .diskLimit(1 << 30);
@@ -71,7 +71,7 @@ public class PatchListCacheImpl implements PatchListCache {
 
   private final Cache<PatchListKey, PatchList> fileCache;
   private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
-  private final Cache<PatchListKey, DiffSummary> diffSummaryCache;
+  private final Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
   private final PatchListLoader.Factory fileLoaderFactory;
   private final IntraLineLoader.Factory intraLoaderFactory;
   private final DiffSummaryLoader.Factory diffSummaryLoaderFactory;
@@ -81,7 +81,7 @@ public class PatchListCacheImpl implements PatchListCache {
   PatchListCacheImpl(
       @Named(FILE_NAME) Cache<PatchListKey, PatchList> fileCache,
       @Named(INTRA_NAME) Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
-      @Named(DIFF_SUMMARY) Cache<PatchListKey, DiffSummary> diffSummaryCache,
+      @Named(DIFF_SUMMARY) Cache<DiffSummaryKey, DiffSummary> diffSummaryCache,
       PatchListLoader.Factory fileLoaderFactory,
       IntraLineLoader.Factory intraLoaderFactory,
       DiffSummaryLoader.Factory diffSummaryLoaderFactory,
@@ -103,7 +103,9 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     try {
       PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
-      diffSummaryCache.put(key, toDiffSummary(pl));
+      diffSummaryCache.put(
+          DiffSummaryKey.fromPatchListKey(key),
+          toDiffSummary(pl));
       return pl;
     } catch (ExecutionException e) {
       PatchListLoader.log.warn("Error computing " + key, e);
@@ -164,11 +166,14 @@ public class PatchListCacheImpl implements PatchListCache {
     Project.NameKey project = change.getProject();
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
-    return getDiffSummary(PatchListKey.againstDefaultBase(b, ws), project);
+    return getDiffSummary(
+        DiffSummaryKey.fromPatchListKey(
+            PatchListKey.againstDefaultBase(b, ws)),
+        project);
   }
 
-  private DiffSummary getDiffSummary(PatchListKey key, Project.NameKey project)
-      throws PatchListNotAvailableException {
+  private DiffSummary getDiffSummary(DiffSummaryKey key,
+      Project.NameKey project) throws PatchListNotAvailableException {
     try {
       return diffSummaryCache.get(key,
           diffSummaryLoaderFactory.create(key, project));

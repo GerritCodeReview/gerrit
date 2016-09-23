@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -40,8 +42,11 @@ import com.google.gerrit.server.change.ChangeEdits;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Check;
+import com.google.gerrit.server.change.DeleteAssignee;
 import com.google.gerrit.server.change.DeleteDraftChange;
+import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
+import com.google.gerrit.server.change.GetPastAssignees;
 import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.Index;
 import com.google.gerrit.server.change.ListChangeComments;
@@ -50,6 +55,7 @@ import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
+import com.google.gerrit.server.change.PutAssignee;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
@@ -95,6 +101,10 @@ class ChangeApiImpl implements ChangeApi {
   private final ChangeJson.Factory changeJson;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
+  private final PutAssignee putAssignee;
+  private final GetAssignee getAssignee;
+  private final GetPastAssignees getPastAssignees;
+  private final DeleteAssignee deleteAssignee;
   private final ListChangeComments listComments;
   private final ListChangeDrafts listDrafts;
   private final Check check;
@@ -121,6 +131,10 @@ class ChangeApiImpl implements ChangeApi {
       ChangeJson.Factory changeJson,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
+      PutAssignee putAssignee,
+      GetAssignee getAssignee,
+      GetPastAssignees getPastAssignees,
+      DeleteAssignee deleteAssignee,
       ListChangeComments listComments,
       ListChangeDrafts listDrafts,
       Check check,
@@ -146,6 +160,10 @@ class ChangeApiImpl implements ChangeApi {
     this.changeJson = changeJson;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
+    this.putAssignee = putAssignee;
+    this.getAssignee = getAssignee;
+    this.getPastAssignees = getPastAssignees;
+    this.deleteAssignee = deleteAssignee;
     this.listComments = listComments;
     this.listDrafts = listDrafts;
     this.check = check;
@@ -399,6 +417,45 @@ class ChangeApiImpl implements ChangeApi {
       return getHashtags.apply(change).value();
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot get hashtags", e);
+    }
+  }
+
+  @Override
+  public AccountInfo setAssignee(AssigneeInput input)
+      throws RestApiException {
+    try {
+      return putAssignee.apply(change, input).value();
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot set assignee", e);
+    }
+  }
+
+  @Override
+  public AccountInfo getAssignee() throws RestApiException {
+    try {
+      Response<AccountInfo> r = getAssignee.apply(change);
+      return r.isNone() ? null : r.value();
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get assignee", e);
+    }
+  }
+
+  @Override
+  public Set<AccountInfo> getPastAssignees() throws RestApiException {
+    try {
+      return getPastAssignees.apply(change).value();
+    } catch (Exception e) {
+      throw new RestApiException("Cannot get past assignees", e);
+    }
+  }
+
+  @Override
+  public AccountInfo deleteAssignee() throws RestApiException {
+    try {
+      Response<AccountInfo> r = deleteAssignee.apply(change, null);
+      return r.isNone() ? null : r.value();
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot delete assignee", e);
     }
   }
 

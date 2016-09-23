@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_8ad54bb3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T08:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_cd6b8919",
+      "revId": "5aae948ba83273c6e529d15f1b260c7571e083d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_6d045572",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-23T07:29:04Z",
       "side": 1,
       "message": "Maybe factor out a field for showAssignee like we do for showLegacyId?",
+      "revId": "5aae948ba83273c6e529d15f1b260c7571e083d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_6d36153e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-09-23T08:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03b47ab_6d045572",
       "revId": "5aae948ba83273c6e529d15f1b260c7571e083d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

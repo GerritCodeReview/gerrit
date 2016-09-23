@@ -92,6 +92,15 @@ public class PatchListKey implements Serializable {
     whitespace = ws;
   }
 
+  /** For use only by DiffSummaryKey. */
+  PatchListKey(ObjectId oldId, Integer parentNum, ObjectId newId,
+      Whitespace whitespace) {
+    this.oldId = oldId;
+    this.parentNum = parentNum;
+    this.newId = newId;
+    this.whitespace = whitespace;
+  }
+
   /** Old side commit, or null to assume ancestor or combined merge. */
   @Nullable
   public ObjectId getOldId() {

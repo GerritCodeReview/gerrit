@@ -1,0 +1,222 @@
+= Gerrit Code Review - Building with Bazel
+
+Bazel build is experimental. Major missing parts:
+
+* PolyGerrit
+* Documentation index
+* License tracking
+* Version stamping
+* Core plugins
+* Custom plugins
+* Eclipse project generation.
+* Publishing to maven.
+* Test suites for SSH, acceptance, etc.
+* tag tests as slow, flaky, etc.
+
+Nice to have:
+
+* JGit build from local tree.
+* Global maven artifact caching.
+* local.properties proxy config.
+* coverage
+
+== Installation
+
+You need to use Java 8 and Node.js for building gerrit.
+
+You can install Bazel from the bazel.io:
+https://www.bazel.io/versions/master/docs/install.html
+
+
+[[build]]
+== Building on the Command Line
+
+=== Gerrit Development WAR File
+
+To build the Gerrit web application that includes GWT UI and PolyGerrit UI:
+
+----
+  bazel build gerrit
+----
+
+[NOTE]
+PolyGerrit UI not yet working.
+
+The output executable WAR will be placed in:
+
+----
+  bazel-bin/gerrit.war
+----
+
+
+=== Headless Mode
+
+To build Gerrit in headless mode, i.e. without the GWT Web UI:
+
+----
+  bazel build headless
+----
+
+The output executable WAR will be placed in:
+
+----
+  bazel-bin/headless/headless.war
+----
+
+=== Extension and Plugin API JAR Files
+
+To build the extension, plugin and GWT API JAR files:
+
+----
+  bazel build gerrit-plugin-api:plugin-api_deploy.jar
+  bazel build gerrit-extension-api:extension-api_deploy.jar
+----
+
+Java binaries, Java sources and Java docs are generated into corresponding
+project directories, here as example for plugin API:
+
+----
+  bazel-bin/gerrit-plugin-api/plugin-api_deploy.jar
+  bazel-bin/gerrit-extension-api/extension-api_deploy.jar
+----
+
+TODO - fix and document deployment to maven
+
+=== Plugins
+
+
+
+[[documentation]]
+=== Documentation
+
+
+
+[[release]]
+=== Gerrit Release WAR File
+
+
+[[tests]]
+== Running Unit Tests
+
+----
+  bazel test --build_tests_only //...
+----
+
+Debugging tests:
+
+----
+  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod  //...
+----
+
+To run a specific test group, e.g. the rest-account test group:
+
+----
+  bazel test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest-account
+----
+
+== Dependencies
+
+Dependency JARs are normally downloaded automatically, but Buck can inspect
+its graph and download any missing JAR files.  This is useful to enable
+subsequent builds to run without network access:
+
+----
+  tools/download_all.py
+----
+
+When downloading from behind a proxy (which is common in some corporate
+environments), it might be necessary to explicitly specify the proxy that
+is then used by `curl`:
+
+----
+  export http_proxy=http://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
+----
+
+
+== Building against unpublished Maven JARs
+
+To build against unpublished Maven JARs, like gwtorm or PrologCafe, the custom
+JARs must be installed in the local Maven repository (`mvn clean install`) and
+`maven_jar()` must be updated to point to the `MAVEN_LOCAL` Maven repository for
+that artifact:
+
+[source,python]
+----
+ maven_jar(
+   name = 'gwtorm',
+   id = 'gwtorm:gwtorm:42',
+   license = 'Apache2.0',
+   repository = MAVEN_LOCAL,
+ )
+----
+
+== Building against artifacts from custom Maven repositories
+
+To build against custom Maven repositories, two modes of operations are
+supported: with rewrite in local.properties and without.
+
+Without rewrite the URL of custom Maven repository can be directly passed
+to the maven_jar() function:
+
+[source,python]
+----
+  GERRIT_FORGE = 'http://gerritforge.com/snapshot'
+
+  maven_jar(
+    name = 'gitblit',
+    id = 'com.gitblit:gitblit:1.4.0',
+    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
+    license = 'Apache2.0',
+    repository = GERRIT_FORGE,
+ )
+----
+
+When the custom URL has to be rewritten, then the same logic as with Gerrit
+known Maven repository is used: Repo name must be defined that matches an entry
+in local.properties file:
+
+----
+  download.GERRIT_FORGE = http://my.company.mirror/gerrit-forge
+----
+
+And corresponding WORKSPACE excerpt:
+
+[source,python]
+----
+  GERRIT_FORGE = 'GERRIT_FORGE:'
+
+  maven_jar(
+    name = 'gitblit',
+    id = 'com.gitblit:gitblit:1.4.0',
+    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
+    license = 'Apache2.0',
+    repository = GERRIT_FORGE,
+ )
+----
+
+
+[[clean-cache]]
+=== Cleaning The download cache
+
+The cache for the Gerrit Code Review project is located in
+`~/.gerritcodereview/buck-cache/locally-built-artifacts`.
+
+If you really do need to clean the cache manually, then:
+
+----
+ rm -rf ~/.gerritcodereview/buck-cache/locally-built-artifacts
+----
+
+Note that the root `buck-cache` folder should not be deleted as it also contains
+the `downloaded-artifacts` directory, which holds the artifacts that got
+downloaded (not built locally).
+
+
+== Known issues and bugs
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

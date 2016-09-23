@@ -61,9 +61,11 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -71,6 +73,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -1928,6 +1931,86 @@ public class ChangeIT extends AbstractDaemonTest {
         r1.getChangeId(), "refs/drafts/master", user, userTestRepo);
     r2.assertErrorStatus("cannot add patch set to "
         + r1.getChange().getId().id + ".");
+  }
+
+  @Test
+  public void testCreateMergePatchSet() throws Exception {
+    PushOneCommit.Result start = pushTo("refs/heads/master");
+    start.assertOkStatus();
+    // create a change for master
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    String changeId = r.getChangeId();
+
+    testRepo.reset(start.getCommit());
+    PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
+    currentMaster.assertOkStatus();
+    String parent = currentMaster.getCommit().getName();
+
+    // push a commit into dev branch
+    createBranch(new Branch.NameKey(project, "dev"));
+    PushOneCommit.Result changeA = pushFactory
+        .create(db, user.getIdent(), testRepo, "change A", "A.txt", "A content")
+        .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2";
+    gApi.changes().id(changeId).createMergePatchSet(in);
+    ChangeInfo changeInfo = gApi.changes().id(changeId)
+        .get(EnumSet.of(ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.CURRENT_COMMIT,
+            ListChangesOption.CURRENT_REVISION));
+    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.subject).isEqualTo(in.subject);
+    assertThat(
+        changeInfo.revisions.get(changeInfo.currentRevision).commit.parents
+            .get(0).commit).isEqualTo(parent);
+  }
+
+  @Test
+  public void testCreateMergePatchSetInheritParent() throws Exception {
+    PushOneCommit.Result start = pushTo("refs/heads/master");
+    start.assertOkStatus();
+    // create a change for master
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    String changeId = r.getChangeId();
+    String parent = r.getCommit().getParent(0).getName();
+
+    // advance master branch
+    testRepo.reset(start.getCommit());
+    PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
+    currentMaster.assertOkStatus();
+
+    // push a commit into dev branch
+    createBranch(new Branch.NameKey(project, "dev"));
+    PushOneCommit.Result changeA = pushFactory
+        .create(db, user.getIdent(), testRepo, "change A", "A.txt", "A content")
+        .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2 inherit parent of ps1";
+    in.inheritParent = true;
+    gApi.changes().id(changeId).createMergePatchSet(in);
+    ChangeInfo changeInfo = gApi.changes().id(changeId)
+        .get(EnumSet.of(ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.CURRENT_COMMIT,
+            ListChangesOption.CURRENT_REVISION));
+
+    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.subject).isEqualTo(in.subject);
+    assertThat(
+        changeInfo.revisions.get(changeInfo.currentRevision).commit.parents
+            .get(0).commit).isEqualTo(parent);
+    assertThat(
+        changeInfo.revisions.get(changeInfo.currentRevision).commit.parents
+            .get(0).commit).isNotEqualTo(currentMaster.getCommit().getName());
   }
 
   private static Iterable<Account.Id> getReviewers(

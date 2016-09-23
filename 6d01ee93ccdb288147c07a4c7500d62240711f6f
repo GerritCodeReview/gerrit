@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474637369 +0200\nnonce AKOpmBUW9xm8qF2hZA2hsWtCXP84iRBN7nOHWizECmv510CDE9YGenXa3ZbT0IkTUpaiaRniwGYE\n\n0000000000000000000000000000000000000000 7c412c2ec3d976ec3e44b95be9aa8fe102ef5842 refs/for/master%topic\u003ddiff-summary-cache,r\u003dsasa.zivkov@sap.com,r\u003ddavid.pursehouse@sonymobile.com,t\u003dsap16\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX5S45AAoJEF/XxZqaEoiMBfcQAMiD1zBTBMK2Qs4Xq8hVNi6K\nxPLNZoNw0O9tVRDDN/X5wfbBq3QqQFIVlctVIUCmILzRcQj7zqp5zWjT64FM4l3i\neaVDkuF0ymy0kCaXIvPkdvLzqhc+49ZF30doVQyWvUu43UiSGS/EuqISqVKPWySH\n6SP0lieoqJY97OodRTavTOLiiqFlvPU4xwPShp42zbdWME9OPf/zEkV40GxQHBy5\n13W2Q+A/dBTwrSZZ974MtqmVkauTgOt1n3idLXzqeJP39mQZjP26ukg0UDJpQS57\nAlrH7lQGbTuZyxtXYOfHPqKXXEvQtWMntlWHPSrVM64LlFd1+hWJJAhIvWZQkJX6\n1ahy32Imzo8brxLfyUMBD+r8n0unJ4KNguMR6CWgRROmvbUv06iCYZbnbxveuIKe\nF1Me90J4mv0Rn9n8X7dY51vvYc5GCZK0yczNYy4QnltQ6W9sIk8VtFgYNbvgTqW+\n7YKkKqqhIuePDztJA+DmxXaoTkCYWabUKSeNzXVX3WbqkyKBZXdKNKplKuE93uIL\nXzg8S4Q6caKiCGHBdzmPXcNrk+ZKtTfC/TQ/vPdWhnouzqNPE0Pqtua86sunIGwR\nU26yT4ET2180zO+5q4wObHaj5kz5YLaGbktNaIXXajUWdXAZj6qALNot9VCBGA1w\nfDeq+7KChum9NG94l2Cq\n\u003ds4DV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03b47ab_f09c9e14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-23T13:35:01Z",
+      "side": 1,
+      "message": "An alternative implementation to this copypasta is to just store a PatchListKey, and have a static initializer check to ensure that PatchListKey.serialVersionUID is hasn\u0027t changed. UID changes that only affect PatchList and not the key would not necessarily result in changing this class.",
+      "revId": "6d01ee93ccdb288147c07a4c7500d62240711f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -116,7 +116,8 @@
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       var newOffset = Math.max(0, offset + (changesPerPage * direction));
-      var href = '/q/' + query;
+      // Double encode URI component.
+      var href = '/q/' + encodeURIComponent(encodeURIComponent(query));
       if (newOffset > 0) {
         href += ',' + newOffset;
       }

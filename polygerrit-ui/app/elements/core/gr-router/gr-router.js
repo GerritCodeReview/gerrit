@@ -134,6 +134,8 @@
       };
       // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum === params.patchNum) {
+        // TODO(kaspern): Utilize gr-url-encoding-behavior.html when the router
+        // is replaced with a Polymer counterpart.
         // @see Issue 4255 regarding double-encoding.
         var path = encodeURIComponent(encodeURIComponent(path));
         // @see Issue 4577 regarding more readable URLs.

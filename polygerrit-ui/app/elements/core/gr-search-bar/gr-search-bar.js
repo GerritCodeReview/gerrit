@@ -87,6 +87,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     listeners: {
@@ -140,9 +141,7 @@
         target.blur();
       }
       if (this._inputVal) {
-        // @see Issue 4255.
-        page.show('/q/' +
-            encodeURIComponent(encodeURIComponent(this._inputVal)));
+        page.show('/q/' + this.encodeURL(this._inputVal, false));
       }
     },
 

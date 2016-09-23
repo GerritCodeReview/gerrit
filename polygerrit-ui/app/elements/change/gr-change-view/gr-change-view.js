@@ -259,8 +259,7 @@
       var msg = e.detail.message.message;
       var quoteStr = msg.split('\n').map(
           function(line) { return '> ' + line; }).join('\n') + '\n\n';
-      this.$.replyDialog.draft += quoteStr;
-      this._openReplyDialog();
+      this._openReplyDialog({quote: quoteStr});
     },
 
     _handleReplyOverlayOpen: function(e) {
@@ -285,7 +284,7 @@
       if (e.detail.value && e.detail.value.ccsOnly) {
         target = this.$.replyDialog.FocusTarget.CCS;
       }
-      this._openReplyDialog(target);
+      this._openReplyDialog({opt_section: target});
     },
 
     _handleScroll: function() {
@@ -577,10 +576,19 @@
       });
     },
 
-    _openReplyDialog: function(opt_section) {
+    /**
+     * @param {Object} opts - options for how to display reply dialogue
+     * @param {string} opts.quote - optional quote to add to reply text
+     * @param {string} opts.opt_section - optional element to focus on
+     * when reply dialogue opens
+   **/
+   _openReplyDialog: function(opts) {
       this.$.replyOverlay.open().then(function() {
+        opts = opts || {};
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
-        this.$.replyDialog.open(opt_section);
+        this.$.replyDialog.draft = opts.quote !== undefined ? opts.quote : '';
+        this.$.replyDialog.open(
+            opts.opt_section !== undefined ? opts.opt_section : null);
       }.bind(this));
     },
 

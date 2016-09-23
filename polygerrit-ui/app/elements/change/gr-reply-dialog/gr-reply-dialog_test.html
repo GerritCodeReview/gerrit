@@ -251,36 +251,6 @@ limitations under the License.
       assert.equal(actual.path, '@change');
     });
 
-    test('gets draft from storage on open', function() {
-      var storedDraft = 'hello world';
-      getDraftCommentStub.returns({message: storedDraft});
-      element.open();
-      assert.isTrue(getDraftCommentStub.called);
-      assert.equal(element.draft, storedDraft);
-    });
-
-    test('blank if no stored draft', function() {
-      getDraftCommentStub.returns(null);
-      element.open();
-      assert.isTrue(getDraftCommentStub.called);
-      assert.equal(element.draft, '');
-    });
-
-    test('updates stored draft on edits', function() {
-      var firstEdit = 'hello';
-      var location = element._getStorageLocation();
-
-      element.draft = firstEdit;
-      element.flushDebouncer('store');
-
-      assert.isTrue(setDraftCommentStub.calledWith(location, firstEdit));
-
-      element.draft = '';
-      element.flushDebouncer('store');
-
-      assert.isTrue(eraseDraftCommentStub.calledWith(location));
-    });
-
     test('400 converts to human-readable server-error', function(done) {
       sandbox.stub(window, 'fetch', function() {
         var text = '....{"reviewers":{"id1":{"error":"first error"}},' +

@@ -23,6 +23,7 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,6 +32,7 @@ import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -103,25 +105,30 @@ class InitSshd implements InitStep {
         //
         final String comment = "gerrit-code-review@" + hostname();
 
+        // Workaround for JDK-6518827 - zero-length argument ignored on Win32
+        String emptyPassphraseArg = HostPlatform.isWin32() ? "\"\"" : "";
+
         System.err.print(" rsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen",
+        new ProcessBuilder("ssh-keygen",
             "-q" /* quiet */,
             "-t", "rsa",
-            "-P", "",
+            "-P", emptyPassphraseArg,
             "-C", comment,
-            "-f", site.ssh_rsa.toAbsolutePath().toString(),
-            }).waitFor();
+            "-f", site.ssh_rsa.toAbsolutePath().toString()
+        ).redirectError(Redirect.INHERIT).redirectOutput(Redirect.INHERIT)
+            .start().waitFor();
 
         System.err.print(" dsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen",
+        new ProcessBuilder("ssh-keygen",
             "-q" /* quiet */,
             "-t", "dsa",
-            "-P", "",
+            "-P", emptyPassphraseArg,
             "-C", comment,
-            "-f", site.ssh_dsa.toAbsolutePath().toString(),
-            }).waitFor();
+            "-f", site.ssh_dsa.toAbsolutePath().toString()
+        ).redirectError(Redirect.INHERIT).redirectOutput(Redirect.INHERIT)
+            .start().waitFor();
 
       } else {
         // Generate the SSH daemon host key ourselves. This is complex

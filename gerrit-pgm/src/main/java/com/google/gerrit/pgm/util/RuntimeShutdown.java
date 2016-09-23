@@ -39,6 +39,10 @@ public class RuntimeShutdown {
     cb.waitForShutdown();
   }
 
+  public static void manualShutdown() {
+    cb.manualShutdown();
+  }
+
   private RuntimeShutdown() {
   }
 
@@ -94,6 +98,11 @@ public class RuntimeShutdown {
         shutdownComplete = true;
         notifyAll();
       }
+    }
+
+    void manualShutdown() {
+      Runtime.getRuntime().removeShutdownHook(this);
+      run();
     }
 
     void waitForShutdown() {

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "65ef9770_80c1b62b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-23T21:21:30Z",
+      "side": 1,
+      "message": "Parentheses unnecessary here.",
+      "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65ef9770_c0a7bea3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
         "patchSetId": 2
@@ -13,6 +30,23 @@
       "writtenOn": "2016-09-23T18:16:14Z",
       "side": 1,
       "message": "This was just something the linter caught when I ran it",
+      "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ef9770_00b5a6c7",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-23T21:21:30Z",
+      "side": 1,
+      "message": "Using an event for this doesn\u0027t seem right to me. For now, could we use _viewChanged? Let gr-app be responsible for deciding when to update its _lastSearchPage.",
       "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

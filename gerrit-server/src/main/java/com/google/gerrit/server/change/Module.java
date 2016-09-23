@@ -53,6 +53,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), VOTE_KIND);
 
     get(CHANGE_KIND).to(GetChange.class);
+    post(CHANGE_KIND, "merge").to(UpdateChangeByMerge.class);
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     get(CHANGE_KIND, "in").to(IncludedIn.class);

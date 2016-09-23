@@ -43,12 +43,12 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     SetAssigneeOp create(AssigneeInput input);
   }
 
-  private final AssigneeInput input;
   private final AccountsCollection accounts;
   private final ChangeMessagesUtil cmUtil;
   private final AccountInfoCacheFactory.Factory accountInfosFactory;
-  private final String anonymousCowardName;
   private final DynamicSet<AssigneeValidationListener> validationListeners;
+  private final AssigneeInput input;
+  private final String anonymousCowardName;
 
   private Account newAssignee;
 
@@ -56,15 +56,15 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   SetAssigneeOp(AccountsCollection accounts,
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
+      DynamicSet<AssigneeValidationListener> validationListeners,
       @AnonymousCowardName String anonymousCowardName,
-      @Assisted AssigneeInput input,
-      DynamicSet<AssigneeValidationListener> validationListeners) {
+      @Assisted AssigneeInput input) {
     this.accounts = accounts;
     this.cmUtil = cmUtil;
     this.accountInfosFactory = accountInfosFactory;
+    this.validationListeners = validationListeners;
     this.anonymousCowardName = anonymousCowardName;
     this.input = input;
-    this.validationListeners = validationListeners;
   }
 
   @Override

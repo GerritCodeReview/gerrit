@@ -101,7 +101,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
           ctx.getChange().getChangeId(),
           newAssigneeUser.getUserName()));
     }
-    update.setAssignee(Optional.fromNullable(newAssigneeUser.getAccountId()));
+    update.setAssignee(newAssigneeUser.getAccountId());
     this.newAssignee = newAssigneeUser.getAccount();
     addMessage(ctx, update, oldAssignee);
     return true;

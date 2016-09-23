@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,7 +79,6 @@ import java.util.concurrent.ExecutorService;
 public class ReplaceOp extends BatchUpdate.Op {
   public interface Factory {
     ReplaceOp create(
-        RequestScopePropagator requestScopePropagator,
         ProjectControl projectControl,
         Branch.NameKey dest,
         boolean checkMergedInto,
@@ -112,7 +112,6 @@ public class ReplaceOp extends BatchUpdate.Op {
   private final PatchSetUtil psUtil;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
 
-  private final RequestScopePropagator requestScopePropagator;
   private final ProjectControl projectControl;
   private final Branch.NameKey dest;
   private final boolean checkMergedInto;
@@ -133,6 +132,8 @@ public class ReplaceOp extends BatchUpdate.Op {
   private ChangeMessage msg;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
+  private RequestScopePropagator requestScopePropagator;
+  private boolean updateRef;
 
   @AssistedInject
   ReplaceOp(AccountResolver accountResolver,
@@ -149,7 +150,6 @@ public class ReplaceOp extends BatchUpdate.Op {
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
-      @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted ProjectControl projectControl,
       @Assisted Branch.NameKey dest,
       @Assisted boolean checkMergedInto,
@@ -176,7 +176,6 @@ public class ReplaceOp extends BatchUpdate.Op {
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.sendEmailExecutor = sendEmailExecutor;
 
-    this.requestScopePropagator = requestScopePropagator;
     this.projectControl = projectControl;
     this.dest = dest;
     this.checkMergedInto = checkMergedInto;
@@ -188,6 +187,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     this.groups = groups;
     this.magicBranch = magicBranch;
     this.pushCertificate = pushCertificate;
+    this.updateRef = true;
   }
 
   @Override
@@ -202,6 +202,12 @@ public class ReplaceOp extends BatchUpdate.Op {
         mergedByPushOp = mergedByPushOpFactory.create(
             requestScopePropagator, patchSetId, mergedInto.getName());
       }
+    }
+
+    if (updateRef) {
+      ctx.addRefUpdate(
+          new ReceiveCommand(ObjectId.zeroId(), commit,
+              patchSetId.toRefName()));
     }
   }
 
@@ -366,8 +372,10 @@ public class ReplaceOp extends BatchUpdate.Op {
     // BatchUpdate's perspective there is no ref update. Thus we have to fire it
     // manually.
     final Account account = ctx.getAccount();
-    gitRefUpdated.fire(ctx.getProject(), newPatchSet.getRefName(),
-        ObjectId.zeroId(), commit, account);
+    if (!updateRef) {
+      gitRefUpdated.fire(ctx.getProject(), newPatchSet.getRefName(),
+          ObjectId.zeroId(), commit, account);
+    }
 
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       Runnable sender = new Runnable() {
@@ -454,8 +462,23 @@ public class ReplaceOp extends BatchUpdate.Op {
     return newPatchSet;
   }
 
+  public Change getChange() {
+    return change;
+  }
+
   public String getRejectMessage() {
     return rejectMessage;
+  }
+
+  public ReplaceOp setUpdateRef(boolean updateRef) {
+    this.updateRef = updateRef;
+    return this;
+  }
+
+  public ReplaceOp setRequestScopePropagator(
+      RequestScopePropagator requestScopePropagator) {
+    this.requestScopePropagator = requestScopePropagator;
+    return this;
   }
 
   private Ref findMergedInto(Context ctx, String first, RevCommit commit) {

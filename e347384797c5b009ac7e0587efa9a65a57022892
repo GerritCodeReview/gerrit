@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_2a0d3f45",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T09:21:21Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 485,
+        "startChar": 34,
+        "endLine": 485,
+        "endChar": 36
+      },
+      "revId": "e347384797c5b009ac7e0587efa9a65a57022892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_ea160758",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_132.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-23T09:21:21Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e347384797c5b009ac7e0587efa9a65a57022892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

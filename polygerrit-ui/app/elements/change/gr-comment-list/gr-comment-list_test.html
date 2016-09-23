@@ -36,9 +36,21 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('_computeFilesFromComments', function() {
-      var comments = {'file_b.html': [], 'file_c.css': [], 'file_a.js': []};
-      var expected = ['file_a.js', 'file_b.html', 'file_c.css'];
+    test('_computeFilesFromComments w/ special file path sorting', function() {
+      var comments = {
+        'file_b.html': [],
+        'file_c.css': [],
+        'file_a.js': [],
+        'test.cc': [],
+        'test.h': [],
+      };
+      var expected = [
+        'file_a.js',
+        'file_b.html',
+        'file_c.css',
+        'test.h',
+        'test.cc'
+      ];
       var actual = element._computeFilesFromComments(comments);
       assert.deepEqual(actual, expected);
 

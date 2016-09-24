@@ -642,7 +642,7 @@ Default is 1024 for most caches, except:
 * `"adv_bases"`: default is `4096`
 * `"diff"`: default is `10m` (10 MiB of memory)
 * `"diff_intraline"`: default is `10m` (10 MiB of memory)
-* `"diff_file_list"`: default is `10m` (10 MiB of memory)
+* `"diff_summary"`: default is `10m` (10 MiB of memory)
 * `"plugin_resources"`: default is 2m (2 MiB of memory)
 
 +
@@ -660,7 +660,7 @@ performed once every 24 hours.
 +
 Default is 128 MiB per cache, except:
 +
-* `"diff_file_list"`: default is `1g` (1 GiB of disk space)
+* `"diff_summary"`: default is `1g` (1 GiB of disk space)
 
 +
 If 0, disk storage for the cache is disabled.
@@ -733,7 +733,7 @@ estimate in bytes of memory used. Administrators should try to target
 cache.diff.memoryLimit to fit all files users will view in a 1 or 2
 day span.
 
-cache `"diff_file_list"`::
+cache `"diff_summary"`::
 +
 Each item caches list of file paths which are different between two
 commits. Gerrit uses this cache to accelerate computing of the list

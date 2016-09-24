@@ -16,20 +16,19 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.cache.Weigher;
 
-/** Computes memory usage for FileList in bytes of memory used */
-public class FileListWeigher implements Weigher<PatchListKey, FileList> {
+/** Computes memory usage for {@link DiffSummary} in bytes of memory used. */
+public class DiffSummaryWeigher implements
+    Weigher<DiffSummaryKey, DiffSummary> {
 
   @Override
-  public int weigh(PatchListKey key, FileList value) {
-    int size = 16 + 4 * 8 + 2 * 36; // Size of PatchListKey, 64 bit JVM
-
-    // Size of the list of paths ...
+  public int weigh(DiffSummaryKey key, DiffSummary value) {
+    int size = 16 + 4 * 8 + 2 * 36 // Size of DiffSummaryKey, 64 bit JVM
+        + 16 + 8 // Size of DiffSummary
+        + 16 + 8; // String[]
     for (String p : value.getPaths()) {
-      size += p.length();
+      size += 16 + 8 + 4 * 4 // String
+          + 16 + 8 + p.length() * 2; // char[]
     }
-    // ... plus new-line separators between paths
-    size += value.getPaths().size() - 1;
-
     return size;
   }
 }

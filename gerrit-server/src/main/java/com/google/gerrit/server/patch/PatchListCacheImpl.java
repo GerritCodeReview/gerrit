@@ -15,7 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.patch.FileListLoader.toFileList;
+import static com.google.gerrit.server.patch.DiffSummaryLoader.toDiffSummary;
 
 import com.google.common.cache.Cache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -41,7 +41,7 @@ import java.util.concurrent.ExecutionException;
 public class PatchListCacheImpl implements PatchListCache {
   static final String FILE_NAME = "diff";
   static final String INTRA_NAME = "diff_intraline";
-  static final String FILE_LIST = "diff_file_list";
+  static final String DIFF_SUMMARY = "diff_summary";
 
   public static Module module() {
     return new CacheModule() {
@@ -57,10 +57,10 @@ public class PatchListCacheImpl implements PatchListCache {
             .maximumWeight(10 << 20)
             .weigher(IntraLineWeigher.class);
 
-        factory(FileListLoader.Factory.class);
-        persist(FILE_LIST, PatchListKey.class, FileList.class)
+        factory(DiffSummaryLoader.Factory.class);
+        persist(DIFF_SUMMARY, DiffSummaryKey.class, DiffSummary.class)
             .maximumWeight(10 << 20)
-            .weigher(FileListWeigher.class)
+            .weigher(DiffSummaryWeigher.class)
             .diskLimit(1 << 30);
 
         bind(PatchListCacheImpl.class);
@@ -71,27 +71,27 @@ public class PatchListCacheImpl implements PatchListCache {
 
   private final Cache<PatchListKey, PatchList> fileCache;
   private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
-  private final Cache<PatchListKey, FileList> fileListCache;
+  private final Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
   private final PatchListLoader.Factory fileLoaderFactory;
   private final IntraLineLoader.Factory intraLoaderFactory;
-  private final FileListLoader.Factory fileListLoaderFactory;
+  private final DiffSummaryLoader.Factory diffSummaryLoaderFactory;
   private final boolean computeIntraline;
 
   @Inject
   PatchListCacheImpl(
       @Named(FILE_NAME) Cache<PatchListKey, PatchList> fileCache,
       @Named(INTRA_NAME) Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
-      @Named(FILE_LIST) Cache<PatchListKey, FileList> fileListCache,
+      @Named(DIFF_SUMMARY) Cache<DiffSummaryKey, DiffSummary> diffSummaryCache,
       PatchListLoader.Factory fileLoaderFactory,
       IntraLineLoader.Factory intraLoaderFactory,
-      FileListLoader.Factory fileListLoaderFactory,
+      DiffSummaryLoader.Factory diffSummaryLoaderFactory,
       @GerritServerConfig Config cfg) {
     this.fileCache = fileCache;
     this.intraCache = intraCache;
-    this.fileListCache = fileListCache;
+    this.diffSummaryCache = diffSummaryCache;
     this.fileLoaderFactory = fileLoaderFactory;
     this.intraLoaderFactory = intraLoaderFactory;
-    this.fileListLoaderFactory = fileListLoaderFactory;
+    this.diffSummaryLoaderFactory = diffSummaryLoaderFactory;
 
     this.computeIntraline =
         cfg.getBoolean("cache", INTRA_NAME, "enabled",
@@ -103,7 +103,9 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     try {
       PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
-      fileListCache.put(key, toFileList(pl));
+      diffSummaryCache.put(
+          DiffSummaryKey.fromPatchListKey(key),
+          toDiffSummary(pl));
       return pl;
     } catch (ExecutionException e) {
       PatchListLoader.log.warn("Error computing " + key, e);
@@ -159,19 +161,22 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public FileList getFileList(Change change, PatchSet patchSet)
+  public DiffSummary getDiffSummary(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
-    return getFileList(PatchListKey.againstDefaultBase(b, ws), project);
+    return getDiffSummary(
+        DiffSummaryKey.fromPatchListKey(
+            PatchListKey.againstDefaultBase(b, ws)),
+        project);
   }
 
-  private FileList getFileList(PatchListKey key, Project.NameKey project)
-      throws PatchListNotAvailableException {
+  private DiffSummary getDiffSummary(DiffSummaryKey key,
+      Project.NameKey project) throws PatchListNotAvailableException {
     try {
-      return fileListCache.get(key,
-          fileListLoaderFactory.create(key, project));
+      return diffSummaryCache.get(key,
+          diffSummaryLoaderFactory.create(key, project));
     } catch (ExecutionException e) {
       PatchListLoader.log.warn("Error computing " + key, e);
       throw new PatchListNotAvailableException(e);

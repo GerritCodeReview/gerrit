@@ -14,16 +14,11 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -34,12 +29,12 @@ import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
-public class FileList implements Serializable {
-  private static final long serialVersionUID = PatchListKey.serialVersionUID;
+public class DiffSummary implements Serializable {
+  private static final long serialVersionUID = DiffSummaryKey.serialVersionUID;
 
   private transient String[] paths;
 
-  public FileList(String[] paths) {
+  public DiffSummary(String[] paths) {
     this.paths = paths;
   }
 
@@ -48,18 +43,20 @@ public class FileList implements Serializable {
   }
 
   private void writeObject(ObjectOutputStream output) throws IOException {
-    ByteArrayOutputStream buf = new ByteArrayOutputStream();
-    try (DeflaterOutputStream out = new DeflaterOutputStream(buf)) {
-      writeString(out, Joiner.on('\n').join(paths));
+    writeVarInt32(output, paths.length);
+    try (DeflaterOutputStream out = new DeflaterOutputStream(output)) {
+      for (String p : paths) {
+        writeString(out, p);
+      }
     }
-    writeBytes(output, buf.toByteArray());
   }
 
   private void readObject(ObjectInputStream input) throws IOException {
-    ByteArrayInputStream buf = new ByteArrayInputStream(readBytes(input));
-    try (InflaterInputStream in = new InflaterInputStream(buf)) {
-      List<String> l = Splitter.on('\n').splitToList(readString(in));
-      paths = l.toArray(new String[l.size()]);
+    paths = new String[readVarInt32(input)];
+    try (InflaterInputStream in = new InflaterInputStream(input)) {
+      for (int i = 0; i < paths.length; i++) {
+        paths[i] = readString(in);
+      }
     }
   }
 }

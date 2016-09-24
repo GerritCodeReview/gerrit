@@ -75,6 +75,6 @@ public class FileListLoader implements Callable<FileList> {
       }
     }
     Collections.sort(r);
-    return new FileList(r.toArray(new String[r.size()]));
+    return new FileList(r);
   }
 }

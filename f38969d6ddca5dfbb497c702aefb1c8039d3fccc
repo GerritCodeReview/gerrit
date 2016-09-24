@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_0d773593",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2053,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-24T08:35:19Z",
+      "side": 1,
+      "message": "IIRC the default is false.  If so, this can just be removed.",
+      "range": {
+        "startLine": 2053,
+        "startChar": 12,
+        "endLine": 2053,
+        "endChar": 34
+      },
+      "revId": "f38969d6ddca5dfbb497c702aefb1c8039d3fccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65ef9770_80fe5650",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/FileList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-24T00:35:35Z",
+      "side": 1,
+      "message": "Looking at the weigher, I think this part is a bad idea. We want a String[] and don\u0027t want to waste space on wrapper objects.",
+      "revId": "ffc8c64f4289495f74211dd949cda0ad7b259f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

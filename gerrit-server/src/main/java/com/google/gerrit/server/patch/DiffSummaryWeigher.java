@@ -22,15 +22,13 @@ public class DiffSummaryWeigher implements
 
   @Override
   public int weigh(DiffSummaryKey key, DiffSummary value) {
-    int size = 16 + 4 * 8 + 2 * 36; // Size of DiffSummaryKey, 64 bit JVM
-
-    // Size of the list of paths ...
-    for (String p : value.getPaths()) {
-      size += p.length();
+    int size = 16 + 4 * 8 + 2 * 36 // Size of DiffSummaryKey, 64 bit JVM
+        + 16 + 8 // Size of FileList, 64 bit JVM
+        + 16 + 8; // String[]
+    for (String path : value.getPaths()) {
+      size += 16 + 8 + 4 * 4 // String
+          + 16 + 8 + path.length() * 2; // char[]
     }
-    // ... plus new-line separators between paths
-    size += value.getPaths().size() - 1;
-
     return size;
   }
 }

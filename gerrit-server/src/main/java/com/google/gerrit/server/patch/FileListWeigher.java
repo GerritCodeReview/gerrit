@@ -21,15 +21,12 @@ public class FileListWeigher implements Weigher<PatchListKey, FileList> {
 
   @Override
   public int weigh(PatchListKey key, FileList value) {
-    int size = 16 + 4 * 8 + 2 * 36; // Size of PatchListKey, 64 bit JVM
-
-    // Size of the list of paths ...
-    for (String p : value.getPaths()) {
-      size += p.length();
+    int size = 16 + 4 * 8 + 2 * 36 // Size of PatchListKey, 64 bit JVM
+        + 16 + 8; // Size of FileList, 64 bit JVM
+    for (String path : value.getPaths()) {
+      size += 16 + 8 + 4 * 4 // String, 64 bit JVM
+          + 16 + 8 + path.length() * 2; // char[]
     }
-    // ... plus new-line separators between paths
-    size += value.getPaths().size() - 1;
-
     return size;
   }
 }

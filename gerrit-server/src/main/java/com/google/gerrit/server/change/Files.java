@@ -238,6 +238,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           if (!o.isEmpty()) {
             try {
               r = copy(Sets.newHashSet(o), ps.getId(), resource, userId);
+            } catch (OrmException e) {
+              // ignore
             } catch (IOException | PatchListNotAvailableException e) {
               log.warn("Cannot copy patch review flags", e);
             }

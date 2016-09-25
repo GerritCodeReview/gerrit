@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_cdb7dd3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-09-25T06:52:36Z",
+      "side": 1,
+      "message": "Should it be explicitly OrmDuplicateKeyException or is this good enough?",
+      "range": {
+        "startLine": 241,
+        "startChar": 68,
+        "endLine": 241,
+        "endChar": 80
+      },
+      "revId": "d1362b5008999a4fa41917572c044564976ef0d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

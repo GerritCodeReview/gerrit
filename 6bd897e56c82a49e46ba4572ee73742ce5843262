@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_2d88b97b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-25T16:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_aa7c8fab",
+      "revId": "6bd897e56c82a49e46ba4572ee73742ce5843262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_cd3aa9f4",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_f073be76",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-25T16:50:48Z",
+      "side": 1,
+      "message": "Unfortunately com.google.gson.JsonArray does not have stream() method",
+      "parentUuid": "f03b47ab_cd3aa9f4",
+      "revId": "6bd897e56c82a49e46ba4572ee73742ce5843262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_ed3f65e1",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2016-09-23T08:33:49Z",
       "side": 1,
       "message": "Nit: indent 4 spaces total.",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 15
+      },
+      "revId": "6bd897e56c82a49e46ba4572ee73742ce5843262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_b079365b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-25T16:50:48Z",
+      "side": 1,
+      "message": "Done - hope that I get what you mean right ;)",
+      "parentUuid": "f03b47ab_ed3f65e1",
       "range": {
         "startLine": 67,
         "startChar": 6,

@@ -425,7 +425,7 @@ class ChangeApiImpl implements ChangeApi {
       throws RestApiException {
     try {
       return putAssignee.apply(change, input).value();
-    } catch (UpdateException e) {
+    } catch (UpdateException | IOException | OrmException e) {
       throw new RestApiException("Cannot set assignee", e);
     }
   }

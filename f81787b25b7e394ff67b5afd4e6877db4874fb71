@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_ad682985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T09:31:41Z",
+      "side": 1,
+      "message": "It\u0027s going to be very big change, if crisper and vulcanize added here as well. This is hard to review and verify.\n\nI would prefer to split it in number of changes:\n\n* 1. bower_archive, bower_component, bower_component_bundle\n* 2. cripser\n* 3. vulcanize\n* 4. bower2bazel",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_b0ecd6f3",
+        "filename": "lib/js/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T09:31:41Z",
+      "side": 1,
+      "message": "Add license here to verify that it works.",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_cd5b5df7",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T09:31:41Z",
+      "side": 1,
+      "message": "Is this correct to pass a file but define it as a label?",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 44
+      },
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_90e7da10",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T09:31:41Z",
+      "side": 1,
+      "message": "After rebase my fixes were lost here:\n\n  [...] do unzip $p/$z; done; zip -qr $p/%s .\"",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

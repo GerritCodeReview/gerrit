@@ -17,6 +17,24 @@
       "revId": "75b98f77d9a0b6c47ea86afa4e551c7250283c9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45f45341_7f9acf6a",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-26T12:24:23Z",
+      "side": 1,
+      "message": "I think for java_library, data \u003d [\u0027LICENSE-Apache2.0\u0027] is more readable than data \u003d [\u0027Apache2.0\u0027]. Apache2.0 might be readable in either form, but licenses like \"args4j\" is definitely more clearly in \u0027LICENSE-args4j\u0027 form as it\u0027s easy to understand this is a license. Also the current implementation in tools/bzl/license.bzl relied on \"//lib:LICENSE\" prefix to distinguish licenses from other bazel dependencies.\n\njava_library2 might be a better approach, but that could be in a separated change :)",
+      "parentUuid": "f03b47ab_5035728f",
+      "revId": "75b98f77d9a0b6c47ea86afa4e551c7250283c9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

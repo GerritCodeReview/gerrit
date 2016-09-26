@@ -14,3 +14,23 @@ license_map(
   ],
   opts = ["--asciidoctor"],
 )
+
+DOC_DIR = 'Documentation'
+SRCS = glob(['*.txt'])
+
+genrule(
+  name = 'index',
+  cmd = '$(location //lib/asciidoctor:doc_indexer) ' +
+      '-o $(OUTS) ' +
+      '--prefix "%s/" ' % DOC_DIR +
+      '--in-ext ".txt" ' +
+      '--out-ext ".html" ' +
+      '$(SRCS) ' +
+      '$(location :licenses.txt)',
+  tools = [
+      ':licenses.txt',
+      '//lib/asciidoctor:doc_indexer',
+  ],
+  srcs = SRCS,
+  outs = ['index.jar'],
+)

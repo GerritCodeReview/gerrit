@@ -786,3 +786,15 @@ maven_jar(
   artifact = 'commons-io:commons-io:1.4',
   sha1 = 'a8762d07e76cfde2395257a5da47ba7c1dbd3dce',
 )
+
+maven_jar(
+  name = "asciidoctor",
+  artifact = "org.asciidoctor:asciidoctorj:1.5.4.1",
+  sha1 = "f7ddfb2bbed2f8da3f9ad0d1a5514f04b4274a5a",
+)
+
+maven_jar(
+  name = "jruby",
+  artifact = "org.jruby:jruby-complete:9.1.2.0",
+  sha1 = "1ba9ec078d5c46583688110ddc7dec912d4c7763",
+)

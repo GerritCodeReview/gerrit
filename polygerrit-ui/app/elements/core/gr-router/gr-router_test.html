@@ -18,10 +18,11 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-app</title>
 
-<script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
-<script src="../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../bower_components/page/page.js"></script>
 
-<link rel="import" href="gr-app.html">
+<link rel="import" href="gr-router.html">
 
 <test-fixture id="basic">
   <template>
@@ -31,36 +32,14 @@ limitations under the License.
 
 <script>
   suite('gr-app tests', function() {
-    var sandbox;
     var element;
 
-    setup(function(done) {
-      sandbox = sinon.sandbox.create();
-      stub('gr-reporting', {
-        appStarted: sandbox.stub(),
-      });
-      var config = {gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
-      plugin: {js_resource_paths: []}};
-      stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve(config); },
-      });
-
+    setup(function() {
       element = fixture('basic');
-      flush(done);
-    });
-    teardown(function() {
-      sandbox.restore();
     });
 
     test('reporting', function() {
-      assert.isTrue(element.$.reporting.appStarted.calledOnce);
-    });
-
-    test('location change updates gwt footer', function() {
-      element._path = '/test/path';
-      var gwtLink = element.$$('#gwtLink');
-      assert.equal('http://localhost:63342/?polygerrit=0#/test/path',
-          gwtLink.href);
+      page('/');
     });
   });
 </script>

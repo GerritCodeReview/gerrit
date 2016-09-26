@@ -43,11 +43,13 @@
       _showSettingsView: Boolean,
       _viewState: Object,
       _lastError: Object,
+      _path: String,
     },
 
     listeners: {
       'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
+      'location-change': '_handleLocationChange',
     },
 
     observers: [
@@ -156,6 +158,10 @@
           this._lastError = err;
         }.bind(this));
       }
+    },
+
+    _handleLocationChange: function() {
+      this.set('_path', location.pathname);
     },
 
     _handleTitleChange: function(e) {

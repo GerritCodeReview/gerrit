@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1474879383 +0800\npushee rpc://gerrit/gerrit\nnonce AKOpmBUbfDESkp3kSbRbB5d71YO/6eoNxGNu2qqhc13fICgncAqbymZbWSfaw3qDyNE1ziZOpaa2\n\n0000000000000000000000000000000000000000 75b98f77d9a0b6c47ea86afa4e551c7250283c9b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX6N+YAAoJELOGKwXbr+wPTH0P/3TvHnjz/uTqQ0Bal6yrmpZn\nmygGqjnBJu991oqFn3JEW5y8y8yey78rMsPEfxfmtGsc1gzZiW3k+HUrRp5zxwNM\ngHERGfeOquTQ26XAk498R4FtU1bvAHhUYoSf3jVKm6h8fI+DTl4CnWrDkRl/F9sN\nm+HNlF+BK+8xka3ebsDRekHRt9m1HTf9zO752tAR+uHTxs3PU4zvc2QbZx3haPd4\nCimPPrhHrVCsxjGNsZzpsoL6y0hXLLfesSM/u45qpkxJkFhUNkI6uebwPLz1+J+O\n2n/5uxD4tWznY4IPxnleE+ozQ5KS8xEteuBrggs4tKR3NNg5LvbpIpU+j6j9tW7S\nDO9GiEiOJMS9BCsY+xU/UN8aTg87R2V3kIxX5JsH7tf6ivdvdWxPg6pDPbEto/I1\nzAUYtpwk06IwxkBFOdyFUMLkmxrsK6KX/a8cvrgVGGPxk6Pg6k2zADYRjp2Pvscp\n9ZxNgk1RnxmcK6Rd4i+tg5EkQ9uFOuQ6QzU+Rpmd1dOjEWp+cRhfkvOYManj9hDK\nvwfyfNJZxdYhgLo7cSsz4sMsWzOigIqhgGmW/+5lQq+y+12fsCtaUK55KIJPdRzj\nLzlV2UrToIhD2thxUDIVPaeWYFZ/cGaYScbHGRqgOuOEy0LdS9ndQFGQWXmuVZSw\n7zIkfAK9GO0SJP8ojoQX\n\u003d7B+o\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03b47ab_5035728f",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T09:21:53Z",
+      "side": 1,
+      "message": "It was already discussed in another change. Why don\u0027t we define\n\n  def_license(name):\n    native.filegroup(\n      name \u003d name,\n      srcs \u003d [\u0027LICENSE-%s\u0027 % name]\n    )\n\nand use it as:\n\n  def_license(\u0027antlr\u0027)\n\nAdvantage: we have a label attached to every license file and it is shorter to say:\n\n  java_library(\n    name \u003d \u0027servlet-api-3_1\u0027,\n    [...]\n    data \u003d [\u0027:Apache2.0\u0027],\n  )\n\nor even:\n\n  java_library2(\n    name \u003d \u0027servlet-api-3_1\u0027,\n    [...]\n    license \u003d \u0027Apache2.0\u0027,\n  )\n\nIdeally, we would fine a way to enforce usage of java_library2 with mandatory license argument to avoid that java_library is used without data \u003d [license] passed in.",
+      "revId": "75b98f77d9a0b6c47ea86afa4e551c7250283c9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

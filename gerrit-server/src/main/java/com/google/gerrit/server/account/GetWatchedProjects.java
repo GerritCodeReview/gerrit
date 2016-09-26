@@ -60,7 +60,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
     this.dbProvider = dbProvider;
     this.self = self;
     this.readFromGit =
-        cfg.getBoolean("user", null, "readProjectWatchesFromGit", true);
+        cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
     this.watchConfig = watchConfig;
   }
 

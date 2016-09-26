@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "f03b47ab_d027a275",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-26T08:19:20Z",
+      "side": 1,
+      "message": "This type can represent both, LHS and RHS of a diff.\n\nI don\u0027t mind to rename it to DiffBase, but still find it confusing when this type is used for RHS as in PatchSetSelectBox.",
+      "parentUuid": "a560afe5_cd047d27",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 23
+      },
+      "revId": "ae75f028eec70897c722d742e5dff2760edd1bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_e6a05aa7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 1

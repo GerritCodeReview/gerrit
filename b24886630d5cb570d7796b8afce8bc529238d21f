@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e57707bf_f4aa986d",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-26T19:03:07Z",
+      "side": 1,
+      "message": "If it does get moved, then let’s place it within a package with a descriptive name like files.js, NOT util.js. I’ve been trying to kill util.js for a while now.",
+      "parentUuid": "904beb45_b2f3009a",
+      "revId": "b24886630d5cb570d7796b8afce8bc529238d21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65ef9770_80e896a3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

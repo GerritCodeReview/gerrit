@@ -761,18 +761,18 @@ maven_jar(
   sha1 = '9bfabe48876ec38f6cbaa6931bad05c64a9ea942',
 )
 
-CM_VERSION = '5.18.2'
+CM_VERSION = '5.19.0'
 
 maven_jar(
   name = 'codemirror_minified',
   artifact = 'org.webjars.npm:codemirror-minified:' + CM_VERSION,
-  sha1 = '6755af157a7eaf2401468906bef67bbacc3c97f6',
+  sha1 = '263bf4acb7c4429be3fe46908af240f9f629d51c',
 )
 
 maven_jar(
   name = 'codemirror_original',
   artifact = 'org.webjars.npm:codemirror:' + CM_VERSION,
-  sha1 = '18c721ae88eed27cddb458c42f5d221fa3d9713e',
+  sha1 = 'e9ab382c6be240d55f112051bba3f6c637b798ce',
 )
 
 maven_jar(

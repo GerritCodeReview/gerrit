@@ -22,6 +22,24 @@
       "revId": "f38969d6ddca5dfbb497c702aefb1c8039d3fccc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904beb45_725d1872",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2053,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-09-26T17:20:07Z",
+      "side": 1,
+      "message": "The default is set to be true in ChangeInserter.java line 170\n\nthis.updateRef \u003d true;",
+      "parentUuid": "a560afe5_0d773593",
+      "revId": "f38969d6ddca5dfbb497c702aefb1c8039d3fccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

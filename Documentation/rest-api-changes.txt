@@ -5195,6 +5195,11 @@ Whether adding the reviewer is confirmed. +
 The Gerrit server may be configured to
 link:config-gerrit.html#addreviewer.maxWithoutConfirmation[require a
 confirmation] when adding a group as reviewer that has many members.
+|`notify`  |optional|
+Notify handling that defines to whom email notifications should be sent
+after the reviewer is added. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
 |===========================
 
 [[revision-info]]

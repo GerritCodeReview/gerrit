@@ -24,6 +24,7 @@ public class AddReviewerInput {
   public String reviewer;
   public Boolean confirmed;
   public ReviewerState state;
+  public NotifyHandling notify;
 
   public boolean confirmed() {
     return (confirmed != null) ? confirmed : false;

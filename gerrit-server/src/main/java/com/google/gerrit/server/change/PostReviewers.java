@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -173,16 +174,17 @@ public class PostReviewers
       }
     }
     return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId),
-        input.state());
+        input.state(), input.notify);
   }
 
   private Addition putAccount(String reviewer, ReviewerResource rsrc,
-      ReviewerState state) throws UnprocessableEntityException {
+      ReviewerState state, NotifyHandling notify)
+      throws UnprocessableEntityException {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
     if (isValidReviewer(member, control)) {
       return new Addition(reviewer, rsrc.getChangeResource(),
-          ImmutableMap.of(member.getId(), control), state);
+          ImmutableMap.of(member.getId(), control), state, notify);
     }
     throw new UnprocessableEntityException("Change not visible to " + reviewer);
   }
@@ -234,7 +236,8 @@ public class PostReviewers
       }
     }
 
-    return new Addition(input.reviewer, rsrc, reviewers, input.state());
+    return new Addition(input.reviewer, rsrc, reviewers, input.state(),
+        input.notify);
   }
 
   private boolean isValidReviewer(Account member, ChangeControl control) {
@@ -265,11 +268,12 @@ public class PostReviewers
     private final Map<Account.Id, ChangeControl> reviewers;
 
     protected Addition(String reviewer) {
-      this(reviewer, null, null, REVIEWER);
+      this(reviewer, null, null, REVIEWER, null);
     }
 
     protected Addition(String reviewer, ChangeResource rsrc,
-        Map<Account.Id, ChangeControl> reviewers, ReviewerState state) {
+        Map<Account.Id, ChangeControl> reviewers, ReviewerState state,
+        NotifyHandling notify) {
       result = new AddReviewerResult(reviewer);
       if (reviewers == null) {
         this.reviewers = ImmutableMap.of();
@@ -277,7 +281,7 @@ public class PostReviewers
         return;
       }
       this.reviewers = reviewers;
-      op = new Op(rsrc, reviewers, state);
+      op = new Op(rsrc, reviewers, state, notify);
     }
 
     void gatherResults() throws OrmException {
@@ -307,6 +311,7 @@ public class PostReviewers
   class Op extends BatchUpdate.Op {
     final Map<Account.Id, ChangeControl> reviewers;
     final ReviewerState state;
+    final NotifyHandling notify;
     List<PatchSetApproval> addedReviewers;
     Collection<Account.Id> addedCCs;
 
@@ -314,10 +319,11 @@ public class PostReviewers
     private PatchSet patchSet;
 
     Op(ChangeResource rsrc, Map<Account.Id, ChangeControl> reviewers,
-        ReviewerState state) {
+        ReviewerState state, NotifyHandling notify) {
       this.rsrc = rsrc;
       this.reviewers = reviewers;
       this.state = state;
+      this.notify = notify;
     }
 
     @Override
@@ -353,7 +359,7 @@ public class PostReviewers
         if (addedCCs == null) {
           addedCCs = new ArrayList<>();
         }
-        emailReviewers(rsrc.getChange(), addedReviewers, addedCCs);
+        emailReviewers(rsrc.getChange(), addedReviewers, addedCCs, notify);
         if (!addedReviewers.isEmpty()) {
           for (PatchSetApproval psa : addedReviewers) {
             Account account = accountCache.get(psa.getAccountId()).getAccount();
@@ -366,7 +372,7 @@ public class PostReviewers
   }
 
   private void emailReviewers(Change change, List<PatchSetApproval> added,
-      Collection<Account.Id> copied) {
+      Collection<Account.Id> copied, NotifyHandling notify) {
     if (added.isEmpty() && copied.isEmpty()) {
       return;
     }
@@ -393,7 +399,7 @@ public class PostReviewers
 
     try {
       AddReviewerSender cm = addReviewerSenderFactory
-          .create(change.getProject(), change.getId());
+          .create(change.getProject(), change.getId(), notify);
       cm.setFrom(userId);
       cm.addReviewers(toMail);
       cm.addExtraCC(toCopy);

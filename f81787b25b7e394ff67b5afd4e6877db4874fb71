@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_0d3f3574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T15:19:03Z",
+      "side": 1,
+      "message": "I think that the list from my previous comment allow you to verify the progress. bower2bazel.py is only needed for development and is unrelated to building  and shipping PolyGerrit in gerrit.war.",
+      "parentUuid": "a560afe5_ad16e904",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_b0ecd6f3",
         "filename": "lib/js/BUILD",
         "patchSetId": 7
@@ -95,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_6d40f1ed",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T15:19:03Z",
+      "side": 1,
+      "message": "Does:\n\n  exports_files([\"LICENSE-Apache2.0\"])\n\ndefine a label? I tried to pass: \u0027//lib:LICENSE-Apache2.0\u0027 as license, but the error was: type mismatch file passed where a label was expected.",
+      "parentUuid": "a560afe5_ad7f0937",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_90e7da10",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 7
@@ -124,6 +160,24 @@
       "side": 1,
       "message": "yeah, it would be easiest for me if you just flag problems, rather than trying to fix them.",
       "parentUuid": "f03b47ab_90e7da10",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_ed33c1aa",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-26T15:19:03Z",
+      "side": 1,
+      "message": "OK, but haven\u0027t you got notification that I\u0027ve uploaded new patch sets?",
+      "parentUuid": "a560afe5_cd091de7",
       "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

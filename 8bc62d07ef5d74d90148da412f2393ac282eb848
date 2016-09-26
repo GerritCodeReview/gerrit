@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_6d19113c",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-26T14:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_8aef8b0c",
+      "revId": "8bc62d07ef5d74d90148da412f2393ac282eb848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_ed0045dc",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 8
@@ -130,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "e57707bf_d4867c16",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-26T14:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a560afe5_6a8e978d",
+      "revId": "8bc62d07ef5d74d90148da412f2393ac282eb848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_cdfb89d7",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 8
@@ -147,6 +183,24 @@
         "endLine": 32,
         "endChar": 19
       },
+      "revId": "8bc62d07ef5d74d90148da412f2393ac282eb848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e57707bf_34825004",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-26T14:45:33Z",
+      "side": 1,
+      "message": "keyword args don\u0027t get spaces, see  http://stackoverflow.com/questions/8853063/pep-8-why-no-spaces-around-in-keyword-argument-or-a-default-parameter-value\n\nfixed throughout (in the giant CL.)",
+      "parentUuid": "f03b47ab_cdfb89d7",
       "revId": "8bc62d07ef5d74d90148da412f2393ac282eb848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

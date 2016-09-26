@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_8d98c5ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-09-26T06:41:18Z",
+      "side": 1,
+      "message": "Question: Why not handle further down in H2AccountPatchReviewStore.markReviewed? There are two impl,, one returning bool, that catches the DuplicateKey exception, while the void version does not. To me it looks like the error can safely get ignored there.",
+      "revId": "b384a0b41ca7b7dbd9e7535d29bc25385a7e1149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

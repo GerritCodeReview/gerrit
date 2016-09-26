@@ -3,6 +3,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "450a935e_afdb3910",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-26T23:36:23Z",
+      "side": 1,
+      "message": "Ideally this subject line would be stated in a way that makes it clearer what the change will be. Hard code output format makes me wonder \"why hard code?\" and \"what format?\"\n\nFor example:\n\n PreviewSubmit: Always use tgz format",
+      "revId": "60dc143f4fa873b601d94fe16c293c74f7d9db27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "450a935e_8fd8f514",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-26T23:36:23Z",
+      "side": 1,
+      "message": "This description is conversational in a way that makes it hard for me to understand what the patch is about. What is the motivation behind the patch? What will I be able to do that wasn\u0027t possible before?",
+      "revId": "60dc143f4fa873b601d94fe16c293c74f7d9db27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "450a935e_6fe2f1c1",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/scripts/preview_submit_test.sh",
         "patchSetId": 2

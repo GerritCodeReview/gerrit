@@ -262,7 +262,7 @@ public class PostReviewers
     return addition;
   }
 
-  class Addition {
+  public class Addition {
     final AddReviewerResult result;
     final Op op;
 
@@ -309,7 +309,7 @@ public class PostReviewers
     }
   }
 
-  class Op extends BatchUpdate.Op {
+  public class Op extends BatchUpdate.Op {
     final Map<Account.Id, ChangeControl> reviewers;
     final ReviewerState state;
     final NotifyHandling notify;

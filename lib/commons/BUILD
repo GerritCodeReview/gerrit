@@ -52,7 +52,7 @@ java_library(
   name = 'oro',
   exports = ['@commons_oro//jar'],
   visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+  data = ['//lib:LICENSE-Apache1.1'],
 )
 
 java_library(

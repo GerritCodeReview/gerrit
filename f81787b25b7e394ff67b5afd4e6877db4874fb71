@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_ad16e904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-26T14:48:53Z",
+      "side": 1,
+      "message": "yes, unfortunately, I actually need all the parts to be able to verify that it works as expected, and splitting it across multiple changes makes it harder. Maybe I can split off some fixes from the giant CL as I go along.",
+      "parentUuid": "a560afe5_ad682985",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_b0ecd6f3",
         "filename": "lib/js/BUILD",
         "patchSetId": 7
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_ad7f0937",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-26T14:48:53Z",
+      "side": 1,
+      "message": "yes. All file attributes should be declared as labels.",
+      "parentUuid": "a560afe5_cd5b5df7",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_90e7da10",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 7
@@ -70,6 +106,24 @@
       "writtenOn": "2016-09-26T09:31:41Z",
       "side": 1,
       "message": "After rebase my fixes were lost here:\n\n  [...] do unzip $p/$z; done; zip -qr $p/%s .\"",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a560afe5_cd091de7",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-26T14:48:53Z",
+      "side": 1,
+      "message": "yeah, it would be easiest for me if you just flag problems, rather than trying to fix them.",
+      "parentUuid": "f03b47ab_90e7da10",
       "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

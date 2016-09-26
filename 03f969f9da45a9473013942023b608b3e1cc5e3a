@@ -22,6 +22,24 @@
       "revId": "03f969f9da45a9473013942023b608b3e1cc5e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_697dc50a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-26T20:48:19Z",
+      "side": 1,
+      "message": "Maybe \u0027On My Comments\u0027 would be a good option?\nNot sure though.",
+      "parentUuid": "450a935e_ef90a14b",
+      "revId": "03f969f9da45a9473013942023b608b3e1cc5e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

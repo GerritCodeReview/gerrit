@@ -75,6 +75,13 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       throw new BadRequestException("format is not specified");
     }
     ArchiveFormat f = allowedFormats.extensions.get("." + format);
+    if (allowedFormats.getAllowed().isEmpty() && format.equals("tar")) {
+      // When no formats are allowed, this is because the server admin wants
+      // to disallow downloading patchsets/changes as archives, this
+      // is not applicable to the preview_submit call. Allow tar as a
+      // fall back.
+      f = ArchiveFormat.TAR;
+    }
     if (f == null) {
       throw new BadRequestException("unknown archive format");
     }

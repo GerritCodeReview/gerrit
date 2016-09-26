@@ -40,6 +40,24 @@
       "revId": "03f969f9da45a9473013942023b608b3e1cc5e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "450a935e_cf8ddd31",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-26T21:11:08Z",
+      "side": 1,
+      "message": "That\u0027s the exact reason for the change 😬\n\nThis option sends you an email for every comment written on your change, including ones you write. \n\n\u0027ENABLED\u0027 sends you an email for every comment written on your change, EXCEPT ones you write.\n\nI couldn\u0027t think of a better way to label this without having a ludicrously long option... \"Every comment, even ones I write myself\"",
+      "parentUuid": "450a935e_ef90a14b",
+      "revId": "03f969f9da45a9473013942023b608b3e1cc5e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

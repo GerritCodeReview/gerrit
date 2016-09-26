@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a560afe5_4d452dfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddReviewerSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-26T15:09:10Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "745bd20ef80e37a9297e55b768fdebb0010fdd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

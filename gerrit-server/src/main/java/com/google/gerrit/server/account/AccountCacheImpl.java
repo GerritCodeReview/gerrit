@@ -174,7 +174,7 @@ public class AccountCacheImpl implements AccountCache {
       this.loader = loader;
       this.byName = byUsername;
       this.readFromGit =
-          cfg.getBoolean("user", null, "readProjectWatchesFromGit", true);
+          cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
       this.watchConfig = watchConfig;
     }
 

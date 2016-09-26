@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
@@ -40,7 +38,6 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -51,33 +48,17 @@ import java.util.Set;
 public class PreviewSubmit implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final Provider<MergeOp> mergeOpProvider;
-  private final AllowedFormats allowedFormats;
-
-  private String format;
-
-  @Option(name = "--format")
-  public void setFormat(String f) {
-    this.format = f;
-  }
 
   @Inject
   PreviewSubmit(Provider<ReviewDb> dbProvider,
-      Provider<MergeOp> mergeOpProvider,
-      AllowedFormats allowedFormats) {
+      Provider<MergeOp> mergeOpProvider) {
     this.dbProvider = dbProvider;
     this.mergeOpProvider = mergeOpProvider;
-    this.allowedFormats = allowedFormats;
   }
 
   @Override
   public BinaryResult apply(RevisionResource rsrc) throws RestApiException {
-    if (Strings.isNullOrEmpty(format)) {
-      throw new BadRequestException("format is not specified");
-    }
-    ArchiveFormat f = allowedFormats.extensions.get("." + format);
-    if (f == null) {
-      throw new BadRequestException("unknown archive format");
-    }
+    ArchiveFormat f = ArchiveFormat.TGZ;
 
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
@@ -91,7 +72,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       b.disableGzip()
           .setContentType(f.getMimeType())
           .setAttachmentName("submit-preview-"
-              + change.getChangeId() + "." + format);
+              + change.getChangeId() + f.getDefaultSuffix());
       return b;
     } catch (OrmException | IOException e) {
       throw new RestApiException("Error generating submit preview");

@@ -37,7 +37,7 @@ then
 fi
 
 curl --digest -u $gerrituser -w '%{http_code}' -o preview \
-    $server/a/changes/$changeId/revisions/current/preview_submit?format=zip >http_code
+    $server/a/changes/$changeId/revisions/current/preview_submit >http_code
 if ! grep 200 http_code >/dev/null
 then
         # error out:
@@ -47,7 +47,7 @@ then
 else
         # valid zip file, extract and obtain a bundle for each project
         mkdir tmp-bundles
-        unzip preview -d tmp-bundles
+        (cd tmp-bundles && tar -xf ../preview)
         for project in $(cd tmp-bundles && find -type f)
         do
                 # Projects may contain slashes, so create the required

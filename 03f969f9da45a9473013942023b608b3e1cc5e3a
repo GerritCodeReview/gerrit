@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "450a935e_8faab56c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-26T22:13:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6505d749_d08d7c31",
+      "revId": "03f969f9da45a9473013942023b608b3e1cc5e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "450a935e_ef90a14b",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 1
@@ -90,6 +108,24 @@
       "side": 1,
       "message": "Aha! Now I understand.\n\nI agree. `CC_ON_OWN_COMMENTS` and `DISABLED` are the natural cases, so they should have the simplest labels. OTOH, `ENABLED` is the weird one, so it can be more verbose.",
       "parentUuid": "450a935e_cf8ddd31",
+      "revId": "03f969f9da45a9473013942023b608b3e1cc5e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_309a086a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-26T22:13:03Z",
+      "side": 1,
+      "message": "\"Only Comments Left By Others\"?",
+      "parentUuid": "450a935e_4f99ed70",
       "revId": "03f969f9da45a9473013942023b608b3e1cc5e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

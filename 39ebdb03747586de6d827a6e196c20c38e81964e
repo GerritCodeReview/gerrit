@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1474928575 -0700\nnonce AKOpmBVHF0zn6DkpJGxMKcBtuLAV5QP38DPPTYBienNYbazJ6hG1ulZTkaC17utXBTVn4orVEsO1\n\n0000000000000000000000000000000000000000 39ebdb03747586de6d827a6e196c20c38e81964e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX6Z+/AAoJECdUrmNLj+szvjYQAMrM9BcNlt9JA/LSQWqMV6Hb\nyVWLYfk7RSR6iRLr4IH44WZWXL5FftPgEyU0Rk4yO6UD8Qpd/0LfZurkVSRFOtFC\n5IyGmfRuoUhk7E/9SabCA7X2UttyE1Xrf+wQtKpJNLLk7ovk7JIvW6+CEWbsdSuV\nnUuiCR1C8EvZolrEQE80ZTFo+06sQq6kMvIhdJj3ONfmZpnXNe1B1zPqdgw15h7C\n4LYWmKZ42os+oatJWIh0+5jSW9KxclstD9eFlM/vvGTRKJpkGcDC5v/CoedrzNuK\nhhuqYd9zC8QMM4NDYKhas9VXGULcmWZ+Mzop2gRN+dmNTT0T3LKraddGRhRmcIrg\nCcDepzQ72SyzVl8jGjkOyqr2I8HPTqcdiAWaNCMbcDnzWJdIP39MnAJHv8q8F5Gl\npUmCp6HM2oFQRv3R9/fBLa94EeVa1SlSEpxMJTPZCtBomFPV5bUo6OMlrP+dCbjn\n7+xkvnOHddTcM3gfkqPqP27TBL1BYJuS4X5ZhHFbvDu+/qwhrsaNiivnzIgSB+kh\njL9r40CRk2QXnMctmDQw4Sp2fVDKvThcJoMWQTXVR9MnmKTZVJwHdSxmNbaQ8yYt\nAnQ84YHMvKykrPdYQ1fzeEw753aESGOQbf9zyMhNaQcXSsBSn01b51LfUYeWGNW9\nt2YXV2HCxPi6wJs5HX68\n\u003d+Vvz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6505d749_50998c70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-26T22:39:56Z",
+      "side": 1,
+      "message": "The semantics here don\u0027t match the commit message.",
+      "revId": "39ebdb03747586de6d827a6e196c20c38e81964e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

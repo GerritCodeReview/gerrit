@@ -307,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_cdcc7db8",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-26T08:59:31Z",
+      "side": 1,
+      "message": "Saša is just saying to indent 4 spaces instead of 2.",
+      "parentUuid": "a560afe5_ed162158",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_b05a1620",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 72
@@ -342,6 +366,30 @@
       "side": 1,
       "message": "this way code  is more readable",
       "parentUuid": "f03b47ab_b05a1620",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_103bea87",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-26T08:59:31Z",
+      "side": 1,
+      "message": "2 spaces -\u003e 4 spaces",
+      "parentUuid": "f03b47ab_b0f696f0",
       "range": {
         "startLine": 174,
         "startChar": 0,
@@ -436,6 +484,30 @@
     },
     {
       "key": {
+        "uuid": "a560afe5_adc949a6",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-26T08:59:31Z",
+      "side": 1,
+      "message": "2 spaces -\u003e 4 spaces",
+      "parentUuid": "a560afe5_ad2029a4",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_d0fb22d7",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 72
@@ -447,6 +519,30 @@
       "writtenOn": "2016-09-23T18:53:39Z",
       "side": 1,
       "message": "Don\u0027t know why, but this seams to be problematic in during cookbook-plugin tests. After extracting and refactoring ternary operator before this  switch-case block they (magically) started to work.",
+      "range": {
+        "startLine": 410,
+        "startChar": 7,
+        "endLine": 415,
+        "endChar": 67
+      },
+      "revId": "8ef363a9bf368094c0d46c4d128f126e00cb01d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03b47ab_3038e688",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-26T08:59:31Z",
+      "side": 1,
+      "message": "The difference between PS72 and PS73 is that in PS73, it returns luceneModule when luceneModule !\u003d null even if indexType is not set to LUCENE.\n\nIs it possible that in plugin acceptance tests, luceneModule is !\u003d null but the indexType was set incorrectly?",
+      "parentUuid": "f03b47ab_d0fb22d7",
       "range": {
         "startLine": 410,
         "startChar": 7,

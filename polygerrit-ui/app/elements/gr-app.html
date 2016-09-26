@@ -129,7 +129,7 @@ limitations under the License.
           target="_blank">Report PolyGerrit Bug</a>
       <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
         |
-        <a href="/?polygerrit=0" rel="external">GWT UI</a>
+        <a id="gwtLink" href="/?polygerrit=0#[[_path]]" rel="external">GWT UI</a>
       </template>
     </footer>
     <gr-overlay id="keyboardShortcuts" with-backdrop>

@@ -39,6 +39,12 @@ limitations under the License.
       stub('gr-reporting', {
         appStarted: sandbox.stub(),
       });
+      var config = {gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
+      plugin: {js_resource_paths: []}};
+      stub('gr-rest-api-interface', {
+        getConfig: function() { return Promise.resolve(config); },
+      });
+
       element = fixture('basic');
       flush(done);
     });
@@ -48,6 +54,13 @@ limitations under the License.
 
     test('reporting', function() {
       assert.isTrue(element.$.reporting.appStarted.calledOnce);
+    });
+
+    test('location change updates gwt footer', function() {
+      element._path = '/test/path';
+      var gwtLink = element.$$('#gwtLink');
+      assert.equal('http://localhost:63342/?polygerrit=0#/test/path',
+          gwtLink.href);
     });
   });
 </script>

@@ -42,6 +42,10 @@ java_import(
   name = 'diffy_logo',
   jars = [':diffy_image_files_ln'],
   visibility = ['//visibility:public'],
+  data = [
+    '//lib:LICENSE-diffy',
+    '//lib:LICENSE-CC-BY3.0-unported',
+  ],
 )
 
 genrule2(

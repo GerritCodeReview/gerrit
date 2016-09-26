@@ -19,6 +19,10 @@ gwt_module(
     '//lib/gwt:user',
   ],
   visibility = ['//visibility:public'],
+  data = [
+    '//lib:LICENSE-clippy',
+    '//lib:LICENSE-silk_icons',
+  ],
 )
 
 java_library(

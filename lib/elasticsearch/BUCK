@@ -31,19 +31,19 @@ maven_jar(
 )
 
 # Java REST client for Elasticsearch.
-VERSION = '0.1.7'
+VERSION = '2.0.3'
 
 maven_jar(
   name = 'jest-common',
   id = 'io.searchbox:jest-common:' + VERSION,
-  sha1 = 'ff6e2694405557a3a02b444cb7f7da28c4d99f07',
+  sha1 = 'f304c66894aaf2f6c17a886bc826f09c7a161cf9',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'jest',
   id = 'io.searchbox:jest:' + VERSION,
-  sha1 = '686619c7141edb50b562ad2a39d32ea4cf20b567',
+  sha1 = 'b8f9ed1423489b361804e47f640515ea9f1fa08d',
   license = 'Apache2.0',
   deps = [
     ':elasticsearch',

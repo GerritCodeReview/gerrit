@@ -435,7 +435,6 @@ maven_jar(
   sha1 = 'f0bc3114a6b43f8e64a33c471d5b9e8ddc51564d',
 )
 
-
 maven_jar(
   name = 'lucene_codecs',
   artifact = 'org.apache.lucene:lucene-codecs:' + LUCENE_VERS,
@@ -868,18 +867,18 @@ maven_jar(
 )
 
 # Java REST client for Elasticsearch.
-ELASTIC_VERSION = '0.1.7'
+JEST_VERSION = '2.0.3'
 
 maven_jar(
   name = 'jest_common',
-  artifact = 'io.searchbox:jest-common:' + ELASTIC_VERSION,
-  sha1 = 'ff6e2694405557a3a02b444cb7f7da28c4d99f07',
+  artifact = 'io.searchbox:jest-common:' + JEST_VERSION,
+  sha1 = 'f304c66894aaf2f6c17a886bc826f09c7a161cf9',
 )
 
 maven_jar(
   name = 'jest',
-  artifact = 'io.searchbox:jest:' + ELASTIC_VERSION,
-  sha1 = '686619c7141edb50b562ad2a39d32ea4cf20b567',
+  artifact = 'io.searchbox:jest:' + JEST_VERSION,
+  sha1 = 'b8f9ed1423489b361804e47f640515ea9f1fa08d',
 )
 
 maven_jar(

@@ -22,6 +22,30 @@
       "revId": "6c36f666eb0e9d5cb46b53061a5d6ce9544e2e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8589eb40_8911f9b9",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-27T14:25:21Z",
+      "side": 1,
+      "message": "I just reverted the change without checking.  It looks like it was the wrong version before.",
+      "parentUuid": "65b5d743_1084a40b",
+      "range": {
+        "startLine": 418,
+        "startChar": 14,
+        "endLine": 418,
+        "endChar": 21
+      },
+      "revId": "6c36f666eb0e9d5cb46b53061a5d6ce9544e2e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

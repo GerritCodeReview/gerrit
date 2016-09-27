@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4588d3a4_3f84270c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-27T23:35:17Z",
+      "side": 1,
+      "message": "Will do it in a follow-up change.",
+      "parentUuid": "65b5d743_f093e050",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_abcb0915",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 2

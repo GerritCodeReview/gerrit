@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65b5d743_f093e050",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-27T16:32:17Z",
+      "side": 1,
+      "message": "I guess we need to do the same fix for WatchConfig which follows the same pattern? Can we do this in one change?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_abcb0915",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-27T16:32:17Z",
+      "side": 1,
+      "message": "[optional] Just make those methods where we read and write synchronized.",
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_8bce4d26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-27T16:32:17Z",
+      "side": 1,
+      "message": "Do we need synchronization here where we only read?",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 99,
+        "endChar": 7
+      },
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b5d743_909ed45a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-27T16:32:17Z",
+      "side": 1,
+      "message": "Do we need synchronization here where we only read?",
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

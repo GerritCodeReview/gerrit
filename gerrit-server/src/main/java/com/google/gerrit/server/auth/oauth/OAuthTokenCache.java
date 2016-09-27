@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
-import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -37,54 +37,39 @@ public class OAuthTokenCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        persist(OAUTH_TOKENS, String.class, OAuthToken.class);
+        persist(OAUTH_TOKENS, Account.Id.class, OAuthToken.class);
       }
     };
   }
 
-  private final Cache<String, OAuthToken> cache;
+  private final Cache<Account.Id, OAuthToken> cache;
 
   @Inject
-  OAuthTokenCache(@Named(OAUTH_TOKENS) Cache<String, OAuthToken> cache,
+  OAuthTokenCache(@Named(OAUTH_TOKENS) Cache<Account.Id, OAuthToken> cache,
       DynamicItem<OAuthTokenEncrypter> encrypter) {
     this.cache = cache;
     this.encrypter = encrypter;
   }
 
-  public boolean has(OAuthUserInfo user) {
-    return user != null
-      ? cache.getIfPresent(user.getUserName()) != null
-      : false;
-  }
-
-  public OAuthToken get(OAuthUserInfo user) {
-    return user != null
-      ? get(user.getUserName())
-      : null;
-  }
-
-  public OAuthToken get(String userName) {
-    OAuthToken accessToken = cache.getIfPresent(userName);
+  public OAuthToken get(Account.Id id) {
+    OAuthToken accessToken = cache.getIfPresent(id);
     if (accessToken == null) {
       return null;
     }
     accessToken = decrypt(accessToken);
     if (accessToken.isExpired()) {
-      cache.invalidate(userName);
+      cache.invalidate(id);
       return null;
     }
     return accessToken;
   }
 
-  public void put(OAuthUserInfo user, OAuthToken accessToken) {
-    cache.put(checkNotNull(user.getUserName()),
-        encrypt(checkNotNull(accessToken)));
+  public void put(Account.Id id, OAuthToken accessToken) {
+    cache.put(id, encrypt(checkNotNull(accessToken)));
   }
 
-  public void remove(OAuthUserInfo user) {
-    if (user != null) {
-      cache.invalidate(user.getUserName());
-    }
+  public void remove(Account.Id id) {
+    cache.invalidate(id);
   }
 
   private OAuthToken encrypt(OAuthToken token) {

@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1474966333 +0800\npushee rpc://gerrit/gerrit\nnonce AKOpmBXn3gck0Ar59U3NI/2j3TO33me4ywoN/lGcRhIAbinP/CgnDnbL1HNTkb3oCb0I6IXv/g6l\n\n0000000000000000000000000000000000000000 7eba9e31e72bece48b056fd32530d6f5290759e7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX6jM9AAoJELOGKwXbr+wP4FMP/j+0keC9xQLz9T2DYVmAIOSQ\njGuAfuG4scDLLUCJ0Q6rlPw7TwB62W3dteQ3pQzlpocNovef8zqKG/p1SqmJek36\nbY9//XfFQUxvi6gZsufFnQI/oz7tS2MehtdYNTl05fmrUj+9hoYB1H1Dsv5SR8eI\nIVkB1D3xlnqAwGxF99HCz+FHMS394CFriDEUzMaQxNC21c3H4IYxu4ZCS65a69mT\ntHMckfGam3uPvEsBkKp0n7NMTw1BpE0stanR5YMDiFvyHvvVQkC5sY2OQRD79Mk9\ngNY6pBEYULUJEdINFGNekha7KRSY0dhn/5HR8Xqobcr/gbU9OsmVFUzAnR6haweZ\n1AHqaEfnhA9d7MCvaYZrfBENn5VyunGXbUO6xt2MJQhlqC9idkjBW/otvOwXrchr\nAhkmvVBemMB2qC3SKxmUz7qwpQ8bS8SdeU37v0qUj92nHnAJKquxV+HGNEQADvSn\nNkqo0FRLFdSh5AzAEbpPSdOJnv2+chgK9ywJzBv/IRrYeH/eCp3mTMvaUIGUTrio\nGQs8YDSsY44AZstHnNqxcXrQL+aMwQ7zJjzQzdF1HPZJjrjqdsg4Yl7MhtqByMi0\nllhanuPJksyZHLSZhRrj0aBTF/RQT0Y+lOaDhUTulo2hYWIT2TGDJusnElas9qVG\n1/XkduUoc4crs+eTVLbY\n\u003dJRpC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "852d6bd8_8927591d",
+        "filename": "lib/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-27T09:40:11Z",
+      "side": 1,
+      "message": "can probably do\n\n  exports_files([\":all-license\", \"LICENSE-DONOTDISTRIBUTE\"])\n\nthen",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_a92a1de5",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-27T09:40:11Z",
+      "side": 1,
+      "message": "this should go onto stderr",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 9
+      },
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_cbd5b5db",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-27T09:40:11Z",
+      "side": 1,
+      "message": "you could make a constant to share with l.46",
+      "range": {
+        "startLine": 111,
+        "startChar": 20,
+        "endLine": 111,
+        "endChar": 31
+      },
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_ebd271f0",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-27T09:40:11Z",
+      "side": 1,
+      "message": "I think we do 2 space indent in gerrit; can you doublecheck? (sorry, my fault.)",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 3,
+        "endChar": 10
+      },
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

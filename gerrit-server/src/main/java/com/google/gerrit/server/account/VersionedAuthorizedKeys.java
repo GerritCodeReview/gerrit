@@ -76,6 +76,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     private final VersionedAuthorizedKeys.Factory authorizedKeysFactory;
     private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
     private final IdentifiedUser.GenericFactory userFactory;
+    private final Object lock = new Object();
 
     @Inject
     Accessor(
@@ -93,35 +94,45 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
 
     public List<AccountSshKey> getKeys(Account.Id accountId)
         throws IOException, ConfigInvalidException {
-      return read(accountId).getKeys();
+      synchronized(lock) {
+        return read(accountId).getKeys();
+      }
     }
 
     public AccountSshKey getKey(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
-      return read(accountId).getKey(seq);
+      synchronized(lock) {
+        return read(accountId).getKey(seq);
+      }
     }
 
     public AccountSshKey addKey(Account.Id accountId, String pub)
         throws IOException, ConfigInvalidException, InvalidSshKeyException {
-      VersionedAuthorizedKeys authorizedKeys = read(accountId);
-      AccountSshKey key = authorizedKeys.addKey(pub);
-      commit(authorizedKeys);
+      synchronized(lock) {
+        VersionedAuthorizedKeys authorizedKeys = read(accountId);
+        AccountSshKey key = authorizedKeys.addKey(pub);
+        commit(authorizedKeys);
       return key;
+      }
     }
 
     public void deleteKey(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
-      VersionedAuthorizedKeys authorizedKeys = read(accountId);
-      if (authorizedKeys.deleteKey(seq)) {
-        commit(authorizedKeys);
+      synchronized(lock) {
+        VersionedAuthorizedKeys authorizedKeys = read(accountId);
+        if (authorizedKeys.deleteKey(seq)) {
+          commit(authorizedKeys);
+        }
       }
     }
 
     public void markKeyInvalid(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
-      VersionedAuthorizedKeys authorizedKeys = read(accountId);
-      if (authorizedKeys.markKeyInvalid(seq)) {
-        commit(authorizedKeys);
+      synchronized(lock) {
+        VersionedAuthorizedKeys authorizedKeys = read(accountId);
+        if (authorizedKeys.markKeyInvalid(seq)) {
+          commit(authorizedKeys);
+        }
       }
     }
 

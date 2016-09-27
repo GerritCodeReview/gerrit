@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6505d749_304cc8ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T17:49:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65ef9770_80c1b62b",
+      "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65ef9770_c0a7bea3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "Hm. This seems to be heading down a rabbit hole. Let’s put this on ice until the entire team is back in town next week and we can discuss potential solutions.",
       "parentUuid": "65ef9770_c0d57edb",
+      "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "450a935e_6fc5d103",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T17:49:25Z",
+      "side": 1,
+      "message": "After working on one of the other tasks, I think I can do it by listening to location change. making the change but happy to wait to discuss. If this new approach looks good I will write tests.",
+      "parentUuid": "a560afe5_6defd1e4",
       "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

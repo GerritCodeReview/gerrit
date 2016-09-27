@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "8589eb40_89dbb910",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T07:31:45Z",
+      "side": 1,
+      "message": "Because we really don\u0027t want any blank line before the \"\u003d ...\" line. Added comment.",
+      "parentUuid": "c5912363_0b9a5d69",
+      "revId": "e63f4a3dc0db7f3111f8f71da58711346f868f5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_89aab96c",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 4
@@ -49,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "8589eb40_a9d87d14",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T07:31:45Z",
+      "side": 1,
+      "message": "index() will raise a ValueError when it\u0027s not found, which is kind of what we expected. Currently all the targets here should contain a \":\" so I don\u0027t think write the code to support the cases without \":\" now is worthwhile. If in the future we do need to support such cases, this code will not fail silently so we know we need to fix the code before proceed any further.",
+      "parentUuid": "852d6bd8_89aab96c",
+      "revId": "e63f4a3dc0db7f3111f8f71da58711346f868f5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_a9adfd88",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 4
@@ -66,6 +102,24 @@
         "endLine": 132,
         "endChar": 11
       },
+      "revId": "e63f4a3dc0db7f3111f8f71da58711346f868f5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5270749_74b288e1",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T07:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852d6bd8_a9adfd88",
       "revId": "e63f4a3dc0db7f3111f8f71da58711346f868f5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

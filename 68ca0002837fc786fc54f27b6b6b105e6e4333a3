@@ -25,6 +25,42 @@
     },
     {
       "key": {
+        "uuid": "450a935e_6f4671aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T17:14:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "450a935e_0f036572",
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_b058b88d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T17:14:58Z",
+      "side": 1,
+      "message": "Trying to look up the syntax for the closure annotation. Do you have an example?",
+      "parentUuid": "450a935e_0f036572",
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6505d749_50e7cccf",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -42,6 +78,24 @@
         "endLine": 582,
         "endChar": 58
       },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_9055b455",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T17:14:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6505d749_50e7cccf",
       "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -130,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "450a935e_4f4badb0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T17:14:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852d6bd8_e990954b",
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6505d749_101c24db",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 3
@@ -147,6 +219,24 @@
         "endLine": 528,
         "endChar": 40
       },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "450a935e_af3fb910",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T17:14:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6505d749_101c24db",
       "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

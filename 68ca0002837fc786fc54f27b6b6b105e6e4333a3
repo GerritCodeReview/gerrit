@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "c5912363_cb90554c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-27T00:30:27Z",
+      "side": 1,
+      "message": "This is in line with the other tests, though. I’d leave it as is to remain consistent.",
+      "parentUuid": "6505d749_f0d520db",
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6505d749_3017a8ba",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 3
@@ -88,6 +106,24 @@
         "endLine": 520,
         "endChar": 55
       },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_e990954b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-27T00:30:27Z",
+      "side": 1,
+      "message": "or just document.body",
+      "parentUuid": "6505d749_3017a8ba",
       "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

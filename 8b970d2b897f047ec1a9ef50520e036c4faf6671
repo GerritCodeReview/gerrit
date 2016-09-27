@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "4588d3a4_1f876313",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-27T23:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_abcb0915",
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_8bce4d26",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 2
@@ -65,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "e59627c8_9c72a53b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-27T23:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_8bce4d26",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 99,
+        "endChar": 7
+      },
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65b5d743_909ed45a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 2
@@ -76,6 +118,24 @@
       "writtenOn": "2016-09-27T16:32:17Z",
       "side": 1,
       "message": "Do we need synchronization here where we only read?",
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e59627c8_bc77612a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-27T23:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b5d743_909ed45a",
       "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

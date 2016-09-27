@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1474445893 +0200\nnonce AKOpmBVYxN70MA+ip8bc/SIi5MjFQ0ikPLuW9zxKsaj5EM/iM9WeaDiCmeE8Ve9sVPA5gohwmrSG\n\n0000000000000000000000000000000000000000 0eff858b7d9584806092d0902944a4928d6f1f91 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX4kJFAAoJEHFVO370GiZWQtcIAIewUy9p2zl3yR26MpCaUmgF\nvZQV/EyMUnFW/C8IUZTvUWrvyWUPdAZHdq+XdtOznzOC3oizs7nyr6+MN57tn+U0\nMl+pbZs49RtO5J8sc9lYTwyN/A9J19Xo9e4huGffPOCMOoriR1fwgrjsvbw4NUBK\nXm0YBRVdnyD0UCLdZb1iOD1/PcXR2JThpiLNecnYY3wHHoqHD3vfPcK5UWsj1HDN\n08geVZ/mxQs+ic8us4J8YOFOxZuwCQsiIPd8hto98NXAMJ11b5gzm/PyiGfJRtpu\nc1auRzIu676X0rm/LmS3mBn6D522LRlAFTPVy054ejUiyMOceLEd7x4yLGWkhFk\u003d\n\u003dl5H2\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "852d6bd8_893c791d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:26:51Z",
+      "side": 1,
+      "message": "Per my comment on the previous change, I don\u0027t think toString should return null.\n\nThis is also a reduction in readability, can you not use a usefully named method here?",
+      "revId": "097b77d6df6fc66c961c0727e890db334967d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

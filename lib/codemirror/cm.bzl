@@ -212,7 +212,7 @@ CM_MODES = [
   'z80',
 ]
 
-VERSION = '5.18.2'
+VERSION = '5.19.0'
 TOP = 'META-INF/resources/webjars/codemirror/%s' % VERSION
 TOP_MINIFIED = 'META-INF/resources/webjars/codemirror-minified/%s' % VERSION
 LICENSE = '//lib:LICENSE-codemirror-original'

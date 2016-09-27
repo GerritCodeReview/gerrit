@@ -99,6 +99,7 @@ public class WatchConfig extends VersionedMetaData
     private final AllUsersName allUsersName;
     private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
     private final IdentifiedUser.GenericFactory userFactory;
+    private final Object lock = new Object();
 
     @Inject
     Accessor(
@@ -124,27 +125,31 @@ public class WatchConfig extends VersionedMetaData
     public void upsertProjectWatches(Account.Id accountId,
         Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches)
         throws IOException, ConfigInvalidException {
-      WatchConfig watchConfig = read(accountId);
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-          watchConfig.getProjectWatches();
-      projectWatches.putAll(newProjectWatches);
-      commit(watchConfig);
+      synchronized(lock) {
+        WatchConfig watchConfig = read(accountId);
+        Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
+            watchConfig.getProjectWatches();
+        projectWatches.putAll(newProjectWatches);
+        commit(watchConfig);
+      }
     }
 
     public void deleteProjectWatches(Account.Id accountId,
         Collection<ProjectWatchKey> projectWatchKeys)
             throws IOException, ConfigInvalidException {
-      WatchConfig watchConfig = read(accountId);
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-          watchConfig.getProjectWatches();
-      boolean commit = false;
-      for (ProjectWatchKey key : projectWatchKeys) {
-        if (projectWatches.remove(key) != null) {
-          commit = true;
+      synchronized(lock) {
+        WatchConfig watchConfig = read(accountId);
+        Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
+            watchConfig.getProjectWatches();
+        boolean commit = false;
+        for (ProjectWatchKey key : projectWatchKeys) {
+          if (projectWatches.remove(key) != null) {
+            commit = true;
+          }
         }
-      }
-      if (commit) {
-        commit(watchConfig);
+        if (commit) {
+          commit(watchConfig);
+        }
       }
     }
 

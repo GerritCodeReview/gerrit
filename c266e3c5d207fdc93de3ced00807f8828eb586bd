@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8589eb40_e9319559",
+        "filename": "lib/lucene/BUCK",
+        "patchSetId": 74
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-27T12:54:40Z",
+      "side": 1,
+      "message": "Why do we need this here, but not on lucene-analyzers-common which is also listed as a dep in elasticsearch?",
+      "range": {
+        "startLine": 36,
+        "startChar": 16,
+        "endLine": 36,
+        "endChar": 54
+      },
+      "revId": "c266e3c5d207fdc93de3ced00807f8828eb586bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

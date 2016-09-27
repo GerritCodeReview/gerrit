@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_e17ce610",
+        "filename": "gerrit-war/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-27T21:09:43Z",
+      "side": 1,
+      "message": "Never mind, both versions work and it\u0027s better to not mention another gen_version rule from gen_version rule.",
+      "parentUuid": "852d6bd8_e9625533",
+      "range": {
+        "startLine": 65,
+        "startChar": 27,
+        "endLine": 65,
+        "endChar": 41
+      },
+      "revId": "214171ddda6c173e528affee625aa65db8dcc360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_c95f9171",
         "filename": "gerrit-war/BUILD",
         "patchSetId": 6

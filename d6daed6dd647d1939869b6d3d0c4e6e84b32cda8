@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5912363_4be2a5c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-27T09:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8589eb40_497d410a",
+      "revId": "d6daed6dd647d1939869b6d3d0c4e6e84b32cda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8589eb40_29780d1b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
         "patchSetId": 2
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "852d6bd8_c9d2f1f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-27T09:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5270749_b4810001",
+      "range": {
+        "startLine": 76,
+        "startChar": 72,
+        "endLine": 76,
+        "endChar": 92
+      },
+      "revId": "d6daed6dd647d1939869b6d3d0c4e6e84b32cda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_e9d535db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-27T09:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8589eb40_29780d1b",
+      "range": {
+        "startLine": 76,
+        "startChar": 22,
+        "endLine": 76,
+        "endChar": 29
+      },
+      "revId": "d6daed6dd647d1939869b6d3d0c4e6e84b32cda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5270749_54874c12",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2016-09-27T00:18:46Z",
       "side": 1,
       "message": "Would it be useful to add a new ReviewerState for assignee? Or would that add too much complication?",
+      "range": {
+        "startLine": 79,
+        "startChar": 26,
+        "endLine": 79,
+        "endChar": 42
+      },
+      "revId": "d6daed6dd647d1939869b6d3d0c4e6e84b32cda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_89d8f914",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-27T09:24:43Z",
+      "side": 1,
+      "message": "I think not, having a RevewerState.Assignee would be having the same piece of information in two places (Change.assignee, Change.reviewers[x].state. \nReviewerState.Assignee was our first stab at how assignee would be implemented. We quickly found out that it would be too complicated to toggle state between Assignee and reviewer, and making sure the assignee was added to the reveiwers when one wanted to fetch all reviewers. (we felt that having an assigne state on the review was much clearer then having an isAssignee state on the reviewer.\nPerhaps in the future \u0027assignee\u0027 could be interpreted in a context wider than the review context (deployment, applying fix on release branches etc.) and then it could be valuable to have a Assignee state, only then it wouldn\u0027t be a ReviewerState...",
+      "parentUuid": "e5270749_54874c12",
       "range": {
         "startLine": 79,
         "startChar": 26,

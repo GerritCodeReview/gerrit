@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "852d6bd8_e9625533",
+        "filename": "gerrit-war/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-27T13:06:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be //:gen_version ?",
+      "range": {
+        "startLine": 65,
+        "startChar": 27,
+        "endLine": 65,
+        "endChar": 41
+      },
+      "revId": "214171ddda6c173e528affee625aa65db8dcc360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_c95f9171",
+        "filename": "gerrit-war/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-27T13:06:37Z",
+      "side": 1,
+      "message": "Same here?",
+      "range": {
+        "startLine": 68,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "214171ddda6c173e528affee625aa65db8dcc360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

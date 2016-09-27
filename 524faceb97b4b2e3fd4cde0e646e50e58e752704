@@ -22,6 +22,30 @@
       "revId": "524faceb97b4b2e3fd4cde0e646e50e58e752704",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b5d743_30ae0884",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-09-27T16:40:26Z",
+      "side": 1,
+      "message": "Missed that one. That means, username is a bad choice as key for this cache at all. OAuthUserInfo#externalId seems to be mandatory, though (at least all plugins in gerrit-oauth-provider ensure that this attribute is set). Just replacing user.getUserName() with user.getExternalId() would be a quick fix for the NPE (if someone is blocked by this bug), although it would break the GetOAuthToken REST call (it would always respond with 404). GetOAuthToken is a new feature in 2.13, so I think that would be acceptable until I can provide a proper fix.",
+      "parentUuid": "e5270749_b4cfc053",
+      "range": {
+        "startLine": 80,
+        "startChar": 14,
+        "endLine": 80,
+        "endChar": 45
+      },
+      "revId": "524faceb97b4b2e3fd4cde0e646e50e58e752704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

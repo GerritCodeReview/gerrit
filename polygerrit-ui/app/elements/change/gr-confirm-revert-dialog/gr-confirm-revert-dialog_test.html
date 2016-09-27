@@ -38,6 +38,14 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    test('no match', function() {
+      assert.isNotOk(element.message);
+      var alertStub = sinon.stub(window, 'alert');
+      element.populateRevertMessage('not a change-id in sight');
+      assert.isTrue(alertStub.calledOnce);
+      alertStub.restore();
+    });
+
     test('single line', function() {
       assert.isNotOk(element.message);
       element.populateRevertMessage('one line commit\n\nChange-Id: abcdefg\n');
@@ -59,6 +67,20 @@ limitations under the License.
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original change\'s description:\n' +
                      '> many lines\n> commit\n> \n> message\n> \n' +
+                     '> Change-Id: abcdefg\n> ';
+      assert.equal(element.message, expected);
+    });
+
+    test('issue above change id', function() {
+      assert.isNotOk(element.message);
+      element.populateRevertMessage(
+          'much lines\nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n');
+      var expected = 'Revert "much lines"\n\n' +
+                     'This reverts commit abcdefg.\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
+                     'Original change\'s description:\n' +
+                     '> much lines\n> very\n> \n> commit\n> \n' +
+                     '> Bug: Issue 42\n' +
                      '> Change-Id: abcdefg\n> ';
       assert.equal(element.message, expected);
     });

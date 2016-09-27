@@ -63,7 +63,8 @@
   -webkit-user-select: initial;
   -khtml-user-select: initial;
   -moz-user-select: text;
-  -ms-user-select: initial;
+  -ms-user-select: text;
+  user-select: initial;
 }
 
 .commentBox {

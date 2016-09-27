@@ -48,6 +48,78 @@
     },
     {
       "key": {
+        "uuid": "450a935e_4f260d25",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T00:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_4b7d450a",
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "450a935e_8f27551d",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T00:18:03Z",
+      "side": 1,
+      "message": "Looks like it is triggered right when the path changes. If the path gets url encoded, it fires another location change and is updated again. If this is an issue, perhaps we can encode in _handleLocationChange as well?",
+      "parentUuid": "450a935e_2f1749ba",
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "450a935e_cf315d5a",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T00:18:03Z",
+      "side": 1,
+      "message": "Out of curiosity why is this better?",
+      "parentUuid": "c5912363_4b7d450a",
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "450a935e_ef34214c",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T00:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_4b7d450a",
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_6b820105",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 2
@@ -71,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "450a935e_0f1c05db",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T00:18:03Z",
+      "side": 1,
+      "message": "the object continues on the next line... but I\u0027ll restructure so it looks more clear",
+      "parentUuid": "c5912363_6b820105",
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6505d749_f0bec0aa",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 2
@@ -88,6 +178,24 @@
         "endLine": 62,
         "endChar": 18
       },
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_10ed44b2",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-27T00:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6505d749_f0bec0aa",
       "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

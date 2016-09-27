@@ -23,24 +23,47 @@
  * @param coverLetter
  * @param email
  * @param fromName
+ * @param inlineCommentGroups
  */
 {template .Comment autoescape="strict" kind="text"}
-  {if $coverLetter or $email.hasInlineComments}
-    {$fromName} has posted comments on this change.
-    {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {$fromName} has posted comments on this change.
+  {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {\n}
+  Change subject: {$change.subject}{\n}
+  ......................................................................{\n}
+  {if $coverLetter}
     {\n}
-    Change subject: {$change.subject}{\n}
-    ......................................................................{\n}
-    {if $coverLetter}
-      {\n}
-      {\n}
-      {$coverLetter}
-    {/if}
-    {if $email.hasInlineComments}
-      {\n}
-      {\n}
-      {$email.inlineComments}
-    {/if}
+    {\n}
+    {$coverLetter}{\n}
+    {\n}
   {/if}
+
+  {foreach $group in $inlineCommentGroups}
+    {$group.link}{\n}
+    {$group.title}:{\n}
+    {\n}
+
+    {foreach $comment in $group.comments}
+      {if $comment.isRobotComment}
+        Robot Comment from {$comment.robotId} (run ID {$comment.robotRunId}):
+        {\n}
+      {/if}
+
+      {foreach $line in $comment.lines}
+        {if isFirst($line)}
+          {$comment.linePrefix}
+        {else}
+          {$comment.linePrefixEmpty}
+        {/if}
+        {$line}{\n}
+      {/foreach}
+      {if $comment.parentMessage}
+        >{sp}{$comment.parentMessage}{\n}
+      {/if}
+      {$comment.message}{\n}
+      {\n}
+      {\n}
+    {/foreach}
+  {/foreach}
   {\n}
 {/template}

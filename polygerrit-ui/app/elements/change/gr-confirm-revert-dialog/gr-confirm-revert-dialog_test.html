@@ -44,7 +44,7 @@ limitations under the License.
       var expected = 'Revert "one line commit"\n\n' +
                      'This reverts commit abcdefg.\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original issue\'s description:\n' +
+                     'Original change\'s description:\n' +
                      '> one line commit\n> \n' +
                      '> Change-Id: abcdefg\n> ';
       assert.equal(element.message, expected);
@@ -57,7 +57,7 @@ limitations under the License.
       var expected = 'Revert "many lines"\n\n' +
                      'This reverts commit abcdefg.\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original issue\'s description:\n' +
+                     'Original change\'s description:\n' +
                      '> many lines\n> commit\n> \n> message\n> \n' +
                      '> Change-Id: abcdefg\n> ';
       assert.equal(element.message, expected);
@@ -70,7 +70,7 @@ limitations under the License.
       var expected = 'Revert "Revert "one line commit""\n\n' +
                      'This reverts commit abcdefg.\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original issue\'s description:\n' +
+                     'Original change\'s description:\n' +
                      '> Revert "one line commit"\n> \n' +
                      '> Change-Id: abcdefg\n> ';
       assert.equal(element.message, expected);

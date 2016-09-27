@@ -47,7 +47,7 @@
       this.message = revertTitle + '\n\n' +
                      revertCommitText + '\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original issue\'s description:\n' + originalCommitText;
+                     'Original change\'s description:\n' + originalCommitText;
     },
 
     _handleConfirmTap: function(e) {

@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "05c97bea_8577c22a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-27T20:22:46Z",
+      "side": 1,
+      "message": "I think he just means a general JSDoc above the function.\n\nhttp://usejsdoc.org/about-getting-started.html",
+      "parentUuid": "6505d749_b058b88d",
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6505d749_50e7cccf",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3

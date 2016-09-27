@@ -20,10 +20,10 @@
  * The .CommentFooter template will determine the contents of the footer text
  * that will be appended to emails related to a user submitting comments on
  * changes.
- * @param email
+ * @param inlineCommentGroups
  */
 {template .CommentFooter autoescape="strict" kind="text"}
-  {if $email.hasInlineComments}
+  {if length($inlineCommentGroups) > 0}
     Gerrit-HasComments: Yes
   {else}
     Gerrit-HasComments: No

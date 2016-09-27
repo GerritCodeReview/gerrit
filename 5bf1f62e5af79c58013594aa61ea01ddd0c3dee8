@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1474935024 -0700\nnonce AKOpmBX1seRxIgxO/OXNtvfP7A8q9jsDAxxALv6mgemYdBpkx95rrxJKHeIi4Ga5YLeaWkBhg+0X\n\n0000000000000000000000000000000000000000 5bf1f62e5af79c58013594aa61ea01ddd0c3dee8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX6bjwAAoJECdUrmNLj+szsiUP/2CQNcTfTnk64RMCIZANuA/N\nE7G25Y3IC0wq/n0bClg2SRXSwbZXuoFKwOeQPE5yoUHMzV8gYXGV3iMtr0atkzaX\nnMsbWL9gL9XkKkOIgchhhAcUElYlX8ZQwSh/xrbZInCVRCgQbAHPs5jjyWS/cqmf\nzJKo54Ly2hOOe64A1xOuZ8VyEF2fUct4Rxy8dNOxqbBIihYo9SBoyT/lMRf5C/SM\nP9DJfcZ47hcZjMvjNDXQE1fAuhMWDfmPppbTm1t4mSE+DdB498GGM3cmaYHq5KkT\nOsqfJsmHR2ho9Rw+UJ6tKhRy9aKiRXdc21+/+3GzSdOFYqsEJWskAsaW/y+i8Fuo\nzSoQ4z4uQoDsGxToHZ8WOynwOjo2TpTA9gImtaM5krJ0FCa/trUlT1M+QstOauDN\nP5L0XYvsvT3IwiSlMpYDQAIJJ3Lio598dywTrQPj67Cgd0jWZl8YScDu8e65/zJD\n0HlkdfydwbzorYUKC/iCueq+WCT+yv2rMPYNsWvKOdPzIwj5hbHh9Sw7/0Fb7FF8\nX3Z5tu7pRXfpPxryQXTWDqJYhrEpSewjAH0niZYWycWydISOzctzsbVqAy/DkiK9\nVJMtv/r6AOKP5K3viMrGmUfJ6dJdIdB0JZeSxqaBYb2o1OZRqCZHVMVx+SX774Oz\nSjUbXLEtNxW5+cUv3RCn\n\u003dTPDW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5912363_2b9f195a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T07:13:51Z",
+      "side": 1,
+      "message": "So then why tgz and not tar? An answer like \"people are more used to tgz\" is fine.",
+      "revId": "5bf1f62e5af79c58013594aa61ea01ddd0c3dee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

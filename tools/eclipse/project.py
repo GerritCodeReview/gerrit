@@ -119,6 +119,7 @@ def gen_classpath():
 
   # Classpath entries are absolute for cross-cell support
   java_library = re.compile('.*/buck-out/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
+  srcs = re.compile('.*/(__.*__)/.*')
   for p in _query_classpath(MAIN):
     if p.endswith('-src.jar'):
       # gwt_module() depends on -src.jar for Java to JavaScript compiles.
@@ -175,9 +176,19 @@ def gen_classpath():
     for j in sorted(libs):
       s = None
       if j.endswith('.jar'):
-        s = j[:-4] + '_src.jar'
+        s = j[:-4] + '-src.jar'
         if not path.exists(s):
-          s = None
+          m = srcs.match(s)
+          if m:
+            l = m.group(1)
+            if l.endswith('__jar__'):
+              s = s.replace(l, l.replace('__jar__', '_src__'))
+            else:
+              s = s.replace(l, l[:-1] + 'src__')
+            if not path.exists(s):
+              s = None
+          else:
+            s = None
       if args.plugins:
         classpathentry('lib', j, s, exported=True)
       else:

@@ -88,6 +88,11 @@
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
+      if (!this.hidden && this._propsSupplied()) { this.reload(); }
+    },
+
+    _propsSupplied: function() {
+      return this.changeNum && this.patchRange && this.path;
     },
 
     _handleShowDiff: function(hidden) {

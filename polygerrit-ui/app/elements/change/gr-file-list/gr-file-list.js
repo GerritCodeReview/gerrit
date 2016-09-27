@@ -40,6 +40,7 @@
       _files: {
         type: Array,
         observer: '_filesChanged',
+        value: function() { return []; },
       },
       _loggedIn: {
         type: Boolean,
@@ -53,6 +54,19 @@
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
+      _numFilesShown: {
+        type: Number,
+        value: 75,
+      },
+      _fileListIncrement: {
+        type: Number,
+        readOnly: true,
+        value: 75,
+      },
+      _shownFiles: {
+        type: Array,
+        computed: '_computeFilesShown(_numFilesShown, _files.*)',
+      },
     },
 
     behaviors: [
@@ -63,9 +77,7 @@
       if (!this.changeNum || !this.patchRange.patchNum) {
         return Promise.resolve();
       }
-
       this._collapseAllDiffs();
-
       var promises = [];
       var _this = this;
 
@@ -139,10 +151,20 @@
       }
     },
 
+    /**
+     * Until upgrading to Polymer 2.0, manual management of reflection between
+     *     _shownFiles and _files is necessary. Performance of linkPaths is very
+     *     poor.
+     */
     _expandAllDiffs: function(e) {
       this._showInlineDiffs = true;
-      for (var index in this._files) {
-        this.set(['_files', index, '__expanded'], true);
+      var i;
+      for (i = 0; i < this._shownFiles.length; i++) {
+        this.set(['_shownFiles', i, '__expanded'], true);
+        this.set(['_files', i, '__expanded'], true);
+      }
+      for (; i < this._files.length; i++) {
+        this.set(['_files', i, '__expanded'], true);
       }
       if (e && e.target) {
         e.target.blur();
@@ -151,8 +173,13 @@
 
     _collapseAllDiffs: function(e) {
       this._showInlineDiffs = false;
-      for (var index in this._files) {
-        this.set(['_files', index, '__expanded'], false);
+      var i;
+      for (i = 0; i < this._shownFiles.length; i++) {
+        this.set(['_shownFiles', i, '__expanded'], false);
+        this.set(['_files', i, '__expanded'], false);
+      }
+      for (; i < this._files.length; i++) {
+        this.set(['_files', i, '__expanded'], false);
       }
       this.$.cursor.handleDiffUpdate();
       if (e && e.target) {
@@ -247,6 +274,10 @@
           } else if (this.selectedIndex !== undefined) {
             e.preventDefault();
             var expanded = this._files[this.selectedIndex].__expanded;
+            // Until Polymer 2.0, manual management of reflection between _files
+            // and _shownFiles is necessary.
+            this.set(['_shownFiles', this.selectedIndex, '__expanded'],
+                !expanded);
             this.set(['_files', this.selectedIndex, '__expanded'], !expanded);
           }
           break;
@@ -257,7 +288,7 @@
             this.$.cursor.moveDown();
           } else {
             this.selectedIndex =
-                Math.min(this._files.length - 1, this.selectedIndex + 1);
+                Math.min(this._numFilesShown, this.selectedIndex + 1);
             this._scrollToSelectedFile();
           }
           break;
@@ -422,6 +453,10 @@
       return !expanded;
     },
 
+    _computeFilesShown: function(numFilesShown, files) {
+      return files.base.slice(0, numFilesShown);
+    },
+
     _filesChanged: function() {
       this.async(function() {
         var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
@@ -430,6 +465,30 @@
         this.$.cursor.splice.apply(this.$.cursor,
             ['diffs', 0, this.$.cursor.diffs.length].concat(diffElements));
       }.bind(this), 1);
+    },
+
+    _incrementNumFilesShown: function() {
+      this._numFilesShown += this._fileListIncrement;
+    },
+
+    _computeFileListButtonHidden: function(numFilesShown, files) {
+      return numFilesShown >= files.length;
+    },
+
+    _computeIncrementText: function(numFilesShown, files) {
+      if (!files) { return ''; }
+      var text =
+          Math.min(this._fileListIncrement, files.length - numFilesShown);
+      return 'Show ' + text + ' more';
+    },
+
+    _computeShowAllText: function(files) {
+      if (!files) { return ''; }
+      return 'Show all ' + files.length + ' files';
+    },
+
+    _showAllFiles: function() {
+      this._numFilesShown = this._files.length;
     },
   });
 })();

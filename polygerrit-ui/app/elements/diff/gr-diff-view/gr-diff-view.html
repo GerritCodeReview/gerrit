@@ -149,7 +149,11 @@ limitations under the License.
           </gr-button>
           <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
             <div class="dropdown-content">
-              <template is="dom-repeat" items="[[_fileList]]" as="path">
+              <template
+                  is="dom-repeat"
+                  items="[[_fileList]]"
+                  as="path"
+                  initial-count="75">
                 <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
                    selected$="[[_computeFileSelected(path, _path)]]"
                    data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"

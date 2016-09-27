@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "8589eb40_09650942",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T21:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_a072da3a",
+      "revId": "1d6cd0956e27fe0e0655b2f3838eb0dfc9733f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_a172de3a",
         "filename": "Documentation/BUILD",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2016-09-27T20:53:29Z",
       "side": 1,
       "message": "This rule is not needed and can be removed?",
+      "revId": "1d6cd0956e27fe0e0655b2f3838eb0dfc9733f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5270749_9445e49d",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T21:00:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_a172de3a",
       "revId": "1d6cd0956e27fe0e0655b2f3838eb0dfc9733f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

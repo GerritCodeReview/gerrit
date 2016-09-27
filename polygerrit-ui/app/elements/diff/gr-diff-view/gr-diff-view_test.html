@@ -509,5 +509,13 @@ limitations under the License.
       assert.equal(element.$.cursor.initialLineNumber, 345);
       assert.equal(element.$.cursor.side, 'left');
     });
+
+    test('_checkForModifiers', function() {
+      assert.isTrue(element._checkForModifiers({altKey: true}));
+      assert.isTrue(element._checkForModifiers({ctrlKey: true}));
+      assert.isTrue(element._checkForModifiers({metaKey: true}));
+      assert.isTrue(element._checkForModifiers({shiftKey: true}));
+      assert.isFalse(element._checkForModifiers({}));
+    });
   });
 </script>

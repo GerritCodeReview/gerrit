@@ -23,24 +23,72 @@
  * @param coverLetter
  * @param email
  * @param fromName
+ * @param inlineCommentGroups
  */
 {template .Comment autoescape="strict" kind="text"}
-  {if $coverLetter or $email.hasInlineComments}
-    {$fromName} has posted comments on this change.
-    {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {$fromName} has posted comments on this change.
+  {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {\n}
+  Change subject: {$change.subject}{\n}
+  ......................................................................{\n}
+  {if $coverLetter}
     {\n}
-    Change subject: {$change.subject}{\n}
-    ......................................................................{\n}
-    {if $coverLetter}
-      {\n}
-      {\n}
-      {$coverLetter}
-    {/if}
-    {if $email.hasInlineComments}
-      {\n}
-      {\n}
-      {$email.inlineComments}
-    {/if}
+    {\n}
+    {$coverLetter}{\n}
+    {\n}
   {/if}
+
+  {foreach $group in $inlineCommentGroups}
+    {$group.link}{\n}
+    {$group.title}:{\n}
+    {\n}
+
+    {foreach $comment in $group.comments}
+      {let $linePrefix kind="text"}
+        PS{$group.patchSetId}, Line {$comment.startLine}:{sp}
+      {/let}
+
+      /**
+       * Create an empty prefix that is approximately aligned with the colon
+       * that appears in $prefix. Because Soy does not support testing string
+       * length, we check the number of digits in the patch set ID and the line
+       * number.
+       */
+      {let $linePrefixEmpty kind="text"}
+        // There are 11 fixed characters before the colon.
+        {for $i in range(11)}{sp}{/for}
+
+        // Add a space for evey digit in the line number. Line numbers greater
+        // than or equal to one million may not be aligned.
+        {if $comment.startLine >= 10}{sp}{/if}
+        {if $comment.startLine >= 100}{sp}{/if}
+        {if $comment.startLine >= 1000}{sp}{/if}
+        {if $comment.startLine >= 10000}{sp}{/if}
+        {if $comment.startLine >= 100000}{sp}{/if}
+
+        // Add a space for every digit in the patch set ID. Patch set IDs
+        // greater than or equal to one thousand may not be aligned.
+        {if $group.patchSetId >= 10}{sp}{/if}
+        {if $group.patchSetId >= 100}{sp}{/if}
+
+        :{sp}
+      {/let}
+
+      {foreach $line in $comment.lines}
+        {if isFirst($line)}
+          {$linePrefix}
+        {else}
+          {$linePrefixEmpty}
+        {/if}
+        {$line}{\n}
+      {/foreach}
+      {if $comment.parentMessage}
+        >{sp}{$comment.parentMessage}{\n}
+      {/if}
+      {$comment.message}{\n}
+      {\n}
+      {\n}
+    {/foreach}
+  {/foreach}
   {\n}
 {/template}

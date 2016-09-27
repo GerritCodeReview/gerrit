@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1474991076 +0800\npushee rpc://gerrit/gerrit\nnonce AKOpmBU2C6t6OX8OEZk3X7GfDC4QatwSnFoQCzdMvvVqVbCfNaYEFr+dtT6dVlD/92xTVyPgY+Tr\n\n0000000000000000000000000000000000000000 9c19b8553414b0cb03b706767b4a8da09ff33ba6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX6pPkAAoJELOGKwXbr+wPcK0P/AwZJc2kjLp3Tyhqlaqennlz\nVcQrWIj5KfogmJNGHSDzWKfPza/y8QcwxsFNl1rrEeiM/FS5Kn48UUjgZ7X+iOmQ\nX2QWIWavuVyD6B7MlfRJ/UeuvyHyo9k8Y6CPILe4+E/XWmWoLKE5sDkYUrNCyYQD\nuOCJl0ISLEUnyY/kArgwzQgQsx8WKh+xv72QWkdQ/tlW1xkPo4/z4wUIm5btLlCi\nIyU1BVhNBX83v8RAaYBeFoLKqg783iFioK5LzmdphbzeVgLpBdsHZuNpykK0I6VS\nqzei/M2IQPpft3ptNxDC8CCCybS+2rqgCHIuC4o5BI4QCnxU4m4gt1V4CV43EJKr\n++ybq7ylDemXFFk9DdiYqd/L/22HUvVsbmdioqxWKe2cXZ6+S7Cnb4M6rprnuIKB\nGtfsU89QOiwWzef6cAnGDj9ayJvX03CGfQhyackl/K7u4gnFDCh4ndFkddbLm0LB\noJ++m9BzVBUu8yIQHKuUPIEFmK1T3nooiuZO4afCyqdNBTtMCLNrfWugrtijuEYI\nx19K4PqonnzwfOMnk2A80xWQAy42nhlXpQ76laIDu0EHYoRd0DVRzA7HYPsd8gir\n5CKGM8Wrvj47JmWDFCY55xFG8nCAvRRKILoWIlVHponHvR/dvLUloN+LJEHDNmRk\n1gVXMQ0lKHrEOGWBVfHM\n\u003dN1ar\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "65831788_a072da3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-27T20:53:29Z",
+      "side": 1,
+      "message": "Optional: Mention how is this tested:\n\n  bazel build Documentation:licenses.txt\n  bazel test gerrit-pgm:pgm_license_test\n  bazel test gerrit-gwtui:ui_module_license_test",
+      "revId": "1d6cd0956e27fe0e0655b2f3838eb0dfc9733f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_a172de3a",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-27T20:53:29Z",
+      "side": 1,
+      "message": "This rule is not needed and can be removed?",
+      "revId": "1d6cd0956e27fe0e0655b2f3838eb0dfc9733f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

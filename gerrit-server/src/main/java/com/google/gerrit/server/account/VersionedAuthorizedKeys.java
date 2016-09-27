@@ -101,7 +101,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
       return read(accountId).getKey(seq);
     }
 
-    public AccountSshKey addKey(Account.Id accountId, String pub)
+    public synchronized AccountSshKey addKey(Account.Id accountId, String pub)
         throws IOException, ConfigInvalidException, InvalidSshKeyException {
       VersionedAuthorizedKeys authorizedKeys = read(accountId);
       AccountSshKey key = authorizedKeys.addKey(pub);
@@ -109,7 +109,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
       return key;
     }
 
-    public void deleteKey(Account.Id accountId, int seq)
+    public synchronized void deleteKey(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
       VersionedAuthorizedKeys authorizedKeys = read(accountId);
       if (authorizedKeys.deleteKey(seq)) {
@@ -117,7 +117,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
       }
     }
 
-    public void markKeyInvalid(Account.Id accountId, int seq)
+    public synchronized void markKeyInvalid(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
       VersionedAuthorizedKeys authorizedKeys = read(accountId);
       if (authorizedKeys.markKeyInvalid(seq)) {

@@ -1,4 +1,261 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1474982364 +0200\nnonce AKOpmBVvBICQlx2g/w6SF7zolonqKcU8Sazc4fuZ4T8l/lAMw2NJ9W6LvOU0gpaU/n19e4hmifld\n\n0000000000000000000000000000000000000000 784865b41e11952463c893d17911995e96e218c2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX6nHcAAoJEFG1/Zeg0O9R/bQIAJHxcaBKqi+tg4a5ibfuZzC9\nQPgO+DGp9CY1XN6UdzD4tx3DqpcOw2SHPZzhHlqnvXu80S6VwZbdJULOTWISAFa+\nCulZPT4u0vi7DIyvJRzpr6j64WrQ4QOp0lsU29qCrQC780ZTC2O5UldpfB+vnp5X\nbymyWwGLdLeHGVMTWzl77m6fmrgkdzQNlfHZdWNi0eC/6hJwEZD85Et2B+tALYaR\n1vUttuZNJzP/iza7TXk5ns5X7mpOlJIZsNpCdb2SzaJ3kHivVFQet/vrqkloMmy+\nGbz3yYZr+JZub4667vvhesjIichqv/vodqIFHfwWFmKHvOG3wcggGkmfRSNn4c0\u003d\n\u003dGca+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "852d6bd8_09c089f3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3913,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "I don\u0027t think this parenthetical is making things clearer. Someone reading this who doesn\u0027t know that robot comments can\u0027t be drafts might think, \"if this shows the published comments, what about the non-published comments?\"\n\nYou could make it clear in one place that there is no such thing as a draft robot comment, then you would not have to repeat yourself here.",
+      "range": {
+        "startLine": 3913,
+        "startChar": 10,
+        "endLine": 3913,
+        "endChar": 21
+      },
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_69c5c503",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RobotCommentInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_cb621534",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "Lists.newArrayList(notes.getRobotComments().values())",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_a9ce9d25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "Why do you have these methods that return a new formatter, rather than just two methods for robot and non-robot comments? Maybe the overriding with a subclass is unclear, but you could just give the methods two different names.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_8b580d8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "Could shorten this to RestApiException",
+      "range": {
+        "startLine": 331,
+        "startChar": 17,
+        "endLine": 331,
+        "endChar": 63
+      },
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_89cbd915",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "This feels wrong. How about just having a second checkRobotComments method that does the 2 checks below.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_4b6f0522",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "This can be hoisted out into the top of apply()",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_ab55c954",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "I think this type specification is not required in Java 8.",
+      "range": {
+        "startLine": 569,
+        "startChar": 24,
+        "endLine": 569,
+        "endChar": 41
+      },
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_e9d895ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "If you like streams:\n\n return commentsUtil.robotCommentsByChange(ctx.getNotes()).map(CommentSetEntry::create).collect(toSet())",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_eb5fd170",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "Certainly we would like these to link directly to the URL if it\u0027s HTML mail. But I guess it looks like most of the comment stuff has not been converted yet, so this is ok for now.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_0b4c1dca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "What is the advantage of making this an abstract class? There is very little shared implementation, mostly it looks like a few lines in parse() that could be moved to a static utility somewhere.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5270749_94f72472",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "Most of this complexity comes from having our own text-based format in the !writeJson case, which is not applicable to robot comments.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_2b51d962",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RobotCommentUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "This seems impossible since comments can only be added and not removed. Although I guess I can see the argument that if we want to write a tool to prune these, it will make the most sense to allow RobotCommentUpdate to delete comments.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5270749_f402186d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RobotCommentsRevisionNote.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:58:00Z",
+      "side": 1,
+      "message": "See my comment on RevisionNote, I don\u0027t think there\u0027s a big win to using an abstract class to share implementation.\n\nIn this case I think we\u0027re worse off restricting ourselves to implementing parse(byte[]). It\u0027s just as easy to load the note object as a stream natively to avoid having to rewrap it here. Similarly, offset is never not 0 for robot comments, right?",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

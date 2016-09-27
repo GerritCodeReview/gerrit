@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "65b5d743_9077f42a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T14:07:17Z",
+      "side": 1,
+      "message": "IllegalArgumentException?",
+      "revId": "17a1fe2e8d80fcece5f91c85262f10d2ff43491c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_cb39352c",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T14:07:17Z",
+      "side": 1,
+      "message": "How does this happen? @BeforeClass methods should only be called once.",
+      "revId": "17a1fe2e8d80fcece5f91c85262f10d2ff43491c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5270749_742848ee",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
         "patchSetId": 2

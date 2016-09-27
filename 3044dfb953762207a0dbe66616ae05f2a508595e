@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "450a935e_2f1749ba",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-27T00:06:58Z",
+      "side": 1,
+      "message": "Does the path get URI-encoded before it reaches here?",
+      "range": {
+        "startLine": 132,
+        "startChar": 47,
+        "endLine": 132,
+        "endChar": 52
+      },
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_6b820105",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 2
@@ -41,6 +64,29 @@
         "startChar": 60,
         "endLine": 42,
         "endChar": 61
+      },
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_f0bec0aa",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-27T00:06:58Z",
+      "side": 1,
+      "message": "These parameters should be swapped. The parameters for equal are the actual value followed by the expected value.",
+      "range": {
+        "startLine": 62,
+        "startChar": 13,
+        "endLine": 62,
+        "endChar": 18
       },
       "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

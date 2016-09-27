@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "8589eb40_4921c10a",
+        "filename": "lib/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T10:03:09Z",
+      "side": 1,
+      "message": "No this doesn\u0027t work. exports_files don\u0027t accept targets :(",
+      "parentUuid": "852d6bd8_8927591d",
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_a92a1de5",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 6
@@ -43,6 +61,23 @@
         "endLine": 56,
         "endChar": 9
       },
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8589eb40_69268525",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T10:03:09Z",
+      "side": 1,
+      "message": "This is already on stderr :)",
       "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -72,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "e5270749_d416fcbb",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T10:03:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_cbd5b5db",
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_ebd271f0",
         "filename": "tools/bzl/license.bzl",
         "patchSetId": 6
@@ -89,6 +142,24 @@
         "endLine": 3,
         "endChar": 10
       },
+      "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5270749_34d3b0f7",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-27T10:03:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_ebd271f0",
       "revId": "99ae2a34c7b94ce4ca59722e2fc11476487e0736",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

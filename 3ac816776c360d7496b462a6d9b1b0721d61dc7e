@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65acf79b_78fd6151",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-09-27T10:58:59Z",
+      "side": 1,
+      "message": "Adding an alert here was a good idea.",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 13
+      },
+      "revId": "3ac816776c360d7496b462a6d9b1b0721d61dc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

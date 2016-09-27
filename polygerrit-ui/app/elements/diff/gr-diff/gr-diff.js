@@ -88,6 +88,14 @@
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
+
+    },
+
+    ready: function() {
+      // Reload only if the diff is not hidden and params are supplied.
+      if (this.changeNum && this.patchRange && this.path && !this.hidden) {
+        this.reload();
+      }
     },
 
     _handleShowDiff: function(hidden) {

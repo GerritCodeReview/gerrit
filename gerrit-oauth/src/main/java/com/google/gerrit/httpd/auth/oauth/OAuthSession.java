@@ -27,6 +27,7 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
@@ -57,6 +58,7 @@ class OAuthSession {
   private final String state;
   private final DynamicItem<WebSession> webSession;
   private final Provider<IdentifiedUser> identifiedUser;
+  private final AccountCache accountCache;
   private final AccountManager accountManager;
   private final CanonicalWebUrl urlProvider;
   private final OAuthTokenCache tokenCache;
@@ -69,18 +71,20 @@ class OAuthSession {
   OAuthSession(DynamicItem<WebSession> webSession,
       Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
+      AccountCache accountCache,
       CanonicalWebUrl urlProvider,
       OAuthTokenCache tokenCache) {
     this.state = generateRandomState();
     this.identifiedUser = identifiedUser;
     this.webSession = webSession;
     this.accountManager = accountManager;
+    this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.tokenCache = tokenCache;
   }
 
   boolean isLoggedIn() {
-    return tokenCache.has(user);
+    return user != null;
   }
 
   boolean isOAuthFinal(HttpServletRequest request) {
@@ -101,13 +105,10 @@ class OAuthSession {
       OAuthToken token = oauth.getAccessToken(
           new OAuthVerifier(request.getParameter("code")));
       user = oauth.getUserInfo(token);
-      if (user != null && token != null) {
-        tokenCache.put(user, token);
-      }
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
-        authenticateAndRedirect(request, response);
+        authenticateAndRedirect(request, response, token);
         return true;
       }
       response.sendError(SC_UNAUTHORIZED);
@@ -128,7 +129,7 @@ class OAuthSession {
   }
 
   private void authenticateAndRedirect(HttpServletRequest req,
-      HttpServletResponse rsp) throws IOException {
+      HttpServletResponse rsp, OAuthToken token) throws IOException {
     AuthRequest areq = new AuthRequest(user.getExternalId());
     AuthResult arsp;
     try {
@@ -147,6 +148,14 @@ class OAuthSession {
       areq.setEmailAddress(user.getEmailAddress());
       areq.setDisplayName(user.getDisplayName());
       arsp = accountManager.authenticate(areq);
+
+      if (user != null) {
+        user.setGerritUserName(
+            accountCache.get(arsp.getAccountId()).getUserName());
+        if (token != null && user.getGerritUserName() != null) {
+          tokenCache.put(user, token);
+        }
+      }
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -215,7 +224,9 @@ class OAuthSession {
   }
 
   void logout() {
-    tokenCache.remove(user);
+    if (user != null && user.getGerritUserName() != null) {
+      tokenCache.remove(user);
+    }
     user = null;
     redirectToken = null;
     serviceProvider = null;

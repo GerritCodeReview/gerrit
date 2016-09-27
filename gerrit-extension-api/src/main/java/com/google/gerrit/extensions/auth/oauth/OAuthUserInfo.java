@@ -21,6 +21,7 @@ public class OAuthUserInfo {
   private final String emailAddress;
   private final String displayName;
   private final String claimedIdentity;
+  private String gerritUserName;
 
   public OAuthUserInfo(String externalId,
       String userName,
@@ -52,5 +53,13 @@ public class OAuthUserInfo {
 
   public String getClaimedIdentity() {
     return claimedIdentity;
+  }
+
+  public void setGerritUserName(String gerritUserName) {
+    this.gerritUserName = gerritUserName;
+  }
+
+  public String getGerritUserName() {
+    return gerritUserName;
   }
 }

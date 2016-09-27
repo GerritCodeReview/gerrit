@@ -53,13 +53,13 @@ public class OAuthTokenCache {
 
   public boolean has(OAuthUserInfo user) {
     return user != null
-      ? cache.getIfPresent(user.getUserName()) != null
+      ? cache.getIfPresent(user.getGerritUserName()) != null
       : false;
   }
 
   public OAuthToken get(OAuthUserInfo user) {
     return user != null
-      ? get(user.getUserName())
+      ? get(user.getGerritUserName())
       : null;
   }
 
@@ -77,13 +77,13 @@ public class OAuthTokenCache {
   }
 
   public void put(OAuthUserInfo user, OAuthToken accessToken) {
-    cache.put(checkNotNull(user.getUserName()),
+    cache.put(checkNotNull(user.getGerritUserName()),
         encrypt(checkNotNull(accessToken)));
   }
 
   public void remove(OAuthUserInfo user) {
     if (user != null) {
-      cache.invalidate(user.getUserName());
+      cache.invalidate(user.getGerritUserName());
     }
   }
 

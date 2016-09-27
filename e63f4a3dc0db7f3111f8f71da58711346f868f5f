@@ -44,6 +44,24 @@
     },
     {
       "key": {
+        "uuid": "e5270749_d4e7dcd0",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-27T07:53:50Z",
+      "side": 1,
+      "message": "What about moving the \"\"\" to the new line?  I.e\n\n if args.asciidoctor:\n   print(\n \"\"\"\u003d Gerrit Code Review - Licenses",
+      "parentUuid": "8589eb40_89dbb910",
+      "revId": "e63f4a3dc0db7f3111f8f71da58711346f868f5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_89aab96c",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 4

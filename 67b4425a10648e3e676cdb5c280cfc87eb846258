@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c5912363_cb34d54c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3913,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-27T12:01:34Z",
+      "side": 1,
+      "message": "Ack. Will address this in a later patch set.",
+      "parentUuid": "e5270749_94cac444",
+      "range": {
+        "startLine": 3913,
+        "startChar": 10,
+        "endLine": 3913,
+        "endChar": 21
+      },
+      "revId": "67b4425a10648e3e676cdb5c280cfc87eb846258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8589eb40_c9be91ab",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "852d6bd8_096a4912",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3917,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-27T12:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8589eb40_c9be91ab",
+      "range": {
+        "startLine": 3917,
+        "startChar": 27,
+        "endLine": 3917,
+        "endChar": 29
+      },
+      "revId": "67b4425a10648e3e676cdb5c280cfc87eb846258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5270749_f4c53835",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2016-09-27T11:50:59Z",
       "side": 1,
       "message": "that generated",
+      "range": {
+        "startLine": 5699,
+        "startChar": 38,
+        "endLine": 5699,
+        "endChar": 48
+      },
+      "revId": "67b4425a10648e3e676cdb5c280cfc87eb846258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_696f8522",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5699,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-27T12:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5270749_f4c53835",
       "range": {
         "startLine": 5699,
         "startChar": 38,

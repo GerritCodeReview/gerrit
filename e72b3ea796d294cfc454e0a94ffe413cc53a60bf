@@ -52,6 +52,24 @@
       "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ceb7f1_a8c0db26",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-27T23:57:49Z",
+      "side": 1,
+      "message": "I agree with Andy, I think we should probably add the `message` class to the GR-LINKED-TEXT. Otherwise this CSS rule won\u0027t refer to anything!\n\nBecky, it\u0027s not clear to me in those images what is messed-up about the format. Can you adjust this CSS ruleset to fix the issue?",
+      "parentUuid": "90d84bb1_aa61ef3e",
+      "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

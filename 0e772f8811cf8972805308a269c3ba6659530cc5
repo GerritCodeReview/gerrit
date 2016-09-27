@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "852d6bd8_89b119dd",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 73
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-27T08:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8589eb40_a9aa3d6c",
+      "range": {
+        "startLine": 115,
+        "startChar": 24,
+        "endLine": 115,
+        "endChar": 32
+      },
+      "revId": "0e772f8811cf8972805308a269c3ba6659530cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8589eb40_c9a771a3",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 73
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-27T02:55:55Z",
       "side": 1,
       "message": "mapping",
+      "range": {
+        "startLine": 125,
+        "startChar": 30,
+        "endLine": 125,
+        "endChar": 38
+      },
+      "revId": "0e772f8811cf8972805308a269c3ba6659530cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_6b992171",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 73
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-27T08:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8589eb40_c9a771a3",
       "range": {
         "startLine": 125,
         "startChar": 30,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "c5912363_8bad6d89",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 73
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-27T08:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5270749_14a8f473",
+      "revId": "0e772f8811cf8972805308a269c3ba6659530cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5270749_74ab6873",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 73
@@ -76,6 +142,30 @@
       "writtenOn": "2016-09-27T02:55:55Z",
       "side": 1,
       "message": "This could be inlined into the next statement.\n\n return gson.toJson(ImmutableMap.of(\"mappings\", mappging));",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 45
+      },
+      "revId": "0e772f8811cf8972805308a269c3ba6659530cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_e9bed5aa",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 73
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-27T08:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5270749_74ab6873",
       "range": {
         "startLine": 211,
         "startChar": 4,

@@ -185,6 +185,24 @@
     },
     {
       "key": {
+        "uuid": "852d6bd8_a9117db9",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-27T11:24:43Z",
+      "side": 1,
+      "message": "The only way, I made it work is to use:\n\n  filegroup(\n    name \u003d license,\n    srcs \u003d [\u0027LICENSE-%s\u0027 % license]\n  )\n\nand attach a label instead of\n\n  exports_files(...)",
+      "parentUuid": "852d6bd8_29fe2d52",
+      "revId": "f81787b25b7e394ff67b5afd4e6877db4874fb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_90e7da10",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 7

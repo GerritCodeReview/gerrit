@@ -122,16 +122,12 @@ public abstract class QueryProcessor<T> {
     return query(ImmutableList.of(query)).get(0);
   }
 
-  /*
-   * Perform multiple queries over a list of query strings.
-   * <p>
-   * If a limit was specified using {@link #setLimit(int)} this method may
-   * return up to {@code limit + 1} results, allowing the caller to determine if
-   * there are more than {@code limit} matches and suggest to its own caller
-   * that the query could be retried with {@link #setStart(int)}.
+  /**
+   * Perform multiple queries in parallel.
    *
-   * @param queries the queries.
-   * @return results of the queries, one list per input query.
+   * @param queries list of queries.
+   * @return results of the queries, one QueryResult per input query, in the
+   *     same order as the input.
    */
   public List<QueryResult<T>> query(List<Predicate<T>> queries)
       throws OrmException, QueryParseException {

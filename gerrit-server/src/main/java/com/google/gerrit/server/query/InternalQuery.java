@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
@@ -69,6 +70,25 @@ public class InternalQuery<T> {
   public List<T> query(Predicate<T> p) throws OrmException {
     try {
       return queryProcessor.query(p).entities();
+    } catch (QueryParseException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  /**
+   * Run multiple queries in parallel.
+   * <p>
+   * If a limit was specified using {@link #setLimit(int)}, that limit is
+   * applied to each query independently.
+   *
+   * @param queries list of queries.
+   * @return results of the queries, one list of results per input query, in the
+   *     same order as the input.
+   */
+  public List<List<T>> query(List<Predicate<T>> queries) throws OrmException {
+    try {
+      return Lists.transform(
+          queryProcessor.query(queries), QueryResult::entities);
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }

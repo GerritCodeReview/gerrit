@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c5912363_eb08b189",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:25:08Z",
+      "side": 1,
+      "message": "What representations are supported?",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_ed074129",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
         "patchSetId": 2
@@ -32,6 +49,75 @@
       "side": 1,
       "message": "Yes, do you suggest another name?",
       "parentUuid": "a560afe5_ed074129",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_ab0ea994",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:25:08Z",
+      "side": 1,
+      "message": "We discussed in person and really couldn\u0027t come up with anything better than DiffObject. If inspiration strikes us later, this is an easy refactoring.",
+      "parentUuid": "f03b47ab_b0221667",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_cb0bf583",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:25:08Z",
+      "side": 1,
+      "message": "I know this is somewhat repeating the class javadoc, but can you repeat what are the \"otherwise\" cases here?",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "852d6bd8_494ba1b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:25:08Z",
+      "side": 1,
+      "message": "Not that this is used, probably, but I don\u0027t think you\u0027re supposed to return null from toString. And it could probably be more useful as well, giving a short textual description rather than the opaque number.",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5912363_0b65fd41",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-27T13:25:08Z",
+      "side": 1,
+      "message": "If a DiffObject can also appear on the RHS, why not change both of these arguments to DiffObjects? (Same question in Unified)",
       "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

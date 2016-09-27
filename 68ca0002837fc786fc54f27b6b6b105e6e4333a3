@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "450a935e_0f036572",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-09-27T00:24:04Z",
+      "side": 1,
+      "message": "args is a somewhat loaded given arguments in javascript ... perhaps consider opts.\n\n\nconsider adding some kind of closure / jsdoc annotation here for the optional keys for the args.\n\n\nconsider\n\nargs \u003d args || {} inside of the function block",
+      "range": {
+        "startLine": 579,
+        "startChar": 31,
+        "endLine": 579,
+        "endChar": 35
+      },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_50e7cccf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-09-27T00:24:04Z",
+      "side": 1,
+      "message": "prefer explicit undefined check vs loose \u003d\u003d false check.\n\nargs.quote !\u003d\u003d undefined ? args.quote : \u0027\u0027",
+      "range": {
+        "startLine": 582,
+        "startChar": 34,
+        "endLine": 582,
+        "endChar": 58
+      },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_f0d520db",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-09-27T00:24:04Z",
+      "side": 1,
+      "message": "prefer meaningful variable names, as e means nothing :D",
+      "range": {
+        "startLine": 442,
+        "startChar": 10,
+        "endLine": 442,
+        "endChar": 11
+      },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_3017a8ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-09-27T00:24:04Z",
+      "side": 1,
+      "message": "prefer\n\ndocument.querySelector(\u0027body\u0027) here",
+      "range": {
+        "startLine": 520,
+        "startChar": 18,
+        "endLine": 520,
+        "endChar": 55
+      },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6505d749_101c24db",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-09-27T00:24:04Z",
+      "side": 1,
+      "message": "magic numbers are magic, prefer named \"Private\" constants defined at file level",
+      "range": {
+        "startLine": 528,
+        "startChar": 9,
+        "endLine": 528,
+        "endChar": 40
+      },
+      "revId": "68ca0002837fc786fc54f27b6b6b105e6e4333a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

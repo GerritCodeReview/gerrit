@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "6505d749_b0db9810",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-27T00:23:02Z",
+      "side": 1,
+      "message": "It looks like what is triggered? I don\u0027t see where something would get triggered twice.\n\n_handleLocationChange sounds like a good place to encode it.",
+      "parentUuid": "450a935e_8f27551d",
+      "revId": "3044dfb953762207a0dbe66616ae05f2a508595e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_6b820105",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 2

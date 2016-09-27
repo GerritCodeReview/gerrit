@@ -16,6 +16,8 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var FILE_LIST_INCREMENT = 75;
+
   Polymer({
     is: 'gr-file-list',
 
@@ -53,6 +55,10 @@
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
+      _numFilesShown: {
+        type: Number,
+        value: FILE_LIST_INCREMENT,
+      },
     },
 
     behaviors: [
@@ -141,9 +147,12 @@
 
     _expandAllDiffs: function(e) {
       this._showInlineDiffs = true;
-      for (var index in this._files) {
-        this.set(['_files', index, '__expanded'], true);
+      var files = this._files;
+      for (var index in files) {
+        files[index].__expanded = true;
       }
+      this._files = []; // Needed to override Polymer dirty checking.
+      this._files = files;
       if (e && e.target) {
         e.target.blur();
       }
@@ -151,9 +160,12 @@
 
     _collapseAllDiffs: function(e) {
       this._showInlineDiffs = false;
-      for (var index in this._files) {
-        this.set(['_files', index, '__expanded'], false);
+      var files = this._files;
+      for (var index in files) {
+        files[index].__expanded = false;
       }
+      this._files = []; // Needed to override Polymer dirty checking.
+      this._files = files;
       this.$.cursor.handleDiffUpdate();
       if (e && e.target) {
         e.target.blur();
@@ -422,6 +434,10 @@
       return !expanded;
     },
 
+    _computeFilesShown: function(numFilesShown, files) {
+      return files.base.slice(0, numFilesShown);
+    },
+
     _filesChanged: function() {
       this.async(function() {
         var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
@@ -430,6 +446,33 @@
         this.$.cursor.splice.apply(this.$.cursor,
             ['diffs', 0, this.$.cursor.diffs.length].concat(diffElements));
       }.bind(this), 1);
+    },
+
+    _incrementNumFilesShown: function() {
+      this._numFilesShown += FILE_LIST_INCREMENT;
+    },
+
+    _computeFileListButtonHidden: function(numFilesShown, files) {
+      return numFilesShown >= files.length;
+    },
+
+    _computeIncrementText: function(numFilesShown, files) {
+      if (!files) { return; }
+      var text = Math.min(FILE_LIST_INCREMENT, files.length - numFilesShown);
+      return 'Show ' + text + ' more';
+    },
+
+    _computeShowAllText: function(files) {
+      if (!files) { return; }
+      return 'Show all ' + files.length + ' files';
+    },
+
+    _showAllFiles: function() {
+      this._numFilesShown = this._files.length;
+    },
+
+    _computeInitialCount: function() {
+      return FILE_LIST_INCREMENT;
     },
   });
 })();

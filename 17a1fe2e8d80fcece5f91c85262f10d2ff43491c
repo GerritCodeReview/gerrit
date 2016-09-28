@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_80bcf6b2",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-28T08:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b5d743_9077f42a",
+      "revId": "17a1fe2e8d80fcece5f91c85262f10d2ff43491c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_cb39352c",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_80d316f5",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-28T08:50:48Z",
+      "side": 1,
+      "message": "Yes, it should... but without this condition tests are failing:\n\n  [gerrit] IndexAlreadyExistsException[already exists]\n    at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.validateIndexName(MetaDataCreateIndexService.java:136)",
+      "parentUuid": "c5912363_cb39352c",
+      "revId": "17a1fe2e8d80fcece5f91c85262f10d2ff43491c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5270749_742848ee",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2016-09-27T12:35:28Z",
       "side": 1,
       "message": "indentation",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 12
+      },
+      "revId": "17a1fe2e8d80fcece5f91c85262f10d2ff43491c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_c1ec42b8",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-28T08:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5270749_742848ee",
       "range": {
         "startLine": 90,
         "startChar": 4,

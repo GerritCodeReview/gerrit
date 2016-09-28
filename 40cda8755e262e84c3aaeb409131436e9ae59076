@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "65831788_e0c4e209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-28T11:48:05Z",
+      "side": 1,
+      "message": "This should sound a bit cleaner:\nFix data binding in gr-file-list, introduced in 86117",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_00caa614",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-28T11:48:05Z",
+      "side": 1,
+      "message": "Hm, is $\u003d necessary?",
+      "range": {
+        "startLine": 164,
+        "startChar": 13,
+        "endLine": 164,
+        "endChar": 14
+      },
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_61f0d656",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-28T11:48:05Z",
+      "side": 1,
+      "message": "Property with default value would probably be a simpler choice.",
+      "range": {
+        "startLine": 166,
+        "startChar": 25,
+        "endLine": 166,
+        "endChar": 45
+      },
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_20596a91",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -36,6 +105,24 @@
       "writtenOn": "2016-09-28T10:45:39Z",
       "side": 1,
       "message": "will `Object.assign({}, files)` have the same effect?",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_40ccae2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-28T11:48:05Z",
+      "side": 1,
+      "message": "BTW, I\u0027ve pulled and reverted this section and the next one and tests still pass.\nI wonder if you could update the test case to pinpoint the issue.",
+      "parentUuid": "65831788_40566e60",
       "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

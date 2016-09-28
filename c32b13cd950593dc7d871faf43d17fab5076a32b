@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1475071133 +0200\nnonce AKOpmBVFpkvS+GX31DRD4m7q/lNTFI7fRVwyecFzzBxlHUb1zE4vc34NM1cK4Tt+ewMbcQHBtfa4\n\n0000000000000000000000000000000000000000 c32b13cd950593dc7d871faf43d17fab5076a32b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX68ydAAoJEFG1/Zeg0O9R/+YIAIrYy4VX9IF53EUG7Cu8i55J\nzp04DJKtcxkexlMsXaf/yMHMSurYgS6rBF+dCseEBY43OrnMpDJ9CCt8wM9nkj/z\nuu4UGDO4ufAXo6qCi01q7bRSsZ5faaTUr/3yymoHhZ2BVfRfLkKT1cqjYn2MINZN\n8BSD0CYVLX6G9cGJOrnNyB/lIQJm8WfXycGbsaTLd0Lk9w9/bOlU0rFoL0ewLsQU\ngG/oKegtXTLtmGKRiAdfl35i1WnJWXt6kAk4on0UjvY9OYvpAJQPxGtEa+SRQGhJ\nzB4f539yDENI3SljBUP0v5e+FdiJZFagPBfrALS+Yz6xOrxVofa7PWkLTlvdUzE\u003d\n\u003dZCmj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "65831788_e0a9422e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RobotComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-28T14:28:02Z",
+      "side": 1,
+      "message": "I don\u0027t know if this is really any better than what Map#toString gives you:\n\n .append(\"properties\u003d\").append(properties)",
+      "revId": "c32b13cd950593dc7d871faf43d17fab5076a32b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

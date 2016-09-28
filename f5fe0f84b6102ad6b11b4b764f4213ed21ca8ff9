@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_e13f86e1",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-28T15:35:51Z",
+      "side": 1,
+      "message": "is something missing here? I don\u0027t have plugins/BUILD",
+      "range": {
+        "startLine": 14,
+        "startChar": 60,
+        "endLine": 14,
+        "endChar": 72
+      },
+      "revId": "f5fe0f84b6102ad6b11b4b764f4213ed21ca8ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

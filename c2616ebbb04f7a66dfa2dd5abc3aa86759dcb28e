@@ -16,6 +16,24 @@
       "revId": "c2616ebbb04f7a66dfa2dd5abc3aa86759dcb28e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ceb7f1_48095f8b",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-28T19:27:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65ceb7f1_080f6793",
+      "revId": "c2616ebbb04f7a66dfa2dd5abc3aa86759dcb28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

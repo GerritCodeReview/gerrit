@@ -16,6 +16,24 @@
       "revId": "7506df0c4934983f26871fecf91ccad4cf00e965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_003c66e4",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T19:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_0045466a",
+      "revId": "7506df0c4934983f26871fecf91ccad4cf00e965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -165,6 +165,7 @@
       this.set([
         '_additionalActions',
         this._indexOfActionButtonWithKey(key),
+
         prop,
       ], value);
     },

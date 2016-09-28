@@ -18,10 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.testutil.TestTimeUtil;
 
@@ -81,6 +83,27 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAssigneeAddedAsReviewer() throws Exception {
+    ReviewerState state;
+    // Assignee is added as CC, if back-end is reviewDb (that does not support
+    // CC) CC is stored as REVIEWER
+    if (notesMigration.readChanges()) {
+      state = ReviewerState.CC;
+    } else {
+      state = ReviewerState.REVIEWER;
+    }
+    PushOneCommit.Result r = createChange();
+    Iterable<AccountInfo> reviewers = getReviewers(r, state);
+    assertThat(reviewers).isNull();
+    assertThat(setAssignee(r, user.email)._accountId)
+        .isEqualTo(user.getId().get());
+    reviewers = getReviewers(r, state);
+    assertThat(reviewers).hasSize(1);
+    AccountInfo reviewer = Iterables.getFirst(reviewers, null);
+    assertThat(reviewer._accountId).isEqualTo(user.getId().get());
+  }
+
+  @Test
   public void testSetAlreadyExistingAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
@@ -110,6 +133,11 @@ public class AssigneeIT extends AbstractDaemonTest {
   private Set<AccountInfo> getPastAssignees(PushOneCommit.Result r)
       throws Exception {
     return gApi.changes().id(r.getChange().getId().get()).getPastAssignees();
+  }
+
+  private Iterable<AccountInfo> getReviewers(PushOneCommit.Result r,
+      ReviewerState state) throws Exception {
+    return get(r.getChangeId()).reviewers.get(state);
   }
 
   private AccountInfo setAssignee(PushOneCommit.Result r, String identifieer)

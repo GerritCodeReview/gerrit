@@ -28,12 +28,20 @@
         type: Boolean,
         reflectToAttribute: true,
       },
+      transparent: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     ready: function() {
       this._getHasAvatars().then(function(hasAvatars) {
         this.showAvatar = hasAvatars;
       }.bind(this));
+    },
+
+    _conditionalClass: function(transparent) {
+      return transparent ? 'transparent' : '';
     },
 
     _handleRemoveTap: function(e) {

@@ -99,6 +99,7 @@ public class ReviewInput {
     public String robotId;
     public String robotRunId;
     public String url;
+    public Map<String, String> properties;
   }
 
   public ReviewInput message(String msg) {

@@ -5704,6 +5704,8 @@ In addition `RobotCommentInfo` has the following fields:
 |`robot_id`     ||The ID of the robot that generated this comment.
 |`robot_run_id` ||An ID of the run of the robot.
 |`url`          |optional|URL to more information.
+|`properties`   |optional|
+Robot specific properties as map that maps arbitrary keys to values.
 |===========================
 
 [[robot-comment-input]]

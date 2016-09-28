@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "65ceb7f1_e8cad344",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-28T00:04:09Z",
+      "side": 1,
+      "message": "I like Andy\u0027s suggestion. Feels wrong to depend on the REST API for anything that doesn\u0027t do actual Ajax.\n\nI\u0027d like it if the set of elements that import the rest api \u003d\u003d\u003d the set of elements that do their own networking. No sure if that\u0027s true at the moment.",
+      "parentUuid": "e57707bf_f4aa986d",
+      "revId": "b24886630d5cb570d7796b8afce8bc529238d21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65ef9770_80e896a3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

@@ -98,13 +98,13 @@ limitations under the License.
       test('More than 24 hours but less than six months', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-06-15 03:25:14.985000000',
-                  'Jun 15', 'Jun 15, 2015, 3:25', done);
+                  'Jun 15', 'Jun 15, 2015, 03:25', done);
       });
 
       test('More than six months', function(done) {
         testDates('2015-09-15 20:34:00.000000000',
                   '2015-01-15 03:25:00.000000000',
-                  'Jan 15, 2015', 'Jan 15, 2015, 3:25', done);
+                  'Jan 15, 2015', 'Jan 15, 2015, 03:25', done);
       });
     });
 
@@ -174,7 +174,7 @@ limitations under the License.
       });
 
       test('Default preferences are respected', function() {
-        assert.equal(element._timeFormat, 'H:mm');
+        assert.equal(element._timeFormat, 'HH:mm');
         assert.isFalse(element._relative);
       });
     });

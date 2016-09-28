@@ -1,3 +1,4 @@
+package(default_visibility = [ "//visibility:public"])
 load('//tools/bzl:maven.bzl', 'merge_maven_jars')
 
 # core and backward-codecs both provide
@@ -21,6 +22,20 @@ java_library(
 )
 
 java_library(
+  name = 'lucene-codecs',
+  exports = ['@lucene_codecs//jar'],
+  visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-core',
+  exports = ['@lucene_core//jar'],
+  visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
   name = 'lucene-misc',
   exports = ['@lucene_misc//jar'],
   runtime_deps = [':lucene-core-and-backward-codecs'],
@@ -33,5 +48,47 @@ java_library(
   exports = ['@lucene_queryparser//jar'],
   runtime_deps = [':lucene-core-and-backward-codecs'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-highlighter',
+  exports = [ '@lucene_highlighter//jar' ],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-join',
+  exports = [ '@lucene_join//jar' ],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-memory',
+  exports = [ '@lucene_memory//jar' ],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-sandbox',
+  exports = [ '@lucene_sandbox//jar' ],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-spatial',
+  exports = [ '@lucene_spatial//jar' ],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-suggest',
+  exports = [ '@lucene_suggest//jar' ],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lucene-queries',
+  exports = [ '@lucene_queries//jar' ],
   data = ['//lib:LICENSE-Apache2.0'],
 )

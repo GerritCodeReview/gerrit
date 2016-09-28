@@ -45,6 +45,7 @@ java_library(
     ':init-api',
     ':util',
     '//gerrit-common:annotations',
+    '//gerrit-index:index',
     '//gerrit-launcher:launcher', # We want this dep to be provided_deps
     '//gerrit-lucene:lucene',
     '//lib:args4j',
@@ -110,6 +111,7 @@ REST_PGM_DEPS = [
   ':init-api',
   ':util',
   '//gerrit-cache-h2:cache-h2',
+  '//gerrit-elasticsearch:elasticsearch',
   '//gerrit-gpg:gpg',
   '//gerrit-lucene:lucene',
   '//gerrit-oauth:oauth',

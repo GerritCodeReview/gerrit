@@ -1,3 +1,5 @@
+package(default_visibility = ['//visibility:public'])
+
 java_library(
   name = 'codec',
   exports = ['@commons_codec//jar'],
@@ -23,6 +25,12 @@ java_library(
   name = 'lang',
   exports = ['@commons_lang//jar'],
   visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
+  name = 'lang3',
+  exports = [ '@commons_lang3//jar'],
   data = ['//lib:LICENSE-Apache2.0'],
 )
 

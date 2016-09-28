@@ -20,6 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-metadata.html">
@@ -76,6 +77,76 @@ limitations under the License.
 
       element.serverConfig = {note_db_enabled: true};
       assert.isTrue(hasCc());
+    });
+
+    suite('remove reviewer votes', function() {
+      var stubs = [];
+      setup(function() {
+        stubs.push(sinon.stub(element, '_computeValueTooltip').returns(''));
+        stubs.push(sinon.stub(element, '_computeTopicReadOnly').returns(true));
+        element.change = {
+          status: 'NEW',
+          submit_type: 'CHERRY_PICK',
+          labels: {
+            test: {
+              all: [{_account_id: 1, name: 'bojack', value: 1}],
+              default_value: 0,
+            },
+          },
+          removable_reviewers: [],
+        };
+      });
+
+      teardown(function() {
+        stubs.forEach(function(stub) {
+          stub.restore();
+        });
+      });
+
+      test('_computeCanDeleteVote hides delete button', function() {
+        flushAsynchronousOperations();
+        var button = element.$$('gr-account-chip').$$('gr-button');
+        assert.isTrue(button.hasAttribute('hidden'));
+        element.mutable = true;
+        assert.isTrue(button.hasAttribute('hidden'));
+      });
+
+      test('_computeCanDeleteVote shows delete button', function() {
+        element.change.removable_reviewers = [
+          {
+            _account_id: 1,
+            name: 'bojack',
+          }
+        ];
+        element.mutable = true;
+        flushAsynchronousOperations();
+        var button = element.$$('gr-account-chip').$$('gr-button');
+        assert.isFalse(button.hasAttribute('hidden'));
+      });
+
+      test('deletes votes', function(done) {
+        stubs.push(sinon.stub(element.$.restAPI, 'deleteVote')
+            .returns(Promise.resolve({'ok': true})));
+        element.change.removable_reviewers = [
+          {
+            _account_id: 1,
+            name: 'bojack',
+          }
+        ];
+        element.mutable = true;
+        flushAsynchronousOperations();
+        var button = element.$$('gr-account-chip').$$('gr-button');
+        MockInteractions.tap(button);
+        flushAsynchronousOperations();
+        var spliceStub = sinon.stub(element, 'splice',
+            function(path, index, length) {
+          assert.deepEqual(path, ['change.labels', 'test', 'all']);
+          assert.equal(index, 0);
+          assert.equal(length, 1);
+          spliceStub.restore();
+          done();
+        });
+      });
     });
   });
 </script>

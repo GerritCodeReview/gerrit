@@ -216,7 +216,7 @@ VERSION = '5.19.0'
 TOP = 'META-INF/resources/webjars/codemirror/%s' % VERSION
 TOP_MINIFIED = 'META-INF/resources/webjars/codemirror-minified/%s' % VERSION
 LICENSE = '//lib:LICENSE-codemirror-original'
-LICENSE_MINIFIED = '//lib:LICENSE-codemirror-original-minified'
+LICENSE_MINIFIED = '//lib:LICENSE-codemirror-minified'
 
 DIFF_MATCH_PATCH_VERSION = '20121119-1'
 DIFF_MATCH_PATCH_TOP = ('META-INF/resources/webjars/google-diff-match-patch/%s'

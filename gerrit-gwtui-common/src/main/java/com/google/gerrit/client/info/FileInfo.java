@@ -15,6 +15,7 @@
 package com.google.gerrit.client.info;
 
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -30,6 +31,8 @@ public class FileInfo extends JavaScriptObject {
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
   public final native String status() /*-{ return this.status; }-*/;
 
+  private static FilenameComparator filenameComparator
+      = new FilenameComparator();
 
   // JSNI methods cannot have 'long' as a parameter type or a return type and
   // it's suggested to use double in this case:
@@ -51,32 +54,7 @@ public class FileInfo extends JavaScriptObject {
     Collections.sort(Natives.asList(list), new Comparator<FileInfo>() {
       @Override
       public int compare(FileInfo a, FileInfo b) {
-        if (Patch.COMMIT_MSG.equals(a.path())) {
-          return -1;
-        } else if (Patch.COMMIT_MSG.equals(b.path())) {
-          return 1;
-        }
-        if (Patch.MERGE_LIST.equals(a.path())) {
-          return -1;
-        } else if (Patch.MERGE_LIST.equals(b.path())) {
-          return 1;
-        }
-
-        // Look at file suffixes to check if it makes sense to use a different order
-        int s1 = a.path().lastIndexOf('.');
-        int s2 = b.path().lastIndexOf('.');
-        if (s1 > 0 && s2 > 0 &&
-            a.path().substring(0, s1).equals(b.path().substring(0, s2))) {
-            String suffixA = a.path().substring(s1);
-            String suffixB = b.path().substring(s2);
-            // C++ and C: give priority to header files (.h/.hpp/...)
-            if (suffixA.indexOf(".h") == 0) {
-                return -1;
-            } else if (suffixB.indexOf(".h") == 0) {
-                return 1;
-            }
-        }
-        return a.path().compareTo(b.path());
+        return filenameComparator.compare(a.path(), b.path());
       }
     });
   }

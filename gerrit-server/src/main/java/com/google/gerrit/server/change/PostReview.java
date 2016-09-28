@@ -584,6 +584,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               c.robotId, c.robotRunId);
           e.parentUuid = Url.decode(c.inReplyTo);
           e.url = c.url;
+          e.properties = c.properties;
           e.setLineNbrAndRange(c.line, c.range);
           e.tag = in.tag;
           setCommentRevId(e, patchListCache, ctx.getChange(), ps);

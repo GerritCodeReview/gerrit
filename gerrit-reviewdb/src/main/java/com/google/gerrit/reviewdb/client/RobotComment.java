@@ -14,13 +14,18 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static java.util.stream.Collectors.toList;
+
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class RobotComment extends Comment {
   public String robotId;
   public String robotRunId;
   public String url;
+  public Map<String, String> properties;
 
   public RobotComment(Key key, Account.Id author, Timestamp writtenOn,
       short side, String message, String serverId, String robotId,
@@ -47,8 +52,29 @@ public class RobotComment extends Comment {
         .append("range=").append(Objects.toString(range, "")).append(',')
         .append("revId=").append(revId != null ? revId : "").append(',')
         .append("tag=").append(Objects.toString(tag, "")).append(',')
-        .append("url=").append(url)
+        .append("url=").append(url).append(',')
+        .append("properties={")
+            .append(join(
+                properties.entrySet().stream()
+                   .map(e -> e.getKey() + "=" + e.getValue())
+                   .collect(toList())))
+            .append('}')
         .append('}')
         .toString();
+  }
+
+  private String join(List<String> l) {
+    if (l == null) {
+      return "";
+    }
+
+    StringBuilder b = new StringBuilder();
+    for (String s : l) {
+      if (b.length() > 0) {
+        b.append(", ");
+      }
+      b.append(s);
+    }
+    return b.toString();
   }
 }

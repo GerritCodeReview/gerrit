@@ -180,6 +180,7 @@ class CommentJson {
       rci.robotId = c.robotId;
       rci.robotRunId = c.robotRunId;
       rci.url = c.url;
+      rci.properties = c.properties;
       fillCommentInfo(c, rci, loader);
       return rci;
     }

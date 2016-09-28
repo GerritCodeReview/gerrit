@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "05c97bea_05cc722c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-28T22:32:54Z",
+      "side": 1,
+      "message": "Yeah, I was waiting on follow-ups for the other two issues before pushing a new patchset.",
+      "parentUuid": "05c97bea_25408e89",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_00caa614",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "I wonder if that\u0027s a symptom of a different issue. `$\u003d` is supposed to reflect the binding to an attribute [1], but for a dom-repeat TEMPLATE there should be no items attribute [2].\n\nI suspect it\u0027s not working because you edit the array directly, rather than with `set`. (See below.)\n\n[1] https://www.polymer-project.org/1.0/docs/devguide/data-binding#attribute-binding\n[2] https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#Attributes",
       "parentUuid": "05c97bea_45bcaab1",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c97bea_65d9e6ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-28T22:32:54Z",
+      "side": 1,
+      "message": "I\u0027m almost positive that\u0027s not the case. For one, I just tested it :)\nBut I think the real reason is that in order to properly compute this property, we watch _files.*, but when the array reference itself is changed, without the $\u003d binding, the property is not recomputed.",
+      "parentUuid": "05c97bea_c54a5aac",
       "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -331,6 +367,24 @@
         "endLine": 466,
         "endChar": 26
       },
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c97bea_45d66abe",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-28T22:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_60637239",
       "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

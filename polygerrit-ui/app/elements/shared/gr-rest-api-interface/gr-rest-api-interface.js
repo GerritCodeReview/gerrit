@@ -858,5 +858,10 @@
     deleteAccountSSHKey: function(id) {
       return this.send('DELETE', '/accounts/self/sshkeys/' + id);
     },
+
+    deleteVote: function(changeID, account, label) {
+      return this.send('DELETE', '/changes/' + changeID +
+          '/reviewers/' + account + '/votes/' + label);
+    },
   });
 })();

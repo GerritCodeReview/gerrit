@@ -16,7 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
+<link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
@@ -45,12 +45,13 @@ limitations under the License.
       }
       .labelValueContainer .approved,
       .labelValueContainer .notApproved {
-        display: inline-block;
+        display: inline-flex;
         padding: .1em .3em;
         border-radius: 3px;
       }
       .labelValue {
         display: inline-block;
+        padding-right: .3em;
       }
       .approved {
         background-color: #d4ffd4;
@@ -150,7 +151,7 @@ limitations under the License.
         <span class="title">[[labelName]]</span>
         <span class="value">
           <template is="dom-repeat"
-              items="[[_computeLabelValues(labelName, change.labels)]]"
+              items="[[_computeLabelValues(labelName, change.labels.*)]]"
               as="label">
             <div class="labelValueContainer">
               <span class$="[[label.className]]">
@@ -160,7 +161,13 @@ limitations under the License.
                     class="labelValue">
                   [[label.value]]
                 </gr-label>
-                <gr-account-link account="[[label.account]]"></gr-account-link>
+                <gr-account-chip
+                    account="[[label.account]]"
+                    data-account-id$="[[label.account._account_id]]"
+                    label-name="[[labelName]]"
+                    removable="[[_computeCanDeleteVote(label.account, mutable)]]"
+                    transparent-background
+                    on-remove="_onDeleteVote"></gr-account-chip>
               </span>
             </div>
           </template>

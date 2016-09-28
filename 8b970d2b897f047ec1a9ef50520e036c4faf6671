@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_c09efe5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-28T07:11:41Z",
+      "side": 1,
+      "message": "Ah, OK.  I\u0027ll do that in another patch set.",
+      "parentUuid": "8582cb80_c19e025c",
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_8bce4d26",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 2

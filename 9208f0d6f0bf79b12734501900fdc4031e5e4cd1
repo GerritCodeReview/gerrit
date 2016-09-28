@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_60a8d275",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T09:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_eb08b189",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_ed074129",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
         "patchSetId": 2
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_80a5d69c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T09:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_cb0bf583",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_494ba1b0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
         "patchSetId": 2
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_00d0e6f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T09:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852d6bd8_494ba1b0",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_0b65fd41",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySideTable.java",
         "patchSetId": 2
@@ -118,6 +172,24 @@
       "writtenOn": "2016-09-27T13:25:08Z",
       "side": 1,
       "message": "If a DiffObject can also appear on the RHS, why not change both of these arguments to DiffObjects? (Same question in Unified)",
+      "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_20dc0a08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T09:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_0b65fd41",
       "revId": "9208f0d6f0bf79b12734501900fdc4031e5e4cd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "2c55373946a16c508e76c50b81b5e910a3fccf65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c97bea_658726c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-28T23:52:06Z",
+      "side": 0,
+      "message": "I\u0027ve added this stuff back in. However, contents are currently still cleared out if press reply from a message. If from the top of the page, it is retained.\n\nRegarding the messages:\nIt makes sense to me if you press reply from one message, close, and press from another that a draft is cleared out. I think the only issue is if you click reply from a message, close, and click reply from that same one again. In this scenario, any draft would be cleared out as well. \n\nIf this is an issue, we might need to separate draft from quote. And then check if the quote is the same (if exists) before clearing a draft.",
+      "parentUuid": "8582cb80_01caaa14",
+      "revId": "2c55373946a16c508e76c50b81b5e910a3fccf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -169,6 +169,20 @@ QUERY_TESTS = glob(
   ['src/test/java/com/google/gerrit/server/query/**/*.java'],
 )
 
+java_library(
+  name = 'query_tests_code',
+  srcs = QUERY_TESTS,
+  deps = TESTUTIL_DEPS + [
+    ':testutil',
+    '//gerrit-antlr:query_exception',
+    '//gerrit-antlr:query_parser',
+    '//gerrit-common:annotations',
+    '//gerrit-server/src/main/prolog:common',
+    '//lib/antlr:java_runtime',
+  ],
+  visibility = ['//visibility:public'],
+)
+
 junit_tests(
   name = 'query_tests',
   srcs = QUERY_TESTS,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_a0c01a27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-28T08:20:38Z",
+      "side": 1,
+      "message": "I\u0027ve added a 200ms retention so that we don\u0027t query on every keystroke. Thought we had this already, but there was just some logic to take the latest result if we query multiple times.",
+      "parentUuid": "f03b47ab_0d975148",
+      "revId": "70ee338033f53166a27bbec63640646a52561b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f03b47ab_2d940d41",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "FYI I mailed https://gerrit-review.googlesource.com/87331 to make it clearer what I\u0027m asking for.",
       "parentUuid": "f03b47ab_2d940d41",
+      "revId": "70ee338033f53166a27bbec63640646a52561b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_c0c51e36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-28T08:20:38Z",
+      "side": 1,
+      "message": "I\u0027ll adapt it to the new API when the change is submitted.",
+      "parentUuid": "65b5d743_b0c03827",
       "revId": "70ee338033f53166a27bbec63640646a52561b41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

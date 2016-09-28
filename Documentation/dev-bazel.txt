@@ -83,6 +83,36 @@ TODO - fix and document deployment to maven
 
 === Plugins
 
+----
+  bazel build plugins:core
+----
+
+The output JAR files for individual plugins will be placed in:
+
+----
+  bazel-bin/plugins/<name>/<name>_deploy.jar
+----
+
+The JAR files will also be packaged in:
+
+----
+  bazel-genfiles/plugins/core.zip
+----
+
+To build a specific plugin:
+
+----
+  bazel build plugins/<name>:<name>_deploy.jar
+----
+
+The output JAR file will be be placed in:
+
+----
+  bazel-bin/plugins/<name>/<name>_deploy.jar
+----
+
+Note that when building an individual plugin, the `core.zip` package
+is not regenerated.
 
 
 [[documentation]]
@@ -93,6 +123,9 @@ TODO - fix and document deployment to maven
 [[release]]
 === Gerrit Release WAR File
 
+----
+  bazel build release
+----
 
 [[tests]]
 == Running Unit Tests

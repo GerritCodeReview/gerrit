@@ -55,8 +55,9 @@
       return Object.keys(labels).sort();
     },
 
-    _computeLabelValues: function(labelName, labels) {
+    _computeLabelValues: function(labelName, _labels) {
       var result = [];
+      var labels = _labels.base;
       var t = labels[labelName];
       if (!t) { return result; }
       var approvals = t.all || [];
@@ -100,6 +101,52 @@
 
     _computeShowReviewersByState: function(serverConfig) {
       return !!serverConfig.note_db_enabled;
+    },
+
+    /**
+     * A user is able to delete a vote iff the mutable property is true and the
+     *     reviewer that left the vote exists in the list of removable_reviewers
+     *     received from the backend.
+     *
+     * @param {!Object} reviewer An object describing the reviewer that left the
+     *     vote.
+     * @param {boolean} mutable this.mutable describes whether the
+     *     change-metadata section is modifiable by the current user.
+     */
+    _computeCanDeleteVote: function(reviewer, mutable) {
+      if (!mutable) { return false; }
+      for (var i = 0; i < this.change.removable_reviewers.length; i++) {
+        if (this.change.removable_reviewers[i]._account_id ===
+            reviewer._account_id) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+    _onDeleteVote: function(e) {
+      e.preventDefault();
+      var target = Polymer.dom(e).rootTarget;
+      var labelName = target.labelName;
+      var accountID = parseInt(target.getAttribute('data-account-id'), 10);
+      this.mutable = false;
+      this._xhrPromise =
+          this.$.restAPI.deleteVote(this.change.id, accountID, labelName)
+          .then(function(response) {
+        if (!response.ok) { return response; }
+
+        this.mutable = true;
+        var labels = this.change.labels[labelName].all || [];
+        for (var i = 0; i < labels.length; i++) {
+          if (labels[i]._account_id === accountID) {
+            this.splice('change.labels.' + labelName + '.all', i, 1);
+            break;
+          }
+        }
+      }.bind(this)).catch(function(err) {
+        this.mutable = true;
+        throw err;
+      }.bind(this));
     },
   });
 })();

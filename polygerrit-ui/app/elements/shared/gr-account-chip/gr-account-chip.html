@@ -53,12 +53,17 @@ limitations under the License.
         padding: 0;
         text-decoration: none;
       }
+      .transparent-background,
+      gr-button.transparent-background {
+        background-color: transparent;
+      }
     </style>
-    <div class="container">
+    <div class$="container [[_conditionalClass(transparentBackground)]]">
       <gr-account-link account="[[account]]"></gr-account-link>
       <gr-button
           hidden$="[[!removable]]" hidden
-          class="remove" on-tap="_handleRemoveTap">×</gr-button>
+          class$="remove [[_conditionalClass(transparentBackground)]]"
+          on-tap="_handleRemoveTap">×</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "65ceb7f1_68bf03a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-28T00:13:10Z",
+      "side": 1,
+      "message": "This definitely doesn\u0027t do any networking. I would definitely like a place to put a few utility functions that see use within different components. Does anyone have any opinions on a location/directory?",
+      "parentUuid": "65ceb7f1_e8cad344",
+      "revId": "b24886630d5cb570d7796b8afce8bc529238d21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65ef9770_80e896a3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

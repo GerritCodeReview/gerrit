@@ -122,6 +122,24 @@
       "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_40abce72",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T08:00:41Z",
+      "side": 1,
+      "message": "Let’s wait until we’re all together and I’m not dying of jetlag. :)",
+      "parentUuid": "450a935e_6fc5d103",
+      "revId": "5638df09f5d57380c1a0ae21e64eb13bced09a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

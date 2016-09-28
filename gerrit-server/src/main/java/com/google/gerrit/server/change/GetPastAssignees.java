@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -47,9 +48,10 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
     }
     AccountInfoCacheFactory accountInfoFactory = accountInfos.create();
 
-    return Response.ok(pastAssignees.stream()
-        .map(accountInfoFactory::get)
-        .map(AccountJson::toAccountInfo)
-        .collect(toSet()));
+    return Response.ok(Sets.newLinkedHashSet(
+        pastAssignees.stream()
+            .map(accountInfoFactory::get)
+            .map(AccountJson::toAccountInfo)
+            .collect(toList())));
   }
 }

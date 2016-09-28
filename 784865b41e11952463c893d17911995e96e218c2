@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_80edd67d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-28T13:05:01Z",
+      "side": 1,
+      "message": "Got it, I can see why you don\u0027t want 6 different methods.",
+      "parentUuid": "8582cb80_21596e91",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_8b580d8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 8
@@ -424,6 +442,24 @@
       "side": 1,
       "message": "It allows us to reuse RevisionNoteMap and the caching in RevisionNoteBuilder. Are you saying that those shouldn\u0027t be used for robot comments?",
       "parentUuid": "c5912363_0b4c1dca",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_c1b44289",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-28T13:05:01Z",
+      "side": 1,
+      "message": "That\u0027s a good point, I kind of realized that later on in the review.",
+      "parentUuid": "8582cb80_c1e602a5",
       "revId": "784865b41e11952463c893d17911995e96e218c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -121,7 +121,7 @@ public class WatchConfig extends VersionedMetaData
       }
     }
 
-    public void upsertProjectWatches(Account.Id accountId,
+    public synchronized void upsertProjectWatches(Account.Id accountId,
         Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches)
         throws IOException, ConfigInvalidException {
       WatchConfig watchConfig = read(accountId);
@@ -131,7 +131,7 @@ public class WatchConfig extends VersionedMetaData
       commit(watchConfig);
     }
 
-    public void deleteProjectWatches(Account.Id accountId,
+    public synchronized void deleteProjectWatches(Account.Id accountId,
         Collection<ProjectWatchKey> projectWatchKeys)
             throws IOException, ConfigInvalidException {
       WatchConfig watchConfig = read(accountId);

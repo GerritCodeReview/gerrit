@@ -18,11 +18,13 @@ import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.common.errors.UpdateParentFailedException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -89,9 +91,14 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   @Override
   public final T call() throws NoSuchProjectException, IOException,
       ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmException, UpdateParentFailedException {
+      OrmException, UpdateParentFailedException, PermissionDeniedException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
+
+    Capable r = projectControl.canPushToAtLeastOneRef();
+    if (r != Capable.OK) {
+      throw new PermissionDeniedException(r.getMessage());
+    }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       ProjectConfig config = ProjectConfig.read(md, base);

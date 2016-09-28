@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_61d616e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-28T08:44:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_c0c51e36",
+      "revId": "70ee338033f53166a27bbec63640646a52561b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a560afe5_0a5a7bf6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
         "patchSetId": 3

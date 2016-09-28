@@ -318,6 +318,12 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'commons_lang3',
+  artifact = 'org.apache.commons:commons-lang3:3.3.2',
+  sha1 = '90a3822c38ec8c996e84c16a3477ef632cbc87a3',
+)
+
+maven_jar(
   name = 'commons_dbcp',
   artifact = 'commons-dbcp:commons-dbcp:1.4',
   sha1 = '30be73c965cc990b153a100aaaaafcf239f82d39',
@@ -429,6 +435,13 @@ maven_jar(
   sha1 = 'f0bc3114a6b43f8e64a33c471d5b9e8ddc51564d',
 )
 
+
+maven_jar(
+  name = 'lucene_codecs',
+  artifact = 'org.apache.lucene:lucene-codecs:' + LUCENE_VERS,
+  sha1 = 'e01fe463d9490bb1b4a6a168e771f7b7255a50b1',
+)
+
 maven_jar(
   name = 'backward_codecs',
   artifact = 'org.apache.lucene:lucene-backward-codecs:' + LUCENE_VERS,
@@ -445,6 +458,55 @@ maven_jar(
   name = 'lucene_queryparser',
   artifact = 'org.apache.lucene:lucene-queryparser:' + LUCENE_VERS,
   sha1 = '8ac921563e744463605284c6d9d2d95e1be5b87c',
+)
+
+
+maven_jar(
+  name = 'lucene_highlighter',
+  artifact = 'org.apache.lucene:lucene-highlighter:' + LUCENE_VERS,
+  sha1 = 'd127ac514e9df965ab0b57d92bbe0c68d3d145b8',
+)
+
+maven_jar(
+  name = 'lucene_join',
+  artifact = 'org.apache.lucene:lucene-join:'+ LUCENE_VERS,
+  sha1 = 'dac1b322508f3f2696ecc49a97311d34d8382054',
+)
+
+maven_jar(
+  name = 'lucene_memory',
+  artifact = 'org.apache.lucene:lucene-memory:' + LUCENE_VERS,
+  sha1 = '7409db9863d8fbc265c27793c6cc7511304182c2',
+)
+
+maven_jar(
+  name = 'lucene_misc',
+  artifact = 'org.apache.lucene:lucene-misc:' + LUCENE_VERS,
+  sha1 = '37bbe5a2fb429499dfbe75d750d1778881fff45d',
+)
+
+maven_jar(
+  name = 'lucene_sandbox',
+  artifact = 'org.apache.lucene:lucene-sandbox:' + LUCENE_VERS,
+  sha1 = '30a91f120706ba66732d5a974b56c6971b3c8a16',
+)
+
+maven_jar(
+  name = 'lucene_spatial',
+  artifact = 'org.apache.lucene:lucene-spatial:' + LUCENE_VERS,
+  sha1 = '8ed7a9a43d78222038573dd1c295a61f3c0bb0db',
+)
+
+maven_jar(
+  name = 'lucene_suggest',
+  artifact = 'org.apache.lucene:lucene-suggest:' + LUCENE_VERS,
+  sha1 = 'e8316b37dddcf2092a54dab2ce6aad0d5ad78585',
+)
+
+maven_jar(
+  name = 'lucene_queries',
+  artifact = 'org.apache.lucene:lucene-queries:' + LUCENE_VERS,
+  sha1 = '692f1ad887cf4e006a23f45019e6de30f3312d3f',
 )
 
 maven_jar(
@@ -797,4 +859,99 @@ maven_jar(
   name = "jruby",
   artifact = "org.jruby:jruby-complete:9.1.5.0",
   sha1 = "00d0003e99da3c4d830b12c099691ce910c84e39",
+)
+
+maven_jar(
+  name = 'elasticsearch',
+  artifact = 'org.elasticsearch:elasticsearch:2.4.0',
+  sha1 = 'aeb9704a76fa8654c348f38fcbb993a952a7ab07',
+)
+
+# Java REST client for Elasticsearch.
+ELASTIC_VERSION = '0.1.7'
+
+maven_jar(
+  name = 'jest_common',
+  artifact = 'io.searchbox:jest-common:' + ELASTIC_VERSION,
+  sha1 = 'ff6e2694405557a3a02b444cb7f7da28c4d99f07',
+)
+
+maven_jar(
+  name = 'jest',
+  artifact = 'io.searchbox:jest:' + ELASTIC_VERSION,
+  sha1 = '686619c7141edb50b562ad2a39d32ea4cf20b567',
+)
+
+maven_jar(
+  name = 'compress_lzf',
+  artifact = 'com.ning:compress-lzf:1.0.2',
+  sha1 = '62896e6fca184c79cc01a14d143f3ae2b4f4b4ae',
+)
+
+maven_jar(
+  name = 'hppc',
+  artifact = 'com.carrotsearch:hppc:0.7.1',
+  sha1 = '8b5057f74ea378c0150a1860874a3ebdcb713767',
+)
+
+maven_jar(
+  name = 'jsr166e',
+  artifact = 'com.twitter:jsr166e:1.1.0',
+  sha1 = '233098147123ee5ddcd39ffc57ff648be4b7e5b2',
+)
+
+maven_jar(
+  name = 'netty',
+  artifact = 'io.netty:netty:3.10.0.Final',
+  sha1 = 'ad61cd1bba067e6634ddd3e160edf0727391ac30',
+)
+
+maven_jar(
+  name = 't_digest',
+  artifact = 'com.tdunning:t-digest:3.0',
+  sha1 = '84ccf145ac2215e6bfa63baa3101c0af41017cfc',
+)
+
+maven_jar(
+  name = 'jna',
+  artifact = 'net.java.dev.jna:jna:4.1.0',
+  sha1 = '1c12d070e602efd8021891cdd7fd18bc129372d4',
+)
+
+JACKSON_VERSION = '2.6.6'
+
+maven_jar(
+  name = 'jackson_core',
+  artifact = 'com.fasterxml.jackson.core:jackson-core:' + JACKSON_VERSION,
+  sha1 = '02eb801df67aacaf5b1deb4ac626e1964508e47b',
+)
+
+maven_jar(
+  name = 'jackson_dataformat_smile',
+  artifact = 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:' + JACKSON_VERSION,
+  sha1 = 'ccbfc948748ed2754a58c1af9e0a02b5cc1aed69',
+)
+
+maven_jar(
+  name = 'jackson_dataformat_cbor',
+  artifact = 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:' + JACKSON_VERSION,
+  sha1 = '34c7b7ff495fc6b049612bdc9db0900a68e112f8',
+)
+
+maven_jar(
+  name = 'httpasyncclient',
+  artifact = 'org.apache.httpcomponents:httpasyncclient:4.1.2',
+  sha1 = '95aa3e6fb520191a0970a73cf09f62948ee614be',
+)
+
+maven_jar(
+  name = 'httpcore_nio',
+  artifact = 'org.apache.httpcomponents:httpcore-nio:' + HTTPCOMP_VERS,
+  sha1 = 'a8c5e3c3bfea5ce23fb647c335897e415eb442e3',
+)
+
+maven_jar(
+  name = 'httpcore_niossl',
+  artifact = 'org.apache.httpcomponents:httpcore-niossl:4.0-alpha6',
+  sha1 = '9c662e7247ca8ceb1de5de629f685c9ef3e4ab58',
 )

@@ -893,5 +893,10 @@
     deleteAccountSSHKey: function(id) {
       return this.send('DELETE', '/accounts/self/sshkeys/' + id);
     },
+
+    deleteVote: function(changeNum, account, label) {
+      return this.send('DELETE', '/changes/' + changeNum +
+          '/reviewers/' + account + '/votes/' + label);
+    },
   });
 })();

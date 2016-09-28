@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_40b2eee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-28T08:33:03Z",
+      "side": 1,
+      "message": "I also think that this solution is cleaner. It is also easier to understand.",
+      "parentUuid": "4588d3a4_bf9e775a",
+      "revId": "240f7a6431d44ea2a2d67d21734ba23b82e27783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4588d3a4_9f99b377",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

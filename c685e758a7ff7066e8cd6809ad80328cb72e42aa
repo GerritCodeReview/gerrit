@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65831788_c050be61",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:56:16Z",
+      "side": 1,
+      "message": "Remove the dash to be consistent with other JSDoc amongst the codebase.",
+      "range": {
+        "startLine": 580,
+        "startChar": 28,
+        "endLine": 580,
+        "endChar": 30
+      },
+      "revId": "c685e758a7ff7066e8cd6809ad80328cb72e42aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_e1c4e609",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:56:16Z",
+      "side": 1,
+      "message": "It’s good to have units as a suffix. Also, to be more descriptive: TEST_SCROLL_TOP_PX",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "c685e758a7ff7066e8cd6809ad80328cb72e42aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_e045c29c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:56:16Z",
+      "side": 1,
+      "message": "Fix indentation.",
+      "revId": "c685e758a7ff7066e8cd6809ad80328cb72e42aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

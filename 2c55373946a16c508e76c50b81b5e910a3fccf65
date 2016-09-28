@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_01caaa14",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:56:16Z",
+      "side": 0,
+      "message": "Crap. I didn’t realize I suggested removing previous functionality. We should revert this portion since it will regress the bug associated with https://gerrit-review.googlesource.com/c/80564/",
+      "revId": "2c55373946a16c508e76c50b81b5e910a3fccf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

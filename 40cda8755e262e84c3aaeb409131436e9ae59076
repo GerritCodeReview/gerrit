@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "05c97bea_25408e89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-28T21:12:04Z",
+      "side": 1,
+      "message": "Looks like this hasn\u0027t been pushed yet.",
+      "parentUuid": "65ceb7f1_082807ed",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_00caa614",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -78,6 +96,24 @@
       "side": 1,
       "message": "It is, yeah. Without this binding, the mutation of the _files array as a whole performed when showing/hiding all diffs does not function.",
       "parentUuid": "65831788_00caa614",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c97bea_c54a5aac",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-28T21:12:04Z",
+      "side": 1,
+      "message": "I wonder if that\u0027s a symptom of a different issue. `$\u003d` is supposed to reflect the binding to an attribute [1], but for a dom-repeat TEMPLATE there should be no items attribute [2].\n\nI suspect it\u0027s not working because you edit the array directly, rather than with `set`. (See below.)\n\n[1] https://www.polymer-project.org/1.0/docs/devguide/data-binding#attribute-binding\n[2] https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#Attributes",
+      "parentUuid": "05c97bea_45bcaab1",
       "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +249,24 @@
       "side": 1,
       "message": "@andy I\u0027m not entirely sure. I\u0027m following the pattern in the documentation here: https://www.polymer-project.org/1.0/docs/devguide/model-data#override-dirty-check\nIs Object.assign better for speed?\n\n@viktar I have updated the tests to more accurately check for this situation. Before, the tests checked for a change in the _files array -- now, they actually look for the hidden attribute on the DOM element.",
       "parentUuid": "65831788_40566e60",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ceb7f1_0856475f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-28T21:12:04Z",
+      "side": 1,
+      "message": "I suspect this will work more cleanly if you use `set`.",
+      "parentUuid": "65ceb7f1_a8fd7b56",
       "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

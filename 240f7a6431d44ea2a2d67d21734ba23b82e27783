@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "65831788_4014ae4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T22:20:26Z",
+      "side": 1,
+      "message": "Not applicable.",
+      "parentUuid": "e59627c8_1c877513",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "240f7a6431d44ea2a2d67d21734ba23b82e27783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4588d3a4_df933b51",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_2117ae55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T22:20:26Z",
+      "side": 1,
+      "message": "Yes but we don\u0027t care.",
+      "parentUuid": "4588d3a4_df933b51",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "240f7a6431d44ea2a2d67d21734ba23b82e27783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e59627c8_3c84310c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-09-27T23:45:48Z",
       "side": 1,
       "message": "AFAIK the only limitation on username is that it can\u0027t be set again if it\u0027s already set.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "240f7a6431d44ea2a2d67d21734ba23b82e27783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_6021b2a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T22:20:26Z",
+      "side": 1,
+      "message": "Hm, I don\u0027t see that it\u0027s allowed to be changed for OAuth Realm.",
+      "parentUuid": "e59627c8_3c84310c",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -160,6 +232,30 @@
     },
     {
       "key": {
+        "uuid": "65831788_801eb66c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T22:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4588d3a4_bf9e775a",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "240f7a6431d44ea2a2d67d21734ba23b82e27783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4588d3a4_9f99b377",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -171,6 +267,30 @@
       "writtenOn": "2016-09-27T23:45:48Z",
       "side": 1,
       "message": "Move to footer and change to:\n\n Bug: Issue 4627",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "240f7a6431d44ea2a2d67d21734ba23b82e27783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_4114b24e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T22:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4588d3a4_9f99b377",
       "range": {
         "startLine": 31,
         "startChar": 0,

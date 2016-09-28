@@ -1,0 +1,34 @@
+= Release notes for Gerrit 2.13.2
+
+Gerrit 2.13.2 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.13.2.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.13.2.war]
+
+== Schema Upgrade
+
+There are no schema changes from link:ReleaseNotes-2.13.1.html[2.13.1].
+
+== Bug Fixes
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4630[Issue 4630]:
+Fix server error when navigating up to change while 'Working' is displayed.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4631[Issue 4631]:
+Read project watches from database.
++
+Project watches were being read from the git backend by default, but the
+migration to git is not yet completed.
+
+* Hooks plugin: Fix incorrect value passed to `--change-url` parameter.
++
+The URL was being generated using the change's Change-Id rather than the
+change number.
+
+* Check for CLA when creating project config changes from the web UI.
++
+If contributor agreements were enabled and required for a project, and
+the user had not signed a CLA, it was still possible to upload changes
+for review on `refs/meta/config` by making changes in the project access
+editor and pressing 'Save for Review'.
+

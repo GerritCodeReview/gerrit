@@ -176,7 +176,11 @@ public class H2AccountPatchReviewStore
       }
       stmt.executeBatch();
     } catch (SQLException e) {
-      throw convertError("insert", e);
+      OrmException ormException = convertError("insert", e);
+      if (ormException instanceof OrmDuplicateKeyException) {
+        return;
+      }
+      throw ormException;
     }
   }
 

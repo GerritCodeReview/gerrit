@@ -174,6 +174,10 @@
           this._patchRange.patchNum, this._path, reviewed);
     },
 
+    _checkForModifiers: function(e) {
+      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || false;
+    },
+
     _handleKey: function(e) {
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
@@ -201,6 +205,7 @@
           this.$.cursor.moveUp();
           break;
         case 67: // 'c'
+          if (this._checkForModifiers(e)) { return; }
           if (!this.$.diff.isRangeSelected()) {
             e.preventDefault();
             var line = this.$.cursor.getTargetLineElement();

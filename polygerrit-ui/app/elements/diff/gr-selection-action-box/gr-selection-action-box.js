@@ -74,9 +74,14 @@
       return rect;
     },
 
+    _checkForModifiers: function(e) {
+      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || false;
+    },
+
     _handleKey: function(e) {
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
       if (e.keyCode === 67) { // 'c'
+        if (this._checkForModifiers(e)) { return; }
         e.preventDefault();
         this._fireCreateComment();
       }

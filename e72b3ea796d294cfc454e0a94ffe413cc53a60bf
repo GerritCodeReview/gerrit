@@ -70,6 +70,24 @@
       "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c97bea_85c50237",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-28T00:58:25Z",
+      "side": 1,
+      "message": "the gr-link-text element wrapped the text in a span that included the white-space and word-wrap styles. removed those from the message class and added class to the gr-linked-text.",
+      "parentUuid": "65ceb7f1_a8c0db26",
+      "revId": "e72b3ea796d294cfc454e0a94ffe413cc53a60bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

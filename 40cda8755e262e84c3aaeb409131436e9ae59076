@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65831788_20596a91",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:45:39Z",
+      "side": 1,
+      "message": "Only use for...in when iterating over object keys: https://google.github.io/styleguide/javascriptguide.xml?showone\u003dfor-in_loop#for-in_loop",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 151,
+        "endChar": 30
+      },
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_40566e60",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:45:39Z",
+      "side": 1,
+      "message": "will `Object.assign({}, files)` have the same effect?",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_a1bade8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:45:39Z",
+      "side": 1,
+      "message": "return empty string?",
+      "range": {
+        "startLine": 460,
+        "startChar": 20,
+        "endLine": 460,
+        "endChar": 26
+      },
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_60637239",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T10:45:39Z",
+      "side": 1,
+      "message": "return an empty string here?",
+      "range": {
+        "startLine": 466,
+        "startChar": 20,
+        "endLine": 466,
+        "endChar": 26
+      },
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

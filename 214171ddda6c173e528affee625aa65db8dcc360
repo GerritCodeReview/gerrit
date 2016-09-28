@@ -69,6 +69,24 @@
       "revId": "214171ddda6c173e528affee625aa65db8dcc360",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_610c569d",
+        "filename": "gerrit-war/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-28T09:29:32Z",
+      "side": 1,
+      "message": "in addition to the concern you mentioned, in Bazel, a genrule can have multiple outputs, so you always have to specify the artifact name rather than the rule name.",
+      "parentUuid": "852d6bd8_c95f9171",
+      "revId": "214171ddda6c173e528affee625aa65db8dcc360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

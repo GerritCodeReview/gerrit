@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_2017aa55",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-28T21:43:51Z",
+      "side": 1,
+      "message": "No it doesn’t have to be. If one wanted to, they could place it within its own folder like gr-tooltip-behavior and separate the html imports and JS.\n\nAll behaviors are HTML files (and don’t need to be by this logic), so if we make that change we should make it elsewhere (not in this change, though).",
+      "parentUuid": "05c97bea_653a8621",
+      "revId": "71a2fac65ae61fc3debf0cd770e9de80cac99a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65ceb7f1_68638339",
         "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior.html",
         "patchSetId": 7

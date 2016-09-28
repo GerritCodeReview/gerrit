@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "4588d3a4_bfecb7b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-28T23:38:52Z",
+      "side": 1,
+      "message": "Ah, yes. I was thinking about the internal username.",
+      "parentUuid": "65831788_6021b2a7",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "240f7a6431d44ea2a2d67d21734ba23b82e27783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4588d3a4_bf9e775a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

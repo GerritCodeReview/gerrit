@@ -1,0 +1,122 @@
+/**
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template}
+
+/**
+ * @param change
+ * @param coverLetter
+ * @param email
+ * @param fromName
+ * @param inlineCommentGroups
+ */
+{template .CommentHtml autoescape="strict" kind="html"}
+  {let $commentHeaderStyle kind="css"}
+    margin-bottom: 4px;
+  {/let}
+
+  {let $blockquoteStyle kind="css"}
+    border-left: 1px solid #aaa;
+    margin: 10px 0;
+    padding: 0 10px;
+  {/let}
+
+  {let $messageStyle kind="css"}
+    white-space: pre-wrap;
+  {/let}
+
+  {let $ulStyle kind="css"}
+    padding-left: 20px;
+  {/let}
+
+  <p>
+    {$fromName} has posted comments on this change.
+  </p>
+
+  {if $email.changeUrl}
+    <p>
+      {call .ViewChangeButton data="all" /}
+    </p>
+  {/if}
+
+  <p>
+    Change subject: {$change.subject}
+  </p>
+  <hr/>
+
+  {if $coverLetter}
+    <pre>{$coverLetter}</pre>
+  {/if}
+
+  <ul style="{$ulStyle}">
+    {foreach $group in $inlineCommentGroups}
+      <li>
+        <p>
+          <strong><a href="{$group.link}">{$group.title}:</a></strong>
+        </p>
+
+        <ul style="{$ulStyle}">
+          {foreach $comment in $group.comments}
+            <li>
+              {if $comment.isRobotComment}
+                <p style="{$commentHeaderStyle}">
+                  Robot Comment from{sp}
+                  {if $comment.robotUrl}<a href="{$comment.robotUrl}">{/if}
+                  {$comment.robotId}
+                  {if $comment.robotUrl}</a>{/if}{sp}
+                  (run ID {$comment.robotRunId}):
+                </p>
+              {/if}
+
+              <p style="{$commentHeaderStyle}">
+                {if length($comment.lines) > 0}
+                  Patch Set #{$group.patchSetId}, Line {$comment.startLine}:{sp}
+                {/if}
+                {if length($comment.lines) == 1}
+                  <code>{$comment.lines[0]}</code>
+                {/if}
+              </p>
+
+              {if length($comment.lines) > 1}
+                <p>
+                  <blockquote style="{$blockquoteStyle}">
+                    <pre>
+                      {foreach $line in $comment.lines}
+                        {$line}{\n}
+                      {/foreach}
+                    </pre>
+                  </blockquote>
+                </p>
+              {/if}
+
+              {if $comment.parentMessage}
+                <p>
+                  <blockquote style="{$blockquoteStyle}">
+                    {$comment.parentMessage}
+                  </blockquote>
+                </p>
+              {/if}
+
+              <p style="{$messageStyle}">
+                {$comment.message}
+              </p>
+            </li>
+          {/foreach}
+        </ul>
+      </li>
+    {/foreach}
+  </ul>
+{/template}

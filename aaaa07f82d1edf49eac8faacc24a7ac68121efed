@@ -1,0 +1,359 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_6102961a",
+        "filename": "WORKSPACE",
+        "patchSetId": 12
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "Nit: add always new line between archives.",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_40058e1f",
+        "filename": "lib/fonts/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "Add TODO, and/or mention in the commit message.",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_01138a72",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "This list is not complete. Test components are missing:\n\n  bower_component(\n    name \u003d \u0027web-component-tester\u0027,\n    package \u003d \u0027web-component-tester\u0027,\n    version \u003d \u00274.2.2\u0027,\n    deps \u003d [\n      \u0027:accessibility-developer-tools\u0027,\n      \u0027:async\u0027,\n      \u0027:chai\u0027,\n      \u0027:lodash\u0027,\n      \u0027:mocha\u0027,\n      \u0027:sinon-chai\u0027,\n      \u0027:sinonjs\u0027,\n      \u0027:stacky\u0027,\n      \u0027:test-fixture\u0027,\n    ],\n    license \u003d \u0027DO_NOT_DISTRIBUTE\u0027,\n    sha1 \u003d \u002754556000c33d9ed7949aa546c1b4a1531491a5f0\u0027,\n  )",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_00138672",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "es6-promise",
+      "range": {
+        "startLine": 6,
+        "startChar": 15,
+        "endLine": 6,
+        "endChar": 22
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_c118c292",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "fetch.",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_20088a3a",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "page.js",
+      "range": {
+        "startLine": 135,
+        "startChar": 15,
+        "endLine": 135,
+        "endChar": 22
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_e10dc64d",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "promise-polyfill",
+      "range": {
+        "startLine": 146,
+        "startChar": 15,
+        "endLine": 146,
+        "endChar": 22
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_4105921f",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "Make it //visibility:public to allow to use it in Documentation:licenses.txt rule. Actually \u0027//polygerrit-ui/app:polygerrit_ui\u0027 should be used there to generate the licenses, but may be this can be an intermediate step. if I add it here:\n\n  visibility \u003d [\u0027//visibility:public\u0027],\n\nand add this line to the \"//polygerrit-ui:components\" to the\n\n  license_map(\n    name \u003d \"licenses\",\n    targets \u003d [\n      \"//gerrit-pgm:pgm\",\n      \"//gerrit-gwtui:ui_module\",\n      \"//polygerrit-ui:components\",\n    ],\n    opts \u003d [\"--asciidoctor\"],\n  )\n\nrule, it\u0027s failing with errorneously tracked licenses:\n\n  DO_NOT_DISTRIBUTE license found in:\n  //lib/js:moment\n  //lib/js:fetch\n\nWhen I fix the licenses for fetch and moment and re-run bazel build Documentation:licenses.txt, I\u0027m getting correct license tracking: [1] ;)\n\n[1] http://paste.openstack.org/show/583383",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_6002921a",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "aka $ROOT in genrule2 and can be used here.",
+      "range": {
+        "startLine": 26,
+        "startChar": 5,
+        "endLine": 26,
+        "endChar": 13
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_612b769a",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "list. Otherwise I\u0027m getting this failure: [1].\n\n* [1] http://paste.openstack.org/show/583375",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 27
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_411e7281",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "_commons_attrs + {",
+      "range": {
+        "startLine": 184,
+        "startChar": 8,
+        "endLine": 184,
+        "endChar": 22
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_21088e3a",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "Why optional? This should be mandatory, and the following three lines can be removed, and instead the line 213 can be:\n\n  license\u003d\"//lib:LICENSE-%s\" % license",
+      "range": {
+        "startLine": 206,
+        "startChar": 33,
+        "endLine": 206,
+        "endChar": 38
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_e00dc24d",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "I changed the lines 52, 53 and replaced with the correct license, re-generated lib/js/bower_components.bzl, but the license was still DO_NOT_DISTRIBUTE.",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_81287a9d",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "Is this needed? Buck build tool chain for Polygerrit UI and Component is ready and all licenses should be already in place.",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_a013ba73",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "fetch",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 29
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_c018be92",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "moment",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 30
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_a113be73",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T20:50:36Z",
+      "side": 1,
+      "message": "Why do we try to guess the license? IIRC, bower2buck.py just user place holder here, and instruction is to replace the placeholder with existing or new license:\n\n  #  - license: all licenses in this file are specified as TODO. You must replace\n  #    this text with one of the existing licenses defined in lib/BUCK, or\n  #    define a new one if necessary. Leave existing licenses alone.",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 42
+      },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

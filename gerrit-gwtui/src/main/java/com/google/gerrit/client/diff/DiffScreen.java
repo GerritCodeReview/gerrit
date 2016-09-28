@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import static com.google.gerrit.extensions.client.DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.DiffPreferences;
@@ -96,7 +97,7 @@ abstract class DiffScreen extends Screen {
   }
 
   private final Change.Id changeId;
-  final PatchSet.Id base;
+  final DiffObject base;
   final PatchSet.Id revision;
   final String path;
   final DiffPreferences prefs;
@@ -123,15 +124,15 @@ abstract class DiffScreen extends Screen {
   Header header;
 
   DiffScreen(
-      PatchSet.Id base,
-      PatchSet.Id revision,
+      DiffObject base,
+      DiffObject revision,
       String path,
       DisplaySide startSide,
       int startLine,
       DiffView diffScreenType) {
     this.base = base;
-    this.revision = revision;
-    this.changeId = revision.getParentKey();
+    this.revision = revision.asPatchSetId();
+    this.changeId = revision.asPatchSetId().getParentKey();
     this.path = path;
     this.startSide = startSide;
     this.startLine = startLine;
@@ -173,7 +174,7 @@ abstract class DiffScreen extends Screen {
     }));
 
     DiffApi.diff(revision, path)
-      .base(base)
+      .base(base.asPatchSetId())
       .wholeFile()
       .intraline(prefs.intralineDifference())
       .ignoreWhitespace(prefs.ignoreWhitespace())
@@ -789,11 +790,10 @@ abstract class DiffScreen extends Screen {
         group.addListener(new GerritCallback<Void>() {
           @Override
           public void onSuccess(Void result) {
-            String b = base != null ? String.valueOf(base.get()) : null;
             String rev = String.valueOf(revision.get());
             Gerrit.display(
-              PageLinks.toChange(changeId, b, rev),
-              new ChangeScreen(changeId, b, rev, openReplyBox,
+              PageLinks.toChange(changeId, base.asString(), rev),
+              new ChangeScreen(changeId, base, rev, openReplyBox,
                   FileTable.Mode.REVIEW));
           }
         });
@@ -901,7 +901,7 @@ abstract class DiffScreen extends Screen {
     String nextPath = header.getNextPath();
     if (nextPath != null) {
       DiffApi.diff(revision, nextPath)
-        .base(base)
+        .base(base.asPatchSetId())
         .wholeFile()
         .intraline(prefs.intralineDifference())
         .ignoreWhitespace(prefs.ignoreWhitespace())
@@ -924,7 +924,7 @@ abstract class DiffScreen extends Screen {
   void reloadDiffInfo() {
     final int id = ++reloadVersionId;
     DiffApi.diff(revision, path)
-      .base(base)
+      .base(base.asPatchSetId())
       .wholeFile()
       .intraline(prefs.intralineDifference())
       .ignoreWhitespace(prefs.ignoreWhitespace())

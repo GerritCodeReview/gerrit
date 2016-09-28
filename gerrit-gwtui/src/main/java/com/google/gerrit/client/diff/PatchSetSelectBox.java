@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.blame.BlameInfo;
@@ -67,13 +68,13 @@ class PatchSetSelectBox extends Composite {
   private String path;
   private Change.Id changeId;
   private PatchSet.Id revision;
-  private PatchSet.Id idActive;
+  private DiffObject idActive;
   private PatchSetSelectBox other;
 
   PatchSetSelectBox(DiffScreen parent,
       DisplaySide side,
       Change.Id changeId,
-      PatchSet.Id revision,
+      DiffObject diffObject,
       String path) {
     initWidget(uiBinder.createAndBindUi(this));
     icon.setTitle(PatchUtil.C.addFileCommentToolTip());
@@ -83,8 +84,8 @@ class PatchSetSelectBox extends Composite {
     this.side = side;
     this.sideA = side == DisplaySide.A;
     this.changeId = changeId;
-    this.revision = revision;
-    this.idActive = (sideA && revision == null) ? null : revision;
+    this.revision = diffObject.asPatchSetId();
+    this.idActive = diffObject;
     this.path = path;
   }
 
@@ -93,19 +94,22 @@ class PatchSetSelectBox extends Composite {
     InlineHyperlink selectedLink = null;
     if (sideA) {
       if (parents <= 1) {
-        InlineHyperlink link = createLink(PatchUtil.C.patchBase(), null);
+        InlineHyperlink link =
+            createLink(PatchUtil.C.patchBase(), DiffObject.base());
         linkPanel.add(link);
         selectedLink = link;
       } else {
         for (int i = parents; i > 0; i--) {
           PatchSet.Id id = new PatchSet.Id(changeId, -i);
-          InlineHyperlink link = createLink(Util.M.diffBaseParent(i), id);
+          InlineHyperlink link =
+              createLink(Util.M.diffBaseParent(i), DiffObject.patchSet(id));
           linkPanel.add(link);
           if (revision != null && id.equals(revision)) {
             selectedLink = link;
           }
         }
-        InlineHyperlink link = createLink(Util.C.autoMerge(), null);
+        InlineHyperlink link =
+            createLink(Util.C.autoMerge(), DiffObject.autoMerge());
         linkPanel.add(link);
         if (selectedLink == null) {
           selectedLink = link;
@@ -115,7 +119,7 @@ class PatchSetSelectBox extends Composite {
     for (int i = 0; i < list.length(); i++) {
       RevisionInfo r = list.get(i);
       InlineHyperlink link = createLink(r.id(),
-          new PatchSet.Id(changeId, r._number()));
+          DiffObject.patchSet(new PatchSet.Id(changeId, r._number())));
       linkPanel.add(link);
       if (revision != null && r.id().equals(revision.getId())) {
         selectedLink = link;
@@ -131,8 +135,8 @@ class PatchSetSelectBox extends Composite {
     if (!Patch.isMagic(path)) {
       linkPanel.add(createDownloadLink());
     }
-    if (!binary && open && idActive != null && Gerrit.isSignedIn()) {
-      if ((editExists && idActive.get() == 0)
+    if (!binary && open && !idActive.isBaseOrAutoMerge() && Gerrit.isSignedIn()) {
+      if ((editExists && idActive.isEdit())
           || (!editExists && current)) {
         linkPanel.add(createEditIcon());
       }
@@ -172,7 +176,9 @@ class PatchSetSelectBox extends Composite {
   }
 
   private Widget createEditIcon() {
-    PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
+    PatchSet.Id id = idActive.isBaseOrAutoMerge()
+        ? other.idActive.asPatchSetId()
+        : idActive.asPatchSetId();
     Anchor anchor = new Anchor(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()),
         "#" + Dispatcher.toEditScreen(id, path));
@@ -192,27 +198,29 @@ class PatchSetSelectBox extends Composite {
     b.other = a;
   }
 
-  private InlineHyperlink createLink(String label, PatchSet.Id id) {
+  private InlineHyperlink createLink(String label, DiffObject id) {
     assert other != null;
     if (sideA) {
-      assert other.idActive != null;
+      assert !other.idActive.isBaseOrAutoMerge();
     }
-    PatchSet.Id diffBase = sideA ? id : other.idActive;
-    PatchSet.Id revision = sideA ? other.idActive : id;
+    DiffObject diffBase = sideA ? id : other.idActive;
+    DiffObject revision = sideA ? other.idActive : id;
 
     return new InlineHyperlink(label,
         parent.isSideBySide()
-            ? Dispatcher.toSideBySide(diffBase, revision, path)
-            : Dispatcher.toUnified(diffBase, revision, path));
+            ? Dispatcher.toSideBySide(diffBase, revision.asPatchSetId(), path)
+            : Dispatcher.toUnified(diffBase, revision.asPatchSetId(), path));
   }
 
   private Anchor createDownloadLink() {
-    PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
-    String sideURL = (idActive == null) ? "1" : "0";
+    DiffObject diffObject = idActive.isBaseOrAutoMerge()
+        ? other.idActive : idActive;
+    String sideURL = idActive.isBaseOrAutoMerge() ? "1" : "0";
     String base = GWT.getHostPageBaseURL() + "cat/";
     Anchor anchor = new Anchor(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.downloadIcon()),
-        base + KeyUtil.encode(id + "," + path) + "^" + sideURL);
+        base + KeyUtil.encode(diffObject.asPatchSetId() + "," + path) + "^"
+            + sideURL);
     anchor.setTitle(PatchUtil.C.download());
     return anchor;
   }

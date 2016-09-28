@@ -36,7 +36,7 @@ import java.util.Set;
 
 @Singleton
 public class SingleVersionModule extends LifecycleModule {
-  static final String SINGLE_VERSIONS = "LuceneIndexModule/SingleVersions";
+  static final String SINGLE_VERSIONS = "IndexModule/SingleVersions";
 
   private final Map<String, Integer> singleVersions;
 

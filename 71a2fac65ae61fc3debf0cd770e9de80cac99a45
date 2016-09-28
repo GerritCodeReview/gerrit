@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05c97bea_653a8621",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-28T21:17:18Z",
+      "side": 1,
+      "message": "Out of curiosity, does this have to be an HTML file? Can\u0027t it just be a JS file since it just defines a new object on `window.Gerrit`?",
+      "revId": "71a2fac65ae61fc3debf0cd770e9de80cac99a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ceb7f1_68638339",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-28T21:17:18Z",
+      "side": 1,
+      "message": "I think this import is unnecessary.",
+      "revId": "71a2fac65ae61fc3debf0cd770e9de80cac99a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

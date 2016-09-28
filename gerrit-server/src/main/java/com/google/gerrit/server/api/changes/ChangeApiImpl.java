@@ -441,7 +441,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public Set<AccountInfo> getPastAssignees() throws RestApiException {
+  public List<AccountInfo> getPastAssignees() throws RestApiException {
     try {
       return getPastAssignees.apply(change).value();
     } catch (Exception e) {

@@ -30,7 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 @NoHttpd
 public class AssigneeIT extends AbstractDaemonTest {
@@ -73,7 +73,7 @@ public class AssigneeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
     setAssignee(r, admin.email);
-    Set<AccountInfo> assignees = getPastAssignees(r);
+    List<AccountInfo> assignees = getPastAssignees(r);
     assertThat(assignees).hasSize(2);
     Iterator<AccountInfo> itr = assignees.iterator();
     assertThat(itr.next()._accountId).isEqualTo(user.getId().get());
@@ -107,7 +107,7 @@ public class AssigneeIT extends AbstractDaemonTest {
     return gApi.changes().id(r.getChange().getId().get()).getAssignee();
   }
 
-  private Set<AccountInfo> getPastAssignees(PushOneCommit.Result r)
+  private List<AccountInfo> getPastAssignees(PushOneCommit.Result r)
       throws Exception {
     return gApi.changes().id(r.getChange().getId().get()).getPastAssignees();
   }

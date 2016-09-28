@@ -155,7 +155,7 @@ public interface ChangeApi {
   /**
    * Get all past assignees.
   */
-  Set<AccountInfo> getPastAssignees() throws RestApiException;
+  List<AccountInfo> getPastAssignees() throws RestApiException;
 
   /**
    * Delete the assignee of a change.
@@ -361,7 +361,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public Set<AccountInfo> getPastAssignees() throws RestApiException {
+    public List<AccountInfo> getPastAssignees() throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -76,6 +76,31 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void noOptionalFields() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+    RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
+    ReviewInput reviewInput = new ReviewInput();
+    Map<String, List<RobotCommentInput>> robotComments = new HashMap<>();
+    robotComments.put(in.path, Collections.singletonList(in));
+    reviewInput.robotComments = robotComments;
+    reviewInput.message = "comment test";
+    gApi.changes()
+       .id(r.getChangeId())
+       .current()
+       .review(reviewInput);
+
+    Map<String, List<RobotCommentInfo>> out = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .robotComments();
+    assertThat(out).hasSize(1);
+    RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
+    assertRobotComment(comment, in, false);
+  }
+
+  @Test
   public void robotCommentsNotSupported() throws Exception {
     assume().that(notesMigration.enabled()).isFalse();
 
@@ -95,14 +120,22 @@ public class RobotCommentsIT extends AbstractDaemonTest {
        .review(reviewInput);
   }
 
-  private RobotCommentInput createRobotCommentInput() {
+  private RobotCommentInput createRobotCommentInputWithMandatoryFields() {
     RobotCommentInput in = new RobotCommentInput();
     in.robotId = "happyRobot";
     in.robotRunId = "1";
-    in.url = "http://www.happy-robot.com";
     in.line = 1;
     in.message = "nit: trailing whitespace";
     in.path = FILE_NAME;
+    return in;
+  }
+
+  private RobotCommentInput createRobotCommentInput() {
+    RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
+    in.url = "http://www.happy-robot.com";
+    in.properties = new HashMap<>();
+    in.properties.put("key1", "value1");
+    in.properties.put("key2", "value2");
     return in;
   }
 
@@ -116,6 +149,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(c.robotId).isEqualTo(expected.robotId);
     assertThat(c.robotRunId).isEqualTo(expected.robotRunId);
     assertThat(c.url).isEqualTo(expected.url);
+
+    if (expected.properties != null) {
+      assertThat(c.properties)
+          .containsExactlyEntriesIn(expected.properties)
+          .inOrder();
+    } else {
+      assertThat(c.properties).isNull();
+    }
+
     assertThat(c.line).isEqualTo(expected.line);
     assertThat(c.message).isEqualTo(expected.message);
 

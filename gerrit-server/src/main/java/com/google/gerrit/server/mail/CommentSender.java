@@ -139,11 +139,17 @@ public class CommentSender extends ReplyToChangeSender {
   @Override
   public void formatChange() throws EmailException {
     appendText(textTemplate("Comment"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("CommentHtml"));
+    }
   }
 
   @Override
   public void formatFooter() throws EmailException {
     appendText(textTemplate("CommentFooter"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("CommentFooterHtml"));
+    }
   }
 
   /**
@@ -461,6 +467,7 @@ public class CommentSender extends ReplyToChangeSender {
           commentData.put("isRobotComment", true);
           commentData.put("robotId", robotComment.robotId);
           commentData.put("robotRunId", robotComment.robotRunId);
+          commentData.put("robotUrl", robotComment.url);
         } else {
           commentData.put("isRobotComment", false);
         }
@@ -511,5 +518,10 @@ public class CommentSender extends ReplyToChangeSender {
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContext.put("inlineCommentGroups", getCommentGroupsTemplateData());
+  }
+
+  @Override
+  protected boolean supportsHtml() {
+    return true;
   }
 }

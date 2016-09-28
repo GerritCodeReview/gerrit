@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4588d3a4_ff98ff6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-28T00:18:23Z",
+      "side": 1,
+      "message": "encompassed?",
+      "range": {
+        "startLine": 269,
+        "startChar": 60,
+        "endLine": 269,
+        "endChar": 71
+      },
+      "revId": "efb41bc7c12b7a082c824f7351e7354d7640f0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e59627c8_7c8eb92d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Comment.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-28T00:18:23Z",
+      "side": 1,
+      "message": "every",
+      "range": {
+        "startLine": 61,
+        "startChar": 27,
+        "endLine": 61,
+        "endChar": 31
+      },
+      "revId": "efb41bc7c12b7a082c824f7351e7354d7640f0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

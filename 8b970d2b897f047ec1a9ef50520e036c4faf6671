@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_c19e025c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T07:00:46Z",
+      "side": 1,
+      "message": "I meant to put synchronized on the method instead of using a lock object, e.g.:\n\n  public synchronized AccountSshKey addKey(Account.Id accountId, String pub)\n      throws IOException, ConfigInvalidException, InvalidSshKeyException {\n    VersionedAuthorizedKeys authorizedKeys \u003d read(accountId);\n    AccountSshKey key \u003d authorizedKeys.addKey(pub);\n    commit(authorizedKeys);\n    return key;\n  }\n\ninstead of \n\n  public AccountSshKey addKey(Account.Id accountId, String pub)\n      throws IOException, ConfigInvalidException, InvalidSshKeyException {\n    synchronized(lock) {\n      VersionedAuthorizedKeys authorizedKeys \u003d read(accountId);\n      AccountSshKey key \u003d authorizedKeys.addKey(pub);\n      commit(authorizedKeys);\n      return key;\n    }\n  }",
+      "parentUuid": "65831788_a099fa76",
+      "revId": "8b970d2b897f047ec1a9ef50520e036c4faf6671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_8bce4d26",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 2

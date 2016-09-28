@@ -25,6 +25,7 @@ java_library(
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
+    '//gerrit-index:index',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//lib:guava',

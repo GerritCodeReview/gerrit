@@ -140,11 +140,17 @@ public class CommentSender extends ReplyToChangeSender {
   @Override
   public void formatChange() throws EmailException {
     appendText(textTemplate("Comment"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("CommentHtml"));
+    }
   }
 
   @Override
   public void formatFooter() throws EmailException {
     appendText(textTemplate("CommentFooter"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("CommentFooterHtml"));
+    }
   }
 
   /**
@@ -473,6 +479,7 @@ public class CommentSender extends ReplyToChangeSender {
           commentData.put("isRobotComment", true);
           commentData.put("robotId", robotComment.robotId);
           commentData.put("robotRunId", robotComment.robotRunId);
+          commentData.put("robotUrl", robotComment.url);
         } else {
           commentData.put("isRobotComment", false);
         }
@@ -524,5 +531,10 @@ public class CommentSender extends ReplyToChangeSender {
       log.warn(String.format("Side %d of file didn't exist", side), err);
       return "";
     }
+  }
+
+  @Override
+  protected boolean supportsHtml() {
+    return true;
   }
 }

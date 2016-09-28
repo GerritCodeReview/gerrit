@@ -179,6 +179,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final Project.NameKey projectName;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
+  private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final Set<Change.Id> toDelete;
 
   private OpenRepo changeRepo;
@@ -199,6 +200,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.projectName = projectName;
     changeUpdates = ArrayListMultimap.create();
     draftUpdates = ArrayListMultimap.create();
+    robotCommentUpdates = ArrayListMultimap.create();
     toDelete = new HashSet<>();
   }
 
@@ -273,6 +275,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
+        && robotCommentUpdates.isEmpty()
         && toDelete.isEmpty();
   }
 
@@ -293,6 +296,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     ChangeDraftUpdate du = update.getDraftUpdate();
     if (du != null) {
       draftUpdates.put(du.getRefName(), du);
+    }
+    RobotCommentUpdate rcu = update.getRobotCommentUpdate();
+    if (rcu != null) {
+      robotCommentUpdates.put(rcu.getRefName(), rcu);
     }
   }
 
@@ -452,6 +459,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     addUpdates(changeUpdates, changeRepo);
     if (!draftUpdates.isEmpty()) {
       addUpdates(draftUpdates, allUsersRepo);
+    }
+    if (!robotCommentUpdates.isEmpty()) {
+      addUpdates(robotCommentUpdates, changeRepo);
     }
     for (Change.Id id : toDelete) {
       doDelete(id);

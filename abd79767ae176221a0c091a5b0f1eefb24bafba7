@@ -34,6 +34,24 @@
       "revId": "abd79767ae176221a0c091a5b0f1eefb24bafba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ceb7f1_c8cf0f53",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-28T00:07:59Z",
+      "side": 1,
+      "message": "+1 for creating a test suite. This method stands out as particularly testworthy.",
+      "parentUuid": "65ceb7f1_8877d72a",
+      "revId": "abd79767ae176221a0c091a5b0f1eefb24bafba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

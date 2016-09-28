@@ -21,7 +21,7 @@
 
   var TimeFormats = {
     TIME_12: 'h:mm A', // 2:14 PM
-    TIME_24: 'H:mm', // 14:14
+    TIME_24: 'HH:mm', // 14:14
     MONTH_DAY: 'MMM DD', // Aug 29
     MONTH_DAY_YEAR: 'MMM DD, YYYY', // Aug 29, 1997
   };

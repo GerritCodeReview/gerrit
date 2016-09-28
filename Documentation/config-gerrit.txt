@@ -2461,6 +2461,10 @@ values are:
 +
 A link:http://lucene.apache.org/[Lucene] index is used.
 +
++
+* `ELASTICSEARCH`
++
+An link:http://www.elasticsearch.org/[Elasticsearch] index is used.
 
 +
 By default, `LUCENE`.
@@ -2584,6 +2588,43 @@ Sample Lucene index configuration:
   ramBufferSize = 20 m
   maxBufferedDocs = 500
 ----
+
+
+==== Elasticsearch configuration
+
+WARNING: ElasticSearch implementation is incomplete. Right now it is
+still using parts of Lucene index.
+
+Open and closed changes are indexed in a single index, separated
+into types 'open_changes' and 'closed_changes' respectively.
+
+The following settings are only used when the index type is
+`ELASTICSEARCH`.
+
+[[index.protocol]]index.protocol::
++
+Elasticsearch server protocol [http|https].
++
+Defaults to `http`.
+
+[[index.hostname]]index.hostname::
++
+Elasticsearch server hostname.
+
+Defaults to `localhost`.
+
+[[index.port]]index.port::
++
+Elasticsearch server port.
++
+Defauls to `9200`.
+
+[[index.name]]index.name::
++
+This setting can be used to index changes from multiple Gerrit
+instances in a single Elasticsearch cluster.
++
+Defaults to 'gerrit'.
 
 [[ldap]]
 === Section ldap

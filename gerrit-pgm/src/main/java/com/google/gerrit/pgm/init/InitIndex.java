@@ -15,7 +15,8 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.lucene.AbstractLuceneIndex;
+import com.google.common.collect.Sets;
+import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -61,9 +62,17 @@ class InitIndex implements InitStep {
       type = index.select("Type", "type", type);
     }
 
+    if (type == IndexType.ELASTICSEARCH) {
+      index.select("Transport protocol", "protocol", "http",
+          Sets.newHashSet("http", "https"));
+      index.string("Hostname", "hostname", "localhost");
+      index.string("Port", "port", "9200");
+      index.string("Index Name", "name", "gerrit");
+    }
+
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
-        AbstractLuceneIndex.setReady(
+        IndexUtils.setReady(
             site, def.getName(), def.getLatest().getVersion(), true);
       }
     } else {

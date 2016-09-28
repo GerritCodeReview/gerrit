@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.index.GerritIndexStatus;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.Index;

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.lucene.LuceneVersionManager.CHANGES_PREFIX;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
-import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
@@ -27,7 +26,6 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STA
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -35,6 +33,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -317,7 +316,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         throw new OrmException("interrupted");
       }
 
-      final Set<String> fields = fields(opts);
+      final Set<String> fields = IndexUtils.fields(opts);
       return new ChangeDataResults(
           executor.submit(new Callable<List<Document>>() {
             @Override
@@ -403,22 +402,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     public void close() {
       future.cancel(false /* do not interrupt Lucene */);
     }
-  }
-
-  private Set<String> fields(QueryOptions opts) {
-    // Ensure we request enough fields to construct a ChangeData. We need both
-    // change ID and project, which can either come via the Change field or
-    // separate fields.
-    Set<String> fs = opts.fields();
-    if (fs.contains(CHANGE.getName())) {
-      // A Change is always sufficient.
-      return fs;
-    }
-    if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID.getName())) {
-      return fs;
-    }
-    return Sets.union(fs,
-        ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
   }
 
   private static Multimap<String, IndexableField> fields(Document doc,

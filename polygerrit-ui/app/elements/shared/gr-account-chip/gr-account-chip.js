@@ -28,12 +28,20 @@
         type: Boolean,
         reflectToAttribute: true,
       },
+      transparentBackground: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     ready: function() {
       this._getHasAvatars().then(function(hasAvatars) {
         this.showAvatar = hasAvatars;
       }.bind(this));
+    },
+
+    _isTransparent: function(transparent) {
+      return transparent ? 'transparentBackground' : '';
     },
 
     _handleRemoveTap: function(e) {

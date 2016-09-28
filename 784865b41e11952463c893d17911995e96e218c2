@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "65831788_c0027e6d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3913,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Yes, David P. already commented on this in an earlier patch set. I will add an extra documentation page for robot comments and then link from here. Will do this in a later patch set.",
+      "parentUuid": "852d6bd8_09c089f3",
+      "range": {
+        "startLine": 3913,
+        "startChar": 10,
+        "endLine": 3913,
+        "endChar": 21
+      },
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_69c5c503",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RobotCommentInfo.java",
         "patchSetId": 8
@@ -37,6 +61,24 @@
       "writtenOn": "2016-09-27T13:58:00Z",
       "side": 1,
       "message": "Whitespace",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_a1649e46",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RobotCommentInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852d6bd8_69c5c503",
       "revId": "784865b41e11952463c893d17911995e96e218c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_01746af3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_cb621534",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_a9ce9d25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
         "patchSetId": 8
@@ -71,6 +131,24 @@
       "writtenOn": "2016-09-27T13:58:00Z",
       "side": 1,
       "message": "Why do you have these methods that return a new formatter, rather than just two methods for robot and non-robot comments? Maybe the overriding with a subclass is unclear, but you could just give the methods two different names.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_21596e91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "We have 3 format methods per comment type: format a single comment, format a comment list as map, format a comment list as list. I wouldn\u0027t like to duplicate them for the robot comments and end up with 6 methods. Having the CommentFormatter class allows us to implement the 3 formatting methods only once and reuse them for both comment types. In patch set 6 [1] I tried to reuse the formatting methods by making them generic, but it\u0027s not nice, since the formatting methods need to instantiate the correct *CommentInfo types, which is not straight-forward with generic types on methods.\n\n[1] https://gerrit-review.googlesource.com/#/c/87093/6/gerrit-server/src/main/java/com/google/gerrit/server/change/CommentJson.java",
+      "parentUuid": "852d6bd8_a9ce9d25",
       "revId": "784865b41e11952463c893d17911995e96e218c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_41567260",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "No longer needed.",
+      "parentUuid": "c5912363_8b580d8e",
+      "range": {
+        "startLine": 331,
+        "startChar": 17,
+        "endLine": 331,
+        "endChar": 63
+      },
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_89cbd915",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 8
@@ -117,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_21cfae24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852d6bd8_89cbd915",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_4b6f0522",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 8
@@ -128,6 +248,24 @@
       "writtenOn": "2016-09-27T13:58:00Z",
       "side": 1,
       "message": "This can be hoisted out into the top of apply()",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_e0f78270",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_4b6f0522",
       "revId": "784865b41e11952463c893d17911995e96e218c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_41ccb22d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_ab55c954",
+      "range": {
+        "startLine": 569,
+        "startChar": 24,
+        "endLine": 569,
+        "endChar": 41
+      },
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_e9d895ec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 8
@@ -168,6 +330,24 @@
       "writtenOn": "2016-09-27T13:58:00Z",
       "side": 1,
       "message": "If you like streams:\n\n return commentsUtil.robotCommentsByChange(ctx.getNotes()).map(CommentSetEntry::create).collect(toSet())",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_61d9b6ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852d6bd8_e9d895ec",
       "revId": "784865b41e11952463c893d17911995e96e218c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +388,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_c1e602a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "It allows us to reuse RevisionNoteMap and the caching in RevisionNoteBuilder. Are you saying that those shouldn\u0027t be used for robot comments?",
+      "parentUuid": "c5912363_0b4c1dca",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5270749_94f72472",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
         "patchSetId": 8
@@ -236,6 +434,24 @@
       "writtenOn": "2016-09-27T13:58:00Z",
       "side": 1,
       "message": "This seems impossible since comments can only be added and not removed. Although I guess I can see the argument that if we want to write a tool to prune these, it will make the most sense to allow RobotCommentUpdate to delete comments.",
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_403d8e16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RobotCommentUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T11:16:48Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s currently not needed, but I would still just leave it here.",
+      "parentUuid": "c5912363_2b51d962",
       "revId": "784865b41e11952463c893d17911995e96e218c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

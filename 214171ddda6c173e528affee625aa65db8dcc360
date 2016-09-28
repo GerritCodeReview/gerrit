@@ -87,6 +87,24 @@
       "revId": "214171ddda6c173e528affee625aa65db8dcc360",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_e145c69c",
+        "filename": "gerrit-war/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-28T10:27:23Z",
+      "side": 1,
+      "message": "Thanks. I missed that, as Buck only allows one single output in genrule.",
+      "parentUuid": "8582cb80_610c569d",
+      "revId": "214171ddda6c173e528affee625aa65db8dcc360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

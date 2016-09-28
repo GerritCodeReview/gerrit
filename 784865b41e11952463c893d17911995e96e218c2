@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "65831788_e0db02e2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3913,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-28T12:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_c0027e6d",
+      "range": {
+        "startLine": 3913,
+        "startChar": 10,
+        "endLine": 3913,
+        "endChar": 21
+      },
+      "revId": "784865b41e11952463c893d17911995e96e218c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "852d6bd8_69c5c503",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RobotCommentInfo.java",
         "patchSetId": 8

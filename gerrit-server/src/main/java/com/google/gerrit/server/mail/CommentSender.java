@@ -56,7 +56,7 @@ public class CommentSender extends ReplyToChangeSender {
     CommentSender create(Project.NameKey project, Change.Id id);
   }
 
-  private class FileCommentGroup {
+  private class FileCommentGroup implements Comparable<FileCommentGroup> {
     public String filename;
     public int patchSetId;
     public PatchFile fileData;
@@ -95,6 +95,38 @@ public class CommentSender extends ReplyToChangeSender {
       } else {
         return "File " + filename;
       }
+    }
+
+    /**
+     * Sort order should place .h files before their corresponding .cc files.
+     * This comparator adapted from com.google.gerrit.client.info.FileInfo.
+     */
+    public int compareTo(FileCommentGroup o) {
+      if (Patch.COMMIT_MSG.equals(this.filename)) {
+        return -1;
+      } else if (Patch.COMMIT_MSG.equals(o.filename)) {
+        return 1;
+      }
+      if (Patch.MERGE_LIST.equals(this.filename)) {
+        return -1;
+      } else if (Patch.MERGE_LIST.equals(o.filename)) {
+        return 1;
+      }
+
+      int s1 = this.filename.lastIndexOf('.');
+      int s2 = o.filename.lastIndexOf('.');
+      if (s1 > 0 && s2 > 0 &&
+        this.filename.substring(0, s1).equals(o.filename.substring(0, s2))) {
+        String suffixA = this.filename.substring(s1);
+        String suffixB = o.filename.substring(s2);
+        // C++ and C: give priority to header files (.h/.hpp/...)
+        if (suffixA.indexOf(".h") == 0) {
+          return -1;
+        } else if (suffixB.indexOf(".h") == 0) {
+          return 1;
+        }
+      }
+      return this.filename.compareTo(o.filename);
     }
   }
 
@@ -231,6 +263,7 @@ public class CommentSender extends ReplyToChangeSender {
       }
     }
 
+    Collections.sort(groups);
     return groups;
   }
 

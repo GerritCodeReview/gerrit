@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_20b5eac7",
+        "filename": "gerrit-index/src/main/java/com/google/gerrit/index/IndexUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-28T08:34:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b5d743_b072f83a",
+      "revId": "52f603cb1f9c9b13b40c356cd35fc654c79918a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5912363_8b3f2d11",
         "filename": "gerrit-index/src/main/java/com/google/gerrit/index/SingleVersionModule.java",
         "patchSetId": 6
@@ -48,6 +66,30 @@
       "writtenOn": "2016-09-27T14:03:32Z",
       "side": 1,
       "message": "Change this name?",
+      "range": {
+        "startLine": 39,
+        "startChar": 41,
+        "endLine": 39,
+        "endChar": 58
+      },
+      "revId": "52f603cb1f9c9b13b40c356cd35fc654c79918a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_81bcfab2",
+        "filename": "gerrit-index/src/main/java/com/google/gerrit/index/SingleVersionModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-28T08:34:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5912363_8b3f2d11",
       "range": {
         "startLine": 39,
         "startChar": 41,

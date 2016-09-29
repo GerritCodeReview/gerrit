@@ -8,9 +8,9 @@ EXCLUDE = [
 
 maven_jar(
   name = 'sshd',
-  id = 'org.apache.sshd:sshd-core:1.2.0',
-  sha1 = '4bc24a8228ba83dac832680366cf219da71dae8e',
-  src_sha1 = '490e3f03d7628ecf1cbb8317563fdbf06e68e29f',
+  id = 'org.apache.sshd:sshd-core:1.3.0',
+  sha1 = '4ebfcf7de9f66e89e031e556d1478582147a90df',
+  src_sha1 = 'e29a5757f0b4d3b7810025e295d05f66a36f9f78',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = EXCLUDE,
@@ -18,9 +18,9 @@ maven_jar(
 
 maven_jar(
   name = 'core',
-  id = 'org.apache.mina:mina-core:2.0.10',
-  sha1 = 'a1cb1136b104219d6238de886bf5a3ea4554eb58',
-  src_sha1 = 'b70ff94ba379b4e825caca1af4ec83193fac4b10',
+  id = 'org.apache.mina:mina-core:2.0.14',
+  sha1 = 'c03d97749016a90ef3f7a6ac305290648fb86cf1',
+  src_sha1 = '16186f15790a0aa738b35f0f1c10d71265dddccd',
   license = 'Apache2.0',
   exclude = EXCLUDE,
 )

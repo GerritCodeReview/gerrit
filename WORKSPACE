@@ -607,14 +607,14 @@ maven_jar(
 
 maven_jar(
   name = 'sshd',
-  artifact = 'org.apache.sshd:sshd-core:1.2.0',
-  sha1 = '4bc24a8228ba83dac832680366cf219da71dae8e',
+  artifact = 'org.apache.sshd:sshd-core:1.3.0',
+  sha1 = '4ebfcf7de9f66e89e031e556d1478582147a90df,
 )
 
 maven_jar(
   name = 'mina_core',
-  artifact = 'org.apache.mina:mina-core:2.0.10',
-  sha1 = 'a1cb1136b104219d6238de886bf5a3ea4554eb58',
+  artifact = 'org.apache.mina:mina-core:2.0.14',
+  sha1 = 'c03d97749016a90ef3f7a6ac305290648fb86cf1,
 )
 
 maven_jar(

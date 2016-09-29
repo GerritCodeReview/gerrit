@@ -211,13 +211,13 @@
     _computeRevisionActionValues: function(actionsChangeRecord,
         primariesChangeRecord, additionalActionsChangeRecord) {
       return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, ActionType.REVISION);
+          additionalActionsChangeRecord, 'revision');
     },
 
     _computeChangeActionValues: function(actionsChangeRecord,
         primariesChangeRecord, additionalActionsChangeRecord) {
       return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, ActionType.CHANGE);
+          additionalActionsChangeRecord, 'change');
     },
 
     _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
@@ -234,15 +234,6 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
-        if (actions[a].label === 'Delete') {
-          // This label is common within change and revision actions. Make it
-          // more explicit to the user.
-          if (type === ActionType.CHANGE) {
-            actions[a].label += ' Change';
-          } else if (type === ActionType.REVISION) {
-            actions[a].label += ' Revision';
-          }
-        }
         // Triggers a re-render by ensuring object inequality.
         // TODO(andybons): Polyfill for Object.assign.
         result.push(Object.assign({}, actions[a]));
@@ -320,10 +311,6 @@
     },
 
     _handleConfirmDialogCancel: function() {
-      this._hideAllDialogs();
-    },
-
-    _hideAllDialogs: function() {
       var dialogEls =
           Polymer.dom(this.root).querySelectorAll('.confirmDialog');
       for (var i = 0; i < dialogEls.length; i++) {
@@ -347,7 +334,7 @@
         payload.base = el.base;
       }
       this.$.overlay.close();
-      el.hidden = true;
+      el.hidden = false;
       this._fireAction('/rebase', this._revisionActions.rebase, true, payload);
     },
 
@@ -363,7 +350,7 @@
         return;
       }
       this.$.overlay.close();
-      el.hidden = true;
+      el.hidden = false;
       this._fireAction(
           '/cherrypick',
           this._revisionActions.cherrypick,
@@ -378,7 +365,7 @@
     _handleRevertDialogConfirm: function() {
       var el = this.$.confirmRevertDialog;
       this.$.overlay.close();
-      el.hidden = true;
+      el.hidden = false;
       this._fireAction('/revert', this.actions.revert, false,
           {message: el.message});
     },
@@ -386,7 +373,7 @@
     _handleAbandonDialogConfirm: function() {
       var el = this.$.confirmAbandonDialog;
       this.$.overlay.close();
-      el.hidden = true;
+      el.hidden = false;
       this._fireAction('/abandon', this.actions.abandon, false,
           {message: el.message});
     },
@@ -409,8 +396,6 @@
     },
 
     _showActionDialog: function(dialog) {
-      this._hideAllDialogs();
-
       dialog.hidden = false;
       this.$.overlay.open().then(function() {
         if (dialog.resetFocus) {
@@ -419,10 +404,20 @@
       });
     },
 
+    _setLabelValuesPostRevert: function(new_change_id) {
+      var labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
+      if (labels) {
+        var url = '/changes/' + new_change_id + '/revisions/current/review';
+        this.$.restAPI.send(this.actions.revert.method, url, {labels: labels})
+            .then(this._handleResponseError.bind(this));
+      }
+    },
+
     _handleResponse: function(action, response) {
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
         switch (action.__key) {
           case ChangeActions.REVERT:
+            this._setLabelValuesPostRevert(obj.change_id);
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;

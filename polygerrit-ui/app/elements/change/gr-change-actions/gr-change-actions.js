@@ -419,10 +419,22 @@
       });
     },
 
+    // TODO(rmistry): Redo this after
+    // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
+    _setLabelValuesOnRevert: function(newChangeId) {
+      var labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
+      if (labels) {
+        var url = '/changes/' + newChangeId + '/revisions/current/review';
+        this.$.restAPI.send(this.actions.revert.method, url, {labels: labels});
+      }
+    },
+
     _handleResponse: function(action, response) {
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
         switch (action.__key) {
           case ChangeActions.REVERT:
+            this._setLabelValuesOnRevert(obj.change_id);
+            // Fall through.
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;

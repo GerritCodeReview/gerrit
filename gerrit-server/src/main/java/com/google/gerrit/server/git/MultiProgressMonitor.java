@@ -96,6 +96,29 @@ public class MultiProgressMonitor {
       }
     }
 
+    synchronized void format(StringBuilder s) {
+      if (count == 0) {
+        return;
+      }
+
+      if (s.length() > 0) {
+        s.append(',');
+      }
+      s.append(' ');
+
+      if (!Strings.isNullOrEmpty(name)) {
+        s.append(name).append(": ");
+      }
+
+      if (total == UNKNOWN) {
+        s.append(count);
+      } else {
+        s.append(String.format("%d%% (%d/%d)",
+            count * 100 / total,
+            count, total));
+      }
+    }
+
     /**
      * Indicate that this sub-task is finished.
      * <p>
@@ -317,30 +340,8 @@ public class MultiProgressMonitor {
         .append(':');
 
     if (!tasks.isEmpty()) {
-      boolean first = true;
       for (Task t : tasks) {
-        int count = t.count;
-        if (count == 0) {
-          continue;
-        }
-
-        if (!first) {
-          s.append(',');
-        } else {
-          first = false;
-        }
-
-        s.append(' ');
-        if (!Strings.isNullOrEmpty(t.name)) {
-          s.append(t.name).append(": ");
-        }
-        if (t.total == UNKNOWN) {
-          s.append(count);
-        } else {
-          s.append(String.format("%d%% (%d/%d)",
-              count * 100 / t.total,
-              count, t.total));
-        }
+        t.format(s);
       }
     }
 

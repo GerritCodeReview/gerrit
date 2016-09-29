@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_01770a92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-29T06:39:47Z",
+      "side": 1,
+      "message": "I\u0027m seeing dramatic performance degradation during unit test execution. After 10 minutes or something, some tests are failing with \"GC overhead limit exceeded\": [1].\n\n* [1] http://paste.openstack.org/show/583414",
+      "revId": "f48360cb3b1d3e2f2252f284a52d296bd9d46ad9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

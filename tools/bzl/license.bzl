@@ -2,7 +2,7 @@
 def normalize_target_name(target):
   return target.replace("//", "").replace("/", "__").replace(":", "___")
 
-def license_map(name, targets = [], opts = []):
+def license_map(name, targets = [], opts = [], **kwargs):
   """Generate XML for all targets that depend directly on a LICENSE file"""
   xmls = []
   tools = [ "//tools/bzl:license-map.py", "//lib:all-licenses" ]
@@ -28,7 +28,8 @@ def license_map(name, targets = [], opts = []):
     name = "gen_license_txt_" + name,
     cmd = "python $(location //tools/bzl:license-map.py) %s %s > $@" % (" ".join(opts), " ".join(xmls)),
     outs = [ name + ".txt" ],
-    tools = tools
+    tools = tools,
+    **kwargs
   )
 
 def license_test(name, target):

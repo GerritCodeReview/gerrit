@@ -16,6 +16,24 @@
       "revId": "9d1cee6806419047f7778acd0b8c614f8603acfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c97bea_a5e11e90",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-29T21:19:36Z",
+      "side": 1,
+      "message": "Ah, okay. I just copied the boilerplate from change-list-item.",
+      "parentUuid": "65ceb7f1_48603f2b",
+      "revId": "9d1cee6806419047f7778acd0b8c614f8603acfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

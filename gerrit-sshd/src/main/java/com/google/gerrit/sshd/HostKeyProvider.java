@@ -23,9 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.sshd.common.keyprovider.AbstractFileKeyPairProvider;
+import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 class HostKeyProvider implements Provider<KeyPairProvider> {
@@ -72,7 +72,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
               + stdKeys
               + "");
     }
-    AbstractFileKeyPairProvider kp = SecurityUtils.createFileKeyPairProvider();
+    FileKeyPairProvider kp = new FileKeyPairProvider();
     kp.setFiles(stdKeys);
     return kp;
   }

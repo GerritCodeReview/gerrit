@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "05a09b08_2d218dba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-09-29T15:08:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_00cc667e",
+      "revId": "03b5b1b0e56509df5e7f20fbc3022ac4c4aaf611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_c1c1a24a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 8
@@ -72,6 +90,24 @@
         "endLine": 424,
         "endChar": 51
       },
+      "revId": "03b5b1b0e56509df5e7f20fbc3022ac4c4aaf611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05a09b08_0d1e5180",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-09-29T15:08:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_c1c1a24a",
       "revId": "03b5b1b0e56509df5e7f20fbc3022ac4c4aaf611",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

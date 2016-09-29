@@ -17,6 +17,24 @@
       "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a237c5d9_7272183f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-29T04:39:09Z",
+      "side": 1,
+      "message": "To put it another way: I prefer PS3 over PS4.\n\nI think dborowitz\u0027s question was about the commit message.",
+      "parentUuid": "65ceb7f1_e892d305",
+      "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

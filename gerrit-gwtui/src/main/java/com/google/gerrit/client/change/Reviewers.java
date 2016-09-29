@@ -198,7 +198,7 @@ public class Reviewers extends Composite {
         });
   }
 
-  private void updateReviewerList() {
+  void updateReviewerList() {
     ChangeApi.detail(changeId.get(),
         new GerritCallback<ChangeInfo>() {
           @Override

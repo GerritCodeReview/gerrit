@@ -35,6 +35,42 @@
       "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a237c5d9_d282e401",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-29T17:50:50Z",
+      "side": 1,
+      "message": "I reworded the commit message to reflect that.",
+      "parentUuid": "a237c5d9_7272183f",
+      "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a237c5d9_729b386d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-29T17:50:50Z",
+      "side": 1,
+      "message": "At first I was convinced (A) is preferrable as well. However for testing we really want to go with (B) as rewriting that to another format where we\u0027d not have as easy to use classes such as the ZipEntry, ZipFile.\n\nFixed the condition above to go with true (B) now.\n\nAlso fixed the tar/tgz confusion.",
+      "parentUuid": "65ceb7f1_e892d305",
+      "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

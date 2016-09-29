@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c246796b_e3ae3282",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T19:44:38Z",
+      "side": 1,
+      "message": "Yeah, this *is* passed as structured data, but this method constructs it the old way for legacy VTL support.\n\nSpecifically, it\u0027s constructed on l.48 of the template.",
+      "parentUuid": "65831788_e0c6a25f",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_60e452f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 6
@@ -30,6 +48,41 @@
       "writtenOn": "2016-09-29T15:03:51Z",
       "side": 1,
       "message": "Catching Throwable is usually an antipattern. What are you actually worried about here?",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_e0ae6282",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T19:44:38Z",
+      "side": 1,
+      "message": "Agree. I probably should have commented on this at least.\n\nThis is only here to match the existing uses of `PatchFile#getLine`. Of \ncourse, catching Throwable is unpleasant because if you want to fix it, it\u0027s \nnot so easy to know the total set of throwable types that *were* being \ncaught.\n\nHere\u0027s how I fixed it.\n\n`PatchFile#getData` actually declares two checked exceptions:\n\n* `NoSuchEntityException`: called when `side` is not 0 or 1 (because side is \n  a short rather than an enum).\n* `IOException`: a generalization of the checked exceptions declared at \n  `PatchFile#load`, which are `MissingObjectException`, \n  `IncorrectObjectTypeException`, `CorruptObjectException`, and \n  `IOException`. (The first three of which are all subtypes of \n  `IOException`, so I suspect this is a bit redundant.)\n\nI have moved the call to `PatchFile#getLine` into a method to encapsulate \nthe try/catch (and the default), and rewrote the `catch (Throwable...` into \ncatches for `IOException` and `NoSuchEntityException`.\n\nTesting this showed that there was a hidden runtime exception that Throwable \nwas swallowing! Namely `ArrayIndexOutOfBoundsException` when the tests try \nto get a line that doesn\u0027t exist in the test file data. An additional catch \nis added for this one.",
+      "parentUuid": "65831788_60e452f8",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c246796b_63c00227",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T19:44:38Z",
+      "side": 1,
+      "message": "Fixed this one too.",
       "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "c246796b_6372423f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T19:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_80e156e9",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_a0bc9ad9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 6
@@ -70,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "c246796b_83a53e9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T19:44:38Z",
+      "side": 1,
+      "message": "Fixed! See above.",
+      "parentUuid": "65831788_a0bc9ad9",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_e0cf827b",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Comment.soy",
         "patchSetId": 6
@@ -81,6 +170,24 @@
       "writtenOn": "2016-09-29T15:03:51Z",
       "side": 1,
       "message": "Wat.\n\nIt\u0027s clever, I\u0027ll grant you, but wouldn\u0027t it be easier to do the formatting in java and just pass in the prefix.",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c246796b_43c50635",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Comment.soy",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T19:44:38Z",
+      "side": 1,
+      "message": "It definitely would be easier in Java, but I had done it this way to keep the formatting in the template. For example, if a Gerrit admin wishes to change this format, they need only do it in Soy.\n\nOTOH, yes, this is cumbersome. I have moved this back into Java. If a Gerrit admin really wishes to change this, they can use the approach in this patch.",
+      "parentUuid": "65831788_e0cf827b",
       "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

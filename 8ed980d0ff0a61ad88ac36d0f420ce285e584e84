@@ -71,6 +71,24 @@
       "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_6072523f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-29T18:42:21Z",
+      "side": 1,
+      "message": "This feels like making the production behavior worse just to support tests.\n\nBut I don\u0027t care enough to delay it longer. At least this way I can always use ?format\u003dtgz.",
+      "parentUuid": "a237c5d9_d282e401",
+      "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -174,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "c246796b_83badeb3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-29T21:14:04Z",
+      "side": 1,
+      "message": "I spoke with him extensively for most of this morning. We were able to mostly fix it by creating a computed property \u0027_shownFiles\u0027, but the ideal Polymer solution of using linkPaths to automagically manage the reflection between the two arrays is very slow and fails unit tests (even when using flushAsynchronousOperations) so we manage the two relationships independently.",
+      "parentUuid": "65831788_c04fde34",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_61f0d656",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -227,6 +245,24 @@
       "side": 1,
       "message": "You can mark the property as readonly: https://www.polymer-project.org/1.0/docs/devguide/properties#read-only",
       "parentUuid": "65ceb7f1_68354345",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65ceb7f1_28a4eb50",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-29T21:14:04Z",
+      "side": 1,
+      "message": "Awesome, thanks.",
+      "parentUuid": "8582cb80_c1760267",
       "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

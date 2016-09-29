@@ -34,6 +34,24 @@
       "revId": "2c55373946a16c508e76c50b81b5e910a3fccf65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_60ca929b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-29T10:31:31Z",
+      "side": 0,
+      "message": "Let’s do that, then (separate draft from quote).",
+      "parentUuid": "05c97bea_658726c1",
+      "revId": "2c55373946a16c508e76c50b81b5e910a3fccf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

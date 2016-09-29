@@ -63,13 +63,23 @@
         type: Number,
         value: null,
       },
+
+      /**
+       * The scroll behavior for the cursor. Values are 'never', 'always' and
+       * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
+       * the viewport.
+       */
+      scrollBehavior: {
+        type: String,
+        value: 'keep-visible'
+      },
+      _isScrolling: Boolean,
     },
 
     observers: [
       '_updateSideClass(side)',
       '_diffsChanged(diffs.splices)',
     ],
-
     moveLeft: function() {
       this.side = DiffSides.LEFT;
       if (this._isTargetBlank()) {
@@ -169,12 +179,23 @@
       }
     },
 
+    _handleWindowScroll: function() {
+      this._isScrolling = true;
+    },
+
     handleDiffUpdate: function() {
       this._updateStops();
 
       if (!this.diffRow) {
+        if (this._isScrolling === true) {
+          this.scrollBehavior = 'never';
+        }
         this.reInitCursor();
+        this.scrollBehavior = 'keep-visible';
       }
+      // Once diffs are loaded, no longer need to listen for scroll events
+      this.unlisten(window, 'scroll', '_handleWindowScroll');
+      this._isScrolling = false;
     },
 
     /**
@@ -320,6 +341,8 @@
         for (i = splice.index;
             i < splice.index + splice.addedCount;
             i++) {
+          // catch when users are scrolling as the view loads
+          this.listen(window, 'scroll', '_handleWindowScroll');
           this.listen(this.diffs[i], 'render', 'handleDiffUpdate');
         }
 

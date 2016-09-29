@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_80f076ee",
+        "filename": "WORKSPACE",
+        "patchSetId": 12
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_6102961a",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_40058e1f",
         "filename": "lib/fonts/BUILD",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-28T20:50:36Z",
       "side": 1,
       "message": "Add TODO, and/or mention in the commit message.",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_0171ca6c",
+        "filename": "lib/fonts/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_40058e1f",
       "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_61ca969b",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "the test components are not part of polygerrit-ui:components from which this was generated.",
+      "parentUuid": "8582cb80_01138a72",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_00138672",
         "filename": "lib/js/bower_components.bzl",
         "patchSetId": 12
@@ -70,6 +124,24 @@
         "endLine": 6,
         "endChar": 22
       },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_005aa6f6",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_00138672",
       "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_81c79a8e",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_20088a3a",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_e10dc64d",
         "filename": "lib/js/bower_components.bzl",
         "patchSetId": 12
@@ -145,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_4183d23d",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_e10dc64d",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_4105921f",
         "filename": "polygerrit-ui/BUILD",
         "patchSetId": 12
@@ -156,6 +264,24 @@
       "writtenOn": "2016-09-28T20:50:36Z",
       "side": 1,
       "message": "Make it //visibility:public to allow to use it in Documentation:licenses.txt rule. Actually \u0027//polygerrit-ui/app:polygerrit_ui\u0027 should be used there to generate the licenses, but may be this can be an intermediate step. if I add it here:\n\n  visibility \u003d [\u0027//visibility:public\u0027],\n\nand add this line to the \"//polygerrit-ui:components\" to the\n\n  license_map(\n    name \u003d \"licenses\",\n    targets \u003d [\n      \"//gerrit-pgm:pgm\",\n      \"//gerrit-gwtui:ui_module\",\n      \"//polygerrit-ui:components\",\n    ],\n    opts \u003d [\"--asciidoctor\"],\n  )\n\nrule, it\u0027s failing with errorneously tracked licenses:\n\n  DO_NOT_DISTRIBUTE license found in:\n  //lib/js:moment\n  //lib/js:fetch\n\nWhen I fix the licenses for fetch and moment and re-run bazel build Documentation:licenses.txt, I\u0027m getting correct license tracking: [1] ;)\n\n[1] http://paste.openstack.org/show/583383",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_2186ce4e",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "We should get the licenses automatically once the .war (or whatever we use for packaging) starts depending on the polygerrit js files.",
+      "parentUuid": "8582cb80_4105921f",
       "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -179,6 +305,24 @@
         "endLine": 26,
         "endChar": 13
       },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_e054e2cb",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_6002921a",
       "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -231,6 +375,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_c0e0be1b",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_411e7281",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_21088e3a",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 12
@@ -248,6 +410,24 @@
         "endLine": 206,
         "endChar": 38
       },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_a14ade25",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "the license checking isn\u0027t done yet. Next CL?",
+      "parentUuid": "8582cb80_21088e3a",
       "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -288,6 +468,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_c14fe234",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "bower.json files provide licenses, and some of them are BSD/MIT. \n\nThe buck toolchain relies on people to enter licenses by hand.",
+      "parentUuid": "8582cb80_81287a9d",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_a013ba73",
         "filename": "tools/js/bower2bazel.py",
         "patchSetId": 12
@@ -305,6 +503,24 @@
         "endLine": 52,
         "endChar": 29
       },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_015aaaf6",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_a013ba73",
       "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -334,6 +550,24 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_e154e6cb",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_c018be92",
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_a113be73",
         "filename": "tools/js/bower2bazel.py",
         "patchSetId": 12
@@ -351,6 +585,24 @@
         "endLine": 200,
         "endChar": 42
       },
+      "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_215faee6",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T11:06:24Z",
+      "side": 1,
+      "message": "because 1. automating is better than busywork\n\n2. because the .bzl files are generated, and having hand-edits there is problematic.",
+      "parentUuid": "8582cb80_a113be73",
       "revId": "aaaa07f82d1edf49eac8faacc24a7ac68121efed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

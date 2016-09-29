@@ -175,6 +175,30 @@
       "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_81f07aee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-29T08:30:59Z",
+      "side": 1,
+      "message": "Ahhh, I am just being stupid this morning and misread the topic. You are right here.\n\nWe still have null somewhere in there. Here is the trace:\n\nClass$S102\n\tat Unknown.Throwable(gerrit_ui-0.js)\n\tat Unknown.Exception(gerrit_ui-0.js)\n\tat Unknown.RuntimeException(gerrit_ui-0.js)\n\tat Unknown.JsException(gerrit_ui-0.js)\n\tat Unknown.NullPointerException(gerrit_ui-0.js)\n\tat Unknown.checkCriticalNotNull(gerrit_ui-0.js)\n\tat Unknown.checkNotNull(gerrit_ui-0.js)\n\tat Unknown.$equals_3(gerrit_ui-0.js)\n\tat Unknown.equals_Ljava_lang_Object__Z__devirtual$_1(gerrit_ui-0.js)\n\tat Unknown.formatLink(gerrit_ui-0.js)",
+      "parentUuid": "65831788_c0f99ee1",
+      "range": {
+        "startLine": 179,
+        "startChar": 10,
+        "endLine": 179,
+        "endChar": 32
+      },
+      "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

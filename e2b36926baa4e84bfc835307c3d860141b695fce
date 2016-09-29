@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_81b87adf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-29T15:12:15Z",
+      "side": 1,
+      "message": "add a comment that you’re purposefully falling through, here.",
+      "revId": "e2b36926baa4e84bfc835307c3d860141b695fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

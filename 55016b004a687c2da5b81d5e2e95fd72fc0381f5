@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8582cb80_01046aed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-29T08:25:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_20a24af7",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_81995ad0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-09-29T08:19:55Z",
       "side": 1,
       "message": "Can you factor this out into something like boolean sameEmail(@Nullable AccountInfo a, @Nullable AccountInfo b)",
+      "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_c1f9a2e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-29T08:25:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_81995ad0",
       "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

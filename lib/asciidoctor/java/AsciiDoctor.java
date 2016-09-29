@@ -24,7 +24,6 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,6 +40,7 @@ public class AsciiDoctor {
 
   private static final String DOCTYPE = "article";
   private static final String ERUBY = "erb";
+  private static final String REVNUMBER_NAME = "revnumber";
 
   @Option(name = "-b", usage = "set output format backend")
   private String backend = "html5";
@@ -64,6 +64,13 @@ public class AsciiDoctor {
       "a list of attributes, in the form key or key=value pair")
   private List<String> attributes = new ArrayList<>();
 
+  @Option(name = "--bazel", usage =
+      "bazel mode: generate multiple output files instead of a single zip file")
+  private boolean bazel;
+
+  @Option(name = "--revnumber", usage = "the revnumber string")
+  private String revnumber;
+
   @Argument(usage = "input files")
   private List<String> inputFiles = new ArrayList<>();
 
@@ -82,19 +89,26 @@ public class AsciiDoctor {
     return basename + outExt;
   }
 
-  private Options createOptions(File outputFile) {
+  private Options createOptions(File base, File outputFile) {
     OptionsBuilder optionsBuilder = OptionsBuilder.options();
 
-    optionsBuilder.backend(backend).docType(DOCTYPE).eruby(ERUBY)
-      .safe(SafeMode.UNSAFE).baseDir(basedir);
-    // XXX(fishywang): ideally we should just output to a string and add the
-    // content into zip. But asciidoctor will actually ignore all attributes if
-    // not output to a file. So we *have* to output to a file then read the
-    // content of the file into zip.
-    optionsBuilder.toFile(outputFile);
+    optionsBuilder
+        .backend(backend)
+        .docType(DOCTYPE)
+        .eruby(ERUBY)
+        .safe(SafeMode.UNSAFE)
+        .baseDir(base)
+        // XXX(fishywang): ideally we should just output to a string and add the
+        // content into zip. But asciidoctor will actually ignore all attributes
+        // if not output to a file. So we *have* to output to a file then read
+        // the content of the file into zip.
+        .toFile(outputFile);
 
     AttributesBuilder attributesBuilder = AttributesBuilder.attributes();
     attributesBuilder.attributes(getAttributes());
+    if (revnumber != null) {
+      attributesBuilder.attribute(REVNUMBER_NAME, revnumber);
+    }
     optionsBuilder.attributes(attributesBuilder.get());
 
     return optionsBuilder.get();
@@ -133,31 +147,41 @@ public class AsciiDoctor {
       return;
     }
 
-    try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile))) {
-      for (String inputFile : inputFiles) {
-        if (!inputFile.endsWith(inExt)) {
-          // We have to use UNSAFE mode in order to make embedding work. But in
-          // UNSAFE mode we'll also need css file in the same directory, so we
-          // have to add css files into the SRCS.
-          continue;
-        }
+    if (bazel) {
+      renderFiles(inputFiles, null);
+    } else {
+      try (ZipOutputStream zip =
+          new ZipOutputStream(new FileOutputStream(zipFile))) {
+        renderFiles(inputFiles, zip);
 
-        String outName = mapInFileToOutFile(inputFile, inExt, outExt);
-        File out = new File(tmpdir, outName);
-        out.getParentFile().mkdirs();
-        Options options = createOptions(out);
-        renderInput(options, new File(inputFile));
-        zipFile(out, outName, zip);
+        File[] cssFiles = tmpdir.listFiles(new FilenameFilter() {
+          @Override
+          public boolean accept(File dir, String name) {
+            return name.endsWith(".css");
+          }
+        });
+        for (File css : cssFiles) {
+          zipFile(css, css.getName(), zip);
+        }
       }
+    }
+  }
 
-      File[] cssFiles = tmpdir.listFiles(new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-          return name.endsWith(".css");
-        }
-      });
-      for (File css : cssFiles) {
-        zipFile(css, css.getName(), zip);
+  private void renderFiles(List<String> inputFiles, ZipOutputStream zip)
+      throws IOException {
+    Asciidoctor asciidoctor = JRubyAsciidoctor.create();
+    for (String inputFile : inputFiles) {
+      String outName = mapInFileToOutFile(inputFile, inExt, outExt);
+      File out = bazel ? new File(outName) : new File(tmpdir, outName);
+      if (!bazel) {
+        out.getParentFile().mkdirs();
+      }
+      File input = new File(inputFile);
+      Options options =
+          createOptions(bazel ? input.getParentFile() : basedir, out);
+      asciidoctor.renderFile(input, options);
+      if (zip != null) {
+        zipFile(out, outName, zip);
       }
     }
   }
@@ -169,11 +193,6 @@ public class AsciiDoctor {
       ByteStreams.copy(input, zip);
     }
     zip.closeEntry();
-  }
-
-  private void renderInput(Options options, File inputFile) {
-    Asciidoctor asciidoctor = JRubyAsciidoctor.create();
-    asciidoctor.renderFile(inputFile, options);
   }
 
   public static void main(String[] args) {

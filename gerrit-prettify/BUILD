@@ -33,3 +33,19 @@ java_library(
   ],
   visibility = ['//visibility:public'],
 )
+
+genrule(
+  name = 'min-js',
+  srcs = ['src/main/resources/com/google/gerrit/prettify/client/prettify.js'],
+  cmd = 'cp $(SRCS) $@',
+  outs = ['prettify.min.js'],
+  visibility = ['//visibility:public'],
+)
+
+genrule(
+  name = 'min-css',
+  srcs = ['src/main/resources/com/google/gerrit/prettify/client/prettify.css'],
+  cmd = 'cp $(SRCS) $@',
+  outs = ['prettify.min.css'],
+  visibility = ['//visibility:public'],
+)

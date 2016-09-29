@@ -419,10 +419,19 @@
       });
     },
 
+    _setLabelValuesOnRevert: function(new_change_id) {
+      var labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
+      if (labels) {
+        var url = '/changes/' + new_change_id + '/revisions/current/review';
+        this.$.restAPI.send(this.actions.revert.method, url, {labels: labels});
+      }
+    },
+
     _handleResponse: function(action, response) {
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
         switch (action.__key) {
           case ChangeActions.REVERT:
+            this._setLabelValuesOnRevert(obj.change_id);
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;

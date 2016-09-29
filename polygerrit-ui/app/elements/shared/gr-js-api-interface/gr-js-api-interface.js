@@ -21,6 +21,7 @@
     SUBMIT_CHANGE: 'submitchange',
     COMMENT: 'comment',
     REVERT: 'revert',
+    POST_REVERT: 'postrevert',
   };
 
   var Element = {
@@ -158,6 +159,20 @@
         }
       });
       return msg;
+    },
+
+    getLabelValuesPostRevert: function(change) {
+      var labels = {};
+      this._getEventCallbacks(EventType.POST_REVERT).forEach(
+          function(callback) {
+            try {
+              labels = callback(change);
+            } catch (err) {
+              console.error(err);
+            }
+          }
+      );
+      return labels;
     },
 
     _getEventCallbacks: function(type) {

@@ -151,7 +151,7 @@ public class Assignee extends Composite {
             @Override
             public void onSuccess(AccountInfo result) {
               onCloseForm();
-              assigneeLink.setText(result.name());
+              assigneeLink.setText(getName(result));
             }
 
             @Override
@@ -167,5 +167,15 @@ public class Assignee extends Composite {
             }
           });
     }
+  }
+
+  private String getName(AccountInfo info) {
+    if (info.name() != null) {
+      return info.name();
+    }
+    if (info.email() != null) {
+      return info.email();
+    }
+    return "";
   }
 }

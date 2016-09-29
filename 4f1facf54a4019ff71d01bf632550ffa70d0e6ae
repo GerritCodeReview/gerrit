@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65831788_e0c6a25f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T15:03:51Z",
+      "side": 1,
+      "message": "Seems like this might end up as structured data as well? For example in an HTML email you could have separate links to the patch set and the comment line.\n\nBut you don\u0027t have to do that now, incremental cleanup later is fine.",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_60e452f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T15:03:51Z",
+      "side": 1,
+      "message": "Catching Throwable is usually an antipattern. What are you actually worried about here?",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_80e156e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T15:03:51Z",
+      "side": 1,
+      "message": "Nit: unnecessary finals.",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_a0bc9ad9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T15:03:51Z",
+      "side": 1,
+      "message": "I see you weren\u0027t the first to catch Throwable here. Sigh.",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_e0cf827b",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Comment.soy",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T15:03:51Z",
+      "side": 1,
+      "message": "Wat.\n\nIt\u0027s clever, I\u0027ll grant you, but wouldn\u0027t it be easier to do the formatting in java and just pass in the prefix.",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

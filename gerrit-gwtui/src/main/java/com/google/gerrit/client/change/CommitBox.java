@@ -25,6 +25,7 @@ import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -174,7 +175,7 @@ class CommitBox extends Composite {
     // no avatar plugin is installed
     if (change.owner().hasAvatarInfo()) {
       AvatarImage avatar;
-      if (change.owner().email().equals(person.email())) {
+      if (sameEmail(change.owner(), person)) {
         avatar = new AvatarImage(change.owner());
       } else {
         avatar = new AvatarImage(
@@ -201,5 +202,12 @@ class CommitBox extends Composite {
     } else {
       return "";
     }
+  }
+
+  private static boolean sameEmail(
+      @Nullable AccountInfo p1, @Nullable GitPerson p2) {
+    return p1 != null && p2 != null &&
+        p1.email() != null && p2.email() != null &&
+        p1.email().equals(p2.email());
   }
 }

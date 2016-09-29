@@ -18,7 +18,7 @@ def prolog_cafe_library(
     name,
     srcs,
     deps = [],
-    visibility = []):
+    **kwargs):
   genrule2(
     name = name + '__pl2j',
     cmd = '$(location //lib/prolog:compiler_bin) ' +
@@ -32,5 +32,5 @@ def prolog_cafe_library(
     name = name,
     srcs = [':' + name + '__pl2j'],
     deps = ['//lib/prolog:runtime'] + deps,
-    visibility = visibility,
+    **kwargs,
   )

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -26,6 +26,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 public class GetPastAssignees implements RestReadView<ChangeResource> {
@@ -37,19 +38,19 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<Set<AccountInfo>> apply(ChangeResource rsrc)
+  public Response<List<AccountInfo>> apply(ChangeResource rsrc)
       throws OrmException {
 
     Set<Account.Id> pastAssignees =
         rsrc.getControl().getNotes().load().getPastAssignees();
     if (pastAssignees == null) {
-      return Response.ok(Collections.emptySet());
+      return Response.ok(Collections.emptyList());
     }
     AccountInfoCacheFactory accountInfoFactory = accountInfos.create();
 
     return Response.ok(pastAssignees.stream()
         .map(accountInfoFactory::get)
         .map(AccountJson::toAccountInfo)
-        .collect(toSet()));
+        .collect(toList()));
   }
 }

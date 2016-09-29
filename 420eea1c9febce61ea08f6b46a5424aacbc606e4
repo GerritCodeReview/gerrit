@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "65831788_602e1243",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3870,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "better: \"when adding members to a group.\"\n\nOtherwise it\u0027s confusing because all accounts can be added to a group.",
+      "range": {
+        "startLine": 3870,
+        "startChar": 29,
+        "endLine": 3870,
+        "endChar": 57
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_c0443e03",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 6
@@ -64,6 +87,126 @@
       "writtenOn": "2016-09-29T14:29:12Z",
       "side": 1,
       "message": "Nit: createChangeFromApi",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_610d36e0",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "Put a comment why using a timer is needed here.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_802b1630",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "nit: usage of final not needed here",
+      "range": {
+        "startLine": 72,
+        "startChar": 40,
+        "endLine": 72,
+        "endChar": 64
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_a0ee5ae5",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "Why not support a null query as well and remove this comment?",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 21
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_810a3ac7",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "Can there be more than 1 outstanding request for which we need to ignore the response?",
+      "range": {
+        "startLine": 111,
+        "startChar": 7,
+        "endLine": 113,
+        "endChar": 41
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_e0f862ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_e1cf867b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "nit: unused import",
       "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -229,6 +372,29 @@
       "writtenOn": "2016-09-29T14:29:12Z",
       "side": 1,
       "message": "Nit: \u003cp\u003e between paragraphs",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_00fe2696",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T14:36:48Z",
+      "side": 1,
+      "message": "Document this new extension point in dev-plugins.txt",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 35
+      },
       "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

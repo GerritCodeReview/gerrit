@@ -1,0 +1,237 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65831788_c0443e03",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Stray blank line.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_e0394290",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Optional: Lists.transform will be shorter here.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_612e1643",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Extra blank line",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_812b1a30",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Nit: createChangeFromApi",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_a1ee5ee5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "This is adding a lot of extra code to ReviewersUtil, I\u0027m thinking the new suggestion stuff probably belongs in its own class.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_40310ea2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Often we will do config lookups in the constructor and store the result in a variable. This keeps definitions in one place and has a marginal performance benefit.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_e1f866ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "A DynamicSet can change size at any time. If you really need to iterate it multiple times, copy the results into a list first.\n\nI think in this case using new ArrayList\u003c\u003e() with the default size will be cleaner.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_01fe2a96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "If the server is loaded this is quite likely going to skip a bunch of futures, since none of them will have finished. Generally speaking you just want to call f.get() and block, not explicitly check for doneness.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_21032eb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Why bound the score at 10? If there is a good reason for it, at least this should be documented in the extension point javadoc.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_410032a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Don\u0027t use bare Id types, do Account.Id",
+      "range": {
+        "startLine": 222,
+        "startChar": 17,
+        "endLine": 222,
+        "endChar": 19
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_a1d57e11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "No need to parse a string query here, either create an OwnerPredicate manually or add a byOwnerSelf method to InternalChangeQuery",
+      "range": {
+        "startLine": 339,
+        "startChar": 17,
+        "endLine": 339,
+        "endChar": 49
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_c0f35ece",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "This body can just be inlined as a lambda at the construction site.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_003f0673",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-29T14:29:12Z",
+      "side": 1,
+      "message": "Nit: \u003cp\u003e between paragraphs",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

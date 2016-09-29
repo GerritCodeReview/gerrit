@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1474996722 -0700\nnonce AKOpmBU+wk7N2VR9pCnd7hKh6y1DEp2IyK+i1+SFF5VZisUcvYHUy3AQk6V2wd4r7e+Jtd9V2WS6\n\n0000000000000000000000000000000000000000 8ed980d0ff0a61ad88ac36d0f420ce285e584e84 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX6qnyAAoJECdUrmNLj+sz7ycQAI9VW5OcUsCZ58RI3vCox3QP\nR9iQjoIdrkQAhi2Qsaq9II756g7mdrh1EPV9+27N0SlHfeIa80XqWjabMes6yUxK\nXzHdlkV7Azxo4J8go7a53mjv3JuRR/F5Y5PAYB474J51Rotu5TVPd6h09nER4LBP\nRASoKXSfttqaaXaBluCqPCici0nfccvB4AvbwwrSwtgrfXS9ZGXsuSx7NZH5+KO4\njmF0oZ2MXpY90EIwetcgbh3rAVrTfcpdexkxnJegqwtxTxQlSYI2vzN0JqLIwHQN\n0iiCSaYhJInH2KihfUhnOjxZNkonkQE22Y34VfFx46MGgpTSDZR0Q7CT/ENMtinr\n51zW8Ms60FFri+5aLvXmF1pJiOiWHNjH6YOuW7prQPz9jacanQ+MuiWMlDNdbSR2\nZs2K2BDiRnIsCib65zateHXCCB7XZfmWKi1kRCK7AsD4MLpbLPpvumxpRxz52ADr\n1osr86eCL5F9SOpEZOcEjZ9dE9OFX+nxhXgOFIbpJgTovAMsazVeEfSqCsms4pdU\nSxCJPgdJAbXF8EDc0gpYTCBDhxYrayOORiVxfI4in4uxTk2XONOMxWZThcKnJi1f\nhoWFVSZWb8/pc/LPvwGIlLwH12aNFYNZWgLCGzAdeJfHVEkzchR9wYntEVVE6kEZ\nStIw/bWHWS23oI85UxrI\n\u003dK14+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "65ceb7f1_e892d305",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-29T04:37:21Z",
+      "side": 1,
+      "message": "This is confusing in a few ways:\n* the commit message says \"always allow tar\" but this implements \"allow tar as a fallback\"\n* this checks for ?format\u003dtar and then behaves as tgz\n\nI\u0027m confused. Why not do one of the following?\n\nA. (the option I prefer) Support a hard-coded list of formats for PreviewSubmit (e.g., just tar, or tar and tgz). Don\u0027t use AllowedFormats --- that is download.format configuration which is for downloads, not submit previews.\n\nB. Allow the formats from AllowedFormats, plus a hard-coded list of extra formats for PreviewSubmit (e.g., just tar, or tar and tgz).\n\nIn other words, why does this logic only take effect when the server admin allows no formats? If the server admin allows downloading obscure-format-x, why do I have to use that format instead of tar?",
+      "revId": "8ed980d0ff0a61ad88ac36d0f420ce285e584e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

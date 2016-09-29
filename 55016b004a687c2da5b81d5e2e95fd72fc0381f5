@@ -199,6 +199,30 @@
       "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_61f376fb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T08:31:05Z",
+      "side": 1,
+      "message": "Good to know :/",
+      "parentUuid": "65831788_c0f99ee1",
+      "range": {
+        "startLine": 179,
+        "startChar": 10,
+        "endLine": 179,
+        "endChar": 32
+      },
+      "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

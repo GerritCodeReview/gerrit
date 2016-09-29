@@ -200,6 +200,29 @@
       "revId": "30e148655c61bcb8acd02e8f649330cbdc283ea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2282f5cd_7677702d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-29T23:52:36Z",
+      "side": 1,
+      "message": "Does this actually get a change number (i.e. \"87353\") or is it a change-id (i.e. \"gerrit~master~Idff3ee1d242acdd4883fe3f28c7794b7c4c9ddf1\")?",
+      "range": {
+        "startLine": 862,
+        "startChar": 25,
+        "endLine": 862,
+        "endChar": 34
+      },
+      "revId": "30e148655c61bcb8acd02e8f649330cbdc283ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

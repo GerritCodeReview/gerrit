@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "628b0de1_c0a55e9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T20:27:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_00db8673",
+      "revId": "592735d3ef67b19142ef9bcf79199305678328cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_20d08a4b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "628b0de1_60c01227",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T20:27:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_20d08a4b",
+      "revId": "592735d3ef67b19142ef9bcf79199305678328cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c246796b_43a06691",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 3
@@ -59,6 +95,24 @@
       "writtenOn": "2016-09-29T19:03:23Z",
       "side": 1,
       "message": "suffixA.startsWith(\".h\")\n\nIn PolyGerrit we just specifically look at the list of [\u0027h\u0027, \u0027hxx\u0027, \u0027hpp\u0027], which would be a more accurate approach.",
+      "revId": "592735d3ef67b19142ef9bcf79199305678328cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_80c51638",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-29T20:27:30Z",
+      "side": 1,
+      "message": "More accurate sounds like the way to go.\nDone.",
+      "parentUuid": "c246796b_43a06691",
       "revId": "592735d3ef67b19142ef9bcf79199305678328cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

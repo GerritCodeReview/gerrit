@@ -36,6 +36,8 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -161,6 +163,10 @@ public class Assignee extends Composite {
             public void onSuccess(AccountInfo result) {
               onCloseForm();
               setAssignee(result);
+              Reviewers reviewers = getReviewers();
+              if (reviewers != null) {
+                reviewers.updateReviewerList();
+              }
             }
 
             @Override
@@ -188,5 +194,17 @@ public class Assignee extends Composite {
                 ? assignee.email()
                 : String.valueOf(assignee._accountId()))
         : "");
+  }
+
+  private Reviewers getReviewers() {
+      Element e = DOM.getParent(getElement());
+      for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
+        EventListener l = DOM.getEventListener(e);
+        if (l instanceof ChangeScreen) {
+          ChangeScreen screen =  (ChangeScreen) l;
+          return screen.reviewers;
+        }
+      }
+      return null;
   }
 }

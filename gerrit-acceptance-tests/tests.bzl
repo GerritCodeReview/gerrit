@@ -11,7 +11,8 @@ def acceptance_tests(
     flaky = 0,
     deps = [],
     labels = [],
-    vm_args = ['-Xmx256m']):
+    vm_args = ['-Xmx256m'],
+    **kwargs):
   junit_tests(
     name = group,
     srcs = srcs,
@@ -24,4 +25,5 @@ def acceptance_tests(
       'slow',
     ],
     jvm_flags = vm_args,
+    **kwargs
   )

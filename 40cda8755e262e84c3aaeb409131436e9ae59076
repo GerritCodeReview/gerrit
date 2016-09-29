@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "65831788_c04fde34",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-29T10:55:25Z",
+      "side": 1,
+      "message": "items$\u003d in favor of items\u003d is weird and definitely screams bug. $\u003d is supposed to be used for native attributes. Perhaps this is triggering a behavior that is desired but not the “right” way to do so.\n\nI think it’s worth asking the Polymer team (specifically, cdata@ who has helped me with these types of issues in the past). I typically will IM him and he’s very patient and helpful.",
+      "parentUuid": "05c97bea_65d9e6ee",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_61f0d656",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -191,6 +209,24 @@
       "side": 1,
       "message": "I\u0027m a bit confused by this actually. This value is definitely a const, which are usually defined outside the scope of the Polymer call, but when defined there it\u0027s inaccessible by the html file. Is there some styling I can use to indicate that it\u0027s a constant property?",
       "parentUuid": "8582cb80_61f0d656",
+      "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_c1760267",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-29T10:55:25Z",
+      "side": 1,
+      "message": "You can mark the property as readonly: https://www.polymer-project.org/1.0/docs/devguide/properties#read-only",
+      "parentUuid": "65ceb7f1_68354345",
       "revId": "40cda8755e262e84c3aaeb409131436e9ae59076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

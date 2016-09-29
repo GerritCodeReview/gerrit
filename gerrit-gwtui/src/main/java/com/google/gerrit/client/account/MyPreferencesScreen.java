@@ -95,13 +95,13 @@ public class MyPreferencesScreen extends SettingsScreen {
         GeneralPreferencesInfo.ReviewCategoryStrategy.ABBREV.name());
 
     emailStrategy = new ListBox();
-    emailStrategy.addItem(Util.C.messageEnabled(),
-        GeneralPreferencesInfo.EmailStrategy.ENABLED.name());
     emailStrategy
         .addItem(
             Util.C.messageCCMeOnMyComments(),
             GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS
                 .name());
+    emailStrategy.addItem(Util.C.messageEnabled(),
+        GeneralPreferencesInfo.EmailStrategy.ENABLED.name());
     emailStrategy
         .addItem(
             Util.C.messageDisabled(),

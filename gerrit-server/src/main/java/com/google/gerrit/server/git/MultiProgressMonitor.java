@@ -96,6 +96,22 @@ public class MultiProgressMonitor {
       }
     }
 
+    void format(StringBuilder s) {
+      if (!Strings.isNullOrEmpty(name)) {
+        s.append(name).append(": ");
+      }
+
+      synchronized (this) {
+        if (total == UNKNOWN) {
+          s.append(count);
+        } else {
+          s.append(String.format("%d%% (%d/%d)",
+              count * 100 / total,
+              count, total));
+        }
+      }
+    }
+
     /**
      * Indicate that this sub-task is finished.
      * <p>
@@ -331,16 +347,7 @@ public class MultiProgressMonitor {
         }
 
         s.append(' ');
-        if (!Strings.isNullOrEmpty(t.name)) {
-          s.append(t.name).append(": ");
-        }
-        if (t.total == UNKNOWN) {
-          s.append(count);
-        } else {
-          s.append(String.format("%d%% (%d/%d)",
-              count * 100 / t.total,
-              count, t.total));
-        }
+        t.format(s);
       }
     }
 

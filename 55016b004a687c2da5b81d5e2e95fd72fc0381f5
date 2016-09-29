@@ -39,6 +39,52 @@
       "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_409f4eb4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T08:21:06Z",
+      "side": 1,
+      "message": "Not sure if this is needed. If it really can be null, we have a problem in the else block too.",
+      "range": {
+        "startLine": 178,
+        "startChar": 10,
+        "endLine": 178,
+        "endChar": 24
+      },
+      "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_609c52bf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-29T08:21:06Z",
+      "side": 1,
+      "message": "Do we need this?\n\nchange.owner().email().equals(null) should return false, shouldn\u0027t it?",
+      "range": {
+        "startLine": 179,
+        "startChar": 10,
+        "endLine": 179,
+        "endChar": 32
+      },
+      "revId": "55016b004a687c2da5b81d5e2e95fd72fc0381f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

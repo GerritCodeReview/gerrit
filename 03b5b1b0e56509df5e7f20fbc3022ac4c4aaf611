@@ -34,6 +34,47 @@
       "revId": "03b5b1b0e56509df5e7f20fbc3022ac4c4aaf611",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_00cc667e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-29T15:03:55Z",
+      "side": 1,
+      "message": "Agreed this needs to be tracked in the Gerrit tracker. Perhaps noting this as a stopgap for 4671 is a good call.\n\nAlso the way bugs are referenced in Gerrit is:\n\nBug: Issue 4671\nChange-Id: .....",
+      "parentUuid": "4588d3a4_5fd64be7",
+      "revId": "03b5b1b0e56509df5e7f20fbc3022ac4c4aaf611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8582cb80_c1c1a24a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-29T15:03:55Z",
+      "side": 1,
+      "message": "camelCase for JS params.",
+      "range": {
+        "startLine": 424,
+        "startChar": 38,
+        "endLine": 424,
+        "endChar": 51
+      },
+      "revId": "03b5b1b0e56509df5e7f20fbc3022ac4c4aaf611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

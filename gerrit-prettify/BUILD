@@ -33,3 +33,8 @@ java_library(
   ],
   visibility = ['//visibility:public'],
 )
+
+exports_files([
+  'src/main/resources/com/google/gerrit/prettify/client/prettify.css',
+  'src/main/resources/com/google/gerrit/prettify/client/prettify.js',
+])

@@ -121,6 +121,22 @@ limitations under the License.
       assert.isTrue(errorStub.calledTwice);
     });
 
+    test('postrevert event', function(done) {
+      function getLabels(c) {
+        return {'Code-Review': 1};
+      }
+      done();
+
+      assert.deepEqual(element.getLabelValuesPostRevert(null), {});
+      assert.equal(errorStub.callCount, 0);
+
+      plugin.on(element.EventType.POST_REVERT, throwErrFn);
+      plugin.on(element.EventType.POST_REVERT, getLabels);
+      assert.deepEqual(element.getLabelValuesPostRevert(null),
+                       {'Code-Review': 1});
+      assert.isTrue(errorStub.calledOnce);
+    });
+
     test('labelchange event', function(done) {
       var testChange = {_number: 42};
       plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);

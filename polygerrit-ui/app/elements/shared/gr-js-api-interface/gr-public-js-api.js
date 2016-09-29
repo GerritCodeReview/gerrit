@@ -31,7 +31,7 @@
     if (this._url.pathname.indexOf('/plugins') !== 0) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
-      return;
+      // return;
     }
     this._name = this._url.pathname.split('/')[2];
   }

@@ -16,6 +16,7 @@
 
   Polymer({
     is: 'gr-comment-list',
+    behaviors: [Gerrit.PathListBehavior],
 
     properties: {
       changeNum: Number,
@@ -25,7 +26,8 @@
     },
 
     _computeFilesFromComments: function(comments) {
-      return Object.keys(comments || {}).sort();
+      var arr = Object.keys(comments || {});
+      return arr.sort(this.specialFilePathCompare);
     },
 
     _computeFileDiffURL: function(file, changeNum, patchNum) {
@@ -56,6 +58,6 @@
         return 'PS' + comment.patch_set + ', ';
       }
       return '';
-    }
+    },
   });
 })();

@@ -345,19 +345,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             "file %s not found in revision %s",
             path, revision.getChange().currentPatchSetId()));
       }
-      if (Patch.isMagic(path)) {
-        for (T comment : ent.getValue()) {
-          if (comment.side == Side.PARENT && comment.parent == null) {
-            throw new BadRequestException(
-                String.format("cannot comment on %s on auto-merge", path));
-          }
-        }
-      }
 
       List<T> list = ent.getValue();
       if (list == null) {
         mapItr.remove();
         continue;
+      }
+      if (Patch.isMagic(path)) {
+        for (T comment : list) {
+          if (comment.side == Side.PARENT && comment.parent == null) {
+            throw new BadRequestException(
+                String.format("cannot comment on %s on auto-merge", path));
+          }
+        }
       }
 
       Iterator<T> listItr = list.iterator();

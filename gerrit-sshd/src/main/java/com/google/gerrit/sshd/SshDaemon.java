@@ -65,10 +65,10 @@ import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.session.Session;
-import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.ServerBuilder;
@@ -693,12 +693,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initForwarding() {
     setTcpipForwardingFilter(new ForwardingFilter() {
       @Override
-      public boolean canForwardAgent(Session session) {
+      public boolean canForwardAgent(Session session, String requestType) {
           return false;
       }
 
       @Override
-      public boolean canForwardX11(Session session) {
+      public boolean canForwardX11(Session session, String requestType) {
           return false;
       }
 
@@ -723,7 +723,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         return new FileSystem() {
           @Override
           public void close() throws IOException {
-          }
+	  }
 
           @Override
           public Iterable<FileStore> getFileStores() {

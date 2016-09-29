@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_e1d5c63e",
+        "filename": "plugins/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-29T08:53:34Z",
+      "side": 1,
+      "message": "this should be srcs, since this is the target config. tools are in the host config. As a bonus, you can do f\n\n\n  for s in $(SRCS) ; do ..",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "92a245e3f0fd6de7e7f244cc2663052f383df73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

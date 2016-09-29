@@ -24,6 +24,11 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  var ScrollBehavior = {
+    KEEP_VISIBLE: 'keep-visible',
+    NEVER: 'never',
+  };
+
   var LEFT_SIDE_CLASS = 'target-side-left';
   var RIGHT_SIDE_CLASS = 'target-side-right';
 
@@ -63,12 +68,33 @@
         type: Number,
         value: null,
       },
+
+      /**
+       * The scroll behavior for the cursor. Values are 'never' and
+       * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
+       * the viewport.
+       */
+      _scrollBehavior: {
+        type: String,
+        value: ScrollBehavior.KEEP_VISIBLE,
+      },
+
+      _listeningForScroll: Boolean,
     },
 
     observers: [
       '_updateSideClass(side)',
       '_diffsChanged(diffs.splices)',
     ],
+
+    attached: function() {
+      // catch when users are scrolling as the view loads
+      this.listen(window, 'scroll', '_handleWindowScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleWindowScroll');
+    },
 
     moveLeft: function() {
       this.side = DiffSides.LEFT;
@@ -169,12 +195,26 @@
       }
     },
 
+    _handleWindowScroll: function() {
+      // this._isScrolling = true;
+      if (this._listeningForScroll) {
+        this._scrollBehavior = ScrollBehavior.NEVER;
+        this._listeningForScroll = false;
+      }
+    },
+
     handleDiffUpdate: function() {
       this._updateStops();
 
       if (!this.diffRow) {
         this.reInitCursor();
       }
+      this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
+      this._listeningForScroll = false;
+    },
+
+    _handleDiffRenderStart: function() {
+      this._listeningForScroll = true;
     },
 
     /**
@@ -320,12 +360,15 @@
         for (i = splice.index;
             i < splice.index + splice.addedCount;
             i++) {
+          this.listen(this.diffs[i], 'render-start', '_handleDiffRenderStart');
           this.listen(this.diffs[i], 'render', 'handleDiffUpdate');
         }
 
         for (i = 0;
             i < splice.removed && splice.removed.length;
             i++) {
+          this.unlisten(splice.removed[i],
+              'render-start', '_handleDiffRenderStart');
           this.unlisten(splice.removed[i], 'render', 'handleDiffUpdate');
         }
       }

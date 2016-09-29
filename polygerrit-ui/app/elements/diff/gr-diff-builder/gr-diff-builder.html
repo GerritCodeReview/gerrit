@@ -62,6 +62,12 @@ limitations under the License.
         is: 'gr-diff-builder',
 
         /**
+         * Fired when the diff begins rendering.
+         *
+         * @event render-start
+         */
+
+        /**
          * Fired when the diff is rendered.
          *
          * @event render
@@ -121,6 +127,7 @@ limitations under the License.
 
           reporting.time(TimingLabel.TOTAL);
           reporting.time(TimingLabel.CONTENT);
+          this.fire('render-start');
           return this.$.processor.process(this.diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();

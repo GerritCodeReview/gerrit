@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_848ec82a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-29T16:23:20Z",
+      "side": 1,
+      "message": "Synchronize this also by calling getCount()",
+      "range": {
+        "startLine": 310,
+        "startChar": 10,
+        "endLine": 310,
+        "endChar": 17
+      },
+      "revId": "9481587520bcebbc876a3fbd82819887627b10de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65831788_c377e829",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-29T16:23:20Z",
+      "side": 1,
+      "message": "Synchronize this also by calling getCount()",
+      "range": {
+        "startLine": 338,
+        "startChar": 20,
+        "endLine": 338,
+        "endChar": 27
+      },
+      "revId": "9481587520bcebbc876a3fbd82819887627b10de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

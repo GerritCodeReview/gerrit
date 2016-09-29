@@ -1,3 +1,10 @@
+java_binary(
+  name = "asciidoc",
+  main_class = "AsciiDoctor",
+  runtime_deps = [":asciidoc_lib"],
+  visibility = ["//visibility:public"],
+)
+
 java_library(
   name = "asciidoc_lib",
   srcs = ["java/AsciiDoctor.java"],

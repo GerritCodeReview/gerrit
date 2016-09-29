@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c246796b_43ee26af",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-29T21:19:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_415cb2ef",
+      "revId": "16a82fc12086bd4f198c7492237f942238b5a257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_e0d5c23e",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
         "patchSetId": 5
@@ -42,6 +60,24 @@
         "endLine": 43,
         "endChar": 79
       },
+      "revId": "16a82fc12086bd4f198c7492237f942238b5a257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c246796b_23e32ac7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-29T21:19:36Z",
+      "side": 1,
+      "message": "Nope. Just following the approach taken by viktard@ in https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4255",
+      "parentUuid": "65831788_e0d5c23e",
       "revId": "16a82fc12086bd4f198c7492237f942238b5a257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

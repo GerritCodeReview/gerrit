@@ -174,7 +174,10 @@ class CommitBox extends Composite {
     // no avatar plugin is installed
     if (change.owner().hasAvatarInfo()) {
       AvatarImage avatar;
-      if (change.owner().email().equals(person.email())) {
+      if (change.owner().email() != null &&
+          person != null &&
+          person.email() != null &&
+          change.owner().email().equals(person.email())) {
         avatar = new AvatarImage(change.owner());
       } else {
         avatar = new AvatarImage(

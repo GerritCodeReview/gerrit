@@ -98,6 +98,17 @@ limitations under the License.
       assert.equal(cursorElement.diffRow, firstDeltaRow);
     });
 
+    test('cursor scroll behavior', function() {
+      cursorElement._handleDiffRenderStart();
+      assert.equal(cursorElement._scrollBehavior, 'keep-visible');
+
+      cursorElement._handleWindowScroll();
+      assert.equal(cursorElement._scrollBehavior, 'never');
+
+      cursorElement.handleDiffUpdate();
+      assert.equal(cursorElement._scrollBehavior, 'keep-visible');
+    });
+
     suite('unified diff', function() {
 
       setup(function(done) {

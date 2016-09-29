@@ -4,7 +4,8 @@ def gerrit_plugin(
     deps = [],
     srcs = [],
     resources = [],
-    manifest_entries = []):
+    manifest_entries = [],
+    **kwargs):
   # TODO(davido): Fix stamping: run git describe in plugin directory
   # https://github.com/bazelbuild/bazel/issues/1758
   manifest_lines = [
@@ -31,4 +32,5 @@ def gerrit_plugin(
       ':%s__plugin' % name,
     ],
     visibility = ['//visibility:public'],
+    **kwargs
   )

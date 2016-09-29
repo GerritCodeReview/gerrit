@@ -86,7 +86,7 @@ import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.session.Session;
-import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
@@ -683,12 +683,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setTcpipForwardingFilter(
         new ForwardingFilter() {
           @Override
-          public boolean canForwardAgent(Session session) {
+          public boolean canForwardAgent(Session session, String requestType) {
             return false;
           }
 
           @Override
-          public boolean canForwardX11(Session session) {
+          public boolean canForwardX11(Session session, String requestType) {
             return false;
           }
 

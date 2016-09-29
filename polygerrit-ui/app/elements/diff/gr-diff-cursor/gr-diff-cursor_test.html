@@ -80,6 +80,19 @@ limitations under the License.
       diffElement.reload();
     });
 
+    test('scrolling while loading', function() {
+      document.body.scrollTop = 100;
+      cursorElement.diffRow = undefined;
+      cursorElement._isScrolling = true;
+      cursorElement.handleDiffUpdate();
+
+      // Scroll position isn't reset when scroll while loading
+      assert.equal(document.body.scrollTop, 100);
+
+      // Scroll position is restored to keep-visible
+      assert.equal(cursorElement.scrollBehavior, 'keep-visible');
+    });
+
     test('diff cursor functionality (side-by-side)', function() {
       // The cursor has been initialized to the first delta.
       assert.isOk(cursorElement.diffRow);

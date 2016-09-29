@@ -19,9 +19,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import org.apache.sshd.common.keyprovider.AbstractFileKeyPairProvider;
+import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.common.util.security.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 import java.io.File;
@@ -73,7 +73,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
       throw new ProvisionException("Bouncy Castle Crypto not installed;"
           + " needed to read server host keys: " + stdKeys + "");
     }
-    AbstractFileKeyPairProvider kp = SecurityUtils.createFileKeyPairProvider();
+    FileKeyPairProvider kp = new FileKeyPairProvider();
     kp.setFiles(stdKeys);
     return kp;
   }

@@ -38,7 +38,7 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel>
-    <div>
+    <div ui:field='show'>
       <u:InlineHyperlink ui:field='assigneeLink'
           title='Search for changes assigned to this user'/>
       <g:Image ui:field='editAssigneeIcon'

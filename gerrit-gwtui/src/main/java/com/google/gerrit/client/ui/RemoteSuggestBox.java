@@ -134,4 +134,8 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
   public HandlerRegistration addCloseHandler(CloseHandler<RemoteSuggestBox> h) {
     return addHandler(h, CloseEvent.getType());
   }
+
+  public void selectAll() {
+    suggestBox.getValueBox().selectAll();
+  }
 }

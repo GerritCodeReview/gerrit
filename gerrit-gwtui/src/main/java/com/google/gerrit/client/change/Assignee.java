@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.NotSignedInDialog;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.Util;
@@ -50,20 +51,18 @@ public class Assignee extends Composite {
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField
-  InlineHyperlink assigneeLink;
-  @UiField
-  Image editAssigneeIcon;
-  @UiField
-  Element form;
-  @UiField
-  Element error;
+  @UiField Element show;
+  @UiField InlineHyperlink assigneeLink;
+  @UiField Image editAssigneeIcon;
+  @UiField Element form;
+  @UiField Element error;
   @UiField(provided = true)
   RemoteSuggestBox suggestBox;
 
   private AssigneeSuggestOracle assigneeSuggestOracle;
   private Change.Id changeId;
   private boolean canEdit;
+  private AccountInfo currentAssignee;
 
   Assignee() {
     assigneeSuggestOracle = new AssigneeSuggestOracle();
@@ -98,18 +97,24 @@ public class Assignee extends Composite {
     setAssignee(info.assignee());
     assigneeSuggestOracle.setChange(changeId);
     editAssigneeIcon.setVisible(canEdit);
+    if (!canEdit) {
+      show.setTitle(null);
+    }
   }
 
   void onOpenForm() {
     UIObject.setVisible(form, true);
+    UIObject.setVisible(show, false);
     UIObject.setVisible(error, false);
     editAssigneeIcon.setVisible(false);
     suggestBox.setFocus(true);
-    suggestBox.setText("");
+    suggestBox.setText(FormatUtil.nameEmail(currentAssignee));
+    suggestBox.selectAll();
   }
 
   void onCloseForm() {
     UIObject.setVisible(form, false);
+    UIObject.setVisible(show, true);
     UIObject.setVisible(error, false);
     editAssigneeIcon.setVisible(true);
     suggestBox.setFocus(false);
@@ -174,6 +179,7 @@ public class Assignee extends Composite {
   }
 
   private void setAssignee(AccountInfo assignee) {
+    currentAssignee = assignee;
     assigneeLink.setText(assignee != null ? assignee.name() : null);
     assigneeLink.setTargetHistoryToken(assignee != null
         ? PageLinks.toAssigneeQuery(assignee.name() != null

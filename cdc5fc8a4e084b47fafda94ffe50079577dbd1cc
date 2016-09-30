@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4290c909_bfbab7b3",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-30T04:56:23Z",
+      "side": 1,
+      "message": "Is it possible to make it so that this is not permanently included in the URL after switching?\n\nWhen switching from GWT to Polygerrit there is a \"?polygerrit\u003d1\" option but that then gets removed.",
+      "range": {
+        "startLine": 132,
+        "startChar": 31,
+        "endLine": 132,
+        "endChar": 45
+      },
+      "revId": "cdc5fc8a4e084b47fafda94ffe50079577dbd1cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

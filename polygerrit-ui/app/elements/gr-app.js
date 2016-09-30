@@ -43,11 +43,13 @@
       _showSettingsView: Boolean,
       _viewState: Object,
       _lastError: Object,
+      _path: String,
     },
 
     listeners: {
       'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
+      'location-change': '_handleLocationChange',
     },
 
     observers: [
@@ -156,6 +158,15 @@
           this._lastError = err;
         }.bind(this));
       }
+    },
+
+    _handleLocationChange: function() {
+      var hash = location.hash.substring(1);
+      var pathname = location.pathname;
+      if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
+        pathname += '@' + hash;
+      }
+      this.set('_path', encodeURIComponent(pathname));
     },
 
     _handleTitleChange: function(e) {

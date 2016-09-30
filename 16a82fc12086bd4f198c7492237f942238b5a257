@@ -81,6 +81,24 @@
       "revId": "16a82fc12086bd4f198c7492237f942238b5a257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22991538_bed4f9b6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T10:59:31Z",
+      "side": 1,
+      "message": "And that upset the URL Prettiness Gods...\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4577\n\nSearch for `@see issue 4577`",
+      "parentUuid": "c246796b_23e32ac7",
+      "revId": "16a82fc12086bd4f198c7492237f942238b5a257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

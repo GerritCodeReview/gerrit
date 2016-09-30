@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountJson;
 import com.google.gerrit.server.change.PostReviewers.Addition;
@@ -36,8 +37,8 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class PutAssignee
-    implements RestModifyView<ChangeResource, AssigneeInput> {
+public class PutAssignee implements
+    RestModifyView<ChangeResource, AssigneeInput>, UiAction<ChangeResource> {
 
   private final SetAssigneeOp.Factory assigneeFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -82,5 +83,12 @@ public class PutAssignee
     reviewerInput.confirmed = true;
     reviewerInput.notify = NotifyHandling.NONE;
     return postReviewers.prepareApplication(rsrc, reviewerInput);
+  }
+
+  @Override
+  public UiAction.Description getDescription(ChangeResource resource) {
+    return new UiAction.Description()
+      .setLabel("Edit Assignee")
+      .setVisible(resource.getControl().canEditAssignee());
   }
 }

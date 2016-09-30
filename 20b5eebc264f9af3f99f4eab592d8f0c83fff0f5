@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "628b0de1_a0f05a57",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-30T18:25:45Z",
+      "side": 1,
+      "message": "At the very least, something like this should be commented, to make it clear that there was not a typo.\n\nWould the following be equivalent?\n\n    for (var i \u003d 0; i \u003c this._files.length; i++) {\n      if (i \u003c this._shownFiles.length) {\n        this.set([\u0027_shownFiles\u0027, i, \u0027__expanded\u0027], true);\n      }\n      this.set([\u0027_files\u0027, i, \u0027__expanded\u0027], true);\n    }",
+      "parentUuid": "22991538_5eba958d",
+      "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "628b0de1_60e9f2a4",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Logically, it could. Putting the call in ready() really complicates things with unit tests, though. Is there a way to stub functions before ready() is called?",
       "parentUuid": "c246796b_c3d9f617",
+      "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_c0ed5e7c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-30T18:25:45Z",
+      "side": 1,
+      "message": "Sounds like this should be done with `ready`. I don\u0027t know the details of the testing difficulties, but it sounds like you could stub methods in that way using a `setup` function in your test.",
+      "parentUuid": "628b0de1_c009de8b",
       "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

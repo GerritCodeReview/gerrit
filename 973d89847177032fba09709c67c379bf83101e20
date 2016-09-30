@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4290c909_3f4c67c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T10:41:57Z",
+      "side": 1,
+      "message": "this can be replaced by \n\nthis.splice([\u0027change.labels\u0027, labelName, \u0027all\u0027], i, 1)",
+      "range": {
+        "startLine": 142,
+        "startChar": 24,
+        "endLine": 142,
+        "endChar": 61
+      },
+      "revId": "973d89847177032fba09709c67c379bf83101e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22991538_1e472da7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T10:41:57Z",
+      "side": 1,
+      "message": "maintain consistency with other CSS. transparentBackground",
+      "range": {
+        "startLine": 56,
+        "startChar": 7,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "973d89847177032fba09709c67c379bf83101e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22991538_de40e58c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T10:41:57Z",
+      "side": 1,
+      "message": "This name seems overly general if it’s only setting the transparent class or not.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "973d89847177032fba09709c67c379bf83101e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

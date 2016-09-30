@@ -615,11 +615,10 @@ A user must be able to clone or fetch the project in order to create
 a new commit on their local system, so in practice they must also
 have the `Read` access granted to upload a change.
 
-For an open source, public Gerrit installation, it is common to
-grant `Read` and `Push` for `+refs/for/refs/heads/*+`
-to `Registered Users` in the `All-Projects` ACL.  For more
-private installations, its common to simply grant `Read` and
-`Push` for `+refs/for/refs/heads/*+` to all users of a project.
+For an open source, public Gerrit installation, it is common to grant
+`Push` for `+refs/for/refs/heads/*+` to `Registered Users` in the
+`All-Projects` ACL.  For more private installations, its common to
+grant `Push` for `+refs/for/refs/heads/*+` to all users of a project.
 
 * Force option
 +

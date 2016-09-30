@@ -39,7 +39,8 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel>
     <div>
-      <u:InlineHyperlink ui:field='assigneeLink'/>
+      <u:InlineHyperlink ui:field='assigneeLink'
+          title='Search for changes assigned to this user'/>
       <g:Image ui:field='editAssigneeIcon'
           resource='{ico.editUser}'
           styleName='{style.editAssignee}'

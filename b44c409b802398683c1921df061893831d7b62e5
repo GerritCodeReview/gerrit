@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22991538_bed399f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Assignee.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-30T07:30:47Z",
+      "side": 1,
+      "message": "Gerrit.info().user().anonymousCowardName()",
+      "range": {
+        "startLine": 179,
+        "startChar": 11,
+        "endLine": 179,
+        "endChar": 13
+      },
+      "revId": "b44c409b802398683c1921df061893831d7b62e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

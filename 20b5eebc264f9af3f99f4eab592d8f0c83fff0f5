@@ -158,6 +158,24 @@
       "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4290c909_3fb0e790",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T18:32:57Z",
+      "side": 1,
+      "message": "I believe you can use `stub(...)` in your setup function. If this doesn’t work, then something is wrong.",
+      "parentUuid": "628b0de1_c0ed5e7c",
+      "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

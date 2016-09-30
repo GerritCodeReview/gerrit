@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotSignedInDialog;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.Util;
@@ -63,6 +62,7 @@ public class Assignee extends Composite {
 
   private AssigneeSuggestOracle assigneeSuggestOracle;
   private Change.Id changeId;
+  private boolean canEdit;
 
   Assignee() {
     assigneeSuggestOracle = new AssigneeSuggestOracle();
@@ -93,9 +93,10 @@ public class Assignee extends Composite {
 
   void set(ChangeInfo info) {
     this.changeId = info.legacyId();
+    this.canEdit = info.hasActions() && info.actions().containsKey("assignee");
     assigneeLink.setText(info.assignee() != null ? info.assignee().name() : "");
     assigneeSuggestOracle.setChange(changeId);
-    editAssigneeIcon.setVisible(Gerrit.isSignedIn());
+    editAssigneeIcon.setVisible(canEdit);
   }
 
   void onOpenForm() {
@@ -115,7 +116,9 @@ public class Assignee extends Composite {
 
   @UiHandler("assign")
   void onEditAssignee(@SuppressWarnings("unused") ClickEvent e) {
-    editAssignee(suggestBox.getText());
+    if (canEdit) {
+      editAssignee(suggestBox.getText());
+    }
   }
 
   @UiHandler("cancel")

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotSignedInDialog;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.Util;
@@ -23,6 +22,7 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -63,6 +63,7 @@ public class Assignee extends Composite {
 
   private AssigneeSuggestOracle assigneeSuggestOracle;
   private Change.Id changeId;
+  private boolean canEdit;
 
   Assignee() {
     assigneeSuggestOracle = new AssigneeSuggestOracle();
@@ -93,9 +94,10 @@ public class Assignee extends Composite {
 
   void set(ChangeInfo info) {
     this.changeId = info.legacyId();
-    assigneeLink.setText(info.assignee() != null ? info.assignee().name() : "");
+    this.canEdit = info.hasActions() && info.actions().containsKey("assignee");
+    setAssignee(info.assignee());
     assigneeSuggestOracle.setChange(changeId);
-    editAssigneeIcon.setVisible(Gerrit.isSignedIn());
+    editAssigneeIcon.setVisible(canEdit);
   }
 
   void onOpenForm() {
@@ -115,7 +117,9 @@ public class Assignee extends Composite {
 
   @UiHandler("assign")
   void onEditAssignee(@SuppressWarnings("unused") ClickEvent e) {
-    editAssignee(suggestBox.getText());
+    if (canEdit) {
+      editAssignee(suggestBox.getText());
+    }
   }
 
   @UiHandler("cancel")
@@ -130,7 +134,7 @@ public class Assignee extends Composite {
             @Override
             public void onSuccess(AccountInfo result) {
               onCloseForm();
-              assigneeLink.setText("");
+              setAssignee(null);
             }
 
             @Override
@@ -151,7 +155,7 @@ public class Assignee extends Composite {
             @Override
             public void onSuccess(AccountInfo result) {
               onCloseForm();
-              assigneeLink.setText(result.name());
+              setAssignee(result);
             }
 
             @Override
@@ -167,5 +171,16 @@ public class Assignee extends Composite {
             }
           });
     }
+  }
+
+  private void setAssignee(AccountInfo assignee) {
+    assigneeLink.setText(assignee != null ? assignee.name() : null);
+    assigneeLink.setTargetHistoryToken(assignee != null
+        ? PageLinks.toAssigneeQuery(assignee.name() != null
+            ? assignee.name()
+            : assignee.email() != null
+                ? assignee.email()
+                : String.valueOf(assignee._accountId()))
+        : "");
   }
 }

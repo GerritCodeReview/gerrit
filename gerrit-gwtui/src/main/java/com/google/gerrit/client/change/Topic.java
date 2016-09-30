@@ -100,6 +100,7 @@ class Topic extends Composite {
 
       input.setText(text.getText());
       input.setFocus(true);
+      input.selectAll();
     }
   }
 

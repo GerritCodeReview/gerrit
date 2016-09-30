@@ -225,7 +225,7 @@ public class ApprovalsUtil {
           (short) 0, update.getWhen()));
       update.putReviewer(account, REVIEWER);
     }
-    db.patchSetApprovals().insert(cells);
+    db.patchSetApprovals().upsert(cells);
     return Collections.unmodifiableList(cells);
   }
 

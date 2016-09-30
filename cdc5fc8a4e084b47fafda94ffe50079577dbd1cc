@@ -40,6 +40,24 @@
       "revId": "cdc5fc8a4e084b47fafda94ffe50079577dbd1cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4290c909_5f884bd5",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-30T12:05:39Z",
+      "side": 1,
+      "message": "OK.  I\u0027ve raised issue 4688 to cover this case.",
+      "parentUuid": "22991538_7ebf517c",
+      "revId": "cdc5fc8a4e084b47fafda94ffe50079577dbd1cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

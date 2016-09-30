@@ -22,6 +22,7 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -95,8 +96,7 @@ public class Assignee extends Composite {
   void set(ChangeInfo info) {
     this.changeId = info.legacyId();
     this.canEdit = info.hasActions() && info.actions().containsKey("assignee");
-    this.currentAssignee = info.assignee() != null ? info.assignee().name() : "";
-    assigneeLink.setText(currentAssignee);
+    setAssignee(info.assignee());
     assigneeSuggestOracle.setChange(changeId);
     editAssigneeIcon.setVisible(canEdit);
   }
@@ -139,8 +139,7 @@ public class Assignee extends Composite {
             @Override
             public void onSuccess(AccountInfo result) {
               onCloseForm();
-              currentAssignee = "";
-              assigneeLink.setText("");
+              setAssignee(null);
             }
 
             @Override
@@ -161,8 +160,7 @@ public class Assignee extends Composite {
             @Override
             public void onSuccess(AccountInfo result) {
               onCloseForm();
-              currentAssignee = result.name();
-              assigneeLink.setText(result.name());
+              setAssignee(result);
             }
 
             @Override
@@ -178,5 +176,17 @@ public class Assignee extends Composite {
             }
           });
     }
+  }
+
+  private void setAssignee(AccountInfo assignee) {
+    currentAssignee = assignee != null ? assignee.name() : null;
+    assigneeLink.setText(currentAssignee);
+    assigneeLink.setTargetHistoryToken(assignee != null
+        ? PageLinks.toAssigneeQuery(assignee.name() != null
+            ? assignee.name()
+            : assignee.email() != null
+                ? assignee.email()
+                : String.valueOf(assignee._accountId()))
+        : "");
   }
 }

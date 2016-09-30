@@ -369,7 +369,7 @@ class ContactPanelShort extends Composite {
     registerNewEmail.setEnabled(false);
 
     CallbackGroup group = new CallbackGroup();
-    if (!newEmail.equals(currentEmail)) {
+    if (currentEmail != null && !newEmail.equals(currentEmail)) {
       AccountApi.setPreferredEmail("self", newEmail,
           group.add(new GerritCallback<NativeString>() {
         @Override

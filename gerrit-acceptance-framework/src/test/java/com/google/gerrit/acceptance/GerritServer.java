@@ -47,6 +47,7 @@ import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.nio.file.Paths;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -129,7 +130,7 @@ public class GerritServer {
           throw new RuntimeException(e);
         }
       }
-    });
+    }, Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir")));
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
 
     final File site;

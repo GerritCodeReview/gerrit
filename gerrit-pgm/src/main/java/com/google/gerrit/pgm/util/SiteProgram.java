@@ -78,6 +78,10 @@ public abstract class SiteProgram extends AbstractProgram {
   protected SiteProgram() {
   }
 
+  protected SiteProgram(Path sitePath) {
+    this.sitePath = sitePath;
+  }
+
   protected SiteProgram(Path sitePath, final Provider<DataSource> dsProvider) {
     this.sitePath = sitePath;
     this.dsProvider = dsProvider;

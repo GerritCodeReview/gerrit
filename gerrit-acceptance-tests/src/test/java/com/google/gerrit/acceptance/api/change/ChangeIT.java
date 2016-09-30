@@ -42,6 +42,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -71,7 +72,9 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
@@ -99,6 +102,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -836,6 +840,26 @@ public class ChangeIT extends AbstractDaemonTest {
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+  }
+
+  @Test
+  public void addReviewerWithNoteDbWhenDummyApprovalInReviewDbExists()
+      throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+
+    // insert dummy approval in ReviewDb
+    PatchSetApproval psa =
+        new PatchSetApproval(new PatchSetApproval.Key(r.getPatchSetId(),
+            user.id, new LabelId("Code-Review")), (short) 0, TimeUtil.nowTs());
+    db.patchSetApprovals().insert(Collections.singleton(psa));
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
   }
 
   @Test

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22991538_decd452b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T10:57:15Z",
+      "side": 1,
+      "message": "[[scrollBehavior]]",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4290c909_1fc40308",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T10:57:15Z",
+      "side": 1,
+      "message": "Can you create an enum for these values? If you look at DiffSides at the top of this file, that’s an example of one.",
+      "range": {
+        "startLine": 74,
+        "startChar": 15,
+        "endLine": 74,
+        "endChar": 29
+      },
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22991538_feca8110",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-30T10:57:15Z",
+      "side": 1,
+      "message": "Is it possible one could navigate away before the diff is loaded, leaking the event handler?",
+      "range": {
+        "startLine": 196,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 74
+      },
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c246796b_4352a669",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-30T00:59:38Z",
+      "side": 1,
+      "message": "Ehh, I thought it would be smarter to just iterate over _files\u0027 length one time, hence these strange looking for-loops. If you think the syntactic clarity is more important than the minimal speed increase, then I can just iterate over each array separately. \n\n_files.length ALWAYS is \u003e\u003d _shownFiles.length, though, so this should never introduce any bugs.",
+      "parentUuid": "628b0de1_80ee76ac",
+      "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "628b0de1_60e9f2a4",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -65,6 +83,24 @@
         "endLine": 94,
         "endChar": 18
       },
+      "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_c009de8b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-30T00:59:38Z",
+      "side": 1,
+      "message": "Logically, it could. Putting the call in ready() really complicates things with unit tests, though. Is there a way to stub functions before ready() is called?",
+      "parentUuid": "c246796b_c3d9f617",
       "revId": "20b5eebc264f9af3f99f4eab592d8f0c83fff0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

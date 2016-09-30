@@ -63,6 +63,7 @@ public class Assignee extends Composite {
 
   private AssigneeSuggestOracle assigneeSuggestOracle;
   private Change.Id changeId;
+  private String currentAssignee;
 
   Assignee() {
     assigneeSuggestOracle = new AssigneeSuggestOracle();
@@ -93,7 +94,8 @@ public class Assignee extends Composite {
 
   void set(ChangeInfo info) {
     this.changeId = info.legacyId();
-    assigneeLink.setText(info.assignee() != null ? info.assignee().name() : "");
+    this.currentAssignee = info.assignee() != null ? info.assignee().name() : "";
+    assigneeLink.setText(currentAssignee);
     assigneeSuggestOracle.setChange(changeId);
     editAssigneeIcon.setVisible(Gerrit.isSignedIn());
   }
@@ -124,12 +126,17 @@ public class Assignee extends Composite {
   }
 
   private void editAssignee(final String assignee) {
+    if (currentAssignee.equals(assignee)) {
+      return;
+    }
+
     if (assignee.isEmpty()) {
       ChangeApi.deleteAssignee(changeId.get(),
           new GerritCallback<AccountInfo>() {
             @Override
             public void onSuccess(AccountInfo result) {
               onCloseForm();
+              currentAssignee = "";
               assigneeLink.setText("");
             }
 
@@ -151,6 +158,7 @@ public class Assignee extends Composite {
             @Override
             public void onSuccess(AccountInfo result) {
               onCloseForm();
+              currentAssignee = result.name();
               assigneeLink.setText(result.name());
             }
 

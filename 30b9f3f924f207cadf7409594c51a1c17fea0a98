@@ -16,6 +16,24 @@
       "revId": "30b9f3f924f207cadf7409594c51a1c17fea0a98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4290c909_9f0c939d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-30T07:51:37Z",
+      "side": 1,
+      "message": "From a language perspective there is no difference other than the syntax; the locking is exactly the same.\n\n\"synchronized void format\" is shorter so we could do that and spare two lines of code :)",
+      "parentUuid": "4269a9e3_57726c3e",
+      "revId": "30b9f3f924f207cadf7409594c51a1c17fea0a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

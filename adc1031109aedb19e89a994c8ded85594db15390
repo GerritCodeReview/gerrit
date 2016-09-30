@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22991538_deaea582",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-30T05:51:28Z",
+      "side": 1,
+      "message": "Optionally robot comments contain a URL, if a URL is set we should render this as a link.",
+      "range": {
+        "startLine": 76,
+        "startChar": 37,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "revId": "adc1031109aedb19e89a994c8ded85594db15390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

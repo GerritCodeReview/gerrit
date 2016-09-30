@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "a2d345ea_5272943e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-30T01:23:58Z",
+      "side": 1,
+      "message": "Yeah, kind of. But I still need to figure out a way to return that as a string.\n\nI plan to do that in a separated change anyway.",
+      "parentUuid": "628b0de1_60649247",
+      "revId": "09d93e0f2a72f4a2016bc014f989670a98241c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4290c909_bfa5d79d",
         "filename": "lib/asciidoctor/java/AsciiDoctor.java",
         "patchSetId": 1

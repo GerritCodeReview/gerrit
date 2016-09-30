@@ -469,18 +469,19 @@ limitations under the License.
 
       });
 
-      test('document scrolling calls function to set scroll height', function(done) {
-          var scrollStub = sinon.stub(element, '_handleScroll',
-              function() {
-                assert.isTrue(scrollStub.called);
-                document.getElementsByTagName('body')[0].style.height = originalHeight+'px';
-                scrollStub.restore();
-                done();
-              });
+      test('document scrolling calls function to set scroll height',
+          function(done) {
+          var scrollStub = sinon.stub(element, '_handleScroll', function() {
+              assert.isTrue(scrollStub.called);
+              document.getElementsByTagName('body')[0].style.height =
+                  originalHeight + 'px';
+              scrollStub.restore();
+              done();
+          });
 
           var originalHeight = document.body.scrollHeight;
           document.getElementsByTagName('body')[0].style.height = '10000px';
-          window.scroll(0,100);
+          window.scroll(0, 100);
       });
     });
   });

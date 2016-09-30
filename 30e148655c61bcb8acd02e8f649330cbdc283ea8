@@ -385,6 +385,24 @@
       "revId": "30e148655c61bcb8acd02e8f649330cbdc283ea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c246796b_e37bd2c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-30T17:40:04Z",
+      "side": 1,
+      "message": "Looks like there are a few things that are valid values: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-id\n\nWill change the param name to changeID for semantic correctness. Thanks!",
+      "parentUuid": "2282f5cd_7677702d",
+      "revId": "30e148655c61bcb8acd02e8f649330cbdc283ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

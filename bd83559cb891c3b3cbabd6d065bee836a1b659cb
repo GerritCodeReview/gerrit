@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c246796b_a30cba9c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-30T00:41:32Z",
+      "side": 1,
+      "message": "We are not currently using it, but it would change behavior if we were to set it to always.",
+      "parentUuid": "c246796b_e32992f2",
+      "revId": "bd83559cb891c3b3cbabd6d065bee836a1b659cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c246796b_431bc6e3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 190,
         "endChar": 32
       },
+      "revId": "bd83559cb891c3b3cbabd6d065bee836a1b659cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c246796b_835e5e74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-30T00:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c246796b_431bc6e3",
       "revId": "bd83559cb891c3b3cbabd6d065bee836a1b659cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +124,24 @@
         "endLine": 274,
         "endChar": 1
       },
+      "revId": "bd83559cb891c3b3cbabd6d065bee836a1b659cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_e012e2bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-30T00:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c246796b_0325ce17",
       "revId": "bd83559cb891c3b3cbabd6d065bee836a1b659cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

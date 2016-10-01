@@ -175,7 +175,8 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public Daemon(Runnable serverStarted) {
+  public Daemon(Runnable serverStarted, Path sitePath) {
+    super (sitePath);
     this.serverStarted = serverStarted;
   }
 

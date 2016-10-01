@@ -34,6 +34,24 @@
       "revId": "30b9f3f924f207cadf7409594c51a1c17fea0a98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c260391e_d3bab4b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-01T00:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4290c909_9f0c939d",
+      "revId": "30b9f3f924f207cadf7409594c51a1c17fea0a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

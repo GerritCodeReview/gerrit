@@ -245,7 +245,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
           info.max = r.getMax();
           info.min = r.getMin();
         }
-        pInfo.rules.put(r.getGroup().getUUID().get(), info);
+        AccountGroup.UUID group = r.getGroup().getUUID();
+        if (group == null) {
+          continue;
+        }
+        pInfo.rules.put(group.get(), info);
       }
       accessSectionInfo.permissions.put(p.getName(), pInfo);
     }

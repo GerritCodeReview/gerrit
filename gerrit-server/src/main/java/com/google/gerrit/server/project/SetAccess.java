@@ -267,7 +267,9 @@ public class SetAccess implements
               r.setMin(pri.min);
             }
             r.setAction(GetAccess.ACTION_TYPE.inverse().get(pri.action));
-            r.setForce(pri.force);
+            if (pri.force != null) {
+              r.setForce(pri.force);
+            }
           }
           p.add(r);
         }

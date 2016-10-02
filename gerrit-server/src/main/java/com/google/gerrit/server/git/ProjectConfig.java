@@ -707,7 +707,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         // no valid UUID for it. Pool the reference anyway so at least
         // all rules in the same file share the same GroupReference.
         //
-        ref = rule.getGroup();
+        ref = resolve(rule.getGroup());
         groupsByName.put(ref.getName(), ref);
         error(new ValidationError(PROJECT_CONFIG,
             "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));

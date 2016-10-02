@@ -511,12 +511,15 @@ public class MergeOp {
   private void closeRepository() {
     if (inserter != null) {
       inserter.close();
+      inserter = null;
     }
     if (rw != null) {
       rw.close();
+      rw = null;
     }
     if (repo != null) {
       repo.close();
+      repo = null;
     }
   }
 

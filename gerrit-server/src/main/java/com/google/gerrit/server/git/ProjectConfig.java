@@ -1092,7 +1092,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         boolean needRange = GlobalCapability.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
-          GroupReference group = rule.getGroup();
+          GroupReference group = resolve(rule.getGroup());
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }
@@ -1137,7 +1137,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         boolean needRange = Permission.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
-          GroupReference group = rule.getGroup();
+          GroupReference group = resolve(rule.getGroup());
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }

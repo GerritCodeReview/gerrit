@@ -44,7 +44,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
   private final ChangeNoteUtil noteUtil;
   private final Change.Id changeId;
   private final PatchLineComment.Status status;
-  private String pushCert = null;
+  private String pushCert;
 
   ChangeRevisionNote(ChangeNoteUtil noteUtil, Change.Id changeId,
       ObjectReader reader, ObjectId noteId, PatchLineComment.Status status) {

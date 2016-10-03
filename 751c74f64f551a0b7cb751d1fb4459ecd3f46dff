@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02c7b166_f5a5f89c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T23:46:58Z",
+      "side": 1,
+      "message": "Should this be \"created in the fix for Issue 4619\"? If so, it may be more useful to link to the change instead.",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "751c74f64f551a0b7cb751d1fb4459ecd3f46dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42a609c5_efba81b4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T23:46:58Z",
+      "side": 1,
+      "message": "If we pass the regular location object, it may be modified in the span between the time that the event is issued and the time the event data is read.\n\nWhat if we map out the parts of the location that we need like the following?\n\n    {hash: window.location.hash, pathname: window.location.pathname}",
+      "range": {
+        "startLine": 39,
+        "startChar": 47,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "751c74f64f551a0b7cb751d1fb4459ecd3f46dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

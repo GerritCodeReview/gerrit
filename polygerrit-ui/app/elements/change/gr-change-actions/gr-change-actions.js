@@ -102,6 +102,10 @@
         type: Array,
         value: function() { return []; },
       },
+      _activeDialog: {
+        type: String,
+        value: null,
+      },
     },
 
     ActionType: ActionType,
@@ -111,6 +115,10 @@
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
+
+    listeners: {
+      'iron-overlay-closed': '_handleOverlayCancel',
+    },
 
     observers: [
       '_actionsChanged(actions.*, _revisionActions.*, _additionalActions.*)',
@@ -296,6 +304,13 @@
       }
     },
 
+    _handleOverlayCancel: function(e) {
+      if (this._activeDialog === 'confirmCherrypick') {
+        this.$.confirmCherrypick.branch = '';
+      }
+      this._activeDialog = null;
+    },
+
     _handleRevisionAction: function(key) {
       switch (key) {
         case RevisionActions.REBASE:
@@ -410,6 +425,7 @@
 
     _showActionDialog: function(dialog) {
       this._hideAllDialogs();
+      this._activeDialog = dialog.id;
 
       dialog.hidden = false;
       this.$.overlay.open().then(function() {

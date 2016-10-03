@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c260391e_d35e3475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021017
+      },
+      "writtenOn": "2016-10-03T10:55:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c260391e_93d95c19",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "86699ecb17a205d50345be65a4b1565002c4449d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c260391e_f3d6d0e6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-03T00:02:20Z",
       "side": 1,
       "message": "The code is doing the opposite.",
+      "range": {
+        "startLine": 9,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "86699ecb17a205d50345be65a4b1565002c4449d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c260391e_f361b031",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021017
+      },
+      "writtenOn": "2016-10-03T10:55:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c260391e_f3d6d0e6",
       "range": {
         "startLine": 9,
         "startChar": 56,

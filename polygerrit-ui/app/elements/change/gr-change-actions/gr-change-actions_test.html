@@ -223,8 +223,9 @@ limitations under the License.
       });
 
       test('works', function() {
-        var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
-        MockInteractions.tap(rebaseButton);
+        var cherryPickButton =
+            element.$$('gr-button[data-action-key="cherrypick"]');
+        MockInteractions.tap(cherryPickButton);
         var action = {
           __key: 'cherrypick',
           __type: 'revision',
@@ -251,6 +252,25 @@ limitations under the License.
             message: 'foo message',
           }
         ]);
+      });
+
+      test('branch name cleared when re-open cherrypick', function() {
+        var cherryPickButton =
+            element.$$('gr-button[data-action-key="cherrypick"]');
+        var action = {
+          __key: 'cherrypick',
+          __type: 'revision',
+          __primary: false,
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'Cherry pick change to a different branch',
+        };
+        var emptyBranchName = '';
+        element.$.confirmCherrypick.branch = 'master';
+
+        MockInteractions.tap(cherryPickButton);
+        assert.equal(element.$.confirmCherrypick.branch, emptyBranchName);
       });
     });
 

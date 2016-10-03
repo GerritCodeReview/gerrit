@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82bba1d0_d98f5327",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-03T16:59:55Z",
+      "side": 1,
+      "message": "This is not a blocker for this change (I plan to land it now anyway), but you could also do\n\n[\u0027Show all\u0027, files.length, \u0027files\u0027].join(\u0027 \u0027);",
+      "range": {
+        "startLine": 483,
+        "startChar": 13,
+        "endLine": 483,
+        "endChar": 50
+      },
+      "revId": "bf457dd412caed497a87640b046a5db2ad3420f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

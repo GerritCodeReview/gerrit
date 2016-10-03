@@ -682,7 +682,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executeRefUpdates(boolean dryrun)
-      throws IOException, UpdateException {
+      throws IOException, RestApiException {
     if (commands == null || commands.isEmpty()) {
       logDebug("No ref updates to execute");
       return;
@@ -706,7 +706,7 @@ public class BatchUpdate implements AutoCloseable {
       }
     }
     if (!ok) {
-      throw new UpdateException("BatchRefUpdate failed: " + batchRefUpdate);
+      throw new RestApiException("BatchRefUpdate failed: " + batchRefUpdate);
     }
   }
 

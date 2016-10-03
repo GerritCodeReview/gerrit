@@ -16,6 +16,24 @@
       "revId": "a51da055503fb4bc4580ced21788448a9806cc26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42a609c5_4fe38dc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T23:52:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42a609c5_afb079d8",
+      "revId": "a51da055503fb4bc4580ced21788448a9806cc26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

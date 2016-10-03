@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "c260391e_736e4026",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1021017
+      },
+      "writtenOn": "2016-10-03T10:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2d345ea_7252386a",
+      "range": {
+        "startLine": 272,
+        "startChar": 22,
+        "endLine": 272,
+        "endChar": 26
+      },
+      "revId": "86699ecb17a205d50345be65a4b1565002c4449d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2d345ea_12472ca7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 3
@@ -82,6 +106,30 @@
       "writtenOn": "2016-10-03T00:02:20Z",
       "side": 1,
       "message": "This can be simplified as:\n\n r.setForce(pri.force !\u003d null ? pri.force : false);\n\nOr better, make it the same pattern as used for setting max and min:\n\n if (pri.force !\u003d null) {\n   r.setForce(pri.force);\n }",
+      "range": {
+        "startLine": 270,
+        "startChar": 12,
+        "endLine": 274,
+        "endChar": 30
+      },
+      "revId": "86699ecb17a205d50345be65a4b1565002c4449d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2d345ea_72e8f870",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1021017
+      },
+      "writtenOn": "2016-10-03T10:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2d345ea_12472ca7",
       "range": {
         "startLine": 270,
         "startChar": 12,

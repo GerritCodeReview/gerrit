@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "8289e140_0972693d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-03T20:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2d345ea_5272943e",
+      "revId": "09d93e0f2a72f4a2016bc014f989670a98241c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4290c909_bfa5d79d",
         "filename": "lib/asciidoctor/java/AsciiDoctor.java",
         "patchSetId": 1

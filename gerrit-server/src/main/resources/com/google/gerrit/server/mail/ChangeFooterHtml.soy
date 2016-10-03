@@ -46,4 +46,16 @@
     Gerrit-Branch: {$branch.shortName}<br/>
     Gerrit-Owner: {$change.ownerEmail}
   </p>
+
+  {if $email.changeUrl}
+    <div itemscope itemtype="http://schema.org/EmailMessage">
+      <div
+          itemscope
+          itemprop="action"
+          itemtype="http://schema.org/ViewAction">
+        <meta itemprop="url" href="{$email.changeUrl}"/>
+        <meta itemprop="name" content="View Change"/>
+      </div>
+    </div>
+  {/if}
 {/template}

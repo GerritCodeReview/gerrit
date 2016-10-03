@@ -27,6 +27,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -47,16 +48,23 @@ import java.util.List;
 import java.util.Set;
 
 class ConflictsPredicate extends OrPredicate<ChangeData> {
+  // UI code may depend on this string, so use caution when changing.
+  private static final String TOO_MANY_FILES =
+      "too many files to find conflicts";
+
   private final String value;
 
   ConflictsPredicate(Arguments args, String value, List<Change> changes)
-      throws OrmException {
+      throws QueryParseException, OrmException {
     super(predicates(args, value, changes));
     this.value = value;
   }
 
   private static List<Predicate<ChangeData>> predicates(final Arguments args,
-      String value, List<Change> changes) throws OrmException {
+      String value, List<Change> changes)
+      throws QueryParseException, OrmException {
+    int indexTerms = 0;
+
     List<Predicate<ChangeData>> changePredicates =
         Lists.newArrayListWithCapacity(changes.size());
     final Provider<ReviewDb> db = args.db;
@@ -64,6 +72,16 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       final ChangeDataCache changeDataCache = new ChangeDataCache(
           c, db, args.changeDataFactory, args.projectCache);
       List<String> files = listFiles(c, args, changeDataCache);
+      indexTerms += 3 + files.size();
+      if (indexTerms > args.indexConfig.maxTerms()) {
+        // Short-circuit with a nice error message if we exceed the index
+        // backend's term limit. This assumes that "conflicts:foo" is the entire
+        // query; if there are more terms in the input, we might not
+        // short-circuit here, which will result in a more generic error message
+        // later on in the query parsing.
+        throw new QueryParseException(TOO_MANY_FILES);
+      }
+
       List<Predicate<ChangeData>> filePredicates =
           Lists.newArrayListWithCapacity(files.size());
       for (String file : files) {

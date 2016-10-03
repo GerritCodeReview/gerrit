@@ -1,0 +1,22 @@
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<title>gr-path-list-behavior</title>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-path-list-behavior.html">
+
+<script>
+  suite('gr-path-list-behavior tests', function() {
+    test('special sort', function() {
+      var sort = Gerrit.PathListBehavior.specialFilePathCompare;
+      var testFiles = [
+        '/a.h',
+        '/a.cpp',
+        '/COMMIT_MSG',
+        '/asdasd',
+        '/mrPeanutbutter.py'
+      ];
+      assert.deepEqual(testFiles.sort(sort),
+          ['/COMMIT_MSG', '/a.h', '/a.cpp', '/asdasd', '/mrPeanutbutter.py']);
+    });
+  });
+</script>

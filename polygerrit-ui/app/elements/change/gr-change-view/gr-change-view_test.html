@@ -445,6 +445,22 @@ limitations under the License.
     });
 
     suite('scroll related tests', function() {
+      test('document scrolling calls function to set scroll height',
+          function(done) {
+            var scrollStub = sinon.stub(element, '_handleScroll',
+                function() {
+                  assert.isTrue(scrollStub.called);
+                  document.body.style.height =
+                      originalHeight + 'px';
+                  scrollStub.restore();
+                  done();
+                });
+            var originalHeight = document.body.scrollHeight;
+            document.body.style.height = '10000px';
+            document.body.scrollTop = TEST_SCROLL_TOP_PX;
+            element._handleScroll();
+          });
+
       test('history is loaded correctly', function() {
         history.replaceState(
             {
@@ -466,22 +482,6 @@ limitations under the License.
         // changes to match a regex of change view type.
         element._paramsChanged({view: 'gr-change-view'});
         reloadStub.restore();
-
-      });
-
-      test('document scrolling calls function to set scroll height',
-          function(done) {
-          var scrollStub = sinon.stub(element, '_handleScroll', function() {
-              assert.isTrue(scrollStub.called);
-              document.getElementsByTagName('body')[0].style.height =
-                  originalHeight + 'px';
-              scrollStub.restore();
-              done();
-          });
-
-          var originalHeight = document.body.scrollHeight;
-          document.getElementsByTagName('body')[0].style.height = '10000px';
-          window.scroll(0, 100);
       });
     });
   });

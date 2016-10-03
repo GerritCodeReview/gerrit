@@ -70,7 +70,7 @@ import java.util.Set;
  * of updates, use {@link #stage()}.
  */
 public class NoteDbUpdateManager implements AutoCloseable {
-  public static String CHANGES_READ_ONLY = "NoteDb changes are read-only";
+  public static final String CHANGES_READ_ONLY = "NoteDb changes are read-only";
 
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
@@ -78,8 +78,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @AutoValue
   public abstract static class StagedResult {
-    private static StagedResult create(Change.Id id, NoteDbChangeState.Delta delta,
-        OpenRepo changeRepo, OpenRepo allUsersRepo) {
+    private static StagedResult create(Change.Id id,
+        NoteDbChangeState.Delta delta, OpenRepo changeRepo,
+        OpenRepo allUsersRepo) {
       ImmutableList<ReceiveCommand> changeCommands = ImmutableList.of();
       ImmutableList<InsertedObject> changeObjects = ImmutableList.of();
       if (changeRepo != null) {

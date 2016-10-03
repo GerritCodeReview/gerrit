@@ -87,6 +87,7 @@ limitations under the License.
 <script>
   suite('gr-diff-selection', function() {
     var element;
+    var copyEventStub;
 
     var emulateCopyOn = function(target) {
       var fakeEvent = {
@@ -96,12 +97,14 @@ limitations under the License.
           setData: sinon.stub(),
         },
       };
+      element._getCopyEventTarget.returns(target);
       element._handleCopy(fakeEvent);
       return fakeEvent;
     };
 
     setup(function() {
       element = fixture('basic');
+      sinon.stub(element, '_getCopyEventTarget');
       element._cachedDiffBuilder = {
         getLineElByChild: sinon.stub().returns({}),
         getSideByLineEl: sinon.stub(),

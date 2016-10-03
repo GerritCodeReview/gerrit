@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "82bba1d0_79cf2754",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T19:35:29Z",
+      "side": 1,
+      "message": "Premature termination of a process sounds like a program is crashing. Maybe \"DOM traversal\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_c0ff9ef4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T19:35:29Z",
+      "side": 1,
+      "message": "What does this mean? How were we mis-utilizing shadow DOM, and how do we avoid it in the future?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_801af685",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T19:35:29Z",
+      "side": 1,
+      "message": "What if the first line of the method is just \n`element \u003d Polymer.dom(element);`?\n\nOtherwise, this feels like it should go into the type.",
+      "range": {
+        "startLine": 93,
+        "startChar": 53,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82bba1d0_59ca6345",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T19:35:29Z",
+      "side": 1,
+      "message": "Does `this.classList` not work?",
+      "range": {
+        "startLine": 111,
+        "startChar": 10,
+        "endLine": 111,
+        "endChar": 37
+      },
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82bba1d0_b9ab7f70",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
         "patchSetId": 1
@@ -18,6 +110,29 @@
         "startChar": 26,
         "endLine": 127,
         "endChar": 31
+      },
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "628b0de1_60025219",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T19:35:29Z",
+      "side": 1,
+      "message": "Another way to do this would be to add a\n\n    _getCopyEventTarget: function(e) { return Polymer.dom(e).rootTarget; },\n\nmethod to GR-DIFF-SELECTION, which would get called at the start of `_handleCopy`. That way, we can merely stub that method here rather than stubbing the entire `Polymer.dom` function, which feels a little extreme.\n\nOTOH, it feels weird to add a method just for tests. Up to you.",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 34
       },
       "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

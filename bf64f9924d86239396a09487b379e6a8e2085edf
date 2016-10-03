@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82bba1d0_99b31be5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-03T19:43:41Z",
+      "side": 1,
+      "message": "Would it work if we clear the branch before this instead?",
+      "revId": "bf64f9924d86239396a09487b379e6a8e2085edf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

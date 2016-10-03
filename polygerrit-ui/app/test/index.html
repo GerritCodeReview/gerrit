@@ -22,8 +22,10 @@ limitations under the License.
 <script src="../bower_components/web-component-tester/browser.js"></script>
 <script>
   var testFiles = [];
-  var basePath = '../elements/';
+  var elementsPath = '../elements/';
+  var behaviorsPath = '../behaviors/';
 
+  // Elements tests.
   [
     'change/gr-account-entry/gr-account-entry_test.html',
     'change/gr-account-list/gr-account-list_test.html',
@@ -94,9 +96,17 @@ limitations under the License.
     'shared/gr-select/gr-select_test.html',
     'shared/gr-storage/gr-storage_test.html',
   ].forEach(function(file) {
-    file = basePath + file;
+    file = elementsPath + file;
     testFiles.push(file);
     testFiles.push(file + '?dom=shadow');
+  });
+
+  // Behaviors tests.
+  [
+    'gr-path-list-behavior/gr-path-list-behavior_test.html',
+  ].forEach(function(file) {
+    file = behaviorsPath + file;
+    testFiles.push(file);
   });
 
   WCT.loadSuites(testFiles);

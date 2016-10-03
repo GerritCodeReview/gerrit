@@ -33,13 +33,12 @@ public interface OutgoingEmailValidationListener {
   class Args {
     // in arguments
     public String messageClass;
-    public String textBody;
     @Nullable public String htmlBody;
 
     // in/out arguments
     public Address smtpFromAddress;
     public Set<Address> smtpRcptTo;
-    public String body;
+    public String body; // The text body of the email.
     public Map<String, EmailHeader> headers;
   }
 

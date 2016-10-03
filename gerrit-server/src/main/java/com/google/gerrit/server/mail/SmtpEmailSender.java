@@ -16,7 +16,9 @@ package com.google.gerrit.server.mail;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.errors.EmailException;
@@ -42,6 +44,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 /** Sends email via a nearby SMTP server. */
@@ -146,8 +149,15 @@ public class SmtpEmailSender implements EmailSender {
 
   @Override
   public void send(final Address from, Collection<Address> rcpt,
-      final Map<String, EmailHeader> callerHeaders, final String body)
+      final Map<String, EmailHeader> callerHeaders, String body)
       throws EmailException {
+    send(from, rcpt, callerHeaders, body, null);
+  }
+
+  @Override
+  public void send(final Address from, Collection<Address> rcpt,
+      final Map<String, EmailHeader> callerHeaders, String textBody,
+      @Nullable String htmlBody) throws EmailException {
     if (!isEnabled()) {
       throw new EmailException("Sending email is disabled");
     }
@@ -155,7 +165,6 @@ public class SmtpEmailSender implements EmailSender {
     final Map<String, EmailHeader> hdrs =
         new LinkedHashMap<>(callerHeaders);
     setMissingHeader(hdrs, "MIME-Version", "1.0");
-    setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
     setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
     setMissingHeader(hdrs, "Content-Disposition", "inline");
     setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
@@ -167,6 +176,18 @@ public class SmtpEmailSender implements EmailSender {
         expiryDays * 24 * 60 * 60 * 1000L );
       setMissingHeader(hdrs, "Expiry-Date",
         new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
+    }
+
+    String encodedBody;
+    if (htmlBody == null) {
+      setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
+      encodedBody = textBody;
+    } else {
+      String boundary = generateMultipartBoundary(textBody, htmlBody);
+      setMissingHeader(hdrs, "Content-Type", "multipart/alternative; "
+          + "boundary=\"" + boundary + "\"; "
+          + "charset=UTF-8");
+      encodedBody = buildMultipartBody(boundary, textBody, htmlBody);
     }
 
     StringBuffer rejected = new StringBuffer();
@@ -214,7 +235,7 @@ public class SmtpEmailSender implements EmailSender {
           }
 
           w.write("\r\n");
-          w.write(body);
+          w.write(encodedBody);
           w.flush();
         }
 
@@ -233,6 +254,49 @@ public class SmtpEmailSender implements EmailSender {
     } catch (IOException e) {
       throw new EmailException("Cannot send outgoing email", e);
     }
+  }
+
+  public static String generateMultipartBoundary(String textBody,
+      String htmlBody) throws EmailException {
+    byte[] bytes = new byte[8];
+    ThreadLocalRandom rng = ThreadLocalRandom.current();
+
+    // The probability of the boundary being valid is approximately
+    // (2^64 - len(message)) / 2^64.
+    //
+    // The message is much shorter than 2^64 bytes, so if two tries don't
+    // suffice, something is seriously wrong.
+    for (int i = 0; i < 2; i++) {
+      rng.nextBytes(bytes);
+      String boundary = BaseEncoding.base64().encode(bytes);
+      String encBoundary = "--" + boundary;
+      if (textBody.contains(encBoundary) || htmlBody.contains(encBoundary)) {
+        continue;
+      }
+      return boundary;
+    }
+    throw new EmailException("Gave up generating unique MIME boundary");
+  }
+
+  protected String buildMultipartBody(String boundary, String textPart,
+      String htmlPart) {
+    return
+        // Output the text part:
+        "--" + boundary + "\r\n"
+        + "Content-Type: text/plain; charset=UTF-8\r\n"
+        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "\r\n"
+        + textPart + "\r\n"
+
+        // Output the HTML part:
+        + "--" + boundary + "\r\n"
+        + "Content-Type: text/html; charset=UTF-8\r\n"
+        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "\r\n"
+        + htmlPart + "\r\n"
+
+        // Output the closing boundary.
+        + "--" + boundary + "--\r\n";
   }
 
   private void setMissingHeader(final Map<String, EmailHeader> hdrs,

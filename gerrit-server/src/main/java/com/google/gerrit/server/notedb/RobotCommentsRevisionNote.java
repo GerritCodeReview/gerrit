@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.reviewdb.client.RobotComment;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -40,7 +42,7 @@ public class RobotCommentsRevisionNote extends RevisionNote<RobotComment> {
       throws IOException {
     try (InputStream is = new ByteArrayInputStream(
         raw, offset, raw.length - offset);
-        Reader r = new InputStreamReader(is)) {
+        Reader r = new InputStreamReader(is, UTF_8)) {
       return noteUtil.getGson().fromJson(r,
           RobotCommentsRevisionNoteData.class).comments;
     }

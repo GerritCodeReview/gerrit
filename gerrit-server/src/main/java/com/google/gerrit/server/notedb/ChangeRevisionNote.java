@@ -92,7 +92,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
       int offset) throws IOException {
     try (InputStream is = new ByteArrayInputStream(
         raw, offset, raw.length - offset);
-        Reader r = new InputStreamReader(is)) {
+        Reader r = new InputStreamReader(is, UTF_8)) {
       return noteUtil.getGson().fromJson(r, RevisionNoteData.class);
     }
   }
@@ -109,6 +109,6 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     }
     int start = p.value;
     p.value = end + END_SIGNATURE.length;
-    return new String(bytes, start, p.value);
+    return new String(bytes, start, p.value, UTF_8);
   }
 }

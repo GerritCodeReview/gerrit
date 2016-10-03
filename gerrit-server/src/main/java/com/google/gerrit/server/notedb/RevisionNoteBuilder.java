@@ -139,7 +139,7 @@ class RevisionNoteBuilder {
     data.comments = COMMENT_ORDER.sortedCopy(comments.values());
     data.pushCert = pushCert;
 
-    try (OutputStreamWriter osw = new OutputStreamWriter(out)) {
+    try (OutputStreamWriter osw = new OutputStreamWriter(out, UTF_8)) {
       noteUtil.getGson().toJson(data, osw);
     }
   }

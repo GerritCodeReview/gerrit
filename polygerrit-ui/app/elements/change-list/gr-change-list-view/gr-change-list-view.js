@@ -23,6 +23,7 @@
      * @event title-change
      */
 
+    behaviors: [Gerrit.URLEncodingBehavior],
     properties: {
       /**
        * URL params passed from the router.
@@ -116,7 +117,8 @@
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       var newOffset = Math.max(0, offset + (changesPerPage * direction));
-      var href = '/q/' + query;
+      // Double encode URI component.
+      var href = '/q/' + this.encodeURL(query, false);
       if (newOffset > 0) {
         href += ',' + newOffset;
       }

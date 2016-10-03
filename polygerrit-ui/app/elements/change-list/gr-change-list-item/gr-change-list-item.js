@@ -44,6 +44,7 @@
 
     behaviors: [
       Gerrit.RESTClientBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     _computeChangeURL: function(changeNum) {
@@ -108,15 +109,14 @@
     },
 
     _computeProjectURL: function(project) {
-      // @see Issue 4255.
       return '/q/status:open+project:' +
-          encodeURIComponent(encodeURIComponent(project));
+          this.encodeURL(project, false);
     },
 
     _computeProjectBranchURL: function(project, branch) {
       // @see Issue 4255.
       return this._computeProjectURL(project) +
-          '+branch:' + encodeURIComponent(encodeURIComponent(branch));
+          '+branch:' + this.encodeURL(branch, false);
     },
   });
 })();

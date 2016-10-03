@@ -71,6 +71,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     reload: function() {
@@ -140,8 +141,8 @@
     _handlePatchChange: function(e) {
       var patchRange = Object.assign({}, this.patchRange);
       patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
-      page.show('/c/' + encodeURIComponent(this.changeNum) + '/' +
-          encodeURIComponent(this._patchRangeStr(patchRange)));
+      page.show(this.encodeURL('/c/' + this.changeNum + '/' +
+          this._patchRangeStr(patchRange), true));
     },
 
     _forEachDiff: function(fn) {
@@ -410,17 +411,8 @@
     },
 
     _computeDiffURL: function(changeNum, patchRange, path) {
-      // @see Issue 4255 regarding double-encoding.
-      path = encodeURIComponent(encodeURIComponent(path));
-      // @see Issue 4577 regarding more readable URLs.
-      path = path.replace(/%252F/g, '/');
-      path = path.replace(/%2520/g, '+');
-      return '/c/' +
-          encodeURIComponent(changeNum) +
-          '/' +
-          encodeURIComponent(this._patchRangeStr(patchRange)) +
-          '/' +
-          path;
+      return this.encodeURL('/c/' + changeNum + '/' +
+          this._patchRangeStr(patchRange) + '/' + path, true);
     },
 
     _patchRangeStr: function(patchRange) {

@@ -16,6 +16,24 @@
       "revId": "bf64f9924d86239396a09487b379e6a8e2085edf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02c7b166_1572743d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-03T19:51:40Z",
+      "side": 1,
+      "message": "Yeah, that would probably work and would be simpler.",
+      "parentUuid": "82bba1d0_99b31be5",
+      "revId": "bf64f9924d86239396a09487b379e6a8e2085edf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

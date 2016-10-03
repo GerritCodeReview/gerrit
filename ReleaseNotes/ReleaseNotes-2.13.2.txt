@@ -20,6 +20,18 @@ Read project watches from database.
 Project watches were being read from the git backend by default, but the
 migration to git is not yet completed.
 
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4632[Issue 4632]:
+Fix server error when deleting multiple SSH keys from the Web UI.
++
+Attempting to delete multiple keys in parallel resulted in a lock failure
+when removing the keys from the git backend.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4645[Issue 4645]:
+Fix malformed account suggestions.
++
+If the query contained several query terms and one of the query terms was
+a substring of 'strong', the suggestion was malformed.
+
 * Hooks plugin: Fix incorrect value passed to `--change-url` parameter.
 +
 The URL was being generated using the change's Change-Id rather than the

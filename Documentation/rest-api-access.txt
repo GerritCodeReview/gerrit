@@ -334,10 +334,10 @@ The action of this rule. For normal permissions this can be `ALLOW`,
 |`force`        |not set if `false`|
 Whether the force flag is set.
 |`min`          |
-not set if range if empty (from `0` to `0`) or not set|
+not set if range is empty (from `0` to `0`) or not set|
 The min value of the permission range.
 |`max`          |
-not set if range if empty (from `0` to `0`) or not set|
+not set if range is empty (from `0` to `0`) or not set|
 The max value of the permission range.
 |==================================
 

@@ -219,7 +219,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     private final Search search;
     private final Set<String> fields;
 
-    public QuerySource(List<String> types, Predicate<ChangeData> p,
+    QuerySource(List<String> types, Predicate<ChangeData> p,
         QueryOptions opts) throws QueryParseException {
       List<Sort> sorts = ImmutableList.of(
           new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),

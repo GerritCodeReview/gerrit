@@ -87,6 +87,7 @@ limitations under the License.
 <script>
   suite('gr-diff-selection', function() {
     var element;
+    var eventDomStub;
 
     var emulateCopyOn = function(target) {
       var fakeEvent = {
@@ -123,6 +124,19 @@ limitations under the License.
           },
         ],
       };
+      // Use a closure to cache and perform the original behavior when the param
+      // is not an event.
+      eventDomStub = (function() {
+        var originalDomFn = Polymer.dom;
+        return sinon.stub(Polymer, 'dom', function(e) {
+          if (!e.target) { return originalDomFn(e); }
+          return {rootTarget: e.target};
+        });
+      }());
+    });
+
+    teardown(function() {
+      eventDomStub.restore();
     });
 
     test('applies selected-left on left side click', function() {

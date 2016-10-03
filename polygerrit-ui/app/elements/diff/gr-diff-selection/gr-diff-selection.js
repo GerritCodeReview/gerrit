@@ -90,7 +90,7 @@
      * Utility function to determine whether an element is a descendant of
      * another element with the particular className.
      *
-     * @param {!Element} element
+     * @param {!Element} element The already Polymer.dom()-ified element
      * @param {!string} className
      * @return {boolean}
      */
@@ -107,14 +107,15 @@
 
     _handleCopy: function(e) {
       var commentSelected = false;
-      if (this._elementDescendedFromClass(e.target, SelectionClass.COMMENT)) {
+      var target = Polymer.dom(e).rootTarget;
+      if (Polymer.dom(this).classList.contains(SelectionClass.COMMENT)) {
         commentSelected = true;
       } else {
-        if (!this._elementDescendedFromClass(e.target, 'content')) {
+        if (!this._elementDescendedFromClass(target, 'content')) {
           return;
         }
       }
-      var lineEl = this.diffBuilder.getLineElByChild(e.target);
+      var lineEl = this.diffBuilder.getLineElByChild(target);
       if (!lineEl) {
         return;
       }
@@ -214,6 +215,9 @@
       var content = [];
       // Fall back to default copy behavior if the selection lies within one
       // comment body.
+      if (range.startContainer === range.endContainer) {
+        return;
+      }
       if (this._elementDescendedFromClass(range.commonAncestorContainer,
           'message')) {
         return;

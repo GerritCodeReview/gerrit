@@ -40,6 +40,24 @@
       "revId": "bf457dd412caed497a87640b046a5db2ad3420f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82bba1d0_59950336",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-03T17:31:22Z",
+      "side": 1,
+      "message": "Not really. join() is slower. It just lends itself to not having to worrying about where the trailing/leading spaces are in your strings.",
+      "parentUuid": "82bba1d0_199b8b6d",
+      "revId": "bf457dd412caed497a87640b046a5db2ad3420f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

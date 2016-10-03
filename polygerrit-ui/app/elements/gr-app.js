@@ -160,13 +160,14 @@
       }
     },
 
-    _handleLocationChange: function() {
-      var hash = location.hash.substring(1);
-      var pathname = location.pathname;
+    _handleLocationChange: function(e) {
+      var curLocation = e.detail.location;
+      var hash = curLocation.hash.substring(1);
+      var pathname = curLocation.pathname;
       if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
         pathname += '@' + hash;
       }
-      this.set('_path', encodeURIComponent(pathname));
+      this.set('_path', pathname);
     },
 
     _handleTitleChange: function(e) {

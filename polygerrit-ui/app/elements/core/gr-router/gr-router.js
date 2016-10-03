@@ -36,7 +36,7 @@
       // Fire asynchronously so that the URL is changed by the time the event
       // is processed.
       app.async(function() {
-        app.fire('location-change');
+        app.fire('location-change', {location: location});
         reporting.locationChanged();
       }, 1);
       next();

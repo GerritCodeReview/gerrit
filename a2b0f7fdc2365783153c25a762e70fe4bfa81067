@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "e2553dad_a499c272",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T22:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4290c909_1fc40308",
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c252f9c5_e376d22f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 2
@@ -88,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "e2553dad_8494c63b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T22:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22991538_feca8110",
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2553dad_a480e2fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 2
@@ -99,6 +135,24 @@
       "writtenOn": "2016-10-04T18:16:34Z",
       "side": 1,
       "message": "Consider setting a boolean flag to call listen() once.",
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_c3bf16ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T22:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2553dad_a480e2fc",
       "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

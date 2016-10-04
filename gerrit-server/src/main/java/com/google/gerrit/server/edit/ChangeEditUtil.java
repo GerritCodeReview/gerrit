@@ -41,8 +41,6 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -71,7 +69,6 @@ public class ChangeEditUtil {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeIndexer indexer;
-  private final ProjectCache projectCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final ChangeKindCache changeKindCache;
@@ -83,7 +80,6 @@ public class ChangeEditUtil {
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
-      ProjectCache projectCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       ChangeKindCache changeKindCache,
@@ -93,7 +89,6 @@ public class ChangeEditUtil {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.changeControlFactory = changeControlFactory;
     this.indexer = indexer;
-    this.projectCache = projectCache;
     this.db = db;
     this.user = user;
     this.changeKindCache = changeKindCache;
@@ -196,10 +191,10 @@ public class ChangeEditUtil {
         .append(inserter.getPatchSetId().get())
         .append(": ");
 
-      ProjectState project = projectCache.get(change.getDest().getParentKey());
       // Previously checked that the base patch set is the current patch set.
       ObjectId prior = ObjectId.fromString(basePatchSet.getRevision().get());
-      ChangeKind kind = changeKindCache.getChangeKind(project, repo, prior, squashed);
+      ChangeKind kind = changeKindCache.getChangeKind(
+          change.getProject(), repo, prior, squashed);
       if (kind == ChangeKind.NO_CODE_CHANGE) {
         message.append("Commit message was updated.");
       } else {

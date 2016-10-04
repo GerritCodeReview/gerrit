@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1475527828 +0800\npushee rpc://gerrit/gerrit\nnonce AKOpmBVbKGlyPzrLj7BuwoeoeMToUuRdgkgskXwVo/nHG2mLkBz5Jia4AXsvp7ejnCnY04Wm4t+N\n\n0000000000000000000000000000000000000000 17b99a33ea12dd508dd7184c426c7bccb342e861 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX8sSUAAoJELOGKwXbr+wPhCAP+wVH0dWMHNdwdGWzLSglxvYS\nealyb/uZjiaWAUh7jOuvlfKalisWzlmY7Af+c1Tj0C/ZUTHnK4Euwfr2YmxJwza4\nA3GG9Zz7bC4twNtSrUS04ceRZERmHectVzTo3wYIugvJliorrdCZUug4Rw+8V4Od\nY3MWtzx8TKlW94/Mlpz+9aebpFM045CtO341LbWNdzJQcvZfh1kcP/HuMXwo9W0f\niP/z/jZmTBGjmPkS41SIbhn9NdmMJzA6FKqutq4S1thCSHe2VC6Sk37sOQK6Zf9V\npzw2C/kI/niVDcZHDAp2u0xek+X3eT7MCQ+piYL1bNL2/FMdSzk23bJO1rYewJyg\nxe70iglPrDhLG+7kzWC3tX2/Wm230R8cu73PfsBhZ3qj2tMRHdmuvJtJDd7UWT/W\nCGLRXGybiihLG77R1jXgS2YCUZT9W9KiUcQbBgrweaUL8xkMZ/uLVhl8X0druYGz\nLjo+JA57p590eqa0XcaveEwqasqqAte4qCKVrWgSKRF9j/nsOV385H6rRXU3T1ru\nc6uPQh3A6iBnQgVfC6yp1VM+fJzVXWX5tEu3LaEOGsMHiuTZtk2JpFWS/SEfM+su\nhM5DV499ji2NTkgQMHyhSDmvHEtmlClVgKwQZ5psd+LPqn5Gq7+M1gfyUtO7W2hZ\nyY1jj68OB6aGcZ06LOzq\n\u003ddUOr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "82ec810b_71ddf802",
+        "filename": "gerrit-prettify/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-04T09:57:16Z",
+      "side": 1,
+      "message": "you\u0027re copying this around 2 times. Where is this used? Can\u0027t you pass the location of files as a flag?",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_b0c91852",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-04T09:57:16Z",
+      "side": 1,
+      "message": "your SRCS will contain version.txt, which I think you don\u0027t want. I think you should pass it in a separate keyword arg.",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 17
+      },
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ec810b_51daf40c",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-04T09:57:16Z",
+      "side": 1,
+      "message": "it\u0027s actually legal to refer to src files as \":foo.cc\" as well, so this isn\u0027t really correct; the distinction between srcs and tools is the configuration (the latter being in host configuration).",
+      "range": {
+        "startLine": 51,
+        "startChar": 38,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_d0c49c3b",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-04T09:57:16Z",
+      "side": 1,
+      "message": "You are going through some contortions to build all HTML files in a single command line invocation, is that right? Is ascidoctor treating the inputs as a whole, or does it just loop over each file in sequence? \n\nIt may easier to phrase the compilation in terms of an actual rule. You could declare the inputs as \n\nascii_doctor\u003drule(\n  implementation\u003d_asci_doc_impl,\n  attr\u003d{\n    \"srcs\": attr.label_list(mandatory\u003dTrue, allow_files\u003d[\".txt\"]),\n    \"_exe\": attr.label(default\u003d\"//lib:ascidoctor\"),\n    \"outs\": attr.label_list(),\n  }\n)\n\n(see https://www.bazel.io/versions/master/docs/skylark/cookbook.html#outputs-default)\n\nand then you get a list of files inside the rule as \n\n  cmd \u003d [ctx.file._exe.path]\n  for f in ctx.files.srcs:\n     cmd.append(f.path)\n\n  ctx.actions(\n     inputs \u003d [ctx.file._exe]+list(ctx.files.srcs),\n     command \u003d cmd, outputs\u003d ctx.files.outs,\n  )\n\nthis would work transparently with filegroups, and no need to muck about with copying files.\n\nthis would give you the material to make a rule that you can invoke as \n\n asci_doctor(srcs\u003d [\"a.txt\", \"b.txt\"], outs \u003d  [\"a.html\", \"b.html\"])\n\nthen you can wrap that in a macro that derives the output names from the input names.\n\nThis maybe overkill, but the code here is hard to follow.  What are the generated files that you are trying to process?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 6
+      },
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

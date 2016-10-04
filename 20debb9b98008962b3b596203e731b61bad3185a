@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "02c7b166_351bf0e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T00:45:52Z",
+      "side": 1,
+      "message": "That\u0027s the nice thing about testing the components separately! It means we should be loading util.js in GR-ACCOUNT-LABEL.",
+      "parentUuid": "42a609c5_af26b920",
+      "revId": "20debb9b98008962b3b596203e731b61bad3185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02c7b166_55e30cc5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 6

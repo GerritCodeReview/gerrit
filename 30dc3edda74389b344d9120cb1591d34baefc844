@@ -16,6 +16,24 @@
       "revId": "30dc3edda74389b344d9120cb1591d34baefc844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_e3ed72b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T20:58:25Z",
+      "side": 1,
+      "message": "The Parent part was added automatically (not in my commit message). not sure how to fix this?",
+      "parentUuid": "c252f9c5_63b182db",
+      "revId": "30dc3edda74389b344d9120cb1591d34baefc844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

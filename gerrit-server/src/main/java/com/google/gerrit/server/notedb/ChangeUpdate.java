@@ -27,6 +27,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -82,6 +83,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -100,8 +102,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
     ChangeUpdate create(ChangeControl ctl);
     ChangeUpdate create(ChangeControl ctl, Date when);
-    ChangeUpdate create(Change change, @Nullable Account.Id accountId,
-        PersonIdent authorIdent, Date when,
+
+    ChangeUpdate create(
+        Change change,
+        @Assisted("effective") @Nullable Account.Id accountId,
+        @Assisted("real") @Nullable Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when,
         Comparator<String> labelNameComparator);
 
     @VisibleForTesting
@@ -218,12 +225,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
-      @Assisted @Nullable Account.Id accountId,
+      @Assisted("effective") @Nullable Account.Id accountId,
+      @Assisted("real") @Nullable Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, realAccountId, authorIdent, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -345,11 +353,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (draftUpdate == null) {
       ChangeNotes notes = getNotes();
       if (notes != null) {
-        draftUpdate =
-            draftUpdateFactory.create(notes, accountId, authorIdent, when);
+        draftUpdate = draftUpdateFactory.create(
+            notes, accountId, realAccountId, authorIdent, when);
       } else {
         draftUpdate = draftUpdateFactory.create(
-            getChange(), accountId, authorIdent, when);
+            getChange(), accountId, realAccountId, authorIdent, when);
       }
     }
     return draftUpdate;
@@ -360,11 +368,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (robotCommentUpdate == null) {
       ChangeNotes notes = getNotes();
       if (notes != null) {
-        robotCommentUpdate =
-            robotCommentUpdateFactory.create(notes, accountId, authorIdent, when);
+        robotCommentUpdate = robotCommentUpdateFactory.create(
+            notes, accountId, realAccountId, authorIdent, when);
       } else {
         robotCommentUpdate = robotCommentUpdateFactory.create(
-            getChange(), accountId, authorIdent, when);
+            getChange(), accountId, realAccountId, authorIdent, when);
       }
     }
     return robotCommentUpdate;
@@ -645,6 +653,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           }
         }
       }
+    }
+
+    if (!Objects.equals(accountId, realAccountId)) {
+      addFooter(msg, FOOTER_REAL_USER);
+      addIdent(msg, realAccountId).append('\n');
     }
 
     cb.setMessage(msg.toString());

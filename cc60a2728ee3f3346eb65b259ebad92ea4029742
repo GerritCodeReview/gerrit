@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c252f9c5_e31a52df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T22:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c252f9c5_c3e876a4",
+      "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2553dad_a4cea255",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-04T20:59:12Z",
       "side": 1,
       "message": "This method is called after *each* diff renders, not after they all have rendered, so wouldn\u0027t this stop listening after the first diff renders?",
+      "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_a4e782cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T22:05:23Z",
+      "side": 1,
+      "message": "Yeah, then it\u0027s the wrong spot. Where would be the best place to catch that it\u0027s all done?",
+      "parentUuid": "e2553dad_a4cea255",
       "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

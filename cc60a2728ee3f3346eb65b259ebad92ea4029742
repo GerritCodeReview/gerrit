@@ -109,6 +109,24 @@
       "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_a3245a1c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T22:06:29Z",
+      "side": 1,
+      "message": "I think I named this poorly, but it was for the reason you stated above. Though now, I think I\u0027m better off just adding an attached function.",
+      "parentUuid": "c252f9c5_83e27ec0",
+      "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

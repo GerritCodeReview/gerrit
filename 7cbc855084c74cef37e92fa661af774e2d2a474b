@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "e2553dad_e4c49a3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T20:45:02Z",
+      "side": 1,
+      "message": "Actually, adding this line further complicates the testing structure. Because of the mock copy event, Polymer.dom incorrectly maps the object. I\u0027m modifying the type instead.",
+      "parentUuid": "42a609c5_4f7c6d0e",
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2553dad_6483ca07",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 1
@@ -136,6 +154,24 @@
       "writtenOn": "2016-10-04T18:47:14Z",
       "side": 1,
       "message": "I guess I\u0027m missing something - why is rootTarget needed?\nProbably worth adding a comment or, if possible, a test case which only works with .rootTarget and doesn\u0027t with .target",
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_a3ce9a55",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T20:45:02Z",
+      "side": 1,
+      "message": "Just following Polymer best practices.\n\nhttps://www.polymer-project.org/1.0/docs/devguide/events#retargeting\n\nI\u0027ve seen this pattern followed in a ton of other places in the codebase -- was trying to be consistent.",
+      "parentUuid": "e2553dad_6483ca07",
       "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -195,6 +231,24 @@
       "side": 1,
       "message": "I believe you have to use Polymer.dom() for changing, but reading should be just fine without it - in fact, it\u0027s proxied back in the code:\nhttps://github.com/Polymer/polymer/blob/master/src/lib/dom-api-classlist.html",
       "parentUuid": "02c7b166_7581e8fe",
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_c4bf1eab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T20:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2553dad_4486ce18",
       "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -295,6 +349,24 @@
       "side": 1,
       "message": "\u003e Seemed silly to add another fn call to the stack just for test clarity\nI see your point, but the performance difference is marginal while Wyatt\u0027s approach is easier to read for someone who isn\u0027t proficient with Polymer or code tested.",
       "parentUuid": "42a609c5_8f85750d",
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_43b486cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T20:45:02Z",
+      "side": 1,
+      "message": "Okay, going with Wyatt\u0027s approach.",
+      "parentUuid": "e2553dad_0490d649",
       "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

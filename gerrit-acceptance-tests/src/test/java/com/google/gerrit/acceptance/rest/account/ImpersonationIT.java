@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -37,24 +38,28 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.ApprovalInfo;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
 import org.apache.http.Header;
@@ -66,6 +71,15 @@ import org.junit.Test;
 public class ImpersonationIT extends AbstractDaemonTest {
   @Inject
   private AccountControl.Factory accountControlFactory;
+
+  @Inject
+  private ApprovalsUtil approvalsUtil;
+
+  @Inject
+  private ChangeMessagesUtil cmUtil;
+
+  @Inject
+  private CommentsUtil commentsUtil;
 
   private RestSession anonRestSession;
   private TestAccount admin2;
@@ -99,19 +113,19 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.message = "Message on behalf of";
     revision.review(in);
 
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        r.getChange().approvals().values());
+    assertThat(psa.getPatchSetId().get()).isEqualTo(1);
+    assertThat(psa.getLabel()).isEqualTo("Code-Review");
+    assertThat(psa.getAccountId()).isEqualTo(user.id);
+    assertThat(psa.getValue()).isEqualTo(1);
+    assertThat(psa.getRealAccountId()).isEqualTo(admin.id);
 
-    LabelInfo codeReview = c.labels.get("Code-Review");
-    assertThat(codeReview.all).hasSize(1);
-    ApprovalInfo approval = codeReview.all.get(0);
-    assertThat(approval._accountId).isEqualTo(user.id.get());
-    assertThat(approval.value).isEqualTo(1);
-
-    ChangeMessageInfo m = Iterables.getLast(c.messages);
-    assertThat(m.message).endsWith(in.message);
-    assertThat(m.author._accountId).isEqualTo(user.id.get());
+    ChangeData cd = r.getChange();
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(db, cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(user.id);
+    assertThat(m.getRealAuthor()).isEqualTo(admin.id);
   }
 
   @Test
@@ -203,6 +217,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @GerritConfig(name = "notedb.writeJson", value = "true")
   @Test
   public void voteOnBehalfOfWithCommentWritingJson() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
     testVoteOnBehalfOfWithComment();
   }
 
@@ -219,12 +234,22 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ci.line = 1;
     ci.message = "message";
     in.comments = ImmutableMap.of(ci.path, ImmutableList.of(ci));
-
     gApi.changes().id(r.getChangeId()).current().review(in);
-    CommentInfo c = Iterables.getOnlyElement(
-        gApi.changes().id(r.getChangeId()).current().commentsAsList());
-    assertThat(c.author._accountId).isEqualTo(user.id.get());
+
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        r.getChange().approvals().values());
+    assertThat(psa.getPatchSetId().get()).isEqualTo(1);
+    assertThat(psa.getLabel()).isEqualTo("Code-Review");
+    assertThat(psa.getAccountId()).isEqualTo(user.id);
+    assertThat(psa.getValue()).isEqualTo(1);
+    assertThat(psa.getRealAccountId()).isEqualTo(admin.id);
+
+    ChangeData cd = r.getChange();
+    Comment c = Iterables.getOnlyElement(
+        commentsUtil.publishedByChange(db, cd.notes()));
     assertThat(c.message).isEqualTo(ci.message);
+    assertThat(c.author.getId()).isEqualTo(user.id);
+    assertThat(c.getRealAuthor().getId()).isEqualTo(admin.id);
   }
 
   @Test
@@ -325,8 +350,13 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .id(changeId)
         .current()
         .submit(in);
-    assertThat(gApi.changes().id(changeId).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
+
+    ChangeData cd = r.getChange();
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    PatchSetApproval submitter = approvalsUtil.getSubmitter(
+        db, cd.notes(), cd.change().currentPatchSetId());
+    assertThat(submitter.getAccountId()).isEqualTo(admin2.id);
+    assertThat(submitter.getRealAccountId()).isEqualTo(admin.id);
   }
 
   @Test
@@ -499,6 +529,48 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
     setApiUser(user);
     assertThat(gApi.changes().id(r.getChangeId()).drafts()).isEmpty();
+  }
+
+  @Test
+  public void runAsWithOnBehalfOf() throws Exception {
+    // - Has the same restrictions as on_behalf_of (e.g. requires labels).
+    // - Takes the effective user from on_behalf_of (user).
+    // - Takes the real user from the real caller, not the intermediate
+    //   X-Gerrit-RunAs user (user2).
+    allowRunAs();
+    allowCodeReviewOnBehalfOf();
+    TestAccount user2 = accounts.user2();
+
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = new ReviewInput();
+    in.onBehalfOf = user.id.toString();
+    in.message = "Message on behalf of";
+
+    String endpoint =
+        "/changes/" + r.getChangeId() + "/revisions/current/review";
+    RestResponse res =
+        adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id));
+    res.assertForbidden();
+    assertThat(res.getEntityContent()).isEqualTo(
+        "label required to post review on behalf of \"" + in.onBehalfOf + '"');
+
+    in.label("Code-Review", 1);
+    adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id))
+        .assertOK();
+
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        r.getChange().approvals().values());
+    assertThat(psa.getPatchSetId().get()).isEqualTo(1);
+    assertThat(psa.getLabel()).isEqualTo("Code-Review");
+    assertThat(psa.getAccountId()).isEqualTo(user.id);
+    assertThat(psa.getValue()).isEqualTo(1);
+    assertThat(psa.getRealAccountId()).isEqualTo(admin.id); // not user2
+
+    ChangeData cd = r.getChange();
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(db, cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(user.id);
+    assertThat(m.getRealAuthor()).isEqualTo(admin.id); // not user2
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {

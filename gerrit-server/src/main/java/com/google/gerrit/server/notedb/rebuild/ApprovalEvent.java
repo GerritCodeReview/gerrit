@@ -23,8 +23,8 @@ class ApprovalEvent extends Event {
   private PatchSetApproval psa;
 
   ApprovalEvent(PatchSetApproval psa, Timestamp changeCreatedOn) {
-    super(psa.getPatchSetId(), psa.getAccountId(), psa.getGranted(),
-        changeCreatedOn, psa.getTag());
+    super(psa.getPatchSetId(), psa.getAccountId(), psa.getRealAccountId(),
+        psa.getGranted(), changeCreatedOn, psa.getTag());
     this.psa = psa;
   }
 

@@ -46,6 +46,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerId;
@@ -1663,6 +1664,59 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             revId, comment1,
             revId, comment2,
             revId, comment3));
+  }
+
+  @Test
+  public void patchLineCommentNotesFormatRealAuthor() throws Exception {
+    Change c = newChange();
+    CurrentUser ownerAsOtherUser =
+        userFactory.runAs(null, otherUserId, changeOwner);
+    ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
+    String uuid = "uuid";
+    String message = "comment";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    Timestamp time = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+
+    Comment comment = newComment(psId, "file", uuid, range,
+        range.getEndLine(), otherUser, null, time, message, (short) 1,
+        revId.get());
+    comment.setRealAuthor(changeOwner.getAccountId());
+    update.setPatchSetId(psId);
+    update.putComment(Status.PUBLISHED, comment);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    try (RevWalk walk = new RevWalk(repo)) {
+      ArrayList<Note> notesInTree =
+          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
+      Note note = Iterables.getOnlyElement(notesInTree);
+
+      byte[] bytes =
+          walk.getObjectReader().open(
+              note.getData(), Constants.OBJ_BLOB).getBytes();
+      String noteString = new String(bytes, UTF_8);
+
+      if (!testJson()) {
+        assertThat(noteString).isEqualTo(
+            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+                + "Patch-set: 1\n"
+                + "File: file\n"
+                + "\n"
+                + "1:1-2:1\n"
+                + ChangeNoteUtil.formatTime(serverIdent, time) + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "Real-author: Change Owner <1@gerrit>\n"
+                + "UUID: uuid\n"
+                + "Bytes: 7\n"
+                + "comment\n"
+                + "\n");
+      }
+    }
+    assertThat(notes.getComments())
+        .isEqualTo(ImmutableMultimap.of(revId, comment));
   }
 
   @Test

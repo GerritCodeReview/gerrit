@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "c252f9c5_e376d22f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-04T18:16:34Z",
+      "side": 1,
+      "message": "(nit) Not sure if \u003d\u003d\u003d true is worth adding.",
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22991538_feca8110",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 2
@@ -65,6 +82,23 @@
         "endLine": 196,
         "endChar": 74
       },
+      "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_a480e2fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-04T18:16:34Z",
+      "side": 1,
+      "message": "Consider setting a boolean flag to call listen() once.",
       "revId": "a2b0f7fdc2365783153c25a762e70fe4bfa81067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

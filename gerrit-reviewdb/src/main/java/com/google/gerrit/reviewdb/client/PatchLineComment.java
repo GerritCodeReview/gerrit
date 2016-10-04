@@ -123,6 +123,7 @@ public final class PatchLineComment {
     plc.setTag(c.tag);
     plc.setRevId(new RevId(c.revId));
     plc.setStatus(status);
+    plc.setRealAuthor(c.getRealAuthor().getId());
     return plc;
   }
 
@@ -167,6 +168,13 @@ public final class PatchLineComment {
   protected String tag;
 
   /**
+   * Real user that added this comment on behalf of the user recorded in {@link
+   * #author}.
+   */
+  @Column(id = 11, notNull = false)
+  protected Account.Id realAuthor;
+
+  /**
    * The RevId for the commit to which this comment is referring.
    *
    * Note that this field is not stored in the database. It is just provided
@@ -192,6 +200,7 @@ public final class PatchLineComment {
     key = o.key;
     lineNbr = o.lineNbr;
     author = o.author;
+    realAuthor = o.realAuthor;
     writtenOn = o.writtenOn;
     status = o.status;
     side = o.side;
@@ -225,6 +234,15 @@ public final class PatchLineComment {
 
   public Account.Id getAuthor() {
     return author;
+  }
+
+  public Account.Id getRealAuthor() {
+    return realAuthor != null ? realAuthor : getAuthor();
+  }
+
+  public void setRealAuthor(Account.Id id) {
+    // Use null for same real author, as before the column was added.
+    realAuthor = Objects.equals(getAuthor(), id) ? null : id;
   }
 
   public Timestamp getWrittenOn() {
@@ -309,6 +327,7 @@ public final class PatchLineComment {
     c.lineNbr = lineNbr;
     c.parentUuid = parentUuid;
     c.tag = tag;
+    c.setRealAuthor(getRealAuthor());
     return c;
   }
 
@@ -343,6 +362,8 @@ public final class PatchLineComment {
     builder.append("key=").append(key).append(',');
     builder.append("lineNbr=").append(lineNbr).append(',');
     builder.append("author=").append(author.get()).append(',');
+    builder.append("realAuthor=")
+        .append(realAuthor != null ? realAuthor.get() : "").append(',');
     builder.append("writtenOn=").append(writtenOn.toString()).append(',');
     builder.append("status=").append(status).append(',');
     builder.append("side=").append(side).append(',');

@@ -647,6 +647,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         Comment c, PatchSet ps) throws OrmException {
       c.writtenOn = ctx.getWhen();
       c.tag = in.tag;
+      // Draft may have been created by a different real user; copy the current
+      // real user. (Only applies to X-Gerrit-RunAs, since modifying drafts via
+      // on_behalf_of is not allowed.)
+      ctx.getUser().updateRealAccountId(c::setRealAuthor);
       setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
       return c;
     }
@@ -767,6 +771,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           c.setValue(ent.getValue());
           c.setGranted(ctx.getWhen());
           c.setTag(in.tag);
+          ctx.getUser().updateRealAccountId(c::setRealAccountId);
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           oldApprovals.put(normName, previous.get(normName));

@@ -65,7 +65,7 @@ class StatusChangeEvent extends Event {
   private StatusChangeEvent(PatchSet.Id psId, Account.Id author,
       Timestamp when, Change change, Change noteDbChange,
       String tag, Change.Status status) {
-    super(psId, author, when, change.getCreatedOn(), tag);
+    super(psId, author, author, when, change.getCreatedOn(), tag);
     this.change = change;
     this.noteDbChange = noteDbChange;
     this.status = status;

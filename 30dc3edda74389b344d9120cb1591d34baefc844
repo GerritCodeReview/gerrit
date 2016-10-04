@@ -34,6 +34,24 @@
       "revId": "30dc3edda74389b344d9120cb1591d34baefc844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_43dd6602",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T21:00:53Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t mean this part, I mean the commit message below.",
+      "parentUuid": "c252f9c5_e3ed72b1",
+      "revId": "30dc3edda74389b344d9120cb1591d34baefc844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

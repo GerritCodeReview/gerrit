@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c252f9c5_c3e876a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T20:59:12Z",
+      "side": 1,
+      "message": "Use the constant here.",
+      "range": {
+        "startLine": 208,
+        "startChar": 30,
+        "endLine": 208,
+        "endChar": 44
+      },
+      "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_a4cea255",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T20:59:12Z",
+      "side": 1,
+      "message": "This method is called after *each* diff renders, not after they all have rendered, so wouldn\u0027t this stop listening after the first diff renders?",
+      "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_64b18adb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T20:59:12Z",
+      "side": 1,
+      "message": "This is adding a new listener to `window` for each diff. You only need to listen once.",
+      "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_83e27ec0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T20:59:12Z",
+      "side": 1,
+      "message": "Why is this being set to true?",
+      "revId": "cc60a2728ee3f3346eb65b259ebad92ea4029742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -193,7 +193,8 @@ public class ReplaceOp extends BatchUpdate.Op {
 
   @Override
   public void updateRepo(RepoContext ctx) throws Exception {
-    changeKind = changeKindCache.getChangeKind(projectControl.getProjectState(),
+    changeKind = changeKindCache.getChangeKind(
+        projectControl.getProject().getNameKey(),
         ctx.getRepository(), priorCommit, commit);
 
     if (checkMergedInto) {

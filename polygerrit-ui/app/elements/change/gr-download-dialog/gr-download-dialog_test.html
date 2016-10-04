@@ -115,6 +115,14 @@ limitations under the License.
       };
     });
 
+    test('focuses on first download link', function() {
+      var focusStub = sinon.stub(element.$.download, 'focus');
+      element.focus();
+      flushAsynchronousOperations();
+      assert.isTrue(focusStub.called);
+      focusStub.restore();
+    });
+
     test('element visibility', function() {
       assert.isFalse(element.$$('ul').hasAttribute('hidden'));
       assert.isFalse(element.$$('main').hasAttribute('hidden'));
@@ -154,7 +162,6 @@ limitations under the License.
         assert.isFalse(el.hasAttribute('selected'));
       });
     });
-
   });
 
   suite('gr-download-dialog tests', function() {

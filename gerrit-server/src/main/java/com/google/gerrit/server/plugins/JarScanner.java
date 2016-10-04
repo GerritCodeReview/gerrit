@@ -195,7 +195,7 @@ public class JarScanner implements PluginContentScanner {
     Iterable<String> exports;
 
     private ClassData(Iterable<String> exports) {
-      super(Opcodes.ASM4);
+      super(Opcodes.ASM5);
       this.exports = exports;
     }
 
@@ -264,7 +264,7 @@ public class JarScanner implements PluginContentScanner {
   private abstract static class AbstractAnnotationVisitor extends
       AnnotationVisitor {
     AbstractAnnotationVisitor() {
-      super(Opcodes.ASM4);
+      super(Opcodes.ASM5);
     }
 
     @Override

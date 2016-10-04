@@ -64,5 +64,19 @@ limitations under the License.
       assert.equal(gwtLink.href,
           'http://' + location.host + '/?polygerrit=0#/test/path');
     });
+
+    test('_handleLocationChange handles hashes', function() {
+      var curLocation = {
+        pathname: '/c/1/1/testfile.txt',
+        hash: '#2',
+        host: location.host,
+      };
+
+      var event = {detail: curLocation};
+      var gwtLink = element.$$('#gwtLink');
+      element._handleLocationChange(event);
+      assert.equal(gwtLink.href,
+          'http://' + location.host + '/?polygerrit=0#/c/1/1/testfile.txt@2');
+    });
   });
 </script>

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_11bb4cbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-04T09:25:14Z",
+      "side": 1,
+      "message": "this is called inside a synchronized method already.",
+      "parentUuid": "8582cb80_848ec82a",
+      "revId": "9481587520bcebbc876a3fbd82819887627b10de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_c377e829",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 338,
         "endChar": 27
       },
+      "revId": "9481587520bcebbc876a3fbd82819887627b10de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_90997473",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-04T09:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_c377e829",
       "revId": "9481587520bcebbc876a3fbd82819887627b10de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

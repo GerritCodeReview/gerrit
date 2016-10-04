@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c252f9c5_63b182db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T20:47:13Z",
+      "side": 1,
+      "message": "Nit: this file should be wrapped at 72 characters.",
+      "revId": "30dc3edda74389b344d9120cb1591d34baefc844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -248,7 +248,11 @@
 
     _handleDownloadTap: function(e) {
       e.preventDefault();
-      this.$.downloadOverlay.open();
+      this.$.downloadOverlay.open().then(function() {
+        this.$.downloadOverlay
+            .setFocusStops(this.$.downloadDialog.getFocusStops());
+        this.$.downloadDialog.focus();
+      }.bind(this));
     },
 
     _handleDownloadDialogClose: function(e) {

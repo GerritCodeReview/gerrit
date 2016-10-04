@@ -20,6 +20,8 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.servlet.RequestScoped;
 
+import java.util.function.Consumer;
+
 /**
  * Information about the currently logged in user.
  * <p>
@@ -69,6 +71,16 @@ public abstract class CurrentUser {
    */
   public CurrentUser getRealUser() {
     return this;
+  }
+
+  /**
+   * If the {@link #getRealUser()} has an account ID associated with it, call
+   * the given setter with that ID.
+   */
+  public void updateRealAccountId(Consumer<Account.Id> setter) {
+    if (getRealUser().isIdentifiedUser()) {
+      setter.accept(getRealUser().getAccountId());
+    }
   }
 
   /**

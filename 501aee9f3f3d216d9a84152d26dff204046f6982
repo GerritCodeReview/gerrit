@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c252f9c5_0390ce49",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-04T19:04:00Z",
+      "side": 1,
+      "message": "This is great!",
+      "revId": "501aee9f3f3d216d9a84152d26dff204046f6982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_c39ab668",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-04T19:04:00Z",
+      "side": 1,
+      "message": "Looks like encodeURIComponent isn\u0027t needed, but worth double-checking usual suspects - spaces, plus sign, \u0026 , etc.",
+      "revId": "501aee9f3f3d216d9a84152d26dff204046f6982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

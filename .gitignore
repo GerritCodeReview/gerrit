@@ -5,6 +5,7 @@
 /.settings/org.maven.ide.eclipse.prefs
 /.settings/org.eclipse.m2e.core.prefs
 /.settings/org.eclipse.ltk.core.refactoring.prefs
+/.metadata
 /test_site
 /.idea
 *.iml

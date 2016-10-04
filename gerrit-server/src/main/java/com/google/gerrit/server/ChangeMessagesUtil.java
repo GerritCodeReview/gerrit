@@ -59,6 +59,7 @@ public class ChangeMessagesUtil {
         new ChangeMessage.Key(psId.getParentKey(), ChangeUtil.messageUUID(db)),
         accountId, when, psId);
     m.setMessage(body);
+    user.updateRealAccountId(m::setRealAuthor);
     return m;
   }
 

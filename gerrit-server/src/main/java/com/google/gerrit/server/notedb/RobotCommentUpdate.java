@@ -76,7 +76,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
   }
 
   @AssistedInject
@@ -90,7 +90,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
   }
 
   public void putComment(RobotComment c) {

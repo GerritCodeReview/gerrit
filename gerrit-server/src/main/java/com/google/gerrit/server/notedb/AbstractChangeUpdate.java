@@ -45,6 +45,7 @@ public abstract class AbstractChangeUpdate {
   protected final ChangeNoteUtil noteUtil;
   protected final String anonymousCowardName;
   protected final Account.Id accountId;
+  protected final Account.Id realAccountId;
   protected final PersonIdent authorIdent;
   protected final Date when;
 
@@ -69,6 +70,9 @@ public abstract class AbstractChangeUpdate {
     this.notes = ctl.getNotes();
     this.change = notes.getChange();
     this.accountId = accountId(ctl.getUser());
+    Account.Id realAccountId = accountId(ctl.getUser().getRealUser());
+    this.realAccountId =
+        realAccountId != null ? realAccountId : accountId;
     this.authorIdent =
         ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
     this.when = when;
@@ -82,6 +86,7 @@ public abstract class AbstractChangeUpdate {
       @Nullable ChangeNotes notes,
       @Nullable Change change,
       Account.Id accountId,
+      Account.Id realAccountId,
       PersonIdent authorIdent,
       Date when) {
     checkArgument(
@@ -95,6 +100,7 @@ public abstract class AbstractChangeUpdate {
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
+    this.realAccountId = realAccountId;
     this.authorIdent = authorIdent;
     this.when = when;
   }

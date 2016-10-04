@@ -34,7 +34,13 @@ class ReviewerEvent extends Event {
         // (although as an implementation detail they were in ReviewDb). Just
         // use the latest patch set at the time of the event.
         null,
-        reviewer.getColumnKey(), reviewer.getValue(), changeCreatedOn, null);
+        reviewer.getColumnKey(),
+        // TODO(dborowitz): Real account ID shouldn't really matter for
+        // reviewers, but we might have to deal with this to avoid ChangeBundle
+        // diffs when run against real data.
+        reviewer.getColumnKey(),
+        reviewer.getValue(),
+        changeCreatedOn, null);
     this.reviewer = reviewer;
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62edcd06_3090884a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3870,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_602e1243",
+      "range": {
+        "startLine": 3870,
+        "startChar": 29,
+        "endLine": 3870,
+        "endChar": 57
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_c0443e03",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2016-09-29T14:29:12Z",
       "side": 1,
       "message": "Stray blank line.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ec810b_91997c73",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_c0443e03",
       "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_71af387f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Let\u0027s stick with Java8 :)",
+      "parentUuid": "65831788_e0394290",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_612e1643",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2016-09-29T14:29:12Z",
       "side": 1,
       "message": "Extra blank line",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ec810b_51ac3488",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_612e1643",
       "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_31a9b078",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_812b1a30",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_610d36e0",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
         "patchSetId": 6
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_f1bfa8aa",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_610d36e0",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_802b1630",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
         "patchSetId": 6
@@ -121,6 +235,30 @@
       "writtenOn": "2016-09-29T14:36:48Z",
       "side": 1,
       "message": "nit: usage of final not needed here",
+      "range": {
+        "startLine": 72,
+        "startChar": 40,
+        "endLine": 72,
+        "endChar": 64
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_108d842e",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_802b1630",
       "range": {
         "startLine": 72,
         "startChar": 40,
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_f1e8c8a3",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Makes sense. Done.",
+      "parentUuid": "65831788_a0ee5ae5",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 21
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_810a3ac7",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
         "patchSetId": 6
@@ -167,6 +329,30 @@
       "writtenOn": "2016-09-29T14:36:48Z",
       "side": 1,
       "message": "Can there be more than 1 outstanding request for which we need to ignore the response?",
+      "range": {
+        "startLine": 111,
+        "startChar": 7,
+        "endLine": 113,
+        "endChar": 41
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ec810b_d1c4a43b",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Nope, we have logic on place to avoid that. We hold a local query variable and only .start() a request if this is null. Otherwise, we would queue it for later and start it once we have received the result from the first query.\nWhen cancelOutstandingRequest is set, we throw both the result from the first and the queued query away.",
+      "parentUuid": "8582cb80_810a3ac7",
       "range": {
         "startLine": 111,
         "startChar": 7,
@@ -196,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_b1c92052",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_e0f862ad",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_e1cf867b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
         "patchSetId": 6
@@ -207,6 +411,24 @@
       "writtenOn": "2016-09-29T14:36:48Z",
       "side": 1,
       "message": "nit: unused import",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ec810b_91ce1c56",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_e1cf867b",
       "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -230,6 +452,24 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_11d46cdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_a1ee5ee5",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_40310ea2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 6
@@ -241,6 +481,24 @@
       "writtenOn": "2016-09-29T14:29:12Z",
       "side": 1,
       "message": "Often we will do config lookups in the constructor and store the result in a variable. This keeps definitions in one place and has a marginal performance benefit.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_70af307f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_40310ea2",
       "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -264,6 +522,24 @@
     },
     {
       "key": {
+        "uuid": "62edcd06_30a9a878",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_e1f866ad",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_01fe2a96",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 6
@@ -275,6 +551,24 @@
       "writtenOn": "2016-09-29T14:29:12Z",
       "side": 1,
       "message": "If the server is loaded this is quite likely going to skip a bunch of futures, since none of them will have finished. Generally speaking you just want to call f.get() and block, not explicitly check for doneness.",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_10a6a4a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_01fe2a96",
       "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -298,6 +592,24 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_b1e240c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_21032eb8",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8582cb80_410032a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 6
@@ -309,6 +621,30 @@
       "writtenOn": "2016-09-29T14:29:12Z",
       "side": 1,
       "message": "Don\u0027t use bare Id types, do Account.Id",
+      "range": {
+        "startLine": 222,
+        "startChar": 17,
+        "endLine": 222,
+        "endChar": 19
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ec810b_91e73cd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8582cb80_410032a9",
       "range": {
         "startLine": 222,
         "startChar": 17,
@@ -361,6 +697,24 @@
     },
     {
       "key": {
+        "uuid": "62edcd06_f0bfa0aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_c0f35ece",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_003f0673",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
         "patchSetId": 6
@@ -378,6 +732,42 @@
     },
     {
       "key": {
+        "uuid": "62edcd06_b094783b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_003f0673",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_f09a0068",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_003f0673",
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65831788_00fe2696",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
         "patchSetId": 6
@@ -389,6 +779,54 @@
       "writtenOn": "2016-09-29T14:36:48Z",
       "side": 1,
       "message": "Document this new extension point in dev-plugins.txt",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62edcd06_d09ffc55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_00fe2696",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "420eea1c9febce61ea08f6b46a5424aacbc606e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ec810b_71b4d8cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65831788_00fe2696",
       "range": {
         "startLine": 30,
         "startChar": 17,

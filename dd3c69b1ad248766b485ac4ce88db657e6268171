@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "82ec810b_11a6aca8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-04T10:03:28Z",
+      "side": 1,
+      "message": "Agreed. The change could go on it\u0027s own, but I guess there is nothing wrong if this is part of a bigger overhaul. Leaving it here for now. (it would be very small on it\u0027s own too)",
+      "parentUuid": "f03b47ab_0d6031a4",
+      "range": {
+        "startLine": 208,
+        "startChar": 34,
+        "endLine": 208,
+        "endChar": 35
+      },
+      "revId": "dd3c69b1ad248766b485ac4ce88db657e6268171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a54f1d_6bc9c1a1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 2

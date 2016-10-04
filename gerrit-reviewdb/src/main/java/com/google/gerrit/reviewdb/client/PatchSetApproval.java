@@ -93,6 +93,13 @@ public final class PatchSetApproval {
   @Column(id = 6, notNull = false)
   protected String tag;
 
+  /**
+   * Real user that made this approval on behalf of the user recorded in {@link
+   * Key#accountId}.
+   */
+  @Column(id = 7, notNull = false)
+  protected Account.Id realAccountId;
+
   // DELETED: id = 4 (changeOpen)
   // DELETED: id = 5 (changeSortKey)
 
@@ -110,6 +117,7 @@ public final class PatchSetApproval {
         new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
     value = src.getValue();
     granted = src.granted;
+    realAccountId = src.realAccountId;
   }
 
   public PatchSetApproval.Key getKey() {
@@ -122,6 +130,15 @@ public final class PatchSetApproval {
 
   public Account.Id getAccountId() {
     return key.accountId;
+  }
+
+  public Account.Id getRealAccountId() {
+    return realAccountId != null ? realAccountId : getAccountId();
+  }
+
+  public void setRealAccountId(Account.Id id) {
+    // Use null for same real author, as before the column was added.
+    realAccountId = Objects.equals(getAccountId(), id) ? null : id;
   }
 
   public LabelId getLabelId() {
@@ -166,8 +183,12 @@ public final class PatchSetApproval {
 
   @Override
   public String toString() {
-    return new StringBuilder().append('[').append(key).append(": ")
-        .append(value).append(",tag:").append(tag).append(']').toString();
+    return "["
+        + key + ": "
+        + value
+        + ",tag:" + tag
+        + ",realAccountId:" + realAccountId
+        + ']';
   }
 
   @Override
@@ -177,7 +198,8 @@ public final class PatchSetApproval {
       return Objects.equals(key, p.key)
           && Objects.equals(value, p.value)
           && Objects.equals(granted, p.granted)
-          && Objects.equals(tag, p.tag);
+          && Objects.equals(tag, p.tag)
+          && Objects.equals(realAccountId, p.realAccountId);
     }
     return false;
   }

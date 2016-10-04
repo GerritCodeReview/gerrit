@@ -49,7 +49,8 @@ class EventList<E extends Event> extends ArrayList<E> {
     }
 
     Event last = getLast();
-    if (!Objects.equals(e.who, last.who)
+    if (!Objects.equals(e.effectiveUser, last.effectiveUser)
+        || !Objects.equals(e.realUser, last.realUser)
         || !e.psId.equals(last.psId)
         || !Objects.equals(e.tag, last.tag)) {
       return false; // Different patch set, author, or tag.
@@ -93,10 +94,10 @@ class EventList<E extends Event> extends ArrayList<E> {
   }
 
   Account.Id getAccountId() {
-    Account.Id id = get(0).who;
+    Account.Id id = get(0).effectiveUser;
     for (int i = 1; i < size(); i++) {
-      checkState(Objects.equals(id, get(i).who),
-          "mismatched users in EventList: %s != %s", id, get(i).who);
+      checkState(Objects.equals(id, get(i).effectiveUser),
+          "mismatched users in EventList: %s != %s", id, get(i).effectiveUser);
     }
     return id;
   }

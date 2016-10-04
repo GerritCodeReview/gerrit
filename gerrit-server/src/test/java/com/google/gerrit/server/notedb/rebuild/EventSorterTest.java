@@ -37,7 +37,7 @@ public class EventSorterTest {
     protected TestEvent(Timestamp when) {
       super(
           new PatchSet.Id(new Change.Id(1), 1),
-          new Account.Id(1000),
+          new Account.Id(1000), new Account.Id(1000),
           when, changeCreatedOn, null);
     }
 

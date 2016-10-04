@@ -533,7 +533,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         continue; // See above.
       }
 
-      Account.Id accountId = u.getAccountId();
+      Account.Id accountId = u.getEffectiveAccountId();
       if (!expectedState.areDraftsUpToDate(
           allUsersRepo.cmds.getRepoRefCache(), accountId)) {
         throw new OrmConcurrencyException(String.format(

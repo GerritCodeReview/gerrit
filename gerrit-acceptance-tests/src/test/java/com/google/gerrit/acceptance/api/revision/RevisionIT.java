@@ -56,11 +56,15 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -86,6 +90,9 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Inject
   private GetRevisionActions getRevisionActions;
+
+  @Inject
+  private ApprovalsUtil approvalsUtil;
 
   private TestAccount admin2;
 
@@ -167,8 +174,13 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(changeId)
         .current()
         .submit(in);
-    assertThat(gApi.changes().id(changeId).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
+
+    ChangeData cd = r.getChange();
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    PatchSetApproval submitter = approvalsUtil.getSubmitter(
+        db, cd.notes(), cd.change().currentPatchSetId());
+    assertThat(submitter.getAccountId()).isEqualTo(admin2.id);
+    assertThat(submitter.getRealAccountId()).isEqualTo(admin.id);
   }
 
   @Test

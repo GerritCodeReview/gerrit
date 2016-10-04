@@ -443,6 +443,14 @@ public class ChangeIT extends AbstractDaemonTest {
     ApprovalInfo approval = codeReview.all.get(0);
     assertThat(approval._accountId).isEqualTo(user.id.get());
     assertThat(approval.value).isEqualTo(1);
+
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        r.getChange().approvals().values());
+    assertThat(psa.getPatchSetId().get()).isEqualTo(1);
+    assertThat(psa.getLabel()).isEqualTo("Code-Review");
+    assertThat(psa.getAccountId()).isEqualTo(user.id);
+    assertThat(psa.getValue()).isEqualTo(1);
+    assertThat(psa.getRealAccountId()).isEqualTo(admin.id);
   }
 
   @Test

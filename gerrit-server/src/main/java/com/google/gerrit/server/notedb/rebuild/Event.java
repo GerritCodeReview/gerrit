@@ -36,17 +36,24 @@ abstract class Event implements Comparable<Event> {
   // NOTE: EventList only supports direct subclasses, not an arbitrary
   // hierarchy.
 
-  final Account.Id who;
+  final Account.Id effectiveUser;
+  final Account.Id realUser;
   final String tag;
   final boolean predatesChange;
   final List<Event> deps;
   Timestamp when;
   PatchSet.Id psId;
 
-  protected Event(PatchSet.Id psId, Account.Id who, Timestamp when,
-      Timestamp changeCreatedOn, String tag) {
+  protected Event(
+      PatchSet.Id psId,
+      Account.Id effectiveUser,
+      Account.Id realUser,
+      Timestamp when,
+      Timestamp changeCreatedOn,
+      String tag) {
     this.psId = psId;
-    this.who = who;
+    this.effectiveUser = effectiveUser;
+    this.realUser = realUser != null ? realUser : effectiveUser;
     this.tag = tag;
     // Truncate timestamps at the change's createdOn timestamp.
     predatesChange = when.before(changeCreatedOn);
@@ -61,9 +68,9 @@ abstract class Event implements Comparable<Event> {
     checkState(when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
         "event at %s outside update window starting at %s",
         when, update.getWhen());
-    checkState(Objects.equals(update.getNullableAccountId(), who),
+    checkState(Objects.equals(update.getNullableAccountId(), effectiveUser),
         "cannot apply event by %s to update by %s",
-        who, update.getNullableAccountId());
+        effectiveUser, update.getNullableAccountId());
   }
 
   Event addDep(Event e) {
@@ -87,7 +94,8 @@ abstract class Event implements Comparable<Event> {
   public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("psId", psId)
-        .add("who", who)
+        .add("effectiveUser", effectiveUser)
+        .add("realUser", realUser)
         .add("when", when)
         .toString();
   }
@@ -98,7 +106,9 @@ abstract class Event implements Comparable<Event> {
         .compare(this.when, other.when)
         .compareTrueFirst(isPatchSet(), isPatchSet())
         .compareTrueFirst(this.predatesChange, other.predatesChange)
-        .compare(this.who, other.who, ReviewDbUtil.intKeyOrdering())
+        .compare(this.effectiveUser, other.effectiveUser,
+            ReviewDbUtil.intKeyOrdering())
+        .compare(this.realUser, other.realUser, ReviewDbUtil.intKeyOrdering())
         .compare(this.psId, other.psId,
             ReviewDbUtil.intKeyOrdering().nullsLast())
         .result();

@@ -132,18 +132,22 @@ public class CommentsUtil {
 
   public Comment newComment(ChangeContext ctx, String path, PatchSet.Id psId,
       short side, String message) throws OrmException {
-    return new Comment(
+    Comment c = new Comment(
         new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId);
+    ctx.getUser().updateRealAccountId(c::setRealAuthor);
+    return c;
   }
 
   public RobotComment newRobotComment(ChangeContext ctx, String path,
       PatchSet.Id psId, short side, String message, String robotId,
       String robotRunId) throws OrmException {
-    return new RobotComment(
+    RobotComment c = new RobotComment(
         new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
         robotId, robotRunId);
+    ctx.getUser().updateRealAccountId(c::setRealAuthor);
+    return c;
   }
 
   public Optional<Comment> get(ReviewDb db, ChangeNotes notes,

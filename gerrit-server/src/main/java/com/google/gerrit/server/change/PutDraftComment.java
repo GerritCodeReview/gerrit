@@ -121,6 +121,9 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       }
       Comment origComment = maybeComment.get();
       comment = new Comment(origComment);
+      // Copy constructor preserved old real author; replace with current real
+      // user.
+      ctx.getUser().updateRealAccountId(comment::setRealAuthor);
 
       PatchSet.Id psId =
           new PatchSet.Id(ctx.getChange().getId(), origComment.key.patchSetId);

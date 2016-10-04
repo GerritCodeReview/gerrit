@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2553dad_04be96aa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T21:07:38Z",
+      "side": 1,
+      "message": "This makes it seem like we expect a component to be passed here, instead of a Polymer DOM API-wrapped element. @viktar, what do you think should go here?",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "56fbc69c9e6f71b6f2009a67c12229d865203021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

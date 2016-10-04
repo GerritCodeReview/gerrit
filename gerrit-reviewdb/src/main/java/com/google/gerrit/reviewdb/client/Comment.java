@@ -181,6 +181,7 @@ public class Comment {
   public Key key;
   public int lineNbr;
   public Identity author;
+  protected Identity realAuthor;
   public Timestamp writtenOn;
   public short side;
   public String message;
@@ -194,6 +195,7 @@ public class Comment {
     this(new Key(c.key), c.author.getId(), new Timestamp(c.writtenOn.getTime()),
         c.side, c.message, c.serverId);
     this.lineNbr = c.lineNbr;
+    this.realAuthor = c.realAuthor;
     this.range = c.range != null ? new Range(c.range) : null;
     this.tag = c.tag;
     this.revId = c.revId;
@@ -203,6 +205,7 @@ public class Comment {
       short side, String message, String serverId) {
     this.key = key;
     this.author = new Comment.Identity(author);
+    this.realAuthor = this.author;
     this.writtenOn = writtenOn;
     this.side = side;
     this.message = message;
@@ -229,6 +232,16 @@ public class Comment {
     this.revId = revId != null ? revId.get() : null;
   }
 
+  public void setRealAuthor(Account.Id id) {
+    realAuthor = id != null && id.get() != author.id
+        ? new Comment.Identity(id)
+        : null;
+  }
+
+  public Identity getRealAuthor() {
+    return realAuthor != null ? realAuthor : author;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof Comment) {
@@ -249,6 +262,9 @@ public class Comment {
         .append("key=").append(key).append(',')
         .append("lineNbr=").append(lineNbr).append(',')
         .append("author=").append(author.getId().get()).append(',')
+        .append("realAuthor=")
+            .append(realAuthor != null ? realAuthor.getId().get() : "")
+            .append(',')
         .append("writtenOn=").append(writtenOn.toString()).append(',')
         .append("side=").append(side).append(',')
         .append("message=").append(Objects.toString(message, "")).append(',')

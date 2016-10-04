@@ -55,7 +55,8 @@ import java.util.Set;
  * <p>
  * This class is not thread safe.
  */
-public class RobotCommentUpdate extends AbstractChangeUpdate{
+public class RobotCommentUpdate extends AbstractChangeUpdate {
+  // TODO/DO NOT SUBMIT: pass in real account ID as in other updates.
   public interface Factory {
     RobotCommentUpdate create(ChangeNotes notes, Account.Id accountId,
         PersonIdent authorIdent, Date when);
@@ -76,7 +77,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
   }
 
   @AssistedInject
@@ -90,7 +91,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
   }
 
   public void putComment(RobotComment c) {

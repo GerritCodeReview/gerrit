@@ -62,10 +62,19 @@ import java.util.Set;
  */
 public class ChangeDraftUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    ChangeDraftUpdate create(ChangeNotes notes, Account.Id accountId,
-        PersonIdent authorIdent, Date when);
-    ChangeDraftUpdate create(Change change, Account.Id accountId,
-        PersonIdent authorIdent, Date when);
+    ChangeDraftUpdate create(
+        ChangeNotes notes,
+        @Assisted("effective") Account.Id accountId,
+        @Assisted("real") Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when);
+
+    ChangeDraftUpdate create(
+        Change change,
+        @Assisted("effective") Account.Id accountId,
+        @Assisted("real") Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when);
   }
 
   @AutoValue
@@ -91,11 +100,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
-      @Assisted Account.Id accountId,
+      @Assisted("effective") Account.Id accountId,
+      @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, authorIdent, when);
+        accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -107,11 +117,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
-      @Assisted Account.Id accountId,
+      @Assisted("effective") Account.Id accountId,
+      @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -133,6 +144,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     checkArgument(comment.author.getId().equals(accountId),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", accountId, comment);
+    checkArgument(comment.getRealAuthor().getId().equals(realAccountId),
+        "The real author for the following comment does not match the real"
+        + " author of this ChangeDraftUpdate (%s): %s", realAccountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "02c7b166_15e994a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c7b166_f5a5f89c",
+      "revId": "751c74f64f551a0b7cb751d1fb4459ecd3f46dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42a609c5_efba81b4",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 39,
         "endChar": 55
       },
+      "revId": "751c74f64f551a0b7cb751d1fb4459ecd3f46dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42a609c5_cfd69de7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-04T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42a609c5_efba81b4",
       "revId": "751c74f64f551a0b7cb751d1fb4459ecd3f46dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

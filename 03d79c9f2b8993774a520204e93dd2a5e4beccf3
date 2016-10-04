@@ -16,6 +16,24 @@
       "revId": "03d79c9f2b8993774a520204e93dd2a5e4beccf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c246796b_a354ba1f",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergedHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-04T21:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22991538_7e52f169",
+      "revId": "03d79c9f2b8993774a520204e93dd2a5e4beccf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

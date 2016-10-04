@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "42a609c5_cf33fd61",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T00:39:14Z",
+      "side": 1,
+      "message": "We do not.",
+      "parentUuid": "42a609c5_0f16e5bd",
+      "revId": "20debb9b98008962b3b596203e731b61bad3185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02c7b166_35ee90ae",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 6
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "02c7b166_d5d63ce7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T00:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c7b166_35ee90ae",
+      "revId": "20debb9b98008962b3b596203e731b61bad3185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42a609c5_2f1ba9e4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 6
@@ -59,6 +95,24 @@
       "writtenOn": "2016-10-04T00:14:01Z",
       "side": 1,
       "message": "This looks unneeded.",
+      "revId": "20debb9b98008962b3b596203e731b61bad3185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42a609c5_af26b920",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T00:39:14Z",
+      "side": 1,
+      "message": "Removal causes an exception.\n\nutil is not defined\n     gr-account-label._computeAccountTitle at /elements/shared/gr-account-label/gr-account-label.js:36",
+      "parentUuid": "42a609c5_2f1ba9e4",
       "revId": "20debb9b98008962b3b596203e731b61bad3185a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "02c7b166_b5d9c018",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T00:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c7b166_55e30cc5",
+      "revId": "20debb9b98008962b3b596203e731b61bad3185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42a609c5_4f20ed08",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
         "patchSetId": 6
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "42a609c5_8f29f5f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T00:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42a609c5_4f20ed08",
+      "revId": "20debb9b98008962b3b596203e731b61bad3185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02c7b166_75e8089f",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6
@@ -128,6 +218,24 @@
         "endLine": 864,
         "endChar": 53
       },
+      "revId": "20debb9b98008962b3b596203e731b61bad3185a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02c7b166_95dcc409",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-04T00:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c7b166_75e8089f",
       "revId": "20debb9b98008962b3b596203e731b61bad3185a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

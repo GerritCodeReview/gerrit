@@ -18,7 +18,6 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -55,7 +54,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
@@ -157,20 +155,11 @@ public abstract class OutgoingEmail {
       va.smtpRcptTo = smtpRcptTo;
       va.headers = headers;
 
+      va.body = textPart;
       if (useHtml()) {
-        String htmlPart = htmlBody.toString();
-        String boundary = generateMultipartBoundary(textPart, htmlPart);
-
-        va.body = buildMultipartBody(boundary, textPart, htmlPart);
-        va.textBody = textPart;
-        va.htmlBody = htmlPart;
-        va.headers.put("Content-Type", new EmailHeader.String(
-            "multipart/alternative; "
-            + "boundary=\"" + boundary + "\"; "
-            + "charset=UTF-8"));
+        va.htmlBody = htmlBody.toString();
       } else {
-        va.body = textPart;
-        va.textBody = textPart;
+        va.htmlBody = null;
       }
 
       for (OutgoingEmailValidationListener validator : args.outgoingEmailValidationListeners) {
@@ -181,51 +170,9 @@ public abstract class OutgoingEmail {
         }
       }
 
-      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body);
+      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers,
+          va.body, va.htmlBody);
     }
-  }
-
-  protected String buildMultipartBody(String boundary, String textPart,
-      String htmlPart) {
-    return
-        // Output the text part:
-        "--" + boundary + "\r\n"
-        + "Content-Type: text/plain; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: 8bit\r\n"
-        + "\r\n"
-        + textPart + "\r\n"
-
-        // Output the HTML part:
-        + "--" + boundary + "\r\n"
-        + "Content-Type: text/html; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: 8bit\r\n"
-        + "\r\n"
-        + htmlPart + "\r\n"
-
-        // Output the closing boundary.
-        + "--" + boundary + "--\r\n";
-  }
-
-  protected String generateMultipartBoundary(String textBody, String htmlBody)
-      throws EmailException {
-    byte[] bytes = new byte[8];
-    ThreadLocalRandom rng = ThreadLocalRandom.current();
-
-    // The probability of the boundary being valid is approximately
-    // (2^64 - len(message)) / 2^64.
-    //
-    // The message is much shorter than 2^64 bytes, so if two tries don't
-    // suffice, something is seriously wrong.
-    for (int i = 0; i < 2; i++) {
-      rng.nextBytes(bytes);
-      String boundary = BaseEncoding.base64().encode(bytes);
-      String encBoundary = "--" + boundary;
-      if (textBody.contains(encBoundary) || htmlBody.contains(encBoundary)) {
-        continue;
-      }
-      return boundary;
-    }
-    throw new EmailException("Gave up generating unique MIME boundary");
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */

@@ -16,6 +16,11 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
   Polymer({
     is: 'gr-file-list',
 
@@ -36,7 +41,10 @@
         value: function() { return document.body; },
       },
       change: Object,
-
+      diffViewMode: {
+        type: String,
+        notify: true,
+      },
       _files: {
         type: Array,
         observer: '_filesChanged',
@@ -66,6 +74,10 @@
       _shownFiles: {
         type: Array,
         computed: '_computeFilesShown(_numFilesShown, _files.*)',
+      },
+      _diffMode: {
+        type: String,
+        computed: '_getDiffViewMode(diffViewMode, _userPrefs)',
       },
     },
 
@@ -100,8 +112,17 @@
         this._diffPrefs = prefs;
       }.bind(this)));
 
+      // Initialize with user's diff mode preference. Default to
+      // SIDE_BY_SIDE in the meantime.
+      var setDiffViewMode = this.diffViewMode === null;
+      if (setDiffViewMode) {
+        this.set('diffViewMode', DiffViewMode.SIDE_BY_SIDE);
+      }
       promises.push(this._getPreferences().then(function(prefs) {
         this._userPrefs = prefs;
+        if (setDiffViewMode) {
+          this.set('diffViewMode', prefs.diff_view);
+        }
       }.bind(this)));
     },
 
@@ -477,6 +498,33 @@
 
     _showAllFiles: function() {
       this._numFilesShown = this._files.length;
+    },
+
+    /**
+     * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
+     * the current state.
+     *
+     * The expected behavior is to use the mode specified in the user's
+     * preferences unless they have manually chosen the alternative view. If the
+     * user navigates up to the change view, it should clear this choice and
+     * revert to the preference the next time a diff is viewed.
+     *
+     * Use side-by-side if the user is not logged in.
+     *
+     * @return {String}
+     */
+    _getDiffViewMode: function() {
+      if (this.diffViewMode) {
+        return this.diffViewMode;
+      } else if (this._userPrefs && this._userPrefs.diff_view) {
+        return this.diffViewMode = this._userPrefs.diff_view;
+      }
+
+      return DiffViewMode.SIDE_BY_SIDE;
+    },
+
+    _handleDropdownChange: function(e) {
+      e.target.blur();
     },
   });
 })();

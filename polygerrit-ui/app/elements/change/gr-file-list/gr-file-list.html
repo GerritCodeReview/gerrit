@@ -147,9 +147,18 @@ limitations under the License.
         /
         <gr-button link on-tap="_collapseAllDiffs">Hide diffs</gr-button>
         /
+        <select
+            id="modeSelect"
+            is="gr-select"
+            bind-value="{{diffViewMode}}"
+            on-change="_handleDropdownChange">
+          <option value="SIDE_BY_SIDE">Side By Side</option>
+          <option value="UNIFIED_DIFF">Unified</option>
+        </select>
+        /
         <label>
           Diff against
-          <select on-change="_handlePatchChange">
+          <select id="patchChange" on-change="_handlePatchChange">
             <option value="PARENT">Base</option>
             <template is="dom-repeat" items="[[_computePatchSets(revisions, patchRange.*)]]" as="patchNum">
               <option
@@ -209,7 +218,7 @@ limitations under the License.
           path="[[file.__path]]"
           prefs="[[_diffPrefs]]"
           project-config="[[projectConfig]]"
-          view-mode="[[_userPrefs.diff_view]]"></gr-diff>
+          view-mode="[[_diffMode]]"></gr-diff>
     </template>
     <gr-button
         class="fileListButton"

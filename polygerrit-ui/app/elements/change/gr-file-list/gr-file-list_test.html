@@ -32,16 +32,32 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="blank">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-file-list tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(true); },
         getPreferences: function() { return Promise.resolve({}); },
+        fetchJSON: function() { return Promise.resolve({}); },
+      });
+      stub('gr-date-formatter', {
+        _loadTimeFormat: function() { return Promise.resolve(''); }
       });
       element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('get file list', function(done) {
@@ -117,7 +133,7 @@ limitations under the License.
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
 
-        var showStub = sinon.stub(page, 'show');
+        var showStub = sandbox.stub(page, 'show');
         assert.equal(element.selectedIndex, 2);
         MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'ENTER'
         assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
@@ -284,7 +300,7 @@ limitations under the License.
         rev3: {_number: 3},
       };
       flush(function() {
-        var selectEl = element.$$('select');
+        var selectEl = element.$.patchChange;
         assert.equal(selectEl.value, 'PARENT');
         assert.isTrue(element.$$('option[value="3"]').hasAttribute('disabled'));
         selectEl.addEventListener('change', function() {
@@ -338,6 +354,51 @@ limitations under the License.
       assert.equal(
           element.$$('a').getAttribute('href'),
           '/c/42/2/foo+bar/my%252Bfile.txt%2525');
+    });
+
+    test('diff mode correctly toggles the diffs', function() {
+      element._files = [
+        {__path: 'myfile.txt', __expanded: false},
+      ];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      element.selectedIndex = 0;
+      flushAsynchronousOperations();
+      var select = element.$.modeSelect;
+      var diffDisplay = element.diffs[0];
+      element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+      assert.equal(element.diffViewMode, 'SIDE_BY_SIDE');
+      assert.equal(diffDisplay.viewMode, 'SIDE_BY_SIDE');
+      element.set('diffViewMode', 'UNIFIED_DIFF');
+      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
+      assert.equal(diffDisplay.viewMode, 'UNIFIED_DIFF');
+    });
+
+    test('diff mode selector initializes from preferences', function() {
+      var resolvePrefs;
+      var prefsPromise = new Promise(function(resolve) {
+        resolvePrefs = resolve;
+      });
+      sandbox.stub(element, '_getPreferences').returns(prefsPromise);
+
+      // Attach a new gr-file-list so we can intercept the preferences fetch.
+      var view = document.createElement('gr-file-list');
+      var select = view.$.modeSelect;
+      fixture('blank').appendChild(view);
+      flushAsynchronousOperations();
+
+      // At this point the diff mode doesn't yet have the user's preference.
+      assert.equal(select.value, 'SIDE_BY_SIDE');
+
+      // Receive the overriding preference.
+      resolvePrefs({diff_view: 'UNIFIED'});
+      flushAsynchronousOperations();
+      assert.equal(select.value, 'SIDE_BY_SIDE');
+      document.getElementById('blank').restore();
     });
   });
 </script>

@@ -104,7 +104,6 @@
           this._setReviewed(true);
         }
       }.bind(this));
-
       if (this.changeViewState.diffMode === null) {
         // Initialize with user's diff mode preference. Default to
         // SIDE_BY_SIDE in the meantime.

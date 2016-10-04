@@ -424,7 +424,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // Ensure the first event in the list creates the change, setting the author
     // and any required footers.
     Event first = events.get(0);
-    if (first instanceof PatchSetEvent && change.getOwner().equals(first.who)) {
+    if (first instanceof PatchSetEvent
+        && change.getOwner().equals(first.effectiveUser)) {
       ((PatchSetEvent) first).createChange = true;
     } else {
       events.add(0, new CreateChangeEvent(change, minPsNum));

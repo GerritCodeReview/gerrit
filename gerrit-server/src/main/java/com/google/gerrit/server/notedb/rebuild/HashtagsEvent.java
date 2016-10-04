@@ -27,7 +27,7 @@ class HashtagsEvent extends Event {
 
   HashtagsEvent(PatchSet.Id psId, Account.Id who, Timestamp when,
       Set<String> hashtags, Timestamp changeCreatdOn) {
-    super(psId, who, when, changeCreatdOn,
+    super(psId, who, who, when, changeCreatdOn,
         // Somewhat confusingly, hashtags do not use the setTag method on
         // AbstractChangeUpdate, so pass null as the tag.
         null);

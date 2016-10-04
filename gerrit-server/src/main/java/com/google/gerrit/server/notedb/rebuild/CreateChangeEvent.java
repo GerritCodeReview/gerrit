@@ -37,8 +37,8 @@ class CreateChangeEvent extends Event {
   }
 
   CreateChangeEvent(Change change, Integer minPsNum) {
-    super(psId(change, minPsNum), change.getOwner(), change.getCreatedOn(),
-        change.getCreatedOn(), null);
+    super(psId(change, minPsNum), change.getOwner(), change.getOwner(),
+        change.getCreatedOn(), change.getCreatedOn(), null);
     this.change = change;
   }
 

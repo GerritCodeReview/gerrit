@@ -18,6 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /** A message attached to a {@link Change}. */
 public final class ChangeMessage {
@@ -78,6 +79,13 @@ public final class ChangeMessage {
   @Column(id = 6, notNull = false)
   protected String tag;
 
+  /**
+   * Real user that added this message on behalf of the user recorded in {@link
+   * #author}.
+   */
+  @Column(id = 7, notNull = false)
+  protected Account.Id realAuthor;
+
   protected ChangeMessage() {
   }
 
@@ -103,6 +111,15 @@ public final class ChangeMessage {
       throw new IllegalStateException("Cannot modify author once assigned");
     }
     author = accountId;
+  }
+
+  public Account.Id getRealAuthor() {
+    return realAuthor != null ? realAuthor : getAuthor();
+  }
+
+  public void setRealAuthor(Account.Id id) {
+    // Use null for same real author, as before the column was added.
+    realAuthor = Objects.equals(getAuthor(), id) ? null : id;
   }
 
   public Timestamp getWrittenOn() {
@@ -142,6 +159,7 @@ public final class ChangeMessage {
     return "ChangeMessage{"
         + "key=" + key
         + ", author=" + author
+        + ", realAuthor=" + realAuthor
         + ", writtenOn=" + writtenOn
         + ", patchset=" + patchset
         + ", tag=" + tag

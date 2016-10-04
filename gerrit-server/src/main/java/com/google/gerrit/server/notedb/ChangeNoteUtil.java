@@ -71,6 +71,7 @@ public class ChangeNoteUtil {
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
+  public static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
   public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
   public static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
   public static final FooterKey FOOTER_SUBMISSION_ID =

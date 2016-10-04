@@ -95,7 +95,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -111,7 +111,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -130,9 +130,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   private void verifyComment(Comment comment) {
-    checkArgument(comment.author.getId().equals(accountId),
+    checkArgument(comment.author.getId().equals(effectiveAccountId),
         "The author for the following comment does not match the author of"
-        + " this ChangeDraftUpdate (%s): %s", accountId, comment);
+        + " this ChangeDraftUpdate (%s): %s", effectiveAccountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,
@@ -244,7 +244,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(getId(), accountId);
+    return RefNames.refsDraftComments(getId(), effectiveAccountId);
   }
 
   @Override

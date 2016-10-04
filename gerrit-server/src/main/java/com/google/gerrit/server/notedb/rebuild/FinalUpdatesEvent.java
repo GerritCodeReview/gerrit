@@ -25,7 +25,7 @@ class FinalUpdatesEvent extends Event {
   private final Change noteDbChange;
 
   FinalUpdatesEvent(Change change, Change noteDbChange) {
-    super(change.currentPatchSetId(), change.getOwner(),
+    super(change.currentPatchSetId(), change.getOwner(), change.getOwner(),
         change.getLastUpdatedOn(), change.getCreatedOn(), null);
     this.change = change;
     this.noteDbChange = noteDbChange;

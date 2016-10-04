@@ -34,7 +34,7 @@ class DraftCommentEvent extends Event {
   DraftCommentEvent(Comment c, Change change, PatchSet ps,
       PatchListCache cache) {
     super(CommentsUtil.getCommentPsId(change.getId(), c), c.author.getId(),
-        c.writtenOn, change.getCreatedOn(), c.tag);
+        c.author.getId(), c.writtenOn, change.getCreatedOn(), c.tag);
     this.c = c;
     this.change = change;
     this.ps = ps;

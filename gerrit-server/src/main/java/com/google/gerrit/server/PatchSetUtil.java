@@ -96,7 +96,7 @@ public class PatchSetUtil {
 
     PatchSet ps = new PatchSet(psId);
     ps.setRevision(new RevId(commit.name()));
-    ps.setUploader(update.getAccountId());
+    ps.setUploader(update.getEffectiveAccountId());
     ps.setCreatedOn(new Timestamp(update.getWhen().getTime()));
     ps.setDraft(draft);
     ps.setGroups(groups);

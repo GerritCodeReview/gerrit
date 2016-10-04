@@ -27,6 +27,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -82,6 +83,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -223,7 +225,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -264,7 +266,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putApproval(String label, short value) {
-    putApprovalFor(getAccountId(), label, value);
+    putApprovalFor(getEffectiveAccountId(), label, value);
   }
 
   public void putApprovalFor(Account.Id reviewer, String label, short value) {
@@ -272,7 +274,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void removeApproval(String label) {
-    removeApprovalFor(getAccountId(), label);
+    removeApprovalFor(getEffectiveAccountId(), label);
   }
 
   public void removeApprovalFor(Account.Id reviewer, String label) {
@@ -315,6 +317,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putComment(PatchLineComment.Status status, Comment c) {
+    checkRealAccount("update comments");
     verifyComment(c);
     createDraftUpdateIfNull();
     if (status == PatchLineComment.Status.DRAFT) {
@@ -330,12 +333,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putRobotComment(RobotComment c) {
+    checkRealAccount("update robot comments");
     verifyComment(c);
     createRobotCommentUpdateIfNull();
     robotCommentUpdate.putComment(c);
   }
 
   public void deleteComment(Comment c) {
+    checkRealAccount("update comments");
     verifyComment(c);
     createDraftUpdateIfNull().deleteComment(c);
   }
@@ -343,13 +348,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @VisibleForTesting
   ChangeDraftUpdate createDraftUpdateIfNull() {
     if (draftUpdate == null) {
+      checkRealAccount("update drafts");
       ChangeNotes notes = getNotes();
       if (notes != null) {
-        draftUpdate =
-            draftUpdateFactory.create(notes, accountId, authorIdent, when);
+        draftUpdate = draftUpdateFactory.create(
+            notes, effectiveAccountId, authorIdent, when);
       } else {
         draftUpdate = draftUpdateFactory.create(
-            getChange(), accountId, authorIdent, when);
+            getChange(), effectiveAccountId, authorIdent, when);
       }
     }
     return draftUpdate;
@@ -358,13 +364,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @VisibleForTesting
   RobotCommentUpdate createRobotCommentUpdateIfNull() {
     if (robotCommentUpdate == null) {
+      checkRealAccount("update robot comments");
       ChangeNotes notes = getNotes();
       if (notes != null) {
         robotCommentUpdate =
-            robotCommentUpdateFactory.create(notes, accountId, authorIdent, when);
+            robotCommentUpdateFactory.create(notes, effectiveAccountId, authorIdent, when);
       } else {
         robotCommentUpdate = robotCommentUpdateFactory.create(
-            getChange(), accountId, authorIdent, when);
+            getChange(), effectiveAccountId, authorIdent, when);
       }
     }
     return robotCommentUpdate;
@@ -372,9 +379,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private void verifyComment(Comment c) {
     checkArgument(c.revId != null, "RevId required for comment: %s", c);
-    checkArgument(c.author.getId().equals(getAccountId()),
+    checkArgument(c.author.getId().equals(getEffectiveAccountId()),
         "The author for the following comment does not match the author of"
-        + " this ChangeUpdate (%s): %s", getAccountId(), c);
+        + " this ChangeUpdate (%s): %s", getEffectiveAccountId(), c);
 
   }
 
@@ -535,6 +542,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
+  private void checkRealAccount(String attemptedAction) {
+    checkState(
+        Objects.equals(effectiveAccountId, realAccountId),
+        "cannot %s with effective account different from real account",
+        attemptedAction);
+  }
+
   @Override
   protected String getRefName() {
     return changeMetaRef(getId());
@@ -622,7 +636,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             c.getRowKey(), c.getValue().get()).formatWithEquals());
       }
       Account.Id id = c.getColumnKey();
-      if (!id.equals(getAccountId())) {
+      if (!id.equals(getEffectiveAccountId())) {
         addIdent(msg.append(' '), id);
       }
       msg.append('\n');
@@ -655,6 +669,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           }
         }
       }
+    }
+
+    if (!Objects.equals(effectiveAccountId, realAccountId)) {
+      addFooter(msg, FOOTER_REAL_USER);
+      addIdent(msg, realAccountId).append('\n');
     }
 
     cb.setMessage(msg.toString());

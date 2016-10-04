@@ -125,6 +125,23 @@
     },
     {
       "key": {
+        "uuid": "e2553dad_6483ca07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-04T18:47:14Z",
+      "side": 1,
+      "message": "I guess I\u0027m missing something - why is rootTarget needed?\nProbably worth adding a comment or, if possible, a test case which only works with .rootTarget and doesn\u0027t with .target",
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82bba1d0_59ca6345",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 1
@@ -160,6 +177,24 @@
       "side": 1,
       "message": "It *was* working, but I\u0027ve been reading more over the Polymer docs recently and they\u0027re pretty explicit about using the DOM api. I\u0027ve decided to follow that pattern wherever possible.\n\nhttps://www.polymer-project.org/1.0/docs/devguide/local-dom#dom-api",
       "parentUuid": "82bba1d0_59ca6345",
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_4486ce18",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-04T18:47:14Z",
+      "side": 1,
+      "message": "I believe you have to use Polymer.dom() for changing, but reading should be just fine without it - in fact, it\u0027s proxied back in the code:\nhttps://github.com/Polymer/polymer/blob/master/src/lib/dom-api-classlist.html",
+      "parentUuid": "02c7b166_7581e8fe",
       "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -242,6 +277,24 @@
       "side": 1,
       "message": "I considered both processes, and this is the one that made more sense to me. Seemed silly to add another fn call to the stack just for test clarity, when a properly worded comment in the testing suite would do just fine. I can totally reword/elaborate more in the comment if it needs it, but I like this approach. It\u0027s also one suggested by the Sinon maintainers.\n\nhttps://github.com/sinonjs/sinon/pull/278#issuecomment-34047017",
       "parentUuid": "628b0de1_60025219",
+      "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_0490d649",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-04T18:47:14Z",
+      "side": 1,
+      "message": "\u003e Seemed silly to add another fn call to the stack just for test clarity\nI see your point, but the performance difference is marginal while Wyatt\u0027s approach is easier to read for someone who isn\u0027t proficient with Polymer or code tested.",
+      "parentUuid": "42a609c5_8f85750d",
       "revId": "7cbc855084c74cef37e92fa661af774e2d2a474b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

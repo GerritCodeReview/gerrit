@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
@@ -96,6 +97,9 @@ public class ApprovalsUtil {
             labelId),
         Shorts.checkedCast(value),
         when);
+    if (user.getRealUser().isIdentifiedUser()) {
+      psa.setRealAccountId(user.getRealUser().getAccountId());
+    }
     return psa;
   }
 
@@ -293,6 +297,10 @@ public class ApprovalsUtil {
       ChangeUpdate update, LabelTypes labelTypes, PatchSet ps,
       ChangeControl changeCtl, Map<String, Short> approvals)
       throws OrmException {
+    Account.Id accountId = changeCtl.getUser().getAccountId();
+    checkArgument(accountId.equals(ps.getUploader()),
+        "expected user %s to match patch set uploader %s",
+        accountId, ps.getUploader());
     if (approvals.isEmpty()) {
       return Collections.emptyList();
     }

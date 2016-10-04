@@ -183,6 +183,9 @@ public class DeleteVote
     }
 
     private PatchSetApproval deletedApproval(ChangeContext ctx) {
+      // Set the effective user to the account we're trying to remove, and don't
+      // set the real user; this preserves the calling user as the NoteDb
+      // committer.
       return new PatchSetApproval(
           new PatchSetApproval.Key(
               ps.getId(),

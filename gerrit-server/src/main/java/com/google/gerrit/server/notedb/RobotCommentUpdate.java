@@ -76,7 +76,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
   }
 
   @AssistedInject
@@ -90,7 +90,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, accountId, authorIdent, when);
   }
 
   public void putComment(RobotComment c) {
@@ -99,9 +99,9 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
   }
 
   private void verifyComment(RobotComment comment) {
-    checkArgument(comment.author.getId().equals(accountId),
+    checkArgument(comment.author.getId().equals(effectiveAccountId),
         "The author for the following comment does not match the author of"
-        + " this RobotCommentUpdate (%s): %s", accountId, comment);
+        + " this RobotCommentUpdate (%s): %s", effectiveAccountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,

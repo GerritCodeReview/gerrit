@@ -41,7 +41,7 @@ class ChangeMessageEvent extends Event {
 
   ChangeMessageEvent(ChangeMessage message, Change noteDbChange,
       Timestamp changeCreatedOn) {
-    super(message.getPatchSetId(), message.getAuthor(),
+    super(message.getPatchSetId(), message.getAuthor(), message.getRealAuthor(),
         message.getWrittenOn(), changeCreatedOn, message.getTag());
     this.message = message;
     this.noteDbChange = noteDbChange;

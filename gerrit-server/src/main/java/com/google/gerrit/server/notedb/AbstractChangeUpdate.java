@@ -44,7 +44,8 @@ public abstract class AbstractChangeUpdate {
   protected final NotesMigration migration;
   protected final ChangeNoteUtil noteUtil;
   protected final String anonymousCowardName;
-  protected final Account.Id accountId;
+  protected final Account.Id effectiveAccountId;
+  protected final Account.Id realAccountId;
   protected final PersonIdent authorIdent;
   protected final Date when;
 
@@ -68,7 +69,10 @@ public abstract class AbstractChangeUpdate {
     this.anonymousCowardName = anonymousCowardName;
     this.notes = ctl.getNotes();
     this.change = notes.getChange();
-    this.accountId = accountId(ctl.getUser());
+    this.effectiveAccountId = accountId(ctl.getUser());
+    Account.Id realAccountId = accountId(ctl.getUser().getRealUser());
+    this.realAccountId =
+        realAccountId != null ? realAccountId : effectiveAccountId;
     this.authorIdent =
         ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
     this.when = when;
@@ -81,7 +85,8 @@ public abstract class AbstractChangeUpdate {
       String anonymousCowardName,
       @Nullable ChangeNotes notes,
       @Nullable Change change,
-      Account.Id accountId,
+      Account.Id effectiveAccountId,
+      Account.Id realAccountId,
       PersonIdent authorIdent,
       Date when) {
     checkArgument(
@@ -94,7 +99,8 @@ public abstract class AbstractChangeUpdate {
     this.anonymousCowardName = anonymousCowardName;
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
-    this.accountId = accountId;
+    this.effectiveAccountId = effectiveAccountId;
+    this.realAccountId = realAccountId;
     this.authorIdent = authorIdent;
     this.when = when;
   }
@@ -149,15 +155,15 @@ public abstract class AbstractChangeUpdate {
     this.psId = psId;
   }
 
-  public Account.Id getAccountId() {
-    checkState(accountId != null,
+  public Account.Id getEffectiveAccountId() {
+    checkState(effectiveAccountId != null,
         "author identity for %s is not from an IdentifiedUser: %s",
         getClass().getSimpleName(), authorIdent.toExternalString());
-    return accountId;
+    return effectiveAccountId;
   }
 
   public Account.Id getNullableAccountId() {
-    return accountId;
+    return effectiveAccountId;
   }
 
   protected PersonIdent newIdent(Account author, Date when) {

@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -303,6 +304,7 @@ class ChangeNotesParser {
     if (accountId != null) {
       ownerId = accountId;
     }
+    Account.Id realAccountId = parseRealAccountId(commit, accountId);
 
     if (changeId == null) {
       changeId = parseChangeId(commit);
@@ -316,7 +318,7 @@ class ChangeNotesParser {
       originalSubject = currSubject;
     }
 
-    parseChangeMessage(psId, accountId, commit, ts);
+    parseChangeMessage(psId, accountId, realAccountId, commit, ts);
     if (topic == null) {
       topic = parseTopic(commit);
     }
@@ -342,7 +344,7 @@ class ChangeNotesParser {
     }
 
     for (String line : commit.getFooterLineValues(FOOTER_LABEL)) {
-      parseApproval(psId, accountId, ts, line);
+      parseApproval(psId, accountId, realAccountId, ts, line);
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
@@ -377,6 +379,16 @@ class ChangeNotesParser {
   private String parseSubject(ChangeNotesCommit commit)
       throws ConfigInvalidException {
     return parseOneFooter(commit, FOOTER_SUBJECT);
+  }
+
+  private Account.Id parseRealAccountId(ChangeNotesCommit commit,
+      Account.Id effectiveAccountId) throws ConfigInvalidException {
+    String realUser = parseOneFooter(commit, FOOTER_REAL_USER);
+    if (realUser == null) {
+      return effectiveAccountId;
+    }
+    PersonIdent ident = RawParseUtils.parsePersonIdent(realUser);
+    return noteUtil.parseIdent(ident, id);
   }
 
   private String parseTopic(ChangeNotesCommit commit)
@@ -565,7 +577,8 @@ class ChangeNotesParser {
   }
 
   private void parseChangeMessage(PatchSet.Id psId,
-      Account.Id accountId, ChangeNotesCommit commit, Timestamp ts) {
+      Account.Id effectiveAccountId, Account.Id realAccountId,
+      ChangeNotesCommit commit, Timestamp ts) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
     Charset enc = RawParseUtils.parseEncoding(raw);
@@ -614,11 +627,10 @@ class ChangeNotesParser {
         changeMessageStart, changeMessageEnd + 1);
     ChangeMessage changeMessage = new ChangeMessage(
         new ChangeMessage.Key(psId.getParentKey(), commit.name()),
-        accountId,
-        ts,
-        psId);
+        effectiveAccountId, ts, psId);
     changeMessage.setMessage(changeMsgString);
     changeMessage.setTag(tag);
+    changeMessage.setRealAuthor(realAccountId);
     changeMessagesByPatchSet.put(psId, changeMessage);
     allChangeMessages.add(changeMessage);
   }
@@ -647,31 +659,45 @@ class ChangeNotesParser {
   }
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,
-      Timestamp ts, String line) throws ConfigInvalidException {
+      Account.Id realAccountId, Timestamp ts, String line)
+      throws ConfigInvalidException {
     if (accountId == null) {
       throw parseException(
           "patch set %s requires an identified user as uploader", psId.get());
     }
     if (line.startsWith("-")) {
-      parseRemoveApproval(psId, accountId, ts, line);
+      parseRemoveApproval(psId, accountId, realAccountId, ts, line);
     } else {
-      parseAddApproval(psId, accountId, ts, line);
+      parseAddApproval(psId, accountId, realAccountId, ts, line);
     }
   }
 
   private void parseAddApproval(PatchSet.Id psId, Account.Id committerId,
-      Timestamp ts, String line) throws ConfigInvalidException {
-    Account.Id accountId;
+      Account.Id realAccountId, Timestamp ts, String line)
+      throws ConfigInvalidException {
+    // There are potentially 3 accounts involved here:
+    //  1. The account from the commit, which is the effective IdentifiedUser
+    //     that produced the update.
+    //  2. The account in the label footer itself, which is used during submit
+    //     to copy other users' labels to a new patch set.
+    //  3. The account in the Real-user footer, indicating that the whole
+    //     update operation was executed by this user on behalf of the effective
+    //     user.
+    Account.Id effectiveAccountId;
     String labelVoteStr;
     int s = line.indexOf(' ');
     if (s > 0) {
+      // Account in the label line (2) becomes the effective ID of the
+      // approval. If there is a real user (3) different from the commit user
+      // (2), we actually don't store that anywhere in this case; it's more
+      // important to record that the real user (3) actually initiated submit.
       labelVoteStr = line.substring(0, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      accountId = noteUtil.parseIdent(ident, id);
+      effectiveAccountId = noteUtil.parseIdent(ident, id);
     } else {
       labelVoteStr = line;
-      accountId = committerId;
+      effectiveAccountId = committerId;
     }
 
     LabelVote l;
@@ -687,30 +713,36 @@ class ChangeNotesParser {
     PatchSetApproval psa = new PatchSetApproval(
         new PatchSetApproval.Key(
             psId,
-            accountId,
+            effectiveAccountId,
             new LabelId(l.label())),
         l.value(),
         ts);
     psa.setTag(tag);
-    ApprovalKey k = ApprovalKey.create(psId, accountId, l.label(), tag);
+    if (!Objects.equals(realAccountId, committerId)) {
+      psa.setRealAccountId(realAccountId);
+    }
+    ApprovalKey k =
+        ApprovalKey.create(psId, effectiveAccountId, l.label(), tag);
     if (!approvals.containsKey(k)) {
       approvals.put(k, psa);
     }
   }
 
   private void parseRemoveApproval(PatchSet.Id psId, Account.Id committerId,
-      Timestamp ts, String line) throws ConfigInvalidException {
-    Account.Id accountId;
+      Account.Id realAccountId, Timestamp ts, String line)
+      throws ConfigInvalidException {
+    // See comments in parseAddApproval about the various users involved.
+    Account.Id effectiveAccountId;
     String label;
     int s = line.indexOf(' ');
     if (s > 0) {
       label = line.substring(1, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      accountId = noteUtil.parseIdent(ident, id);
+      effectiveAccountId = noteUtil.parseIdent(ident, id);
     } else {
       label = line.substring(1);
-      accountId = committerId;
+      effectiveAccountId = committerId;
     }
 
     try {
@@ -731,11 +763,14 @@ class ChangeNotesParser {
     PatchSetApproval remove = new PatchSetApproval(
         new PatchSetApproval.Key(
             psId,
-            accountId,
+            effectiveAccountId,
             new LabelId(label)),
         (short) 0,
         ts);
-    ApprovalKey k = ApprovalKey.create(psId, accountId, label, tag);
+    if (!Objects.equals(realAccountId, committerId)) {
+      remove.setRealAccountId(realAccountId);
+    }
+    ApprovalKey k = ApprovalKey.create(psId, effectiveAccountId, label, tag);
     if (!approvals.containsKey(k)) {
       approvals.put(k, remove);
     }

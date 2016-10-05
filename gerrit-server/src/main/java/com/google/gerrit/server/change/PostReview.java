@@ -57,6 +57,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -790,11 +791,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           oldApprovals.put(normName, null);
           approvals.put(normName, c.getValue());
         } else if (c == null) {
-          c = new PatchSetApproval(new PatchSetApproval.Key(
-                  psId,
-                  user.getAccountId(),
-                  lt.getLabelId()),
-              ent.getValue(), ctx.getWhen());
+          c = ApprovalsUtil.newApproval(
+              psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -832,12 +830,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         if (del.isEmpty()) {
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
-          PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
-              psId,
-              user.getAccountId(),
-              ctx.getControl().getLabelTypes().getLabelTypes().get(0)
-                  .getLabelId()),
-              (short) 0, ctx.getWhen());
+          LabelId labelId = ctx.getControl().getLabelTypes().getLabelTypes()
+              .get(0).getLabelId();
+          PatchSetApproval c = ApprovalsUtil.newApproval(
+              psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -896,17 +892,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
-      message = new ChangeMessage(
-          new ChangeMessage.Key(
-            psId.getParentKey(), ChangeUtil.messageUUID(ctx.getDb())),
-          user.getAccountId(),
-          ctx.getWhen(),
-          psId);
+      message = ChangeMessagesUtil.newMessage(
+          ctx.getDb(), psId, user, ctx.getWhen(),
+          "Patch Set " + psId.get() + ":" + buf);
       message.setTag(in.tag);
-      message.setMessage(String.format(
-          "Patch Set %d:%s",
-          psId.get(),
-          buf.toString()));
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
       return true;
     }

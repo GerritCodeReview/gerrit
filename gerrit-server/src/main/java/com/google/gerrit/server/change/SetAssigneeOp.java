@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountsCollection;
@@ -139,13 +138,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       msg.append(" to: ");
       msg.append(newAssignee.getName(anonymousCowardName));
     }
-    ChangeMessage cmsg = new ChangeMessage(
-        new ChangeMessage.Key(
-            change.getId(),
-            ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getAccountId(), ctx.getWhen(),
-        change.currentPatchSetId());
-    cmsg.setMessage(msg.toString());
+    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 

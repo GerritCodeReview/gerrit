@@ -58,6 +58,18 @@
       }.bind(this));
     },
 
+    focus: function() {
+      this.$.download.focus();
+    },
+
+    getFocusStops: function() {
+      var links = this.$$('#archives').querySelectorAll('a');
+      return {
+        start: this.$.closeButton,
+        end: links[links.length - 1],
+      };
+    },
+
     _computeDownloadCommands: function(change, patchNum, _selectedScheme) {
       var commandObj;
       for (var rev in change.revisions) {

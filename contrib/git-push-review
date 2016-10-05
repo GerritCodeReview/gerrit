@@ -72,7 +72,8 @@ def main(argv):
   opts = collections.defaultdict(list)
   is_hashtag = lambda x: x.startswith('#')
   opts['r'].extend(
-      get_config('reviewer.' + r) for r in args.args if not is_hashtag(r))
+      (get_config('reviewer.' + r) or r)
+      for r in args.args if not is_hashtag(r))
   opts['t'].extend(t[1:] for t in args.args if is_hashtag(t))
   if args.topic:
     opts['topic'].append(args.topic)

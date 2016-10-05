@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -197,6 +198,17 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfWithComment() throws Exception {
+    testVoteOnBehalfOfWithComment();
+  }
+
+  @GerritConfig(name = "notedb.writeJson", value = "true")
+  @Test
+  public void voteOnBehalfOfWithCommentWritingJson() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    testVoteOnBehalfOfWithComment();
+  }
+
+  private void testVoteOnBehalfOfWithComment() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
 

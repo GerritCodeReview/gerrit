@@ -125,7 +125,26 @@ limitations under the License.
       });
     });
 
+    test('get revision object from change', function() {
+      var revObj = {_number: 2, foo: 'bar'};
+      var change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: revObj,
+        },
+      };
+      assert.deepEqual(element._getRevision(change, '2'), revObj);
+    });
+
     test('submit change', function(done) {
+      element.change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+        },
+      };
+      element.patchNum = '2';
+
       flush(function() {
         var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);

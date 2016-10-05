@@ -81,11 +81,11 @@
       this._eventCallbacks[eventName].push(callback);
     },
 
-    canSubmitChange: function() {
+    canSubmitChange: function(change, revision) {
       var submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
       var cancelSubmit = submitCallbacks.some(function(callback) {
         try {
-          return callback() === false;
+          return callback(change, revision) === false;
         } catch (err) {
           console.error(err);
         }

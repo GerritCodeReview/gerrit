@@ -266,12 +266,24 @@
     },
 
     _canSubmitChange: function() {
-      return this.$.jsAPI.canSubmitChange();
+      return this.$.jsAPI.canSubmitChange(this.change,
+          this._getRevision(this.change, this.patchNum));
+    },
+
+    _getRevision: function(change, patchNum) {
+      var num = window.parseInt(patchNum, 10);
+      for (var hash in change.revisions) {
+        var rev = change.revisions[hash];
+        if (rev._number === num) {
+          return rev;
+        }
+      }
+      return null;
     },
 
     _modifyRevertMsg: function() {
       return this.$.jsAPI.modifyRevertMsg(this.change,
-                                          this.$.confirmRevertDialog.message);
+          this.$.confirmRevertDialog.message);
     },
 
     _handleActionTap: function(e) {

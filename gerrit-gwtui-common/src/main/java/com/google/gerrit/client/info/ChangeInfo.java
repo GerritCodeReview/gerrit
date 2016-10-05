@@ -305,6 +305,9 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean hasValue() /*-{ return this.hasOwnProperty('value'); }-*/;
     public final native short value() /*-{ return this.value || 0; }-*/;
 
+    public final native boolean hasMaxPermittedValue() /*-{ return this.hasOwnProperty('max_permitted_value'); }-*/;
+    public final native short maxPermittedValue() /*-{ return this.max_permitted_value || 0; }-*/;
+
     protected ApprovalInfo() {
     }
   }

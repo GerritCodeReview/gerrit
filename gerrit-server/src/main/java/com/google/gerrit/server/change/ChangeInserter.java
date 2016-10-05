@@ -361,8 +361,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         patchSetInfo,
         filterOnChangeVisibility(db, ctx.getNotes(), reviewers),
         Collections.<Account.Id> emptySet());
-    approvalsUtil.addApprovals(db, update, labelTypes, patchSet,
-        ctx.getControl(), approvals);
+    approvalsUtil.addApprovalsForNewPatchSet(
+        db, update, labelTypes, patchSet, ctx.getControl(), approvals);
     if (message != null) {
       changeMessage =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),

@@ -78,5 +78,11 @@ limitations under the License.
       assert.equal(gwtLink.href,
           'http://' + location.host + '/?polygerrit=0#/c/1/1/testfile.txt@2');
     });
+
+    test('sets plugins count', function() {
+      sandbox.stub(Gerrit, '_setPluginsCount');
+      element._loadPlugins([]);
+      assert.isTrue(Gerrit._setPluginsCount.calledWithExactly(0));
+    });
   });
 </script>

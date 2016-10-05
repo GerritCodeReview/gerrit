@@ -64,6 +64,8 @@
 
   var Gerrit = window.Gerrit || {};
 
+  Gerrit._pluginsPending = -1;
+
   Gerrit.getPluginName = function() {
     console.warn('Gerrit.getPluginName is not supported in PolyGerrit.',
         'Please use self.getPluginName() instead.');
@@ -85,12 +87,14 @@
     if (opt_version && opt_version !== API_VERSION) {
       console.warn('Only version ' + API_VERSION +
           ' is supported in PolyGerrit. ' + opt_version + ' was given.');
+      Gerrit._pluginInstalled();
       return;
     }
 
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
     var src = opt_src || (document.currentScript && document.currentScript.src);
     callback(new Plugin(src));
+    Gerrit._pluginInstalled();
   };
 
   Gerrit.getLoggedIn = function() {
@@ -99,6 +103,21 @@
 
   Gerrit.installGwt = function() {
     // NOOP since PolyGerrit doesn’t support GWT plugins.
+  };
+
+  Gerrit._setPluginsCount = function(count) {
+    Gerrit._pluginsPending = count;
+    if (Gerrit._arePluginsLoaded()) {
+      document.createElement('gr-reporting').pluginsLoaded();
+    }
+  };
+
+  Gerrit._pluginInstalled = function() {
+    Gerrit._setPluginsCount(Gerrit._pluginsPending - 1);
+  };
+
+  Gerrit._arePluginsLoaded = function() {
+    return Gerrit._pluginsPending === 0;
   };
 
   window.Gerrit = Gerrit;

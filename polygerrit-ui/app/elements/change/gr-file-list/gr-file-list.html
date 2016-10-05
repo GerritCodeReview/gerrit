@@ -201,7 +201,7 @@ limitations under the License.
         </div>
       </div>
       <gr-diff
-          hidden$="[[_computeHiddenState(file.__expanded)]]"
+          hidden="{{_computeHiddenState(file.__expanded)}}"
           project="[[change.project]]"
           commit="[[change.current_revision]]"
           change-num="[[changeNum]]"
@@ -214,14 +214,14 @@ limitations under the License.
     <gr-button
         class="fileListButton"
         id="incrementButton"
-        hidden$="[[_computeFileListButtonHidden(_numFilesShown, _files)]]"
+        hidden="{{_computeFileListButtonHidden(_numFilesShown, _files)}}"
         link on-tap="_incrementNumFilesShown">
       [[_computeIncrementText(_numFilesShown, _files)]]
     </gr-button>
     <gr-button
         class="fileListButton"
         id="showAllButton"
-        hidden$="[[_computeFileListButtonHidden(_numFilesShown, _files)]]"
+        hidden="{{_computeFileListButtonHidden(_numFilesShown, _files)}}"
         link on-tap="_showAllFiles">
       [[_computeShowAllText(_files)]]
     </gr-button>

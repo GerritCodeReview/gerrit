@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "8289e140_29c56d36",
+        "filename": "gerrit-prettify/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T07:51:55Z",
+      "side": 1,
+      "message": "They are used in //Documentation:prettify_files. Changed to exports_files instead.",
+      "parentUuid": "82ec810b_71ddf802",
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62edcd06_b0c91852",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 3
@@ -43,6 +61,24 @@
         "endLine": 42,
         "endChar": 17
       },
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20a65d0_ba71513b",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T07:51:55Z",
+      "side": 1,
+      "message": "I didn\u0027t add //:version.txt to srcs of the genrule, only tools. Will that still add it to SRCS?\n\nI tried with bazel build -s and didn\u0027t see version.txt in SRCS.",
+      "parentUuid": "62edcd06_b0c91852",
       "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -72,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "22a3d516_ae71f73a",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T07:51:55Z",
+      "side": 1,
+      "message": "I don\u0027t think bazel actually do expansion on :foo in the genrul cmd line? This is the actual command line if I just pass \"-s :foo\" instead of \"-s $(location :foo)\":\n\n/bin/bash -c \u0027source external/bazel_tools/tools/genrule/genrule-setup.sh; python Documentation/replace_macros.py --suffix\u003d\".html_htmlonly_expn\" -s :licenses.txt -o bazel-out/local-fastbuild/genfiles/Documentation/licenses.txt.html_htmlonly_expn --searchbox\u0027",
+      "parentUuid": "82ec810b_51daf40c",
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62edcd06_d0c49c3b",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 3
@@ -89,6 +143,24 @@
         "endLine": 59,
         "endChar": 6
       },
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20a65d0_fa7bc914",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T07:51:55Z",
+      "side": 1,
+      "message": "Done, but I\u0027m unable to read version.txt content. See my other comment for details.",
+      "parentUuid": "62edcd06_d0c49c3b",
       "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

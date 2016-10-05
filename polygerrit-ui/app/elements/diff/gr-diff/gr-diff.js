@@ -37,6 +37,7 @@
       hidden: {
         type: Boolean,
         observer: '_handleShowDiff',
+        reflectToAttribute: true,
       },
       patchRange: Object,
       path: String,

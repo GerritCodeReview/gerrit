@@ -135,6 +135,7 @@
 
     _handleHiddenChange: function(e) {
       var model = e.model;
+      debugger;
       model.set('file.__expanded', !model.file.__expanded);
     },
 
@@ -437,12 +438,12 @@
       return expanded ? '▼' : '◀';
     },
 
-    _computeHiddenState: function(expanded) {
-      return !expanded;
-    },
-
     _computeFilesShown: function(numFilesShown, files) {
       return files.base.slice(0, numFilesShown);
+    },
+
+    _computeHiddenState: function(expanded) {
+      return !expanded;
     },
 
     _filesChanged: function() {

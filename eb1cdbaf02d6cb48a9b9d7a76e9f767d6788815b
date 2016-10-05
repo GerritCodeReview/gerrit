@@ -222,6 +222,24 @@
       "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20a65d0_babf91ab",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T18:48:12Z",
+      "side": 1,
+      "message": "I feel there\u0027s little benefit converting this into a custom rule. It\u0027s just a filegroup.",
+      "parentUuid": "e2445d3c_8c1507b3",
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

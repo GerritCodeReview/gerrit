@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "e2553dad_442a4ee8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-05T17:35:23Z",
+      "side": 1,
+      "message": "Alright, I guess any element will do.",
+      "parentUuid": "e2553dad_04d776e4",
+      "revId": "56fbc69c9e6f71b6f2009a67c12229d865203021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c252f9c5_432a46e8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
         "patchSetId": 2
@@ -54,6 +72,24 @@
       "writtenOn": "2016-10-04T22:13:40Z",
       "side": 1,
       "message": "Or you could simply do:\nsinon.stub(element, \u0027_getCopyEventTarget\u0027);\nand in emulateCopyOn do:\nelement._getCopyEventTarget.returns(target);\n\nAlso, consider using sinon.sandbox: http://sinonjs.org/docs/#sinon-sandbox",
+      "revId": "56fbc69c9e6f71b6f2009a67c12229d865203021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_e3033271",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-05T17:35:23Z",
+      "side": 1,
+      "message": "Done. Will be using sinon.sandbox from now on in any case where more than one stub is necessary.",
+      "parentUuid": "c252f9c5_432a46e8",
       "revId": "56fbc69c9e6f71b6f2009a67c12229d865203021",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "a20a65d0_ba9af166",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "This is needed to be under Documentation/. It\u0027s part of :resources, which is packed in the .zip file in the buck version.",
+      "parentUuid": "e2445d3c_4cd79fe3",
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2445d3c_2cda530c",
         "filename": "Documentation/BUILD",
         "patchSetId": 7
@@ -43,6 +61,24 @@
         "endLine": 33,
         "endChar": 19
       },
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22a3d516_8ec4fb3a",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "It\u0027s used at https://gerrit-review.googlesource.com/c/87570/7/tools/bzl/asciidoc.bzl#163",
+      "parentUuid": "e2445d3c_2cda530c",
       "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -72,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "a20a65d0_5a8d952d",
+        "filename": "lib/asciidoctor/java/AsciiDoctor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "No buck doesn\u0027t need this. buck uses https://gerrit.googlesource.com/gerrit/+/master/tools/git.defs",
+      "parentUuid": "e2445d3c_0cdd9703",
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c241192d_ab9f0956",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 7
@@ -95,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "22a3d516_cece0357",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c241192d_ab9f0956",
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2445d3c_6cd45bde",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 7
@@ -112,6 +184,24 @@
         "endLine": 103,
         "endChar": 6
       },
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20a65d0_3aaf0180",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2445d3c_6cd45bde",
       "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

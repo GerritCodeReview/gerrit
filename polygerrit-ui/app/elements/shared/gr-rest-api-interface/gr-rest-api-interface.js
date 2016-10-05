@@ -62,7 +62,13 @@
     COMMIT_FOOTERS: 17,
 
     // Include push certificate information along with any patch sets.
-    PUSH_CERTIFICATES: 18
+    PUSH_CERTIFICATES: 18,
+
+    // Include change's reviewer updates.
+    REVIEWER_UPDATES: 19,
+
+    // Set the submittable boolean.
+    SUBMITTABLE: 20
   };
 
   Polymer({
@@ -352,7 +358,8 @@
       var options = this._listChangesOptionsToHex(
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.CHANGE_ACTIONS,
-          ListChangesOption.DOWNLOAD_COMMANDS
+          ListChangesOption.DOWNLOAD_COMMANDS,
+          ListChangesOption.SUBMITTABLE
       );
       return this._getChangeDetail(changeNum, options, opt_errFn,
           opt_cancelCondition);

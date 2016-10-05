@@ -444,6 +444,44 @@ limitations under the License.
       assert.equal(element._computePatchInfoClass('4', allPatcheSets), '');
     });
 
+    test('getUrlParameter functionality', function() {
+      var locationStub = sinon.stub(element, '_getLocationSearch');
+
+      locationStub.returns('?test');
+      assert.equal(element._getUrlParameter('test'), 'test');
+      locationStub.returns('?test2=12&test=3');
+      assert.equal(element._getUrlParameter('test'), 'test');
+      locationStub.returns('');
+      assert.isNull(element._getUrlParameter('test'));
+      locationStub.returns('?');
+      assert.isNull(element._getUrlParameter('test'));
+      locationStub.returns('?test2');
+      assert.isNull(element._getUrlParameter('test'));
+
+      locationStub.restore();
+    });
+
+    test('revert dialog opened with revert param', function() {
+      var urlParamStub = sinon.stub(element, '_getUrlParameter');
+
+      var showRevertDialogCalled;
+      sinon.stub(element.$.actions, 'showRevertDialog', function() {
+        showRevertDialogCalled = true;
+      });
+
+      urlParamStub.returns(true);
+      showRevertDialogCalled = false;
+      element._maybeShowRevertDialog();
+      assert.isTrue(showRevertDialogCalled);
+
+      urlParamStub.returns(false);
+      showRevertDialogCalled = false;
+      element._maybeShowRevertDialog();
+      assert.isFalse(showRevertDialogCalled);
+
+      urlParamStub.restore();
+    });
+
     suite('scroll related tests', function() {
       test('history is loaded correctly', function() {
         history.replaceState(

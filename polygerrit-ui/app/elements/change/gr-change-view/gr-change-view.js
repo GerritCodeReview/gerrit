@@ -360,6 +360,8 @@
 
       this._maybeShowReplyDialog();
 
+      this._maybeShowRevertDialog();
+
       this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
         change: this._change,
         patchNum: this._patchRange.patchNum,
@@ -384,6 +386,29 @@
       var hash = window.location.hash;
       if (hash.indexOf(msgPrefix) === 0) {
         this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
+      }
+    },
+
+    _getLocationSearch: function() {
+      // Not inlining to make it easier to test.
+      return window.location.search;
+    },
+
+    _getUrlParameter: function(param) {
+      var pageURL = this._getLocationSearch().substring(1);
+      var vars = pageURL.split('&');
+      for (var i = 0; i < vars.length; i++) {
+        var name = vars[i].split('=');
+        if (name[0] == param) {
+          return name[0];
+        }
+      }
+      return null;
+    },
+
+    _maybeShowRevertDialog: function() {
+      if (!!this._getUrlParameter('revert')) {
+        this.$.actions.showRevertDialog();
       }
     },
 

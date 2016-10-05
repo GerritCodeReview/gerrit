@@ -328,10 +328,10 @@ bower_component(
 bower_component(
   name = 'polymer',
   package = 'polymer/polymer',
-  version = '1.4.0',
+  version = '1.7.0',
   deps = [':webcomponentsjs'],
   license = 'polymer',
-  sha1 = 'b84725939ead7c7bdf9917b065f68ef8dc790d06',
+  sha1 = 'e70caa58fdee0ce51c805d548f544f74cc27d143',
 )
 
 bower_component(

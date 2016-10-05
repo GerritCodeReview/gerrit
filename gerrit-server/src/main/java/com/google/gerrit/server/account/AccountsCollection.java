@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -90,15 +91,7 @@ public class AccountsCollection implements
    */
   public IdentifiedUser parse(String id) throws AuthException,
       UnprocessableEntityException, OrmException {
-    IdentifiedUser user = parseId(id);
-    if (user == null) {
-      throw new UnprocessableEntityException(String.format(
-          "Account Not Found: %s", id));
-    } else if (!accountControlFactory.get().canSee(user.getAccount())) {
-      throw new UnprocessableEntityException(String.format(
-          "Account Not Found: %s", id));
-    }
-    return user;
+    return parseOnBehalfOf(null, id);
   }
 
   /**
@@ -115,6 +108,29 @@ public class AccountsCollection implements
    * @throws OrmException
    */
   public IdentifiedUser parseId(String id) throws AuthException, OrmException {
+    return parseIdOnBehalfOf(null, id);
+  }
+
+  /**
+   * Like {@link #parse(String)}, but also sets the {@link
+   * CurrentUser#getRealUser()} on the result.
+   */
+  public IdentifiedUser parseOnBehalfOf(@Nullable CurrentUser caller,
+      String id)
+      throws AuthException, UnprocessableEntityException, OrmException {
+    IdentifiedUser user = parseIdOnBehalfOf(caller, id);
+    if (user == null) {
+      throw new UnprocessableEntityException(String.format(
+          "Account Not Found: %s", id));
+    } else if (!accountControlFactory.get().canSee(user.getAccount())) {
+      throw new UnprocessableEntityException(String.format(
+          "Account Not Found: %s", id));
+    }
+    return user;
+  }
+
+  private IdentifiedUser parseIdOnBehalfOf(@Nullable CurrentUser caller,
+      String id) throws AuthException, OrmException {
     if (id.equals("self")) {
       CurrentUser user = self.get();
       if (user.isIdentifiedUser()) {
@@ -130,7 +146,7 @@ public class AccountsCollection implements
     if (match == null) {
       return null;
     }
-    return userFactory.create(match.getId());
+    return userFactory.runAs(null, match.getId(), caller.getRealUser());
   }
 
   @Override

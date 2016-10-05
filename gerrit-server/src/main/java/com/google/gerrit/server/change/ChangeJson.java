@@ -54,6 +54,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -713,6 +714,7 @@ public class ChangeJson {
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
       ChangeControl ctl = baseCtrl.forUser(user);
+      Map<String, Collection<String>> permittedLabels = permittedLabels(ctl, cd);
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
         if (lt == null) {
@@ -721,9 +723,21 @@ public class ChangeJson {
           continue;
         }
         Integer value;
+        Integer maxPermittedValue = null;
         String tag = null;
         Timestamp date = null;
         PatchSetApproval psa = current.get(accountId, lt.getName());
+
+        if (permittedLabels.containsKey(lt.getName())) {
+          Collection<String> range = permittedLabels.get(lt.getName());
+          for (String val : range) {
+            Integer v = parseRangeValue(val);
+            if (v != null && (maxPermittedValue == null || v > maxPermittedValue)) {
+              maxPermittedValue = v;
+            }
+          }
+        }
+
         if (psa != null) {
           value = Integer.valueOf(psa.getValue());
           if (value == 0) {
@@ -741,9 +755,18 @@ public class ChangeJson {
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
         addApproval(e.getValue().label(),
-            approvalInfo(accountId, value, tag, date));
+            approvalInfo(accountId, value, maxPermittedValue, tag, date));
       }
     }
+  }
+
+  private Integer parseRangeValue(String value) {
+    if (value.startsWith("+")) {
+      value = value.substring(1);
+    } else if (value.startsWith(" ")) {
+      value = value.trim();
+    }
+    return Ints.tryParse(value);
   }
 
   private Timestamp getSubmittedOn(ChangeData cd)
@@ -799,7 +822,7 @@ public class ChangeJson {
 
       if (detailed) {
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
-          ApprovalInfo ai = approvalInfo(accountId, 0, null, null);
+          ApprovalInfo ai = approvalInfo(accountId, 0, 0, null, null);
           byLabel.put(entry.getKey(), ai);
           addApproval(entry.getValue().label(), ai);
         }
@@ -827,17 +850,18 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value, String tag,
-      Timestamp date) {
-    ApprovalInfo ai = getApprovalInfo(id, value, tag, date);
+  private ApprovalInfo approvalInfo(Account.Id id, Integer value,
+      Integer maxPermittedValue, String tag, Timestamp date) {
+    ApprovalInfo ai = getApprovalInfo(id, value, maxPermittedValue, tag, date);
     accountLoader.put(ai);
     return ai;
   }
 
-  public static ApprovalInfo getApprovalInfo(
-      Account.Id id, Integer value, String tag, Timestamp date) {
+  public static ApprovalInfo getApprovalInfo(Account.Id id, Integer value,
+      Integer maxPermittedValue, String tag, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
+    ai.maxPermittedValue = maxPermittedValue;
     ai.date = date;
     ai.tag = tag;
     return ai;

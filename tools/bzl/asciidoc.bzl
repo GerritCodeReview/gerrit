@@ -13,6 +13,23 @@ def documentation_attributes():
     "stylesheet=DEFAULT",
     "linkcss=true",
     "prettifydir=.",
+    "revnumber=%s",   # Just a placeholder
+  ]
+
+
+def release_notes_attributes():
+  return [
+    'toc',
+    'newline="\\n"',
+    'asterisk="&#42;"',
+    'plus="&#43;"',
+    'caret="&#94;"',
+    'startsb="&#91;"',
+    'endsb="&#93;"',
+    'tilde="&#126;"',
+    'last-update-label!',
+    'stylesheet=DEFAULT',
+    'linkcss=true',
   ]
 
 
@@ -60,11 +77,16 @@ def _asciidoc_impl(ctx):
   ]
   if ctx.attr.backend:
     args.extend(["-b", ctx.attr.backend])
+  revnumber = False
   for attribute in ctx.attr.attributes:
-    args.extend(["-a", attribute])
-  args.extend([
-    "--revnumber-file", ctx.file.version.path,
-  ])
+    if attribute.startswith("revnumber="):
+      revnumber = True
+    else:
+      args.extend(["-a", attribute])
+  if revnumber:
+    args.extend([
+      "--revnumber-file", ctx.file.version.path,
+    ])
   for src in ctx.files.srcs:
     args.append(src.path)
   ctx.action(
@@ -179,11 +201,16 @@ def _asciidoc_html_zip_impl(ctx):
   ]
   if ctx.attr.backend:
     args.extend(["-b", ctx.attr.backend])
+  revnumber = False
   for attribute in ctx.attr.attributes:
-    args.extend(["-a", attribute])
-  args.extend([
-    "--revnumber-file", ctx.file.version.path,
-  ])
+    if attribute.startswith("revnumber="):
+      revnumber = True
+    else:
+      args.extend(["-a", attribute])
+  if revnumber:
+    args.extend([
+      "--revnumber-file", ctx.file.version.path,
+    ])
   for src in ctx.files.srcs:
     args.append(src.path)
   ctx.action(

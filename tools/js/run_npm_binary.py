@@ -25,7 +25,6 @@ import sys
 import tarfile
 import tempfile
 
-
 def extract(path, outdir, bin):
   if os.path.exists(os.path.join(outdir, bin)):
     return # Another process finished extracting, ignore.

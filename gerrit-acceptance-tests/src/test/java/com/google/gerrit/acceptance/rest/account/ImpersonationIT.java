@@ -251,7 +251,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void voteOnBehalfOfSucceedsWhenUserCannotSeeDestinationRef()
+  public void voteOnBehalfOfFailsWhenUserCannotSeeDestinationRef()
       throws Exception {
     blockRead(newGroup);
 
@@ -265,17 +265,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = user.id.toString();
     in.label("Code-Review", 1);
 
-    // TODO(dborowitz): Make this fail instead.
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage(
+        "on_behalf_of account " + user.id + " cannot see destination ref");
     revision.review(in);
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
-
-    LabelInfo codeReview = c.labels.get("Code-Review");
-    assertThat(codeReview.all).hasSize(1);
-    ApprovalInfo approval = codeReview.all.get(0);
-    assertThat(approval._accountId).isEqualTo(user.id.get());
-    assertThat(approval.value).isEqualTo(1);
   }
 
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
@@ -379,7 +372,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
   @Test
-  public void submitOnBehalfOfInvisibleUserIsAllowed() throws Exception {
+  public void submitOnBehalfOfInvisibleUserNotAllowed() throws Exception {
     allowSubmitOnBehalfOf();
     setApiUser(accounts.user2());
     assertThat(accountControlFactory.get().canSee(user.id)).isFalse();
@@ -392,13 +385,12 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = user.email;
-    // TODO(dborowitz): Make this fail instead.
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Account Not Found: " + in.onBehalfOf);
     gApi.changes()
         .id(changeId)
         .current()
         .submit(in);
-    assertThat(gApi.changes().id(changeId).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {

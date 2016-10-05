@@ -110,10 +110,12 @@
     },
 
     _loadPlugins: function(plugins) {
+      Gerrit._setPluginsCount(plugins.length);
       for (var i = 0; i < plugins.length; i++) {
         var scriptEl = document.createElement('script');
         scriptEl.defer = true;
         scriptEl.src = '/' + plugins[i];
+        scriptEl.onerror = Gerrit._pluginInstalled;
         document.body.appendChild(scriptEl);
       }
     },

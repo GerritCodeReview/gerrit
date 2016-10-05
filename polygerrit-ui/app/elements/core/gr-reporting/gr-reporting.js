@@ -33,6 +33,8 @@
   var CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
   var DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
 
+  var pending = [];
+
   Polymer({
     is: 'gr-reporting',
 
@@ -52,7 +54,20 @@
     },
 
     reporter: function(type, category, eventName, eventValue) {
-      eventValue = eventValue;
+      if (!Gerrit._arePluginsLoaded()) {
+        pending.push([type, category, eventName, eventValue]);
+      } else {
+        if (pending.length) {
+          pending.forEach(function(args) {
+            this._report.apply(this, args);
+          }, this);
+          pending = [];
+        }
+        this._report(type, category, eventName, eventValue);
+      }
+    },
+
+    _report: function(type, category, eventName, eventValue) {
       var detail = {
         type: type,
         category: category,
@@ -103,6 +118,10 @@
       }
       this.reporter(
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
+    },
+
+    pluginsLoaded: function() {
+      this.timeEnd('PluginsLoaded');
     },
 
     _getPathname: function() {

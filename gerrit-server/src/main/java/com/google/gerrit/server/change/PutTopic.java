@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutTopic.Input;
 import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -115,13 +114,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
       change.setTopic(Strings.emptyToNull(newTopicName));
       update.setTopic(change.getTopic());
 
-      ChangeMessage cmsg = new ChangeMessage(
-          new ChangeMessage.Key(
-              change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getAccountId(), ctx.getWhen(),
-          change.currentPatchSetId());
-      cmsg.setMessage(summary);
+      ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, summary);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
       return true;
     }

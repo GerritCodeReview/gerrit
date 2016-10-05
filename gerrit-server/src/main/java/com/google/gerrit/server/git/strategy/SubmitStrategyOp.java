@@ -33,7 +33,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -329,15 +330,9 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       byKey.put(psa.getKey(), psa);
     }
 
-    submitter = new PatchSetApproval(
-          new PatchSetApproval.Key(
-              psId,
-              ctx.getAccountId(),
-              LabelId.legacySubmit()),
-              (short) 1, ctx.getWhen());
+    submitter = ApprovalsUtil.newApproval(
+        psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
     byKey.put(submitter.getKey(), submitter);
-    submitter.setValue((short) 1);
-    submitter.setGranted(ctx.getWhen());
 
     // Flatten out existing approvals for this patch set based upon the current
     // permissions. Once the change is closed the approvals are not updated at
@@ -415,7 +410,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   }
 
   private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit,
-      CommitMergeStatus s) {
+      CommitMergeStatus s) throws OrmException {
     checkNotNull(s, "CommitMergeStatus may not be null");
     String txt = s.getMessage();
     if (s == CommitMergeStatus.CLEAN_MERGE) {
@@ -452,19 +447,9 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   }
 
   private ChangeMessage message(ChangeContext ctx, PatchSet.Id psId,
-      String body) {
-    checkNotNull(psId);
-    String uuid;
-    try {
-      uuid = ChangeUtil.messageUUID(ctx.getDb());
-    } catch (OrmException e) {
-      return null;
-    }
-    ChangeMessage m = new ChangeMessage(
-        new ChangeMessage.Key(psId.getParentKey(), uuid),
-        ctx.getAccountId(), ctx.getWhen(), psId);
-    m.setMessage(body);
-    return m;
+      String body) throws OrmException {
+    return ChangeMessagesUtil.newMessage(
+        ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), body);
   }
 
   private void setMerged(ChangeContext ctx, ChangeMessage msg)

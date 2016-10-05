@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKindCache;
@@ -279,11 +278,8 @@ public class ReplaceOp extends BatchUpdate.Op {
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n").append(reviewMessage);
     }
-    msg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(),
-            ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getAccountId(), ctx.getWhen(), patchSetId);
-    msg.setMessage(message.toString());
+    msg = ChangeMessagesUtil.newMessage(ctx.getDb(), patchSetId, ctx.getUser(),
+        ctx.getWhen(), message.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedByPushOp == null) {

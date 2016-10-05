@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -27,6 +30,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +43,25 @@ import java.util.Objects;
  */
 @Singleton
 public class ChangeMessagesUtil {
+  public static ChangeMessage newMessage(BatchUpdate.ChangeContext ctx,
+      String body) throws OrmException {
+    return newMessage(
+        ctx.getDb(), ctx.getChange().currentPatchSetId(),
+        ctx.getUser(), ctx.getWhen(), body);
+  }
+
+  public static ChangeMessage newMessage(
+      ReviewDb db, PatchSet.Id psId, CurrentUser user, Timestamp when,
+      String body) throws OrmException {
+    checkNotNull(psId);
+    Account.Id accountId = user.isInternalUser() ? null : user.getAccountId();
+    ChangeMessage m = new ChangeMessage(
+        new ChangeMessage.Key(psId.getParentKey(), ChangeUtil.messageUUID(db)),
+        accountId, when, psId);
+    m.setMessage(body);
+    return m;
+  }
+
   private static List<ChangeMessage> sortChangeMessages(
       Iterable<ChangeMessage> changeMessage) {
     return ChangeNotes.MESSAGE_BY_TIME.sortedCopy(changeMessage);

@@ -272,10 +272,6 @@ public class CherryPickChange {
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws OrmException {
-      ChangeMessage changeMessage = new ChangeMessage(
-          new ChangeMessage.Key(
-              ctx.getChange().getId(), ChangeUtil.messageUUID(ctx.getDb())),
-              ctx.getAccountId(), ctx.getWhen(), psId);
       StringBuilder sb = new StringBuilder("Patch Set ")
           .append(psId.get())
           .append(": Cherry Picked")
@@ -284,8 +280,8 @@ public class CherryPickChange {
           .append(destBranch)
           .append(" as commit ")
           .append(cherryPickCommit.name());
-      changeMessage.setMessage(sb.toString());
-
+      ChangeMessage changeMessage = ChangeMessagesUtil.newMessage(
+          ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), sb.toString());
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
       return true;
     }

@@ -26,6 +26,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -84,6 +85,18 @@ public class ApprovalsUtil {
   public static List<PatchSetApproval> sortApprovals(
       Iterable<PatchSetApproval> approvals) {
     return SORT_APPROVALS.sortedCopy(approvals);
+  }
+
+  public static PatchSetApproval newApproval(PatchSet.Id psId, CurrentUser user,
+      LabelId labelId, int value, Date when) {
+    PatchSetApproval psa = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            psId,
+            user.getAccountId(),
+            labelId),
+        Shorts.checkedCast(value),
+        when);
+    return psa;
   }
 
   private static Iterable<PatchSetApproval> filterApprovals(
@@ -288,12 +301,9 @@ public class ApprovalsUtil {
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(new PatchSetApproval(new PatchSetApproval.Key(
-          ps.getId(),
-          ps.getUploader(),
-          lt.getLabelId()),
-          vote.getValue(),
-          ts));
+      cells.add(
+          newApproval(ps.getId(), changeCtl.getUser(), lt.getLabelId(),
+              vote.getValue(), ts));
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());

@@ -47,7 +47,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -764,11 +763,10 @@ public class MergeOp implements AutoCloseable {
 
               change.setStatus(Change.Status.ABANDONED);
 
-              ChangeMessage msg = new ChangeMessage(
-                  new ChangeMessage.Key(change.getId(),
-                      ChangeUtil.messageUUID(ctx.getDb())),
-                  null, change.getLastUpdatedOn(), change.currentPatchSetId());
-              msg.setMessage("Project was deleted.");
+              ChangeMessage msg = ChangeMessagesUtil.newMessage(
+                  ctx.getDb(), change.currentPatchSetId(),
+                  internalUserFactory.create(), change.getLastUpdatedOn(),
+                  "Project was deleted.");
               cmUtil.addChangeMessage(ctx.getDb(),
                   ctx.getUpdate(change.currentPatchSetId()), msg);
 

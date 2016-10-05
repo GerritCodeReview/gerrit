@@ -33,8 +33,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -94,7 +92,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
 
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), control.getUser(), TimeUtil.nowTs())) {
-      u.addOp(req.getChange().getId(), new Op(control, input));
+      u.addOp(req.getChange().getId(), new Op(input));
       u.execute();
     }
 
@@ -103,14 +101,12 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
 
   private class Op extends BatchUpdate.Op {
     private final MoveInput input;
-    private final IdentifiedUser caller;
 
     private Change change;
     private Branch.NameKey newDestKey;
 
-    Op(ChangeControl ctl, MoveInput input) {
+    Op(MoveInput input) {
       this.input = input;
-      this.caller = ctl.getUser().asIdentifiedUser();
     }
 
     @Override
@@ -179,11 +175,8 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
         msgBuf.append("\n\n");
         msgBuf.append(input.message);
       }
-      ChangeMessage cmsg = new ChangeMessage(
-          new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          caller.getAccountId(), ctx.getWhen(), change.currentPatchSetId());
-      cmsg.setMessage(msgBuf.toString());
+      ChangeMessage cmsg =
+          ChangeMessagesUtil.newMessage(ctx, msgBuf.toString());
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
 
       return true;

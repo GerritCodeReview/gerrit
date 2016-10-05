@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountJson;
 import com.google.gerrit.server.change.DeleteAssignee.Input;
@@ -115,14 +114,8 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
 
     private void addMessage(BatchUpdate.ChangeContext ctx,
         ChangeUpdate update, Account deleted) throws OrmException {
-      ChangeMessage cmsg = new ChangeMessage(
-          new ChangeMessage.Key(
-              ctx.getChange().getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getAccountId(), ctx.getWhen(),
-          ctx.getChange().currentPatchSetId());
-      cmsg.setMessage(
-          "Assignee deleted: " + deleted.getName(anonymousCowardName));
+      ChangeMessage cmsg = ChangeMessagesUtil.newMessage(
+          ctx, "Assignee deleted: " + deleted.getName(anonymousCowardName));
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
     }
 

@@ -18,6 +18,22 @@ def documentation_attributes():
   ]
 
 
+def release_notes_attributes():
+  return [
+    'toc',
+    'newline="\\n"',
+    'asterisk="&#42;"',
+    'plus="&#43;"',
+    'caret="&#94;"',
+    'startsb="&#91;"',
+    'endsb="&#93;"',
+    'tilde="&#126;"',
+    'last-update-label!',
+    'stylesheet=DEFAULT',
+    'linkcss=true',
+  ]
+
+
 def _replace_macros_impl(ctx):
   cmd = [
     ctx.file._exe.path,

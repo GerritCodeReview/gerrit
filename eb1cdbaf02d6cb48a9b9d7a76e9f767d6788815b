@@ -1,4 +1,137 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1475655367 +0800\npushee rpc://gerrit/gerrit\nnonce AKOpmBWj6S4D8Fcl2OhsEvlYEtZ1wIw3J1sWiPvVIAF4BjDnTWT37qvcQ7WCbmpAyA7jkBInWPk+\n\n0000000000000000000000000000000000000000 eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX9LbHAAoJELOGKwXbr+wPxhUQAIwyFSeam+LwmQsVKw3Lt2mb\nCUBRplOURiNQyLZrI1UVd8hjdecfMij+K2UsISNtuNGhd6Om6OLJFzUEIYHvqIxt\nNdiSGRiAQsT6C0cmuEm7PsWExipq1DMUynq/EZof8b6QLLQNalo4Gmml6L5ZMlBR\n5Z5QztHNtgpB/dkZjqKFwf1wm11ws9J1WymbDisky/+FW/9cLvp6A+s0U3CJHNKB\n6fOsx7nXJISW/5lK6qJYddVfWf9bqLav0dGP0uUO4le8Up4lhLDMa9gDQI66lkNW\nykRJCcjIz1dAcLoIvEqGjJEK9zlP0xQcGnXhMHM4fm+pglUT4cvNiGangP5R43Md\n4OoJic7DkGWaWgsnz6peNzSW9n9j3jLyRTO74YfIpnGxdsARTRbvotMF1tiyQDHh\n0QgBnzXSRHKrDNBRpAbtfMXGCtcnaeayp/XqL3ysN2J/IWDHxM++RgRyHz0ZuGeM\nFs7vmYKUJArhku6gVTGvN7QmtvlJ0V/rV3UntoUYG+IwXrRL2f11gkw6GCnJVjHE\n34VWvBNCBrRDGu9n7blF1RhfwEillGczhQ+vtLP229z0Kaqw0JL6SkTxWrEHvUnW\np/WWFl0fXSjZ5bd5yhkDv1yf78DLr48sQK2mqoPQchPxqATpvrxgP/N4ratEdYyw\nElSQ0seWw2uCQpG0+z1O\n\u003dccsx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2445d3c_4cd79fe3",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "can you add a TODO? There\u0027s really no reason to copy files, and if you need the file to appear somewhere else, it\u0027s clearer to do that in the place where you consume the file in its new location.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 5
+      },
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_2cda530c",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "seems unused?",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 19
+      },
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_0cdd9703",
+        "filename": "lib/asciidoctor/java/AsciiDoctor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "needs a change to a BUCK file somewhere too?",
+      "range": {
+        "startLine": 75,
+        "startChar": 15,
+        "endLine": 75,
+        "endChar": 28
+      },
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c241192d_ab9f0956",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "document/comment? Does this need to be public?",
+      "range": {
+        "startLine": 89,
+        "startChar": 5,
+        "endLine": 89,
+        "endChar": 9
+      },
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_6cd45bde",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "nit: expand_extension.\n\nThis is not python, but it\u0027s still dynamically typed, so being extra explicit about what things are is better",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_8c1507b3",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "this is already much easier to understand than the previous iteration.\n\nI think you can make the whole ascidoc thing a rule as well, by using computed outputs to define the outputs. See \n\n https://www.bazel.io/versions/master/docs/skylark/lib/globals.html#rule\n\nwhere it says \n\n outputs\u003d_my_func\n\n(I have never tried this myself though.)",
+      "revId": "eb1cdbaf02d6cb48a9b9d7a76e9f767d6788815b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "e2445d3c_ece76bce",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "correct, you need to have $(location ).\n\nWhat I mean is that you can\u0027t distinguish reliably between a source file and a generated file based on its name starting with a \":\".",
+      "parentUuid": "22a3d516_ae71f73a",
+      "revId": "17b99a33ea12dd508dd7184c426c7bccb342e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62edcd06_d0c49c3b",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 3

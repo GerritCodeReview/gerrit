@@ -360,6 +360,8 @@
 
       this._maybeShowReplyDialog();
 
+      this._maybeShowRevertDialog();
+
       this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
         change: this._change,
         patchNum: this._patchRange.patchNum,
@@ -384,6 +386,28 @@
       var hash = window.location.hash;
       if (hash.indexOf(msgPrefix) === 0) {
         this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
+      }
+    },
+
+    _getUrlParameter: function(param) {
+      var sPageURL = window.location.search.substring(1);
+      var sURLVariables = sPageURL.split('&');
+      for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == param) {
+          return sParameterName[1];
+        }
+      }
+    },
+
+    _maybeShowRevertDialog: function() {
+      var showRevert = this._getUrlParameter('revert') == 1 ? true : false;
+      if (!showRevert) {
+        return;
+      }
+      var revertBtn = document.getElementById('revert');
+      if (revertBtn) {
+        revertBtn.click();
       }
     },
 

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3f5bf040_e7840212",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-05T21:09:15Z",
+      "side": 1,
+      "message": "If we add a default, `value: false,` here, can we do away with the `\u003d\u003d\u003d false`?",
+      "revId": "186d66b473f52e6ac96593fbca833073aa97e8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f5bf040_277b3a17",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 4

@@ -39,11 +39,12 @@ def _npm_binary_impl(ctx):
   python = ctx.which("python")
   script = ctx.path(ctx.attr._download_script)
 
-  args = [python, script, "-o", dest, "-u", url]
+  sha1 = NPM_SHA1S[name]
+  args = [python, script, "-o", dest, "-u", url, "-v", sha1]
   out = ctx.execute(args)
   if out.return_code:
     fail("failed %s: %s" % (args, out.stderr))
-  ctx.file("BUILD", "filegroup(name='tarball', srcs=['%s'])" % base, False)
+  ctx.file("BUILD", "package(default_visibility=['//visibility:public'])\nfilegroup(name='tarball', srcs=['%s'])" % base, False)
 
 npm_binary = repository_rule(
     implementation=_npm_binary_impl,
@@ -55,12 +56,13 @@ npm_binary = repository_rule(
     })
 
 
-def _run_npm_binary_str(ctx, tarball, name):
+# for use in repo rules.
+def _run_npm_binary_str(ctx, tarball, args):
   python_bin = ctx.which("python")
   return " ".join([
     python_bin,
     ctx.path(ctx.attr._run_npm),
-    ctx.path(tarball)])
+    ctx.path(tarball)] + args)
 
 
 def _bower_archive(ctx):
@@ -72,7 +74,7 @@ def _bower_archive(ctx):
   cmd = [
       ctx.which("python"),
       ctx.path(ctx.attr._download_bower),
-      '-b', '%s' % _run_npm_binary_str(ctx, ctx.attr._bower_archive, "bower"),
+      '-b', '%s' % _run_npm_binary_str(ctx, ctx.attr._bower_archive, []),
       '-n', ctx.name,
       '-p', ctx.attr.package,
       '-v', ctx.attr.version,
@@ -235,6 +237,10 @@ def _bower_component_bundle_impl(ctx):
   for d in ctx.attr.deps:
     versions += d.transitive_versions
 
+  licenses = set([])
+  for d in ctx.attr.deps:
+    licenses += d.transitive_versions
+
   out_zip = ctx.outputs.zip
   out_versions = ctx.outputs.version_json
 
@@ -259,6 +265,11 @@ def _bower_component_bundle_impl(ctx):
     mnemonic="BowerVersions",
     command="(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions]), out_versions.path))
 
+  return struct(
+    transitive_zipfiles=zips,
+    transitive_versions=versions,
+    transitive_licenses=licenses)
+
 
 bower_component_bundle = rule(
   _bower_component_bundle_impl,
@@ -268,3 +279,88 @@ bower_component_bundle = rule(
     "version_json": "%{name}-versions.json",
   }
 )
+
+def _vulcanize_impl(ctx):
+  destdir = ctx.outputs.vulcanized.path + ".dir"
+  zips =  [z for d in ctx.attr.deps for z in d.transitive_zipfiles ]
+
+  hermetic_npm_binary = " ".join([
+    'python',
+    "$p/" + ctx.file._run_npm.path,
+    "$p/" + ctx.file._vulcanize_archive.path,
+    '--inline-scripts',
+    '--inline-css',
+    '--strip-comments',
+    '--out-html', "$p/" + ctx.outputs.vulcanized.path,
+    ctx.file.app.path
+  ])
+
+  pkg_dir = ctx.attr.pkg.lstrip("/")
+  cmd = " && ".join([
+    # unpack dependencies.
+    "export PATH",
+    "p=$PWD",
+    "rm -rf %s" % destdir,
+    "mkdir -p %s/%s/bower_components" % (destdir, pkg_dir),
+    "for z in %s; do unzip -qd %s/%s/bower_components/ $z; done" % (
+      ' '.join([z.path for z in zips]), destdir, pkg_dir),
+    "tar -cf - %s | tar -C %s -xf -" % (" ".join([s.path for s in ctx.files.srcs]), destdir),
+    "cd %s" % destdir,
+    hermetic_npm_binary,
+  ])
+  ctx.action(
+    mnemonic = "Vulcanize",
+    inputs = [ctx.file._run_npm, ctx.file.app,
+              ctx.file._vulcanize_archive
+    ] + list(zips) + ctx.files.srcs,
+    outputs = [ctx.outputs.vulcanized],
+    command = cmd)
+
+  hermetic_npm_command = "export PATH && " + " ".join([
+    'python',
+    ctx.file._run_npm.path,
+    ctx.file._crisper_archive.path,
+    "--always-write-script",
+    "--source", ctx.outputs.vulcanized.path,
+    "--html", ctx.outputs.html.path,
+    "--js", ctx.outputs.js.path])
+
+  ctx.action(
+    mnemonic = "Crisper",
+    inputs = [ctx.file._run_npm, ctx.file.app,
+              ctx.file._crisper_archive, ctx.outputs.vulcanized],
+    outputs = [ctx.outputs.js, ctx.outputs.html],
+    command = hermetic_npm_command)
+
+
+_vulcanize_rule = rule(
+  _vulcanize_impl,
+  attrs = {
+    "deps": attr.label_list(providers=["transitive_zipfiles"]),
+    "app": attr.label(mandatory=True, allow_single_file=True),
+    "srcs": attr.label_list(allow_files=[".js", ".html", ".txt", ".css", ".ico"]),
+
+    "pkg": attr.string(mandatory=True),
+    "_run_npm": attr.label(
+      default=Label("//tools/js:run_npm_binary.py"),
+      allow_single_file=True
+    ),
+    "_vulcanize_archive": attr.label(
+      default=Label("@vulcanize//:%s" % _npm_tarball("vulcanize")),
+      allow_single_file=True
+    ),
+    "_crisper_archive": attr.label(
+      default=Label("@crisper//:%s" % _npm_tarball("crisper")),
+      allow_single_file=True
+    ),
+  },
+  outputs = {
+    "vulcanized": "%{name}.vulcanized.html",
+    "html": "%{name}.crisped.html",
+    "js": "%{name}.crisped.js",
+  }
+)
+
+def vulcanize(*args, **kwargs):
+  """Vulcanize runs vulcanize and crisper on a set of sources."""
+  _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)

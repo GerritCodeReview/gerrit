@@ -962,6 +962,14 @@ npm_binary(
   name = "bower",
 )
 
+npm_binary(
+  name = "vulcanize",
+)
+
+npm_binary(
+  name = "crisper",
+)
+
 # bower_archive() seed components.
 bower_archive(
   name = 'iron-autogrow-textarea',
@@ -1038,6 +1046,29 @@ bower_archive(
   package = 'polymerlabs/promise-polyfill',
   version = '1.0.0',
   sha1 = 'a3b598c06cbd7f441402e666ff748326030905d6',
+)
+
+# bower test stuff
+
+bower_archive(
+  name = 'iron-test-helpers',
+  package = 'polymerelements/iron-test-helpers',
+  version = '1.2.5',
+  sha1 = '433b03b106f5ff32049b84150cd70938e18b67ac',
+)
+
+bower_archive(
+  name = 'test-fixture',
+  package = 'polymerelements/test-fixture',
+  version = '1.1.1',
+  sha1 = 'e373bd21c069163c3a754e234d52c07c77b20d3c',
+)
+
+bower_archive(
+  name = 'web-component-tester',
+  package = 'web-component-tester',
+  version = '4.2.2',
+  sha1 = '54556000c33d9ed7949aa546c1b4a1531491a5f0',
 )
 
 # Bower component transitive dependencies.

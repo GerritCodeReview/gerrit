@@ -75,6 +75,12 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       throw new BadRequestException("format is not specified");
     }
     ArchiveFormat f = allowedFormats.extensions.get("." + format);
+    if (f == null && format.equals("tgz")) {
+      // Always allow tgz, even when the allowedFormats doesn't contain it.
+      // Then we allow at least one format even if the list of allowed
+      // formats is empty.
+      f = ArchiveFormat.TGZ;
+    }
     if (f == null) {
       throw new BadRequestException("unknown archive format");
     }

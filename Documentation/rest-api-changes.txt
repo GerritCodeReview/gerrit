@@ -3430,7 +3430,8 @@ get the bundles and then fetch all projects contained in the bundle.
 (This assumes no non-fastforward pushes).
 
 You need to give a parameter '?format=zip' or '?format=tar' to specify the
-format for the outer container.
+format for the outer container. It is always possible to use tgz, even if
+tgz is not in the list of allowed archive formats.
 
 To make good use of this call, you would roughly need code as found at:
 ----

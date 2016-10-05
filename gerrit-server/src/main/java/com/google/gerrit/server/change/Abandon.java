@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.ChangeAbandoned;
@@ -106,7 +105,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   public Change abandon(ChangeControl control, String msgTxt,
       NotifyHandling notifyHandling) throws RestApiException, UpdateException {
-    Op op = new Op(control.getUser(), msgTxt, notifyHandling);
+    Op op = new Op(msgTxt, notifyHandling);
     try (BatchUpdate u =
         batchUpdateFactory.create(
             dbProvider.get(),
@@ -142,8 +141,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
                   control.getProject().getNameKey().get(),
                   project.get()));
         }
-        u.addOp(
-            control.getId(), new Op(control.getUser(), msgTxt, notifyHandling));
+        u.addOp(control.getId(), new Op(msgTxt, notifyHandling));
       }
       u.execute();
     }
@@ -164,18 +162,14 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private class Op extends BatchUpdate.Op {
     private final String msgTxt;
     private final NotifyHandling notifyHandling;
-    private final Account account;
 
     private Change change;
     private PatchSet patchSet;
     private ChangeMessage message;
 
-    private Op(CurrentUser user, String msgTxt, NotifyHandling notifyHandling) {
+    private Op(String msgTxt, NotifyHandling notifyHandling) {
       this.msgTxt = msgTxt;
       this.notifyHandling = notifyHandling;
-      account = user.isIdentifiedUser()
-          ? user.asIdentifiedUser().getAccount()
-          : null;
     }
 
     @Override
@@ -208,19 +202,14 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         msg.append(msgTxt.trim());
       }
 
-      ChangeMessage message = new ChangeMessage(
-          new ChangeMessage.Key(
-              change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          account != null ? account.getId() : null,
-          ctx.getWhen(),
-          change.currentPatchSetId());
-      message.setMessage(msg.toString());
-      return message;
+      return ChangeMessagesUtil.newMessage(ctx, msg.toString());
     }
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
+      Account account = ctx.getUser().isIdentifiedUser()
+          ? ctx.getUser().asIdentifiedUser().getAccount()
+          : null;
       try {
         ReplyToChangeSender cm =
             abandonedSenderFactory.create(ctx.getProject(), change.getId());

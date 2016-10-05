@@ -90,6 +90,48 @@ limitations under the License.
       ));
     });
 
+    suite('plugins', function() {
+      setup(function() {
+        element.reporter.restore();
+        sandbox.stub(element, 'defaultReporter');
+        sandbox.stub(Gerrit, '_arePluginsLoaded');
+      });
+
+      test('pluginsLoaded reports time', function() {
+        Gerrit._arePluginsLoaded.returns(true);
+        var nowStub = sinon.stub(element, 'now').returns(42);
+        element.pluginsLoaded();
+        assert.isTrue(element.defaultReporter.calledWithExactly(
+            'timing-report', 'UI Latency', 'PluginsLoaded', 42
+        ));
+      });
+
+      test('caches reports if plugins are not loaded', function() {
+        Gerrit._arePluginsLoaded.returns(false);
+        element.timeEnd('foo');
+        assert.isFalse(element.defaultReporter.called);
+      });
+
+      test('reports if plugins are loaded', function() {
+        Gerrit._arePluginsLoaded.returns(true);
+        element.timeEnd('foo');
+        assert.isTrue(element.defaultReporter.called);
+      });
+
+      test('reports cached events preserving order', function() {
+        Gerrit._arePluginsLoaded.returns(false);
+        element.timeEnd('foo');
+        Gerrit._arePluginsLoaded.returns(true);
+        element.timeEnd('bar');
+        assert.isTrue(element.defaultReporter.firstCall.calledWith(
+            'timing-report', 'UI Latency', 'foo'
+        ));
+        assert.isTrue(element.defaultReporter.secondCall.calledWith(
+            'timing-report', 'UI Latency', 'bar'
+        ));
+      });
+    });
+
     suite('location changed', function() {
       var pathnameStub;
       setup(function() {

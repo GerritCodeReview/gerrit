@@ -33,6 +33,8 @@
   var CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
   var DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
 
+  var pending = [];
+
   Polymer({
     is: 'gr-reporting',
 
@@ -40,7 +42,7 @@
       _baselines: {
         type: Array,
         value: function() { return {}; },
-      }
+      },
     },
 
     get performanceTiming() {
@@ -51,8 +53,13 @@
       return Math.round(10 * window.performance.now()) / 10;
     },
 
-    reporter: function(type, category, eventName, eventValue) {
-      eventValue = eventValue;
+    reporter: function() {
+      var report = (Gerrit._arePluginsLoaded() && !pending.length) ?
+        this.defaultReporter : this.cachingReporter;
+      report.apply(this, arguments);
+    },
+
+    defaultReporter: function(type, category, eventName, eventValue) {
       var detail = {
         type: type,
         category: category,
@@ -61,6 +68,19 @@
       };
       document.dispatchEvent(new CustomEvent(type, {detail: detail}));
       console.log(eventName + ': ' + eventValue);
+    },
+
+    cachingReporter: function(type, category, eventName, eventValue) {
+      if (Gerrit._arePluginsLoaded()) {
+        if (pending.length) {
+          pending.splice(0).forEach(function(args) {
+            this.reporter.apply(this, args);
+          }, this);
+        }
+        this.reporter(type, category, eventName, eventValue);
+      } else {
+        pending.push([type, category, eventName, eventValue]);
+      }
     },
 
     /**
@@ -103,6 +123,10 @@
       }
       this.reporter(
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
+    },
+
+    pluginsLoaded: function() {
+      this.timeEnd('PluginsLoaded');
     },
 
     _getPathname: function() {

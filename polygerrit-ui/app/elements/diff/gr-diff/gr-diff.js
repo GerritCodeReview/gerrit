@@ -34,8 +34,9 @@
 
     properties: {
       changeNum: String,
-      hidden: {
+      expanded: {
         type: Boolean,
+        value: true,
         observer: '_handleShowDiff',
       },
       patchRange: Object,
@@ -92,14 +93,15 @@
     },
 
     ready: function() {
-      // Reload only if the diff is not hidden and params are supplied.
-      if (this.changeNum && this.patchRange && this.path && !this.hidden) {
+      // Reload only if the diff is expanded and params are supplied.
+      //
+      if (this.changeNum && this.patchRange && this.path && this.expanded) {
         this.reload();
       }
     },
 
-    _handleShowDiff: function(hidden) {
-      if (!hidden) {
+    _handleShowDiff: function(expanded) {
+      if (this.changeNum && this.patchRange && this.path && expanded) {
         this.reload();
       }
     },
@@ -126,7 +128,7 @@
     },
 
     getCursorStops: function() {
-      if (this.hidden) {
+      if (!this.expanded) {
         return [];
       }
 

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "9f605ce6_8aa2eb93",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3433,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-05T22:23:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f605ce6_aaa5af9f",
+      "revId": "fa3b5dc6ac9c59c3408f5ebb67b28b138a70a26f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f5bf040_47c86e4f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
         "patchSetId": 5
@@ -31,6 +49,30 @@
       "writtenOn": "2016-10-05T22:17:33Z",
       "side": 1,
       "message": "Maybe add something like \"regardless of server configuration\" to make it clearer why tgz might not be allowed?",
+      "range": {
+        "startLine": 78,
+        "startChar": 64,
+        "endLine": 78,
+        "endChar": 65
+      },
+      "revId": "fa3b5dc6ac9c59c3408f5ebb67b28b138a70a26f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f605ce6_4ac8734f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-05T22:23:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f5bf040_47c86e4f",
       "range": {
         "startLine": 78,
         "startChar": 64,

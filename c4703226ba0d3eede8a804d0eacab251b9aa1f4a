@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e2445d3c_6cbb7bba",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "do you have to export this?",
+      "range": {
+        "startLine": 1,
+        "startChar": 4,
+        "endLine": 1,
+        "endChar": 28
+      },
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_8ce8a7a3",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "can you hide this?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 14
+      },
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22a3d516_4e8df32d",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 5
@@ -38,6 +84,70 @@
       "side": 1,
       "message": "OK I just pass in the file name and read the file content in Java instead.",
       "parentUuid": "22a3d516_4e8df32d",
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_2cb173dc",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "nice. It didn\u0027t work because args will cause direct invocation, and you want to run it as a shell. You can use command\u003d\"command to run\" for taht.  See\n\nhttps://www.bazel.io/versions/master/docs/skylark/lib/ctx.html#action",
+      "parentUuid": "a20a65d0_da8085fe",
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_0cb4b7cb",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "new_srcs (newsrc is a file format)",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 9
+      },
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445d3c_cce2afc1",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-05T11:23:19Z",
+      "side": 1,
+      "message": "nice.",
+      "range": {
+        "startLine": 130,
+        "startChar": 9,
+        "endLine": 130,
+        "endChar": 18
+      },
       "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

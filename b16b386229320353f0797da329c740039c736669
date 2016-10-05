@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c252f9c5_230aaa80",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-05T15:26:02Z",
+      "side": 1,
+      "message": "You can delete this (see below)",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 36
+      },
+      "revId": "b16b386229320353f0797da329c740039c736669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_a4fd4252",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-05T15:26:02Z",
+      "side": 1,
+      "message": "return null in the case where it can’t find anything",
+      "revId": "b16b386229320353f0797da329c740039c736669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c252f9c5_c363963e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-05T15:26:02Z",
+      "side": 1,
+      "message": "var showRevert \u003d !!this.getUrlParameter(\u0027revert\u0027);\n\nThis way you can just say ?revert and it won’t care what the value is.",
+      "range": {
+        "startLine": 404,
+        "startChar": 23,
+        "endLine": 404,
+        "endChar": 75
+      },
+      "revId": "b16b386229320353f0797da329c740039c736669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2553dad_44132ec2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-05T15:26:02Z",
+      "side": 1,
+      "message": "Add a public method to gr-change-actions to show the revert dialog. Then call it via this.$.actions.showRevertDialog depending on the name you choose.",
+      "range": {
+        "startLine": 408,
+        "startChar": 0,
+        "endLine": 411,
+        "endChar": 7
+      },
+      "revId": "b16b386229320353f0797da329c740039c736669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

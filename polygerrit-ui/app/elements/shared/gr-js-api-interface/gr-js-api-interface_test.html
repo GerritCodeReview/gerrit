@@ -172,5 +172,49 @@ limitations under the License.
       });
     });
 
+    test('_setPluginsCount', function(done) {
+      stub('gr-reporting', {
+        pluginsLoaded: function() {
+          assert.equal(Gerrit._pluginsPending, 0);
+          done();
+        }
+      });
+      Gerrit._setPluginsCount(0);
+    });
+
+    test('_arePluginsLoaded', function() {
+      assert.isFalse(Gerrit._arePluginsLoaded());
+      Gerrit._setPluginsCount(1);
+      assert.isFalse(Gerrit._arePluginsLoaded());
+      Gerrit._setPluginsCount(0);
+      assert.isTrue(Gerrit._arePluginsLoaded());
+    });
+
+    test('_pluginInstalled', function(done) {
+      stub('gr-reporting', {
+        pluginsLoaded: function() {
+          done();
+        }
+      });
+      Gerrit._setPluginsCount(2);
+      Gerrit._pluginInstalled();
+      assert.equal(Gerrit._pluginsPending, 1);
+      Gerrit._pluginInstalled();
+    });
+
+    test('install calls _pluginInstalled', function() {
+      var stub = sinon.stub(Gerrit, '_pluginInstalled');
+      Gerrit.install(function(p) { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+      assert.isTrue(stub.calledOnce);
+      stub.restore();
+    });
+
+    test('install calls _pluginInstalled on error', function() {
+      var stub = sinon.stub(Gerrit, '_pluginInstalled');
+      Gerrit.install(function() {}, '0.0pre-alpha');
+      assert.isTrue(stub.calledOnce);
+      stub.restore();
+    });
   });
 </script>

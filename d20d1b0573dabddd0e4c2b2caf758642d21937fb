@@ -22,6 +22,24 @@
       "revId": "d20d1b0573dabddd0e4c2b2caf758642d21937fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f605ce6_6a71f734",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-05T21:03:37Z",
+      "side": 1,
+      "message": "[[!file.__expanded]] does not perform in the way you expect. Without the computed property, changes to _files are not reflected in the DOM.",
+      "parentUuid": "1f2b8c7f_0e972b3d",
+      "revId": "d20d1b0573dabddd0e4c2b2caf758642d21937fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

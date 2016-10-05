@@ -646,10 +646,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             addFooter(msg, FOOTER_SUBMITTED_WITH)
                 .append(label.status).append(": ").append(label.label);
             if (label.appliedBy != null) {
-              PersonIdent ident =
-                  newIdent(accountCache.get(label.appliedBy).getAccount(), when);
-              msg.append(": ").append(ident.getName())
-                  .append(" <").append(ident.getEmailAddress()).append('>');
+              msg.append(": ");
+              addIdent(msg, label.appliedBy);
             }
             msg.append('\n');
           }

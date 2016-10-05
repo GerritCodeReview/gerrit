@@ -49,8 +49,11 @@ public class ReviewInput {
   /**
    * How to process draft comments already in the database that were not also
    * described in this input request.
+   * <p>
+   * Defaults to DELETE, unless {@link #onBehalfOf} is set, in which case it
+   * defaults to KEEP and any other value is disallowed.
    */
-  public DraftHandling drafts = DraftHandling.DELETE;
+  public DraftHandling drafts;
 
   /** Who to send email notifications to after review is stored. */
   public NotifyHandling notify = NotifyHandling.ALL;

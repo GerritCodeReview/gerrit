@@ -203,7 +203,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void voteOnBehalfOfPublishesDrafts() throws Exception {
+  public void voteOnBehalfOfCannotModifyDrafts() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
 
@@ -221,16 +221,9 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.label("Code-Review", 1);
     in.drafts = DraftHandling.PUBLISH;
 
-    // TODO(dborowitz): This doesn't seem appropriate, disallow it.
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to modify other user's drafts");
     gApi.changes().id(r.getChangeId()).current().review(in);
-
-    CommentInfo c = Iterables.getOnlyElement(
-        gApi.changes().id(r.getChangeId()).current().commentsAsList());
-    assertThat(c.author._accountId).isEqualTo(user.id.get());
-    assertThat(c.message).isEqualTo(di.message);
-
-    setApiUser(user);
-    assertThat(gApi.changes().id(r.getChangeId()).current().drafts()).isEmpty();
   }
 
   @Test

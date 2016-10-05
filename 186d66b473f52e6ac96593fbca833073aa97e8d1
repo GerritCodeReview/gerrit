@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3f5bf040_a78e0a2e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-05T21:10:18Z",
+      "side": 1,
+      "message": "I think that would cause preemptive API calls and syntax highlighting because of calls to this.reload().",
+      "parentUuid": "3f5bf040_e7840212",
+      "revId": "186d66b473f52e6ac96593fbca833073aa97e8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f5bf040_277b3a17",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 4

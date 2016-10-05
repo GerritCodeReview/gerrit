@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f42104d_0f97253d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-05T19:42:46Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/83930/\n\nThis is the change that added the $\u003d binding. I\u0027m still a bit confused though... It looks like it was indeed used as an attribute before that, but the property \u0027hidden\u0027 was modified.\n\nI\u0027m fairly certain that just removing the attribute altogether and treating it as a property is the right way to go -- I\u0027ll implement it.",
+      "range": {
+        "startLine": 204,
+        "startChar": 9,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "f68949c3032ca45e03a4dd0b7c1c939ea3851551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

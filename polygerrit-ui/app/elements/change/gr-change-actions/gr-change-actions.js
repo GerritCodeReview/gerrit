@@ -302,6 +302,7 @@
           this._showActionDialog(this.$.confirmRebase);
           break;
         case RevisionActions.CHERRYPICK:
+          this.$.confirmCherrypick.branch = '';
           this._showActionDialog(this.$.confirmCherrypick);
           break;
         case RevisionActions.SUBMIT:

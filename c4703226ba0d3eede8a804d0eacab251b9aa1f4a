@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "22a3d516_eec93f51",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "Yes. genasciidoc rule is used by both Documentation and ReleaseNotes, and for ReleaseNotes the attributes will be different.",
+      "parentUuid": "e2445d3c_6cbb7bba",
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2445d3c_8ce8a7a3",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 5
@@ -43,6 +61,24 @@
         "endLine": 35,
         "endChar": 14
       },
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20a65d0_fa94693c",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "How do I hide it? By not put it under the top level?",
+      "parentUuid": "e2445d3c_8ce8a7a3",
       "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -108,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "a20a65d0_9a9f2d57",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "command doesn\u0027t work for the java_binary we used here.",
+      "parentUuid": "e2445d3c_2cb173dc",
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2445d3c_0cb4b7cb",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 5
@@ -125,6 +179,24 @@
         "endLine": 102,
         "endChar": 9
       },
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20a65d0_da99a572",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T14:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2445d3c_0cb4b7cb",
       "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

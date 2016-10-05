@@ -266,7 +266,7 @@ public class ApprovalsUtil {
   }
 
   /**
-   * Adds approvals to ChangeUpdate and writes to ReviewDb.
+   * Adds approvals to ChangeUpdate for a new patch set, and writes to ReviewDb.
    *
    * @param db review database.
    * @param update change update.
@@ -276,9 +276,10 @@ public class ApprovalsUtil {
    * @param approvals approvals to add.
    * @throws OrmException
    */
-  public Iterable<PatchSetApproval> addApprovals(ReviewDb db, ChangeUpdate update,
-      LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
-      Map<String, Short> approvals) throws OrmException {
+  public Iterable<PatchSetApproval> addApprovalsForNewPatchSet(ReviewDb db,
+      ChangeUpdate update, LabelTypes labelTypes, PatchSet ps,
+      ChangeControl changeCtl, Map<String, Short> approvals)
+      throws OrmException {
     if (approvals.isEmpty()) {
       return Collections.emptyList();
     }

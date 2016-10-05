@@ -293,6 +293,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
+    if (!target.getRefControl().isVisible()) {
+      throw new UnprocessableEntityException(String.format(
+          "on_behalf_of account %s cannot see destination ref",
+          target.getUser().getAccountId()));
+    }
     return new RevisionResource(changes.parse(target), rev.getPatchSet());
   }
 

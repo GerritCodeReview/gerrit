@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
@@ -185,11 +184,7 @@ public class DeleteReviewer
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 
-      changeMessage = new ChangeMessage(
-          new ChangeMessage.Key(currChange.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getAccountId(), ctx.getWhen(), currPs.getId());
-      changeMessage.setMessage(msg.toString());
+      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString());
       cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
 
       return true;

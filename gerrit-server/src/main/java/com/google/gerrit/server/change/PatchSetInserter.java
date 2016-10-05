@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -225,9 +224,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
 
     if (message != null) {
-      changeMessage = new ChangeMessage(
-          new ChangeMessage.Key(ctl.getId(), ChangeUtil.messageUUID(db)),
-          ctx.getAccountId(), ctx.getWhen(), patchSet.getId());
+      changeMessage = ChangeMessagesUtil.newMessage(
+          db, patchSet.getId(), ctx.getUser(), ctx.getWhen(), message);
       changeMessage.setMessage(message);
     }
 

@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.extensions.events.HashtagsEdited;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -129,18 +128,12 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     return true;
   }
 
-  private void addMessage(Context ctx, ChangeUpdate update)
+  private void addMessage(ChangeContext ctx, ChangeUpdate update)
       throws OrmException {
     StringBuilder msg = new StringBuilder();
     appendHashtagMessage(msg, "added", toAdd);
     appendHashtagMessage(msg, "removed", toRemove);
-    ChangeMessage cmsg = new ChangeMessage(
-        new ChangeMessage.Key(
-            change.getId(),
-            ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getAccountId(), ctx.getWhen(),
-        change.currentPatchSetId());
-    cmsg.setMessage(msg.toString());
+    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 

@@ -22,8 +22,8 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -149,19 +149,13 @@ public class MergedByPushOp extends BatchUpdate.Op {
       }
     }
     msgBuf.append(".");
-    ChangeMessage msg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(),
-            ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getAccountId(), ctx.getWhen(), psId);
-    msg.setMessage(msgBuf.toString());
+    ChangeMessage msg = ChangeMessagesUtil.newMessage(
+        ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
-    PatchSetApproval submitter = new PatchSetApproval(
-          new PatchSetApproval.Key(
-              change.currentPatchSetId(),
-              ctx.getAccountId(),
-              LabelId.legacySubmit()),
-              (short) 1, ctx.getWhen());
+    PatchSetApproval submitter = ApprovalsUtil.newApproval(
+        change.currentPatchSetId(), ctx.getUser(), LabelId.legacySubmit(),
+        1, ctx.getWhen());
     update.putApproval(submitter.getLabel(), submitter.getValue());
     ctx.getDb().patchSetApprovals().upsert(
         Collections.singleton(submitter));

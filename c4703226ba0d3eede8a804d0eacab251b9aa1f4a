@@ -23,6 +23,24 @@
       "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20a65d0_da8085fe",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-05T08:00:46Z",
+      "side": 1,
+      "message": "OK I just pass in the file name and read the file content in Java instead.",
+      "parentUuid": "22a3d516_4e8df32d",
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

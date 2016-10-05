@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f377cda_12806cfb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-10-05T17:56:43Z",
+      "side": 1,
+      "message": "nit add hasOwnProp check here due to someone potentially mutating the iterable properties of an object.",
+      "range": {
+        "startLine": 275,
+        "startChar": 11,
+        "endLine": 275,
+        "endChar": 40
+      },
+      "revId": "a5ee85cc633c6ead3789ef4de6ce67c5c85a4547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

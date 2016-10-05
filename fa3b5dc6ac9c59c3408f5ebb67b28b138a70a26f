@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1475171739 -0700\nnonce AKOpmBUX6uilOMSXkfbHfL9MjajfwRw6vMUND+FwooyStJ2rlPU3z9FNUUtYTN9sgvnojn1oPOFu\n\n0000000000000000000000000000000000000000 fa3b5dc6ac9c59c3408f5ebb67b28b138a70a26f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX7VWbAAoJECdUrmNLj+sziBoQAIZjGh3JFlZO/tw273j8cVjo\n+NXQXhHQ05g2o1wQ7A4Ubp3GjBVErDT9dOkxZxaCFUOrrrg0OAWUt4SObLLoIuvP\nI5cVlEQgTocvIAZLe+q7FcODugrcAzfKyLCvsYUYAA5Ji+Z++JNAwExg1Zz45vN0\nVaAaK+lEgXODWnpUkrzXjWmbWjUEuyXmwN20bT64VVwO5HtUUoPwGQ3aFhI6JhB7\n+8OnkYFs0eT1gDutzILTitUEs7CjVA1fSvIhE5F4nvu+f19p+h2TTDwvkJblWhi/\nCM+elFDEJDxQ/6MlT9hm9v7S/Cd62k+/dzh7wVx1G/+vxKh71RNmWUuhON6Me1XO\nVBH3y6nOvJnLwEuuCUupeiG4fFY2l7A5IUehEIclSJ+yNFPvOoXXT5Z8WUKta8PP\nWEOVqti1+OHyZGGTzMzq6loaZGsWUg3FLaI3SR9o4AjsgnSQP5TpVa7Dimx+n5r/\nAy4TIn9fEYW/9Q9r7Yme6lDTcBrRKh/hwH5X5gtg0nKOrgzHQRxlbhCmq0oyfDw5\nycf+bsLLydgWbFsQ8DamAOIW2kvD+1NWNQdBjU1FaYuLl55JHDFQ0/dL7rPTayNA\n8qyZFotAIpDWX620WCk3aXgUelsZ0teOHgXzpn/6+B6Y9xnB0EiGL2iOfvG3XxX+\nrtXsv4iAWEpj77quVfzX\n\u003d1+PM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f605ce6_aaa5af9f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3433,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-05T22:17:33Z",
+      "side": 1,
+      "message": "What does this sentence mean? Reading these two paragraphs, why I would I think it might _not_ be possible to use tgz?",
+      "revId": "fa3b5dc6ac9c59c3408f5ebb67b28b138a70a26f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f5bf040_47c86e4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-05T22:17:33Z",
+      "side": 1,
+      "message": "Maybe add something like \"regardless of server configuration\" to make it clearer why tgz might not be allowed?",
+      "range": {
+        "startLine": 78,
+        "startChar": 64,
+        "endLine": 78,
+        "endChar": 65
+      },
+      "revId": "fa3b5dc6ac9c59c3408f5ebb67b28b138a70a26f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

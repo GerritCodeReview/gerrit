@@ -20,6 +20,7 @@ public class ApprovalInfo extends AccountInfo {
   public String tag;
   public Integer value;
   public Timestamp date;
+  public Integer maxPermittedValue;
 
   public ApprovalInfo(Integer id) {
     super(id);

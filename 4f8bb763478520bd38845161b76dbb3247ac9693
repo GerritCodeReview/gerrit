@@ -17,6 +17,24 @@
       "revId": "4f8bb763478520bd38845161b76dbb3247ac9693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f5bf040_87bd46ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-05T22:29:47Z",
+      "side": 1,
+      "message": "I guessed that the biggest user would be the insane default of DraftsHandling.DELETE that I changed in https://gerrit-review.googlesource.com/88090\n\nI don\u0027t know for a fact nobody else is using it. Maybe someone is using RunAs and this should be a TODO, I dunno.",
+      "parentUuid": "9f605ce6_eab607d2",
+      "revId": "4f8bb763478520bd38845161b76dbb3247ac9693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,6 +37,7 @@
       hidden: {
         type: Boolean,
         observer: '_handleShowDiff',
+        reflectToAttribute: true,
       },
       patchRange: Object,
       path: String,
@@ -93,18 +94,20 @@
 
     ready: function() {
       // Reload only if the diff is not hidden and params are supplied.
-      if (this.changeNum && this.patchRange && this.path && !this.hidden) {
+      if (this.changeNum && this.patchRange && this.path &&
+          this.hidden === false) {
         this.reload();
       }
     },
 
     _handleShowDiff: function(hidden) {
-      if (!hidden) {
+      if (hidden === false) {
         this.reload();
       }
     },
 
     reload: function() {
+      debugger;
       this._clearDiffContent();
 
       var promises = [];
@@ -363,6 +366,7 @@
     },
 
     _render: function() {
+      debugger;
       this.$.diffBuilder.render(this._comments, this.prefs);
     },
 

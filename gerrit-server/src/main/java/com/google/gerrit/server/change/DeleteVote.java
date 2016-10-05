@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
@@ -170,20 +169,13 @@ public class DeleteVote
       ctx.getDb().patchSetApprovals().upsert(
           Collections.singleton(deletedApproval(ctx)));
 
-      changeMessage =
-          new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-              ctx.getAccountId(),
-              ctx.getWhen(),
-              change.currentPatchSetId());
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
       LabelVote.appendTo(msg, label, checkNotNull(oldApprovals.get(label)));
-      changeMessage.setMessage(
-          msg.append(" by ")
-              .append(userFactory.create(accountId).getNameEmail())
-              .append("\n")
-              .toString());
+      msg.append(" by ")
+          .append(userFactory.create(accountId).getNameEmail())
+          .append("\n");
+      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString());
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
           changeMessage);
 

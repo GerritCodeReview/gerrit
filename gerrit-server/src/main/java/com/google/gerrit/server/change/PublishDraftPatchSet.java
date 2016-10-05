@@ -34,7 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
@@ -253,11 +253,9 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     private void sendReplacePatchSet(Context ctx)
         throws EmailException, OrmException {
       Account.Id accountId = ctx.getAccountId();
-      ChangeMessage msg =
-          new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())), accountId,
-              ctx.getWhen(), psId);
-      msg.setMessage("Uploaded patch set " + psId.get() + ".");
+      ChangeMessage msg = ChangeMessagesUtil.newMessage(
+          ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(),
+          "Uploaded patch set " + psId.get() + ".");
       ReplacePatchSetSender cm =
           replacePatchSetFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(accountId);

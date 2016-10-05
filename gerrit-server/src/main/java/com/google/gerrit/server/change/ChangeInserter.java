@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -364,11 +363,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     approvalsUtil.addApprovalsForNewPatchSet(
         db, update, labelTypes, patchSet, ctx.getControl(), approvals);
     if (message != null) {
-      changeMessage =
-          new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(db)), ctx.getAccountId(),
-              patchSet.getCreatedOn(), patchSet.getId());
-      changeMessage.setMessage(message);
+      changeMessage = ChangeMessagesUtil.newMessage(
+          db, patchSet.getId(), ctx.getUser(), patchSet.getCreatedOn(),
+          message);
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
     return true;

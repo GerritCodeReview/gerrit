@@ -197,6 +197,16 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfWithComment() throws Exception {
+    testVoteOnBehalfOfWithComment();
+  }
+
+  @GerritConfig(name = "notedb.writeJson", value = "true")
+  @Test
+  public void voteOnBehalfOfWithCommentWritingJson() throws Exception {
+    testVoteOnBehalfOfWithComment();
+  }
+
+  private void testVoteOnBehalfOfWithComment() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
 

@@ -34,8 +34,9 @@
 
     properties: {
       changeNum: String,
-      hidden: {
+      expanded: {
         type: Boolean,
+        value: true,
         observer: '_handleShowDiff',
       },
       patchRange: Object,
@@ -92,14 +93,7 @@
     },
 
     ready: function() {
-      // Reload only if the diff is not hidden and params are supplied.
-      if (this.changeNum && this.patchRange && this.path && !this.hidden) {
-        this.reload();
-      }
-    },
-
-    _handleShowDiff: function(hidden) {
-      if (!hidden) {
+      if (this._canRender()) {
         this.reload();
       }
     },
@@ -126,7 +120,7 @@
     },
 
     getCursorStops: function() {
-      if (this.hidden) {
+      if (!this.expanded) {
         return [];
       }
 
@@ -157,6 +151,16 @@
 
     toggleLeftDiff: function() {
       this.toggleClass('no-left');
+    },
+
+    _handleShowDiff: function() {
+      if (this._canRender()) {
+        this.reload();
+      }
+    },
+
+    _canRender: function() {
+      return this.changeNum && this.patchRange && this.path && this.expanded;
     },
 
     _getCommentThreads: function() {

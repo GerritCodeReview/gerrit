@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "227af568_b676a82e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-10-05T14:32:36Z",
+      "side": 1,
+      "message": "This should go in util library if there is one and if something similar does not already exist.",
+      "revId": "0f3e140ec101b5d60253b54b0d81282a4b1dc2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62e78d57_a09f5a56",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-10-05T14:32:36Z",
+      "side": 1,
+      "message": "There is likely a better Polymer way to do this.",
+      "revId": "0f3e140ec101b5d60253b54b0d81282a4b1dc2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

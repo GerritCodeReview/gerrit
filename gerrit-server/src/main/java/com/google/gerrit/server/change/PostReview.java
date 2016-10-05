@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -173,6 +173,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, input);
+      checkState(input.drafts == DraftHandling.KEEP);
+    }
+    if (input.drafts == null) {
+      input.drafts = DraftHandling.DELETE;
     }
     if (input.labels != null) {
       checkLabels(revision, input.strictLabels, input.labels);
@@ -249,6 +253,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           in.onBehalfOf));
     }
 
+    if (in.drafts == null) {
+      in.drafts = DraftHandling.KEEP;
+    }
+    if (in.drafts != DraftHandling.KEEP
+        || !isEmpty(in.comments)
+        || !isEmpty(in.robotComments)) {
+      // Don't allow impersonating users in inline comments. It's really not
+      // nice to touch other people's drafts; disallow published comments as
+      // well for simplicity and consistency.
+      throw new AuthException("not allowed to modify other user's comments");
+    }
+
+
     ChangeControl caller = rev.getControl();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
@@ -282,6 +299,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           target.getUser().getAccountId()));
     }
     return new RevisionResource(changes.parse(target), rev.getPatchSet());
+  }
+
+  private static <K, V> boolean isEmpty(Map<K, List<V>> map) {
+    return map == null || map.values().stream().allMatch(List::isEmpty);
   }
 
   private void checkLabels(RevisionResource revision, boolean strict,
@@ -545,7 +566,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      switch (firstNonNull(in.drafts, DraftHandling.DELETE)) {
+      switch (in.drafts) {
         case KEEP:
         default:
           break;

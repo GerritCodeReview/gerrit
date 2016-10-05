@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f2b8c7f_0e972b3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-05T19:28:35Z",
+      "side": 1,
+      "message": "These should be [[.\nAlso the the `_computeHiddenState` function is not needed, could just be\n\n    [[!file.__expanded]]\n\nIs the behavior of the `hidden` attribute (not the prop) still desired? If so, then hidden might need the `reflectToAttribute` option. [1]\n\n[1] https://www.polymer-project.org/1.0/docs/devguide/properties",
+      "range": {
+        "startLine": 204,
+        "startChar": 18,
+        "endLine": 204,
+        "endChar": 20
+      },
+      "revId": "d20d1b0573dabddd0e4c2b2caf758642d21937fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -10,6 +10,7 @@ installation.
 _java_ -jar gerrit.war _init_
   -d <SITE_PATH>
   [--batch]
+  [--delete-caches]
   [--no-auto-start]
   [--skip-plugins]
   [--list-plugins]
@@ -41,6 +42,10 @@ If during a schema migration unused objects (e.g. tables, columns)
 are detected, they are *not* automatically dropped; a list of SQL
 statements to drop these objects is provided. To drop the unused
 objects these SQL statements must be executed manually.
+
+--delete-caches::
+	Force deletion of all persistent cache files. Note that
+	re-creation of these caches may be expensive.
 
 --no-auto-start::
 	Don't automatically start the daemon after initializing a

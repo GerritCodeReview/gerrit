@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f7a64f7_88849711",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T22:17:15Z",
+      "side": 1,
+      "message": "Why add this to rest-client-behavior rather than gr-reply-dialog?",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_05717235",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T22:17:15Z",
+      "side": 1,
+      "message": "What if this were just an array `[\u0027ABANDONED\u0027, \u0027MERGED\u0027]`?",
+      "range": {
+        "startLine": 39,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f7a64f7_28764b2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T22:17:15Z",
+      "side": 1,
+      "message": "This text can be wrapped to fit under 80 characters.",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f7a64f7_688043fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T22:17:15Z",
+      "side": 1,
+      "message": "Why not just ...\n\n    return change.status in this.ClosedChangeStatus;`\n\n... or, if `ClosedChangeStatus` is converted to an array ...\n\n    return this.closedChangeStatus.indexOf(change.status) !\u003d\u003d -1;\n\n... ?",
+      "range": {
+        "startLine": 275,
+        "startChar": 6,
+        "endLine": 278,
+        "endChar": 19
+      },
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

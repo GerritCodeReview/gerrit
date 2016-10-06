@@ -318,6 +318,8 @@ public abstract class AbstractDaemonTest {
       }
     }
     TempFileUtil.cleanup();
+    System.err.println("stopCommonServer called!");
+    Thread.dumpStack();
   }
 
   protected static Config submitWholeTopicEnabledConfig() {

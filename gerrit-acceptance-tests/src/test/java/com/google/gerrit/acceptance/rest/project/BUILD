@@ -8,6 +8,7 @@ acceptance_tests(
     ':project',
   ],
   labels = ['rest'],
+#  shard_count=30,
 )
 
 java_library(

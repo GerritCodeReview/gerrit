@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "5fb264c6_88a537a0",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-06T16:01:54Z",
+      "side": 1,
+      "message": "Good point. Done",
+      "parentUuid": "df4ad497_7ccd795e",
+      "revId": "42a6c2992e1fdb981ffa336795f11dd2a89c5f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf47e08e_9bb32be1",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 9
@@ -84,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "5fb264c6_a8a27b93",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-06T16:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf47e08e_9bb32be1",
+      "revId": "42a6c2992e1fdb981ffa336795f11dd2a89c5f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ad497_5cd23dfc",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 9
@@ -95,6 +131,24 @@
       "writtenOn": "2016-10-06T12:26:08Z",
       "side": 1,
       "message": "I had to do something similar recently, for which I did\n\n  \"tar -cf- %s | tar -C %s -xf-\" % (\" \".join(files), destdir)\n\nwhich is shorter",
+      "revId": "42a6c2992e1fdb981ffa336795f11dd2a89c5f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fb264c6_68c80350",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-06T16:01:54Z",
+      "side": 1,
+      "message": "I think this only works when all the files are short_path under the same common directory (e.g. images/foo.png, images/bar.png, prettify.min.js, ... all put together), and I need to cd to that common directory first?\n\nIt\u0027s not the case here. prettify.min.{css,js} will be under bazel-genfiles/Documentation, while images/*.{jpg,png} will be under the original place.\n\nBut I think this can be used to save some trouble to get parent_dir.",
+      "parentUuid": "df4ad497_5cd23dfc",
       "revId": "42a6c2992e1fdb981ffa336795f11dd2a89c5f15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -118,6 +172,24 @@
         "endLine": 267,
         "endChar": 18
       },
+      "revId": "42a6c2992e1fdb981ffa336795f11dd2a89c5f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fb264c6_48c3bf34",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-06T16:01:54Z",
+      "side": 1,
+      "message": "Yes, already fixed.",
+      "parentUuid": "bf47e08e_fbc06f23",
       "revId": "42a6c2992e1fdb981ffa336795f11dd2a89c5f15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

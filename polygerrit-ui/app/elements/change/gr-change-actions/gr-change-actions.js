@@ -286,6 +286,12 @@
           this.$.confirmRevertDialog.message);
     },
 
+    showRevertDialog: function() {
+      this.$.confirmRevertDialog.populateRevertMessage(this.commitMessage);
+      this.$.confirmRevertDialog.message = this._modifyRevertMsg();
+      this._showActionDialog(this.$.confirmRevertDialog);
+    },
+
     _handleActionTap: function(e) {
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
@@ -298,9 +304,7 @@
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
-        this.$.confirmRevertDialog.populateRevertMessage(this.commitMessage);
-        this.$.confirmRevertDialog.message = this._modifyRevertMsg();
-        this._showActionDialog(this.$.confirmRevertDialog);
+        this.showRevertDialog();
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);
       } else {

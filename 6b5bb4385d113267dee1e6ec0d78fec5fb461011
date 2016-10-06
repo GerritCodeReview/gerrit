@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfc9a046_0bcdbd5e",
+        "filename": "gerrit-acceptance-tests/tests.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-06T16:07:31Z",
+      "side": 1,
+      "message": "nit: should we do line break here?",
+      "range": {
+        "startLine": 14,
+        "startChar": 27,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "6b5bb4385d113267dee1e6ec0d78fec5fb461011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

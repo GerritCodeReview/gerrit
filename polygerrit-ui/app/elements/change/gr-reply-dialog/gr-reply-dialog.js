@@ -272,10 +272,7 @@
     },
 
     _isClosed: function(change) {
-      if (change.status in this.ClosedChangeStatus) {
-        return true;
-      }
-      return false;
+      return change.status in this.ClosedChangeStatus;
     },
 
     _computeHideDraftList: function(drafts) {

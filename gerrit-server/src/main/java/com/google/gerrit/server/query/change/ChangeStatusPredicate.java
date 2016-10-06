@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.ArrayList;
@@ -63,7 +64,8 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
     return status.name().toLowerCase();
   }
 
-  public static Predicate<ChangeData> parse(String value) {
+  public static Predicate<ChangeData> parse(String value)
+      throws QueryParseException {
     String lower = value.toLowerCase();
     NavigableMap<String, Predicate<ChangeData>> head =
         PREDICATES.tailMap(lower, true);
@@ -75,7 +77,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
         return e.getValue();
       }
     }
-    throw new IllegalArgumentException("invalid change status: " + value);
+    throw new QueryParseException("invalid change status: " + value);
   }
 
   public static Predicate<ChangeData> open() {

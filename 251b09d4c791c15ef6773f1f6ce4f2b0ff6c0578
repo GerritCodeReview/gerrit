@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf47e08e_9ba84b79",
+        "filename": "tools/js/run_npm_binary.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-06T09:24:49Z",
+      "side": 0,
+      "message": "Why is this line removed?",
+      "revId": "251b09d4c791c15ef6773f1f6ce4f2b0ff6c0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

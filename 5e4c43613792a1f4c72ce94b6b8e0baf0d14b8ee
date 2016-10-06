@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "df4ad497_fca5099f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-06T09:24:49Z",
+      "side": 1,
+      "message": "Are these intended to be done in later patch sets of this change, or in follow up changes?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 24
+      },
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf47e08e_3b98176e",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 1
@@ -59,6 +82,30 @@
       "writtenOn": "2016-10-06T08:37:03Z",
       "side": 1,
       "message": "Not sure if we follow the max chars per line in bzl files. If we do there are a couple of lines that are too long.",
+      "range": {
+        "startLine": 344,
+        "startChar": 73,
+        "endLine": 344,
+        "endChar": 91
+      },
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ad497_dca2cd94",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-06T09:24:49Z",
+      "side": 1,
+      "message": "I would prefer that we stick to 80 columns, per the rest of the code base, if possible.",
+      "parentUuid": "bf47e08e_7b929f4d",
       "range": {
         "startLine": 344,
         "startChar": 73,

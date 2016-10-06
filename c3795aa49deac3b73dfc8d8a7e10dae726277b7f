@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3f5bf040_a7096a90",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T00:58:57Z",
+      "side": 1,
+      "message": "Yeah -- we still haven\u0027t fully resolved the issue of shared constants.\n\nWould a gr-diff-view-behavior be appropriate in this situation?",
+      "parentUuid": "9f605ce6_2a1f7fcf",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_ea2847f2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3f5bf040_8706667c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T00:58:57Z",
+      "side": 1,
+      "message": "This exists to ensure that _getDiffViewMode gets called any time either diffViewMode or _userPrefs is changed. It\u0027s a weird pattern, but it\u0027s identical to the one followed in gr-diff-view. For continuity\u0027s sake, I think we should either follow this convention, or reimplement it in both views to one that\u0027s more explicit for non Polymer-minded people.",
+      "parentUuid": "9f605ce6_ea2847f2",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_0a24bb1b",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-06T00:06:08Z",
       "side": 1,
       "message": "Please s/sinon.(stub|spy)/sandbox.(stub|spy)/g in this file, thanks!",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f605ce6_4a019369",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T00:58:57Z",
+      "side": 1,
+      "message": "The sandbox doesn\u0027t work everywhere a normal stub/spy will... For instance, when stubbing the rest api prototype methods in the below line. Should I opt to just not use the sandbox at all for continuity\u0027s sake?",
+      "parentUuid": "9f605ce6_0a24bb1b",
       "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

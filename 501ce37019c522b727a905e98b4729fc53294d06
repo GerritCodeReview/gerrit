@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "7fbba8d1_39ef6fae",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T17:53:02Z",
+      "side": 1,
+      "message": "Got it.",
+      "parentUuid": "7fbba8d1_99b6bbd1",
+      "revId": "501ce37019c522b727a905e98b4729fc53294d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fbba8d1_d9a5939f",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 3
@@ -113,6 +131,24 @@
       "side": 1,
       "message": "-1 means not yet initialized here.\nNull probably would work, I\u0027m not sure if constant makes much sense because it\u0027s not shared directly.\nI\u0027d rather keep it as a number to show it\u0027s a numeric property.\nComment added.",
       "parentUuid": "7fbba8d1_d9a5939f",
+      "revId": "501ce37019c522b727a905e98b4729fc53294d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fac249b_58cdfd5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T17:53:02Z",
+      "side": 1,
+      "message": "A comment works. Can the comment additionally say what -1 signifies?",
+      "parentUuid": "7fbba8d1_d9c03324",
       "revId": "501ce37019c522b727a905e98b4729fc53294d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

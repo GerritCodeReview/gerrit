@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "df11f499_0476b62d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-06T14:55:16Z",
+      "side": 1,
+      "message": "Keep in mind that dom-if will not restamp the element after the first round of hiding unless explicitly told to do so. https://www.polymer-project.org/1.0/docs/api/dom-if",
+      "parentUuid": "9f605ce6_ea0f2794",
+      "revId": "011bc012c7e7654471cbf5f33620a17c97b61f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_6a1577ad",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3

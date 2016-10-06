@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "7fbba8d1_b9b37fe0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:48:33Z",
+      "side": 1,
+      "message": "Reworded - thanks!",
+      "parentUuid": "5fac249b_58925d4d",
+      "revId": "501ce37019c522b727a905e98b4729fc53294d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fac249b_1898e56d",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-06T17:33:47Z",
       "side": 1,
       "message": "If it ends up going through cached events, they will have the wrong timestamp in GA (or wherever they are sent). Is that correct? Does it matter?",
+      "revId": "501ce37019c522b727a905e98b4729fc53294d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_99b6bbd1",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:48:33Z",
+      "side": 1,
+      "message": "No, timestamps are calculated before events hit the reporter.\nIt essentially caches the payload.",
+      "parentUuid": "5fac249b_1898e56d",
       "revId": "501ce37019c522b727a905e98b4729fc53294d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
         "endLine": 67,
         "endChar": 29
       },
+      "revId": "501ce37019c522b727a905e98b4729fc53294d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_d9c03324",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:48:33Z",
+      "side": 1,
+      "message": "-1 means not yet initialized here.\nNull probably would work, I\u0027m not sure if constant makes much sense because it\u0027s not shared directly.\nI\u0027d rather keep it as a number to show it\u0027s a numeric property.\nComment added.",
+      "parentUuid": "7fbba8d1_d9a5939f",
       "revId": "501ce37019c522b727a905e98b4729fc53294d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

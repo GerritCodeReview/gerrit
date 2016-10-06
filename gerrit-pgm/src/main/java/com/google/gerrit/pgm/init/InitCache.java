@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
+import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
@@ -33,13 +34,15 @@ import java.util.List;
 @Singleton
 class InitCache implements InitStep {
   private final ConsoleUI ui;
+  private final InitFlags flags;
   private final SitePaths site;
   private final Section cache;
 
   @Inject
-  InitCache(final ConsoleUI ui, final SitePaths site,
-      final Section.Factory sections) {
+  InitCache(final ConsoleUI ui, final InitFlags flags,
+      final SitePaths site, final Section.Factory sections) {
     this.ui = ui;
+    this.flags = flags;
     this.site = site;
     this.cache = sections.get("cache", null);
   }
@@ -75,7 +78,8 @@ class InitCache implements InitStep {
     }
     if (!cacheFiles.isEmpty()) {
       for (Path entry : cacheFiles) {
-        if (ui.yesno(false, "Delete cache file %s", entry)) {
+        if (flags.deleteCaches ||
+            ui.yesno(false, "Delete cache file %s", entry)) {
           try {
             Files.deleteIfExists(entry);
           } catch (IOException e) {

@@ -23,6 +23,52 @@
       "revId": "59a0914445ac304044d4cdda5baf9f32b0f0e264",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fb264c6_48989f6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-06T01:00:52Z",
+      "side": 1,
+      "message": "According to the updated documentation, input.drafts should default to KEEP if not set while on_behalf_of is set.  But if I understand this correctly, it is expecting input.drafts to be explicitly set to KEEP when on_behalf_of is set.\n\nI.e. should it not be like this?\n\n  if (input.drafts \u003d\u003d null) {\n    input.drafts \u003d DraftHandling.KEEP);\n  } else {\n    checkState(input.drafts \u003d\u003d DraftHandling.KEEP);\n  }",
+      "range": {
+        "startLine": 176,
+        "startChar": 6,
+        "endLine": 176,
+        "endChar": 53
+      },
+      "revId": "59a0914445ac304044d4cdda5baf9f32b0f0e264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fb264c6_689d635d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-06T01:00:52Z",
+      "side": 1,
+      "message": "This can be changed to \"else if\" if the comment at L176 is accepted.",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 178,
+        "endChar": 6
+      },
+      "revId": "59a0914445ac304044d4cdda5baf9f32b0f0e264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

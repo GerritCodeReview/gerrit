@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5fac249b_3876892e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:11:47Z",
+      "side": 1,
+      "message": "No action needed here - this just a known issue, and it\u0027s getting more hairy over time.\nMaybe this will be solved with ES6 migration, in whatever form that happens.\nOr singleton global constants.js, maybe? Would have to import it everywhere, so that would likely benefit from automation..",
+      "parentUuid": "3f5bf040_a7096a90",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_ea2847f2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "5fac249b_788001fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:11:47Z",
+      "side": 1,
+      "message": "I\u0027m not sure how _diffMode is different from diffViewMode in the first place and when each one should be used.\nAfter reading the code, maybe diffViewMode is the override for the default one, which is populated from user preferences?\nMaybe rename those accordingly?",
+      "parentUuid": "3f5bf040_8706667c",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_0a24bb1b",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "The sandbox doesn\u0027t work everywhere a normal stub/spy will... For instance, when stubbing the rest api prototype methods in the below line. Should I opt to just not use the sandbox at all for continuity\u0027s sake?",
       "parentUuid": "9f605ce6_0a24bb1b",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_597b4315",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:11:47Z",
+      "side": 1,
+      "message": "\u003e The sandbox doesn\u0027t work everywhere a normal stub/spy will.\nFalse. sandbox.stub is interchangeable with sinon.stub usage-wise, same goes for spies.\n\nI believe stub() is the cause of confusion here - but it\u0027s provided by Polymer, and has nothing to do with Sinon:\nhttps://github.com/Polymer/web-component-tester/blob/master/browser/mocha/stub.js",
+      "parentUuid": "9f605ce6_4a019369",
       "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

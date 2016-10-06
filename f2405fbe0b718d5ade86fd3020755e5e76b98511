@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fbba8d1_399daf5e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:30:41Z",
+      "side": 1,
+      "message": "I think we generally prefer em to px.",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 20
+      },
+      "revId": "f2405fbe0b718d5ade86fd3020755e5e76b98511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_b9a8df78",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:30:41Z",
+      "side": 1,
+      "message": "Aha! missing space. 🕵",
+      "range": {
+        "startLine": 136,
+        "startChar": 33,
+        "endLine": 136,
+        "endChar": 35
+      },
+      "revId": "f2405fbe0b718d5ade86fd3020755e5e76b98511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fac249b_d88e6d2f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:30:41Z",
+      "side": 1,
+      "message": "Missing space.",
+      "range": {
+        "startLine": 139,
+        "startChar": 43,
+        "endLine": 139,
+        "endChar": 45
+      },
+      "revId": "f2405fbe0b718d5ade86fd3020755e5e76b98511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_7997273c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:30:41Z",
+      "side": 1,
+      "message": "Sort those alphabetically.",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 144,
+        "endChar": 32
+      },
+      "revId": "f2405fbe0b718d5ade86fd3020755e5e76b98511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fac249b_f88b311c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T17:30:41Z",
+      "side": 1,
+      "message": "Missing space.",
+      "range": {
+        "startLine": 148,
+        "startChar": 48,
+        "endLine": 148,
+        "endChar": 50
+      },
+      "revId": "f2405fbe0b718d5ade86fd3020755e5e76b98511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

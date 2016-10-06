@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fbba8d1_d98e732f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-06T17:20:39Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "range": {
+        "startLine": 448,
+        "startChar": 65,
+        "endLine": 448,
+        "endChar": 66
+      },
+      "revId": "cd72f58cf8d1a09fbded0072a14a0a286fa25feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_f98b371c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-06T17:20:39Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 465,
+        "startChar": 63,
+        "endLine": 465,
+        "endChar": 64
+      },
+      "revId": "cd72f58cf8d1a09fbded0072a14a0a286fa25feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

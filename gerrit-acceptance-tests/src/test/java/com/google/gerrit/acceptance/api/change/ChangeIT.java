@@ -415,37 +415,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void voteOnBehalfOf() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType codeReviewType = Util.codeReview();
-    String forCodeReviewAs = Permission.forLabelAs(codeReviewType.getName());
-    String heads = "refs/heads/*";
-    AccountGroup.UUID owner =
-        SystemGroupBackend.getGroup(CHANGE_OWNER).getUUID();
-    Util.allow(cfg, forCodeReviewAs, -1, 1, owner, heads);
-    saveProjectConfig(project, cfg);
-
-    PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
-
-    ReviewInput in = ReviewInput.recommend();
-    in.onBehalfOf = user.id.toString();
-    revision.review(in);
-
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
-
-    LabelInfo codeReview = c.labels.get("Code-Review");
-    assertThat(codeReview.all).hasSize(1);
-    ApprovalInfo approval = codeReview.all.get(0);
-    assertThat(approval._accountId).isEqualTo(user.id.get());
-    assertThat(approval.value).isEqualTo(1);
-  }
-
-  @Test
   public void rebaseUpToDateChange() throws Exception {
     PushOneCommit.Result r = createChange();
     exception.expect(ResourceConflictException.class);

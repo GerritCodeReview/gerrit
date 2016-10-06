@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7fbba8d1_591fc3cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-06T18:16:18Z",
+      "side": 1,
+      "message": "It\u0027s actually checking that onBehalfOf sets input.drafts to this value as a side effect, which happens on l. 257. So this is not a correctness issue. But point taken, I will try to make the logic clearer.",
+      "parentUuid": "5fb264c6_48989f6e",
+      "range": {
+        "startLine": 176,
+        "startChar": 6,
+        "endLine": 176,
+        "endChar": 53
+      },
+      "revId": "59a0914445ac304044d4cdda5baf9f32b0f0e264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fb264c6_689d635d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2

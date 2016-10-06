@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_c58e7a2f",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T22:26:31Z",
+      "side": 1,
+      "message": "I thought it would be possible that we would want to use a \"closed\" status elsewhere in the future.  I thought it might be a good idea to add here instead so that if a new change status were added, particular it if was a closed change status, we could just update here too. We would be more likely to forget if it was in the gr-reply-dialog.",
+      "parentUuid": "5f7a64f7_88849711",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff74f80c_05717235",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_e58b761c",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T22:26:31Z",
+      "side": 1,
+      "message": "It could be. I like reading \"in\" better and it was consistent was the ChangeStatus above.",
+      "parentUuid": "ff74f80c_05717235",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f7a64f7_28764b2e",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2016-10-06T22:17:15Z",
       "side": 1,
       "message": "This text can be wrapped to fit under 80 characters.",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_259d8e5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T22:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f7a64f7_28764b2e",
       "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +136,24 @@
         "endLine": 278,
         "endChar": 19
       },
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_45928a4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T22:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f7a64f7_688043fd",
       "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

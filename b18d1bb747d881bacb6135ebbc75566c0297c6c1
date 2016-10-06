@@ -45,6 +45,24 @@
       "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_d9d753df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T18:09:13Z",
+      "side": 1,
+      "message": "how do you test this?",
+      "parentUuid": "5fac249b_f8bdf1ac",
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

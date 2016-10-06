@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotSignedInDialog;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.Util;
@@ -186,7 +187,7 @@ public class Assignee extends Composite {
 
   private void setAssignee(AccountInfo assignee) {
     currentAssignee = assignee;
-    assigneeLink.setText(assignee != null ? assignee.name() : null);
+    assigneeLink.setText(assignee != null ? getName(assignee) : null);
     assigneeLink.setTargetHistoryToken(assignee != null
         ? PageLinks.toAssigneeQuery(assignee.name() != null
             ? assignee.name()
@@ -206,5 +207,15 @@ public class Assignee extends Composite {
         }
       }
       return null;
+  }
+
+  private String getName(AccountInfo info) {
+    if (info.name() != null) {
+      return info.name();
+    }
+    if (info.email() != null) {
+      return info.email();
+    }
+    return Gerrit.info().user().anonymousCowardName();
   }
 }

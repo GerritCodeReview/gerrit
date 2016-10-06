@@ -2,7 +2,7 @@ load('//gerrit-acceptance-tests:tests.bzl', 'acceptance_tests')
 
 acceptance_tests(
   group = 'rest_project',
-  srcs = glob(['*IT.java']),
+  srcs = glob(['BeforeTestIT.java']),
   deps = [
     ':branch',
     ':project',

@@ -271,6 +271,13 @@
       }.bind(this));
     },
 
+    _isClosed: function(change) {
+      if (change.status in this.ClosedChangeStatus) {
+        return true;
+      }
+      return false;
+    },
+
     _computeHideDraftList: function(drafts) {
       return Object.keys(drafts || {}).length == 0;
     },

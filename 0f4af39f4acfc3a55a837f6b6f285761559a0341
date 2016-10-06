@@ -17,6 +17,24 @@
       "revId": "0f4af39f4acfc3a55a837f6b6f285761559a0341",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f605ce6_ca57c358",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-06T15:05:30Z",
+      "side": 1,
+      "message": "Yeah, my current plan is to rebase this whole series on a new suite of tests for impersonating using both on_behalf_of and X-Gerrit-RunAs.",
+      "parentUuid": "bfc9a046_6b9d615d",
+      "revId": "0f4af39f4acfc3a55a837f6b6f285761559a0341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

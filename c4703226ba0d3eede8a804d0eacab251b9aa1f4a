@@ -85,6 +85,24 @@
     },
     {
       "key": {
+        "uuid": "5fb264c6_888e972e",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-10-06T00:53:44Z",
+      "side": 1,
+      "message": "Figured it out, added \"_\" to all the functions/rules that need to be hidden.",
+      "parentUuid": "a20a65d0_fa94693c",
+      "revId": "c4703226ba0d3eede8a804d0eacab251b9aa1f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22a3d516_4e8df32d",
         "filename": "tools/bzl/asciidoc.bzl",
         "patchSetId": 5

@@ -22,7 +22,7 @@ def prolog_cafe_library(
   genrule2(
     name = name + '__pl2j',
     cmd = '$(location //lib/prolog:compiler_bin) ' +
-      '$$TMP $@ ' +
+      '$$(dirname $@) $@ ' +
       '$(SRCS)',
     srcs = srcs,
     tools = ['//lib/prolog:compiler_bin'],

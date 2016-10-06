@@ -30,10 +30,8 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.UpdateException;
@@ -53,7 +51,6 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
-  private final String serverId;
 
   @Inject
   CreateDraftComment(Provider<ReviewDb> db,
@@ -61,15 +58,13 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      @GerritServerId String serverId) {
+      PatchListCache patchListCache) {
     this.db = db;
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
-    this.serverId = serverId;
   }
 
   @Override
@@ -113,14 +108,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
-      comment = new Comment(
-          new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), in.path,
-              ps.getPatchSetId()),
-          ctx.getAccountId(),
-          ctx.getWhen(),
-          in.side(),
-          in.message.trim(),
-          serverId);
+      comment = commentsUtil.newComment(
+          ctx, in.path, ps.getId(), in.side(), in.message.trim());
       comment.parentUuid = Url.decode(in.inReplyTo);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;

@@ -66,13 +66,11 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -121,7 +119,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final PostReviewers postReviewers;
-  private final String serverId;
   private final NotesMigration migration;
 
   @Inject
@@ -138,7 +135,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       PostReviewers postReviewers,
-      @GerritServerId String serverId,
       NotesMigration migration) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -153,7 +149,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.email = email;
     this.commentAdded = commentAdded;
     this.postReviewers = postReviewers;
-    this.serverId = serverId;
     this.migration = migration;
   }
 
@@ -526,14 +521,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String parent = Url.decode(c.inReplyTo);
           Comment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
-            e = new Comment(
-                new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path,
-                    psId.get()),
-                user.getAccountId(),
-                ctx.getWhen(),
-                c.side(),
-                c.message,
-                serverId);
+            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message);
           } else {
             e.writtenOn = ctx.getWhen();
             e.side = c.side();
@@ -591,11 +579,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (Map.Entry<String, List<RobotCommentInput>> ent : in.robotComments.entrySet()) {
         String path = ent.getKey();
         for (RobotCommentInput c : ent.getValue()) {
-          RobotComment e = new RobotComment(
-              new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path,
-                  psId.get()),
-              user.getAccountId(), ctx.getWhen(), c.side(), c.message, serverId,
-              c.robotId, c.robotRunId);
+          RobotComment e = commentsUtil.newRobotComment(
+              ctx, path, psId, c.side(), c.message, c.robotId, c.robotRunId);
           e.parentUuid = Url.decode(c.inReplyTo);
           e.url = c.url;
           e.properties = c.properties;

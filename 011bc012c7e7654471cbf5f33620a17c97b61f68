@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f605ce6_4a1ab3df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T00:00:47Z",
+      "side": 1,
+      "message": "(side note)\nFrankly, this kind of property feels a bit of a code smell.\nSame goes for hidden - gr-diff is already overloaded and heavy, so maybe we should move this logic into either gr-file-list or separate wrapper element.",
+      "revId": "011bc012c7e7654471cbf5f33620a17c97b61f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f605ce6_6a1577ad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-06T00:00:47Z",
+      "side": 1,
+      "message": "Consider moving into a getter or computed property.",
+      "revId": "011bc012c7e7654471cbf5f33620a17c97b61f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

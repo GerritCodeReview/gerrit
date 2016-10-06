@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_c5a59a9f",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T22:56:48Z",
+      "side": 1,
+      "message": "FWIW, I much prefer enums, especially as this seems like an enum that has utility elsewhere as well. ClosedChangeStatus.ABANDONED is much better for readability than ClosedChangeStatus[0].",
+      "parentUuid": "ff74f80c_e58b761c",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f7a64f7_28764b2e",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2

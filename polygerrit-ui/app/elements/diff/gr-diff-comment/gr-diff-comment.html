@@ -44,15 +44,20 @@ limitations under the License.
         padding: .5em .7em;
       }
       .header {
+        cursor: pointer;
         display: flex;
-        padding-bottom: 0;
         font-family: 'Open Sans', sans-serif;
+        padding-bottom: 0;
       }
-      .headerLeft {
+      .headerMiddle {
+        color: #666;
         flex: 1;
+        overflow: hidden;
       }
       .authorName,
       .draftLabel {
+        display: block;
+        float: left;
         font-weight: bold;
       }
       .draftLabel {
@@ -62,6 +67,7 @@ limitations under the License.
       .date {
         justify-content: flex-end;
         margin-left: 5px;
+        white-space: nowrap;
       }
       a.date:link,
       a.date:visited {
@@ -113,19 +119,62 @@ limitations under the License.
         background-color: #fff;
         display: block;
       }
+      .show-hide {
+        margin-left: .4em;
+      }
+      input.show-hide {
+        display: none;
+      }
+      label.show-hide {
+        color: #000;
+        cursor: pointer;
+        display: block;
+        font-size: .8em;
+        height: 1.1em;
+        margin-top: .1em;
+      }
+      #container .collapsedContent {
+        display: none;
+      }
+      #container.collapsed {
+        padding-bottom: 3px;
+      }
+      #container.collapsed .collapsedContent {
+        display: block;
+        overflow: hidden;
+        padding-left: 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      #container.collapsed .actions,
+      #container.collapsed gr-linked-text,
+      #container.collapsed iron-autogrow-textarea {
+        display: none;
+      }
     </style>
     <div id="container"
         class="container"
         on-mouseenter="_handleMouseEnter"
         on-mouseleave="_handleMouseLeave">
-      <div class="header" id="header">
+      <div class="header" id="header" on-click="_handleToggleCollapsed">
         <div class="headerLeft">
           <span class="authorName">[[comment.author.name]]</span>
           <span class="draftLabel">DRAFT</span>
         </div>
+        <div class="headerMiddle">
+          <span class="collapsedContent">[[comment.message]]</span>
+        </div>
         <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
           <gr-date-formatter date-str="[[comment.updated]]"></gr-date-formatter>
         </a>
+        <div class="show-hide">
+          <label class="show-hide">
+            <input type="checkbox" class="show-hide"
+               checked$="[[_commentCollapsed]]"
+               on-change="_handleToggleCollapsed">
+            [[_computeShowHideText(_commentCollapsed)]]
+          </label>
+        </div>
       </div>
       <iron-autogrow-textarea
           id="editTextarea"
@@ -137,6 +186,7 @@ limitations under the License.
       <gr-linked-text class="message"
           pre
           content="[[comment.message]]"
+          collapsed="[[_commentCollapsed]]"
           config="[[projectConfig.commentlinks]]"></gr-linked-text>
       <div class="actions" hidden$="[[!showActions]]">
         <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>

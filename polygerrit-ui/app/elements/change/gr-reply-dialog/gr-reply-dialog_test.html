@@ -244,6 +244,18 @@ limitations under the License.
       }).then(done);
     });
 
+    test('message disabled dialogue appears for closed change', function() {
+      element.change = {status: 'ABANDONED'};
+      flushAsynchronousOperations();
+      assert.isTrue(element.$$('.labelDisabledMessage') !== null);
+    });
+
+    test('message disabled dialogue does not appear for open change',
+        function() {
+      element.change = {status: 'NEW'};
+      assert.isTrue(element.$$('.labelDisabledMessage') === null);
+    });
+
     test('_getStorageLocation', function() {
       var actual = element._getStorageLocation();
       assert.equal(actual.changeNum, changeNum);

@@ -23,6 +23,8 @@
     REVIEWERS: 'reviewers',
   };
 
+  var ClosedChangeStatus = ['ABANDONED', 'MERGED'];
+
   Polymer({
     is: 'gr-reply-dialog',
 
@@ -269,6 +271,10 @@
         };
         this.fire('server-error', {response: response});
       }.bind(this));
+    },
+
+    _isClosed: function(change) {
+      return (ClosedChangeStatus.indexOf(change.status) !== -1);
     },
 
     _computeHideDraftList: function(drafts) {

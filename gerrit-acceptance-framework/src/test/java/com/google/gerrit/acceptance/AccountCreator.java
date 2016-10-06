@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
@@ -104,6 +105,7 @@ public class AccountCreator {
         for (String n : groups) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
           AccountGroup g = groupCache.get(k);
+          checkArgument(g != null, "group not found: %s", n);
           AccountGroupMember m =
               new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
           db.accountGroupMembers().insert(Collections.singleton(m));

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "7fbba8d1_7924871d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T18:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fbba8d1_99dddb05",
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fbba8d1_391a0fdf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5fac249b_f8d411dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T18:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fbba8d1_391a0fdf",
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fbba8d1_b9da9f08",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2
@@ -65,6 +101,24 @@
         "endLine": 164,
         "endChar": 39
       },
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_99287bf2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T18:27:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fbba8d1_b9da9f08",
       "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -147,6 +201,24 @@
       "side": 1,
       "message": "Append ?dom\u003dshadow to the localhost url you visit to test things.\n\nAlternately, when running tests with wct/buck, it runs both environments -- if you pass those, you\u0027re good.",
       "parentUuid": "7fbba8d1_d9d753df",
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_19670b4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-06T18:27:19Z",
+      "side": 1,
+      "message": "Seemed fine.",
+      "parentUuid": "5fac249b_38ef69ae",
       "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

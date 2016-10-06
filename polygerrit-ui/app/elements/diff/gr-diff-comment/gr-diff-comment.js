@@ -81,6 +81,11 @@
       },
       patchNum: String,
       showActions: Boolean,
+      _commentCollapsed: {
+        type: Boolean,
+        value: true,
+        observer: '_toggleCollapseClass',
+      },
       projectConfig: Object,
 
       _xhrPromise: Object,  // Used for testing.
@@ -96,8 +101,18 @@
       '_loadLocalDraft(changeNum, patchNum, comment)',
     ],
 
+    attached: function() {
+      if (this.editing) {
+        this._commentCollapsed = false;
+      }
+    },
+
     detached: function() {
       this.cancelDebouncer('fire-update');
+    },
+
+    _computeShowHideText: function(collapsed) {
+      return collapsed ? '◀' : '▼';
     },
 
     save: function() {
@@ -207,6 +222,18 @@
             this._handleSave(e);
           }
           break;
+      }
+    },
+
+    _handleToggleCollapsed: function() {
+      this._commentCollapsed = !this._commentCollapsed;
+    },
+
+    _toggleCollapseClass: function(_commentCollapsed) {
+      if (_commentCollapsed) {
+        this.$.container.classList.add('collapsed');
+      } else {
+        this.$.container.classList.remove('collapsed');
       }
     },
 

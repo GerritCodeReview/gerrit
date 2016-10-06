@@ -613,6 +613,16 @@ limitations under the License.
         assert.strictEqual(sections[0], section[0]);
         assert.strictEqual(sections[1], section[1]);
       });
+
+      test('render-start and render are fired', function() {
+        var fireStub = sinon.stub(element, 'fire');
+        element.render({left: [], right: []}, {});
+        flush(function() {
+          assert.isTrue(fireStub.calledWithExactly('render-start'));
+          assert.isTrue(fireStub.calledWithExactly('render'));
+          done();
+        });
+      });
     });
 
     suite('mock-diff', function() {

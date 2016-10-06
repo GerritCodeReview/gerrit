@@ -18,6 +18,7 @@
   var CHECK_SIGN_IN_INTERVAL_MS = 60000;
   var SIGN_IN_WIDTH_PX = 690;
   var SIGN_IN_HEIGHT_PX = 500;
+  var TOO_MANY_FILES = 'too many files to find conflicts';
 
   Polymer({
     is: 'gr-error-manager',
@@ -38,6 +39,10 @@
       this.unlisten(document, 'network-error', '_handleNetworkError');
     },
 
+    _shouldSupressError: function(msg) {
+      return msg.indexOf(TOO_MANY_FILES) > -1;
+    },
+
     _handleServerError: function(e) {
       if (e.detail.response.status === 403) {
         this._getLoggedIn().then(function(loggedIn) {
@@ -49,7 +54,9 @@
         }.bind(this));
       } else {
         e.detail.response.text().then(function(text) {
-          this._showAlert('Server error: ' + text);
+          if (!this._shouldSupressError(text)) {
+            this._showAlert('Server error: ' + text);
+          }
         }.bind(this));
       }
     },

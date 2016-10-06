@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1470887520 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0fWYt5omRE6IEwKqJIX3q5xsOMzCoGdrs7r1gpbXg7RmHUw6mo1szx9XhGw5fC2csMvsjw8\n\n0000000000000000000000000000000000000000 cd8a95e6ceabcc760cbbe2eeba7af0eaca529570 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXq/ZgAAoJELOGKwXbr+wPyP8QAIEq+DWXH1sDfUnpV03Bu9fL\nJsAu7SboPjTF1ti0NZAN78uscvdY7YlkuBc3/SXxCYzg6hDHoLUVKGcHXj+mnLhu\nGNDW9CQX8xmxs5LFpnDB+TESw3b/mM1XpKdSF44cx56Mqn31QaGoSD192xPiXoQx\n+QRJVIgnWqgtH0t2aA/oZuMl5uwMFHgtnh4+q1APpkU7ZloUIiVAlHKBsHq+f0iV\nZoynRl17WZvfZ6gOvPrFtWdffz7LFGA1Pzea4bS6RmTeFU3gAVzFaOT3b9zNIFiZ\nDklgz3EazWGiDF/azbV5zAmYZZeNQUuhUnGEIETiY/SLIW3/CgPWLWn4PTeEmBYm\n3r7F8LUwdSqEC0uoeFDY/r8JCKifK350P6UKg506zwPYzlvUJSiD4oGlf0HcjHd4\nkaBt8ExYsZOj4TIMS4XoAn61TPo/dDLJPdm+SzFWR6tIVLh07+IjNmdFLuCYfwvm\nc+EIkpORRbh1JywHhDIb1smAQieKkTvK8cpGSRZMAzuefupu9RDHIWwDHVceMktO\nZe3DLJKsTJXSb9d4TiNnMa0j6Yqys8s8CFhsXTNPA2HyauaoOYPI5OPYkL8nDcgs\niCO7wThk/FhTpvPURYQ+hzTww0GAPU0rTGTcaGduaWX0m7Lcy8lhosGgX6wj365E\nrCOYRw+gQpGFWQyMoYck\n\u003dYAHy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fbba8d1_59718302",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-10-06T18:57:57Z",
+      "side": 1,
+      "message": "Did we consider the performance implications of this? A lot of event listeners use the changeInfo(Change) method. With all options being included the server has to load and format everything even if a listener (e.g. TopicEditedListener) doesn\u0027t care.\n\nSome listeners even pass along both ChangeInfo and RevisionInfo; e.g. ReviewerAddedListener. In this case the ChangeJson is run to format the same RevisionInfo twice, once inside the ChangeInfo and again for the RevisionInfo.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 48
+      },
+      "revId": "cd8a95e6ceabcc760cbbe2eeba7af0eaca529570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

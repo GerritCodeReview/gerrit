@@ -212,6 +212,24 @@
       "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fac249b_1867054e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T22:08:15Z",
+      "side": 1,
+      "message": "Looks like this might be a bug in Sinon [1]. Maybe we can just use `sinon.stub` and restore it explicitly in the teardown (with some kind of explanatory comment).\n\n[1] https://github.com/sinonjs/sinon/issues/781",
+      "parentUuid": "7fbba8d1_b9253f19",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

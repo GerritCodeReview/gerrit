@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df4ad497_1c53956a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-10-06T15:41:31Z",
+      "side": 1,
+      "message": "do the resolve here instead of only in the error handling?",
+      "revId": "26fe49b72f6075fdc36dbdcfbbc5c878cbcd8c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

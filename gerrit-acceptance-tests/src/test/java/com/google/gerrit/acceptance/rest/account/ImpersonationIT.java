@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
@@ -23,7 +24,10 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -35,6 +39,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -52,6 +57,9 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,16 +67,23 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Inject
   private AccountControl.Factory accountControlFactory;
 
+  private RestSession anonRestSession;
   private TestAccount admin2;
   private GroupInfo newGroup;
 
   @Before
   public void setUp() throws Exception {
+    anonRestSession = new RestSession(server, null);
     admin2 = accounts.admin2();
     GroupInput gi = new GroupInput();
     gi.name = name("New-Group");
     gi.members = ImmutableList.of(user.id.toString());
     newGroup = gApi.groups().create(gi).get();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    removeRunAs();
   }
 
   @Test
@@ -386,6 +401,96 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .submit(in);
   }
 
+  @Test
+  public void runAsValidUser() throws Exception {
+    allowRunAs();
+    RestResponse res =
+        adminRestSession.getWithHeader("/accounts/self", runAsHeader(user.id));
+    res.assertOK();
+    AccountInfo account =
+        newGson().fromJson(res.getEntityContent(), AccountInfo.class);
+    assertThat(account._accountId).isEqualTo(user.id.get());
+  }
+
+  @GerritConfig(name = "auth.enableRunAs", value = "false")
+  @Test
+  public void runAsDisabledByConfig() throws Exception {
+    allowRunAs();
+    RestResponse res =
+        adminRestSession.getWithHeader("/changes/", runAsHeader(user.id));
+    res.assertForbidden();
+    assertThat(res.getEntityContent())
+        .isEqualTo("X-Gerrit-RunAs disabled by auth.enableRunAs = false");
+  }
+
+  @Test
+  public void runAsNotPermitted() throws Exception {
+    RestResponse res =
+        adminRestSession.getWithHeader("/changes/", runAsHeader(user.id));
+    res.assertForbidden();
+    assertThat(res.getEntityContent())
+        .isEqualTo("not permitted to use X-Gerrit-RunAs");
+  }
+
+  @Test
+  public void runAsNeverPermittedForAnonymousUsers() throws Exception {
+    allowRunAs();
+    RestResponse res =
+        anonRestSession.getWithHeader("/changes/", runAsHeader(user.id));
+    res.assertForbidden();
+    assertThat(res.getEntityContent())
+        .isEqualTo("not permitted to use X-Gerrit-RunAs");
+  }
+
+  @Test
+  public void runAsInvalidUser() throws Exception {
+    allowRunAs();
+    RestResponse res = adminRestSession.getWithHeader(
+        "/changes/", runAsHeader("doesnotexist"));
+    res.assertForbidden();
+    assertThat(res.getEntityContent())
+        .isEqualTo("no account matches X-Gerrit-RunAs");
+  }
+
+  @Test
+  public void voteUsingRunAsAvoidsRestrictionsOfOnBehalfOf() throws Exception {
+    allowRunAs();
+    PushOneCommit.Result r = createChange();
+
+    setApiUser(user);
+    DraftInput di = new DraftInput();
+    di.path = Patch.COMMIT_MSG;
+    di.side = Side.REVISION;
+    di.line = 1;
+    di.message = "inline comment";
+    gApi.changes().id(r.getChangeId()).current().createDraft(di);
+    setApiUser(admin);
+
+    // Things that aren't allowed with on_behalf_of:
+    //  - no labels.
+    //  - publish other user's drafts.
+    ReviewInput in = new ReviewInput();
+    in.message = "message";
+    in.drafts = DraftHandling.PUBLISH;
+    RestResponse res = adminRestSession.postWithHeader(
+        "/changes/" + r.getChangeId() + "/revisions/current/review", in,
+        runAsHeader(user.id));
+    res.assertOK();
+
+    ChangeMessageInfo m = Iterables.getLast(
+        gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(m.message).endsWith(in.message);
+    assertThat(m.author._accountId).isEqualTo(user.id.get());
+
+    CommentInfo c = Iterables.getOnlyElement(
+        gApi.changes().id(r.getChangeId()).comments().get(di.path));
+    assertThat(c.author._accountId).isEqualTo(user.id.get());
+    assertThat(c.message).isEqualTo(di.message);
+
+    setApiUser(user);
+    assertThat(gApi.changes().id(r.getChangeId()).drafts()).isEmpty();
+  }
+
   private void allowCodeReviewOnBehalfOf() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     LabelType codeReviewType = Util.codeReview();
@@ -415,5 +520,23 @@ public class ImpersonationIT extends AbstractDaemonTest {
     Util.block(
         cfg, Permission.READ, new AccountGroup.UUID(group.id), "refs/heads/master");
     saveProjectConfig(project, cfg);
+  }
+
+  private void allowRunAs() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    Util.allow(cfg, GlobalCapability.RUN_AS,
+        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+    saveProjectConfig(allProjects, cfg);
+  }
+
+  private void removeRunAs() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    Util.remove(cfg, GlobalCapability.RUN_AS,
+        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+    saveProjectConfig(allProjects, cfg);
+  }
+
+  private static Header runAsHeader(Object user) {
+    return new BasicHeader("X-Gerrit-RunAs", user.toString());
   }
 }

@@ -23,6 +23,30 @@
       "revId": "cd8a95e6ceabcc760cbbe2eeba7af0eaca529570",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_995a3b82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-06T19:05:47Z",
+      "side": 1,
+      "message": "We have no choice but to include all fields in the formatted results, because plugins can do whatever they want. But I guess we didn\u0027t think about performance.\n\nPer-event caching is the only thing I can think of at the moment.",
+      "parentUuid": "7fbba8d1_59718302",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 48
+      },
+      "revId": "cd8a95e6ceabcc760cbbe2eeba7af0eaca529570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

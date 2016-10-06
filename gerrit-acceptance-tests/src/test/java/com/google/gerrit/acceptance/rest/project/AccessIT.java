@@ -219,6 +219,8 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void updateParentAsUser() throws Exception {
+    System.err.println("updateParentAsUser");
+
     // Create child
     String newParentProjectName = createProject(PROJECT_NAME + "PA").get();
 

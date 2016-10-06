@@ -20,6 +20,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -116,6 +117,7 @@ public class ConfigSuite extends Suite {
     private ConfigRunner(Class<?> clazz, Field parameterField, Field nameField,
         String name, Method configMethod) throws InitializationError {
       super(clazz);
+      System.err.println("configrunner for " + clazz);
       this.parameterField = parameterField;
       this.nameField = nameField;
       this.name = name;
@@ -129,6 +131,8 @@ public class ConfigSuite extends Suite {
       if (nameField != null) {
         nameField.set(test, name);
       }
+      System.err.println("create test: " + test);
+
       return test;
     }
 
@@ -158,6 +162,8 @@ public class ConfigSuite extends Suite {
         result.add(new ConfigRunner(
             clazz, parameterField, nameField, m.getName(), m));
       }
+
+      System.err.println("runners for " + clazz + ": " + result.size());
       return result;
     } catch (InitializationError e) {
       System.err.println("Errors initializing runners:");
@@ -192,6 +198,8 @@ public class ConfigSuite extends Suite {
         result.add(m);
       }
     }
+    System.err.println("getConfigs " + clazz + ": " + result.size());
+
     return result;
   }
 
@@ -199,6 +207,7 @@ public class ConfigSuite extends Suite {
     if (m == null) {
       return new org.eclipse.jgit.lib.Config();
     }
+    System.err.println("callConfig method");
     checkArgument(
         org.eclipse.jgit.lib.Config.class.isAssignableFrom(m.getReturnType()),
         "%s must return Config", m);

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9f605ce6_6a4e97c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T16:31:17Z",
+      "side": 1,
+      "message": "Yes! In fact, I was specifically thinking of leaving restamp\u003d\"false\" to recreate the behavior we have already using the combination of gr-diff[hidden\u003d\"true\"] and preventing initial render.",
+      "parentUuid": "df11f499_0476b62d",
+      "revId": "011bc012c7e7654471cbf5f33620a17c97b61f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_6a1577ad",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3

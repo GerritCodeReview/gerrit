@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bf47e08e_dba2d394",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-06T12:11:53Z",
+      "side": 1,
+      "message": "follow up changes.",
+      "parentUuid": "df4ad497_fca5099f",
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf47e08e_3b98176e",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "df4ad497_1cc8b54e",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-06T12:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf47e08e_3b98176e",
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf47e08e_1b9d5b5e",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 320,
         "endChar": 29
       },
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf47e08e_3bc3f735",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-06T12:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf47e08e_1b9d5b5e",
       "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -112,6 +166,24 @@
         "endLine": 344,
         "endChar": 91
       },
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf47e08e_1bc8bb4e",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-06T12:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ad497_dca2cd94",
       "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

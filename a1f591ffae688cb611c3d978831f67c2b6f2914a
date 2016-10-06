@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fac249b_587b3d15",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-06T17:04:38Z",
+      "side": 1,
+      "message": "you have to restore these stubs at the end of your test:\n\nlocationStub.restore();",
+      "range": {
+        "startLine": 448,
+        "startChar": 10,
+        "endLine": 448,
+        "endChar": 22
+      },
+      "revId": "a1f591ffae688cb611c3d978831f67c2b6f2914a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f605ce6_ea0f2794",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T04:50:01Z",
+      "side": 1,
+      "message": "I agree this is heavy, and I think I agree on the smell. Now that you mention it, this may be more cleanly accomplished using a dom-if in GR-FILE-LIST instead of hiding and preventing render.\n\nI\u0027ll look into that in another change.",
+      "parentUuid": "9f605ce6_4a1ab3df",
+      "revId": "011bc012c7e7654471cbf5f33620a17c97b61f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_6a1577ad",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-06T00:00:47Z",
       "side": 1,
       "message": "Consider moving into a getter or computed property.",
+      "revId": "011bc012c7e7654471cbf5f33620a17c97b61f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f5bf040_476cee2f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T04:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f605ce6_6a1577ad",
       "revId": "011bc012c7e7654471cbf5f33620a17c97b61f68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

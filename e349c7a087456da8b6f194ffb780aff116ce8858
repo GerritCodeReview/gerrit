@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf47e08e_dbd493dd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-10-06T13:33:34Z",
+      "side": 1,
+      "message": "Done, changed the line break (all other init step use final as well, so I prefer to keep the cleanup for a separate patch if needed).",
+      "parentUuid": "bf47e08e_5be9a3a4",
+      "revId": "e349c7a087456da8b6f194ffb780aff116ce8858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ad497_3cead19d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitCache.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bf47e08e_fbd7cfde",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-10-06T13:33:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ad497_3cead19d",
+      "revId": "e349c7a087456da8b6f194ffb780aff116ce8858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ad497_1cef15ae",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitCache.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-06T13:07:29Z",
       "side": 1,
       "message": "It might be better to offer the option per cache, rather than a blanket \"delete all caches\".\n\nOr, if it\u0027s OK to remove them all at once, include the list of caches in the prompt so the user at least knows what will be removed.",
+      "revId": "e349c7a087456da8b6f194ffb780aff116ce8858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ad497_5ce99da4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-10-06T13:33:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ad497_1cef15ae",
       "revId": "e349c7a087456da8b6f194ffb780aff116ce8858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

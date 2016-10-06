@@ -22,6 +22,30 @@
       "revId": "b44c409b802398683c1921df061893831d7b62e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22991538_3e9789f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Assignee.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-10-06T07:24:52Z",
+      "side": 1,
+      "message": "Done\nAlthough I copied this behavior from how reviewers are displayed.\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java#256",
+      "parentUuid": "22991538_bed399f5",
+      "range": {
+        "startLine": 179,
+        "startChar": 11,
+        "endLine": 179,
+        "endChar": 13
+      },
+      "revId": "b44c409b802398683c1921df061893831d7b62e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

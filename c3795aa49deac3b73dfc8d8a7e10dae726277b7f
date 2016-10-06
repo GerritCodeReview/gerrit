@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5fac249b_b8da9908",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T18:26:42Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "5fac249b_3876892e",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_ea2847f2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -108,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "7fbba8d1_d9091390",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T18:26:42Z",
+      "side": 1,
+      "message": "_diffMode is never used anywhere -- it seemingly exists only to cause a call to _getDiffViewMode any time either diffViewMode or _userPrefs is changed. This pattern is identical to the pattern in gr-diff-view, which performs the exact same functionality. \n\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js#82\n\nI believe strongly that I should either follow that pattern as-is or come up with something new for both places in the code.",
+      "parentUuid": "5fac249b_788001fd",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f605ce6_0a24bb1b",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 1
@@ -155,6 +191,24 @@
       "side": 1,
       "message": "\u003e The sandbox doesn\u0027t work everywhere a normal stub/spy will.\nFalse. sandbox.stub is interchangeable with sinon.stub usage-wise, same goes for spies.\n\nI believe stub() is the cause of confusion here - but it\u0027s provided by Polymer, and has nothing to do with Sinon:\nhttps://github.com/Polymer/web-component-tester/blob/master/browser/mocha/stub.js",
       "parentUuid": "9f605ce6_4a019369",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_b9253f19",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T18:26:42Z",
+      "side": 1,
+      "message": "Okay, I didn\u0027t know that -- good to know! So should I swap all instances of this stub function with an equivalent call to sandbox.stub on the prototype? It feels like that\u0027s a much messier way of doing things.\n\nAlso, it looks like I run into an issue when trying to stub diffs() with sandbox.\n\nsandbox.stub(element, \u0027diffs\u0027, {get: function() {\n  return [{toggleLeftDiff: toggleLeftDiffStub}];\n}});\n\nyields err: \"Cannot stub non-existent own property diffs\"\n\nwhereas this works fine:\nsinon.stub(element, \u0027diffs\u0027, {get: function() {\n  return [{toggleLeftDiff: toggleLeftDiffStub}];\n}});",
+      "parentUuid": "7fbba8d1_597b4315",
       "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

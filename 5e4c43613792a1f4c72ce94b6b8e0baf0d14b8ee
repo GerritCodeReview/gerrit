@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf47e08e_3b98176e",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-06T08:37:03Z",
+      "side": 1,
+      "message": "TODO(hanwen) ?",
+      "range": {
+        "startLine": 288,
+        "startChar": 25,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf47e08e_1b9d5b5e",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-06T08:37:03Z",
+      "side": 1,
+      "message": "TODO(hanwen) ?",
+      "range": {
+        "startLine": 320,
+        "startChar": 25,
+        "endLine": 320,
+        "endChar": 29
+      },
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf47e08e_7b929f4d",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-06T08:37:03Z",
+      "side": 1,
+      "message": "Not sure if we follow the max chars per line in bzl files. If we do there are a couple of lines that are too long.",
+      "range": {
+        "startLine": 344,
+        "startChar": 73,
+        "endLine": 344,
+        "endChar": 91
+      },
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf47e08e_db8bf31c",
+        "filename": "tools/js/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-06T08:37:03Z",
+      "side": 1,
+      "message": "nit: remove blank line",
+      "revId": "5e4c43613792a1f4c72ce94b6b8e0baf0d14b8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

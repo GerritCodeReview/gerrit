@@ -109,6 +109,24 @@
       "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fac249b_38ef69ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-06T18:11:04Z",
+      "side": 1,
+      "message": "Append ?dom\u003dshadow to the localhost url you visit to test things.\n\nAlternately, when running tests with wct/buck, it runs both environments -- if you pass those, you\u0027re good.",
+      "parentUuid": "7fbba8d1_d9d753df",
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

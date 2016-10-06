@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "7fbba8d1_391a0fdf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T18:12:48Z",
+      "side": 1,
+      "message": "Prefer short color codes when possible (e.g. `#000` or just `black`).",
+      "range": {
+        "startLine": 129,
+        "startChar": 15,
+        "endLine": 129,
+        "endChar": 22
+      },
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fbba8d1_b9da9f08",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2

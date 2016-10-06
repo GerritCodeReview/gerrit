@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7fbba8d1_99dddb05",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T18:09:33Z",
+      "side": 1,
+      "message": "These should be alpha sorted.",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fbba8d1_b9da9f08",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-06T18:09:33Z",
+      "side": 1,
+      "message": "Put the span on the next line to avoid overflow.",
+      "range": {
+        "startLine": 164,
+        "startChar": 34,
+        "endLine": 164,
+        "endChar": 39
+      },
+      "revId": "b18d1bb747d881bacb6135ebbc75566c0297c6c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fbba8d1_59e423ce",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 2

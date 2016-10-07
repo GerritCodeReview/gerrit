@@ -49,6 +49,10 @@ class FinalUpdatesEvent extends Event {
     if (change.getSubmissionId() != null) {
       update.setSubmissionId(change.getSubmissionId());
     }
+    if (!Objects.equals(change.getAssignee(), noteDbChange.getAssignee())) {
+      // TODO(dborowitz): Parse intermediate values out from messages.
+      update.setAssignee(change.getAssignee());
+    }
     if (!update.isEmpty()) {
       update.setSubjectForCommit("Final NoteDb migration updates");
     }

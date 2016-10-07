@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_4bdb650f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-07T17:58:29Z",
+      "side": 1,
+      "message": "Comma-separated selectors each go on their own line.",
+      "range": {
+        "startLine": 92,
+        "startChar": 32,
+        "endLine": 92,
+        "endChar": 44
+      },
+      "revId": "85f19f64749e8b6712b89b16b633474d8d7ab823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

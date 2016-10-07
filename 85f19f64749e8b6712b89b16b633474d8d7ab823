@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_c5d67abc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-07T19:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfdd2060_4bdb650f",
+      "revId": "85f19f64749e8b6712b89b16b633474d8d7ab823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd2060_cb1995eb",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-07T18:36:38Z",
       "side": 1,
       "message": "Trailing comma missing.",
+      "revId": "85f19f64749e8b6712b89b16b633474d8d7ab823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_6b2981f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-07T19:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfdd2060_cb1995eb",
       "revId": "85f19f64749e8b6712b89b16b633474d8d7ab823",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

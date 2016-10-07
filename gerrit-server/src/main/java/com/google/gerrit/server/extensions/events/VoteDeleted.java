@@ -51,7 +51,7 @@ public class VoteDeleted {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
+  private void fire(ChangeInfo change, RevisionInfo revision,
       Map<String, ApprovalInfo> approvals,
       Map<String, ApprovalInfo> oldApprovals,
       NotifyHandling notify, String message,

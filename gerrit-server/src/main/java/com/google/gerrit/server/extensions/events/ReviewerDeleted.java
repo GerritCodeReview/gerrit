@@ -50,13 +50,10 @@ public class ReviewerDeleted {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
+  private void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo reviewer, AccountInfo remover, String message,
       Map<String, ApprovalInfo> newApprovals,
       Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, revision, reviewer, remover, message,
         newApprovals, oldApprovals, when);
     for (ReviewerDeletedListener listener : listeners) {

@@ -48,11 +48,8 @@ public class RevisionCreated {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
+  private void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo uploader, Timestamp when, NotifyHandling notify) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, revision, uploader, when, notify);
     for (RevisionCreatedListener l : listeners) {
       try {

@@ -48,12 +48,9 @@ public class ChangeAbandoned {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
+  private void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo abandoner, String reason, Timestamp when,
       NotifyHandling notifyHandling) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, revision, abandoner, reason, when,
         notifyHandling);
     for (ChangeAbandonedListener l : listeners) {

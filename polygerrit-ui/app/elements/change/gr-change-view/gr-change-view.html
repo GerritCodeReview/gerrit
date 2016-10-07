@@ -224,6 +224,10 @@ limitations under the License.
               mutable="[[_loggedIn]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
+          <!-- Plugins insert content into following container.
+               Stop-gap until PolyGerrit plugins interface is ready.
+               This will not work with Shadow DOM. -->
+          <div id="change_plugins"></div>
         </div>
         <div class="changeInfo-column mainChangeInfo">
           <div class="commitActions" hidden$="[[!_loggedIn]]"">

@@ -63,7 +63,7 @@ public class GitReferenceUpdated {
         Account.Id updater) {}
   };
 
-  private final Iterable<GitReferenceUpdatedListener> listeners;
+  private final DynamicSet<GitReferenceUpdatedListener> listeners;
   private final EventUtil util;
 
   @Inject

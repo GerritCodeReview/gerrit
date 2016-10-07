@@ -110,6 +110,7 @@ public final class PatchSetApproval {
         new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
     value = src.getValue();
     granted = src.granted;
+    tag = src.tag;
   }
 
   public PatchSetApproval.Key getKey() {

@@ -119,6 +119,8 @@ public class BaseInit extends SiteProgram {
     init.flags.autoStart = getAutoStart() && init.site.isNew;
     init.flags.dev = isDev() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
+    init.flags.deleteCaches = getDeleteCaches();
+
 
     final SiteRun run;
     try {
@@ -469,6 +471,10 @@ public class BaseInit extends SiteProgram {
   }
 
   protected boolean isDev() {
+    return false;
+  }
+
+  protected boolean getDeleteCaches() {
     return false;
   }
 }

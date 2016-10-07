@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_25be6e7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-07T17:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfdd2060_0bbe7da8",
+      "revId": "63f4ba7ca8c58037cd2cbaf4a30e34a793dd69ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff74f80c_2553ce6a",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-07T17:49:26Z",
       "side": 1,
       "message": "remove",
+      "revId": "63f4ba7ca8c58037cd2cbaf4a30e34a793dd69ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_45c36a02",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-07T17:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff74f80c_2553ce6a",
       "revId": "63f4ba7ca8c58037cd2cbaf4a30e34a793dd69ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
         "endLine": 473,
         "endChar": 48
       },
+      "revId": "63f4ba7ca8c58037cd2cbaf4a30e34a793dd69ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_8be82da3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-07T17:55:15Z",
+      "side": 1,
+      "message": "Oh that is pretty neat. Yes!",
+      "parentUuid": "ff74f80c_4548cab6",
       "revId": "63f4ba7ca8c58037cd2cbaf4a30e34a793dd69ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

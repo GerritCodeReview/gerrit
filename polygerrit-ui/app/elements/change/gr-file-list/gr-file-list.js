@@ -58,10 +58,18 @@
         type: Number,
         value: 75,
       },
+      _patchChange: {
+        type: Object,
+        computed: '_calculatePatchChange(_files)',
+      },
       _fileListIncrement: {
         type: Number,
         readOnly: true,
         value: 75,
+      },
+      _hideChangeTotals: {
+        type: Boolean,
+        computed: '_shouldHideChangeTotals(_patchChange)',
       },
       _shownFiles: {
         type: Array,
@@ -107,6 +115,22 @@
 
     get diffs() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff');
+    },
+
+    _calculatePatchChange: function(files) {
+      var filesNoCommitMsg = files.filter(function(files) {
+        return files.__path !== '/COMMIT_MSG';
+      });
+
+      return filesNoCommitMsg.reduce(function(acc, obj) {
+        var inserted = obj.lines_inserted ? obj.lines_inserted : 0;
+        var deleted = obj.lines_deleted ? obj.lines_deleted : 0;
+
+        return {
+          inserted: acc.inserted + inserted,
+          deleted: acc.deleted + deleted,
+        };
+      }, {inserted: 0, deleted: 0});
     },
 
     _getDiffPreferences: function() {
@@ -400,6 +424,10 @@
       }
 
       window.scrollTo(0, top - document.body.clientHeight / 2);
+    },
+
+    _shouldHideChangeTotals: function(_patchChange) {
+      return (_patchChange.inserted === 0 && _patchChange.deleted === 0);
     },
 
     _computeFileSelected: function(index, selectedIndex) {

@@ -48,11 +48,8 @@ public class DraftPublished {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
+  private void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo publisher, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, revision, publisher, when);
     for (DraftPublishedListener l : listeners) {
       try {

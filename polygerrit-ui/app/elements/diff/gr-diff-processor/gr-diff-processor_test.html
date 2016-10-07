@@ -591,5 +591,12 @@ limitations under the License.
         });
       });
     });
+
+    test('detaching cancels', function() {
+      element = fixture('basic');
+      sandbox.stub(element, 'cancel');
+      element.detached();
+      assert(element.cancel.called);
+    });
   });
 </script>

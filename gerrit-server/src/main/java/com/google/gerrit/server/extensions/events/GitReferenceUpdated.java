@@ -43,10 +43,6 @@ public class GitReferenceUpdated {
         Account updater) {}
 
     @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
-        AccountInfo updater) {}
-
-    @Override
     public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
         ObjectId newObjectId, Account updater) {}
 
@@ -87,12 +83,6 @@ public class GitReferenceUpdated {
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
-      AccountInfo updater) {
-    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE, updater);
-  }
-
   public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
       ObjectId newObjectId, Account updater) {
     fire(project, ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE,
@@ -111,15 +101,14 @@ public class GitReferenceUpdated {
     }
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        fire(project, cmd, util.accountInfo(updater));
+        fire(project,
+            cmd.getRefName(),
+            cmd.getOldId(),
+            cmd.getNewId(),
+            cmd.getType(),
+            util.accountInfo(updater));
       }
     }
-  }
-
-  private void fire(Project.NameKey project, ReceiveCommand cmd,
-      AccountInfo updater) {
-    fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType(),
-        updater);
   }
 
   private void fire(Project.NameKey project, String ref, ObjectId oldObjectId,

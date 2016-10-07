@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1475769674 +0800\npushee rpc://gerrit/gerrit\nnonce AKOpmBUrjDQgS1rAuXuBi5mcwdmrastdYS77ktE/IVCO8JpyX/G9VRiUzZ6oju5mSnOiEoTzEIj0\n\n0000000000000000000000000000000000000000 4344930d790976444816fdb6c3af23b6c7830dae refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX9nVKAAoJELOGKwXbr+wPy0AQAIQxmhZo6AS3s5YUGJKZ7teQ\nzDZv22EhJYVIcuaEnfdPWIezoSZJukMkBrR9oGEaalXjLU4G9BQ041XD3ykzFjJb\nkArdLodYLhP2ghK+QMOI7iV0V+73AmhEB0JyfGnfWk8vjF2mhBSUpq2LRX/usY8D\nWmuT9NkpHfvbgSncSrwX8SM6kFkMBnECb2SVv/E4k0NovA8vd2B9gMttc2XyPxW0\n3w7zosKNSdgx0/o+0jf8ehHUs06K2YubZEUAm9Re8yth38eOM/72xuzaBDAE/XRu\nDPKtjpBBrn/S6QJ5rix9+i2WC0pm2CXih5g3iWHV3nc5WONp84676DG1iSeILYra\niRU8d5onp32hLSLQPcsYs5Cxhfydpa1uVLlPakZTkwdzM04IAZWl9h7tgiB7gSlI\n4i/uOq958KFSO5x2rBDrTrkhk/ExlojOuQaqfRO8rsScKtV2DcBG/tJLW8bgqjzl\n/R32rT7anpzwfqZfchDTng6NtwRBRUKqzU1XkhC7qvo7D+duGw75QHN07tD4rhjf\nNF6JVxUHOeBWtaB6rpdokVyGtih4TD8iBB+M9deevBoxGBIidjKihGhw2GmJ3C5a\nF5FPk0k628ZqD3vvxIoGcDmZcF28KduEb0Y/+0wDLbNmrHU+RVQTELs4Bn0L473+\nzCZkaYdGTx494/tWQkr+\n\u003dyXaO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffa958a7_fd97873c",
+        "filename": "lib/asciidoctor/java/AsciiDoctor.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-07T00:25:59Z",
+      "side": 1,
+      "message": "nit: import of java.nio should be after imports of java.io",
+      "revId": "e80fe76e503c746c80914af269f83e96d0a0a0c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

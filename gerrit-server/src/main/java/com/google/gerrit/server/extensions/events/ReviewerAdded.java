@@ -48,11 +48,8 @@ public class ReviewerAdded {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
+  private void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo reviewer, AccountInfo adder, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, revision, reviewer, adder, when);
     for (ReviewerAddedListener l : listeners) {
       try {

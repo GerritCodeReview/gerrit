@@ -52,11 +52,8 @@ public class ChangeReverted {
     }
   }
 
-  public void fire (ChangeInfo change, ChangeInfo revertChange,
+  private void fire (ChangeInfo change, ChangeInfo revertChange,
       Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, revertChange, when);
     for (ChangeRevertedListener l : listeners) {
       try {

@@ -50,12 +50,9 @@ public class CommentAdded {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision, AccountInfo author,
+  private void fire(ChangeInfo change, RevisionInfo revision, AccountInfo author,
       String comment, Map<String, ApprovalInfo> approvals,
       Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(
         change, revision, author, comment, approvals, oldApprovals, when);
     for (CommentAddedListener l : listeners) {

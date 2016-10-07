@@ -43,11 +43,8 @@ public class TopicEdited {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, AccountInfo editor, String oldTopic,
+  private void fire(ChangeInfo change, AccountInfo editor, String oldTopic,
       Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, editor, oldTopic, when);
     for (TopicEditedListener l : listeners) {
       try {

@@ -48,11 +48,8 @@ public class ChangeMerged {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
+  private void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo merger, String newRevisionId, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
     Event event = new Event(change, revision, merger, newRevisionId, when);
     for (ChangeMergedListener l : listeners) {
       try {

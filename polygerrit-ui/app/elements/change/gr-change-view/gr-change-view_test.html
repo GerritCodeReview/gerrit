@@ -44,6 +44,18 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    test('Sets empty reviewer names to email', function() {
+      var reviewers = {
+        a: [{email: 'test'}, {email: 'test2', name: 'test2'}],
+        b: [{email: 'test', name: 'test'}, {email: 'test2'}],
+      };
+      var expected = {
+        a: [{email: 'test', name: 'test'}, {email: 'test2', name: 'test2'}],
+        b: [{email: 'test', name: 'test'}, {email: 'test2', name: 'test2'}],
+      };
+      assert.deepEqual(element._setReviewerNames(reviewers), expected);
+    });
+
     suite('keyboard shortcuts', function() {
       test('U should navigate to /', function() {
         var showStub = sinon.stub(page, 'show');

@@ -643,6 +643,20 @@
           }.bind(this));
     },
 
+    _setReviewerNames: function(reviewers) {
+      // Issue 4720: Set empty name field to email.
+      for (var field in reviewers) {
+        var arr = reviewers[field];
+        for (var i = 0; i < arr.length; i++) {
+          var reviewer = arr[i];
+          if (reviewer.email && !reviewer.name) {
+            reviewer.name = reviewer.email;
+          }
+        }
+      }
+      return reviewers;
+    },
+
     _getChangeDetail: function() {
       return this.$.restAPI.getChangeDetail(this._changeNum,
           this._handleGetChangeDetailError.bind(this)).then(
@@ -652,6 +666,7 @@
                 if (!change.reviewer_updates) {
                   change.reviewer_updates = null;
                 }
+                change.reviewers = this._setReviewerNames(change.reviewers);
                 this._change = change;
               }.bind(this));
     },

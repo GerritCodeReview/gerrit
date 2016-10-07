@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_4b0da59a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-07T20:00:29Z",
+      "side": 1,
+      "message": "This commit message is noisy --- is there a way we could improve the UI to make the original change description easier to read there instead?",
+      "revId": "d7430321a46d1c8d473a6b956cfaa699b77aadc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_2b0a5984",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-07T20:00:29Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "d7430321a46d1c8d473a6b956cfaa699b77aadc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -44,7 +45,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Send comments, after the author of them hit used Publish Comments in the UI. */
+/** Send comments, after the author of them hit used Publish Comments in the UI.
+ */
 public class CommentSender extends ReplyToChangeSender {
   private static final Logger log = LoggerFactory
       .getLogger(CommentSender.class);
@@ -183,32 +185,36 @@ public class CommentSender extends ReplyToChangeSender {
         out.append(n == range.startLine
             ? prefix
             : Strings.padStart(": ", prefix.length(), ' '));
-        try {
-          String s = currentFileData.getLine(side, n);
-          if (n == range.startLine && n == range.endLine) {
-            s = s.substring(
-                Math.min(range.startChar, s.length()),
-                Math.min(range.endChar, s.length()));
-          } else if (n == range.startLine) {
-            s = s.substring(Math.min(range.startChar, s.length()));
-          } else if (n == range.endLine) {
-            s = s.substring(0, Math.min(range.endChar, s.length()));
-          }
-          out.append(s);
-        } catch (Throwable e) {
-          // Don't quote the line if we can't safely convert it.
+        String s = getLine(currentFileData, side, n);
+        if (n == range.startLine && n == range.endLine) {
+          s = s.substring(
+              Math.min(range.startChar, s.length()),
+              Math.min(range.endChar, s.length()));
+        } else if (n == range.startLine) {
+          s = s.substring(Math.min(range.startChar, s.length()));
+        } else if (n == range.endLine) {
+          s = s.substring(0, Math.min(range.endChar, s.length()));
         }
-        out.append('\n');
+        out.append(s).append('\n');
       }
       appendQuotedParent(out, comment);
       out.append(comment.message.trim()).append('\n');
     } else {
       int lineNbr = comment.lineNbr;
-      int maxLines;
+
+      // Initialize maxLines to the known line number.
+      int maxLines = lineNbr;
+
       try {
         maxLines = currentFileData.getLineCount(side);
-      } catch (Throwable e) {
-        maxLines = lineNbr;
+      } catch (IOException err) {
+        // The file could not be read, leave the max as is.
+        log.warn(String.format("Failed to read file %s on side %d",
+            comment.key.filename, side), err);
+      } catch (NoSuchEntityException err) {
+        // The file could not be read, leave the max as is.
+        log.warn(String.format("Side %d of file %s didn't exist",
+             side, comment.key.filename), err);
       }
 
       final int startLine = Math.max(1, lineNbr - contextLines + 1);
@@ -226,16 +232,14 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  private void appendFileLine(StringBuilder cmts, PatchFile fileData, short side, int line) {
-    cmts.append("Line " + line);
-    try {
-      final String lineStr = fileData.getLine(side, line);
-      cmts.append(": ");
-      cmts.append(lineStr);
-    } catch (Throwable e) {
-      // Don't quote the line if we can't safely convert it.
-    }
-    cmts.append("\n");
+  private void appendFileLine(StringBuilder cmts, PatchFile fileData,
+      short side, int line) {
+    String lineStr = getLine(fileData, side, line);
+    cmts.append("Line ")
+        .append(line)
+        .append(": ")
+        .append(lineStr)
+        .append("\n");
   }
 
   private void appendQuotedParent(StringBuilder out, Comment child) {
@@ -292,5 +296,25 @@ public class CommentSender extends ReplyToChangeSender {
     super.setupSoyContext();
     soyContextEmailData.put("inlineComments", getInlineComments());
     soyContextEmailData.put("hasInlineComments", hasInlineComments());
+  }
+
+  private String getLine(PatchFile fileInfo, short side, int lineNbr) {
+    try {
+      return fileInfo.getLine(side, lineNbr);
+    } catch (IOException err) {
+      // Default to the empty string if the file cannot be safely read.
+      log.warn(String.format("Failed to read file on side %d", side), err);
+      return "";
+    } catch (IndexOutOfBoundsException err) {
+      // Default to the empty string if the given line number does not appear
+      // in the file.
+      log.warn(String.format("Failed to get line number of file on side %d",
+          side), err);
+      return "";
+    } catch (NoSuchEntityException err) {
+      // Default to the empty string if the side cannot be found.
+      log.warn(String.format("Side %d of file didn't exist", side), err);
+      return "";
+    }
   }
 }

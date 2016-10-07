@@ -71,7 +71,7 @@ public class VoteDeleted {
         try {
           l.onVoteDeleted(event);
         } catch (Exception e) {
-          util.logEventListenerError(log, e);
+          util.logEventListenerError(this, l, e);
         }
       }
     } catch (PatchListNotAvailableException | GpgException | IOException

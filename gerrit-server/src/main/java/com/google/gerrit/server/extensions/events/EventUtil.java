@@ -34,6 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -42,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EventUtil {
+  private static final Logger log = LoggerFactory.getLogger(EventUtil.class);
 
   private final ChangeData.Factory changeDataFactory;
   private final Provider<ReviewDb> db;
@@ -98,11 +100,16 @@ public class EventUtil {
     return result;
   }
 
-  public void logEventListenerError(Logger log, Exception error) {
+  public void logEventListenerError(Object event, Object listener,
+      Exception error) {
     if (log.isDebugEnabled()) {
-      log.debug("Error in event listener", error);
+      log.debug(String.format(
+          "Error in event listener %s for event %s",
+          listener.getClass().getName(), event.getClass().getName()), error);
     } else {
-      log.warn("Error in event listener: {}", error.getMessage());
+      log.warn("Error in listener {} for event {}: {}",
+          listener.getClass().getName(), event.getClass().getName(),
+          error.getMessage());
     }
   }
 }

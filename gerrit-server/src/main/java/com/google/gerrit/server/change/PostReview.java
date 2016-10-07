@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -173,6 +172,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, input);
+    } else if (input.drafts == null) {
+      input.drafts = DraftHandling.DELETE;
     }
     if (input.labels != null) {
       checkLabels(revision, input.strictLabels, input.labels);
@@ -248,6 +249,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           "label required to post review on behalf of \"%s\"",
           in.onBehalfOf));
     }
+    if (in.drafts == null) {
+      in.drafts = DraftHandling.KEEP;
+    }
+    if (in.drafts != DraftHandling.KEEP) {
+      throw new AuthException("not allowed to modify other user's drafts");
+    }
+
 
     ChangeControl caller = rev.getControl();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
@@ -276,6 +284,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
+    if (!target.getRefControl().isVisible()) {
+      throw new UnprocessableEntityException(String.format(
+          "on_behalf_of account %s cannot see destination ref",
+          target.getUser().getAccountId()));
+    }
     return new RevisionResource(changes.parse(target), rev.getPatchSet());
   }
 
@@ -540,7 +553,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      switch (firstNonNull(in.drafts, DraftHandling.DELETE)) {
+      switch (in.drafts) {
         case KEEP:
         default:
           break;

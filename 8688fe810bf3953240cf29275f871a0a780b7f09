@@ -23,6 +23,24 @@
       "revId": "8688fe810bf3953240cf29275f871a0a780b7f09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_e506167d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-07T17:23:44Z",
+      "side": 1,
+      "message": "Done in the following change, since we need to actually store the value somewhere in order to test it.",
+      "parentUuid": "bfc9a046_0b7b7d16",
+      "revId": "8688fe810bf3953240cf29275f871a0a780b7f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

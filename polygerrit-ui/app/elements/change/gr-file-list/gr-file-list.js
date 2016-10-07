@@ -58,6 +58,9 @@
         type: Number,
         value: 75,
       },
+      _patchChange: {
+        type: Object,
+      },
       _fileListIncrement: {
         type: Number,
         readOnly: true,
@@ -107,6 +110,20 @@
 
     get diffs() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff');
+    },
+
+    _calculatePatchChange: function(files) {
+      var filesNoCommitMsg = files.slice(1);
+      this._patchChange = filesNoCommitMsg.reduce(function(acc, obj) {
+        console.log(acc);
+        console.log(obj);
+        return {
+          inserted: acc.inserted + obj.lines_inserted,
+          deleted: acc.deleted + obj.lines_deleted,
+        };
+      }, {inserted: 0, deleted: 0});
+
+      console.log(this._patchChange);
     },
 
     _getDiffPreferences: function() {
@@ -452,6 +469,8 @@
         // Overwrite the cursor's list of diffs:
         this.$.cursor.splice.apply(this.$.cursor,
             ['diffs', 0, this.$.cursor.diffs.length].concat(diffElements));
+
+        this._calculatePatchChange(this._files);
       }.bind(this), 1);
     },
 

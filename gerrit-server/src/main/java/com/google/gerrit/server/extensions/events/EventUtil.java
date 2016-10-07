@@ -34,6 +34,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.EnumSet;
@@ -102,5 +104,13 @@ public class EventUtil {
           ChangeJson.getApprovalInfo(a.getId(), value, null, ts));
     }
     return result;
+  }
+
+  public void logEventListenerError(Logger log, Exception error) {
+    if (log.isDebugEnabled()) {
+      log.debug("Error in event listener", error);
+    } else {
+      log.warn("Error in event listener: " + error.getMessage());
+    }
   }
 }

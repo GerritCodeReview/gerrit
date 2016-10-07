@@ -58,7 +58,7 @@ public class ReviewerAdded {
       try {
         l.onReviewerAdded(event);
       } catch (Exception e) {
-        log.warn("Error in event listener, e");
+        util.logEventListenerError(log, e);
       }
     }
   }

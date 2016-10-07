@@ -62,7 +62,7 @@ public class ChangeReverted {
       try {
         l.onChangeReverted(event);
       } catch (Exception e) {
-        log.warn("Error in event listener", e);
+        util.logEventListenerError(log, e);
       }
     }
   }

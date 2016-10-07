@@ -58,7 +58,7 @@ public class ChangeMerged {
       try {
         l.onChangeMerged(event);
       } catch (Exception e) {
-        log.warn("Error in event listener", e);
+        util.logEventListenerError(log, e);
       }
     }
   }

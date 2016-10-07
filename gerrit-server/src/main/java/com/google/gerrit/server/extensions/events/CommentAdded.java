@@ -62,7 +62,7 @@ public class CommentAdded {
       try {
         l.onCommentAdded(event);
       } catch (Exception e) {
-        log.warn("Error in event listener", e);
+        util.logEventListenerError(log, e);
       }
     }
   }

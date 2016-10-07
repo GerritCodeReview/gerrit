@@ -63,7 +63,7 @@ public class ReviewerDeleted {
       try {
         listener.onReviewerDeleted(event);
       } catch (Exception e) {
-        log.warn("Error in event listener", e);
+        util.logEventListenerError(log, e);
       }
     }
   }

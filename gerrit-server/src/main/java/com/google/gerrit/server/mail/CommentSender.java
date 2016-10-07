@@ -285,7 +285,13 @@ public class CommentSender extends ReplyToChangeSender {
   private String getCommentLinePrefix(Comment comment) {
     int lineNbr = comment.range == null ?
         comment.lineNbr : comment.range.startLine;
-    return "PS" + comment.key.patchSetId + ", Line " + lineNbr + ": ";
+    StringBuilder sb = new StringBuilder();
+    sb.append("PS").append(comment.key.patchSetId);
+    if (lineNbr != 0) {
+      sb.append(", Line ").append(lineNbr);
+    }
+    sb.append(": ");
+    return sb.toString();
   }
 
   /**

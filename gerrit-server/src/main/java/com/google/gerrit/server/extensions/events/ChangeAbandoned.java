@@ -48,30 +48,24 @@ public class ChangeAbandoned {
     this.util = util;
   }
 
-  private void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo abandoner, String reason, Timestamp when,
-      NotifyHandling notifyHandling) {
-    Event event = new Event(change, revision, abandoner, reason, when,
-        notifyHandling);
-    for (ChangeAbandonedListener l : listeners) {
-      try {
-        l.onChangeAbandoned(event);
-      } catch (Exception e) {
-        util.logEventListenerError(log, e);
-      }
-    }
-  }
-
   public void fire(Change change, PatchSet ps, Account abandoner, String reason,
       Timestamp when, NotifyHandling notifyHandling) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(abandoner),
           reason, when, notifyHandling);
+      for (ChangeAbandonedListener l : listeners) {
+        try {
+          l.onChangeAbandoned(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

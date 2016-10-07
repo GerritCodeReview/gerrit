@@ -46,21 +46,17 @@ public class ChangeReverted {
       return;
     }
     try {
-      fire(util.changeInfo(change), util.changeInfo(revertChange), when);
+      Event event = new Event(
+          util.changeInfo(change), util.changeInfo(revertChange), when);
+      for (ChangeRevertedListener l : listeners) {
+        try {
+          l.onChangeReverted(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
-    }
-  }
-
-  private void fire (ChangeInfo change, ChangeInfo revertChange,
-      Timestamp when) {
-    Event event = new Event(change, revertChange, when);
-    for (ChangeRevertedListener l : listeners) {
-      try {
-        l.onChangeReverted(event);
-      } catch (Exception e) {
-        util.logEventListenerError(log, e);
-      }
     }
   }
 

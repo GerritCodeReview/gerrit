@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_c5ed9a80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-07T20:02:33Z",
+      "side": 1,
+      "message": "This from PG, so file a PG bug? I already filed 2 for my experience with this particular revert commit, so let\u0027s make it a hat trick :)\n\nBeyond that: what concrete thing do you want me to do with this commit message to make it less noisy? Just delete this whole block? Start fresh with the output of \"git revert\"?",
+      "parentUuid": "bfdd2060_4b0da59a",
+      "revId": "d7430321a46d1c8d473a6b956cfaa699b77aadc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd2060_2b0a5984",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

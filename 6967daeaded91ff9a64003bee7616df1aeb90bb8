@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff74f80c_a525fe18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-07T16:55:32Z",
+      "side": 1,
+      "message": "Could you add more description? As someone without familiarity of this issue, I don\u0027t feel like I know what this change will do without reading the code.",
+      "revId": "6967daeaded91ff9a64003bee7616df1aeb90bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,10 +23,10 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 

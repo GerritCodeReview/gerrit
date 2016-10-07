@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_2ba6d9aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-07T17:01:03Z",
+      "side": 1,
+      "message": "I have moved this work into change 88331 to make this change easier to review.",
+      "parentUuid": "628b0de1_e0ae6282",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c246796b_63c00227",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 6

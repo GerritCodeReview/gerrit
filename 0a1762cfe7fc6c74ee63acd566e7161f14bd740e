@@ -17,6 +17,24 @@
       "revId": "0a1762cfe7fc6c74ee63acd566e7161f14bd740e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_a5da5e08",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-07T13:18:12Z",
+      "side": 1,
+      "message": "I\u0027d prefer to leave it as is. Before the fix most of the tests are impossible or else wouldn\u0027t be reliably testing what we want them to, because the feature simply did not work. So the options are:\n\n* fix plus 0 tests, followed by all tests\n* fix plus 1 arbitrarily chosen test, followed by N-1 tests\n* fix plus all tests (this change)",
+      "parentUuid": "ffa958a7_5db43bc8",
+      "revId": "0a1762cfe7fc6c74ee63acd566e7161f14bd740e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

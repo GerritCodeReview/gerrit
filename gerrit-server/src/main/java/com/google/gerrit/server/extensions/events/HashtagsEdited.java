@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -59,7 +59,7 @@ public class HashtagsEdited {
     }
   }
 
-  public void fire(Change change, Id accountId,
+  public void fire(Change change, Account account,
       ImmutableSortedSet<String> hashtags, Set<String> added,
       Set<String> removed, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
@@ -67,7 +67,7 @@ public class HashtagsEdited {
     }
     try {
       fire(util.changeInfo(change),
-          util.accountInfo(accountId),
+          util.accountInfo(account),
           hashtags, added, removed,
           when);
     } catch (OrmException e) {

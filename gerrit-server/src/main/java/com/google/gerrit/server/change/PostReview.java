@@ -262,6 +262,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         continue;
       }
 
+      if (caller.getUser().isInternalUser()) {
+        continue;
+      }
+
       PermissionRange r = caller.getRange(Permission.forLabelAs(type.getName()));
       if (r == null || r.isEmpty() || !r.contains(ent.getValue())) {
         throw new AuthException(String.format(

@@ -83,7 +83,16 @@
 
               <p style="{$commentHeaderStyle}">
                 {if length($comment.lines) > 0}
-                  Patch Set #{$group.patchSetId}, Line {$comment.startLine}:{sp}
+                  {if $comment.startLine == 0}
+                    <a href="{$group.link}">
+                      Patch Set #{$group.patchSetId}:{sp}
+                    </a>
+                  {else}
+                    <a href="{$group.link + '@' + $comment.startLine}">
+                      Patch Set #{$group.patchSetId},{sp}
+                      Line {$comment.startLine}:{sp}
+                    </a>
+                  {/if}
                 {/if}
                 {if length($comment.lines) == 1}
                   <code>{$comment.lines[0]}</code>

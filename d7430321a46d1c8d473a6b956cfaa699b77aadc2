@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_cb6bd517",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-07T20:43:13Z",
+      "side": 1,
+      "message": "Just deleting the whole block sgtm. That would match what \"git revert\" does.",
+      "parentUuid": "ff74f80c_c5ed9a80",
+      "revId": "d7430321a46d1c8d473a6b956cfaa699b77aadc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd2060_2b0a5984",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

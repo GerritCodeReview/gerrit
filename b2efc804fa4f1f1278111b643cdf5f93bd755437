@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff74f80c_a5c97e21",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-07T18:47:49Z",
+      "side": 1,
+      "message": "Side note: maybe change decoration should go into restAPI? Not sure.",
+      "revId": "b2efc804fa4f1f1278111b643cdf5f93bd755437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,20 @@ limitations under the License.
       });
     });
 
+    test('suppress TOO_MANY_FILES error', function(done) {
+      var showAlertStub = sandbox.stub(element, '_showAlert');
+      var textSpy = sandbox.spy(function() {
+        return Promise.resolve('too many files to find conflicts');
+      });
+      element.fire('server-error', {response: {status: 500, text: textSpy}});
+
+      assert.isTrue(textSpy.called);
+      textSpy.lastCall.returnValue.then(function() {
+        assert.isFalse(showAlertStub.called);
+        done();
+      });
+    });
+
     test('show network error', function(done) {
       var consoleErrorStub = sandbox.stub(console, 'error');
       var showAlertStub = sandbox.stub(element, '_showAlert');

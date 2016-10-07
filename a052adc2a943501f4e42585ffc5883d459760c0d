@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_cbee35b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-07T17:54:45Z",
+      "side": 1,
+      "message": "Minor: this method mutates reviewer objects *and* returns the set of reviewers. That might be unexpected given that it returns a list.\n\nI\u0027d suggest removing the `return` statement and renaming to `_coalesceReviewerNames` to make it obviously effectful.",
+      "range": {
+        "startLine": 646,
+        "startChar": 4,
+        "endLine": 646,
+        "endChar": 21
+      },
+      "revId": "a052adc2a943501f4e42585ffc5883d459760c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

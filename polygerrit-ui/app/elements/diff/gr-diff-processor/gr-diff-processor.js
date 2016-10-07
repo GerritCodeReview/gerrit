@@ -86,6 +86,7 @@
     },
 
     detached: function() {
+      this.cancel();
       this.unlisten(window, 'scroll', '_handleWindowScroll');
     },
 

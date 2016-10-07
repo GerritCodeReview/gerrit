@@ -108,6 +108,14 @@ limitations under the License.
       .fileListButton {
         margin: .5em;
       }
+      .totalChanges {
+        justify-content: flex-end;
+        padding-right: 2.6em;
+        text-align: right;
+      }
+      .totalText {
+        font-weight: bold;
+      }
       input.show-hide {
         display: none;
       }
@@ -211,6 +219,13 @@ limitations under the License.
           project-config="[[projectConfig]]"
           view-mode="[[_userPrefs.diff_view]]"></gr-diff>
     </template>
+    <div class="row totalChanges">
+      <span class="totalText">Total:</span>
+      <div class="stats">
+        <span class="added">+[[_patchChange.inserted]]</span>
+        <span class="removed">-[[_patchChange.deleted]]</span>
+      </div>
+    </div>
     <gr-button
         class="fileListButton"
         id="incrementButton"

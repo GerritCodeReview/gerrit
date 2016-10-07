@@ -32,12 +32,24 @@
         type: Boolean,
         value: false,
       },
+      _coalescedAccount: {
+        type: Object,
+        computed: '_coalesceAccount(account)',
+      },
     },
 
     ready: function() {
       this._getHasAvatars().then(function(hasAvatars) {
         this.showAvatar = hasAvatars;
       }.bind(this));
+    },
+
+    _coalesceAccount: function(account) {
+      // Issue 4720: Set empty name field to email.
+      if (account && account.email && !account.name) {
+        account.name = account.email;
+      }
+      return account;
     },
 
     _getBackgroundClass: function(transparent) {

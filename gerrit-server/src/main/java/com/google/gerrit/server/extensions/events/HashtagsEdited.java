@@ -46,7 +46,7 @@ public class HashtagsEdited {
     this.util = util;
   }
 
-  public void fire(Change change, Account editor,
+  synchronized public void fire(Change change, Account editor,
       ImmutableSortedSet<String> hashtags, Set<String> added,
       Set<String> removed, Timestamp when) {
     if (!listeners.iterator().hasNext()) {

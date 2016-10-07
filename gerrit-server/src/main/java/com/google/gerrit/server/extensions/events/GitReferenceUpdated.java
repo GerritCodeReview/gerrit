@@ -70,32 +70,33 @@ public class GitReferenceUpdated {
     this.util = null;
   }
 
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
+  synchronized public void fire(Project.NameKey project, RefUpdate refUpdate,
       ReceiveCommand.Type type, Account updater) {
     fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
         refUpdate.getNewObjectId(), type, util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
+  synchronized public void fire(Project.NameKey project, RefUpdate refUpdate,
       Account updater) {
     fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
         refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE,
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
-      ObjectId newObjectId, Account updater) {
+  synchronized public void fire(Project.NameKey project, String ref,
+      ObjectId oldObjectId, ObjectId newObjectId, Account updater) {
     fire(project, ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE,
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, ReceiveCommand cmd, Account updater) {
+  synchronized public void fire(Project.NameKey project, ReceiveCommand cmd,
+      Account updater) {
     fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType(),
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-      Account updater) {
+  synchronized public void fire(Project.NameKey project,
+      BatchRefUpdate batchRefUpdate, Account updater) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

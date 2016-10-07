@@ -50,8 +50,8 @@ public class ReviewerDeleted {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet patchSet, Account reviewer,
-      Account remover, String message,
+  synchronized public void fire(Change change, PatchSet patchSet,
+      Account reviewer, Account remover, String message,
       Map<String, Short> newApprovals,
       Map<String, Short> oldApprovals, Timestamp when) {
     if (!listeners.iterator().hasNext()) {

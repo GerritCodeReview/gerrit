@@ -41,7 +41,8 @@ public class ChangeReverted {
     this.util = util;
   }
 
-  public void fire(Change change, Change revertChange, Timestamp when) {
+  synchronized public void fire(Change change, Change revertChange,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

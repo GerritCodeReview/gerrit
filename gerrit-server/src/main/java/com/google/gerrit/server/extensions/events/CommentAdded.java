@@ -50,7 +50,7 @@ public class CommentAdded {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps, Account author,
+  synchronized public void fire(Change change, PatchSet ps, Account author,
       String comment, Map<String, Short> approvals,
       Map<String, Short> oldApprovals, Timestamp when) {
     if (!listeners.iterator().hasNext()) {

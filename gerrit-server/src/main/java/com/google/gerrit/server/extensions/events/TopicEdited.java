@@ -43,8 +43,8 @@ public class TopicEdited {
     this.util = util;
   }
 
-  public void fire(Change change, Account account, String oldTopicName,
-      Timestamp when) {
+  synchronized public void fire(Change change, Account account,
+      String oldTopicName, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

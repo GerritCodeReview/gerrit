@@ -48,7 +48,7 @@ public class ChangeMerged {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps, Account merger,
+  synchronized public void fire(Change change, PatchSet ps, Account merger,
       String newRevisionId, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;

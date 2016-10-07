@@ -48,8 +48,8 @@ public class DraftPublished {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet patchSet, Account accountId,
-      Timestamp when) {
+  synchronized public void fire(Change change, PatchSet patchSet,
+      Account accountId, Timestamp when) {
     try {
       Event event = new Event(
           util.changeInfo(change),

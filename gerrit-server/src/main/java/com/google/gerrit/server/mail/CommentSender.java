@@ -18,6 +18,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -183,32 +184,34 @@ public class CommentSender extends ReplyToChangeSender {
         out.append(n == range.startLine
             ? prefix
             : Strings.padStart(": ", prefix.length(), ' '));
-        try {
-          String s = currentFileData.getLine(side, n);
-          if (n == range.startLine && n == range.endLine) {
-            s = s.substring(
-                Math.min(range.startChar, s.length()),
-                Math.min(range.endChar, s.length()));
-          } else if (n == range.startLine) {
-            s = s.substring(Math.min(range.startChar, s.length()));
-          } else if (n == range.endLine) {
-            s = s.substring(0, Math.min(range.endChar, s.length()));
-          }
-          out.append(s);
-        } catch (Throwable e) {
-          // Don't quote the line if we can't safely convert it.
+        String s = getLine(currentFileData, side, n);
+        if (n == range.startLine && n == range.endLine) {
+          s = s.substring(
+              Math.min(range.startChar, s.length()),
+              Math.min(range.endChar, s.length()));
+        } else if (n == range.startLine) {
+          s = s.substring(Math.min(range.startChar, s.length()));
+        } else if (n == range.endLine) {
+          s = s.substring(0, Math.min(range.endChar, s.length()));
         }
-        out.append('\n');
+        out.append(s).append('\n');
       }
       appendQuotedParent(out, comment);
       out.append(comment.message.trim()).append('\n');
     } else {
       int lineNbr = comment.lineNbr;
-      int maxLines;
-      try {
-        maxLines = currentFileData.getLineCount(side);
-      } catch (Throwable e) {
-        maxLines = lineNbr;
+
+      // Initialize maxLines to the known line number.
+      int maxLines = lineNbr;
+
+      if (side == 1 || side == 2) {
+        try {
+          maxLines = currentFileData.getLineCount(side);
+        } catch (IOException exc) {
+          // The file could not be read, leave the max as is.
+        } catch (NoSuchEntityException exc) {
+          throw new AssertionError(exc); // Should never be reached.
+        }
       }
 
       final int startLine = Math.max(1, lineNbr - contextLines + 1);
@@ -227,15 +230,8 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private void appendFileLine(StringBuilder cmts, PatchFile fileData, short side, int line) {
-    cmts.append("Line " + line);
-    try {
-      final String lineStr = fileData.getLine(side, line);
-      cmts.append(": ");
-      cmts.append(lineStr);
-    } catch (Throwable e) {
-      // Don't quote the line if we can't safely convert it.
-    }
-    cmts.append("\n");
+    String lineStr = getLine(fileData, side, line);
+    cmts.append("Line " + line + ": " + lineStr + "\n");
   }
 
   private void appendQuotedParent(StringBuilder out, Comment child) {
@@ -292,5 +288,24 @@ public class CommentSender extends ReplyToChangeSender {
     super.setupSoyContext();
     soyContextEmailData.put("inlineComments", getInlineComments());
     soyContextEmailData.put("hasInlineComments", hasInlineComments());
+  }
+
+  private String getLine(PatchFile fileInfo, short side, int lineNbr) {
+    if (side != 0 && side != 1) {
+      throw new IllegalArgumentException("side should be 0 or 1, was " + side);
+    }
+
+    try {
+      return fileInfo.getLine(side, lineNbr);
+    } catch (IOException exc) {
+      // Default to the empty string if the file cannot be safely read.
+      return "";
+    } catch (IndexOutOfBoundsException exc) {
+      // Default to the empty string if the given line number does not appear
+      // in the file.
+      return "";
+    } catch (NoSuchEntityException exc) {
+      throw new AssertionError(exc); // Should never be reached.
+    }
   }
 }

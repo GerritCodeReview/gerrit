@@ -51,6 +51,9 @@
 
       {foreach $line in $comment.lines}
         {if isFirst($line)}
+          {if $comment.startLine != 0}
+            {$comment.link}
+          {/if}{\n}
           {$comment.linePrefix}
         {else}
           {$comment.linePrefixEmpty}

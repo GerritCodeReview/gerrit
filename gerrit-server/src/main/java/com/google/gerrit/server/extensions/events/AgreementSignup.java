@@ -37,7 +37,7 @@ public class AgreementSignup {
     this.util = util;
   }
 
-  public void fire(Account account, String agreementName) {
+  synchronized public void fire(Account account, String agreementName) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

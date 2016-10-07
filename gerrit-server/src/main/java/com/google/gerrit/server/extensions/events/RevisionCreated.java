@@ -48,8 +48,8 @@ public class RevisionCreated {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet patchSet, Account uploader,
-      Timestamp when, NotifyHandling notify) {
+  synchronized public void fire(Change change, PatchSet patchSet,
+      Account uploader, Timestamp when, NotifyHandling notify) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

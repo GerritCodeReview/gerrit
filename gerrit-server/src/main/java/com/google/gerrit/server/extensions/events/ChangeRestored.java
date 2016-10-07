@@ -48,8 +48,8 @@ public class ChangeRestored {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps, Account restorer, String reason,
-      Timestamp when) {
+  synchronized public void fire(Change change, PatchSet ps, Account restorer,
+      String reason, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

@@ -48,8 +48,8 @@ public class ChangeAbandoned {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps, Account abandoner, String reason,
-      Timestamp when, NotifyHandling notifyHandling) {
+  synchronized public void fire(Change change, PatchSet ps, Account abandoner,
+      String reason, Timestamp when, NotifyHandling notifyHandling) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

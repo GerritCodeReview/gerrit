@@ -48,8 +48,8 @@ public class ReviewerAdded {
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet patchSet, Account account,
-      Account adder, Timestamp when) {
+  synchronized public void fire(Change change, PatchSet patchSet,
+      Account account, Account adder, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

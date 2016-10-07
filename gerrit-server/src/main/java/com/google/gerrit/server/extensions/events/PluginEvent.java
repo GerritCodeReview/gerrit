@@ -26,7 +26,7 @@ public class PluginEvent {
     this.listeners = listeners;
   }
 
-  public void fire(String pluginName, String type, String data) {
+  synchronized public void fire(String pluginName, String type, String data) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

@@ -66,11 +66,6 @@ class PatchSetEvent extends Event {
     }
   }
 
-  @Override
-  protected boolean isPatchSet() {
-    return true;
-  }
-
   private void setRevision(ChangeUpdate update, PatchSet ps)
       throws IOException {
     String rev = ps.getRevision().get();

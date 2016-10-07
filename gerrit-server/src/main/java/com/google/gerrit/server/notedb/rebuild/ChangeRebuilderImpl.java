@@ -355,19 +355,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     Change noteDbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : bundle.getChangeMessages()) {
-      if (msg.getPatchSetId() == null) {
-        // No dependency necessary; will get assigned to most recent patch set
-        // in sortAndFillEvents.
-        events.add(
-            new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
-        continue;
+      List<Event> msgEvents = parseChangeMessage(msg, change, noteDbChange);
+      if (msg.getPatchSetId() != null) {
+        PatchSetEvent pse = patchSetEvents.get(msg.getPatchSetId());
+        if (pse != null) {
+          for (Event e : msgEvents) {
+            e.addDep(pse);
+          }
+        }
       }
-      PatchSetEvent pse = patchSetEvents.get(msg.getPatchSetId());
-      if (pse != null) {
-        events.add(
-            new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn())
-                .addDep(pse));
-      }
+      events.addAll(msgEvents);
     }
 
     sortAndFillEvents(change, noteDbChange, events, minPsNum);
@@ -396,6 +393,18 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   }
 
+  private List<Event> parseChangeMessage(ChangeMessage msg, Change change,
+      Change noteDbChange) {
+    List<Event> events = new ArrayList<>(2);
+    events.add(new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
+    Optional<StatusChangeEvent> sce =
+        StatusChangeEvent.parseFromMessage(msg, change, noteDbChange);
+    if (sce.isPresent()) {
+      events.add(sce.get());
+    }
+    return events;
+  }
+
   private static Integer getMinPatchSetNum(ChangeBundle bundle) {
     Integer minPsNum = null;
     for (PatchSet ps : bundle.getPatchSets()) {
@@ -418,8 +427,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void sortAndFillEvents(Change change, Change noteDbChange,
       List<Event> events, Integer minPsNum) {
-    new EventSorter(events).sort();
     events.add(new FinalUpdatesEvent(change, noteDbChange));
+    new EventSorter(events).sort();
 
     // Ensure the first event in the list creates the change, setting the author
     // and any required footers.

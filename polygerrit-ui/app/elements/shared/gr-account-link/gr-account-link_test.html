@@ -48,6 +48,10 @@ limitations under the License.
 
       assert.equal(element._computeOwnerLink({_account_id: 42}),
           '/q/owner:42+status:open');
+
+      assert.equal(element._computeShowEmail({name: 'asd'}), false);
+
+      assert.equal(element._computeShowEmail({}), true);
     });
 
   });

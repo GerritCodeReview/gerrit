@@ -257,7 +257,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     MailRecipients oldRecipients =
         getRecipientsFromReviewers(cd.reviewers());
     Iterable<PatchSetApproval> newApprovals =
-        approvalsUtil.addApprovals(ctx.getDb(), update,
+        approvalsUtil.addApprovalsForNewPatchSet(ctx.getDb(), update,
             projectControl.getLabelTypes(), newPatchSet, ctx.getControl(),
             approvals);
     approvalCopier.copy(ctx.getDb(), ctx.getControl(), newPatchSet,

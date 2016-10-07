@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff74f80c_a57b3ec1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-07T23:27:38Z",
+      "side": 1,
+      "message": "This will still mutate the original object.\n\nNow that I look at GR-ACCOUNT-LINK it defers to GR-ACCOUNT-LABEL, which looks like it uses the email if the name is unavailable. Does that not work for this purpose?",
+      "revId": "4d71e601daeb3f34e1b1ea7c6ca260b58b0d943f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

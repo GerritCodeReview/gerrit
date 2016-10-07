@@ -437,10 +437,6 @@
       return expanded ? '▼' : '◀';
     },
 
-    _computeHiddenState: function(expanded) {
-      return !expanded;
-    },
-
     _computeFilesShown: function(numFilesShown, files) {
       return files.base.slice(0, numFilesShown);
     },

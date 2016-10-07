@@ -50,21 +50,6 @@ public class ReviewerDeleted {
     this.util = util;
   }
 
-  private void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo reviewer, AccountInfo remover, String message,
-      Map<String, ApprovalInfo> newApprovals,
-      Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
-    Event event = new Event(change, revision, reviewer, remover, message,
-        newApprovals, oldApprovals, when);
-    for (ReviewerDeletedListener listener : listeners) {
-      try {
-        listener.onReviewerDeleted(event);
-      } catch (Exception e) {
-        util.logEventListenerError(log, e);
-      }
-    }
-  }
-
   public void fire(Change change, PatchSet patchSet, Account reviewer,
       Account remover, String message,
       Map<String, Short> newApprovals,
@@ -73,7 +58,8 @@ public class ReviewerDeleted {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
           util.accountInfo(reviewer),
           util.accountInfo(remover),
@@ -81,6 +67,13 @@ public class ReviewerDeleted {
           util.approvals(reviewer, newApprovals, when),
           util.approvals(reviewer, oldApprovals, when),
           when);
+      for (ReviewerDeletedListener listener : listeners) {
+        try {
+          listener.onReviewerDeleted(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

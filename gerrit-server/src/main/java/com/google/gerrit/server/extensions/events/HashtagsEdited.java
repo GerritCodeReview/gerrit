@@ -46,30 +46,25 @@ public class HashtagsEdited {
     this.util = util;
   }
 
-  private void fire(ChangeInfo change, AccountInfo editor,
-      Collection<String> hashtags, Collection<String> added,
-      Collection<String> removed, Timestamp when) {
-    Event event = new Event(change, editor, hashtags, added, removed, when);
-    for (HashtagsEditedListener l : listeners) {
-      try {
-        l.onHashtagsEdited(event);
-      } catch (Exception e) {
-        util.logEventListenerError(log, e);
-      }
-    }
-  }
-
-  public void fire(Change change, Account account,
+  public void fire(Change change, Account editor,
       ImmutableSortedSet<String> hashtags, Set<String> added,
       Set<String> removed, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
-          util.accountInfo(account),
+      Event event = new Event(
+          util.changeInfo(change),
+          util.accountInfo(editor),
           hashtags, added, removed,
           when);
+      for (HashtagsEditedListener l : listeners) {
+        try {
+          l.onHashtagsEdited(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
     }

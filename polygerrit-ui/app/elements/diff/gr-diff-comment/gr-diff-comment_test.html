@@ -39,6 +39,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
+
+  function isVisible(el) {
+    assert.ok(el);
+    return getComputedStyle(el).getPropertyValue('display') !== 'none';
+  }
+
   suite('gr-diff-comment tests', function() {
     var element;
     setup(function() {
@@ -56,6 +62,32 @@ limitations under the License.
         message: 'is this a crossover episode!?',
         updated: '2015-12-08 19:48:33.843000000',
       };
+    });
+
+    test('collapsible comments', function() {
+      // When a comment (not draft) is loaded, it should be collapsed
+      assert.isFalse(isVisible(element.$$('gr-linked-text')),
+          'gr-linked-text is not visible');
+      assert.isFalse(isVisible(element.$$('.actions')),
+          'actions are not visible');
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+          'textarea is not visible');
+
+      // The header middle content is only visible when comments are collapsed.
+      // It shows the message in a condensed way, and limits to a single line.
+      assert.isTrue(isVisible(element.$$('.collapsedContent')),
+          'header middle content is visible');
+
+      // When the header row is clicked, the comment should expand
+      MockInteractions.tap(element.$.header);
+      assert.isTrue(isVisible(element.$$('gr-linked-text')),
+          'gr-linked-text is visible');
+      assert.isTrue(isVisible(element.$$('.actions')),
+          'actions are visible');
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+          'textarea is not visible');
+      assert.isFalse(isVisible(element.$$('.collapsedContent')),
+          'header middle content is not visible');
     });
 
     test('proper event fires on reply', function(done) {
@@ -135,11 +167,6 @@ limitations under the License.
       };
     });
 
-    function isVisible(el) {
-      assert.ok(el);
-      return getComputedStyle(el).getPropertyValue('display') != 'none';
-    }
-
     test('button visibility states', function() {
       element.showActions = false;
       assert.isTrue(element.$$('.actions').hasAttribute('hidden'));
@@ -179,6 +206,67 @@ limitations under the License.
       element.draft = true;
       element.editing = true;
       assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
+    });
+
+    test('collapsible drafts', function() {
+      element.addEventListener('reply', function(e) {
+        assert.ok(e.detail.comment);
+        done();
+      });
+      assert.isFalse(isVisible(element.$$('gr-linked-text')),
+          'gr-linked-text is not visible');
+      assert.isFalse(isVisible(element.$$('.actions')),
+          'actions are not visible');
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+          'textarea is not visible');
+      assert.isTrue(isVisible(element.$$('.collapsedContent')),
+          'header middle content is visible');
+
+      MockInteractions.tap(element.$.header);
+      assert.isTrue(isVisible(element.$$('gr-linked-text')),
+          'gr-linked-text is visible');
+      assert.isTrue(isVisible(element.$$('.actions')),
+          'actions are visible');
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+          'textarea is not visible');
+      assert.isFalse(isVisible(element.$$('.collapsedContent')),
+          'header middle content is is not visible');
+
+      // When the edit button is pressed, should still see the actions
+      // and also textarea
+      MockInteractions.tap(element.$$('.edit'));
+      assert.isFalse(isVisible(element.$$('gr-linked-text')),
+          'gr-linked-text is not visible');
+      assert.isTrue(isVisible(element.$$('.actions')),
+          'actions are visible');
+      assert.isTrue(isVisible(element.$$('iron-autogrow-textarea')),
+          'textarea is visible');
+      assert.isFalse(isVisible(element.$$('.collapsedContent')),
+          'header middle content is not visible');
+
+      // When toggle again, everything should be hidden except for textarea
+      // and header middle content should be visible
+      MockInteractions.tap(element.$.header);
+      assert.isFalse(isVisible(element.$$('gr-linked-text')),
+          'gr-linked-text is not visible');
+      assert.isFalse(isVisible(element.$$('.actions')),
+          'actions are not visible');
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
+          'textarea is not visible');
+      assert.isTrue(isVisible(element.$$('.collapsedContent')),
+          'header middle content is visible');
+
+      // When toggle again, textarea should remain open in the state it was
+      // before
+      MockInteractions.tap(element.$.header);
+      assert.isFalse(isVisible(element.$$('gr-linked-text')),
+          'gr-linked-text is not visible');
+      assert.isTrue(isVisible(element.$$('.actions')),
+          'actions are visible');
+      assert.isTrue(isVisible(element.$$('iron-autogrow-textarea')),
+          'textarea is visible');
+      assert.isFalse(isVisible(element.$$('.collapsedContent')),
+          'header middle content is not visible');
     });
 
     test('draft creation/cancelation', function(done) {

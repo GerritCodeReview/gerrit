@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "5f7a64f7_48cd3f5e",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-07T00:42:49Z",
+      "side": 1,
+      "message": "It\u0027s not, though I do think having it with the other statuses is valuable. If we add something that is another \u0027closed\u0027 status, we will be less likely to overlook the fact that it needs to be updated somewhere else. Happy to go with whatever the consensus is though.",
+      "parentUuid": "5f7a64f7_28c80b4f",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f7a64f7_28764b2e",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2

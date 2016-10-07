@@ -60,7 +60,7 @@ public class RevisionCreated {
     }
   }
 
-  public void fire(Change change, PatchSet patchSet, Account.Id uploader,
+  public void fire(Change change, PatchSet patchSet, Account uploader,
       Timestamp when, NotifyHandling notify) {
     if (!listeners.iterator().hasNext()) {
       return;

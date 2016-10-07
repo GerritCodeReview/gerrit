@@ -40,10 +40,6 @@ public class GitReferenceUpdated {
 
     @Override
     public void fire(Project.NameKey project, RefUpdate refUpdate,
-        ReceiveCommand.Type type, Account.Id updater) {}
-
-    @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
         Account updater) {}
 
     @Override
@@ -60,7 +56,7 @@ public class GitReferenceUpdated {
 
     @Override
     public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-        Account.Id updater) {}
+        Account updater) {}
   };
 
   private final DynamicSet<GitReferenceUpdatedListener> listeners;
@@ -80,12 +76,6 @@ public class GitReferenceUpdated {
 
   public void fire(Project.NameKey project, RefUpdate refUpdate,
       ReceiveCommand.Type type, Account updater) {
-    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), type, util.accountInfo(updater));
-  }
-
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
-      ReceiveCommand.Type type, Account.Id updater) {
     fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
         refUpdate.getNewObjectId(), type, util.accountInfo(updater));
   }
@@ -115,7 +105,7 @@ public class GitReferenceUpdated {
   }
 
   public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-      Account.Id updater) {
+      Account updater) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

@@ -60,7 +60,7 @@ public class DraftPublished {
     }
   }
 
-  public void fire(Change change, PatchSet patchSet, Account.Id accountId,
+  public void fire(Change change, PatchSet patchSet, Account accountId,
       Timestamp when) {
     try {
       fire(util.changeInfo(change),

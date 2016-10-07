@@ -22,6 +22,23 @@
       "revId": "85f19f64749e8b6712b89b16b633474d8d7ab823",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_cb1995eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-07T18:36:38Z",
+      "side": 1,
+      "message": "Trailing comma missing.",
+      "revId": "85f19f64749e8b6712b89b16b633474d8d7ab823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

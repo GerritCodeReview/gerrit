@@ -286,7 +286,13 @@ public class CommentSender extends ReplyToChangeSender {
   private String getCommentLinePrefix(Comment comment) {
     int lineNbr = comment.range == null ?
         comment.lineNbr : comment.range.startLine;
-    return "PS" + comment.key.patchSetId + ", Line " + lineNbr + ": ";
+    StringBuilder sb = new StringBuilder();
+    sb.append("PS").append(comment.key.patchSetId);
+    if (lineNbr != 0) {
+      sb.append(", Line ").append(lineNbr);
+    }
+    sb.append(": ");
+    return sb.toString();
   }
 
   /**
@@ -458,18 +464,32 @@ public class CommentSender extends ReplyToChangeSender {
         commentData.put("lines", getLinesOfComment(comment, group.fileData));
         commentData.put("message", comment.message.trim());
 
+        // Set the prefix.
         String prefix = getCommentLinePrefix(comment);
         commentData.put("linePrefix", prefix);
         commentData.put("linePrefixEmpty",
             Strings.padStart(": ", prefix.length(), ' '));
 
+        // Set line numbers.
+        int startLine;
         if (comment.range == null) {
-          commentData.put("startLine", comment.lineNbr);
+          startLine = comment.lineNbr;
         } else {
-          commentData.put("startLine", comment.range.startLine);
+          startLine = comment.range.startLine;
           commentData.put("endLine", comment.range.endLine);
         }
+        commentData.put("startLine", startLine);
 
+        // Set the comment link.
+        if (comment.lineNbr == 0) {
+          commentData.put("link", group.getLink());
+        } else if (comment.side == 0) {
+          commentData.put("link", group.getLink() + "@a" + startLine);
+        } else {
+          commentData.put("link", group.getLink() + '@' + startLine);
+        }
+
+        // Set robot comment data.
         if (comment instanceof RobotComment) {
           RobotComment robotComment = (RobotComment) comment;
           commentData.put("isRobotComment", true);
@@ -480,6 +500,7 @@ public class CommentSender extends ReplyToChangeSender {
           commentData.put("isRobotComment", false);
         }
 
+        // Set parent comment info.
         Optional<Comment> parent = getParent(comment);
         if (parent.isPresent()) {
           commentData.put("parentMessage",

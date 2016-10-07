@@ -98,6 +98,11 @@ class UrlModule extends ServletModule {
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
+
+    // Must be after RequireIdentifiedUserFilter so auth happens before checking
+    // for RunAs capability.
+    install(new RunAsFilter.Module());
+
     serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
 
     // Bind servlets for REST root collections.

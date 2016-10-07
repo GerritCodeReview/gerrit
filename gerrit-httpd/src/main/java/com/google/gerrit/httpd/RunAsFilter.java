@@ -90,7 +90,10 @@ class RunAsFilter implements Filter {
       }
 
       CurrentUser self = session.get().getUser();
-      if (!self.getCapabilities().canRunAs()) {
+      if (!self.getCapabilities().canRunAs()
+          // Always disallow for anonymous users, even if permitted by the ACL,
+          // because that would be crazy.
+          || !self.isIdentifiedUser()) {
         replyError(req, res,
             SC_FORBIDDEN,
             "not permitted to use " + RUN_AS,

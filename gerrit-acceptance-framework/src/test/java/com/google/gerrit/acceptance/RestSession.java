@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Preconditions;
 import com.google.common.net.HttpHeaders;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
 
@@ -32,7 +33,7 @@ import java.io.IOException;
 
 public class RestSession extends HttpSession {
 
-  public RestSession(GerritServer server, TestAccount account) {
+  public RestSession(GerritServer server, @Nullable TestAccount account) {
     super(server, account);
   }
 
@@ -47,7 +48,7 @@ public class RestSession extends HttpSession {
 
   public RestResponse getWithHeader(String endPoint, Header header)
       throws IOException {
-    Request get = Request.Get(url + "/a" + endPoint);
+    Request get = Request.Get(getUrl(endPoint));
     if (header != null) {
       get.addHeader(header);
     }
@@ -55,7 +56,7 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse head(String endPoint) throws IOException {
-    return execute(Request.Head(url + "/a" + endPoint));
+    return execute(Request.Head(getUrl(endPoint)));
   }
 
   public RestResponse put(String endPoint) throws IOException {
@@ -73,7 +74,7 @@ public class RestSession extends HttpSession {
 
   public RestResponse putWithHeader(String endPoint, Header header,
       Object content) throws IOException {
-    Request put = Request.Put(url + "/a" + endPoint);
+    Request put = Request.Put(getUrl(endPoint));
     if (header != null) {
       put.addHeader(header);
     }
@@ -88,7 +89,7 @@ public class RestSession extends HttpSession {
 
   public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
     Preconditions.checkNotNull(stream);
-    Request put = Request.Put(url + "/a" + endPoint);
+    Request put = Request.Put(getUrl(endPoint));
     put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
     put.body(new BufferedHttpEntity(
         new InputStreamEntity(
@@ -102,7 +103,15 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse post(String endPoint, Object content) throws IOException {
-    Request post = Request.Post(url + "/a" + endPoint);
+    return postWithHeader(endPoint, content, null);
+  }
+
+  public RestResponse postWithHeader(String endPoint, Object content,
+      Header header) throws IOException {
+    Request post = Request.Post(getUrl(endPoint));
+    if (header != null) {
+      post.addHeader(header);
+    }
     if (content != null) {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
       post.body(new StringEntity(
@@ -113,6 +122,10 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse delete(String endPoint) throws IOException {
-    return execute(Request.Delete(url + "/a" + endPoint));
+    return execute(Request.Delete(getUrl(endPoint)));
+  }
+
+  private String getUrl(String endPoint) {
+    return url + (account != null ? "/a" : "") + endPoint;
   }
 }

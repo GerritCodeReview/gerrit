@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.common.Nullable;
 
 import org.apache.http.HttpHost;
 import org.apache.http.client.fluent.Executor;
@@ -24,17 +25,20 @@ import java.io.IOException;
 import java.net.URI;
 
 public class HttpSession {
-
+  protected TestAccount account;
   protected final String url;
   private final Executor executor;
 
-  public HttpSession(GerritServer server, TestAccount account) {
+  public HttpSession(GerritServer server, @Nullable TestAccount account) {
     this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
     URI uri = URI.create(url);
-    this.executor = Executor
-        .newInstance()
-        .auth(new HttpHost(uri.getHost(), uri.getPort()),
+    this.executor = Executor.newInstance();
+    this.account = account;
+    if (account != null) {
+        executor.auth(
+            new HttpHost(uri.getHost(), uri.getPort()),
             account.username, account.httpPassword);
+    }
   }
 
   public String url() {

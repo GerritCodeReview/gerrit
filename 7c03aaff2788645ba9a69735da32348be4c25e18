@@ -22,6 +22,29 @@
       "revId": "7c03aaff2788645ba9a69735da32348be4c25e18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fdb8c69_4edb730f",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-10-07T14:02:59Z",
+      "side": 1,
+      "message": "(Not related to this change): \nThis could generate valid gmail accounts (that have no relation to the test instance), is this  really a good idea?",
+      "range": {
+        "startLine": 193,
+        "startChar": 46,
+        "endLine": 193,
+        "endChar": 60
+      },
+      "revId": "7c03aaff2788645ba9a69735da32348be4c25e18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

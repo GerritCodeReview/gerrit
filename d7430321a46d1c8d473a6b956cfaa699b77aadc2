@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_ab708900",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-07T20:46:50Z",
+      "side": 1,
+      "message": "Thanks. Filed http://crbug.com/gerrit/4731.",
+      "parentUuid": "bfdd2060_cb6bd517",
+      "revId": "d7430321a46d1c8d473a6b956cfaa699b77aadc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd2060_2b0a5984",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

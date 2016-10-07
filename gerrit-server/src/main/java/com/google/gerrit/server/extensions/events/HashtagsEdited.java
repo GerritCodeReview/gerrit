@@ -62,7 +62,7 @@ public class HashtagsEdited {
         try {
           l.onHashtagsEdited(event);
         } catch (Exception e) {
-          util.logEventListenerError(log, e);
+          util.logEventListenerError(this, l, e);
         }
       }
     } catch (OrmException e) {

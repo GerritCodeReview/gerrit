@@ -22,6 +22,30 @@
       "revId": "6b5bb4385d113267dee1e6ec0d78fec5fb461011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffa958a7_bd91ff49",
+        "filename": "gerrit-acceptance-tests/tests.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-07T00:27:54Z",
+      "side": 1,
+      "message": "yes.",
+      "parentUuid": "bfc9a046_0bcdbd5e",
+      "range": {
+        "startLine": 14,
+        "startChar": 27,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "6b5bb4385d113267dee1e6ec0d78fec5fb461011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

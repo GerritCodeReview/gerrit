@@ -119,6 +119,30 @@
       "revId": "2249c68450bf0a099e2b8bfbc9b5250c4da79903",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fb48847_b1704033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-08T13:31:24Z",
+      "side": 1,
+      "message": "Yes, AFAIK gerrit doesn\u0027t have any way to track reverts after the fact. The only links are the \"...created a revert\" message that gets posted when someone uses the revert REST API and the \"this reverts commit\" line in the commit message of the revert, but Gerrit doesn\u0027t do anything with those.\n\nAt $FORMER_JOB my team built a system that was used for tracking commits/issues across multiple systems/branches/projects and part of that was tracking reverts using the \"This reverts commit ...\" message. In cases like this commit here we\u0027d have to tweak the backend logic (if possible) to pick up the alternative notation (if we even noticed such commits in the first place; we had commit validators that tried to detect reverts as they occurred and make sure the commit message was sane but it wasn\u0027t perfect) .\n\nAlso this study [1] relied quite heavily on being able to programatically detect revert commits from the notation of the commit message.\n\n[1] https://github.com/yiu31802/icsme2016",
+      "parentUuid": "30d31f98_c7825e02",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "2249c68450bf0a099e2b8bfbc9b5250c4da79903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,8 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
+
   var DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -106,12 +108,17 @@
       }.bind(this));
 
       if (this.changeViewState.diffMode === null) {
-        // Initialize with user's diff mode preference. Default to
-        // SIDE_BY_SIDE in the meantime.
-        this.set('changeViewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
-        this.$.restAPI.getPreferences().then(function(prefs) {
-          this.set('changeViewState.diffMode', prefs.diff_view);
-        }.bind(this));
+        // If screen size is small, always default to unified view.
+        if (this._getWindowWidth() < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX) {
+          this.set('changeViewState.diffMode', DiffViewMode.UNIFIED);
+        } else {
+          // Initialize with user's diff mode preference. Default to
+          // SIDE_BY_SIDE in the meantime.
+          this.set('changeViewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
+          this.$.restAPI.getPreferences().then(function(prefs) {
+            this.set('changeViewState.diffMode', prefs.diff_view);
+          }.bind(this));
+        }
       }
 
       if (this._path) {
@@ -154,6 +161,10 @@
 
     _getPreferences: function() {
       return this.$.restAPI.getPreferences();
+    },
+
+    _getWindowWidth: function() {
+      return window.innerWidth;
     },
 
     _handleReviewedChange: function(e) {

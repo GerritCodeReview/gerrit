@@ -88,7 +88,7 @@
 
     _handleTopicChanged: function(e, topic) {
       if (!topic.length) { topic = null; }
-      this.$.restAPI.setChangeTopic(this.change.id, topic);
+      this.$.restAPI.setChangeTopic(this.change.change_id, topic);
     },
 
     _computeTopicReadOnly: function(mutable, change) {

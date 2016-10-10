@@ -46,6 +46,24 @@
       "revId": "6b5bb4385d113267dee1e6ec0d78fec5fb461011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fba1038_0f82c503",
+        "filename": "gerrit-acceptance-tests/tests.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-10T09:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffa958a7_bd91ff49",
+      "revId": "6b5bb4385d113267dee1e6ec0d78fec5fb461011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

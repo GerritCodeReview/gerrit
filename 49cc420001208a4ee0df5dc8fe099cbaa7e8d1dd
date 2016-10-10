@@ -174,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_2b049924",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-10T17:18:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff74f80c_652786ba",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f7a64f7_28764b2e",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 2

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_4bb6c542",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-10T21:41:58Z",
+      "side": 1,
+      "message": "Solid point. In those cases the sort may do weird things... I\u0027m not entirely sure how localeCompare compares emojis.\n\nIf this issue ever comes up again, I can address it.",
+      "parentUuid": "bfdd2060_8bb38d53",
+      "revId": "24478d6710e0981e50e45a3b221546501ccea985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff74f80c_453c4a7d",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 5
@@ -54,6 +72,24 @@
       "side": 1,
       "message": "@108",
       "parentUuid": "ff74f80c_453c4a7d",
+      "revId": "24478d6710e0981e50e45a3b221546501ccea985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_6bb98132",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-10T21:41:58Z",
+      "side": 1,
+      "message": "whoops, never mind. :sheepish_face_emoji:",
+      "parentUuid": "ff74f80c_85356290",
       "revId": "24478d6710e0981e50e45a3b221546501ccea985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

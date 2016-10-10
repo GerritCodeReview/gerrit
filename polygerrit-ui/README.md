@@ -27,7 +27,7 @@ brew install go
 
 All other platforms: [download from golang.org](https://golang.org/)
 
-# Add [go] to your path
+Then add go to your path:
 
 ```
 PATH=$PATH:/usr/local/go/bin

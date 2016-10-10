@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_2bd7f9b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-10T14:40:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fa38c16_8e9cfb62",
+      "revId": "1f21a54fd025ccc5e23e114430bcaf96261f3779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fa38c16_ee913f49",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishDraftPatchSet.java",
         "patchSetId": 4
@@ -37,6 +55,24 @@
       "writtenOn": "2016-10-10T11:44:41Z",
       "side": 1,
       "message": "[optional] This can now be inlined.",
+      "revId": "1f21a54fd025ccc5e23e114430bcaf96261f3779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_25490e8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishDraftPatchSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-10T14:40:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fa38c16_ee913f49",
       "revId": "1f21a54fd025ccc5e23e114430bcaf96261f3779",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -60,6 +96,24 @@
         "endLine": 136,
         "endChar": 26
       },
+      "revId": "1f21a54fd025ccc5e23e114430bcaf96261f3779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_453e0ae7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-10T14:40:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fa38c16_ce96033f",
       "revId": "1f21a54fd025ccc5e23e114430bcaf96261f3779",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

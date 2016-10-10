@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -254,5 +255,14 @@ public abstract class AbstractChangeUpdate {
 
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
     return ins.insert(Constants.OBJ_TREE, new byte[] {});
+  }
+
+  protected void verifyComment(Comment c) {
+    checkArgument(c.revId != null, "RevId required for comment: %s", c);
+    checkArgument(
+        c.author.getId().equals(getAccountId()),
+        "The author for the following comment does not match the author of"
+            + " this %s (%s): %s",
+        getClass().getSimpleName(), getAccountId(), c);
   }
 }

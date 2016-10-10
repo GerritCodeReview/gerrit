@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestChanges;
@@ -330,6 +331,29 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Branch: refs/heads/master\n"
         + "Commit: " + update.getCommit().name() + "\n",
         update.getResult());
+  }
+
+  @Test
+  public void realUser() throws Exception {
+    Change c = newChange();
+    CurrentUser ownerAsOtherUser =
+        userFactory.runAs(null, otherUserId, changeOwner);
+    ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
+    update.setChangeMessage("Message on behalf of other user");
+    update.commit();
+
+    RevCommit commit = parseCommit(update.getResult());
+    PersonIdent author = commit.getAuthorIdent();
+    assertThat(author.getName()).isEqualTo("Other Account");
+    assertThat(author.getEmailAddress()).isEqualTo("2@gerrit");
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Message on behalf of other user\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Real-user: Change Owner <1@gerrit>\n",
+        commit);
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {

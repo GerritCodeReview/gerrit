@@ -433,7 +433,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // Ensure the first event in the list creates the change, setting the author
     // and any required footers.
     Event first = events.get(0);
-    if (first instanceof PatchSetEvent && change.getOwner().equals(first.who)) {
+    if (first instanceof PatchSetEvent
+        && change.getOwner().equals(first.user)) {
       ((PatchSetEvent) first).createChange = true;
     } else {
       events.add(0, new CreateChangeEvent(change, minPsNum));
@@ -492,6 +493,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     ChangeUpdate update = updateFactory.create(
         change,
         events.getAccountId(),
+        events.getRealAccountId(),
         newAuthorIdent(events),
         events.getWhen(),
         labelNameComparator);
@@ -514,6 +516,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     ChangeDraftUpdate update = draftUpdateFactory.create(
         change,
         events.getAccountId(),
+        events.getRealAccountId(),
         newAuthorIdent(events),
         events.getWhen());
     update.setPatchSetId(events.getPatchSetId());

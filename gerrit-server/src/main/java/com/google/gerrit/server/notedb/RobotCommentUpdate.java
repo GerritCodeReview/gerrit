@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.robotCommentsRef;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -55,12 +54,21 @@ import java.util.Set;
  * <p>
  * This class is not thread safe.
  */
-public class RobotCommentUpdate extends AbstractChangeUpdate{
+public class RobotCommentUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    RobotCommentUpdate create(ChangeNotes notes, Account.Id accountId,
-        PersonIdent authorIdent, Date when);
-    RobotCommentUpdate create(Change change, Account.Id accountId,
-        PersonIdent authorIdent, Date when);
+    RobotCommentUpdate create(
+        ChangeNotes notes,
+        @Assisted("effective") Account.Id accountId,
+        @Assisted("real") Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when);
+
+    RobotCommentUpdate create(
+        Change change,
+        @Assisted("effective") Account.Id accountId,
+        @Assisted("real") Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when);
   }
 
   private List<RobotComment> put = new ArrayList<>();
@@ -72,11 +80,12 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
-      @Assisted Account.Id accountId,
+      @Assisted("effective") Account.Id accountId,
+      @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, authorIdent, when);
+        accountId, realAccountId, authorIdent, when);
   }
 
   @AssistedInject
@@ -86,22 +95,17 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
-      @Assisted Account.Id accountId,
+      @Assisted("effective") Account.Id accountId,
+      @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, realAccountId, authorIdent, when);
   }
 
   public void putComment(RobotComment c) {
     verifyComment(c);
     put.add(c);
-  }
-
-  private void verifyComment(RobotComment comment) {
-    checkArgument(comment.author.getId().equals(accountId),
-        "The author for the following comment does not match the author of"
-        + " this RobotCommentUpdate (%s): %s", accountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,

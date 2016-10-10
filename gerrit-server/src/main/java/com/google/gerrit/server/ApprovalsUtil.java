@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
@@ -26,6 +27,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -84,6 +86,19 @@ public class ApprovalsUtil {
   public static List<PatchSetApproval> sortApprovals(
       Iterable<PatchSetApproval> approvals) {
     return SORT_APPROVALS.sortedCopy(approvals);
+  }
+
+  public static PatchSetApproval newApproval(PatchSet.Id psId, CurrentUser user,
+      LabelId labelId, int value, Date when) {
+    PatchSetApproval psa = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            psId,
+            user.getAccountId(),
+            labelId),
+        Shorts.checkedCast(value),
+        when);
+    user.updateRealAccountId(psa::setRealAccountId);
+    return psa;
   }
 
   private static Iterable<PatchSetApproval> filterApprovals(
@@ -280,6 +295,10 @@ public class ApprovalsUtil {
       ChangeUpdate update, LabelTypes labelTypes, PatchSet ps,
       ChangeControl changeCtl, Map<String, Short> approvals)
       throws OrmException {
+    Account.Id accountId = changeCtl.getUser().getAccountId();
+    checkArgument(accountId.equals(ps.getUploader()),
+        "expected user %s to match patch set uploader %s",
+        accountId, ps.getUploader());
     if (approvals.isEmpty()) {
       return Collections.emptyList();
     }
@@ -288,12 +307,9 @@ public class ApprovalsUtil {
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(new PatchSetApproval(new PatchSetApproval.Key(
-          ps.getId(),
-          ps.getUploader(),
-          lt.getLabelId()),
-          vote.getValue(),
-          ts));
+      cells.add(
+          newApproval(ps.getId(), changeCtl.getUser(), lt.getLabelId(),
+              vote.getValue(), ts));
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());

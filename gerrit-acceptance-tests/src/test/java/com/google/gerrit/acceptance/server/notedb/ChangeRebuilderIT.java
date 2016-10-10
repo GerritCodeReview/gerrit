@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
@@ -25,14 +26,18 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -41,6 +46,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -54,8 +60,10 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -63,6 +71,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
+import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -72,6 +81,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -85,6 +96,7 @@ import org.junit.Test;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -971,6 +983,94 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     checker.rebuildAndCheckChanges(id);
   }
 
+  @Test
+  public void rebuildEntitiesCreatedByImpersonation() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    PatchSet.Id psId = new PatchSet.Id(id, 1);
+    String prefix = "/changes/" + id + "/revisions/current/";
+
+    // For each of the entities that have a real user field, create one entity
+    // without impersonation and one with.
+    CommentInput ci = new CommentInput();
+    ci.path = Patch.COMMIT_MSG;
+    ci.side = Side.REVISION;
+    ci.line = 1;
+    ci.message = "comment without impersonation";
+    ReviewInput ri = new ReviewInput();
+    ri.label("Code-Review", -1);
+    ri.message = "message without impersonation";
+    ri.drafts = DraftHandling.KEEP;
+    ri.comments = ImmutableMap.of(ci.path, ImmutableList.of(ci));
+    userRestSession.post(prefix + "review", ri).assertOK();
+
+    DraftInput di = new DraftInput();
+    di.path = Patch.COMMIT_MSG;
+    di.side = Side.REVISION;
+    di.line = 1;
+    di.message = "draft without impersonation";
+    userRestSession.put(prefix + "drafts", di).assertCreated();
+
+    allowRunAs();
+    try {
+      Header runAs = new BasicHeader("X-Gerrit-RunAs", user.id.toString());
+      ci.message = "comment with impersonation";
+      ri.message = "message with impersonation";
+      ri.label("Code-Review", 1);
+      adminRestSession.postWithHeader(prefix + "review", ri, runAs).assertOK();
+
+      di.message = "draft with impersonation";
+      adminRestSession.putWithHeader(prefix + "drafts", runAs, di)
+          .assertCreated();
+    } finally {
+      removeRunAs();
+    }
+
+    List<ChangeMessage> msgs =
+        Ordering.natural().onResultOf(ChangeMessage::getWrittenOn)
+            .sortedCopy(db.changeMessages().byChange(id));
+    assertThat(msgs).hasSize(3);
+    assertThat(msgs.get(1).getMessage())
+        .endsWith("message without impersonation");
+    assertThat(msgs.get(1).getAuthor()).isEqualTo(user.id);
+    assertThat(msgs.get(1).getRealAuthor()).isEqualTo(user.id);
+    assertThat(msgs.get(2).getMessage()).endsWith("message with impersonation");
+    assertThat(msgs.get(2).getAuthor()).isEqualTo(user.id);
+    assertThat(msgs.get(2).getRealAuthor()).isEqualTo(admin.id);
+
+    List<PatchSetApproval> psas = db.patchSetApprovals().byChange(id).toList();
+    assertThat(psas).hasSize(1);
+    assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
+    assertThat(psas.get(0).getValue()).isEqualTo(1);
+    assertThat(psas.get(0).getAccountId()).isEqualTo(user.id);
+    assertThat(psas.get(0).getRealAccountId()).isEqualTo(admin.id);
+
+    Ordering<PatchLineComment> commentOrder =
+        Ordering.natural().onResultOf(PatchLineComment::getWrittenOn);
+    List<PatchLineComment> drafts = commentOrder.sortedCopy(
+        db.patchComments().draftByPatchSetAuthor(psId, user.id));
+    assertThat(drafts).hasSize(2);
+    assertThat(drafts.get(0).getMessage())
+        .isEqualTo("draft without impersonation");
+    assertThat(drafts.get(0).getAuthor()).isEqualTo(user.id);
+    assertThat(drafts.get(0).getRealAuthor()).isEqualTo(user.id);
+    assertThat(drafts.get(1).getMessage())
+        .isEqualTo("draft with impersonation");
+    assertThat(drafts.get(1).getAuthor()).isEqualTo(user.id);
+    assertThat(drafts.get(1).getRealAuthor()).isEqualTo(admin.id);
+
+    List<PatchLineComment> pub = commentOrder.sortedCopy(
+        db.patchComments().publishedByPatchSet(psId));
+    assertThat(pub).hasSize(2);
+    assertThat(pub.get(0).getMessage())
+        .isEqualTo("comment without impersonation");
+    assertThat(pub.get(0).getAuthor()).isEqualTo(user.id);
+    assertThat(pub.get(0).getRealAuthor()).isEqualTo(user.id);
+    assertThat(pub.get(1).getMessage()).isEqualTo("comment with impersonation");
+    assertThat(pub.get(1).getAuthor()).isEqualTo(user.id);
+    assertThat(pub.get(1).getRealAuthor()).isEqualTo(admin.id);
+  }
+
   private void assertChangesReadOnly(RestApiException e) throws Exception {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);
@@ -1086,4 +1186,19 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     ReviewDb db = dbProvider.get();
     return ReviewDbUtil.unwrapDb(db);
   }
+
+  private void allowRunAs() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    Util.allow(cfg, GlobalCapability.RUN_AS,
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    saveProjectConfig(allProjects, cfg);
+  }
+
+  private void removeRunAs() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    Util.remove(cfg, GlobalCapability.RUN_AS,
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    saveProjectConfig(allProjects, cfg);
+  }
+
 }

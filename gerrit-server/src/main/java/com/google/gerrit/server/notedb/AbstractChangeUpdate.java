@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -45,6 +46,7 @@ public abstract class AbstractChangeUpdate {
   protected final ChangeNoteUtil noteUtil;
   protected final String anonymousCowardName;
   protected final Account.Id accountId;
+  protected final Account.Id realAccountId;
   protected final PersonIdent authorIdent;
   protected final Date when;
 
@@ -69,6 +71,9 @@ public abstract class AbstractChangeUpdate {
     this.notes = ctl.getNotes();
     this.change = notes.getChange();
     this.accountId = accountId(ctl.getUser());
+    Account.Id realAccountId = accountId(ctl.getUser().getRealUser());
+    this.realAccountId =
+        realAccountId != null ? realAccountId : accountId;
     this.authorIdent =
         ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
     this.when = when;
@@ -82,6 +87,7 @@ public abstract class AbstractChangeUpdate {
       @Nullable ChangeNotes notes,
       @Nullable Change change,
       Account.Id accountId,
+      Account.Id realAccountId,
       PersonIdent authorIdent,
       Date when) {
     checkArgument(
@@ -95,6 +101,7 @@ public abstract class AbstractChangeUpdate {
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
+    this.realAccountId = realAccountId;
     this.authorIdent = authorIdent;
     this.when = when;
   }
@@ -254,5 +261,19 @@ public abstract class AbstractChangeUpdate {
 
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
     return ins.insert(Constants.OBJ_TREE, new byte[] {});
+  }
+
+  protected void verifyComment(Comment c) {
+    checkArgument(c.revId != null, "RevId required for comment: %s", c);
+    checkArgument(
+        c.author.getId().equals(getAccountId()),
+        "The author for the following comment does not match the author of"
+            + " this %s (%s): %s",
+        getClass().getSimpleName(), getAccountId(), c);
+    checkArgument(
+        c.getRealAuthor().getId().equals(realAccountId),
+        "The real author for the following comment does not match the real"
+            + " author of this %s (%s): %s",
+        getClass().getSimpleName(), realAccountId, c);
   }
 }

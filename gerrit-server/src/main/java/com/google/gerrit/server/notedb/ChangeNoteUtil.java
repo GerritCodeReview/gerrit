@@ -71,6 +71,7 @@ public class ChangeNoteUtil {
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
+  public static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
   public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
   public static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
   public static final FooterKey FOOTER_SUBMISSION_ID =
@@ -88,6 +89,7 @@ public class ChangeNoteUtil {
   private static final String PARENT = "Parent";
   private static final String PARENT_NUMBER = "Parent-number";
   private static final String PATCH_SET = "Patch-set";
+  private static final String REAL_AUTHOR = "Real-author";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
   private static final String TAG = FOOTER_TAG.getName();
@@ -232,7 +234,14 @@ public class ChangeNoteUtil {
     }
 
     Timestamp commentTime = parseTimestamp(note, curr, changeId);
-    Account.Id aId = parseAuthor(note, curr, changeId);
+    Account.Id aId = parseAuthor(note, curr, changeId, AUTHOR);
+    boolean hasRealAuthor =
+        (RawParseUtils.match(note, curr.value, REAL_AUTHOR.getBytes(UTF_8)))
+            != -1;
+    Account.Id raId = null;
+    if (hasRealAuthor) {
+      raId = parseAuthor(note, curr, changeId, REAL_AUTHOR);
+    }
 
     boolean hasParent =
         (RawParseUtils.match(note, curr.value, PARENT.getBytes(UTF_8))) != -1;
@@ -269,6 +278,9 @@ public class ChangeNoteUtil {
     c.parentUuid = parentUUID;
     c.tag = tag;
     c.setRevId(revId);
+    if (raId != null) {
+      c.setRealAuthor(raId);
+    }
 
     if (range.getStartCharacter() != -1) {
       c.setRange(range);
@@ -411,15 +423,15 @@ public class ChangeNoteUtil {
   }
 
   private Account.Id parseAuthor(byte[] note, MutableInteger curr,
-      Change.Id changeId) throws ConfigInvalidException {
-    checkHeaderLineFormat(note, curr, AUTHOR, changeId);
+      Change.Id changeId, String fieldName) throws ConfigInvalidException {
+    checkHeaderLineFormat(note, curr, fieldName, changeId);
     int startOfAccountId =
         RawParseUtils.endOfFooterLineKey(note, curr.value) + 2;
     PersonIdent ident =
         RawParseUtils.parsePersonIdent(note, startOfAccountId);
     Account.Id aId = parseIdent(ident, changeId);
     curr.value = RawParseUtils.nextLF(note, curr.value);
-    return checkResult(aId, "comment author", changeId);
+    return checkResult(aId, fieldName, changeId);
   }
 
   private static int parseCommentLength(byte[] note, MutableInteger curr,
@@ -564,15 +576,10 @@ public class ChangeNoteUtil {
     writer.print(formatTime(serverIdent, c.writtenOn));
     writer.print("\n");
 
-    PersonIdent ident = newIdent(
-        accountCache.get(c.author.getId()).getAccount(),
-        c.writtenOn, serverIdent, anonymousCowardName);
-    StringBuilder name = new StringBuilder();
-    PersonIdent.appendSanitized(name, ident.getName());
-    name.append(" <");
-    PersonIdent.appendSanitized(name, ident.getEmailAddress());
-    name.append('>');
-    appendHeaderField(writer, AUTHOR, name.toString());
+    appendIdent(writer, AUTHOR, c.author.getId(), c.writtenOn);
+    if (!c.getRealAuthor().equals(c.author)) {
+      appendIdent(writer, REAL_AUTHOR, c.getRealAuthor().getId(), c.writtenOn);
+    }
 
     String parent = c.parentUuid;
     if (parent != null) {
@@ -591,5 +598,18 @@ public class ChangeNoteUtil {
 
     writer.print(c.message);
     writer.print("\n\n");
+  }
+
+  private void appendIdent(PrintWriter writer, String header, Account.Id id,
+      Timestamp ts) {
+    PersonIdent ident = newIdent(
+        accountCache.get(id).getAccount(),
+        ts, serverIdent, anonymousCowardName);
+    StringBuilder name = new StringBuilder();
+    PersonIdent.appendSanitized(name, ident.getName());
+    name.append(" <");
+    PersonIdent.appendSanitized(name, ident.getEmailAddress());
+    name.append('>');
+    appendHeaderField(writer, header, name.toString());
   }
 }

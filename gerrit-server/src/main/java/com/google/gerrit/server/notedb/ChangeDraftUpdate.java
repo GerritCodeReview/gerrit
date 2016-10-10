@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
@@ -62,10 +61,19 @@ import java.util.Set;
  */
 public class ChangeDraftUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    ChangeDraftUpdate create(ChangeNotes notes, Account.Id accountId,
-        PersonIdent authorIdent, Date when);
-    ChangeDraftUpdate create(Change change, Account.Id accountId,
-        PersonIdent authorIdent, Date when);
+    ChangeDraftUpdate create(
+        ChangeNotes notes,
+        @Assisted("effective") Account.Id accountId,
+        @Assisted("real") Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when);
+
+    ChangeDraftUpdate create(
+        Change change,
+        @Assisted("effective") Account.Id accountId,
+        @Assisted("real") Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when);
   }
 
   @AutoValue
@@ -91,11 +99,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
-      @Assisted Account.Id accountId,
+      @Assisted("effective") Account.Id accountId,
+      @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, authorIdent, when);
+        accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -107,11 +116,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
-      @Assisted Account.Id accountId,
+      @Assisted("effective") Account.Id accountId,
+      @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, authorIdent, when);
+        accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -127,12 +137,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   public void deleteComment(String revId, Comment.Key key) {
     delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
-  }
-
-  private void verifyComment(Comment comment) {
-    checkArgument(comment.author.getId().equals(accountId),
-        "The author for the following comment does not match the author of"
-        + " this ChangeDraftUpdate (%s): %s", accountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,

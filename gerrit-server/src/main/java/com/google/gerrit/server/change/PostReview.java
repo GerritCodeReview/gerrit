@@ -57,6 +57,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -65,13 +66,11 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -120,7 +119,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final PostReviewers postReviewers;
-  private final String serverId;
   private final NotesMigration migration;
 
   @Inject
@@ -137,7 +135,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       PostReviewers postReviewers,
-      @GerritServerId String serverId,
       NotesMigration migration) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -152,7 +149,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.email = email;
     this.commentAdded = commentAdded;
     this.postReviewers = postReviewers;
-    this.serverId = serverId;
     this.migration = migration;
   }
 
@@ -283,7 +279,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           in.onBehalfOf));
     }
 
-    ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
+    ChangeControl target = caller.forUser(
+        accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
     if (!target.getRefControl().isVisible()) {
       throw new UnprocessableEntityException(String.format(
           "on_behalf_of account %s cannot see destination ref",
@@ -525,14 +522,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String parent = Url.decode(c.inReplyTo);
           Comment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
-            e = new Comment(
-                new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path,
-                    psId.get()),
-                user.getAccountId(),
-                ctx.getWhen(),
-                c.side(),
-                c.message,
-                serverId);
+            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message);
           } else {
             e.writtenOn = ctx.getWhen();
             e.side = c.side();
@@ -590,11 +580,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (Map.Entry<String, List<RobotCommentInput>> ent : in.robotComments.entrySet()) {
         String path = ent.getKey();
         for (RobotCommentInput c : ent.getValue()) {
-          RobotComment e = new RobotComment(
-              new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path,
-                  psId.get()),
-              user.getAccountId(), ctx.getWhen(), c.side(), c.message, serverId,
-              c.robotId, c.robotRunId);
+          RobotComment e = commentsUtil.newRobotComment(
+              ctx, path, psId, c.side(), c.message, c.robotId, c.robotRunId);
           e.parentUuid = Url.decode(c.inReplyTo);
           e.url = c.url;
           e.properties = c.properties;
@@ -660,6 +647,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         Comment c, PatchSet ps) throws OrmException {
       c.writtenOn = ctx.getWhen();
       c.tag = in.tag;
+      // Draft may have been created by a different real user; copy the current
+      // real user. (Only applies to X-Gerrit-RunAs, since modifying drafts via
+      // on_behalf_of is not allowed.)
+      ctx.getUser().updateRealAccountId(c::setRealAuthor);
       setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
       return c;
     }
@@ -780,6 +771,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           c.setValue(ent.getValue());
           c.setGranted(ctx.getWhen());
           c.setTag(in.tag);
+          ctx.getUser().updateRealAccountId(c::setRealAccountId);
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           oldApprovals.put(normName, previous.get(normName));
@@ -790,11 +782,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           oldApprovals.put(normName, null);
           approvals.put(normName, c.getValue());
         } else if (c == null) {
-          c = new PatchSetApproval(new PatchSetApproval.Key(
-                  psId,
-                  user.getAccountId(),
-                  lt.getLabelId()),
-              ent.getValue(), ctx.getWhen());
+          c = ApprovalsUtil.newApproval(
+              psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -832,12 +821,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         if (del.isEmpty()) {
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
-          PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
-              psId,
-              user.getAccountId(),
-              ctx.getControl().getLabelTypes().getLabelTypes().get(0)
-                  .getLabelId()),
-              (short) 0, ctx.getWhen());
+          LabelId labelId = ctx.getControl().getLabelTypes().getLabelTypes()
+              .get(0).getLabelId();
+          PatchSetApproval c = ApprovalsUtil.newApproval(
+              psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -896,17 +883,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
-      message = new ChangeMessage(
-          new ChangeMessage.Key(
-            psId.getParentKey(), ChangeUtil.messageUUID(ctx.getDb())),
-          user.getAccountId(),
-          ctx.getWhen(),
-          psId);
+      message = ChangeMessagesUtil.newMessage(
+          ctx.getDb(), psId, user, ctx.getWhen(),
+          "Patch Set " + psId.get() + ":" + buf);
       message.setTag(in.tag);
-      message.setMessage(String.format(
-          "Patch Set %d:%s",
-          psId.get(),
-          buf.toString()));
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
       return true;
     }

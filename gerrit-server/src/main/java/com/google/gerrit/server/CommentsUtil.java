@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -127,6 +128,26 @@ public class CommentsUtil {
     this.allUsers = allUsers;
     this.migration = migration;
     this.serverId = serverId;
+  }
+
+  public Comment newComment(ChangeContext ctx, String path, PatchSet.Id psId,
+      short side, String message) throws OrmException {
+    Comment c = new Comment(
+        new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
+        ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId);
+    ctx.getUser().updateRealAccountId(c::setRealAuthor);
+    return c;
+  }
+
+  public RobotComment newRobotComment(ChangeContext ctx, String path,
+      PatchSet.Id psId, short side, String message, String robotId,
+      String robotRunId) throws OrmException {
+    RobotComment c = new RobotComment(
+        new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
+        ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
+        robotId, robotRunId);
+    ctx.getUser().updateRealAccountId(c::setRealAuthor);
+    return c;
   }
 
   public Optional<Comment> get(ReviewDb db, ChangeNotes notes,

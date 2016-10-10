@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
@@ -274,14 +273,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     public boolean updateChange(ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
-      ChangeMessage changeMessage = new ChangeMessage(
-          new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(db.get())),
-          ctx.getAccountId(), ctx.getWhen(), patchSetId);
-      StringBuilder msgBuf = new StringBuilder();
-      msgBuf.append("Created a revert of this change as ")
-          .append("I").append(computedChangeId.name());
-      changeMessage.setMessage(msgBuf.toString());
+      ChangeMessage changeMessage = ChangeMessagesUtil.newMessage(ctx,
+          "Created a revert of this change as I" + computedChangeId.name());
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(patchSetId),
           changeMessage);
       return true;

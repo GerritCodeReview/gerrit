@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.ChangeRestored;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -131,16 +130,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         msg.append("\n\n");
         msg.append(input.message.trim());
       }
-
-      ChangeMessage message = new ChangeMessage(
-          new ChangeMessage.Key(
-              change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getAccountId(),
-          ctx.getWhen(),
-          change.currentPatchSetId());
-      message.setMessage(msg.toString());
-      return message;
+      return ChangeMessagesUtil.newMessage(ctx, msg.toString());
     }
 
     @Override

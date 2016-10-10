@@ -43,6 +43,42 @@
     },
     {
       "key": {
+        "uuid": "1f770c48_ee00ff68",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-10-10T20:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff74f80c_e5c8d6a3",
+      "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f770c48_cefbc35e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-10-10T20:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff74f80c_254e6e3d",
+      "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff74f80c_45536ae0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
         "patchSetId": 1
@@ -60,6 +96,24 @@
         "endLine": 52,
         "endChar": 45
       },
+      "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df273449_740da89a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-10-10T20:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff74f80c_45536ae0",
       "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -165,6 +165,24 @@
       "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_c5675add",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T16:47:50Z",
+      "side": 1,
+      "message": "IMO, this is the info that the comment should encode.",
+      "parentUuid": "bfdd2060_4b55a517",
+      "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

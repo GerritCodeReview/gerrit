@@ -334,6 +334,9 @@ limitations under the License.
       });
 
       test('revert change with plugin hook', function(done) {
+        element.change = {
+          current_revision: 'abc1234',
+        };
         var newRevertMsg = 'Modified revert msg';
         var modifyRevertMsgStub = sinon.stub(element, '_modifyRevertMsg',
             function() { return newRevertMsg; });
@@ -353,6 +356,9 @@ limitations under the License.
       });
 
       test('works', function() {
+        element.change = {
+          current_revision: 'abc1234',
+        };
         var populateRevertMsgStub = sinon.stub(
             element.$.confirmRevertDialog, 'populateRevertMessage',
             function() { return 'original msg'; });

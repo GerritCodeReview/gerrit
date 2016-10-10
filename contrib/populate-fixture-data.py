@@ -182,14 +182,15 @@ def set_up():
 
 
 def get_random_users(num_users):
-  users = [(f, l) for f in FIRST_NAMES for l in LAST_NAMES][:num_users]
+  users = random.sample([(f, l) for f in FIRST_NAMES for l in LAST_NAMES],
+                        num_users)
   names = []
   for u in users:
     names.append({"firstname": u[0],
                   "lastname": u[1],
                   "name": u[0] + " " + u[1],
                   "username": u[0] + u[1],
-                  "email": u[0] + "." + u[1] + "@gmail.com",
+                  "email": u[0] + "." + u[1] + "@gerritcodereview.com",
                   "http_password": "secret",
                   "groups": []})
   return names
@@ -293,6 +294,7 @@ def main():
   project_names = create_gerrit_projects(group_names)
 
   for idx, u in enumerate(gerrit_users):
-    create_change(u, project_names[4 * idx / len(gerrit_users)])
+    for _ in xrange(random.randint(1, 5)):
+      create_change(u, project_names[4 * idx / len(gerrit_users)])
 
 main()

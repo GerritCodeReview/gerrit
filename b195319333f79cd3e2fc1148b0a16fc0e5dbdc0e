@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_cb2cf5a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T18:00:39Z",
+      "side": 1,
+      "message": "Might as well put `closed.` on the next line to wrap at 80.",
+      "range": {
+        "startLine": 213,
+        "startChar": 76,
+        "endLine": 213,
+        "endChar": 82
+      },
+      "revId": "b195319333f79cd3e2fc1148b0a16fc0e5dbdc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_eb27b1ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T18:00:39Z",
+      "side": 1,
+      "message": "s/ClosedChangeStatus/CLOSED_CHANGE_STATUSES/",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 24
+      },
+      "revId": "b195319333f79cd3e2fc1148b0a16fc0e5dbdc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_ab21a9a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T18:00:39Z",
+      "side": 1,
+      "message": "Wrapping parens are not needed.",
+      "range": {
+        "startLine": 277,
+        "startChar": 13,
+        "endLine": 277,
+        "endChar": 14
+      },
+      "revId": "b195319333f79cd3e2fc1148b0a16fc0e5dbdc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_05f7b2eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T18:00:39Z",
+      "side": 1,
+      "message": "Is it important that it\u0027s `null` as opposed to `undefined? If so use  `.isNotNull`.\n\nOtherwise use `.isOk`.\n\nhttp://chaijs.com/api/assert/#method_isnotnull\nhttp://chaijs.com/api/assert/#method_isok",
+      "range": {
+        "startLine": 250,
+        "startChar": 13,
+        "endLine": 250,
+        "endChar": 19
+      },
+      "revId": "b195319333f79cd3e2fc1148b0a16fc0e5dbdc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_8b26edbb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T18:00:39Z",
+      "side": 1,
+      "message": "Similarly, use `.isNull` or `.isNotOk` here",
+      "range": {
+        "startLine": 256,
+        "startChar": 13,
+        "endLine": 256,
+        "endChar": 19
+      },
+      "revId": "b195319333f79cd3e2fc1148b0a16fc0e5dbdc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

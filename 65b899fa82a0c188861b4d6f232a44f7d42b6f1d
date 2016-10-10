@@ -139,6 +139,24 @@
       "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_6506a6fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-10T18:51:44Z",
+      "side": 1,
+      "message": "\u003e I\u0027d like to fix it in a separate change considering the relation chain on this one.\n\nSounds fine. I just wanted to make sure there was not a regression introduced by this change, and I think returning \"\" rather than throwing satisfies that.",
+      "parentUuid": "bfdd2060_2b1ff96a",
+      "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

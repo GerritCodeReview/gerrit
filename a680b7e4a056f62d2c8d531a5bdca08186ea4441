@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_0b39dd27",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:23:01Z",
+      "side": 1,
+      "message": "nice",
+      "range": {
+        "startLine": 121,
+        "startChar": 13,
+        "endLine": 128,
+        "endChar": 10
+      },
+      "revId": "a680b7e4a056f62d2c8d531a5bdca08186ea4441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_2562ee0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:23:01Z",
+      "side": 1,
+      "message": "Comments should be full sentences with a period.",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 33
+      },
+      "revId": "a680b7e4a056f62d2c8d531a5bdca08186ea4441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

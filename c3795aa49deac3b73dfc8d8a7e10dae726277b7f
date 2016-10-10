@@ -248,6 +248,24 @@
       "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_a5809e33",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-10T20:56:40Z",
+      "side": 1,
+      "message": "Sorry, looks like sandbox.stub doesn\u0027t work with getters indeed.\nWyatt\u0027s right - sinon.stub should be used in those cases, but sandbox can still be used everywhere else.",
+      "parentUuid": "ff74f80c_25902efc",
+      "revId": "c3795aa49deac3b73dfc8d8a7e10dae726277b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

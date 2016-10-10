@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bfdd2060_eb00d111",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-10T17:23:16Z",
+      "side": 1,
+      "message": "Would we want to log anything when unexpected IOExceptions occur?",
+      "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd2060_cb1ab586",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 2

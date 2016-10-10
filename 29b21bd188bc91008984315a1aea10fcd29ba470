@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_e56456db",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-10T16:55:11Z",
+      "side": 1,
+      "message": "Sorry for adding more work for you, but shouldn\u0027t this depend on Columns preference?",
+      "parentUuid": "ff74f80c_656ce6fe",
+      "revId": "29b21bd188bc91008984315a1aea10fcd29ba470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff74f80c_857002cf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -42,6 +60,23 @@
         "endLine": 112,
         "endChar": 40
       },
+      "revId": "29b21bd188bc91008984315a1aea10fcd29ba470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_05a5f20b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-10T16:55:11Z",
+      "side": 1,
+      "message": "Side note:\nIdeally, diff-view dimensions are what really matter.\nBut that would require measuring it with getBoundingClientRect() (and forcing redraw/relayout), so I\u0027m not sure if that\u0027s easier.\nUp to you, this approach is not wrong and is the simplest.",
       "revId": "29b21bd188bc91008984315a1aea10fcd29ba470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

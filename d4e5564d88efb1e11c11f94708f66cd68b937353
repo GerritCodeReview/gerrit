@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff74f80c_e59c560e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:15:52Z",
+      "side": 1,
+      "message": "If this is a nasty bug, a bug should be filed for it :)",
+      "range": {
+        "startLine": 227,
+        "startChar": 15,
+        "endLine": 227,
+        "endChar": 18
+      },
+      "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_055df24e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:15:52Z",
+      "side": 1,
+      "message": "This breaks Polymer’s encapsulation model and won’t work in Shadow DOM.\n\nThat being said, I think we can go forward with this if a bug is filed to track it.",
+      "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -287,7 +287,8 @@
     },
 
     showRevertDialog: function() {
-      this.$.confirmRevertDialog.populateRevertMessage(this.commitMessage);
+      this.$.confirmRevertDialog.populateRevertMessage(
+          this.commitMessage, this.change.current_revision);
       this.$.confirmRevertDialog.message = this._modifyRevertMsg();
       this._showActionDialog(this.$.confirmRevertDialog);
     },

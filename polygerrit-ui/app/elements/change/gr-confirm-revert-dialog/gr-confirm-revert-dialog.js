@@ -33,18 +33,15 @@
       message: String,
     },
 
-    populateRevertMessage: function(message) {
+    populateRevertMessage: function(message, commitHash) {
       // Figure out what the revert title should be.
       var originalTitle = message.split('\n')[0];
       var revertTitle = 'Revert "' + originalTitle + '"';
-      // Figure out what the revert commit message should be.
-      var commitRegex = /\nChange-Id: (\w+)\n\s*/g;
-      var match = commitRegex.exec(message);
-      if (!match) {
-        alert('Unable to find Change-Id in footer of commit message.');
+      if (!commitHash) {
+        alert('Unable to find the commit hash of this change.');
         return;
       }
-      var revertCommitText = 'This reverts commit ' + match[1] + '.';
+      var revertCommitText = 'This reverts commit ' + commitHash + '.';
       // Add '> ' in front of the original commit text.
       var originalCommitText = message.replace(/^/gm, '> ');
 

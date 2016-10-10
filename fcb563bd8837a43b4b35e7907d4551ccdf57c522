@@ -1,4 +1,160 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1475862727 -0400\nnonce AKOpmBXuTYsULJyuaRjMPTtRl0iLA2oFUd0zEY7nV/2WsQG8sJqa8Np7eXQTY208NIBzreg+tNGy\n\n0000000000000000000000000000000000000000 fcb563bd8837a43b4b35e7907d4551ccdf57c522 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX9+DHAAoJEF/XxZqaEoiMqvQP/i91KGnQ4tVcfR67gm5dj0fV\n8Ly9cImF3YylkKyPMANr/r9PRsiPR/GXSfe8rJPmGjnL7tDxftAXGA+OPTOp3Se2\nTCxAF/iPIsfKD/r767Nggqh9UcCkAqEbFjffNImv0W5Gv+1CPYbS7ygTjzbMA6tk\n2q1xosSDXFe+peM/fpZldFVzxN/ydVdlU3izahwKtna4SLwqlrgl/sZlxfij0aHK\nOCLkHBfxc/8lmI1uAnste5KnmbQ7tUW0EEXEXBUxX9PVyxwxdUrR0NKfXAWTH6Ox\nkT3AsF4VDier98/CoTqsiSYLgum6DtkuhG1yGJTwSbm7CbJ3DOO+HMOAIn9jzyDu\nuhyE6v30s76QN2WSJ4mN3E7a+75A6i9hYW/BI51fU54VMUAR/4NESMpikSsnILqO\nZOHvu2tg50exMw+lH00Xb/Ejap7AtzdNP2nai9WfDCv9F0Ogswsgb2ekhFlxE5xP\npwUCvaSav9OP/y6VWPVx2a+pgXinUIE7YtU02ChqiREJXGW5FhyPQ2vTBl66Q3Y6\nRmKPPSWYA+rUXU5ZD7kaPHGUaf+4pB4EOMTqwBXd2BZAlR/n5qGQwDnD59c2/9Ml\n9CQVnDjhPnlOpWbUMuZ3dvsf0om41uXgSLGFtZVyWuAY4F/FfiPpZb8iZSV991Aq\nAtffvgf91jwCzMEn6ziM\n\u003dF1PB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fba1038_8fc7d53e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-10T14:21:59Z",
+      "side": 1,
+      "message": "Looks like this should be part of the predecessor change.",
+      "revId": "fcb563bd8837a43b4b35e7907d4551ccdf57c522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fa38c16_6ea6efab",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-10T14:21:59Z",
+      "side": 1,
+      "message": "\"\"? To be consistent with what we print for other null values.",
+      "range": {
+        "startLine": 266,
+        "startChar": 68,
+        "endLine": 266,
+        "endChar": 72
+      },
+      "revId": "fcb563bd8837a43b4b35e7907d4551ccdf57c522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fba1038_efcca164",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-10T14:21:59Z",
+      "side": 1,
+      "message": "comment",
+      "range": {
+        "startLine": 171,
+        "startChar": 31,
+        "endLine": 171,
+        "endChar": 38
+      },
+      "revId": "fcb563bd8837a43b4b35e7907d4551ccdf57c522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fba1038_cfd1ddf8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-10T14:21:59Z",
+      "side": 1,
+      "message": "realAuthor !\u003d null ? realAuthor.get() : \"\"",
+      "range": {
+        "startLine": 365,
+        "startChar": 41,
+        "endLine": 365,
+        "endChar": 51
+      },
+      "revId": "fcb563bd8837a43b4b35e7907d4551ccdf57c522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fa38c16_4ea3339a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RobotComment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-10T14:21:59Z",
+      "side": 1,
+      "message": "\"\"",
+      "range": {
+        "startLine": 43,
+        "startChar": 68,
+        "endLine": 43,
+        "endChar": 72
+      },
+      "revId": "fcb563bd8837a43b4b35e7907d4551ccdf57c522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fa38c16_aec2972e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-10T14:21:59Z",
+      "side": 1,
+      "message": "ChangeDraftUpdate",
+      "range": {
+        "startLine": 149,
+        "startChar": 27,
+        "endLine": 149,
+        "endChar": 39
+      },
+      "revId": "fcb563bd8837a43b4b35e7907d4551ccdf57c522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fa38c16_8ec7db3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RobotCommentUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-10T14:21:59Z",
+      "side": 1,
+      "message": "Why don\u0027t we pass in the real user for robot comments?",
+      "range": {
+        "startLine": 79,
+        "startChar": 19,
+        "endLine": 79,
+        "endChar": 28
+      },
+      "revId": "fcb563bd8837a43b4b35e7907d4551ccdf57c522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -30,5 +30,9 @@
       var accountID = account.email || account._account_id;
       return '/q/owner:' + encodeURIComponent(accountID) + '+status:open';
     },
+
+    _computeShowEmail: function(account) {
+      return !!(account && !account.name);
+    },
   });
 })();

@@ -22,6 +22,47 @@
       "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_254e6e3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T19:54:39Z",
+      "side": 1,
+      "message": "Actually not a nit. This will confuse current Gerrit users. Issues are bugs.",
+      "parentUuid": "ff74f80c_e5c8d6a3",
+      "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_45536ae0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T19:54:39Z",
+      "side": 1,
+      "message": "Just indent 4 spaces.",
+      "range": {
+        "startLine": 52,
+        "startChar": 36,
+        "endLine": 52,
+        "endChar": 45
+      },
+      "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -59,6 +59,10 @@ public class MergedSender extends ReplyToChangeSender {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("Merged"));
+
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("MergedHtml"));
+    }
   }
 
   public String getApprovals() {
@@ -128,5 +132,10 @@ public class MergedSender extends ReplyToChangeSender {
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContextEmailData.put("approvals", getApprovals());
+  }
+
+  @Override
+  protected boolean supportsHtml() {
+    return true;
   }
 }

@@ -53,6 +53,7 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     "FooterHtml.soy",
     "HeaderHtml.soy",
     "Merged.soy",
+    "MergedHtml.soy",
     "NewChange.soy",
     "NewChangeHtml.soy",
     "RegisterNewEmail.soy",

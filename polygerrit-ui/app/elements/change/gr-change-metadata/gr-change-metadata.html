@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -58,6 +58,9 @@ limitations under the License.
       }
       .notApproved {
         background-color: #ffd4d4;
+      }
+      .labelStatus {
+        max-width: 9em;
       }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         :host {
@@ -172,6 +175,12 @@ limitations under the License.
             </div>
           </template>
         </span>
+      </section>
+    </template>
+    <template is="dom-if" if="[[_showLabelStatus]]">
+      <section>
+        <span class="title">Label Status</span>
+        <span class="value labelStatus">[[_computeLabelStatus(change.labels)]]</span>
       </section>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

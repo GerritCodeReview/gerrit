@@ -13,9 +13,17 @@ brew install node
 All other platforms: [download from
 nodejs.org](https://nodejs.org/en/download/).
 
-## Optional: installing [go](https://golang.org/)
+## Installing [Buck](https://buckbuild.com/)
 
-This is only required for running the ```run-server.sh``` script for testing. See below.
+Follow the instructions
+[here](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_installation)
+to get and install Buck.
+
+## Local UI, Production Data
+
+### Installing [go](https://golang.org/)
+
+This is required for running the ```run-server.sh``` script below.
 
 ```sh
 # Debian/Ubuntu
@@ -27,18 +35,16 @@ brew install go
 
 All other platforms: [download from golang.org](https://golang.org/)
 
-# Add [go] to your path
+Then add go to your path:
 
 ```
 PATH=$PATH:/usr/local/go/bin
 ```
 
-## Local UI, Production Data
-
 To test the local UI against gerrit-review.googlesource.com:
 
 ```sh
-./polygerrit-ui/run-server.sh
+./run-server.sh
 ```
 
 Then visit http://localhost:8081

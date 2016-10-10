@@ -13,9 +13,21 @@ brew install node
 All other platforms: [download from
 nodejs.org](https://nodejs.org/en/download/).
 
-## Optional: installing [go](https://golang.org/)
+## Installing [Buck](https://buckbuild.com/)
 
-This is only required for running the ```run-server.sh``` script for testing. See below.
+Follow the instructions
+[here](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_installation)
+to get and install Buck.
+
+## Local UI, Production Data
+
+This is a quick and easy way to test your local changes against real data.
+Unfortunately, you can't sign in, so testing certain features will require
+you to use the "test data" technique described below.
+
+### Installing [go](https://golang.org/)
+
+This is required for running the `run-server.sh` script below.
 
 ```sh
 # Debian/Ubuntu
@@ -27,18 +39,18 @@ brew install go
 
 All other platforms: [download from golang.org](https://golang.org/)
 
-# Add [go] to your path
+Then add go to your path:
 
 ```
 PATH=$PATH:/usr/local/go/bin
 ```
 
-## Local UI, Production Data
+### Running the server
 
 To test the local UI against gerrit-review.googlesource.com:
 
 ```sh
-./polygerrit-ui/run-server.sh
+./run-server.sh
 ```
 
 Then visit http://localhost:8081
@@ -47,10 +59,8 @@ Then visit http://localhost:8081
 
 One-time setup:
 
-1. [Install Buck](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_installation)
-   for building Gerrit.
-2. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_gerrit_development_war_file)
-   and set up a local test site. Docs
+1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_gerrit_development_war_file)
+2. Set up a local test site. Docs
    [here](https://gerrit-review.googlesource.com/Documentation/install-quick.html) and
    [here](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
 

@@ -17,6 +17,24 @@
       "revId": "15eb11e6dc2c071b3c781889e680ceb513c4c8c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_6543066a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-10T14:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fba1038_4fa32d9a",
+      "revId": "15eb11e6dc2c071b3c781889e680ceb513c4c8c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff74f80c_e5c8d6a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-10T19:08:06Z",
+      "side": 1,
+      "message": "nit: s/issue/change/? (I think \u0027issue\u0027 is a rietveld-ism)",
+      "range": {
+        "startLine": 41,
+        "startChar": 54,
+        "endLine": 41,
+        "endChar": 59
+      },
+      "revId": "90bab968bd2ce51cd65245795aaeb088f34f739e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

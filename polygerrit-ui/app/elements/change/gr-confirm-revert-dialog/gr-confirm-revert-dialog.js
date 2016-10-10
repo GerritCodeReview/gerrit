@@ -38,17 +38,23 @@
       var originalTitle = message.split('\n')[0];
       var revertTitle = 'Revert "' + originalTitle + '"';
       if (!commitHash) {
+<<<<<<< HEAD
         alert('Unable to find the commit hash of this issue.');
+        return;
+      }
+      var revertCommitText = 'This reverts commit ' + commitHash + '.';
+=======
+        alert('Unable to find the commit hash of this change.');
         return;
       }
       var revertCommitText = 'This reverts commit ' + commitHash + '.';
       // Add '> ' in front of the original commit text.
       var originalCommitText = message.replace(/^/gm, '> ');
+>>>>>>> 95b96f8... Use commit hash instead of Change-ID in the revert message
 
       this.message = revertTitle + '\n\n' +
                      revertCommitText + '\n\n' +
-                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original change\'s description:\n' + originalCommitText;
+                     'Reason for revert: <INSERT REASONING HERE>\n';
     },
 
     _handleConfirmTap: function(e) {

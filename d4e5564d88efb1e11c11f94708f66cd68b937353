@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_cb48758a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T16:36:23Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me where a bug would be here.",
+      "parentUuid": "ff74f80c_e59c560e",
+      "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff74f80c_055df24e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-10T03:15:52Z",
       "side": 1,
       "message": "This breaks Polymer’s encapsulation model and won’t work in Shadow DOM.\n\nThat being said, I think we can go forward with this if a bug is filed to track it.",
+      "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_ab3d29ea",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T16:36:23Z",
+      "side": 1,
+      "message": "Seems to me that it only breaks the encapsulation model if this object is queried-for from the document, but perhaps not if it\u0027s passed around by GR-CHANGE-VIEW. How will plugins get a handle on this?",
+      "parentUuid": "ff74f80c_055df24e",
       "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

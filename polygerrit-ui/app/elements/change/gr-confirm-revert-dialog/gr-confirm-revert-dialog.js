@@ -38,17 +38,14 @@
       var originalTitle = message.split('\n')[0];
       var revertTitle = 'Revert "' + originalTitle + '"';
       if (!commitHash) {
-        alert('Unable to find the commit hash of this issue.');
+        alert('Unable to find the commit hash of this change.');
         return;
       }
       var revertCommitText = 'This reverts commit ' + commitHash + '.';
-      // Add '> ' in front of the original commit text.
-      var originalCommitText = message.replace(/^/gm, '> ');
 
       this.message = revertTitle + '\n\n' +
                      revertCommitText + '\n\n' +
-                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original change\'s description:\n' + originalCommitText;
+                     'Reason for revert: <INSERT REASONING HERE>\n';
     },
 
     _handleConfirmTap: function(e) {

@@ -103,21 +103,23 @@ limitations under the License.
     });
 
     test('revert event', function(done) {
-      function appendToRevertMsg(c, msg) {
-        return msg + '\ninfo';
+      function appendToRevertMsg(c, revertMsg, originalMsg) {
+        return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
       }
       done();
 
-      assert.equal(element.modifyRevertMsg(null, 'test'), 'test');
+      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'), 'test');
       assert.equal(errorStub.callCount, 0);
 
       plugin.on(element.EventType.REVERT, throwErrFn);
       plugin.on(element.EventType.REVERT, appendToRevertMsg);
-      assert.equal(element.modifyRevertMsg(null, 'test'), 'test\ninfo');
+      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
+                   'test\n> origTest\ninfo');
       assert.isTrue(errorStub.calledOnce);
 
       plugin.on(element.EventType.REVERT, appendToRevertMsg);
-      assert.equal(element.modifyRevertMsg(null, 'test'), 'test\ninfo\ninfo');
+      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
+                   'test\n> origTest\ninfo\n> origTest\ninfo');
       assert.isTrue(errorStub.calledTwice);
     });
 

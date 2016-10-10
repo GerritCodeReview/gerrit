@@ -48,14 +48,12 @@ limitations under the License.
 
     test('single line', function() {
       assert.isNotOk(element.message);
-      element.populateRevertMessage('one line commit\n\nChange-Id: abcdefg\n',
-                                    'abcd123');
+      element.populateRevertMessage(
+          'one line commit\n\nChange-Id: abcdefg\n',
+          'abcd123');
       var expected = 'Revert "one line commit"\n\n' +
                      'This reverts commit abcd123.\n\n' +
-                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original change\'s description:\n' +
-                     '> one line commit\n> \n' +
-                     '> Change-Id: abcdefg\n> ';
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
 
@@ -66,10 +64,7 @@ limitations under the License.
           'abcd123');
       var expected = 'Revert "many lines"\n\n' +
                      'This reverts commit abcd123.\n\n' +
-                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original change\'s description:\n' +
-                     '> many lines\n> commit\n> \n> message\n> \n' +
-                     '> Change-Id: abcdefg\n> ';
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
 
@@ -80,11 +75,7 @@ limitations under the License.
           'abcd123');
       var expected = 'Revert "much lines"\n\n' +
                      'This reverts commit abcd123.\n\n' +
-                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original change\'s description:\n' +
-                     '> much lines\n> very\n> \n> commit\n> \n' +
-                     '> Bug: Issue 42\n' +
-                     '> Change-Id: abcdefg\n> ';
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
 
@@ -95,10 +86,7 @@ limitations under the License.
           'abcd123');
       var expected = 'Revert "Revert "one line commit""\n\n' +
                      'This reverts commit abcd123.\n\n' +
-                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
-                     'Original change\'s description:\n' +
-                     '> Revert "one line commit"\n> \n' +
-                     '> Change-Id: abcdefg\n> ';
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
   });

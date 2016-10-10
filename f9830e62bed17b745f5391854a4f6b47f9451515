@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_abc2c9fc",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:43:08Z",
+      "side": 1,
+      "message": "There will be more behavior tests. I would break this out into its own array  so that it looks as clean as the other lines.",
+      "range": {
+        "startLine": 96,
+        "startChar": 5,
+        "endLine": 96,
+        "endChar": 18
+      },
+      "revId": "f9830e62bed17b745f5391854a4f6b47f9451515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

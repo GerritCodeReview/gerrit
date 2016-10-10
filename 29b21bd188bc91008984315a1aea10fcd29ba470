@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff74f80c_656ce6fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:31:34Z",
+      "side": 1,
+      "message": "Typically it’s good for readability to also put the units as a prefix. So if this is in pixels, then `MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX`",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "29b21bd188bc91008984315a1aea10fcd29ba470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_857002cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:31:34Z",
+      "side": 1,
+      "message": "This comment should be updated.",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 40
+      },
+      "revId": "29b21bd188bc91008984315a1aea10fcd29ba470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_a56dfef9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:31:34Z",
+      "side": 1,
+      "message": "Remove extra line",
+      "revId": "29b21bd188bc91008984315a1aea10fcd29ba470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

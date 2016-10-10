@@ -462,25 +462,41 @@ limitations under the License.
       locationStub.restore();
     });
 
-    test('revert dialog opened with revert param', function() {
-      var urlParamStub = sinon.stub(element, '_getUrlParameter');
-
-      var showRevertDialogCalled;
-      sinon.stub(element.$.actions, 'showRevertDialog', function() {
-        showRevertDialogCalled = true;
+    test('revert dialog opened with revert param', function(done) {
+      sinon.stub(element.$.restAPI, 'getLoggedIn', function() {
+        return Promise.resolve(true);
       });
 
-      urlParamStub.returns(true);
-      showRevertDialogCalled = false;
-      element._maybeShowRevertDialog();
-      assert.isTrue(showRevertDialogCalled);
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      element._change = {
+          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+          revisions: {
+            rev1: {_number: 1},
+          },
+          current_revision: 'rev1',
+          status: element.ChangeStatus.MERGED,
+          labels: {},
+          actions: {},
+      };
 
-      urlParamStub.returns(false);
-      showRevertDialogCalled = false;
-      element._maybeShowRevertDialog();
-      assert.isFalse(showRevertDialogCalled);
+      var urlParamStub = sinon.stub(element, '_getUrlParameter',
+          function(param) {
+            assert.equal(param, 'revert');
+            urlParamStub.restore();
+            element.$.restAPI.getLoggedIn.restore();
+            return param;
+          });
 
-      urlParamStub.restore();
+      var revertDialogStub = sinon.stub(element.$.actions, 'showRevertDialog',
+          function() {
+            revertDialogStub.restore();
+            done();
+          });
+
+      element._maybeShowRevertDialog();
     });
 
     suite('scroll related tests', function() {

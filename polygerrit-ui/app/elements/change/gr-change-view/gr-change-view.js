@@ -415,9 +415,15 @@
     },
 
     _maybeShowRevertDialog: function() {
-      if (!!this._getUrlParameter('revert')) {
-        this.$.actions.showRevertDialog();
-      }
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
+          // Do not display dialog if not logged-in or the change is not merged.
+          return;
+        }
+        if (!!this._getUrlParameter('revert')) {
+          this.$.actions.showRevertDialog();
+        }
+      }.bind(this));
     },
 
     _maybeShowReplyDialog: function() {

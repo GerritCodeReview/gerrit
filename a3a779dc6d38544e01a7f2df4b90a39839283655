@@ -16,6 +16,24 @@
       "revId": "a3a779dc6d38544e01a7f2df4b90a39839283655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_45252a69",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-10T21:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff74f80c_051b3234",
+      "revId": "a3a779dc6d38544e01a7f2df4b90a39839283655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

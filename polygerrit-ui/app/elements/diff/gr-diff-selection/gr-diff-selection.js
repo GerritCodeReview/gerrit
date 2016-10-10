@@ -27,6 +27,8 @@
   Polymer({
     is: 'gr-diff-selection',
 
+    behaviors: [Gerrit.ElementBehavior],
+
     properties: {
       diff: Object,
       _cachedDiffBuilder: Object,
@@ -90,32 +92,14 @@
       return Polymer.dom(e).rootTarget;
     },
 
-    /**
-     * Utility function to determine whether an element is a descendant of
-     * another element with the particular className.
-     *
-     * @param {!Element} element
-     * @param {!string} className
-     * @return {boolean}
-     */
-    _elementDescendedFromClass: function(element, className) {
-      while (!element.classList.contains(className)) {
-        if (!element.parentElement ||
-            element === this.diffBuilder.diffElement) {
-          return false;
-        }
-        element = element.parentElement;
-      }
-      return true;
-    },
-
     _handleCopy: function(e) {
       var commentSelected = false;
       var target = this._getCopyEventTarget(e);
       if (this.classList.contains(SelectionClass.COMMENT)) {
         commentSelected = true;
       } else {
-        if (!this._elementDescendedFromClass(target, 'content')) {
+        if (!this.elementDescendedFromClass(target, 'content',
+            this.diffBuilder.diffElement)) {
           return;
         }
       }
@@ -222,8 +206,8 @@
       if (range.startContainer === range.endContainer) {
         return;
       }
-      if (this._elementDescendedFromClass(range.commonAncestorContainer,
-          'message')) {
+      if (this.elementDescendedFromClass(range.commonAncestorContainer,
+          'message', this.diffBuilder.diffElement)) {
         return;
       }
       // Query the diffElement for comments.

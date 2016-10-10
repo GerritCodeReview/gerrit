@@ -19,6 +19,8 @@
   Polymer({
     is: 'gr-autocomplete',
 
+    behaviors: [Gerrit.ElementBehavior],
+
     /**
      * Fired when a value is chosen.
      *
@@ -118,11 +120,11 @@
     },
 
     attached: function() {
-      this.listen(document.body, 'click', '_handleBodyClick');
+      this.listen(document.body, 'tap', '_handleBodyTap');
     },
 
     detached: function() {
-      this.unlisten(document.body, 'click', '_handleBodyClick');
+      this.unlisten(document.body, 'tap', '_handleBodyTap');
     },
 
     get focusStart() {
@@ -233,17 +235,14 @@
       }
     },
 
-    _handleBodyClick: function(e) {
-      var eventPath = Polymer.dom(e).path;
-      for (var i = 0; i < eventPath.length; i++) {
-        if (eventPath[i] === this) {
-          return;
-        }
-      }
+    _handleBodyTap: function(e) {
+      var el = Polymer.dom(e).rootTarget;
+      if (this.elementDescendedFromClass(el, 'gr-autocomplete')) { return; }
       this._focused = false;
     },
 
     _handleSuggestionTap: function(e) {
+      e.stopPropagation();
       this.$.cursor.setCursor(e.target);
       this._commit();
       this.focus();

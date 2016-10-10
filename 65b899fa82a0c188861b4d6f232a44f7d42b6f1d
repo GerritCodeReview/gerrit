@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_a59c1ebf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T17:50:41Z",
+      "side": 1,
+      "message": "I can easily. Would something like\n\n    log.warn(String.format(\n        \"Failed to read file %s on side %d\",\n        comment.filename, side), e);\n\nbe appropriate?\n\nIf so, I can add them to each exception handler.",
+      "parentUuid": "bfdd2060_eb00d111",
+      "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd2060_cb1ab586",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-10T17:17:00Z",
       "side": 1,
       "message": "While you\u0027re in here, mind fixing this long line?",
+      "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_6b150149",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T17:50:41Z",
+      "side": 1,
+      "message": "Not at all. Done.",
+      "parentUuid": "bfdd2060_cb1ab586",
       "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bfdd2060_4b124563",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T17:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfdd2060_ab0f6946",
+      "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd2060_6b0aa137",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-10-10T17:17:00Z",
       "side": 1,
       "message": "Side can be \u003c0 to indicate a comment on the -Nth parent of a merge commit. Do we handle those correctly in emails currently? Maybe we need a test for that case.",
+      "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_2b1ff96a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-10T17:50:41Z",
+      "side": 1,
+      "message": "Good to know! Considering the simplicity of the `switch` in [1], it\u0027s very likely the source lines for such comments do not get included in emails.\n\nI have rewritten this to use the default when `NoSuchEntityException` is thrown.\n\nI can file a bug, although, if assigned to me, I\u0027d like to fix it in a separate change considering the relation chain on this one.\n\nHow does one file a comment on an -Nth parent?\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java#132",
+      "parentUuid": "bfdd2060_6b0aa137",
       "revId": "65b899fa82a0c188861b4d6f232a44f7d42b6f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

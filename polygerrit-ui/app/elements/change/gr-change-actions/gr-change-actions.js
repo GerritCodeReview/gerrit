@@ -283,7 +283,7 @@
 
     _modifyRevertMsg: function() {
       return this.$.jsAPI.modifyRevertMsg(this.change,
-          this.$.confirmRevertDialog.message);
+          this.$.confirmRevertDialog.message, this.commitMessage);
     },
 
     showRevertDialog: function() {

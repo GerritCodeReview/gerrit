@@ -22,6 +22,52 @@
       "revId": "9b455bec418b6de2d9858441b6633aa02983d2bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fa38c16_eee3ffc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummary.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-10-10T14:52:23Z",
+      "side": 1,
+      "message": "At this point the output is already closed. The try-with-resources closed the DeflaterOutputStream which closed the wrapped ObjectOutputStream.\n\nDo this before using DeflaterOutputStream?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 37
+      },
+      "revId": "9b455bec418b6de2d9858441b6633aa02983d2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fba1038_8feeb5ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummary.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-10-10T14:52:23Z",
+      "side": 1,
+      "message": "Same here... the input is already closed. The line 73 fails with IOException.\n\nI am not sure about the consequences of closing the ObjectInputStream inside the readObject method... but, if we do it, it should likely be the very last statement in this method.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "9b455bec418b6de2d9858441b6633aa02983d2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

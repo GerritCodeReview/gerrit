@@ -37,6 +37,10 @@
         type: Boolean,
         computed: '_computeShowReviewersByState(serverConfig)',
       },
+      _showLabelStatus: {
+        type: Boolean,
+        computed: '_computeShowLabelStatus(change)',
+      },
     },
 
     behaviors: [
@@ -142,6 +146,16 @@
           }
         }
       }.bind(this));
+    },
+
+    _computeShowLabelStatus: function(change) {
+      var isNewChange = change.status === this.ChangeStatus.NEW;
+      var hasLabels = Object.keys(change.labels).length > 0;
+      return isNewChange && hasLabels;
+    },
+
+    _computeLabelStatus: function(labels) {
+      return this.submitStatusString(labels);
     },
   });
 })();

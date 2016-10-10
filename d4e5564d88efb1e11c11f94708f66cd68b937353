@@ -75,6 +75,24 @@
       "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_6b586153",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T16:39:59Z",
+      "side": 1,
+      "message": "Providing the insertion point via a function in the public JS API would be the simplest method.",
+      "parentUuid": "bfdd2060_ab3d29ea",
+      "revId": "d4e5564d88efb1e11c11f94708f66cd68b937353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

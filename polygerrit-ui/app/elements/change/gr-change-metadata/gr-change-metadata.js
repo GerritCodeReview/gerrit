@@ -37,6 +37,10 @@
         type: Boolean,
         computed: '_computeShowReviewersByState(serverConfig)',
       },
+      _showLabelStatus: {
+        type: Boolean,
+        computed: '_computeShowLabelStatus(change)',
+      },
     },
 
     behaviors: [
@@ -142,6 +146,31 @@
           }
         }
       }.bind(this));
+    },
+
+    _computeShowLabelStatus: function(change) {
+      var isNewChange = change.status === this.ChangeStatus.NEW;
+      var hasLabels = Object.keys(change.labels).length > 0;
+      return isNewChange && hasLabels;
+    },
+
+    _computeSubmitStatusString: function(labels) {
+      var missingLabels = [];
+      var output = '';
+      for (var label in labels) {
+        var obj = labels[label];
+        if (!obj.optional && !obj.approved) {
+          missingLabels.push(label);
+        }
+      }
+      if (missingLabels.length) {
+        output += 'Needs ';
+        output += missingLabels.join(' and ');
+        output += missingLabels.length > 1 ? ' Labels' : ' Label';
+      } else {
+        output = 'Ready to Submit';
+      }
+      return output;
     },
   });
 })();

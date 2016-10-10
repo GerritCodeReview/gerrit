@@ -78,6 +78,24 @@ limitations under the License.
       assert.isTrue(hasCc());
     });
 
+    test('computes submit status', function() {
+      var labels = {};
+      var submitStatusString = element._computeSubmitStatusString;
+      assert.equal(submitStatusString(labels), 'Ready to Submit');
+      labels = {
+        test: {},
+      };
+      assert.equal(submitStatusString(labels), 'Needs test Label');
+      labels.test.approved = true;
+      assert.equal(submitStatusString(labels), 'Ready to Submit');
+      labels.test.approved = false;
+      labels.test.optional = true;
+      assert.equal(submitStatusString(labels), 'Ready to Submit');
+      labels.test.optional = false;
+      labels.test2 = {};
+      assert.equal(submitStatusString(labels), 'Needs test and test2 Labels');
+    });
+
     suite('remove reviewer votes', function() {
       var sandbox;
       setup(function() {

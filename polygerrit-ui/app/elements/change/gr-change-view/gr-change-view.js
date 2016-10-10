@@ -414,10 +414,26 @@
       return null;
     },
 
+    // rmistry
     _maybeShowRevertDialog: function() {
-      if (!!this._getUrlParameter('revert')) {
-        this.$.actions.showRevertDialog();
-      }
+      this._getLoggedIn().then(function(loggedIn) {
+        console.log('LOGGEDIN: ' + loggedIn);
+        console.log(this._change.status !== this.ChangeStatus.MERGED);
+        console.log(!!this._getUrlParameter('revert'));
+        console.log(this._change.change_id);
+        console.log(this._getUrlParameter);
+        console.log(this._getUrlParameter('revert'));
+
+
+        if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
+          // Do not display dialog if not logged-in or the change is not merged.
+          return;
+        }
+        if (!!this._getUrlParameter('revert')) {
+          console.log('SHOW SHOW SHOW SHOW')
+          this.$.actions.showRevertDialog();
+        }
+      }.bind(this));
     },
 
     _maybeShowReplyDialog: function() {
@@ -450,6 +466,7 @@
           this._patchRange.basePatchNum || 'PARENT');
       this.set('_patchRange.patchNum',
           this._patchRange.patchNum ||
+          // TODO(rmistry): Update this link once skbug/5815 is resolved.
               this._computeLatestPatchNum(this._allPatchSets));
 
       var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';

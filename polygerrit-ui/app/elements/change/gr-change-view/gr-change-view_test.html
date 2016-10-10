@@ -462,25 +462,57 @@ limitations under the License.
       locationStub.restore();
     });
 
-    test('revert dialog opened with revert param', function() {
-      var urlParamStub = sinon.stub(element, '_getUrlParameter');
+    test('revert dialog opened with revert param', function(done) {
+      var loggedInStub = sinon.stub(element, '_getLoggedIn', 
+          function() {
+            done();
+            return Promise.resolve(true); });
+      var urlParamStub = sinon.stub(element, '_getUrlParameter',
+          function(param) {return true; });
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      element._change = {
+          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+          revisions: {
+            rev1: {_number: 1},
+          },
+          current_revision: 'rev1',
+          status: element.ChangeStatus.MERGED,
+          labels: {},
+          actions: {},
+      };
+      element._getUrlParameter = function(param) {return 'hi';};
 
+      // var loggedInStub = sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
       var showRevertDialogCalled;
-      sinon.stub(element.$.actions, 'showRevertDialog', function() {
+      // Spies
+      // var openSpy = sinon.spy(element.$.actions, 'showRevertDialog');
+      // Mocks
+     //  var mock = sinon.mock(element.$.actions);
+      // Stubs.
+      var revertDialogStub = sinon.stub(element.$.actions, 'showRevertDialog', function() {
         showRevertDialogCalled = true;
+        console.log(showRevertDialogCalled);
       });
+      // mock.expects("showRevertDialog").returns(true);
 
-      urlParamStub.returns(true);
+      // urlParamStub.returns(true);
       showRevertDialogCalled = false;
+      flushAsynchronousOperations();
       element._maybeShowRevertDialog();
-      assert.isTrue(showRevertDialogCalled);
+      flushAsynchronousOperations();
+      // sinon.assert.calledOnce(element.$.actions.showRevertDialog);
+      console.log('TESTING' + showRevertDialogCalled);
 
-      urlParamStub.returns(false);
-      showRevertDialogCalled = false;
-      element._maybeShowRevertDialog();
-      assert.isFalse(showRevertDialogCalled);
-
+      // mock.verify();
+      // mock.restore();
       urlParamStub.restore();
+      loggedInStub.restore();
+      revertDialogStub.restore();
+
+      
     });
 
     suite('scroll related tests', function() {

@@ -92,7 +92,7 @@ class UrlModule extends ServletModule {
     serve("/starred").with(query("is:starred"));
 
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
-    serveRegex("^/register/?$").with(screen(PageLinks.REGISTER + "/"));
+    serveRegex("^/register(/.*)?$").with(registerScreen());
     serveRegex("^/([1-9][0-9]*)/?$").with(directChangeById());
     serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
@@ -241,6 +241,18 @@ class UrlModule extends ServletModule {
       }
     }).in(SINGLETON);
     return srv;
+  }
+
+  private Key<HttpServlet> registerScreen() {
+    return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      protected void doGet(final HttpServletRequest req,
+          final HttpServletResponse rsp) throws IOException {
+        toGerrit("/register" + req.getPathInfo(), req, rsp);
+      }
+    });
   }
 
   static void toGerrit(final String target, final HttpServletRequest req,

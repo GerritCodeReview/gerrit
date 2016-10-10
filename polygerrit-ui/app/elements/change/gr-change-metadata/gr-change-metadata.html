@@ -59,6 +59,9 @@ limitations under the License.
       .notApproved {
         background-color: #ffd4d4;
       }
+      .labelStatus {
+        max-width: 9em;
+      }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         :host {
           display: table;
@@ -171,6 +174,14 @@ limitations under the License.
               </span>
             </div>
           </template>
+        </span>
+      </section>
+    </template>
+    <template is="dom-if" if="[[_showLabelStatus]]">
+      <section>
+        <span class="title">Label Status</span>
+        <span class="value labelStatus">
+          [[_computeSubmitStatus(change.labels)]]
         </span>
       </section>
     </template>

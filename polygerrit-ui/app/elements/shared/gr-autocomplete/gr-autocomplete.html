@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<link rel="import" href="../../../behaviors/gr-element-behavior/gr-element-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
@@ -47,32 +48,34 @@ limitations under the License.
         background-color: #eee;
       }
     </style>
-    <input
-        id="input"
-        class$="[[_computeClass(borderless)]]"
-        is="iron-input"
-        disabled$="[[disabled]]"
-        bind-value="{{text}}"
-        placeholder="[[placeholder]]"
-        on-keydown="_handleInputKeydown"
-        on-focus="_onInputFocus"
-        autocomplete="off" />
-    <div
-        id="suggestions"
-        hidden$="[[_computeSuggestionsHidden(_suggestions, _focused)]]">
-      <ul>
-        <template is="dom-repeat" items="[[_suggestions]]">
-          <li
-              data-index$="[[index]]"
-              on-tap="_handleSuggestionTap">[[item.name]]</li>
-        </template>
-      </ul>
+    <div class="gr-autocomplete">
+      <input
+          id="input"
+          class$="[[_computeClass(borderless)]]"
+          is="iron-input"
+          disabled$="[[disabled]]"
+          bind-value="{{text}}"
+          placeholder="[[placeholder]]"
+          on-keydown="_handleInputKeydown"
+          on-focus="_onInputFocus"
+          autocomplete="off" />
+      <div
+          id="suggestions"
+          hidden$="[[_computeSuggestionsHidden(_suggestions, _focused)]]">
+        <ul>
+          <template is="dom-repeat" items="[[_suggestions]]">
+            <li
+                data-index$="[[index]]"
+                on-tap="_handleSuggestionTap">[[item.name]]</li>
+          </template>
+        </ul>
+      </div>
+      <gr-cursor-manager
+          id="cursor"
+          index="{{_index}}"
+          cursor-target-class="selected"
+          stops="[[_getSuggestionElems(_suggestions)]]"></gr-cursor-manager>
     </div>
-    <gr-cursor-manager
-        id="cursor"
-        index="{{_index}}"
-        cursor-target-class="selected"
-        stops="[[_getSuggestionElems(_suggestions)]]"></gr-cursor-manager>
   </template>
   <script src="gr-autocomplete.js"></script>
 </dom-module>

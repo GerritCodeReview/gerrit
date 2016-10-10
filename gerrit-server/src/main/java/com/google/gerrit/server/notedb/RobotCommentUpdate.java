@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.robotCommentsRef;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -96,12 +95,6 @@ public class RobotCommentUpdate extends AbstractChangeUpdate{
   public void putComment(RobotComment c) {
     verifyComment(c);
     put.add(c);
-  }
-
-  private void verifyComment(RobotComment comment) {
-    checkArgument(comment.author.getId().equals(accountId),
-        "The author for the following comment does not match the author of"
-        + " this RobotCommentUpdate (%s): %s", accountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,

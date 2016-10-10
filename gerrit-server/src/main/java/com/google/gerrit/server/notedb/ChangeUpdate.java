@@ -370,14 +370,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return robotCommentUpdate;
   }
 
-  private void verifyComment(Comment c) {
-    checkArgument(c.revId != null, "RevId required for comment: %s", c);
-    checkArgument(c.author.getId().equals(getAccountId()),
-        "The author for the following comment does not match the author of"
-        + " this ChangeUpdate (%s): %s", getAccountId(), c);
-
-  }
-
   public void setTopic(String topic) {
     this.topic = Strings.nullToEmpty(topic);
   }

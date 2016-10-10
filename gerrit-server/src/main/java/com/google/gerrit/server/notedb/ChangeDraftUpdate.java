@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
@@ -127,12 +126,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   public void deleteComment(String revId, Comment.Key key) {
     delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
-  }
-
-  private void verifyComment(Comment comment) {
-    checkArgument(comment.author.getId().equals(accountId),
-        "The author for the following comment does not match the author of"
-        + " this ChangeDraftUpdate (%s): %s", accountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,

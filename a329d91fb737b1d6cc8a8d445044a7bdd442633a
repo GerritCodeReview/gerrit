@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1475870389 -0400\nnonce AKOpmBWOzhaPURhDbUcqRP4jj4bo0D7rhoQz1a9dV04/BYb0paKFO1jTKB+B7p6r7UjPa8Ketsss\n\n0000000000000000000000000000000000000000 229a9c56e09949cae785ab1efc0868b9997c0434 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX9/61AAoJEF/XxZqaEoiM09UP/jeuuSXMrfZmAvN6v58Jewbi\nhLd5zDeTyVMVYR93ujdtu4Dh4l8sJLxExeb5qUtE+CDB1P5eSeJ6+iB1ODLVU9Nc\nHgxMDQg78hI/9+kzVydYUPbpkjEVT4Bg6sTpk7sLzW0ApZJH/OUh2n3XNRa6Yp1l\nfijUa4dLq/JKO3KIO9UtFLy54mbC3TXs9N3KjY2AKAtP+s1mbflTmHEduK2qsHyt\n6N7aQmwTSBtCkrX47cr76fu8xXCJUCq+Z5Wg7PB+nxosVecqUaxO7aiuINBOdbN5\ng9hqPcbnfoXdu5oJnO4wswca08N72HvwNyw/he0sd/U+j/+B6QPfxPoMd1U388J1\nFQsxJ+KVzS11y+TUsvntItg1CBCgc5DwhVYo81tufjlLhzTsvHiYO5Gl9qxs/p6P\neCiV9GVchdYTuHrDnEtyCC82tpURkDVdVwhrG2ZdomYkNlDPXwlrkzJTKaQ0IFnf\nI70p6kj2cPyCVCN/jr95JQkBgewclaE5rm8BTciCEgMT4FFE0MJ94Gdqxp6pVo4w\nlyqTF/WY6Yqzve56zFoRItrDFbJGIDgcqhF1tTvRG6IC6KVB17Yc2BGFnvVKdWDo\nN8SLaz29/8HT9JRAW3zW8++xnCcyXi0OJdwt4t7B1yoIVqv/XUyc6E8GIQjvCEoq\nHmCICbdzKzrSUqN9BQYc\n\u003dgnfc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fba1038_ef7ae110",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/FinalUpdatesEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-10-10T07:33:13Z",
+      "side": 1,
+      "message": "Didn\u0027t think about that, then we could implement \"GetPastAssignees\" for reviewdb as well.",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 69
+      },
+      "revId": "a329d91fb737b1d6cc8a8d445044a7bdd442633a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

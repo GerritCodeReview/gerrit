@@ -173,6 +173,29 @@
     },
     {
       "key": {
+        "uuid": "ff74f80c_c57afaac",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:47:14Z",
+      "side": 1,
+      "message": "Use Object.hasOwnProperty. Best practice since ClosedChangeStatus should “own” the property directly (not have it present up its prototype chain).",
+      "range": {
+        "startLine": 275,
+        "startChar": 24,
+        "endLine": 275,
+        "endChar": 26
+      },
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f7a64f7_688043fd",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -208,6 +231,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "5f7a64f7_688043fd",
+      "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdd2060_6bcd012c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-10T03:47:14Z",
+      "side": 1,
+      "message": "It looks like you’ve addressed comments but not uploaded a new patchset?",
+      "parentUuid": "ff74f80c_45928a4d",
       "revId": "49cc420001208a4ee0df5dc8fe099cbaa7e8d1dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

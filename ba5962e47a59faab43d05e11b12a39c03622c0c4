@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1475136225 +0200\nnonce AKOpmBX9xzUTcD6cjrprJsZLicG+DJRuhkw0d+1Brw1EMyMdqdiBbOoN0lU64MhV3g2Xxt+aijcw\n\n0000000000000000000000000000000000000000 ba5962e47a59faab43d05e11b12a39c03622c0c4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX7MrhAAoJEFG1/Zeg0O9RNDoIAJoqitOjO+hmSooyKEXtM3YW\nsy0YVmtfghH537aTQE9bU5gZo1Fj4YLOH8zl9C4JgCeBzgcN/K6sjhcx2GHyL0Dy\nyI+UK9+220VWIXXZ+4osEpAAmW0XQtLFyePS22CxXH/1vjiRv+0/OTuZkVN+1xaO\nzBsyWJRtaqu4CvoOvZ3vIthgLDk7nVJcx4ldMCo/9WTQctFqGx5iG1ZQBbeQQJ7o\n3a2p+TP7w7qkuvQunO8jYwCZTXaPRZ2+kMH9rkA3U+LLSRVaIc+vMsrwOaKQi2uU\nO/S08WKe9yj4A/bpFeQ+sF8Tk7CRsgB42anZliFItK0AwiY0pTaD2zmjq1rpRUw\u003d\n\u003d/qfh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_8b994d2a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-10T14:43:40Z",
+      "side": 1,
+      "message": "JSON objects are by definition unordered, and you might run into problems with HashMap iteration order. I think you can just simplify this whole block to assertThat(c.properties).isEqualTo(expected.properties)",
+      "revId": "ba5962e47a59faab43d05e11b12a39c03622c0c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

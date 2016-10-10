@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1476115348 -0400\nnonce AKOpmBUls0SsVz1EsH4k0qfAvHS7XByb5xl/Tiq1dzFW8asN99WmGURgeL3OW6YQkCvUxKbelVRu\n\n0000000000000000000000000000000000000000 c230ccccb154b1219276bc727ced4aacb38941ad refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX+7uUAAoJEF/XxZqaEoiMrBsQALmnmR8YUIL+5zO3hm2MbZb6\nVU6aIyThjWmCC02SSmklH1p7qEMJEwm0bk/Du0+HUJq1VGzDnyyicjygThb2Lyfx\nP5zT9+kxmgcwnNKu2MTjSQbWBHkW9OTOk/9oO6VDCd2toLJEIkA8Pu3cYeHGp4lV\nz2gjV/kll80/+ft+HBceG64xkmNVPon1k+ri7P81GNj9cgslckBhnCX5g7KMuTWT\n/9eHprfT31xHxRGBPCZ1Uwy+f1PzHGtIOiLFnp9gybjC4+m/L7gHW7FsgySxWMtU\n6xUlATRhI5N04yqF9k7ukQmzMDpT8qyjvK7alFh9Kjymp1h3DSaz+lAFazNTV5AF\nPr7nRYAfR/sDvy/3BIH8RpXQBUEfVTQxYZx1CsvPRSzBmc0mzH1nXypDRq8tB+4I\nb/4Xkn7d2xCnIBblO2l48kbORLSjacaSwM4/sYFFi+/pWTv4vHfAte7JY3rSCfNn\nBikRm6dAN6SJD1oA0pYeKsTp/EiVXaIrKqBj5z80jt7nNhu2FsKMYQ9jhoNO9MYS\nD+zkhneiCNhglZTX7XdemZZZfsvoTYAjPCIvUFg+5v1hQztaI/P9mBMYeJdAuSHD\nUVAmPGXV+gfLPKPPXDZ60Oxu5DJgN5Kl/Oc1fuk7Fc8m+m0hLdBeuP+YC3M2u/nI\nMGgDnwbg+YSvd1HJRleU\n\u003d47lq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff74f80c_c5359add",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/StatusChangeEvent.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-10T16:16:34Z",
+      "side": 1,
+      "message": "This line is the only reason the latest PS is not a trivial rebase.",
+      "revId": "c230ccccb154b1219276bc727ced4aacb38941ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -62,7 +62,7 @@
         // In certain login flows the server may redirect to a hash without
         // a leading slash, which page.js doesn't handle correctly.
         if (data.hash[0] !== '/') {
-          data.hash = '/' + data.hash
+          data.hash = '/' + data.hash;
         }
         page.redirect(data.hash);
         return;

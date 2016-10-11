@@ -123,20 +123,27 @@
       if (message._index === undefined || !comments || !this.messages) {
         return [];
       }
-      var index = message._index;
       var messages = this.messages || [];
+      var index = message._index;
+      var authorId = message.author._account_id;
+      var mDate = util.parseDate(message.date).getTime();
+      // NB: Messages array has oldest messages first.
+      var nextMessage = messages.slice(0, index).reverse().find(
+        function(message) {
+          return message.author._account_id === authorId;
+        });
+      var nextMDate = nextMessage && util.parseDate(nextMessage.date).getTime();
       var msgComments = {};
-      var mDate = util.parseDate(message.date);
-      var nextMDate;
-      if (index < messages.length - 1) {
-        nextMDate = util.parseDate(messages[index + 1].date);
-      }
       for (var file in comments) {
         var fileComments = comments[file];
         for (var i = 0; i < fileComments.length; i++) {
-          var cDate = util.parseDate(fileComments[i].updated);
-          if (cDate >= mDate) {
-            if (nextMDate && cDate >= nextMDate) {
+          if (fileComments[i].author._account_id !== authorId) {
+            continue;
+          }
+          var cDate = util.parseDate(fileComments[i].updated).getTime();
+          if (cDate <= mDate) {
+            // Skip comments that can be added to the next message.
+            if (nextMessage && cDate <= nextMDate) {
               continue;
             }
             msgComments[file] = msgComments[file] || [];

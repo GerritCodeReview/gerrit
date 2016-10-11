@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ff8dd8b6_bd191fec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T14:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfdd2060_ab852967",
+      "revId": "a27ac0b4732bf0d0f54c6b647a6fe2440f60bab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff74f80c_65fce69c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2016-10-10T22:11:47Z",
       "side": 1,
       "message": "nit: unnecessary blank line",
+      "revId": "a27ac0b4732bf0d0f54c6b647a6fe2440f60bab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_dd1eebd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T14:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff74f80c_65fce69c",
       "revId": "a27ac0b4732bf0d0f54c6b647a6fe2440f60bab3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

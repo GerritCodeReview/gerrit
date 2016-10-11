@@ -85,6 +85,8 @@ limitations under the License.
         sandbox.stub(element, '_computeValueTooltip').returns('');
         sandbox.stub(element, '_computeTopicReadOnly').returns(true);
         element.change = {
+          change_id: 'the id',
+          topic: 'the topic',
           status: 'NEW',
           submit_type: 'CHERRY_PICK',
           labels: {
@@ -144,6 +146,13 @@ limitations under the License.
           spliceStub.restore();
           done();
         });
+      });
+
+      test('changing topic calls setChangeTopic', function() {
+        var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic',
+            function() {});
+        element._handleTopicChanged({}, 'the new topic');
+        assert.isTrue(topicStub.calledWith('the id', 'the new topic'));
       });
     });
   });

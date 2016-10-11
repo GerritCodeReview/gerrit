@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf9360d9_bbe4c79f",
+        "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-11T18:46:07Z",
+      "side": 1,
+      "message": "I think of \"parent\" as immediate ancestor. Consider naming this \"top\" or \"container\" or something.",
+      "range": {
+        "startLine": 28,
+        "startChar": 24,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "58432d809e9c8835b19e5e38ae61a5607013ad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_dbd993ea",
+        "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-11T18:46:07Z",
+      "side": 1,
+      "message": "I think isElementDescendedFromClass would be more clear.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "58432d809e9c8835b19e5e38ae61a5607013ad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

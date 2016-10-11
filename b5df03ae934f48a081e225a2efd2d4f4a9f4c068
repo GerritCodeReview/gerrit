@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf9360d9_3bca7715",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2407,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T18:28:40Z",
+      "side": 1,
+      "message": "Nit: indentation",
+      "revId": "b5df03ae934f48a081e225a2efd2d4f4a9f4c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_5bd743b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T18:28:40Z",
+      "side": 1,
+      "message": "The purpose of ReplaceOp is to create a new patch set of an existing change. I\u0027m having a hard time following why you would want to execute a ref update from ReplaceOp that\u0027s *not* just creating the patch set ref.\n\nIf a caller really needs to execute some other ref update that\u0027s otherwise unrelated to creating a new patch set, they should use a separate Op.",
+      "revId": "b5df03ae934f48a081e225a2efd2d4f4a9f4c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

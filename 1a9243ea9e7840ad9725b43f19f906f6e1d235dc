@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_fdc7270b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T18:28:40Z",
+      "side": 0,
+      "message": "Why this change? Shouldn\u0027t a caller already have the RequestScopePropagator available when the factory is called?",
+      "revId": "1a9243ea9e7840ad9725b43f19f906f6e1d235dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

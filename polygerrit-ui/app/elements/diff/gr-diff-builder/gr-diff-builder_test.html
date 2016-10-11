@@ -623,6 +623,21 @@ limitations under the License.
           done();
         });
       });
+
+      test('rendering normal-sized diff does not disable syntax', function() {
+        flush(function() {
+          assert.isTrue(element.$.syntaxLayer.enabled);
+        });
+      });
+
+      test('rendering large diff disables syntax', function() {
+        // Before it renders, set the first diff line to 500 '*' characters.
+        element.diff.content[0].a = new Array(501).join('*');
+
+        flush(function() {
+          assert.isFalse(element.$.syntaxLayer.enabled);
+        });
+      });
     });
 
     suite('mock-diff', function() {

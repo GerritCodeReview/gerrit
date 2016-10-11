@@ -58,6 +58,10 @@ limitations under the License.
         SYNTAX: 'Diff Syntax Render',
       };
 
+      // If any line of the diff is more than the character limit, then disable
+      // syntax highlighting for the entire file.
+      var SYNTAX_MAX_LINE_LENGTH = 500;
+
       Polymer({
         is: 'gr-diff-builder',
 
@@ -132,6 +136,11 @@ limitations under the License.
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
+
+            if (this._anyLineTooLong()) {
+              this.$.syntaxLayer.enabled = false;
+            }
+
             reporting.timeEnd(TimingLabel.CONTENT);
             reporting.time(TimingLabel.SYNTAX);
             this.$.syntaxLayer.process().then(function() {
@@ -382,6 +391,18 @@ limitations under the License.
           parent.appendChild(thread);
           Polymer.dom.flush();
           parent.removeChild(thread);
+        },
+
+        /**
+         * @returns {Boolean} whether any of the lines in _groups are longer
+         * than SYNTAX_MAX_LINE_LENGTH.
+         */
+        _anyLineTooLong: function() {
+          return this._groups.reduce(function(acc, group) {
+            return acc || group.lines.reduce(function(acc, line) {
+              return acc || line.text.length >= SYNTAX_MAX_LINE_LENGTH;
+            }, false);
+          }, false);
         },
       });
     })();

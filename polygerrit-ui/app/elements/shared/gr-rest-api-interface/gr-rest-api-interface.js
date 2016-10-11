@@ -239,12 +239,39 @@
 
     setPreferredAccountEmail: function(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
-          encodeURIComponent(email) + '/preferred', null, opt_errFn, opt_ctx);
+          encodeURIComponent(email) + '/preferred', null,
+          opt_errFn, opt_ctx).then(function() {
+        // If result of getAccountEmails is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        var cachedEmails = this._cache['/accounts/self/emails'];
+        if (cachedEmails) {
+          var emails = cachedEmails.map(function(entry) {
+            if (entry.email === email) {
+              return {email: email, preferred: true};
+            } else {
+              return {email: email};
+            }
+          });
+          this._cache['/accounts/self/emails'] = emails;
+        }
+      }.bind(this));
     },
 
     setAccountName: function(name, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/name', {name: name}, opt_errFn,
-          opt_ctx);
+          opt_ctx).then(function(response) {
+        // If result of getAccount is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        var cachedAccount = this._cache['/accounts/self/detail'];
+        if (cachedAccount) {
+          return this.getResponseObject(response).then(function(newName) {
+            // Replace object in cache with new object to force UI updates.
+            // TODO(logan): Polyfill for Object.assign in IE
+            this._cache['/accounts/self/detail'] = Object.assign(
+                {}, cachedAccount, {name: newName});
+          }.bind(this));
+        }
+      }.bind(this));
     },
 
     getAccountGroups: function() {

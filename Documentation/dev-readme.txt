@@ -87,7 +87,7 @@ After compiling (above), run Gerrit's 'init' command to create a
 testing site for development use:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war init -d ../gerrit_testsite
+  java -jar buck-out/gen/gerrit/gerrit.war init -d test_site
 ----
 
 Accept defaults by pressing Enter until 'init' completes, or add
@@ -102,8 +102,45 @@ Shutdown the daemon after registering the administrator account
 through the web interface:
 
 ----
-  ../gerrit_testsite/bin/gerrit.sh stop
+  ./test_site/bin/gerrit.sh stop
 ----
+
+
+[[localdev]]
+== Working with the Local Server
+
+In order to fully interact with your local server, you'll need to be able
+to sign in. First, edit `test_site/etc/gerrit.config` so that the `auth`
+section reads
+
+----
+[auth]
+  type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+----
+
+This will let you create arbitrary testing accounts. Read more about it
+link:config-gerrit.html#auth[here]. Reload the server, click 'Become' in
+the upper-right corner, and register a new account. It is recommended that
+the first account you create use your real email address (the one that is
+in `git config user.email`) because the first account will automatically
+have additional admin privileges.
+
+You will also need one or more testing projects (git repositories) which
+you can clone and upload changes to. To create one, click 'Projects',
+'Create New Project' and give it a name.
+
+Use ssh to clone from repos that you create in the local server:
+
+----
+git clone ssh://username@localhost:29418/projectname
+----
+
+Then you'll be able to create CLs the same way users do, with
+
+----
+git push origin HEAD:refs/for/master
+----
+
 
 
 == Testing
@@ -130,7 +167,7 @@ The daemon can be directly launched from the build area, without
 copying to the test site:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite
+  java -jar buck-out/gen/gerrit/gerrit.war daemon -d test_site
 ----
 
 === Running the Daemon with Gerrit Inspector
@@ -149,7 +186,7 @@ Gerrit Inspect can be started by adding '-s' option to the
 command used to launch the daemon:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite -s
+  java -jar buck-out/gen/gerrit/gerrit.war daemon -d test_site -s
 ----
 
 Gerrit Inspector examines Java libraries first, then loads
@@ -176,7 +213,7 @@ The embedded H2 database can be queried and updated from the
 command line.  If the daemon is not currently running:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war gsql -d ../gerrit_testsite
+  java -jar buck-out/gen/gerrit/gerrit.war gsql -d test_site
 ----
 
 Or, if it is running and the database is in use, connect over SSH

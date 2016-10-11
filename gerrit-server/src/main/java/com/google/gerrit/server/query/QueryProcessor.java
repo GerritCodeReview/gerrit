@@ -162,7 +162,7 @@ public abstract class QueryProcessor<T> {
       int page = (start / limit) + 1;
       if (page > indexConfig.maxPages()) {
         throw new QueryParseException(
-            "Cannot go beyond page " + indexConfig.maxPages() + "of results");
+            "Cannot go beyond page " + indexConfig.maxPages() + " of results");
       }
 
       // Always bump limit by 1, even if this results in exceeding the permitted

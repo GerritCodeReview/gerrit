@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
@@ -30,6 +29,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -244,7 +244,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("change:repo~branch~" + k.substring(0, 10), change);
 
     assertQuery("foo~bar");
-    assertBadQuery("change:foo~bar");
+    assertThatQueryException("change:foo~bar")
+        .hasMessage("Invalid change format");
     assertQuery("otherrepo~branch~" + k);
     assertQuery("change:otherrepo~branch~" + k);
     assertQuery("repo~otherbranch~" + k);
@@ -342,8 +343,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:N", change1);
     assertQuery("status:nE", change1);
     assertQuery("status:neW", change1);
-    assertBadQuery("status:nx");
-    assertBadQuery("status:newx");
+    assertThatQueryException("status:nx")
+        .hasMessage("invalid change status: nx");
+    assertThatQueryException("status:newx")
+        .hasMessage("invalid change status: newx");
   }
 
   @Test
@@ -764,7 +767,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(query, change);
     assertQuery(query.withStart(1));
     assertQuery(query.withStart(99));
-    assertBadQuery(query.withStart(100));
+    assertThatQueryException(query.withStart(100))
+        .hasMessage("Cannot go beyond page 10 of results");
     assertQuery(query.withLimit(100).withStart(100));
   }
 
@@ -1613,16 +1617,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return inserter.getChange();
   }
 
-  protected void assertBadQuery(Object query) throws Exception {
-    assertBadQuery(newQuery(query));
+  protected ThrowableSubject assertThatQueryException(Object query)
+      throws Exception {
+    return assertThatQueryException(newQuery(query));
   }
 
-  protected void assertBadQuery(QueryRequest query) throws Exception {
+  protected ThrowableSubject assertThatQueryException(QueryRequest query)
+      throws Exception {
     try {
       query.get();
-      fail("expected BadRequestException for query: " + query);
+      throw new AssertionError(
+          "expected BadRequestException for query: " + query);
     } catch (BadRequestException e) {
-      // Expected.
+      return assertThat(e);
     }
   }
 

@@ -28,6 +28,7 @@ limitations under the License.
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
+<link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
 
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
@@ -86,7 +87,8 @@ limitations under the License.
         color: #b71c1c;
       }
     </style>
-    <gr-main-header search-query="{{params.query}}"></gr-main-header>
+    <gr-main-header id="mainHeader" search-query="{{params.query}}">
+    </gr-main-header>
     <main>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
@@ -113,7 +115,9 @@ limitations under the License.
             change-view-state="{{_viewState.changeView}}"></gr-diff-view>
       </template>
       <template is="dom-if" if="[[_showSettingsView]]" restamp="true">
-        <gr-settings-view></gr-settings-view>
+        <gr-settings-view
+            on-account-detail-update="_handleAccountDetailUpdate">
+        </gr-settings-view>
       </template>
       <div id="errorView" class="errorView" hidden>
         <div class="errorEmoji">[[_lastError.emoji]]</div>
@@ -137,6 +141,12 @@ limitations under the License.
       <gr-keyboard-shortcuts-dialog
           view="[[params.view]]"
           on-close="_handleKeyboardShortcutDialogClose"></gr-keyboard-shortcuts-dialog>
+    </gr-overlay>
+    <gr-overlay id="registration" with-backdrop>
+      <gr-registration-dialog
+          on-account-detail-update="_handleAccountDetailUpdate"
+          on-close="_handleRegistrationDialogClose">
+      </gr-registration-dialog>
     </gr-overlay>
     <gr-error-manager></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

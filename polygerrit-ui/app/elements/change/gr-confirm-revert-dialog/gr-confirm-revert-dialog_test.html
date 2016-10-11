@@ -48,8 +48,9 @@ limitations under the License.
 
     test('single line', function() {
       assert.isNotOk(element.message);
-      element.populateRevertMessage('one line commit\n\nChange-Id: abcdefg\n',
-                                    'abcd123');
+      element.populateRevertMessage(
+          'one line commit\n\nChange-Id: abcdefg\n',
+          'abcd123');
       var expected = 'Revert "one line commit"\n\n' +
                      'This reverts commit abcd123.\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n';

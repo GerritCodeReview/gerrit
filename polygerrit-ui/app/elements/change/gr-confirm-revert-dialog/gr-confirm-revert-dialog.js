@@ -38,7 +38,7 @@
       var originalTitle = message.split('\n')[0];
       var revertTitle = 'Revert "' + originalTitle + '"';
       if (!commitHash) {
-        alert('Unable to find the commit hash of this issue.');
+        alert('Unable to find the commit hash of this change.');
         return;
       }
       var revertCommitText = 'This reverts commit ' + commitHash + '.';

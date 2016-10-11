@@ -22,6 +22,24 @@
       "revId": "ba6b39b104c51c1ab66c4d9adbb2067a9083e1f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_1d421395",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T17:56:18Z",
+      "side": 1,
+      "message": "Moved into Java.\n\nIs there a scheme in the GWT UI to link to lines on the base patch? In PG, we can put a \u0027b\u0027 before the line number, but I\u0027m crafting these links to work with GWT as well (using `@` instead of `#`).",
+      "parentUuid": "bf9360d9_3bb437c8",
+      "revId": "ba6b39b104c51c1ab66c4d9adbb2067a9083e1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

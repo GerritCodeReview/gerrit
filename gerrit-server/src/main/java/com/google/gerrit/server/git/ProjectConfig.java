@@ -707,7 +707,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         // no valid UUID for it. Pool the reference anyway so at least
         // all rules in the same file share the same GroupReference.
         //
-        ref = rule.getGroup();
+        ref = resolve(rule.getGroup());
         groupsByName.put(ref.getName(), ref);
         error(new ValidationError(PROJECT_CONFIG,
             "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
@@ -1092,7 +1092,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         boolean needRange = GlobalCapability.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
-          GroupReference group = rule.getGroup();
+          GroupReference group = resolve(rule.getGroup());
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }
@@ -1137,7 +1137,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         boolean needRange = Permission.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
-          GroupReference group = rule.getGroup();
+          GroupReference group = resolve(rule.getGroup());
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }

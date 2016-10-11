@@ -31,4 +31,7 @@ public interface PatchListCache {
 
   DiffSummary getDiffSummary(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException;
+
+  DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
+      throws PatchListNotAvailableException;
 }

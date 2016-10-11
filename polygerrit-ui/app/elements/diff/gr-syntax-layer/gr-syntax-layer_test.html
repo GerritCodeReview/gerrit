@@ -370,6 +370,15 @@ limitations under the License.
       assert.equal(result[1].className, className);
     });
 
+    test('_rangesFromString whitelist allows recursion', function() {
+      var str = [
+          '<span class="non-whtelisted-class">',
+            '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>',
+          '</span>'].join('');
+      var result = element._rangesFromString(str);
+      assert.notEqual(result.length, 0);
+    });
+
     test('_isSectionDone', function() {
       var state = {sectionIndex: 0, lineIndex: 0};
       assert.isFalse(element._isSectionDone(state));

@@ -255,13 +255,14 @@
         var nodeLength = GrAnnotation.getLength(node);
         // Note: HLJS may emit a span with class undefined when it thinks there
         // may be a syntax error.
-        if (node.tagName === 'SPAN' && node.className !== 'undefined' &&
-            CLASS_WHITELIST.hasOwnProperty(node.className)) {
-          result.push({
-            start: offset,
-            length: nodeLength,
-            className: node.className,
-          });
+        if (node.tagName === 'SPAN' && node.className !== 'undefined') {
+          if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
+            result.push({
+              start: offset,
+              length: nodeLength,
+              className: node.className,
+            });
+          }
           if (node.children.length) {
             result = result.concat(this._rangesFromElement(node, offset));
           }

@@ -192,7 +192,7 @@
     },
 
     _handleKey: function(e) {
-      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       if (e.keyCode === 191 && e.shiftKey) {  // '/' or '?' with shift key.
         this.$.keyboardShortcuts.open();

@@ -101,7 +101,8 @@ public class ChangeNotesCache {
           + P // status
           + P + set(state.pastAssignees(), K)
           + P + set(state.hashtags(), str(10))
-          + P + map(state.patchSets(), patchSet())
+          + P + list(state.patchSets(), patchSet())
+          + P + list(state.allPastReviewers(), approval())
           + P + list(state.reviewerUpdates(), 4 * O + K + K + P)
           + P + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P + list(state.allChangeMessages(), changeMessage())
@@ -170,6 +171,15 @@ public class ChangeNotesCache {
           + 1 // draft
           + str(40) // groups
           + P; // pushCertificate
+    }
+
+    private static int approval() {
+      return O
+          + P + patchSetId() + P + K + P + O + str(10)
+          + 2 // value
+          + P + T // granted
+          + P // tag
+          + P; // realAccountId
     }
 
     private static int changeMessage() {

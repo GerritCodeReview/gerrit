@@ -15,14 +15,12 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Comparator.comparing;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -59,17 +57,17 @@ public abstract class ChangeNotesState {
     return new AutoValue_ChangeNotesState(
         change.getId(),
         null,
-        ImmutableSet.<Account.Id>of(),
-        ImmutableSet.<String>of(),
-        ImmutableSortedMap.<PatchSet.Id, PatchSet>of(),
-        ImmutableListMultimap.<PatchSet.Id, PatchSetApproval>of(),
+        ImmutableSet.of(),
+        ImmutableSet.of(),
+        ImmutableList.of(),
+        ImmutableList.of(),
         ReviewerSet.empty(),
-        ImmutableList.<Account.Id>of(),
-        ImmutableList.<ReviewerStatusUpdate>of(),
-        ImmutableList.<SubmitRecord>of(),
-        ImmutableList.<ChangeMessage>of(),
-        ImmutableListMultimap.<PatchSet.Id, ChangeMessage>of(),
-        ImmutableListMultimap.<RevId, Comment>of());
+        ImmutableList.of(),
+        ImmutableList.of(),
+        ImmutableList.of(),
+        ImmutableList.of(),
+        ImmutableListMultimap.of(),
+        ImmutableListMultimap.of());
   }
 
   static ChangeNotesState create(
@@ -117,8 +115,8 @@ public abstract class ChangeNotesState {
             status),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
-        ImmutableSortedMap.copyOf(patchSets, comparing(PatchSet.Id::get)),
-        ImmutableListMultimap.copyOf(approvals),
+        ImmutableList.copyOf(patchSets.entrySet()),
+        ImmutableList.copyOf(approvals.entries()),
         reviewers,
         ImmutableList.copyOf(allPastReviewers),
         ImmutableList.copyOf(reviewerUpdates),
@@ -161,8 +159,8 @@ public abstract class ChangeNotesState {
   // Other related to this Change.
   abstract ImmutableSet<Account.Id> pastAssignees();
   abstract ImmutableSet<String> hashtags();
-  abstract ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets();
-  abstract ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals();
+  abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
+  abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals();
 
   abstract ReviewerSet reviewers();
   abstract ImmutableList<Account.Id> allPastReviewers();

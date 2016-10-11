@@ -89,7 +89,7 @@
     },
 
     _handleKey: function(e) {
-      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (e.keyCode === 69) { // 'e'
         e.preventDefault();
         this._expandCollapseComments(e.shiftKey);

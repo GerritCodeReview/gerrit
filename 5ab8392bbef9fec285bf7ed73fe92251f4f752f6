@@ -25,6 +25,92 @@
     },
     {
       "key": {
+        "uuid": "bf9360d9_9b8aabd0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T18:52:15Z",
+      "side": 1,
+      "message": "What about `comment.collapsed \u003d actionIsCollapse;` instead of the setter method?",
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_7beb1f6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T18:52:15Z",
+      "side": 1,
+      "message": "Nit: these can be `}, {`",
+      "range": {
+        "startLine": 279,
+        "startChar": 8,
+        "endLine": 280,
+        "endChar": 9
+      },
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_5bee637c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T18:52:15Z",
+      "side": 1,
+      "message": "Since this method is added to be called from GR-DIFF-COMMENT-THREAD, it should be public (not prefixed with a `_`).",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 5
+      },
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_fbde4fcf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T18:52:15Z",
+      "side": 1,
+      "message": "How about just `!!actionIsCollapse` to allow any truthy value?",
+      "range": {
+        "startLine": 229,
+        "startChar": 31,
+        "endLine": 229,
+        "endChar": 56
+      },
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_ddd98bea",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 4

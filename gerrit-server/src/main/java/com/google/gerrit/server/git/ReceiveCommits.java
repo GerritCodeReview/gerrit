@@ -1826,6 +1826,31 @@ public class ReceiveCommits {
             return;
           }
 
+          // In case the change look up from the index failed,
+          // double check against the existing ref if applicable
+          Collection<Ref> existingRefs = existing.get(p.commit);
+          for (Ref ref : existingRefs) {
+            ChangeNotes notes = notesFactory.create(db, project.getNameKey(),
+                Change.Id.fromRef(ref.getName()));
+            if (notes.getChange().getDest().equals(magicBranch.dest)) {
+              // find the change to the same branch
+              // TODO:czhen need trigger reindex process for this change
+              logDebug("Found change from existing refs.");
+              if (pending.size() == 1) {
+                // There are no commits left to check, all commits in pending
+                // were already current PatchSet of the corresponding target
+                // changes.
+                reject(magicBranch.cmd,
+                    "commit(s) already exists (as current patchset)");
+                return;
+              } else {
+                // Commit is already current PatchSet.
+                // Remove from pending and try next commit.
+                itr.remove();
+                continue;
+              }
+            }
+          }
           newChangeIds.add(p.changeKey);
         }
         newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));

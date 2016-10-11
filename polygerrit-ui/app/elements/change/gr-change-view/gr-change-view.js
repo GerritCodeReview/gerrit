@@ -585,7 +585,7 @@
     },
 
     _handleKey: function(e) {
-      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       switch (e.keyCode) {
         case 65:  // 'a'
           if (this._loggedIn && !e.shiftKey) {

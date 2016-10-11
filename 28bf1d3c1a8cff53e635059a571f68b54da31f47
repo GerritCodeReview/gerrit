@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "bf9360d9_5b33c360",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T14:02:14Z",
+      "side": 1,
+      "message": "This method is already a giant wall of code, please factor this new code out into a method if at all possible.",
+      "revId": "28bf1d3c1a8cff53e635059a571f68b54da31f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_1b293bf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1840,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T14:02:14Z",
+      "side": 1,
+      "message": "Redundant with the log statement.",
+      "revId": "28bf1d3c1a8cff53e635059a571f68b54da31f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_5dd81b11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1841,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T14:02:14Z",
+      "side": 1,
+      "message": "Include which change you\u0027re talking about here.",
+      "revId": "28bf1d3c1a8cff53e635059a571f68b54da31f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_7dd5d7d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T14:02:14Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "28bf1d3c1a8cff53e635059a571f68b54da31f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_3b26f723",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1843,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T14:02:14Z",
+      "side": 1,
+      "message": "Do we need to block until this completes in order to proceed? If not, consider using indexAsync.",
+      "revId": "28bf1d3c1a8cff53e635059a571f68b54da31f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2f7072_87c2462f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4

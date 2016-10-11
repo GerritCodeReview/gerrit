@@ -79,6 +79,10 @@
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
 
+    reload: function() {
+      this._loadAccount();
+    },
+
     _handleLocationChange: function(e) {
       this._loginURL = '/login/' + encodeURIComponent(
           window.location.pathname +

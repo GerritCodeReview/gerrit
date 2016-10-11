@@ -1,0 +1,572 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f2f7072_87fb265f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3915,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "You might put this into the \u0027addReviewer\u0027 section as it is more specific. Maybe \u0027addReviewer.baseWeight\u0027?",
+      "range": {
+        "startLine": 3915,
+        "startChar": 2,
+        "endLine": 3915,
+        "endChar": 28
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_871406b3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2405,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 2405,
+        "startChar": 48,
+        "endLine": 2405,
+        "endChar": 62
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_a7190aec",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "on the change screen",
+      "range": {
+        "startLine": 2406,
+        "startChar": 76,
+        "endLine": 2406,
+        "endChar": 77
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_c71efed0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2414,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "I think it would be better if not each plugin needs to reimplement making the weight configurable. I guess this would result in n plugins having n ways to configure the weight and maybe some even forget to make it configurable.\n\nI think it would be better to remove the getWeight() method and instead let the admin configure the weights for all plugins in a central place in the gerrit.config file. E.g. have a \u0027addreviewer\u0027 subsection per plugin:\n\n  [addreviewer \"\u003cplugin-name-1\u003e\"]\n    weight \u003d 1\n  [addreviewer \"\u003cplugin-name-2\u003e\"]\n    weight \u003d 0.5",
+      "range": {
+        "startLine": 2411,
+        "startChar": 57,
+        "endLine": 2414,
+        "endChar": 41
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_0629faf4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2418,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 2418,
+        "startChar": 20,
+        "endLine": 2418,
+        "endChar": 22
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_260d169c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "The test is just adding the user as reviewer, being added as reviewer doesn\u0027t mean that the user reviewed the change. Shouldn\u0027t the user actually vote on the change to be counted as reviewer?",
+      "range": {
+        "startLine": 306,
+        "startChar": 58,
+        "endLine": 307,
+        "endChar": 13
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_2726fa23",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Make this TestAccount to make calls of this method shorter.",
+      "range": {
+        "startLine": 413,
+        "startChar": 44,
+        "endLine": 413,
+        "endChar": 50
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_e7fa2258",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Why do we need the parentheses here?",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 94,
+        "endChar": 43
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_66070e7a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Do we actually need to do this? When the form is no visible the user can\u0027t type anything and hence suggestions cannot be triggered.\n\nInstead just call cancelOutstandingRequest() and remove the setServeSuggestionsOnOracle method?",
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_6730f253",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "IoException and BadRequestException are never thrown, remove them from the method declaration to avoid warnings in Eclipse.",
+      "range": {
+        "startLine": 100,
+        "startChar": 13,
+        "endLine": 100,
+        "endChar": 59
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_86b88a94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Is this needed? Looks like you can use reviewerSuggestionPluginSet directly?",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 115,
+        "endChar": 27
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_a6bd8683",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Should we verify that this account actually exists? A plugin may return wrong account IDs.",
+      "range": {
+        "startLine": 136,
+        "startChar": 31,
+        "endLine": 136,
+        "endChar": 40
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_c7c27efe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Better log this as error.",
+      "range": {
+        "startLine": 141,
+        "startChar": 10,
+        "endLine": 141,
+        "endChar": 14
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_e7c7820b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Should accounts with the same score still be sorted alphabetically?",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 76
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_a7bd8a83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Better look at the non-zero-approvals off this change (cd.currentApprovals()).",
+      "range": {
+        "startLine": 168,
+        "startChar": 32,
+        "endLine": 168,
+        "endChar": 46
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_6639ce27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Better log this as error.",
+      "range": {
+        "startLine": 179,
+        "startChar": 10,
+        "endLine": 179,
+        "endChar": 14
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_6739d227",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Being added as reviewer doesn\u0027t mean that the user actually did any review. Maybe better look for changes with a non-zero vote from that user?\n\nE.g. if I\u0027m added as reviewer to many changes, but don\u0027t have time to review, I will be suggested as reviewer for more and more changes without doing anything.",
+      "range": {
+        "startLine": 201,
+        "startChar": 31,
+        "endLine": 201,
+        "endChar": 39
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_87b88694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "I would still log it as error.",
+      "range": {
+        "startLine": 214,
+        "startChar": 12,
+        "endLine": 214,
+        "endChar": 16
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_c7f51e69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "nit: not used",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 75
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_e6fa1e58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "nit: not used",
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_a7002a68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "nit: not used",
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_273fda0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "nit: reformat this method declaration",
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_263fd60f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Not sure about this, I find accounts more important than groups (actually I never ever added a group as reviewer).",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 173,
+        "endChar": 78
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_0742d694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "If I click into the empty reviewer suggestion box, I get a NullPointerException here because suggestReviewers.getQuery() returns null:\n\n  java.lang.NullPointerException\n\tat com.google.common.base.Preconditions.checkNotNull(Preconditions.java:212)\n\tat com.google.common.base.Splitter.splitToList(Splitter.java:441)\n\tat com.google.gerrit.server.query.account.AccountQueryBuilder.defaultQuery(AccountQueryBuilder.java:127)\n\tat com.google.gerrit.server.ReviewersUtil.suggestAccountsFromIndex(ReviewersUtil.java:201)\n\tat com.google.gerrit.server.ReviewersUtil.suggestAccounts(ReviewersUtil.java:190)\n\tat com.google.gerrit.server.ReviewersUtil.suggestReviewers(ReviewersUtil.java:147)\n\tat com.google.gerrit.server.change.SuggestChangeReviewers.apply(SuggestChangeReviewers.java:57)\n\tat com.google.gerrit.server.change.SuggestChangeReviewers.apply(SuggestChangeReviewers.java:38)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:367)\n        ...",
+      "range": {
+        "startLine": 201,
+        "startChar": 50,
+        "endLine": 201,
+        "endChar": 77
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_4633f260",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestion.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "Seems like the order in which the results are returned doesn\u0027t influence the ranking, but it\u0027s only based on the score. Maybe then it would be better to return the suggested reviewers as Set.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 79
+      },
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_07cd762c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestedReviewer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-11T14:24:04Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "c9dbbc8976017e2fb97dc1d3ad92fa6f826ae534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

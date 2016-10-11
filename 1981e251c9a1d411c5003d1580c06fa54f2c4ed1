@@ -22,6 +22,24 @@
       "revId": "1981e251c9a1d411c5003d1580c06fa54f2c4ed1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_1b85bb0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T00:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_5d8f3b2b",
+      "revId": "1981e251c9a1d411c5003d1580c06fa54f2c4ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

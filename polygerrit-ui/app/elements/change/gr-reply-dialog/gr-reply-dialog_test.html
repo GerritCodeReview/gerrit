@@ -53,38 +53,40 @@ limitations under the License.
       });
 
       element = fixture('basic');
-      element.change = { _number: changeNum };
-      element.patchNum = patchNum;
-      element.labels = {
-        Verified: {
-          values: {
-            '-1': 'Fails',
-            ' 0': 'No score',
-            '+1': 'Verified'
+      element.change = {
+        _number: changeNum,
+        labels: {
+          Verified: {
+            values: {
+              '-1': 'Fails',
+              ' 0': 'No score',
+              '+1': 'Verified',
+            },
+            default_value: 0,
           },
-          default_value: 0
-        },
-        'Code-Review': {
-          values: {
-            '-2': 'Do not submit',
-            '-1': 'I would prefer that you didn\'t submit this',
-            ' 0': 'No score',
-            '+1': 'Looks good to me, but someone else must approve',
-            '+2': 'Looks good to me, approved'
-          },
-          default_value: 0
+          'Code-Review': {
+            values: {
+              '-2': 'Do not submit',
+              '-1': 'I would prefer that you didn\'t submit this',
+              ' 0': 'No score',
+              '+1': 'Looks good to me, but someone else must approve',
+              '+2': 'Looks good to me, approved',
+            },
+            default_value: 0
+          }
         }
       };
+      element.patchNum = patchNum;
       element.permittedLabels = {
         'Code-Review': [
           '-1',
           ' 0',
-          '+1'
+          '+1',
         ],
         Verified: [
           '-1',
           ' 0',
-          '+1'
+          '+1',
         ]
       };
       element.serverConfig = {};
@@ -100,6 +102,19 @@ limitations under the License.
 
     teardown(function() {
       sandbox.restore();
+    });
+
+    test('changes in label score are reflected in the DOM', function() {
+      element._account = {_account_id: 1};
+      element.set(['change', 'labels', 'Verified', 'all'],
+          [{_account_id: 1, value: -1}]);
+      flushAsynchronousOperations();
+      var selector = element.$$('iron-selector[data-label="Verified"]');
+      assert.equal(selector.selected, 0); // Index 0, value -1
+      element.set(['change', 'labels', 'Verified', 'all'],
+         [{_account_id: 1, value: 1}]);
+      flushAsynchronousOperations();
+      assert.equal(selector.selected, 2); // Index 2, value 1
     });
 
     test('cancel event', function(done) {

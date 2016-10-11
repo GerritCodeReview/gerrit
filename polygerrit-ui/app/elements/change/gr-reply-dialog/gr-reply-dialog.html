@@ -215,16 +215,16 @@ limitations under the License.
           </div>
         </template>
         <template is="dom-repeat"
-            items="[[_computeLabelArray(permittedLabels)]]" as="label">
+            items="[[_labelArray]]" as="label">
           <div class="labelContainer">
-            <span class="labelName">[[label]]</span>
-            <iron-selector data-label$="[[label]]"
-                selected="[[_computeIndexOfLabelValue(labels, permittedLabels, label, _account)]]">
+            <span class="labelName">[[label.name]]</span>
+            <iron-selector data-label$="[[label.name]]"
+                selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]">
               <template is="dom-repeat"
-                  items="[[_computePermittedLabelValues(permittedLabels, label)]]"
+                  items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
                   as="value">
                 <gr-button has-tooltip data-value$="[[value]]"
-                    title$="[[_computeLabelValueTitle(labels, label, value)]]">[[value]]</gr-button>
+                    title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">[[value]]</gr-button>
               </template>
             </iron-selector>
           </div>

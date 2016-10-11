@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_9d154358",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T21:51:53Z",
+      "side": 1,
+      "message": "Why is this defined in a behavior if it\u0027s only used in gr-change-metadata?",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 22
+      },
+      "revId": "adc9563ef4c0ccc7627df473604eb723a65e7c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_bb1a0785",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T21:51:53Z",
+      "side": 1,
+      "message": "Should be called something like `getSubmitStatus`. Don\u0027t include string, because if it\u0027s needed to make the type explicitly clear, put it in the JSDoc. Also, without `get...` it looks like it\u0027s a method to submit statuses.",
+      "range": {
+        "startLine": 158,
+        "startChar": 18,
+        "endLine": 158,
+        "endChar": 36
+      },
+      "revId": "adc9563ef4c0ccc7627df473604eb723a65e7c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

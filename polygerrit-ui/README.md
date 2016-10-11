@@ -70,7 +70,7 @@ that serves PolyGerrit:
 ```sh
 buck build polygerrit && \
 java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev \
--d ../gerrit_testsite --console-log --show-stack-trace
+-d test_site --console-log --show-stack-trace
 ```
 
 ## Running Tests

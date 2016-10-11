@@ -51,6 +51,24 @@
       "revId": "b5df03ae934f48a081e225a2efd2d4f4a9f4c068",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_fbb00f91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T19:21:48Z",
+      "side": 1,
+      "message": "I\u0027m not objecting to the updateRef boolean, that part I understand. I\u0027m asking why you would want to call setUpdateRefCommand. It looks like nobody is calling ChangeInserter#setUpdateRefCommand either, so that doesn\u0027t provide any insight.\n\nIf you have no immediate plans to call ReplaceOp#setUpdateRefCommand, then leave it out.",
+      "parentUuid": "ff8dd8b6_bd8f5fdf",
+      "revId": "b5df03ae934f48a081e225a2efd2d4f4a9f4c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

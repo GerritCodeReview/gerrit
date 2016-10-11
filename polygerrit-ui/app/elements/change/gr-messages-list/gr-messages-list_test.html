@@ -34,44 +34,28 @@ limitations under the License.
 <script>
   suite('gr-messages-list tests', function() {
     var element;
+    var messages;
+
+    var randomMessage = function(opt_params) {
+      var params = opt_params || {};
+      var author1 = {
+        _account_id: 1115495,
+        name: 'Andrew Bonventre',
+        email: 'andybons@chromium.org',
+      };
+      return {
+        id: params.id || Math.random().toString(),
+        date: params.date || '2016-01-12 20:28:33.038000',
+        message: params.message || Math.random().toString(),
+        _revision_number: params._revision_number || 1,
+        author: params.author || author1,
+      };
+    };
 
     setup(function() {
       element = fixture('basic');
-      element.messages = [
-        {
-          id: '47c43261_55aa2c41',
-          author: {
-            _account_id: 1115495,
-            name: 'Andrew Bonventre',
-            email: 'andybons@chromium.org',
-          },
-          date: '2016-01-12 20:24:49.448000000',
-          message: 'Uploaded patch set 1.',
-          _revision_number: 1
-        },
-        {
-          id: '47c43261_9593e420',
-          author: {
-            _account_id: 1115495,
-            name: 'Andrew Bonventre',
-            email: 'andybons@chromium.org',
-          },
-          date: '2016-01-12 20:28:33.038000000',
-          message: 'Patch Set 1:\n\n(1 comment)',
-          _revision_number: 1
-        },
-        {
-          id: '87b2aaf4_f73260c5',
-          author: {
-            _account_id: 1143760,
-            name: 'Mark Mentovai',
-            email: 'mark@chromium.org',
-          },
-          date: '2016-01-12 21:17:07.554000000',
-          message: 'Patch Set 1:\n\n(3 comments)',
-          _revision_number: 1
-        }
-      ];
+      messages = _.times(3, randomMessage);
+      element.messages = messages;
       flushAsynchronousOperations();
     });
 
@@ -116,7 +100,7 @@ limitations under the License.
             'expected gr-message ' + i + ' to not be expanded');
       }
 
-      var messageID = '47c43261_9593e420';
+      var messageID = messages[1].id;
       element.scrollToMessage(messageID);
       assert.isTrue(
           element.$$('[data-message-id="' + messageID + '"]').expanded);
@@ -126,6 +110,98 @@ limitations under the License.
 
       scrollToStub.restore();
       highlightStub.restore();
+    });
+
+    test('messages', function() {
+      var dates = ['2016-01-12 20:28:33.038000',
+                   '2016-01-12 21:28:33.038000',
+                   '2016-01-12 22:28:33.038000'];
+      var author = {
+        _account_id: 42,
+        name: 'Marvin the Paranoid Android',
+        email: 'marvin@sirius.org',
+      };
+      var comments = {
+        file1: [
+          {
+            message: 'message text',
+            updated: '2016-09-27 00:18:03.000000000',
+            in_reply_to: '6505d749_f0bec0aa',
+            line: 62,
+            id: '6505d749_10ed44b2',
+            patch_set: 2,
+            author: {
+              email: 'some@email.com',
+              _account_id: 123,
+            }
+          },
+          {
+            message: 'message text',
+            updated: '2016-09-27 00:18:03.000000000',
+            in_reply_to: 'c5912363_6b820105',
+            line: 42,
+            id: '450a935e_0f1c05db',
+            patch_set: 2,
+            author: author
+          },
+          {
+            message: 'message text',
+            updated: '2016-09-27 00:18:03.000000000',
+            in_reply_to: '6505d749_f0bec0aa',
+            line: 62,
+            id: '6505d749_10ed44b2',
+            patch_set: 2,
+            author: author
+          },
+        ],
+        file2: [
+          {
+            message: 'message text',
+            updated: '2016-09-27 00:18:03.000000000',
+            in_reply_to: 'c5912363_4b7d450a',
+            line: 132,
+            id: '450a935e_4f260d25',
+            patch_set: 2,
+            author: author
+          },
+        ]
+      };
+      var messages = [].concat(
+          randomMessage(),
+          {
+            _index: 5,
+            _revision_number: 4,
+            message: 'Uploaded patch set 4.',
+            date: '2016-09-28 13:36:33.000000000',
+            author: author,
+            id: '8c19ccc949c6d482b061be6a28e10782abf0e7af'
+          },
+          {
+            _index: 6,
+            _revision_number: 4,
+            message: 'Patch Set 4:\n\n(6 comments)',
+            date: '2016-09-28 13:36:33.000000000',
+            author: author,
+            id: 'e7bfdbc842f6b6d8064bc68e0f52b673f40c0ca5'
+          }
+      );
+      element.comments = comments;
+      element.messages = messages;
+      var isAuthor = function(author, message) {
+        return message.author._account_id === author._account_id;
+      };
+      var isMarvin = isAuthor.bind(null, author);
+      flushAsynchronousOperations();
+      var messageElements =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      assert.equal(messageElements.length, messages.length);
+      assert.deepEqual(messageElements[1].message, messages[1]);
+      assert.deepEqual(messageElements[2].message, messages[2]);
+      assert.deepEqual(messageElements[1].comments.file1,
+          comments.file1.filter(isMarvin));
+      assert.deepEqual(messageElements[1].comments.file2,
+          comments.file2.filter(isMarvin));
+      assert.deepEqual(messageElements[2].comments, {});
     });
   });
 </script>

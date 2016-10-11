@@ -89,7 +89,8 @@ limitations under the License.
       .invisible {
         visibility: hidden;
       }
-      .row:not(.header) .stats {
+      .row:not(.header) .stats,
+      .total-stats {
         font-family: var(--monospace-font-family);
       }
       .added {
@@ -107,6 +108,11 @@ limitations under the License.
       }
       .fileListButton {
         margin: .5em;
+      }
+      .totalChanges {
+        justify-content: flex-end;
+        padding-right: 2.6em;
+        text-align: right;
       }
       input.show-hide {
         display: none;
@@ -221,6 +227,12 @@ limitations under the License.
           project-config="[[projectConfig]]"
           view-mode="[[_diffMode]]"></gr-diff>
     </template>
+    <div class="row totalChanges">
+      <div class="total-stats" hidden$="[[_hideChangeTotals]]">
+        <span class="added">+[[_patchChange.inserted]]</span>
+        <span class="removed">-[[_patchChange.deleted]]</span>
+      </div>
+    </div>
     <gr-button
         class="fileListButton"
         id="incrementButton"

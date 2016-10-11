@@ -430,6 +430,21 @@
       return path == COMMIT_MESSAGE_PATH ? 'Commit message' : path;
     },
 
+    _computeTruncatedFileDisplayName: function(path) {
+      return path == COMMIT_MESSAGE_PATH ?
+          'Commit message' : this._shortenPath(path);
+    },
+
+    _shortenPath: function(path) {
+      var pathPieces = path.split('/');
+
+      if (pathPieces.length < 2) {
+        return path;
+      }
+      var ellipses = '\u2026';
+      return ellipses + '/' + pathPieces[pathPieces.length - 1];
+    },
+
     _computeFileSelected: function(path, currentPath) {
       return path == currentPath;
     },

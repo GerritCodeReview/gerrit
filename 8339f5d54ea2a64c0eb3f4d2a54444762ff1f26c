@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bf9360d9_5b0ae384",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-10-11T16:30:07Z",
+      "side": 1,
+      "message": "It\u0027s definitely a matter of opinion, and I\u0027m happy to revert this portion of the change if you ask me to. This is why I think it\u0027s better:\n* Repos shouldn\u0027t act outside of their directory tree. This pollutes the directory *containing* gerrit, which I think is an antipattern.\n* The directory containing this repo may contain other things (in particular, other independent git repos) that the user wants to control. In order to fully contain both the gerrit repo and this test site directory, the user would have to nest their gerrit checkout inside yet another directory.\n* The directory \u0027test_site\u0027 is already in gerrit\u0027s .gitignore\n* The \u0027-x\u0027 argument to the \u0027git clean\u0027 command on line 40 shouldn\u0027t be necessary: if switching branches leaves submodule directories behind, then those directories also shouldn\u0027t be in .gitignore, and should get removed with a standard \u0027git clean -fd\u0027.\n* This doesn\u0027t make it any harder to work with multiple sites: the user would have to edit the command to point at a new directory anyway.",
+      "parentUuid": "bf6c40b9_b375d822",
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf6c40b9_d37a5411",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 2
@@ -42,6 +60,24 @@
         "endLine": 119,
         "endChar": 4
       },
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_fbfacf57",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-10-11T16:30:07Z",
+      "side": 1,
+      "message": "Cool! I\u0027ve updated the init instructions above to point this out.",
+      "parentUuid": "bf6c40b9_d37a5411",
       "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "ff8dd8b6_fdfac757",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-10-11T16:30:07Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "9f4bfc45_728c3836",
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4bfc45_528f342b",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 2
@@ -88,6 +142,24 @@
         "endLine": 138,
         "endChar": 33
       },
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_1d1053b1",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-10-11T16:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f4bfc45_528f342b",
       "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

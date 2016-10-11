@@ -33,6 +33,9 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -49,7 +52,8 @@ public class ChangeNotesCache {
         cache(CACHE_NAME,
             Key.class,
             ChangeNotesState.class)
-          .maximumWeight(1000);
+          .weigher(Weigher.class)
+          .maximumWeight(10 << 20);
       }
     };
   }
@@ -59,6 +63,144 @@ public class ChangeNotesCache {
     abstract Project.NameKey project();
     abstract Change.Id changeId();
     abstract ObjectId id();
+  }
+
+  public static class Weigher
+      implements com.google.common.cache.Weigher<Key, ChangeNotesState> {
+    // Single object overhead.
+    private static final int O = 16;
+
+    // Single pointer overhead.
+    private static final int P = 8;
+
+    // Single IntKey overhead.
+    private static final int K = O + 4;
+
+    // Single Timestamp overhead.
+    private static final int T = O + 8;
+
+    @Override
+    public int weigh(Key key, ChangeNotesState state) {
+      // Take all columns and all collection sizes into account, but use
+      // estimated average element sizes rather than iterating over collections.
+      // Numbers are largely hand-wavy based on
+      // http://stackoverflow.com/questions/258120/what-is-the-memory-consumption-of-an-object-in-java
+      return
+          K // changeId
+          + str(40) // changeKey
+          + T // createdOn
+          + T // lastUpdatedOn
+          + P + K // owner
+          + P + str(state.columns().branch())
+          + P + patchSetId() // currentPatchSetId
+          + P + str(state.columns().subject())
+          + P + str(state.columns().topic())
+          + P + str(state.columns().originalSubject())
+          + P + str(state.columns().submissionId())
+          + ptr(state.columns().assignee(), K) // assignee
+          + P // status
+          + P + set(state.pastAssignees(), K)
+          + P + set(state.hashtags(), str(10))
+          + P + map(state.patchSets(), patchSet())
+          + P + list(state.reviewerUpdates(), 4 * O + K + K + P)
+          + P + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
+          + P + list(state.allChangeMessages(), changeMessage())
+          // Just key overhead for map, already counted messages in previous.
+          + P + map(state.changeMessagesByPatchSet().asMap(), patchSetId())
+          + P + map(state.publishedComments().asMap(), comment());
+    }
+
+    private static int ptr(Object o, int size) {
+      return o != null ? P + size : P;
+    }
+
+    private static int str(String s) {
+      if (s == null) {
+        return P;
+      }
+      return str(s.length());
+    }
+
+    private static int str(int n) {
+      return 8 + 24 + 2 * n;
+    }
+
+    private static int patchSetId() {
+      return O + 4 + O + 4;
+    }
+
+    private static int set(Set<?> set, int elemSize) {
+      if (set == null) {
+        return P;
+      }
+      return hashtable(set.size(), elemSize);
+    }
+
+    private static int map(Map<?, ?> map, int elemSize) {
+      if (map == null) {
+        return P;
+      }
+      return hashtable(map.size(), elemSize);
+    }
+
+    private static int hashtable(int n, int elemSize) {
+      // Made up numbers.
+      int overhead = 32;
+      int elemOverhead = O + 32;
+      return overhead + elemOverhead * n * elemSize;
+    }
+
+    private static int list(List<?> list, int elemSize) {
+      if (list == null) {
+        return P;
+      }
+      return list(list.size(), elemSize);
+    }
+
+    private static int list(int n, int elemSize) {
+      return O + O + n * (P + elemSize);
+    }
+
+    private static int patchSet() {
+      return O
+          + P + patchSetId()
+          + str(40) // revision
+          + P + K // uploader
+          + P + T // createdOn
+          + 1 // draft
+          + str(40) // groups
+          + P; // pushCertificate
+    }
+
+    private static int changeMessage() {
+      int key = K + str(20);
+      return O
+          + P + key
+          + P + K // author
+          + P + T // writtenON
+          + str(64) // message
+          + P + patchSetId()
+          + P
+          + P; // realAuthor
+    }
+
+    private static int comment() {
+      int key = P + str(20) + P + str(32) + 4;
+      int ident = O + 4;
+      return O
+          + P + key
+          + 4 // lineNbr
+          + P + ident // author
+          + P + ident //realAuthor
+          + P + T // writtenOn
+          + 2 // side
+          + str(32) // message
+          + str(10) // parentUuid
+          + (P + O + 4 + 4 + 4 + 4) / 2 // range on 50% of comments
+          + P // tag
+          + P + str(40) // revId
+          + P + str(36); // serverId
+    }
   }
 
   @AutoValue

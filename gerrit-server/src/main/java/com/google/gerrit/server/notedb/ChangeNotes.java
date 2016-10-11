@@ -25,12 +25,11 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
@@ -349,7 +348,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   // Lazy defensive copies of mutable ReviewDb types, to avoid polluting the
   // ChangeNotesCache from handlers.
-  private ImmutableMap<PatchSet.Id, PatchSet> patchSets;
+  private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
 
   @VisibleForTesting
@@ -368,18 +367,26 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return change;
   }
 
-  public ImmutableMap<PatchSet.Id, PatchSet> getPatchSets() {
+  public ImmutableSortedMap<PatchSet.Id, PatchSet> getPatchSets() {
     if (patchSets == null) {
-      patchSets = ImmutableMap.copyOf(
-          Maps.transformValues(state.patchSets(), PatchSet::new));
+      ImmutableSortedMap.Builder<PatchSet.Id, PatchSet> b =
+          ImmutableSortedMap.orderedBy(comparing(PatchSet.Id::get));
+      for (Map.Entry<PatchSet.Id, PatchSet> e : state.patchSets()) {
+        b.put(e.getKey(), new PatchSet(e.getValue()));
+      }
+      patchSets = b.build();
     }
     return patchSets;
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
     if (approvals == null) {
-      approvals = ImmutableListMultimap.copyOf(
-          Multimaps.transformValues(state.approvals(), PatchSetApproval::new));
+      ImmutableListMultimap.Builder<PatchSet.Id, PatchSetApproval> b =
+          ImmutableListMultimap.builder();
+      for (Map.Entry<PatchSet.Id, PatchSetApproval> e : state.approvals()) {
+        b.put(e.getKey(), new PatchSetApproval(e.getValue()));
+      }
+      approvals = b.build();
     }
     return approvals;
   }
@@ -526,7 +533,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public PatchSet getCurrentPatchSet() {
     PatchSet.Id psId = change.currentPatchSetId();
-    return checkNotNull(state.patchSets().get(psId),
+    return checkNotNull(getPatchSets().get(psId),
         "missing current patch set %s", psId.get());
   }
 

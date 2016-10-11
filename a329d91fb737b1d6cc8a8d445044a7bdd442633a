@@ -41,6 +41,24 @@
       "revId": "a329d91fb737b1d6cc8a8d445044a7bdd442633a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_478f6e2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/FinalUpdatesEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-10-11T06:36:28Z",
+      "side": 1,
+      "message": "The primary use would be for an assignee suggestionbox where it\u0027s not critical that every past assignee is accounted for.",
+      "parentUuid": "bfdd2060_6bf4e149",
+      "revId": "a329d91fb737b1d6cc8a8d445044a7bdd442633a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

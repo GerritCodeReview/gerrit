@@ -29,6 +29,10 @@
         type: Array,
         value: function() { return []; },
       },
+      keyEventTarget: {
+        type: Object,
+        value: function() { return document.body; },
+      },
       patchNum: String,
       path: String,
       projectConfig: Object,
@@ -40,6 +44,10 @@
       _showActions: Boolean,
       _orderedComments: Array,
     },
+
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
 
     listeners: {
       'comment-update': '_handleCommentUpdate',
@@ -78,6 +86,26 @@
 
     _commentsChanged: function(changeRecord) {
       this._orderedComments = this._sortedComments(this.comments);
+    },
+
+    _handleKey: function(e) {
+      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      var actionIsCollapse = false;
+      if (e.keyCode === 69) { // 'e'
+        e.preventDefault();
+        if (e.shiftKey) {
+          actionIsCollapse = true;
+        }
+        this._expandCollapseComments(actionIsCollapse);
+      }
+    },
+
+    _expandCollapseComments: function(actionIsCollapse) {
+      var comments =
+          Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
+      comments.forEach(function(comment) {
+        comment._handleOpenClose(actionIsCollapse);
+      });
     },
 
     _sortedComments: function(comments) {

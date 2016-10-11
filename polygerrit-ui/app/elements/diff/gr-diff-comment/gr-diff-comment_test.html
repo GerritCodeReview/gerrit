@@ -124,6 +124,16 @@ limitations under the License.
           'Should navigate to ' + dest + ' without triggering nav');
       showStub.restore();
     });
+
+    test('comment expand and collapse', function() {
+      var actionIsCollapse = false;
+      element._handleOpenClose(actionIsCollapse);
+      assert.isFalse(element._commentCollapsed);
+
+      actionIsCollapse = true;
+      element._handleOpenClose(actionIsCollapse);
+      assert.isTrue(element._commentCollapsed);
+    });
   });
 
   suite('gr-diff-comment draft tests', function() {

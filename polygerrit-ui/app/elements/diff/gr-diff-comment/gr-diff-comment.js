@@ -225,6 +225,10 @@
       }
     },
 
+    _handleOpenClose: function(actionIsCollapse) {
+      this._commentCollapsed = actionIsCollapse === true;
+    },
+
     _handleToggleCollapsed: function() {
       this._commentCollapsed = !this._commentCollapsed;
     },

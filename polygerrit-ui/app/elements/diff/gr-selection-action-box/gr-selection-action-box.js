@@ -79,7 +79,7 @@
     },
 
     _handleKey: function(e) {
-      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (e.keyCode === 67) { // 'c'
         if (this._checkForModifiers(e)) { return; }
         e.preventDefault();

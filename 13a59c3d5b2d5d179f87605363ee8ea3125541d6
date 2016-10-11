@@ -16,6 +16,24 @@
       "revId": "13a59c3d5b2d5d179f87605363ee8ea3125541d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_47d84e11",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Assignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-10-11T08:57:07Z",
+      "side": 1,
+      "message": "My reasoning for not hiding the assignee for an abandoned change was perhaps a bit vague. ATM an assignee is not removed from a change automatically when it is abandoned and you might want to remove the assignee from an abandoned change.\nCould be that it should not be possible to edit an assignee of a change in \u0027abandoned\u0027 state...",
+      "parentUuid": "1f28ec68_66d54ed6",
+      "revId": "13a59c3d5b2d5d179f87605363ee8ea3125541d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,10 @@ public class Init extends BaseInit {
       usage = "Batch mode; skip interactive prompting")
   private boolean batchMode;
 
+  @Option(name = "--delete-caches",
+      usage = "Delete all persistent caches without asking")
+  private boolean deleteCaches;
+
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
@@ -158,6 +162,12 @@ public class Init extends BaseInit {
   protected boolean getAutoStart() {
     return !noAutoStart;
   }
+
+  @Override
+  protected boolean getDeleteCaches() {
+    return deleteCaches;
+  }
+
 
   @Override
   protected boolean skipPlugins() {

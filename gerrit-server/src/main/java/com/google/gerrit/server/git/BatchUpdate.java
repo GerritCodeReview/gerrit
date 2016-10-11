@@ -444,7 +444,9 @@ public class BatchUpdate implements AutoCloseable {
           u.gitRefUpdated.fire(
               u.project,
               u.batchRefUpdate,
-              u.getUser().isIdentifiedUser() ? u.getUser().getAccountId() : null);
+              u.getUser().isIdentifiedUser()
+                  ? u.getUser().asIdentifiedUser().getAccount()
+                  : null);
         }
       }
       if (!dryrun) {

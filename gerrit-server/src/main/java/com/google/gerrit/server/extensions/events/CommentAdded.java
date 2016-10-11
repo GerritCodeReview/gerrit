@@ -50,23 +50,6 @@ public class CommentAdded {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision, AccountInfo author,
-      String comment, Map<String, ApprovalInfo> approvals,
-      Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(
-        change, revision, author, comment, approvals, oldApprovals, when);
-    for (CommentAddedListener l : listeners) {
-      try {
-        l.onCommentAdded(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
   public void fire(Change change, PatchSet ps, Account author,
       String comment, Map<String, Short> approvals,
       Map<String, Short> oldApprovals, Timestamp when) {
@@ -74,13 +57,20 @@ public class CommentAdded {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(author),
           comment,
           util.approvals(author, approvals, when),
           util.approvals(author, oldApprovals, when),
           when);
+      for (CommentAddedListener l : listeners) {
+        try {
+          l.onCommentAdded(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

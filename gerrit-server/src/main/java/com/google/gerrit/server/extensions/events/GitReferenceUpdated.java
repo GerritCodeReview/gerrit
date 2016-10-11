@@ -40,15 +40,7 @@ public class GitReferenceUpdated {
 
     @Override
     public void fire(Project.NameKey project, RefUpdate refUpdate,
-        ReceiveCommand.Type type, Account.Id updater) {}
-
-    @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
         Account updater) {}
-
-    @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
-        AccountInfo updater) {}
 
     @Override
     public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
@@ -60,10 +52,10 @@ public class GitReferenceUpdated {
 
     @Override
     public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-        Account.Id updater) {}
+        Account updater) {}
   };
 
-  private final Iterable<GitReferenceUpdatedListener> listeners;
+  private final DynamicSet<GitReferenceUpdatedListener> listeners;
   private final EventUtil util;
 
   @Inject
@@ -85,22 +77,10 @@ public class GitReferenceUpdated {
   }
 
   public void fire(Project.NameKey project, RefUpdate refUpdate,
-      ReceiveCommand.Type type, Account.Id updater) {
-    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), type, util.accountInfo(updater));
-  }
-
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
       Account updater) {
     fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
         refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE,
         util.accountInfo(updater));
-  }
-
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
-      AccountInfo updater) {
-    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE, updater);
   }
 
   public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
@@ -115,21 +95,20 @@ public class GitReferenceUpdated {
   }
 
   public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-      Account.Id updater) {
+      Account updater) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        fire(project, cmd, util.accountInfo(updater));
+        fire(project,
+            cmd.getRefName(),
+            cmd.getOldId(),
+            cmd.getNewId(),
+            cmd.getType(),
+            util.accountInfo(updater));
       }
     }
-  }
-
-  private void fire(Project.NameKey project, ReceiveCommand cmd,
-      AccountInfo updater) {
-    fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType(),
-        updater);
   }
 
   private void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
@@ -144,7 +123,7 @@ public class GitReferenceUpdated {
       try {
         l.onGitReferenceUpdated(event);
       } catch (Exception e) {
-        log.warn("Error in event listener", e);
+        util.logEventListenerError(log, e);
       }
     }
   }

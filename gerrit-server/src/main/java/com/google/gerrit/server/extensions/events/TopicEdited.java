@@ -43,31 +43,24 @@ public class TopicEdited {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, AccountInfo editor, String oldTopic,
-      Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(change, editor, oldTopic, when);
-    for (TopicEditedListener l : listeners) {
-      try {
-        l.onTopicEdited(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
   public void fire(Change change, Account account, String oldTopicName,
       Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.accountInfo(account),
           oldTopicName,
           when);
+      for (TopicEditedListener l : listeners) {
+        try {
+          l.onTopicEdited(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
     }

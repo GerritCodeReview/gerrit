@@ -430,7 +430,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccountId(),
+      revisionCreated.fire(change, patchSet, ctx.getAccount(),
           ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
         ChangeControl changeControl = changeControlFactory.controlFor(

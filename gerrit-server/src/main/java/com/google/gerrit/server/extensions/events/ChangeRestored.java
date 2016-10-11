@@ -48,31 +48,24 @@ public class ChangeRestored {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo restorer, String reason, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(change, revision, restorer, reason, when);
-    for (ChangeRestoredListener l : listeners) {
-      try {
-        l.onChangeRestored(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
   public void fire(Change change, PatchSet ps, Account restorer, String reason,
       Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(restorer),
           reason, when);
+      for (ChangeRestoredListener l : listeners) {
+        try {
+          l.onChangeRestored(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

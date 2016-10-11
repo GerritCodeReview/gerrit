@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,33 +46,25 @@ public class HashtagsEdited {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, AccountInfo editor,
-      Collection<String> hashtags, Collection<String> added,
-      Collection<String> removed, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(change, editor, hashtags, added, removed, when);
-    for (HashtagsEditedListener l : listeners) {
-      try {
-        l.onHashtagsEdited(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
-  public void fire(Change change, Id accountId,
+  public void fire(Change change, Account editor,
       ImmutableSortedSet<String> hashtags, Set<String> added,
       Set<String> removed, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
-          util.accountInfo(accountId),
+      Event event = new Event(
+          util.changeInfo(change),
+          util.accountInfo(editor),
           hashtags, added, removed,
           when);
+      for (HashtagsEditedListener l : listeners) {
+        try {
+          l.onHashtagsEdited(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
     }

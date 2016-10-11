@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f2f7072_87c2462f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-10-11T07:20:12Z",
+      "side": 1,
+      "message": "This looks wrong:\nYou remove something from the outer  iterator, but continue the inner loop. I would expect to continue with the outer loop now?",
+      "range": {
+        "startLine": 1852,
+        "startChar": 13,
+        "endLine": 1855,
+        "endChar": 25
+      },
+      "revId": "28bf1d3c1a8cff53e635059a571f68b54da31f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -129,6 +129,9 @@ limitations under the License.
           display: block;
           width: 100%;
         }
+        .mobileJumpToFileContainer select {
+          width: 100%;
+        }
       }
     </style>
     <header>
@@ -162,13 +165,14 @@ limitations under the License.
             </div>
           </iron-dropdown>
         </div>
-        <div class="mobileJumpToFileContainer">
+        <div class="mobileJumpToFileContainer" id="mobileDropdown">
           <select on-change="_handleMobileSelectChange">
             <template is="dom-repeat" items="[[_fileList]]" as="path">
               <option
+                  id = [[path]]
                   value$="[[path]]"
                   selected$="[[_computeFileSelected(path, _path)]]">
-                [[_computeFileDisplayName(path)]]
+                [[_computeTruncatedFileDisplayName(path)]]
               </option>
             </template>
           </select>

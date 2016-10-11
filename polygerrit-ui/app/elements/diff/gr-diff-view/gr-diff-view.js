@@ -430,6 +430,22 @@
       return path == COMMIT_MESSAGE_PATH ? 'Commit message' : path;
     },
 
+    _computeTruncatedFileDisplayName: function(path) {
+      return path == COMMIT_MESSAGE_PATH ?
+          'Commit message' : this._shortenPath(path);
+    },
+
+    _shortenPath: function(path) {
+      var pathPieces = path.split('/');
+
+      if (pathPieces.length < 2) {
+        return path;
+      }
+      var ellipses = '\u2026';
+      var shortPath = ellipses + '/' + pathPieces[pathPieces.length - 1];
+      return shortPath;
+    },
+
     _computeFileSelected: function(path, currentPath) {
       return path == currentPath;
     },
@@ -456,6 +472,7 @@
     _handleMobileSelectChange: function(e) {
       var path = Polymer.dom(e).rootTarget.value;
       page.show(this._getDiffURL(this._changeNum, this._patchRange, path));
+      this._shortenPath(e.target);
     },
 
     _showDropdownTapHandler: function(e) {

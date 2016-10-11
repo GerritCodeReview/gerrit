@@ -22,25 +22,20 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -49,33 +44,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,8 +75,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private final ChangeIndexer.Factory indexerFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ProjectCache projectCache;
-  private final ThreeWayMergeStrategy mergeStrategy;
-  private final AutoMerger autoMerger;
 
   @Inject
   AllChangesIndexer(
@@ -100,9 +84,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
       ChangeNotes.Factory notesFactory,
-      @GerritServerConfig Config config,
-      ProjectCache projectCache,
-      AutoMerger autoMerger) {
+      ProjectCache projectCache) {
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
@@ -110,8 +92,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     this.indexerFactory = indexerFactory;
     this.notesFactory = notesFactory;
     this.projectCache = projectCache;
-    this.mergeStrategy = MergeUtil.getMergeStrategy(config);
-    this.autoMerger = autoMerger;
   }
 
   private static class ProjectHolder implements Comparable<ProjectHolder> {
@@ -241,9 +221,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
               byId.put(r.getObjectId(), changeDataFactory.create(db, cn));
             }
           }
-          new ProjectIndexer(
-                  indexer, mergeStrategy, autoMerger, byId, repo, done, failed, verboseWriter)
-              .call();
+          new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter).call();
         } catch (RepositoryNotFoundException rnfe) {
           log.error(rnfe.getMessage());
         }
@@ -259,8 +237,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   private static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
-    private final ThreeWayMergeStrategy mergeStrategy;
-    private final AutoMerger autoMerger;
     private final ListMultimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
@@ -269,16 +245,12 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private ProjectIndexer(
         ChangeIndexer indexer,
-        ThreeWayMergeStrategy mergeStrategy,
-        AutoMerger autoMerger,
         ListMultimap<ObjectId, ChangeData> changesByCommitId,
         Repository repo,
         ProgressMonitor done,
         ProgressMonitor failed,
         PrintWriter verboseWriter) {
       this.indexer = indexer;
-      this.mergeStrategy = mergeStrategy;
-      this.autoMerger = autoMerger;
       this.byId = changesByCommitId;
       this.repo = repo;
       this.done = done;
@@ -288,8 +260,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     @Override
     public Void call() throws Exception {
-      try (ObjectInserter ins = repo.newObjectInserter();
-          RevWalk walk = new RevWalk(ins.newReader())) {
+      try (RevWalk walk = new RevWalk(repo)) {
         // Walk only refs first to cover as many changes as we can without having
         // to mark every single change.
         for (Ref ref : repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
@@ -299,39 +270,29 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
           }
         }
 
-        // TODO(dborowitz): This is basically pointless; it computes
-        // currentFilePaths faster than going through PatchListCache, but we
-        // still need to go through PatchListCache for changedLines.
         RevCommit bCommit;
         while ((bCommit = walk.next()) != null && !byId.isEmpty()) {
           if (byId.containsKey(bCommit)) {
-            getPathsAndIndex(walk, ins, bCommit);
+            index(bCommit);
             byId.removeAll(bCommit);
           }
         }
 
         for (ObjectId id : byId.keySet()) {
-          getPathsAndIndex(walk, ins, id);
+          index(id);
         }
       }
       return null;
     }
 
-    private void getPathsAndIndex(RevWalk walk, ObjectInserter ins, ObjectId b) throws Exception {
+    private void index(ObjectId b) throws Exception {
       List<ChangeData> cds = Lists.newArrayList(byId.get(b));
-      try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-        RevCommit bCommit = walk.parseCommit(b);
-        RevTree bTree = bCommit.getTree();
-        RevTree aTree = aFor(bCommit, walk, ins);
-        df.setRepository(repo);
+      try {
         if (!cds.isEmpty()) {
-          List<String> paths =
-              (aTree != null) ? getPaths(df.scan(aTree, bTree)) : Collections.<String>emptyList();
           Iterator<ChangeData> cdit = cds.iterator();
           for (ChangeData cd; cdit.hasNext(); cdit.remove()) {
             cd = cdit.next();
             try {
-              cd.setCurrentFilePaths(paths);
               indexer.index(cd);
               done.update(1);
               verboseWriter.println("Reindexed change " + cd.getId());
@@ -345,43 +306,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         for (ChangeData cd : cds) {
           fail("Failed to index change " + cd.getId(), true, null);
         }
-      }
-    }
-
-    private List<String> getPaths(List<DiffEntry> filenames) {
-      Set<String> paths = Sets.newTreeSet();
-      for (DiffEntry e : filenames) {
-        if (e.getOldPath() != null) {
-          paths.add(e.getOldPath());
-        }
-        if (e.getNewPath() != null) {
-          paths.add(e.getNewPath());
-        }
-      }
-      return ImmutableList.copyOf(paths);
-    }
-
-    private RevTree aFor(RevCommit b, RevWalk walk, ObjectInserter ins) throws IOException {
-      switch (b.getParentCount()) {
-        case 0:
-          return walk.parseTree(emptyTree());
-        case 1:
-          RevCommit a = b.getParent(0);
-          walk.parseBody(a);
-          return walk.parseTree(a.getTree());
-        case 2:
-          RevCommit am = autoMerger.merge(repo, walk, ins, b, mergeStrategy);
-          return am == null ? null : am.getTree();
-        default:
-          return null;
-      }
-    }
-
-    private ObjectId emptyTree() throws IOException {
-      try (ObjectInserter oi = repo.newObjectInserter()) {
-        ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-        oi.flush();
-        return id;
       }
     }
 

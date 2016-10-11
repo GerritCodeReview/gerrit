@@ -293,7 +293,7 @@
     },
 
     _handleKey: function(e) {
-      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       switch (e.keyCode) {
         case 191:  // '/' or '?' with shift key.
           // TODO(andybons): Localization using e.key/keypress event.

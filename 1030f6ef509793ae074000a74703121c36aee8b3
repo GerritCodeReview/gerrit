@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf9360d9_1bacdb8b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-11T00:54:44Z",
+      "side": 1,
+      "message": "Indentation",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 50
+      },
+      "revId": "1030f6ef509793ae074000a74703121c36aee8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_9d66234f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-11T16:36:31Z",
+      "side": 1,
+      "message": "I wonder if using data binding would be a better approach here.\nTake a look at how _editing works, maybe you would like it more.",
+      "revId": "33a55a8af8a9d2b819fe4ee5db2d32500f0886d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

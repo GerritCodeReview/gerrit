@@ -1,0 +1,98 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/gr-settings-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-registration-dialog">
+  <template>
+    <style include="gr-settings-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      main {
+        max-width: 46em;
+      }
+      hr {
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+      header {
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+      }
+      header,
+      main,
+      footer {
+        padding: .5em .65em;
+      }
+      footer {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+    <main class="gr-settings-styles">
+      <header>Please confirm your contact information</header>
+      <main>
+        <p>
+          The following contact information was automatically obtained when you
+          signed in to the site. This information is used to display who you are
+          to others, and to send updates to code reviews you have either started
+          or subscribed to.
+        </p>
+        <hr>
+        <section>
+          <div class="title">Full Name</div>
+          <input
+              is="iron-input"
+              id="name"
+              bind-value="{{_account.name}}"
+              disabled="[[_saving]]"
+              on-keydown="_handleNameKeydown">
+        </section>
+        <section>
+          <div class="title">Preferred Email</div>
+          <select
+              is="gr-select"
+              id="email"
+              bind-value="{{_account.email}}"
+              disabled="[[_saving]]">
+            <option value="{{_account.email}}">{{_account.email}}</option>
+            <template is="dom-repeat" items="{{_account.secondary_emails}}">
+              <option value="{{item}}">{{item}}</option>
+            </template>
+          </select>
+        </section>
+      </main>
+      <footer>
+        <gr-button
+            id="saveButton"
+            primary
+            disabled="[[_saving]]"
+            on-tap="_handleSave">Save</gr-button>
+        <gr-button
+            id="closeButton"
+            disabled="[[_saving]]"
+            on-tap="_handleClose">Close</gr-button>
+      </footer>
+    </main>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-registration-dialog.js"></script>
+</dom-module>

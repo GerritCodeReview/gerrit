@@ -79,6 +79,10 @@
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
 
+    reload: function() {
+      return this._loadAccount();
+    },
+
     _handleLocationChange: function(e) {
       this._loginURL = '/login/' + encodeURIComponent(
           window.location.pathname +
@@ -102,7 +106,7 @@
     },
 
     _loadAccount: function() {
-      this.$.restAPI.getAccount().then(function(account) {
+      return this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
         this.$.accountContainer.classList.toggle('loggedIn', account != null);
         this.$.accountContainer.classList.toggle('loggedOut', account == null);

@@ -54,30 +54,25 @@ limitations under the License.
           message: 'i like you, too',
           in_reply_to: 'sallys_confession',
           updated: '2015-12-25 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sallys_confession',
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sally_to_dr_finklestein',
           message: 'i’m running away',
           updated: '2015-10-31 09:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sallys_defiance',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'i will poison you so i can get away',
           updated: '2015-10-31 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'dr_finklesteins_response',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'no i will pull a thread and your arm will fall off',
           updated: '2015-10-31 11:00:20.396000000'
-        },
-        {
+        }, {
           id: 'sallys_mission',
           message: 'i have to find santa',
           updated: '2015-12-24 21:00:20.396000000'
@@ -89,31 +84,26 @@ limitations under the License.
           id: 'sally_to_dr_finklestein',
           message: 'i’m running away',
           updated: '2015-10-31 09:00:20.396000000',
-        },
-        {
+        }, {
           id: 'dr_finklesteins_response',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'no i will pull a thread and your arm will fall off',
           updated: '2015-10-31 11:00:20.396000000'
-        },
-        {
+        }, {
           id: 'sallys_defiance',
           in_reply_to: 'sally_to_dr_finklestein',
           message: 'i will poison you so i can get away',
           updated: '2015-10-31 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sallys_confession',
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'jacks_reply',
           message: 'i like you, too',
           in_reply_to: 'sallys_confession',
           updated: '2015-12-25 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sallys_mission',
           message: 'i have to find santa',
           updated: '2015-12-24 21:00:20.396000000'
@@ -247,26 +237,55 @@ limitations under the License.
           message: 'i like you, too',
           in_reply_to: 'sallys_confession',
           updated: '2015-12-25 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sallys_confession',
           in_reply_to: 'nonexistent_comment',
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sally_to_dr_finklestein',
           in_reply_to: 'nonexistent_comment',
           message: 'i’m running away',
           updated: '2015-10-31 09:00:20.396000000',
-        },
-        {
+        }, {
           id: 'sallys_defiance',
           message: 'i will poison you so i can get away',
           updated: '2015-10-31 15:00:20.396000000',
         }];
       element.comments = comments;
       assert.equal(4, element._orderedComments.length);
+    });
+
+    test('keyboard shortcuts', function() {
+      var comments = [
+        {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-25 15:00:20.396000000',
+        }, {
+          id: 'sallys_confession',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        }, {
+          id: 'sally_to_dr_finklestein',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        }, {
+          id: 'sallys_defiance',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        }];
+      element.comments = comments;
+      var expandCollapseStub = sinon.stub(element, '_expandCollapseComments');
+      MockInteractions.pressAndReleaseKeyOn(element, 69);  // 'e'
+      assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
+
+      MockInteractions.pressAndReleaseKeyOn(element, 69, 'shift');  // 'e'
+      assert.isTrue(expandCollapseStub.lastCall.calledWith(true));
+      expandCollapseStub.restore();
     });
   });
 </script>

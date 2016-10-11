@@ -81,7 +81,7 @@
       },
       patchNum: String,
       showActions: Boolean,
-      _commentCollapsed: {
+      collapsed: {
         type: Boolean,
         value: true,
         observer: '_toggleCollapseClass',
@@ -103,7 +103,7 @@
 
     attached: function() {
       if (this.editing) {
-        this._commentCollapsed = false;
+        this.collapsed = false;
       }
     },
 
@@ -226,11 +226,11 @@
     },
 
     _handleToggleCollapsed: function() {
-      this._commentCollapsed = !this._commentCollapsed;
+      this.collapsed = !this.collapsed;
     },
 
-    _toggleCollapseClass: function(_commentCollapsed) {
-      if (_commentCollapsed) {
+    _toggleCollapseClass: function(collapsed) {
+      if (collapsed) {
         this.$.container.classList.add('collapsed');
       } else {
         this.$.container.classList.remove('collapsed');

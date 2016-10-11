@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf9360d9_3bb437c8",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-10-11T01:54:38Z",
+      "side": 1,
+      "message": "can we do this in the Java code instead? Notably I\u0027m thinking about the encoding of which side the line number comes from in order to set the anchor correctly.",
+      "range": {
+        "startLine": 91,
+        "startChar": 29,
+        "endLine": 91,
+        "endChar": 69
+      },
+      "revId": "ba6b39b104c51c1ab66c4d9adbb2067a9083e1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_5da65bab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-11T00:59:02Z",
+      "side": 1,
+      "message": "Since there are only two states, why not re-work it to be true/false?",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 53
+      },
+      "revId": "0eedadd19c5f8e96f00f035ddaf15a123a22047f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

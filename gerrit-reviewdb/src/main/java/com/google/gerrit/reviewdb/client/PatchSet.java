@@ -201,6 +201,16 @@ public final class PatchSet {
     id = k;
   }
 
+  public PatchSet(PatchSet src) {
+    this.id = src.id;
+    this.revision = src.revision;
+    this.uploader = src.uploader;
+    this.createdOn = src.createdOn;
+    this.draft = src.draft;
+    this.groups = src.groups;
+    this.pushCertificate = src.pushCertificate;
+  }
+
   public PatchSet.Id getId() {
     return id;
   }

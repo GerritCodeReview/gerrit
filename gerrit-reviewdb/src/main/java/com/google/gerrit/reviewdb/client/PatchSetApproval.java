@@ -121,6 +121,10 @@ public final class PatchSetApproval {
     tag = src.tag;
   }
 
+  public PatchSetApproval(PatchSetApproval src) {
+    this(src.getPatchSetId(), src);
+  }
+
   public PatchSetApproval.Key getKey() {
     return key;
   }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf6c40b9_b375d822",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-11T01:17:20Z",
+      "side": 1,
+      "message": "Is there a specific reason to change this?\n\nRemoving the ../ causes the test site to be created within the gerrit checkout. This is not ideal because you can inadvertently wipe out the test site by running git clean (per instructions at line 40). It would also make it difficult to work with multiple sites (i.e. switching between stable-2.x and master versions).",
+      "range": {
+        "startLine": 90,
+        "startChar": 51,
+        "endLine": 90,
+        "endChar": 60
+      },
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf6c40b9_d37a5411",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-11T01:17:20Z",
+      "side": 1,
+      "message": "This can be done during the init.  It would be better to make a change around line 93 so that instead of accepting all the defaults (which sets auth to OAUTH if I remember correctly) the user should change the default to DEVELOPMENT_BECOME_ANY_ACCOUNT.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 4
+      },
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4bfc45_728c3836",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-11T01:17:20Z",
+      "side": 1,
+      "message": "If auth is set to DEVELOPMENT_BECOME_ANY_ACCOUNT during init, there is an additional init step that will create the initial admin user (with the email address from global git config).",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 33
+      },
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4bfc45_528f342b",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-11T01:17:20Z",
+      "side": 1,
+      "message": "changes",
+      "range": {
+        "startLine": 138,
+        "startChar": 30,
+        "endLine": 138,
+        "endChar": 33
+      },
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

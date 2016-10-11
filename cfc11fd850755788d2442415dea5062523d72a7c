@@ -17,6 +17,24 @@
       "revId": "cfc11fd850755788d2442415dea5062523d72a7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_9dfb835f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T15:10:52Z",
+      "side": 1,
+      "message": "I guess. When I forced all bad query tests to assert over the error message, I fixed glaring errors rather than adding asserts for things that were obviously incorrect.",
+      "parentUuid": "1f28ec68_06857a0b",
+      "revId": "cfc11fd850755788d2442415dea5062523d72a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

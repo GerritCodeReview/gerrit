@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ff8dd8b6_7d4f978a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-11T21:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_5dd73bb8",
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_9b8aabd0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 4
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-11T18:52:15Z",
       "side": 1,
       "message": "What about `comment.collapsed \u003d actionIsCollapse;` instead of the setter method?",
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_5d52db31",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-11T21:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_9b8aabd0",
       "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ff8dd8b6_9d2e23b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-11T21:14:33Z",
+      "side": 1,
+      "message": "updated the rest in the file too",
+      "parentUuid": "bf9360d9_7beb1f6b",
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_5bee637c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 4
@@ -82,6 +136,24 @@
         "endLine": 228,
         "endChar": 5
       },
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_1b23fbc5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-11T21:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_5bee637c",
       "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "ff8dd8b6_bd33df14",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-11T21:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_fbde4fcf",
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_ddd98bea",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 4
@@ -122,6 +212,24 @@
       "writtenOn": "2016-10-11T18:48:07Z",
       "side": 1,
       "message": "I\u0027d recommend reworking this test to check for the expected behavior in the DOM as opposed to just in JS land.",
+      "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_3b20b7b6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-11T21:14:33Z",
+      "side": 1,
+      "message": "the DOM is tested pretty thoroughly in the collapsible drafts and collapsible comments test. I\u0027ve added assertions to those tests that the element.commentCollapsed state is as expected (which is what we are testing in this new test). Since those older tests test all of the DOM states, I think this should now be sufficient.",
+      "parentUuid": "ff8dd8b6_ddd98bea",
       "revId": "5ab8392bbef9fec285bf7ed73fe92251f4f752f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

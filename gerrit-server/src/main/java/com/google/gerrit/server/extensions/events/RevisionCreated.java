@@ -48,31 +48,24 @@ public class RevisionCreated {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo uploader, Timestamp when, NotifyHandling notify) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(change, revision, uploader, when, notify);
-    for (RevisionCreatedListener l : listeners) {
-      try {
-        l.onRevisionCreated(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
-  public void fire(Change change, PatchSet patchSet, Account.Id uploader,
+  public void fire(Change change, PatchSet patchSet, Account uploader,
       Timestamp when, NotifyHandling notify) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
           util.accountInfo(uploader),
           when, notify);
+      for (RevisionCreatedListener l : listeners) {
+        try {
+          l.onRevisionCreated(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch ( PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

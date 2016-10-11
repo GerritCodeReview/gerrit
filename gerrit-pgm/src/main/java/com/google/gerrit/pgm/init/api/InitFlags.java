@@ -39,6 +39,9 @@ public class InitFlags {
   /** Skip plugins */
   public boolean skipPlugins;
 
+  /** Delete all cache files */
+  public boolean deleteCaches;
+
   /** Dev mode */
   public boolean dev;
 

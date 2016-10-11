@@ -51,26 +51,6 @@ public class VoteDeleted {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
-      Map<String, ApprovalInfo> approvals,
-      Map<String, ApprovalInfo> oldApprovals,
-      NotifyHandling notify, String message,
-      AccountInfo remover, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(
-        change, revision, approvals, oldApprovals, notify, message,
-        remover, when);
-    for (VoteDeletedListener l : listeners) {
-      try {
-        l.onVoteDeleted(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
   public void fire(Change change, PatchSet ps,
       Map<String, Short> approvals,
       Map<String, Short> oldApprovals,
@@ -80,12 +60,20 @@ public class VoteDeleted {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.approvals(remover, approvals, when),
           util.approvals(remover, oldApprovals, when),
           notify, message,
           util.accountInfo(remover), when);
+      for (VoteDeletedListener l : listeners) {
+        try {
+          l.onVoteDeleted(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

@@ -48,28 +48,21 @@ public class DraftPublished {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo publisher, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(change, revision, publisher, when);
-    for (DraftPublishedListener l : listeners) {
-      try {
-        l.onDraftPublished(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
-  public void fire(Change change, PatchSet patchSet, Account.Id accountId,
+  public void fire(Change change, PatchSet patchSet, Account accountId,
       Timestamp when) {
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
           util.accountInfo(accountId),
           when);
+      for (DraftPublishedListener l : listeners) {
+        try {
+          l.onDraftPublished(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

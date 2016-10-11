@@ -406,7 +406,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     NotifyHandling notify = magicBranch != null && magicBranch.notify != null
         ? magicBranch.notify
         : NotifyHandling.ALL;
-    revisionCreated.fire(change, newPatchSet, ctx.getAccountId(),
+    revisionCreated.fire(change, newPatchSet, ctx.getAccount(),
         ctx.getWhen(), notify);
     try {
       fireCommentAddedEvent(ctx);

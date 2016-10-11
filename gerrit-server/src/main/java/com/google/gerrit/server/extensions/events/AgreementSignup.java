@@ -46,7 +46,7 @@ public class AgreementSignup {
       try {
         l.onAgreementSignup(event);
       } catch (Exception e) {
-        log.warn("Error in event listener", e);
+        util.logEventListenerError(log, e);
       }
     }
   }

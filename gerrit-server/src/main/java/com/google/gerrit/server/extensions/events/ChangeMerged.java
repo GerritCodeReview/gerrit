@@ -48,31 +48,24 @@ public class ChangeMerged {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo merger, String newRevisionId, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(change, revision, merger, newRevisionId, when);
-    for (ChangeMergedListener l : listeners) {
-      try {
-        l.onChangeMerged(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
   public void fire(Change change, PatchSet ps, Account merger,
       String newRevisionId, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(merger),
           newRevisionId, when);
+      for (ChangeMergedListener l : listeners) {
+        try {
+          l.onChangeMerged(event);
+        } catch (Exception e) {
+          util.logEventListenerError(log, e);
+        }
+      }
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);

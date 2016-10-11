@@ -42,8 +42,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
@@ -103,7 +103,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final GitReferenceUpdated referenceUpdated;
   private final RepositoryConfig repositoryCfg;
   private final PersonIdent serverIdent;
-  private final Provider<CurrentUser> currentUser;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
   private final String name;
@@ -122,7 +122,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       GitReferenceUpdated referenceUpdated,
       RepositoryConfig repositoryCfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      Provider<CurrentUser> currentUser,
+      Provider<IdentifiedUser> identifiedUser,
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       @Assisted String name) {
@@ -140,7 +140,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.referenceUpdated = referenceUpdated;
     this.repositoryCfg = repositoryCfg;
     this.serverIdent = serverIdent;
-    this.currentUser = currentUser;
+    this.identifiedUser = identifiedUser;
     this.putConfig = putConfig;
     this.allProjects = allProjects;
     this.name = name;
@@ -214,8 +214,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     if (input.pluginConfigValues != null) {
       try {
-        ProjectControl projectControl =
-            projectControlFactory.controlFor(p.getNameKey(), currentUser.get());
+        ProjectControl projectControl = projectControlFactory.controlFor(
+            p.getNameKey(), identifiedUser.get());
         ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;
         putConfig.get().apply(projectControl, in);
@@ -355,7 +355,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         switch (result) {
           case NEW:
             referenceUpdated.fire(project, ru, ReceiveCommand.Type.CREATE,
-                currentUser.get().getAccountId());
+                identifiedUser.get().getAccount());
             break;
           case FAST_FORWARD:
           case FORCED:

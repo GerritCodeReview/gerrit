@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
@@ -99,6 +100,7 @@ public class PostReviewers
   private final ReviewerJson json;
   private final ReviewerAdded reviewerAdded;
   private final NotesMigration migration;
+  private final AccountCache accountCache;
 
   @Inject
   PostReviewers(AccountsCollection accounts,
@@ -116,7 +118,8 @@ public class PostReviewers
       @GerritServerConfig Config cfg,
       ReviewerJson json,
       ReviewerAdded reviewerAdded,
-      NotesMigration migration) {
+      NotesMigration migration,
+      AccountCache accountCache) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
@@ -133,6 +136,7 @@ public class PostReviewers
     this.json = json;
     this.reviewerAdded = reviewerAdded;
     this.migration = migration;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -362,8 +366,8 @@ public class PostReviewers
         }
         emailReviewers(rsrc.getChange(), addedReviewers, addedCCs, notify);
         if (!addedReviewers.isEmpty()) {
-          List<Account.Id> reviewers =
-              Lists.transform(addedReviewers, PatchSetApproval::getAccountId);
+          List<Account> reviewers = Lists.transform(addedReviewers,
+              psa -> accountCache.get(psa.getAccountId()).getAccount());
           reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers,
               ctx.getAccount(), ctx.getWhen());
         }

@@ -21,6 +21,7 @@ limitations under the License.
   /** @polymerBehavior Gerrit.KeyboardShortcutBehavior */
   var KeyboardShortcutBehavior = {
     enabled: true,
+    _disablers: {},
 
     properties: {
       keyEventTarget: {
@@ -33,6 +34,8 @@ limitations under the License.
         readonly: true,
         value: function() { return this._handleKey.bind(this); },
       },
+
+      _disablers: Object,
     },
 
     attached: function() {
@@ -43,8 +46,14 @@ limitations under the License.
       this.keyEventTarget.removeEventListener('keydown', this._boundKeyHandler);
     },
 
-    shouldSupressKeyboardShortcut: function(e) {
+    shouldSuppressKeyboardShortcut: function(e) {
       if (!KeyboardShortcutBehavior.enabled) { return true; }
+      for (var c in KeyboardShortcutBehavior._disablers) {
+        if (KeyboardShortcutBehavior._disablers.hasOwnProperty(c) &&
+            KeyboardShortcutBehavior._disablers[c]) {
+          return true;
+        }
+      }
       var getModifierState = e.getModifierState ?
           e.getModifierState.bind(e) :
           function() { return false; };
@@ -59,6 +68,14 @@ limitations under the License.
              target.tagName == 'BUTTON' ||
              target.tagName == 'A' ||
              target.tagName == 'GR-BUTTON';
+    },
+
+    disable: function(id) {
+      KeyboardShortcutBehavior._disablers[id] = true;
+    },
+
+    enable: function(id) {
+      delete KeyboardShortcutBehavior._disablers[id];
     },
   };
 

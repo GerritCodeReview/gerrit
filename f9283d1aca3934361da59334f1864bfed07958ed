@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f2f7072_c77a7e11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-11T04:36:24Z",
+      "side": 1,
+      "message": "This was probably done as part of long-line fixing as requested by Dave on the earlier patch set.",
+      "parentUuid": "ff8dd8b6_ddcc2b65",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 3
+      },
+      "revId": "f9283d1aca3934361da59334f1864bfed07958ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_fbd1eff7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 4
@@ -41,6 +65,52 @@
         "startChar": 27,
         "endLine": 210,
         "endChar": 30
+      },
+      "revId": "f9283d1aca3934361da59334f1864bfed07958ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_26827604",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-11T04:36:24Z",
+      "side": 1,
+      "message": "repeated word",
+      "range": {
+        "startLine": 216,
+        "startChar": 43,
+        "endLine": 216,
+        "endChar": 52
+      },
+      "revId": "f9283d1aca3934361da59334f1864bfed07958ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_e77f82fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-11T04:36:24Z",
+      "side": 1,
+      "message": "repeated word",
+      "range": {
+        "startLine": 316,
+        "startChar": 41,
+        "endLine": 316,
+        "endChar": 50
       },
       "revId": "f9283d1aca3934361da59334f1864bfed07958ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

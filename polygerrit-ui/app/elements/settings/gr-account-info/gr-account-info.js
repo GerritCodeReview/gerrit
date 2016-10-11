@@ -17,6 +17,12 @@
   Polymer({
     is: 'gr-account-info',
 
+    /**
+     * Fired when account details are changed.
+     *
+     * @event account-detail-update
+     */
+
     properties: {
       mutable: {
         type: Boolean,
@@ -72,6 +78,7 @@
       return this.$.restAPI.setAccountName(this._account.name).then(function() {
         this.hasUnsavedChanges = false;
         this._saving = false;
+        this.fire('account-detail-update');
       }.bind(this));
     },
 

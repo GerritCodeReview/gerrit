@@ -38,7 +38,6 @@ import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -55,6 +54,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -88,7 +88,7 @@ public class StreamEventsApiListener implements
   private static final Logger log =
       LoggerFactory.getLogger(StreamEventsApiListener.class);
 
-  public static class Module extends LifecycleModule {
+  public static class Module extends AbstractModule {
     @Override
     protected void configure() {
       DynamicSet.bind(binder(), ChangeAbandonedListener.class)

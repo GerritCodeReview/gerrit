@@ -26,6 +26,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -96,7 +97,8 @@ public class Assignee extends Composite {
 
   void set(ChangeInfo info) {
     this.changeId = info.legacyId();
-    this.canEdit = info.hasActions() && info.actions().containsKey("assignee");
+    this.canEdit = info.hasActions() && info.actions().containsKey("assignee")
+        && info.status() != Status.MERGED;
     setAssignee(info.assignee());
     assigneeSuggestOracle.setChange(changeId);
     editAssigneeIcon.setVisible(canEdit);

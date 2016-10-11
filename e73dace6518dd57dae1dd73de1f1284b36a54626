@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_3d26ef23",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-11T14:36:49Z",
+      "side": 1,
+      "message": "page.show(this.backPage || \u0027/\u0027);",
+      "range": {
+        "startLine": 585,
+        "startChar": 6,
+        "endLine": 586,
+        "endChar": 26
+      },
+      "revId": "e73dace6518dd57dae1dd73de1f1284b36a54626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_dbf51369",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-11T14:36:49Z",
+      "side": 1,
+      "message": "You don’t mutate the backPage property, so you can use [[]] notation, here.",
+      "range": {
+        "startLine": 108,
+        "startChar": 23,
+        "endLine": 108,
+        "endChar": 42
+      },
+      "revId": "e73dace6518dd57dae1dd73de1f1284b36a54626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ff8dd8b6_dd942bf2",
+        "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T19:14:51Z",
+      "side": 1,
+      "message": "If `elementDescendedFromClass` is shared in a behavior, it can only be used by Polymer components. Sharing code in behaviors is definitely something we should be doing more, but I think we should only do it when it actually encodes the behavior of Polymer components -- not when it\u0027s just a vanilla JS function.\n\nFor example, look at gr-annotation.js and the various places it\u0027s used.",
+      "parentUuid": "bf9360d9_3b7c37b9",
+      "revId": "58432d809e9c8835b19e5e38ae61a5607013ad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_bbe4c79f",
         "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
         "patchSetId": 2

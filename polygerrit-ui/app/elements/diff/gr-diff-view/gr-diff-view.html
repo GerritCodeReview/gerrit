@@ -129,6 +129,9 @@ limitations under the License.
           display: block;
           width: 100%;
         }
+        .mobileJumpToFileContainer select {
+          width: 100%;
+        }
       }
     </style>
     <header>
@@ -168,7 +171,7 @@ limitations under the License.
               <option
                   value$="[[path]]"
                   selected$="[[_computeFileSelected(path, _path)]]">
-                [[_computeFileDisplayName(path)]]
+                [[_computeTruncatedFileDisplayName(path)]]
               </option>
             </template>
           </select>

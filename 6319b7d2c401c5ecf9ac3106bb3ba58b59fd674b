@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f28ec68_4665b23c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-11T14:11:02Z",
+      "side": 1,
+      "message": "I\u0027ve renamed SubmitByRebaseIfNecessary to this, so that I can share tests between two rebase strategies.\nThe only difference from original is lacking fastforward test case + actual new class name.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_6662ae37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-11T14:11:02Z",
+      "side": 1,
+      "message": "this still fails because of copy-pasted chunk of rebase-always used for fastforward case doesn\u0027t change new commit as a new patchset to existing change.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f28ec68_a652e663",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-11T14:11:02Z",
+      "side": 1,
+      "message": "because P comes before R :)",
+      "range": {
+        "startLine": 71,
+        "startChar": 42,
+        "endLine": 71,
+        "endChar": 43
+      },
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2f7072_4765ae3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-11T14:11:02Z",
+      "side": 1,
+      "message": "to avoid copy-paste, i\u0027ve refactored RebaseIfNeccessary into new base classm but to keep the rest of code consistent I still have a class per strategy.\n\nBetter ideas appreciated.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bf9360d9_3b58b789",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T17:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_bdc75f3e",
+      "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_9dc2a32f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 11
@@ -42,6 +60,24 @@
         "endLine": 153,
         "endChar": 5
       },
+      "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_5b65833c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T17:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_9dc2a32f",
       "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "bf9360d9_9b4d4bcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T17:16:23Z",
+      "side": 1,
+      "message": "Correct. It passes the rendered version as `title` because when it\u0027s a file, it\u0027s prepended with \"File \", but not when it\u0027s the commit message or merge list. In those cases, \"title\" makes sense to me.",
+      "parentUuid": "bf9360d9_7bbebfa9",
+      "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_5dc1fb24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 11
@@ -88,6 +142,24 @@
         "endLine": 498,
         "endChar": 39
       },
+      "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_bb520764",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T17:16:23Z",
+      "side": 1,
+      "message": "What name would you suggest? `inlineCommentFiles` gives the impression that it may ot contain the comment info. (Also, in the case of commit messages and merge lists, the groups are not precisely files.)\n\nThe intent is the same as the flat list of comments, but with added grouping structure. Thus `inlineComments` \u003d\u003e `inlineCommentGroups`.",
+      "parentUuid": "ff8dd8b6_5dc1fb24",
       "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1826,6 +1826,22 @@ public class ReceiveCommits {
             return;
           }
 
+          // In case the change look up from the index failed,
+          // double check against the existing ref if applicable
+          Collection<Ref> existingRefs = existing.get(p.commit);
+          if (!existingRefs.isEmpty()) {
+            for (Ref ref : existingRefs) {
+              ChangeNotes notes = notesFactory.create(db, project.getNameKey(),
+                  Change.Id.fromRef(ref.getName()));
+              if (notes.getChange().getDest().equals(magicBranch.dest)) {
+                // find the change to the same branch
+                logDebug("Found change from existing refs.");
+                reject(magicBranch.cmd,
+                    "commit(s) already exists (as current patchset)");
+                return;
+              }
+            }
+          }
           newChangeIds.add(p.changeKey);
         }
         newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));

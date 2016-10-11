@@ -58,6 +58,10 @@ public class RepositoryConfigTest {
     configureDefaultSubmitType("*", SubmitType.REBASE_IF_NECESSARY);
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
         .isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+
+    configureDefaultSubmitType("*", SubmitType.REBASE_ALWAYS);
+    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+        .isEqualTo(SubmitType.REBASE_ALWAYS);
   }
 
   @Test

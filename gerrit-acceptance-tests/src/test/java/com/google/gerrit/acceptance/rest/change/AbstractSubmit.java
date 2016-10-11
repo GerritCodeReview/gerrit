@@ -202,7 +202,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
       assertChangeMergedEvents(change.getChangeId(),
           headAfterFirstSubmit.name());
-    } else if(getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
+    } else if((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)
+        || (getSubmitType() == SubmitType.REBASE_ALWAYS)){
+      // TODO(tandrii): is this OK?
       String change2hash = change2.getChange().currentPatchSet()
           .getRevision().get();
       assertThat(msg).isEqualTo(

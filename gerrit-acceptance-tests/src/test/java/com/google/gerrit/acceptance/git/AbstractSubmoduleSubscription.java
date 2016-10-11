@@ -68,6 +68,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return cfg;
   }
 
+  // TODO(tandrii): what about RebaseAlways?
   protected static Config submitByRebaseConifg() {
     Config cfg = new Config();
     cfg.setBoolean("change", null, "submitWholeTopic", true);

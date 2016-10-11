@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bf9360d9_db9433f2",
+        "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-11T19:00:18Z",
+      "side": 1,
+      "message": "Looks to me like this should not be a behavior, since it\u0027s just a regular function (doesn\u0027t use `this` or modify the behavior of the element it\u0027s mixed into). As it stands, this would be more useful as a regular JS file.",
+      "revId": "58432d809e9c8835b19e5e38ae61a5607013ad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_bbe4c79f",
         "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
         "patchSetId": 2

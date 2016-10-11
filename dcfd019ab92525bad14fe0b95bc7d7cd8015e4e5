@@ -69,6 +69,24 @@
       "revId": "dcfd019ab92525bad14fe0b95bc7d7cd8015e4e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_3bdb5710",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1839,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-11T05:54:37Z",
+      "side": 1,
+      "message": "Found ChangeIndexer to reindex the change.",
+      "parentUuid": "bf9360d9_dbe353c5",
+      "revId": "dcfd019ab92525bad14fe0b95bc7d7cd8015e4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,323 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_9d5c6354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "\"null\" here is a Java-ism; in JSON terms, this means the object does not contain a member named \"merge\".\n\nHow about: \"merge field is required\"",
+      "range": {
+        "startLine": 121,
+        "startChar": 51,
+        "endLine": 121,
+        "endChar": 59
+      },
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_ddab4b26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "Maybe sanity check that the current patch set is also a merge? I suppose it\u0027s *possible* to convert a non-merge change into a merge change, but it seems much more likely to be user error.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_fb6bafe4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "Use an error message consistent with PatchSetInserter.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_fd6ba7e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "I don\u0027t think you want/need this ChangeData at all, see below.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_7b787fb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "As I mentioned in the documentation, it may be slightly surprising that you always silently take the new branch tip rather than the first parent of the previous patch set.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_9b438b6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "This will NPE if destRef was null.\n\nYou should probably be throwing your own exception in that case.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_1b713bd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "Do we also reject merge commits on branches with other submit types when they come via push? I would expect this to be consistent with that behavior.\n\nAlso why is FAST_FORWARD_ONLY excluded here? Merge commits are perfectly valid for that submit type.\n\n(Yes I realize you are pasting from CreateChange.)",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_fdb00791",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "I thought we usually return 404 in this case to avoid leaking existence of commits you have no permission to read.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_1da6935c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "Don\u0027t need to create mergeUtil if merge.strategy is specified.\n\nI would also factor this out into a separate method.",
+      "range": {
+        "startLine": 170,
+        "startChar": 31,
+        "endLine": 170,
+        "endChar": 32
+      },
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_bb484789",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "I wonder if this is always the right commit message.\n\nSay the original merge commit was created with --log so its message contains a list of one-line descriptions. That may no longer be accurate.\n\nI\u0027m willing to believe that in the common case this is the right choice, I guess what I\u0027m saying is maybe we should make it configurable?",
+      "range": {
+        "startLine": 178,
+        "startChar": 37,
+        "endLine": 178,
+        "endChar": 61
+      },
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_dd66eb1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "Don\u0027t get this from the ChangeData, that wastefully reopens the repo to read the commit. Just parse the commit from the PatchSet revision field and use its message.",
+      "range": {
+        "startLine": 178,
+        "startChar": 37,
+        "endLine": 178,
+        "endChar": 47
+      },
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_7d9dd706",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "Don\u0027t go to the ref database for this, just use ObjectId.fromString(ps.getRevision().get())",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_3da34f4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "ReplaceOp is really only supposed to be for ReceiveCommits. Is there some reason you can\u0027t use PatchSetInserter here?",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_3d6eeff4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "ctl.getId()",
+      "range": {
+        "startLine": 189,
+        "startChar": 17,
+        "endLine": 189,
+        "endChar": 35
+      },
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_3b6ef7f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "I wonder if it would make sense to include CURRENT_REVISION so the caller knows the SHA-1? Maybe not necessary though.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_5da01b3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "Don\u0027t catch a blanket IAE like this in such a broad catch block. There are tons and tons of places this could come from, most of which are not in code that we control.\n\nNormally we just let IAE and other RuntimeExceptions bubble up and turn into 500s. Why do you need to turn them into 400s? Is there some specific type of error you have in mind?",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_5b7bc3b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T20:04:08Z",
+      "side": 1,
+      "message": "IAE can come from anywhere in our stack, you should not leak this message to the user.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

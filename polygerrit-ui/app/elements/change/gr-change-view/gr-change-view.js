@@ -42,6 +42,7 @@
         notify: true,
         value: function() { return {}; },
       },
+      backPage: String,
       serverConfig: Object,
       keyEventTarget: {
         type: Object,
@@ -604,9 +605,15 @@
           break;
         case 85:  // 'u'
           e.preventDefault();
-          page.show('/');
+          this._determinePageBack();
           break;
       }
+    },
+
+    _determinePageBack: function() {
+      // Default backPage to '/' if user came to change view page
+      // via an email link, etc.
+      page.show(this.backPage || '/');
     },
 
     _labelsChanged: function(changeRecord) {

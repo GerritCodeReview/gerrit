@@ -43,6 +43,7 @@
       _showSettingsView: Boolean,
       _viewState: Object,
       _lastError: Object,
+      _lastSearchPage: String,
       _path: String,
     },
 
@@ -169,6 +170,14 @@
         pathname += '@' + hash;
       }
       this.set('_path', pathname);
+      this._handleSearchPageChange();
+    },
+
+    _handleSearchPageChange: function() {
+      var viewsToCheck = ['gr-change-list-view', 'gr-dashboard-view'];
+      if (viewsToCheck.indexOf(this.params.view) !== -1) {
+        this.set('_lastSearchPage', location.pathname);
+      }
     },
 
     _handleTitleChange: function(e) {

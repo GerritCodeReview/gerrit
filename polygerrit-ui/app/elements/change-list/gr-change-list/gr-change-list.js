@@ -150,7 +150,7 @@
     },
 
     _handleKey: function(e) {
-      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       if (this.groups == null) { return; }
       var len = 0;

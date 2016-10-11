@@ -549,5 +549,25 @@ limitations under the License.
       assert.isTrue(element._checkForModifiers({shiftKey: true}));
       assert.isFalse(element._checkForModifiers({}));
     });
+
+    test('_shortenPath with long path should add ellipses', function() {
+      var path =
+          'level1/level2/level3/level4/file.js';
+      var shortenedPath = element._shortenPath(path);
+      // The expected path is truncated with an ellipsis.
+      var expectedPath = '\u2026/file.js';
+      assert.equal(shortenedPath, expectedPath);
+
+      var path = 'level2/file.js';
+      var shortenedPath = element._shortenPath(path);
+      assert.equal(shortenedPath, expectedPath);
+    });
+
+    test('_shortenPath with short path should not add ellipses', function() {
+      var path = 'file.js';
+      var expectedPath = 'file.js';
+      var shortenedPath = element._shortenPath(path);
+      assert.equal(shortenedPath, expectedPath);
+    });
   });
 </script>

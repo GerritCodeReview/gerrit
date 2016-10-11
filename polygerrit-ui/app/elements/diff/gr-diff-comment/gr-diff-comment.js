@@ -81,7 +81,7 @@
       },
       patchNum: String,
       showActions: Boolean,
-      _commentCollapsed: {
+      commentCollapsed: {
         type: Boolean,
         value: true,
         observer: '_toggleCollapseClass',
@@ -103,7 +103,7 @@
 
     attached: function() {
       if (this.editing) {
-        this._commentCollapsed = false;
+        this.commentCollapsed = false;
       }
     },
 
@@ -225,12 +225,16 @@
       }
     },
 
-    _handleToggleCollapsed: function() {
-      this._commentCollapsed = !this._commentCollapsed;
+    handleOpenClose: function(actionIsCollapse) {
+      this.commentCollapsed = !!actionIsCollapse;
     },
 
-    _toggleCollapseClass: function(_commentCollapsed) {
-      if (_commentCollapsed) {
+    _handleToggleCollapsed: function() {
+      this.commentCollapsed = !this.commentCollapsed;
+    },
+
+    _toggleCollapseClass: function(commentCollapsed) {
+      if (commentCollapsed) {
         this.$.container.classList.add('collapsed');
       } else {
         this.$.container.classList.remove('collapsed');

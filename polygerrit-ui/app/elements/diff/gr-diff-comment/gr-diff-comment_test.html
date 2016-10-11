@@ -66,6 +66,7 @@ limitations under the License.
 
     test('collapsible comments', function() {
       // When a comment (not draft) is loaded, it should be collapsed
+      assert.isTrue(element.commentCollapsed);
       assert.isFalse(isVisible(element.$$('gr-linked-text')),
           'gr-linked-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
@@ -80,6 +81,7 @@ limitations under the License.
 
       // When the header row is clicked, the comment should expand
       MockInteractions.tap(element.$.header);
+      assert.isFalse(element.commentCollapsed);
       assert.isTrue(isVisible(element.$$('gr-linked-text')),
           'gr-linked-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
@@ -123,6 +125,16 @@ limitations under the License.
       assert(showStub.lastCall.calledWithExactly(dest, null, false),
           'Should navigate to ' + dest + ' without triggering nav');
       showStub.restore();
+    });
+
+    test('comment expand and collapse', function() {
+      var actionIsCollapse = false;
+      element.handleOpenClose(actionIsCollapse);
+      assert.isFalse(element.commentCollapsed);
+
+      actionIsCollapse = true;
+      element.handleOpenClose(actionIsCollapse);
+      assert.isTrue(element.commentCollapsed);
     });
   });
 
@@ -213,6 +225,7 @@ limitations under the License.
         assert.ok(e.detail.comment);
         done();
       });
+      assert.isTrue(element.commentCollapsed);
       assert.isFalse(isVisible(element.$$('gr-linked-text')),
           'gr-linked-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
@@ -223,6 +236,7 @@ limitations under the License.
           'header middle content is visible');
 
       MockInteractions.tap(element.$.header);
+      assert.isFalse(element.commentCollapsed);
       assert.isTrue(isVisible(element.$$('gr-linked-text')),
           'gr-linked-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
@@ -235,6 +249,7 @@ limitations under the License.
       // When the edit button is pressed, should still see the actions
       // and also textarea
       MockInteractions.tap(element.$$('.edit'));
+      assert.isFalse(element.commentCollapsed);
       assert.isFalse(isVisible(element.$$('gr-linked-text')),
           'gr-linked-text is not visible');
       assert.isTrue(isVisible(element.$$('.actions')),
@@ -247,6 +262,7 @@ limitations under the License.
       // When toggle again, everything should be hidden except for textarea
       // and header middle content should be visible
       MockInteractions.tap(element.$.header);
+      assert.isTrue(element.commentCollapsed);
       assert.isFalse(isVisible(element.$$('gr-linked-text')),
           'gr-linked-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),

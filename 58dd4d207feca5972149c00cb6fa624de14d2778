@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_bdc75f3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-10-11T01:49:29Z",
+      "side": 1,
+      "message": "s/public //\n\nWe don\u0027t put public on a private inner class constructor.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 10
+      },
+      "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_9dc2a32f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-10-11T01:49:29Z",
+      "side": 1,
+      "message": "Use @Deprecated annotation on these methods.",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 5
+      },
+      "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

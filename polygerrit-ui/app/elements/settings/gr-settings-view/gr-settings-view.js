@@ -134,6 +134,13 @@
       this.unlisten(window, 'scroll', '_handleBodyScroll');
     },
 
+    reloadAccountDetail: function() {
+      Promise.all([
+        this.$.accountInfo.loadData(),
+        this.$.emailEditor.loadData(),
+      ]);
+    },
+
     _handleBodyScroll: function(e) {
       if (this._headerHeight === undefined) {
         var top = this.$.settingsNav.offsetTop;

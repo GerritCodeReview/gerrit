@@ -150,15 +150,15 @@
       });
     },
 
-    modifyRevertMsg: function(change, msg) {
+    modifyRevertMsg: function(change, revertMsg, origMsg) {
       this._getEventCallbacks(EventType.REVERT).forEach(function(callback) {
         try {
-          msg = callback(change, msg);
+          revertMsg = callback(change, revertMsg, origMsg);
         } catch (err) {
           console.error(err);
         }
       });
-      return msg;
+      return revertMsg;
     },
 
     getLabelValuesPostRevert: function(change) {

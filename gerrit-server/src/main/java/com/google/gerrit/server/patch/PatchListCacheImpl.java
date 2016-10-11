@@ -172,7 +172,8 @@ public class PatchListCacheImpl implements PatchListCache {
         project);
   }
 
-  private DiffSummary getDiffSummary(DiffSummaryKey key,
+  @Override
+  public DiffSummary getDiffSummary(DiffSummaryKey key,
       Project.NameKey project) throws PatchListNotAvailableException {
     try {
       return diffSummaryCache.get(key,

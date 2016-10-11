@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-registration-dialog</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-registration-dialog.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-registration-dialog></gr-registration-dialog>
+  </template>
+</test-fixture>
+
+<test-fixture id="blank">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-registration-dialog tests', function() {
+    var element;
+    var account;
+    var _savePromise;
+
+    setup(function(done) {
+      account = {
+        name: 'name',
+        email: 'email',
+        secondary_emails: [
+          'email2',
+          'email3',
+        ],
+      };
+
+      stub('gr-rest-api-interface', {
+        getAccount: function() { return Promise.resolve(account); },
+        setAccountName: function(name) {
+          account.name = name;
+          return Promise.resolve();
+        },
+        setPreferredAccountEmail: function(email) {
+          account.email = email;
+          return Promise.resolve();
+        },
+      });
+
+      element = fixture('basic');
+      element._loadingPromise.then(done);
+    });
+
+    function save(opt_action) {
+      _savePromise = new Promise(function (resolve) {
+        var listener = function() {
+          element.removeEventListener('account-detail-update', listener);
+          resolve();
+        };
+        element.addEventListener('account-detail-update', listener);
+      });
+      if (opt_action) {
+        opt_action();
+      } else {
+        MockInteractions.tap(element.$.saveButton);
+      }
+      return _savePromise;
+    }
+
+    test('fires the close event on save', function(done) {
+      // Create new dialog in blank fixture and add event listener.
+      var newElement = document.createElement('gr-registration-dialog');
+      newElement.addEventListener('close', function() { done(); });
+      var blank = fixture('blank');
+      blank.appendChild(newElement);
+
+      // Save changes in dialog, which should fire event.
+      newElement._loadingPromise.then(function() {
+        MockInteractions.tap(newElement.$.saveButton);
+      });
+    });
+
+    test('fires the close event on close', function(done) {
+      // Create new dialog in blank fixture and add event listener.
+      var newElement = document.createElement('gr-registration-dialog');
+      newElement.addEventListener('close', function() { done(); });
+      var blank = fixture('blank');
+      blank.appendChild(newElement);
+
+      // Close dialog, which should fire event.
+      newElement._loadingPromise.then(function() {
+        MockInteractions.tap(newElement.$.closeButton);
+      });
+    });
+
+    test('fires the account-detail-update event on save', function(done) {
+      // Create new dialog in blank fixture and add event listener.
+      var newElement = document.createElement('gr-registration-dialog');
+      newElement.addEventListener(
+          'account-detail-update', function() { done(); });
+      var blank = fixture('blank');
+      blank.appendChild(newElement);
+
+      // Save changes in dialog, which should fire event.
+      newElement._loadingPromise.then(function() {
+        MockInteractions.tap(newElement.$.saveButton);
+      });
+    });
+
+    test('saves name and preferred email', function(done) {
+      // Stage some changes.
+      element.$.name.value = 'new name';
+      element.$.email.value = 'email3';
+
+      // Nothing should be committed yet.
+      assert.equal(account.name, 'name');
+      assert.equal(account.email, 'email');
+
+      // Save and verify new values are committed.
+      save().then(function() {
+        assert.equal(account.name, 'new name');
+        assert.equal(account.email, 'email3');
+      }).then(done);
+    });
+
+    test('pressing enter saves name', function(done) {
+      element.$.name.value = 'entered name';
+      save(function() {
+        MockInteractions.pressAndReleaseKeyOn(element.$.name, 13);  // 'enter'
+      }).then(function() {
+        assert.equal(account.name, 'entered name');
+      }).then(done);
+    });
+  });
+</script>

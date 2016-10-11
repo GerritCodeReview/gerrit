@@ -102,6 +102,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -333,6 +334,7 @@ public class ReceiveCommits {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
+  private final ChangeIndexer indexer;
 
   private final List<ValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -377,6 +379,7 @@ public class ReceiveCommits {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       NotesMigration notesMigration,
       ChangeEditUtil editUtil,
+      ChangeIndexer indexer,
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory,
       ReplaceOp.Factory replaceOpFactory,
@@ -424,6 +427,7 @@ public class ReceiveCommits {
     this.notesMigration = notesMigration;
 
     this.editUtil = editUtil;
+    this.indexer = indexer;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -1826,6 +1830,19 @@ public class ReceiveCommits {
             return;
           }
 
+          // In case the change look up from the index failed,
+          // double check against the existing refs
+          if (foundInExistingRef(existing.get(p.commit))) {
+            if (pending.size() == 1) {
+              reject(magicBranch.cmd,
+                  "commit(s) already exists (as current patchset)");
+              newChanges = Collections.emptyList();
+              return;
+            } else {
+              itr.remove();
+              continue;
+            }
+          }
           newChangeIds.add(p.changeKey);
         }
         newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
@@ -1877,6 +1894,22 @@ public class ReceiveCommits {
       reject(magicBranch.cmd, "internal server error");
       return;
     }
+  }
+
+  private boolean foundInExistingRef(Collection<Ref> existingRefs)
+      throws OrmException, IOException {
+    for (Ref ref : existingRefs) {
+      ChangeNotes notes = notesFactory.create(db, project.getNameKey(),
+          Change.Id.fromRef(ref.getName()));
+      Change change = notes.getChange();
+      if (change.getDest().equals(magicBranch.dest)) {
+        logDebug("Found change {} from existing refs.", change.getKey());
+        // reindex the change asynchronously
+        indexer.indexAsync(project.getNameKey(), change.getId());
+        return true;
+      }
+    }
+    return false;
   }
 
   private RevCommit setUpWalkForSelectingChanges() throws IOException {

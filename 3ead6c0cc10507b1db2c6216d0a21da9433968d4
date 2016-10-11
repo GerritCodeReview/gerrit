@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_5d89fbd5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T19:36:27Z",
+      "side": 1,
+      "message": "This section name is misleadingly general, there are dozens of ways to update a change.",
+      "range": {
+        "startLine": 521,
+        "startChar": 4,
+        "endLine": 521,
+        "endChar": 17
+      },
+      "revId": "3ead6c0cc10507b1db2c6216d0a21da9433968d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_bb612709",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T19:36:27Z",
+      "side": 1,
+      "message": "I would try to clarify this by explicitly listing what is the first parent and what is the second parent of the merge.\n\nI\u0027m also unsure about how to interpret \"the branch of the change\". Does this mean take the first parent from the previous patch set, or does this operation *also* rebase the first parent to be the current tip of the branch, whatever that may be? If the latter, this behavior may be surprising, which is why I would like you to describe it more explicitly.",
+      "range": {
+        "startLine": 527,
+        "startChar": 34,
+        "endLine": 528,
+        "endChar": 6
+      },
+      "revId": "3ead6c0cc10507b1db2c6216d0a21da9433968d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_9b5c6b54",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T19:36:27Z",
+      "side": 1,
+      "message": "Your primary use case appears to be listing an open change as the source. Ideally this usage example would reflect that. (Is it supported to list a change number here?)",
+      "range": {
+        "startLine": 536,
+        "startChar": 15,
+        "endLine": 536,
+        "endChar": 25
+      },
+      "revId": "3ead6c0cc10507b1db2c6216d0a21da9433968d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8dd8b6_1dcdb32c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-11T18:29:56Z",
+      "side": 1,
+      "message": "I\u0027m having a hard time following this commit message. What is \"the original change\"?\n\nPerhaps the motivation would be easier to understand with some ASCII art.",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "d1ed9f00fcb01e209fe8391bf4a198ed557049b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

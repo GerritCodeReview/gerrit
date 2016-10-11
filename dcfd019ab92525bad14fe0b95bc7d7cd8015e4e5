@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf9360d9_bbee87ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1832,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-11T05:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_9b970b3e",
+      "revId": "dcfd019ab92525bad14fe0b95bc7d7cd8015e4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_bb9cc762",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-11T00:45:40Z",
       "side": 1,
       "message": "Is there some straightforward way to trigger indexing in this case to recover from the missing index entry?\n\nWhat happens if I was pushing another change on top at the same time as this existing change?",
+      "revId": "dcfd019ab92525bad14fe0b95bc7d7cd8015e4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_dbe353c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1839,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-11T05:33:45Z",
+      "side": 1,
+      "message": "Partially done...\n\nNeed find out a way to trigger indexing.",
+      "parentUuid": "bf9360d9_bb9cc762",
       "revId": "dcfd019ab92525bad14fe0b95bc7d7cd8015e4e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

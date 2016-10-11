@@ -397,7 +397,7 @@ public class CommentsIT extends AbstractDaemonTest {
     setApiUser(admin);
     Map<String, List<CommentInfo>> actual =
         gApi.changes().id(r1.getChangeId()).drafts();
-    assertThat((Iterable<?>) actual.keySet()).containsExactly(FILE_NAME);
+    assertThat(actual.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> comments = actual.get(FILE_NAME);
     assertThat(comments).hasSize(2);
 

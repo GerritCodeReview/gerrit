@@ -31,12 +31,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectAssert {
-  public static IterableSubject<
-        ? extends IterableSubject<
-            ?, Project.NameKey, Iterable<Project.NameKey>>,
-        Project.NameKey,
-        Iterable<Project.NameKey>>
-      assertThatNameList(Iterable<ProjectInfo> actualIt) {
+  public static IterableSubject assertThatNameList(
+      Iterable<ProjectInfo> actualIt) {
     List<ProjectInfo> actual = ImmutableList.copyOf(actualIt);
     for (ProjectInfo info : actual) {
       assertWithMessage("missing project name").that(info.name).isNotNull();

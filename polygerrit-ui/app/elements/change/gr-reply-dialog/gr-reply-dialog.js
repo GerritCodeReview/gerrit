@@ -62,7 +62,7 @@
       },
       quote: {
         type: String,
-        value: ''
+        value: '',
       },
       diffDrafts: Object,
       filterReviewerSuggestion: {
@@ -71,7 +71,6 @@
           return this._filterReviewerSuggestion.bind(this);
         },
       },
-      labels: Object,
       permittedLabels: Object,
       serverConfig: Object,
 
@@ -81,6 +80,8 @@
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
       },
+      _labels: Object,
+      _labelArray: Array,
       _owner: Object,
       _reviewers: Array,
       _reviewerPendingConfirmation: {
@@ -97,6 +98,7 @@
 
     observers: [
       '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
+      '_labelsUpdated(change.labels.*)',
     ],
 
     attached: function() {
@@ -165,7 +167,7 @@
         selectedVal = parseInt(selectedVal, 10);
 
         // Only send the selection if the user changed it.
-        var prevVal = this._getVoteForAccount(this.labels, label,
+        var prevVal = this._getVoteForAccount(this._labels, label,
             this._account);
         if (prevVal !== null) {
           prevVal = parseInt(prevVal, 10);
@@ -296,7 +298,16 @@
     },
 
     _computeLabelArray: function(labelsObj) {
-      return Object.keys(labelsObj).sort();
+      if (!labelsObj) { return []; }
+      var keys = Object.keys(labelsObj).sort();
+      var labelArr = [];
+      for (var i = 0; i < keys.length; i++) {
+        labelArr.push({
+          name: keys[i],
+          value: this._getVoteForAccount(labelsObj, keys[i], this._account),
+        });
+      }
+      return labelArr;
     },
 
     _getVoteForAccount: function(labels, labelName, account) {
@@ -311,14 +322,13 @@
       return null;
     },
 
-    _computeIndexOfLabelValue: function(
-        labels, permittedLabels, labelName, account) {
-      if (!labels[labelName]) { return null; }
-      var labelValue = this._getVoteForAccount(labels, labelName, account);
-      var len = permittedLabels[labelName] != null ?
-          permittedLabels[labelName].length : 0;
+    _computeIndexOfLabelValue: function(labels, permittedLabels, label) {
+      if (!labels[label.name]) { return null; }
+      var labelValue = label.value;
+      var len = permittedLabels[label.name] != null ?
+          permittedLabels[label.name].length : 0;
       for (var i = 0; i < len; i++) {
-        var val = parseInt(permittedLabels[labelName][i], 10);
+        var val = parseInt(permittedLabels[label.name][i], 10);
         if (val == labelValue) {
           return i;
         }
@@ -363,6 +373,11 @@
         reviewers = reviewers.concat(ccs);
       }
       this._reviewers = reviewers;
+    },
+
+    _labelsUpdated: function(changeRecord) {
+      this.set('_labels', changeRecord.base);
+      this.set('_labelArray', this._computeLabelArray(changeRecord.base));
     },
 
     _accountOrGroupKey: function(entry) {

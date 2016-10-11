@@ -16,6 +16,24 @@
       "revId": "1a9243ea9e7840ad9725b43f19f906f6e1d235dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_9ddf03cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-11T19:03:23Z",
+      "side": 0,
+      "message": "In Rest API, we do not have the RequestScopePropagator, and do not need it.\nThis is the same as the ChangeInserter which is used both in CreateChange Rest API and ReceiveCommits.",
+      "parentUuid": "ff8dd8b6_fdc7270b",
+      "revId": "1a9243ea9e7840ad9725b43f19f906f6e1d235dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

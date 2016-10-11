@@ -39,7 +39,7 @@
       this.unlisten(document, 'network-error', '_handleNetworkError');
     },
 
-    _shouldSupressError: function(msg) {
+    _shouldSuppressError: function(msg) {
       return msg.indexOf(TOO_MANY_FILES) > -1;
     },
 
@@ -54,7 +54,7 @@
         }.bind(this));
       } else {
         e.detail.response.text().then(function(text) {
-          if (!this._shouldSupressError(text)) {
+          if (!this._shouldSuppressError(text)) {
             this._showAlert('Server error: ' + text);
           }
         }.bind(this));

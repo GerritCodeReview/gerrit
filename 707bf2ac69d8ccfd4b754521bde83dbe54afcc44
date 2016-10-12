@@ -22,6 +22,30 @@
       "revId": "707bf2ac69d8ccfd4b754521bde83dbe54afcc44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_5fb22b99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-12T14:30:03Z",
+      "side": 1,
+      "message": "let\u0027s keep it as it is since we want to have an error in the log if the config has a malformed param",
+      "parentUuid": "1c455a84_3ee12991",
+      "range": {
+        "startLine": 128,
+        "startChar": 20,
+        "endLine": 129,
+        "endChar": 41
+      },
+      "revId": "707bf2ac69d8ccfd4b754521bde83dbe54afcc44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

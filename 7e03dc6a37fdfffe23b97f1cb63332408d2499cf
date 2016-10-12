@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc1886be_059eb259",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T16:39:55Z",
+      "side": 1,
+      "message": "This wording is awkward and a bit vague. What about the following?\n\n    Fix horizontal scrolling in file dropdown",
+      "revId": "7e03dc6a37fdfffe23b97f1cb63332408d2499cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0e0e7b_8380defc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T16:39:55Z",
+      "side": 1,
+      "message": "This wording is vague also. Isn\u0027t this issue about mobile specifically",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "7e03dc6a37fdfffe23b97f1cb63332408d2499cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0e0e7b_23992a72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T16:39:55Z",
+      "side": 1,
+      "message": "To improve clarity of this commit message, I recommend removing or shortening this sentence and listing this change\u0027s modifications in a markdown-style bullet list. For example:\n\n    With this change:\n    * Modification one.\n    * Modification two.\n    * Multi-line modification\n      three.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "7e03dc6a37fdfffe23b97f1cb63332408d2499cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0e0e7b_e38d5233",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T16:39:55Z",
+      "side": 1,
+      "message": "Things modified in this change should be in present tense.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "7e03dc6a37fdfffe23b97f1cb63332408d2499cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1886be_25992e72",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T16:39:55Z",
+      "side": 1,
+      "message": "Looks like this ID is unused.",
+      "range": {
+        "startLine": 168,
+        "startChar": 47,
+        "endLine": 168,
+        "endChar": 66
+      },
+      "revId": "7e03dc6a37fdfffe23b97f1cb63332408d2499cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1886be_e5a6f6aa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T16:39:55Z",
+      "side": 1,
+      "message": "Can just use `return` here.",
+      "range": {
+        "startLine": 445,
+        "startChar": 6,
+        "endLine": 445,
+        "endChar": 21
+      },
+      "revId": "7e03dc6a37fdfffe23b97f1cb63332408d2499cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -101,6 +101,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.icegreen.greenmail.util.GreenMail;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -232,6 +234,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected FakeEmailSender sender;
+
+  @Inject
+  protected GreenMail emailServer;
 
   @Inject
   protected ChangeNoteUtil changeNoteUtil;

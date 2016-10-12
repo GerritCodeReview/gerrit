@@ -18,6 +18,9 @@ DEPS = [
   '//lib/jgit/org.eclipse.jgit.junit:junit',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
+
+  '//lib/greenmail:greenmail',
+  '//lib/mail:mail',
 ]
 
 PROVIDED = [

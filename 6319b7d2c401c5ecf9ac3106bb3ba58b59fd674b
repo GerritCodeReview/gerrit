@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_1e8f0de1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c455a84_fe634139",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_dfd2bbc7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 1
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "3c3cdef1_ff797fb8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "ACK.",
+      "parentUuid": "3c3cdef1_dfd2bbc7",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_1fb8a377",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 1
@@ -53,6 +89,24 @@
       "writtenOn": "2016-10-12T14:20:03Z",
       "side": 1,
       "message": "I think so.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_7e9451f1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c3cdef1_1fb8a377",
       "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -228,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_5e999525",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c455a84_3e4f69c2",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f28ec68_a652e663",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
         "patchSetId": 1
@@ -292,6 +364,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_be7d39b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c455a84_1e542d51",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2f7072_4765ae3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
         "patchSetId": 1
@@ -350,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_9e7afdbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c455a84_5e4eb5c2",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_be425993",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 1
@@ -361,6 +469,24 @@
       "writtenOn": "2016-10-12T14:20:03Z",
       "side": 1,
       "message": "This is the special case when the target branch does not exist yet. It might be a bug that in this case the Cherry-Pick strategy is not adding any footers to the commit message. If we want to fix this, it should be done in a separate commit. Means for now, this is correct as it does what Cherry-Pick does :)",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_df763bc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "1c455a84_be425993",
       "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -384,6 +510,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_3eb3e9a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Oh, good idea. So, I\u0027ll refactor the move to MergeUtil bit out of this CL to make reviewer easier.",
+      "parentUuid": "1c455a84_5ec7d50e",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_5f998b25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 1
@@ -395,6 +539,24 @@
       "writtenOn": "2016-10-12T14:20:03Z",
       "side": 1,
       "message": "I believe it\u0027s like this:\n\n1. args.rw.parseBody(toMerge):\n   We already have a CodeReviewCommit and\n   want to make sure that it\u0027s body is loaded.\n\n2. newCommit \u003d args.rw.parseCommit(rebaseOp.getRebasedCommit()):\n   We need a CodeReviewCommit, but we only have a RevCommit",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_7f3f2fe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "This makes sense, thanks, though I didn\u0027t see (perhaps I should read more carefully) the assumption:\n\u003e We already have a CodeReviewCommit",
+      "parentUuid": "3c3cdef1_5f998b25",
       "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -424,6 +586,24 @@
     },
     {
       "key": {
+        "uuid": "3c3cdef1_3f45a771",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c455a84_1ebd4d81",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_becb7917",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 1
@@ -441,6 +621,24 @@
         "endLine": 202,
         "endChar": 28
       },
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_1f4a637f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-12T18:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c455a84_becb7917",
       "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

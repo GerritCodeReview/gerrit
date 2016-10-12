@@ -184,13 +184,13 @@ public class MergeUtil {
   public CodeReviewCommit createCherryPickFromCommit(Repository repo,
       ObjectInserter inserter, RevCommit mergeTip, RevCommit originalCommit,
       PersonIdent cherryPickCommitterIdent, String commitMsg,
-      CodeReviewRevWalk rw)
+      CodeReviewRevWalk rw, int parentIndex)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       MergeIdenticalTreeException, MergeConflictException {
 
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
 
-    m.setBase(originalCommit.getParent(0));
+    m.setBase(originalCommit.getParent(parentIndex));
     if (m.merge(mergeTip, originalCommit)) {
       ObjectId tree = m.getResultTreeId();
       if (tree.equals(mergeTip.getTree())) {

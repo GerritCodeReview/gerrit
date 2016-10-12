@@ -60,11 +60,14 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
   public ChangeInfo apply(RevisionResource revision, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException {
     final ChangeControl control = revision.getControl();
+    int parentIndex = input.parentNumber == null ? 0 : input.parentNumber - 1;
 
     if (input.message == null || input.message.trim().isEmpty()) {
       throw new BadRequestException("message must be non-empty");
     } else if (input.destination == null || input.destination.trim().isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
+    } else if (parentIndex < 0) {
+      throw new BadRequestException("parent number must be positive if specified");
     }
 
     @SuppressWarnings("resource")
@@ -91,7 +94,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(revision.getChange(),
               revision.getPatchSet(), input.message, refName,
-              refControl);
+              refControl, parentIndex);
       return json.create(ChangeJson.NO_OPTIONS).format(revision.getProject(),
           cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {

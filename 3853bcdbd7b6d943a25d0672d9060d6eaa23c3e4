@@ -22,6 +22,30 @@
       "revId": "3853bcdbd7b6d943a25d0672d9060d6eaa23c3e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_ffbfbfa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-12T08:36:52Z",
+      "side": 1,
+      "message": "Probably not, but for this scenario to happen it would require the user to use the --dev option and then explicitly change the auth type to LDAP or OPENID from the BECOME_ANY setting that it defaults to (due to --dev being used).",
+      "parentUuid": "3c3cdef1_bfb537c9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 69
+      },
+      "revId": "3853bcdbd7b6d943a25d0672d9060d6eaa23c3e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

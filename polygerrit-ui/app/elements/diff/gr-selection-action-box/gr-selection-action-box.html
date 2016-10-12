@@ -21,22 +21,22 @@ limitations under the License.
   <template>
     <style>
       :host {
-        --gr-arrow-size: .6em;
+        --gr-arrow-size: .85em;
 
-        background-color: #fff;
-        border: 1px solid #000;
-        border-radius: .5em;
+        background-color: #222;
+        border-radius: 3px;
+        color: #fff;
         cursor: pointer;
-        padding: .3em;
+        font-family: var(--font-family);
+        padding: .5em .75em;
         position: absolute;
         white-space: nowrap;
       }
       .arrow {
-        background: #fff;
-        border: var(--gr-arrow-size) solid #000;
+        background: #222;
         border-width: 0 1px 1px 0;
         height: var(--gr-arrow-size);
-        left: calc(50% - 1em);
+        left: calc(50% - (var(--gr-arrow-size) / 2));
         margin-top: .05em;
         position: absolute;
         transform: rotate(45deg);

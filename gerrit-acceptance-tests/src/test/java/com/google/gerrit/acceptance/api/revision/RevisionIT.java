@@ -26,6 +26,8 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -47,9 +49,11 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.inject.Inject;
@@ -354,6 +358,111 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(
           gApi.changes().id(t2).current().file(FILE_NAME).content().asString())
         .isEqualTo("a");
+  }
+
+  @Test
+  public void cherryPickMergeRelativeToDefaultParent() throws Exception {
+    String parent1FileName = "a.txt";
+    String parent2FileName = "b.txt";
+    PushOneCommit.Result mergeChangeResult =
+        createCherryPickableMerge(parent1FileName, parent2FileName);
+
+    String cherryPickBranchName = "branch_for_cherry_pick";
+    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = cherryPickBranchName;
+    cherryPickInput.message = "Cherry-pick a merge commit to another branch";
+
+    ChangeInfo cherryPickedChangeInfo = gApi.changes()
+        .id(mergeChangeResult.getChangeId())
+        .current()
+        .cherryPick(cherryPickInput)
+        .get();
+
+    Map<String, FileInfo> cherryPickedFilesByName =
+        cherryPickedChangeInfo.revisions
+            .get(cherryPickedChangeInfo.currentRevision)
+            .files;
+    assertThat(cherryPickedFilesByName).containsKey(parent2FileName);
+    assertThat(cherryPickedFilesByName).doesNotContainKey(parent1FileName);
+  }
+
+  @Test
+  public void cherryPickMergeRelativeToSpecificParent() throws Exception {
+    String parent1FileName = "a.txt";
+    String parent2FileName = "b.txt";
+    PushOneCommit.Result mergeChangeResult =
+        createCherryPickableMerge(parent1FileName, parent2FileName);
+
+    String cherryPickBranchName = "branch_for_cherry_pick";
+    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = cherryPickBranchName;
+    cherryPickInput.message = "Cherry-pick a merge commit to another branch";
+    cherryPickInput.parent = 2;
+
+    ChangeInfo cherryPickedChangeInfo = gApi.changes()
+        .id(mergeChangeResult.getChangeId())
+        .current()
+        .cherryPick(cherryPickInput)
+        .get();
+
+    Map<String, FileInfo> cherryPickedFilesByName =
+        cherryPickedChangeInfo.revisions
+            .get(cherryPickedChangeInfo.currentRevision)
+            .files;
+    assertThat(cherryPickedFilesByName).containsKey(parent1FileName);
+    assertThat(cherryPickedFilesByName).doesNotContainKey(parent2FileName);
+  }
+
+  @Test
+  public void cherryPickMergeUsingInvalidParent() throws Exception {
+    String parent1FileName = "a.txt";
+    String parent2FileName = "b.txt";
+    PushOneCommit.Result mergeChangeResult =
+        createCherryPickableMerge(parent1FileName, parent2FileName);
+
+    String cherryPickBranchName = "branch_for_cherry_pick";
+    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = cherryPickBranchName;
+    cherryPickInput.message = "Cherry-pick a merge commit to another branch";
+    cherryPickInput.parent = 0;
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Cherry Pick: Parent 0 does not exist. Please"
+        + " specify a parent in range [1, 2].");
+    gApi.changes()
+        .id(mergeChangeResult.getChangeId())
+        .current()
+        .cherryPick(cherryPickInput);
+  }
+
+  @Test
+  public void cherryPickMergeUsingNonExistentParent() throws Exception {
+    String parent1FileName = "a.txt";
+    String parent2FileName = "b.txt";
+    PushOneCommit.Result mergeChangeResult =
+        createCherryPickableMerge(parent1FileName, parent2FileName);
+
+    String cherryPickBranchName = "branch_for_cherry_pick";
+    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = cherryPickBranchName;
+    cherryPickInput.message = "Cherry-pick a merge commit to another branch";
+    cherryPickInput.parent = 3;
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Cherry Pick: Parent 3 does not exist. Please"
+        + " specify a parent in range [1, 2].");
+    gApi.changes()
+        .id(mergeChangeResult.getChangeId())
+        .current()
+        .cherryPick(cherryPickInput);
   }
 
   @Test
@@ -805,5 +914,36 @@ public class RevisionIT extends AbstractDaemonTest {
 
     assertDiffForNewFile(diff, pushResult.getCommit(), path,
         expectedContentSideB);
+  }
+
+  private PushOneCommit.Result createCherryPickableMerge(String parent1FileName,
+      String parent2FileName) throws Exception {
+    RevCommit initialCommit = getHead(repo());
+
+    String branchAName = "branchA";
+    createBranch(new Branch.NameKey(project, branchAName));
+    String branchBName = "branchB";
+    createBranch(new Branch.NameKey(project, branchBName));
+
+    PushOneCommit.Result changeAResult = pushFactory
+        .create(db, admin.getIdent(), testRepo, "change a",
+            parent1FileName, "Content of a")
+        .to("refs/for/" + branchAName);
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result changeBResult = pushFactory
+        .create(db, admin.getIdent(), testRepo, "change b",
+            parent2FileName, "Content of b")
+        .to("refs/for/" + branchBName);
+
+    PushOneCommit pushableMergeCommit = pushFactory.create(db, admin.getIdent(),
+        testRepo, "merge", ImmutableMap.of(parent1FileName, "Content of a",
+            parent2FileName, "Content of b"));
+    pushableMergeCommit.setParents(ImmutableList.of(changeAResult.getCommit(),
+        changeBResult.getCommit()));
+    PushOneCommit.Result mergeChangeResult =
+        pushableMergeCommit.to("refs/for/" + branchAName);
+    mergeChangeResult.assertOkStatus();
+    return mergeChangeResult;
   }
 }

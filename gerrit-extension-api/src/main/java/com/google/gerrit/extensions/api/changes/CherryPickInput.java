@@ -17,4 +17,5 @@ package com.google.gerrit.extensions.api.changes;
 public class CherryPickInput {
   public String message;
   public String destination;
+  public Integer parent;
 }

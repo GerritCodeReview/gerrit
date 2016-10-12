@@ -18,7 +18,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -67,9 +66,7 @@ public class InitAdminUser implements InitStep {
 
   @Override
   public void postRun() throws Exception {
-    AuthType authType =
-        flags.cfg.getEnum(AuthType.values(), "auth", null, "type", null);
-    if (authType != AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+    if (!flags.dev) {
       return;
     }
 

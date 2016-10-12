@@ -111,7 +111,7 @@
     locationChanged: function() {
       var page = '';
       var pathname = this._getPathname();
-      if (pathname.startsWith('/q/')) {
+      if (pathname.indexOf('/q/') === 0) {
         page = '/q/';
       } else if (pathname.match(CHANGE_VIEW_REGEX)) { // change view
         page = '/c/';

@@ -53,6 +53,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param member type of entry in the set.
    */
   public static <T> void setOf(Binder binder, Class<T> member) {
+    binder.disableCircularProxies();
     setOf(binder, TypeLiteral.get(member));
   }
 
@@ -71,6 +72,7 @@ public class DynamicSet<T> implements Iterable<T> {
     @SuppressWarnings("unchecked")
     Key<DynamicSet<T>> key = (Key<DynamicSet<T>>) Key.get(
         Types.newParameterizedType(DynamicSet.class, member.getType()));
+    binder.disableCircularProxies();
     binder.bind(key)
       .toProvider(new DynamicSetProvider<>(member))
       .in(Scopes.SINGLETON);
@@ -84,6 +86,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return a binder to continue configuring the new set member.
    */
   public static <T> LinkedBindingBuilder<T> bind(Binder binder, Class<T> type) {
+    binder.disableCircularProxies();
     return bind(binder, TypeLiteral.get(type));
   }
 
@@ -95,6 +98,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return a binder to continue configuring the new set member.
    */
   public static <T> LinkedBindingBuilder<T> bind(Binder binder, TypeLiteral<T> type) {
+    binder.disableCircularProxies();
     return binder.bind(type).annotatedWith(UniqueAnnotations.create());
   }
 
@@ -110,6 +114,7 @@ public class DynamicSet<T> implements Iterable<T> {
   public static <T> LinkedBindingBuilder<T> bind(Binder binder,
       Class<T> type,
       Named name) {
+    binder.disableCircularProxies();
     return bind(binder, TypeLiteral.get(type));
   }
 
@@ -125,6 +130,7 @@ public class DynamicSet<T> implements Iterable<T> {
   public static <T> LinkedBindingBuilder<T> bind(Binder binder,
       TypeLiteral<T> type,
       Named name) {
+    binder.disableCircularProxies();
     return binder.bind(type).annotatedWith(name);
   }
 

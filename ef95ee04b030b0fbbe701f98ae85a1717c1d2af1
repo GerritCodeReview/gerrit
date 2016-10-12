@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1ccaba6e_767f3000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_9d5c6354",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_ddab4b26",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-11T20:04:08Z",
       "side": 1,
       "message": "Maybe sanity check that the current patch set is also a merge? I suppose it\u0027s *possible* to convert a non-merge change into a merge change, but it seems much more likely to be user error.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccaba6e_9683ec08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "I think it is ok and possible for converting a non-merge change to a merge change.",
+      "parentUuid": "ff8dd8b6_ddab4b26",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "dccca255_4c70bf32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_fb6bafe4",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_fd6ba7e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
       "writtenOn": "2016-10-11T20:04:08Z",
       "side": 1,
       "message": "I don\u0027t think you want/need this ChangeData at all, see below.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_1d0a1336",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_fd6ba7e4",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "7c89f63d_09c26931",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Add a option for user to specify is they want to use latest branch tip or the previous patch set\u0027s first parent.",
+      "parentUuid": "bf9360d9_7b787fb4",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_9b438b6c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -104,6 +194,24 @@
       "writtenOn": "2016-10-11T20:04:08Z",
       "side": 1,
       "message": "This will NPE if destRef was null.\n\nYou should probably be throwing your own exception in that case.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_2af0ff88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_9b438b6c",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_5eb23599",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "In ReceiveCommits, there is no constraints about SubmitType.\nRemoved this for being consistent. \nWill remove that in CreateChange in a separate change.",
+      "parentUuid": "bf9360d9_1b713bd2",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_fdb00791",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -138,6 +264,24 @@
       "writtenOn": "2016-10-11T20:04:08Z",
       "side": 1,
       "message": "I thought we usually return 404 in this case to avoid leaking existence of commits you have no permission to read.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c89f63d_29c72d42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_fdb00791",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -161,6 +305,24 @@
         "endLine": 170,
         "endChar": 32
       },
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c89f63d_69d125f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_1da6935c",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +375,42 @@
     },
     {
       "key": {
+        "uuid": "7c89f63d_a9b23ddc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Add a subject option for this.",
+      "parentUuid": "bf9360d9_bb484789",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c89f63d_89b579c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_dd66eb1d",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_7d9dd706",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -230,6 +428,24 @@
     },
     {
       "key": {
+        "uuid": "9c84ea25_4ae533ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_7d9dd706",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_3da34f4d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -241,6 +457,24 @@
       "writtenOn": "2016-10-11T20:04:08Z",
       "side": 1,
       "message": "ReplaceOp is really only supposed to be for ReceiveCommits. Is there some reason you can\u0027t use PatchSetInserter here?",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_ead507d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Yes, PatchSetInserter is the one I need.\nReplaceOp was inspired by ReceiveCommits handling amended commit.\n\nThis may me think these two classes may have a lot of code in common.",
+      "parentUuid": "ff8dd8b6_3da34f4d",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -270,6 +504,42 @@
     },
     {
       "key": {
+        "uuid": "7c89f63d_c9bf71a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_3d6eeff4",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_0a141bb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_3d6eeff4",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_3b6ef7f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -281,6 +551,24 @@
       "writtenOn": "2016-10-11T20:04:08Z",
       "side": 1,
       "message": "I wonder if it would make sense to include CURRENT_REVISION so the caller knows the SHA-1? Maybe not necessary though.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_2a19dfe8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_3b6ef7f4",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -304,6 +592,24 @@
     },
     {
       "key": {
+        "uuid": "ff8dd8b6_1d585352",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8dd8b6_5da01b3e",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_5b7bc3b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4
@@ -315,6 +621,24 @@
       "writtenOn": "2016-10-11T20:04:08Z",
       "side": 1,
       "message": "IAE can come from anywhere in our stack, you should not leak this message to the user.",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf9360d9_9b2e2bb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-12T23:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9360d9_5b7bc3b1",
       "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

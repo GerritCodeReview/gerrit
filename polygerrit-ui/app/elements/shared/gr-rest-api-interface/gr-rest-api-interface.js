@@ -191,6 +191,7 @@
           auto_hide_diff_table_header: true,
           context: 10,
           cursor_blink_rate: 0,
+          font_size: 12,
           ignore_whitespace: 'IGNORE_NONE',
           intraline_difference: true,
           line_length: 100,

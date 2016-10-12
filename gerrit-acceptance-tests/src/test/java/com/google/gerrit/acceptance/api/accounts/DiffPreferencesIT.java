@@ -78,6 +78,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     // change all default values
     i.context *= -1;
     i.tabSize *= -1;
+    i.fontSize *= -1;
     i.lineLength *= -1;
     i.cursorBlinkRate = 500;
     i.theme = Theme.MIDNIGHT;
@@ -121,9 +122,11 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
     int newLineLength = d.lineLength + 10;
     int newTabSize = d.tabSize * 2;
+    int newFontSize = d.fontSize - 2;
     DiffPreferencesInfo update = new DiffPreferencesInfo();
     update.lineLength = newLineLength;
     update.tabSize = newTabSize;
+    update.fontSize = newFontSize;
     gApi.config().server().setDefaultDiffPreferences(update);
 
     DiffPreferencesInfo o = gApi.accounts()
@@ -133,8 +136,9 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     // assert configured defaults
     assertThat(o.lineLength).isEqualTo(newLineLength);
     assertThat(o.tabSize).isEqualTo(newTabSize);
+    assertThat(o.fontSize).isEqualTo(newFontSize);
 
     // assert hard-coded defaults
-    assertPrefs(o, d, "lineLength", "tabSize");
+    assertPrefs(o, d, "lineLength", "tabSize", "fontSize");
   }
 }

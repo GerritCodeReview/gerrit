@@ -22,6 +22,9 @@ public class DiffPreferencesInfo {
   /** Default tab size. */
   public static final int DEFAULT_TAB_SIZE = 8;
 
+  /** Default font size. */
+  public static final int DEFAULT_FONT_SIZE = 12;
+
   /** Default line length. */
   public static final int DEFAULT_LINE_LENGTH = 100;
 
@@ -41,6 +44,7 @@ public class DiffPreferencesInfo {
 
   public Integer context;
   public Integer tabSize;
+  public Integer fontSize;
   public Integer lineLength;
   public Integer cursorBlinkRate;
   public Boolean expandAllComments;
@@ -68,6 +72,7 @@ public class DiffPreferencesInfo {
     DiffPreferencesInfo i = new DiffPreferencesInfo();
     i.context = DEFAULT_CONTEXT;
     i.tabSize = DEFAULT_TAB_SIZE;
+    i.fontSize = DEFAULT_FONT_SIZE;
     i.lineLength = DEFAULT_LINE_LENGTH;
     i.cursorBlinkRate = 0;
     i.ignoreWhitespace = Whitespace.IGNORE_NONE;

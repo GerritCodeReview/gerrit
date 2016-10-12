@@ -1382,7 +1382,8 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
     "show_tabs": true,
     "show_whitespace_errors": true,
     "syntax_highlighting": true,
-    "tab_size": 8
+    "tab_size": 8,
+    "font_size": 12
   }
 ----
 
@@ -1413,7 +1414,8 @@ link:#diff-preferences-input[DiffPreferencesInput] entity.
     "show_tabs": true,
     "show_whitespace_errors": true,
     "syntax_highlighting": true,
-    "tab_size": 8
+    "tab_size": 8,
+    "font_size": 12
   }
 ----
 
@@ -1437,7 +1439,8 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
     "show_tabs": true,
     "show_whitespace_errors": true,
     "syntax_highlighting": true,
-    "tab_size": 8
+    "tab_size": 8,
+    "font_size": 12
   }
 ----
 
@@ -2209,6 +2212,8 @@ scrolling down more than half of a page.
 If true the line numbers are hidden.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
+|`font_size`                    ||
+Default font size in pixels for change to be displayed in the diff view.
 |'hide_empty_pane'             |not set if `false`|
 Whether empty panes should be hidden. The left pane is empty when a
 file was added; the right pane is empty when a file was deleted.
@@ -2269,6 +2274,8 @@ scrolling down more than half of a page.
 True if the line numbers should be hidden.
 |`tab_size`                    |optional|
 Number of spaces that should be used to display one tab.
+|`font_size`                   |optional|
+Default font size in pixels for change to be displayed in the diff view.
 |`line_wrapping`               |optional|
 Whether to enable line wrapping or not.
 |===========================================

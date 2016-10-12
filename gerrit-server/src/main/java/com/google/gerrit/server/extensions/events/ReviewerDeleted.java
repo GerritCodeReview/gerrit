@@ -71,7 +71,7 @@ public class ReviewerDeleted {
         try {
           listener.onReviewerDeleted(event);
         } catch (Exception e) {
-          util.logEventListenerError(log, e);
+          util.logEventListenerError(this, listener, e);
         }
       }
     } catch (PatchListNotAvailableException | GpgException | IOException

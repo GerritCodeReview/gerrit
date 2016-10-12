@@ -68,7 +68,7 @@ public class CommentAdded {
         try {
           l.onCommentAdded(event);
         } catch (Exception e) {
-          util.logEventListenerError(log, e);
+          util.logEventListenerError(this, l, e);
         }
       }
     } catch (PatchListNotAvailableException | GpgException | IOException

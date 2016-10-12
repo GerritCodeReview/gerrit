@@ -52,7 +52,7 @@ public class ChangeReverted {
         try {
           l.onChangeReverted(event);
         } catch (Exception e) {
-          util.logEventListenerError(log, e);
+          util.logEventListenerError(this, l, e);
         }
       }
     } catch (OrmException e) {

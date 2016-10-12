@@ -60,7 +60,7 @@ public class DraftPublished {
         try {
           l.onDraftPublished(event);
         } catch (Exception e) {
-          util.logEventListenerError(log, e);
+          util.logEventListenerError(this, l, e);
         }
       }
     } catch (PatchListNotAvailableException | GpgException | IOException

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c3cdef1_bfb537c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T08:29:49Z",
+      "side": 1,
+      "message": "Hmm, would the created account be working if the authentication type is set to LDAP or OPENID?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 69
+      },
+      "revId": "3853bcdbd7b6d943a25d0672d9060d6eaa23c3e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

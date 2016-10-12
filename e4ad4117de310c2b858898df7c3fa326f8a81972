@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c84ea25_cabf63a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-12T22:34:38Z",
+      "side": 1,
+      "message": "A bug to change the plugin API has been filed to allow this to be done on the backend and will make things simpler.",
+      "parentUuid": "9c84ea25_6a98376b",
+      "revId": "e4ad4117de310c2b858898df7c3fa326f8a81972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c84ea25_8aac8b8d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
         "endLine": 190,
         "endChar": 26
       },
+      "revId": "e4ad4117de310c2b858898df7c3fa326f8a81972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_aab22fdc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-12T22:34:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c84ea25_8aac8b8d",
       "revId": "e4ad4117de310c2b858898df7c3fa326f8a81972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -158,6 +158,24 @@
       "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_6a4e77c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-12T23:43:04Z",
+      "side": 1,
+      "message": "Critique adjusts the comment size as well, so let’s start with what Becky has now and go from there.",
+      "parentUuid": "9c84ea25_ea60a72f",
+      "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

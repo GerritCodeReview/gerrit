@@ -23,21 +23,27 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
-class EventList<E extends Event> extends ArrayList<E> {
-  private static final long serialVersionUID = 1L;
+class EventList<E extends Event> implements Iterable<E> {
+  private final ArrayList<E> list = new ArrayList<>();
 
-  private E getLast() {
-    return get(size() - 1);
+  @Override
+  public Iterator<E> iterator() {
+    return list.iterator();
   }
 
-  private long getLastTime() {
-    return getLast().when.getTime();
+  void add(E e) {
+    list.add(e);
   }
 
-  private long getFirstTime() {
-    return get(0).when.getTime();
+  void clear() {
+    list.clear();
+  }
+
+  boolean isEmpty() {
+    return list.isEmpty();
   }
 
   boolean canAdd(E e) {
@@ -113,5 +119,25 @@ class EventList<E extends Event> extends ArrayList<E> {
 
   String getTag() {
     return getLast().tag;
+  }
+
+  private E get(int i) {
+    return list.get(i);
+  }
+
+  private int size() {
+    return list.size();
+  }
+
+  private E getLast() {
+    return list.get(list.size() - 1);
+  }
+
+  private long getLastTime() {
+    return getLast().when.getTime();
+  }
+
+  private long getFirstTime() {
+    return list.get(0).when.getTime();
   }
 }

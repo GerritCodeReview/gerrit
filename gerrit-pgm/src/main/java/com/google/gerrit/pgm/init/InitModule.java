@@ -64,6 +64,7 @@ public class InitModule extends FactoryModule {
     step().to(InitHttpd.class);
     step().to(InitCache.class);
     step().to(InitPlugins.class);
+    step().to(InitDev.class);
   }
 
   protected LinkedBindingBuilder<InitStep> step() {

@@ -35,20 +35,25 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommitsAdvertiseRefsHook;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.DisabledReviewDb;
+import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -56,6 +61,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +82,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Inject
   private Provider<CurrentUser> userProvider;
+
+  @Inject
+  private ChangeNoteUtil noteUtil;
+
+  @Inject
+  @AnonymousCowardName
+  private String anonymousCowardName;
 
   private AccountGroup.UUID admins;
 
@@ -430,6 +443,48 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     c3 = r.getChange();
     assertThat(getReceivePackRefs().additionalHaves())
         .containsExactly(obj(c3, 2), obj(c4, 1));
+  }
+
+  @Test
+  public void receivePackOmitsMissingObject() throws Exception {
+    // Use the tactic from ConsistencyCheckerIT to insert a new patch set with a
+    // missing object.
+    String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    try (Repository repo = repoManager.openRepository(project)) {
+      TestRepository<?> tr = new TestRepository<>(repo);
+      String subject = "Subject for missing commit";
+      Change c = new Change(c3.change());
+      PatchSet.Id psId = new PatchSet.Id(c3.getId(), 2);
+      c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
+
+      PatchSet ps = TestChanges.newPatchSet(psId, rev, admin.getId());
+      db.patchSets().insert(Collections.singleton(ps));
+      db.changes().update(Collections.singleton(c));
+
+      if (notesMigration.commitChangeWrites()) {
+        PersonIdent committer = serverIdent.get();
+        PersonIdent author = noteUtil.newIdent(
+            accountCache.get(admin.getId()).getAccount(),
+            committer.getWhen(),
+            committer,
+            anonymousCowardName);
+        tr.branch(RefNames.changeMetaRef(c3.getId()))
+            .commit()
+            .author(author)
+            .committer(committer)
+            .message(
+                "Update patch set " + psId.get() + "\n"
+                    + "\n"
+                    + "Patch-set: " + psId.get() + "\n"
+                    + "Commit: " + rev + "\n"
+                    + "Subject: " + subject + "\n")
+            .create();
+      }
+      indexer.index(db, c.getProject(), c.getId());
+    }
+
+    assertThat(getReceivePackRefs().additionalHaves())
+        .containsExactly(obj(c4, 1));
   }
 
   /**

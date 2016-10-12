@@ -22,6 +22,24 @@
       "revId": "4b5a05fdf0992bd5616d94088c21b352cf7555be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c89f63d_c98db133",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-12T21:54:09Z",
+      "side": 1,
+      "message": "No because in Chromium’s case, we still allow submitting via our command line tool (which shows a whole lot of warnings and confirmations).\n\nAlso, we don’t use stuff like Cherry-Pick, for example.",
+      "parentUuid": "7c89f63d_29756d22",
+      "revId": "4b5a05fdf0992bd5616d94088c21b352cf7555be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,8 +70,8 @@ cloned the repository you can do this by executing the following
 commands:
 
 ----
-  $ git fetch origin refs/meta/config:config
-  $ git checkout config
+  $ git fetch ssh://localhost:29418/project refs/meta/config
+  $ git checkout FETCH_HEAD
   $ git log project.config
 ----
 

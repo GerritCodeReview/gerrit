@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "9c84ea25_6a23d716",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-12T23:14:40Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "7c89f63d_09eb49a1",
+      "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c84ea25_6ad117f7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -65,6 +83,24 @@
         "endLine": 117,
         "endChar": 16
       },
+      "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_aa24ef1c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-12T23:14:40Z",
+      "side": 1,
+      "message": "hmm. perhaps if the font size was changed elsewhere people would want comment font size changed too?",
+      "parentUuid": "9c84ea25_2ac71f42",
       "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

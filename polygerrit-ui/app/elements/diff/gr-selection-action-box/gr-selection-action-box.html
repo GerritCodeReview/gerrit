@@ -21,26 +21,25 @@ limitations under the License.
   <template>
     <style>
       :host {
-        --gr-arrow-size: .6em;
+        --gr-arrow-size: .65em;
 
-        background-color: #fff;
-        border: 1px solid #000;
-        border-radius: .5em;
+        background-color: rgba(22, 22, 22, .9);
+        border-radius: 3px;
+        color: #fff;
         cursor: pointer;
-        padding: .3em;
+        font-family: var(--font-family);
+        padding: .5em .75em;
         position: absolute;
         white-space: nowrap;
       }
       .arrow {
-        background: #fff;
-        border: var(--gr-arrow-size) solid #000;
-        border-width: 0 1px 1px 0;
-        height: var(--gr-arrow-size);
-        left: calc(50% - 1em);
-        margin-top: .05em;
+        border: var(--gr-arrow-size) solid transparent;
+        border-top: var(--gr-arrow-size) solid rgba(22, 22, 22, 0.9);
+        height: 0;
+        left: calc(50% - var(--gr-arrow-size));
+        margin-top: .5em;
         position: absolute;
-        transform: rotate(45deg);
-        width: var(--gr-arrow-size);
+        width: 0;
       }
     </style>
     Press <strong>C</strong> to comment.

@@ -48,7 +48,7 @@
     ],
 
     listeners: {
-      'tap': '_handleTap',
+      'mousedown': '_handleMouseDown', // See https://crbug.com/gerrit/4767
     },
 
     placeAbove: function(el) {
@@ -87,7 +87,9 @@
       }
     },
 
-    _handleTap: function() {
+    _handleMouseDown: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       this._fireCreateComment();
     },
 

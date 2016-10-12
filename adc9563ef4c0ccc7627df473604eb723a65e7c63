@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "dccca255_6c757b21",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-12T00:07:09Z",
+      "side": 1,
+      "message": "I was following the pattern in this file of computing descriptor strings. Can refactor.",
+      "parentUuid": "ff8dd8b6_9d154358",
+      "revId": "adc9563ef4c0ccc7627df473604eb723a65e7c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_bb1a0785",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 158,
         "endChar": 36
       },
+      "revId": "adc9563ef4c0ccc7627df473604eb723a65e7c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8dd8b6_3d07cf2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-12T00:07:09Z",
+      "side": 1,
+      "message": "I was following the pattern in this file of the \u0027changeStatusString\u0027 function for consistency\u0027s sake. I wouldn\u0027t be opposed to renaming both functions, especially as they both use words that are ambiguous.",
+      "parentUuid": "bf9360d9_bb1a0785",
       "revId": "adc9563ef4c0ccc7627df473604eb723a65e7c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

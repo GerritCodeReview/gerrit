@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "1c455a84_fe634139",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "Just add a method  for rebaseAlways here [1] and then add a new config for it in SubmoduleSubscriptionsWholeTopicMergeIT [2].\nThis will make sure that the tests from SubmoduleSubscriptionsWholeTopicMergeIT will be executted once more with the REBASE_ALWAYS submit type.\n\n[1] \n  protected static Config submitByRebaseAlwaysConifg() {\n    Config cfg \u003d new Config();\n    cfg.setBoolean(\"change\", null, \"submitWholeTopic\", true);\n    cfg.setEnum(\"project\", null, \"submitType\", SubmitType.REBASE_ALWAYS);\n    return cfg;\n  }\n\n[2] \n  @ConfigSuite.Config\n  public static Config rebaseAlways() {\n    return submitByRebaseAlwaysConifg();\n  }",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 44
+      },
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_dfd2bbc7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "After adding a config suite for rebase always to this class (as discussed in [1]), you can add another else case here to do the assertions for rebase always. I\u0027m not very familiar with this test, but if I read it correctly, the expectation for REBASE_ALWAYS should be the same as for CHERRY_PICK.\n\n[1] https://gerrit-review.googlesource.com/#/c/88472/1/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_1fb8a377",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "I think so.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f28ec68_4665b23c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
         "patchSetId": 1
@@ -19,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_de600530",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "Looks good to me.",
+      "parentUuid": "1f28ec68_4665b23c",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f28ec68_6662ae37",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
         "patchSetId": 1
@@ -30,6 +105,87 @@
       "writtenOn": "2016-10-11T14:11:02Z",
       "side": 1,
       "message": "this still fails because of copy-pasted chunk of rebase-always used for fastforward case doesn\u0027t change new commit as a new patchset to existing change.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_fed501b2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "Hmm, don\u0027t know. I don\u0027t see anything wrong what would cause this.",
+      "parentUuid": "1f28ec68_6662ae37",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_df847bc0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "already done in line 50",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_3fe12791",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/SubmitType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "The submit types are documented in project-configuration.txt, please add a description for this new submit type there.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_3e4f69c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "you must set a value for this key in AdminConstants.properties",
+      "range": {
+        "startLine": 80,
+        "startChar": 9,
+        "endLine": 80,
+        "endChar": 40
+      },
       "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +215,47 @@
     },
     {
       "key": {
+        "uuid": "3c3cdef1_1fe6e3a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "I have no better suggestion and since this char is not exposed anywhere it shouldn\u0027t matter.",
+      "parentUuid": "1f28ec68_a652e663",
+      "range": {
+        "startLine": 71,
+        "startChar": 42,
+        "endLine": 71,
+        "endChar": 43
+      },
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_1e542d51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "nit: undo the formatting change",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2f7072_4765ae3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
         "patchSetId": 1
@@ -70,6 +267,144 @@
       "writtenOn": "2016-10-11T14:11:02Z",
       "side": 1,
       "message": "to avoid copy-paste, i\u0027ve refactored RebaseIfNeccessary into new base classm but to keep the rest of code consistent I still have a class per strategy.\n\nBetter ideas appreciated.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_7e49f1b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "Looks good to me.",
+      "parentUuid": "3f2f7072_4765ae3c",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_5e4eb5c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "nit: use either \u0027rebaseAlways\u0027 or \u0027alwaysRebase\u0027",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 36
+      },
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_be425993",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "This is the special case when the target branch does not exist yet. It might be a bug that in this case the Cherry-Pick strategy is not adding any footers to the commit message. If we want to fix this, it should be done in a separate commit. Means for now, this is correct as it does what Cherry-Pick does :)",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_5ec7d50e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "Maybe put this code into a new method in MergeUtil so that we don\u0027t have it in two places.",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_5f998b25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "I believe it\u0027s like this:\n\n1. args.rw.parseBody(toMerge):\n   We already have a CodeReviewCommit and\n   want to make sure that it\u0027s body is loaded.\n\n2. newCommit \u003d args.rw.parseCommit(rebaseOp.getRebasedCommit()):\n   We need a CodeReviewCommit, but we only have a RevCommit",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_1ebd4d81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "nit: put this in one line",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 160,
+        "endChar": 12
+      },
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_becb7917",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:20:03Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "range": {
+        "startLine": 202,
+        "startChar": 27,
+        "endLine": 202,
+        "endChar": 28
+      },
       "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -470,7 +470,9 @@ public class MergeOp implements AutoCloseable {
       BatchUpdate.execute(orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commits),
           submissionId);
-    } catch (UpdateException | SubmoduleException e) {
+    } catch (SubmoduleException e) {
+      throw new IntegrationException(e);
+    } catch (UpdateException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
       // message to be user-visible. Copy the message from the wrapped
@@ -482,8 +484,7 @@ public class MergeOp implements AutoCloseable {
       if (e.getCause() instanceof IntegrationException) {
         msg = e.getCause().getMessage();
       } else {
-        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "") + ": \n"
-            + e.getMessage();
+        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "");
       }
       throw new IntegrationException(msg, e);
     }

@@ -97,6 +97,48 @@ limitations under the License.
       return element.reload();
     });
 
+    test('hide revision action', function(done) {
+      flush(function() {
+        var buttonEl = element.$$('[data-action-key="submit"]');
+        assert.isOk(buttonEl);
+        assert.isFalse(buttonEl.hasAttribute('hidden'));
+        assert.throws(element.setActionHidden.bind(element, 'invalid type'));
+        element.setActionHidden(element.ActionType.REVISION,
+            element.RevisionActions.SUBMIT, true);
+        assert.lengthOf(element._hiddenRevisionActions, 1);
+        element.setActionHidden(element.ActionType.REVISION,
+            element.RevisionActions.SUBMIT, true);
+        assert.lengthOf(element._hiddenRevisionActions, 1);
+        flush(function() {
+          var buttonEl = element.$$('[data-action-key="submit"]');
+          assert.isOk(buttonEl);
+          assert.isTrue(buttonEl.hasAttribute('hidden'));
+          done();
+        });
+      });
+    });
+
+    test('hide change action', function(done) {
+      flush(function() {
+        var buttonEl = element.$$('[data-action-key="/"]');
+        assert.isOk(buttonEl);
+        assert.isFalse(buttonEl.hasAttribute('hidden'));
+        assert.throws(element.setActionHidden.bind(element, 'invalid type'));
+        element.setActionHidden(element.ActionType.CHANGE,
+            element.ChangeActions.DELETE, true);
+        assert.lengthOf(element._hiddenChangeActions, 1);
+        element.setActionHidden(element.ActionType.CHANGE,
+            element.ChangeActions.DELETE, true);
+        assert.lengthOf(element._hiddenChangeActions, 1);
+        flush(function() {
+          var buttonEl = element.$$('[data-action-key="/"]');
+          assert.isOk(buttonEl);
+          assert.isTrue(buttonEl.hasAttribute('hidden'));
+          done();
+        });
+      });
+    });
+
     test('buttons show', function(done) {
       flush(function() {
         var buttonEls = Polymer.dom(element.root).querySelectorAll('gr-button');

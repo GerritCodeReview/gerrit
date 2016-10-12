@@ -33,6 +33,11 @@
     });
   };
 
+  GrChangeActionsInterface.prototype.setActionHidden = function(type, key,
+      hidden) {
+    return this._el.setActionHidden(type, key, hidden);
+  };
+
   GrChangeActionsInterface.prototype.add = function(type, label) {
     return this._el.addActionButton(type, label);
   };

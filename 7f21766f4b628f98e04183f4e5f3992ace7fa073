@@ -140,6 +140,24 @@
       "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_ea60a72f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T23:35:19Z",
+      "side": 1,
+      "message": "I disagree. If I want the entire diff to be smaller I already can just zoom out.",
+      "parentUuid": "9c84ea25_aa24ef1c",
+      "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

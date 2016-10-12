@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c455a84_3ee12991",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:26:54Z",
+      "side": 1,
+      "message": "Better use Doubles.tryParse instead of catching the NumberFormatException.",
+      "range": {
+        "startLine": 128,
+        "startChar": 20,
+        "endLine": 129,
+        "endChar": 41
+      },
+      "revId": "707bf2ac69d8ccfd4b754521bde83dbe54afcc44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

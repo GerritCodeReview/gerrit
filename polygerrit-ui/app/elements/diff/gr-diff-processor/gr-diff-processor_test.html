@@ -511,6 +511,17 @@ limitations under the License.
           assert.equal(result[0].lines.length, rows.length);
         });
 
+        test('_sharedGroupsFromRows no single line collapse', function() {
+          rows = rows.slice(0, 7);
+          var context = 3;
+          var result = element._sharedGroupsFromRows(
+              rows, context, 10, 100);
+
+          // Results in one uncollapsed group with all rows.
+          assert.equal(result.length, 1, 'Results in one group');
+          assert.equal(result[0].lines.length, rows.length);
+        });
+
         test('_deltaLinesFromRows', function() {
           var startLineNum = 10;
           var result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,

@@ -258,7 +258,7 @@
       }
 
       // If there is a range to hide.
-      if (context !== WHOLE_FILE && hiddenRange[1] - hiddenRange[0] > 0) {
+      if (context !== WHOLE_FILE && hiddenRange[1] - hiddenRange[0] > 1) {
         var linesBeforeCtx = lines.slice(0, hiddenRange[0]);
         var hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
         var linesAfterCtx = lines.slice(hiddenRange[1]);

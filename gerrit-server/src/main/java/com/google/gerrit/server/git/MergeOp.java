@@ -488,11 +488,11 @@ public class MergeOp implements AutoCloseable {
       // If you happen across one of these, the correct fix is to convert the
       // inner IntegrationException to a ResourceConflictException.
       String msg;
-      if (e.getCause() instanceof IntegrationException) {
+      if (e.getCause() instanceof IntegrationException ||
+          e.getCause() instanceof SubmoduleException) {
         msg = e.getCause().getMessage();
       } else {
-        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "") + ": \n"
-            + e.getMessage();
+        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "");
       }
       throw new IntegrationException(msg, e);
     }

@@ -166,7 +166,7 @@
     _handleLocationChange: function(e) {
       var hash = e.detail.hash.substring(1);
       var pathname = e.detail.pathname;
-      if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
+      if (pathname.indexOf('/c/') === 0 && parseInt(hash, 10) > 0) {
         pathname += '@' + hash;
       }
       this.set('_path', pathname);

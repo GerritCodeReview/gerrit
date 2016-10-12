@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1476285683 -0400\nnonce AKOpmBWRhaoADJpVutCXmwKxhawWW9vxkYltI7qkfPKJK48sq9ylR2M4Z7/ppuMNjqflvtpSk0id\n\n0000000000000000000000000000000000000000 cf9befb565438e19b801ea779ecce7dc7452e07d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX/lTzAAoJEF/XxZqaEoiMRuYQAM7hfhCL8r9xJTY9/oCP8Ulm\nzj8KFpjRLGm8i9u7/zXox3LI4ijnmHhupV6x76Mgo+WDTxKVwe2hHbbFL3pQz0lr\nOZkIA0nccBDPDv/LsogXZmHf1Oe3WVAoqzrTZIiX8xIrVMbuXFnJt+Keb/ROHjjf\nRIGWuE61lOUa/XmRKxNl48WAnWn2jS8F5Uj9iyRFFLn+5SNbPGvuSz43jULBa7C4\neWjWRD6MAL0JCzuXts1aLuh+Qfw0vPd/SIvE28oS69EqemhbEtKDBDc8hgkOkNjq\nvIwglxHzvBmD0PkDA1eQ01qE14d5fh2R7n75CBZG5f7iI9gSbvS5ITqHn+Sex3MB\neq45EfmKrOXUodNhCntO36FCyYRpd5iITin1z3/YhDfOtipLaJjsDWAGBLLgCnBX\n/8/jdvQ07kQXf3pJLTcE1dUFfHZOmpJhly/3UZBxyY60KrbVdEGf7yuywuwhY7Fz\nmp9pvixTqu2d5RzOVvPk1JvV1Mkw4kwYlNZEynnG4hK23+F4Ejv38Yw3JwNf52pm\nrYKpmIw5G5m0gPy2rCGKVJtrbGmUsS2pP719w0un4YXp74jp133mGaGi17R+9Ppq\n5vXUfh/pGOKfTB9RtugfAIAEN+s+NT/Jyu9QteKMANowqEF8ti64tSvKDyMNAwOR\nWvj2cEjQbV0ilQtQxTPK\n\u003dy5Xu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc1886be_65932652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-12T17:12:09Z",
+      "side": 1,
+      "message": "How would we recommend a reviewer renounce their approval after the fact? Just click revert and hash it out in the reverting change?",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 19
+      },
+      "revId": "cf9befb565438e19b801ea779ecce7dc7452e07d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

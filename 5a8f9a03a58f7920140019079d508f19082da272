@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c89f63d_49938151",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T22:08:08Z",
+      "side": 1,
+      "message": "This looks like it should be consolidated into just an array.",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c89f63d_09998971",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T22:08:08Z",
+      "side": 1,
+      "message": "How about\n\n    return Object.keys(labelsObj).sort().map(function(key) {\n      return {\n        name: key,\n        value: this._getVoteForAccount(labelsObj, key, this._account),\n      };\n    }.bind(this));",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c89f63d_299e4d5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T22:08:08Z",
+      "side": 1,
+      "message": "Why not write this as computed expressions on `_labels` and `_labelArray`?",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_0a997b71",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T22:08:08Z",
+      "side": 1,
+      "message": "Add a trailing comma. Also on ll.73,75-77.",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

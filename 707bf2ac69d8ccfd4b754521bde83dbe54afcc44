@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c3cdef1_9fa3134c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:46:25Z",
+      "side": 1,
+      "message": "This test is failing when NoteDb is enabled:\n\nFAILURE com.google.gerrit.acceptance.rest.change.SuggestReviewersIT defaultReviewerSuggestion: Not true that \u003c[]\u003e contains exactly \u003c[1000007, 1000008]\u003e. It is missing \u003c[1000007, 1000008]\u003e",
+      "revId": "707bf2ac69d8ccfd4b754521bde83dbe54afcc44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_ffa05f40",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:46:25Z",
+      "side": 1,
+      "message": "This is because reviewers must also vote to be considered. With ReviewDb it works because we insert a dummy-zero-vote approval to record that the user was added as reviewer, but with NoteDb there are no such dummy-zero-vote approvals and we must actually vote to get an approval.",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 38
+      },
+      "revId": "707bf2ac69d8ccfd4b754521bde83dbe54afcc44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_3ee12991",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
         "patchSetId": 9
@@ -37,6 +77,30 @@
       "side": 1,
       "message": "let\u0027s keep it as it is since we want to have an error in the log if the config has a malformed param",
       "parentUuid": "1c455a84_3ee12991",
+      "range": {
+        "startLine": 128,
+        "startChar": 20,
+        "endLine": 129,
+        "endChar": 41
+      },
+      "revId": "707bf2ac69d8ccfd4b754521bde83dbe54afcc44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_5ee07589",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:46:25Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "3c3cdef1_5fb22b99",
       "range": {
         "startLine": 128,
         "startChar": 20,

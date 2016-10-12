@@ -79,6 +79,18 @@ limitations under the License.
             <div class="contentText" data-side="right">some other text</div>
           </td>
         </tr>
+        <tr>
+          <td class="lineNum left" data-value="4">4</td>
+          <td class="content">
+            <div class="contentText" data-side="left">ga ga</div>
+            <div data-side="left">
+              <div class="gr-diff-comment-thread">
+                <textarea data-side="right">test for textarea copying</textarea>
+              </div>
+            </div>
+          </td>
+          <td class="lineNum right" data-value="4">4</td>
+        </tr>
       </table>
     </gr-diff-selection>
   </template>
@@ -87,7 +99,7 @@ limitations under the License.
 <script>
   suite('gr-diff-selection', function() {
     var element;
-    var copyEventStub;
+    var sandbox;
 
     var emulateCopyOn = function(target) {
       var fakeEvent = {
@@ -104,6 +116,7 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
       sinon.stub(element, '_getCopyEventTarget');
       element._cachedDiffBuilder = {
         getLineElByChild: sinon.stub().returns({}),
@@ -126,6 +139,10 @@ limitations under the License.
           },
         ],
       };
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('applies selected-left on left side click', function() {
@@ -218,6 +235,14 @@ limitations under the License.
       assert.equal('s is a comment\nThis is a differ',
           element._getSelectedText('left', true));
       selection.removeAllRanges();
+    });
+
+    test('defers to default behavior for textarea', function() {
+      element.classList.add('selected-left');
+      element.classList.remove('selected-right');
+      var selectedTextSpy = sandbox.spy(element, '_getSelectedText');
+      emulateCopyOn(element.querySelector('textarea'));
+      assert.isFalse(selectedTextSpy.called);
     });
   });
 </script>

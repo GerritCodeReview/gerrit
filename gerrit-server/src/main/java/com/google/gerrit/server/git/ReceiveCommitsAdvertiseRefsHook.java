@@ -78,16 +78,20 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
       }
     }
     Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
+    Set<ObjectId> allPatchSets = Sets.newHashSetWithExpectedSize(oldRefs.size());
     for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
       String name = e.getKey();
       if (!skip(name)) {
         r.put(name, e.getValue());
       }
+      if (name.startsWith(RefNames.REFS_CHANGES)) {
+        allPatchSets.add(e.getValue().getObjectId());
+      }
     }
-    rp.setAdvertisedRefs(r, advertiseOpenChanges());
+    rp.setAdvertisedRefs(r, advertiseOpenChanges(allPatchSets));
   }
 
-  private Set<ObjectId> advertiseOpenChanges() {
+  private Set<ObjectId> advertiseOpenChanges(Set<ObjectId> allPatchSets) {
     // Advertise some recent open changes, in case a commit is based on one.
     int limit = 32;
     try {
@@ -98,7 +102,13 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
           .byProjectOpen(projectName)) {
         PatchSet ps = cd.currentPatchSet();
         if (ps != null) {
-          r.add(ObjectId.fromString(ps.getRevision().get()));
+          ObjectId id = ObjectId.fromString(ps.getRevision().get());
+          // Ensure we actually observed a patch set ref pointing to this
+          // object, in case the database is out of sync with the repo and the
+          // object doesn't actually exist.
+          if (allPatchSets.contains(id)) {
+            r.add(id);
+          }
         }
       }
       return r;

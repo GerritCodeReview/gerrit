@@ -95,6 +95,31 @@
       return !cancelSubmit;
     },
 
+    modifyRevertMsg: function(change, msg) {
+      this._getEventCallbacks(EventType.REVERT).forEach(function(callback) {
+        try {
+          msg = callback(change, msg);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+      return msg;
+    },
+
+    getLabelValuesPostRevert: function(change) {
+      var labels = {};
+      this._getEventCallbacks(EventType.POST_REVERT).forEach(
+          function(callback) {
+            try {
+              labels = callback(change);
+            } catch (err) {
+              console.error(err);
+            }
+          }
+      );
+      return labels;
+    },
+
     _removeEventCallbacks: function() {
       for (var k in EventType) {
         this._eventCallbacks[EventType[k]] = [];
@@ -148,31 +173,6 @@
           console.error(err);
         }
       });
-    },
-
-    modifyRevertMsg: function(change, msg) {
-      this._getEventCallbacks(EventType.REVERT).forEach(function(callback) {
-        try {
-          msg = callback(change, msg);
-        } catch (err) {
-          console.error(err);
-        }
-      });
-      return msg;
-    },
-
-    getLabelValuesPostRevert: function(change) {
-      var labels = {};
-      this._getEventCallbacks(EventType.POST_REVERT).forEach(
-          function(callback) {
-            try {
-              labels = callback(change);
-            } catch (err) {
-              console.error(err);
-            }
-          }
-      );
-      return labels;
     },
 
     _getEventCallbacks: function(type) {

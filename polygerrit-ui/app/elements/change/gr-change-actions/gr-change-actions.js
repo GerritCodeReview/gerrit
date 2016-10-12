@@ -102,6 +102,14 @@
         type: Array,
         value: function() { return []; },
       },
+      _hiddenChangeActions: {
+        type: Array,
+        value: function() { return []; },
+      },
+      _hiddenRevisionActions: {
+        type: Array,
+        value: function() { return []; },
+      },
     },
 
     ActionType: ActionType,
@@ -167,6 +175,24 @@
         this._indexOfActionButtonWithKey(key),
         prop,
       ], value);
+    },
+
+    setActionHidden: function(type, key, hidden) {
+      var path;
+      if (type === ActionType.CHANGE) {
+        path = '_hiddenChangeActions';
+      } else if (type === ActionType.REVISION) {
+        path = '_hiddenRevisionActions';
+      } else {
+        throw Error('Invalid action type given: ' + type);
+      }
+
+      var idx = this[path].indexOf(key);
+      if (hidden && idx === -1) {
+        this.push(path, key);
+      } else if (!hidden && idx !== -1) {
+        this.splice(path, idx, 1);
+      }
     },
 
     _indexOfActionButtonWithKey: function(key) {
@@ -268,6 +294,12 @@
     _canSubmitChange: function() {
       return this.$.jsAPI.canSubmitChange(this.change,
           this._getRevision(this.change, this.patchNum));
+    },
+
+    _computeActionHidden: function(key, hiddenActionsChangeRecord) {
+      var hiddenActions =
+          (hiddenActionsChangeRecord && hiddenActionsChangeRecord.base) || [];
+      return hiddenActions.indexOf(key) !== -1;
     },
 
     _getRevision: function(change, patchNum) {

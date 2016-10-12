@@ -66,6 +66,7 @@ limitations under the License.
       <section hidden$="[[!_actionCount(actions.*, _additionalActions.*)]]">
         <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
+              hidden$="[[_computeActionHidden(action.__key, _hiddenChangeActions.*)]]"
               primary$="[[action.__primary]]"
               hidden$="[[!action.enabled]]"
               data-action-key$="[[action.__key]]"
@@ -78,6 +79,7 @@ limitations under the License.
       <section hidden$="[[!_actionCount(_revisionActions.*, _additionalActions.*)]]">
         <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
+              hidden$="[[_computeActionHidden(action.__key, _hiddenRevisionActions.*)]]"
               primary$="[[action.__primary]]"
               disabled$="[[!action.enabled]]"
               data-action-key$="[[action.__key]]"

@@ -52,6 +52,24 @@
       "revId": "39107f694068aac1664e4bcf9bad6ce8e7370a6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1c7aae_8680eafc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-12T23:41:11Z",
+      "side": 1,
+      "message": "Thanks.  Much clearer now.",
+      "parentUuid": "7c89f63d_2902cd70",
+      "revId": "39107f694068aac1664e4bcf9bad6ce8e7370a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

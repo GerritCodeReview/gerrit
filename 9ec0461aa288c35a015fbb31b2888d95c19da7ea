@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c3cdef1_5ffceb52",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2411,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "Set",
+      "range": {
+        "startLine": 2411,
+        "startChar": 50,
+        "endLine": 2411,
+        "endChar": 54
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_bf1097b3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "each",
+      "range": {
+        "startLine": 2415,
+        "startChar": 58,
+        "endLine": 2415,
+        "endChar": 62
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_9f0dd39d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2416,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "exportName",
+      "range": {
+        "startLine": 2416,
+        "startChar": 53,
+        "endLine": 2416,
+        "endChar": 65
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_ff0a1f81",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "Looks like this fits into one line.",
+      "range": {
+        "startLine": 434,
+        "startChar": 1,
+        "endLine": 435,
+        "endChar": 31
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_1f6b8318",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "unused imports",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_7f70cf00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_bf59b78f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "The parameter is now addReviewer.baseWeight",
+      "range": {
+        "startLine": 103,
+        "startChar": 38,
+        "endLine": 103,
+        "endChar": 69
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_9f56735d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "[optional] Write this as:\n\nfor (DynamicMap.Entry\u003cReviewerSuggestion\u003e plugin : reviewerSuggestionPluginMap) {",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 64
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_1e026d70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "Is it okay to only support int values? If not you may read it as string and then convert it to double.",
+      "range": {
+        "startLine": 127,
+        "startChar": 32,
+        "endLine": 127,
+        "endChar": 38
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_7ef73172",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "create",
+      "range": {
+        "startLine": 209,
+        "startChar": 47,
+        "endLine": 209,
+        "endChar": 54
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_df60fb2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "[optional] you could write this as\n\n        List\u003cLabelType\u003e labelTypes \u003d\n            projectControl.getLabelTypes().getLabelTypes();\n        List\u003cPredicate\u003cChangeData\u003e\u003e labelPredicates \u003d\n            new ArrayList\u003c\u003e(labelTypes.size());\n        for (LabelType type : labelTypes) {\n          labelPredicates\n              .add(changeQueryBuilder.label(type.getName() + \",user\u003d\" + id));\n        }\n        Predicate\u003cChangeData\u003e reviewerQuery \u003d\n            Predicate.and(projectQuery, Predicate.or(labelPredicates));",
+      "range": {
+        "startLine": 211,
+        "startChar": 7,
+        "endLine": 223,
+        "endChar": 36
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_3f664752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "cannot be thrown and hence results in a warning in Eclipse",
+      "range": {
+        "startLine": 114,
+        "startChar": 40,
+        "endLine": 114,
+        "endChar": 59
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_3f4f67c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "Better provide an empty list to the plugins if there are no candidates so that they don\u0027t need to do null checks.",
+      "range": {
+        "startLine": 122,
+        "startChar": 37,
+        "endLine": 122,
+        "endChar": 41
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_7f49efb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "We must invoke the reviewer recommender only if an account index exists (see the check for the existence of the account index in suggestAccounts(...)).",
+      "range": {
+        "startLine": 127,
+        "startChar": 3,
+        "endLine": 129,
+        "endChar": 27
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_1f542351",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T11:37:16Z",
+      "side": 1,
+      "message": "accountLoader.get(id) is only returning null if id is null, but this method doesn\u0027t check that the account actually exists. AccountLoader only looks up the account when the fill() method is invoked. The fill() method delegates to InternalAccountDirectory#fillAccountInfo which tries to retrieve the accounts from the account cache. Looking at this code I think it would fail with an NPE if no account for a given account ID exists. Maybe that code needs to ignore missing accounts?",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 135,
+        "endChar": 28
+      },
+      "revId": "9ec0461aa288c35a015fbb31b2888d95c19da7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

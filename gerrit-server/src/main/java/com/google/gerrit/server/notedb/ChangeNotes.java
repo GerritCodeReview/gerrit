@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
@@ -346,6 +347,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private DraftCommentNotes draftCommentNotes;
   private RobotCommentNotes robotCommentNotes;
 
+  // Lazy defensive copies of mutable ReviewDb types, to avoid polluting the
+  // ChangeNotesCache from handlers.
+  private ImmutableMap<PatchSet.Id, PatchSet> patchSets;
+  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
+
   @VisibleForTesting
   public ChangeNotes(Args args, Change change) {
     this(args, change, true, null);
@@ -363,11 +369,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public ImmutableMap<PatchSet.Id, PatchSet> getPatchSets() {
-    return state.patchSets();
+    if (patchSets == null) {
+      patchSets = ImmutableMap.copyOf(
+          Maps.transformValues(state.patchSets(), PatchSet::new));
+    }
+    return patchSets;
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
-    return state.approvals();
+    if (approvals == null) {
+      approvals = ImmutableListMultimap.copyOf(
+          Multimaps.transformValues(state.approvals(), PatchSetApproval::new));
+    }
+    return approvals;
   }
 
   public ReviewerSet getReviewers() {

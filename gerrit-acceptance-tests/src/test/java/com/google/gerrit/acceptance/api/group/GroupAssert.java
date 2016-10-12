@@ -31,7 +31,7 @@ public class GroupAssert {
         .that(actual.remove(g)).isTrue();
     }
     assert_().withFailureMessage("unexpected groups: " + actual)
-      .that((Iterable<?>)actual).isEmpty();
+      .that(actual).isEmpty();
   }
 
   public static void assertGroupInfo(AccountGroup group, GroupInfo info) {

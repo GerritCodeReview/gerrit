@@ -53,12 +53,17 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
   @ConfigSuite.Config
   public static Config cherryPick() {
-    return submitByCherryPickConifg();
+    return submitByCherryPickConfig();
   }
 
   @ConfigSuite.Config
-  public static Config rebase() {
-    return submitByRebaseConifg();
+  public static Config rebaseAlways() {
+    return submitByRebaseAlwaysConfig();
+  }
+
+  @ConfigSuite.Config
+  public static Config rebaseIfNecessary() {
+    return submitByRebaseIfNecessaryConfig();
   }
 
   @Test
@@ -132,7 +137,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
       // each change is updated and the respective target branch is updated:
       assertThat(preview).hasSize(5);
-    } else if (getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
+    } else if ((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)
+        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
       // Either the first is used first as is, then the second and third need
       // rebasing, or those two stay as is and the first is rebased.
       // add in 2 master branches, expect 3 or 4:

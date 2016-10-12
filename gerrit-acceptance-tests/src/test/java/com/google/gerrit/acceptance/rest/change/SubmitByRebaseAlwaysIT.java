@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,28 +24,33 @@ import com.google.gerrit.extensions.client.SubmitType;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
+public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
 
   @Override
   protected SubmitType getSubmitType() {
-    return SubmitType.REBASE_IF_NECESSARY;
+    return SubmitType.REBASE_ALWAYS;
   }
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithFastForward() throws Exception {
+  public void submitWithPossibleFastForward() throws Exception {
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
+
     RevCommit head = getRemoteHead();
-    assertThat(head.getId()).isEqualTo(change.getCommit());
+    assertThat(head.getId()).isNotEqualTo(change.getCommit());
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change.getChangeId());
-    assertCurrentRevision(change.getChangeId(), 1, head);
-    assertSubmitter(change.getChangeId(), 1);
+    assertCurrentRevision(change.getChangeId(), 2, head);
+    //assertSubmitter(change.getChangeId(), 1);
+    //assertSubmitter(change.getChangeId(), 2);
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
+
+    assertRefUpdatedEvents(oldHead, head);
+    assertChangeMergedEvents(change.getChangeId(), oldHead.name());
   }
 }

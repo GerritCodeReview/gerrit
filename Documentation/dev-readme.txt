@@ -90,20 +90,47 @@ testing site for development use:
   java -jar buck-out/gen/gerrit/gerrit.war init -d ../gerrit_testsite
 ----
 
-Accept defaults by pressing Enter until 'init' completes, or add
-the '--batch' command line option to avoid them entirely.  It is
-recommended to change the listen addresses from '*' to 'localhost' to
-prevent outside connections from contacting the development instance.
+During initialization, make two changes to the default settings:
 
-The daemon will automatically start in the background and a web
-browser will launch to the start page, enabling login via OpenID.
+* Change the listen addresses from '*' to 'localhost' to prevent outside
+  connections from contacting the development instance; and
+* Change the auth type from 'OPENID' to 'DEVELOPMENT_BECOME_ANY_ACCOUNT' to
+  allow yourself to create and act as arbitrary test accounts on your
+  development instance.
 
-Shutdown the daemon after registering the administrator account
-through the web interface:
+Continue through init until it completes. The daemon will automatically start in
+the background and a web browser will launch to the start page. From here you
+can sign in as the account created during init, register additional accounts,
+create projects, and more.
+
+When you want to shut down the daemon, simply run:
 
 ----
   ../gerrit_testsite/bin/gerrit.sh stop
 ----
+
+
+[[localdev]]
+== Working with the Local Server
+
+If you need to create additional accounts on your development instance, click
+'become' in the upper right corner, select 'Switch User', and then register
+a new account.
+
+Use the `ssh` protocol to clone from and push to the local server. For
+example, to clone a repository that you've created through the admin
+interface, run:
+
+----
+git clone ssh://username@localhost:29418/projectname
+----
+
+Then you'll be able to create changes the same way users do, with
+
+----
+git push origin HEAD:refs/for/master
+----
+
 
 
 == Testing

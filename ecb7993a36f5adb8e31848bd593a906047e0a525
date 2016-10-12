@@ -22,6 +22,24 @@
       "revId": "ecb7993a36f5adb8e31848bd593a906047e0a525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_aa0dcf9c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-12T23:26:36Z",
+      "side": 1,
+      "message": "I suppose it doesn\u0027t need to... I think at one point I had gr-app waiting on this promise to resolve before closing the registration dialog, but then I rearranged things and didn\u0027t back out this change. Updated.",
+      "parentUuid": "9c84ea25_4af7f371",
+      "revId": "ecb7993a36f5adb8e31848bd593a906047e0a525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

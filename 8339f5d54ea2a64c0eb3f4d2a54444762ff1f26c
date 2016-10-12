@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "fc1886be_85b2a2dc",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-10-12T18:23:32Z",
+      "side": 1,
+      "message": "Most of the other references to gerrit_testsite are actually in the quick-install and config documentation, which are for folks doing a proof-of-concept deployment, not for devs contributing patches, and assume that you\u0027ve created a whole gerrit user to sandbox your testsite. Hence why they reference ~/gerrit_testsite, instead of ../gerrit_testsite.\n\nHowever, I did find a reference to ${resource_loc:/gerrit}/../gerrit_testsite in an eclipse plugin, which I really don\u0027t want to mess with. So I\u0027m reverting this portion of the change.",
+      "parentUuid": "7c365611_41709232",
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf6c40b9_d37a5411",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 2

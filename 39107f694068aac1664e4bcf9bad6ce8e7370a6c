@@ -16,6 +16,24 @@
       "revId": "39107f694068aac1664e4bcf9bad6ce8e7370a6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_2a6b9f18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-12T23:30:49Z",
+      "side": 1,
+      "message": "Lack of cross-browser support.",
+      "parentUuid": "1c1c7aae_667a0e12",
+      "revId": "39107f694068aac1664e4bcf9bad6ce8e7370a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

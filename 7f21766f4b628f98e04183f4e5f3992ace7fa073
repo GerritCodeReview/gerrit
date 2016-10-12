@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c84ea25_2ac71f42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-12T22:29:11Z",
+      "side": 1,
+      "message": "This will also change the font size of comments. I suggest ...\n\n    .content .contentText,\n    .lineNum {\n\n... to limit it to file contents and line numbers.",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 16
+      },
+      "revId": "7f21766f4b628f98e04183f4e5f3992ace7fa073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

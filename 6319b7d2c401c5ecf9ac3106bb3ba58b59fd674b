@@ -129,6 +129,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_7edbb1e0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-12T14:38:38Z",
+      "side": 1,
+      "message": "Okay, I think RebaseSubmitStrategy#RebaseOneOp is missing to do this \n\n  ctx.addRefUpdate(\n      new ReceiveCommand(ObjectId.zeroId(),\n          newCommit, psId.toRefName()));\n\nin updateRepoImpl(RepoContext) (see also CherryPick#CherryPickOneOp).\n\nNow I\u0027m only puzzled why the old RebaseIfNecessary worked without doing this.",
+      "parentUuid": "1c455a84_fed501b2",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_df847bc0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
         "patchSetId": 1

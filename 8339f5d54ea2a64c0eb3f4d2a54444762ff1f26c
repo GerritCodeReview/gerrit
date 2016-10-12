@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "7c365611_41709232",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-12T00:01:01Z",
+      "side": 1,
+      "message": "test_site is in .gitignore because it\u0027s used by the acceptance tests. It would be worth checking if creating an actual site in that location interferes with the tests (or vice versa).\n\nIt might be better to change this text to something less specific and allow the user to create the site where they like.  In my case for example I create test sites under `~/gerrit_testsite/$BRANCH`.\n\nAlso note that there are several other references to `~/gerrit_testsite` throughout the documentation.",
+      "parentUuid": "bf9360d9_5b0ae384",
+      "revId": "8339f5d54ea2a64c0eb3f4d2a54444762ff1f26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf6c40b9_d37a5411",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 2

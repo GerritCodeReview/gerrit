@@ -23,6 +23,24 @@
       "revId": "cf9befb565438e19b801ea779ecce7dc7452e07d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0e0e7b_83a9fe7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-12T18:14:50Z",
+      "side": 1,
+      "message": "Yep.\n\nMaybe I should add this as a third motivation: the commit is already in history; no amount of CR-2 is going to change that. This prevents you from thinking that by giving a negative vote you are somehow able to change the past.",
+      "parentUuid": "fc1886be_65932652",
+      "revId": "cf9befb565438e19b801ea779ecce7dc7452e07d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

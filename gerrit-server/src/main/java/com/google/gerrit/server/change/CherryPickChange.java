@@ -114,8 +114,8 @@ public class CherryPickChange {
   }
 
   public Change.Id cherryPick(Change change, PatchSet patch,
-      final String message, final String ref,
-      final RefControl refControl) throws NoSuchChangeException,
+      final String message, final String ref, final RefControl refControl,
+      int parent) throws NoSuchChangeException,
       OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, IntegrationException, UpdateException,
@@ -147,6 +147,13 @@ public class CherryPickChange {
       CodeReviewCommit commitToCherryPick =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
+      if (parent <= 0 || parent > commitToCherryPick.getParentCount()) {
+        throw new InvalidChangeOperationException(String.format(
+            "Cherry Pick: Parent %s does not exist. Please specify a parent in"
+                + " range [1, %s].",
+            parent, commitToCherryPick.getParentCount()));
+      }
+
       Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent =
           identifiedUser.newCommitterIdent(now, serverTimeZone);
@@ -160,10 +167,12 @@ public class CherryPickChange {
 
       CodeReviewCommit cherryPickCommit;
       try {
-        ProjectState projectState = refControl.getProjectControl().getProjectState();
-        cherryPickCommit =
-            mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,
-                commitToCherryPick, committerIdent, commitMessage, revWalk);
+        ProjectState projectState = refControl.getProjectControl()
+            .getProjectState();
+        cherryPickCommit = mergeUtilFactory.create(projectState)
+            .createCherryPickFromCommit(git, oi, mergeTip,
+                commitToCherryPick, committerIdent, commitMessage, revWalk,
+                parent - 1);
 
         Change.Key changeKey;
         final List<String> idList = cherryPickCommit.getFooterLines(

@@ -4860,11 +4860,13 @@ Which patchset (if any) generated this message.
 === CherryPickInput
 The `CherryPickInput` entity contains information for cherry-picking a change to a new branch.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,^1,5"]
 |===========================
-|Field Name    |Description
-|`message`     |Commit message for the cherry-picked change
-|`destination` |Destination branch
+|Field Name         ||Description
+|`message`          ||Commit message for the cherry-picked change
+|`destination`      ||Destination branch
+|`parent`           |optional, defaults to 1|
+Number of the parent relative to which the cherry-pick should be considered.
 |===========================
 
 [[comment-info]]

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7c89f63d_6998456b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-12T22:25:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c89f63d_09998971",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c89f63d_299e4d5a",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "7c89f63d_89ac998d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-12T22:25:51Z",
+      "side": 1,
+      "message": "I need to watch for deep subpath changes and modify both of these values when they happen... I think an observer makes the most sense here. Plus this is the pattern already followed in this file.\n\nI could be misunderstanding you, though 😁",
+      "parentUuid": "7c89f63d_299e4d5a",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c84ea25_0a997b71",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2016-10-12T22:08:08Z",
       "side": 1,
       "message": "Add a trailing comma. Also on ll.73,75-77.",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_eaa34798",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-12T22:25:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c84ea25_0a997b71",
       "revId": "5a8f9a03a58f7920140019079d508f19082da272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

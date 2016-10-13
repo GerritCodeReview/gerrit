@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_00176660",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-13T22:59:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_7e593155",
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_5e567527",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 3
@@ -42,6 +60,42 @@
         "endLine": 47,
         "endChar": 15
       },
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_9e3cfde3",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-13T22:59:30Z",
+      "side": 1,
+      "message": "Ok, I wasn\u0027t sure which approach was better. Should I make the show function public as well for consistency?",
+      "parentUuid": "1cad5ab1_5e567527",
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_e01b6288",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-13T22:59:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_5e567527",
       "revId": "7451500a55022783eae25483403d16b2891ebe0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_c0105e67",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-13T22:59:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_3e53a937",
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c9fd279_e0324212",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 3
@@ -94,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_20294aa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-13T22:59:30Z",
+      "side": 1,
+      "message": "Interestingly, forEach doesn\u0027t work in Safari (also tried that first).\nhttp://stackoverflow.com/questions/24266313/using-foreach-on-an-array-from-getelementsbyclassname-results-in-typeerror-und",
+      "parentUuid": "5c9fd279_e0324212",
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_1e50ed26",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 3
@@ -111,6 +201,24 @@
         "endLine": 419,
         "endChar": 44
       },
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_800b7638",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-13T22:59:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_1e50ed26",
       "revId": "7451500a55022783eae25483403d16b2891ebe0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

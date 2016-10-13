@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c9fd279_60a4f253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T21:05:42Z",
+      "side": 1,
+      "message": "Comma here.",
+      "range": {
+        "startLine": 18,
+        "startChar": 44,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "74b36ff14802d90c266759f11558cb03e7e8ecc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_807016d0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T21:05:42Z",
+      "side": 1,
+      "message": "s/ellipses/an ellipsis/",
+      "range": {
+        "startLine": 553,
+        "startChar": 49,
+        "endLine": 553,
+        "endChar": 57
+      },
+      "revId": "74b36ff14802d90c266759f11558cb03e7e8ecc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_a06afadf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T21:05:42Z",
+      "side": 1,
+      "message": "Here also.",
+      "range": {
+        "startLine": 557,
+        "startChar": 10,
+        "endLine": 557,
+        "endChar": 18
+      },
+      "revId": "74b36ff14802d90c266759f11558cb03e7e8ecc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,11 +16,15 @@ package com.google.gerrit.server.git;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
@@ -45,6 +49,13 @@ import java.util.Set;
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   private static final Logger log = LoggerFactory
       .getLogger(ReceiveCommitsAdvertiseRefsHook.class);
+
+  @VisibleForTesting
+  @AutoValue
+  public abstract static class Result {
+    public abstract Map<String, Ref> allRefs();
+    public abstract Set<ObjectId> additionalHaves();
+  }
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
@@ -77,28 +88,46 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         throw ex;
       }
     }
+    Result r = advertiseRefs(oldRefs);
+    rp.setAdvertisedRefs(r.allRefs(), r.additionalHaves());
+  }
+
+  @VisibleForTesting
+  public Result advertiseRefs(Map<String, Ref> oldRefs) {
     Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
+    Set<ObjectId> allPatchSets = Sets.newHashSetWithExpectedSize(oldRefs.size());
     for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
       String name = e.getKey();
       if (!skip(name)) {
         r.put(name, e.getValue());
       }
+      if (name.startsWith(RefNames.REFS_CHANGES)) {
+        allPatchSets.add(e.getValue().getObjectId());
+      }
     }
-    rp.setAdvertisedRefs(r, advertiseOpenChanges());
+    return new AutoValue_ReceiveCommitsAdvertiseRefsHook_Result(
+        r, advertiseOpenChanges(allPatchSets));
   }
 
-  private Set<ObjectId> advertiseOpenChanges() {
+  private Set<ObjectId> advertiseOpenChanges(Set<ObjectId> allPatchSets) {
     // Advertise some recent open changes, in case a commit is based on one.
     int limit = 32;
     try {
       Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
       for (ChangeData cd : queryProvider.get()
+          .setRequestedFields(ImmutableSet.of(ChangeField.PATCH_SET.getName()))
           .enforceVisibility(true)
           .setLimit(limit)
           .byProjectOpen(projectName)) {
         PatchSet ps = cd.currentPatchSet();
         if (ps != null) {
-          r.add(ObjectId.fromString(ps.getRevision().get()));
+          ObjectId id = ObjectId.fromString(ps.getRevision().get());
+          // Ensure we actually observed a patch set ref pointing to this
+          // object, in case the database is out of sync with the repo and the
+          // object doesn't actually exist.
+          if (allPatchSets.contains(id)) {
+            r.add(id);
+          }
         }
       }
       return r;

@@ -43,31 +43,24 @@ public class AssigneeChanged {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, AccountInfo editor, AccountInfo oldAssignee,
-      Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
-      return;
-    }
-    Event event = new Event(change, editor, oldAssignee, when);
-    for (AssigneeChangedListener l : listeners) {
-      try {
-        l.onAssigneeChanged(event);
-      } catch (Exception e) {
-        log.warn("Error in event listener", e);
-      }
-    }
-  }
-
   public void fire(Change change, Account account, Account oldAssignee,
       Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change),
+      Event event = new Event(
+          util.changeInfo(change),
           util.accountInfo(account),
           util.accountInfo(oldAssignee),
           when);
+      for (AssigneeChangedListener l : listeners) {
+        try {
+          l.onAssigneeChanged(event);
+        } catch (Exception e) {
+          util.logEventListenerError(event, l, e);
+        }
+      }
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
     }

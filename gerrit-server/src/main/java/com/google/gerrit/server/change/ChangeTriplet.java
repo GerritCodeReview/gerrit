@@ -15,11 +15,12 @@
 package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Optional;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+
+import java.util.Optional;
 
 @AutoValue
 public abstract class ChangeTriplet {
@@ -44,7 +45,7 @@ public abstract class ChangeTriplet {
     int t2 = triplet.lastIndexOf('~');
     int t1 = triplet.lastIndexOf('~', t2 - 1);
     if (t1 < 0 || t2 < 0) {
-      return Optional.absent();
+      return Optional.empty();
     }
 
     String project = Url.decode(triplet.substring(0, t1));

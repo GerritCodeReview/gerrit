@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -30,6 +29,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class ChangeFinder {

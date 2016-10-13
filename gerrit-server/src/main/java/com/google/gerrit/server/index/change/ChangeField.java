@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -41,7 +40,6 @@ import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.protobuf.CodecFactory;
@@ -632,10 +630,9 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          Optional<ChangedLines> changedLines = input.changedLines();
-          return changedLines.isPresent()
-              ? changedLines.get().insertions + changedLines.get().deletions
-              : null;
+          return input.changedLines()
+              .map(c -> c.insertions + c.deletions)
+              .orElse(null);
         }
       };
 

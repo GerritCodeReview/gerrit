@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_6008723b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T23:05:35Z",
+      "side": 1,
+      "message": "Trimmed it down to two!",
+      "parentUuid": "5c9fd279_60563228",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c89f63d_09998971",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "As I note above, since these are direct projections of data on `change`, the wireup should be done using `computed`. You can listen to deep paths in `computed` expressions.",
       "parentUuid": "7c89f63d_89ac998d",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_de1ba588",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T23:05:35Z",
+      "side": 1,
+      "message": "Done! Thanks for the patience :)",
+      "parentUuid": "5c9fd279_20502a27",
       "revId": "5a8f9a03a58f7920140019079d508f19082da272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

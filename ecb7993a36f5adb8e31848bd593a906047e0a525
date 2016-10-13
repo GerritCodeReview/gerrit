@@ -40,6 +40,24 @@
       "revId": "ecb7993a36f5adb8e31848bd593a906047e0a525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84ea25_8af48b4c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T00:58:30Z",
+      "side": 1,
+      "message": "Oh, I didn\u0027t mean to imply that it _shouldn\u0027t_... I just wasn\u0027t sure if I was missing some context elsewhere.",
+      "parentUuid": "9c84ea25_aa0dcf9c",
+      "revId": "ecb7993a36f5adb8e31848bd593a906047e0a525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

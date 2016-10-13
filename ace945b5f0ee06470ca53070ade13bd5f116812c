@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "1cad5ab1_3e2cc9b0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T23:01:44Z",
+      "side": 1,
+      "message": "Much cleaner, thanks.",
+      "parentUuid": "5c9fd279_407a0eae",
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_1e9ead03",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
         "patchSetId": 5
@@ -189,6 +207,24 @@
         "endLine": 92,
         "endChar": 21
       },
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_1e290da1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T23:01:44Z",
+      "side": 1,
+      "message": "Also much cleaner. :)",
+      "parentUuid": "1cad5ab1_1e9ead03",
       "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

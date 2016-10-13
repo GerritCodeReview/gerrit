@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_a0979a3b",
+        "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-13T16:56:55Z",
+      "side": 1,
+      "message": "/me also expresses concern for this behavior being very generic.\nAlso - this is a larger topic, but I\u0027d love to cover it at some point in more detail - but generally Elements should be as hermetic as possible to reduce coupling and simplify replacing and moving them around.\nSo generally, parent/child relations should be minimized as much as possible.\n\nIf I remember history of this piece of code correctly, it was looking for a line element in diff by child. Looks like it was over-generalized over time.\n\nAs far as the purpose of this behavior goes, could be Polymer\u0027s event retargeting used for the same purpose?\nhttps://www.polymer-project.org/1.0/docs/devguide/events#retargeting\nWould it work if _handleBodyTap() in gr-autocomplete would check event\u0027s localTarget to be contained by gr-autocomplete?",
+      "parentUuid": "ff8dd8b6_dd942bf2",
+      "revId": "58432d809e9c8835b19e5e38ae61a5607013ad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_bbe4c79f",
         "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
         "patchSetId": 2

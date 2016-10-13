@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_e01802e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T18:24:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c9fd279_00708631",
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_fe6f8152",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +60,58 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_c01dfed4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T18:24:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_fe6f8152",
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_3ec04922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T18:24:07Z",
+      "side": 1,
+      "message": "I have privately expressed my preference for nuking WorkQueue from orbit, that is, turning it into a little factory for ListeningScheduledExecutorServices.",
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_a022fa10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T18:24:07Z",
+      "side": 1,
+      "message": "Agree with this. There is a lot of complexity for relatively little benefit.\n\nHowever, the one thing you can get with WorkQueue now that you can\u0027t easily get from raw jstack is annotating the thread name with the repository name. You can figure out basically what it\u0027s doing based on the stack trace, agreed, but it\u0027s much harder to figure out details about the request from just the stack trace.",
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_de74c527",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +123,23 @@
       "writtenOn": "2016-10-13T16:12:35Z",
       "side": 1,
       "message": "nit: can write\n\n Bug: Issue 4466\n Change-Id: ...\n\nto be more consistent with other commits that fix a bug",
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_20d6eae4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T18:24:07Z",
+      "side": 1,
+      "message": "Nit: 80 columns. Done.",
       "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

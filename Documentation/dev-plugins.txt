@@ -2417,18 +2417,21 @@ weight config parameter on [addreviewer "<pluginName-exportName>"].
 
 [source, java]
 ----
-import com.google.gerrit.server.change.ReviewerSuggestion;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.Set;
 
 public class MyPlugin implements ReviewerSuggestion {
-  public Set<SuggestedReviewer> suggestReviewers(
-      Change.Id changeId, String query, Set<Account.Id> candidates){
-      Set<SuggestedReviewer> suggestions = new HashSet<>();
-      // Implement your ranking logic here
-      return suggestions;
+  public Set<SuggestedReviewer> suggestReviewers(Project.NameKey project,
+      @Nullable Change.Id changeId, @Nullable String query,
+      Set<Account.Id> candidates) {
+    Set<SuggestedReviewer> suggestions = new HashSet<>();
+    // Implement your ranking logic here
+    return suggestions;
   }
 }
 ----

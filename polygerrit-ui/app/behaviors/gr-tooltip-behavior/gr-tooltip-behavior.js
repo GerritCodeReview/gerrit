@@ -27,17 +27,21 @@
     },
 
     attached: function() {
-      if (!this.hasTooltip) { return; }
+      if (!this.hasOpenTooltip) { return; }
 
       this.addEventListener('mouseover', this._handleShowTooltip.bind(this));
-      this.addEventListener('mouseout', this._handleHideTooltip.bind(this));
+      this.addEventListener('mouseout', this.handleHideTooltip.bind(this));
       this.addEventListener('focusin', this._handleShowTooltip.bind(this));
-      this.addEventListener('focusout', this._handleHideTooltip.bind(this));
+      this.addEventListener('focusout', this.handleHideTooltip.bind(this));
       this.listen(window, 'scroll', '_handleWindowScroll');
     },
 
     detached: function() {
       this.unlisten(window, 'scroll', '_handleWindowScroll');
+    },
+
+    hasOpenTooltip: function() {
+      return !!this._tooltip;
     },
 
     _handleShowTooltip: function(e) {
@@ -65,7 +69,7 @@
       this._tooltip = tooltip;
     },
 
-    _handleHideTooltip: function(e) {
+    handleHideTooltip: function(e) {
       if (!this.hasAttribute('title') ||
           this._titleText == null ||
           this === document.activeElement) { return; }

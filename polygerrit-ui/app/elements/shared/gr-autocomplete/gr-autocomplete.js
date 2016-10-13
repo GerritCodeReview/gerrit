@@ -118,11 +118,11 @@
     },
 
     attached: function() {
-      this.listen(document.body, 'click', '_handleBodyClick');
+      this.listen(document.body, 'tap', '_handleBodyTap');
     },
 
     detached: function() {
-      this.unlisten(document.body, 'click', '_handleBodyClick');
+      this.unlisten(document.body, 'tap', '_handleBodyTap');
     },
 
     get focusStart() {
@@ -233,7 +233,7 @@
       }
     },
 
-    _handleBodyClick: function(e) {
+    _handleBodyTap: function(e) {
       var eventPath = Polymer.dom(e).path;
       for (var i = 0; i < eventPath.length; i++) {
         if (eventPath[i] === this) {
@@ -244,6 +244,7 @@
     },
 
     _handleSuggestionTap: function(e) {
+      e.stopPropagation();
       this.$.cursor.setCursor(e.target);
       this._commit();
       this.focus();

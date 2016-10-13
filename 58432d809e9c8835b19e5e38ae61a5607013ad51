@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_40c0ce22",
+        "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T18:02:55Z",
+      "side": 1,
+      "message": "I don\u0027t necessarily agree with the characterization of it being \u0027over-generalized\u0027... Diffs became more complicated, so looking for a plain old line element wasn\u0027t good enough anymore. \n\nI don\u0027t really understand the opposition to this utility function. Could someone try to explain it more clearly? Is it that it\u0027s inefficient? I have no problem renaming it \u0027gr-*****.js\u0027 and reworking the tests and imports accordingly. All I was trying to do here was take redundant code and consolidate it.",
+      "parentUuid": "5c9fd279_a0979a3b",
+      "revId": "58432d809e9c8835b19e5e38ae61a5607013ad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf9360d9_bbe4c79f",
         "filename": "polygerrit-ui/app/behaviors/gr-element-behavior/gr-element-behavior.html",
         "patchSetId": 2

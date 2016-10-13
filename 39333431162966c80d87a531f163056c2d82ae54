@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c455a84_1e80ad66",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T11:48:15Z",
+      "side": 1,
+      "message": "nit: one empty line too much",
+      "revId": "39333431162966c80d87a531f163056c2d82ae54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_7e757188",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T11:48:15Z",
+      "side": 1,
+      "message": "I meant, the expectation for REBASE_ALWAYS should be the same as for CHERRY_PICK, not the same as REBASE_IF_NECESSARY.",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 59
+      },
+      "revId": "39333431162966c80d87a531f163056c2d82ae54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_fe6861af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T11:48:15Z",
+      "side": 1,
+      "message": "As discussed in [1], if the new commit was created by createCherryPickFromCommit you need to create the ref for the new patch set by:\n\n  ctx.addRefUpdate(\n      new ReceiveCommand(ObjectId.zeroId(),\n          newCommit, newPatchSetId.toRefName()));\n\nThis is not needed if the new commit was created by the RebaseOp (as then it was already done).\n\n[1] https://gerrit-review.googlesource.com/#/c/88472/1/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+      "revId": "39333431162966c80d87a531f163056c2d82ae54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

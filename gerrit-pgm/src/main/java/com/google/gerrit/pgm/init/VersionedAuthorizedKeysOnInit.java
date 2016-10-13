@@ -16,7 +16,6 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.VersionedMetaDataOnInit;
@@ -34,6 +33,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
   public interface Factory {

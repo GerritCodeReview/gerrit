@@ -16,10 +16,9 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -46,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 'authorized_keys' file in the refs/users/CD/ABCD branches of the All-Users
@@ -192,7 +192,8 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /** Returns all SSH keys. */
   private List<AccountSshKey> getKeys() {
     checkLoaded();
-    return Lists.newArrayList(Optional.presentInstances(keys));
+    return keys.stream().filter(Optional::isPresent).map(Optional::get)
+        .collect(toList());
   }
 
   /**
@@ -205,8 +206,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    */
   private AccountSshKey getKey(int seq) {
     checkLoaded();
-    Optional<AccountSshKey> key = keys.get(seq - 1);
-    return key.orNull();
+    return keys.get(seq - 1).orElse(null);
   }
 
   /**
@@ -246,7 +246,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   private boolean deleteKey(int seq) {
     checkLoaded();
     if (seq <= keys.size() && keys.get(seq - 1).isPresent()) {
-      keys.set(seq - 1, Optional.<AccountSshKey> absent());
+      keys.set(seq - 1, Optional.empty());
       return true;
     }
     return false;
@@ -279,8 +279,9 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    */
   public void setKeys(Collection<AccountSshKey> newKeys) {
     Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.getKey().get()));
-    keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).getKey().get(),
-        Optional.<AccountSshKey> absent()));
+    keys = new ArrayList<>(
+        Collections.nCopies(o.max(newKeys).getKey().get(),
+        Optional.empty()));
     for (AccountSshKey key : newKeys) {
       keys.set(key.getKey().get() - 1, Optional.of(key));
     }

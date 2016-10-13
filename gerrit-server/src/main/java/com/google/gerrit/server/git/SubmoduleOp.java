@@ -103,13 +103,21 @@ public class SubmoduleOp {
   private final ProjectState.Factory projectStateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
-  private final Multimap<Branch.NameKey, SubmoduleSubscription> targets;
-  private final Set<Branch.NameKey> updatedBranches;
-  private final Set<Branch.NameKey> affectedBranches;
   private final MergeOpRepoManager orm;
-  private final Map<Branch.NameKey, CodeReviewCommit> branchTips;
   private final Map<Branch.NameKey, GitModules> branchGitModules;
+
+  // always update-to-current branch tips during submit process
+  private final Map<Branch.NameKey, CodeReviewCommit> branchTips;
+  // branches for all the submitting changes
+  private final Set<Branch.NameKey> updatedBranches;
+  // branches which in either a submodule or a superproject
+  private final Set<Branch.NameKey> affectedBranches;
+  // sorted version of affectedBranches
   private final ImmutableSet<Branch.NameKey> sortedBranches;
+  // map of superproject branch and its submodule subscriptions
+  private final Multimap<Branch.NameKey, SubmoduleSubscription> targets;
+  // map of superproject and its branches which has submodule subscriptions
+  private final SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject;
 
   @AssistedInject
   public SubmoduleOp(
@@ -135,6 +143,7 @@ public class SubmoduleOp {
     this.affectedBranches = new HashSet<>();
     this.branchTips = new HashMap<>();
     this.branchGitModules = new HashMap<>();
+    this.branchesByProject = HashMultimap.create();
     this.sortedBranches = calculateSubscriptionMap();
   }
 
@@ -186,10 +195,11 @@ public class SubmoduleOp {
       Collection<SubmoduleSubscription> subscriptions =
           superProjectSubscriptionsForSubmoduleBranch(current);
       for (SubmoduleSubscription sub : subscriptions) {
-        Branch.NameKey superProject = sub.getSuperProject();
-        searchForSuperprojects(superProject, currentVisited, allVisited);
-        targets.put(superProject, sub);
-        affectedBranches.add(superProject);
+        Branch.NameKey superBranch = sub.getSuperProject();
+        searchForSuperprojects(superBranch, currentVisited, allVisited);
+        targets.put(superBranch, sub);
+        branchesByProject.put(superBranch.getParentKey(), superBranch);
+        affectedBranches.add(superBranch);
         affectedBranches.add(sub.getSubmodule());
       }
     } catch (IOException e) {
@@ -326,16 +336,15 @@ public class SubmoduleOp {
       return;
     }
 
-    SetMultimap<Project.NameKey, Branch.NameKey> dst = branchesByProject();
     LinkedHashSet<Project.NameKey> superProjects = new LinkedHashSet<>();
     try {
       for (Project.NameKey project : projects) {
         // only need superprojects
-        if (dst.containsKey(project)) {
+        if (branchesByProject.containsKey(project)) {
           superProjects.add(project);
           // get a new BatchUpdate for the super project
           OpenRepo or = orm.openRepo(project);
-          for (Branch.NameKey branch : dst.get(project)) {
+          for (Branch.NameKey branch : branchesByProject.get(project)) {
             addOp(or.getUpdate(), branch);
           }
         }
@@ -545,38 +554,48 @@ public class SubmoduleOp {
     return dc;
   }
 
-  public SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject() {
-    SetMultimap<Project.NameKey, Branch.NameKey> ret = HashMultimap.create();
-    for (Branch.NameKey branch : targets.keySet()) {
-      ret.put(branch.getParentKey(), branch);
-    }
-
-    return ret;
-  }
-
   public ImmutableSet<Project.NameKey> getProjectsInOrder()
       throws SubmoduleException {
     LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
-    if (sortedBranches != null) {
-      Project.NameKey prev = null;
-      for (Branch.NameKey branch : sortedBranches) {
-        Project.NameKey project = branch.getParentKey();
-        if (!project.equals(prev)) {
-          if (projects.contains(project)) {
-            throw new SubmoduleException(
-                "Project level circular subscriptions detected:  " +
-                    printCircularPath(projects, project));
-          }
-          projects.add(project);
-        }
-        prev = project;
-      }
+    for (Project.NameKey project : branchesByProject.keySet()) {
+      addAllSubmoduleProjects(project, new LinkedHashSet<Project.NameKey>(), projects);
     }
 
     for (Branch.NameKey branch : updatedBranches) {
       projects.add(branch.getParentKey());
     }
     return ImmutableSet.copyOf(projects);
+  }
+
+  private void addAllSubmoduleProjects(Project.NameKey project,
+      LinkedHashSet<Project.NameKey> current,
+      LinkedHashSet<Project.NameKey> projects)
+      throws SubmoduleException {
+    if (current.contains(project)) {
+      throw new SubmoduleException(
+          "Project level circular subscriptions detected:  " +
+              printCircularPath(current, project));
+    }
+
+    if (projects.contains(project)) {
+      return;
+    }
+
+    current.add(project);
+    Set<Project.NameKey> subprojects = new HashSet<>();
+    for (Branch.NameKey branch : branchesByProject.get(project)) {
+      Collection<SubmoduleSubscription> subscriptions = targets.get(branch);
+      for (SubmoduleSubscription s : subscriptions) {
+        subprojects.add(s.getSubmodule().getParentKey());
+      }
+    }
+
+    for (Project.NameKey p : subprojects) {
+      addAllSubmoduleProjects(p, current, projects);
+    }
+
+    current.remove(project);
+    projects.add(project);
   }
 
   public ImmutableSet<Branch.NameKey> getBranchesInOrder() {

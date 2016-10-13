@@ -273,7 +273,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testDifferentPaths() throws Exception {
+  public void testSameProjectSameBranchDifferentPaths() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub = createProjectWithPush("sub");
 
@@ -295,6 +295,50 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
     expectToHaveSubmoduleState(superRepo, "master", "sub", sub, "master");
     expectToHaveSubmoduleState(superRepo, "master", "sub-copy", sub, "master");
+
+    superRepo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    assertWithMessage("submodule subscription update "
+        + "should have made one commit")
+        .that(superRepo.getRepository().resolve("origin/master^"))
+        .isEqualTo(superPreviousId);
+  }
+
+  @Test
+  public void testSameProjectDifferentBranchDifferentPaths() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> sub = createProjectWithPush("sub");
+
+    allowMatchingSubmoduleSubscription("sub", "refs/heads/master",
+        "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription("sub", "refs/heads/dev",
+        "super-project", "refs/heads/master");
+
+    ObjectId devHead = pushChangeTo(sub, "dev");
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "sub", "sub-master", "master");
+    prepareSubmoduleConfigEntry(config, "sub", "sub-dev", "dev");
+    pushSubmoduleConfig(superRepo, "master", config);
+
+    ObjectId subMasterId =
+        pushChangeTo(sub, "refs/for/master", "some message", "b.txt",
+            "content b", "same-topic");
+
+    sub.reset(devHead);
+    ObjectId subDevId =
+        pushChangeTo(sub, "refs/for/dev", "some message in dev", "b.txt",
+            "content b", "same-topic");
+
+    approve(getChangeId(sub, subMasterId).get());
+    approve(getChangeId(sub, subDevId).get());
+
+    ObjectId superPreviousId = pushChangeTo(superRepo, "master");
+
+    gApi.changes().id(getChangeId(sub, subMasterId).get()).current().submit();
+
+    expectToHaveSubmoduleState(superRepo, "master", "sub-master", sub, "master");
+    expectToHaveSubmoduleState(superRepo, "master", "sub-dev", sub, "dev");
 
     superRepo.git().fetch().setRemote("origin").call()
         .getAdvertisedRef("refs/heads/master").getObjectId();
@@ -534,5 +578,43 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     assertThat(
         getRemoteHead(name("project-b"), "refs/heads/dev").getShortMessage())
         .contains("some message in b dev.txt");
+  }
+
+  @Test
+  public void testTwoProjectsMultipleBranchesWholeTopic() throws Exception {
+    TestRepository<?> repoA = createProjectWithPush("project-a");
+    TestRepository<?> repoB = createProjectWithPush("project-b");
+    // bootstrap the dev branch
+    ObjectId a0 = pushChangeTo(repoA, "dev");
+
+    // bootstrap the dev branch
+    ObjectId b0 = pushChangeTo(repoB, "dev");
+
+    allowMatchingSubmoduleSubscription("project-b",
+        "refs/heads/master", "project-a", "refs/heads/master");
+    allowMatchingSubmoduleSubscription("project-b", "refs/heads/dev",
+        "project-a", "refs/heads/dev");
+
+    createSubmoduleSubscription(repoA, "master", "project-b", "master");
+    createSubmoduleSubscription(repoA, "dev", "project-b", "dev");
+
+
+    // create a change for master branch in repo b
+    ObjectId bHead =
+        pushChangeTo(repoB, "refs/for/master", "master.txt", "content master B",
+            "some message in b master.txt", "same-topic");
+
+    // create a change for dev branch in repo b
+    repoB.reset(b0);
+    ObjectId bDevHead =
+        pushChangeTo(repoB, "refs/for/dev", "dev.txt", "content dev B",
+            "some message in b dev.txt", "same-topic");
+
+    approve(getChangeId(repoB, bHead).get());
+    approve(getChangeId(repoB, bDevHead).get());
+    gApi.changes().id(getChangeId(repoB, bHead).get()).current().submit();
+
+    expectToHaveSubmoduleState(repoA, "master", "project-b", repoB, "master");
+    expectToHaveSubmoduleState(repoA, "dev", "project-b", repoB, "dev");
   }
 }

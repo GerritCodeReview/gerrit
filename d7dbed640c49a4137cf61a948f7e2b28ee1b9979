@@ -39,6 +39,24 @@
       "revId": "d7dbed640c49a4137cf61a948f7e2b28ee1b9979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_40a7aea7",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-13T17:04:37Z",
+      "side": 1,
+      "message": "CSS pixels are not the same as regular pixels. They could be considered “dots,” where a dot of 1 is 2 actual pixels on a 2x display (retina). So in short, this is correct. Yeah. CSS is confusing :).\n\nPoints should only be used for print media. Pixels is correct for on-screen stuffs. :)",
+      "parentUuid": "5c9fd279_e09da25d",
+      "revId": "d7dbed640c49a4137cf61a948f7e2b28ee1b9979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

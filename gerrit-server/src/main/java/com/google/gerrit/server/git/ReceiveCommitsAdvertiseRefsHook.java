@@ -18,11 +18,13 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
@@ -109,6 +111,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     try {
       Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
       for (ChangeData cd : queryProvider.get()
+          .setRequestedFields(ImmutableSet.of(ChangeField.PATCH_SET.getName()))
           .enforceVisibility(true)
           .setLimit(limit)
           .byProjectOpen(projectName)) {

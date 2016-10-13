@@ -95,6 +95,10 @@
       Gerrit.RESTClientBehavior,
     ],
 
+    listeners: {
+      'tap': '_handleTap',
+    },
+
     observers: [
       '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
     ],
@@ -469,6 +473,18 @@
       this.debounce('autogrow', function() {
         this.fire('autogrow');
       });
+    },
+
+    _handleTap: function(e) {
+      // Ensure tooltips are hidden on mobile safari
+      var btnsWithTooltips =
+          this.querySelectorAll('gr-button[has-tooltip]');
+
+      for (var i = 0; i < btnsWithTooltips.length; i++) {
+        if (e.target !== btnsWithTooltips[i] && btnsWithTooltips[i].hasTooltip()) {
+          btnsWithTooltips[i].hideToolTip();
+        }
+      }
     },
   });
 })();

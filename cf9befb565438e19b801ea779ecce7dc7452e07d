@@ -58,6 +58,24 @@
       "revId": "cf9befb565438e19b801ea779ecce7dc7452e07d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_9ed07df5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T17:42:36Z",
+      "side": 1,
+      "message": "Done with a checkState at the top of the method.",
+      "parentUuid": "1c455a84_de4c856f",
+      "revId": "cf9befb565438e19b801ea779ecce7dc7452e07d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

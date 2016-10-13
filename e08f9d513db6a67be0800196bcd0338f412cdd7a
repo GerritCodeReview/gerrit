@@ -35,6 +35,24 @@
       "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_be3c19cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T08:45:03Z",
+      "side": 1,
+      "message": "At least this is how SetAssigneeOp is currently implemented.",
+      "parentUuid": "1c455a84_5e287588",
+      "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

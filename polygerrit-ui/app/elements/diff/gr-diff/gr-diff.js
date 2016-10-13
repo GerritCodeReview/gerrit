@@ -375,6 +375,12 @@
     },
 
     _handleGetDiffError: function(response) {
+      // Loading the diff may respond with 409 if the file is too large. In this
+      // case, use a toast error..
+      if (response.status === 409) {
+        this.fire('server-error', {response: response});
+        return;
+      }
       this.fire('page-error', {response: response});
     },
 
@@ -386,8 +392,8 @@
           this.path,
           this._handleGetDiffError.bind(this)).then(function(diff) {
                this.filesWeblinks = {
-                 meta_a: diff.meta_a && diff.meta_a.web_links,
-                 meta_b: diff.meta_b && diff.meta_b.web_links,
+                 meta_a: diff && diff.meta_a && diff.meta_a.web_links,
+                 meta_b: diff && diff.meta_b && diff.meta_b.web_links,
                };
                return diff;
              }.bind(this));

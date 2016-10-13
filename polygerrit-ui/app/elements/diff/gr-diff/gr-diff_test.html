@@ -327,6 +327,16 @@ limitations under the License.
         });
         content.click();
       });
+
+      test('_getDiff handles null diff responses', function(done) {
+        stub('gr-rest-api-interface', {
+          getDiff: function() { return Promise.resolve(null); },
+        });
+        element.changeNum = 123;
+        element.patchRange = {basePatchNum: 1, patchNum: 2};
+        element.path = 'file.txt';
+        element._getDiff().then(done);
+      });
     });
 
     suite('logged in', function() {

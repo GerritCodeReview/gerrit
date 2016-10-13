@@ -16,7 +16,6 @@ package com.google.gerrit.server.edit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -56,6 +55,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Utility functions to manipulate change edits.
@@ -144,7 +144,7 @@ public class ChangeEditUtil {
       }
       Ref ref = repo.getRefDatabase().firstExactRef(refNames);
       if (ref == null) {
-        return Optional.absent();
+        return Optional.empty();
       }
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(ref.getObjectId());

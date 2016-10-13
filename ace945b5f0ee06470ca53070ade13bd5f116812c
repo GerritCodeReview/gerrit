@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c9fd279_e0bc8286",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:21:44Z",
+      "side": 1,
+      "message": "Nit: might as well give it an ID and use something like `this.$.settingsView`.",
+      "range": {
+        "startLine": 212,
+        "startChar": 13,
+        "endLine": 212,
+        "endChar": 35
+      },
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_c0c17efc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:21:44Z",
+      "side": 1,
+      "message": "These bindings should use `[[...]]`. The curlies in `bind-value` above take care of the upwards direction.",
+      "range": {
+        "startLine": 76,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_fefc2157",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:21:44Z",
+      "side": 1,
+      "message": "Style nitpick: I *think* we only indent once in this case (like with a function block). Not certain though.",
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_de01656d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:21:44Z",
+      "side": 1,
+      "message": "What\u0027s the intent with this? Is there some reason we can\u0027t stub the REST API at the top-level of this fn?",
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_60c9921e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:21:44Z",
+      "side": 1,
+      "message": "Might as well just pass the array literal here.",
+      "range": {
+        "startLine": 142,
+        "startChar": 18,
+        "endLine": 142,
+        "endChar": 26
+      },
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

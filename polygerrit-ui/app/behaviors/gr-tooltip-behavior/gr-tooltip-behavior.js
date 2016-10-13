@@ -40,6 +40,14 @@
       this.unlisten(window, 'scroll', '_handleWindowScroll');
     },
 
+    hasTooltip: function() {
+      return this._tooltip !== null;
+    },
+
+    hideToolTip: function() {
+      this._handleHideTooltip();
+    },
+
     _handleShowTooltip: function(e) {
       if (!this.hasAttribute('title') ||
           this.getAttribute('title') === '' ||

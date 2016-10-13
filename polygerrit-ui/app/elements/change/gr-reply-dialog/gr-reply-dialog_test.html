@@ -415,5 +415,46 @@ limitations under the License.
         MockInteractions.tap(element.$$('.send'));
       });
     });
+
+    test('only send labels that have changed', function() {
+      element.labels = {
+        Verified: {
+          values: {
+            '-1': 'Fails',
+            ' 0': 'No score',
+            '+1': 'Verified'
+          },
+          default_value: 0
+        },
+        'Code-Review': {
+          values: {
+            '-2': 'Do not submit',
+            '-1': 'I would prefer that you didn\'t submit this',
+            ' 0': 'No score',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved'
+          },
+          default_value: 0
+        }
+      };
+      var verifiedBtn = element.$$(
+          'iron-selector[data-label="Verified"] > ' +
+          'gr-button[data-value="-1"]');
+
+      // Open tooltip for one of the buttons.
+      verifiedBtn._handleShowTooltip();
+      assert.isTrue(verifiedBtn.hasTooltip());
+      var handleTap = sinon.spy(element, '_handleTap');
+      var handleHideTooltip = sinon.spy(verifiedBtn, 'hideToolTip');
+
+      // Click outside of the button with the open tooltip.
+      MockInteractions.tap(element);
+
+      // Ensure that the tooltip is properly closed and that all supporting
+      // functions for iOS were called.
+      assert.isTrue(handleTap.called);
+      assert.isTrue(handleHideTooltip.called);
+      assert.isFalse(verifiedBtn.hasTooltip());
+    });
   });
 </script>

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cad5ab1_1e8b4d1f",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-13T17:08:50Z",
+      "side": 1,
+      "message": "Can we get rid of this property now?",
+      "revId": "a072a7531dede26293df2bef955f3b83deef1100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_fe98a16f",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-13T17:08:50Z",
+      "side": 1,
+      "message": "Please add a comment describing the structure, for example:\nHash of string to boolean for element ids that had disabled shortcuts globally.",
+      "revId": "a072a7531dede26293df2bef955f3b83deef1100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

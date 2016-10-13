@@ -17,12 +17,9 @@ package com.google.gerrit.server.plugins;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.Iterables.transform;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -49,6 +46,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
@@ -192,9 +190,9 @@ public class JarScanner implements PluginContentScanner {
     String annotationName;
     String annotationValue;
     String[] interfaces;
-    Iterable<String> exports;
+    Collection<String> exports;
 
-    private ClassData(Iterable<String> exports) {
+    private ClassData(Collection<String> exports) {
       super(Opcodes.ASM5);
       this.exports = exports;
     }
@@ -214,9 +212,12 @@ public class JarScanner implements PluginContentScanner {
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+      if (!visible) {
+        return null;
+      }
       Optional<String> found =
-          Iterables.tryFind(exports, Predicates.equalTo(desc));
-      if (visible && found.isPresent()) {
+          exports.stream().filter(x -> x.equals(desc)).findAny();
+      if (found.isPresent()) {
         annotationName = desc;
         return new AbstractAnnotationVisitor() {
           @Override
@@ -287,10 +288,11 @@ public class JarScanner implements PluginContentScanner {
   }
 
   @Override
-  public Optional<PluginEntry> getEntry(String resourcePath) throws IOException {
+  public Optional<PluginEntry> getEntry(String resourcePath)
+      throws IOException {
     JarEntry jarEntry = jarFile.getJarEntry(resourcePath);
     if (jarEntry == null || jarEntry.getSize() == 0) {
-      return Optional.absent();
+      return Optional.empty();
     }
 
     return Optional.of(resourceOf(jarEntry));

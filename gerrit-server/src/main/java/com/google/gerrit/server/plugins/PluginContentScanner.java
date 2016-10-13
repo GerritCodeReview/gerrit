@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.plugins;
 
-import com.google.common.base.Optional;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -23,6 +21,7 @@ import java.nio.file.NoSuchFileException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.Optional;
 import java.util.jar.Manifest;
 
 /**
@@ -51,9 +50,8 @@ public interface PluginContentScanner {
     }
 
     @Override
-    public Optional<PluginEntry> getEntry(String resourcePath)
-        throws IOException {
-      return Optional.absent();
+    public Optional<PluginEntry> getEntry(String resourcePath) {
+      return Optional.empty();
     }
 
     @Override

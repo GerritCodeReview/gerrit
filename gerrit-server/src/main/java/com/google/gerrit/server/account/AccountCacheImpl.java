@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Optional;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
@@ -52,6 +51,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -252,17 +252,13 @@ public class AccountCacheImpl implements AccountCache {
       if (accountIndexes.getSearchIndex() != null) {
         AccountState accountState =
             accountQueryProvider.get().oneByExternalId(key.get());
-        return accountState != null
-            ? Optional.of(accountState.getAccount().getId())
-            : Optional.<Account.Id>absent();
+        return Optional.ofNullable(accountState)
+            .map(s -> s.getAccount().getId());
       }
 
       try (ReviewDb db = schema.open()) {
-        AccountExternalId id = db.accountExternalIds().get(key);
-        if (id != null) {
-          return Optional.of(id.getAccountId());
-        }
-        return Optional.absent();
+        return Optional.ofNullable(db.accountExternalIds().get(key))
+            .map(AccountExternalId::getAccountId);
       }
     }
   }

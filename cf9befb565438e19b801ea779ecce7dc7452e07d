@@ -41,6 +41,23 @@
       "revId": "cf9befb565438e19b801ea779ecce7dc7452e07d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_de4c856f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T11:32:48Z",
+      "side": 1,
+      "message": "[optional] Add \n\n  cd.change().getStatus().isOpen()\n\nas condition?\n\nAt the moment setAllApprovals is only called from labelsForOpenChange so the change is always open here, but it\u0027s not immediately understandable by just looking at this code here.",
+      "revId": "cf9befb565438e19b801ea779ecce7dc7452e07d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -68,6 +68,8 @@ public class ReviewerRecommender {
   private static final double BASE_REVIEWER_WEIGHT = 10;
   private static final double BASE_OWNER_WEIGHT = 1;
   private static final double BASE_COMMENT_WEIGHT = 0.5;
+  private static final double[] WEIGHTS = new double[] {
+      BASE_REVIEWER_WEIGHT, BASE_OWNER_WEIGHT, BASE_COMMENT_WEIGHT,};
   private static final long PLUGIN_QUERY_TIMEOUT = 500; //ms
 
   private final ChangeQueryBuilder changeQueryBuilder;
@@ -247,18 +249,15 @@ public class ReviewerRecommender {
     Iterator<List<ChangeData>> queryResultIterator = result.iterator();
     Iterator<Account.Id> reviewersIterator = reviewers.keySet().iterator();
 
-    double[] weights = new double[]{
-        BASE_REVIEWER_WEIGHT, BASE_OWNER_WEIGHT, BASE_COMMENT_WEIGHT};
-
     int i = 0;
     Account.Id currentId = null;
     while (queryResultIterator.hasNext()) {
       List<ChangeData> currentResult = queryResultIterator.next();
-      if (i % weights.length == 0) {
+      if (i % WEIGHTS.length == 0) {
         currentId = reviewersIterator.next();
       }
 
-      reviewers.get(currentId).add(weights[i % weights.length] *
+      reviewers.get(currentId).add(WEIGHTS[i % WEIGHTS.length] *
           baseWeight * currentResult.size());
       i++;
     }

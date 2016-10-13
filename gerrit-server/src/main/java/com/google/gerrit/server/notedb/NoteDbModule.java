@@ -16,11 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Id;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
@@ -29,7 +26,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 
 public class NoteDbModule extends FactoryModule {
   private final Config cfg;
@@ -79,13 +75,6 @@ public class NoteDbModule extends FactoryModule {
         }
 
         @Override
-        public boolean rebuildProject(ReviewDb db,
-            ImmutableMultimap<NameKey, Id> allChanges, NameKey project,
-            Repository allUsersRepo) {
-          return false;
-        }
-
-        @Override
         public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId) {
           return null;
         }
@@ -94,6 +83,12 @@ public class NoteDbModule extends FactoryModule {
         public Result execute(ReviewDb db, Change.Id changeId,
             NoteDbUpdateManager manager) {
           return null;
+        }
+
+        @Override
+        public void buildUpdates(NoteDbUpdateManager manager,
+            ChangeBundle bundle) {
+          // Do nothing.
         }
       });
       bind(new TypeLiteral<Cache<ChangeNotesCache.Key, ChangeNotesState>>() {})

@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
@@ -28,7 +26,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -69,11 +66,8 @@ public abstract class ChangeRebuilder {
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
       OrmException, ConfigInvalidException;
 
-  public abstract boolean rebuildProject(ReviewDb db,
-      ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project, Repository allUsersRepo)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException;
+  public abstract void buildUpdates(NoteDbUpdateManager manager,
+      ChangeBundle bundle) throws IOException, OrmException;
 
   public abstract NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException;

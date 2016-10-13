@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -24,6 +23,8 @@ import com.google.gerrit.server.account.AccountJson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import java.util.Optional;
 
 @Singleton
 public class GetAssignee implements RestReadView<ChangeResource> {
@@ -36,9 +37,8 @@ public class GetAssignee implements RestReadView<ChangeResource> {
 
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc) throws OrmException {
-
     Optional<Account.Id> assignee =
-        Optional.fromNullable(rsrc.getChange().getAssignee());
+        Optional.ofNullable(rsrc.getChange().getAssignee());
     if (assignee.isPresent()) {
       Account account = accountInfo.create().get(assignee.get());
       return Response.ok(AccountJson.toAccountInfo(account));

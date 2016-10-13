@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.base.Optional;
-
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Simple short-lived cache of individual refs read from a repo.

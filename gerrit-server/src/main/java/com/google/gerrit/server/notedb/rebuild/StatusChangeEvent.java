@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -25,6 +24,7 @@ import com.google.gwtorm.server.OrmException;
 
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 class StatusChangeEvent extends Event {
@@ -40,7 +40,7 @@ class StatusChangeEvent extends Event {
       Change change, Change noteDbChange) {
     String msg = message.getMessage();
     if (msg == null) {
-      return Optional.absent();
+      return Optional.empty();
     }
     for (Map.Entry<Change.Status, Pattern> e : PATTERNS.entrySet()) {
       if (e.getValue().matcher(msg).matches()) {
@@ -48,7 +48,7 @@ class StatusChangeEvent extends Event {
             message, change, noteDbChange, e.getKey()));
       }
     }
-    return Optional.absent();
+    return Optional.empty();
   }
 
   private final Change change;

@@ -17,8 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Optional;
-
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -28,6 +26,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Collection of {@link ReceiveCommand}s that supports multiple updates per ref.
@@ -96,7 +95,7 @@ public class ChainedReceiveCommands implements RefCache {
     if (cmd != null) {
       return !cmd.getNewId().equals(ObjectId.zeroId())
           ? Optional.of(cmd.getNewId())
-          : Optional.<ObjectId>absent();
+          : Optional.empty();
     }
     return refCache.get(refName);
   }

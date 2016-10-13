@@ -84,6 +84,11 @@ The link:#label-section[+label+] section can appear multiple times. You can
 also redefine the text and behavior of the built in label types `Code-Review`
 and `Verified`.
 
+Optionally a +commentlink+ section can be added to define project-specific
+comment links. The +commentlink+ section has the same format as the
+link:config-gerrit.html#commentlink[+commentlink+ section in gerrit.config]
+which is used to define global comment links.
+
 [[project-section]]
 === Project section
 

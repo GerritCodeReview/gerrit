@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Optional;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -106,7 +106,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
         validator.validateAssignee(change, newAssigneeUser.getAccount());
       }
     } catch (ValidationException e) {
-      throw new BadRequestException(e.getMessage());
+      throw new ResourceConflictException(e.getMessage());
     }
     // notedb
     update.setAssignee(newAssigneeUser.getAccountId());

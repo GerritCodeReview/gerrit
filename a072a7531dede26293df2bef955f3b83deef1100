@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1cad5ab1_7eadb186",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T17:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_1e8b4d1f",
+      "revId": "a072a7531dede26293df2bef955f3b83deef1100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_fe98a16f",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-13T17:08:50Z",
       "side": 1,
       "message": "Please add a comment describing the structure, for example:\nHash of string to boolean for element ids that had disabled shortcuts globally.",
+      "revId": "a072a7531dede26293df2bef955f3b83deef1100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_e0c6c243",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T17:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_fe98a16f",
       "revId": "a072a7531dede26293df2bef955f3b83deef1100",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

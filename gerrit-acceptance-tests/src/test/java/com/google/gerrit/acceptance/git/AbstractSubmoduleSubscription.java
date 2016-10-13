@@ -128,8 +128,13 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     Project.NameKey superName = new Project.NameKey(name(superproject));
     try (MetaDataUpdate md = metaDataUpdateFactory.create(sub)) {
       md.setMessage("Added superproject subscription");
+      SubscribeSection s;
       ProjectConfig pc = ProjectConfig.read(md);
-      SubscribeSection s = new SubscribeSection(superName);
+      if (pc.getSubscribeSections().containsKey(superName)) {
+        s = pc.getSubscribeSections().get(superName);
+      } else {
+        s = new SubscribeSection(superName);
+      }
       String refspec;
       if (superBranch == null) {
         refspec = subBranch;

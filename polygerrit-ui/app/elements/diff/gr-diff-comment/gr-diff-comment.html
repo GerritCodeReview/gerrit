@@ -170,9 +170,9 @@ limitations under the License.
         <div class="show-hide">
           <label class="show-hide">
             <input type="checkbox" class="show-hide"
-               checked$="[[_commentCollapsed]]"
+               checked$="[[collapsed]]"
                on-change="_handleToggleCollapsed">
-            [[_computeShowHideText(_commentCollapsed)]]
+            [[_computeShowHideText(collapsed)]]
           </label>
         </div>
       </div>
@@ -186,7 +186,7 @@ limitations under the License.
       <gr-linked-text class="message"
           pre
           content="[[comment.message]]"
-          collapsed="[[_commentCollapsed]]"
+          collapsed="[[collapsed]]"
           config="[[projectConfig.commentlinks]]"></gr-linked-text>
       <div class="actions" hidden$="[[!showActions]]">
         <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>

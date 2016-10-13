@@ -22,7 +22,6 @@ import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -144,6 +143,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;

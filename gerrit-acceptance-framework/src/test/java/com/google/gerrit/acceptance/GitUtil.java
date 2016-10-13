@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.reviewdb.client.Project;
@@ -50,6 +50,7 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -239,10 +240,7 @@ public class GitUtil {
       throws IOException {
     RevCommit c = tr.getRevWalk().parseCommit(id);
     tr.getRevWalk().parseBody(c);
-    List<String> ids = c.getFooterLines(FooterConstants.CHANGE_ID);
-    if (ids.isEmpty()) {
-      return Optional.absent();
-    }
-    return Optional.of(ids.get(ids.size() - 1));
+    return Lists.reverse(c.getFooterLines(FooterConstants.CHANGE_ID)).stream()
+        .findFirst();
   }
 }

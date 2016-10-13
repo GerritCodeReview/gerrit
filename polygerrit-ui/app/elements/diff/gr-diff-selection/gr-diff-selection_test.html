@@ -79,6 +79,18 @@ limitations under the License.
             <div class="contentText" data-side="right">some other text</div>
           </td>
         </tr>
+        <tr>
+          <td class="lineNum left" data-value="4">4</td>
+          <td class="content">
+            <div class="contentText" data-side="left">ga ga</div>
+            <div data-side="left">
+              <div class="gr-diff-comment-thread">
+                <textarea data-side="right">test for textarea copying</textarea>
+              </div>
+            </div>
+          </td>
+          <td class="lineNum right" data-value="4">4</td>
+        </tr>
       </table>
     </gr-diff-selection>
   </template>
@@ -87,14 +99,14 @@ limitations under the License.
 <script>
   suite('gr-diff-selection', function() {
     var element;
-    var copyEventStub;
+    var sandbox;
 
     var emulateCopyOn = function(target) {
       var fakeEvent = {
         target: target,
-        preventDefault: sinon.stub(),
+        preventDefault: sandbox.stub(),
         clipboardData: {
-          setData: sinon.stub(),
+          setData: sandbox.stub(),
         },
       };
       element._getCopyEventTarget.returns(target);
@@ -104,10 +116,11 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
-      sinon.stub(element, '_getCopyEventTarget');
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(element, '_getCopyEventTarget');
       element._cachedDiffBuilder = {
-        getLineElByChild: sinon.stub().returns({}),
-        getSideByLineEl: sinon.stub(),
+        getLineElByChild: sandbox.stub().returns({}),
+        getSideByLineEl: sandbox.stub(),
         diffElement: element.querySelector('#diffTable'),
       };
       element.diff = {
@@ -126,6 +139,10 @@ limitations under the License.
           },
         ],
       };
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('applies selected-left on left side click', function() {
@@ -150,26 +167,26 @@ limitations under the License.
     });
 
     test('ignores copy for non-content Element', function() {
-      sinon.stub(element, '_getSelectedText');
+      sandbox.stub(element, '_getSelectedText');
       emulateCopyOn(element.querySelector('.other'));
       assert.isFalse(element._getSelectedText.called);
     });
 
     test('asks for text for left side Elements', function() {
       element._cachedDiffBuilder.getSideByLineEl.returns('left');
-      sinon.stub(element, '_getSelectedText');
+      sandbox.stub(element, '_getSelectedText');
       emulateCopyOn(element.querySelector('div.contentText'));
       assert.deepEqual(['left', false], element._getSelectedText.lastCall.args);
     });
 
     test('reacts to copy for content Elements', function() {
-      sinon.stub(element, '_getSelectedText');
+      sandbox.stub(element, '_getSelectedText');
       emulateCopyOn(element.querySelector('div.contentText'));
       assert.isTrue(element._getSelectedText.called);
     });
 
     test('copy event is prevented for content Elements', function() {
-      sinon.stub(element, '_getSelectedText');
+      sandbox.stub(element, '_getSelectedText');
       element._cachedDiffBuilder.getSideByLineEl.returns('left');
       element._getSelectedText.returns('test');
       var event = emulateCopyOn(element.querySelector('div.contentText'));
@@ -177,7 +194,7 @@ limitations under the License.
     });
 
     test('inserts text into clipboard on copy', function() {
-      sinon.stub(element, '_getSelectedText').returns('the text');
+      sandbox.stub(element, '_getSelectedText').returns('the text');
       var event = emulateCopyOn(element.querySelector('div.contentText'));
       assert.deepEqual(
           ['Text', 'the text'], event.clipboardData.setData.lastCall.args);
@@ -218,6 +235,14 @@ limitations under the License.
       assert.equal('s is a comment\nThis is a differ',
           element._getSelectedText('left', true));
       selection.removeAllRanges();
+    });
+
+    test('defers to default behavior for textarea', function() {
+      element.classList.add('selected-left');
+      element.classList.remove('selected-right');
+      var selectedTextSpy = sandbox.spy(element, '_getSelectedText');
+      emulateCopyOn(element.querySelector('textarea'));
+      assert.isFalse(selectedTextSpy.called);
     });
   });
 </script>

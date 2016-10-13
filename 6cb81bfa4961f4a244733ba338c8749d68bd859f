@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c455a84_3edf6960",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T14:37:21Z",
+      "side": 1,
+      "message": "Can you please document this new field in rest-api-changes.txt in the \u0027Approvalinfo\u0027 section?",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_fef341f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T14:37:21Z",
+      "side": 1,
+      "message": "Would it makes sense to compute the permitted labels here and then pass them through labelsFor all the way down to setAllApprovals where you use them? \n\nThe other place where we need to the permitted labels is below (line 492) and this way we would need to invoke permittedLabels only once.",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_df62bba5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T14:37:21Z",
+      "side": 1,
+      "message": "Should maxPermittedValue also be only set under these conditions?",
+      "range": {
+        "startLine": 488,
+        "startChar": 6,
+        "endLine": 489,
+        "endChar": 75
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_def005ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T14:37:21Z",
+      "side": 1,
+      "message": "Should maxPermittedValue be set here too, so that this information is also available for closed changes?\n\nThis may make sense in the context of change 88572 [1], which adds support for voting on merged changes.\n\n[1] https://gerrit-review.googlesource.com/88572",
+      "range": {
+        "startLine": 839,
+        "startChar": 10,
+        "endLine": 841,
+        "endChar": 34
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_5edeb560",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T14:37:21Z",
+      "side": 1,
+      "message": "Can you please add a few test that verify that this field is set correctly? ChangeIT.get() should be a good starting point for this.",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

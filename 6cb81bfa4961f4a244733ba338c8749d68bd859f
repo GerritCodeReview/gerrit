@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1cad5ab1_de49658c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-13T22:25:23Z",
+      "side": 1,
+      "message": "Sure, will fix, thanks for pointing to the doc.",
+      "parentUuid": "1c455a84_3edf6960",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_fef341f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_a0431a6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-13T22:25:23Z",
+      "side": 1,
+      "message": "Yea, I think it definitely make sense to avoid unnecessary computation of permittedLabels. \n\nThe permittedLabels may be computed here and transferred all the way down to setAllApprovals to both labelsForOpenChange and labelsForClosedChange, in this case it will be computed only once, however it will be always computed once, but it\u0027s not needed for non detailed requests. It may be fine here or I can propose to create a small class PermittedLabelsProvider and transfer it all the way down and use in line 492. The class will lazily calculate permittedLabels during the first invocation and will return the cached version during the next invocations:\n\nprivate class PermittedLabelsProvider {\n    private ChangeControl ctl;\n    private ChangeData cd;\n    private Map\u003cString, Collection\u003cString\u003e\u003e permittedValues;\n\n    PermittedLabelsProvider(ChangeControl ctl, ChangeData cd) {\n      this.ctl \u003d ctl;\n      this.cd \u003d cd;\n    }\n    Map\u003cString, Collection\u003cString\u003e\u003e get() throws OrmException {\n      if (permittedValues \u003d\u003d null) {\n        permittedValues \u003d permittedLabels(ctl, cd);\n      }\n      return permittedValues;\n    }\n}\n\nIn this case the permittedLabels will be computed only when needed and only once, however the code will be more complex and not sure it will be consistent will the rest of the code (in terms of readability).\n\nIt looks like a tradeoff between simplicity and performance, I don\u0027t know what is better for the code base? or of course any other solution",
+      "parentUuid": "1c455a84_fef341f7",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_df62bba5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2016-10-13T14:37:21Z",
       "side": 1,
       "message": "Should maxPermittedValue also be only set under these conditions?",
+      "range": {
+        "startLine": 488,
+        "startChar": 6,
+        "endLine": 489,
+        "endChar": 75
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_fe442176",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-13T22:25:23Z",
+      "side": 1,
+      "message": "I honestly don\u0027t know. My logic is: the limitToPsId is not transferred down to setAllApprovals, so most probably maxPermittedValue (part of Approvals) doesn\u0027t depend on limitToPsId.",
+      "parentUuid": "3c3cdef1_df62bba5",
       "range": {
         "startLine": 488,
         "startChar": 6,
@@ -100,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "1cad5ab1_3e7a89ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-13T22:25:23Z",
+      "side": 1,
+      "message": "I looked deeper in the code and realized that it\u0027s non necessary to compute permittedLabels here, at least for each accountId separately since it\u0027s not depend on it. I made a comment above, the option with computing it in toChangeInfo() looks promising",
+      "parentUuid": "1c455a84_dec925a6",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_def005ee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -123,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_80593658",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-13T22:25:23Z",
+      "side": 1,
+      "message": "Sure, will fix",
+      "parentUuid": "1c455a84_def005ee",
+      "range": {
+        "startLine": 839,
+        "startChar": 10,
+        "endLine": 841,
+        "endChar": 34
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_5edeb560",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -134,6 +242,24 @@
       "writtenOn": "2016-10-13T14:37:21Z",
       "side": 1,
       "message": "Can you please add a few test that verify that this field is set correctly? ChangeIT.get() should be a good starting point for this.",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_1e77cdc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-13T22:25:23Z",
+      "side": 1,
+      "message": "Sure, will add, thanks for pointing to ChangeIT.get()",
+      "parentUuid": "1c455a84_5edeb560",
       "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

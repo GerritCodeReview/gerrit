@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_60563228",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T22:25:08Z",
+      "side": 1,
+      "message": "It makes sense to have a labels property (such as `_labelsArray`) local to \nthis component, in order to facilitate the dom-repeat and avoid that bug.\n\nThe code smell is that these two properties -- along with `change.labels` -- \nrepresent *three* replications of the same data, whereas ideally there would \nonly ever be a one version of any piece of data.\n\nIt probably needs to be an array so that it can be looped over by \ndom-repeat, so these should be consolidated into one array property.\n\nThe benefit of declaring such properties using `computed` expressions is \nit\u0027s clear that it\u0027s a projection of other data, and that it\u0027s kept up-to-\ndate automatically by Polymer.\n\nIf, instead, they\u0027re declared as regular properties and manually \nsynchronized using an observer, then:\n* Someone who maintains the code may not realize how it works because the\n  wire-up is distributed in three places of the file.\n* The properties can be edited directly, making them out sync.\n\nP.S. you should absolutely feel free to rock the boat.",
+      "parentUuid": "5c9fd279_802816f1",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c89f63d_09998971",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "I need to watch for deep subpath changes and modify both of these values when they happen... I think an observer makes the most sense here. Plus this is the pattern already followed in this file.\n\nI could be misunderstanding you, though 😁",
       "parentUuid": "7c89f63d_299e4d5a",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_20502a27",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T22:25:08Z",
+      "side": 1,
+      "message": "As I note above, since these are direct projections of data on `change`, the wireup should be done using `computed`. You can listen to deep paths in `computed` expressions.",
+      "parentUuid": "7c89f63d_89ac998d",
       "revId": "5a8f9a03a58f7920140019079d508f19082da272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

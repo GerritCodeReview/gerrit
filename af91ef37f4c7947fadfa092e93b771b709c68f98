@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_3e52c90f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T08:52:50Z",
+      "side": 1,
+      "message": "Ah, this makes sense :)",
+      "parentUuid": "3c3cdef1_7f756f88",
+      "revId": "af91ef37f4c7947fadfa092e93b771b709c68f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_3f52c70f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 2

@@ -65,9 +65,11 @@ public class PutAssignee implements
       SetAssigneeOp op = assigneeFactory.create(input);
       bu.addOp(rsrc.getId(), op);
 
-      PostReviewers.Addition reviewersAddition =
-          addAssigneeAsCC(rsrc, input.assignee);
-      bu.addOp(rsrc.getId(), reviewersAddition.op);
+      if (input.assignee != null) {
+        PostReviewers.Addition reviewersAddition =
+            addAssigneeAsCC(rsrc, input.assignee);
+        bu.addOp(rsrc.getId(), reviewersAddition.op);
+      }
 
       bu.execute();
       return Response.ok(AccountJson.toAccountInfo(op.getNewAssignee()));

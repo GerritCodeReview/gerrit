@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1cad5ab1_5eaaf570",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-13T17:30:30Z",
+      "side": 1,
+      "message": "Please restore the spy.\nOr, better, add sandbox to this test.",
+      "revId": "be038ed8f9bbd1b728d6db82792a4d8142489a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c84ea25_aadb0f0c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
         "patchSetId": 2
@@ -13,6 +30,24 @@
       "writtenOn": "2016-10-12T22:46:38Z",
       "side": 1,
       "message": "Does this test fail without the above change? `_handleCopy` will return `undefined` either way. It may be more accurate to spy on `_getSelectedText` or `e.clipboardData.setData`.",
+      "revId": "be038ed8f9bbd1b728d6db82792a4d8142489a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_80b6d6d1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-13T17:30:30Z",
+      "side": 1,
+      "message": "+1 for spying in _getSelectedText",
+      "parentUuid": "9c84ea25_aadb0f0c",
       "revId": "be038ed8f9bbd1b728d6db82792a4d8142489a98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

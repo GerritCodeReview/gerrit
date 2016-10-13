@@ -38,6 +38,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -356,6 +357,14 @@ public class WorkQueue {
             ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
           }
         }
+        if (runnable instanceof Future<?>) {
+          // Creating new futures eventually passes through AbstractExecutorService#schedule,
+          // which will convert the Guava Future to a Runnable, thereby making it impossible
+          // for the cancellation to propagate from ScheduledThreadPool's task back to the
+          // Guava future, so kludge it here.
+          ((Future<?>)runnable).cancel(mayInterruptIfRunning);
+        }
+
         executor.remove(this);
         executor.purge();
         return true;

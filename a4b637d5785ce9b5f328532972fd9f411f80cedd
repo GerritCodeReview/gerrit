@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c89f63d_4949c1b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-13T00:49:30Z",
+      "side": 0,
+      "message": "plugins/reviewers uses this method to suggest reviewers on a project\u0027s reviewer\u0027s screen (e.g., https://gerrit-review.googlesource.com/#/x/reviewers/p/gerrit). What should it pass in for ChangeNotes?",
+      "revId": "a4b637d5785ce9b5f328532972fd9f411f80cedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

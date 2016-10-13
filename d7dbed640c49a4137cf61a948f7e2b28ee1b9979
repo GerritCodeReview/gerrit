@@ -16,6 +16,29 @@
       "revId": "d7dbed640c49a4137cf61a948f7e2b28ee1b9979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_e09da25d",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T16:55:45Z",
+      "side": 1,
+      "message": "What does \"default\" mean in this context? It seems like there would be some site-wide default, and that the user preference is *not* a default, it\u0027s an override.\n\nOr does the term \"default\" have something to do with zooming?\n\nAlso, I\u0027m not the webbiest person, but isn\u0027t specifying font sizes in pixels not recommended these days due to high-DPI displays?",
+      "range": {
+        "startLine": 2216,
+        "startChar": 0,
+        "endLine": 2216,
+        "endChar": 7
+      },
+      "revId": "d7dbed640c49a4137cf61a948f7e2b28ee1b9979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

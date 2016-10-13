@@ -16,6 +16,8 @@ package com.google.gerrit.server.git;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -45,6 +47,13 @@ import java.util.Set;
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   private static final Logger log = LoggerFactory
       .getLogger(ReceiveCommitsAdvertiseRefsHook.class);
+
+  @VisibleForTesting
+  @AutoValue
+  public abstract static class Result {
+    public abstract Map<String, Ref> allRefs();
+    public abstract Set<ObjectId> additionalHaves();
+  }
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
@@ -77,6 +86,12 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         throw ex;
       }
     }
+    Result r = advertiseRefs(oldRefs);
+    rp.setAdvertisedRefs(r.allRefs(), r.additionalHaves());
+  }
+
+  @VisibleForTesting
+  public Result advertiseRefs(Map<String, Ref> oldRefs) {
     Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
     for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
       String name = e.getKey();
@@ -84,7 +99,8 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         r.put(name, e.getValue());
       }
     }
-    rp.setAdvertisedRefs(r, advertiseOpenChanges());
+    return new AutoValue_ReceiveCommitsAdvertiseRefsHook_Result(
+        r, advertiseOpenChanges());
   }
 
   private Set<ObjectId> advertiseOpenChanges() {

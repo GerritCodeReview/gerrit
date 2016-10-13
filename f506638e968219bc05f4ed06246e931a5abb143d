@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c9fd279_00708631",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-13T16:12:35Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_fe6f8152",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-13T16:12:35Z",
+      "side": 1,
+      "message": "nit: trailing whitespace (and likewise below)",
+      "range": {
+        "startLine": 22,
+        "startChar": 73,
+        "endLine": 22,
+        "endChar": 74
+      },
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_de74c527",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-13T16:12:35Z",
+      "side": 1,
+      "message": "nit: can write\n\n Bug: Issue 4466\n Change-Id: ...\n\nto be more consistent with other commits that fix a bug",
+      "revId": "f506638e968219bc05f4ed06246e931a5abb143d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -528,6 +528,24 @@
     },
     {
       "key": {
+        "uuid": "3c3cdef1_7f872f70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T11:48:15Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "1c455a84_3eb3e9a0",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_5f998b25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 1
@@ -557,6 +575,24 @@
       "side": 1,
       "message": "This makes sense, thanks, though I didn\u0027t see (perhaps I should read more carefully) the assumption:\n\u003e We already have a CodeReviewCommit",
       "parentUuid": "3c3cdef1_5f998b25",
+      "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_5f8ceb90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T11:48:15Z",
+      "side": 1,
+      "message": "\u003e This makes sense, thanks, though I didn\u0027t see (perhaps I should\n \u003e read more carefully) the assumption:\n \u003e \u003e We already have a CodeReviewCommit\n\nI meant that when we call\n\n  args.rw.parseBody(toMerge)\n\ntoMerge is already of type CodeReviewCommit.",
+      "parentUuid": "3c3cdef1_7f3f2fe1",
       "revId": "6319b7d2c401c5ecf9ac3106bb3ba58b59fd674b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

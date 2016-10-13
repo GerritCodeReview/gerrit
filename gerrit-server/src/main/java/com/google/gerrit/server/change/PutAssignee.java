@@ -70,7 +70,6 @@ public class PutAssignee implements
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();
-      reviewersAddition.gatherResults();
       return Response.ok(AccountJson.toAccountInfo(op.getNewAssignee()));
     }
   }

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_c0da9edc",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T19:34:37Z",
+      "side": 1,
+      "message": "I did it this way because this.$.settingsView doesn\u0027t seem to work for elements inside a dom-if.",
+      "parentUuid": "5c9fd279_e0bc8286",
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c9fd279_c0c17efc",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.html",
         "patchSetId": 5
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1cad5ab1_bef69973",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T19:34:37Z",
+      "side": 1,
+      "message": "I think I was on autopilot there, done.",
+      "parentUuid": "5c9fd279_c0c17efc",
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_fefc2157",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
         "patchSetId": 5
@@ -59,6 +95,24 @@
       "writtenOn": "2016-10-13T19:21:44Z",
       "side": 1,
       "message": "Style nitpick: I *think* we only indent once in this case (like with a function block). Not certain though.",
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_9efbdd5b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T19:34:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_fefc2157",
       "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "1cad5ab1_5e0e7598",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T19:34:37Z",
+      "side": 1,
+      "message": "I don\u0027t want any test to start until after the account has been loaded by the element. I put the stub into the promise constructor just to avoid having an extra var to track the resolve callback. Would you prefer that I change this to look more like the listen function (see lines 86-88)?",
+      "parentUuid": "1cad5ab1_de01656d",
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c9fd279_60c9921e",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 5
@@ -99,6 +171,24 @@
         "endLine": 142,
         "endChar": 26
       },
+      "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_00e1a690",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-13T19:34:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c9fd279_60c9921e",
       "revId": "ace945b5f0ee06470ca53070ade13bd5f116812c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

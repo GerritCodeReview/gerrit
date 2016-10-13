@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_802816f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T18:28:19Z",
+      "side": 1,
+      "message": "The reason _labelArray is a thing is because in order to ensure that Polymer restamps the dom-repeat associated with labels within the dialogue, the items referenced must be a computed property, as opposed to just a function within the brackets to compute the value. This the same issue that I encountered last week in this change: https://gerrit-review.googlesource.com/c/87195/\n\nI worked with cdata@, a member of the Polymer team, to arrive at that solution.\n\nI don\u0027t know how I feel about having this property be an implicitly-computed one. I took this approach because, in this very same file, _reviewers is handled the same way, and I didn\u0027t want to rock the boat. I wouldn\u0027t be opposed to refactoring the whole file to reflect a more Polymer-forward data flow if others think that\u0027s a worthwhile task though!",
+      "parentUuid": "5c9fd279_60aab271",
+      "revId": "5a8f9a03a58f7920140019079d508f19082da272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c89f63d_09998971",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1

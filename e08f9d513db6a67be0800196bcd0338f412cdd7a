@@ -53,6 +53,47 @@
       "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_de33e5f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-13T08:51:35Z",
+      "side": 1,
+      "message": "Hmm.  Does the UI make any call with null assignee?  If not I\u0027d suggest it\u0027s better to make this endpoint throw BadRequest when null is given.\n\nIf SetAssigneeOp is a no-op with null it can probably be left as-is with this change, but might be worth adding a checkArgument later.",
+      "parentUuid": "1c455a84_be3c19cb",
+      "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_bfb7f73e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-13T08:51:35Z",
+      "side": 1,
+      "message": "What does this do if the assignee was null?",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 73
+      },
+      "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

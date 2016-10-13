@@ -290,6 +290,7 @@ limitations under the License.
       assert.isTrue(focusSpy.called);
       assert.isTrue(commitSpy.called);
       assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+      assert.isTrue(element._focused);
       focusSpy.restore();
       commitSpy.restore();
     });

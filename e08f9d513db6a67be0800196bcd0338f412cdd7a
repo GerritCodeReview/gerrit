@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_5eb35554",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T12:42:20Z",
+      "side": 1,
+      "message": "\u003e Hmm.  Does the UI make any call with null assignee?\n\nI think it doesn\u0027t. If the assignee is null, the UI is invoking the DeleteAssignee REST endpoint.\n\n \u003e If not I\u0027d\n \u003e suggest it\u0027s better to make this endpoint throw BadRequest when\n \u003e null is given.\n\n+1, will do this in the next patch set.",
+      "parentUuid": "1c455a84_de33e5f6",
+      "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_bfb7f73e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
         "patchSetId": 1

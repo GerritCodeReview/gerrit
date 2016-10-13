@@ -57,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 @NoHttpd
-public class VisibleRefFilterIT extends AbstractDaemonTest {
+public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject
   private ChangeEditModifier editModifier;
 
@@ -139,7 +139,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void allRefsVisibleNoRefsMetaConfig() throws Exception {
+  public void uploadPackAllRefsVisibleNoRefsMetaConfig() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     Util.allow(cfg, Permission.READ, admins, RefNames.REFS_CONFIG);
@@ -147,7 +147,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
 
     setApiUser(user);
-    assertRefs(
+    assertUploadPackRefs(
         "HEAD",
         r1 + "1",
         r1 + "meta",
@@ -160,11 +160,11 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void allRefsVisibleWithRefsMetaConfig() throws Exception {
+  public void uploadPackAllRefsVisibleWithRefsMetaConfig() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/*");
     allow(Permission.READ, REGISTERED_USERS, RefNames.REFS_CONFIG);
 
-    assertRefs(
+    assertUploadPackRefs(
         "HEAD",
         r1 + "1",
         r1 + "meta",
@@ -178,12 +178,12 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void subsetOfBranchesVisibleIncludingHead() throws Exception {
+  public void uploadPackSubsetOfBranchesVisibleIncludingHead() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     setApiUser(user);
-    assertRefs(
+    assertUploadPackRefs(
         "HEAD",
         r1 + "1",
         r1 + "meta",
@@ -192,12 +192,12 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void subsetOfBranchesVisibleNotIncludingHead() throws Exception {
+  public void uploadPackSubsetOfBranchesVisibleNotIncludingHead() throws Exception {
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     setApiUser(user);
-    assertRefs(
+    assertUploadPackRefs(
         r2 + "1",
         r2 + "meta",
         "refs/heads/branch",
@@ -208,7 +208,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void subsetOfBranchesVisibleWithEdit() throws Exception {
+  public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
@@ -223,7 +223,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     setApiUser(user);
     editModifier.createEdit(c, ps1);
 
-    assertRefs(
+    assertUploadPackRefs(
         "HEAD",
         r1 + "1",
         r1 + "meta",
@@ -233,7 +233,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void subsetOfRefsVisibleWithAccessDatabase() throws Exception {
+  public void uploadPackSubsetOfRefsVisibleWithAccessDatabase() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {
       deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
@@ -245,7 +245,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       editModifier.createEdit(c, ps1);
       setApiUser(user);
 
-      assertRefs(
+      assertUploadPackRefs(
           // Change 1 is visible due to accessDatabase capability, even though
           // refs/heads/master is not.
           r1 + "1",
@@ -264,7 +264,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void draftRefs() throws Exception {
+  public void uploadPackDraftRefs() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
 
     PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), testRepo)
@@ -275,7 +275,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
     // Only admin can see admin's draft change.
     setApiUser(admin);
-    assertRefs(
+    assertUploadPackRefs(
         "HEAD",
         r1 + "1",
         r1 + "meta",
@@ -291,7 +291,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
     // user can't.
     setApiUser(user);
-    assertRefs(
+    assertUploadPackRefs(
         "HEAD",
         r1 + "1",
         r1 + "meta",
@@ -304,7 +304,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void noSearchingChangeCacheImpl() throws Exception {
+  public void uploadPackNoSearchingChangeCacheImpl() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
 
     setApiUser(user);
@@ -328,7 +328,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void sequencesWithAccessDatabase() throws Exception {
+  public void uploadPackSequencesWithAccessDatabase() throws Exception {
     assume().that(notesMigration.readChangeSequence()).isTrue();
     try (Repository repo = repoManager.openRepository(allProjects)) {
       setApiUser(user);
@@ -356,7 +356,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
    *     from the expected list before comparing to the actual results.
    * @throws Exception
    */
-  private void assertRefs(String... expectedWithMeta) throws Exception {
+  private void assertUploadPackRefs(String... expectedWithMeta)
+      throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,

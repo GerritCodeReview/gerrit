@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Optional;
-import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -41,14 +42,14 @@ import com.google.inject.assistedinject.AssistedInject;
 
 public class SetAssigneeOp extends BatchUpdate.Op {
   public interface Factory {
-    SetAssigneeOp create(AssigneeInput input);
+    SetAssigneeOp create(String assignee);
   }
 
   private final AccountsCollection accounts;
   private final ChangeMessagesUtil cmUtil;
   private final AccountInfoCacheFactory.Factory accountInfosFactory;
   private final DynamicSet<AssigneeValidationListener> validationListeners;
-  private final AssigneeInput input;
+  private final String assignee;
   private final String anonymousCowardName;
   private final AssigneeChanged assigneeChanged;
 
@@ -63,37 +64,28 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       DynamicSet<AssigneeValidationListener> validationListeners,
       AssigneeChanged assigneeChanged,
       @AnonymousCowardName String anonymousCowardName,
-      @Assisted AssigneeInput input) {
+      @Assisted String assignee) {
     this.accounts = accounts;
     this.cmUtil = cmUtil;
     this.accountInfosFactory = accountInfosFactory;
     this.validationListeners = validationListeners;
     this.assigneeChanged = assigneeChanged;
     this.anonymousCowardName = anonymousCowardName;
-    this.input = input;
+    this.assignee = checkNotNull(assignee);
   }
 
   @Override
   public boolean updateChange(BatchUpdate.ChangeContext ctx)
       throws OrmException, RestApiException {
-    if (!ctx.getControl().canEditAssignee()) {
-      throw new AuthException("Changing Assignee not permitted");
-    }
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     Optional<Account.Id> oldAssigneeId =
         Optional.fromNullable(change.getAssignee());
-    if (input.assignee == null) {
-      if (oldAssigneeId.isPresent()) {
-        throw new BadRequestException("Cannot set Assignee to empty");
-      }
-      return false;
-    }
     oldAssignee = null;
     if (oldAssigneeId.isPresent()) {
       oldAssignee = accountInfosFactory.create().get(oldAssigneeId.get());
     }
-    IdentifiedUser newAssigneeUser = accounts.parse(input.assignee);
+    IdentifiedUser newAssigneeUser = accounts.parse(assignee);
     if (oldAssigneeId.isPresent() &&
         oldAssigneeId.get().equals(newAssigneeUser.getAccountId())) {
       newAssignee = oldAssignee;
@@ -101,13 +93,13 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     }
     if (!newAssigneeUser.getAccount().isActive()) {
       throw new UnprocessableEntityException(String.format(
-          "Account of %s is not active", input.assignee));
+          "Account of %s is not active", assignee));
     }
     if (!ctx.getControl().forUser(newAssigneeUser).isRefVisible()) {
       throw new AuthException(String.format(
           "Change %s is not visible to %s.",
           change.getChangeId(),
-          input.assignee));
+          assignee));
     }
     try {
       for (AssigneeValidationListener validator : validationListeners) {

@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -59,10 +62,17 @@ public class PutAssignee implements
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, OrmException, IOException {
+    if (!rsrc.getControl().canEditAssignee()) {
+      throw new AuthException("Changing Assignee not permitted");
+    }
+    if (Strings.isNullOrEmpty(input.assignee)) {
+      throw new BadRequestException("missing assignee field");
+    }
+
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
         rsrc.getChange().getProject(), rsrc.getControl().getUser(),
         TimeUtil.nowTs())) {
-      SetAssigneeOp op = assigneeFactory.create(input);
+      SetAssigneeOp op = assigneeFactory.create(input.assignee);
       bu.addOp(rsrc.getId(), op);
 
       PostReviewers.Addition reviewersAddition =

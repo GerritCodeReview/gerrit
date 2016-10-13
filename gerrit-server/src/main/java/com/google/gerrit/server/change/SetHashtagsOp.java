@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -85,9 +86,11 @@ public class SetHashtagsOp extends BatchUpdate.Op {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, BadRequestException, OrmException, IOException {
+      throws AuthException, BadRequestException, MethodNotAllowedException,
+      OrmException, IOException {
     if (!notesMigration.readChanges()) {
-      throw new BadRequestException("Cannot add hashtags; NoteDb is disabled");
+      throw new MethodNotAllowedException(
+          "Cannot add hashtags; NoteDb is disabled");
     }
     if (input == null
         || (input.add == null && input.remove == null)) {

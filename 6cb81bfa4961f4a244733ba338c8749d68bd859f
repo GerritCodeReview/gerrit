@@ -65,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "7c89f63d_49c2a100",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-13T14:42:39Z",
+      "side": 1,
+      "message": "My main concern here is performance. Prior to this change, if you do a search with o\u003dDETAILED_LABELS, then it won\u0027t need to scan permissions on each change in order to serve the search results. Now, it needs to do one permission lookup per reviewer per change.\n\nI wonder if we should move all the permitted label stuff behind an option? But then again Shawn doesn\u0027t like adding new options willy-nilly as the space is somewhat limited.",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_def005ee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4

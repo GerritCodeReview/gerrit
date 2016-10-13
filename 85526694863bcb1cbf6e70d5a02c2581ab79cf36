@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cad5ab1_de9de55d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-13T17:28:27Z",
+      "side": 1,
+      "message": "Can stub for restAPI be used for the same purpose?",
+      "revId": "85526694863bcb1cbf6e70d5a02c2581ab79cf36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_00c2c631",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-13T17:28:27Z",
+      "side": 1,
+      "message": "Here and in few places below:\nUnless removed, event listeners will leak memory.",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "85526694863bcb1cbf6e70d5a02c2581ab79cf36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

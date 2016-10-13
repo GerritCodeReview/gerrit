@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1476347633 +0200\nnonce AKOpmBXb5OKL4gnJhINrOzW7ozdgP57xf8ujEbonpsxvLH3VVPI0ETobH8vHxTlrFmC2PQ5oNJ/S\n\n0000000000000000000000000000000000000000 e08f9d513db6a67be0800196bcd0338f412cdd7a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX/0bxAAoJEFG1/Zeg0O9R/SAIALjALj5jzgBOMW3a2/q+33AR\nfDDs7KatDtRLlPGTFtOz1+8pLSEdwo/ezrJOeOmSaM6WhPiY8PO7aK2P9vJhpdTj\n6+eJKZNBwnBNbEnRdab5GFpFPD8l7sdfWyegw8DcEvnYx9lUSqf8tNO7yJHT9pf9\nlu9F9wCDpr20QmILyHzlhaRWLfhwCDhkisL0F9VN7c78OTyYFXETUJSbbpcpEz7O\nVx+ykFuBpDutZ/pHnzftdMoIEXBSN8DOISKZGABlKfe6Eb2nzUhURpvWWIMW3piq\nkeztJHHUxRshABe+0hHTf7ch5xUnhksWfs1/cyxMjycOwDOZkRkHIJ5Ne+sZYjA\u003d\n\u003dBmuM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c3cdef1_9f6b13ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-13T08:40:47Z",
+      "side": 1,
+      "message": "Is it actually valid for input.assignee to be null at this point?",
+      "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

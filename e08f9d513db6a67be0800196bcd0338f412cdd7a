@@ -17,6 +17,24 @@
       "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c455a84_5e287588",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-13T08:43:57Z",
+      "side": 1,
+      "message": "It is allowed that the assignee is null if there is no assignee yet, making PutAssignee a no-op.",
+      "parentUuid": "3c3cdef1_9f6b13ab",
+      "revId": "e08f9d513db6a67be0800196bcd0338f412cdd7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

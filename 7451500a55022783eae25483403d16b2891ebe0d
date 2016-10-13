@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cad5ab1_7e593155",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T22:43:19Z",
+      "side": 1,
+      "message": "This should be something like `!!this._tooltip` to cover `undefined` as well as `null`.",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 35
+      },
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_5e567527",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T22:43:19Z",
+      "side": 1,
+      "message": "If this just wraps a private method, it would be easier to just make `_handleHideTooltip` public.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_3e53a937",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T22:43:19Z",
+      "side": 1,
+      "message": "Nit: quote marks are unneeded here.",
+      "range": {
+        "startLine": 99,
+        "startChar": 7,
+        "endLine": 99,
+        "endChar": 10
+      },
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_e0324212",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T22:43:19Z",
+      "side": 1,
+      "message": "The contraction seems unnecessary, could just call it `buttons`.\n\nOr, even simpler, just loop over the result directly:\n\n    this.querySelectorAll(\u0027gr-button[has-tooltip]\u0027)\n        .forEach(function(button) {\n          // ...\n        });",
+      "range": {
+        "startLine": 480,
+        "startChar": 10,
+        "endLine": 480,
+        "endChar": 26
+      },
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_1e50ed26",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T22:43:19Z",
+      "side": 1,
+      "message": "Update the test name.",
+      "range": {
+        "startLine": 419,
+        "startChar": 10,
+        "endLine": 419,
+        "endChar": 44
+      },
+      "revId": "7451500a55022783eae25483403d16b2891ebe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

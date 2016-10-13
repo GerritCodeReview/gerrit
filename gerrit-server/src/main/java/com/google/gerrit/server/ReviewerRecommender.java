@@ -119,8 +119,9 @@ public class ReviewerRecommender {
 
     for (DynamicMap.Entry<ReviewerSuggestion> plugin :
         reviewerSuggestionPluginMap) {
-      tasks.add(() -> plugin.getProvider().get().suggestReviewers(
-          changeNotes.getChangeId(), query, reviewerScores.keySet()));
+      tasks.add(() -> plugin.getProvider().get()
+          .suggestReviewers(projectControl.getProject().getNameKey(),
+              changeNotes.getChangeId(), query, reviewerScores.keySet()));
       String pluginWeight = config.getString("addReviewer",
           plugin.getPluginName() + "-" + plugin.getExportName(), "weight");
       if (Strings.isNullOrEmpty(pluginWeight)) {
@@ -156,7 +157,9 @@ public class ReviewerRecommender {
     }
 
     // Remove change owner
-    reviewerScores.remove(changeNotes.getChange().getOwner());
+    if (changeNotes != null) {
+      reviewerScores.remove(changeNotes.getChange().getOwner());
+    }
 
     // Sort results
     Stream<Entry<Account.Id, MutableDouble>> sorted =

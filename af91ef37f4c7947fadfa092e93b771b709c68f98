@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c455a84_fe36a1e8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-13T08:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c3cdef1_7f5c4f20",
+      "range": {
+        "startLine": 379,
+        "startChar": 8,
+        "endLine": 379,
+        "endChar": 55
+      },
+      "revId": "af91ef37f4c7947fadfa092e93b771b709c68f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_5e16b561",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "3c3cdef1_7f756f88",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-13T08:50:32Z",
+      "side": 1,
+      "message": "I tried using that method but I got a ResourceConflictException (message: \"Cherry pick failed: merge conflict\") when cherry-picking the merge. The cherry-pick only seemed to work on a merge whose parents didn\u0027t touch the same files. As I didn\u0027t want to change the behavior of AbstractDaemonTest.createMergeCommitChange(..), I created my own method.",
+      "parentUuid": "1c455a84_5e16b561",
+      "revId": "af91ef37f4c7947fadfa092e93b771b709c68f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_3f52c70f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2016-10-13T07:59:13Z",
       "side": 1,
       "message": "[optional] Instead of setting the parent commit here, you could simply reset the repository to the initial commit before creating commit B:\n\n  testRepo.reset(initialCommit);\n  PushOneCommit.Result changeBResult \u003d pushFactory\n      .create(db, admin.getIdent(), testRepo, \"change b\",\n            parent2FileName, \"Content of b\")\n        .to(\"refs/for/\" + branchBName);",
+      "revId": "af91ef37f4c7947fadfa092e93b771b709c68f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c3cdef1_5fb34b54",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-13T08:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c3cdef1_3f52c70f",
       "revId": "af91ef37f4c7947fadfa092e93b771b709c68f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

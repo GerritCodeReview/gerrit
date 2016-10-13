@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -39,6 +38,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Singleton
 public class DeleteDraftComment

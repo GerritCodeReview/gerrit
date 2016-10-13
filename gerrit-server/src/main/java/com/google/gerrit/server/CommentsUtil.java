@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -64,6 +63,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.StreamSupport;
 
 /**
@@ -153,22 +154,18 @@ public class CommentsUtil {
   public Optional<Comment> get(ReviewDb db, ChangeNotes notes,
       Comment.Key key) throws OrmException {
     if (!migration.readChanges()) {
-      PatchLineComment plc = db.patchComments()
-          .get(PatchLineComment.Key.from(notes.getChangeId(), key));
-      Comment c = plc != null ? plc.asComment(serverId) : null;
-      return Optional.fromNullable(c);
+      return Optional.ofNullable(
+              db.patchComments()
+                  .get(PatchLineComment.Key.from(notes.getChangeId(), key)))
+          .map(plc -> plc.asComment(serverId));
     }
-    for (Comment c : publishedByChange(db, notes)) {
-      if (key.equals(c.key)) {
-        return Optional.of(c);
-      }
+    Predicate<Comment> p = c -> key.equals(c.key);
+    Optional<Comment> c =
+        publishedByChange(db, notes).stream().filter(p).findFirst();
+    if (c.isPresent()) {
+      return c;
     }
-    for (Comment c : draftByChange(db, notes)) {
-      if (key.equals(c.key)) {
-        return Optional.of(c);
-      }
-    }
-    return Optional.absent();
+    return draftByChange(db, notes).stream().filter(p).findFirst();
   }
 
   public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes)

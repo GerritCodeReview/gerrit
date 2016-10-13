@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cad5ab1_7e1131b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:32:42Z",
+      "side": 1,
+      "message": "I still feel that `String` should not be present in the method name. If you need to make it clear that it returns a string add a JSDoc.",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 30
+      },
+      "revId": "2ac1f458d9fa9e002e36a92bf2bd2aad5f9eaa55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_1e08ed87",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:32:42Z",
+      "side": 1,
+      "message": "Side note: We\u0027re inconsistent with our casing in change metadata, but my opinion is that sentence case would look better here.\n\n    Label Status: Ready to submit\n    Label Status: Needs Verified label\n\nThoughts?",
+      "range": {
+        "startLine": 171,
+        "startChar": 18,
+        "endLine": 171,
+        "endChar": 33
+      },
+      "revId": "2ac1f458d9fa9e002e36a92bf2bd2aad5f9eaa55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9fd279_e0e5a29c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-13T19:32:42Z",
+      "side": 1,
+      "message": "Why make this local? Just call `element._computeSubmitStatusString` in each test.",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 28
+      },
+      "revId": "2ac1f458d9fa9e002e36a92bf2bd2aad5f9eaa55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

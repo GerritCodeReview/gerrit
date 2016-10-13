@@ -17,6 +17,24 @@
       "revId": "fe672b869072cc1feac13abf6c77b506cb5ca376",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc10ce06_d37eb402",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-13T23:43:29Z",
+      "side": 1,
+      "message": "Looks like Optional is since Java 8, so we can use it now.",
+      "parentUuid": "fc5c06da_c56f1a53",
+      "revId": "fe672b869072cc1feac13abf6c77b506cb5ca376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -267,6 +267,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return branchOrderSection;
   }
 
+  public Map<Project.NameKey, SubscribeSection> getSubscribeSections() {
+    return subscribeSections;
+  }
+
   public Collection<SubscribeSection> getSubscribeSections(
       Branch.NameKey branch) {
     Collection<SubscribeSection> ret = new ArrayList<>();
@@ -1248,14 +1252,19 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void saveSubscribeSections(Config rc) {
     for (Project.NameKey p : subscribeSections.keySet()) {
       SubscribeSection s = subscribeSections.get(p);
+      List<String> matchings = new ArrayList<>();
       for (RefSpec r : s.getMatchingRefSpecs()) {
-        rc.setString(SUBSCRIBE_SECTION, p.get(),
-            SUBSCRIBE_MATCH_REFS, r.toString());
+        matchings.add(r.toString());
       }
+      rc.setStringList(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MATCH_REFS,
+          matchings);
+
+      List<String> multimatchs = new ArrayList<>();
       for (RefSpec r : s.getMultiMatchRefSpecs()) {
-        rc.setString(SUBSCRIBE_SECTION, p.get(),
-            SUBSCRIBE_MULTI_MATCH_REFS, r.toString());
+        multimatchs.add(r.toString());
       }
+      rc.setStringList(SUBSCRIBE_SECTION, p.get(),
+          SUBSCRIBE_MULTI_MATCH_REFS, multimatchs);
     }
   }
 

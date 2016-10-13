@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "5c9fd279_a098ba23",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T20:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cad5ab1_7e1131b6",
+      "revId": "2ac1f458d9fa9e002e36a92bf2bd2aad5f9eaa55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cad5ab1_1e08ed87",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 4
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1cad5ab1_de53a569",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T20:19:39Z",
+      "side": 1,
+      "message": "I like it. Done.",
+      "parentUuid": "1cad5ab1_1e08ed87",
+      "revId": "2ac1f458d9fa9e002e36a92bf2bd2aad5f9eaa55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c9fd279_e0e5a29c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 4
@@ -65,6 +101,24 @@
         "endLine": 83,
         "endChar": 28
       },
+      "revId": "2ac1f458d9fa9e002e36a92bf2bd2aad5f9eaa55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cad5ab1_fe4e61c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-13T20:19:39Z",
+      "side": 1,
+      "message": "Exclusively to avoid needing to indent too much stuff -- I hate the way it looks. Removing \u0027String\u0027 from the function name shortens it enough to satisfy my nits though.",
+      "parentUuid": "5c9fd279_e0e5a29c",
       "revId": "2ac1f458d9fa9e002e36a92bf2bd2aad5f9eaa55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

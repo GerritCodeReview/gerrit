@@ -14,8 +14,9 @@
 
 package com.google.gerrit.testutil;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.Enums;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
@@ -47,12 +48,10 @@ public enum NoteDbMode {
       return OFF;
     }
     value = value.toUpperCase().replace("-", "_");
-    Optional<NoteDbMode> mode = Enums.getIfPresent(NoteDbMode.class, value);
-    if (!mode.isPresent()) {
-      throw new IllegalArgumentException(
-          "Invalid value for " + VAR + ": " + System.getenv(VAR));
-    }
-    return mode.get();
+    NoteDbMode mode = Enums.getIfPresent(NoteDbMode.class, value).orNull();
+    checkArgument(mode != null,
+        "Invalid value for %s: %s", VAR, System.getenv(VAR));
+    return mode;
   }
 
   public static boolean readWrite() {

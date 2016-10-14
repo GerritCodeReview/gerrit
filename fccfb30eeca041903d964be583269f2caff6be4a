@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bc1a8e55_a36ada11",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T22:26:58Z",
+      "side": 1,
+      "message": "It\u0027s a shame that all the ways of telling tap and click apart look really hacky. SGTM!",
+      "parentUuid": "dc1d824e_c4f6fe74",
+      "revId": "fccfb30eeca041903d964be583269f2caff6be4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c6bb69b_792fa7f5",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 3

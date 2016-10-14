@@ -151,6 +151,6 @@ public class PluginConfig {
   }
 
   public Set<String> getNames() {
-    return cfg.getNames(PLUGIN, pluginName);
+    return cfg.getNames(PLUGIN, pluginName, true);
   }
 }

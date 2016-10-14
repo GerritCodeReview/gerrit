@@ -481,6 +481,24 @@
     },
     {
       "key": {
+        "uuid": "9c66aacf_9ac1cd2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-14T17:40:32Z",
+      "side": 1,
+      "message": "Yeah, sorry about that. My priority with ReplaceOp was getting ReceiveCommits to use BatchUpdate, so I didn\u0027t look too deeply into what could be shared with PatchSetInserter.",
+      "parentUuid": "9c84ea25_ead507d9",
+      "revId": "ef95ee04b030b0fbbe701f98ae85a1717c1d2af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8dd8b6_3d6eeff4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
         "patchSetId": 4

@@ -96,6 +96,7 @@ limitations under the License.
 
     suite('remove reviewer votes', function() {
       var sandbox;
+
       setup(function() {
         sandbox = sinon.sandbox.create();
         sandbox.stub(element, '_computeValueTooltip').returns('');
@@ -109,6 +110,7 @@ limitations under the License.
             test: {
               all: [{_account_id: 1, name: 'bojack', value: 1}],
               default_value: 0,
+              values: [],
             },
           },
           removable_reviewers: [],

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c66aacf_da92654d",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T17:23:20Z",
+      "side": 1,
+      "message": "`_disablers` is also declared in the properties list. Should one of them be removed?",
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c66aacf_3aaa8170",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T17:23:20Z",
+      "side": 1,
+      "message": "Because `_disablers` maps to booleans, the left-hand-side of this `\u0026\u0026` can be removed WLOG.",
+      "range": {
+        "startLine": 52,
+        "startChar": 66,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c66aacf_fa97293a",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T17:23:20Z",
+      "side": 1,
+      "message": "Odd to use this as a private static field. Is the non-properties version of `_disablers` intended as a singleton?",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 47
+      },
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c66aacf_1aadbd87",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T17:23:20Z",
+      "side": 1,
+      "message": "Better avoid `delete` and just set it to `false`, `null` or `undefined`.",
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

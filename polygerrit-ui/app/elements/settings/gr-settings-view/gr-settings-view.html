@@ -231,17 +231,19 @@ limitations under the License.
                   bind-value="{{_diffPrefs.tab_size}}">
             </span>
           </section>
-          <section>
-            <span class="title">Font Size</span>
-            <span class="value">
-              <input
-                  is="iron-input"
-                  type="number"
-                  prevent-invalid-input
-                  allowed-pattern="[0-9]"
-                  bind-value="{{_diffPrefs.font_size}}">
-            </span>
-          </section>
+          <template is="dom-if" if="[[_diffPrefs.font_size]]">
+            <section>
+              <span class="title">Font Size</span>
+              <span class="value">
+                <input
+                    is="iron-input"
+                    type="number"
+                    prevent-invalid-input
+                    allowed-pattern="[0-9]"
+                    bind-value="{{_diffPrefs.font_size}}">
+              </span>
+            </section>
+          </template>
           <section>
             <span class="title">Show Tabs</span>
             <span class="value">

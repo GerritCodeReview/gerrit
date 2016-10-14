@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bc1a8e55_633aa21d",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-14T23:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1d824e_844ec6c2",
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc1a8e55_0311eeb6",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 4
@@ -42,6 +60,24 @@
         "endLine": 33,
         "endChar": 21
       },
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_84b7a6a2",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-14T23:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc1a8e55_0311eeb6",
       "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "bc1a8e55_2340aa8b",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-14T23:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1d824e_440bee86",
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc1d824e_6408ea89",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 4
@@ -82,6 +136,24 @@
       "writtenOn": "2016-10-14T22:26:58Z",
       "side": 1,
       "message": "Can use the same style here as with l.46.",
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc1a8e55_433da612",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-14T23:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1d824e_6408ea89",
       "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

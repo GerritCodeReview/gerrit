@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "bc1a8e55_a3181ae6",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-14T21:09:35Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\nThere\u0027s plenty of room for optimization in here, I\u0027m not opposed to this in particular.",
+      "parentUuid": "dc1d824e_a49d825e",
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc1a8e55_43c04623",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 2
@@ -105,6 +123,24 @@
         "endLine": 135,
         "endChar": 19
       },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_c41d1ed5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-14T21:09:35Z",
+      "side": 1,
+      "message": "Not sure if this would be much cleaner, given the number of parameters that needs to be passed.",
+      "parentUuid": "bc1a8e55_43c04623",
       "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +170,24 @@
     },
     {
       "key": {
+        "uuid": "dc1d824e_24251218",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-14T21:09:35Z",
+      "side": 1,
+      "message": "I was thinking about something else, but I think I\u0027ll remove some code instead.",
+      "parentUuid": "dc1d824e_e4977a3a",
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc1a8e55_23818a00",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 2
@@ -151,6 +205,24 @@
         "endLine": 60,
         "endChar": 18
       },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_44320e5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-14T21:09:35Z",
+      "side": 1,
+      "message": "Yes we can. ^_^",
+      "parentUuid": "bc1a8e55_23818a00",
       "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

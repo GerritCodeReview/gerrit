@@ -22,6 +22,7 @@
     properties: {
       hasTooltip: Boolean,
 
+      _touch: Boolean,
       _tooltip: Element,
       _titleText: String,
     },
@@ -29,10 +30,11 @@
     attached: function() {
       if (!this.hasTooltip) { return; }
 
-      this.addEventListener('mouseover', this._handleShowTooltip.bind(this));
-      this.addEventListener('mouseout', this._handleHideTooltip.bind(this));
-      this.addEventListener('focusin', this._handleShowTooltip.bind(this));
-      this.addEventListener('focusout', this._handleHideTooltip.bind(this));
+      this._touch = ('ontouchstart' in document.documentElement);
+      this.addEventListener('mouseenter', this._handleShowTooltip.bind(this));
+      this.addEventListener('mouseleave', this._handleHideTooltip.bind(this));
+      this.addEventListener('tap', this._handleHideTooltip.bind(this));
+
       this.listen(window, 'scroll', '_handleWindowScroll');
     },
 
@@ -41,40 +43,45 @@
     },
 
     _handleShowTooltip: function(e) {
-      if (!this.hasAttribute('title') ||
-          this.getAttribute('title') === '' ||
-          this._tooltip) {
-        return;
+      if (!this._touch) {
+        if (!this.hasAttribute('title') ||
+            this.getAttribute('title') === '' ||
+            this._tooltip) {
+          return;
+        }
+
+        // Store the title attribute text then set it to an empty string to
+        // prevent it from showing natively.
+        this._titleText = this.getAttribute('title');
+        this.setAttribute('title', '');
+
+        var tooltip = document.createElement('gr-tooltip');
+        tooltip.text = this._titleText;
+
+        // Set visibility to hidden before appending to the DOM so that
+        // calculations can be made based on the element’s size.
+        tooltip.style.visibility = 'hidden';
+        Polymer.dom(document.body).appendChild(tooltip);
+        this._positionTooltip(tooltip);
+        tooltip.style.visibility = null;
+
+        this._tooltip = tooltip;
       }
-
-      // Store the title attribute text then set it to an empty string to
-      // prevent it from showing natively.
-      this._titleText = this.getAttribute('title');
-      this.setAttribute('title', '');
-
-      var tooltip = document.createElement('gr-tooltip');
-      tooltip.text = this._titleText;
-
-      // Set visibility to hidden before appending to the DOM so that
-      // calculations can be made based on the element’s size.
-      tooltip.style.visibility = 'hidden';
-      Polymer.dom(document.body).appendChild(tooltip);
-      this._positionTooltip(tooltip);
-      tooltip.style.visibility = null;
-
-      this._tooltip = tooltip;
     },
 
     _handleHideTooltip: function(e) {
-      if (!this.hasAttribute('title') ||
-          this._titleText == null ||
-          this === document.activeElement) { return; }
+      if (!this._touch) {
+        if (!this.hasAttribute('title') ||
+            this._titleText == null) {
+          return;
+        }
 
-      this.setAttribute('title', this._titleText);
-      if (this._tooltip && this._tooltip.parentNode) {
-        this._tooltip.parentNode.removeChild(this._tooltip);
+        this.setAttribute('title', this._titleText);
+        if (this._tooltip && this._tooltip.parentNode) {
+          this._tooltip.parentNode.removeChild(this._tooltip);
+        }
+        this._tooltip = null;
       }
-      this._tooltip = null;
     },
 
     _handleWindowScroll: function(e) {

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "dca822f6_0cb3f7e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-14T08:17:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc10ce06_f3e490d0",
+      "range": {
+        "startLine": 443,
+        "startChar": 4,
+        "endLine": 443,
+        "endChar": 22
+      },
+      "revId": "8081310baa3573a59cbf9d6ffa6224e555714ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc5c06da_050bf287",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/StatusChangeEvent.java",
         "patchSetId": 9
@@ -37,6 +61,24 @@
       "writtenOn": "2016-10-14T01:27:49Z",
       "side": 1,
       "message": "Why is this no longer private?",
+      "revId": "8081310baa3573a59cbf9d6ffa6224e555714ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc9fa6ca_0db3f1e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/StatusChangeEvent.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-14T08:17:48Z",
+      "side": 1,
+      "message": "I think it can stay private.\n\nDone.",
+      "parentUuid": "fc5c06da_050bf287",
       "revId": "8081310baa3573a59cbf9d6ffa6224e555714ec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

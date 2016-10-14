@@ -174,6 +174,9 @@
     },
 
     _handleSearchPageChange: function() {
+      if (!this.params) {
+        return;
+      }
       var viewsToCheck = ['gr-change-list-view', 'gr-dashboard-view'];
       if (viewsToCheck.indexOf(this.params.view) !== -1) {
         this.set('_lastSearchPage', location.pathname);

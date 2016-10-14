@@ -82,7 +82,7 @@
       },
       _labels: {
         type: Array,
-        computed: '_computeLabels(change.labels.*)',
+        computed: '_computeLabels(change.labels.*, _account)',
       },
       _owner: Object,
       _reviewers: Array,
@@ -104,7 +104,7 @@
 
     attached: function() {
       this._getAccount().then(function(account) {
-        this._account = account;
+        this._account = account || {};
       }.bind(this));
     },
 

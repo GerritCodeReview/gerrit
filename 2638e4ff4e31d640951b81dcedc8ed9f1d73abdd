@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c6bb69b_19df8bfb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-14T17:40:32Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not going to be very helpful here, but I still do not like this name.\n\n\"new merge patch set\"? \"create merge patch set\"?",
+      "revId": "2638e4ff4e31d640951b81dcedc8ed9f1d73abdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6bb69b_19b6abd3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-14T17:40:32Z",
+      "side": 1,
+      "message": "ByMerge",
+      "range": {
+        "startLine": 529,
+        "startChar": 62,
+        "endLine": 529,
+        "endChar": 79
+      },
+      "revId": "2638e4ff4e31d640951b81dcedc8ed9f1d73abdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c66aacf_bac69142",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1958,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-14T17:40:32Z",
+      "side": 1,
+      "message": "Need at least one more test for the inheritParent \u003d true case.",
+      "revId": "2638e4ff4e31d640951b81dcedc8ed9f1d73abdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

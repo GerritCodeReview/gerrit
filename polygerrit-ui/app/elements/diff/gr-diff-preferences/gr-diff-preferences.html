@@ -100,13 +100,15 @@ limitations under the License.
             allowed-pattern="[0-9]"
             bind-value="{{_newPrefs.tab_size}}">
       </div>
-      <div class="pref">
-        <label for="fontSizeInput">Font Size</label>
-        <input is="iron-input" type="number" id="fontSizeInput"
-               prevent-invalid-input
-               allowed-pattern="[0-9]"
-               bind-value="{{_newPrefs.font_size}}">
-      </div>
+      <template is="dom-if" if="{{_newPrefs.font_size}}">
+        <div class="pref">
+          <label for="fontSizeInput">Font Size</label>
+          <input is="iron-input" type="number" id="fontSizeInput"
+                 prevent-invalid-input
+                 allowed-pattern="[0-9]"
+                 bind-value="{{_newPrefs.font_size}}">
+        </div>
+      </template>
       <div class="pref">
         <label for="showTabsInput">Show tabs</label>
         <input is="iron-input" type="checkbox" id="showTabsInput"

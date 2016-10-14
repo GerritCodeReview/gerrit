@@ -359,7 +359,11 @@
     _prefsChanged: function(prefs) {
       if (!prefs) { return; }
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
-      this.customStyle['--font-size'] = prefs.font_size + 'px';
+
+      if (!!prefs.font_size) {
+        this.customStyle['--font-size'] = prefs.font_size + 'px';
+      }
+
       this.updateStyles();
 
       if (this._diff && this._comments) {

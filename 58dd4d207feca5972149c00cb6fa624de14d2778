@@ -163,6 +163,24 @@
       "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6bb69b_79a407a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T17:04:33Z",
+      "side": 1,
+      "message": "I have updated the name to `commentFiles`.",
+      "parentUuid": "bf9360d9_bb520764",
+      "revId": "58dd4d207feca5972149c00cb6fa624de14d2778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

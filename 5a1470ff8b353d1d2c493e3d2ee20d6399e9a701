@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bc1a8e55_23dc2a04",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T20:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c66aacf_baef71aa",
+      "revId": "5a1470ff8b353d1d2c493e3d2ee20d6399e9a701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c6bb69b_d91d13d5",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
         "patchSetId": 9
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "dc1d824e_84ea469b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T20:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c6bb69b_d91d13d5",
+      "revId": "5a1470ff8b353d1d2c493e3d2ee20d6399e9a701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c66aacf_dae425d1",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
         "patchSetId": 9
@@ -59,6 +95,24 @@
       "writtenOn": "2016-10-14T18:03:14Z",
       "side": 1,
       "message": "The behavior here could use some tests.",
+      "revId": "5a1470ff8b353d1d2c493e3d2ee20d6399e9a701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_c4e43ed1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T20:41:43Z",
+      "side": 1,
+      "message": "I\u0027ve added a test to the behavior itself. I can add a test for gr-overlay itself if you feel that\u0027s warranted.",
+      "parentUuid": "9c66aacf_dae425d1",
       "revId": "5a1470ff8b353d1d2c493e3d2ee20d6399e9a701",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

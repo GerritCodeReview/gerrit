@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1d824e_0484960f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:35:17Z",
+      "side": 1,
+      "message": "s/has/have/",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc1a8e55_a3749a26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:35:17Z",
+      "side": 1,
+      "message": "s/first/the first/",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc1a8e55_e37e9202",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:35:17Z",
+      "side": 1,
+      "message": "s/given/the given/",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_a49d825e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:35:17Z",
+      "side": 1,
+      "message": "`slice` followed by `reverse` will result in two additional copies of the list, which may be slow if there are many.\n\nWhat about just walking the list backwards?\n\n    // NB: Messages array has oldest messages first.\n    var nextMessage \u003d null;\n    for (var i \u003d message._index; i \u003e\u003d 0; i--) {\n      if (messages[i].author._account_id \u003d\u003d\u003d authorId) {\n        nextMessage \u003d messages[i];\n      }\n    }\n\nIs this over-engineering? IDK how long the list can get.",
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc1a8e55_43c04623",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:35:17Z",
+      "side": 1,
+      "message": "Can finding this date be moved into a `_getNextMessageDate` method?",
+      "range": {
+        "startLine": 135,
+        "startChar": 10,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_e4977a3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:35:17Z",
+      "side": 1,
+      "message": "Why the closure?",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc1a8e55_23818a00",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:35:17Z",
+      "side": 1,
+      "message": "I keep forgetting we can do this. 😊",
+      "range": {
+        "startLine": 60,
+        "startChar": 17,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "ece2920eaf25c8a3ce4abb03e8fc4410d9ac99c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

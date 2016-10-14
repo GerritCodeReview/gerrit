@@ -16,7 +16,10 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.reviewdb.client.Project;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,19 +30,28 @@ import java.util.Map;
 import java.util.Set;
 
 public class GroupList extends TabFile {
+  private static final Logger log = LoggerFactory.getLogger(GroupList.class);
+
   public static final String FILE_NAME = "groups";
+
+  private final Project.NameKey project;
   private final Map<AccountGroup.UUID, GroupReference> byUUID;
 
-  private GroupList(Map<AccountGroup.UUID, GroupReference> byUUID) {
-        this.byUUID = byUUID;
+  private GroupList(Project.NameKey project,
+      Map<AccountGroup.UUID, GroupReference> byUUID) {
+    this.project = project;
+    this.byUUID = byUUID;
   }
 
-  public static GroupList parse(String text, ValidationError.Sink errors)
-      throws IOException {
+  public static GroupList parse(Project.NameKey project, String text,
+      ValidationError.Sink errors) throws IOException {
     List<Row> rows = parse(text, FILE_NAME, TRIM, TRIM, errors);
     Map<AccountGroup.UUID, GroupReference> groupsByUUID =
         new HashMap<>(rows.size());
     for (Row row : rows) {
+      if (row.left == null) {
+        log.warn("null field in group list for {}:\n{}", project, text);
+      }
       AccountGroup.UUID uuid = new AccountGroup.UUID(row.left);
       String name = row.right;
       GroupReference ref = new GroupReference(uuid, name);
@@ -47,7 +59,7 @@ public class GroupList extends TabFile {
       groupsByUUID.put(uuid, ref);
     }
 
-    return new GroupList(groupsByUUID);
+    return new GroupList(project, groupsByUUID);
   }
 
   public GroupReference byUUID(AccountGroup.UUID uuid) {
@@ -56,6 +68,9 @@ public class GroupList extends TabFile {
 
   public GroupReference resolve(GroupReference group) {
     if (group != null) {
+      if (group.getUUID() == null || group.getUUID().get() == null) {
+        log.warn("attempting to resolve null group in {}: {}", project, group);
+      }
       GroupReference ref = byUUID.get(group.getUUID());
       if (ref != null) {
         return ref;
@@ -73,7 +88,11 @@ public class GroupList extends TabFile {
     return byUUID.keySet();
   }
 
-  public void put(UUID uuid, GroupReference reference) {
+  public void put(AccountGroup.UUID uuid, GroupReference reference) {
+    if (uuid == null || uuid.get() == null) {
+      log.warn("attempting to put null group in {}: {}", project, reference);
+      return;
+    }
     byUUID.put(uuid, reference);
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc1a8e55_c31d16d5",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T20:56:21Z",
+      "side": 1,
+      "message": "These arguments should be swapped. `deepEqual(actual, expected)`",
+      "range": {
+        "startLine": 75,
+        "startChar": 23,
+        "endLine": 75,
+        "endChar": 49
+      },
+      "revId": "7b5f9e30c433571345b01181f6d1abfa439fe923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

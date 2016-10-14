@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "dc1d824e_24819200",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-14T19:11:34Z",
+      "side": 1,
+      "message": "There is one detail that I missed, the \"permittedLabels(ctl, cd)\" depends on the \"ChangeControl ctl\" that is unique per each reviewer (line 716). So, looks like we can\u0027t invoke permittedLabels only once here since it will return the permitted labels for the current user. Looks like we need to make at least N permittedLabels(ctl(n), cd) calls, where N is the number of reviewers. \n\nWhat do you think?",
+      "parentUuid": "dca822f6_2cad1388",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_df62bba5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -161,6 +179,30 @@
       "side": 1,
       "message": "I think you are right. Sorry for the confusion.",
       "parentUuid": "1cad5ab1_fe442176",
+      "range": {
+        "startLine": 488,
+        "startChar": 6,
+        "endLine": 489,
+        "endChar": 75
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc1a8e55_c379961d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-14T19:11:34Z",
+      "side": 1,
+      "message": "no problem",
+      "parentUuid": "fc9fa6ca_adc1fd2e",
       "range": {
         "startLine": 488,
         "startChar": 6,

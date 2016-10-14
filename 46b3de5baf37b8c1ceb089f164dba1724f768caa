@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1476391942 -0400\nnonce AKOpmBVwlJYIQIGbkG0XVzo2sr8TR3O2rjd9Qp+qqlKJ/wz1hShWlXav3czfN/J/c7Bhr12MqNfs\n\n0000000000000000000000000000000000000000 d10d5ec80020dcb47ef4f54bc2df3ee82bf67797 refs/for/master%topic\u003doptional,r\u003dekempin,r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX//QGAAoJEF/XxZqaEoiMyUAP/RC32v+jNaFfONSQLTpWAlb1\nFhlWEdwER3we/dpMpT2KLQ+el05NyfgU64om0R2wzud5w7AMEAM4uPXG2yjX1YCD\nv5QWrPWt2H70miChRhxGVzTlEsBV2huSLvFwGLFs1VTbxgEekDhGjzUAf4ecPCNK\n3rklJh7mQ2QuuA48nl5VI9lNT7m4aobOJt396YRYBZBbl3Pc3QCgpXJIi6f57Kdx\nu1wytoIXPIK9oL6Brg1pxG05SDwccuY7qYky7WwSbindLRj/2UEbTuEh3UhCqicB\nUVCTWIk1US05jOMm9TrZwVixZpC+Fyc+ydsX8GXyuaIDwX8PDBmvtMgXX6ewuRpl\ngMjWQG6CUqf/3pPKbzWreKrFhfwkaxTvZ+mTlbP473s28IYsSS2w5cR7667J05cf\n8hBZO2zccB4OJRsxYcD8FO4Ybc1V21O/mkQAKxm6sHaZXEEhyrU5WILwHhlmHPRX\n9bzRVKMr6s+OsK63z7EEvjz5CVx9SLend3GySWKlvHLFC6ZPtQUegKSH5FWn/8Ox\n6mV5PNHWJGkGfw/eIiPSgjCe5f4f4pxrnghOT6AKFYVL9JNTxFTGgrOBhcFNgfW5\nKLV7FlT1LXdcZOhUxLtfDl+3GIy+slrYMqMH5exKI07ydN4eqF6D2eQ4dupE2UcW\n4nMNN8zEfH1YfJ107aOa\n\u003d2D/W\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc5c06da_058e922e",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-14T00:08:10Z",
+      "side": 1,
+      "message": "Unintentional submodule update?",
+      "revId": "46b3de5baf37b8c1ceb089f164dba1724f768caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

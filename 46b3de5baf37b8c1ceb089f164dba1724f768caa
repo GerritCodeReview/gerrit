@@ -17,6 +17,24 @@
       "revId": "46b3de5baf37b8c1ceb089f164dba1724f768caa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc5c06da_65b3c6e3",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-14T00:40:30Z",
+      "side": 1,
+      "message": "We need this revision anyway; I don\u0027t think we need to cause a rebase to remove the update.",
+      "parentUuid": "fc5c06da_058e922e",
+      "revId": "46b3de5baf37b8c1ceb089f164dba1724f768caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c66aacf_1adf7dfb",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T18:14:40Z",
+      "side": 1,
+      "message": "What if the device has a touchscreen, but the user is using a mouse? Can we test the events themselves to see whether they were touches?",
+      "revId": "fccfb30eeca041903d964be583269f2caff6be4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6bb69b_792fa7f5",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T18:14:40Z",
+      "side": 1,
+      "message": "Rather than nesting the whole method in an if block, consider just opening with ...\n\n    // Don\u0027t show tooltips on touch devices.\n    if (this.touch) { return; }",
+      "revId": "fccfb30eeca041903d964be583269f2caff6be4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

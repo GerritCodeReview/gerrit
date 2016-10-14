@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c66aacf_5aa735a7",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T17:42:53Z",
+      "side": 1,
+      "message": "Ah, the property is a mistake. I started out implementing it as a property before I realized this needs to be global.",
+      "parentUuid": "9c66aacf_da92654d",
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c66aacf_3aaa8170",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
         "patchSetId": 8
@@ -65,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "7c6bb69b_39dc4f04",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T17:42:53Z",
+      "side": 1,
+      "message": "Yes, it\u0027s a singleton.",
+      "parentUuid": "9c66aacf_fa97293a",
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c66aacf_1aadbd87",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
         "patchSetId": 8
@@ -76,6 +112,24 @@
       "writtenOn": "2016-10-14T17:23:20Z",
       "side": 1,
       "message": "Better avoid `delete` and just set it to `false`, `null` or `undefined`.",
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6bb69b_79bde7a9",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T17:42:53Z",
+      "side": 1,
+      "message": "We iterate over all the properties of _disablers on every keypress. Granted, we\u0027ll probably only ever have a few properties here. Am I overengineering it?",
+      "parentUuid": "9c66aacf_1aadbd87",
       "revId": "e999760019073b15ba74fdef77fbd7af472531df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

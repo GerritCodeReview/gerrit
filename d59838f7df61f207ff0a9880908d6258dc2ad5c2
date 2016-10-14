@@ -22,6 +22,24 @@
       "revId": "d59838f7df61f207ff0a9880908d6258dc2ad5c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c66aacf_9a6f0d54",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T16:12:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c9fd279_8014964f",
+      "revId": "d59838f7df61f207ff0a9880908d6258dc2ad5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +38,7 @@ import java.util.Collections;
 import java.util.Set;
 
 public class GroupListTest {
-
+  private static final Project.NameKey PROJECT = new Project.NameKey("project");
   private static final String TEXT =
       "# UUID                                  \tGroup Name\n" + "#\n"
           + "d96b998f8a66ff433af50befb975d0e2bb6e0999\tNon-Interactive Users\n"
@@ -49,7 +50,7 @@ public class GroupListTest {
   public void setup() throws IOException {
     ValidationError.Sink sink = createNiceMock(ValidationError.Sink.class);
     replay(sink);
-    groupList = GroupList.parse(TEXT, sink);
+    groupList = GroupList.parse(PROJECT, TEXT, sink);
   }
 
   @Test
@@ -103,7 +104,7 @@ public class GroupListTest {
     sink.error(anyObject(ValidationError.class));
     expectLastCall().times(2);
     replay(sink);
-    groupList = GroupList.parse(TEXT.replace("\t", "    "), sink);
+    groupList = GroupList.parse(PROJECT, TEXT.replace("\t", "    "), sink);
     verify(sink);
   }
 

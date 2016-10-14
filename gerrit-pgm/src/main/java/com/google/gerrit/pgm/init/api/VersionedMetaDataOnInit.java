@@ -37,9 +37,9 @@ import java.nio.file.Path;
 
 public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
 
+  protected final String project;
   private final InitFlags flags;
   private final SitePaths site;
-  private final String project;
   private final String ref;
 
   protected VersionedMetaDataOnInit(InitFlags flags, SitePaths site,

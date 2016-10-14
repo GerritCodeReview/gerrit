@@ -910,7 +910,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void readGroupList() throws IOException {
-    groupList = GroupList.parse(readUTF8(GroupList.FILE_NAME), this);
+    groupList = GroupList.parse(
+        projectName, readUTF8(GroupList.FILE_NAME), this);
   }
 
   private Map<String, GroupReference> mapGroupReferences() {

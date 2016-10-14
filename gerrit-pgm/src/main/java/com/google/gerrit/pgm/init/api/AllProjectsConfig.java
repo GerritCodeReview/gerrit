@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GroupList;
@@ -66,7 +67,9 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
   }
 
   private GroupList readGroupList() throws IOException {
-    return GroupList.parse(readUTF8(GroupList.FILE_NAME),
+    return GroupList.parse(
+        new Project.NameKey(project),
+        readUTF8(GroupList.FILE_NAME),
         GroupList.createLoggerSink(GroupList.FILE_NAME, log));
   }
 

@@ -21,7 +21,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -72,6 +71,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Predicate;
 import java.util.jar.Attributes;
@@ -556,7 +556,7 @@ class HttpPluginServlet extends HttpServlet
       int d = file.lastIndexOf('.');
       return scanner.getEntry(file.substring(0, d) + ".md");
     }
-    return Optional.absent();
+    return Optional.empty();
   }
 
   private void sendMarkdownAsHtml(PluginContentScanner scanner, PluginEntry entry,

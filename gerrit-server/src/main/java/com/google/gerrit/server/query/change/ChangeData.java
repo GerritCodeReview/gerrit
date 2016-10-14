@@ -20,7 +20,6 @@ import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -92,6 +91,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public class ChangeData {
@@ -611,12 +611,12 @@ public class ChangeData {
     Optional<PatchList> r = patchLists.get(psId);
     if (r == null) {
       if (!lazyLoad) {
-        return Optional.absent();
+        return Optional.empty();
       }
       try {
         r = Optional.of(patchListCache.get(c, ps));
       } catch (PatchListNotAvailableException e) {
-        r = Optional.absent();
+        r = Optional.empty();
       }
       patchLists.put(psId, r);
     }
@@ -631,12 +631,12 @@ public class ChangeData {
     Optional<DiffSummary> r = diffSummaries.get(psId);
     if (r == null) {
       if (!lazyLoad) {
-        return Optional.absent();
+        return Optional.empty();
       }
       try {
         r = Optional.of(patchListCache.getDiffSummary(c, ps));
       } catch (PatchListNotAvailableException e) {
-        r = Optional.absent();
+        r = Optional.empty();
       }
       diffSummaries.put(psId, r);
     }
@@ -646,24 +646,20 @@ public class ChangeData {
   private Optional<ChangedLines> computeChangedLines() throws OrmException {
     Change c = change();
     if (c == null) {
-      return Optional.absent();
+      return Optional.empty();
     }
     PatchSet ps = currentPatchSet();
     if (ps == null) {
-      return Optional.absent();
+      return Optional.empty();
     }
-    Optional<PatchList> p = getPatchList(c, ps);
-    if (!p.isPresent()) {
-      return Optional.absent();
-    }
-    return Optional.of(
-        new ChangedLines(p.get().getInsertions(), p.get().getDeletions()));
+    return getPatchList(c, ps).map(
+        p -> new ChangedLines(p.getInsertions(), p.getDeletions()));
   }
 
   public Optional<ChangedLines> changedLines() throws OrmException {
     if (changedLines == null) {
       if (!lazyLoad) {
-        return Optional.absent();
+        return Optional.empty();
       }
       changedLines = computeChangedLines();
     }
@@ -675,7 +671,7 @@ public class ChangeData {
   }
 
   public void setNoChangedLines() {
-    changedLines = Optional.absent();
+    changedLines = Optional.empty();
   }
 
   public Change.Id getId() {
@@ -951,13 +947,10 @@ public class ChangeData {
    * @throws OrmException an error occurred reading the database.
    */
   public Optional<PatchSetApproval> getSubmitApproval()
-    throws OrmException {
-    for (PatchSetApproval psa : currentApprovals()) {
-      if (psa.isLegacySubmit()) {
-        return Optional.fromNullable(psa);
-      }
-    }
-    return Optional.absent();
+      throws OrmException {
+    return currentApprovals().stream()
+        .filter(PatchSetApproval::isLegacySubmit)
+        .findFirst();
   }
 
   public ReviewerSet reviewers() throws OrmException {

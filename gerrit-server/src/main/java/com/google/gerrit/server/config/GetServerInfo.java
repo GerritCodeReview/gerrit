@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -62,6 +61,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
@@ -215,11 +215,11 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
                 .hasField(ChangeField.ASSIGNEE));
     info.largeChange = cfg.getInt("change", "largeChange", 500);
     info.replyTooltip =
-        Optional.fromNullable(cfg.getString("change", null, "replyTooltip"))
-            .or("Reply and score") + " (Shortcut: a)";
+        Optional.ofNullable(cfg.getString("change", null, "replyTooltip"))
+            .orElse("Reply and score") + " (Shortcut: a)";
     info.replyLabel =
-        Optional.fromNullable(cfg.getString("change", null, "replyLabel"))
-            .or("Reply") + "\u2026";
+        Optional.ofNullable(cfg.getString("change", null, "replyLabel"))
+            .orElse("Reply") + "\u2026";
     info.updateDelay = (int) ConfigUtil.getTimeUnit(
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
     info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);

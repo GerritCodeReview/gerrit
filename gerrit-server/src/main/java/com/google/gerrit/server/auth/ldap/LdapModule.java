@@ -16,7 +16,6 @@ package com.google.gerrit.server.auth.ldap;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
@@ -27,6 +26,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class LdapModule extends CacheModule {

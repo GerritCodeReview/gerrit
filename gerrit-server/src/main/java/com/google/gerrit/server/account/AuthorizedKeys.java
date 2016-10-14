@@ -15,13 +15,13 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class AuthorizedKeys {
   public static final String FILE_NAME = "authorized_keys";
@@ -47,7 +47,7 @@ public class AuthorizedKeys {
         key.setInvalid();
         keys.add(Optional.of(key));
       } else if (line.startsWith(DELETED_KEY_COMMENT)) {
-        keys.add(Optional.<AccountSshKey> absent());
+        keys.add(Optional.empty());
         seq++;
       } else if (line.startsWith("#")) {
         continue;

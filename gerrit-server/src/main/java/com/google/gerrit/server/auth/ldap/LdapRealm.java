@@ -16,7 +16,6 @@ package com.google.gerrit.server.auth.ldap;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -49,6 +48,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -295,7 +295,7 @@ class LdapRealm extends AbstractRealm {
     }
     try {
       Optional<Account.Id> id = usernameCache.get(accountName);
-      return id != null ? id.orNull() : null;
+      return id != null ? id.orElse(null) : null;
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
       return null;
@@ -313,13 +313,10 @@ class LdapRealm extends AbstractRealm {
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
-        final AccountExternalId extId =
-            db.accountExternalIds().get(
-                new AccountExternalId.Key(SCHEME_GERRIT, username));
-        if (extId != null) {
-          return Optional.of(extId.getAccountId());
-        }
-        return Optional.absent();
+        return Optional.ofNullable(
+                db.accountExternalIds().get(
+                    new AccountExternalId.Key(SCHEME_GERRIT, username)))
+            .map(AccountExternalId::getAccountId);
       }
     }
   }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.errors.EmailException;
@@ -43,6 +42,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI.
@@ -252,7 +252,7 @@ public class CommentSender extends ReplyToChangeSender {
       } catch (OrmException e) {
         log.warn("Could not find the parent of this comment: "
             + child.toString());
-        parent = Optional.absent();
+        parent = Optional.empty();
       }
       if (parent.isPresent()) {
         String msg = parent.get().message.trim();

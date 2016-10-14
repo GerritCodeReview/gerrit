@@ -21,7 +21,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
@@ -319,9 +318,9 @@ public class WatchConfig extends VersionedMetaData
       if (i + 1 < notifyValue.length() - 2) {
         for (String nt : Splitter.on(',').trimResults().splitToList(
             notifyValue.substring(i + 1, notifyValue.length() - 1))) {
-          Optional<NotifyType> notifyType =
-              Enums.getIfPresent(NotifyType.class, nt);
-          if (!notifyType.isPresent()) {
+          NotifyType notifyType =
+              Enums.getIfPresent(NotifyType.class, nt).orNull();
+          if (notifyType == null) {
             validationErrorSink.error(new ValidationError(WATCH_CONFIG,
                 String.format(
                     "Invalid notify type %s in project watch "
@@ -329,7 +328,7 @@ public class WatchConfig extends VersionedMetaData
                     nt, accountId.get(), project, notifyValue)));
             continue;
           }
-          notifyTypes.add(notifyType.get());
+          notifyTypes.add(notifyType);
         }
       }
       return create(filter, notifyTypes);

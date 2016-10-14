@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -44,6 +43,7 @@ import com.google.inject.Singleton;
 
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.Optional;
 
 @Singleton
 public class PutDraftComment implements RestModifyView<DraftCommentResource, DraftInput> {

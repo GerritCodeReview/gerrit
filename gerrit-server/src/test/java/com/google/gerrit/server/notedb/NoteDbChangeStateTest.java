@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.applyDelta;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.parse;
+
 import static org.eclipse.jgit.lib.ObjectId.zeroId;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -32,6 +32,8 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
+
+import java.util.Optional;
 
 /** Unit tests for {@link NoteDbChangeState}. */
 public class NoteDbChangeStateTest {
@@ -134,7 +136,7 @@ public class NoteDbChangeStateTest {
   // Static factory methods to avoid type arguments when using as method args.
 
   private static Optional<ObjectId> noMetaId() {
-    return Optional.absent();
+    return Optional.empty();
   }
 
   private static Optional<ObjectId> metaId(ObjectId id) {

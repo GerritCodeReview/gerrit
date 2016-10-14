@@ -40,7 +40,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
@@ -137,6 +136,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -266,7 +266,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {
-    return format(cd, Optional.<PatchSet.Id> absent(), true);
+    return format(cd, Optional.empty(), true);
   }
 
   private ChangeInfo format(ChangeData cd, Optional<PatchSet.Id> limitToPsId,
@@ -356,7 +356,7 @@ public class ChangeJson {
       ChangeInfo i = out.get(cd.getId());
       if (i == null) {
         try {
-          i = toChangeInfo(cd, Optional.<PatchSet.Id> absent());
+          i = toChangeInfo(cd, Optional.empty());
         } catch (PatchListNotAvailableException | GpgException | OrmException
             | IOException | RuntimeException e) {
           if (has(CHECK)) {

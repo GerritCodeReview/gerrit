@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -61,6 +60,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -310,8 +310,8 @@ public class MergeSuperSet {
     if (head == null) {
       Ref ref = or.repo.getRefDatabase().exactRef(b.get());
       head = ref != null
-          ? Optional.<RevCommit>of(or.rw.parseCommit(ref.getObjectId()))
-          : Optional.<RevCommit>absent();
+          ? Optional.of(or.rw.parseCommit(ref.getObjectId()))
+          : Optional.empty();
       heads.put(b, head);
     }
     if (head.isPresent()) {

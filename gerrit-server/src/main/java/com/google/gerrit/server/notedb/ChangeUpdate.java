@@ -39,7 +39,6 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
@@ -84,6 +83,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -284,7 +284,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void removeApprovalFor(Account.Id reviewer, String label) {
-    approvals.put(label, reviewer, Optional.<Short> absent());
+    approvals.put(label, reviewer, Optional.empty());
   }
 
   public void merge(RequestId submissionId,
@@ -414,7 +414,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void removeAssignee() {
-    this.assignee = Optional.absent();
+    this.assignee = Optional.empty();
   }
 
   public Map<Account.Id, ReviewerStateInternal> getReviewers() {

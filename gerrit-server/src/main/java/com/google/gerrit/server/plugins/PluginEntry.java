@@ -11,13 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.google.gerrit.server.plugins;
 
-import com.google.common.base.Optional;
+package com.google.gerrit.server.plugins;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Plugin static resource entry
@@ -38,7 +38,7 @@ public class PluginEntry {
       };
 
   private static final Map<Object, String> EMPTY_ATTRS = Collections.emptyMap();
-  private static final Optional<Long> NO_SIZE = Optional.absent();
+  private static final Optional<Long> NO_SIZE = Optional.empty();
 
   private final String name;
   private final long time;

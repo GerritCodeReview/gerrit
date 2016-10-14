@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 
@@ -24,6 +23,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class AuthorizedKeysTest {
   private static final String KEY1 =
@@ -168,7 +168,7 @@ public class AuthorizedKeysTest {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addDeletedKey(List<Optional<AccountSshKey>> keys) {
-    keys.add(Optional.<AccountSshKey> absent());
+    keys.add(Optional.empty());
     return AuthorizedKeys.DELETED_KEY_COMMENT + "\n";
   }
 }

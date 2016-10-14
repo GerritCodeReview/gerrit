@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /** Specific version of a secondary index schema. */
 public class Schema<T> {
@@ -149,15 +149,15 @@ public class Schema<T> {
       FieldDef<T, ?>... rest) {
     FieldDef<T, ?> field = fields.get(first.getName());
     if (field != null) {
-      return Optional.<FieldDef<T, ?>> of(checkSame(field, first));
+      return Optional.of(checkSame(field, first));
     }
     for (FieldDef<T, ?> f : rest) {
       field = fields.get(f.getName());
       if (field != null) {
-        return Optional.<FieldDef<T, ?>> of(checkSame(field, f));
+        return Optional.of(checkSame(field, f));
       }
     }
-    return Optional.absent();
+    return Optional.empty();
   }
 
   /**

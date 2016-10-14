@@ -21,13 +21,11 @@ import static java.util.Comparator.comparing;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
@@ -83,6 +81,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -256,9 +255,10 @@ public class MergeOp implements AutoCloseable {
   private static Optional<SubmitRecord> findOkRecord(
       Collection<SubmitRecord> in) {
     if (in == null) {
-      return Optional.absent();
+      return Optional.empty();
     }
-    return Iterables.tryFind(in, r -> r.status == SubmitRecord.Status.OK);
+    return in.stream().filter(r -> r.status == SubmitRecord.Status.OK)
+        .findAny();
   }
 
   public static void checkSubmitRule(ChangeData cd)

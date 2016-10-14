@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -39,6 +38,8 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import java.util.Optional;
 
 public class SetAssigneeOp extends BatchUpdate.Op {
   public interface Factory {
@@ -80,7 +81,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     Optional<Account.Id> oldAssigneeId =
-        Optional.fromNullable(change.getAssignee());
+        Optional.ofNullable(change.getAssignee());
     oldAssignee = null;
     if (oldAssigneeId.isPresent()) {
       oldAssignee = accountInfosFactory.create().get(oldAssigneeId.get());

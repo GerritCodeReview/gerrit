@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Optional;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -35,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 /** Tracks group objects in memory for efficient access. */
@@ -130,7 +130,7 @@ public class GroupCacheImpl implements GroupCache {
       return null;
     }
     try {
-      return byName.get(name.get()).orNull();
+      return byName.get(name.get()).orElse(null);
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot lookup group %s by name", name.get()), e);
       return null;
@@ -143,7 +143,7 @@ public class GroupCacheImpl implements GroupCache {
       return null;
     }
     try {
-      return byUUID.get(uuid.get()).orNull();
+      return byUUID.get(uuid.get()).orElse(null);
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot lookup group %s by name", uuid.get()), e);
       return null;
@@ -183,7 +183,7 @@ public class GroupCacheImpl implements GroupCache {
     public Optional<AccountGroup> load(final AccountGroup.Id key)
         throws Exception {
       try (ReviewDb db = schema.open()) {
-        return Optional.fromNullable(db.accountGroups().get(key));
+        return Optional.ofNullable(db.accountGroups().get(key));
       }
     }
   }
@@ -203,9 +203,9 @@ public class GroupCacheImpl implements GroupCache {
         AccountGroup.NameKey key = new AccountGroup.NameKey(name);
         AccountGroupName r = db.accountGroupNames().get(key);
         if (r != null) {
-          return Optional.fromNullable(db.accountGroups().get(r.getId()));
+          return Optional.ofNullable(db.accountGroups().get(r.getId()));
         }
-        return Optional.absent();
+        return Optional.empty();
       }
     }
   }
@@ -228,7 +228,7 @@ public class GroupCacheImpl implements GroupCache {
         if (r.size() == 1) {
           return Optional.of(r.get(0));
         } else if (r.size() == 0) {
-          return Optional.absent();
+          return Optional.empty();
         } else {
           throw new OrmDuplicateKeyException("Duplicate group UUID " + uuid);
         }

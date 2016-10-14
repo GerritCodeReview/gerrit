@@ -21,7 +21,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
@@ -58,6 +57,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -362,7 +362,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         StagedResult r = StagedResult.create(
             e.getKey(),
             NoteDbChangeState.Delta.create(
-                e.getKey(), Optional.<ObjectId>absent(), e.getValue()),
+                e.getKey(), Optional.empty(), e.getValue()),
             changeRepo, allUsersRepo);
         checkState(r.changeCommands().isEmpty(),
             "should not have change commands when updating only drafts: %s", r);
@@ -550,7 +550,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
-      ObjectId old = or.cmds.get(refName).or(ObjectId.zeroId());
+      ObjectId old = or.cmds.get(refName).orElse(ObjectId.zeroId());
       // Only actually write to the ref if one of the updates explicitly allows
       // us to do so, i.e. it is known to represent a new change. This avoids
       // writing partial change meta if the change hasn't been backfilled yet.

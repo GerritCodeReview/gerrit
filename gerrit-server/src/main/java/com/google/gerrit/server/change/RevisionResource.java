@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -28,6 +27,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
+import java.util.Optional;
+
 public class RevisionResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<RestView<RevisionResource>>() {};
@@ -38,7 +39,7 @@ public class RevisionResource implements RestResource, HasETag {
   private boolean cacheable = true;
 
   public RevisionResource(ChangeResource change, PatchSet ps) {
-    this(change, ps, Optional.<ChangeEdit> absent());
+    this(change, ps, Optional.empty());
   }
 
   public RevisionResource(ChangeResource change, PatchSet ps,

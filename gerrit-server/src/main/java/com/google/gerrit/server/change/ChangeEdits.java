@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.Nullable;
@@ -65,6 +64,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class ChangeEdits implements

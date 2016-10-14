@@ -35,7 +35,6 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Enums;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
@@ -90,6 +89,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -213,7 +213,7 @@ class ChangeNotesParser {
         topic,
         originalSubject,
         submissionId,
-        assignee != null ? assignee.orNull() : null,
+        assignee != null ? assignee.orElse(null) : null,
         status,
 
         Sets.newLinkedHashSet(Lists.reverse(pastAssignees)),
@@ -503,10 +503,10 @@ class ChangeNotesParser {
       Optional<Account.Id> parsedAssignee;
       if (assigneeValue.equals("")) {
         // Empty footer found, assignee deleted
-        parsedAssignee = Optional.absent();
+        parsedAssignee = Optional.empty();
       } else {
         PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
-        parsedAssignee = Optional.fromNullable(noteUtil.parseIdent(ident, id));
+        parsedAssignee = Optional.ofNullable(noteUtil.parseIdent(ident, id));
       }
       if (assignee == null) {
         assignee = parsedAssignee;
@@ -538,12 +538,12 @@ class ChangeNotesParser {
     } else if (statusLines.size() > 1) {
       throw expectedOneFooter(FOOTER_STATUS, statusLines);
     }
-    Optional<Change.Status> status = Enums.getIfPresent(
-        Change.Status.class, statusLines.get(0).toUpperCase());
-    if (!status.isPresent()) {
+    Change.Status status = Enums.getIfPresent(
+        Change.Status.class, statusLines.get(0).toUpperCase()).orNull();
+    if (status == null) {
       throw invalidFooter(FOOTER_STATUS, statusLines.get(0));
     }
-    return status.get();
+    return status;
   }
 
   private PatchSet.Id parsePatchSetId(ChangeNotesCommit commit)
@@ -567,10 +567,11 @@ class ChangeNotesParser {
     }
     String withParens = psIdLine.substring(s + 1);
     if (withParens.startsWith("(") && withParens.endsWith(")")) {
-      Optional<PatchSetState> state = Enums.getIfPresent(PatchSetState.class,
-          withParens.substring(1, withParens.length() - 1).toUpperCase());
-      if (state.isPresent()) {
-        return state.get();
+      PatchSetState state = Enums.getIfPresent(PatchSetState.class,
+              withParens.substring(1, withParens.length() - 1).toUpperCase())
+          .orNull();
+      if (state != null) {
+        return state;
       }
     }
     throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
@@ -787,10 +788,9 @@ class ChangeNotesParser {
         submitRecords.add(rec);
         int s = line.indexOf(' ');
         String statusStr = s >= 0 ? line.substring(0, s) : line;
-        Optional<SubmitRecord.Status> status =
-            Enums.getIfPresent(SubmitRecord.Status.class, statusStr);
-        checkFooter(status.isPresent(), FOOTER_SUBMITTED_WITH, line);
-        rec.status = status.get();
+        rec.status =
+            Enums.getIfPresent(SubmitRecord.Status.class, statusStr).orNull();
+        checkFooter(rec.status != null, FOOTER_SUBMITTED_WITH, line);
         if (s >= 0) {
           rec.errorMessage = line.substring(s);
         }
@@ -802,10 +802,9 @@ class ChangeNotesParser {
         }
         rec.labels.add(label);
 
-        Optional<SubmitRecord.Label.Status> status = Enums.getIfPresent(
-            SubmitRecord.Label.Status.class, line.substring(0, c));
-        checkFooter(status.isPresent(), FOOTER_SUBMITTED_WITH, line);
-        label.status = status.get();
+        label.status = Enums.getIfPresent(
+            SubmitRecord.Label.Status.class, line.substring(0, c)).orNull();
+        checkFooter(label.status != null, FOOTER_SUBMITTED_WITH, line);
         int c2 = line.indexOf(": ", c + 2);
         if (c2 >= 0) {
           label.label = line.substring(c + 2, c2);

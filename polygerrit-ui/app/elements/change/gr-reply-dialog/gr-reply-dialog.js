@@ -62,7 +62,7 @@
       },
       quote: {
         type: String,
-        value: ''
+        value: '',
       },
       diffDrafts: Object,
       filterReviewerSuggestion: {
@@ -71,7 +71,6 @@
           return this._filterReviewerSuggestion.bind(this);
         },
       },
-      labels: Object,
       permittedLabels: Object,
       serverConfig: Object,
 
@@ -80,6 +79,10 @@
       _ccPendingConfirmation: {
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
+      },
+      _labels: {
+        type: Array,
+        computed: '_computeLabels(change.labels.*)',
       },
       _owner: Object,
       _reviewers: Array,
@@ -165,7 +168,7 @@
         selectedVal = parseInt(selectedVal, 10);
 
         // Only send the selection if the user changed it.
-        var prevVal = this._getVoteForAccount(this.labels, label,
+        var prevVal = this._getVoteForAccount(this.change.labels, label,
             this._account);
         if (prevVal !== null) {
           prevVal = parseInt(prevVal, 10);
@@ -295,8 +298,15 @@
       return labels[label] && labels[label].values[value];
     },
 
-    _computeLabelArray: function(labelsObj) {
-      return Object.keys(labelsObj).sort();
+    _computeLabels: function(labelRecord) {
+      var labelsObj = labelRecord.base;
+      if (!labelsObj) { return []; }
+      return Object.keys(labelsObj).sort().map(function(key) {
+        return {
+          name: key,
+          value: this._getVoteForAccount(labelsObj, key, this._account),
+        };
+      }.bind(this));
     },
 
     _getVoteForAccount: function(labels, labelName, account) {
@@ -311,14 +321,13 @@
       return null;
     },
 
-    _computeIndexOfLabelValue: function(
-        labels, permittedLabels, labelName, account) {
-      if (!labels[labelName]) { return null; }
-      var labelValue = this._getVoteForAccount(labels, labelName, account);
-      var len = permittedLabels[labelName] != null ?
-          permittedLabels[labelName].length : 0;
+    _computeIndexOfLabelValue: function(labels, permittedLabels, label) {
+      if (!labels[label.name]) { return null; }
+      var labelValue = label.value;
+      var len = permittedLabels[label.name] != null ?
+          permittedLabels[label.name].length : 0;
       for (var i = 0; i < len; i++) {
-        var val = parseInt(permittedLabels[labelName][i], 10);
+        var val = parseInt(permittedLabels[label.name][i], 10);
         if (val == labelValue) {
           return i;
         }

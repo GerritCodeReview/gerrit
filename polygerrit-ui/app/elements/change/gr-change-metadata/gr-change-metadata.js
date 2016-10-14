@@ -168,7 +168,7 @@
         output += missingLabels.join(' and ');
         output += missingLabels.length > 1 ? ' labels' : ' label';
       } else {
-        output = 'Ready to ubmit';
+        output = 'Ready to submit';
       }
       return output;
     },

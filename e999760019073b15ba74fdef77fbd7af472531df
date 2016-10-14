@@ -101,6 +101,42 @@
     },
     {
       "key": {
+        "uuid": "7c6bb69b_79d6c7e5",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T17:56:41Z",
+      "side": 1,
+      "message": "^ My mistake. The LHS is needed.",
+      "parentUuid": "9c66aacf_3aaa8170",
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c66aacf_3ab361e4",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T17:56:41Z",
+      "side": 1,
+      "message": "Gotcha. Maybe we can add a comment to `_disablers` that it\u0027s a singleton.\n\nFWIW, a property can be a  singleton if value uses a reference type without a function. e.g. [1]. Not needed here, though.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js#27",
+      "parentUuid": "7c6bb69b_39dc4f04",
+      "revId": "e999760019073b15ba74fdef77fbd7af472531df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c66aacf_1aadbd87",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
         "patchSetId": 8

@@ -231,7 +231,7 @@ limitations under the License.
                   bind-value="{{_diffPrefs.tab_size}}">
             </span>
           </section>
-          <section>
+          <section hidden$="[[!_diffPrefs.font_size]]">
             <span class="title">Font Size</span>
             <span class="value">
               <input

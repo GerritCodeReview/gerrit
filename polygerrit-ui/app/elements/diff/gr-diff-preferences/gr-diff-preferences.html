@@ -100,7 +100,7 @@ limitations under the License.
             allowed-pattern="[0-9]"
             bind-value="{{_newPrefs.tab_size}}">
       </div>
-      <div class="pref">
+      <div class="pref" hidden$="[[!_newPrefs.font_size]]">
         <label for="fontSizeInput">Font Size</label>
         <input is="iron-input" type="number" id="fontSizeInput"
                prevent-invalid-input

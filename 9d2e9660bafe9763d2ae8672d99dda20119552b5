@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1d824e_844ec6c2",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T22:26:58Z",
+      "side": 1,
+      "message": "Maybe rename to `_isTouchDevice`.",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 12
+      },
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc1a8e55_0311eeb6",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T22:26:58Z",
+      "side": 1,
+      "message": "These parens are unnecessary.\n\nCan also just move this into the property definition instead of being part of `attached`.\n\n    _isTouchDevice: {\n      type: Boolean,\n      value: function() {\n        return \u0027ontouchstart\u0027 in document.documentElement;\n      },\n    },",
+      "range": {
+        "startLine": 33,
+        "startChar": 20,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_440bee86",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T22:26:58Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "range": {
+        "startLine": 46,
+        "startChar": 25,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_6408ea89",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-14T22:26:58Z",
+      "side": 1,
+      "message": "Can use the same style here as with l.46.",
+      "revId": "9d2e9660bafe9763d2ae8672d99dda20119552b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

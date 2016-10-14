@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "dc1d824e_44d92e13",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T20:50:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc1a8e55_63d622e6",
+      "revId": "f73351a27dd99c7d026b6fcd1a66d44a61a83a4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc1a8e55_83131ecb",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior_test.html",
         "patchSetId": 10
@@ -59,6 +77,24 @@
         "endLine": 59,
         "endChar": 36
       },
+      "revId": "f73351a27dd99c7d026b6fcd1a66d44a61a83a4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1d824e_64d62ae6",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-14T20:50:49Z",
+      "side": 1,
+      "message": "I had a grandiose plan to have a nice string to compare to, but simpler is better.",
+      "parentUuid": "bc1a8e55_83131ecb",
       "revId": "f73351a27dd99c7d026b6fcd1a66d44a61a83a4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

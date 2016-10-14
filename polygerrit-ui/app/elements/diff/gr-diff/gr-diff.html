@@ -113,6 +113,11 @@ limitations under the License.
         max-width: var(--content-width, 80ch);
         min-width: var(--content-width, 80ch);
       }
+      .content,
+      .lineNum {
+        /* Set font size based the user's diff preference. */
+        font-size: var(--font-size, 12px);
+      }
       .content.add .intraline,
       .content.add.darkHighlight {
         background-color: var(--dark-add-highlight-color);

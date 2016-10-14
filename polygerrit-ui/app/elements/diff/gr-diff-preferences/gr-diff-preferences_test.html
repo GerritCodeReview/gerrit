@@ -41,6 +41,7 @@ limitations under the License.
     test('model changes', function() {
       element.prefs = {
         context: 10,
+        font_size: 12,
         line_length: 100,
         show_tabs: true,
         tab_size: 8,
@@ -51,11 +52,13 @@ limitations under the License.
       element.$.contextSelect.value = '50';
       element.fire('change', {}, {node: element.$.contextSelect});
       element.$.columnsInput.bindValue = 80;
+      element.$.fontSizeInput.bindValue = 10;
       element.$.tabSizeInput.bindValue = 4;
       MockInteractions.tap(element.$.showTabsInput);
       MockInteractions.tap(element.$.syntaxHighlightInput);
 
       assert.equal(element._newPrefs.context, 50);
+      assert.equal(element._newPrefs.font_size, 10);
       assert.equal(element._newPrefs.line_length, 80);
       assert.equal(element._newPrefs.tab_size, 4);
       assert.isFalse(element._newPrefs.show_tabs);

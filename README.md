@@ -3,6 +3,8 @@
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 
+[![Build Status](https://gerrit-ci.gerritforge.com/job/Gerrit-master/badge/icon)](https://gerrit-ci.gerritforge.com/job/Gerrit-master/)
+
 ## Objective
 
 Gerrit makes reviews easier by showing changes in a side-by-side display,

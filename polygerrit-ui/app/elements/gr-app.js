@@ -108,6 +108,9 @@
       this.set('_showChangeView', view === 'gr-change-view');
       this.set('_showDiffView', view === 'gr-diff-view');
       this.set('_showSettingsView', view === 'gr-settings-view');
+      if (this.params.justRegistered) {
+        this.$.registration.open();
+      }
     },
 
     _loadPlugins: function(plugins) {
@@ -192,7 +195,7 @@
     },
 
     _handleKey: function(e) {
-      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       if (e.keyCode === 191 && e.shiftKey) {  // '/' or '?' with shift key.
         this.$.keyboardShortcuts.open();
@@ -201,6 +204,18 @@
 
     _handleKeyboardShortcutDialogClose: function() {
       this.$.keyboardShortcuts.close();
+    },
+
+    _handleAccountDetailUpdate: function(e) {
+      this.$.mainHeader.reload();
+      if (this.params.view === 'gr-settings-view') {
+        this.$$('gr-settings-view').reloadAccountDetail();
+      }
+    },
+
+    _handleRegistrationDialogClose: function(e) {
+      this.params.justRegistered = false;
+      this.$.registration.close();
     },
   });
 })();

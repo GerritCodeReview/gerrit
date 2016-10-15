@@ -25,25 +25,24 @@
     ],
 
     detached: function() {
-      // For good measure.
-      Gerrit.KeyboardShortcutBehavior.enabled = true;
+      Gerrit.KeyboardShortcutBehavior.enable(this._id());
     },
 
     open: function() {
       return new Promise(function(resolve) {
-        Gerrit.KeyboardShortcutBehavior.enabled = false;
+        Gerrit.KeyboardShortcutBehavior.disable(this._id());
         Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
         this._awaitOpen(resolve);
       }.bind(this));
     },
 
     close: function() {
-      Gerrit.KeyboardShortcutBehavior.enabled = true;
+      Gerrit.KeyboardShortcutBehavior.enable(this._id());
       Polymer.IronOverlayBehaviorImpl.close.apply(this, arguments);
     },
 
     cancel: function() {
-      Gerrit.KeyboardShortcutBehavior.enabled = true;
+      Gerrit.KeyboardShortcutBehavior.enable(this._id());
       Polymer.IronOverlayBehaviorImpl.cancel.apply(this, arguments);
     },
 
@@ -71,6 +70,10 @@
         }.bind(this), AWAIT_STEP);
       }.bind(this);
       step.call(this);
+    },
+
+    _id: function() {
+      return this.getAttribute('id') || 'global';
     },
   });
 })();

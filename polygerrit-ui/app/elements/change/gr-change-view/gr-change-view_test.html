@@ -21,7 +21,6 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../../bower_components/page/page.js"></script>
-<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-view.html">
@@ -39,6 +38,7 @@ limitations under the License.
 
     setup(function() {
       stub('gr-rest-api-interface', {
+        getConfig: function() { return Promise.resolve({}); },
         getAccount: function() { return Promise.resolve(null); },
       });
       element = fixture('basic');

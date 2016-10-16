@@ -36,6 +36,7 @@ limitations under the License.
 
     setup(function() {
       stub('gr-rest-api-interface', {
+        getConfig: function() { return Promise.resolve({}); },
         getLoggedIn: function() { return Promise.resolve(false); },
       });
 

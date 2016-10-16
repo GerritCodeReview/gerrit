@@ -53,6 +53,9 @@ limitations under the License.
       stub('gr-date-formatter', {
         _loadTimeFormat: function() { return Promise.resolve(''); }
       });
+      stub('gr-diff', {
+        reload: function() { return Promise.resolve(); },
+      });
       element = fixture('basic');
     });
 
@@ -362,14 +365,11 @@ limitations under the License.
       flushAsynchronousOperations();
       var fileRows =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      // Prevent diff from making API call.
-      var diffStub = sandbox.stub(element.diffs[0], 'reload');
       var showHideCheck = fileRows[0].querySelector(
           'input.show-hide[type="checkbox"]');
       assert.isTrue(showHideCheck.checked);
       MockInteractions.tap(showHideCheck);
       assert.isFalse(element.diffs[0].hidden);
-      diffStub.restore();
     });
 
     test('path should be properly escaped', function() {

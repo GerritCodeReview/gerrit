@@ -42,6 +42,7 @@ breaking changes to gr-reply-dialog won’t be noticed.
 
     setup(function() {
       stub('gr-rest-api-interface', {
+        getConfig: function() { return Promise.resolve({}); },
         getAccount: function() { return Promise.resolve(null); },
       });
       element = fixture('basic');

@@ -36,7 +36,6 @@ limitations under the License.
     var element;
 
     suite('not logged in', function() {
-
       setup(function() {
         stub('gr-rest-api-interface', {
           getLoggedIn: function() { return Promise.resolve(false); },
@@ -340,10 +339,12 @@ limitations under the License.
     });
 
     suite('logged in', function() {
-
       setup(function() {
         stub('gr-rest-api-interface', {
           getLoggedIn: function() { return Promise.resolve(true); },
+          getPreferences: function() {
+            return Promise.resolve({time_format: 'HHMM_12'});
+          },
         });
         element = fixture('basic');
       });

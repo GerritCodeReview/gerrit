@@ -39,17 +39,21 @@ limitations under the License.
       stub('gr-reporting', {
         appStarted: sandbox.stub(),
       });
-      var config = {
-        gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
-        plugin: {js_resource_paths: []},
-      };
       stub('gr-rest-api-interface', {
-        getConfig: function() { return Promise.resolve(config); },
+        getAccount: function() { return Promise.resolve(null); },
+        getConfig: function() {
+          return Promise.resolve({
+            gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
+            plugin: {js_resource_paths: []},
+          });
+        },
+        getVersion: function() { return Promise.resolve(42); },
       });
 
       element = fixture('basic');
       flush(done);
     });
+
     teardown(function() {
       sandbox.restore();
     });
@@ -58,28 +62,31 @@ limitations under the License.
       assert.isTrue(element.$.reporting.appStarted.calledOnce);
     });
 
-    test('location change updates gwt footer', function() {
+    test('location change updates gwt footer', function(done) {
       element._path = '/test/path';
-      var gwtLink = element.$$('#gwtLink');
-      assert.equal(gwtLink.href,
-          'http://' + location.host + '/?polygerrit=0#/test/path');
+      flush(function() {
+        var gwtLink = element.$$('#gwtLink');
+        assert.equal(gwtLink.href,
+            'http://' + location.host + '/?polygerrit=0#/test/path');
+        done();
+      });
     });
 
-    test('_handleLocationChange handles hashes', function() {
+    test('_handleLocationChange handles hashes', function(done) {
       var curLocation = {
         pathname: '/c/1/1/testfile.txt',
         hash: '#2',
         host: location.host,
       };
+      sandbox.stub(element, '_handleSearchPageChange');
+      element._handleLocationChange({detail: curLocation});
 
-      var event = {detail: curLocation};
-      var gwtLink = element.$$('#gwtLink');
-
-      sinon.stub(element, '_handleSearchPageChange');
-
-      element._handleLocationChange(event);
-      assert.equal(gwtLink.href,
-          'http://' + location.host + '/?polygerrit=0#/c/1/1/testfile.txt@2');
+      flush(function() {
+        var gwtLink = element.$$('#gwtLink');
+        assert.equal(gwtLink.href,
+            'http://' + location.host + '/?polygerrit=0#/c/1/1/testfile.txt@2');
+        done();
+      })
     });
 
     test('sets plugins count', function() {

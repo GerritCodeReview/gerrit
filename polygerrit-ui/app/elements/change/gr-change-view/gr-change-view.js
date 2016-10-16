@@ -357,12 +357,11 @@
       // a linked message is performed after related changes is fully loaded.
       this.$.relatedChanges.reload().then(function() {
         this.async(function() {
-          if (!history.state.scrollTop) {
-            this._maybeScrollToMessage();
-
-          } else {
+          if (history.state && history.state.scrollTop) {
             document.documentElement.scrollTop =
                 document.body.scrollTop = history.state.scrollTop;
+          } else {
+            this._maybeScrollToMessage();
           }
         }, 1);
       }.bind(this));

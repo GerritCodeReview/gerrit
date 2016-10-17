@@ -91,6 +91,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.RESTClientBehavior,
     ],
 
     observers: [
@@ -550,6 +551,12 @@
 
     _handleDropdownChange: function(e) {
       e.target.blur();
+    },
+
+    _computeDownloadLink: function(changeNum, patchRange, path) {
+      var url = this.changeBaseURL(changeNum, patchRange.patchNum);
+      url += '/files/' + encodeURIComponent(path) + '/rawdiff';
+      return url;
     },
   });
 })();

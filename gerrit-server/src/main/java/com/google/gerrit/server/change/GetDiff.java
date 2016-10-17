@@ -134,12 +134,34 @@ public class GetDiff implements RestReadView<FileResource> {
     }
     prefs.context = context;
     prefs.intralineDifference = intraline;
+    try {
+      DiffInfo result = getDiffInfo(resource, prefs, base, parentNum,
+          webLinksOnly, intraline);
 
+      Response<DiffInfo> r = Response.ok(result);
+      if (resource.isCacheable()) {
+        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      }
+      return r;
+    } catch (NoSuchChangeException e) {
+      throw new ResourceNotFoundException(e.getMessage(), e);
+    } catch (LargeObjectException e) {
+      throw new ResourceConflictException(e.getMessage(), e);
+    }
+  }
+
+
+  public DiffInfo getDiffInfo(FileResource resource, DiffPreferencesInfo prefs,
+      String base, int parentNum, boolean webLinksOnly, boolean intraline)
+      throws NoSuchChangeException, LargeObjectException, AuthException,
+      OrmException, InvalidChangeOperationException, IOException,
+      ResourceNotFoundException {
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
     if (base != null) {
       RevisionResource baseResource = revisions.parse(
-          resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
+          resource.getRevision().getChangeResource(),
+          IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
       psf = patchScriptFactoryFactory.create(
           resource.getRevision().getControl(),
@@ -163,120 +185,109 @@ public class GetDiff implements RestReadView<FileResource> {
           prefs);
     }
 
-    try {
-      psf.setLoadHistory(false);
-      psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
-      PatchScript ps = psf.call();
-      Content content = new Content(ps);
-      for (Edit edit : ps.getEdits()) {
-        if (edit.getType() == Edit.Type.EMPTY) {
-          continue;
-        }
-        content.addCommon(edit.getBeginA());
-
-        checkState(content.nextA == edit.getBeginA(),
-            "nextA = %s; want %s", content.nextA, edit.getBeginA());
-        checkState(content.nextB == edit.getBeginB(),
-            "nextB = %s; want %s", content.nextB, edit.getBeginB());
-        switch (edit.getType()) {
-          case DELETE:
-          case INSERT:
-          case REPLACE:
-            List<Edit> internalEdit = edit instanceof ReplaceEdit
-                ? ((ReplaceEdit) edit).getInternalEdits()
-                : null;
-            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
-            break;
-          case EMPTY:
-          default:
-            throw new IllegalStateException();
-        }
+    psf.setLoadHistory(false);
+    psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
+    PatchScript ps = psf.call();
+    Content content = new Content(ps);
+    for (Edit edit : ps.getEdits()) {
+      if (edit.getType() == Edit.Type.EMPTY) {
+        continue;
       }
-      content.addCommon(ps.getA().size());
+      content.addCommon(edit.getBeginA());
 
-      ProjectState state =
-          projectCache.get(resource.getRevision().getChange().getProject());
-
-      DiffInfo result = new DiffInfo();
-      // TODO referring to the parent commit by refs/changes/12/60012/1^1
-      // will likely not work for inline edits
-      String revA = basePatchSet != null
-          ? basePatchSet.getRefName()
-          : resource.getRevision().getPatchSet().getRefName() + "^1";
-      String revB = resource.getRevision().getEdit().isPresent()
-           ? resource.getRevision().getEdit().get().getRefName()
-           : resource.getRevision().getPatchSet().getRefName();
-
-      FluentIterable<DiffWebLinkInfo> links =
-          webLinks.getDiffLinks(state.getProject().getName(),
-              resource.getPatchKey().getParentKey().getParentKey().get(),
-              basePatchSet != null ? basePatchSet.getId().get() : null,
-              revA,
-              MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
-              resource.getPatchKey().getParentKey().get(),
-              revB,
-              ps.getNewName());
-      result.webLinks = links.isEmpty() ? null : links.toList();
-
-      if (!webLinksOnly) {
-        if (ps.isBinary()) {
-          result.binary = true;
-        }
-        if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
-          result.metaA = new FileMeta();
-          result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
-              ps.getNewName());
-          result.metaA.contentType = FileContentUtil.resolveContentType(
-              state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
-          result.metaA.lines = ps.getA().size();
-          result.metaA.webLinks =
-              getFileWebLinks(state.getProject(), revA, result.metaA.name);
-          result.metaA.commitId = content.commitIdA;
-        }
-
-        if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
-          result.metaB = new FileMeta();
-          result.metaB.name = ps.getNewName();
-          result.metaB.contentType = FileContentUtil.resolveContentType(
-              state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
-          result.metaB.lines = ps.getB().size();
-          result.metaB.webLinks =
-              getFileWebLinks(state.getProject(), revB, result.metaB.name);
-          result.metaB.commitId = content.commitIdB;
-        }
-
-        if (intraline) {
-          if (ps.hasIntralineTimeout()) {
-            result.intralineStatus = IntraLineStatus.TIMEOUT;
-          } else if (ps.hasIntralineFailure()) {
-            result.intralineStatus = IntraLineStatus.FAILURE;
-          } else {
-            result.intralineStatus = IntraLineStatus.OK;
-          }
-        }
-
-        result.changeType = CHANGE_TYPE.get(ps.getChangeType());
-        if (result.changeType == null) {
-          throw new IllegalStateException(
-              "unknown change type: " + ps.getChangeType());
-        }
-
-        if (ps.getPatchHeader().size() > 0) {
-          result.diffHeader = ps.getPatchHeader();
-        }
-        result.content = content.lines;
+      checkState(content.nextA == edit.getBeginA(),
+          "nextA = %s; want %s", content.nextA, edit.getBeginA());
+      checkState(content.nextB == edit.getBeginB(),
+          "nextB = %s; want %s", content.nextB, edit.getBeginB());
+      switch (edit.getType()) {
+        case DELETE:
+        case INSERT:
+        case REPLACE:
+          List<Edit> internalEdit = edit instanceof ReplaceEdit
+              ? ((ReplaceEdit) edit).getInternalEdits()
+              : null;
+          content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
+          break;
+        case EMPTY:
+        default:
+          throw new IllegalStateException();
       }
-
-      Response<DiffInfo> r = Response.ok(result);
-      if (resource.isCacheable()) {
-        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
-      }
-      return r;
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage(), e);
-    } catch (LargeObjectException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
     }
+    content.addCommon(ps.getA().size());
+
+    ProjectState state =
+        projectCache.get(resource.getRevision().getChange().getProject());
+
+    DiffInfo result = new DiffInfo();
+    // TODO referring to the parent commit by refs/changes/12/60012/1^1
+    // will likely not work for inline edits
+    String revA = basePatchSet != null
+        ? basePatchSet.getRefName()
+        : resource.getRevision().getPatchSet().getRefName() + "^1";
+    String revB = resource.getRevision().getEdit().isPresent()
+         ? resource.getRevision().getEdit().get().getRefName()
+         : resource.getRevision().getPatchSet().getRefName();
+
+    FluentIterable<DiffWebLinkInfo> links =
+        webLinks.getDiffLinks(state.getProject().getName(),
+            resource.getPatchKey().getParentKey().getParentKey().get(),
+            basePatchSet != null ? basePatchSet.getId().get() : null,
+            revA,
+            MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
+            resource.getPatchKey().getParentKey().get(),
+            revB,
+            ps.getNewName());
+    result.webLinks = links.isEmpty() ? null : links.toList();
+
+    if (!webLinksOnly) {
+      if (ps.isBinary()) {
+        result.binary = true;
+      }
+      if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
+        result.metaA = new FileMeta();
+        result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
+            ps.getNewName());
+        result.metaA.contentType = FileContentUtil.resolveContentType(
+            state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
+        result.metaA.lines = ps.getA().size();
+        result.metaA.webLinks =
+            getFileWebLinks(state.getProject(), revA, result.metaA.name);
+        result.metaA.commitId = content.commitIdA;
+      }
+
+      if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
+        result.metaB = new FileMeta();
+        result.metaB.name = ps.getNewName();
+        result.metaB.contentType = FileContentUtil.resolveContentType(
+            state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
+        result.metaB.lines = ps.getB().size();
+        result.metaB.webLinks =
+            getFileWebLinks(state.getProject(), revB, result.metaB.name);
+        result.metaB.commitId = content.commitIdB;
+      }
+
+      if (intraline) {
+        if (ps.hasIntralineTimeout()) {
+          result.intralineStatus = IntraLineStatus.TIMEOUT;
+        } else if (ps.hasIntralineFailure()) {
+          result.intralineStatus = IntraLineStatus.FAILURE;
+        } else {
+          result.intralineStatus = IntraLineStatus.OK;
+        }
+      }
+
+      result.changeType = CHANGE_TYPE.get(ps.getChangeType());
+      if (result.changeType == null) {
+        throw new IllegalStateException(
+            "unknown change type: " + ps.getChangeType());
+      }
+
+      if (ps.getPatchHeader().size() > 0) {
+        result.diffHeader = ps.getPatchHeader();
+      }
+      result.content = content.lines;
+    }
+    return result;
   }
 
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev,

@@ -94,6 +94,24 @@
       "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_bfd7f7d7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-17T18:49:04Z",
+      "side": 1,
+      "message": "What\u0027s the pattern that you\u0027re seeing here that you don\u0027t want creeping around?",
+      "parentUuid": "1c7f1b9a_15ecf49f",
+      "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -112,6 +112,24 @@
       "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7f1b9a_35b6d092",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-17T19:32:08Z",
+      "side": 1,
+      "message": "Wrapping individual tests in flush()",
+      "parentUuid": "5c3c33f2_bfd7f7d7",
+      "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

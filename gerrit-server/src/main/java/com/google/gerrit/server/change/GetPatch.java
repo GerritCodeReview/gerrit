@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -30,6 +31,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
@@ -43,11 +45,16 @@ import java.util.zip.ZipOutputStream;
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
 
+  private final String FILE_NOT_FOUND = "File not found: %s.";
+
   @Option(name = "--zip")
   private boolean zip;
 
   @Option(name = "--download")
   private boolean download;
+
+  @Option(name = "--path")
+  private String path;
 
   @Inject
   GetPatch(GitRepositoryManager repoManager) {
@@ -55,8 +62,8 @@ public class GetPatch implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc)
-      throws ResourceConflictException, IOException {
+  public BinaryResult apply(RevisionResource rsrc) throws
+      ResourceConflictException, IOException, ResourceNotFoundException {
     Project.NameKey project = rsrc.getControl().getProject().getNameKey();
     final Repository repo = repoManager.openRepository(project);
     boolean close = true;
@@ -93,9 +100,15 @@ public class GetPatch implements RestReadView<RevisionResource> {
           }
 
           private void format(OutputStream out) throws IOException {
-            out.write(formatEmailHeader(commit).getBytes(UTF_8));
+            // Only add header if no path is specified
+            if (path == null) {
+              out.write(formatEmailHeader(commit).getBytes(UTF_8));
+            }
             try (DiffFormatter fmt = new DiffFormatter(out)) {
               fmt.setRepository(repo);
+              if (path != null) {
+                fmt.setPathFilter(PathFilter.create(path));
+              }
               fmt.format(base.getTree(), commit.getTree());
               fmt.flush();
             }
@@ -107,6 +120,11 @@ public class GetPatch implements RestReadView<RevisionResource> {
             repo.close();
           }
         };
+
+        if (path != null && bin.asString().length() == 0) {
+          throw new ResourceNotFoundException(
+               String.format(FILE_NOT_FOUND, path));
+        }
 
         if (zip) {
           bin.disableGzip()
@@ -134,6 +152,11 @@ public class GetPatch implements RestReadView<RevisionResource> {
     }
   }
 
+  public GetPatch setPath(String path) {
+    this.path = path;
+    return this;
+  }
+
   private static String formatEmailHeader(RevCommit commit) {
     StringBuilder b = new StringBuilder();
     PersonIdent author = commit.getAuthorIdent();
@@ -142,25 +165,22 @@ public class GetPatch implements RestReadView<RevisionResource> {
     if (msg.startsWith("\n\n")) {
       msg = msg.substring(2);
     }
-    b.append("From ").append(commit.getName())
-     .append(' ')
-     .append("Mon Sep 17 00:00:00 2001\n") // Fixed timestamp to match output of C Git's format-patch
-     .append("From: ").append(author.getName())
-     .append(" <").append(author.getEmailAddress()).append(">\n")
-     .append("Date: ").append(formatDate(author)).append('\n')
-     .append("Subject: [PATCH] ").append(subject).append('\n')
-     .append('\n')
-     .append(msg);
+    b.append("From ").append(commit.getName()).append(' ')
+        .append("Mon Sep 17 00:00:00 2001\n") // Fixed timestamp to match output
+                                              // of C Git's format-patch
+        .append("From: ").append(author.getName()).append(" <")
+        .append(author.getEmailAddress()).append(">\n").append("Date: ")
+        .append(formatDate(author)).append('\n').append("Subject: [PATCH] ")
+        .append(subject).append('\n').append('\n').append(msg);
     if (!msg.endsWith("\n")) {
-     b.append('\n');
+      b.append('\n');
     }
     return b.append("---\n\n").toString();
   }
 
   private static String formatDate(PersonIdent author) {
-    SimpleDateFormat df = new SimpleDateFormat(
-        "EEE, dd MMM yyyy HH:mm:ss Z",
-        Locale.US);
+    SimpleDateFormat df =
+        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
     df.setCalendar(Calendar.getInstance(author.getTimeZone(), Locale.US));
     return df.format(author.getWhen());
   }

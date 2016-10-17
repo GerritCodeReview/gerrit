@@ -3471,6 +3471,9 @@ Query parameter `download` (e.g. `/changes/.../patch?download`)
 will suggest the browser save the patch as `commitsha1.diff.base64`,
 for later processing by command line tools.
 
+If the `path` parameter is set, the returned content is a diff of the single
+file that the path refers to.
+
 [[submit-preview]]
 === Submit Preview
 --

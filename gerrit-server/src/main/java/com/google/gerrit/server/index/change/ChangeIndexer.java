@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.gerrit.server.extensions.events.EventUtil.logEventListenerError;
+
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.CheckedFuture;
@@ -101,7 +103,7 @@ public class ChangeIndexer {
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService executor;
-  private final DynamicSet<ChangeIndexedListener> indexedListener;
+  private final DynamicSet<ChangeIndexedListener> indexedListeners;
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -109,7 +111,7 @@ public class ChangeIndexer {
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      DynamicSet<ChangeIndexedListener> indexedListener,
+      DynamicSet<ChangeIndexedListener> indexedListeners,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
@@ -118,9 +120,9 @@ public class ChangeIndexer {
     this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
+    this.indexedListeners = indexedListeners;
     this.index = index;
     this.indexes = null;
-    this.indexedListener = indexedListener;
   }
 
   @AssistedInject
@@ -129,7 +131,7 @@ public class ChangeIndexer {
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      DynamicSet<ChangeIndexedListener> indexedListener,
+      DynamicSet<ChangeIndexedListener> indexedListeners,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
@@ -138,9 +140,9 @@ public class ChangeIndexer {
     this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
+    this.indexedListeners = indexedListeners;
     this.index = null;
     this.indexes = indexes;
-    this.indexedListener = indexedListener;
   }
 
   /**
@@ -184,14 +186,22 @@ public class ChangeIndexer {
   }
 
   private void fireChangeIndexedEvent(int id) {
-    for (ChangeIndexedListener listener : indexedListener) {
-      listener.onChangeIndexed(id);
+    for (ChangeIndexedListener listener : indexedListeners) {
+      try {
+        listener.onChangeIndexed(id);
+      } catch (Exception e) {
+        logEventListenerError(listener, e);
+      }
     }
   }
 
   private void fireChangeDeletedFromIndexEvent(int id) {
-    for (ChangeIndexedListener listener : indexedListener) {
-      listener.onChangeDeleted(id);
+    for (ChangeIndexedListener listener : indexedListeners) {
+      try {
+        listener.onChangeDeleted(id);
+      } catch (Exception e) {
+        logEventListenerError(listener, e);
+      }
     }
   }
 

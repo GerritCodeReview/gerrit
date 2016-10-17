@@ -30,6 +30,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
@@ -48,6 +49,9 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
   @Option(name = "--download")
   private boolean download;
+
+  @Option(name = "--path")
+  private String path;
 
   @Inject
   GetPatch(GitRepositoryManager repoManager) {
@@ -93,9 +97,15 @@ public class GetPatch implements RestReadView<RevisionResource> {
           }
 
           private void format(OutputStream out) throws IOException {
-            out.write(formatEmailHeader(commit).getBytes(UTF_8));
+            // Only add header if no path is specified
+            if (path == null) {
+              out.write(formatEmailHeader(commit).getBytes(UTF_8));
+            }
             try (DiffFormatter fmt = new DiffFormatter(out)) {
               fmt.setRepository(repo);
+              if (path != null) {
+                fmt.setPathFilter(PathFilter.create(path));
+              }
               fmt.format(base.getTree(), commit.getTree());
               fmt.flush();
             }

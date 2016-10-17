@@ -27,8 +27,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A set of changes grouped together to be submitted atomically.
@@ -53,7 +53,7 @@ public class ChangeSet {
 
   private static ImmutableMap<Change.Id, ChangeData> index(
       Iterable<ChangeData> changes, Collection<Change.Id> exclude) {
-    Map<Change.Id, ChangeData> ret = new LinkedHashMap<>();
+    Map<Change.Id, ChangeData> ret = new TreeMap<>();
     for (ChangeData cd : changes) {
       Change.Id id = cd.getId();
       if (!ret.containsKey(id) && !exclude.contains(id)) {

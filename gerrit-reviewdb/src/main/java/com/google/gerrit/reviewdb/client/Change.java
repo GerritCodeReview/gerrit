@@ -95,7 +95,8 @@ import java.util.Arrays;
  * or when notice of the change submission occurs.
  */
 public final class Change {
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>>
+  implements Comparable<Id> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
@@ -217,6 +218,11 @@ public final class Change {
         i++;
       }
       return i;
+    }
+
+    @Override
+    public int compareTo(Id o) {
+      return o.id - this.id;
     }
   }
 

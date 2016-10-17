@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
+import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -58,6 +59,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -920,6 +922,24 @@ public class RevisionIT extends AbstractDaemonTest {
     String date = df.format(rev.commit.author.date);
     assertThat(res).isEqualTo(
         String.format(PATCH, r.getCommit().name(), date, r.getChangeId()));
+  }
+
+  @Test
+  public void patchWithPath() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeApi changeApi = gApi.changes()
+        .id(r.getChangeId());
+    BinaryResult bin = changeApi
+        .revision(r.getCommit().name())
+        .patch(FILE_NAME);
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String res = new String(os.toByteArray(), UTF_8);
+    assertThat(res).isEqualTo(PATCH_FILE_ONLY);
+
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("File not found: nonexistent-file.");
+    changeApi.revision(r.getCommit().name()).patch("nonexistent-file");
   }
 
   @Test

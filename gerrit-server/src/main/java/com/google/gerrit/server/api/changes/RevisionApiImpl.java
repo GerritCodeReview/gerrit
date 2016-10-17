@@ -463,6 +463,15 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
+  public BinaryResult patch(String path) throws RestApiException {
+    try {
+      return getPatch.setPath(path).apply(revision);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot get patch", e);
+    }
+  }
+
+  @Override
   public Map<String, ActionInfo> actions() throws RestApiException {
     return revisionActions.apply(revision).value();
   }

@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c7f1b9a_15639459",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_1f10a3c1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "\"add a new patch set to the change corresponding to the new merge commit\"",
+      "range": {
+        "startLine": 530,
+        "startChar": 4,
+        "endLine": 530,
+        "endChar": 64
+      },
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7f1b9a_35681033",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1937,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "Rename",
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7f1b9a_d54c3ce5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1974,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "Rename",
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_7f156fb1",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "Rename",
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7f1b9a_f54938d2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "Rename",
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_5f1a2be3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_bf1ed7d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UpdateChangeByMerge.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:05:56Z",
+      "side": 1,
+      "message": "Rename",
+      "revId": "86766b61d8e975302beed6823e46bd5087aa9ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

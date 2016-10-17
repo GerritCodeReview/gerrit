@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c7f1b9a_b5fc204f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T18:53:47Z",
+      "side": 1,
+      "message": "This pushes a .gitmodules file with 2 entries (for different branches) to one branch.\n\nIIUC this would only enable the subscription for the master branch for different submodule branches.\n\nThe super.dev branch also needs the commit with this .gitmodules file as it is not updated otherwise.",
+      "range": {
+        "startLine": 357,
+        "startChar": 4,
+        "endLine": 357,
+        "endChar": 23
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7f1b9a_755e8892",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T18:53:47Z",
+      "side": 1,
+      "message": "This is in line with the comment above, super.master having 2 submodules.\n\nBut according to the commit message we want to enable\n\n    super.master -\u003e sub.master\n    super.dev -\u003e sub.dev\n\nSo I would expect to see expectToHaveSubmoduleState(superRepo, \"dev\", ...) here as well?\n\nSo I think we have 2 different things here,\n* do we want to fix both\n* if not please clarify which one of the cases you are fixing.",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 75
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

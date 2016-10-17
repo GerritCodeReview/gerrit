@@ -93,6 +93,98 @@
       "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_13c26c21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T21:06:25Z",
+      "side": 1,
+      "message": "superproject subscription?",
+      "range": {
+        "startLine": 113,
+        "startChar": 31,
+        "endLine": 113,
+        "endChar": 40
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_33bde8a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T21:06:25Z",
+      "side": 1,
+      "message": "only those branches, i.e. it is a disjoint set with updatedBranches?",
+      "range": {
+        "startLine": 113,
+        "startChar": 19,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_b0a9d868",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T21:06:25Z",
+      "side": 1,
+      "message": "Is this just a fine grained version of affectedBranches, i.e.\ncould we replace all affectedBranches by branchesByProject.allValues() (made up name) ?",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 120,
+        "endChar": 79
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_30bde8a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T21:06:25Z",
+      "side": 1,
+      "message": "This is not needed as we have it in line 583 already?\n\nWhen having no code in here, this makes addAllSubmoduleProjects easier to understand (why is the topmost case treated special and different than the recursive calls?)",
+      "range": {
+        "startLine": 561,
+        "startChar": 0,
+        "endLine": 563,
+        "endChar": 7
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

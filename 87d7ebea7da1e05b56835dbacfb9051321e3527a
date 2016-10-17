@@ -34,6 +34,24 @@
       "revId": "87d7ebea7da1e05b56835dbacfb9051321e3527a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_90adb46c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T21:22:13Z",
+      "side": 1,
+      "message": "?\n\nSee my comments on PS7.",
+      "parentUuid": "7c057749_50ccec53",
+      "revId": "87d7ebea7da1e05b56835dbacfb9051321e3527a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

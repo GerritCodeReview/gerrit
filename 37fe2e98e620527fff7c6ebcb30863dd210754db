@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfdd2060_0b01dd14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T20:08:23Z",
+      "side": 1,
+      "message": "Optional: you can save some boilerplate by inlining \"\u003d new ArrayList\u003c\u003e()\" on the line where comments is declared.",
+      "revId": "37fe2e98e620527fff7c6ebcb30863dd210754db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff74f80c_25910ea9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T20:08:23Z",
+      "side": 1,
+      "message": "Optional: can be factored out of the loop",
+      "range": {
+        "startLine": 269,
+        "startChar": 23,
+        "endLine": 269,
+        "endChar": 67
+      },
+      "revId": "37fe2e98e620527fff7c6ebcb30863dd210754db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

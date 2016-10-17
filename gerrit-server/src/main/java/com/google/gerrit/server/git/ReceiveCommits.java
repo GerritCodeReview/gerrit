@@ -2433,10 +2433,12 @@ public class ReceiveCommits {
       rw.parseBody(newCommit);
 
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
-      replaceOp = replaceOpFactory.create(requestScopePropagator,
-          projectControl, notes.getChange().getDest(), checkMergedInto,
-          priorPatchSet, priorCommit, psId, newCommit, info, groups,
-          magicBranch, rp.getPushCertificate());
+      replaceOp = replaceOpFactory
+          .create(projectControl, notes.getChange().getDest(), checkMergedInto,
+              priorPatchSet, priorCommit, psId, newCommit, info, groups,
+              magicBranch, rp.getPushCertificate())
+          .setRequestScopePropagator(requestScopePropagator)
+          .setUpdateRef(false);
       bu.addOp(notes.getChangeId(), replaceOp);
       if (progress != null) {
         bu.addOp(notes.getChangeId(), new ChangeProgressOp(progress));

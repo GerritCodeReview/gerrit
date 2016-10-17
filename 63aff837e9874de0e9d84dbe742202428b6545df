@@ -76,6 +76,24 @@
       "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7f1b9a_15ecf49f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-17T18:43:37Z",
+      "side": 1,
+      "message": "Ah, sorry - I was thinking about something else.\nRight, the account data was already loaded and here you edit name/email.\nIdeally, this shouldn\u0027t be needed as this flush() handles part of the setup.\nYou probably can listen to ready/attached event in setup and flush after that.\nAlso, I couldn\u0027t repro test failure in safari in WCT.\nAnyway, this is fine for now, I just don\u0027t want this pattern to creep around.",
+      "parentUuid": "1c7f1b9a_b5250021",
+      "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

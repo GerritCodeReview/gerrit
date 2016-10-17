@@ -266,11 +266,14 @@ limitations under the License.
       assert.isTrue(commitHandler.called);
     });
 
-    test('_focused flag properly triggered', function() {
-      flushAsynchronousOperations();
-      assert.isFalse(element._focused);
-      element.$.input.focus();
-      assert.isTrue(element._focused);
+    test('_focused flag properly triggered', function(done) {
+      flush(function() {
+        assert.isFalse(element._focused);
+        var input = element.$$('input');
+        MockInteractions.focus(input);
+        assert.isTrue(element._focused);
+        done();
+      });
     });
 
     test('_focused flag shows/hides the suggestions', function() {

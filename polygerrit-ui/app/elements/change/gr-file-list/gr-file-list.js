@@ -87,6 +87,13 @@
         type: String,
         computed: '_getDiffViewMode(diffViewMode, _userPrefs)',
       },
+      // Caps the number of files that can be shown and have the 'show diffs' /
+      // 'hide diffs' buttons still be functional.
+      _maxFilesForBulkActions: {
+        type: Number,
+        readOnly: true,
+        value: 225,
+      },
     },
 
     behaviors: [
@@ -204,10 +211,8 @@
      */
     _expandAllDiffs: function(e) {
       this._showInlineDiffs = true;
-      for (var i = 0; i < this._files.length; i++) {
-        if (i < this._shownFiles.length) {
-          this.set(['_shownFiles', i, '__expanded'], true);
-        }
+      for (var i = 0; i < this._shownFiles.length; i++) {
+        this.set(['_shownFiles', i, '__expanded'], true);
         this.set(['_files', i, '__expanded'], true);
       }
       if (e && e.target) {
@@ -217,10 +222,8 @@
 
     _collapseAllDiffs: function(e) {
       this._showInlineDiffs = false;
-      for (var i = 0; i < this._files.length; i++) {
-        if (i < this._shownFiles.length) {
-          this.set(['_shownFiles', i, '__expanded'], false);
-        }
+      for (var i = 0; i < this._shownFiles.length; i++) {
+        this.set(['_shownFiles', i, '__expanded'], false);
         this.set(['_files', i, '__expanded'], false);
       }
       this.$.cursor.handleDiffUpdate();
@@ -549,6 +552,10 @@
 
     _handleDropdownChange: function(e) {
       e.target.blur();
+    },
+
+    _computeShowFileListActions: function(numFilesShown) {
+      return numFilesShown <= this._maxFilesForBulkActions;
     },
   });
 })();

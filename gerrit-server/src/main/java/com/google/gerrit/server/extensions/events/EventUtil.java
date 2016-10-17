@@ -101,30 +101,23 @@ public class EventUtil {
   public void logEventListenerError(Object event, Object listener,
       Exception error) {
     if (log.isDebugEnabled()) {
-      log.debug(
-          String.format(
-              "Error in event listener %s for event %s",
-              listener.getClass().getName(),
-              event.getClass().getName()),
-          error);
+      log.debug(String.format(
+          "Error in event listener %s for event %s",
+          listener.getClass().getName(), event.getClass().getName()), error);
     } else {
-      log.warn(
-          "Error in listener {} for event {}: {}",
-          listener.getClass().getName(),
-          event.getClass().getName(),
+      log.warn("Error in listener {} for event {}: {}",
+          listener.getClass().getName(), event.getClass().getName(),
           error.getMessage());
     }
   }
 
   public static void logEventListenerError(Object listener, Exception error) {
     if (log.isDebugEnabled()) {
-      log.debug(
-          String.format(
-              "Error in event listener %s", listener.getClass().getName()),
-          error);
+      log.debug(String.format(
+          "Error in event listener %s",
+          listener.getClass().getName(), error));
     } else {
-      log.warn(
-          "Error in listener {}: {}",
+      log.warn("Error in listener {}: {}",
           listener.getClass().getName(),
           error.getMessage());
     }

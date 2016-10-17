@@ -72,6 +72,7 @@ public interface RevisionApi {
    * Returns patch of revision.
    */
   BinaryResult patch() throws RestApiException;
+  BinaryResult patch(String path) throws RestApiException;
 
   Map<String, ActionInfo> actions() throws RestApiException;
 
@@ -249,6 +250,11 @@ public interface RevisionApi {
 
     @Override
     public BinaryResult patch() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public BinaryResult patch(String path) throws RestApiException {
       throw new NotImplementedException();
     }
 

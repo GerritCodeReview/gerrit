@@ -40,6 +40,24 @@
       "revId": "c5bcee1c7179a6d4a1f5ad97fde4d5a82df9773a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_30968829",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-17T20:33:02Z",
+      "side": 1,
+      "message": "This number seems quite high! At what point does it make for a bad UX? (I\u0027d guess something closer to 20.)\n\nAlso, is there a reason this is declared as a readOnly property, rather than a constant inside the closure?",
+      "parentUuid": "7c057749_907f741c",
+      "revId": "c5bcee1c7179a6d4a1f5ad97fde4d5a82df9773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

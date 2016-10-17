@@ -52,6 +52,10 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
   /**
    * @see RequestScopePropagator#wrap(Callable)
    */
+  // ServletScopes#continueRequest is deprecated, but it's not obvious their
+  // recommended replacement is an appropriate drop-in solution; see
+  // https://gerrit-review.googlesource.com/83971
+  @SuppressWarnings("deprecation")
   @Override
   protected <T> Callable<T> wrapImpl(Callable<T> callable) {
     Map<Key<?>, Object> seedMap = new HashMap<>();

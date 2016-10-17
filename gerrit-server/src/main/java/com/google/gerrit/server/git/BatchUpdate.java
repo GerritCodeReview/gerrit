@@ -657,11 +657,9 @@ public class BatchUpdate implements AutoCloseable {
         op.updateRepo(ctx);
       }
 
-      if (!repoOnlyOps.isEmpty()) {
-        logDebug("Executing updateRepo on {} RepoOnlyOps", ops.size());
-        for (RepoOnlyOp op : repoOnlyOps) {
-          op.updateRepo(ctx);
-        }
+      logDebug("Executing updateRepo on {} RepoOnlyOps", repoOnlyOps.size());
+      for (RepoOnlyOp op : repoOnlyOps) {
+        op.updateRepo(ctx);
       }
 
       if (inserter != null) {

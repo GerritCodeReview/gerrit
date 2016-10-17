@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5c3c33f2_df891b09",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T12:43:20Z",
+      "side": 1,
+      "message": "Good point, otherwise we will store an empty list in the ChangeData which is not what we want.",
+      "parentUuid": "bc31af18_2210eec1",
+      "range": {
+        "startLine": 496,
+        "startChar": 4,
+        "endLine": 501,
+        "endChar": 52
+      },
+      "revId": "be1ca752a389bab6c9946282360197d1babce48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_83ff5e43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1c7f1b9a_35957019",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T12:43:20Z",
+      "side": 1,
+      "message": "No, copy/paste error.",
+      "parentUuid": "dca2e37b_83ff5e43",
+      "range": {
+        "startLine": 871,
+        "startChar": 14,
+        "endLine": 871,
+        "endChar": 34
+      },
+      "revId": "be1ca752a389bab6c9946282360197d1babce48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_e302d26c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2016-10-17T07:28:21Z",
       "side": 1,
       "message": "Not used by any test, are the tests still missing?",
+      "range": {
+        "startLine": 902,
+        "startChar": 2,
+        "endLine": 903,
+        "endChar": 76
+      },
+      "revId": "be1ca752a389bab6c9946282360197d1babce48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_1f9b8351",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T12:43:20Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "dca2e37b_e302d26c",
       "range": {
         "startLine": 902,
         "startChar": 2,

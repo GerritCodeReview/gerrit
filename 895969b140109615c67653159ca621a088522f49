@@ -22,6 +22,30 @@
       "revId": "895969b140109615c67653159ca621a088522f49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_3f964729",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T12:43:20Z",
+      "side": 0,
+      "message": "No, ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT is based on ChangeField.SUBMIT_RULE_OPTIONS_LENIENT which has both allowClosed and allowDraft",
+      "parentUuid": "dca2e37b_23f1ca78",
+      "range": {
+        "startLine": 576,
+        "startChar": 9,
+        "endLine": 576,
+        "endChar": 27
+      },
+      "revId": "895969b140109615c67653159ca621a088522f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

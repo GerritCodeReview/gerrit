@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
+import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -920,6 +921,20 @@ public class RevisionIT extends AbstractDaemonTest {
     String date = df.format(rev.commit.author.date);
     assertThat(res).isEqualTo(
         String.format(PATCH, r.getCommit().name(), date, r.getChangeId()));
+  }
+
+  @Test
+  public void patchWithPath() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeApi changeApi = gApi.changes()
+        .id(r.getChangeId());
+    BinaryResult bin = changeApi
+        .revision(r.getCommit().name())
+        .patch(FILE_NAME);
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String res = new String(os.toByteArray(), UTF_8);
+    assertThat(res).isEqualTo(PATCH_FILE_ONLY);
   }
 
   @Test

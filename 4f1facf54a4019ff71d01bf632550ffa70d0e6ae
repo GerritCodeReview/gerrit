@@ -227,6 +227,24 @@
       "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_b38298e4",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Comment.soy",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-17T20:17:38Z",
+      "side": 1,
+      "message": "Interesting. I don\u0027t know all of the context, but it I expect will be easier to parse comments from HTML emails, whether or not the format is completely stable.",
+      "parentUuid": "fccc0755_4c599fa7",
+      "revId": "4f1facf54a4019ff71d01bf632550ffa70d0e6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

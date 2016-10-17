@@ -119,18 +119,20 @@ limitations under the License.
     });
 
     test('saves name and preferred email', function(done) {
-      element.$.name.value = 'new name';
-      element.$.email.value = 'email3';
+      flush(function() {
+        element.$.name.value = 'new name';
+        element.$.email.value = 'email3';
 
-      // Nothing should be committed yet.
-      assert.equal(account.name, 'name');
-      assert.equal(account.email, 'email');
+        // Nothing should be committed yet.
+        assert.equal(account.name, 'name');
+        assert.equal(account.email, 'email');
 
-      // Save and verify new values are committed.
-      save().then(function() {
-        assert.equal(account.name, 'new name');
-        assert.equal(account.email, 'email3');
-      }).then(done);
+        // Save and verify new values are committed.
+        save().then(function() {
+          assert.equal(account.name, 'new name');
+          assert.equal(account.email, 'email3');
+        }).then(done);
+      });
     });
 
     test('pressing enter saves name', function(done) {

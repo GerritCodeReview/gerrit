@@ -110,4 +110,16 @@ public class EventUtil {
           error.getMessage());
     }
   }
+
+  public void logEventListenerError(Object listener, Exception error) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format(
+          "Error in event listener %s",
+          listener.getClass().getName(), error));
+    } else {
+      log.warn("Error in listener {}: {}",
+          listener.getClass().getName(),
+          error.getMessage());
+    }
+  }
 }

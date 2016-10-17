@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -101,7 +102,8 @@ public class ChangeIndexer {
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService executor;
-  private final DynamicSet<ChangeIndexedListener> indexedListener;
+  private final DynamicSet<ChangeIndexedListener> indexedListeners;
+  private final EventUtil eventUtil;
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -109,7 +111,8 @@ public class ChangeIndexer {
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      DynamicSet<ChangeIndexedListener> indexedListener,
+      DynamicSet<ChangeIndexedListener> indexedListeners,
+      EventUtil eventUtil,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
@@ -118,9 +121,10 @@ public class ChangeIndexer {
     this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
+    this.indexedListeners = indexedListeners;
+    this.eventUtil = eventUtil;
     this.index = index;
     this.indexes = null;
-    this.indexedListener = indexedListener;
   }
 
   @AssistedInject
@@ -129,7 +133,8 @@ public class ChangeIndexer {
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      DynamicSet<ChangeIndexedListener> indexedListener,
+      DynamicSet<ChangeIndexedListener> indexedListeners,
+      EventUtil eventUtil,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
@@ -138,9 +143,10 @@ public class ChangeIndexer {
     this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
+    this.indexedListeners = indexedListeners;
+    this.eventUtil = eventUtil;
     this.index = null;
     this.indexes = indexes;
-    this.indexedListener = indexedListener;
   }
 
   /**
@@ -184,14 +190,22 @@ public class ChangeIndexer {
   }
 
   private void fireChangeIndexedEvent(int id) {
-    for (ChangeIndexedListener listener : indexedListener) {
-      listener.onChangeIndexed(id);
+    for (ChangeIndexedListener listener : indexedListeners) {
+      try {
+        listener.onChangeIndexed(id);
+      } catch (Exception e) {
+        eventUtil.logEventListenerError(listener, e);
+      }
     }
   }
 
   private void fireChangeDeletedFromIndexEvent(int id) {
-    for (ChangeIndexedListener listener : indexedListener) {
-      listener.onChangeDeleted(id);
+    for (ChangeIndexedListener listener : indexedListeners) {
+      try {
+        listener.onChangeDeleted(id);
+      } catch (Exception e) {
+        eventUtil.logEventListenerError(listener, e);
+      }
     }
   }
 

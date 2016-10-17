@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c7f1b9a_15c71432",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T14:50:18Z",
+      "side": 1,
+      "message": "Much shorter:\n\n intKeyOrdering().onResultOf(ChangeData::getId).sortedCopy(submitted)\n\nThough this particular Collection\u003cChangeData\u003e comes straight from a ChangeSet. Perhaps ChangeSet#changeData should be sorted instead?",
+      "revId": "87d7ebea7da1e05b56835dbacfb9051321e3527a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

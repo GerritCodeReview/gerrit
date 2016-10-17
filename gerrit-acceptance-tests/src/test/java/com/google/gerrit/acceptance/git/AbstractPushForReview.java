@@ -652,6 +652,58 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertTwoChangesWithSameRevision(r);
   }
 
+  @Test
+  public void pushSameCommitTwice() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject()
+        .setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+
+    PushOneCommit push =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+                "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    push =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+                "b.txt", "anotherContent");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    assertPushRejected(pushHead(testRepo, "refs/for/master", false),
+        "refs/for/master", "commit(s) already exists (as current patchset)");
+  }
+
+  @Test
+  public void pushSameCommitTwiceWhenIndexFailed() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject()
+        .setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+
+    PushOneCommit push =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+                "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    push =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+                "b.txt", "anotherContent");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    indexer.delete(r.getChange().getId());
+
+    assertPushRejected(pushHead(testRepo, "refs/for/master", false),
+        "refs/for/master", "commit(s) already exists (as current patchset)");
+  }
+
   private void assertTwoChangesWithSameRevision(PushOneCommit.Result result)
       throws Exception {
     List<ChangeInfo> changes = query(result.getCommit().name());

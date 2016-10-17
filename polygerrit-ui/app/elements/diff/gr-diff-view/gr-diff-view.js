@@ -94,7 +94,6 @@
     ],
 
     observers: [
-      '_getChangeDetail(_changeNum)',
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
     ],

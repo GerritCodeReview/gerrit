@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c7f1b9a_35f1f078",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T18:43:01Z",
+      "side": 1,
+      "message": "This sounds like you\u0027re doing 2 unrelated things in the same commit? Do we need to fix the test as it uncovers a bug in the implementation?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "91fc61a883612e30ca2dd2471245817f400b29cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_5fe34bbf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T18:43:01Z",
+      "side": 1,
+      "message": "So this corresponds to the new get method and makes sure we can have more than just one subscribe section.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 7
+      },
+      "revId": "91fc61a883612e30ca2dd2471245817f400b29cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7f1b9a_d5051c77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T18:43:01Z",
+      "side": 1,
+      "message": "and this fixes it in the backend as we need to store string lists? (If we store strings then we overwrite and can have at most 1 value?)",
+      "range": {
+        "startLine": 1262,
+        "startChar": 0,
+        "endLine": 1272,
+        "endChar": 7
+      },
+      "revId": "91fc61a883612e30ca2dd2471245817f400b29cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -50,6 +50,24 @@
     },
     {
       "key": {
+        "uuid": "5c3c33f2_dfb75bb8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T19:50:55Z",
+      "side": 1,
+      "message": "Actually this is handled in ChangeField, it will only call the setter if the input collection is non-empty.",
+      "parentUuid": "5c3c33f2_df891b09",
+      "revId": "be1ca752a389bab6c9946282360197d1babce48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_83ff5e43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2

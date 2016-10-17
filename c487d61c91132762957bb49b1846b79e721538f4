@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dca2e37b_a3fcda4e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpServletResponseRecorder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-17T07:54:00Z",
+      "side": 1,
+      "message": "allows",
+      "range": {
+        "startLine": 28,
+        "startChar": 63,
+        "endLine": 28,
+        "endChar": 68
+      },
+      "revId": "c487d61c91132762957bb49b1846b79e721538f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca2e37b_435966a7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpServletResponseRecorder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-17T07:54:00Z",
+      "side": 1,
+      "message": "override?",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 23
+      },
+      "revId": "c487d61c91132762957bb49b1846b79e721538f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca2e37b_2368ea32",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UniversalWebLoginFilter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-17T07:54:00Z",
+      "side": 1,
+      "message": "What\u0027s the difference between doing this, and annotating the class with @Singleton?",
+      "range": {
+        "startLine": 46,
+        "startChar": 43,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "c487d61c91132762957bb49b1846b79e721538f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca2e37b_03636e59",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UniversalWebLoginFilter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-17T07:54:00Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "revId": "c487d61c91132762957bb49b1846b79e721538f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

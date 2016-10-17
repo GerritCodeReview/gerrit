@@ -434,5 +434,28 @@ limitations under the License.
       assert.equal(select.value, 'SIDE_BY_SIDE');
       document.getElementById('blank').restore();
     });
+
+    test('show/hide diffs disabled for large amounds of files', function(done) {
+      element._files = [];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      var computeSpy = sandbox.spy(element, '_computeShowFileListActions');
+      element.selectedIndex = 0;
+      element._numFilesShown = 1;
+      flush(function() {
+        assert.isTrue(computeSpy.lastCall.returnValue);
+        var arr = [];
+        _.times(element._maxFilesForBulkActions + 1, function() {
+          arr.push({__path: 'myfile.txt', __expanded: false});
+        });
+        element._files = arr;
+        element._numFilesShown = arr.length;
+        assert.isFalse(computeSpy.lastCall.returnValue);
+        done();
+      });
+    });
   });
 </script>

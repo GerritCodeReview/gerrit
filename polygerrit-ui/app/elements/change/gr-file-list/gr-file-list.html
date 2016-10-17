@@ -120,6 +120,9 @@ limitations under the License.
         padding-right: 2.6em;
         text-align: right;
       }
+      .warning {
+        color: #666;
+      }
       input.show-hide {
         display: none;
       }
@@ -155,9 +158,20 @@ limitations under the License.
     <header>
       <div>Files</div>
       <div class="rightControls">
-        <gr-button link on-tap="_expandAllDiffs">Show diffs</gr-button>
-        <span class="separator">/</span>
-        <gr-button link on-tap="_collapseAllDiffs">Hide diffs</gr-button>
+        <template is="dom-if"
+            if="[[_computeShowFileListActions(_numFilesShown)]]"
+            id="bulkActions">
+          <gr-button link on-tap="_expandAllDiffs">Show diffs</gr-button>
+          <span class="separator">/</span>
+          <gr-button link on-tap="_collapseAllDiffs">Hide diffs</gr-button>
+        </template>
+        <template is="dom-if"
+            if="[[!_computeShowFileListActions(_numFilesShown)]]"
+            id="warning">
+          <div class="warning">
+            Bulk file list actions disabled for large amounts of files
+          </div>
+        </template>
         <span class="separator">/</span>
         <select
             id="modeSelect"

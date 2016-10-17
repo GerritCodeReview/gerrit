@@ -1838,10 +1838,9 @@ public class ReceiveCommits {
                   "commit(s) already exists (as current patchset)");
               newChanges = Collections.emptyList();
               return;
-            } else {
-              itr.remove();
-              continue;
             }
+            itr.remove();
+            continue;
           }
           newChangeIds.add(p.changeKey);
         }
@@ -1897,7 +1896,7 @@ public class ReceiveCommits {
   }
 
   private boolean foundInExistingRef(Collection<Ref> existingRefs)
-      throws OrmException, IOException {
+      throws OrmException {
     for (Ref ref : existingRefs) {
       ChangeNotes notes = notesFactory.create(db, project.getNameKey(),
           Change.Id.fromRef(ref.getName()));

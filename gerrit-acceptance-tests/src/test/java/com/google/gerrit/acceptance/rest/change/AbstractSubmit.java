@@ -146,7 +146,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Map<Branch.NameKey, RevTree> actual =
         fetchFromBundles(request);
 
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if ((getSubmitType() == SubmitType.CHERRY_PICK)
+        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
       // The change is updated as well:
       assertThat(actual).hasSize(2);
     } else {
@@ -202,7 +203,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
       assertChangeMergedEvents(change.getChangeId(),
           headAfterFirstSubmit.name());
-    } else if(getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
+    } else if ((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)
+        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
       String change2hash = change2.getChange().currentPatchSet()
           .getRevision().get();
       assertThat(msg).isEqualTo(
@@ -252,8 +254,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     assertThat(actual).containsKey(
         new Branch.NameKey(project, "refs/heads/master"));
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if (getSubmitType() == SubmitType.CHERRY_PICK){
+      // TODO(tandrii): why only 2 here?
       assertThat(actual).hasSize(2);
+    } else if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      // refs/changes/01/1/2
+      // refs/changes/02/2/2
+      // refs/changes/03/3/2
+      // refs/heads/master (which is same as refs/changes/03/4/2).
+      assertThat(actual).hasSize(4);
     } else {
       assertThat(actual).hasSize(1);
     }
@@ -355,7 +364,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     change2.assertChange(Change.Status.MERGED, name("test-topic"), admin);
     change3.assertChange(Change.Status.MERGED, name("test-topic"), admin);
     // Check for the exact change to have the correct submitter.
-    assertSubmitter(change3);
+    assertSubmitter(change3); // TODO(tandrii): figure out why this fails.
     // Also check submitters for changes submitted via the topic relationship.
     assertSubmitter(change1);
     assertSubmitter(change2);
@@ -406,7 +415,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         Iterables.transform(info.messages, i -> i.message);
     assertThat(messages).hasSize(3);
     String last = Iterables.getLast(messages);
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if ((getSubmitType() == SubmitType.CHERRY_PICK)
+        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
       assertThat(last).startsWith(
           "Change has been successfully cherry-picked as ");
     } else {

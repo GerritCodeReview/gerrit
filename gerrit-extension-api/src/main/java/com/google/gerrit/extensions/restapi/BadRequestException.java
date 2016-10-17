@@ -22,4 +22,12 @@ public class BadRequestException extends RestApiException {
   public BadRequestException(String msg) {
     super(msg);
   }
+
+  /**
+   * @param msg error text for client describing how request is bad.
+   * @param cause cause of this exception.
+   */
+  public BadRequestException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
 }

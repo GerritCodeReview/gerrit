@@ -103,7 +103,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
         String op = m.group(1);
         throw new AuthException("Must be signed-in to use " + op);
       }
-      throw new BadRequestException(e.getMessage());
+      throw new BadRequestException(e.getMessage(), e);
     }
     return out.size() == 1 ? out.get(0) : out;
   }

@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "1c7f1b9a_95ba44a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-17T15:33:53Z",
+      "side": 1,
+      "message": "Yes, this is the performance issue. O(1) permissions checks per N search results is ok, O(N) permissions checks per N search results starts to be a problem.",
+      "parentUuid": "dca2e37b_631022c3",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_df62bba5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4

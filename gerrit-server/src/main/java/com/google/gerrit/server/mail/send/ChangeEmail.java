@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -39,6 +40,9 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.template.soy.data.SoyListData;
+import com.google.template.soy.data.SoyMapData;
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -452,6 +456,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     soyContext.put("coverLetter", getCoverLetter());
     soyContext.put("fromName", getNameFor(fromId));
     soyContext.put("fromEmail", getNameEmailFor(fromId));
+    soyContext.put("diffLines", getDiffTemplateData());
 
     soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
     soyContextEmailData.put("changeDetail", getChangeDetail());
@@ -550,5 +555,38 @@ public abstract class ChangeEmail extends NotificationEmail {
         return "";
       }
     }
+  }
+
+  /**
+   * Generate a Soy list of maps representing each line of the unified diff. The line maps will have
+   * a 'type' key which maps to one of 'common', 'add' or 'remove' and a 'text' key which maps to
+   * the line's content.
+   */
+  private SoyListData getDiffTemplateData() {
+    SoyListData result = new SoyListData();
+    Splitter lineSplitter = Splitter.on(System.getProperty("line.separator"));
+    for (String diffLine : lineSplitter.split(getUnifiedDiff())) {
+      SoyMapData lineData = new SoyMapData();
+      lineData.put("text", diffLine);
+
+      // Skip empty lines and lines that look like diff headers.
+      if (diffLine.isEmpty() || diffLine.startsWith("---") || diffLine.startsWith("+++")) {
+        lineData.put("type", "common");
+      } else {
+        switch (diffLine.charAt(0)) {
+          case '+':
+            lineData.put("type", "add");
+            break;
+          case '-':
+            lineData.put("type", "remove");
+            break;
+          default:
+            lineData.put("type", "common");
+            break;
+        }
+      }
+      result.add(lineData);
+    }
+    return result;
   }
 }

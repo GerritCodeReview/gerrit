@@ -148,6 +148,24 @@
       "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_306fa871",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-17T20:16:37Z",
+      "side": 1,
+      "message": "I forgot, I already do call flush in setup, probably for this exact reason, but it wasn\u0027t sufficient because the way I set things up prevents me from guaranteeing flush is called after the account emails are loaded. Since this is the only test that depends on this particular sequence of events, I think this workaround is good enough as is.",
+      "parentUuid": "1c7f1b9a_d5bafc74",
+      "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

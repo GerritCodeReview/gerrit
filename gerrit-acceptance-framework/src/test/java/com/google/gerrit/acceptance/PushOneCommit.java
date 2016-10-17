@@ -52,15 +52,7 @@ public class PushOneCommit {
   public static final String SUBJECT = "test commit";
   public static final String FILE_NAME = "a.txt";
   public static final String FILE_CONTENT = "some content";
-  public static final String PATCH =
-      "From %s Mon Sep 17 00:00:00 2001\n" +
-      "From: Administrator <admin@example.com>\n" +
-      "Date: %s\n" +
-      "Subject: [PATCH] test commit\n" +
-      "\n" +
-      "Change-Id: %s\n" +
-      "---\n" +
-      "\n" +
+  public static final String PATCH_FILE_ONLY =
       "diff --git a/a.txt b/a.txt\n" +
       "new file mode 100644\n" +
       "index 0000000..f0eec86\n" +
@@ -69,6 +61,15 @@ public class PushOneCommit {
       "@@ -0,0 +1 @@\n" +
       "+some content\n" +
       "\\ No newline at end of file\n";
+  public static final String PATCH =
+      "From %s Mon Sep 17 00:00:00 2001\n" +
+      "From: Administrator <admin@example.com>\n" +
+      "Date: %s\n" +
+      "Subject: [PATCH] test commit\n" +
+      "\n" +
+      "Change-Id: %s\n" +
+      "---\n" +
+      "\n" + PATCH_FILE_ONLY;
 
   public interface Factory {
     PushOneCommit create(

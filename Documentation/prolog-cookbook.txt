@@ -828,7 +828,7 @@ submit_rule(submit(CR, N)) :-
     N = label('Non-Author-Code-Review', need(_)).
 
 base(CR) :-
-    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+    gerrit:max_with_block(-2, 2, 'Code-Review', CR).
 ----
 
 === Example 11: Remove the `Verified` category from all projects

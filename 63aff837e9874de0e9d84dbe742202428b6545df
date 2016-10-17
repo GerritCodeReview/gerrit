@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c7f1b9a_f5d4d8d4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-17T18:11:37Z",
+      "side": 1,
+      "message": "Correct me if I\u0027m wrong... But I believe the idiomatic way of using flush() is to set up all of your values in the test, and then call it. So these two lines should be outside the flush call. \n\nClearly in this case it doesn\u0027t matter for the success of the test, though, so this is a non-blocking nit.",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 41
+      },
+      "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,24 @@
       "revId": "c5bcee1c7179a6d4a1f5ad97fde4d5a82df9773a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_d3891409",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-17T20:29:29Z",
+      "side": 1,
+      "message": "It\u0027s 3*_fileListIncrement. 4*_fileListIncrement caused severe UI slowdowns and sometimes caused the 429 error if I used the action too quickly in succession. I really just eyeballed it, but it seems like a good number. I think we should use it for now and tweak it further if people want more functionality or more problems are encountered.",
+      "parentUuid": "7c057749_907f741c",
+      "revId": "c5bcee1c7179a6d4a1f5ad97fde4d5a82df9773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

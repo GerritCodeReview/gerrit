@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c3c33f2_7fec4fa1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-17T19:31:02Z",
+      "side": 1,
+      "message": "The regression test for the example is another added test at the bottom. This one is testing if we can allow add a same submodule branch into two different paths.",
+      "parentUuid": "1c7f1b9a_b5fc204f",
+      "range": {
+        "startLine": 357,
+        "startChar": 4,
+        "endLine": 357,
+        "endChar": 23
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c7f1b9a_755e8892",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-17T18:53:47Z",
       "side": 1,
       "message": "This is in line with the comment above, super.master having 2 submodules.\n\nBut according to the commit message we want to enable\n\n    super.master -\u003e sub.master\n    super.dev -\u003e sub.dev\n\nSo I would expect to see expectToHaveSubmoduleState(superRepo, \"dev\", ...) here as well?\n\nSo I think we have 2 different things here,\n* do we want to fix both\n* if not please clarify which one of the cases you are fixing.",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 75
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3c33f2_5ff18b77",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-17T19:31:02Z",
+      "side": 1,
+      "message": "See my comment above.",
+      "parentUuid": "1c7f1b9a_755e8892",
       "range": {
         "startLine": 375,
         "startChar": 0,

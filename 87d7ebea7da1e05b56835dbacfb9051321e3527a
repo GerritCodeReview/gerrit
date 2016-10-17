@@ -16,6 +16,24 @@
       "revId": "87d7ebea7da1e05b56835dbacfb9051321e3527a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_50ccec53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-17T21:10:09Z",
+      "side": 1,
+      "message": "I think that would be a cleaner way to do it, see new patch set, that is rather small.",
+      "parentUuid": "1c7f1b9a_15c71432",
+      "revId": "87d7ebea7da1e05b56835dbacfb9051321e3527a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

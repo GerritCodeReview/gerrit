@@ -27,7 +27,7 @@ import sys
 import tempfile
 
 from tools import util
-
+from tools.js import bowerutil
 
 # This script is run with `buck run`, but needs to shell out to buck; this is
 # only possible if we avoid buckd.

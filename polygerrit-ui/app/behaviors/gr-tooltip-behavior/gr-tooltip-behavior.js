@@ -22,12 +22,6 @@
     properties: {
       hasTooltip: Boolean,
 
-      _isTouchDevice: {
-        type: Boolean,
-        value: function() {
-          return 'ontouchstart' in document.documentElement;
-        },
-      },
       _tooltip: Element,
       _titleText: String,
     },
@@ -35,10 +29,10 @@
     attached: function() {
       if (!this.hasTooltip) { return; }
 
-      this.addEventListener('mouseenter', this._handleShowTooltip.bind(this));
-      this.addEventListener('mouseleave', this._handleHideTooltip.bind(this));
-      this.addEventListener('tap', this._handleHideTooltip.bind(this));
-
+      this.addEventListener('mouseover', this._handleShowTooltip.bind(this));
+      this.addEventListener('mouseout', this._handleHideTooltip.bind(this));
+      this.addEventListener('focusin', this._handleShowTooltip.bind(this));
+      this.addEventListener('focusout', this._handleHideTooltip.bind(this));
       this.listen(window, 'scroll', '_handleWindowScroll');
     },
 
@@ -47,8 +41,6 @@
     },
 
     _handleShowTooltip: function(e) {
-      if (this._isTouchDevice) { return; }
-
       if (!this.hasAttribute('title') ||
           this.getAttribute('title') === '' ||
           this._tooltip) {
@@ -74,11 +66,9 @@
     },
 
     _handleHideTooltip: function(e) {
-      if (this._isTouchDevice) { return; }
       if (!this.hasAttribute('title') ||
-          this._titleText == null) {
-        return;
-      }
+          this._titleText == null ||
+          this === document.activeElement) { return; }
 
       this.setAttribute('title', this._titleText);
       if (this._tooltip && this._tooltip.parentNode) {

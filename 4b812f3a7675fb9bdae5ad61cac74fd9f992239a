@@ -142,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_d3fc7450",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-18T17:27:48Z",
+      "side": 1,
+      "message": "It is not a disjoint set with updatedBranches. \n\nFor example. Updated branches are sub.master, sub.dev, and sub.unrelated. \n\nAffected Branches are: sub.master, super.master, sub.dev, super.master.",
+      "parentUuid": "dc60231e_33bde8a1",
+      "range": {
+        "startLine": 113,
+        "startChar": 19,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_f3fff041",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-18T17:27:48Z",
+      "side": 1,
+      "message": "affected branch is all branches that either in a submodule or in a superproject.\n\nFor example sub.master, super.master, sub.dev, super.master.",
+      "parentUuid": "dc60231e_13c26c21",
+      "range": {
+        "startLine": 113,
+        "startChar": 31,
+        "endLine": 113,
+        "endChar": 40
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_b0a9d868",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 1
@@ -153,6 +201,30 @@
       "writtenOn": "2016-10-17T21:06:25Z",
       "side": 1,
       "message": "Is this just a fine grained version of affectedBranches, i.e.\ncould we replace all affectedBranches by branchesByProject.allValues() (made up name) ?",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 120,
+        "endChar": 79
+      },
+      "revId": "4b812f3a7675fb9bdae5ad61cac74fd9f992239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_50686c33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-18T17:27:48Z",
+      "side": 1,
+      "message": "No, it is not. branchesByProject only contains superproject branches.\n\nFor the same example. super -\u003e {super.master, super.dev}",
+      "parentUuid": "7c057749_b0a9d868",
       "range": {
         "startLine": 119,
         "startChar": 2,

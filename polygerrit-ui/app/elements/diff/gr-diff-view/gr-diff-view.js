@@ -99,6 +99,7 @@
     ],
 
     attached: function() {
+      this.listen(document, 'scroll', '_handleDocumentScroll');
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
         if (loggedIn) {
@@ -125,6 +126,62 @@
       }
 
       this.$.cursor.push('diffs', this.$.diff);
+    },
+
+    detached: function() {
+      this.unlisten(document, 'scroll', '_handleDocumentScroll');
+    },
+
+    _handleDocumentScroll: function(e) {
+      this.debounce('placeHeader', this._placeHeader, 1);
+    },
+
+    _placeHeader: function() {
+      var header = this.$$('header');
+      var mainHeaderHeight = 45;
+      var headerHeight = header.getBoundingClientRect().height;
+      var scrolled = document.scrollingElement.scrollTop - mainHeaderHeight;
+      var scrolledLeft = document.scrollingElement.scrollLeft;
+/*
+      if (scrolled >= 0) {
+        header.classList.add('pin');
+      } else {
+        header.classList.remove('pin');
+      }
+*/
+      var delta = scrolled - this.lastScrolled;
+      var scrolledDown = delta > 0;
+      var scrolledUp = !scrolledDown;
+      var wasPinned = header.classList.contains('pin');
+      var currentTop =
+          parseFloat(header.style.top.split('px').slice(0, 1)) || 0;
+      if (!wasPinned && scrolledLeft > 0) {
+        header.style.left = scrolledLeft + 'px';
+      } else {
+        header.style.left = '';
+      }
+      if (scrolled <= 0) {
+        // to use fixed always:
+        // header.classList.add('pin');
+        // header.style.top = -scrolled + 'px';
+        header.classList.remove('pin');
+        header.style.top = '';
+      } else if (scrolledUp) { // scrolling up
+        if (currentTop - scrolled >= 0) {
+          header.classList.add('pin');
+          header.style.top = '';
+          // to use with absolute
+          // header.style.top = scrolled + 'px';
+        }
+      } else { // scrolling down
+        if (wasPinned) {
+          header.classList.remove('pin');
+          header.style.top = scrolled + 'px';
+        } else if (scrolled - currentTop >= headerHeight) {
+          header.style.top = scrolled - headerHeight + 'px';
+        }
+      }
+      this.lastScrolled = scrolled;
     },
 
     _getLoggedIn: function() {

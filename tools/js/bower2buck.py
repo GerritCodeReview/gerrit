@@ -26,8 +26,7 @@ import subprocess
 import sys
 import tempfile
 
-from tools import util
-
+from tools.js.bowerutil import hash_bower_component
 
 # This script is run with `buck run`, but needs to shell out to buck; this is
 # only possible if we avoid buckd.
@@ -78,7 +77,7 @@ class Rule(object):
     self.version = bower_json['version']
     self.deps = bower_json.get('dependencies', {})
     self.license = bower_json.get('license', 'NO LICENSE')
-    self.sha1 = bowerutil.hash_bower_component(
+    self.sha1 = hash_bower_component(
         hashlib.sha1(), os.path.dirname(bower_json_path)).hexdigest()
 
   def to_rule(self, packages):

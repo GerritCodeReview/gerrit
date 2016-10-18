@@ -615,8 +615,25 @@
       page.show(this.backPage || '/');
     },
 
+    _handleLabelRemoved: function(splice, path) {
+      if (splice.removed.length) {
+        var removed = splice.removed.pop();
+        var changePath = path.split('.');
+        var labelPath = changePath.splice(0, changePath.length - 2);
+        var labelDict = this.get(labelPath);
+        if (labelDict.approved &&
+            labelDict.approved._account_id === removed._account_id) {
+          this._reload();
+        }
+      }
+    },
+
     _labelsChanged: function(changeRecord) {
       if (!changeRecord) { return; }
+      if (changeRecord.value.indexSplices) {
+        this._handleLabelRemoved(changeRecord.value.indexSplices.pop(),
+            changeRecord.path);
+      }
       this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.LABEL_CHANGE, {
         change: this._change,
       });

@@ -140,6 +140,10 @@
           config.gerrit.web_uis.indexOf('GWT') !== -1;
     },
 
+    _computeClassName: function(view) {
+      return view;
+    },
+
     _handlePageError: function(e) {
       [
         '_showChangeListView',

@@ -87,6 +87,8 @@
       },
       _isImageDiff: Boolean,
       _filesWeblinks: Object,
+      _headerTopInitial: Number,
+      _headerTopLast: Number,
     },
 
     behaviors: [
@@ -99,6 +101,11 @@
     ],
 
     attached: function() {
+      var rect = this.$.header.getBoundingClientRect();
+      this._headerTopInitial = rect.top;
+      this.customStyle['--header-height'] = rect.height + 'px';
+      this.updateStyles();
+      this.listen(document, 'scroll', '_handleDocumentScroll');
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
         if (loggedIn) {
@@ -125,6 +132,23 @@
       }
 
       this.$.cursor.push('diffs', this.$.diff);
+    },
+
+    detached: function() {
+      this.unlisten(document, 'scroll', '_handleDocumentScroll');
+    },
+
+    _handleDocumentScroll: function(e) {
+      this.debounce('headerPosition', function() {
+        var header = this.$.header;
+        var scrolled = document.body.scrollTop - this._headerTopInitial;
+        if (scrolled < 0) {
+          header.style.top = -scrolled + 'px';
+        } else if (this._headerTopLast != 0) {
+          header.style.top = '0px';
+        }
+        this._headerTopLast = scrolled;
+      });
     },
 
     _getLoggedIn: function() {

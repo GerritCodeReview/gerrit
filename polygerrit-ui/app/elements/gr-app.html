@@ -39,10 +39,13 @@ limitations under the License.
 <dom-module id="gr-app">
   <template>
     <style>
+      :root {
+        --header-height: 5em;
+      }
       :host {
         display: flex;
-        min-height: 100vh;
         flex-direction: column;
+        min-height: 100vh;
       }
       gr-main-header,
       footer {
@@ -50,6 +53,7 @@ limitations under the License.
         padding: .5rem var(--default-horizontal-margin);
       }
       gr-main-header {
+        height: --header-height;
         background-color: var(--header-background-color, #eee);
       }
       footer {
@@ -89,7 +93,7 @@ limitations under the License.
     </style>
     <gr-main-header id="mainHeader" search-query="{{params.query}}">
     </gr-main-header>
-    <main>
+    <main class$="[[_computeClassName(params.view)]]">
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
             params="[[params]]"

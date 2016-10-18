@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc60231e_f3d1b0e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-18T00:34:44Z",
+      "side": 1,
+      "message": "Can we add some documentation to this method? I\u0027d be more confident reviewing it if I felt I knew what it does a little better.",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 30
+      },
+      "revId": "e7ccfc87a884fab9bf451deb07efd1f2a315c74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

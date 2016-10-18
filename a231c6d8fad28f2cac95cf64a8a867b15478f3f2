@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c057749_90b7748b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-18T20:00:19Z",
+      "side": 1,
+      "message": "Note: these are currently named based on the files that messages are set from. These are up for debate and some may get merged. Wanted to make this more of a discussion.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

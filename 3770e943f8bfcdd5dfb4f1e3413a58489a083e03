@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "9ca06ba7_f1b7c8b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-18T14:08:55Z",
+      "side": 1,
+      "message": "I\u0027m also new to this test and I\u0027m not 100% sure how the submit preview request works. But I assume it returns a map of all refs which would be updated by the submit.\n\nAbove in line 247 the submit preview for change4 is requested. Submitting change4 with cherry-pick would update the destination branch (refs/heads/master) and create a new refs/changes/03/3/2 for the second patch set of change4 (which is created by the cherry-pick submit strategy).\n\nThere are no new patch sets for the other changes (change2 and change3) since the cherry-pick submit strategy ignores change dependencies and hence on submit of change4 this commit will be cherry-picked onto the destination branch, but change2 and change3 stay unmodified.",
+      "parentUuid": "dca2e37b_63a10230",
+      "range": {
+        "startLine": 258,
+        "startChar": 24,
+        "endLine": 258,
+        "endChar": 40
+      },
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_03960ed7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 5
@@ -53,6 +77,30 @@
       "writtenOn": "2016-10-17T18:56:38Z",
       "side": 1,
       "message": "is the fact that last patchset of last change points to the same thing as master the reason there are only 4 items?",
+      "range": {
+        "startLine": 264,
+        "startChar": 9,
+        "endLine": 264,
+        "endChar": 66
+      },
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ca06ba7_11e44cc9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-18T14:08:55Z",
+      "side": 1,
+      "message": "Since RebaseAlways respects change dependencies (in contrast to CherryPick), we expect one new ref per change for the new patch set that is created by the rebase + 1 ref update for the destination branch. Since there are 3 changes (change2, change3 and change4), we expect 4 results here.\n\nI got a little confused by the change variables names (change2, change3, change4) as they make you think it\u0027s 4 changes, but it\u0027s really only 3 changes, with bad names.",
+      "parentUuid": "dca2e37b_03960ed7",
       "range": {
         "startLine": 264,
         "startChar": 9,

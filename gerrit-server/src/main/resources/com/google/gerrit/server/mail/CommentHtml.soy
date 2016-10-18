@@ -58,7 +58,7 @@
   <hr/>
 
   {if $coverLetter}
-    <pre>{$coverLetter}</pre>
+    <pre style="font-size:12px">{$coverLetter}</pre>
   {/if}
 
   <ul style="{$ulStyle}">
@@ -86,14 +86,14 @@
                   Patch Set #{$group.patchSetId}, Line {$comment.startLine}:{sp}
                 {/if}
                 {if length($comment.lines) == 1}
-                  <code>{$comment.lines[0]}</code>
+                  <code style="font-size:12px">{$comment.lines[0]}</code>
                 {/if}
               </p>
 
               {if length($comment.lines) > 1}
                 <p>
                   <blockquote style="{$blockquoteStyle}">
-                    <pre>
+                    <pre style="font-size:12px">
                       {foreach $line in $comment.lines}
                         {$line}{\n}
                       {/foreach}

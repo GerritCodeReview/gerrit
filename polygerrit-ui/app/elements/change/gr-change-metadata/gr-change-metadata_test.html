@@ -167,6 +167,23 @@ limitations under the License.
         });
       });
 
+      test('fires invalidate', function(done) {
+        sandbox.stub(element.$.restAPI, 'deleteVote')
+            .returns(Promise.resolve({'ok': true}));
+        element.change.removable_reviewers = [
+          {
+            _account_id: 1,
+            name: 'bojack',
+          }
+        ];
+        element.change.labels.test.approved = {_account_id: 1};
+        element.mutable = true;
+        element.addEventListener('invalidate', function() { done(); });
+        flushAsynchronousOperations();
+        var button = element.$$('gr-account-chip').$$('gr-button');
+        MockInteractions.tap(button);
+      });
+
       test('changing topic calls setChangeTopic', function() {
         var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic',
             function() {});

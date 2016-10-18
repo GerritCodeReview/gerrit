@@ -222,7 +222,8 @@ limitations under the License.
               change="{{_change}}"
               server-config="[[serverConfig]]"
               mutable="[[_loggedIn]]"
-              on-show-reply-dialog="_handleShowReplyDialog">
+              on-show-reply-dialog="_handleShowReplyDialog"
+              on-invalidate="_handleMetadataInvalidated">
           </gr-change-metadata>
           <!-- Plugins insert content into following container.
                Stop-gap until PolyGerrit plugins interface is ready.

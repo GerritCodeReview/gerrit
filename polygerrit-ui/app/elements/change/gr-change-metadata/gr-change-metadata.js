@@ -142,6 +142,11 @@
         for (var i = 0; i < labels.length; i++) {
           if (labels[i]._account_id === accountID) {
             this.splice(['change.labels', labelName, 'all'], i, 1);
+            var approved = this.change.labels[labelName].approved;
+            if (approved && approved._account_id === accountID) {
+              // Trigger a refresh of the change data
+              this.fire('invalidate');
+            }
             break;
           }
         }

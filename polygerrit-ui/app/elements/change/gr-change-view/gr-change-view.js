@@ -297,6 +297,10 @@
       this._openReplyDialog(target);
     },
 
+    _handleMetadataInvalidated: function(e) {
+      this._reload();
+    },
+
     _handleScroll: function() {
       this.debounce('scroll', function() {
         history.replaceState(

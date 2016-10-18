@@ -25,6 +25,7 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STA
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.index.change.ChangeField.PatchSetApprovalProtoFi
 import com.google.gerrit.server.index.change.ChangeField.PatchSetProtoField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -127,6 +129,10 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String HASHTAG_FIELD =
       ChangeField.HASHTAG_CASE_AWARE.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
+  private static final String SUBMIT_RECORD_LENIENT_FIELD =
+      ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName();
+  private static final String SUBMIT_RECORD_STRICT_FIELD =
+      ChangeField.STORED_SUBMIT_RECORD_STRICT.getName();
 
   static Term idTerm(ChangeData cd) {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
@@ -465,6 +471,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REVIEWER_FIELD)) {
       decodeReviewers(doc, cd);
     }
+    decodeSubmitRecords(doc, SUBMIT_RECORD_STRICT_FIELD,
+        ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
+    decodeSubmitRecords(doc, SUBMIT_RECORD_LENIENT_FIELD,
+        ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
     return cd;
   }
 
@@ -555,6 +565,14 @@ public class LuceneChangeIndex implements ChangeIndex {
         ChangeField.parseReviewerFieldValues(
             FluentIterable.from(doc.get(REVIEWER_FIELD))
                 .transform(IndexableField::stringValue)));
+  }
+
+  private void decodeSubmitRecords(Multimap<String, IndexableField> doc,
+      String field, SubmitRuleOptions opts, ChangeData cd) {
+    ChangeField.parseSubmitRecords(
+        Collections2.transform(
+            doc.get(field), f -> f.binaryValue().utf8ToString()),
+        opts, cd);
   }
 
   private static <T> List<T> decodeProtos(Multimap<String, IndexableField> doc,

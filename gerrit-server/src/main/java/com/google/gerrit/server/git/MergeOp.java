@@ -57,7 +57,7 @@ import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.RequestId;
@@ -81,7 +81,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -100,6 +99,9 @@ import java.util.Set;
  */
 public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
+
+  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS =
+      SubmitRuleOptions.defaults().build();
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
@@ -173,7 +175,7 @@ public class MergeOp implements AutoCloseable {
       // However, do NOT expose that ChangeData directly, as it is way out of
       // date by this point.
       ChangeData cd = checkNotNull(changes.get(id), "ChangeData for %s", id);
-      return checkNotNull(cd.getSubmitRecords(),
+      return checkNotNull(cd.getSubmitRecords(SUBMIT_RULE_OPTIONS),
           "getSubmitRecord only valid after submit rules are evalutated");
     }
 
@@ -252,15 +254,6 @@ public class MergeOp implements AutoCloseable {
     orm.close();
   }
 
-  private static Optional<SubmitRecord> findOkRecord(
-      Collection<SubmitRecord> in) {
-    if (in == null) {
-      return Optional.empty();
-    }
-    return in.stream().filter(r -> r.status == SubmitRecord.Status.OK)
-        .findAny();
-  }
-
   public static void checkSubmitRule(ChangeData cd)
       throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
@@ -269,7 +262,7 @@ public class MergeOp implements AutoCloseable {
           "missing current patch set for change " + cd.getId());
     }
     List<SubmitRecord> results = getSubmitRecords(cd);
-    if (findOkRecord(results).isPresent()) {
+    if (SubmitRecord.findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
       return;
     } else if (results.isEmpty()) {
@@ -309,12 +302,7 @@ public class MergeOp implements AutoCloseable {
 
   private static List<SubmitRecord> getSubmitRecords(ChangeData cd)
       throws OrmException {
-    List<SubmitRecord> results = cd.getSubmitRecords();
-    if (results == null) {
-      results = new SubmitRuleEvaluator(cd).evaluate();
-      cd.setSubmitRecords(results);
-    }
-    return results;
+    return cd.submitRecords(SUBMIT_RULE_OPTIONS);
   }
 
   private static String describeLabels(ChangeData cd,
@@ -387,7 +375,7 @@ public class MergeOp implements AutoCloseable {
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
-      cd.setSubmitRecords(records);
+      cd.setSubmitRecords(SUBMIT_RULE_OPTIONS, records);
     }
   }
 

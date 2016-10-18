@@ -19,11 +19,13 @@ import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
@@ -488,6 +490,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new AssigneePredicate(new Account.Id(ChangeField.NO_ASSIGNEE));
     }
 
+    if ("submittable".equalsIgnoreCase(value)) {
+      return new SubmittablePredicate(SubmitRecord.Status.OK);
+    }
+
     try {
       return status(value);
     } catch (IllegalArgumentException e) {
@@ -644,7 +650,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           try {
             group = parseGroup(value).getUUID();
           } catch (QueryParseException e) {
-            throw error("Neither user nor group " + value + " found");
+            throw error("Neither user nor group " + value + " found", e);
           }
         }
       }
@@ -665,7 +671,33 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
+    // If the vote piece looks like Code-Review=NEED with a valid non-numeric
+    // submit record status, interpret as a submit record query.
+    int eq = name.indexOf('=');
+    if (args.getSchema().hasField(ChangeField.SUBMIT_RECORD) && eq > 0) {
+      String statusName = name.substring(eq + 1).toUpperCase();
+      if (!isInt(statusName)) {
+        SubmitRecord.Label.Status status = Enums.getIfPresent(
+            SubmitRecord.Label.Status.class, statusName).orNull();
+        if (status == null) {
+          throw error("Invalid label status " + statusName + " in " + name);
+        }
+        return SubmitRecordPredicate.create(
+            name.substring(0, eq), status, accounts);
+      }
+    }
+
     return new LabelPredicate(args, name, accounts, group);
+  }
+
+  private static boolean isInt(String s) {
+    if (s == null) {
+      return false;
+    }
+    if (s.startsWith("+")) {
+      s = s.substring(1);
+    }
+    return Ints.tryParse(s) != null;
   }
 
   @Operator
@@ -962,6 +994,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> committer(String who) {
     return new CommitterPredicate(who);
+  }
+
+  @Operator
+  public Predicate<ChangeData> submittable(String str)
+      throws QueryParseException {
+    SubmitRecord.Status status = Enums.getIfPresent(
+        SubmitRecord.Status.class, str.toUpperCase()).orNull();
+    if (status == null) {
+      throw error("invalid value for submittable:" + str);
+    }
+    return new SubmittablePredicate(status);
   }
 
   @Override

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_135eec90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-18T17:34:31Z",
+      "side": 1,
+      "message": "These two things are not totally unrelated though, both are related to submodule subscription section settings. \nHowever, one is a general bug which affect both test and non-test code, the other only affect test.\n\nIf you prefer these two in separate commits, I could certainly do that.",
+      "parentUuid": "1c7f1b9a_35f1f078",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "91fc61a883612e30ca2dd2471245817f400b29cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3c33f2_5fe34bbf",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7c057749_d053bc7f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-18T17:34:31Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "5c3c33f2_5fe34bbf",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 7
+      },
+      "revId": "91fc61a883612e30ca2dd2471245817f400b29cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c7f1b9a_d5051c77",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-10-17T18:43:01Z",
       "side": 1,
       "message": "and this fixes it in the backend as we need to store string lists? (If we store strings then we overwrite and can have at most 1 value?)",
+      "range": {
+        "startLine": 1262,
+        "startChar": 0,
+        "endLine": 1272,
+        "endChar": 7
+      },
+      "revId": "91fc61a883612e30ca2dd2471245817f400b29cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_f056c071",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-10-18T17:34:31Z",
+      "side": 1,
+      "message": "Yes, it will override in the loop below, only the last ref spec will be stored.\n\nfor (RefSpec r : s.getMatchingRefSpecs()) {\n        rc.setString(SUBSCRIBE_SECTION, p.get(),\n            SUBSCRIBE_MATCH_REFS, r.toString());\n}",
+      "parentUuid": "1c7f1b9a_d5051c77",
       "range": {
         "startLine": 1262,
         "startChar": 0,

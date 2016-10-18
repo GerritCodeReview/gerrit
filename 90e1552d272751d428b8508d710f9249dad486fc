@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ca1f7a9_100b6498",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-10-18T19:25:54Z",
+      "side": 1,
+      "message": "i find this hard-coding rather horrible. there are certainly other file types that \"go in pairs\", and the user should be able to configure that.\n\nit gets even trickier than that: in the qt project, we have this common pattern:\n- foo.h\n- foo_p.h\n- foo.cpp\n- foo_unix.cpp\n- foo_win.cpp\n\nto properly support that, the code would have to do suffix matching, with two possible approaches:\n- the user specified the suffixes from longest to shortest and specifies the sort order separately\n- the use specifies the suffixes in the preferred order and the code automatically figures out the order in which to try them.",
+      "revId": "90e1552d272751d428b8508d710f9249dad486fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

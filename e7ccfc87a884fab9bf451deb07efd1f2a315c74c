@@ -22,6 +22,24 @@
       "revId": "e7ccfc87a884fab9bf451deb07efd1f2a315c74c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_53f18477",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-18T16:57:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_f3d1b0e2",
+      "revId": "e7ccfc87a884fab9bf451deb07efd1f2a315c74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

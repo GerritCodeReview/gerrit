@@ -41,8 +41,8 @@ limitations under the License.
     <style>
       :host {
         display: flex;
-        min-height: 100vh;
         flex-direction: column;
+        height: 100vh;
       }
       gr-main-header,
       footer {
@@ -56,8 +56,13 @@ limitations under the License.
         background-color: var(--footer-background-color, #eee);
       }
       main {
+        display: flex;
         flex: 1;
         position: relative;
+        overflow: auto;
+      }
+      main > * {
+        width: 100%;
       }
       .errorView {
         align-items: center;

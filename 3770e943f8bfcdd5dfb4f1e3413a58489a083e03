@@ -159,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "9ca06ba7_71e3d8bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-18T14:57:35Z",
+      "side": 1,
+      "message": "I think the test succeeds because for the second submit in line 172 we are *not* rebasing change1 and change2 because change2 is a merge commit. For merge commits RebaseSubmitStrategy.RebaseMultipleParentsOp currently behaves like MERGE_IF_NECESSARY, and integration into the target branch is done by a merge commit.\n\nThis means in this case we miss to add footers to change1 and change2 :(",
+      "parentUuid": "dca2e37b_239b0a00",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 75
+      },
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_439c06f9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
         "patchSetId": 5

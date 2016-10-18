@@ -19,10 +19,12 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
@@ -39,7 +41,7 @@ import java.util.Map;
  * This class is not thread safe.
  */
 public class ChangeSet {
-  private final ImmutableMap<Change.Id, ChangeData> changeData;
+  private final ImmutableSortedMap<Change.Id, ChangeData> changeData;
 
   /**
    * Additional changes not included in changeData because their
@@ -49,9 +51,9 @@ public class ChangeSet {
    * - changes whose only relationship to the set is via a change
    *   that is not visible to the current user
    */
-  private final ImmutableMap<Change.Id, ChangeData> nonVisibleChanges;
+  private final ImmutableSortedMap<Change.Id, ChangeData> nonVisibleChanges;
 
-  private static ImmutableMap<Change.Id, ChangeData> index(
+  private static ImmutableSortedMap<Change.Id, ChangeData> index(
       Iterable<ChangeData> changes, Collection<Change.Id> exclude) {
     Map<Change.Id, ChangeData> ret = new LinkedHashMap<>();
     for (ChangeData cd : changes) {
@@ -60,7 +62,10 @@ public class ChangeSet {
         ret.put(id, cd);
       }
     }
-    return ImmutableMap.copyOf(ret);
+
+    ImmutableSortedMap.Builder<Change.Id, ChangeData> r =
+        ImmutableSortedMap.orderedBy(ReviewDbUtil.intKeyOrdering().reverse());
+    return r.putAll(ret).build();
   }
 
   public ChangeSet(

@@ -16,6 +16,24 @@
       "revId": "90e1552d272751d428b8508d710f9249dad486fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_30a7a860",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-18T19:32:45Z",
+      "side": 1,
+      "message": "It\u0027s not horrible. The goal here is to get file listing in a notification email to match the minimal work that was done on the UI side to satisfy a common real-life use case, and there\u0027s no shame in that.\n\nThis way files are sorted could be taken further, and I really like your idea. Would you submit this as a feature request? I don\u0027t think this change needs to be blocked in the meantime.",
+      "parentUuid": "7ca1f7a9_100b6498",
+      "revId": "90e1552d272751d428b8508d710f9249dad486fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ca06ba7_d1d1e4e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-10-18T18:33:44Z",
+      "side": 1,
+      "message": "*gulp*\nin qt-project, we have a policy against using change-urls or even change-ids to refer to other commits - we require sha1s, so that the git history is independent from external tools.\n*this* takes contradicting this policy to a wholly different level by requiring being online to make sense of git history ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "44c1b91c44f23de933731848e53b16051e0d7d0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

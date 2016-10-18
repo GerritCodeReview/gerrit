@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc60231e_73b12099",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-18T21:27:58Z",
+      "side": 1,
+      "message": "I had no idea that \u0027ch\u0027 was a valid css unit. Nice!",
+      "range": {
+        "startLine": 84,
+        "startChar": 19,
+        "endLine": 84,
+        "endChar": 23
+      },
+      "revId": "a258d65515eaec08e99efacc88a7b23f28eb3267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

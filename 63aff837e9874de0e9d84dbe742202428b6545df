@@ -184,6 +184,24 @@
       "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_70b13099",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-18T19:54:48Z",
+      "side": 1,
+      "message": "(discussed this with Logan offline, but I\u0027ll reply here since you\u0027ve asked)\nFew reasons:\n1) It\u0027s a boilerplate - so it\u0027s a waste of time to write and read and debug etc\n2) It\u0027s a setup step which may change eventually and will trigger cascading changes\n3) It actually doesn\u0027t solve all the problems - for example if registration page will add another restAPI call that involves sequential promise, this will probably break. This means more cascading changes in tests.\n\nHaving said that, I think in this case I\u0027m ok with this approach since it\u0027s only single test.",
+      "parentUuid": "7c057749_b08278e4",
+      "revId": "63aff837e9874de0e9d84dbe742202428b6545df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

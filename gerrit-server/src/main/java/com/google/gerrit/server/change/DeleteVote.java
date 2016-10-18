@@ -175,7 +175,8 @@ public class DeleteVote
       msg.append(" by ")
           .append(userFactory.create(accountId).getNameEmail())
           .append("\n");
-      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString());
+      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
+          ChangeMessagesUtil.DELETE_VOTE);
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
           changeMessage);
 

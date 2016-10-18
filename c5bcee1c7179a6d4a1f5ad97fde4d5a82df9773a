@@ -76,6 +76,24 @@
       "revId": "c5bcee1c7179a6d4a1f5ad97fde4d5a82df9773a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_f02d20f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-18T19:25:47Z",
+      "side": 1,
+      "message": "\u003cbikeshed\u003e225 does seem like quite a lot. 50 or 100 seems fine, though.",
+      "parentUuid": "dc60231e_b34c58e4",
+      "revId": "c5bcee1c7179a6d4a1f5ad97fde4d5a82df9773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

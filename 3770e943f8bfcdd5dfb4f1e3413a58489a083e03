@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dc60231e_13f70c71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-18T16:27:46Z",
+      "side": 1,
+      "message": "The commit message should eventually describe what this strategy does, how it differs from existing strategies, what the primary use case is, etc.",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc31af18_227aaee0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -230,6 +247,40 @@
     },
     {
       "key": {
+        "uuid": "7c057749_b0b0b8c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-18T16:27:46Z",
+      "side": 1,
+      "message": "private final?",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_93addc6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-18T16:27:46Z",
+      "side": 1,
+      "message": "This is because there is no \"base\" on which to rebase. I think this is an oversight in Cherry-Pick, it should still be possible to rewrite the commit message and take the same tree.",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc31af18_827f3acf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 5
@@ -247,6 +298,40 @@
         "endLine": 135,
         "endChar": 85
       },
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_33f20881",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-18T16:27:46Z",
+      "side": 1,
+      "message": "I don\u0027t follow. A rebase is not just editing a commit message, it\u0027s also changing the parent to be the current tip, which can cause a merge conflict. Am I missing something?",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_f32890fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-18T16:27:46Z",
+      "side": 1,
+      "message": "Don\u0027t use checkState, throw IllegalStateException. That way the compiler knows that the function exits there.",
       "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

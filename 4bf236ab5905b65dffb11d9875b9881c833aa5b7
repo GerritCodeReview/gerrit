@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc60231e_13d38cc0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-18T22:43:09Z",
+      "side": 1,
+      "message": "new addition",
+      "range": {
+        "startLine": 435,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 41
+      },
+      "revId": "4bf236ab5905b65dffb11d9875b9881c833aa5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_b068b813",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-18T22:43:09Z",
+      "side": 1,
+      "message": "new addition",
+      "revId": "4bf236ab5905b65dffb11d9875b9881c833aa5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

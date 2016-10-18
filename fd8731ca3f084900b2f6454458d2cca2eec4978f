@@ -23,6 +23,24 @@
       "revId": "fd8731ca3f084900b2f6454458d2cca2eec4978f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_501a2ce3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-18T14:26:19Z",
+      "side": 1,
+      "message": "Yeah, since this is already a separate change, we should just do that refactoring here.",
+      "parentUuid": "bcb60fe5_ba7ff11b",
+      "revId": "fd8731ca3f084900b2f6454458d2cca2eec4978f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7c057749_30e4c8c9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-18T17:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c3c33f2_3f5927a9",
+      "revId": "2abf119a7e467e83a38f5d5fbb4a02d19699d637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c7f1b9a_55ceec18",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 7
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7c057749_10e9c4a1",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-18T17:07:42Z",
+      "side": 1,
+      "message": "because otherwise tests break. \n\nThis sounds bad to me, but I haven\u0027t found time to investigate it.",
+      "parentUuid": "1c7f1b9a_55ceec18",
+      "revId": "2abf119a7e467e83a38f5d5fbb4a02d19699d637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3c33f2_dffc7b50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 7
@@ -48,6 +84,24 @@
       "writtenOn": "2016-10-17T19:43:55Z",
       "side": 1,
       "message": "Would there be a benefit to storing this as an ImmutableSortedMap and exposing it as such in the public methods?",
+      "revId": "2abf119a7e467e83a38f5d5fbb4a02d19699d637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_70de50f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-10-18T17:07:42Z",
+      "side": 1,
+      "message": "I\u0027ll store it as ImmutableSortedMap in the next PS, leaving public exposure to a follow up.",
+      "parentUuid": "5c3c33f2_dffc7b50",
       "revId": "2abf119a7e467e83a38f5d5fbb4a02d19699d637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

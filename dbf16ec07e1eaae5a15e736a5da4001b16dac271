@@ -23,6 +23,24 @@
       "revId": "dbf16ec07e1eaae5a15e736a5da4001b16dac271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_7315a0b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-18T01:48:06Z",
+      "side": 1,
+      "message": "On the plus side this one is caught by Error Prone, and our internal build system considers them compilation errors, so we\u0027re guaranteed to find it eventually. Unfortunately we still don\u0027t find it until we try to build it internally...",
+      "parentUuid": "bcb60fe5_1a6ffd70",
+      "revId": "dbf16ec07e1eaae5a15e736a5da4001b16dac271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

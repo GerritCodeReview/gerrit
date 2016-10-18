@@ -1,0 +1,29 @@
+= Release notes for Gerrit 2.14
+
+== Important Notes
+
+*WARNING:* This release deprecates the use of Velocity mail templates. You will
+soon need to upgrade custom mail templates to Soy files.
+
+== Release Highlights
+
+* HTML Emails
+
+* Support Closure Templates for Email Message Formatting
+
+== New Features
+
+=== HTML Email support
+
+Gerrit email messages are made easier to read by sending HTML content parts in
+addition to the existing text email content.
+
+=== Support Closure Templates for Email Message Formatting
+
+Mail templates can now be written using Closure Templates (Soy). Mail templates
+written in Velocity (VTL) are deprecated but still supported. Support for VTL
+will be dropped in the next release.
+
+== Bug Fixes
+
+== Dependency updates

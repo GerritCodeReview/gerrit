@@ -403,11 +403,18 @@ public class BatchUpdate implements AutoCloseable {
           }
           listener.afterUpdateRepos();
           for (BatchUpdate u : updates) {
-            u.executeRefUpdates(dryrun);
+            try {
+              u.executeRefUpdates(dryrun);
+            } catch (IOException | RestApiException e) {
+              log.error("Ref update failed for %s", u.project, e);
+              break;
+            }
           }
           listener.afterRefUpdates();
           for (BatchUpdate u : updates) {
-            u.executeChangeOps(updateChangesInParallel, dryrun);
+            if (u.refUpdated) {
+              u.executeChangeOps(updateChangesInParallel, dryrun);
+            }
           }
           listener.afterUpdateChanges();
           break;
@@ -436,7 +443,7 @@ public class BatchUpdate implements AutoCloseable {
       ChangeIndexer.allAsList(indexFutures).get();
 
       for (BatchUpdate u : updates) {
-        if (u.batchRefUpdate != null) {
+        if (u.batchRefUpdate != null && u.refUpdated) {
           // Fire ref update events only after all mutations are finished, since
           // callers may assume a patch set ref being created means the change
           // was created, or a branch advancing meaning some changes were
@@ -451,7 +458,9 @@ public class BatchUpdate implements AutoCloseable {
       }
       if (!dryrun) {
         for (BatchUpdate u : updates) {
-          u.executePostOps();
+          if (u.refUpdated) {
+            u.executePostOps();
+          }
         }
       }
     } catch (UpdateException | RestApiException e) {
@@ -505,6 +514,7 @@ public class BatchUpdate implements AutoCloseable {
   private RevWalk revWalk;
   private ChainedReceiveCommands commands;
   private BatchRefUpdate batchRefUpdate;
+  private boolean refUpdated = false;
   private boolean closeRepo;
   private Order order;
   private boolean updateChangesInParallel;
@@ -685,6 +695,8 @@ public class BatchUpdate implements AutoCloseable {
 
   private void executeRefUpdates(boolean dryrun)
       throws IOException, RestApiException {
+    refUpdated = true;
+
     if (commands == null || commands.isEmpty()) {
       logDebug("No ref updates to execute");
       return;
@@ -700,14 +712,13 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
-    boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {
-        ok = false;
+        refUpdated = false;
         break;
       }
     }
-    if (!ok) {
+    if (!refUpdated) {
       throw new RestApiException("BatchRefUpdate failed: " + batchRefUpdate);
     }
   }

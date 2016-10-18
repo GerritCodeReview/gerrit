@@ -136,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "7ca1f7a9_f0cee03f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-18T16:16:36Z",
+      "side": 1,
+      "message": "This message comes from RebaseChangeOp [1], which is used by RebaseSubmitStrategy.RebaseOneOp with rebaseAlways \u003d\u003d false when a fast-forward is not possible. If a fast-forward is possible RebaseChangeOp is not used, which is why you don\u0027t get this message for the first change.\n\nTo fix this I would suggest to add a boolean option to RebaseChangeOp that controls whether this message should be set or not. Then in case of RebaseAlways you would set this option to false.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java#157",
+      "parentUuid": "bc31af18_6284b6a3",
+      "range": {
+        "startLine": 418,
+        "startChar": 27,
+        "endLine": 418,
+        "endChar": 32
+      },
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_239b0a00",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
         "patchSetId": 5

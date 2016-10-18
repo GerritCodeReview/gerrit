@@ -99,6 +99,7 @@
     ],
 
     attached: function() {
+      this.listen(document, 'scroll', '_handleDocumentScroll');
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
         if (loggedIn) {
@@ -125,6 +126,19 @@
       }
 
       this.$.cursor.push('diffs', this.$.diff);
+    },
+
+    detached: function() {
+      this.unlisten(document, 'scroll', '_handleDocumentScroll');
+    },
+
+    _handleDocumentScroll: function(e) {
+      var scrolled = Math.round(document.scrollingElement.scrollTop);
+      if (scrolled >= 45) {
+        this.$$('header').classList.add('pin');
+      } else {
+        this.$$('header').classList.remove('pin');
+      }
     },
 
     _getLoggedIn: function() {

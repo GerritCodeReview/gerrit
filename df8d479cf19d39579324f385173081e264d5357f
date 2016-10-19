@@ -16,6 +16,24 @@
       "revId": "df8d479cf19d39579324f385173081e264d5357f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_c6c1821e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-19T07:16:33Z",
+      "side": 1,
+      "message": "I considered this, but the reason I explicitly added it here, is to not confuse with other field, that may or may not bed editable per configuration, while username should be always ediatble (if not yet set). But of course, we can move it if you prefer it that way.",
+      "parentUuid": "1c01db89_a5c67e32",
+      "revId": "df8d479cf19d39579324f385173081e264d5357f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

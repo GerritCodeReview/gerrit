@@ -968,6 +968,7 @@ npm_binary(
 
 npm_binary(
   name = "crisper",
+  repository = "GERRIT",
 )
 
 # bower_archive() seed components.

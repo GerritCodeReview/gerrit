@@ -52,6 +52,24 @@
       "revId": "b5a75e24add32664ee6be3f439835cd61ac44f02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_664d2ede",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-10-19T10:26:21Z",
+      "side": 1,
+      "message": "The Google-storage version of crisper seems more a tar.gz of someone local environment :-( contains a lot of NodeJS modules which aren\u0027t crisper :-(",
+      "parentUuid": "1c01db89_45b8ea7b",
+      "revId": "b5a75e24add32664ee6be3f439835cd61ac44f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

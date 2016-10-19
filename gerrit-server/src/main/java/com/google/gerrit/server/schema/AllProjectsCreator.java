@@ -175,6 +175,7 @@ public class AllProjectsCreator {
       meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
       grant(config, meta, Permission.READ, admin, owners);
       grant(config, meta, cr, -2, 2, admin, owners);
+      grant(config, meta, Permission.CREATE, admin, owners);
       grant(config, meta, Permission.PUSH, admin, owners);
       grant(config, meta, Permission.SUBMIT, admin, owners);
 

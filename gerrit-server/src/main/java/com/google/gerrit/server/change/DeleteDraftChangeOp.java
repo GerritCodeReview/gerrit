@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -43,7 +42,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 class DeleteDraftChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
@@ -86,11 +85,22 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
         "must use DeleteDraftChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteDraftChangeOp");
 
-    Change change = ctx.getChange();
-    id = change.getId();
+    id = ctx.getChange().getId();
+    Collection<PatchSet> patchSets = psUtil.byChange(ctx.getDb(),
+        ctx.getNotes());
 
-    ReviewDb db = unwrap(ctx.getDb());
-    if (change.getStatus() != Change.Status.DRAFT) {
+    ensureDeletable(ctx, id, patchSets);
+    deleteChangeElementsFromDb(ctx, id);
+    cleanUpReferences(ctx, id, patchSets);
+
+    ctx.deleteChange();
+    return true;
+  }
+
+  private void ensureDeletable(ChangeContext ctx, Change.Id id,
+      Collection<PatchSet> patchSets) throws ResourceConflictException,
+      MethodNotAllowedException, OrmException, AuthException {
+    if (ctx.getChange().getStatus() != Change.Status.DRAFT) {
       throw new ResourceConflictException("Change is not a draft: " + id);
     }
     if (!allowDrafts) {
@@ -99,29 +109,35 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
       throw new AuthException("Not permitted to delete this draft change");
     }
-    List<PatchSet> patchSets = ImmutableList.copyOf(
-        psUtil.byChange(ctx.getDb(), ctx.getNotes()));
     for (PatchSet ps : patchSets) {
       if (!ps.isDraft()) {
         throw new ResourceConflictException("Cannot delete draft change " + id
             + ": patch set " + ps.getPatchSetId() + " is not a draft");
       }
-      accountPatchReviewStore.get().clearReviewed(ps.getId());
     }
+  }
 
+  private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id)
+      throws OrmException {
     // Only delete from ReviewDb here; deletion from NoteDb is handled in
     // BatchUpdate.
+    ReviewDb db = unwrap(ctx.getDb());
     db.patchComments().delete(db.patchComments().byChange(id));
     db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
     db.patchSets().delete(db.patchSets().byChange(id));
     db.changeMessages().delete(db.changeMessages().byChange(id));
+  }
+
+  private void cleanUpReferences(ChangeContext ctx, Change.Id id,
+      Collection<PatchSet> patchSets) throws OrmException,
+      NoSuchChangeException {
+    for (PatchSet ps : patchSets) {
+      accountPatchReviewStore.get().clearReviewed(ps.getId());
+    }
 
     // Non-atomic operation on Accounts table; not much we can do to make it
     // atomic.
-    starredChangesUtil.unstarAll(change.getProject(), id);
-
-    ctx.deleteChange();
-    return true;
+    starredChangesUtil.unstarAll(ctx.getChange().getProject(), id);
   }
 
   @Override

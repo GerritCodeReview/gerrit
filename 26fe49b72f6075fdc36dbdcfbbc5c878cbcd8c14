@@ -16,6 +16,23 @@
       "revId": "26fe49b72f6075fdc36dbdcfbbc5c878cbcd8c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_90cbf4a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-19T21:16:03Z",
+      "side": 1,
+      "message": "This has an unfortunate side effect of caching a null UUID inside the GroupList. This is then exposed as a null entry from the getAllGroupUUIDs() method below, which callers may not be expecting (we have a custom GroupBackend which choked on this).\n\nI don\u0027t follow why this change is necessary in the first place. Do you have more context, like maybe a stack trace? After reverting this commit, I am unable to get Gerrit to return a 500 by loading a project config that is missing a group in the groups file.\n\nIf someone can explain more fully about the problem this change is fixing, I can think of a few workarounds for the null UUID problem, but as it is I want to understand the issue better before proceeding.",
+      "revId": "26fe49b72f6075fdc36dbdcfbbc5c878cbcd8c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

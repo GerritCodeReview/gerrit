@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc60231e_738e407f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRawDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T20:56:57Z",
+      "side": 1,
+      "message": "Delete extra blank line.",
+      "revId": "c34b1105092dc3bcfdd327b507d948e045db1212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_539344a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRawDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T20:56:57Z",
+      "side": 1,
+      "message": "Line too long (we try to stick to an 80 character limit).",
+      "revId": "c34b1105092dc3bcfdd327b507d948e045db1212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_b387385e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRawDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T20:56:57Z",
+      "side": 1,
+      "message": "Minimize what you put in the try block to the precise computation that might throw what you intend to catch. In this case, do you really only need a try around getDiffInfo?",
+      "revId": "c34b1105092dc3bcfdd327b507d948e045db1212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_10c0a487",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRawDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T20:56:57Z",
+      "side": 1,
+      "message": "Line too long.",
+      "revId": "c34b1105092dc3bcfdd327b507d948e045db1212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_9384bc5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRawDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T20:56:57Z",
+      "side": 1,
+      "message": "You should use a StringBuffer for non-constant string building like this.",
+      "revId": "c34b1105092dc3bcfdd327b507d948e045db1212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

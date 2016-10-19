@@ -309,6 +309,7 @@ public class AccountManager {
     }
 
     byEmailCache.evict(account.getPreferredEmail());
+    byIdCache.evict(account.getId());
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.getKey(), true);
   }

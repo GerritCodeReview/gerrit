@@ -62,6 +62,7 @@ class OAuthSession {
   private final OAuthTokenCache tokenCache;
   private OAuthServiceProvider serviceProvider;
   private OAuthUserInfo user;
+  private Account.Id accountId;
   private String redirectToken;
   private boolean linkMode;
 
@@ -80,7 +81,7 @@ class OAuthSession {
   }
 
   boolean isLoggedIn() {
-    return tokenCache.has(user);
+    return user != null;
   }
 
   boolean isOAuthFinal(HttpServletRequest request) {
@@ -101,13 +102,10 @@ class OAuthSession {
       OAuthToken token = oauth.getAccessToken(
           new OAuthVerifier(request.getParameter("code")));
       user = oauth.getUserInfo(token);
-      if (user != null && token != null) {
-        tokenCache.put(user, token);
-      }
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
-        authenticateAndRedirect(request, response);
+        authenticateAndRedirect(request, response, token);
         return true;
       }
       response.sendError(SC_UNAUTHORIZED);
@@ -128,7 +126,7 @@ class OAuthSession {
   }
 
   private void authenticateAndRedirect(HttpServletRequest req,
-      HttpServletResponse rsp) throws IOException {
+      HttpServletResponse rsp, OAuthToken token) throws IOException {
     AuthRequest areq = new AuthRequest(user.getExternalId());
     AuthResult arsp;
     try {
@@ -147,6 +145,9 @@ class OAuthSession {
       areq.setEmailAddress(user.getEmailAddress());
       areq.setDisplayName(user.getDisplayName());
       arsp = accountManager.authenticate(areq);
+
+      accountId = arsp.getAccountId();
+      tokenCache.put(accountId, token);
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -215,7 +216,10 @@ class OAuthSession {
   }
 
   void logout() {
-    tokenCache.remove(user);
+    if (accountId != null) {
+      tokenCache.remove(accountId);
+      accountId = null;
+    }
     user = null;
     redirectToken = null;
     serviceProvider = null;
@@ -247,8 +251,8 @@ class OAuthSession {
 
   @Override
   public String toString() {
-    return "OAuthSession [token=" + tokenCache.get(user) + ", user=" + user
-        + "]";
+    return "OAuthSession [token=" + tokenCache.get(accountId) + ", user="
+        + user + "]";
   }
 
   public void setServiceProvider(OAuthServiceProvider provider) {

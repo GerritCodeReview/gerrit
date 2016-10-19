@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_d30bd43e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_d386349f",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_90b7748b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -77,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_532064c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c057749_d0345c0f",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_93531c53",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -88,6 +124,24 @@
       "writtenOn": "2016-10-19T17:38:05Z",
       "side": 1,
       "message": "@Nullable String tag",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_301fa877",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_93531c53",
       "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_33116878",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_1348aca0",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_702490e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 1
@@ -122,6 +194,24 @@
       "writtenOn": "2016-10-19T17:38:05Z",
       "side": 1,
       "message": "This may be a case where we want callers of PatchSetInserter#updateChange to be able to set the tag. The default value of the tag could be UPLOADED_PATCH_SET, but callers such as ChangeEditUtil and RebaseChangeOp might want to specify a different tag.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_b0eb9836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c057749_702490e0",
       "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "7c057749_90e8143b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishDraftPatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_734da0b0",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_53522452",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
         "patchSetId": 1
@@ -156,6 +264,24 @@
       "writtenOn": "2016-10-19T17:38:05Z",
       "side": 1,
       "message": "I would prefer SET_TOPIC for consistency across tag values.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_f0e52061",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_53522452",
       "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -179,6 +305,24 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_1316ec6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c057749_50298cb6",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_b3561843",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetHashtagsOp.java",
         "patchSetId": 1
@@ -190,6 +334,24 @@
       "writtenOn": "2016-10-19T17:38:05Z",
       "side": 1,
       "message": "... and SET_HASHTAGS.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_731be097",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetHashtagsOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_b3561843",
       "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +375,24 @@
     },
     {
       "key": {
+        "uuid": "7c057749_702930a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c057749_30116878",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_f3609019",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergedByPushOp.java",
         "patchSetId": 1
@@ -224,6 +404,24 @@
       "writtenOn": "2016-10-19T17:38:05Z",
       "side": 1,
       "message": "MERGED_BY_PUSH",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_d0e29c56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_f3609019",
       "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -247,6 +445,24 @@
     },
     {
       "key": {
+        "uuid": "7c057749_b032780a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_d35d945f",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_b0043833",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
         "patchSetId": 1
@@ -258,6 +474,24 @@
       "writtenOn": "2016-10-19T17:38:05Z",
       "side": 1,
       "message": "MERGED, unless we want variations according to submit strategy.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_f30ed050",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-19T18:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c057749_b0043833",
       "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "5cec333c_3f8367ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-19T23:59:52Z",
+      "side": 1,
+      "message": "\u003e Anything that invokes `notifySplices` [1] may be sending multiple splices for the same array. I believe any `changeRecord` object will only concern one path (however many splices appear in it).\n \u003e \n \u003e [1] https://www.polymer-project.org/1.0/docs/api/Polymer.Base#method-notifySplices\n\nNoted. I had forgotten that you can manually notify splices.",
+      "parentUuid": "1c8c7b49_cdc4e9fa",
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_93e83c3b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 2
@@ -155,6 +173,24 @@
         "endLine": 535,
         "endChar": 11
       },
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0513c2_9773845b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-19T23:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_93e83c3b",
       "revId": "108caad718e7187a4795ac9085f18dd878964f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

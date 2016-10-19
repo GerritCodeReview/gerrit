@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5cb193f0_b71b88e3",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T10:49:40Z",
+      "side": 1,
+      "message": "here for example",
+      "revId": "2276a0eedd33445375796fc62dfbaf121086484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb60fe5_9a1eadd4",
         "filename": "WORKSPACE",
         "patchSetId": 3

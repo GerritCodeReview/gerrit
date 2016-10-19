@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc60231e_b3ebb836",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T18:55:33Z",
+      "side": 1,
+      "message": "Why is this a `pop`? Should this not be a loop over the `removed` array?",
+      "range": {
+        "startLine": 620,
+        "startChar": 37,
+        "endLine": 620,
+        "endChar": 43
+      },
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_d039fcee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T18:55:33Z",
+      "side": 1,
+      "message": "Why `pop()` rather than `[0]` or a loop over the splices?",
+      "range": {
+        "startLine": 634,
+        "startChar": 65,
+        "endLine": 634,
+        "endChar": 68
+      },
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_93e83c3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T18:55:33Z",
+      "side": 1,
+      "message": "What about just `done`?",
+      "range": {
+        "startLine": 533,
+        "startChar": 10,
+        "endLine": 535,
+        "endChar": 11
+      },
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_3046886f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T18:55:33Z",
+      "side": 1,
+      "message": "Optional nitpick: I think this one can remain `sinon` because there is no need to clean it up. Doesn\u0027t harm anything though.",
+      "range": {
+        "startLine": 614,
+        "startChar": 46,
+        "endLine": 614,
+        "endChar": 53
+      },
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

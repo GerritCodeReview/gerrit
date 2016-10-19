@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb60fe5_9a1eadd4",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T10:48:35Z",
+      "side": 1,
+      "message": "Does this work?  Other places in this file use an explicit URL.\n\nI was thinking it ought to be changed to use a GERRIT constant (note: without the quotes) like in the buck build.",
+      "revId": "2276a0eedd33445375796fc62dfbaf121086484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

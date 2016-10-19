@@ -16,6 +16,24 @@
       "revId": "cf0c3f5c65c2f4c0bb76d4471972b0ee2718579c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_b0fc38ca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T22:27:31Z",
+      "side": 1,
+      "message": "BACKGROUND: until this morning, I didn\u0027t know that GWT could link to the base patch using the `a##` syntax. When we needed this behavior in PG, I came up with `b##` where \"b\" means base. Likely, `a` is used in GWT to evoke the `a..b` trope in Git, in the sense that you\u0027re thinking.\n/BACKGROUND\n\nIn light of the existing format, I\u0027d like to remove the `b##` style, but it could potentially kill some links. (Mitigating factor: would only kill links manually selected by users after clicking a line in PG.)\n\nIn general, the right side of the diff is selected by the patch set in the URL, so we\u0027ll never need a `b##` format to select the right side, so we never *need* `b##` to mean the right side. Not a strong motivator for potentially killing links.",
+      "parentUuid": "7c057749_7013f03e",
+      "revId": "cf0c3f5c65c2f4c0bb76d4471972b0ee2718579c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

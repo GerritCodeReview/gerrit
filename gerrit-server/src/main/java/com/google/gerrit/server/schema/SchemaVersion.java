@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -22,7 +24,9 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 
+import java.security.ProviderException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -45,6 +49,17 @@ public abstract class SchemaVersion {
   protected SchemaVersion(final Provider<? extends SchemaVersion> prior) {
     this.prior = prior;
     this.versionNbr = guessVersion(getClass());
+
+    try {
+      int priorVersionNbr = guessVersion(prior.get().getClass());
+      checkState(versionNbr - priorVersionNbr == 1,
+          String.format(
+              "Schema %d has an unexpected prior version: %d. Expected: %d",
+              versionNbr, priorVersionNbr, versionNbr - 1));
+    } catch (ProvisionException e) {
+      // Ignored
+      // The oldest supported schema version doesn't have a prior schema.
+    }
   }
 
   public static int guessVersion(Class<?> c) {

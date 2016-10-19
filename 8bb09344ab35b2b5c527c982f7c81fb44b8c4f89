@@ -16,6 +16,24 @@
       "revId": "8bb09344ab35b2b5c527c982f7c81fb44b8c4f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_f3725001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-19T14:48:03Z",
+      "side": 1,
+      "message": "Oswald, please stop with these drive-by comments unless you have truly meaningful things to say on the technical implementation. This is just adding pedantic noise.",
+      "parentUuid": "1c01db89_2573ae08",
+      "revId": "8bb09344ab35b2b5c527c982f7c81fb44b8c4f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

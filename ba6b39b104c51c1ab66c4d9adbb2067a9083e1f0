@@ -40,6 +40,24 @@
       "revId": "ba6b39b104c51c1ab66c4d9adbb2067a9083e1f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_707770b7",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-19T19:55:48Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/#/c/88193/3/gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentHtml.soy@a87",
+      "parentUuid": "ff8dd8b6_1d421395",
+      "revId": "ba6b39b104c51c1ab66c4d9adbb2067a9083e1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

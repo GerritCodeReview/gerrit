@@ -47,7 +47,7 @@ public class Schema_128 extends SchemaVersion {
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_128(Provider<Schema_126> prior,
+  Schema_128(Provider<Schema_127> prior,
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
       @GerritPersonIdent PersonIdent serverUser) {

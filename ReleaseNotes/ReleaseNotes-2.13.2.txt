@@ -14,6 +14,17 @@ There are no schema changes from link:ReleaseNotes-2.13.1.html[2.13.1].
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4630[Issue 4630]:
 Fix server error when navigating up to change while 'Working' is displayed.
 
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4784[Issue 4784]:
+OAuth scheme: Allow to edit user name for OAuth providers that don't expose
+user names.
+
+* Account Index: Trigger indexing on user creation
++
+This prevents creation of new accounts on every logout/login sequence.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4627[Issue 4627]:
+OAuth extension point: NPE when user name is not set.
+
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4631[Issue 4631]:
 Read project watches from database.
 +

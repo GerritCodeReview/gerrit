@@ -18,9 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -46,8 +43,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -67,7 +62,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -487,7 +481,6 @@ public class BatchUpdate implements AutoCloseable {
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
 
-  private final long logThresholdNanos;
   private final Project.NameKey project;
   private final CurrentUser user;
   private final Timestamp when;
@@ -512,7 +505,6 @@ public class BatchUpdate implements AutoCloseable {
 
   @AssistedInject
   BatchUpdate(
-      @GerritServerConfig Config cfg,
       AllUsersName allUsers,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
@@ -540,11 +532,6 @@ public class BatchUpdate implements AutoCloseable {
     this.repoManager = repoManager;
     this.schemaFactory = schemaFactory;
     this.updateManagerFactory = updateManagerFactory;
-
-    this.logThresholdNanos = MILLISECONDS.toNanos(
-        ConfigUtil.getTimeUnit(
-            cfg, "change", null, "updateDebugLogThreshold",
-            SECONDS.toMillis(2), MILLISECONDS));
     this.db = db;
     this.project = project;
     this.user = user;
@@ -747,17 +734,12 @@ public class BatchUpdate implements AutoCloseable {
         logDebug("Waiting on futures for {} ops spanning {} changes",
             ops.size(), ops.keySet().size());
       }
-      // TODO(dborowitz): Timing is wrong for non-parallel updates.
-      long startNanos = System.nanoTime();
       Futures.allAsList(futures).get();
-      maybeLogSlowUpdate(startNanos, "change");
 
       if (notesMigration.commitChangeWrites()) {
-        startNanos = System.nanoTime();
         if (!dryrun) {
           executeNoteDbUpdates(tasks);
         }
-        maybeLogSlowUpdate(startNanos, "NoteDb");
       }
     } catch (ExecutionException | InterruptedException e) {
       Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
@@ -775,26 +757,6 @@ public class BatchUpdate implements AutoCloseable {
         indexFutures.add(indexer.indexAsync(project, task.id));
       }
     }
-  }
-
-  private static class SlowUpdateException extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    private SlowUpdateException(String fmt, Object... args) {
-      super(String.format(fmt, args));
-    }
-  }
-
-  private void maybeLogSlowUpdate(long startNanos, String desc) {
-    long elapsedNanos = System.nanoTime() - startNanos;
-    if (!log.isDebugEnabled() || elapsedNanos <= logThresholdNanos) {
-      return;
-    }
-    // Always log even without RequestId.
-    log.debug("Slow " + desc + " update",
-        new SlowUpdateException(
-            "Slow %s update (%d ms) to %s for %s",
-            desc, NANOSECONDS.toMillis(elapsedNanos), project, ops.keySet()));
   }
 
   private void executeNoteDbUpdates(List<ChangeTask> tasks) {

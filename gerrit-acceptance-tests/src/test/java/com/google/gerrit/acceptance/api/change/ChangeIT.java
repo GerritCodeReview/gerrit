@@ -398,7 +398,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void delete() throws Exception {
+  public void deleteDraftChange() throws Exception {
     PushOneCommit.Result r = createChange("refs/drafts/master");
     assertThat(query(r.getChangeId())).hasSize(1);
     assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
@@ -406,6 +406,93 @@ public class ChangeIT extends AbstractDaemonTest {
       .id(r.getChangeId())
       .delete();
     assertThat(query(r.getChangeId())).isEmpty();
+  }
+
+  @Test
+  public void deleteNewChange() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+
+    gApi.changes()
+        .id(changeId)
+        .delete();
+
+    assertThat(query(changeId)).isEmpty();
+  }
+
+  @Test
+  public void deleteNewChangeOfAnotherUserAsNormalUser() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("Not permitted to delete this change");
+    gApi.changes()
+        .id(changeId)
+        .delete();
+  }
+
+  @Test
+  public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
+    PushOneCommit.Result changeResult =
+        pushFactory.create(db, user.getIdent(), testRepo)
+            .to("refs/for/master");
+    changeResult.assertOkStatus();
+    String changeId = changeResult.getChangeId();
+
+    gApi.changes()
+        .id(changeId)
+        .delete();
+
+    assertThat(query(changeId)).isEmpty();
+  }
+
+  @Test
+  public void deleteAbandonedChange() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+
+    gApi.changes()
+        .id(changeId)
+        .abandon();
+
+    gApi.changes()
+        .id(changeId)
+        .delete();
+
+    assertThat(query(changeId)).isEmpty();
+  }
+
+  @Test
+  public void deleteMergedChange() throws Exception {
+    PushOneCommit.Result changeResult =
+        pushFactory.create(db, user.getIdent(), testRepo)
+            .to("refs/for/master");
+    String changeId = changeResult.getChangeId();
+
+    merge(changeResult);
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("Not permitted to delete this change");
+    gApi.changes()
+        .id(changeId)
+        .delete();
+  }
+
+  @Test
+  public void deleteMergedChangeAsAdmin() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+
+    merge(changeResult);
+
+    gApi.changes()
+        .id(changeId)
+        .delete();
+
+    assertThat(query(changeId)).isEmpty();
   }
 
   @Test

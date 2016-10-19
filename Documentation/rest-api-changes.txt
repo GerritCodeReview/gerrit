@@ -1768,12 +1768,12 @@ Publishes a draft change.
 ----
 
 [[delete-draft-change]]
-=== Delete Draft Change
+=== Delete Change
 --
 'DELETE /changes/link:#change-id[\{change-id\}]'
 --
 
-Deletes a draft change.
+Deletes a change.
 
 .Request
 ----

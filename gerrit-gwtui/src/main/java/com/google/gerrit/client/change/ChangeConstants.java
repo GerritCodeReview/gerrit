@@ -51,6 +51,6 @@ public interface ChangeConstants extends Constants {
   String abandoned();
 
   String deleteChangeEdit();
-  String deleteDraftChange();
+  String deleteChange();
   String deleteDraftRevision();
 }

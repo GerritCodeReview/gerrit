@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -40,9 +42,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
@@ -200,25 +202,24 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public Iterable<Project.NameKey> all() {
+  public SortedSet<Project.NameKey> all() {
     try {
       return list.get(ListKey.ALL);
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);
-      return Collections.emptyList();
+      return Collections.emptySortedSet();
     }
   }
 
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-    Set<AccountGroup.UUID> groups = new HashSet<>();
-    for (Project.NameKey n : all()) {
-      ProjectState p = byName.getIfPresent(n.get());
-      if (p != null) {
-        groups.addAll(p.getConfig().getAllGroupUUIDs());
-      }
-    }
-    return groups;
+    return all().stream().map(n -> byName.getIfPresent(n.get()))
+        .filter(Objects::nonNull)
+        .flatMap(p -> p.getConfig().getAllGroupUUIDs().stream())
+        // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
+        // against them just in case there is a bug or corner case.
+        .filter(id -> id != null && id.get() != null)
+        .collect(toSet());
   }
 
   @Override

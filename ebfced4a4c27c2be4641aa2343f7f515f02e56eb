@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c04df97_e60a3e93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T08:56:18Z",
+      "side": 0,
+      "message": "AccountFieldName",
+      "range": {
+        "startLine": 49,
+        "startChar": 30,
+        "endLine": 49,
+        "endChar": 39
+      },
+      "revId": "ebfced4a4c27c2be4641aa2343f7f515f02e56eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

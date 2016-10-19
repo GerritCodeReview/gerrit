@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c01db89_2573ae08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-10-19T14:15:32Z",
+      "side": 1,
+      "message": "it would have been advisable to add something like \", take 2\" to the end, and mention in the description what was different this time.",
+      "revId": "8bb09344ab35b2b5c527c982f7c81fb44b8c4f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

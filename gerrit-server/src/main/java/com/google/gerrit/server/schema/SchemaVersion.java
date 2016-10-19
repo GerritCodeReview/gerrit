@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -59,6 +60,11 @@ public abstract class SchemaVersion {
   /** @return the {@link CurrentSchemaVersion#versionNbr} this step targets. */
   public final int getVersionNbr() {
     return versionNbr;
+  }
+
+  @VisibleForTesting
+  public final SchemaVersion getPrior() {
+    return prior.get();
   }
 
   public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c04df97_26005663",
+        "filename": "tools/eclipse/gerrit_daemon.launch",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-19T09:26:58Z",
+      "side": 0,
+      "message": "Was this deletion committed unintentionally?\nSeems to be unrelated.",
+      "revId": "34dbdfcd65529d480159967734836a53bd050c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_252e0eee",
+        "filename": "tools/eclipse/gerrit_gwt_debug.launch",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-19T09:26:58Z",
+      "side": 0,
+      "message": "Was this deletion committed unintentionally?\nSeems to be unrelated.",
+      "revId": "34dbdfcd65529d480159967734836a53bd050c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

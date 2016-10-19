@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_d386349f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "Could just say something like \"all non-review messages\".",
+      "parentUuid": "3c04df97_46b8f27b",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_90b7748b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -42,6 +60,210 @@
     },
     {
       "key": {
+        "uuid": "7c057749_d0345c0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "@Nullable String tag (PostReview will pass in null for human reviews).",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_93531c53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "@Nullable String tag",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_1348aca0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "This message is created by a variety of sources that all say something like \"Uploaded patch set #...\" (ReceiveCommits, Revert, CherryPickChange). I propose naming this constant \"UPLOADED_PATCH_SET\" and naming its value accordingly.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_702490e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "This may be a case where we want callers of PatchSetInserter#updateChange to be able to set the tag. The default value of the tag could be UPLOADED_PATCH_SET, but callers such as ChangeEditUtil and RebaseChangeOp might want to specify a different tag.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_734da0b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishDraftPatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "Could this also just be UPLOADED_PATCH_SET?",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_53522452",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "I would prefer SET_TOPIC for consistency across tag values.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_50298cb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "We don\u0027t need to expose the class names where these values originate, I prefer SET_ASSIGNEE.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_b3561843",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetHashtagsOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "... and SET_HASHTAGS.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_30116878",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "MERGED",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_f3609019",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "MERGED_BY_PUSH",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_d35d945f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "I think this should be the same tag as used by ReceiveCommits.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_b0043833",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "MERGED, unless we want variations according to submit strategy.",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_90013423",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 1
@@ -53,6 +275,40 @@
       "writtenOn": "2016-10-19T17:35:01Z",
       "side": 1,
       "message": "Instead of changing data on elements, do you think changing data at this.messages would do the same?\nI hope data binding isn\u0027t broken..",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_132f0cc0",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "Could you just pass hide-automated\u003d\"[[_hideAutomated]]\" to \u003cgr-message\u003e?",
+      "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_332a08b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-19T17:38:05Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of \"automated\" or \"autogenerated\" language. I think of what we\u0027re offering here is a summary vs. fully detailed view.",
       "revId": "a231c6d8fad28f2cac95cf64a8a867b15478f3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c01db89_25d28ee7",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.2.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-19T07:15:13Z",
+      "side": 1,
+      "message": "Why \"force\" and not just \"index\"?\nAFAIK there is no force mode for indexing accounts.",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "54a44a4d4d7e08987a1380c0ff1ab24c9966ff74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

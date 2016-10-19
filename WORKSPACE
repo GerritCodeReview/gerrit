@@ -968,6 +968,7 @@ npm_binary(
 
 npm_binary(
   name = "crisper",
+  repository = 'http://gerrit-maven.storage.googleapis.com/',
 )
 
 # bower_archive() seed components.

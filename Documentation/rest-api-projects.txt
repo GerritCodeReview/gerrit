@@ -1989,6 +1989,35 @@ is returned that describes the commit.
   }
 ----
 
+[[get-included-in]]
+=== Get Included In
+~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/in'
+
+Retrieves the branches and tags in which a change is included. As result
+an link:#included-in-info[IncludedInInfo] entity is returned.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/in HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#includedininfo",
+    "branches": [
+      "master"
+    ],
+    "tags": []
+  }
+
 [[get-content-from-commit]]
 === Get Content
 --

@@ -56,7 +56,7 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "merge").to(CreateMergePatchSet.class);
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
-    get(CHANGE_KIND, "in").to(IncludedIn.class);
+    get(CHANGE_KIND, "in").to(ChangeIncludedIn.class);
     get(CHANGE_KIND, "assignee").to(GetAssignee.class);
     get(CHANGE_KIND, "past_assignees").to(GetPastAssignees.class);
     put(CHANGE_KIND, "assignee").to(PutAssignee.class);

@@ -22,6 +22,76 @@
       "revId": "45985f95dfd340ff712c6384b005545aba29bb21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_c673c25a",
+        "filename": "tools/js/bower2buck.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T03:14:35Z",
+      "side": 1,
+      "message": "This could be:\n\n from tools.js.bowerutil import hash_bower_component\n\nand then the \u0027bowerutil.\u0027 prefix is not needed at the call site.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "45985f95dfd340ff712c6384b005545aba29bb21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_e66ebe72",
+        "filename": "tools/js/bower2buck.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T03:14:35Z",
+      "side": 1,
+      "message": "\u0027js\u0027 is a subpackage of \u0027tools\u0027, i.e. there is a \u0027js\u0027 folder inside the \u0027tools\u0027 folder, and \u0027bowerutil.py\u0027 is inside that \u0027js\u0027 folder.\n\nWe can see for example by running pyflakes that bowerutil is used at line 81 but is not defined:\n\n $ pyflakes tools/js/bower2buck.py\n tools/js/bower2buck.py:29: \u0027tools.util\u0027 imported but unused\n tools/js/bower2buck.py:81: undefined name \u0027bowerutil\u0027\n\nAfter cherry-picking this commit, the \u0027undefined name\u0027 error is gone:\n\n $ pyflakes tools/js/bower2buck.py\n tools/js/bower2buck.py:29: \u0027tools.util\u0027 imported but unused\n\nFrom that we can also see that the import util is not actually used. It should be removed.",
+      "parentUuid": "9ca06ba7_91b03cc5",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 30,
+        "endChar": 13
+      },
+      "revId": "45985f95dfd340ff712c6384b005545aba29bb21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_e56eb672",
+        "filename": "tools/js/bower2buck.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T03:14:35Z",
+      "side": 1,
+      "message": "Used here but was not imported or defined anywhere.",
+      "range": {
+        "startLine": 81,
+        "startChar": 16,
+        "endLine": 81,
+        "endChar": 25
+      },
+      "revId": "45985f95dfd340ff712c6384b005545aba29bb21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

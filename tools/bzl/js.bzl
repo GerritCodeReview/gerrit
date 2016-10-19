@@ -9,7 +9,7 @@ NPM_VERSIONS = {
 
 NPM_SHA1S = {
   "bower":  'b7296c2393e0d75edaa6ca39648132dd255812b0',
-  "crisper": '7183c58cea33632fb036c91cefd1b43e390d22a2',
+  "crisper": '188a7da3d00dcf0c64eff7f253d23dacffba7197',
   'vulcanize': '679107f251c19ab7539529b1e3fdd40829e6fc63',
 }
 

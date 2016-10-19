@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c057749_f06a40c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-19T20:02:20Z",
+      "side": 1,
+      "message": "How does this manifest itself in the UI. Do you have a screenshot?",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "0a879f28081c1d025cecf4514caf5ad9b86714ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -254,7 +254,8 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
         throws EmailException, OrmException {
       ChangeMessage msg = ChangeMessagesUtil.newMessage(
           ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(),
-          "Uploaded patch set " + psId.get() + ".");
+          "Uploaded patch set " + psId.get() + ".",
+          ChangeMessagesUtil.UPLOADED_PATCH_SET);
       ReplacePatchSetSender cm =
           replacePatchSetFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(ctx.getAccountId());

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c01db89_c5abba29",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-19T09:36:43Z",
+      "side": 1,
+      "message": "Why would the SHA-1 differ from what we have for crisper in lib/js/BUCK?",
+      "revId": "b5a75e24add32664ee6be3f439835cd61ac44f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,6 +26,11 @@
  * @param projectName
  */
 {template .ChangeFooterHtml autoescape="strict" kind="html"}
+  {let $footerStyle kind="css"}
+    color: #555;
+    margin: 10px 0 0 0;
+  {/let}
+
   {if $email.changeUrl or $email.settingsUrl}
     <p>
       {if $email.changeUrl}
@@ -38,7 +43,7 @@
     </p>
   {/if}
 
-  <p style="color: #555;">
+  <p style="{$footerStyle}">
     Gerrit-MessageType: {$messageClass}<br/>
     Gerrit-Change-Id: {$changeId}<br/>
     Gerrit-PatchSet: {$patchSet.patchSetId}<br/>

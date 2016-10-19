@@ -114,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "3c605f88_068d3a14",
+        "filename": "tools/js/bower2buck.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T23:35:42Z",
+      "side": 1,
+      "message": "Fair enough.  I\u0027ll upload a change to put it back as it was.\n\nI\u0027ve seen that guide doc before but I\u0027ve only just now noticed that it recommends to use pylint.  Is there also a corresponding config file for that somewhere?  Out of the box pylint is far too noisy. I\u0027ve started using pyflakes instead.",
+      "parentUuid": "7c057749_b056f842",
+      "revId": "45985f95dfd340ff712c6384b005545aba29bb21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c01db89_e56eb672",
         "filename": "tools/js/bower2buck.py",
         "patchSetId": 2

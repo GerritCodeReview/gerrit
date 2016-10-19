@@ -22,6 +22,30 @@
       "revId": "7702e8cd742ea8753e49cb33a9f5ac050d049105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_86ccaa1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-19T14:58:56Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason why we would need it but it was contained in the original code (line 102). Should I remove it?",
+      "parentUuid": "3c04df97_a6c7a6f7",
+      "range": {
+        "startLine": 90,
+        "startChar": 40,
+        "endLine": 90,
+        "endChar": 60
+      },
+      "revId": "7702e8cd742ea8753e49cb33a9f5ac050d049105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

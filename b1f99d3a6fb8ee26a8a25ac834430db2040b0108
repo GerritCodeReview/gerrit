@@ -16,6 +16,24 @@
       "revId": "b1f99d3a6fb8ee26a8a25ac834430db2040b0108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb60fe5_fa25e91f",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T12:20:11Z",
+      "side": 1,
+      "message": "Default is 30s.  I updated the commit message.",
+      "parentUuid": "1c01db89_45dfcac0",
+      "revId": "b1f99d3a6fb8ee26a8a25ac834430db2040b0108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -83,6 +83,7 @@ To create a Gerrit release the following steps have to be done:
 .. link:#push-stable[Push the Stable Branch]
 .. link:#push-tag[Push the Release Tag]
 .. link:#upload-documentation[Upload the Documentation]
+.. link:#finalize-release-notes[Finalize Release Notes]
 .. link:#update-issues[Update the Issues]
 .. link:#announce[Announce on Mailing List]
 . link:#increase-version[Increase Gerrit Version for Current Development]
@@ -327,15 +328,6 @@ Push the new Release Tag on the plugins:
 [[upload-documentation]]
 ==== Upload the Documentation
 
-* Build the release notes:
-+
-----
-  buck build releasenotes
-----
-
-* Extract the release notes files from the zip file generated from the previous
-step: `buck-out/gen/ReleaseNotes/html/html.zip`.
-
 * Extract the documentation files from the zip file generated from
 `buck build docs`: `buck-out/gen/Documentation/searchfree/searchfree.zip`.
 
@@ -343,6 +335,16 @@ step: `buck-out/gen/ReleaseNotes/html/html.zip`.
 in the
 link:https://console.cloud.google.com/storage/browser/gerrit-documentation/?project=api-project-164060093628[
 gerrit-documentation] storage bucket.
+
+[[finalize-release-notes]]
+=== Finalize the Release Notes
+
+Upload a change on the homepage project to:
+
+* Remove 'In Development' caveat from the relevant section.
+
+* Add links to the released documentation and the .war file, and make the
+latest version bold.
 
 [[update-links]]
 ==== Update homepage links
@@ -370,7 +372,7 @@ because `Status=Submitted` is considered a closed issue.
 
 * Send an email to the mailing list to announce the release, consider
 including some or all of the following in the email:
-** A link to the release and the release notes (if a final release)
+** A link to the release and the release notes
 ** A link to the docs
 ** Describe the type of release (stable, bug fix, RC)
 ** Hash values (SHA1, SHA256, MD5) for the release WAR file.

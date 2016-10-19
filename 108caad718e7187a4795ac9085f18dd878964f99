@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "7c057749_306de8e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-19T19:57:53Z",
+      "side": 1,
+      "message": "\u003e They are different\n\nYeah, I meant in this case they achieve the same goal. I changed it though.\n\n\u003e we don\u0027t want to have to worry\n\nDone :)",
+      "parentUuid": "dc60231e_5345045e",
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_d039fcee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -78,6 +96,24 @@
         "endLine": 634,
         "endChar": 68
       },
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc60231e_d350f41e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-19T19:57:53Z",
+      "side": 1,
+      "message": "I can\u0027t envision a scenario in which indexSplices has length \u003e 1... Are Polymer\u0027s this.___ actions ever batched together? In testing, a splice with length \u003e 1 results in the removed array having length \u003e 1, whereas indexSplices.len seems to correspond to the number of times this.splice is called. \n\nThe reason I\u0027m stressing this point is because if these requests are ever batched, then I\u0027d bet that would have implications on what changeRecord.path  looks like too.",
+      "parentUuid": "7c057749_d039fcee",
       "revId": "108caad718e7187a4795ac9085f18dd878964f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

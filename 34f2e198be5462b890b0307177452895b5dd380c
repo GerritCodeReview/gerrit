@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7c057749_50934ca5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T20:47:12Z",
+      "side": 0,
+      "message": "What was the complaint was with this style?",
+      "range": {
+        "startLine": 153,
+        "startChar": 7,
+        "endLine": 155,
+        "endChar": 12
+      },
+      "revId": "34f2e198be5462b890b0307177452895b5dd380c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c04df97_e69b5e00",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 1

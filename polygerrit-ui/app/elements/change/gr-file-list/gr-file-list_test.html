@@ -150,9 +150,11 @@ limitations under the License.
         var toggleLeftDiffStub = sandbox.stub();
         // Property getter cannot be stubbed w/ sandbox due to a bug in Sinon.
         // https://github.com/sinonjs/sinon/issues/781
-        var diffsStub = sinon.stub(element, 'diffs', {get: function() {
-          return [{toggleLeftDiff: toggleLeftDiffStub}];
-        }});
+        var diffsStub = sinon.stub(element, 'diffs', {
+          get: function() {
+            return [{toggleLeftDiff: toggleLeftDiffStub}];
+          },
+        });
         MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
         assert.isTrue(toggleLeftDiffStub.calledOnce);
         diffsStub.restore();
@@ -401,7 +403,6 @@ limitations under the License.
       };
       element.selectedIndex = 0;
       flushAsynchronousOperations();
-      var select = element.$.modeSelect;
       var diffDisplay = element.diffs[0];
       element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');

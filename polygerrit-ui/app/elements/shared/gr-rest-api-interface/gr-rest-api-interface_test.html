@@ -320,6 +320,7 @@ limitations under the License.
         assert.isFalse(isLoggedIn);
         element.refreshCredentials().then(function(isRefreshed) {
           assert.isTrue(isRefreshed);
+          fetchStub.restore();
           done();
         });
       });

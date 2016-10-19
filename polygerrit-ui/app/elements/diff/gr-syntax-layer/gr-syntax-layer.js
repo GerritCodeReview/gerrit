@@ -47,7 +47,6 @@
     'text/x-yaml': 'yaml',
   };
   var ASYNC_DELAY = 10;
-  var HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
 
   var CLASS_WHITELIST = {
     'gr-diff gr-syntax gr-syntax-literal': true,
@@ -278,8 +277,8 @@
      * @param {!Object} state The processing state for the layer.
      */
     _processNextLine: function(state) {
-      var baseLine = undefined;
-      var revisionLine = undefined;
+      var baseLine;
+      var revisionLine;
 
       var section = this.diff.content[state.sectionIndex];
       if (section.ab) {

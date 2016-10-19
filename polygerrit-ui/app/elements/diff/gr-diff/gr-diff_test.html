@@ -493,6 +493,7 @@ limitations under the License.
           });
           var spy = sinon.spy(element, '_handleShowDiff');
           element.set('expanded', true);
+          assert.isTrue(spy.called);
         });
       });
     });

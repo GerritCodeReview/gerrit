@@ -173,9 +173,6 @@ limitations under the License.
         line.beforeNumber = 36;
         el.setAttribute('data-side', 'right');
 
-        var expectedStart = 6;
-        var expectedLength = line.text.length - expectedStart;
-
         element.annotate(el, line);
 
         assert.isFalse(annotateElementStub.called);

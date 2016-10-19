@@ -88,6 +88,7 @@ limitations under the License.
       assert.isTrue(element.reporter.calledWithExactly(
           'timing-report', 'UI Latency', 'bar', 1
       ));
+      nowStub.restore();
     });
 
     suite('plugins', function() {
@@ -104,6 +105,7 @@ limitations under the License.
         assert.isTrue(element.defaultReporter.calledWithExactly(
             'timing-report', 'UI Latency', 'PluginsLoaded', 42
         ));
+        nowStub.restore();
       });
 
       test('caches reports if plugins are not loaded', function() {

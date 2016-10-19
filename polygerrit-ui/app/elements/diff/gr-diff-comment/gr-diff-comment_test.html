@@ -234,10 +234,6 @@ limitations under the License.
     });
 
     test('collapsible drafts', function() {
-      element.addEventListener('reply', function(e) {
-        assert.ok(e.detail.comment);
-        done();
-      });
       assert.isTrue(element.collapsed);
       assert.isFalse(isVisible(element.$$('gr-linked-text')),
           'gr-linked-text is not visible');

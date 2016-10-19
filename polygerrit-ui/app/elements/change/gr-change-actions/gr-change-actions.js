@@ -484,7 +484,7 @@
         switch (action.__key) {
           case ChangeActions.REVERT:
             this._setLabelValuesOnRevert(obj.change_id);
-            // Fall through.
+            /* falls through */
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;

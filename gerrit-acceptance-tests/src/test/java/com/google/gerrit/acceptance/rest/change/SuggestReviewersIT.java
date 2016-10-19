@@ -287,14 +287,27 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewChange(changeId2);
 
     setApiUser(user1);
+    String changeId3 = createChangeFromApi();
     List<SuggestedReviewerInfo>  reviewers =
-        suggestReviewers(createChangeFromApi(), null, 4);
+        suggestReviewers(changeId3, null, 4);
     assertThat(
         reviewers.stream()
             .map(r -> r.account._accountId)
             .collect(Collectors.toList()))
         .containsExactly(
             reviewer1.id.get(),
+            reviewer2.id.get())
+        .inOrder();
+
+    // check that existing reviewers are filtered out
+    gApi.changes().id(changeId3).addReviewer(reviewer1.email);
+    reviewers =
+        suggestReviewers(changeId3, null, 4);
+    assertThat(
+        reviewers.stream()
+            .map(r -> r.account._accountId)
+            .collect(Collectors.toList()))
+        .containsExactly(
             reviewer2.id.get())
         .inOrder();
   }

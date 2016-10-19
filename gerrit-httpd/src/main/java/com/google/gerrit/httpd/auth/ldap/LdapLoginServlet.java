@@ -131,7 +131,7 @@ class LdapLoginServlet extends HttpServlet {
       return;
     } catch (AccountException e) {
       log.info(String.format("'%s' failed to sign in: %s", username, e.getMessage()));
-      sendForm(req, res, "Invalid username or password.");
+      sendForm(req, res, e.getMessage());
       return;
     } catch (RuntimeException e) {
       log.error("LDAP authentication failed", e);

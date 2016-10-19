@@ -20,16 +20,10 @@ import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -44,36 +38,25 @@ import java.util.Collection;
 import java.util.Map;
 
 @Singleton
-class IncludedIn implements RestReadView<ChangeResource> {
-
-  private final Provider<ReviewDb> db;
+public class IncludedIn {
   private final GitRepositoryManager repoManager;
-  private final PatchSetUtil psUtil;
-  private final DynamicSet<ExternalIncludedIn> includedIn;
+  private final DynamicSet<ExternalIncludedIn> externalIncludedIn;
 
   @Inject
-  IncludedIn(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager,
-      PatchSetUtil psUtil,
-      DynamicSet<ExternalIncludedIn> includedIn) {
-    this.db = db;
+  IncludedIn(GitRepositoryManager repoManager,
+      DynamicSet<ExternalIncludedIn> externalIncludedIn) {
     this.repoManager = repoManager;
-    this.psUtil = psUtil;
-    this.includedIn = includedIn;
+    this.externalIncludedIn = externalIncludedIn;
   }
 
-  @Override
-  public IncludedInInfo apply(ChangeResource rsrc) throws BadRequestException,
-      ResourceConflictException, OrmException, IOException {
-    ChangeControl ctl = rsrc.getControl();
-    PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
-    Project.NameKey project = ctl.getProject().getNameKey();
+  public IncludedInInfo apply(Project.NameKey project, String objectId)
+      throws RestApiException, IOException {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       rw.setRetainBody(false);
       RevCommit rev;
       try {
-        rev = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+        rev = rw.parseCommit(ObjectId.fromString(objectId));
       } catch (IncorrectObjectTypeException err) {
         throw new BadRequestException(err.getMessage());
       } catch (MissingObjectException err) {
@@ -83,7 +66,7 @@ class IncludedIn implements RestReadView<ChangeResource> {
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
       Multimap<String, String> external =
           MultimapBuilder.hashKeys().arrayListValues().build();
-      for (ExternalIncludedIn ext : includedIn) {
+      for (ExternalIncludedIn ext : externalIncludedIn) {
         Multimap<String, String> extIncludedIns = ext.getIncludedIn(
             project.get(), rev.name(), d.getTags(), d.getBranches());
         if (extIncludedIns != null) {
@@ -95,12 +78,13 @@ class IncludedIn implements RestReadView<ChangeResource> {
     }
   }
 
-  static class IncludedInInfo {
+  public static class IncludedInInfo {
     Collection<String> branches;
     Collection<String> tags;
     Map<String, Collection<String>> external;
 
-    IncludedInInfo(IncludedInResolver.Result in, Map<String, Collection<String>> e) {
+    IncludedInInfo(IncludedInResolver.Result in,
+        Map<String, Collection<String>> e) {
       branches = in.getBranches();
       tags = in.getTags();
       external = e;

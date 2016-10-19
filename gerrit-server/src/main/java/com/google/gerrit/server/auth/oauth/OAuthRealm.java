@@ -44,6 +44,9 @@ public class OAuthRealm extends AbstractRealm {
       @GerritServerConfig Config config) {
     this.loginProviders = loginProviders;
     this.editableAccountFields = new HashSet<>();
+    // User name should be always editable, because not all OAuth providers
+    // expose them
+    editableAccountFields.add(FieldName.USER_NAME);
     if (config.getBoolean("oauth", null, "allowEditFullName", false)) {
       editableAccountFields.add(AccountFieldName.FULL_NAME);
     }

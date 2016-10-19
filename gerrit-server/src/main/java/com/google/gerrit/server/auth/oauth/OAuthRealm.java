@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.auth.oauth;
 
+import static com.google.gerrit.extensions.client.AccountFieldName.USER_NAME;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -53,8 +55,8 @@ public class OAuthRealm extends AbstractRealm {
   }
 
   @Override
-  public boolean allowsEdit(FieldName field) {
-    return editableAccountFields.contains(field);
+  public boolean allowsEdit(AccountFieldName field) {
+    return field == USER_NAME || editableAccountFields.contains(field);
   }
 
   /**

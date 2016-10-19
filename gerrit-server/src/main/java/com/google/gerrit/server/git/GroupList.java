@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,10 +27,11 @@ import java.util.Set;
 
 public class GroupList extends TabFile {
   public static final String FILE_NAME = "groups";
+
   private final Map<AccountGroup.UUID, GroupReference> byUUID;
 
   private GroupList(Map<AccountGroup.UUID, GroupReference> byUUID) {
-        this.byUUID = byUUID;
+    this.byUUID = byUUID;
   }
 
   public static GroupList parse(String text, ValidationError.Sink errors)
@@ -56,6 +56,13 @@ public class GroupList extends TabFile {
 
   public GroupReference resolve(GroupReference group) {
     if (group != null) {
+      if (group.getUUID() == null || group.getUUID().get() == null) {
+        // A GroupReference from ProjectConfig that refers to a group not found
+        // in this file will have a null UUID. Since there may be multiple
+        // different missing references, it's not appropriate to cache the
+        // results, nor return null the set from #uuids.
+        return group;
+      }
       GroupReference ref = byUUID.get(group.getUUID());
       if (ref != null) {
         return ref;
@@ -73,7 +80,10 @@ public class GroupList extends TabFile {
     return byUUID.keySet();
   }
 
-  public void put(UUID uuid, GroupReference reference) {
+  public void put(AccountGroup.UUID uuid, GroupReference reference) {
+    if (uuid == null || uuid.get() == null) {
+      return; // See note in #resolve above.
+    }
     byUUID.put(uuid, reference);
   }
 

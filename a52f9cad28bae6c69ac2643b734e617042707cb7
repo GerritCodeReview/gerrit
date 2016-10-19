@@ -93,6 +93,30 @@
       "revId": "a52f9cad28bae6c69ac2643b734e617042707cb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_851942f0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.2.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-19T07:17:17Z",
+      "side": 1,
+      "message": "Ah okay, a new account was created on each login, because the existing account was not found since it was missing in the index. Got it.",
+      "parentUuid": "1c01db89_65d88609",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 70
+      },
+      "revId": "a52f9cad28bae6c69ac2643b734e617042707cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

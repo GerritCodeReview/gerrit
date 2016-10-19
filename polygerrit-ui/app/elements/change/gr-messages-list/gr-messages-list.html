@@ -43,9 +43,17 @@ limitations under the License.
     </style>
     <div class="header">
       <h3>Messages</h3>
-      <gr-button link on-tap="_handleExpandCollapseTap">
-        [[_computeExpandCollapseMessage(_expanded)]]
-      </gr-button>
+      <div>
+        <gr-button id="collapse-messages" link
+            on-tap="_handleExpandCollapseTap">
+          [[_computeExpandCollapseMessage(_expanded)]]
+        </gr-button>
+        <gr-button id="hide-automated-messages" link
+            on-tap="_handleShowHideAutomatedTap"
+            hidden$="[[_hasNoAutomatedMessages(messages)]]">
+          [[_computeHideShowAutomatedMessages(_hideAutomated)]]
+        </gr-button>
+      </div>
     </div>
     <template
         is="dom-repeat"
@@ -55,6 +63,7 @@ limitations under the License.
           change-num="[[changeNum]]"
           message="[[message]]"
           comments="[[_computeCommentsForMessage(comments, message)]]"
+          hide-automated="[[_hideAutomated]]"
           project-config="[[projectConfig]]"
           show-reply-button="[[showReplyButtons]]"
           on-scroll-to="_handleScrollTo"

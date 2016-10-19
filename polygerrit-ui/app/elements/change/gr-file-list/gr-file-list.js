@@ -554,8 +554,8 @@
       e.target.blur();
     },
 
-    _computeShowFileListActions: function(numFilesShown) {
-      return numFilesShown <= this._maxFilesForBulkActions;
+    _fileListActionsVisible: function(numFilesShown, maxFilesForBulkActions) {
+      return numFilesShown <= maxFilesForBulkActions;
     },
   });
 })();

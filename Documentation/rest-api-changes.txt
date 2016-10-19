@@ -3472,7 +3472,7 @@ will suggest the browser save the patch as `commitsha1.diff.base64`,
 for later processing by command line tools.
 
 [[submit-preview]]
-===Submit Preview
+=== Submit Preview
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/preview_submit'
 --

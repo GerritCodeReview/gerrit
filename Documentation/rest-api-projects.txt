@@ -1989,6 +1989,35 @@ is returned that describes the commit.
   }
 ----
 
+[[get-included-in]]
+=== Get Included In
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/in'
+--
+
+Retrieves the branches and tags in which a change is included. As result
+an link:rest-api-changes.html#included-in-info[IncludedInInfo] entity is returned.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/in HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "branches": [
+      "master"
+    ],
+    "tags": []
+  }
+----
+
 [[get-content-from-commit]]
 === Get Content
 --

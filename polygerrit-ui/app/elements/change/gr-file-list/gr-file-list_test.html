@@ -442,7 +442,7 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      var computeSpy = sandbox.spy(element, '_computeShowFileListActions');
+      var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
       element.selectedIndex = 0;
       element._numFilesShown = 1;
       flush(function() {

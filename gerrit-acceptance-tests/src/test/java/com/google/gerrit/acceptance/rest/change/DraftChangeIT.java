@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -28,34 +29,27 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 public class DraftChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config allowDraftsDisabled() {
     return allowDraftsDisabledConfig();
-  }
-
-  @Test
-  public void deleteChange() throws Exception {
-    PushOneCommit.Result result = createChange();
-    result.assertOkStatus();
-    String changeId = result.getChangeId();
-    String triplet = project.get() + "~master~" + changeId;
-    ChangeInfo c = get(triplet);
-    assertThat(c.id).isEqualTo(triplet);
-    assertThat(c.status).isEqualTo(ChangeStatus.NEW);
-    RestResponse response = deleteChange(changeId, adminRestSession);
-    assertThat(response.getEntityContent())
-        .isEqualTo("Change is not a draft: " + c._number);
-    response.assertConflict();
   }
 
   @Test
@@ -72,6 +66,62 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
     exception.expect(ResourceNotFoundException.class);
     get(triplet);
+  }
+
+  @Test
+  public void deleteDraftChangeOfAnotherUser() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+    PushOneCommit.Result changeResult = createDraftChange();
+    changeResult.assertOkStatus();
+    String changeId = changeResult.getChangeId();
+
+    // The user needs to be able to see the draft change (which reviewers can).
+    gApi.changes()
+        .id(changeId)
+        .addReviewer(user.fullName);
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("Not permitted to delete this change");
+    gApi.changes()
+        .id(changeId)
+        .delete();
+  }
+
+  @Test
+  public void deleteDraftChangeWhenDraftsNotAllowed() throws Exception {
+    assume().that(isAllowDrafts()).isFalse();
+
+    // We can't create a draft change while the draft workflow is disabled.
+    // For this reason, we create a normal change and modify the database.
+    PushOneCommit.Result changeResult = createChange();
+    Change.Id id = changeResult.getChange().getId();
+    markChangeAsDraft(id);
+    setDraftStatusOfPatchSetsOfChange(id, true);
+
+    String changeId = changeResult.getChangeId();
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("Draft workflow is disabled");
+    gApi.changes()
+        .id(changeId)
+        .delete();
+  }
+
+  @Test
+  public void deleteDraftChangeWithNonDraftPatchSet() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+
+    PushOneCommit.Result changeResult = createDraftChange();
+    Change.Id id = changeResult.getChange().getId();
+    setDraftStatusOfPatchSetsOfChange(id, false);
+
+    String changeId = changeResult.getChangeId();
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Cannot delete draft change 1: patch set 1 is not"
+        + " a draft");
+    gApi.changes()
+        .id(changeId)
+        .delete();
   }
 
   @Test
@@ -159,5 +209,25 @@ public class DraftChangeIT extends AbstractDaemonTest {
         + "/revisions/"
         + patchSet.getRevision().get()
         + "/publish");
+  }
+
+  private void markChangeAsDraft(Change.Id id) throws OrmException,
+      RestApiException {
+    Change change = db.changes().get(id);
+    change.setStatus(Change.Status.DRAFT);
+    db.changes().update(Collections.singletonList(change));
+
+    ChangeStatus changeStatus = gApi.changes()
+        .id(id.get())
+        .get()
+        .status;
+    assertThat(changeStatus).isEqualTo(ChangeStatus.DRAFT);
+  }
+
+  private void setDraftStatusOfPatchSetsOfChange(Change.Id id,
+      boolean draftStatus) throws OrmException {
+    Set<PatchSet> patchSets = ImmutableSet.copyOf(db.patchSets().byChange(id));
+    patchSets.forEach(patchSet -> patchSet.setDraft(draftStatus));
+    db.patchSets().update(patchSets);
   }
 }

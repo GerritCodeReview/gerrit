@@ -495,15 +495,13 @@ public class ChangeScreen extends Screen {
   }
 
   private void initChangeAction(ChangeInfo info) {
-    if (info.status() == Status.DRAFT) {
-      NativeMap<ActionInfo> actions = info.hasActions()
-          ? info.actions()
-          : NativeMap.<ActionInfo> create();
-      actions.copyKeysIntoChildren("id");
-      if (actions.containsKey("/")) {
-        deleteChange.setVisible(true);
-        deleteChange.setTitle(actions.get("/").title());
-      }
+    NativeMap<ActionInfo> actions = info.hasActions()
+        ? info.actions()
+        : NativeMap.create();
+    actions.copyKeysIntoChildren("id");
+    if (actions.containsKey("/")) {
+      deleteChange.setVisible(true);
+      deleteChange.setTitle(actions.get("/").title());
     }
   }
 
@@ -679,7 +677,7 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("deleteChange")
   void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteDraftChange())) {
+    if (Window.confirm(Resources.C.deleteChange())) {
       DraftActions.delete(changeId, publish, deleteRevision, deleteChange);
     }
   }

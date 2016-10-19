@@ -1767,13 +1767,13 @@ Publishes a draft change.
   HTTP/1.1 204 No Content
 ----
 
-[[delete-draft-change]]
-=== Delete Draft Change
+[[delete-change]]
+=== Delete Change
 --
 'DELETE /changes/link:#change-id[\{change-id\}]'
 --
 
-Deletes a draft change.
+Deletes a change.
 
 .Request
 ----

@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "1c8c7b49_cdc4e9fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T23:05:15Z",
+      "side": 1,
+      "message": "Anything that invokes `notifySplices` [1] may be sending multiple splices for the same array. I believe any `changeRecord` object will only concern one path (however many splices appear in it).\n\n[1] https://www.polymer-project.org/1.0/docs/api/Polymer.Base#method-notifySplices",
+      "parentUuid": "dc60231e_d350f41e",
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_93e83c3b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 2

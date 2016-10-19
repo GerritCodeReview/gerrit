@@ -28,7 +28,7 @@
     RIGHT: 'right',
   };
 
-  var HASH_PATTERN = /^b?\d+$/;
+  var HASH_PATTERN = /^[ab]?\d+$/;
 
   Polymer({
     is: 'gr-diff-view',
@@ -366,7 +366,7 @@
     _loadHash: function(hash) {
       var hash = hash.replace(/^#/, '');
       if (!HASH_PATTERN.test(hash)) { return; }
-      if (hash[0] === 'b') {
+      if (hash[0] === 'a' || hash[0] === 'b') {
         this.$.cursor.side = DiffSides.LEFT;
         hash = hash.substring(1);
       } else {

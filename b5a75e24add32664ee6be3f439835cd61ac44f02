@@ -16,6 +16,24 @@
       "revId": "b5a75e24add32664ee6be3f439835cd61ac44f02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_c65d0295",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-10-19T10:08:48Z",
+      "side": 1,
+      "message": "BUCK downloads the crisper tar.gz from the GERRIT repo, which is possibly an \"in-house\" build. Bazel takes it from the official one:\nhttp://registry.npmjs.org/crisper\n\nWould possibly make sense to fix the BUCK one as well, unless it was made \u0027on-purpose\u0027 with some custom modifications.",
+      "parentUuid": "1c01db89_c5abba29",
+      "revId": "b5a75e24add32664ee6be3f439835cd61ac44f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

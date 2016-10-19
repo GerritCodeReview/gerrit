@@ -2,18 +2,18 @@
 
 [[s2_13]]
 == Version 2.13.x
-* link:ReleaseNotes-2.13.2.html[2.13.2]
-* link:ReleaseNotes-2.13.1.html[2.13.1]
-* link:ReleaseNotes-2.13.html[2.13]
+* link:https://www.gerritcodereview.com/releases/2.13.md#2.13.2[2.13.2]
+* link:https://www.gerritcodereview.com/releases/2.13.md#2.13.1[2.13.1]
+* link:https://www.gerritcodereview.com/releases/2.13.md[2.13]
 
 [[s2_12]]
 == Version 2.12.x
-* link:ReleaseNotes-2.12.5.html[2.12.5]
-* link:ReleaseNotes-2.12.4.html[2.12.4]
-* link:ReleaseNotes-2.12.3.html[2.12.3]
-* link:ReleaseNotes-2.12.2.html[2.12.2]
-* link:ReleaseNotes-2.12.1.html[2.12.1]
-* link:ReleaseNotes-2.12.html[2.12]
+* link:https://www.gerritcodereview.com/releases/2.12.md#2.12.5[2.12.5]
+* link:https://www.gerritcodereview.com/releases/2.12.md#2.12.4[2.12.4]
+* link:https://www.gerritcodereview.com/releases/2.12.md#2.12.3[2.12.3]
+* link:https://www.gerritcodereview.com/releases/2.12.md#2.12.2[2.12.2]
+* link:https://www.gerritcodereview.com/releases/2.12.md#2.12.1[2.12.1]
+* link:https://www.gerritcodereview.com/releases/2.12.md[2.12]
 
 [[s2_11]]
 == Version 2.11.x

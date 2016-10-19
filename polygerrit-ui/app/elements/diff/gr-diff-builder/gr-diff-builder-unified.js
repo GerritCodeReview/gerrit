@@ -62,7 +62,6 @@
   GrDiffBuilderUnified.prototype._getNextContentOnSide = function(
       content, side) {
     var tr = content.parentElement.parentElement;
-    var content;
     while (tr = tr.nextSibling) {
       if (tr.classList.contains('both') || (
           (side === 'left' && tr.classList.contains('remove')) ||

@@ -396,12 +396,12 @@
           this.patchRange.patchNum,
           this.path,
           this._handleGetDiffError.bind(this)).then(function(diff) {
-               this.filesWeblinks = {
-                 meta_a: diff && diff.meta_a && diff.meta_a.web_links,
-                 meta_b: diff && diff.meta_b && diff.meta_b.web_links,
-               };
-               return diff;
-             }.bind(this));
+            this.filesWeblinks = {
+              meta_a: diff && diff.meta_a && diff.meta_a.web_links,
+              meta_b: diff && diff.meta_b && diff.meta_b.web_links,
+            };
+            return diff;
+          }.bind(this));
     },
 
     _getDiffComments: function() {

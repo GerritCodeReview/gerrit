@@ -311,7 +311,7 @@ limitations under the License.
           text: function() { return Promise.resolve(')]}\'{}'); }
         },
       ];
-      var fetchStub = sandbox.stub(window, 'fetch', function(url) {
+      sandbox.stub(window, 'fetch', function(url) {
         if (url === '/accounts/self/detail') {
           return Promise.resolve(responses.shift());
         }

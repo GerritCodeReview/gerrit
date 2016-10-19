@@ -515,14 +515,14 @@ limitations under the License.
         patchNum: 2,
       };
       element._change = {
-          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-          revisions: {
-            rev1: {_number: 1},
-          },
-          current_revision: 'rev1',
-          status: element.ChangeStatus.MERGED,
-          labels: {},
-          actions: {},
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: element.ChangeStatus.MERGED,
+        labels: {},
+        actions: {},
       };
 
       var urlParamStub = sandbox.stub(element, '_getUrlParameter',
@@ -540,6 +540,7 @@ limitations under the License.
     suite('scroll related tests', function() {
       test('document scrolling calls function to set scroll height',
           function(done) {
+            var originalHeight = document.body.scrollHeight;
             var scrollStub = sandbox.stub(element, '_handleScroll',
                 function() {
                   assert.isTrue(scrollStub.called);
@@ -547,7 +548,6 @@ limitations under the License.
                       originalHeight + 'px';
                   done();
                 });
-            var originalHeight = document.body.scrollHeight;
             document.body.style.height = '10000px';
             document.body.scrollTop = TEST_SCROLL_TOP_PX;
             element._handleScroll();

@@ -105,7 +105,6 @@
     },
 
     additions: function() {
-      var result = [];
       return this.accounts.filter(function(account) {
         return account._pendingAdd;
       }).map(function(account) {
@@ -115,7 +114,6 @@
           return {account: account};
         }
       });
-      return result;
     },
   });
 })();

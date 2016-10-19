@@ -164,7 +164,7 @@
             return accounts.map(function(acct) {
               return predicate + ':"' + acct.name + ' <' + acct.email + '>"';
             });
-      });
+          });
     },
 
     /**

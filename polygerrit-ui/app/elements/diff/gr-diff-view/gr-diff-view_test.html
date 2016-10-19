@@ -489,6 +489,7 @@ limitations under the License.
       resolvePrefs({diff_view: 'UNIFIED'});
       flushAsynchronousOperations();
       assert.equal(select.value, 'SIDE_BY_SIDE');
+      getPreferencesStub.restore();
     });
 
     test('unified view is always default on small screens', function() {
@@ -522,6 +523,7 @@ limitations under the License.
 
       // On small screens, unified should override user perferences
       assert.equal(select.value, 'UNIFIED_DIFF');
+      getPreferencesStub.restore();
     });
 
     test('_loadHash', function() {

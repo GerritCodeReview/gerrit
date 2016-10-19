@@ -74,7 +74,7 @@ limitations under the License.
     });
 
     test('time and timeEnd', function() {
-      var nowStub = sinon.stub(element, 'now').returns(0);
+      var nowStub = sandbox.stub(element, 'now').returns(0);
       element.time('foo');
       nowStub.returns(1);
       element.time('bar');
@@ -99,7 +99,7 @@ limitations under the License.
 
       test('pluginsLoaded reports time', function() {
         Gerrit._arePluginsLoaded.returns(true);
-        var nowStub = sinon.stub(element, 'now').returns(42);
+        sandbox.stub(element, 'now').returns(42);
         element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.calledWithExactly(
             'timing-report', 'UI Latency', 'PluginsLoaded', 42

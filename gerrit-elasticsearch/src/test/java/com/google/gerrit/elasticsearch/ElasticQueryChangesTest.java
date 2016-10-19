@@ -87,6 +87,7 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
         .put("path.data", elasticDirPath.resolve("data").toAbsolutePath())
         .put("path.work", elasticDirPath.resolve("work").toAbsolutePath())
         .put("path.logs", elasticDirPath.resolve("logs").toAbsolutePath())
+        .put("transport.tcp.connect_timeout", "60s")
         .build();
 
     // Start the node

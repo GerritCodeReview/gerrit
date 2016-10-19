@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "7c057749_9056541a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-19T19:37:02Z",
+      "side": 1,
+      "message": "No real reason, just two ways to do the same thing.\n\nI don\u0027t believe a circumstance will ever arise under the current methodology where this array or the one below has length \u003e 1. I can make them both loops if you think that\u0027s the smart choice for the long term in case something changes, though.",
+      "parentUuid": "dc60231e_b3ebb836",
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_d039fcee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2

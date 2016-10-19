@@ -540,6 +540,11 @@ limitations under the License.
       element._loadHash('b345');
       assert.equal(element.$.cursor.initialLineNumber, 345);
       assert.equal(element.$.cursor.side, 'left');
+
+      // GWT-style base hash:
+      element._loadHash('a123');
+      assert.equal(element.$.cursor.initialLineNumber, 123);
+      assert.equal(element.$.cursor.side, 'left');
     });
 
     test('_checkForModifiers', function() {

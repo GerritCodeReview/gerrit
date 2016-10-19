@@ -33,6 +33,24 @@
       "revId": "2276a0eedd33445375796fc62dfbaf121086484c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_e63fde1f",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-10-19T10:51:08Z",
+      "side": 1,
+      "message": "Yes, it works because in tools/bzl/js.bzl is written:\n\nNPMJS \u003d \"NPMJS\"\nGERRIT \u003d \"GERRIT\"\n\n  if repository \u003d\u003d GERRIT:\n    url \u003d \u0027http://gerrit-maven.storage.googleapis.com/npm-packages/%s\u0027 % filename\n  elif repository \u003d\u003d NPMJS:\n    url \u003d \u0027http://registry.npmjs.org/%s/-/%s\u0027 % (name, filename)\n  else:\n    fail(\u0027repository %s not in {%s,%s}\u0027 % (repository, GERRIT, NPMJS))",
+      "parentUuid": "bcb60fe5_9a1eadd4",
+      "revId": "2276a0eedd33445375796fc62dfbaf121086484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

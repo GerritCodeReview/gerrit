@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import os
-from os import path
 
 
 def hash_bower_component(hash_obj, path):

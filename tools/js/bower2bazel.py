@@ -20,13 +20,11 @@ python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl -b lib/js/bower_comp
 
 from __future__ import print_function
 
-import atexit
 import collections
 import json
 import hashlib
 import optparse
 import os
-import shutil
 import subprocess
 import sys
 import tempfile

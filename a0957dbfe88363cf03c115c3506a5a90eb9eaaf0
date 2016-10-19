@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c605f88_e69a5e4c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1945,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T23:43:59Z",
+      "side": 1,
+      "message": "Should be `\u003d\u003d\u003d` prefix on line 1944.",
+      "range": {
+        "startLine": 1945,
+        "startChar": 0,
+        "endLine": 1945,
+        "endChar": 15
+      },
+      "revId": "a0957dbfe88363cf03c115c3506a5a90eb9eaaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c605f88_c695e21c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T23:43:59Z",
+      "side": 1,
+      "message": "commit",
+      "range": {
+        "startLine": 1949,
+        "startChar": 43,
+        "endLine": 1949,
+        "endChar": 49
+      },
+      "revId": "a0957dbfe88363cf03c115c3506a5a90eb9eaaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c605f88_868fea08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeIncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T23:43:59Z",
+      "side": 1,
+      "message": "These can be replaced with RestApiException",
+      "range": {
+        "startLine": 48,
+        "startChar": 69,
+        "endLine": 49,
+        "endChar": 31
+      },
+      "revId": "a0957dbfe88363cf03c115c3506a5a90eb9eaaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c605f88_a694661d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T23:43:59Z",
+      "side": 1,
+      "message": "nit: wrap long line.  these can also be squashed to RestApiException",
+      "range": {
+        "startLine": 51,
+        "startChar": 79,
+        "endLine": 52,
+        "endChar": 31
+      },
+      "revId": "a0957dbfe88363cf03c115c3506a5a90eb9eaaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc55e7ac_248ab2fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T23:43:59Z",
+      "side": 1,
+      "message": "This should probably be moved to the extension API.  Not necessarily in this change.",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "a0957dbfe88363cf03c115c3506a5a90eb9eaaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc55e7ac_c495de1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitIncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T23:43:59Z",
+      "side": 1,
+      "message": "RestApiException",
+      "range": {
+        "startLine": 40,
+        "startChar": 68,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "a0957dbfe88363cf03c115c3506a5a90eb9eaaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

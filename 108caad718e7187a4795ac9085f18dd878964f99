@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "dc60231e_5345045e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-19T19:45:19Z",
+      "side": 1,
+      "message": "\u003e two ways to do the same thing\n\nThey are different: `Array#pop` mutates the array, whereas looping or using `[0]` does not.\n\n\u003e for the long term in case something changes\n\nYeah, if we change something, we don\u0027t want to have to worry about whether the internals supported all the shapes that a splice can take.",
+      "parentUuid": "7c057749_9056541a",
+      "revId": "108caad718e7187a4795ac9085f18dd878964f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c057749_d039fcee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2

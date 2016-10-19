@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb60fe5_3af76171",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T13:40:34Z",
+      "side": 1,
+      "message": "I would expect this to fail with \"405 method not allowed\" (or maybe \"409 conflict\"?)",
+      "range": {
+        "startLine": 477,
+        "startChar": 4,
+        "endLine": 478,
+        "endChar": 67
+      },
+      "revId": "b43e63d6485ceaccd426a38beddb3455a7fe2949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cb193f0_d7ff1c42",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T13:40:34Z",
+      "side": 1,
+      "message": "Should we really allow to delete merged changes?  I thought the use case for this feature was accidentally uploading a change for review and then deleting it while it\u0027s still under review.\n\nI can\u0027t imagine that deleting a change also causes the associated commit to be removed from the repo, and if that\u0027s the case there\u0027s not much point removing the change other than to make it less publicly visible.\n\nIf it DOES delete the commit, that needs to be tested here.",
+      "range": {
+        "startLine": 484,
+        "startChar": 2,
+        "endLine": 496,
+        "endChar": 3
+      },
+      "revId": "b43e63d6485ceaccd426a38beddb3455a7fe2949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb60fe5_5aec15a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-19T13:40:34Z",
+      "side": 1,
+      "message": "In this context is this the change owner, or \"project owner\".  In the latter case the permission scope might be wider than expected.",
+      "range": {
+        "startLine": 276,
+        "startChar": 15,
+        "endLine": 276,
+        "endChar": 22
+      },
+      "revId": "b43e63d6485ceaccd426a38beddb3455a7fe2949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "revId": "26fe49b72f6075fdc36dbdcfbbc5c878cbcd8c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c057749_d0d57c46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-19T21:26:04Z",
+      "side": 1,
+      "message": "Regardless of whether there is a bug that this change is intended to fix, the behavior of GroupList#resolve is definitely wrong. The resolve method takes a UUID and returns the cached GroupReference corresponding to that UUID. If you pass it a group with a null UUID, it will incorrectly collapse all null UUID groups together into a single GroupReference even though they may have different names.",
+      "parentUuid": "7c057749_90cbf4a9",
+      "revId": "26fe49b72f6075fdc36dbdcfbbc5c878cbcd8c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

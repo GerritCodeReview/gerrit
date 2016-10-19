@@ -59,19 +59,19 @@
   </p>
   <hr/>
 
-  <pre>
+  <pre style="font-size:12px">
     {$email.changeDetail}
   </pre>
 
   {if $email.sshHost}
-    <pre>
+    <pre style="font-size:12px">
       git pull ssh:{print '//'}{$email.sshHost}/{$projectName}
           {sp}{$patchSet.refName}
     </pre>
   {/if}
 
   {if $email.includeDiff}
-    <pre>
+    <pre style="font-size:12px">
       {$email.unifiedDiff}
     </pre>
   {/if}

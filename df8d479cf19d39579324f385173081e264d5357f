@@ -16,6 +16,24 @@
       "revId": "df8d479cf19d39579324f385173081e264d5357f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_05b8b2a8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-19T07:06:33Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "1c01db89_85cb823c",
+      "revId": "df8d479cf19d39579324f385173081e264d5357f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

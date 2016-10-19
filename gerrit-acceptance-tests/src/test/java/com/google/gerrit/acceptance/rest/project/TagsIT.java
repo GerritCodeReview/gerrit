@@ -337,12 +337,6 @@ public class TagsIT extends AbstractDaemonTest {
     }
   }
 
-  private void grantTagPermissions() throws Exception {
-    grant(Permission.CREATE, project, R_TAGS + "*");
-    grant(Permission.CREATE_TAG, project, R_TAGS + "*");
-    grant(Permission.CREATE_SIGNED_TAG, project, R_TAGS + "*");
-  }
-
   private ListRefsRequest<TagInfo> getTags() throws Exception {
     return gApi.projects().name(project.get()).tags();
   }

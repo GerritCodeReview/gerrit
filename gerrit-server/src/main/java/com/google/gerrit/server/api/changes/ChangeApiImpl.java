@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
+import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
@@ -41,6 +42,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
+import com.google.gerrit.server.change.ChangeIncludedIn;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Check;
@@ -102,6 +104,7 @@ class ChangeApiImpl implements ChangeApi {
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
+  private final ChangeIncludedIn includedIn;
   private final PostReviewers postReviewers;
   private final ChangeJson.Factory changeJson;
   private final PostHashtags postHashtags;
@@ -134,6 +137,7 @@ class ChangeApiImpl implements ChangeApi {
       DeleteChange deleteChange,
       GetTopic getTopic,
       PutTopic putTopic,
+      ChangeIncludedIn includedIn,
       PostReviewers postReviewers,
       ChangeJson.Factory changeJson,
       PostHashtags postHashtags,
@@ -165,6 +169,7 @@ class ChangeApiImpl implements ChangeApi {
     this.deleteChange = deleteChange;
     this.getTopic = getTopic;
     this.putTopic = putTopic;
+    this.includedIn = includedIn;
     this.postReviewers = postReviewers;
     this.changeJson = changeJson;
     this.postHashtags = postHashtags;
@@ -346,6 +351,15 @@ class ChangeApiImpl implements ChangeApi {
       putTopic.apply(change, in);
     } catch (UpdateException e) {
       throw new RestApiException("Cannot set topic", e);
+    }
+  }
+
+  @Override
+  public IncludedInInfo includedIn() throws RestApiException {
+    try {
+      return includedIn.apply(change);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Could not extract IncludedIn data", e);
     }
   }
 

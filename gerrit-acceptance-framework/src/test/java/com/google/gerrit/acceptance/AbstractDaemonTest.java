@@ -23,6 +23,7 @@ import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -1044,6 +1045,12 @@ public abstract class AbstractDaemonTest {
 
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
+  }
+
+  protected void grantTagPermissions() throws Exception {
+    grant(Permission.CREATE, project, R_TAGS + "*");
+    grant(Permission.CREATE_TAG, project, R_TAGS + "*");
+    grant(Permission.CREATE_SIGNED_TAG, project, R_TAGS + "*");
   }
 
   protected void assertMailFrom(Message message, String email)

@@ -755,6 +755,7 @@ public class MergeOp implements AutoCloseable {
               ChangeMessage msg = ChangeMessagesUtil.newMessage(
                   ctx.getDb(), change.currentPatchSetId(),
                   internalUserFactory.create(), change.getLastUpdatedOn(),
+                  ChangeMessagesUtil.MERGED,
                   "Project was deleted.");
               cmUtil.addChangeMessage(ctx.getDb(),
                   ctx.getUpdate(change.currentPatchSetId()), msg);

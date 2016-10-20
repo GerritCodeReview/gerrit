@@ -136,7 +136,8 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     StringBuilder msg = new StringBuilder();
     appendHashtagMessage(msg, "added", toAdd);
     appendHashtagMessage(msg, "removed", toRemove);
-    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString());
+    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
+        ChangeMessagesUtil.SET_HASHTAGS);
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 

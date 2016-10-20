@@ -104,12 +104,11 @@ class ChangeNotesParser {
     abstract PatchSet.Id psId();
     abstract Account.Id accountId();
     abstract String label();
-    @Nullable abstract String tag();
 
     private static ApprovalKey create(PatchSet.Id psId, Account.Id accountId,
-        String label, @Nullable String tag) {
+        String label) {
       return new AutoValue_ChangeNotesParser_ApprovalKey(
-          psId, accountId, label, tag);
+          psId, accountId, label);
     }
   }
 
@@ -740,7 +739,7 @@ class ChangeNotesParser {
       psa.setRealAccountId(realAccountId);
     }
     ApprovalKey k =
-        ApprovalKey.create(psId, effectiveAccountId, l.label(), tag);
+        ApprovalKey.create(psId, effectiveAccountId, l.label());
     if (!approvals.containsKey(k)) {
       approvals.put(k, psa);
     }
@@ -789,7 +788,7 @@ class ChangeNotesParser {
     if (!Objects.equals(realAccountId, committerId)) {
       remove.setRealAccountId(realAccountId);
     }
-    ApprovalKey k = ApprovalKey.create(psId, effectiveAccountId, label, tag);
+    ApprovalKey k = ApprovalKey.create(psId, effectiveAccountId, label);
     if (!approvals.containsKey(k)) {
       approvals.put(k, remove);
     }

@@ -131,7 +131,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       msg.append(" to: ");
       msg.append(newAssignee.getName(anonymousCowardName));
     }
-    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString());
+    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
+        ChangeMessagesUtil.SET_ASSIGNEE);
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 

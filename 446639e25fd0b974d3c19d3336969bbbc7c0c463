@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fc55e7ac_24b872a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-20T09:05:59Z",
+      "side": 1,
+      "message": "and abandoned\n\nor change this to say \"of non-draft changes\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c01db89_053af2e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

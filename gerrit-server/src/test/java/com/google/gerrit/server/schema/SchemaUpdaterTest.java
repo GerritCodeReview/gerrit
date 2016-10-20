@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -36,6 +36,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Guice;
+import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
@@ -111,6 +112,21 @@ public class SchemaUpdaterTest {
       }
     }).getInstance(SchemaUpdater.class);
 
+    for (SchemaVersion s = u.getLatestSchemaVersion();
+        s.getVersionNbr() > 1; s = s.getPrior()) {
+      try {
+        assertThat(s.getPrior().getVersionNbr())
+            .named("schema %s has prior version %s. Not true that",
+                s.getVersionNbr(), s.getPrior().getVersionNbr())
+            .isEqualTo(s.getVersionNbr() - 1);
+      } catch (ProvisionException e) {
+        // Ignored
+        // The oldest supported schema version doesn't have a prior schema
+        // version.
+        break;
+      }
+    }
+
     u.update(new UpdateUI() {
       @Override
       public void message(String msg) {
@@ -137,6 +153,7 @@ public class SchemaUpdaterTest {
 
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();
-    assertEquals(paths.site_path.toAbsolutePath().toString(), sc.sitePath);
+    assertThat(sc.sitePath)
+        .isEqualTo(paths.site_path.toAbsolutePath().toString());
   }
 }

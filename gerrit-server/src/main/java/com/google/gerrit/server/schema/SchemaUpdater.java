@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -114,6 +115,11 @@ public class SchemaUpdater {
         updateSystemConfig(db);
       }
     }
+  }
+
+  @VisibleForTesting
+  public SchemaVersion getLatestSchemaVersion() {
+    return updater.get();
   }
 
   private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {

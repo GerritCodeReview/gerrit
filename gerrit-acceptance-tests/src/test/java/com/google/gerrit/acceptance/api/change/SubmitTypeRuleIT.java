@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
+import static com.google.gerrit.extensions.client.SubmitType.REBASE_ALWAYS;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
@@ -123,6 +124,10 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
       + "gerrit:commit_message(M),"
       + "regex_matches('.*REBASE_IF_NECESSARY.*', M),"
       + "!.\n"
+      + "submit_type(rebase_always) :-"
+      + "gerrit:commit_message(M),"
+      + "regex_matches('.*REBASE_ALWAYS.*', M),"
+      + "!.\n"
       + "submit_type(merge_always) :-"
       + "gerrit:commit_message(M),"
       + "regex_matches('.*MERGE_ALWAYS.*', M),"
@@ -157,8 +162,9 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = createChange("master", "FAST_FORWARD_ONLY 2");
     PushOneCommit.Result r3 = createChange("master", "MERGE_IF_NECESSARY 3");
     PushOneCommit.Result r4 = createChange("master", "REBASE_IF_NECESSARY 4");
-    PushOneCommit.Result r5 = createChange("master", "MERGE_ALWAYS 5");
-    PushOneCommit.Result r6 = createChange("master", "CHERRY_PICK 6");
+    PushOneCommit.Result r5 = createChange("master", "REBASE_ALWAYS 5");
+    PushOneCommit.Result r6 = createChange("master", "MERGE_ALWAYS 6");
+    PushOneCommit.Result r7 = createChange("master", "CHERRY_PICK 7");
 
     assertSubmitType(MERGE_IF_NECESSARY, r1.getChangeId());
     assertSubmitType(MERGE_IF_NECESSARY, r2.getChangeId());
@@ -166,6 +172,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     assertSubmitType(MERGE_IF_NECESSARY, r4.getChangeId());
     assertSubmitType(MERGE_IF_NECESSARY, r5.getChangeId());
     assertSubmitType(MERGE_IF_NECESSARY, r6.getChangeId());
+    assertSubmitType(MERGE_IF_NECESSARY, r7.getChangeId());
 
     setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
 
@@ -173,8 +180,9 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     assertSubmitType(FAST_FORWARD_ONLY, r2.getChangeId());
     assertSubmitType(MERGE_IF_NECESSARY, r3.getChangeId());
     assertSubmitType(REBASE_IF_NECESSARY, r4.getChangeId());
-    assertSubmitType(MERGE_ALWAYS, r5.getChangeId());
-    assertSubmitType(CHERRY_PICK, r6.getChangeId());
+    assertSubmitType(REBASE_ALWAYS, r5.getChangeId());
+    assertSubmitType(MERGE_ALWAYS, r6.getChangeId());
+    assertSubmitType(CHERRY_PICK, r7.getChangeId());
   }
 
   @Test

@@ -139,10 +139,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals =
         notes.getApprovals();
-    assertThat(approvals).hasSize(2);
+    assertThat(approvals).hasSize(1);
     assertThat(approvals.entries().asList().get(0).getValue().getTag())
-        .isEqualTo(tag1);
-    assertThat(approvals.entries().asList().get(1).getValue().getTag())
         .isEqualTo(tag2);
   }
 

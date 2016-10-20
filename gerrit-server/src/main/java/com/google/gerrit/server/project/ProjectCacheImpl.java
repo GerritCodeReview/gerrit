@@ -19,6 +19,7 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -215,7 +216,7 @@ public class ProjectCacheImpl implements ProjectCache {
       return list.get(ListKey.ALL);
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);
-      return Collections.emptySortedSet();
+      return ImmutableSortedSet.of();
     }
   }
 

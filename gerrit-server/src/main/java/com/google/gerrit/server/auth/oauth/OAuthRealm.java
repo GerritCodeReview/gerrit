@@ -66,9 +66,8 @@ public class OAuthRealm extends AbstractRealm {
    *
    * {@link AccountManager} calls this method without password
    * if authenticity of the user has already been established.
-   * In that case the {@link AuthRequest} is supposed to contain
-   * a resolved email address and we can skip the authentication
-   * request to the {@code OAuthLoginService}.
+   * In that case we can skip the authentication request to the
+   * {@code OAuthLoginService}.
    *
    * @param who the authentication request.
    *
@@ -82,8 +81,7 @@ public class OAuthRealm extends AbstractRealm {
    */
   @Override
   public AuthRequest authenticate(AuthRequest who) throws AccountException {
-    if (Strings.isNullOrEmpty(who.getPassword()) &&
-        !Strings.isNullOrEmpty(who.getEmailAddress())) {
+    if (Strings.isNullOrEmpty(who.getPassword())) {
       return who;
     }
 

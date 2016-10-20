@@ -53,10 +53,11 @@ def _add_file(in_file, output):
   ]
 
 def _make_war(input_dir, output):
-  return ''.join([
-    '(root=$(pwd) && ',
-    'cd %s && ' % input_dir,
-    'zip -9qr ${root}/%s .)' % (output.path),
+  return '(%s)' % ' && '.join([
+    'root=$(pwd)',
+    'cd %s' % input_dir,
+    "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
+    'zip -9qr ${root}/%s .' % (output.path),
   ])
 
 def _war_impl(ctx):
@@ -126,8 +127,11 @@ _pkg_war = rule(
 
 def pkg_war(name, ui = 'ui_optdbg', context = [], **kwargs):
   ui_deps = []
-  if ui:
+  if ui == 'polygerrit' or ui == 'ui_optdbg' or ui == 'ui_optdbg_r':
+    ui_deps.append('//polygerrit-ui/app:polygerrit_ui')
+  if ui != 'polygerrit':
     ui_deps.append('//gerrit-gwtui:%s' % ui)
+
   _pkg_war(
     name = name,
     libs = LIBS,

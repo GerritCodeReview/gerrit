@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0513c2_378398ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-20T00:06:11Z",
+      "side": 1,
+      "message": "Why is this nullable, and what happens when setTag is called with null?",
+      "range": {
+        "startLine": 85,
+        "startChar": 19,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "02c31b4b5d6266230824bce4b53f28fdfd905e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0513c2_b795e81d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-20T01:06:27Z",
+      "side": 1,
+      "message": "Why are these not applied to the H1 and H2 elements instead?",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "6d2dd2c0ba9c264cad70b76c4911799972ab009c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0513c2_979a644b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-20T01:06:27Z",
+      "side": 1,
+      "message": "Indentation.",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 154,
+        "endChar": 49
+      },
+      "revId": "6d2dd2c0ba9c264cad70b76c4911799972ab009c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cec333c_1fa78392",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-20T01:06:27Z",
+      "side": 1,
+      "message": "Indentation.",
+      "range": {
+        "startLine": 217,
+        "startChar": 23,
+        "endLine": 218,
+        "endChar": 71
+      },
+      "revId": "6d2dd2c0ba9c264cad70b76c4911799972ab009c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

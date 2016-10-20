@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -57,6 +59,14 @@ public class ProjectCacheImpl implements ProjectCache {
 
   private static final String CACHE_NAME = "projects";
   private static final String CACHE_LIST = "project_list";
+
+  private static final Predicate<AccountGroup.UUID> NON_NULL_UUID =
+      new Predicate<AccountGroup.UUID>() {
+        @Override
+        public boolean apply(AccountGroup.UUID uuid) {
+          return uuid != null && uuid.get() != null;
+        }
+      };
 
   public static Module module() {
     return new CacheModule() {
@@ -200,12 +210,12 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public Iterable<Project.NameKey> all() {
+  public SortedSet<Project.NameKey> all() {
     try {
       return list.get(ListKey.ALL);
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);
-      return Collections.emptyList();
+      return Collections.emptySortedSet();
     }
   }
 
@@ -215,7 +225,10 @@ public class ProjectCacheImpl implements ProjectCache {
     for (Project.NameKey n : all()) {
       ProjectState p = byName.getIfPresent(n.get());
       if (p != null) {
-        groups.addAll(p.getConfig().getAllGroupUUIDs());
+        groups.addAll(FluentIterable
+            .from(p.getConfig().getAllGroupUUIDs())
+            .filter(NON_NULL_UUID)
+            .toSet());
       }
     }
     return groups;

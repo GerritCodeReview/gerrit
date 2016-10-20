@@ -160,9 +160,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String PLUGIN = "plugin";
 
-  private static final SubmitType defaultSubmitAction =
+  private static final SubmitType DEFAULT_SUBMIT_ACTION =
       SubmitType.MERGE_IF_NECESSARY;
-  private static final ProjectState defaultStateValue =
+  private static final ProjectState DEFAULT_STATE_VALUE =
       ProjectState.ACTIVE;
 
   private Project.NameKey projectName;
@@ -499,9 +499,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setRejectImplicitMerges(getEnum(rc, RECEIVE, null,
         KEY_REJECT_IMPLICIT_MERGES, InheritableBoolean.INHERIT));
 
-    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
+    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION,
+        DEFAULT_SUBMIT_ACTION));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
-    p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
+    p.setState(getEnum(rc, PROJECT, null, KEY_STATE, DEFAULT_STATE_VALUE));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
@@ -953,10 +954,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     set(rc, RECEIVE, null, KEY_REJECT_IMPLICIT_MERGES,
         p.getRejectImplicitMerges(), InheritableBoolean.INHERIT);
 
-    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
+    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_ACTION);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
 
-    set(rc, PROJECT, null, KEY_STATE, p.getState(), defaultStateValue);
+    set(rc, PROJECT, null, KEY_STATE, p.getState(), DEFAULT_STATE_VALUE);
 
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());

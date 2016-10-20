@@ -22,6 +22,24 @@
       "revId": "0db873ab7f6e7c4236f57fab1a89ab79a264e692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0513c2_d7e21cbb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-20T17:12:53Z",
+      "side": 1,
+      "message": "Done. Latest patchset is still synchronous, as I found a case where _reload() may possibly be called multiple times unnecessarily.",
+      "parentUuid": "5cec333c_7fa4cf8b",
+      "revId": "0db873ab7f6e7c4236f57fab1a89ab79a264e692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

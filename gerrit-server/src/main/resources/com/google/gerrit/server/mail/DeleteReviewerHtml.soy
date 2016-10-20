@@ -24,12 +24,12 @@
  */
 {template .DeleteReviewerHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} has removed{sp}
+    <strong>{$fromName}</strong> removed{sp}
     {foreach $reviewerName in $email.reviewerNames}
       {if not isFirst($reviewerName)},{sp}{/if}
-      {$reviewerName}
+      <strong>{$reviewerName}</strong>
     {/foreach}{sp}
-    from this change.
+    from <strong>{$change.subject}</strong>.
   </p>
 
   {if $email.changeUrl}
@@ -37,11 +37,6 @@
       {call .ViewChangeButton data="all" /}
     </p>
   {/if}
-
-  <p>
-    Change subject: {$change.subject}
-  </p>
-  <hr/>
 
   {if $coverLetter}
     <pre style="font-size:12px">{$coverLetter}</pre>

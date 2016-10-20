@@ -43,7 +43,8 @@
   {/let}
 
   <p>
-    {$fromName} has posted comments on this change.
+    <strong>{$fromName}</strong> posted comments on{sp}
+    <strong>{$change.subject}</strong>.
   </p>
 
   {if $email.changeUrl}
@@ -51,11 +52,6 @@
       {call .ViewChangeButton data="all" /}
     </p>
   {/if}
-
-  <p>
-    Change subject: {$change.subject}
-  </p>
-  <hr/>
 
   {if $coverLetter}
     <pre style="font-size:12px">{$coverLetter}</pre>

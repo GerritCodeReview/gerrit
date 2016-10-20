@@ -24,40 +24,17 @@
  * @param projectName
  */
 {template .ReplacePatchSetHtml autoescape="strict" kind="html"}
-  {if $email.reviewerNames}
-    <p>
-      Hello{sp}
-      {foreach $reviewerName in $email.reviewerNames}
-        {$reviewerName},{sp}
-      {/foreach}
-    </p>
-
-    <p>
-      I'd like you to reexamine a change.
-    </p>
-
-    {if $email.changeUrl}
-      <p>
-        Please visit <a href="{$email.changeUrl}">this change</a> to look at{sp}
-        the new patch set (#{$patchSet.patchSetId}).
-      </p>
-    {/if}
-  {else}
-    <p>
-      {$fromName} has uploaded a new patch set (#{$patchSet.patchSetId}).
-    </p>
-
-    {if $email.changeUrl}
-      <p>
-        {call .ViewChangeButton data="all" /}
-      </p>
-    {/if}
-  {/if}
-
   <p>
-    Change subject: {$change.subject}
+    <strong>{$fromName}</strong> uploaded patch set{sp}
+    <strong>#{$patchSet.patchSetId}</strong> to{sp}
+    <strong>{$change.subject}</strong>.
   </p>
-  <hr/>
+
+  {if $email.changeUrl}
+    <p>
+      {call .ViewChangeButton data="all" /}
+    </p>
+  {/if}
 
   <pre style="font-size:12px">
     {$email.changeDetail}

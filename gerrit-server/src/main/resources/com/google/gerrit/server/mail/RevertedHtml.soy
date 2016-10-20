@@ -24,7 +24,8 @@
  */
 {template .RevertedHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} has reverted this change.
+    <strong>{$fromName}</strong> reverted the change:{sp}
+    <strong>{$change.subject}</strong>.
   </p>
 
   {if $email.changeUrl}
@@ -32,11 +33,6 @@
       {call .ViewChangeButton data="all" /}
     </p>
   {/if}
-
-  <p>
-    Change subject: {$change.subject}
-  </p>
-  <hr/>
 
   {if $coverLetter}
     <pre style="font-size:12px">{$coverLetter}</pre>

@@ -130,7 +130,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         msg.append("\n\n");
         msg.append(input.message.trim());
       }
-      return ChangeMessagesUtil.newMessage(ctx, msg.toString());
+      return ChangeMessagesUtil.newMessage(ctx, msg.toString(),
+          ChangeMessagesUtil.RESTORE);
     }
 
     @Override

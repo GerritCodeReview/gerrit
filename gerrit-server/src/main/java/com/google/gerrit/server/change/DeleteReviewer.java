@@ -184,7 +184,8 @@ public class DeleteReviewer
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 
-      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString());
+      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
+          ChangeMessagesUtil.DELETE_REVIEWER);
       cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
 
       return true;

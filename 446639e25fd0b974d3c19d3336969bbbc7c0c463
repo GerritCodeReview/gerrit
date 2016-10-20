@@ -206,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "1c01db89_857b82a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-20T09:06:33Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "3c605f88_c6e3a2c1",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 7
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c04df97_861f0a82",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 2

@@ -176,7 +176,8 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
         msgBuf.append(input.message);
       }
       ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(ctx, msgBuf.toString());
+          ChangeMessagesUtil.newMessage(
+              ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
 
       return true;

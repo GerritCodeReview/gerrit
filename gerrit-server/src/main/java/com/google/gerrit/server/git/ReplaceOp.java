@@ -285,7 +285,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       message.append("\n").append(reviewMessage);
     }
     msg = ChangeMessagesUtil.newMessage(ctx.getDb(), patchSetId, ctx.getUser(),
-        ctx.getWhen(), message.toString());
+        ctx.getWhen(), message.toString(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedByPushOp == null) {

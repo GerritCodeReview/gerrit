@@ -274,7 +274,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
       ChangeMessage changeMessage = ChangeMessagesUtil.newMessage(ctx,
-          "Created a revert of this change as I" + computedChangeId.name());
+          "Created a revert of this change as I" + computedChangeId.name(),
+          ChangeMessagesUtil.TAG_REVERT);
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(patchSetId),
           changeMessage);
       return true;

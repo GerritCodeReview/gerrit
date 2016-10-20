@@ -34,9 +34,11 @@ limitations under the License.
 <script>
   suite('gr-change-view tests', function() {
     var element;
+    var sandbox;
     var TEST_SCROLL_TOP_PX = 100;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getConfig: function() { return Promise.resolve({}); },
         getAccount: function() { return Promise.resolve(null); },
@@ -44,20 +46,22 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    teardown(function() {
+      sandbox.restore();
+    });
+
     suite('keyboard shortcuts', function() {
       test('U should navigate to / if no backPage set', function() {
-        var showStub = sinon.stub(page, 'show');
+        var showStub = sandbox.stub(page, 'show');
         MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
         assert(showStub.lastCall.calledWithExactly('/'));
-        showStub.restore();
       });
 
       test('U should navigate to backPage if set', function() {
         element.backPage = '/dashboard/self';
-        var showStub = sinon.stub(page, 'show');
+        var showStub = sandbox.stub(page, 'show');
         MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
         assert(showStub.lastCall.calledWithExactly('/dashboard/self'));
-        showStub.restore();
       });
 
       test('A should toggle overlay', function() {
@@ -93,7 +97,7 @@ limitations under the License.
           actions: {},
         };
 
-        sinon.stub(element.$.restAPI, '_getChangeDetail', function() {
+        sandbox.stub(element.$.restAPI, '_getChangeDetail', function() {
           // Mock change obj.
           return Promise.resolve({
             change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
@@ -108,10 +112,8 @@ limitations under the License.
           });
         });
 
-        var showStub = sinon.stub(page, 'show', function(arg) {
+        var showStub = sandbox.stub(page, 'show', function(arg) {
           assert.equal(arg, '/c/42/13');
-          showStub.restore();
-          element.$.restAPI._getChangeDetail.restore();
           done();
         });
 
@@ -120,11 +122,49 @@ limitations under the License.
       });
 
       test('d should open download overlay', function() {
-        var stub = sinon.stub(element.$.downloadOverlay, 'open');
+        var stub = sandbox.stub(element.$.downloadOverlay, 'open');
         MockInteractions.pressAndReleaseKeyOn(element, 68); // 'd'
         assert.isTrue(stub.called);
-        stub.restore();
       });
+    });
+
+    test('_reload is called when an approved label is removed', function() {
+      var vote = {_account_id: 1, name: 'bojack', value: 1};
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+        status: 'NEW',
+        labels: {
+          test: {
+            all: [vote],
+            default_value: 0,
+            values: [],
+            approved: {},
+          },
+        },
+      };
+      flushAsynchronousOperations();
+      var reloadStub = sandbox.stub(element, '_reload');
+      element.splice('_change.labels.test.all', 0, 1);
+      assert.isFalse(reloadStub.called);
+      element._change.labels.test.all.push(vote);
+      element._change.labels.test.all.push(vote);
+      element._change.labels.test.approved = vote;
+      flushAsynchronousOperations();
+      element.splice('_change.labels.test.all', 0, 2);
+      assert.isTrue(reloadStub.called);
+      assert.isTrue(reloadStub.calledOnce);
     });
 
     test('reply button has updated count when there are drafts', function() {
@@ -245,7 +285,7 @@ limitations under the License.
           .hasAttribute('selected'));
       assert.equal(optionEls[3].value, 13);
 
-      var showStub = sinon.stub(page, 'show');
+      var showStub = sandbox.stub(page, 'show');
 
       var numEvents = 0;
       selectEl.addEventListener('change', function(e) {
@@ -259,7 +299,6 @@ limitations under the License.
         } else if (numEvents == 2) {
           assert(showStub.lastCall.calledWithExactly('/c/42'),
               'Should navigate to /c/42');
-          showStub.restore();
           done();
         }
       });
@@ -298,7 +337,7 @@ limitations under the License.
           .hasAttribute('selected'));
       assert.equal(optionEls[3].value, 13);
 
-      var showStub = sinon.stub(page, 'show');
+      var showStub = sandbox.stub(page, 'show');
 
       var numEvents = 0;
       selectEl.addEventListener('change', function(e) {
@@ -311,7 +350,6 @@ limitations under the License.
         } else if (numEvents == 2) {
           assert(showStub.lastCall.calledWithExactly('/c/42/3'),
               'Should navigate to /c/42/3');
-          showStub.restore();
           done();
         }
       });
@@ -320,9 +358,9 @@ limitations under the License.
     });
 
     test('don’t reload entire page when patchRange changes', function() {
-      var reloadStub = sinon.stub(element, '_reload',
+      var reloadStub = sandbox.stub(element, '_reload',
           function() { return Promise.resolve(); });
-      var reloadPatchDependentStub = sinon.stub(element,
+      var reloadPatchDependentStub = sandbox.stub(element,
           '_reloadPatchNumDependentResources',
           function() { return Promise.resolve(); });
 
@@ -340,8 +378,6 @@ limitations under the License.
       assert.isFalse(reloadStub.calledTwice);
       assert.isTrue(reloadPatchDependentStub.calledOnce);
 
-      reloadStub.restore();
-      reloadPatchDependentStub.restore();
     });
 
     test('change status new', function() {
@@ -418,8 +454,8 @@ limitations under the License.
     });
 
     test('topic is coalesced to null', function(done) {
-      sinon.stub(element, '_changeChanged');
-      sinon.stub(element.$.restAPI, 'getChangeDetail', function() {
+      sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', function() {
         return Promise.resolve({id: '123456789', labels: {}});
       });
 
@@ -431,7 +467,7 @@ limitations under the License.
 
     test('reply dialog focus can be controlled', function() {
       var FocusTarget = element.$.replyDialog.FocusTarget;
-      var openSpy = sinon.spy(element, '_openReplyDialog');
+      var openSpy = sandbox.spy(element, '_openReplyDialog');
 
       var e = {detail: {}};
       element._handleShowReplyDialog(e);
@@ -454,7 +490,7 @@ limitations under the License.
     });
 
     test('getUrlParameter functionality', function() {
-      var locationStub = sinon.stub(element, '_getLocationSearch');
+      var locationStub = sandbox.stub(element, '_getLocationSearch');
 
       locationStub.returns('?test');
       assert.equal(element._getUrlParameter('test'), 'test');
@@ -467,11 +503,10 @@ limitations under the License.
       locationStub.returns('?test2');
       assert.isNull(element._getUrlParameter('test'));
 
-      locationStub.restore();
     });
 
     test('revert dialog opened with revert param', function(done) {
-      sinon.stub(element.$.restAPI, 'getLoggedIn', function() {
+      sandbox.stub(element.$.restAPI, 'getLoggedIn', function() {
         return Promise.resolve(true);
       });
 
@@ -490,19 +525,14 @@ limitations under the License.
           actions: {},
       };
 
-      var urlParamStub = sinon.stub(element, '_getUrlParameter',
+      var urlParamStub = sandbox.stub(element, '_getUrlParameter',
           function(param) {
             assert.equal(param, 'revert');
-            urlParamStub.restore();
-            element.$.restAPI.getLoggedIn.restore();
             return param;
           });
 
-      var revertDialogStub = sinon.stub(element.$.actions, 'showRevertDialog',
-          function() {
-            revertDialogStub.restore();
-            done();
-          });
+      var revertDialogStub = sandbox.stub(element.$.actions, 'showRevertDialog',
+          done);
 
       element._maybeShowRevertDialog();
     });
@@ -510,12 +540,11 @@ limitations under the License.
     suite('scroll related tests', function() {
       test('document scrolling calls function to set scroll height',
           function(done) {
-            var scrollStub = sinon.stub(element, '_handleScroll',
+            var scrollStub = sandbox.stub(element, '_handleScroll',
                 function() {
                   assert.isTrue(scrollStub.called);
                   document.body.style.height =
                       originalHeight + 'px';
-                  scrollStub.restore();
                   done();
                 });
             var originalHeight = document.body.scrollHeight;
@@ -532,7 +561,7 @@ limitations under the License.
             },
             location.pathname);
 
-        var reloadStub = sinon.stub(element, '_reload',
+        var reloadStub = sandbox.stub(element, '_reload',
             function() {
               // When element is reloaded, ensure that the history
               // state has the scrollTop set earlier. This will then
@@ -544,13 +573,12 @@ limitations under the License.
         // simulate reloading component, which is done when route
         // changes to match a regex of change view type.
         element._paramsChanged({view: 'gr-change-view'});
-        reloadStub.restore();
       });
     });
 
     suite('reply dialog tests', function() {
       setup(function() {
-        sinon.stub(element.$.replyDialog, '_draftChanged');
+        sandbox.stub(element.$.replyDialog, '_draftChanged');
       });
 
       test('reply from comment adds quote text', function() {
@@ -583,7 +611,7 @@ limitations under the License.
         var div = document.createElement('div');
         element.$.replyDialog.draft = '> quote text\n\n some draft text';
         element.$.replyDialog.quote = '> quote text\n\n';
-        var e = {target: div, preventDefault: sinon.spy()};
+        var e = {target: div, preventDefault: sandbox.spy()};
         element._handleReplyTap(e);
         assert.equal(element.$.replyDialog.draft,
             '> quote text\n\n some draft text');

@@ -370,6 +370,7 @@ public class SubmoduleOp {
             "The branch was probably deleted from the subscriber repository");
       }
       currentCommit = or.rw.parseCommit(r.getObjectId());
+      addBranchTip(subscriber, currentCommit);
     }
 
     StringBuilder msgbuf = new StringBuilder("");
@@ -474,7 +475,7 @@ public class SubmoduleOp {
       oldCommit = subOr.rw.parseCommit(dce.getObjectId());
     }
 
-    final RevCommit newCommit;
+    final CodeReviewCommit newCommit;
     if (branchTips.containsKey(s.getSubmodule())) {
       newCommit = branchTips.get(s.getSubmodule());
     } else {
@@ -484,6 +485,7 @@ public class SubmoduleOp {
         return null;
       }
       newCommit = subOr.rw.parseCommit(ref.getObjectId());
+      addBranchTip(s.getSubmodule(), newCommit);
     }
 
     if (Objects.equals(newCommit, oldCommit)) {

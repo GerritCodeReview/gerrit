@@ -257,7 +257,7 @@ public class CommentSender extends ReplyToChangeSender {
          .append("):\n");
     }
     if (comment.range != null) {
-      appendRangedComment(out, contextLines, currentFileData, comment);
+      appendRangedComment(out, currentFileData, comment);
     } else {
       appendLineComment(out, contextLines, currentFileData, comment);
     }
@@ -268,8 +268,8 @@ public class CommentSender extends ReplyToChangeSender {
    * removed.
    */
   @Deprecated
-  private void appendRangedComment(StringBuilder out, int contextLines,
-      PatchFile fileData, Comment comment) {
+  private void appendRangedComment(StringBuilder out, PatchFile fileData,
+      Comment comment) {
     String prefix = getCommentLinePrefix(comment);
     String emptyPrefix = Strings.padStart(": ", prefix.length(), ' ');
     boolean firstLine = true;
@@ -392,7 +392,6 @@ public class CommentSender extends ReplyToChangeSender {
       return Optional.empty();
     }
 
-    Optional<Comment> parent;
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename,
           child.key.patchSetId);
     try {

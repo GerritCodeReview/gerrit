@@ -281,7 +281,10 @@ bower_component_bundle = rule(
 )
 
 def _vulcanize_impl(ctx):
-  destdir = ctx.outputs.vulcanized.path + ".dir"
+  # intermediate artifact.
+  vulcanized = ctx.new_file(
+    ctx.configuration.genfiles_dir, ctx.outputs.html, ".vulcanized.html")
+  destdir = ctx.outputs.html.path + ".dir"
   zips =  [z for d in ctx.attr.deps for z in d.transitive_zipfiles ]
 
   hermetic_npm_binary = " ".join([
@@ -291,7 +294,7 @@ def _vulcanize_impl(ctx):
     '--inline-scripts',
     '--inline-css',
     '--strip-comments',
-    '--out-html', "$p/" + ctx.outputs.vulcanized.path,
+    '--out-html', "$p/" + vulcanized.path,
     ctx.file.app.path
   ])
 
@@ -313,7 +316,7 @@ def _vulcanize_impl(ctx):
     inputs = [ctx.file._run_npm, ctx.file.app,
               ctx.file._vulcanize_archive
     ] + list(zips) + ctx.files.srcs,
-    outputs = [ctx.outputs.vulcanized],
+    outputs = [vulcanized],
     command = cmd)
 
   hermetic_npm_command = "export PATH && " + " ".join([
@@ -321,14 +324,14 @@ def _vulcanize_impl(ctx):
     ctx.file._run_npm.path,
     ctx.file._crisper_archive.path,
     "--always-write-script",
-    "--source", ctx.outputs.vulcanized.path,
+    "--source", vulcanized.path,
     "--html", ctx.outputs.html.path,
     "--js", ctx.outputs.js.path])
 
   ctx.action(
     mnemonic = "Crisper",
     inputs = [ctx.file._run_npm, ctx.file.app,
-              ctx.file._crisper_archive, ctx.outputs.vulcanized],
+              ctx.file._crisper_archive, vulcanized],
     outputs = [ctx.outputs.js, ctx.outputs.html],
     command = hermetic_npm_command)
 
@@ -355,9 +358,8 @@ _vulcanize_rule = rule(
     ),
   },
   outputs = {
-    "vulcanized": "%{name}.vulcanized.html",
-    "html": "%{name}.crisped.html",
-    "js": "%{name}.crisped.js",
+    "html": "%{name}.html",
+    "js": "%{name}.js",
   }
 )
 

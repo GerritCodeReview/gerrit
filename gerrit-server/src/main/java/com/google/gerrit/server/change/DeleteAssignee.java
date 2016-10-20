@@ -115,7 +115,8 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
     private void addMessage(BatchUpdate.ChangeContext ctx,
         ChangeUpdate update, Account deleted) throws OrmException {
       ChangeMessage cmsg = ChangeMessagesUtil.newMessage(
-          ctx, "Assignee deleted: " + deleted.getName(anonymousCowardName));
+          ctx, "Assignee deleted: " + deleted.getName(anonymousCowardName),
+          ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
     }
 

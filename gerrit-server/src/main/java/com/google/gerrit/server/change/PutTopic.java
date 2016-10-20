@@ -114,7 +114,8 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
       change.setTopic(Strings.emptyToNull(newTopicName));
       update.setTopic(change.getTopic());
 
-      ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, summary);
+      ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, summary,
+          ChangeMessagesUtil.TAG_SET_TOPIC);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
       return true;
     }

@@ -449,7 +449,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private ChangeMessage message(ChangeContext ctx, PatchSet.Id psId,
       String body) throws OrmException {
     return ChangeMessagesUtil.newMessage(
-        ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), body);
+        ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), body,
+        ChangeMessagesUtil.TAG_MERGED);
   }
 
   private void setMerged(ChangeContext ctx, ChangeMessage msg)

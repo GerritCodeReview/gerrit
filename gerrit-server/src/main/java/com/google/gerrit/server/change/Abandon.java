@@ -202,7 +202,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         msg.append(msgTxt.trim());
       }
 
-      return ChangeMessagesUtil.newMessage(ctx, msg.toString());
+      return ChangeMessagesUtil.newMessage(
+          ctx, msg.toString(), ChangeMessagesUtil.TAG_ABANDON);
     }
 
     @Override

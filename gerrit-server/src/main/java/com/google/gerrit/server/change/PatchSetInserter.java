@@ -225,7 +225,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
     if (message != null) {
       changeMessage = ChangeMessagesUtil.newMessage(
-          db, patchSet.getId(), ctx.getUser(), ctx.getWhen(), message);
+          db, patchSet.getId(), ctx.getUser(), ctx.getWhen(), message,
+          ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
       changeMessage.setMessage(message);
     }
 

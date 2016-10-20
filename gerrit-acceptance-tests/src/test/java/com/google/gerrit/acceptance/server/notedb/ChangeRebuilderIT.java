@@ -100,6 +100,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
@@ -593,11 +594,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     ReviewDb db = getUnwrappedDb();
     Change c = db.changes().get(id);
     // Leave change meta ID alone so DraftCommentNotes does the rebuild.
+    ObjectId badSha =
+        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
     NoteDbChangeState bogusState = new NoteDbChangeState(
-        id, NoteDbChangeState.parse(c).getChangeMetaId(),
-        ImmutableMap.<Account.Id, ObjectId>of(
-            user.getId(),
-            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")));
+        id,
+        Optional.of(
+          NoteDbChangeState.RefState.create(
+              NoteDbChangeState.parse(c).getChangeMetaId(),
+              ImmutableMap.of(user.getId(), badSha))));
     c.setNoteDbState(bogusState.toString());
     db.changes().update(Collections.singleton(c));
 

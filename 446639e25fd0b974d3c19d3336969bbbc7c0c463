@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c01db89_053af2e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-20T08:58:17Z",
+      "side": 1,
+      "message": "be specific: ... need to rewrite history",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_e5459662",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1776,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-20T08:58:17Z",
+      "side": 1,
+      "message": "(optional) maybe specify that you rewrite the meta history?",
+      "range": {
+        "startLine": 1776,
+        "startChar": 0,
+        "endLine": 1776,
+        "endChar": 17
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_66052e2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-20T08:58:17Z",
+      "side": 1,
+      "message": "\"Deleting change x is not permitted\"\n\n(always mention the change number or any other id that is relevant, makes debugging easier)",
+      "range": {
+        "startLine": 107,
+        "startChar": 31,
+        "endLine": 107,
+        "endChar": 66
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_c54a9a72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-20T08:58:17Z",
+      "side": 1,
+      "message": "I think we would want to allow people to delete a draft even if the drafts workflow is disabled.\n\nConsider the following: drafts is enabled, user created 10 drafts to sync his changes across machines, admin disables drafts, user is stuck with the 10 changes and can only publish them.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 7
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_861f0a82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-20T08:58:17Z",
+      "side": 1,
+      "message": "why is this arg explicit? can\u0027t we do ctx.getChange().getStatus() in the method?",
+      "range": {
+        "startLine": 119,
+        "startChar": 51,
+        "endLine": 119,
+        "endChar": 72
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_a61a0692",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-20T08:58:17Z",
+      "side": 1,
+      "message": "needed? I think the latter should be enough. canAbandon() also just uses the latter check",
+      "range": {
+        "startLine": 394,
+        "startChar": 11,
+        "endLine": 394,
+        "endChar": 39
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

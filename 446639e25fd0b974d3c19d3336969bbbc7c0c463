@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "3c605f88_06bbfaa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-20T09:04:31Z",
+      "side": 1,
+      "message": "Assuming we want a different exception (other than 401) when trying to delete a merged change, we can add a check before this block with a condition like at L110 (but checking for Status.MERGED) and throw the relevant exception.",
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c04df97_66052e2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 2
@@ -95,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "3c605f88_26b876a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-20T09:04:31Z",
+      "side": 1,
+      "message": "FWIW we don\u0027t actually do that in many other places.\n\nAt some point we should go through and make exception messages more consistent.  Another nit is that some begin with upper case, like this one, and some don\u0027t.",
+      "parentUuid": "3c04df97_66052e2d",
+      "range": {
+        "startLine": 107,
+        "startChar": 31,
+        "endLine": 107,
+        "endChar": 66
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c01db89_c54a9a72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 2
@@ -106,6 +147,30 @@
       "writtenOn": "2016-10-20T08:58:17Z",
       "side": 1,
       "message": "I think we would want to allow people to delete a draft even if the drafts workflow is disabled.\n\nConsider the following: drafts is enabled, user created 10 drafts to sync his changes across machines, admin disables drafts, user is stuck with the 10 changes and can only publish them.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 7
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c605f88_c6e3a2c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-20T09:04:31Z",
+      "side": 1,
+      "message": "If we do that, I think it would be better to do in a separate change.",
+      "parentUuid": "1c01db89_c54a9a72",
       "range": {
         "startLine": 116,
         "startChar": 0,

@@ -146,7 +146,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Map<Branch.NameKey, RevTree> actual =
         fetchFromBundles(request);
 
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if ((getSubmitType() == SubmitType.CHERRY_PICK)
+        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
       // The change is updated as well:
       assertThat(actual).hasSize(2);
     } else {
@@ -202,7 +203,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
       assertChangeMergedEvents(change.getChangeId(),
           headAfterFirstSubmit.name());
-    } else if(getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
+    } else if ((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)
+        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
       String change2hash = change2.getChange().currentPatchSet()
           .getRevision().get();
       assertThat(msg).isEqualTo(
@@ -252,8 +254,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     assertThat(actual).containsKey(
         new Branch.NameKey(project, "refs/heads/master"));
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if (getSubmitType() == SubmitType.CHERRY_PICK){
+      // CherryPick ignores dependencies, thus only CL and destination branch
+      // refs are modified.
       assertThat(actual).hasSize(2);
+    } else if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      // RebaseAlways takes care of dependencies, therefore Change{2,3,4} and
+      // destination branch will be modified.
+      assertThat(actual).hasSize(4);
     } else {
       assertThat(actual).hasSize(1);
     }
@@ -409,6 +417,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
       assertThat(last).startsWith(
           "Change has been successfully cherry-picked as ");
+    } else if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      assertThat(last).startsWith("Change has been successfully rebased as");
     } else {
       assertThat(last).isEqualTo(
           "Change has been successfully merged by Administrator");

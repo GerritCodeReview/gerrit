@@ -43,6 +43,8 @@ public class Util {
         return C.projectSubmitType_MERGE_IF_NECESSARY();
       case REBASE_IF_NECESSARY:
         return C.projectSubmitType_REBASE_IF_NECESSARY();
+      case REBASE_ALWAYS:
+        return C.projectSubmitType_REBASE_ALWAYS();
       case MERGE_ALWAYS:
         return C.projectSubmitType_MERGE_ALWAYS();
       case CHERRY_PICK:

@@ -117,6 +117,17 @@ When Gerrit tries to do a merge, by default the merge will only
 succeed if there is no path conflict.  A path conflict occurs when
 the same file has also been changed on the other side of the merge.
 
+[[rebase_always]]
+* Rebase Always
++
+Basically, the same as Rebase If Necesary, but it modifies the commit of the
+change even if fast forward is possible. In this regard, it's similar to
+Cherry-Pick, but with important distinction in that Rebase Always does not
+ignore dependencies.
+
+Select Rebase Always if you want Reviewed-On and Reviewed-By footers inserted
+always in your commits, but otherwise are OK with Rebase If Necessary strategy.
+
 [[content_merge]]
 If `Allow content merges` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.

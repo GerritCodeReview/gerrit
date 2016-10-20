@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3c605f88_46b1f2c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-20T08:55:13Z",
+      "side": 1,
+      "message": "I haven\u0027t looked at the relevant code in detail but I would expect that it\u0027s only a simple check on the change state, and if it\u0027s merged then throw a specific exception there.\n\nAll the other cases that you mentioned, AuthException would be OK.",
+      "parentUuid": "3c04df97_26385602",
+      "range": {
+        "startLine": 477,
+        "startChar": 4,
+        "endLine": 478,
+        "endChar": 67
+      },
+      "revId": "b43e63d6485ceaccd426a38beddb3455a7fe2949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cb193f0_d7ff1c42",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1

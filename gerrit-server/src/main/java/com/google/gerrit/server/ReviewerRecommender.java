@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -22,6 +24,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ReviewerSuggestion;
@@ -39,6 +42,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.commons.lang.mutable.MutableDouble;
 import org.eclipse.jgit.lib.Config;
@@ -77,12 +81,16 @@ public class ReviewerRecommender {
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap;
   private final InternalChangeQuery internalChangeQuery;
   private final WorkQueue workQueue;
+  private final Provider<ReviewDb> dbProvider;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   ReviewerRecommender(ChangeQueryBuilder changeQueryBuilder,
       DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap,
       InternalChangeQuery internalChangeQuery,
       WorkQueue workQueue,
+      Provider<ReviewDb> dbProvider,
+      ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
@@ -91,6 +99,8 @@ public class ReviewerRecommender {
     this.internalChangeQuery = internalChangeQuery;
     this.reviewerSuggestionPluginMap = reviewerSuggestionPluginMap;
     this.workQueue = workQueue;
+    this.dbProvider = dbProvider;
+    this.approvalsUtil = approvalsUtil;
   }
 
   public List<Account.Id> suggestReviewers(
@@ -156,9 +166,14 @@ public class ReviewerRecommender {
       return ImmutableList.of();
     }
 
-    // Remove change owner
     if (changeNotes != null) {
+      // Remove change owner
       reviewerScores.remove(changeNotes.getChange().getOwner());
+
+      // Remove existing reviewers
+      reviewerScores.keySet().removeAll(
+          approvalsUtil.getReviewers(dbProvider.get(), changeNotes)
+              .byState(REVIEWER));
     }
 
     // Sort results

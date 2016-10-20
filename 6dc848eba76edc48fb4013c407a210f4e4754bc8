@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5cec333c_ffebbf87",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-20T22:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cec333c_5f262b2c",
+      "revId": "6dc848eba76edc48fb4013c407a210f4e4754bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cec333c_9ff6f371",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-20T21:08:59Z",
       "side": 1,
       "message": "Add an additional check that .patch(\"nonexistent-file\") throws ResourceNotFoundException. See calls to exception.expect(...) elsewhere for examples.",
+      "revId": "6dc848eba76edc48fb4013c407a210f4e4754bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcc167c3_8473465b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-20T22:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cec333c_9ff6f371",
       "revId": "6dc848eba76edc48fb4013c407a210f4e4754bc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

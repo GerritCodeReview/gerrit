@@ -1,163 +1,160 @@
 = Gerrit Code Review - Mail Templates
 
-Gerrit uses velocity templates for the bulk of the standard mails it sends out.
+Gerrit uses Closure Templates for the bulk of the standard mails it sends out.
 There are builtin default templates which are used if they are not overridden.
 These defaults are also provided as examples so that administrators may copy
 them and easily modify them to tweak their contents.
 
+*Compatibility Note:* previously, Velocity Template Language (VTL) was used as
+the template language for Gerrit emails. VTL has now been deprecated in favor of
+Soy, but Velocity templates that modify text emails remain supported for now.
 
 == Template Locations and Extensions:
 
 The default example templates reside under:  `'$site_path'/etc/mail` and are
-terminated with the double extension `.vm.example`. Modifying these example
+terminated with the double extension `.soy.example`. Modifying these example
 files will have no effect on the behavior of Gerrit.  However, copying an
 example template to an equivalently named file without the `.example` extension
 and modifying it will allow an administrator to customize the template.
-
 
 == Supported Mail Templates:
 
 Each mail that Gerrit sends out is controlled by at least one template.  These
 are listed below.  Change emails are influenced by two additional templates,
 one to set the subject line, and one to set the footer which gets appended to
-all the change emails (see `ChangeSubject.vm` and `ChangeFooter.vm` below.)
+all the change emails (see `ChangeSubject.soy` and `ChangeFooter.soy` below.)
 
-=== Abandoned.vm
+Many types of Gerrit email message support HTML in addition to plain-text. Where
+both are supported, templates to control the HTML part have `...Html` appended
+in their file names. For example, for "Abandoned" emails, the `Abandoned.soy`
+template determines the text part of the message, whereas `AbandonedHtml.soy`
+determines the HTML part.
 
-The `Abandoned.vm` template will determine the contents of the email related
-to a change being abandoned.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
-`ChangeFooter.vm`.
+=== Abandoned.soy and AbandonedHtml.soy
 
-=== AddKey.vm
+The "Abandoned" templates will determine the contents of the email related to a
+change being abandoned.  It is a `ChangeEmail`: see `ChangeSubject.soy` and
+ChangeFooter.
 
-The `AddKey.vm` template will determine the contents of the email related to
-SSH and GPG keys being added to a user account. This notification is not sent
-when the key is administratively added to another user account.
+=== AddKey.soy and AddKeyHtml.soy
 
-=== ChangeFooter.vm
+AddKey templates will determine the contents of the email related to SSH and GPG
+keys being added to a user account. This notification is not sent when the key
+is administratively added to another user account.
 
-The `ChangeFooter.vm` template will determine the contents of the footer
-text that will be appended to emails related to changes (all `ChangeEmail`s).
+=== ChangeFooter.soy and ChangeFooterHtml.soy
 
-=== ChangeSubject.vm
+The ChangeFooter templates will determine the contents of the footer that will
+be appended to emails related to changes (all `ChangeEmail`s).
 
-The `ChangeSubject.vm` template will determine the contents of the email
+=== ChangeSubject.soy
+
+The `ChangeSubject.soy` template will determine the contents of the email
 subject line for ALL emails related to changes.
 
-=== Comment.vm
+=== Comment.soy
 
-The `Comment.vm` template will determine the contents of the email related to
+The `Comment.soy` template will determine the contents of the email related to
 a user submitting comments on changes.  It is a `ChangeEmail`: see
-`ChangeSubject.vm`, `ChangeFooter.vm` and `CommentFooter.vm`.
+`ChangeSubject.soy`, ChangeFooter and CommentFooter.
 
-=== CommentFooter.vm
+=== CommentFooter.soy and CommentFooterHtml.soy
 
-The `CommentFooter.vm` template will determine the contents of the footer
-text that will be appended to emails related to a user submitting comments on
-changes.  See `ChangeSubject.vm`, `Comment.vm` and `ChangeFooter.vm`.
+The CommentFooter templates will determine the contents of the footer text that
+will be appended to emails related to a user submitting comments on changes.
+See `ChangeSubject.soy`, Comment and ChangeFooter.
 
-=== DeleteVote.vm
+=== DeleteVote.soy and DeleteVoteHtml.soy
 
-The `DeleteVote.vm` template will determine the contents of the email related
-to removing votes on changes.  It is a `ChangeEmail`: see `ChangeSubject.vm`
-and `ChangeFooter.vm`.
+The DeleteVote templates will determine the contents of the email related to
+removing votes on changes.  It is a `ChangeEmail`: see `ChangeSubject.soy`
+and ChangeFooter.
 
-=== DeleteReviewer.vm
+=== DeleteReviewer.soy and DeleteReviewerHtml.soy
 
-The `DeleteReviewer.vm` template will determine the contents of the email related
-to a user removing a reviewer (with a vote) from a change.  It is a
-`ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
+The DeleteReviewer templates will determine the contents of the email related to
+a user removing a reviewer (with a vote) from a change.  It is a
+`ChangeEmail`: see `ChangeSubject.soy` and ChangeFooter.
 
-=== Footer.vm
+=== Footer.soy and FooterHtml.soy
 
-The `Footer.vm` template will determine the contents of the footer text
-appended to the end of all outgoing emails after the ChangeFooter and
-CommentFooter.
+The Footer templates will determine the contents of the footer text appended to
+the end of all outgoing emails after the ChangeFooter and CommentFooter.
 
-=== Merged.vm
+=== Merged.soy and MergedHtml.soy
 
-The `Merged.vm` template will determine the contents of the email related to
-a change successfully merged to the head.  It is a `ChangeEmail`: see
-`ChangeSubject.vm` and `ChangeFooter.vm`.
+The Merged templates will determine the contents of the email related to a
+change successfully merged to the head.  It is a `ChangeEmail`: see
+`ChangeSubject.soy` and ChangeFooter.
 
-=== NewChange.vm
+=== NewChange.soy and NewChangeHtml.soy
 
-The `NewChange.vm` template will determine the contents of the email related
-to a user submitting a new change for review. This includes changes created
-by actions made by the user in the Web UI such as cherry picking a commit or
-reverting a change.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
-`ChangeFooter.vm`.
+The NewChange templates will determine the contents of the email related to a
+user submitting a new change for review. This includes changes created by
+actions made by the user in the Web UI such as cherry picking a commit or
+reverting a change.  It is a `ChangeEmail`: see `ChangeSubject.soy` and
+ChangeFooter.
 
-=== RegisterNewEmail.vm
+=== RegisterNewEmail.soy
 
-The `RegisterNewEmail.vm` template will determine the contents of the email
+The `RegisterNewEmail.soy` template will determine the contents of the email
 related to registering new email accounts.
 
-=== ReplacePatchSet.vm
+=== ReplacePatchSet.soy and ReplacePatchSetHtml.soy
 
-The `ReplacePatchSet.vm` template will determine the contents of the email
-related to a user submitting a new patchset for a change.  This includes
-patchsets created by actions made by the user in the Web UI such as editing
-the commit message, cherry picking a commit, or rebasing a change.  It is a
-`ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
+The ReplacePatchSet templates will determine the contents of the email related
+to a user submitting a new patchset for a change.  This includes patchsets
+created by actions made by the user in the Web UI such as editing the commit
+message, cherry picking a commit, or rebasing a change.  It is a `ChangeEmail`:
+see `ChangeSubject.soy` and ChangeFooter.
 
-=== Restored.vm
+=== Restored.soy and RestoredHtml.soy
 
-The `Restored.vm` template will determine the contents of the email related
-to a change being restored.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
-`ChangeFooter.vm`.
+The Restored templates will determine the contents of the email related to a
+change being restored.  It is a `ChangeEmail`: see `ChangeSubject.soy` and
+ChangeFooter.
 
-=== Reverted.vm
+=== Reverted.soy and RevertedHtml.soy
 
-The `Reverted.vm` template will determine the contents of the email related
-to a change being reverted.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
-`ChangeFooter.vm`.
+The Reverted templates will determine the contents of the email related to a
+change being reverted.  It is a `ChangeEmail`: see `ChangeSubject.soy` and
+ChangeFooter.
 
 
 == Mail Variables and Methods
 
 Mail templates can access and display objects currently made available to them
-via the velocity context.  While the base objects are documented here, it is
-possible to call public methods on these objects from templates.  Those methods
-are not documented here since they could change with every release.  As these
-templates are meant to be modified only by a qualified sysadmin, it is accepted
-that writing templates for Gerrit emails is likely to require some basic
-knowledge of the class structure to be useful.  Browsing the source code might
-be necessary for anything more than a minor formatting change.
+via the Soy context.
 
 === Warning
 
 Be aware that modifying templates can cause them to fail to parse and therefore
-not send out the actual email, or worse, calling methods on the available
-objects could have internal side effects which would adversely affect the
-health of your Gerrit server and/or data.
+not send out the actual email.
 
 === All OutgoingEmails
 
 All outgoing emails have the following variables available to them:
 
-$email::
+$email.settingsUrl::
 +
-A reference to the class constructing the current `OutgoingEmail`.  With this
-reference it is possible to call any public method on the OutgoingEmail class
-or the current child class inherited from it.
+The URL to view the user's settings in the Gerrit web UI.
+
+$email.gerritHost::
++
+The name of the Gerrit instance.
+
+$email.gerritUrl::
++
+The URL to the Gerrit web UI.
 
 $messageClass::
 +
 A String containing the messageClass.
 
-$StringUtils::
-+
-A reference to the Apache `StringUtils` class.  This can be very useful for
-formatting strings.
-
 === Change Emails
 
-All change related emails have the following additional variables available to them:
-
-$change::
-+
-A reference to the current `Change` object.
+Change related emails have the following template data available to them, in
+addition to what's available to all outgoing emails.
 
 $changeId::
 +
@@ -167,30 +164,69 @@ $coverLetter::
 +
 The text of the `ChangeMessage`.
 
-$branch::
-+
-A reference to the branch of this change (a `Branch.NameKey`).
-
 $fromName::
 +
 The name of the from user.
+
+$email.unifiedDiff::
++
+The diff of the change.
+
+$email.changeDetail::
++
+The details of the change, including the commit message.
+
+$email.changeUrl::
++
+The URL to the change in the web UI.
+
+$email.includeDiff::
++
+Whether the Gerrit instance is configured to include diffs in emails.
+
+$change.subject::
++
+The subject of the current change.
+
+$change.originalSubject::
++
+The subject corresponding to the first patch set of the current change.
+
+$change.shortSubject::
++
+The subject limited to 63 characters, with an ellipsis if it exceeds that.
+
+$change.ownerEmail::
++
+The email address of the owner of the change.
+
+$branch.shortName::
++
+The name of the branch targeted by the current change.
 
 $projectName::
 +
 The name of this change's project.
 
-$patchSet::
+$shortProjectName::
 +
-A reference to the current `PatchSet`.
+The project name with the path abbreviated.
 
-$patchSetInfo::
+$sshHost::
 +
-A reference to the current `PatchSetInfo`.
+SSH hostname for the Gerrit instance.
 
+$patchSet.patchSetId::
++
+The current patch set number.
+
+$patchSet.refname::
++
+The refname of the patch set.
 
 == SEE ALSO
 
-* link:http://velocity.apache.org/[velocity]
+* link:https://developers.google.com/closure/templates/[Closure Templates]
 
 GERRIT
 ------

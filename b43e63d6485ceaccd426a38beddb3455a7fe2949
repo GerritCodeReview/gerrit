@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c04df97_26385602",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-20T08:26:33Z",
+      "side": 1,
+      "message": "If we changed the type of exception, we would also modify the exceptions for the following situations:\n- When a user tries to delete a draft change of another user and doesn\u0027t have the permission \u0027deleteDrafts\u0027. (I added a test for this situation to DraftChangeIT in my second patchset.)\n- When a user tries to delete the new/abandoned change of another user and isn\u0027t an admin.\n- When a user can\u0027t see a change and nevertheless tries to delete it.\n\nI could easily change the thrown exception for all of them. If we need to differentiate between them, the code in ChangeControl and DeleteChangeOp will get more complex. What do you think is best?",
+      "parentUuid": "bcb60fe5_3af76171",
+      "range": {
+        "startLine": 477,
+        "startChar": 4,
+        "endLine": 478,
+        "endChar": 67
+      },
+      "revId": "b43e63d6485ceaccd426a38beddb3455a7fe2949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cb193f0_d7ff1c42",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3c04df97_a62326d8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-20T08:26:33Z",
+      "side": 1,
+      "message": "You\u0027re absolutely right. I removed the possibility to delete merged changes.",
+      "parentUuid": "5cb193f0_d7ff1c42",
+      "range": {
+        "startLine": 484,
+        "startChar": 2,
+        "endLine": 496,
+        "endChar": 3
+      },
+      "revId": "b43e63d6485ceaccd426a38beddb3455a7fe2949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb60fe5_5aec15a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-10-19T13:40:34Z",
       "side": 1,
       "message": "In this context is this the change owner, or \"project owner\".  In the latter case the permission scope might be wider than expected.",
+      "range": {
+        "startLine": 276,
+        "startChar": 15,
+        "endLine": 276,
+        "endChar": 22
+      },
+      "revId": "b43e63d6485ceaccd426a38beddb3455a7fe2949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_458d8abc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-20T08:26:33Z",
+      "side": 1,
+      "message": "This is the change owner.",
+      "parentUuid": "bcb60fe5_5aec15a1",
       "range": {
         "startLine": 276,
         "startChar": 15,

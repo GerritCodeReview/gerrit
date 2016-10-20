@@ -244,5 +244,27 @@ limitations under the License.
       emulateCopyOn(element.querySelector('textarea'));
       assert.isFalse(selectedTextSpy.called);
     });
+
+    test('regression test for 4794', function() {
+      element._cachedDiffBuilder.getLineElByChild = function(child) {
+        while (!child.classList.contains('content') && child.parentElement) {
+          child = child.parentElement;
+        }
+        return child.previousElementSibling;
+      };
+
+      element.classList.add('selected-right');
+      element.classList.remove('selected-left');
+
+      var selection = window.getSelection();
+      var range = document.createRange();
+      range.setStart(
+          element.querySelectorAll('div.contentText')[1].firstChild, 4);
+      range.setEnd(
+          element.querySelectorAll('div.contentText')[1].firstChild, 10);
+      selection.addRange(range);
+      assert.equal(element._getSelectedText('right'), ' other');
+      selection.removeAllRanges();
+    });
   });
 </script>

@@ -170,9 +170,9 @@
         endOffset, side) {
       var lines = this._getDiffLines(side).slice(startLineNum - 1, endLineNum);
       if (lines.length) {
-        lines[0] = lines[0].substring(startOffset);
         lines[lines.length - 1] = lines[lines.length - 1]
             .substring(0, endOffset);
+        lines[0] = lines[0].substring(startOffset);
       }
       return lines.join('\n');
     },

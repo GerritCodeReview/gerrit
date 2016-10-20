@@ -34,6 +34,24 @@
       "revId": "7777330900af1faf7d77889871c4f9bdb6b0d177",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc55e7ac_641c2adc",
+        "filename": ".buckconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-20T12:45:41Z",
+      "side": 1,
+      "message": "For example a change was merged earlier today that uses emptySortedSet, which was not introduced until Java 8:\n\nhttps://docs.oracle.com/javase/8/docs/api/java/util/Collections.html#emptySortedSet--",
+      "parentUuid": "fc55e7ac_a419c2ef",
+      "revId": "7777330900af1faf7d77889871c4f9bdb6b0d177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

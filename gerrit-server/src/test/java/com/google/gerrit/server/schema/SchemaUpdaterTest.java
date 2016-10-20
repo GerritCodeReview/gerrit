@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -137,6 +137,7 @@ public class SchemaUpdaterTest {
 
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();
-    assertEquals(paths.site_path.toAbsolutePath().toString(), sc.sitePath);
+    assertThat(sc.sitePath)
+        .isEqualTo(paths.site_path.toAbsolutePath().toString());
   }
 }

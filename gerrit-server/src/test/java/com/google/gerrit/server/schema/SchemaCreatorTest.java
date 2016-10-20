@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -82,7 +79,7 @@ public class SchemaCreatorTest {
     try (JdbcSchema d = (JdbcSchema) db.open();
         ResultSet rs = d.getConnection().getMetaData()
           .getTables(null, null, null, types)) {
-      assertFalse(rs.next());
+      assertThat(rs.next()).isFalse();
     }
 
     // Create the schema using the current schema version.
@@ -96,7 +93,8 @@ public class SchemaCreatorTest {
     if (sitePath.getName().equals(".")) {
       sitePath = sitePath.getParentFile();
     }
-    assertEquals(sitePath.getCanonicalPath(), db.getSystemConfig().sitePath);
+    assertThat(db.getSystemConfig().sitePath)
+        .isEqualTo(sitePath.getCanonicalPath());
   }
 
   private LabelTypes getLabelTypes() throws Exception {
@@ -115,27 +113,27 @@ public class SchemaCreatorTest {
     for (LabelType label : getLabelTypes().getLabelTypes()) {
       labels.add(label.getName());
     }
-    assertEquals(ImmutableList.of("Code-Review"), labels);
+    assertThat(labels).containsExactly("Code-Review");
   }
 
   @Test
   public void testCreateSchema_Label_CodeReview() throws Exception {
     LabelType codeReview = getLabelTypes().byLabel("Code-Review");
-    assertNotNull(codeReview);
-    assertEquals("Code-Review", codeReview.getName());
-    assertEquals(0, codeReview.getDefaultValue());
-    assertEquals("MaxWithBlock", codeReview.getFunctionName());
-    assertTrue(codeReview.isCopyMinScore());
+    assertThat(codeReview).isNotNull();
+    assertThat(codeReview.getName()).isEqualTo("Code-Review");
+    assertThat(codeReview.getDefaultValue()).isEqualTo(0);
+    assertThat(codeReview.getFunctionName()).isEqualTo("MaxWithBlock");
+    assertThat(codeReview.isCopyMinScore()).isTrue();
     assertValueRange(codeReview, 2, 1, 0, -1, -2);
   }
 
   private void assertValueRange(LabelType label, Integer... range) {
-    assertEquals(Arrays.asList(range), label.getValuesAsList());
-    assertEquals(range[0], Integer.valueOf(label.getMax().getValue()));
-    assertEquals(range[range.length - 1],
-      Integer.valueOf(label.getMin().getValue()));
+    assertThat(label.getValuesAsList())
+        .containsExactlyElementsIn(Arrays.asList(range)).inOrder();
+    assertThat(label.getMax().getValue()).isEqualTo(range[0]);
+    assertThat(label.getMin().getValue()).isEqualTo(range[range.length - 1]);
     for (LabelValue v : label.getValues()) {
-      assertFalse(Strings.isNullOrEmpty(v.getText()));
+      assertThat(Strings.isNullOrEmpty(v.getText())).isFalse();
     }
   }
 }

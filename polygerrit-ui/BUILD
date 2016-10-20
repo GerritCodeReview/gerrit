@@ -10,6 +10,7 @@ bower_component_bundle(
   deps = [
     '//lib/js:es6-promise',
     '//lib/js:fetch',
+    # TODO(hanwen): this is inserted separately in the UI zip. Do we need this here?
     '//lib/js:highlightjs',
     '//lib/js:iron-autogrow-textarea',
     '//lib/js:iron-dropdown',
@@ -21,17 +22,3 @@ bower_component_bundle(
     '//lib/js:polymer',
     '//lib/js:promise-polyfill',
 ])
-
-
-genrule2(
-  name = 'fonts',
-  cmd = ' && '.join([
-    'cd $$TMP; for file in $(SRCS); do unzip -q $$ROOT/$$file; done',
-    'zip -q $$ROOT/$@ *',
-  ]),
-  srcs = [
-    '//lib/fonts:sourcecodepro.zip',
-  ],
-  out = 'fonts.zip',
-  visibility = ['//visibility:public'],
-)

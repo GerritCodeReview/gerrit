@@ -95,6 +95,29 @@
     },
     {
       "key": {
+        "uuid": "1c01db89_e59356a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-20T11:26:40Z",
+      "side": 1,
+      "message": "I think an admin should even be able to delete draft changes if allowDrafts \u003d\u003d false.",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 76,
+        "endChar": 59
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c605f88_06bbfaa8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 2
@@ -246,6 +269,29 @@
         "startChar": 51,
         "endLine": 119,
         "endChar": 72
+      },
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_26e6166d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-20T11:26:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we want that change owners are able to delete their non-draft changes, because it includes deleting comments of other users. I would rather allow it only to administrators.\n\nIf we want to enable this later, we may add a DeleteChange permission which is by default assigned to ChangeOwners.",
+      "range": {
+        "startLine": 276,
+        "startChar": 15,
+        "endLine": 276,
+        "endChar": 28
       },
       "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

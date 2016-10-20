@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cec333c_7fa4cf8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-20T01:17:43Z",
+      "side": 1,
+      "message": "The `if (splice.removed.length)` test is no longer needed thanks to the loop.\n\nYou may also consider using `splice.removed.forEach` instead of a `for`.",
+      "range": {
+        "startLine": 621,
+        "startChar": 8,
+        "endLine": 622,
+        "endChar": 59
+      },
+      "revId": "0db873ab7f6e7c4236f57fab1a89ab79a264e692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

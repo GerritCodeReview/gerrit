@@ -93,7 +93,7 @@ public class EventUtil {
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       Integer value = e.getValue() != null ? Integer.valueOf(e.getValue()) : null;
       result.put(e.getKey(),
-          ChangeJson.getApprovalInfo(a.getId(), value, null, ts));
+          ChangeJson.getApprovalInfo(a.getId(), value, null, null, ts));
     }
     return result;
   }

@@ -83,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "1c01db89_05d67251",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "Oh, yes, of course! Added explanation here for my future self.",
+      "parentUuid": "9ca06ba7_f1b7c8b7",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_03960ed7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 5
@@ -124,6 +142,24 @@
         "endLine": 264,
         "endChar": 66
       },
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c04df97_0651da20",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "well, change is change1 and is submitted really early. So, yes, your explanation makes sense. Added explanation.",
+      "parentUuid": "9ca06ba7_11e44cc9",
       "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -177,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "1c01db89_85a022dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "Great idea. Done and now everything works. Thanks!",
+      "parentUuid": "7ca1f7a9_f0cee03f",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_239b0a00",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
         "patchSetId": 5
@@ -224,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "3c04df97_e66c7eec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "that makes sense, then I\u0027m leaving this as is, but I added comment in RebaseAlways implementation explaining the trade-off.",
+      "parentUuid": "9ca06ba7_71e3d8bf",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dca2e37b_439c06f9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
         "patchSetId": 5
@@ -264,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "3c04df97_a67686b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c057749_b0b0b8c4",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_93addc6c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 5
@@ -275,6 +365,24 @@
       "writtenOn": "2016-10-18T16:27:46Z",
       "side": 1,
       "message": "This is because there is no \"base\" on which to rebase. I think this is an oversight in Cherry-Pick, it should still be possible to rewrite the commit message and take the same tree.",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_65b6462a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "Yes, indeed. I\u0027m leaving this for another CL.",
+      "parentUuid": "dc60231e_93addc6c",
       "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -321,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "3c04df97_c67182c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "this code is executed only if fast-forward is an option. The rebase case is below line 161.",
+      "parentUuid": "dc60231e_33f20881",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_f32890fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 5
@@ -332,6 +458,24 @@
       "writtenOn": "2016-10-18T16:27:46Z",
       "side": 1,
       "message": "Don\u0027t use checkState, throw IllegalStateException. That way the compiler knows that the function exits there.",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c01db89_45b34a38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-20T21:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc60231e_f32890fa",
       "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

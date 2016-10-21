@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -22,20 +22,18 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-/** Send notice about a change being abandoned by its owner. */
-public class AbandonedSender extends ReplyToChangeSender {
-  public interface Factory extends
-      ReplyToChangeSender.Factory<AbandonedSender> {
-    @Override
-    AbandonedSender create(Project.NameKey project, Change.Id change);
+/** Send notice about a change being reverted. */
+public class RevertedSender extends ReplyToChangeSender {
+  public interface Factory {
+    RevertedSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
-  public AbandonedSender(EmailArguments ea,
+  public RevertedSender(EmailArguments ea,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id)
       throws OrmException {
-    super(ea, "abandon", newChangeData(ea, project, id));
+    super(ea, "revert", ChangeEmail.newChangeData(ea, project, id));
   }
 
   @Override
@@ -44,15 +42,14 @@ public class AbandonedSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    includeWatchers(NotifyType.ABANDONED_CHANGES);
     includeWatchers(NotifyType.ALL_COMMENTS);
   }
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("Abandoned"));
+    appendText(textTemplate("Reverted"));
     if (useHtml()) {
-      appendHtml(soyHtmlTemplate("AbandonedHtml"));
+      appendHtml(soyHtmlTemplate("RevertedHtml"));
     }
   }
 

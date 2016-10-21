@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
-import com.google.gerrit.reviewdb.client.Account;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/** Constructs an address to send email from. */
-public interface FromAddressGenerator {
-  boolean isGenericAddress(Account.Id fromId);
+import com.google.inject.BindingAnnotation;
 
-  Address from(Account.Id fromId);
-}
+import java.lang.annotation.Retention;
+
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface MailTemplates {}

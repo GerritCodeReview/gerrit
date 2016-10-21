@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.EmailTokenVerifier;
+import com.google.gerrit.server.mail.RecipientType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

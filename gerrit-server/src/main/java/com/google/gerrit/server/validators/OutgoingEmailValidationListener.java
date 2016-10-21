@@ -17,7 +17,7 @@ package com.google.gerrit.server.validators;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.EmailHeader;
+import com.google.gerrit.server.mail.send.EmailHeader;
 
 import java.util.Map;
 import java.util.Set;

@@ -38,7 +38,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
-import com.google.gerrit.server.mail.OutgoingEmailValidator;
+import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;

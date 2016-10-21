@@ -432,6 +432,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         case CHERRY_PICK:
           return message(ctx, commit, CommitMergeStatus.CLEAN_PICK);
         case REBASE_IF_NECESSARY:
+        case REBASE_ALWAYS:
           return message(ctx, commit, CommitMergeStatus.CLEAN_REBASE);
         default:
           throw new IllegalStateException("unexpected submit type "

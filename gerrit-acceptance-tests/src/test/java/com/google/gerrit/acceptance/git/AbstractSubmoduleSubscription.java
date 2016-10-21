@@ -61,14 +61,21 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return cfg;
   }
 
-  protected static Config submitByCherryPickConifg() {
+  protected static Config submitByCherryPickConfig() {
     Config cfg = new Config();
     cfg.setBoolean("change", null, "submitWholeTopic", true);
     cfg.setEnum("project", null, "submitType", SubmitType.CHERRY_PICK);
     return cfg;
   }
 
-  protected static Config submitByRebaseConifg() {
+  protected static Config submitByRebaseAlwaysConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "submitWholeTopic", true);
+    cfg.setEnum("project", null, "submitType", SubmitType.REBASE_ALWAYS);
+    return cfg;
+  }
+
+  protected static Config submitByRebaseIfNecessaryConfig() {
     Config cfg = new Config();
     cfg.setBoolean("change", null, "submitWholeTopic", true);
     cfg.setEnum("project", null, "submitType", SubmitType.REBASE_IF_NECESSARY);

@@ -64,12 +64,15 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
   private static final String CACHE_NAME = "mergeability";
 
-  public static final BiMap<SubmitType, Character> SUBMIT_TYPES = ImmutableBiMap.of(
-        SubmitType.FAST_FORWARD_ONLY, 'F',
-        SubmitType.MERGE_IF_NECESSARY, 'M',
-        SubmitType.REBASE_IF_NECESSARY, 'R',
-        SubmitType.MERGE_ALWAYS, 'A',
-        SubmitType.CHERRY_PICK, 'C');
+  public static final BiMap<SubmitType, Character> SUBMIT_TYPES =
+      new ImmutableBiMap.Builder<SubmitType, Character>()
+          .put(SubmitType.FAST_FORWARD_ONLY, 'F')
+          .put(SubmitType.MERGE_IF_NECESSARY, 'M')
+          .put(SubmitType.REBASE_ALWAYS, 'P')
+          .put(SubmitType.REBASE_IF_NECESSARY, 'R')
+          .put(SubmitType.MERGE_ALWAYS, 'A')
+          .put(SubmitType.CHERRY_PICK, 'C')
+          .build();
 
   static {
     checkState(SUBMIT_TYPES.size() == SubmitType.values().length,

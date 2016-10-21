@@ -71,6 +71,8 @@ public class SubmitStrategyFactory {
         return new MergeIfNecessary(args);
       case REBASE_IF_NECESSARY:
         return new RebaseIfNecessary(args);
+      case REBASE_ALWAYS:
+        return new RebaseAlways(args);
       default:
         String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

@@ -22,6 +22,24 @@
       "revId": "8d357f938475cb9e62e6f627c0f01ab77cce75dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81ef246f_6073525d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergedHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-21T21:10:52Z",
+      "side": 1,
+      "message": "Less is more! Done.",
+      "parentUuid": "a1eee870_6173565d",
+      "revId": "8d357f938475cb9e62e6f627c0f01ab77cce75dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

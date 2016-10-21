@@ -16,8 +16,11 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.applyDelta;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.parse;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static org.eclipse.jgit.lib.ObjectId.zeroId;
 
 import com.google.common.collect.ImmutableMap;
@@ -48,30 +51,44 @@ public class NoteDbChangeStateTest {
       ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");
 
   @Test
-  public void parseWithoutDrafts() {
+  public void parseReviewDbWithoutDrafts() {
     NoteDbChangeState state = parse(new Change.Id(1), SHA1.name());
-
+    assertThat(state.getPrimaryStorage()).isEqualTo(REVIEW_DB);
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
     assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
     assertThat(state.getDraftIds()).isEmpty();
+    assertThat(state.toString()).isEqualTo(SHA1.name());
 
+    state = parse(new Change.Id(1), "R," + SHA1.name());
+    assertThat(state.getPrimaryStorage()).isEqualTo(REVIEW_DB);
+    assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
+    assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
+    assertThat(state.getDraftIds()).isEmpty();
     assertThat(state.toString()).isEqualTo(SHA1.name());
   }
 
   @Test
-  public void parseWithDrafts() {
-    NoteDbChangeState state = parse(
-        new Change.Id(1),
-        SHA1.name() + ",2003=" + SHA2.name() + ",1001=" + SHA3.name());
-
+  public void parseReviewDbWithDrafts() {
+    String str = SHA1.name() + ",2003=" + SHA2.name() + ",1001=" + SHA3.name();
+    String expected =
+        SHA1.name() + ",1001=" + SHA3.name() + ",2003=" + SHA2.name();
+    NoteDbChangeState state = parse(new Change.Id(1), str);
+    assertThat(state.getPrimaryStorage()).isEqualTo(REVIEW_DB);
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
     assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
     assertThat(state.getDraftIds()).containsExactly(
         new Account.Id(1001), SHA3,
         new Account.Id(2003), SHA2);
+    assertThat(state.toString()).isEqualTo(expected);
 
-    assertThat(state.toString()).isEqualTo(
-        SHA1.name() + ",1001=" + SHA3.name() + ",2003=" + SHA2.name());
+    state = parse(new Change.Id(1), "R," + str);
+    assertThat(state.getPrimaryStorage()).isEqualTo(REVIEW_DB);
+    assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
+    assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
+    assertThat(state.getDraftIds()).containsExactly(
+        new Account.Id(1001), SHA3,
+        new Account.Id(2003), SHA2);
+    assertThat(state.toString()).isEqualTo(expected);
   }
 
   @Test
@@ -125,6 +142,32 @@ public class NoteDbChangeStateTest {
     applyDelta(c, Delta.create(c.getId(), metaId(SHA3), noDrafts()));
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA3.name() + ",1001=" + SHA2.name());
+  }
+
+  @Test
+  public void parseNoteDbPrimary() {
+    NoteDbChangeState state = parse(new Change.Id(1), "N");
+    assertThat(state.getPrimaryStorage()).isEqualTo(NOTE_DB);
+    assertThat(state.getRefState().isPresent()).isFalse();
+  }
+
+  @Test
+  public void parseInvalidPrimaryStorage() {
+    try {
+      parse(new Change.Id(1), "X");
+      assert_().fail("expected parse to fail");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void applyDeltaToNoteDbPrimaryIsNoOp() {
+    Change c = newChange();
+    c.setNoteDbState("N");
+    applyDelta(c, Delta.create(c.getId(), metaId(SHA1),
+        drafts(new Account.Id(1001), SHA2)));
+    assertThat(c.getNoteDbState()).isEqualTo("N");
   }
 
   private static Change newChange() {

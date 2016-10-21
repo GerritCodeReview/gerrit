@@ -68,6 +68,7 @@ import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
@@ -597,6 +598,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
     NoteDbChangeState bogusState = new NoteDbChangeState(
         id,
+        PrimaryStorage.REVIEW_DB,
         Optional.of(
           NoteDbChangeState.RefState.create(
               NoteDbChangeState.parse(c).getChangeMetaId(),

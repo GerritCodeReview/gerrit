@@ -19,7 +19,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.Inject;
 
 import java.util.Collection;

@@ -12,16 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.mail.RecipientType;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,21 +26,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Send notice of new patch sets for reviewers. */
-public class ReplacePatchSetSender extends ReplyToChangeSender {
-  public interface Factory {
-    ReplacePatchSetSender create(Project.NameKey project, Change.Id id);
-  }
-
+/** Sends an email alerting a user to a new change for them to review. */
+public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
 
-  @Inject
-  public ReplacePatchSetSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  protected NewChangeSender(EmailArguments ea, ChangeData cd)
       throws OrmException {
-    super(ea, "newpatchset", newChangeData(ea, project, id));
+    super(ea, "newchange", cd);
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {
@@ -58,36 +48,39 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    if (fromId != null) {
-      // Don't call yourself a reviewer of your own patch set.
-      //
-      reviewers.remove(fromId);
+    setHeader("Message-ID", getChangeMessageThreadId());
+
+    switch (notify) {
+      case NONE:
+      case OWNER:
+        break;
+      case ALL:
+      default:
+        add(RecipientType.CC, extraCC);
+        //$FALL-THROUGH$
+      case OWNER_REVIEWERS:
+        add(RecipientType.TO, reviewers);
+        break;
     }
-    add(RecipientType.TO, reviewers);
-    add(RecipientType.CC, extraCC);
+
     rcptToAuthors(RecipientType.CC);
-    bccStarredBy();
-    includeWatchers(NotifyType.NEW_PATCHSETS);
   }
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("ReplacePatchSet"));
+    appendText(textTemplate("NewChange"));
     if (useHtml()) {
-      appendHtml(soyHtmlTemplate("ReplacePatchSetHtml"));
+      appendHtml(soyHtmlTemplate("NewChangeHtml"));
     }
   }
 
   public List<String> getReviewerNames() {
+    if (reviewers.isEmpty()) {
+      return null;
+    }
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
-      if (id.equals(fromId)) {
-        continue;
-      }
       names.add(getNameFor(id));
-    }
-    if (names.isEmpty()) {
-      return null;
     }
     return names;
   }

@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AddSshKey.Input;
-import com.google.gerrit.server.mail.AddKeySender;
+import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

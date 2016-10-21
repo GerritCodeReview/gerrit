@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.server.mail.send.EmailHeader;
+
 public class Address {
   public static Address parse(final String in) {
     final int lt = in.indexOf('<');

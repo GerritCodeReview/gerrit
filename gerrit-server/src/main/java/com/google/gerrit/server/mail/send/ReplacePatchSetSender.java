@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.mail.RecipientType;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -29,55 +30,65 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Let users know that a reviewer and possibly her review have
- * been removed. */
-public class DeleteReviewerSender extends ReplyToChangeSender {
-  private final Set<Account.Id> reviewers = new HashSet<>();
-
-  public interface Factory extends
-      ReplyToChangeSender.Factory<DeleteReviewerSender> {
-    @Override
-    DeleteReviewerSender create(Project.NameKey project, Change.Id change);
+/** Send notice of new patch sets for reviewers. */
+public class ReplacePatchSetSender extends ReplyToChangeSender {
+  public interface Factory {
+    ReplacePatchSetSender create(Project.NameKey project, Change.Id id);
   }
 
+  private final Set<Account.Id> reviewers = new HashSet<>();
+  private final Set<Account.Id> extraCC = new HashSet<>();
+
   @Inject
-  public DeleteReviewerSender(EmailArguments ea,
+  public ReplacePatchSetSender(EmailArguments ea,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id)
       throws OrmException {
-    super(ea, "deleteReviewer", newChangeData(ea, project, id));
+    super(ea, "newpatchset", newChangeData(ea, project, id));
   }
 
-  public void addReviewers(Collection<Account.Id> cc) {
+  public void addReviewers(final Collection<Account.Id> cc) {
     reviewers.addAll(cc);
+  }
+
+  public void addExtraCC(final Collection<Account.Id> cc) {
+    extraCC.addAll(cc);
   }
 
   @Override
   protected void init() throws EmailException {
     super.init();
 
-    ccAllApprovals();
-    bccStarredBy();
-    ccExistingReviewers();
-    includeWatchers(NotifyType.ALL_COMMENTS);
+    if (fromId != null) {
+      // Don't call yourself a reviewer of your own patch set.
+      //
+      reviewers.remove(fromId);
+    }
     add(RecipientType.TO, reviewers);
+    add(RecipientType.CC, extraCC);
+    rcptToAuthors(RecipientType.CC);
+    bccStarredBy();
+    includeWatchers(NotifyType.NEW_PATCHSETS);
   }
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("DeleteReviewer"));
+    appendText(textTemplate("ReplacePatchSet"));
     if (useHtml()) {
-      appendHtml(soyHtmlTemplate("DeleteReviewerHtml"));
+      appendHtml(soyHtmlTemplate("ReplacePatchSetHtml"));
     }
   }
 
   public List<String> getReviewerNames() {
-    if (reviewers.isEmpty()) {
-      return null;
-    }
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
+      if (id.equals(fromId)) {
+        continue;
+      }
       names.add(getNameFor(id));
+    }
+    if (names.isEmpty()) {
+      return null;
     }
     return names;
   }

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,51 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-/** Send notice about a vote that was removed from a change. */
-public class DeleteVoteSender extends ReplyToChangeSender {
-  public interface Factory extends
-      ReplyToChangeSender.Factory<DeleteVoteSender> {
-    @Override
-    DeleteVoteSender create(Project.NameKey project, Change.Id change);
+/** Asks a user to review a change. */
+public class AddReviewerSender extends NewChangeSender {
+  public interface Factory {
+    AddReviewerSender create(Project.NameKey project, Change.Id id,
+        NotifyHandling notify);
   }
 
   @Inject
-  protected DeleteVoteSender(EmailArguments ea,
+  public AddReviewerSender(EmailArguments ea,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+      @Assisted Change.Id id,
+      @Assisted @Nullable NotifyHandling notify)
       throws OrmException {
-    super(ea, "deleteVote", newChangeData(ea, project, id));
+    super(ea, newChangeData(ea, project, id));
+    if (notify != null) {
+      setNotify(notify);
+    }
   }
 
   @Override
   protected void init() throws EmailException {
     super.init();
 
-    ccAllApprovals();
-    bccStarredBy();
-    includeWatchers(NotifyType.ALL_COMMENTS);
-  }
-
-  @Override
-  protected void formatChange() throws EmailException {
-    appendText(textTemplate("DeleteVote"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("DeleteVoteHtml"));
-    }
-  }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
+    ccExistingReviewers();
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcc167c3_0480f6db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-21T01:15:52Z",
+      "side": 1,
+      "message": "I see where you\u0027re coming from but it feels a little hacky to use this heuristic to see whether the file exists.\n\nIf I\u0027m reading DiffFormatter correctly, the way to tell that the file doesn\u0027t exist is if scan(a, b) returns an empty list.\n\nSo what I would do here is something like:\n\n DiffFormatter fmt \u003d new DiffFormatter(out);\n fmt.setReader(rw.getObjectReader(), repo.getConfig());\n ... other fmt options\n final List\u003cDiffEntry\u003e entries \u003d fmt.scan(base.getTree(), commit.getTree());\n if (path !\u003d null \u0026\u0026 entries.isEmpty()) {\n   throw RNFE\n }\n return new BinaryResult() {\n   ...\n   private void format(OutputStream out) {\n     ...\n     fmt.format(entries);\n     fmt.flush();\n   }\n }\n\nNotes:\n\n * Calling fmt.setReader means that you don\u0027t have to close the DiffFormatter, as the only thing DiffFormatter#close does is close the reader, but it skips that if you had previously called setReader.\n * It may look like this might waste more memory by holding on to a materialized List\u003cDiffEntry\u003e, but it doesn\u0027t. If you look at the implementation of fmt.format on line 112 above, it literally calls format(scan(a, b)), so the current implementation is already materializing the same list.",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 57
+      },
+      "revId": "e0b6d4418b78bd70f8fc6d8b43d7ac171738c193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

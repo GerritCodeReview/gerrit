@@ -52,6 +52,23 @@
       "revId": "90e1552d272751d428b8508d710f9249dad486fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c285f69_2680b6dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-21T21:40:31Z",
+      "side": 1,
+      "message": "I think this implementation smells a bit. You can play around with the new Comparators static methods, particularly comparing some boolean values, combining them with .thenComparing. You can write tests for that as well.\n\nThat said, I see that this is a literal copy/paste of the existing comparator. We don\u0027t have to let the perfect be the enemy of the good here, as long as we plan to do the cleanup soonish.",
+      "revId": "90e1552d272751d428b8508d710f9249dad486fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

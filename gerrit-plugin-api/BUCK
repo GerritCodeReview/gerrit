@@ -47,6 +47,7 @@ java_library(
     '//lib/log:api',
     '//lib/mina:sshd',
     '//lib/prolog:compiler',
+    '//lib/prolog:runtime',
   ],
   visibility = ['PUBLIC'],
 )

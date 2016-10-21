@@ -221,16 +221,13 @@ public class SubmitRuleEvaluator {
       return Collections.singletonList(rec);
     }
     if (!opts.allowDraft()) {
-      if (c.getStatus() == Change.Status.DRAFT) {
-        return cannotSubmitDraft();
-      }
       try {
         initPatchSet();
       } catch (OrmException e) {
         return ruleError("Error looking up patch set "
             + control.getChange().currentPatchSetId(), e);
       }
-      if (patchSet.isDraft()) {
+      if (c.getStatus() == Change.Status.DRAFT || patchSet.isDraft()) {
         return cannotSubmitDraft();
       }
     }
@@ -262,7 +259,6 @@ public class SubmitRuleEvaluator {
       if (!control.isDraftVisible(cd.db(), cd)) {
         return createRuleError("Patch set " + patchSet.getId() + " not found");
       }
-      initPatchSet();
       if (patchSet.isDraft()) {
         return createRuleError("Cannot submit draft patch sets");
       }

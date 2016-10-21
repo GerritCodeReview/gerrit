@@ -379,6 +379,19 @@ limitations under the License.
       assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
     });
 
+    test('download link', function() {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '10',
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      assert.equal(element.$$('.downloadLink').getAttribute('href'),
+          '/changes/42/revisions/10/patch?zip&path=glados.txt');
+    });
+
     test('prev/next links with patch range', function() {
       element._changeNum = '42';
       element._patchRange = {

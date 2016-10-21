@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -43,13 +44,17 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
       }
+      .patchRangeLeft {
+        display: flex;
+      }
       .titleHeader {
         padding: .75em var(--default-horizontal-margin);
       }
       .patchRangeHeader {
         margin: 0 var(--default-horizontal-margin) .75em;
       }
-      .navLink:not([href]) {
+      .navLink:not([href]),
+      .downloadLink:not([href]) {
         color: #999;
       }
       .reviewed {
@@ -118,6 +123,9 @@ limitations under the License.
       }
       #modeSelect {
         margin-left: .5em;
+      }
+      .separator {
+        margin: 0 .25em;
       }
       @media screen and (max-width: 50em) {
         .dash {
@@ -194,13 +202,20 @@ limitations under the License.
       </div>
       <div class="loading" hidden$="[[!_loading]]">Loading...</div>
       <div class="patchRangeHeader" hidden hidden$="[[_loading]]">
-        <gr-patch-range-select
-            path="[[_path]]"
-            change-num="[[_changeNum]]"
-            patch-range="[[_patchRange]]"
-            files-weblinks="[[_filesWeblinks]]"
-            available-patches="[[_computeAvailablePatches(_change.revisions)]]">
-        </gr-patch-range-select>
+        <div class="patchRangeLeft">
+          <gr-patch-range-select
+              path="[[_path]]"
+              change-num="[[_changeNum]]"
+              patch-range="[[_patchRange]]"
+              files-weblinks="[[_filesWeblinks]]"
+              available-patches="[[_computeAvailablePatches(_change.revisions)]]">
+          </gr-patch-range-select>
+          <span class="separator">/</span>
+          <a class="downloadLink"
+              href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
+            Download
+          </a>
+        </div>
         <div>
           <select
               id="modeSelect"

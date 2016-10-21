@@ -47,6 +47,24 @@
       "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcbe6336_0380eedb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-21T14:21:29Z",
+      "side": 1,
+      "message": "Specifically, the reason DETAILED_LABELS needs it is that initLabels initializes the map based on the submit records, and setAllApprovals depends on an entry existing for each label mentioned in the PatchSetApprovals list.\n\n...wow I hate ChangeJson.",
+      "parentUuid": "1cc9dbea_6557266f",
+      "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

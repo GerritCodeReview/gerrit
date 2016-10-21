@@ -23,6 +23,30 @@
       "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_6557266f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T14:14:01Z",
+      "side": 1,
+      "message": "I guess it\u0027s needed for both LABELS and DETAILED_LABELS?\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java#499",
+      "parentUuid": "dcbe6336_c37d3627",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

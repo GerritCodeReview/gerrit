@@ -381,6 +381,22 @@ maven_jar(
   sha1 = '2e35862b0435c1b027a21f3d6eecbe50e6e08d54',
 )
 
+GREENMAIL_VERS = '1.5.2'
+
+maven_jar(
+  name = 'greenmail',
+  artifact = 'com.icegreen:greenmail:' + GREENMAIL_VERS,
+  sha1 = '6b4862a09f8642da58c109117b24ccc19a4a6d39',
+)
+
+MAIL_VERS = '1.5.6'
+
+maven_jar(
+  name = 'mail',
+  artifact = 'com.sun.mail:javax.mail:' + MAIL_VERS,
+  sha1 = 'ab5daef2f881c42c8e280cbe918ec4d7fdfd7efe',
+)
+
 OW2_VERS = '5.1'
 
 maven_jar(

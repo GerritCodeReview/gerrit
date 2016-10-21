@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1cc9dbea_45fdca48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "oops, done.",
+      "parentUuid": "bc7d2f55_a20ade91",
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7d2f55_22d88e08",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 8
@@ -111,6 +129,42 @@
     },
     {
       "key": {
+        "uuid": "1cc9dbea_a558fea5",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7d2f55_42d592cd",
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_855d0296",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7d2f55_c20fe2a0",
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7d2f55_62d296e8",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 8
@@ -128,6 +182,42 @@
         "endLine": 129,
         "endChar": 79
       },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_e562f653",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "bc7d2f55_62d296e8",
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_424af2c7",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7d2f55_62d296e8",
       "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "bc7d2f55_6257f66e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cc9dbea_850fc2a1",
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7d2f55_82cf9a3b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 8
@@ -174,6 +282,24 @@
         "endLine": 246,
         "endChar": 80
       },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_8254fa69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7d2f55_82cf9a3b",
       "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

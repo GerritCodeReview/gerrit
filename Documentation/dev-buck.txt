@@ -609,6 +609,42 @@ option:
 buck test --no-results-cache
 ----
 
+== Cross-compiling Java8 to Java7
+
+After switching to Java8, we should take care to not end up
+with Java8 code in stable branches. We assume that we don't
+really want to switch java versions locally every time we switch
+branches.
+
+Given that source level on 'stable-2.13' is 7, source level incompatibility
+will be already correctly detected, so that Java8 compiler would refuse
+to compile lambdas with -soure 7 argument. However, unless bootclasspath
+is adjusted to point to Java7 runtime, its possible to end up with broken
+code, that would compile with Java8 but will not run on Java 7.
+
+To prevent this, add this line to your '.buckconfig.local' in Gerrit tree when
+working on stable branches:
+
+----
+[java]
+  extra_arguments = -Xbootclasspath/p:/usr/lib64/jvm/java-1.7.0-openjdk-1.7.0/jre/lib/rt.jar
+----
+
+With this in place, methods that were added only in Java8 in runtime library,
+would be correclty refused to compile by Java8:
+
+----
+$ java -version
+openjdk version "1.8.0_101"
+
+$ buck build gerrit-server:server
+/home/davido/projects/gerrit/gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java:218: error: cannot find symbol
+      return Collections.emptySortedSet();
+                        ^
+  symbol:   method emptySortedSet()
+  location: class java.util.Collections
+----
+
 == Upgrading Buck
 
 The following tests should be executed, when Buck version is upgraded:

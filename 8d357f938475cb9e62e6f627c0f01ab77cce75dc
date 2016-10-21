@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1eee870_6173565d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergedHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-10-21T21:06:49Z",
+      "side": 1,
+      "message": "How about we simplify further:\n\n  \u003cstrong\u003e{$fromName}\u003c/strong\u003e merged \u003cstrong\u003e{$change.subject}\u003c/strong\u003e.\n\nThe whole submitted and it was merged stuff is ancient because there was an intermediate state of submit before merge. That no longer exists, hasn\u0027t for over a year. We can really clarify this statement.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 57
+      },
+      "revId": "8d357f938475cb9e62e6f627c0f01ab77cce75dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

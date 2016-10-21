@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7d2f55_a20ade91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "As Dave commented on patch set 5, please add some more details to the commit message.",
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_22d88e08",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "better: \"creates a new patch set\"",
+      "range": {
+        "startLine": 123,
+        "startChar": 50,
+        "endLine": 124,
+        "endChar": 6
+      },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_42d592cd",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "\"Cherry Pick\" to be consistent with the spelling in this document",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 11
+      },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_c20fe2a0",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "\"with the important distinction\"",
+      "range": {
+        "startLine": 125,
+        "startChar": 17,
+        "endLine": 125,
+        "endChar": 43
+      },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_a50abe91",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "remove \u0027in\u0027",
+      "range": {
+        "startLine": 125,
+        "startChar": 44,
+        "endLine": 125,
+        "endChar": 46
+      },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_62d296e8",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "This should be removed and only be added with a later change that actually implements inserting of footers.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 79
+      },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_850fc2a1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "\"change\", CL is not a Gerrit term",
+      "range": {
+        "startLine": 258,
+        "startChar": 52,
+        "endLine": 258,
+        "endChar": 54
+      },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_82cf9a3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T11:35:18Z",
+      "side": 1,
+      "message": "I think it\u0027s also possible to implement rebasing of merge commits. E.g. the Cherry Pick REST endpoint already supports chery-picking of merge commits.\n\nAnyway we don\u0027t need this for this change, but we can follow-up on this later which another change if we want.\n\nMaybe just adapt this comment.",
+      "range": {
+        "startLine": 246,
+        "startChar": 9,
+        "endLine": 246,
+        "endChar": 80
+      },
+      "revId": "9e6fdd49b5509cec7a1f2961d04a9e95179edb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

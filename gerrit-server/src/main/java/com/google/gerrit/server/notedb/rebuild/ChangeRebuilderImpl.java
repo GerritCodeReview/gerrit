@@ -54,6 +54,7 @@ import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
@@ -184,7 +185,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
-    Change change = db.changes().get(changeId);
+    Change change = ChangeNotes.readOneReviewDbChange(db, changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
     }
@@ -200,7 +201,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
       IOException {
     db = ReviewDbUtil.unwrapDb(db);
-    Change change = db.changes().get(changeId);
+    Change change = ChangeNotes.readOneReviewDbChange(db, changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
     }

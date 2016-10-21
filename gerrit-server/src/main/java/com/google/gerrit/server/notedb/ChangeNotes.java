@@ -52,6 +52,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -95,6 +96,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         + String.format(fmt, args));
   }
 
+  public static Change readOneReviewDbChange(ReviewDb db, Change.Id id)
+      throws OrmException {
+    return checkNoteDbState(ReviewDbUtil.unwrapDb(db).changes().get(id));
+  }
+
+  private static Change checkNoteDbState(Change c) throws OrmException {
+    NoteDbChangeState s = NoteDbChangeState.parse(c);
+    if (s != null && s.getPrimaryStorage() != PrimaryStorage.REVIEW_DB) {
+      throw new OrmException(
+          "invalid NoteDbChangeState in " + c.getId() + ": " + s);
+    }
+    return c;
+  }
+
   @Singleton
   public static class Factory {
     private final Args args;
@@ -118,7 +133,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createChecked(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException, NoSuchChangeException {
-      Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
+      Change change = readOneReviewDbChange(db, changeId);
       if (change == null || !change.getProject().equals(project)) {
         throw new NoSuchChangeException(changeId);
       }
@@ -142,7 +157,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private Change loadChangeFromDb(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException {
-      Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
+      Change change = readOneReviewDbChange(db, changeId);
       checkArgument(project != null, "project is required");
       checkNotNull(change,
           "change %s not found in ReviewDb", changeId);
@@ -261,6 +276,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       } else {
         for (Change change : ReviewDbUtil.unwrapDb(db).changes().all()) {
+          checkNoteDbState(change);
           ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
           if (predicate.test(notes)) {
             m.put(change.getProject(), notes);
@@ -297,9 +313,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Project.NameKey project) throws OrmException, IOException {
       Set<Change.Id> ids = scan(repo);
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
-      db = ReviewDbUtil.unwrapDb(db);
       for (Change.Id id : ids) {
-        Change change = db.changes().get(id);
+        Change change = readOneReviewDbChange(db, id);
         if (change == null) {
           log.warn("skipping change {} found in project {} " +
               "but not in ReviewDb",

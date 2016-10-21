@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -23,6 +25,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gwtorm.server.OrmException;
@@ -123,8 +126,12 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
+    boolean requireLazyLoad = options.contains(DETAILED_LABELS)
+        && !qb.getArgs().getSchema().hasField(
+            ChangeField.STORED_SUBMIT_RECORD_LENIENT);
     List<List<ChangeInfo>> res = json.create(options)
-        .lazyLoad(containsAnyOf(options, ChangeJson.REQUIRE_LAZY_LOAD))
+        .lazyLoad(requireLazyLoad
+            || containsAnyOf(options, ChangeJson.REQUIRE_LAZY_LOAD))
         .formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);

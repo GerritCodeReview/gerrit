@@ -436,6 +436,24 @@
     },
     {
       "key": {
+        "uuid": "1cc9dbea_c567fa61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-21T13:19:50Z",
+      "side": 1,
+      "message": "ACk",
+      "parentUuid": "1cc9dbea_e514b6b7",
+      "revId": "3770e943f8bfcdd5dfb4f1e3413a58489a083e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc60231e_33f20881",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 5

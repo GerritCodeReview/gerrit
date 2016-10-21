@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cc9dbea_85c1821f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-21T07:00:59Z",
+      "side": 1,
+      "message": "Note for the reviewers: That is why this is needed: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/89510/",
+      "revId": "f7817e41c67f7bb734884ae93e53738bbef4550d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -83,6 +83,24 @@
       "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_a53f5e20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T14:30:46Z",
+      "side": 1,
+      "message": "Yes, the LABELS option was also affected.\n\nDone",
+      "parentUuid": "1cc9dbea_4554aa68",
+      "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

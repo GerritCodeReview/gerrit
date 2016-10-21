@@ -145,7 +145,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         try {
           newCommit = args.mergeUtil.createCherryPickFromCommit(args.repo,
               args.inserter, args.mergeTip.getCurrentTip(), toMerge, committer,
-              cherryPickCmtMsg, args.rw);
+              cherryPickCmtMsg, args.rw, 0);
         } catch (MergeConflictException mce) {
           // Unlike in Cherry-pick case, this should never happen.
           toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);

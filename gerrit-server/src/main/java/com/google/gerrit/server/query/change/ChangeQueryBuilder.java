@@ -367,6 +367,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
   }
 
+  public Arguments getArgs() {
+    return args;
+  }
+
   public ChangeQueryBuilder asUser(CurrentUser user) {
     return new ChangeQueryBuilder(builderDef, args.asUser(user));
   }

@@ -16,13 +16,17 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static org.eclipse.jgit.lib.ObjectId.zeroId;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
@@ -30,14 +34,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.RefCache;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * The state of all relevant NoteDb refs across all repos corresponding to a
@@ -46,13 +48,35 @@ import java.util.Optional;
  * Stored serialized in the {@code Change#noteDbState} field, and used to
  * determine whether the state in NoteDb is out of date.
  * <p>
- * Serialized in the form:
- * <pre>
- *   [meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
- * </pre>
+ * Serialized in one of the forms:
+ * <ul>
+ *    <li>[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *    <li>R[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *    <li>N
+ * </ul>
+ *
  * in numeric account ID order, with hex SHA-1s for human readability.
  */
 public class NoteDbChangeState {
+  public static final String NOTE_DB_PRIMARY_STATE = "N";
+
+  public enum PrimaryStorage {
+    REVIEW_DB('R', true),
+    NOTE_DB('N', false);
+
+    private final char code;
+    private final boolean writeToReviewDb;
+
+    private PrimaryStorage(char code, boolean writeToReviewDb) {
+      this.code = code;
+      this.writeToReviewDb = writeToReviewDb;
+    }
+
+    public boolean writeToReviewDb() {
+      return writeToReviewDb;
+    }
+  }
+
   @AutoValue
   public abstract static class Delta {
     static Delta create(Change.Id changeId, Optional<ObjectId> newChangeMetaId,
@@ -82,12 +106,8 @@ public class NoteDbChangeState {
               Maps.filterValues(draftIds, id -> !zeroId().equals(id))));
     }
 
-    static Optional<RefState> parse(Change.Id changeId, String str) {
-      if (str == null) {
-        return Optional.empty();
-      }
-
-      List<String> parts = Splitter.on(',').splitToList(str);
+    private static Optional<RefState> parse(Change.Id changeId,
+        List<String> parts) {
       checkArgument(!parts.isEmpty(),
           "missing state string for change %s", changeId);
       ObjectId changeMetaId = ObjectId.fromString(parts.get(0));
@@ -110,7 +130,11 @@ public class NoteDbChangeState {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder(changeMetaId().name());
+      return appendTo(new StringBuilder()).toString();
+    }
+
+    StringBuilder appendTo(StringBuilder sb) {
+      sb.append(changeMetaId().name());
       for (Account.Id id : ReviewDbUtil.intKeyOrdering()
           .sortedCopy(draftIds().keySet())) {
         sb.append(',')
@@ -118,23 +142,42 @@ public class NoteDbChangeState {
             .append('=')
             .append(draftIds().get(id).name());
       }
-      return sb.toString();
+      return sb;
     }
   }
 
   public static NoteDbChangeState parse(Change c) {
-    return parse(c.getId(), c.getNoteDbState());
+    return c != null ? parse(c.getId(), c.getNoteDbState()) : null;
   }
 
   @VisibleForTesting
   public static NoteDbChangeState parse(Change.Id id, String str) {
-    Optional<RefState> refState = RefState.parse(id, str);
-    if (!refState.isPresent()) {
+    if (Strings.isNullOrEmpty(str)) {
       // Return null rather than Optional as this is what goes in the field in
       // ReviewDb.
       return null;
     }
-    return new NoteDbChangeState(id, refState);
+    List<String> parts = Splitter.on(',').splitToList(str);
+
+    // Only valid NOTE_DB state is "N".
+    String first = parts.get(0);
+    if (parts.size() == 1 && first.charAt(0) == NOTE_DB.code) {
+      return new NoteDbChangeState(id, NOTE_DB, Optional.empty());
+    }
+
+    // Otherwise it must be REVIEW_DB, either "R,<RefState>" or just
+    // "<RefState>". Allow length > 0 for forward compatibility.
+    if (first.length() > 0) {
+      Optional<RefState> refState;
+      if (first.charAt(0) == REVIEW_DB.code) {
+        refState = RefState.parse(id, parts.subList(1, parts.size()));
+      } else {
+        refState = RefState.parse(id, parts);
+      }
+      return new NoteDbChangeState(id, REVIEW_DB, refState);
+    }
+    throw new IllegalArgumentException(
+        "invalid state string for change " + id + ": " + str);
   }
 
   public static NoteDbChangeState applyDelta(Change change, Delta delta) {
@@ -149,6 +192,10 @@ public class NoteDbChangeState {
       return null;
     }
     NoteDbChangeState oldState = parse(change.getId(), oldStr);
+    if (oldState != null && oldState.getPrimaryStorage() == NOTE_DB) {
+      // NOTE_DB state doesn't include RefState, so applying a delta is a no-op.
+      return oldState;
+    }
 
     ObjectId changeMetaId;
     if (delta.newChangeMetaId().isPresent()) {
@@ -174,7 +221,11 @@ public class NoteDbChangeState {
     }
 
     NoteDbChangeState state = new NoteDbChangeState(
-        change.getId(), Optional.of(RefState.create(changeMetaId, draftIds)));
+        change.getId(),
+        oldState != null
+            ? oldState.getPrimaryStorage()
+            : REVIEW_DB,
+        Optional.of(RefState.create(changeMetaId, draftIds)));
     change.setNoteDbState(state.toString());
     return state;
   }
@@ -198,13 +249,38 @@ public class NoteDbChangeState {
   }
 
   private final Change.Id changeId;
+  private final PrimaryStorage primaryStorage;
   private final Optional<RefState> refState;
 
-  public NoteDbChangeState(Change.Id changeId, Optional<RefState> refState) {
+  public NoteDbChangeState(
+      Change.Id changeId,
+      PrimaryStorage primaryStorage,
+      Optional<RefState> refState) {
     this.changeId = checkNotNull(changeId);
-    checkArgument(
-        refState.isPresent(), "expected RefState for change %s", changeId);
+    this.primaryStorage = checkNotNull(primaryStorage);
     this.refState = refState;
+
+    switch (primaryStorage) {
+      case REVIEW_DB:
+        checkArgument(
+            refState.isPresent(),
+            "expected RefState for change %s with primary storage %s",
+            changeId, primaryStorage);
+        break;
+      case NOTE_DB:
+        checkArgument(
+            !refState.isPresent(),
+            "expected no RefState for change %s with primary storage %s",
+            changeId, primaryStorage);
+        break;
+      default:
+        throw new IllegalStateException(
+            "invalid PrimaryStorage: " + primaryStorage);
+    }
+  }
+
+  public PrimaryStorage getPrimaryStorage() {
+    return primaryStorage;
   }
 
   public boolean isChangeUpToDate(RefCache changeRepoRefs) throws IOException {
@@ -245,16 +321,36 @@ public class NoteDbChangeState {
 
   @VisibleForTesting
   public ObjectId getChangeMetaId() {
-    return refState.get().changeMetaId();
+    return refState().changeMetaId();
   }
 
   @VisibleForTesting
   ImmutableMap<Account.Id, ObjectId> getDraftIds() {
-    return refState.get().draftIds();
+    return refState().draftIds();
+  }
+
+  @VisibleForTesting
+  Optional<RefState> getRefState() {
+    return refState;
+  }
+
+  private RefState refState() {
+    checkState(refState.isPresent(),
+        "state for %s has no RefState: %s", changeId, this);
+    return refState.get();
   }
 
   @Override
   public String toString() {
-    return refState.get().toString();
+    switch (primaryStorage) {
+      case REVIEW_DB:
+        // Don't include enum field, just IDs (though parse would accept it).
+        return refState().toString();
+      case NOTE_DB:
+        return NOTE_DB_PRIMARY_STATE;
+      default:
+        throw new IllegalArgumentException(
+          "Unsupported PrimaryStorage: " + primaryStorage);
+    }
   }
 }

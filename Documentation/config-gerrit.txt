@@ -3419,6 +3419,67 @@ which miscellaneous tasks are handled.
 +
 Default is 1.
 
+[[receiveemail]]
+=== Section receiveemail
+
+[[receiveemail.protocol]]receiveemail.protocol::
++
+Specifies the protocol used for receiving emails. Valid options are
+'POP3', 'IMAP' and 'NONE'. Note that Gerrit will automatically switch between
+POP3 and POP3s as well as IMAP and IMAPS depending on the specified
+link:#receiveemail.encryption[encryption].
++
+Defaults to 'NONE' which means that receiving emails is disabled.
+
+[[receiveemail.host]]receiveemail.host::
++
+The hostname of the mailserver. Example: 'imap.gmail.com'.
++
+Defaults to an empty string which means that receiving emails is disabled.
+
+[[receiveemail.port]]receiveemail.port::
++
+The port the email server exposes for receving emails.
++
+Defaults to the industry standard for a given protocol and encryption:
+POP3: 110; POP3S: 995; IMAP: 143; IMAPS: 995.
+
+[[receiveemail.username]]receiveemail.username::
++
+Username used for authenticating with the email server.
++
+Defaults to an empty string.
+
+[[receiveemail.password]]receiveemail.password::
++
+Password used for authenticating with the email server.
++
+Defaults to an empty string.
+
+[[receiveemail.encryption]]receiveemail.encryption::
++
+Encryption standard used for transport layer security between Gerrit and the
+email server. Possible values include 'NONE', 'SSL' and 'TLS'.
++
+Defaults to 'NONE'.
+
+[[receiveemail.fetchInterval]]receiveemail.fetchInterval::
++
+Time between two consecutive fetches from the email server. Communication with
+the email server is not kept alive. Examples: 60s, 10m, 1h.
++
+Defaults to 60 seconds.
+
+[[receiveemail.enableImapIdle]]receiveemail.enableImapIdle::
++
+If the IMAP protocol is used for retrieving emails, IMAPv4 IDLE can be used to
+keep the connection with the email server alive and receive a push when a new
+email is delivered to the inbox. In this case, Gerrit will process the email
+immediately and will not have a fetch delay.
+
++
+Defaults to false.
+
 [[sendemail]]
 === Section sendemail
 

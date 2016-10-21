@@ -25,6 +25,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.Encryption;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -59,10 +60,6 @@ public class SmtpEmailSender implements EmailSender {
     protected void configure() {
       bind(EmailSender.class).to(SmtpEmailSender.class);
     }
-  }
-
-  public enum Encryption {
-    NONE, SSL, TLS
   }
 
   private final boolean enabled;

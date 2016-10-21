@@ -53,6 +53,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
+import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
@@ -310,6 +311,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultCacheFactory.Module());
+    modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());

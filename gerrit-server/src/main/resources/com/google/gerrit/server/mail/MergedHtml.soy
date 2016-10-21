@@ -23,7 +23,7 @@
  */
 {template .MergedHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} has submitted this change and it was merged.
+    <strong>{$fromName}</strong> merged <strong>{$change.subject}</strong>.
   </p>
 
   {if $email.changeUrl}
@@ -31,11 +31,6 @@
       {call .ViewChangeButton data="all" /}
     </p>
   {/if}
-
-  <p>
-    Change subject: {$change.subject}
-  </p>
-  <hr/>
 
   <pre style="font-size:12px">
     {$email.changeDetail}

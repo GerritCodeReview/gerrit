@@ -24,7 +24,8 @@
  */
 {template .DeleteVoteHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} removed a vote on this change.
+    <strong>{$fromName}</strong> removed a vote from{sp}
+    <strong>{$change.subject}</strong>.
   </p>
 
   {if $email.changeUrl}
@@ -32,11 +33,6 @@
       {call .ViewChangeButton data="all" /}
     </p>
   {/if}
-
-  <p>
-    Change subject: {$change.subject}
-  </p>
-  <hr/>
 
   {if $coverLetter}
     <pre style="font-size:12px">{$coverLetter}</pre>

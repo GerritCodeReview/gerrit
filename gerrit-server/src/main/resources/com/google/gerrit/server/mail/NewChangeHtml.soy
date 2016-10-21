@@ -24,40 +24,27 @@
  * @param projectName
  */
 {template .NewChangeHtml autoescape="strict" kind="html"}
-  {if $email.reviewerNames}
-    <p>
-      Hello{sp}
-      {foreach $reviewerName in $email.reviewerNames}
-        {if not isFirst($reviewerName)},{sp}{/if}
-        {$reviewerName}
-      {/foreach},
-    </p>
-
-    <p>
-      I'd like you to do a code review.
-    </p>
-
-    {if $email.changeUrl}
-      <p>
-        Please visit <a href="{$email.changeUrl}">this change</a> to review.
-      </p>
-    {/if}
-  {else}
-    <p>
-      {$fromName} has uploaded a new change for review.
-    </p>
-
-    {if $email.changeUrl}
-      <p>
-        {call .ViewChangeButton data="all" /}
-      </p>
-    {/if}
-  {/if}
-
   <p>
-    Change subject: {$change.subject}
+    {if $email.reviewerNames}
+      <strong>{$fromName}</strong> would like{sp}
+      {foreach $reviewerName in $email.reviewerNames}
+        {if not isFirst($reviewerName)}
+          {if isLast($reviewerName)}{sp}and{else},{/if}{sp}
+        {/if}
+        <strong>{$reviewerName}</strong>
+      {/foreach}{sp}
+      to review <strong>{$change.subject}</strong>.
+    {else}
+      <strong>{$fromName}</strong> uploaded{sp}
+      <strong>{$change.subject}</strong> for review.
+    {/if}
   </p>
-  <hr/>
+
+  {if $email.changeUrl}
+    <p>
+      {call .ViewChangeButton data="all" /}
+    </p>
+  {/if}
 
   <pre style="font-size:12px">
     {$email.changeDetail}

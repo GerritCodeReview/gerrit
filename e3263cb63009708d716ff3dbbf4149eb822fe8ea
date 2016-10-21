@@ -65,6 +65,24 @@
       "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_4554aa68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T14:24:01Z",
+      "side": 1,
+      "message": "I\u0027m now wondering if we have the same issue with the LABELS option and should lazy load in this case as well?",
+      "parentUuid": "dcbe6336_0380eedb",
+      "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

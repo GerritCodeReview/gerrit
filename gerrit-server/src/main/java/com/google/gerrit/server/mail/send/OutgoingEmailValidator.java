@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 

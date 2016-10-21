@@ -48,7 +48,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
-import com.google.gerrit.server.mail.AddKeySender;
+import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

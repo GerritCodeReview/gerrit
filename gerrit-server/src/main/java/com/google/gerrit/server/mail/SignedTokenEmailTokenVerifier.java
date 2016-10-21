@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;

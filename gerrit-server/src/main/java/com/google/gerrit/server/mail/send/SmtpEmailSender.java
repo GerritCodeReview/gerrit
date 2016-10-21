@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -24,6 +24,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.mail.Address;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -194,9 +195,9 @@ public class SmtpEmailSender implements EmailSender {
     try {
       final SMTPClient client = open();
       try {
-        if (!client.setSender(from.email)) {
+        if (!client.setSender(from.getEmail())) {
           throw new EmailException("Server " + smtpHost
-              + " rejected from address " + from.email);
+              + " rejected from address " + from.getEmail());
         }
 
         /* Do not prevent the email from being sent to "good" users simply
@@ -207,7 +208,7 @@ public class SmtpEmailSender implements EmailSender {
          * error(s) logged.
          */
         for (Address addr : rcpt) {
-          if (!client.addRecipient(addr.email)) {
+          if (!client.addRecipient(addr.getEmail())) {
             String error = client.getReplyString();
             rejected.append("Server ").append(smtpHost)
                     .append(" rejected recipient ").append(addr)

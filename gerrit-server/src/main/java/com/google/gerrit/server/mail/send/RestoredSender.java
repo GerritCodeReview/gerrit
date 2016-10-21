@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -22,18 +22,20 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-/** Send notice about a change being reverted. */
-public class RevertedSender extends ReplyToChangeSender {
-  public interface Factory {
-    RevertedSender create(Project.NameKey project, Change.Id id);
+/** Send notice about a change being restored by its owner. */
+public class RestoredSender extends ReplyToChangeSender {
+  public interface Factory extends
+      ReplyToChangeSender.Factory<RestoredSender> {
+    @Override
+    RestoredSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
-  public RevertedSender(EmailArguments ea,
+  public RestoredSender(EmailArguments ea,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id)
       throws OrmException {
-    super(ea, "revert", newChangeData(ea, project, id));
+    super(ea, "restore", ChangeEmail.newChangeData(ea, project, id));
   }
 
   @Override
@@ -47,9 +49,9 @@ public class RevertedSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("Reverted"));
+    appendText(textTemplate("Restored"));
     if (useHtml()) {
-      appendHtml(soyHtmlTemplate("RevertedHtml"));
+      appendHtml(soyHtmlTemplate("RestoredHtml"));
     }
   }
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -22,6 +22,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.MailUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -53,7 +55,7 @@ public class FromAddressGeneratorProvider implements
       ParameterizedString name = new ParameterizedString("${user} (Code Review)");
       generator =
           new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
-              srvAddr.email);
+              srvAddr.getEmail());
     } else if ("USER".equalsIgnoreCase(from)) {
       String[] domains = cfg.getStringList("sendemail", null, "allowedDomain");
       Pattern domainPattern = MailUtil.glob(domains);
@@ -65,13 +67,13 @@ public class FromAddressGeneratorProvider implements
       generator = new ServerGen(srvAddr);
     } else {
       final Address a = Address.parse(from);
-      final ParameterizedString name = a.name != null ? new ParameterizedString(a.name) : null;
+      final ParameterizedString name = a.getName() != null ? new ParameterizedString(a.getName()) : null;
       if (name == null || name.getParameterNames().isEmpty()) {
         generator = new ServerGen(a);
       } else {
         generator =
             new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
-                a.email);
+                a.getEmail());
       }
     }
   }
@@ -135,12 +137,12 @@ public class FromAddressGeneratorProvider implements
         }
         senderName = nameRewriteTmpl.replace("user", fullName).toString();
       } else {
-        senderName = serverAddress.name;
+        senderName = serverAddress.getName();
       }
 
       String senderEmail;
       ParameterizedString senderEmailPattern =
-          new ParameterizedString(serverAddress.email);
+          new ParameterizedString(serverAddress.getEmail());
       if (senderEmailPattern.getParameterNames().isEmpty()) {
         senderEmail = senderEmailPattern.getRawPattern();
       } else {
@@ -215,7 +217,7 @@ public class FromAddressGeneratorProvider implements
         senderName = namePattern.replace("user", fullName).toString();
 
       } else {
-        senderName = serverAddress.name;
+        senderName = serverAddress.getName();
       }
 
       String senderEmail;

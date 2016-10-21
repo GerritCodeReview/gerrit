@@ -53,7 +53,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.mail.AddReviewerSender;
+import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;

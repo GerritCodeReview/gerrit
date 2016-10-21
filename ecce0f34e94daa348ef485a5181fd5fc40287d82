@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7d2f55_a2f1fe7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishDraftPatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T13:07:06Z",
+      "side": 1,
+      "message": "nit: wrong import order",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 64
+      },
+      "revId": "ecce0f34e94daa348ef485a5181fd5fc40287d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_e5eb1688",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T13:07:06Z",
+      "side": 1,
+      "message": "nit: wrong import order",
+      "revId": "ecce0f34e94daa348ef485a5181fd5fc40287d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc9dbea_c5f09a77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T13:07:06Z",
+      "side": 1,
+      "message": "nit: wrong import order",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 51
+      },
+      "revId": "ecce0f34e94daa348ef485a5181fd5fc40287d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_c2f60273",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CreateChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T13:07:06Z",
+      "side": 1,
+      "message": "nit: wrong import order",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 51
+      },
+      "revId": "ecce0f34e94daa348ef485a5181fd5fc40287d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_e2eb0688",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/FromAddressGeneratorProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T13:07:06Z",
+      "side": 1,
+      "message": "wrap this line while you are here",
+      "revId": "ecce0f34e94daa348ef485a5181fd5fc40287d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_2206ce82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/NotificationEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T13:07:06Z",
+      "side": 1,
+      "message": "nit: wrong import order",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 51
+      },
+      "revId": "ecce0f34e94daa348ef485a5181fd5fc40287d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7d2f55_4203d271",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-21T13:07:06Z",
+      "side": 1,
+      "message": "nit: wrong import order",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 51
+      },
+      "revId": "ecce0f34e94daa348ef485a5181fd5fc40287d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1477037718 +0200\nnonce AKOpmBXQnc8qXgCb41Zpp/aGeFKUwi9C2hipDDdRxRX+chg1KEWakv8OST8FYGYr17ki7w49rdqd\n\n0000000000000000000000000000000000000000 e3263cb63009708d716ff3dbbf4149eb822fe8ea refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYCc6WAAoJEFG1/Zeg0O9R2VgH/329UhRT9NDaToKccj5gG7cj\nXhRbFP14G4B5oTwDEBPUTvT9EDB8noVuwHQVd1MA4qYylw03asSTyb4y/ID4oVqb\nKi6H1Ue1+NfKoN8f3MQddHRHDPCl6q7SR26F8vd+hh+D/f9O8M8kBLM3HoDPNbVw\nKMSS0al2Mnt91HGr0tqjgMtn9EB5DVkJcpGU+U+bc+jvcPnpOU/cyD5NyG7vioLD\nS6OZrZ9WSp/NJ+MvSRiDycR6l3jOi6O9K1q4wpLqFVGyP9T3NvLdSvMXlcTHycRW\n3Byp2F6Dd9G2L5U3AzSS29x18ZUjhOZnn8Y7xDLjRt3WZta1sWnV9260Ba71lhw\u003d\n\u003dqioX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcbe6336_c37d3627",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-21T14:06:55Z",
+      "side": 1,
+      "message": "Why DETAILED_LABELS? Those are supposed to come from PatchSetApprovals; the submit records should mostly be required by LABELS.",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "e3263cb63009708d716ff3dbbf4149eb822fe8ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

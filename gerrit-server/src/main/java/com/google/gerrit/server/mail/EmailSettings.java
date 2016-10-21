@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -22,14 +23,35 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class EmailSettings {
+  private static final String SEND_EMAL = "sendemail";
+  private static final String RECEIVE_EMAL = "receiveemail";
+  // Send
   public final boolean html;
   public final boolean includeDiff;
   public final int maximumDiffSize;
+  // Receive
+  public final Protocol protocol;
+  public final String host;
+  public final int port;
+  public final String username;
+  public final String password;
+  public final Encryption encryption;
+  public final int fetchInterval; // in seconds
 
   @Inject
   EmailSettings(@GerritServerConfig Config cfg) {
-    html = cfg.getBoolean("sendemail", "html", true);
-    includeDiff = cfg.getBoolean("sendemail", "includeDiff", false);
-    maximumDiffSize = cfg.getInt("sendemail", "maximumDiffSize", 256 << 10);
+    // Send
+    html = cfg.getBoolean(SEND_EMAL, "html", true);
+    includeDiff = cfg.getBoolean(SEND_EMAL, "includeDiff", false);
+    maximumDiffSize = cfg.getInt(SEND_EMAL, "maximumDiffSize", 256 << 10);
+    // Receive
+    protocol = cfg.getEnum(RECEIVE_EMAL, null, "protocol", Protocol.NONE);
+    host = cfg.getString(RECEIVE_EMAL, null, "host");
+    port = cfg.getInt(RECEIVE_EMAL, "port", 0);
+    username = cfg.getString(RECEIVE_EMAL, null, "username");
+    password = cfg.getString(RECEIVE_EMAL, null, "password");
+    encryption =
+        cfg.getEnum(RECEIVE_EMAL, null, "encryption", Encryption.NONE);
+    fetchInterval = cfg.getInt(RECEIVE_EMAL, "fetchInterval", 60);
   }
 }

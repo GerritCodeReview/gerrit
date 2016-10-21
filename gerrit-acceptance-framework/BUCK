@@ -14,10 +14,12 @@ DEPS = [
   '//lib/httpcomponents:fluent-hc',
   '//lib/httpcomponents:httpclient',
   '//lib/httpcomponents:httpcore',
+  '//lib/greenmail:greenmail',
   '//lib/jetty:servlet',
   '//lib/jgit/org.eclipse.jgit.junit:junit',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
+  '//lib/mail:mail',
 ]
 
 PROVIDED = [

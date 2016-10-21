@@ -68,6 +68,7 @@ java_library(
     '//lib/ow2:ow2-asm-commons',
     '//lib/ow2:ow2-asm-util',
     '//lib/prolog:compiler',
+    '//lib/prolog:runtime',
   ],
   visibility = ['PUBLIC'],
 )

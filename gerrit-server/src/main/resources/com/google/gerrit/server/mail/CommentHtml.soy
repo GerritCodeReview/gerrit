@@ -85,12 +85,12 @@
                 {if length($comment.lines) > 0}
                   <a href="{$comment.link}">
                     {if $comment.startLine == 0}
-                      Patch Set #{$group.patchSetId}:{sp}
+                      Patch Set #{$group.patchSetId}:
                     {else}
                       Patch Set #{$group.patchSetId},{sp}
-                      Line {$comment.startLine}:{sp}
+                      Line {$comment.startLine}:
                     {/if}
-                  </a>
+                  </a>{sp}
                 {/if}
                 {if length($comment.lines) == 1}
                   <code style="font-size:12px">{$comment.lines[0]}</code>

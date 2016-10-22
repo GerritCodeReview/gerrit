@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a117c836_f98157e3",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-22T10:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a117c836_796e6774",
+      "range": {
+        "startLine": 621,
+        "startChar": 24,
+        "endLine": 621,
+        "endChar": 30
+      },
+      "revId": "7800707b52958c6a26cf2429d197b95f65f0f178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8108041d_187d2525",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-22T06:55:49Z",
       "side": 1,
       "message": "it\u0027s",
+      "range": {
+        "startLine": 622,
+        "startChar": 39,
+        "endLine": 622,
+        "endChar": 42
+      },
+      "revId": "7800707b52958c6a26cf2429d197b95f65f0f178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_d97e931f",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-22T10:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8108041d_187d2525",
       "range": {
         "startLine": 622,
         "startChar": 39,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c112fc46_3a91012f",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-22T10:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c112fc46_3a78e134",
+      "range": {
+        "startLine": 623,
+        "startChar": 56,
+        "endLine": 623,
+        "endChar": 62
+      },
+      "revId": "7800707b52958c6a26cf2429d197b95f65f0f178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a117c836_5973a35c",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-10-21T23:05:59Z",
       "side": 1,
       "message": "in the Gerrit source root directory",
+      "range": {
+        "startLine": 625,
+        "startChar": 59,
+        "endLine": 625,
+        "endChar": 73
+      },
+      "revId": "7800707b52958c6a26cf2429d197b95f65f0f178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_b98bdfff",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-22T10:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a117c836_5973a35c",
       "range": {
         "startLine": 625,
         "startChar": 59,

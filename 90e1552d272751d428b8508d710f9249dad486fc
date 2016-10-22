@@ -69,6 +69,24 @@
       "revId": "90e1552d272751d428b8508d710f9249dad486fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ff0021_fb814fe3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-22T02:05:55Z",
+      "side": 1,
+      "message": "Refactored into a shared comparator.",
+      "parentUuid": "3c285f69_2680b6dc",
+      "revId": "90e1552d272751d428b8508d710f9249dad486fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

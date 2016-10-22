@@ -586,24 +586,24 @@ maven_jar(
 
 # This version must match the version that also appears in
 # gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config
-BC_VERS = '1.52'
+BC_VERS = '1.55'
 
 maven_jar(
   name = 'bcprov',
   artifact = 'org.bouncycastle:bcprov-jdk15on:' + BC_VERS,
-  sha1 = '88a941faf9819d371e3174b5ed56a3f3f7d73269',
+  sha1 = '935f2e57a00ec2c489cbd2ad830d4a399708f979',
 )
 
 maven_jar(
   name = 'bcpg',
   artifact = 'org.bouncycastle:bcpg-jdk15on:' + BC_VERS,
-  sha1 = 'ff4665a4b5633ff6894209d5dd10b7e612291858',
+  sha1 = '54ce841795ecdf10f24e50c48d4fdec59c691699',
 )
 
 maven_jar(
   name = 'bcpkix',
   artifact = 'org.bouncycastle:bcpkix-jdk15on:' + BC_VERS,
-  sha1 = 'b8ffac2bbc6626f86909589c8cc63637cc936504',
+  sha1 = '6392d8cba22b722c6570d660ca0b3921ff1bae4f',
 )
 
 maven_jar(

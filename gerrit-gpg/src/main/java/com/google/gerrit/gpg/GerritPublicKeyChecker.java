@@ -225,7 +225,6 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return false;
   }
 
-  @SuppressWarnings("unchecked")
   private Iterator<PGPSignature> getSignaturesForId(PGPPublicKey key,
       String userId) {
     return MoreObjects.firstNonNull(

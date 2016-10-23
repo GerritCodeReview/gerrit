@@ -36,25 +36,14 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-prebuilt_jar(
+java_library(
   name = 'diffy_logo',
-  binary_jar = ':diffy_image_files_ln',
+  resources = DIFFY,
   deps = [
     '//lib:LICENSE-diffy',
     '//lib:LICENSE-CC-BY3.0-unported',
   ],
   visibility = ['PUBLIC'],
-)
-
-genrule(
-  name = 'diffy_image_files_ln',
-  cmd = 'ln -s $(location :diffy_image_files) $OUT',
-  out = 'diffy_images.jar',
-)
-
-java_library(
-  name = 'diffy_image_files',
-  resources = DIFFY,
 )
 
 java_test(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c112fc46_da48c5ce",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UniversalWebLoginFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1027122
+      },
+      "writtenOn": "2016-10-23T20:12:24Z",
+      "side": 1,
+      "message": "Unnecessary.\nLine 81: add \"CurrentUser\" at at the beginning of the line.\nLine 87: you know that is loggedInBefore (else if checks), so you can just write: userProvider.get().",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 73
+      },
+      "revId": "b63c64f1953941e6d20eaa32345b67c1274afeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

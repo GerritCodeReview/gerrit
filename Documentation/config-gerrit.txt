@@ -2217,6 +2217,14 @@ to permit fast restarts.
 +
 By default, true.
 
+[[httpd.inheritChannel]]httpd.inheritChannel::
++
+If true, permits the daemon to inherit its server socket channel
+from fd0/1(stdin/stdout). When set to true, the server can be socket
+activated via systemd or xinetd.
++
+By default, false.
+
 [[httpd.requestHeaderSize]]httpd.requestHeaderSize::
 +
 Size, in bytes, of the buffer used to parse the HTTP headers of an

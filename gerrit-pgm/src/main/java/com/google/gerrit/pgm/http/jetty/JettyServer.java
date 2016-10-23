@@ -264,6 +264,9 @@ public class JettyServer {
         throw new IllegalArgumentException("Invalid httpd.listenurl " + u, e);
       }
 
+      final boolean inheritChannel = 
+        cfg.getBoolean("httpd", "inheritChannel", false);
+      c.setInheritChannel(inheritChannel);
       c.setReuseAddress(reuseAddress);
       connectors[idx] = c;
     }

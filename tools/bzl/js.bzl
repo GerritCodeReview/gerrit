@@ -338,7 +338,7 @@ _vulcanize_rule = rule(
   attrs = {
     "deps": attr.label_list(providers=["transitive_zipfiles"]),
     "app": attr.label(mandatory=True, allow_single_file=True),
-    "srcs": attr.label_list(allow_files=[".js", ".html", ".txt", ".css", ".ico"]),
+    "srcs": attr.label_list(allow_files=True),
 
     "pkg": attr.string(mandatory=True),
     "_run_npm": attr.label(

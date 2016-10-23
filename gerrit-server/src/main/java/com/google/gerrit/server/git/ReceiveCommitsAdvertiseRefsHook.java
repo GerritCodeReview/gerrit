@@ -109,13 +109,20 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         r, advertiseOpenChanges(allPatchSets));
   }
 
+  private static final ImmutableSet<String> OPEN_CHANGES_FIELDS =
+      ImmutableSet.of(
+          // Required for ChangeIsVisibleToPrdicate.
+          ChangeField.CHANGE.getName(),
+          // Required during advertiseOpenChanges.
+          ChangeField.PATCH_SET.getName());
+
   private Set<ObjectId> advertiseOpenChanges(Set<ObjectId> allPatchSets) {
     // Advertise some recent open changes, in case a commit is based on one.
     int limit = 32;
     try {
       Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
       for (ChangeData cd : queryProvider.get()
-          .setRequestedFields(ImmutableSet.of(ChangeField.PATCH_SET.getName()))
+          .setRequestedFields(OPEN_CHANGES_FIELDS)
           .enforceVisibility(true)
           .setLimit(limit)
           .byProjectOpen(projectName)) {

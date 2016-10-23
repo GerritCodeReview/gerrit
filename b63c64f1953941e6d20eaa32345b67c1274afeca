@@ -22,6 +22,30 @@
       "revId": "b63c64f1953941e6d20eaa32345b67c1274afeca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_7a41b9a5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UniversalWebLoginFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-10-23T21:54:56Z",
+      "side": 1,
+      "message": "No sure why you\u0027re not putting comments at the correct lines, however, I am trying to understand your feedback and change the code accordingly.\n\nThe reason for getting the current user *before* the filter is because I wanted to know which user was logged in. Will change the variable name to make it more readable.\n\nThe second part at line 81, I don\u0027t need to get the value into currentUser, just used userProvider.get() inline.\n\nPlease let me know if this is what you meant.",
+      "parentUuid": "c112fc46_da48c5ce",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 73
+      },
+      "revId": "b63c64f1953941e6d20eaa32345b67c1274afeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

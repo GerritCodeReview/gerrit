@@ -8,7 +8,6 @@ EXPORTED_DEPS = [
 ]
 DEPS = ['//lib/gwt:user']
 SRC = 'src/main/java/com/google/gerrit/'
-DIFFY = glob(['src/main/resources/com/google/gerrit/client/diffy*.png'])
 
 gwt_module(
   name = 'client',
@@ -36,25 +35,14 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-prebuilt_jar(
+java_library(
   name = 'diffy_logo',
-  binary_jar = ':diffy_image_files_ln',
+  resources = glob(['src/main/resources/com/google/gerrit/client/diffy*.png']),
   deps = [
     '//lib:LICENSE-diffy',
     '//lib:LICENSE-CC-BY3.0-unported',
   ],
   visibility = ['PUBLIC'],
-)
-
-genrule(
-  name = 'diffy_image_files_ln',
-  cmd = 'ln -s $(location :diffy_image_files) $OUT',
-  out = 'diffy_images.jar',
-)
-
-java_library(
-  name = 'diffy_image_files',
-  resources = DIFFY,
 )
 
 java_test(

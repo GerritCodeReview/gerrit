@@ -38,26 +38,14 @@ java_library2(
   visibility = ['//visibility:public'],
 )
 
-java_import(
+java_library(
   name = 'diffy_logo',
-  jars = [':diffy_image_files_ln'],
-  visibility = ['//visibility:public'],
+  resources = DIFFY,
   data = [
     '//lib:LICENSE-diffy',
     '//lib:LICENSE-CC-BY3.0-unported',
   ],
-)
-
-genrule2(
-  name = 'diffy_image_files_ln',
-  srcs = [':diffy_image_files'],
-  cmd = 'ln -s $$ROOT/$(location :diffy_image_files) $@',
-  out = 'diffy_images.jar',
-)
-
-java_library(
-  name = 'diffy_image_files',
-  resources = DIFFY,
+  visibility = ['//visibility:public'],
 )
 
 junit_tests(

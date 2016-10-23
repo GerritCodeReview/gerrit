@@ -22,6 +22,24 @@
       "revId": "a11e63df5cdc1c2a362b355d471fac210313eccc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_590f23a2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-10-23T22:56:19Z",
+      "side": 1,
+      "message": "that\u0027s true, sorry. Fix: https://gerrit-review.googlesource.com/89676",
+      "parentUuid": "a117c836_f9d83709",
+      "revId": "a11e63df5cdc1c2a362b355d471fac210313eccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

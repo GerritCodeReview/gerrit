@@ -63,9 +63,9 @@ genrule2(
   cmd = ' && '.join([
     'cd $$TMP',
     'mkdir -p com/google/gerrit/common',
-    'cat $$ROOT/$(location //:version.txt) >com/google/gerrit/common/Version',
+    'cat $$ROOT/$(location //:version) >com/google/gerrit/common/Version',
     'zip -9Dqr $$ROOT/$@ .',
   ]),
-  tools = ['//:version.txt'],
+  tools = ['//:version'],
   out = 'gen_version.jar',
 )

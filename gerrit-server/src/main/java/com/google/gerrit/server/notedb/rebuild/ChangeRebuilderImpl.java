@@ -167,7 +167,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throw new NoSuchChangeException(changeId);
     }
     try (NoteDbUpdateManager manager =
-        updateManagerFactory.create(change.getProject())) {
+        updateManagerFactory.create(change.getProject())
+            .setCheckReadOnly(true, db)) {
       buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
       return execute(db, changeId, manager);
     }
@@ -192,7 +193,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throw new NoSuchChangeException(changeId);
     }
     NoteDbUpdateManager manager =
-        updateManagerFactory.create(change.getProject());
+        updateManagerFactory.create(change.getProject())
+            .setCheckReadOnly(true, db);
     buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
     manager.stage();
     return manager;

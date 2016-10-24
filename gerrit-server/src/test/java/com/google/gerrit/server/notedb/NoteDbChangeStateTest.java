@@ -16,6 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.common.TimeUtil.nowTs;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.applyDelta;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.parse;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
@@ -23,18 +25,26 @@ import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.R
 import static org.eclipse.jgit.lib.ObjectId.zeroId;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.notedb.NoteDbChangeState.Delta;
+import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /** Unit tests for {@link NoteDbChangeState}. */
 public class NoteDbChangeStateTest {
@@ -49,6 +59,16 @@ public class NoteDbChangeStateTest {
   ObjectId SHA3 =
       ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");
 
+  @Before
+  public void setUp() {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void tearDown() {
+    TestTimeUtil.useSystemTime();
+  }
+
   @Test
   public void parseReviewDbWithoutDrafts() {
     NoteDbChangeState state = parse(new Change.Id(1), SHA1.name());
@@ -56,6 +76,7 @@ public class NoteDbChangeStateTest {
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
     assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
     assertThat(state.getDraftIds()).isEmpty();
+    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
     assertThat(state.toString()).isEqualTo(SHA1.name());
 
     state = parse(new Change.Id(1), "R," + SHA1.name());
@@ -63,6 +84,7 @@ public class NoteDbChangeStateTest {
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
     assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
     assertThat(state.getDraftIds()).isEmpty();
+    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
     assertThat(state.toString()).isEqualTo(SHA1.name());
   }
 
@@ -78,6 +100,7 @@ public class NoteDbChangeStateTest {
     assertThat(state.getDraftIds()).containsExactly(
         new Account.Id(1001), SHA3,
         new Account.Id(2003), SHA2);
+    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
     assertThat(state.toString()).isEqualTo(expected);
 
     state = parse(new Change.Id(1), "R," + str);
@@ -87,60 +110,127 @@ public class NoteDbChangeStateTest {
     assertThat(state.getDraftIds()).containsExactly(
         new Account.Id(1001), SHA3,
         new Account.Id(2003), SHA2);
+    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
     assertThat(state.toString()).isEqualTo(expected);
   }
 
   @Test
-  public void applyDeltaToNullWithNoNewMetaId() {
+  public void parseReadOnlyUntil() {
+    Timestamp ts = new Timestamp(12345);
+    String str = "R=12345," + SHA1.name();
+    NoteDbChangeState state = parse(new Change.Id(1), str);
+    assertThat(state.getPrimaryStorage()).isEqualTo(REVIEW_DB);
+    assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
+    assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
+    assertThat(state.getReadOnlyUntil().get()).isEqualTo(ts);
+    assertThat(state.toString()).isEqualTo(str);
+
+    str = "N=12345";
+    state = parse(new Change.Id(1), str);
+    assertThat(state.getPrimaryStorage()).isEqualTo(NOTE_DB);
+    assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
+    assertThat(state.getRefState().isPresent()).isFalse();
+    assertThat(state.getReadOnlyUntil().get()).isEqualTo(ts);
+    assertThat(state.toString()).isEqualTo(str);
+  }
+
+  @Test
+  public void applyDeltaToNullWithNoNewMetaId() throws Exception {
     Change c = newChange();
     assertThat(c.getNoteDbState()).isNull();
-    applyDelta(c, Delta.create(c.getId(), noMetaId(), noDrafts()));
+    applyDelta(c, Delta.create(c.getId(), noMetaId(), noDrafts()), nowTs());
     assertThat(c.getNoteDbState()).isNull();
 
-    applyDelta(c, Delta.create(c.getId(), noMetaId(),
-          drafts(new Account.Id(1001), zeroId())));
+    applyDelta(
+        c,
+        Delta.create(
+            c.getId(), noMetaId(),
+            drafts(new Account.Id(1001), zeroId())),
+        nowTs());
     assertThat(c.getNoteDbState()).isNull();
   }
 
   @Test
-  public void applyDeltaToMetaId() {
+  public void applyDeltaToMetaId() throws Exception {
     Change c = newChange();
-    applyDelta(c, Delta.create(c.getId(), metaId(SHA1), noDrafts()));
+    applyDelta(c, Delta.create(c.getId(), metaId(SHA1), noDrafts()), nowTs());
     assertThat(c.getNoteDbState()).isEqualTo(SHA1.name());
 
-    applyDelta(c, Delta.create(c.getId(), metaId(SHA2), noDrafts()));
+    applyDelta(c, Delta.create(c.getId(), metaId(SHA2), noDrafts()), nowTs());
     assertThat(c.getNoteDbState()).isEqualTo(SHA2.name());
 
     // No-op delta.
-    applyDelta(c, Delta.create(c.getId(), noMetaId(), noDrafts()));
+    applyDelta(c, Delta.create(c.getId(), noMetaId(), noDrafts()), nowTs());
     assertThat(c.getNoteDbState()).isEqualTo(SHA2.name());
 
     // Set to zero clears the field.
-    applyDelta(c, Delta.create(c.getId(), metaId(zeroId()), noDrafts()));
+    applyDelta(
+        c,
+        Delta.create(c.getId(), metaId(zeroId()), noDrafts()),
+        nowTs());
     assertThat(c.getNoteDbState()).isNull();
   }
 
   @Test
-  public void applyDeltaToDrafts() {
+  public void applyDeltaToDrafts() throws Exception {
     Change c = newChange();
-    applyDelta(c, Delta.create(c.getId(), metaId(SHA1),
-          drafts(new Account.Id(1001), SHA2)));
+    applyDelta(
+        c,
+        Delta.create(
+            c.getId(), metaId(SHA1),
+            drafts(new Account.Id(1001), SHA2)),
+        nowTs());
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA1.name() + ",1001=" + SHA2.name());
 
-    applyDelta(c, Delta.create(c.getId(), noMetaId(),
-          drafts(new Account.Id(2003), SHA3)));
+    applyDelta(
+        c,
+        Delta.create(
+            c.getId(), noMetaId(),
+            drafts(new Account.Id(2003), SHA3)),
+        nowTs());
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA1.name() + ",1001=" + SHA2.name() + ",2003=" + SHA3.name());
 
-    applyDelta(c, Delta.create(c.getId(), noMetaId(),
-          drafts(new Account.Id(2003), zeroId())));
+    applyDelta(
+        c,
+        Delta.create(
+            c.getId(), noMetaId(),
+            drafts(new Account.Id(2003), zeroId())),
+        nowTs());
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA1.name() + ",1001=" + SHA2.name());
 
-    applyDelta(c, Delta.create(c.getId(), metaId(SHA3), noDrafts()));
+    applyDelta(
+        c, Delta.create(c.getId(), metaId(SHA3), noDrafts()), nowTs());
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA3.name() + ",1001=" + SHA2.name());
+  }
+
+  @Test
+  public void applyDeltaToReadOnly() throws Exception {
+    Timestamp ts = nowTs();
+    NoteDbChangeState state = new NoteDbChangeState(new Change.Id(1),
+        REVIEW_DB,
+        Optional.of(RefState.create(SHA1, ImmutableMap.of())),
+        Optional.of(new Timestamp(ts.getTime() + 10000)));
+    Change c = newChange();
+    c.setNoteDbState(state.toString());
+    Delta delta = Delta.create(c.getId(), metaId(SHA2), noDrafts());
+    try {
+      applyDelta(c, delta, ts);
+      assert_().fail("expected applyDelta to fail");
+    } catch (OrmException e) {
+      assertThat(e.getMessage()).contains("read-only");
+    }
+
+    state = new NoteDbChangeState(
+        state.getChangeId(),
+        state.getPrimaryStorage(),
+        state.getRefState(),
+        Optional.empty());
+    c.setNoteDbState(state.toString());
+    applyDelta(c, delta, ts);
   }
 
   @Test
@@ -148,6 +238,7 @@ public class NoteDbChangeStateTest {
     NoteDbChangeState state = parse(new Change.Id(1), "N");
     assertThat(state.getPrimaryStorage()).isEqualTo(NOTE_DB);
     assertThat(state.getRefState().isPresent()).isFalse();
+    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -156,11 +247,12 @@ public class NoteDbChangeStateTest {
   }
 
   @Test
-  public void applyDeltaToNoteDbPrimaryIsNoOp() {
+  public void applyDeltaToNoteDbPrimaryIsNoOp() throws Exception {
     Change c = newChange();
     c.setNoteDbState("N");
     applyDelta(c, Delta.create(c.getId(), metaId(SHA1),
-        drafts(new Account.Id(1001), SHA2)));
+        drafts(new Account.Id(1001), SHA2)),
+        TimeUtil.nowTs());
     assertThat(c.getNoteDbState()).isEqualTo("N");
   }
 

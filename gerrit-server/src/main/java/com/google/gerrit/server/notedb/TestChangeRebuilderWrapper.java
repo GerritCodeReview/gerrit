@@ -55,10 +55,23 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   @Override
   public Result rebuild(ReviewDb db, Change.Id changeId)
       throws IOException, OrmException {
+    return rebuild(db, changeId, true);
+  }
+
+  @Override
+  public Result rebuildEvenIfReadOnly(ReviewDb db, Change.Id changeId)
+      throws IOException, OrmException {
+    return rebuild(db, changeId, false);
+  }
+
+  private Result rebuild(ReviewDb db, Change.Id changeId,
+      boolean checkReadOnly) throws IOException, OrmException {
     if (failNextUpdate.getAndSet(false)) {
       throw new IOException("Update failed");
     }
-    Result result = delegate.rebuild(db, changeId);
+    Result result = checkReadOnly
+        ? delegate.rebuild(db, changeId)
+        : delegate.rebuildEvenIfReadOnly(db, changeId);
     if (stealNextUpdate.getAndSet(false)) {
       throw new IOException("Update stolen");
     }

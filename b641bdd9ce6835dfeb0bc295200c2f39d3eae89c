@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c112fc46_bae6316c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-24T13:32:25Z",
+      "side": 1,
+      "message": "Do we need a null check here?\n\nDirectoryException has a constructor to initialize the exeception with only a message. In this case cause would be null and Throwables.throwIfInstanceOf would fail with a IllegalStateException.\n\nSince this constructor of DirectoryException is not used, we may also just remove it.",
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_f955d739",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-24T13:32:25Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_9ae36d5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-24T13:32:25Z",
+      "side": 1,
+      "message": "For RetryException cause may be null.",
+      "range": {
+        "startLine": 199,
+        "startChar": 34,
+        "endLine": 200,
+        "endChar": 69
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_3a28e19a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-24T13:32:25Z",
+      "side": 1,
+      "message": "may have no cause",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 32
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_1a2d1dab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-24T13:32:25Z",
+      "side": 1,
+      "message": "may have no cause.",
+      "range": {
+        "startLine": 138,
+        "startChar": 13,
+        "endLine": 138,
+        "endChar": 25
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

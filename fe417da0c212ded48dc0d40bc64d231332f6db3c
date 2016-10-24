@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a117c836_19f2cb7e",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T05:58:08Z",
+      "side": 1,
+      "message": "I don\u0027t see any issues without -p argument. I tested multiple invocations, wit some changes in javaoc in between: [1].\n\n* [1] http://paste.openstack.org/show/586863",
+      "revId": "fe417da0c212ded48dc0d40bc64d231332f6db3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

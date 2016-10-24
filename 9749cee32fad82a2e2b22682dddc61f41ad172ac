@@ -59,6 +59,24 @@
       "revId": "9749cee32fad82a2e2b22682dddc61f41ad172ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "610dd02b_77cf9013",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:45:43Z",
+      "side": 1,
+      "message": "Fair enough.  Let\u0027s leave it for another commit.",
+      "parentUuid": "e1ff0021_3bdfb7f4",
+      "revId": "9749cee32fad82a2e2b22682dddc61f41ad172ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

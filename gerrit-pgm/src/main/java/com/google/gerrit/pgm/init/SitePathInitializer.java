@@ -29,7 +29,7 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.init.api.Section.Factory;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.mail.send.OutgoingEmail;
+import com.google.gerrit.server.mail.EmailModule;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -156,7 +156,7 @@ public class SitePathInitializer {
 
   private void extractMailExample(String orig) throws Exception {
     Path ex = site.mail_dir.resolve(orig + ".example");
-    extract(ex, OutgoingEmail.class, orig);
+    extract(ex, EmailModule.class, orig);
     chmod(0444, ex);
   }
 

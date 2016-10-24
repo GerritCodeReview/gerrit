@@ -283,7 +283,11 @@ public class RebuildNoteDb extends SiteProgram {
     ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
     pm.beginTask(
         FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
-    try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
+    try (NoteDbUpdateManager manager = updateManagerFactory
+            .create(project)
+            // Ignore any read-only leases at this point, as this program must
+            // be run while the server is shut down.
+            .setCheckReadOnly(false, null);
         ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
         RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
       manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,

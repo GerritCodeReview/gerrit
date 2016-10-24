@@ -19,12 +19,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
@@ -32,7 +34,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ChangeAccess;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -44,6 +50,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -60,6 +67,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Object to manage a single sequence of updates to NoteDb.
@@ -179,6 +187,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
   private final Project.NameKey projectName;
+  private final long skewMs;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
@@ -189,8 +198,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private Map<Change.Id, StagedResult> staged;
   private boolean checkExpectedState = true;
 
+  private boolean checkReadOnly = false;
+  private ReviewDb db; // Only use this when checkReadOnly is true.
+
   @AssistedInject
-  NoteDbUpdateManager(GitRepositoryManager repoManager,
+  NoteDbUpdateManager(@GerritServerConfig Config cfg,
+      GitRepositoryManager repoManager,
       NotesMigration migration,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
@@ -200,6 +213,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.allUsersName = allUsersName;
     this.metrics = metrics;
     this.projectName = projectName;
+    skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
     changeUpdates = ArrayListMultimap.create();
     draftUpdates = ArrayListMultimap.create();
     robotCommentUpdates = ArrayListMultimap.create();
@@ -239,6 +253,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
     this.checkExpectedState = checkExpectedState;
+    return this;
+  }
+
+  public NoteDbUpdateManager setCheckReadOnly(boolean checkReadOnly,
+      @Nullable ReviewDb db) {
+    this.checkReadOnly = checkReadOnly;
+    this.db = checkReadOnly ? checkNotNull(db) : null;
     return this;
   }
 
@@ -377,8 +398,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
   public Result stageAndApplyDelta(Change change)
       throws OrmException, IOException {
     StagedResult sr = stage().get(change.getId());
-    NoteDbChangeState newState =
-        NoteDbChangeState.applyDelta(change, sr != null ? sr.delta() : null);
+    NoteDbChangeState newState = NoteDbChangeState.applyDelta(
+        change, sr != null ? sr.delta() : null,
+        NoteDbChangeState.timeForReadOnlyCheck(skewMs));
     return Result.create(sr, newState);
   }
 
@@ -417,8 +439,14 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (isEmpty()) {
       return;
     }
+    stage();
+
     try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
-      stage();
+      // Check that changes have not become read-only as late as possible, to
+      // reduce the window that PrimaryStorage migration code has to wait for
+      // concurrent writers to complete.
+      checkNotReadOnly();
+
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published
@@ -498,6 +526,33 @@ public class NoteDbUpdateManager implements AutoCloseable {
           "cannot apply NoteDb updates for change %s;"
           + " change meta ref does not match %s",
           id, expectedState.getChangeMetaId().name()));
+    }
+  }
+
+  private void checkNotReadOnly() throws OrmException {
+    if (!checkReadOnly) {
+      return;
+    }
+    // Re-read ReviewDb to check if any changes have recently become read-only.
+    // This is not a general-purpose redo of checkExpectedState that re-reads
+    // the ref state; see comment at the call site.
+    Set<Change.Id> ids = Stream.concat(
+            changeUpdates.values().stream().map(ChangeUpdate::getId),
+            draftUpdates.values().stream().map(ChangeDraftUpdate::getId))
+        .collect(toSet());
+    ChangeAccess access = ReviewDbUtil.unwrapDb(db).changes();
+    Map<Change.Id, Change> changes = access.toMap(access.get(ids));
+    Set<Change.Id> diff = Sets.difference(ids, changes.keySet());
+    if (!diff.isEmpty()) {
+      // This will only happen if a change was deleted from ReviewDb after the
+      // ReviewDb write that triggered this NoteDb update, but before the change
+      // was deleted from NoteDb. We don't want to step on the NoteDb deletion,
+      // so fail here instead.
+      throw new OrmException(
+          "missing ReviewDb changes during NoteDb update: " + diff);
+    }
+    for (Change c : changes.values()) {
+      NoteDbChangeState.checkNotReadOnly(c, skewMs);
     }
   }
 

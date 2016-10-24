@@ -211,7 +211,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas.get(0).getAccountId().get()).isEqualTo(1);
     assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
     assertThat(psas.get(0).getValue()).isEqualTo((short) -1);
-    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 3000)));
 
     assertThat(psas.get(1).getPatchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).getAccountId().get()).isEqualTo(1);
@@ -243,14 +243,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa1.getAccountId().get()).isEqualTo(1);
     assertThat(psa1.getLabel()).isEqualTo("Code-Review");
     assertThat(psa1.getValue()).isEqualTo((short) -1);
-    assertThat(psa1.getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psa1.getGranted()).isEqualTo(truncate(after(c, 3000)));
 
     PatchSetApproval psa2 = Iterables.getOnlyElement(psas.get(ps2));
     assertThat(psa2.getPatchSetId()).isEqualTo(ps2);
     assertThat(psa2.getAccountId().get()).isEqualTo(1);
     assertThat(psa2.getLabel()).isEqualTo("Code-Review");
     assertThat(psa2.getValue()).isEqualTo((short) +1);
-    assertThat(psa2.getGranted()).isEqualTo(truncate(after(c, 4000)));
+    assertThat(psa2.getGranted()).isEqualTo(truncate(after(c, 7000)));
   }
 
   @Test
@@ -299,13 +299,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas.get(0).getAccountId().get()).isEqualTo(1);
     assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
     assertThat(psas.get(0).getValue()).isEqualTo((short) -1);
-    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 3000)));
 
     assertThat(psas.get(1).getPatchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).getAccountId().get()).isEqualTo(2);
     assertThat(psas.get(1).getLabel()).isEqualTo("Code-Review");
     assertThat(psas.get(1).getValue()).isEqualTo((short) 1);
-    assertThat(psas.get(1).getGranted()).isEqualTo(truncate(after(c, 3000)));
+    assertThat(psas.get(1).getGranted()).isEqualTo(truncate(after(c, 5000)));
   }
 
   @Test

@@ -21,6 +21,7 @@ public class ApprovalInfo extends AccountInfo {
   public Integer value;
   public Timestamp date;
   public Boolean postSubmit;
+  public Integer maxPermittedValue;
 
   public ApprovalInfo(Integer id) {
     super(id);

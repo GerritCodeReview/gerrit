@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a117c836_b9c3dff0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T09:17:00Z",
+      "side": 1,
+      "message": "Nit: Trailing blanks.",
+      "revId": "a5ca7dce2ec9d58a5b6cb688111abad18940f017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1477311529 +0200\nnonce AKOpmBXXKu0A2dNYw2u31W1caXxyZy7LIEhtwZ7YylyxoB5hwhY6B2X4Am5SF750hJR1OmyhFugb\n\n0000000000000000000000000000000000000000 5bb18d32eb4e2e26324abd122742f961972332a1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYDfwpAAoJEFG1/Zeg0O9RvQEH/jxqP9dWjMq9UcwiZyw0Ck0B\n4PiA9aZNe1GjJdZIgpInIQXj7YECobSYpokhMpHXhJuH7s2hOOuZPCsyytrQaAOv\nW2t5ERqFrLKt/k5zAec6o1vOCPOjyNsDHavp7DXVCmKLyiJ60I3uvpJwQgQiIjzQ\nh55Wue/Uypd16om2k7C6KJoJGuZ9DwSvcqBJ7q4GVX/Ffjm+fLa+YBjNH8+BdCyt\nt3BGcppDk2i5CHxYnaOliwIEYDMSiSHbIoPMuNULc7dK22BU2i/M5/5xY4oAC2iw\nupy2bfobq6DDODxnP3BZQQn8xjhxQSVNct42+WuSxaVUmVvohLRKmgzSYnNz6Uk\u003d\n\u003dXkia\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "610dd02b_7758b0a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T12:30:20Z",
+      "side": 1,
+      "message": "What version are you using internally?  I just noticed that 20.0-rc1 was recently released [1]. Is that method removed already in that version? If so perhaps we should try to upgrade to it and fix any other errors that pop up?\n\n[1] https://github.com/google/guava/releases/tag/v20.0-rc1",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "5bb18d32eb4e2e26324abd122742f961972332a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "610dd02b_570feca1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T07:20:30Z",
+      "side": 1,
+      "message": "Should this be %s ?",
+      "range": {
+        "startLine": 996,
+        "startChar": 48,
+        "endLine": 996,
+        "endChar": 50
+      },
+      "revId": "72f209250e17e46ce8ad7d4bc89e53e7191d2227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a117c836_9987fb9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-24T12:45:08Z",
+      "side": 1,
+      "message": "this is emacs git-mode.",
+      "parentUuid": "8108041d_78f30186",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 4
+      },
+      "revId": "577b1581275093b16c053efda977185adafbb819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8108041d_58f83d5e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c112fc46_7af9b912",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-24T12:45:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8108041d_58f83d5e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "577b1581275093b16c053efda977185adafbb819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "610dd02b_f7060083",
         "filename": "BUILD",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2016-10-24T11:11:19Z",
       "side": 1,
       "message": "Is this intentionally repeated?",
+      "range": {
+        "startLine": 6,
+        "startChar": 9,
+        "endLine": 6,
+        "endChar": 14
+      },
+      "revId": "577b1581275093b16c053efda977185adafbb819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_7942e784",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-24T12:45:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "610dd02b_f7060083",
       "range": {
         "startLine": 6,
         "startChar": 9,

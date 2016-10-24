@@ -51,6 +51,24 @@
       "revId": "35e11c9f9ffb06181acefc020ea1d6a4a801549d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8108041d_7858a1a3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:01:04Z",
+      "side": 1,
+      "message": "This one is calling a method with a different signature, that isn\u0027t deprecated.",
+      "parentUuid": "e1ff0021_7bbc1fa4",
+      "revId": "35e11c9f9ffb06181acefc020ea1d6a4a801549d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,7 +30,7 @@ public class ImapMailReceiver extends MailReceiver {
    * handleEmails will open a connection to the mail server, remove emails
    * where deletion is pending, read new email and close the connection.
    */
-  protected synchronized void handleEmails() {
+  public synchronized void handleEmails() {
     // TODO(hiesel) Implement.
   }
 }

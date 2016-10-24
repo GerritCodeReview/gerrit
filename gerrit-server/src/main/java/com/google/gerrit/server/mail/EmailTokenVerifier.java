@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 
 /** Verifies the token sent by {@link RegisterNewEmailSender}. */
 public interface EmailTokenVerifier {

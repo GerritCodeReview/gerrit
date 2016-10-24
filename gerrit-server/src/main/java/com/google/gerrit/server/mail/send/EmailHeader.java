@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.server.mail.Address;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -75,7 +76,7 @@ public abstract class EmailHeader {
     }
   }
 
-  static boolean needsQuotedPrintable(java.lang.String value) {
+  public static boolean needsQuotedPrintable(java.lang.String value) {
     for (int i = 0; i < value.length(); i++) {
       if (value.charAt(i) < ' ' || '~' < value.charAt(i)) {
         return true;
@@ -104,7 +105,7 @@ public abstract class EmailHeader {
     }
   }
 
-  static java.lang.String quotedPrintable(java.lang.String value) {
+  public static java.lang.String quotedPrintable(java.lang.String value) {
     final StringBuilder r = new StringBuilder();
 
     r.append("=?UTF-8?Q?");
@@ -191,7 +192,7 @@ public abstract class EmailHeader {
 
     void remove(java.lang.String email) {
       for (Iterator<Address> i = list.iterator(); i.hasNext();) {
-        if (i.next().email.equals(email)) {
+        if (i.next().getEmail().equals(email)) {
           i.remove();
         }
       }

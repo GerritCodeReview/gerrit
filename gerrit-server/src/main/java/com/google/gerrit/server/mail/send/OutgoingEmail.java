@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
@@ -24,7 +24,9 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.mail.EmailHeader.AddressList;
+import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.RecipientType;
+import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -201,8 +203,8 @@ public abstract class OutgoingEmail {
       // Reply-To header with the current user's email address.
       //
       final Address a = toAddress(fromId);
-      if (a != null && !smtpFromAddress.email.equals(a.email)) {
-        setHeader("Reply-To", a.email);
+      if (a != null && !smtpFromAddress.getEmail().equals(a.getEmail())) {
+        setHeader("Reply-To", a.getEmail());
       }
     }
 
@@ -421,11 +423,11 @@ public abstract class OutgoingEmail {
 
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
-    if (addr != null && addr.email != null && addr.email.length() > 0) {
-      if (!OutgoingEmailValidator.isValid(addr.email)) {
-        log.warn("Not emailing " + addr.email + " (invalid email address)");
-      } else if (!args.emailSender.canEmail(addr.email)) {
-        log.warn("Not emailing " + addr.email + " (prohibited by allowrcpt)");
+    if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
+      if (!OutgoingEmailValidator.isValid(addr.getEmail())) {
+        log.warn("Not emailing " + addr.getEmail() + " (invalid email address)");
+      } else if (!args.emailSender.canEmail(addr.getEmail())) {
+        log.warn("Not emailing " + addr.getEmail() + " (prohibited by allowrcpt)");
       } else if (smtpRcptTo.add(addr)) {
         switch (rt) {
           case TO:
@@ -561,7 +563,7 @@ public abstract class OutgoingEmail {
   protected void removeUser(Account user) {
     String fromEmail = user.getPreferredEmail();
     for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext();) {
-      if (j.next().email.equals(fromEmail)) {
+      if (j.next().getEmail().equals(fromEmail)) {
         j.remove();
       }
     }

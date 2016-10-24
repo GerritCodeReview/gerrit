@@ -82,7 +82,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.mail.EmailHeader;
+import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;

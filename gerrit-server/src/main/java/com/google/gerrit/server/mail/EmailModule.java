@@ -15,6 +15,12 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.mail.send.AbandonedSender;
+import com.google.gerrit.server.mail.send.CommentSender;
+import com.google.gerrit.server.mail.send.DeleteReviewerSender;
+import com.google.gerrit.server.mail.send.DeleteVoteSender;
+import com.google.gerrit.server.mail.send.RestoredSender;
+import com.google.gerrit.server.mail.send.RevertedSender;
 
 public class EmailModule extends FactoryModule {
   @Override

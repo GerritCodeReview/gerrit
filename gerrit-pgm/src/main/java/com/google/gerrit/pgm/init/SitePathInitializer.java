@@ -29,7 +29,7 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.init.api.Section.Factory;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.mail.OutgoingEmail;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

@@ -58,7 +58,7 @@ import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.group.GroupModule;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;

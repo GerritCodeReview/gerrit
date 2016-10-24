@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.send;
 
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
@@ -31,7 +31,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.mail.ProjectWatch.Watchers;
+import com.google.gerrit.server.mail.RecipientType;
+import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;

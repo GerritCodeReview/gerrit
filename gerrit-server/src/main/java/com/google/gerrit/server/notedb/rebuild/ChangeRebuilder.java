@@ -59,6 +59,9 @@ public abstract class ChangeRebuilder {
   public abstract Result rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException;
 
+  public abstract Result rebuildEvenIfReadOnly(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException;
+
   public abstract Result rebuild(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
       OrmException;

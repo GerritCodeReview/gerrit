@@ -130,7 +130,6 @@ REST_PGM_DEPS = [
   '//lib:gwtorm',
   '//lib:protobuf',
   '//lib:servlet-api-3_1',
-  '//lib/auto:auto-value',
   '//lib/prolog:cafeteria',
   '//lib/prolog:compiler',
   '//lib/prolog:runtime',

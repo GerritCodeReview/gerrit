@@ -509,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "e1ff0021_7be53fc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T14:20:42Z",
+      "side": 1,
+      "message": "Either way this restriction should be documented in the REST API docs.",
+      "parentUuid": "a117c836_b9387f02",
+      "revId": "446639e25fd0b974d3c19d3336969bbbc7c0c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c04df97_a61a0692",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2

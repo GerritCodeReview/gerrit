@@ -23,6 +23,24 @@
       "revId": "9749cee32fad82a2e2b22682dddc61f41ad172ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ff0021_3bdfb7f4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T14:40:41Z",
+      "side": 1,
+      "message": "*shrug*\n\nThat seems to me like unrelated cleanup at this point, to eliminate more usages of FluentIterable that can be replaced by equivalent idiomatic stream code.",
+      "parentUuid": "8108041d_f84b91c8",
+      "revId": "9749cee32fad82a2e2b22682dddc61f41ad172ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1ff0021_9ba12b7e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T13:49:43Z",
+      "side": 1,
+      "message": "Stream.of(AccountInfo[]) returns a Stream\u003cAccountInfo[]\u003e. I think you want Arrays.stream(accounts).",
+      "revId": "35e11c9f9ffb06181acefc020ea1d6a4a801549d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ff0021_7bbc1fa4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T13:49:43Z",
+      "side": 1,
+      "message": "This one too? You could also just delegate the previous method to return ids(Arrays.asList(accounts)).",
+      "revId": "35e11c9f9ffb06181acefc020ea1d6a4a801549d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

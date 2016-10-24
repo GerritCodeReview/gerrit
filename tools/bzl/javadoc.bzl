@@ -27,8 +27,10 @@ def _impl(ctx):
   dir = ctx.outputs.zip.path + ".dir"
   source = ctx.outputs.zip.path + ".source"
   cmd = [
+      "rm -rf %s" % source,
       "mkdir %s" % source,
       " && ".join(["unzip -qud %s %s" % (source, j.path) for j in source_jars]),
+      "rm -rf %s" % dir,
       "mkdir %s" % dir,
       " ".join([
         ctx.file._javadoc.path,

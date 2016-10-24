@@ -22,6 +22,24 @@
       "revId": "77464107c450d6bdd5d98103f6e4caa65441972b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c16e7ce9_7a73d95c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T18:13:56Z",
+      "side": 0,
+      "message": "Any idea what code path this is happening along?\n\nTypically Ops only get added to the BatchUpdate for changes that already exist, for example in a REST API handler it will have already read the Change once while parsing the ChangeResource. So it would be surprising for the Change to disappear out of the database between ChangeResource parsing and BatchUpdate.",
+      "parentUuid": "a117c836_99249b25",
+      "revId": "77464107c450d6bdd5d98103f6e4caa65441972b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,24 @@
       "revId": "72f209250e17e46ce8ad7d4bc89e53e7191d2227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c16e7ce9_5a6e1574",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T18:13:56Z",
+      "side": 1,
+      "message": "checkNotNull(c, \"failed to get change %s from unwrapped db\", id)\n\nPreconditions do lazy formatting for you only if the condition fails, and only accept %s.",
+      "parentUuid": "610dd02b_570feca1",
+      "revId": "72f209250e17e46ce8ad7d4bc89e53e7191d2227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

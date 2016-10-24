@@ -305,7 +305,18 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean hasValue() /*-{ return this.hasOwnProperty('value'); }-*/;
     public final native short value() /*-{ return this.value || 0; }-*/;
 
+    public final native boolean hasPermittedVotingRange() /*-{ return this.hasOwnProperty('permitted_voting_range'); }-*/;
+    public final native VotingRangeInfo permittedVotingRange() /*-{ return this.permitted_voting_range || 0; }-*/;
+
     protected ApprovalInfo() {
+    }
+  }
+
+  public static class VotingRangeInfo extends AccountInfo {
+    public final native short min() /*-{ return this.min || 0; }-*/;
+    public final native short max() /*-{ return this.max || 0; }-*/;
+
+    protected VotingRangeInfo() {
     }
   }
 

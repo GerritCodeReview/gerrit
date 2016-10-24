@@ -45,6 +45,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
@@ -54,6 +55,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -75,6 +77,7 @@ import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -602,7 +605,7 @@ public class ChangeJson {
     LabelTypes labelTypes = ctl.getLabelTypes();
     Map<String, LabelWithStatus> withStatus = cd.change().getStatus().isOpen()
       ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
-      : labelsForClosedChange(cd, labelTypes, standard, detailed);
+      : labelsForClosedChange(ctl, cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(
         Maps.transformValues(withStatus, LabelWithStatus::label));
   }
@@ -722,6 +725,8 @@ public class ChangeJson {
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
       ChangeControl ctl = baseCtrl.forUser(user);
+      Map<String, VotingRangeInfo> pvr =
+        getPermittedVotingRanges(permittedLabels(ctl, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
         if (lt == null) {
@@ -730,6 +735,8 @@ public class ChangeJson {
           continue;
         }
         Integer value;
+        VotingRangeInfo permittedVotingRange =
+          pvr.getOrDefault(lt.getName(), null);
         String tag = null;
         Timestamp date = null;
         PatchSetApproval psa = current.get(accountId, lt.getName());
@@ -753,9 +760,42 @@ public class ChangeJson {
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
         addApproval(e.getValue().label(),
-            approvalInfo(accountId, value, tag, date));
+            approvalInfo(accountId, value, permittedVotingRange, tag, date));
       }
     }
+  }
+
+  private Map<String, VotingRangeInfo> getPermittedVotingRanges(
+      Map<String, Collection<String>> permittedLabels) {
+    Map<String, VotingRangeInfo> permittedVotingRanges =
+      Maps.newHashMapWithExpectedSize(permittedLabels.size());
+    for (String label : permittedLabels.keySet()) {
+      List<Integer> permittedVotingRange = permittedLabels.get(label)
+        .stream()
+        .map(this::parseRangeValue)
+        .filter(java.util.Objects::nonNull)
+        .sorted()
+        .collect(toList());
+
+      if (permittedVotingRange.isEmpty()) {
+        permittedVotingRanges.put(label, null);
+      } else {
+        int minPermittedValue = permittedVotingRange.get(0);
+        int maxPermittedValue = Iterables.getLast(permittedVotingRange);
+        permittedVotingRanges.put(label,
+          new VotingRangeInfo(minPermittedValue, maxPermittedValue));
+      }
+    }
+    return permittedVotingRanges;
+  }
+
+  private Integer parseRangeValue(String value) {
+    if (value.startsWith("+")) {
+      value = value.substring(1);
+    } else if (value.startsWith(" ")) {
+      value = value.trim();
+    }
+    return Ints.tryParse(value);
   }
 
   private Timestamp getSubmittedOn(ChangeData cd)
@@ -764,8 +804,9 @@ public class ChangeJson {
     return s.isPresent() ? s.get().getGranted() : null;
   }
 
-  private Map<String, LabelWithStatus> labelsForClosedChange(ChangeData cd,
-      LabelTypes labelTypes, boolean standard, boolean detailed)
+  private Map<String, LabelWithStatus> labelsForClosedChange(
+      ChangeControl baseCtrl, ChangeData cd, LabelTypes labelTypes,
+      boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
@@ -831,10 +872,12 @@ public class ChangeJson {
     for (Account.Id accountId : allUsers) {
       Map<String, ApprovalInfo> byLabel =
           Maps.newHashMapWithExpectedSize(labels.size());
-
+      Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
+        ChangeControl ctl = baseCtrl.forUser(userFactory.create(accountId));
+        pvr = getPermittedVotingRanges(permittedLabels(ctl, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
-          ApprovalInfo ai = approvalInfo(accountId, 0, null, null);
+          ApprovalInfo ai = approvalInfo(accountId, 0, null, null, null);
           byLabel.put(entry.getKey(), ai);
           addApproval(entry.getValue().label(), ai);
         }
@@ -849,6 +892,7 @@ public class ChangeJson {
         ApprovalInfo info = byLabel.get(type.getName());
         if (info != null) {
           info.value = Integer.valueOf(val);
+          info.permittedVotingRange = pvr.getOrDefault(type.getName(), null);
           info.date = psa.getGranted();
           info.tag = psa.getTag();
           if (psa.isPostSubmit()) {
@@ -865,17 +909,18 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value, String tag,
-      Timestamp date) {
-    ApprovalInfo ai = getApprovalInfo(id, value, tag, date);
+  private ApprovalInfo approvalInfo(Account.Id id, Integer value,
+      VotingRangeInfo permittedVotingRange, String tag, Timestamp date) {
+    ApprovalInfo ai = getApprovalInfo(id, value, permittedVotingRange, tag, date);
     accountLoader.put(ai);
     return ai;
   }
 
-  public static ApprovalInfo getApprovalInfo(
-      Account.Id id, Integer value, String tag, Timestamp date) {
+  public static ApprovalInfo getApprovalInfo(Account.Id id, Integer value,
+      VotingRangeInfo permittedVotingRange, String tag, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
+    ai.permittedVotingRange = permittedVotingRange;
     ai.date = date;
     ai.tag = tag;
     return ai;

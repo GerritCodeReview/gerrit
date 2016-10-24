@@ -49,6 +49,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.notedb.ChangeBundle;
@@ -73,6 +74,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -121,9 +123,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private final ProjectCache projectCache;
   private final String anonymousCowardName;
   private final String serverId;
+  private final long skewMs;
 
   @Inject
-  ChangeRebuilderImpl(SchemaFactory<ReviewDb> schemaFactory,
+  ChangeRebuilderImpl(@GerritServerConfig Config cfg,
+      SchemaFactory<ReviewDb> schemaFactory,
       AccountCache accountCache,
       ChangeBundleReader bundleReader,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -149,10 +153,22 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     this.projectCache = projectCache;
     this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
+    this.skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
 
   @Override
   public Result rebuild(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException {
+    return rebuild(db, changeId, true);
+  }
+
+  @Override
+  public Result rebuildEvenIfReadOnly(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException {
+    return rebuild(db, changeId, false);
+  }
+
+  private Result rebuild(ReviewDb db, Change.Id changeId, boolean checkReadOnly)
       throws NoSuchChangeException, IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
     // Read change just to get project; this instance is then discarded so we
@@ -164,7 +180,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     try (NoteDbUpdateManager manager =
         updateManagerFactory.create(change.getProject())) {
       buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
-      return execute(db, changeId, manager);
+      return execute(db, changeId, manager, checkReadOnly);
     }
   }
 
@@ -197,6 +213,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   public Result execute(ReviewDb db, Change.Id changeId,
       NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
       IOException {
+    return execute(db, changeId, manager, true);
+  }
+
+  public Result execute(ReviewDb db, Change.Id changeId,
+      NoteDbUpdateManager manager, boolean checkReadOnly)
+      throws NoSuchChangeException, OrmException, IOException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change =
         checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));
@@ -211,6 +233,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
+          if (checkReadOnly) {
+            NoteDbChangeState.checkNotReadOnly(change, skewMs);
+          }
           String currNoteDbState = change.getNoteDbState();
           if (Objects.equals(currNoteDbState, newNoteDbState)) {
             // Another thread completed the same rebuild we were about to.

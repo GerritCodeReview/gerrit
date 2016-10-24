@@ -29,19 +29,26 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.primitives.Longs;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.RefCache;
+import com.google.gwtorm.server.OrmRuntimeException;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The state of all relevant NoteDb refs across all repos corresponding to a
@@ -53,8 +60,10 @@ import java.util.Optional;
  * Serialized in one of the forms:
  * <ul>
  *    <li>[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
- *    <li>R[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *    <li>R,[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *    <li>R=[read-only-until],[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
  *    <li>N
+ *    <li>N=[read-only-until]
  * </ul>
  *
  * in numeric account ID order, with hex SHA-1s for human readability.
@@ -162,11 +171,13 @@ public class NoteDbChangeState {
       return null;
     }
     List<String> parts = Splitter.on(',').splitToList(str);
+    String first = parts.get(0);
+    Optional<Timestamp> readOnlyUntil = parseReadOnlyUntil(id, str, first);
 
     // Only valid NOTE_DB state is "N".
-    String first = parts.get(0);
     if (parts.size() == 1 && first.charAt(0) == NOTE_DB.code) {
-      return new NoteDbChangeState(id, NOTE_DB, Optional.empty());
+      return new NoteDbChangeState(
+          id, NOTE_DB, Optional.empty(), readOnlyUntil);
     }
 
     // Otherwise it must be REVIEW_DB, either "R,<RefState>" or just
@@ -178,13 +189,44 @@ public class NoteDbChangeState {
       } else {
         refState = RefState.parse(id, parts);
       }
-      return new NoteDbChangeState(id, REVIEW_DB, refState);
+      return new NoteDbChangeState(id, REVIEW_DB, refState, readOnlyUntil);
     }
-    throw new IllegalArgumentException(
+    throw invalidState(id, str);
+  }
+
+  private static Optional<Timestamp> parseReadOnlyUntil(Change.Id id,
+      String fullStr, String first) {
+    if (first.length() > 2 && first.charAt(1) == '=') {
+      Long ts = Longs.tryParse(first.substring(2));
+      if (ts == null) {
+        throw invalidState(id, fullStr);
+      }
+      return Optional.of(new Timestamp(ts));
+    }
+    return Optional.empty();
+  }
+
+  private static IllegalArgumentException invalidState(Change.Id id,
+      String str) {
+    return new IllegalArgumentException(
         "invalid state string for change " + id + ": " + str);
   }
 
-  public static NoteDbChangeState applyDelta(Change change, Delta delta) {
+  /**
+   * Apply a delta to the state stored in a change entity.
+   * <p>
+   * This method does not check whether the old state was read-only; it is up to
+   * the caller to not violate read-only semantics when storing the change back
+   * in ReviewDb.
+   *
+   * @param change change entity. The delta is applied against this entity's
+   *     {@code noteDbState} and the new state is stored back in the entity as a
+   *     side effect.
+   * @param delta delta to apply.
+   * @return new state, equivalent to what is stored in {@code change} as a side
+   *     effect.
+   */
+  static NoteDbChangeState applyDelta(Change change, Delta delta) {
     if (delta == null) {
       return null;
     }
@@ -229,11 +271,21 @@ public class NoteDbChangeState {
         oldState != null
             ? oldState.getPrimaryStorage()
             : REVIEW_DB,
-        Optional.of(RefState.create(changeMetaId, draftIds)));
+        Optional.of(RefState.create(changeMetaId, draftIds)),
+        // Copy old read-only deadline rather than advancing it; the caller is
+        // still responsible for finishing the rest of its work before the lease
+        // runs out.
+        oldState != null ? oldState.getReadOnlyUntil() : Optional.empty());
     change.setNoteDbState(state.toString());
     return state;
   }
 
+  // TODO(dborowitz): Ugly. Refactor these static methods into a Checker class
+  // or something. They do not belong in NoteDbChangeState itself because:
+  //  - need to inject Config but don't want a whole Factory
+  //  - can't be methods on NoteDbChangeState because state is nullable (though
+  //    we could also solve this by inventing an empty-but-non-null state)
+  // Also we should clean up duplicated code between static/non-static methods.
   public static boolean isChangeUpToDate(@Nullable NoteDbChangeState state,
       RefCache changeRepoRefs, Change.Id changeId) throws IOException {
     if (PrimaryStorage.of(state) == NOTE_DB) {
@@ -258,17 +310,46 @@ public class NoteDbChangeState {
     return state.areDraftsUpToDate(draftsRepoRefs, accountId);
   }
 
+  public static long getReadOnlySkew(Config cfg) {
+    return cfg.getTimeUnit(
+        "notedb", null, "maxTimestampSkew", 1000, TimeUnit.MILLISECONDS);
+  }
+
+  private static Timestamp timeForReadOnlyCheck(long skewMs) {
+    // Subtract some slop in case the machine that set the change's read-only
+    // lease has a clock behind ours.
+    return new Timestamp(TimeUtil.nowMs() - skewMs);
+  }
+
+  public static void checkNotReadOnly(@Nullable Change change, long skewMs) {
+    checkNotReadOnly(parse(change), skewMs);
+  }
+
+  public static void checkNotReadOnly(@Nullable NoteDbChangeState state,
+      long skewMs) {
+    if (state == null) {
+      return; // No state means ReviewDb primary non-read-only.
+    } else if (state.isReadOnly(timeForReadOnlyCheck(skewMs))) {
+      throw new OrmRuntimeException(
+          "change " + state.getChangeId() + " is read-only until "
+          + state.getReadOnlyUntil().get());
+    }
+  }
+
   private final Change.Id changeId;
   private final PrimaryStorage primaryStorage;
   private final Optional<RefState> refState;
+  private final Optional<Timestamp> readOnlyUntil;
 
   public NoteDbChangeState(
       Change.Id changeId,
       PrimaryStorage primaryStorage,
-      Optional<RefState> refState) {
+      Optional<RefState> refState,
+      Optional<Timestamp> readOnlyUntil) {
     this.changeId = checkNotNull(changeId);
     this.primaryStorage = checkNotNull(primaryStorage);
-    this.refState = refState;
+    this.refState = checkNotNull(refState);
+    this.readOnlyUntil = checkNotNull(readOnlyUntil);
 
     switch (primaryStorage) {
       case REVIEW_DB:
@@ -333,23 +414,32 @@ public class NoteDbChangeState {
     return true;
   }
 
-  @VisibleForTesting
-  Change.Id getChangeId() {
+  public boolean isReadOnly(Timestamp now) {
+    return readOnlyUntil.isPresent() && now.before(readOnlyUntil.get());
+  }
+
+  public Optional<Timestamp> getReadOnlyUntil() {
+    return readOnlyUntil;
+  }
+
+  public NoteDbChangeState withReadOnlyUntil(Timestamp ts) {
+    return new NoteDbChangeState(
+        changeId, primaryStorage, refState, Optional.of(ts));
+  }
+
+  public Change.Id getChangeId() {
     return changeId;
   }
 
-  @VisibleForTesting
   public ObjectId getChangeMetaId() {
     return refState().changeMetaId();
   }
 
-  @VisibleForTesting
-  ImmutableMap<Account.Id, ObjectId> getDraftIds() {
+  public ImmutableMap<Account.Id, ObjectId> getDraftIds() {
     return refState().draftIds();
   }
 
-  @VisibleForTesting
-  Optional<RefState> getRefState() {
+  public Optional<RefState> getRefState() {
     return refState;
   }
 
@@ -363,13 +453,37 @@ public class NoteDbChangeState {
   public String toString() {
     switch (primaryStorage) {
       case REVIEW_DB:
-        // Don't include enum field, just IDs (though parse would accept it).
-        return refState().toString();
+        if (!readOnlyUntil.isPresent()) {
+          // Don't include enum field, just IDs (though parse would accept it).
+          return refState().toString();
+        }
+        return primaryStorage.code + "=" + readOnlyUntil.get().getTime()
+            + "," + refState.get();
       case NOTE_DB:
-        return NOTE_DB_PRIMARY_STATE;
+        if (!readOnlyUntil.isPresent()) {
+          return NOTE_DB_PRIMARY_STATE;
+        }
+        return primaryStorage.code + "=" + readOnlyUntil.get().getTime();
       default:
         throw new IllegalArgumentException(
           "Unsupported PrimaryStorage: " + primaryStorage);
     }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(changeId, primaryStorage, refState, readOnlyUntil);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof NoteDbChangeState)) {
+      return false;
+    }
+    NoteDbChangeState s = (NoteDbChangeState) o;
+    return changeId.equals(s.changeId)
+        && primaryStorage.equals(s.primaryStorage)
+        && refState.equals(s.refState)
+        && readOnlyUntil.equals(s.readOnlyUntil);
   }
 }

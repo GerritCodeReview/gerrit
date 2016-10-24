@@ -15,11 +15,15 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
@@ -82,6 +86,7 @@ import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -157,7 +162,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     assume().that(NoteDbMode.readWrite()).isFalse();
-    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
     setNotesMigration(false, false);
   }
 
@@ -629,7 +634,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         Optional.of(
           NoteDbChangeState.RefState.create(
               NoteDbChangeState.parse(c).getChangeMetaId(),
-              ImmutableMap.of(user.getId(), badSha))));
+              ImmutableMap.of(user.getId(), badSha))),
+        Optional.empty());
     c.setNoteDbState(bogusState.toString());
     db.changes().update(Collections.singleton(c));
 
@@ -1160,6 +1166,37 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(psUtil.byChangeAsMap(db, notes).keySet())
         .containsExactly(psId1, psId2);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId1);
+  }
+
+  @Test
+  public void rebuilderRespectsReadOnlyInNoteDbChangeState() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id psId1 = r.getPatchSetId();
+    Change.Id id = psId1.getParentKey();
+
+    checker.rebuildAndCheckChanges(id);
+    setNotesMigration(true, true);
+
+    ReviewDb db = getUnwrappedDb();
+    Change c = db.changes().get(id);
+    NoteDbChangeState state = NoteDbChangeState.parse(c);
+    Timestamp until =
+        new Timestamp(TimeUtil.nowMs() + MILLISECONDS.convert(1, DAYS));
+    state = state.withReadOnlyUntil(until);
+    c.setNoteDbState(state.toString());
+    db.changes().update(Collections.singleton(c));
+
+    try {
+      rebuilderWrapper.rebuild(db, id);
+      assert_().fail("expected rebuild to fail");
+    } catch (OrmRuntimeException e) {
+      assertThat(e.getMessage()).contains("read-only until");
+    }
+
+    TestTimeUtil.setClock(
+        new Timestamp(until.getTime() + MILLISECONDS.convert(1, SECONDS)));
+    rebuilderWrapper.rebuild(db, id);
   }
 
   private void assertChangesReadOnly(RestApiException e) throws Exception {

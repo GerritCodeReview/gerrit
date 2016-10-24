@@ -19,4 +19,4 @@ genrule(
 
 pkg_war(name = 'gerrit')
 pkg_war(name = 'headless', ui = None)
-pkg_war(name = 'release', ui = 'ui_optdbg_r', context = ['//plugins:core'])
+pkg_war(name = 'release', ui = 'ui_optdbg_r', context = ['//plugins:core'], doc = True)

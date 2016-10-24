@@ -75,7 +75,10 @@ def _war_impl(ctx):
   # Add lib
   transitive_lib_deps = set()
   for l in ctx.attr.libs:
-    transitive_lib_deps += l.java.transitive_runtime_deps
+    if hasattr(l, 'java'):
+      transitive_lib_deps += l.java.transitive_runtime_deps
+    elif hasattr(l, 'files'):
+      transitive_lib_deps += l.files
 
   for dep in transitive_lib_deps:
     cmd += _add_file(dep, build_output + '/WEB-INF/lib/')
@@ -124,15 +127,20 @@ _pkg_war = rule(
   outputs = {'war' : '%{name}.war'},
 )
 
-def pkg_war(name, ui = 'ui_optdbg', context = [], **kwargs):
+def pkg_war(name, ui = 'ui_optdbg', context = [], doc = False, **kwargs):
+  doc_ctx = []
+  doc_lib = []
   ui_deps = []
+  if doc:
+    doc_ctx.append('//Documentation:html')
+    doc_lib.append('//Documentation:index')
   if ui:
     ui_deps.append('//gerrit-gwtui:%s' % ui)
   _pkg_war(
     name = name,
-    libs = LIBS,
+    libs = LIBS + doc_lib,
     pgmlibs = PGMLIBS,
-    context = context + ui_deps + [
+    context = doc_ctx + context + ui_deps + [
       '//gerrit-main:main_bin_deploy.jar',
       '//gerrit-war:webapp_assets',
     ],

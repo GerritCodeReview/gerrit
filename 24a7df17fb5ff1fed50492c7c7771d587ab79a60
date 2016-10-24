@@ -40,6 +40,24 @@
       "revId": "24a7df17fb5ff1fed50492c7c7771d587ab79a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81b2c4c3_486e5f74",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T20:07:15Z",
+      "side": 1,
+      "message": "This documentation isn\u0027t about developing Gerrit, but building it. The documentation how to hack on PolyGerrit UI is here: [1]. Where the command line specified (only for Buck for now): [2].\n\nTo test PolyGerrit UI, build gerrit with bazel build gerrit|release, install test site with `java -jar bazel-bin/gerrit.war init -d ../test_site_master`, stop gerrit with: ../test_site_master/bin/gerrit.sh stop, set `gerrit.enablePolyGerrit` in ../test_site_master/etc/gerrit.config to true, start gerrit with ../test_site_master/bin/gerrit.sh start, visit  localhost:8080/, PolyGerrit UI | GWT UI can be toggled now (in site footer).\n\nThings to notice:\n\n* I\u0027m getting `touch` warnings in packaging of gerrit.war: [3]\n* I\u0027m getting warnings during installation, that soy templates are missing [4] \n\n* [1] polygerrit-ui/README.md\n* [2] java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev \\\n  -d ../gerrit_testsite --console-log --show-stack-trace\n* [3] http://paste.openstack.org/show/586908\n* [4] http://paste.openstack.org/show/586909",
+      "parentUuid": "c112fc46_fa5f0927",
+      "revId": "24a7df17fb5ff1fed50492c7c7771d587ab79a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

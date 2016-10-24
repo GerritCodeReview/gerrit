@@ -992,6 +992,8 @@ public class BatchUpdate implements AutoCloseable {
       Change c = newChanges.get(id);
       if (c == null) {
         c = ReviewDbUtil.unwrapDb(db).changes().get(id);
+        checkNotNull(c,
+            String.format("failed to get change %d from unwrapped db", id));
       }
       // Pass in preloaded change to controlFor, to avoid:
       //  - reading from a db that does not belong to this update

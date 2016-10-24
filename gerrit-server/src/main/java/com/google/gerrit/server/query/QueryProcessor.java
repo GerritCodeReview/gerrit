@@ -136,7 +136,9 @@ public abstract class QueryProcessor<T> {
     } catch (OrmRuntimeException e) {
       throw new OrmException(e.getMessage(), e);
     } catch (OrmException e) {
-      Throwables.propagateIfInstanceOf(e.getCause(), QueryParseException.class);
+      if (e.getCause() != null) {
+        Throwables.throwIfInstanceOf(e.getCause(), QueryParseException.class);
+      }
       throw e;
     }
   }

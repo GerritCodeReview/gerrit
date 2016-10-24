@@ -150,7 +150,7 @@ public class ProjectCacheImpl implements ProjectCache {
     } catch (ExecutionException e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         log.warn(String.format("Cannot read project %s", projectName.get()), e);
-        Throwables.propagateIfInstanceOf(e.getCause(), IOException.class);
+        Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
         throw new IOException(e);
       }
       return null;

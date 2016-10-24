@@ -69,6 +69,24 @@
       "revId": "35e11c9f9ffb06181acefc020ea1d6a4a801549d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ff0021_1bcbdb3c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T14:05:32Z",
+      "side": 1,
+      "message": "I know, I\u0027m just asking for some consistency.",
+      "parentUuid": "8108041d_7858a1a3",
+      "revId": "35e11c9f9ffb06181acefc020ea1d6a4a801549d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

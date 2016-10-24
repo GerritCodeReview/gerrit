@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a117c836_99249b25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T01:02:13Z",
+      "side": 0,
+      "message": "We\u0027re seeing UpdateException in BatchUpdate, caused by a null Change being passed in here.",
+      "range": {
+        "startLine": 999,
+        "startChar": 6,
+        "endLine": 999,
+        "endChar": 69
+      },
+      "revId": "77464107c450d6bdd5d98103f6e4caa65441972b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

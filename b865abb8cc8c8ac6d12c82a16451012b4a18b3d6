@@ -16,6 +16,24 @@
       "revId": "b865abb8cc8c8ac6d12c82a16451012b4a18b3d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_fae2698a",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-24T08:57:14Z",
+      "side": 1,
+      "message": "using normal genrule makes the code more easily understood by people that know bazel.",
+      "parentUuid": "bc7d2f55_82b87aab",
+      "revId": "b865abb8cc8c8ac6d12c82a16451012b4a18b3d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

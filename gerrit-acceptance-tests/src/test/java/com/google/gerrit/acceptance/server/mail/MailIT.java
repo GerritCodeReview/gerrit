@@ -43,7 +43,6 @@ public class MailIT extends AbstractDaemonTest {
   private final static String HOST = "localhost";
   private final static String USERNAME = "user@domain.com";
   private final static String PASSWORD = "password";
-  private final static String PROTOCOL = "POP3";
 
   @Inject
   MailReceiver mailReceiver;
@@ -59,7 +58,19 @@ public class MailIT extends AbstractDaemonTest {
     cfg.setString(RECEIVEEMAIL, null, "port", "3110");
     cfg.setString(RECEIVEEMAIL, null, "username", USERNAME);
     cfg.setString(RECEIVEEMAIL, null, "password", PASSWORD);
-    cfg.setString(RECEIVEEMAIL, null, "protocol", PROTOCOL);
+    cfg.setString(RECEIVEEMAIL, null, "protocol", "POP3");
+    cfg.setString(RECEIVEEMAIL, null, "fetchInterval", "99");
+    return cfg;
+  }
+
+  @ConfigSuite.Config
+  public static Config imapConfig() {
+    Config cfg = new Config();
+    cfg.setString(RECEIVEEMAIL, null, "host", HOST);
+    cfg.setString(RECEIVEEMAIL, null, "port", "3143");
+    cfg.setString(RECEIVEEMAIL, null, "username", USERNAME);
+    cfg.setString(RECEIVEEMAIL, null, "password", PASSWORD);
+    cfg.setString(RECEIVEEMAIL, null, "protocol", "IMAP");
     cfg.setString(RECEIVEEMAIL, null, "fetchInterval", "99");
     return cfg;
   }

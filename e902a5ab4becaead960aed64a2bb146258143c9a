@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a117c836_5923a3c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-24T15:51:31Z",
+      "side": 1,
+      "message": "For the moment, I would suggest to keep the commit message as it is (or to limit it to the first part of the sentence). In my opinion, including more explanations regarding merged changes within this commit message might distract from the real code changes.",
+      "parentUuid": "010334fc_5cea7d96",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "010334fc_3cdfb1f4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2016-10-24T14:20:42Z",
       "side": 1,
       "message": "Mention that merged changes cannot be deleted?",
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_fa88296f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1776,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-24T15:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "010334fc_3cdfb1f4",
       "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c112fc46_ba82b14b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-24T15:51:31Z",
+      "side": 1,
+      "message": "I\u0027ll prepare a followup.",
+      "parentUuid": "e1ff0021_dbac536f",
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1ff0021_9bb6cbbd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -70,6 +130,30 @@
       "writtenOn": "2016-10-24T14:20:42Z",
       "side": 1,
       "message": "Is this check necessary? A quick glance at callers of CapabilityControl#canAdministrateServer shows that other callers don\u0027t typically do this.",
+      "range": {
+        "startLine": 394,
+        "startChar": 11,
+        "endLine": 394,
+        "endChar": 39
+      },
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_9a66cd03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-24T15:51:31Z",
+      "side": 1,
+      "message": "As I wrote in reply to Patrick\u0027s comment (https://gerrit-review.googlesource.com/#/c/89301/2..3/gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java), I wasn\u0027t sure whether this line is necessary. I looked at the implementation of canAdministrateServer() and noticed some lines of code which seem like a similar check. For this reason, I removed it here.",
+      "parentUuid": "e1ff0021_9bb6cbbd",
       "range": {
         "startLine": 394,
         "startChar": 11,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c112fc46_9a2b6ddb",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T05:50:45Z",
+      "side": 1,
+      "message": "Where is this used? Next change? In Buck build it\u0027s used in: gerrit-extension-api/BUCK:\n\n  external_docs \u003d [JGIT_DOC_URL, GUAVA_DOC_URL],",
+      "revId": "97b27068bb9afc09e338bb7b6a16289579cb565f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

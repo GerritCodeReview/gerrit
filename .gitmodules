@@ -32,3 +32,6 @@
 	path = plugins/singleusergroup
 	url = ../plugins/singleusergroup
 	branch = .
+[submodule "plugins/git-number-verifier"]
+	path = plugins/git-number-verifier
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/git-number-verifier

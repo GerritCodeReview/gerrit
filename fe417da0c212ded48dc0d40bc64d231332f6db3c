@@ -106,6 +106,24 @@
       "revId": "fe417da0c212ded48dc0d40bc64d231332f6db3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8108041d_98249525",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T09:46:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8108041d_f81dd1d8",
+      "revId": "fe417da0c212ded48dc0d40bc64d231332f6db3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

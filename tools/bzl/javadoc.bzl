@@ -38,7 +38,7 @@ def _impl(ctx):
         "-notimestamp",
         "-quiet",
         "-windowtitle '%s'" % ctx.attr.title,
-        "-link", "http://docs.oracle.com/javase/7/docs/api",
+        "-link", "http://docs.oracle.com/javase/8/docs/api",
         "-sourcepath %s" % source,
         "-subpackages ",
         ":".join(ctx.attr.pkgs),

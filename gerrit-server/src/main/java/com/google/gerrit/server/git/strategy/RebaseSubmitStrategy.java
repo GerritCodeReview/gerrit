@@ -17,7 +17,6 @@ package com.google.gerrit.server.git.strategy;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
-
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;

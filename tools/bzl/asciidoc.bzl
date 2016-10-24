@@ -270,7 +270,8 @@ def _asciidoc_zip_impl(ctx):
   tmpdir = ctx.outputs.out.path + "_tmpdir"
   cmd = [
     "p=$PWD",
-    "mkdir -p %s" % tmpdir,
+    "rm -rf %s" % tmpdir,
+    "mkdir %s" % tmpdir,
     "unzip -q %s -d %s/%s/" % (ctx.file.src.path, tmpdir, ctx.attr.directory),
   ]
   for r in ctx.files.resources:

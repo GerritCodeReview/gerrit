@@ -13,6 +13,7 @@ DEPS = [
   '//gerrit-server/src/main/prolog:common',
   '//gerrit-server:testutil',
   '//lib/auto:auto-value',
+  '//lib/greenmail:greenmail',
   '//lib/httpcomponents:fluent-hc',
   '//lib/httpcomponents:httpclient',
   '//lib/httpcomponents:httpcore',
@@ -20,6 +21,7 @@ DEPS = [
   '//lib/jgit/org.eclipse.jgit.junit:junit',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
+  '//lib/mail:mail',
 ]
 
 PROVIDED = [

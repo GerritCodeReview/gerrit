@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.mail.EmailSettings;
@@ -99,5 +100,6 @@ public abstract class MailReceiver implements LifecycleListener {
    * handleEmails will open a connection to the mail server, remove emails
    * where deletion is pending, read new email and close the connection.
    */
-  protected abstract void handleEmails();
+  @VisibleForTesting
+  public abstract void handleEmails();
 }

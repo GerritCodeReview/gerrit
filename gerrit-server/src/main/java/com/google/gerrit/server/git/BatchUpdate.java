@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+
 import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -49,10 +50,12 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
@@ -71,6 +74,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -508,6 +512,7 @@ public class BatchUpdate implements AutoCloseable {
   private final NotesMigration notesMigration;
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final long skewMs;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -533,6 +538,7 @@ public class BatchUpdate implements AutoCloseable {
 
   @AssistedInject
   BatchUpdate(
+      @GerritServerConfig Config cfg,
       AllUsersName allUsers,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
@@ -568,6 +574,7 @@ public class BatchUpdate implements AutoCloseable {
     this.when = when;
     tz = serverIdent.getTimeZone();
     order = Order.REPO_BEFORE_DB;
+    skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
 
   @Override
@@ -1029,10 +1036,11 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     private ChangeContext newChangeContext(ReviewDb db, Repository repo,
-        RevWalk rw, Change.Id id) throws Exception {
+        RevWalk rw, Change.Id id) throws OrmException, NoSuchChangeException {
       Change c = newChanges.get(id);
       if (c == null) {
         c = ChangeNotes.readOneReviewDbChange(db, id);
+        NoteDbChangeState.checkNotReadOnly(c, skewMs);
       }
       // Pass in preloaded change to controlFor, to avoid:
       //  - reading from a db that does not belong to this update
@@ -1047,6 +1055,7 @@ public class BatchUpdate implements AutoCloseable {
       logDebug("Staging NoteDb update");
       NoteDbUpdateManager updateManager = updateManagerFactory
           .create(ctx.getProject())
+          .setCheckReadOnly(true, db)
           .setChangeRepo(ctx.getRepository(), ctx.getRevWalk(), null,
               new ChainedReceiveCommands(repo));
       for (ChangeUpdate u : ctx.updates.values()) {

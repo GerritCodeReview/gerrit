@@ -601,7 +601,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         Optional.of(
           NoteDbChangeState.RefState.create(
               NoteDbChangeState.parse(c).getChangeMetaId(),
-              ImmutableMap.of(user.getId(), badSha))));
+              ImmutableMap.of(user.getId(), badSha))),
+        Optional.empty());
     c.setNoteDbState(bogusState.toString());
     db.changes().update(Collections.singleton(c));
 

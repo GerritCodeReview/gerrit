@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8108041d_585ddd91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:11:54Z",
+      "side": 1,
+      "message": "Removed the constructor in a preceding change.",
+      "parentUuid": "c112fc46_bae6316c",
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a117c836_f955d739",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "610dd02b_b72e48eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:11:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a117c836_f955d739",
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c112fc46_9ae36d5c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2016-10-24T13:32:25Z",
       "side": 1,
       "message": "For RetryException cause may be null.",
+      "range": {
+        "startLine": 199,
+        "startChar": 34,
+        "endLine": 200,
+        "endChar": 69
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "610dd02b_972b44db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:11:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c112fc46_9ae36d5c",
       "range": {
         "startLine": 199,
         "startChar": 34,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "8108041d_38622956",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:11:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c112fc46_3a28e19a",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 32
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c112fc46_1a2d1dab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
         "patchSetId": 1
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "610dd02b_57ab6c29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:11:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c112fc46_1a2d1dab",
+      "range": {
+        "startLine": 138,
+        "startChar": 13,
+        "endLine": 138,
+        "endChar": 25
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "610dd02b_373b5834",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
         "patchSetId": 1
@@ -116,6 +224,30 @@
       "writtenOn": "2016-10-24T13:55:16Z",
       "side": 1,
       "message": "Is this correct?  If it\u0027s just throwing the caught exception what\u0027s the point of the previous line?",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "610dd02b_77a67065",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T14:11:54Z",
+      "side": 1,
+      "message": "Never mind.  I misunderstood how it works.",
+      "parentUuid": "610dd02b_373b5834",
       "range": {
         "startLine": 140,
         "startChar": 6,

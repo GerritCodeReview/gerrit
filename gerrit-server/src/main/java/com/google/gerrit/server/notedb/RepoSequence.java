@@ -197,7 +197,9 @@ public class RepoSequence {
       limit = counter + count;
       acquireCount++;
     } catch (ExecutionException | RetryException e) {
-      Throwables.propagateIfInstanceOf(e.getCause(), OrmException.class);
+      if (e.getCause() != null) {
+        Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
+      }
       throw new OrmException(e);
     } catch (IOException e) {
       throw new OrmException(e);

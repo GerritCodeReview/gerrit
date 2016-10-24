@@ -174,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "616950e4_f77e201f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-24T19:50:04Z",
+      "side": 1,
+      "message": "While the performance is still under discussion - I updated the change with tests and doc.",
+      "parentUuid": "dc60231e_d3b754b8",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c3cdef1_df62bba5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -369,6 +387,30 @@
     },
     {
       "key": {
+        "uuid": "c16e7ce9_1a917d2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-24T19:50:04Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "5c9fd279_80593658",
+      "range": {
+        "startLine": 839,
+        "startChar": 10,
+        "endLine": 841,
+        "endChar": 34
+      },
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c455a84_5edeb560",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -398,6 +440,24 @@
       "side": 1,
       "message": "Sure, will add, thanks for pointing to ChangeIT.get()",
       "parentUuid": "1c455a84_5edeb560",
+      "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616950e4_978b2400",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-24T19:50:04Z",
+      "side": 1,
+      "message": "Fixed, add 2 tests. The new tests cover the basic functionality of this feature. I can add more tests if needed.",
+      "parentUuid": "1cad5ab1_1e77cdc5",
       "revId": "6cb81bfa4961f4a244733ba338c8749d68bd859f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

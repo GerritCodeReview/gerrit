@@ -41,6 +41,24 @@
       "revId": "9749cee32fad82a2e2b22682dddc61f41ad172ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_7a95398c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-24T14:45:07Z",
+      "side": 1,
+      "message": "Yes, let\u0027s get it in as is, because it\u0027s blocking our account index tests. I\u0027m fine with the suggestion, but we can do this cleanup in a separate change.",
+      "parentUuid": "e1ff0021_3bdfb7f4",
+      "revId": "9749cee32fad82a2e2b22682dddc61f41ad172ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

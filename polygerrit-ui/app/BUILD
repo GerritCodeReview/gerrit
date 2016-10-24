@@ -17,16 +17,13 @@ vulcanize(
   name = "gr-app",
   app = 'elements/gr-app.html',
   srcs = glob(
-  ['**'],
+  ['**/*.html', '**/*.js'],
   exclude = [
-    '**/BUCK',
-    '**/BUILD',
-    '*~',
-    '#*',
+    'bower_components/**',
     'index.html',
     'test/**',
     '**/*_test.html',
-    "polygerrit_wct_tests.py"]),
+    ]),
   deps = [ "//polygerrit-ui:polygerrit_components"],
 )
 

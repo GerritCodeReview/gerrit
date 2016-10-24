@@ -76,6 +76,24 @@
       "revId": "e0b6d4418b78bd70f8fc6d8b43d7ac171738c193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c16e7ce9_7ac1991c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T21:53:28Z",
+      "side": 1,
+      "message": "I think you have to do some duplicate work, but not much.\n\nWhat you want to do is short-circuit if there is no diff between base and commit for the given path.\n\nThe quickest way to do this in JGit is to construct a non-recursive TreeWalk with a PathFilter, then iterate over both trees and compare the mode and ID of the next entry. This just compares SHA-1s in the trees, it doesn\u0027t do a textual diff, so it\u0027s very fast.\n\nIf the entires are the same, there is no diff and you can throw RNFE; if they\u0027re different, you can proceed to formatting the patch.\n\nThe main downside that I can think of for this approach is if we ever want to implement \"git diff -w\" in this endpoint. Then you would get a false positive for entries that differ only in whitespace.",
+      "parentUuid": "010334fc_9ca1257e",
+      "revId": "e0b6d4418b78bd70f8fc6d8b43d7ac171738c193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

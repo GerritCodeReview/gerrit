@@ -3,7 +3,6 @@
 Bazel build is experimental. Major missing parts:
 
 * PolyGerrit
-* Documentation index
 * License tracking
 * Version stamping
 * Custom plugins

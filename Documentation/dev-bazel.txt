@@ -3,7 +3,6 @@
 Bazel build is experimental. Major missing parts:
 
 * PolyGerrit
-* Documentation index
 * License tracking
 * Version stamping
 * Custom plugins
@@ -121,7 +120,29 @@ is not regenerated.
 [[documentation]]
 === Documentation
 
+To build only the documentation for testing or static hosting:
 
+----
+  buck build Documentation:searchfree
+----
+
+The html files will be bundled into `searchfree.zip` in this location:
+
+----
+  bazel-bin/Documentation/searchfree.zip
+----
+
+To build the executable WAR with the documentation included:
+
+----
+  bazel build withdocs
+----
+
+The WAR file will be placed in:
+
+----
+  bazel-bin/withdocs.war
+----
 
 [[release]]
 === Gerrit Release WAR File

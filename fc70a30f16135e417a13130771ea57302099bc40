@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a117c836_7941c7a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T08:42:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "610dd02b_77979026",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "fc70a30f16135e417a13130771ea57302099bc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c112fc46_dadfa5be",
         "filename": "gerrit-gwtui-common/BUILD",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-24T08:18:59Z",
       "side": 1,
       "message": "inline DIFFY.",
+      "range": {
+        "startLine": 43,
+        "startChar": 14,
+        "endLine": 43,
+        "endChar": 19
+      },
+      "revId": "fc70a30f16135e417a13130771ea57302099bc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_99525b7d",
+        "filename": "gerrit-gwtui-common/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T08:42:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c112fc46_dadfa5be",
       "range": {
         "startLine": 43,
         "startChar": 14,

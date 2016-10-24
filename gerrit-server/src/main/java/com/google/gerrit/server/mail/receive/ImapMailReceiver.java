@@ -15,11 +15,24 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.gerrit.server.mail.EmailSettings;
+import com.google.gerrit.server.mail.Encryption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.apache.commons.net.imap.IMAPClient;
+import org.apache.commons.net.imap.IMAPSClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 @Singleton
 public class ImapMailReceiver extends MailReceiver {
+  private static final Logger log =
+      LoggerFactory.getLogger(ImapMailReceiver.class);
+  private static final String inboxFolder = "INBOX";
 
   @Inject
   public ImapMailReceiver(EmailSettings mailSettings) {
@@ -32,6 +45,99 @@ public class ImapMailReceiver extends MailReceiver {
    */
   @Override
   public synchronized void handleEmails() {
-    // TODO(hiesel) Implement.
+    IMAPClient imap;
+    if (mailSettings.encryption != Encryption.NONE) {
+      imap = new IMAPSClient(mailSettings.encryption.name(), false);
+    } else {
+      imap = new IMAPClient();
+    }
+    if (mailSettings.port > 0) {
+      imap.setDefaultPort(mailSettings.port);
+    }
+    // Set a 30s timeout for each operation
+    imap.setDefaultTimeout(30 * 1000);
+    try {
+      imap.connect(mailSettings.host);
+      try {
+        if (!imap.login(mailSettings.username, mailSettings.password)) {
+          log.error("Could not login to IMAP server");
+          return;
+        }
+        try {
+          if (!imap.select(inboxFolder)){
+            log.error("Could not select IMAP folder " + inboxFolder);
+            return;
+          }
+          // Fetch just the internal dates first to know how many messages we
+          // should fetch.
+          if (!imap.fetch("1:*", "(INTERNALDATE)")) {
+            log.error("IMAP fetch failed. Will retry in next fetch cycle.");
+            return;
+          }
+          // Format of reply is one line per email and one line to indicate
+          // that the fetch was successful.
+          // Example:
+          // * 1 FETCH (INTERNALDATE "Mon, 24 Oct 2016 16:53:22 +0200 (CEST)")
+          // * 2 FETCH (INTERNALDATE "Mon, 24 Oct 2016 16:53:22 +0200 (CEST)")
+          // AAAC OK FETCH completed.
+          int numMessages = imap.getReplyStrings().length - 1;
+          log.info("Fetched " + numMessages + " messages via IMAP");
+          if (numMessages == 0) {
+            return;
+          }
+          // Fetch the full version of all emails
+          List<MailMessage> mailMessages = new ArrayList<>(numMessages);
+          for (int i = 1; i <= numMessages; i++) {
+            if (imap.fetch(i + ":" + i, "(BODY.PEEK[])")) {
+              // Obtain full reply
+              String[] rawMessage = imap.getReplyStrings();
+              if (rawMessage.length < 2) {
+                continue;
+              }
+              // First and last line are IMAP status codes. We have already
+              // checked, that the fetch returned true (OK), so we safely ignore
+              // those two lines.
+              StringBuilder b = new StringBuilder(2 * (rawMessage.length - 2));
+              for(int j = 1; j < rawMessage.length - 1; j++) {
+                if (j > 1) {
+                  b.append("\n");
+                }
+                b.append(rawMessage[j]);
+              }
+              try {
+                MailMessage mailMessage = RawMailParser.parse(b.toString());
+                if (isDeletionPending(mailMessage.id())) {
+                  // Mark message as deleted
+                  if (imap.store(i + ":" + i, "+FLAGS", "(\\Deleted)")) {
+                    markEmailAsDeleted(mailMessage.id());
+                  } else {
+                    log.error("Could not mark mail message as deleted: " +
+                        mailMessage.id());
+                  }
+                } else {
+                  mailMessages.add(mailMessage);
+                }
+              } catch (MailParsingException e) {
+                log.error("Exception while parsing email after IMAP fetch", e);
+              }
+            } else {
+              log.error("IMAP fetch failed. Will retry in next fetch cycle.");
+            }
+          }
+          // Permanently delete emails marked for deletion
+          if (!imap.expunge()) {
+            log.error("Could not expunge IMAP emails");
+          }
+          // TODO(hiesel) Call email handling logic with mailMessages
+        } finally {
+          imap.logout();
+        }
+      } finally {
+        imap.disconnect();
+      }
+    } catch (IOException e) {
+      log.error("Error while talking to IMAP server", e);
+      return;
+    }
   }
 }

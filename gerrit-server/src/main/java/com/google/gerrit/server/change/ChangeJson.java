@@ -54,6 +54,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -137,6 +138,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
@@ -592,7 +594,7 @@ public class ChangeJson {
     LabelTypes labelTypes = ctl.getLabelTypes();
     Map<String, LabelWithStatus> withStatus = cd.change().getStatus().isOpen()
       ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
-      : labelsForClosedChange(cd, labelTypes, standard, detailed);
+      : labelsForClosedChange(ctl, cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(
         Maps.transformValues(withStatus, LabelWithStatus::label));
   }
@@ -712,6 +714,8 @@ public class ChangeJson {
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
       ChangeControl ctl = baseCtrl.forUser(user);
+      Map<String, Integer> mplv =
+        getMaxPermittedLabelValues(permittedLabels(ctl, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
         if (lt == null) {
@@ -720,6 +724,7 @@ public class ChangeJson {
           continue;
         }
         Integer value;
+        Integer maxPermittedValue = mplv.getOrDefault(lt.getName(), null);
         String tag = null;
         Timestamp date = null;
         PatchSetApproval psa = current.get(accountId, lt.getName());
@@ -743,9 +748,35 @@ public class ChangeJson {
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
         addApproval(e.getValue().label(),
-            approvalInfo(accountId, value, tag, date));
+            approvalInfo(accountId, value, maxPermittedValue, tag, date));
       }
     }
+  }
+
+  private Map<String, Integer> getMaxPermittedLabelValues(
+      Map<String, Collection<String>> permittedLabels) {
+    Map<String, Integer> maxPermittedLabelValues =
+      Maps.newHashMapWithExpectedSize(permittedLabels.size());
+    for (String label : permittedLabels.keySet()) {
+      Optional<Integer> maxPermittedValueOptional = permittedLabels.get(label)
+        .stream()
+        .map(this::parseRangeValue)
+        .filter(Objects::nonNull)
+        .max(Integer::compareTo);
+      maxPermittedLabelValues.put(label, maxPermittedValueOptional.isPresent()
+        ? maxPermittedValueOptional.get()
+        : null);
+    }
+    return maxPermittedLabelValues;
+  }
+
+  private Integer parseRangeValue(String value) {
+    if (value.startsWith("+")) {
+      value = value.substring(1);
+    } else if (value.startsWith(" ")) {
+      value = value.trim();
+    }
+    return Ints.tryParse(value);
   }
 
   private Timestamp getSubmittedOn(ChangeData cd)
@@ -754,8 +785,9 @@ public class ChangeJson {
     return s.isPresent() ? s.get().getGranted() : null;
   }
 
-  private Map<String, LabelWithStatus> labelsForClosedChange(ChangeData cd,
-      LabelTypes labelTypes, boolean standard, boolean detailed)
+  private Map<String, LabelWithStatus> labelsForClosedChange(
+      ChangeControl baseCtrl, ChangeData cd, LabelTypes labelTypes,
+      boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
@@ -798,10 +830,12 @@ public class ChangeJson {
     for (Account.Id accountId : allUsers) {
       Map<String, ApprovalInfo> byLabel =
           Maps.newHashMapWithExpectedSize(labels.size());
-
+      Map<String, Integer> mplv = Collections.emptyMap();
       if (detailed) {
+        ChangeControl ctl = baseCtrl.forUser(userFactory.create(accountId));
+        mplv = getMaxPermittedLabelValues(permittedLabels(ctl, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
-          ApprovalInfo ai = approvalInfo(accountId, 0, null, null);
+          ApprovalInfo ai = approvalInfo(accountId, 0, 0, null, null);
           byLabel.put(entry.getKey(), ai);
           addApproval(entry.getValue().label(), ai);
         }
@@ -816,6 +850,7 @@ public class ChangeJson {
         ApprovalInfo info = byLabel.get(type.getName());
         if (info != null) {
           info.value = Integer.valueOf(val);
+          info.maxPermittedValue = mplv.getOrDefault(type.getName(), null);
           info.date = psa.getGranted();
           info.tag = psa.getTag();
           if (psa.isPostSubmit()) {
@@ -832,17 +867,18 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value, String tag,
-      Timestamp date) {
-    ApprovalInfo ai = getApprovalInfo(id, value, tag, date);
+  private ApprovalInfo approvalInfo(Account.Id id, Integer value,
+      Integer maxPermittedValue, String tag, Timestamp date) {
+    ApprovalInfo ai = getApprovalInfo(id, value, maxPermittedValue, tag, date);
     accountLoader.put(ai);
     return ai;
   }
 
-  public static ApprovalInfo getApprovalInfo(
-      Account.Id id, Integer value, String tag, Timestamp date) {
+  public static ApprovalInfo getApprovalInfo(Account.Id id, Integer value,
+      Integer maxPermittedValue, String tag, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
+    ai.maxPermittedValue = maxPermittedValue;
     ai.date = date;
     ai.tag = tag;
     return ai;

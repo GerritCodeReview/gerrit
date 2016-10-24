@@ -58,6 +58,24 @@
       "revId": "e0b6d4418b78bd70f8fc6d8b43d7ac171738c193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "010334fc_9ca1257e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T21:26:53Z",
+      "side": 1,
+      "message": "Yeah, good point.\n\n\u003e Is the correct approach to just throw RNFE inside format?\n\nProbably not, since by the time writeTo is called it\u0027s quite likely the response code and headers have been written, so it\u0027s too late.\n\nLet me think for a minute.",
+      "parentUuid": "dcbe6336_839a1e4b",
+      "revId": "e0b6d4418b78bd70f8fc6d8b43d7ac171738c193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

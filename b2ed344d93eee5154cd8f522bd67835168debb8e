@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8108041d_d81a0ddf",
+        "filename": "gerrit-gwtui-common/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T09:39:58Z",
+      "side": 1,
+      "message": "This can be inlined, like in the bazel version.",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "b2ed344d93eee5154cd8f522bd67835168debb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

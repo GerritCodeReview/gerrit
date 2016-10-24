@@ -47,6 +47,30 @@
       "revId": "5bb18d32eb4e2e26324abd122742f961972332a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_59a28337",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-24T12:35:45Z",
+      "side": 1,
+      "message": "Should be still there with 20. Looks like it\u0027s considered to be removed with 21.0.",
+      "parentUuid": "610dd02b_37623856",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "5bb18d32eb4e2e26324abd122742f961972332a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

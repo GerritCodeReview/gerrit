@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "010334fc_5cea7d96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T14:20:42Z",
+      "side": 1,
+      "message": "FWIW we do have an option to delete merged changes internally (with appropriate --yes-i-really-mean-it flag). It is sometimes the case that the sensitive information is only included in the code review metadata, or in an earlier patch set, and not in the merged commit itself. So deleting the change metadata without rewriting history can still be beneficial.\n\nDefinitely out of scope for this change, however.",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "010334fc_3cdfb1f4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1776,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T14:20:42Z",
+      "side": 1,
+      "message": "Mention that merged changes cannot be deleted?",
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ff0021_dbac536f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T14:20:42Z",
+      "side": 1,
+      "message": "Internally, we go one step further and check whether any of the patch sets of this change are merged into the branch, rather than relying just on the change status.\n\nI think fixing this as a followup would be ok.",
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ff0021_9bb6cbbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-24T14:20:42Z",
+      "side": 1,
+      "message": "Is this check necessary? A quick glance at callers of CapabilityControl#canAdministrateServer shows that other callers don\u0027t typically do this.",
+      "range": {
+        "startLine": 394,
+        "startChar": 11,
+        "endLine": 394,
+        "endChar": 39
+      },
+      "revId": "e902a5ab4becaead960aed64a2bb146258143c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

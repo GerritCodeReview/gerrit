@@ -40,6 +40,24 @@
       "revId": "77464107c450d6bdd5d98103f6e4caa65441972b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e160e01d_336e8873",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T23:28:32Z",
+      "side": 0,
+      "message": "It was in ReceiveCommits#autoCloseChanges. The log error is \"Can\u0027t scan for changes to close\".\n\nThis was seen in logs and seems to be occurring during replication.",
+      "parentUuid": "c16e7ce9_7a73d95c",
+      "revId": "77464107c450d6bdd5d98103f6e4caa65441972b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

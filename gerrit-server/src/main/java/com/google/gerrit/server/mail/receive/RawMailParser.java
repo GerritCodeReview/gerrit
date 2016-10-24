@@ -32,7 +32,7 @@ public class RawMailParser {
     // TODO(hiesel) Provide comprehensive and fail-safe header parser.
     MailMessage.Builder b = MailMessage.builder();
     MessagePart messagePart = MessagePart.HEADER;
-    String[] lines = raw.split("\r\n");
+    String[] lines =  raw.contains("\r\n") ? raw.split("\r\n") : raw.split("\n");
     for (String line : lines) {
       if (messagePart == MessagePart.HEADER && line.equals("")) {
         messagePart = MessagePart.BODY;

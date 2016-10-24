@@ -52,10 +52,6 @@ public abstract class AccountDirectory {
 
   @SuppressWarnings("serial")
   public static class DirectoryException extends Exception {
-    public DirectoryException(String message) {
-      super(message);
-    }
-
     public DirectoryException(String message, Throwable why) {
       super(message, why);
     }

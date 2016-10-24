@@ -23,6 +23,30 @@
       "revId": "5bb18d32eb4e2e26324abd122742f961972332a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "610dd02b_37623856",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T12:33:50Z",
+      "side": 1,
+      "message": "Actually, I already did an upgrade to a 20.0 snapshot [1] and fixed some deprecations (in the followup change) but they were reverted due to problems with the snapshot availability.\n\n[1] https://gerrit-review.googlesource.com/#/c/76431/",
+      "parentUuid": "610dd02b_7758b0a3",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "5bb18d32eb4e2e26324abd122742f961972332a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

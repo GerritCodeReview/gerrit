@@ -34,6 +34,24 @@
       "revId": "b865abb8cc8c8ac6d12c82a16451012b4a18b3d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a117c836_79cf8713",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T09:17:53Z",
+      "side": 1,
+      "message": "Well, I\u0027m a big friend to be consistent in the same project, across different build files.",
+      "parentUuid": "c112fc46_fae2698a",
+      "revId": "b865abb8cc8c8ac6d12c82a16451012b4a18b3d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

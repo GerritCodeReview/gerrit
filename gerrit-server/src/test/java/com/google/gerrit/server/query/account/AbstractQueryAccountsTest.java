@@ -475,7 +475,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected static Iterable<Integer> ids(AccountInfo... accounts) {
-    return FluentIterable.of(accounts).transform(a -> a._accountId);
+    return ids(Arrays.asList(accounts));
   }
 
   protected static Iterable<Integer> ids(Iterable<AccountInfo> accounts) {

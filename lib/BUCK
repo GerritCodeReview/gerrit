@@ -113,8 +113,8 @@ maven_jar(
 
 maven_jar(
   name = 'jsch',
-  id = 'com.jcraft:jsch:0.1.53',
-  sha1 = '658b682d5c817b27ae795637dfec047c63d29935',
+  id = 'com.jcraft:jsch:0.1.54',
+  sha1 = 'da3584329a263616e277e15462b387addd1b208d',
   license = 'jsch',
 )
 

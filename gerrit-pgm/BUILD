@@ -120,7 +120,6 @@ REST_PGM_DEPS = [
   '//lib:gwtorm',
   '//lib:protobuf',
   '//lib:servlet-api-3_1-without-neverlink',
-  '//lib/auto:auto-value',
   '//lib/prolog:cafeteria',
   '//lib/prolog:compiler',
   '//lib/prolog:runtime',
@@ -141,6 +140,7 @@ java_library(
   srcs = glob([SRCS + '*.java', SRCS + 'rules/*.java']),
   resources = glob([RSRCS + '*']),
   deps = DEPS + REST_PGM_DEPS + [ # We want all these deps to be provided_deps
+    '//lib/auto:auto-value',
     '//gerrit-launcher:launcher',
   ],
   visibility = ['//visibility:public'],

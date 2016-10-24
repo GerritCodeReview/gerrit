@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
@@ -57,6 +58,7 @@ import org.junit.rules.TestName;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Ignore
 public abstract class AbstractQueryAccountsTest extends GerritServerTests {
@@ -475,7 +477,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected static Iterable<Integer> ids(AccountInfo... accounts) {
-    return FluentIterable.of(accounts).transform(a -> a._accountId);
+    return Stream.of(accounts).map(a -> a._accountId).collect(toList());
   }
 
   protected static Iterable<Integer> ids(Iterable<AccountInfo> accounts) {

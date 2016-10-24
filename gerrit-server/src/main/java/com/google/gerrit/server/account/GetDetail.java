@@ -47,7 +47,7 @@ public class GetDetail implements RestReadView<AccountResource> {
       directory.fillAccountInfo(Collections.singleton(info),
           EnumSet.allOf(FillOptions.class));
     } catch (DirectoryException e) {
-      Throwables.propagateIfPossible(e.getCause(), OrmException.class);
+      Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
       throw new OrmException(e);
     }
     return info;

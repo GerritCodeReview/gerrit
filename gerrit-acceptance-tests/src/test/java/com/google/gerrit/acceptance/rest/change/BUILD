@@ -1,11 +1,6 @@
 load('//gerrit-acceptance-tests:tests.bzl', 'acceptance_tests')
 
-SUBMIT_UTIL_SRCS = [
-  'AbstractSubmit.java',
-  'AbstractSubmitByMerge.java',
-  'AbstractSubmitByRebase.java',
-]
-
+SUBMIT_UTIL_SRCS = glob(['AbstractSubmit*.java'])
 SUBMIT_TESTS = glob(['Submit*IT.java'])
 OTHER_TESTS = glob(['*IT.java'], exclude = SUBMIT_TESTS)
 

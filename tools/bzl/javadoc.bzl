@@ -28,9 +28,9 @@ def _impl(ctx):
   source = ctx.outputs.zip.path + ".source"
   external_docs = ["http://docs.oracle.com/javase/8/docs/api"] + ctx.attr.external_docs
   cmd = [
-      "mkdir %s" % source,
+      "mkdir -p %s" % source,
       " && ".join(["unzip -qud %s %s" % (source, j.path) for j in source_jars]),
-      "mkdir %s" % dir,
+      "mkdir -p %s" % dir,
       " ".join([
         ctx.file._javadoc.path,
         "-Xdoclint:-missing",

@@ -2550,6 +2550,68 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.permittedLabels).isEmpty();
   }
 
+  @Test
+  public void maxPermittedValueAllowed() throws Exception {
+    final int minPermittedValue = -2;
+    final int maxPermittedValue = +2;
+    String heads = "refs/heads/*";
+
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+
+    gApi.changes().id(triplet).addReviewer(user.username);
+
+    ChangeInfo c = gApi.changes()
+      .id(triplet)
+      .get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    LabelInfo codeReview = c.labels.get("Code-Review");
+    assertThat(codeReview.all).hasSize(1);
+    ApprovalInfo approval = codeReview.all.get(0);
+    assertThat(approval._accountId).isEqualTo(user.id.get());
+    assertThat(approval.permittedVotingRange).isNotNull();
+    // default values
+    assertThat(approval.permittedVotingRange.min).isEqualTo(-1);
+    assertThat(approval.permittedVotingRange.max).isEqualTo(1);
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.allow(cfg,
+      Permission.forLabel("Code-Review"), minPermittedValue, maxPermittedValue,
+      REGISTERED_USERS, heads);
+    saveProjectConfig(project, cfg);
+
+    c = gApi.changes()
+      .id(triplet)
+      .get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    codeReview = c.labels.get("Code-Review");
+    assertThat(codeReview.all).hasSize(1);
+    approval = codeReview.all.get(0);
+    assertThat(approval._accountId).isEqualTo(user.id.get());
+    assertThat(approval.permittedVotingRange).isNotNull();
+    assertThat(approval.permittedVotingRange.min).isEqualTo(minPermittedValue);
+    assertThat(approval.permittedVotingRange.max).isEqualTo(maxPermittedValue);
+  }
+
+  @Test
+  public void maxPermittedValueBlocked() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    blockLabel(cfg, "Code-Review", REGISTERED_USERS, "refs/heads/*");
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+
+    gApi.changes().id(triplet).addReviewer(user.username);
+
+    ChangeInfo c = gApi.changes()
+      .id(triplet)
+      .get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    LabelInfo codeReview = c.labels.get("Code-Review");
+    assertThat(codeReview.all).hasSize(1);
+    ApprovalInfo approval = codeReview.all.get(0);
+    assertThat(approval._accountId).isEqualTo(user.id.get());
+    assertThat(approval.permittedVotingRange).isNull();
+  }
+
   private static Iterable<Account.Id> getReviewers(
       Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> new Account.Id(a._accountId));
@@ -2600,4 +2662,5 @@ public class ChangeIT extends AbstractDaemonTest {
       return true;
     }
   }
+
 }

@@ -4829,14 +4829,19 @@ In addition `ApprovalInfo` has the following fields:
 
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name    ||Description
-|`value`       |optional|
+|Field Name               ||Description
+|`value`                  |optional|
 The vote that the user has given for the label. If present and zero, the
 user is permitted to vote on the label. If absent, the user is not
 permitted to vote on that label.
-|`date`        |optional|
+|`permitted_voting_range` |optional|
+The link:#voting-range-info[VotingRangeInfo] the user is authorized to vote
+on that label. If present, the user is permitted to vote on the label
+regarding the range values. If absent, the user is not permitted to vote
+on that label.
+|`date`                   |optional|
 The time and date describing when the approval was made.
-|`tag`                 |optional|
+|`tag`                    |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
 NOTE: To apply different tags on on different votes/comments multiple
@@ -6117,6 +6122,18 @@ The `TopicInput` entity contains information for setting a topic.
 |`topic`       |optional|The topic. +
 The topic will be deleted if not set.
 |===========================
+
+[[voting-range-info]]
+=== VotingRangeInfo
+The `VotingRangeInfo` entity describes the continuous voting range from min
+to max values.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`min`     |The minimum voting value.
+|`max`     |The maximum voting value.
+|======================
 
 [[web-link-info]]
 === WebLinkInfo

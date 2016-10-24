@@ -31,7 +31,7 @@ public class ImapMailReceiver extends MailReceiver {
    * where deletion is pending, read new email and close the connection.
    */
   @Override
-  protected synchronized void handleEmails() {
+  public synchronized void handleEmails() {
     // TODO(hiesel) Implement.
   }
 }

@@ -120,22 +120,26 @@ def _asciidoc_impl(ctx):
     progress_message = "Rendering asciidoctor files for %s" % ctx.label.name,
   )
 
+_asciidoc_attrs = {
+  "_exe": attr.label(
+    default = Label("//lib/asciidoctor:asciidoc"),
+    cfg = "host",
+    allow_files = True,
+    executable = True,
+  ),
+  "srcs": attr.label_list(mandatory = True, allow_files = True),
+  "version": attr.label(
+    default = Label("//:version.txt"),
+    allow_single_file = True,
+  ),
+  "suffix": attr.string(mandatory = True),
+  "backend": attr.string(),
+  "attributes": attr.string_list(),
+}
+
 _asciidoc = rule(
   implementation = _asciidoc_impl,
-  attrs = {
-    "_exe": attr.label(
-      default = Label("//lib/asciidoctor:asciidoc"),
-      allow_files = True,
-      executable = True,
-    ),
-    "srcs": attr.label_list(mandatory = True, allow_files = True),
-    "version": attr.label(
-      default = Label("//:version.txt"),
-      allow_single_file = True,
-    ),
-    "suffix": attr.string(mandatory = True),
-    "backend": attr.string(),
-    "attributes": attr.string_list(),
+  attrs = _asciidoc_attrs + {
     "outs": attr.output_list(mandatory = True),
   },
 )
@@ -222,21 +226,7 @@ def _asciidoc_html_zip_impl(ctx):
 
 _asciidoc_html_zip = rule(
   implementation = _asciidoc_html_zip_impl,
-  attrs = {
-    "_exe": attr.label(
-      default = Label("//lib/asciidoctor:asciidoc"),
-      allow_files = True,
-      executable = True,
-    ),
-    "srcs": attr.label_list(mandatory = True, allow_files = True),
-    "version": attr.label(
-      default = Label("//:version.txt"),
-      allow_single_file = True,
-    ),
-    "suffix": attr.string(mandatory = True),
-    "backend": attr.string(),
-    "attributes": attr.string_list(),
-  },
+  attrs = _asciidoc_attrs,
   outputs = {
     "out": "%{name}.zip",
   }

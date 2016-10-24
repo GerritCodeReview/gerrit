@@ -125,6 +125,7 @@ _asciidoc = rule(
   attrs = {
     "_exe": attr.label(
       default = Label("//lib/asciidoctor:asciidoc"),
+      cfg = "host",
       allow_files = True,
       executable = True,
     ),

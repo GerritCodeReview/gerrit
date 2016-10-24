@@ -124,6 +124,7 @@ gwt_binary = rule(
       default=Label("//tools/defaults:jdk")),
     "_zip": attr.label(
       default=Label("@bazel_tools//tools/zip:zipper"),
+      cfg = "host",
       executable=True,
       single_file=True),
   },

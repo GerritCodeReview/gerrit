@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "010334fc_7cbc19a4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/FilenameComparator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-24T03:28:51Z",
+      "side": 1,
+      "message": "Done, although I kept `compare` public because it\u0027s an interface method.",
+      "parentUuid": "010334fc_5c9cbd46",
+      "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "010334fc_1c963527",
         "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/FilenameComparatorTest.java",
         "patchSetId": 13
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e1ff0021_1b963b27",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/FilenameComparatorTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-24T03:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "010334fc_1c963527",
+      "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1ff0021_9b880b04",
         "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/FilenameComparatorTest.java",
         "patchSetId": 13
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-23T12:12:24Z",
       "side": 1,
       "message": "/COMMIT_MSG \u003d\u003d /COMMIT_MSG and /MERGE_LIST \u003d\u003d /MERGE_LIST",
+      "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "010334fc_3cc69136",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/FilenameComparatorTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-24T03:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ff0021_9b880b04",
       "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "010334fc_1ccbd53c",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/FileInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-24T03:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ff0021_bb8bc7ff",
+      "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "010334fc_3c91f12e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 13
@@ -87,6 +159,24 @@
       "writtenOn": "2016-10-23T12:12:24Z",
       "side": 1,
       "message": "Collections.sort(groups,\n     Comparators.comparing(g -\u003e g.filename, FilenameComparator.INSTANCE));",
+      "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ff0021_fbaa6f59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-24T03:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "010334fc_3c91f12e",
       "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -26,6 +26,7 @@ def _impl(ctx):
   transitive_jar_paths = [j.path for j in transitive_jar_set]
   dir = ctx.outputs.zip.path + ".dir"
   source = ctx.outputs.zip.path + ".source"
+  external_docs = ["http://docs.oracle.com/javase/8/docs/api"] + ctx.attr.external_docs
   cmd = [
       "mkdir %s" % source,
       " && ".join(["unzip -qud %s %s" % (source, j.path) for j in source_jars]),
@@ -39,7 +40,7 @@ def _impl(ctx):
         "-notimestamp",
         "-quiet",
         "-windowtitle '%s'" % ctx.attr.title,
-        "-link", "http://docs.oracle.com/javase/8/docs/api",
+        " ".join(['-link %s' % url for url in external_docs]),
         "-sourcepath %s" % source,
         "-subpackages ",
         ":".join(ctx.attr.pkgs),
@@ -59,6 +60,7 @@ java_doc = rule(
       "libs": attr.label_list(allow_files = False),
       "pkgs": attr.string_list(),
       "title": attr.string(),
+      "external_docs": attr.string_list(),
       "_javadoc": attr.label(
         default = Label("@local_jdk//:bin/javadoc"),
         single_file = True,

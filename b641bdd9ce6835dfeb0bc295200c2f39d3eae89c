@@ -102,6 +102,29 @@
       "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "610dd02b_373b5834",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-24T13:55:16Z",
+      "side": 1,
+      "message": "Is this correct?  If it\u0027s just throwing the caught exception what\u0027s the point of the previous line?",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "b641bdd9ce6835dfeb0bc295200c2f39d3eae89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

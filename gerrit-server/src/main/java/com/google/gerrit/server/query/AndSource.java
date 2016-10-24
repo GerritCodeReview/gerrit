@@ -83,7 +83,9 @@ public class AndSource<T> extends AndPredicate<T>
     try {
       return readImpl();
     } catch (OrmRuntimeException err) {
-      Throwables.propagateIfInstanceOf(err.getCause(), OrmException.class);
+      if (err.getCause() != null) {
+        Throwables.throwIfInstanceOf(err.getCause(), OrmException.class);
+      }
       throw new OrmException(err);
     }
   }

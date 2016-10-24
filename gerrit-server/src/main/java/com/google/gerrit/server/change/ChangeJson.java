@@ -299,7 +299,7 @@ public class ChangeJson {
     } catch (PatchListNotAvailableException | GpgException | OrmException
         | IOException | RuntimeException e) {
       if (!has(CHECK)) {
-        Throwables.propagateIfPossible(e, OrmException.class);
+        Throwables.throwIfInstanceOf(e, OrmException.class);
         throw new OrmException(e);
       }
       return checkOnly(cd);

@@ -33,6 +33,7 @@ def _impl(ctx):
       "mkdir %s" % dir,
       " ".join([
         ctx.file._javadoc.path,
+        "-Xdoclint:-missing",
         "-protected",
         "-encoding UTF-8",
         "-charset UTF-8",

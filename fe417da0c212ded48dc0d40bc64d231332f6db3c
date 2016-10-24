@@ -124,6 +124,24 @@
       "revId": "fe417da0c212ded48dc0d40bc64d231332f6db3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c112fc46_fa5a693f",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-24T14:09:03Z",
+      "side": 1,
+      "message": "Yes, I\u0027m not on Mac. It\u0027s openSUSE.",
+      "parentUuid": "610dd02b_171974ec",
+      "revId": "fe417da0c212ded48dc0d40bc64d231332f6db3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

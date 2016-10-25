@@ -210,7 +210,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         newPs = args.psUtil.insert(ctx.getDb(), ctx.getRevWalk(),
             ctx.getUpdate(newPatchSetId), newPatchSetId, newCommit, false,
             prevPs != null ? prevPs.getGroups() : ImmutableList.<String> of(),
-            null);
+            null, null);
       }
       ctx.getChange().setCurrentPatchSet(args.patchSetInfoFactory
           .get(ctx.getRevWalk(), newCommit, newPatchSetId));

@@ -296,7 +296,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         ? prevPs.getGroups()
         : GroupCollector.getDefaultGroups(alreadyMerged);
     return args.psUtil.insert(ctx.getDb(), ctx.getRevWalk(),
-        ctx.getUpdate(psId), psId, alreadyMerged, false, groups, null);
+        ctx.getUpdate(psId), psId, alreadyMerged, false, groups, null, null);
   }
 
   private void setApproval(ChangeContext ctx, IdentifiedUser user)

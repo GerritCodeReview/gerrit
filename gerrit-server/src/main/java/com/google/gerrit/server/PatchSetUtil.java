@@ -91,7 +91,7 @@ public class PatchSetUtil {
 
   public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,
       PatchSet.Id psId, ObjectId commit, boolean draft,
-      List<String> groups, String pushCertificate)
+      List<String> groups, String pushCertificate, String description)
       throws OrmException, IOException {
     checkNotNull(groups, "groups may not be null");
     ensurePatchSetMatches(psId, update);
@@ -103,9 +103,11 @@ public class PatchSetUtil {
     ps.setDraft(draft);
     ps.setGroups(groups);
     ps.setPushCertificate(pushCertificate);
+    ps.setDescription(description);
     db.patchSets().insert(Collections.singleton(ps));
 
     update.setCommit(rw, commit, pushCertificate);
+    update.setPsDescription(description);
     update.setGroups(groups);
     if (draft) {
       update.setPatchSetState(DRAFT);

@@ -54,6 +54,9 @@ public final class PatchSetInfo {
   /** SHA-1 of commit */
   protected String revId;
 
+  /** Optional user-supplied description for the patch set. */
+  protected String description;
+
   protected PatchSetInfo() {
   }
 
@@ -115,5 +118,13 @@ public final class PatchSetInfo {
 
   public String getRevId() {
     return revId;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getDescription() {
+    return description;
   }
 }

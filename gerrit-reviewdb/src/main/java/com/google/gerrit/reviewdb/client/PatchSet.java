@@ -194,6 +194,16 @@ public final class PatchSet {
   @Column(id = 8, notNull = false, length = Integer.MAX_VALUE)
   protected String pushCertificate;
 
+  /**
+   * Optional user-supplied description for this patch set.
+   * <p>
+   * When this field is null, the description was never set on the patch set.
+   * When this field is an empty string, the description was set and later
+   * cleared.
+   */
+  @Column(id = 9, notNull = false, length = Integer.MAX_VALUE)
+  protected String description;
+
   protected PatchSet() {
   }
 
@@ -209,6 +219,7 @@ public final class PatchSet {
     this.draft = src.draft;
     this.groups = src.groups;
     this.pushCertificate = src.pushCertificate;
+    this.description = src.description;
   }
 
   public PatchSet.Id getId() {
@@ -275,6 +286,14 @@ public final class PatchSet {
 
   public void setPushCertificate(String cert) {
     pushCertificate = cert;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   @Override

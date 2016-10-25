@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
@@ -325,7 +326,6 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
-
     parseAssignee(commit);
 
     if (submissionId == null) {
@@ -365,6 +365,8 @@ class ChangeNotesParser {
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
       lastUpdatedOn = ts;
     }
+
+    parseDescription(psId, commit);
   }
 
   private String parseSubmissionId(ChangeNotesCommit commit)
@@ -591,6 +593,28 @@ class ChangeNotesParser {
       }
     }
     throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
+  }
+
+  private void parseDescription(PatchSet.Id psId, ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    List<String> descLines =
+        commit.getFooterLineValues(FOOTER_PATCH_SET_DESCRIPTION);
+    if (descLines.isEmpty()) {
+      return;
+    } else if (descLines.size() == 1) {
+      String desc = descLines.get(0).trim();
+      PatchSet ps = patchSets.get(psId);
+      if (ps == null) {
+        ps = new PatchSet(psId);
+        ps.setRevision(PARTIAL_PATCH_SET);
+        patchSets.put(psId, ps);
+      }
+      if (ps.getDescription() == null) {
+        ps.setDescription(desc);
+      }
+    } else {
+      throw expectedOneFooter(FOOTER_PATCH_SET_DESCRIPTION, descLines);
+    }
   }
 
   private void parseChangeMessage(PatchSet.Id psId,

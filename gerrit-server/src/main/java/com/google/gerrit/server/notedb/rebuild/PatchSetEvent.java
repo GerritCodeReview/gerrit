@@ -57,6 +57,7 @@ class PatchSetEvent extends Event {
       update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());
     }
     setRevision(update, ps);
+    update.setPsDescription(ps.getDescription());
     List<String> groups = ps.getGroups();
     if (!groups.isEmpty()) {
       update.setGroups(ps.getGroups());

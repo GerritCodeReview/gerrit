@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4178ccff_8681eae4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/FilenameComparator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-25T17:56:44Z",
+      "side": 1,
+      "message": "Take a closer look at my example :)\n\n private FilenameComparator() {}\n\nmeans make the no-arg constructor private, which means any attempt to instantiate the class from outside is a compile error. (You have one such constructor call lingering in your latest patch set.) The class and compare methods should yes remain public.",
+      "parentUuid": "010334fc_7cbc19a4",
+      "revId": "c98ce76a9ac8356ee85be29a8d3e6dbd8298af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "010334fc_1c963527",
         "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/FilenameComparatorTest.java",
         "patchSetId": 13

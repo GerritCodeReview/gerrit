@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e152a0c5_03a52e88",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T23:56:08Z",
+      "side": 1,
+      "message": "This test was failing, saying done() was being called more than once. I think the scroll might have triggered it multiple times.. the restore was an attempt to prevent it from being called again. The tests seemed to pass after that (the 4-5 times I tried). What do you think? I could use sinon.stub instead of sandbox.stub?",
+      "parentUuid": "c1e11c42_6289d606",
+      "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e152a0c5_83903e2c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
         "patchSetId": 3

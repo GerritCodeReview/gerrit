@@ -37,14 +37,11 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -265,8 +262,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
         + "/publish");
   }
 
-  private void markChangeAsDraft(Change.Id id) throws OrmException,
-      RestApiException, UpdateException {
+  private void markChangeAsDraft(Change.Id id) throws Exception {
     try (BatchUpdate batchUpdate = updateFactory
         .create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
       batchUpdate.addOp(id, new MarkChangeAsDraftUpdateOp());
@@ -281,8 +277,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
   }
 
   private void setDraftStatusOfPatchSetsOfChange(Change.Id id,
-      boolean draftStatus) throws OrmException, RestApiException,
-      UpdateException {
+      boolean draftStatus) throws Exception {
     try (BatchUpdate batchUpdate = updateFactory
         .create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
       batchUpdate.addOp(id, new DraftStatusOfPatchSetsUpdateOp(draftStatus));
@@ -296,7 +291,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
   }
 
   private List<Boolean> getPatchSetDraftStatuses(Change.Id id)
-      throws RestApiException {
+      throws Exception {
     Collection<RevisionInfo> revisionInfos = gApi.changes()
         .id(id.get())
         .get(EnumSet.of(ListChangesOption.ALL_REVISIONS))

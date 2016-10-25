@@ -33,6 +33,12 @@
     return sectionEl;
   };
 
+  GrDiffBuilderUnified.prototype.addColumns = function(outputEl, fontSize) {
+    var width = fontSize * 4;
+    outputEl.innerHTML = '<colgroup><col width = ' + width + '><col width = ' +
+        width + '>' + '<col></colgroup>';
+  };
+
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
     var row = this._createElement('tr', line.type);
     var lineEl = this._createLineEl(line, line.beforeNumber,

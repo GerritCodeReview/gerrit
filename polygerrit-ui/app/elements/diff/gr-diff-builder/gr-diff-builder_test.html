@@ -124,6 +124,36 @@ limitations under the License.
           '6789');
     });
 
+    test('_addNewlines not called if line_wrapping is true', function(done) {
+      builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};
+      var text = 'a'.repeat(51);
+
+      var line = {text: text, highlights: []};
+      var newLineStub = sinon.stub(builder, '_addNewlines');
+      builder._createTextEl(line);
+      flush(function() {
+        assert.isFalse(newLineStub.called);
+        newLineStub.restore();
+        done();
+      });
+    });
+
+    test('_addNewlines called if line_wrapping is true and meets other ' +
+        'conditions', function(done) {
+      builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 50};
+      var text = 'a'.repeat(51);
+
+      var line = {text: text, highlights: []};
+      var newLineStub = sinon.stub(builder, '_addNewlines');
+      builder._createTextEl(line);
+
+      flush(function() {
+        assert.isTrue(newLineStub.called);
+        newLineStub.restore();
+        done();
+      });
+    });
+
     test('text length with tabs and unicode', function() {
       assert.equal(builder._textLength('12345', 4), 5);
       assert.equal(builder._textLength('\t\t12', 4), 10);
@@ -566,6 +596,7 @@ limitations under the License.
         sinon.stub(element, '_getDiffBuilder', function() {
           var builder = new GrDiffBuilder(
               {content: content}, {left: [], right: []}, prefs, outputEl);
+          builder.addColumns = sinon.stub();
           builder.buildSectionElement = function(group) {
             var section = document.createElement('stub');
             section.textContent = group.lines.reduce(function(acc, line) {
@@ -600,6 +631,14 @@ limitations under the License.
         element._builder.renderSection(section);
         section = outputEl.querySelector('stub:nth-of-type(2)');
         assert.equal(section.innerHTML, prevInnerHTML);
+      });
+
+      test('addColumns is called', function(done) {
+        element.render({left: [], right: []}, {});
+        flush(function() {
+          assert.isTrue(element._builder.addColumns.called);
+          done();
+        });
       });
 
       test('getSectionsByLineRange one line', function() {

@@ -34,6 +34,12 @@
     return sectionEl;
   };
 
+  GrDiffBuilderSideBySide.prototype.addColumns = function(outputEl, fontSize) {
+    var width = fontSize * 4;
+    outputEl.innerHTML = '<colgroup><col width = ' + width + '><col>' +
+        '<col width = ' + width + '><col></colgroup>';
+  };
+
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
       rightLine) {
     var row = this._createElement('tr');

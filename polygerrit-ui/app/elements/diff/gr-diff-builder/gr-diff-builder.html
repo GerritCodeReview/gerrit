@@ -87,6 +87,7 @@ limitations under the License.
           _builder: Object,
           _groups: Array,
           _layers: Array,
+          _lineWrapping: Boolean,
           _showTabs: Boolean,
         },
 
@@ -114,6 +115,8 @@ limitations under the License.
 
         render: function(comments, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
+          this._lineWrapping = !!prefs.line_wrapping ?
+              !!prefs.line_wrapping : true;
           this._showTabs = !!prefs.show_tabs;
 
           // Stop the processor (if it's running).
@@ -126,6 +129,7 @@ limitations under the License.
           this.$.processor.keyLocations = this._getCommentLocations(comments);
 
           this._clearDiffContent();
+          this._builder.addColumns(this.diffElement, prefs.font_size);
 
           var reporting = this.$.reporting;
 

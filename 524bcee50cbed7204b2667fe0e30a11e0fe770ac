@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e160e01d_937e7c1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-25T00:33:39Z",
+      "side": 1,
+      "message": "isEmpty()",
+      "range": {
+        "startLine": 124,
+        "startChar": 42,
+        "endLine": 124,
+        "endChar": 56
+      },
+      "revId": "524bcee50cbed7204b2667fe0e30a11e0fe770ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1ff5c6a_72781836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-25T00:33:39Z",
+      "side": 1,
+      "message": "Unnecessary reformatting?",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 21
+      },
+      "revId": "524bcee50cbed7204b2667fe0e30a11e0fe770ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1ff5c6a_527d1424",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-25T00:33:39Z",
+      "side": 1,
+      "message": "Unnecessary reformatting?",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 71
+      },
+      "revId": "524bcee50cbed7204b2667fe0e30a11e0fe770ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

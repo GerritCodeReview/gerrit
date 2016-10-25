@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "c1e11c42_6289d606",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-25T23:49:49Z",
+      "side": 1,
+      "message": "Hm, I see that sandbox is used here, so you don\u0027t need neither .restore() nor scrollStub instance.",
+      "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e152a0c5_83903e2c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-25T23:49:49Z",
+      "side": 1,
+      "message": "I wonder if this would work with astral unicode..\nhttps://mathiasbynens.be/notes/javascript-unicode",
+      "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e152a0c5_e3725258",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 3
@@ -19,6 +53,24 @@
         "endLine": 144,
         "endChar": 31
       },
+      "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1e11c42_c296e228",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-25T23:49:49Z",
+      "side": 1,
+      "message": "Alternatively, http://underscorejs.org/#times",
+      "parentUuid": "e152a0c5_e3725258",
       "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

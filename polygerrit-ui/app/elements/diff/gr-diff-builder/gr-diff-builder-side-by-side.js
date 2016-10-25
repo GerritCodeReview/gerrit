@@ -34,6 +34,22 @@
     return sectionEl;
   };
 
+  GrDiffBuilderSideBySide.prototype.addColumns = function(outputEl, fontSize) {
+    var width = fontSize * 4;
+    var colgroup = document.createElement('colgroup');
+    var colLineNum1 = document.createElement('col');
+    var colLineNum2 = document.createElement('col');
+    var colContent1 = document.createElement('col');
+    var colContent2 = document.createElement('col');
+    colLineNum1.setAttribute('width', width);
+    colLineNum2.setAttribute('width', width);
+    colgroup.appendChild(colLineNum1);
+    colgroup.appendChild(colContent1);
+    colgroup.appendChild(colLineNum2);
+    colgroup.appendChild(colContent2);
+    outputEl.appendChild(colgroup);
+  };
+
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
       rightLine) {
     var row = this._createElement('tr');

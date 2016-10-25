@@ -291,7 +291,8 @@ public class PublicKeyChecker {
       return null;
     }
 
-    return new RevocationKey(sub.isCritical(), sub.getData());
+    return new RevocationKey(sub.isCritical(), sub.isLongLength(),
+        sub.getData());
   }
 
   private void checkRevocations(PGPPublicKey key,
@@ -341,7 +342,8 @@ public class PublicKeyChecker {
     if (sub == null) {
       return null;
     }
-    return new RevocationReason(sub.isCritical(), sub.getData());
+    return new RevocationReason(sub.isCritical(), sub.isLongLength(),
+        sub.getData());
   }
 
   private static String reasonToString(RevocationReason reason) {
@@ -405,7 +407,6 @@ public class PublicKeyChecker {
       // Don't check the timestamp of these certifications. This allows admins
       // to correct untrusted keys by signing them with a trusted key, such that
       // older signatures created by those keys retroactively appear valid.
-      @SuppressWarnings("unchecked")
       Iterator<PGPSignature> sigs = key.getSignaturesForID(userId);
 
       while (sigs.hasNext()) {

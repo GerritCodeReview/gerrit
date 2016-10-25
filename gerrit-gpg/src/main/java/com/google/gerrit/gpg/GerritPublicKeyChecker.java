@@ -18,7 +18,6 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.io.BaseEncoding;
@@ -225,12 +224,12 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return false;
   }
 
-  @SuppressWarnings("unchecked")
   private Iterator<PGPSignature> getSignaturesForId(PGPPublicKey key,
       String userId) {
-    return MoreObjects.firstNonNull(
-        key.getSignaturesForID(userId),
-        Collections.emptyIterator());
+    Iterator<PGPSignature> result = key.getSignaturesForID(userId);
+    return result != null
+        ? result
+        : Collections.emptyIterator();
   }
 
   private Set<String> getAllowedUserIds(IdentifiedUser user) {

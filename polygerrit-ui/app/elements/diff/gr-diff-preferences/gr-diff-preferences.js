@@ -72,6 +72,7 @@
       this._newPrefs = Object.assign({}, prefs);
       this.$.contextSelect.value = prefs.context;
       this.$.showTabsInput.checked = prefs.show_tabs;
+      this.$.lineWrappingInput.checked = prefs.line_wrapping;
       this.$.syntaxHighlightInput.checked = prefs.syntax_highlighting;
     },
 
@@ -93,6 +94,10 @@
     _handleSyntaxHighlightTap: function(e) {
       this.set('_newPrefs.syntax_highlighting',
           Polymer.dom(e).rootTarget.checked);
+    },
+
+    _handlelineWrappingTap: function(e) {
+      this.set('_newPrefs.line_wrapping', Polymer.dom(e).rootTarget.checked);
     },
 
     _handleSave: function() {

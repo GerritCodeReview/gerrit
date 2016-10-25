@@ -17,10 +17,9 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
+import static java.util.stream.Collectors.toList;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
@@ -46,9 +45,12 @@ import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
@@ -397,10 +399,12 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void testListAllGroups() throws Exception {
-    List<String> expectedGroups = FluentIterable
-          .from(groupCache.all())
-          .transform(AccountGroup::getName)
-          .toSortedList(Ordering.natural());
+    List<String> expectedGroups =
+        StreamSupport.stream(groupCache.all().spliterator(), false)
+          .map(a -> a.getName())
+          .collect(toList());
+    Collections.sort(expectedGroups, Comparator.naturalOrder());
+
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups).inOrder();
@@ -504,7 +508,7 @@ public class GroupsIT extends AbstractDaemonTest {
       throws Exception {
     assertMembers(
         gApi.groups().id(group).members(),
-        TestAccount.names(expectedMembers).toArray(String.class));
+        TestAccount.names(expectedMembers).stream().toArray(String[]::new));
     assertAccountInfos(
         Arrays.asList(expectedMembers),
         gApi.groups().id(group).members());

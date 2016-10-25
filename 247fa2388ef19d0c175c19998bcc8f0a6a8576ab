@@ -52,6 +52,24 @@
       "revId": "247fa2388ef19d0c175c19998bcc8f0a6a8576ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e152a0c5_438246e9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-25T22:46:40Z",
+      "side": 0,
+      "message": "Do we have a bug for the vertical rule? It seems to me like an important feature.",
+      "parentUuid": "c1b67ce6_da002567",
+      "revId": "247fa2388ef19d0c175c19998bcc8f0a6a8576ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

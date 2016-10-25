@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "014b349d_1cab952a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T21:30:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b67ce6_5a1415b7",
+      "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "014b349d_bc1d41da",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 1
@@ -118,6 +136,24 @@
         "endLine": 116,
         "endChar": 13
       },
+      "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b67ce6_ba037171",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T21:30:18Z",
+      "side": 1,
+      "message": "looks like the .blank is actually unnecessary, so removing.",
+      "parentUuid": "014b349d_fc27c927",
       "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

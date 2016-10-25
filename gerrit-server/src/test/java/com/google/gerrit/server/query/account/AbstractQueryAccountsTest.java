@@ -36,6 +36,8 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -96,6 +98,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject
   protected ThreadLocalRequestContext requestContext;
+
+  @Inject
+  protected OneOffRequestContext oneOffRequestContext;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
@@ -405,18 +410,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   private Account.Id createAccount(String username, String fullName,
       String email, boolean active) throws Exception {
-    Account.Id id =
-        accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
-    if (email != null) {
-      accountManager.link(id, AuthRequest.forEmail(email));
+    try (ManualRequestContext ctx = oneOffRequestContext.open()) {
+      Account.Id id =
+          accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      if (email != null) {
+        accountManager.link(id, AuthRequest.forEmail(email));
+      }
+      Account a = db.accounts().get(id);
+      a.setFullName(fullName);
+      a.setPreferredEmail(email);
+      a.setActive(active);
+      db.accounts().update(ImmutableList.of(a));
+      accountCache.evict(id);
+      return id;
     }
-    Account a = db.accounts().get(id);
-    a.setFullName(fullName);
-    a.setPreferredEmail(email);
-    a.setActive(active);
-    db.accounts().update(ImmutableList.of(a));
-    accountCache.evict(id);
-    return id;
   }
 
   private void addEmails(AccountInfo account, String... emails)

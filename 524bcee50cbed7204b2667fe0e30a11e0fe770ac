@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "014b349d_7c91f92d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-25T17:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e160e01d_937e7c1e",
+      "revId": "524bcee50cbed7204b2667fe0e30a11e0fe770ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1ff5c6a_72781836",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 7
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c1b67ce6_1a6e1d73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-25T17:41:21Z",
+      "side": 1,
+      "message": "Fixed... Probably accidentally used the shortcut for eclipse autoindent, sorry about that.",
+      "parentUuid": "c1ff5c6a_72781836",
+      "revId": "524bcee50cbed7204b2667fe0e30a11e0fe770ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1ff5c6a_527d1424",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 7
@@ -65,6 +101,24 @@
         "endLine": 183,
         "endChar": 71
       },
+      "revId": "524bcee50cbed7204b2667fe0e30a11e0fe770ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_5c96bd27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-25T17:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1ff5c6a_527d1424",
       "revId": "524bcee50cbed7204b2667fe0e30a11e0fe770ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

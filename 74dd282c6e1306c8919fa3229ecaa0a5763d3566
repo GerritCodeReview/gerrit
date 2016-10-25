@@ -70,6 +70,24 @@
       "revId": "74dd282c6e1306c8919fa3229ecaa0a5763d3566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21f2f818_fd774745",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-25T23:36:29Z",
+      "side": 1,
+      "message": "Is it necessary?  I think we can just leave it like this anyway. The ternary operator is no less readable than firstNonNull.  IMHO using firstNonNull only gives us a readability improvement when there are more than 2 objects.",
+      "parentUuid": "01f9748d_8c52c74e",
+      "revId": "74dd282c6e1306c8919fa3229ecaa0a5763d3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

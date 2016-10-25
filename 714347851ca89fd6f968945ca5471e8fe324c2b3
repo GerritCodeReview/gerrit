@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "218cb849_edfd254a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T11:48:17Z",
+      "side": 1,
+      "message": "[Optional] This is enabled per default, since: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/89891",
+      "revId": "714347851ca89fd6f968945ca5471e8fe324c2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

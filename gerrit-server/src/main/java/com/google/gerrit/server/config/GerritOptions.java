@@ -33,7 +33,7 @@ public class GerritOptions {
       boolean forcePolyGerritDev) {
     this.slave = slave;
     this.enablePolyGerrit = forcePolyGerritDev
-        || cfg.getBoolean("gerrit", null, "enablePolyGerrit", false);
+        || cfg.getBoolean("gerrit", null, "enablePolyGerrit", true);
     this.enableGwtUi = cfg.getBoolean("gerrit", null, "enableGwtUi", true);
     this.forcePolyGerritDev = forcePolyGerritDev;
     this.headless = headless || (!enableGwtUi && !enablePolyGerrit);

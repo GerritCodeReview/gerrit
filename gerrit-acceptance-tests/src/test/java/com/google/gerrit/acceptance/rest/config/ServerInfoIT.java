@@ -66,7 +66,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     @GerritConfig(name = "gerrit.allProjects", value = "Root"),
     @GerritConfig(name = "gerrit.allUsers", value = "Users"),
     @GerritConfig(name = "gerrit.enableGwtUi", value = "true"),
-    @GerritConfig(name = "gerrit.enablePolyGerrit", value = "true"),
     @GerritConfig(name = "gerrit.reportBugText", value = "REPORT BUG"),
     @GerritConfig(name = "gerrit.reportBugUrl", value = "https://example.com/report"),
 

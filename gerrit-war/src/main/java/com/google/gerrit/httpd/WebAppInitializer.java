@@ -264,15 +264,7 @@ public class WebAppInitializer extends GuiceServletContextListener
           listener().to(ReviewDbDataSourceProvider.class);
         }
       });
-    }
-    modules.add(new DatabaseModule());
-    modules.add(new DropWizardMetricMaker.ApiModule());
-    return Guice.createInjector(PRODUCTION, modules);
-  }
 
-  private Injector createCfgInjector() {
-    final List<Module> modules = new ArrayList<>();
-    if (sitePath == null) {
       // If we didn't get the site path from the system property
       // we need to get it from the database, as that's our old
       // method of locating the site path on disk.
@@ -286,8 +278,15 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
       modules.add(new GerritServerConfigModule());
     }
-    modules.add(new SchemaModule());
+    modules.add(new DatabaseModule());
     modules.add(new ConfigNotesMigration.Module());
+    modules.add(new DropWizardMetricMaker.ApiModule());
+    return Guice.createInjector(PRODUCTION, modules);
+  }
+
+  private Injector createCfgInjector() {
+    final List<Module> modules = new ArrayList<>();
+    modules.add(new SchemaModule());
     modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);

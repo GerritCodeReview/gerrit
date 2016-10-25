@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "218cb849_4d9719d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T20:19:30Z",
+      "side": 1,
+      "message": "Nit: max line length in the commit message is 72 char. here and below. First letter in the statement should be uppercase.",
+      "revId": "32b62de7f9934f3889b8ea98c1a19cabe8865195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "218cb849_6d9cd5f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T20:19:30Z",
+      "side": 1,
+      "message": "In Documentation/config-auto-site-initialization.txt it\u0027s still documented, that in case \"gerrit.site_path\" the database property is read etc. Should this be removed, when this mode isn\u0027t supported any more?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "32b62de7f9934f3889b8ea98c1a19cabe8865195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

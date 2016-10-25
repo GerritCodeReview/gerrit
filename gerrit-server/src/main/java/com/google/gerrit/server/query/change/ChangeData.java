@@ -17,11 +17,10 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
+import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
@@ -94,6 +93,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ChangeData {
   private static final int BATCH_SIZE = 50;
@@ -108,12 +109,8 @@ public class ChangeData {
   }
 
   public static Map<Change.Id, ChangeData> asMap(List<ChangeData> changes) {
-    Map<Change.Id, ChangeData> result =
-        Maps.newHashMapWithExpectedSize(changes.size());
-    for (ChangeData cd : changes) {
-      result.put(cd.getId(), cd);
-    }
-    return result;
+    return changes.stream().collect(
+        Collectors.toMap(ChangeData::getId, cd -> cd));
   }
 
   public static void ensureChangeLoaded(Iterable<ChangeData> changes)
@@ -898,14 +895,14 @@ public class ChangeData {
    * @throws OrmException an error occurred reading the database.
    */
   public Collection<PatchSet> visiblePatchSets() throws OrmException {
-    Predicate<PatchSet> predicate = ps -> {
+    Predicate<? super PatchSet> predicate = ps -> {
       try {
         return changeControl().isPatchVisible(ps, db);
       } catch (OrmException e) {
         return false;
       }
     };
-    return FluentIterable.from(patchSets()).filter(predicate).toList();
+    return patchSets().stream().filter(predicate).collect(toList());
   }
 
   public void setPatchSets(Collection<PatchSet> patchSets) {

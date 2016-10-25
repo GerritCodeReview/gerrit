@@ -33,4 +33,5 @@ public class RevisionInfo {
   public Map<String, ActionInfo> actions;
   public String commitWithFooters;
   public PushCertificateInfo pushCertificate;
+  public String description;
 }

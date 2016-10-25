@@ -2082,7 +2082,8 @@ public class ReceiveCommits {
             .setNotify(magicBranch.notify)
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
-            .setUpdateRef(false));
+            .setUpdateRef(false)
+            .setPatchSetDescription(magicBranch.message));
         if (!magicBranch.hashtags.isEmpty()) {
           bu.addOp(
               changeId,

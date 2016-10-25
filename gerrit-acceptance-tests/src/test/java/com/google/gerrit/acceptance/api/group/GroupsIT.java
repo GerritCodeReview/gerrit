@@ -504,7 +504,7 @@ public class GroupsIT extends AbstractDaemonTest {
       throws Exception {
     assertMembers(
         gApi.groups().id(group).members(),
-        TestAccount.names(expectedMembers).toArray(String.class));
+        TestAccount.names(expectedMembers).stream().toArray(String[]::new));
     assertAccountInfos(
         Arrays.asList(expectedMembers),
         gApi.groups().id(group).members());

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.common.collect.FluentIterable;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.mail.Address;
 
@@ -24,22 +25,22 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import java.util.List;
 
 public class TestAccount {
-  public static FluentIterable<Account.Id> ids(
-      Iterable<TestAccount> accounts) {
-    return FluentIterable.from(accounts).transform(a -> a.id);
+  public static List<Account.Id> ids(List<TestAccount> accounts) {
+    return accounts.stream().map(a -> a.id).collect(toList());
   }
 
-  public static FluentIterable<Account.Id> ids(TestAccount... accounts) {
+  public static List<Account.Id> ids(TestAccount... accounts) {
     return ids(Arrays.asList(accounts));
   }
 
-  public static FluentIterable<String> names(Iterable<TestAccount> accounts) {
-    return FluentIterable.from(accounts).transform(a -> a.fullName);
+  public static List<String> names(List<TestAccount> accounts) {
+    return accounts.stream().map(a -> a.fullName).collect(toList());
   }
 
-  public static FluentIterable<String> names(TestAccount... accounts) {
+  public static List<String> names(TestAccount... accounts) {
     return names(Arrays.asList(accounts));
   }
 

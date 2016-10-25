@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61d8703b_dfa49b8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-25T17:56:44Z",
+      "side": 1,
+      "message": "No longer used",
+      "revId": "febfb5f54a790f2d66a870b86051416448602eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

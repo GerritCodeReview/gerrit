@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "218cb849_2d0f2da3",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T10:19:09Z",
+      "side": 1,
+      "message": "That\u0027s because it can be a java_library or genrule, that produced JAR, as it is the case with index.jar that contains index.zip produced by Lucene documentation indexing tool chain.",
+      "parentUuid": "218cb849_6de4d5c8",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 25
+      },
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218cb849_add5ddd1",
         "filename": "tools/bzl/pkg_war.bzl",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "01f9748d_0c0ff7a2",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T10:19:09Z",
+      "side": 1,
+      "message": "See below, there we place stuff that is going to be extracted in the WAR root:\n\n* polygerrit_ui.zip\n* gut_ui.zip\n* doc_html.zip",
+      "parentUuid": "218cb849_add5ddd1",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 31
+      },
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218cb849_8dd82109",
         "filename": "tools/bzl/pkg_war.bzl",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-10-25T09:59:02Z",
       "side": 1,
       "message": "you\u0027d add it here.",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 12
+      },
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "218cb849_0d0a7192",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T10:19:09Z",
+      "side": 1,
+      "message": "There are 3 different kinds of dependencies to gather in the release WAR:\n\n* libs go to WEB-INF/libs directory\n* pgmlibs, go to pgmlibs directory\n* context: unzip the content to the root of WAR\n\nThe attributes to pkg_war rule correspond to those kinds of dependencies.",
+      "parentUuid": "218cb849_8dd82109",
       "range": {
         "startLine": 124,
         "startChar": 5,

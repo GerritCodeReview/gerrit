@@ -33,6 +33,20 @@
     return sectionEl;
   };
 
+  GrDiffBuilderUnified.prototype.addColumns = function(outputEl, fontSize) {
+    var width = fontSize * 4;
+    var colgroup = document.createElement('colgroup');
+    var colLineNum1 = document.createElement('col');
+    var colLineNum2 = document.createElement('col');
+    var colContent = document.createElement('col');
+    colLineNum1.setAttribute('width', width);
+    colLineNum2.setAttribute('width', width);
+    colgroup.appendChild(colLineNum1);
+    colgroup.appendChild(colLineNum2);
+    colgroup.appendChild(colContent);
+    outputEl.appendChild(colgroup);
+  };
+
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
     var row = this._createElement('tr', line.type);
     var lineEl = this._createLineEl(line, line.beforeNumber,

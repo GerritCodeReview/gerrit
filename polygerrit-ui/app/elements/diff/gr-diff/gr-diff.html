@@ -87,8 +87,13 @@ limitations under the License.
       .content {
         background-color: #fff;
       }
+      .full-width {
+        width: 100%;
+      }
       .lineNum,
       .content {
+        /* Set font size based the user's diff preference. */
+        font-size: var(--font-size, 12px);
         vertical-align: top;
         white-space: pre;
       }
@@ -113,11 +118,7 @@ limitations under the License.
            allows them to shrink. */
         max-width: var(--content-width, 80ch);
         min-width: var(--content-width, 80ch);
-      }
-      .content,
-      .lineNum {
-        /* Set font size based the user's diff preference. */
-        font-size: var(--font-size, 12px);
+        width: var(--content-width, 80ch);
       }
       .content.add .intraline,
       .content.add.darkHighlight {
@@ -136,6 +137,10 @@ limitations under the License.
       .contextControl {
         background-color: #fef;
         color: #849;
+      }
+      .contentText {
+        white-space: pre-wrap;
+        word-wrap: break-word;
       }
       .contextControl gr-button {
         display: inline-block;
@@ -171,10 +176,11 @@ limitations under the License.
               comments="[[_comments]]"
               diff="[[_diff]]"
               view-mode="[[viewMode]]"
+              line-wrapping="[[lineWrapping]]"
               is-image-diff="[[isImageDiff]]"
               base-image="[[_baseImage]]"
               revision-image="[[_revisionImage]]">
-            <table id="diffTable"></table>
+            <table id="diffTable" class$="[[_diffTableClass]]"></table>
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1b67ce6_3a73e15d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-25T10:23:08Z",
+      "side": 1,
+      "message": ".sorted()\n .collect(toList())",
+      "revId": "efab84ccf321644835343b151c8073669a3010b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

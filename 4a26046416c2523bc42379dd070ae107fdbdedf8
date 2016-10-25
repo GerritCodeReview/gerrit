@@ -16,6 +16,24 @@
       "revId": "4a26046416c2523bc42379dd070ae107fdbdedf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "218cb849_8db90182",
+        "filename": "gerrit-pgm/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-25T12:51:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01f9748d_cc2b2fda",
+      "revId": "4a26046416c2523bc42379dd070ae107fdbdedf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

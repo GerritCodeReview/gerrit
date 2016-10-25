@@ -83,7 +83,8 @@ public class RepoSequence {
         .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS));
   }
 
-  private static Retryer<RefUpdate.Result> RETRYER = retryerBuilder().build();
+  private static final Retryer<RefUpdate.Result> RETRYER =
+      retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
   private final Project.NameKey projectName;

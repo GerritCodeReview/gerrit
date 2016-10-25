@@ -132,7 +132,7 @@ http_jar(
   sha256 = '80d63c117736ae2fb9837b7a39576f3f0c5bd19cd75127886550c77b4c478f87',
 )
 
-JGIT_VERS = '4.5.0.201609210915-r'
+load('//lib/jgit:jgit.bzl', 'JGIT_VERS')
 
 maven_jar(
   name = 'jgit',

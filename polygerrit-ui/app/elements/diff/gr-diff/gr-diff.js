@@ -66,12 +66,21 @@
         type: Boolean,
         value: false,
       },
+      lineWrapping: {
+        type: Boolean,
+        value: false,
+        observer: '_lineWrappingObserver',
+      },
       viewMode: {
         type: String,
         value: DiffViewMode.SIDE_BY_SIDE,
         observer: '_viewModeObserver',
       },
       _diff: Object,
+      _diffTableClass: {
+        type: String,
+        value: '',
+      },
       _comments: Object,
       _baseImage: Object,
       _revisionImage: Object,
@@ -356,9 +365,21 @@
       this._prefsChanged(this.prefs);
     },
 
+    _lineWrappingObserver: function() {
+      this._prefsChanged(this.prefs);
+    },
+
     _prefsChanged: function(prefs) {
       if (!prefs) { return; }
-      this.customStyle['--content-width'] = prefs.line_length + 'ch';
+      if (!!prefs.line_wrapping) {
+        this._diffTableClass = 'full-width';
+        if (this.viewMode === 'SIDE_BY_SIDE') {
+          this.customStyle['--content-width'] = 'none';
+        }
+      } else {
+        this._diffTableClass = '';
+        this.customStyle['--content-width'] = prefs.line_length + 'ch';
+      }
 
       if (!!prefs.font_size) {
         this.customStyle['--font-size'] = prefs.font_size + 'px';

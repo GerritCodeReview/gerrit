@@ -56,13 +56,27 @@ limitations under the License.
       element.$.tabSizeInput.bindValue = 4;
       MockInteractions.tap(element.$.showTabsInput);
       MockInteractions.tap(element.$.syntaxHighlightInput);
+      MockInteractions.tap(element.$.lineWrappingInput);
 
       assert.equal(element._newPrefs.context, 50);
       assert.equal(element._newPrefs.font_size, 10);
       assert.equal(element._newPrefs.line_length, 80);
       assert.equal(element._newPrefs.tab_size, 4);
       assert.isFalse(element._newPrefs.show_tabs);
+      assert.isTrue(element._newPrefs.line_wrapping);
       assert.isFalse(element._newPrefs.syntax_highlighting);
+    });
+
+    test('clicking fit to screen hides line length input', function() {
+      element.prefs = { line_wrapping: false };
+
+      assert.isFalse(element.$.columnsPref.hidden);
+
+      MockInteractions.tap(element.$.lineWrappingInput);
+      assert.isTrue(element.$.columnsPref.hidden);
+
+      MockInteractions.tap(element.$.lineWrappingInput);
+      assert.isFalse(element.$.columnsPref.hidden);
     });
 
     test('clicking save button calls _handleSave function', function() {

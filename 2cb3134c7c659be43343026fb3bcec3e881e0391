@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "014b349d_bc1d41da",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-25T18:56:47Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to restore this stub, since it\u0027ll be restored in teardown() by the call to sandbox.restore().",
+      "range": {
+        "startLine": 549,
+        "startChar": 18,
+        "endLine": 549,
+        "endChar": 39
+      },
+      "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b67ce6_dad2e5e6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-25T18:56:47Z",
+      "side": 1,
+      "message": "It seems to me like this line prevents the user from ever disabling line wrapping. Maybe replace with \u0027prefs.line_wrapping \u003d\u003d\u003d undefined ? true : prefs.line_wrapping\u0027?",
+      "range": {
+        "startLine": 118,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 43
+      },
+      "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

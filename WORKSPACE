@@ -481,12 +481,6 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'lucene_misc',
-  artifact = 'org.apache.lucene:lucene-misc:' + LUCENE_VERS,
-  sha1 = '37bbe5a2fb429499dfbe75d750d1778881fff45d',
-)
-
-maven_jar(
   name = 'lucene_sandbox',
   artifact = 'org.apache.lucene:lucene-sandbox:' + LUCENE_VERS,
   sha1 = '30a91f120706ba66732d5a974b56c6971b3c8a16',

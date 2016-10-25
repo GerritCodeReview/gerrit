@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "014b349d_dc2bedd9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T21:30:18Z",
+      "side": 1,
+      "message": "possibly. I will experiment with it. (Will also ask Andy if there was a reason it needs to be this way).",
+      "parentUuid": "014b349d_9c4845ce",
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "014b349d_fc550968",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-25T20:08:04Z",
       "side": 1,
       "message": "It looks like these two implementations are the same. Why not implement it on the base class?",
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_fc2ea9eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T21:30:18Z",
+      "side": 1,
+      "message": "Because the colgroup as a different column arrangement depending on if it is unified or split (number | number | content vs number | content | number |  content)",
+      "parentUuid": "014b349d_fc550968",
       "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
         "endLine": 73,
         "endChar": 7
       },
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b67ce6_9a06ad82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T21:30:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "014b349d_1c5d5593",
       "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

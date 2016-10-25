@@ -16,6 +16,24 @@
       "revId": "247fa2388ef19d0c175c19998bcc8f0a6a8576ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_3ca65164",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T21:30:18Z",
+      "side": 0,
+      "message": "Yeah, Andy and I discussed this and I think we were going to start without it, and at that point it seems like columns isn\u0027t used. We definitely don\u0027t need to hide it though, will check.",
+      "parentUuid": "c1b67ce6_da274528",
+      "revId": "247fa2388ef19d0c175c19998bcc8f0a6a8576ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

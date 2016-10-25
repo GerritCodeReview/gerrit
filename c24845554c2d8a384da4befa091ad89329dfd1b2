@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "e152a0c5_c3963629",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T23:50:48Z",
+      "side": 1,
+      "message": "Yeah, I like that option.",
+      "parentUuid": "e152a0c5_8377de46",
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "014b349d_fcc349ef",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
         "patchSetId": 2

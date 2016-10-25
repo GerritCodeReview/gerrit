@@ -44,7 +44,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import java.io.IOException;
 import java.util.Collection;
 
-class DeleteDraftChangeOp extends BatchUpdate.Op {
+class DeleteChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
     return cfg.getBoolean("change", "allowDrafts", true);
   }
@@ -68,7 +68,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   private Change.Id id;
 
   @Inject
-  DeleteDraftChangeOp(PatchSetUtil psUtil,
+  DeleteChangeOp(PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       @GerritServerConfig Config cfg) {
@@ -82,16 +82,18 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   public boolean updateChange(ChangeContext ctx) throws RestApiException,
       OrmException, IOException, NoSuchChangeException {
     checkState(ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
-        "must use DeleteDraftChangeOp with DB_BEFORE_REPO");
-    checkState(id == null, "cannot reuse DeleteDraftChangeOp");
+        "must use DeleteChangeOp with DB_BEFORE_REPO");
+    checkState(id == null, "cannot reuse DeleteChangeOp");
 
     id = ctx.getChange().getId();
     Collection<PatchSet> patchSets = psUtil.byChange(ctx.getDb(),
         ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);
-    deleteChangeElementsFromDb(ctx, id);
+    // Cleaning up is only possible as long as the change and its elements are
+    // still part of the database.
     cleanUpReferences(ctx, id, patchSets);
+    deleteChangeElementsFromDb(ctx, id);
 
     ctx.deleteChange();
     return true;
@@ -100,19 +102,25 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   private void ensureDeletable(ChangeContext ctx, Change.Id id,
       Collection<PatchSet> patchSets) throws ResourceConflictException,
       MethodNotAllowedException, OrmException, AuthException {
-    if (ctx.getChange().getStatus() != Change.Status.DRAFT) {
-      throw new ResourceConflictException("Change is not a draft: " + id);
+    Change.Status status = ctx.getChange().getStatus();
+    if (status == Change.Status.MERGED) {
+      throw new MethodNotAllowedException("Deleting merged change " + id
+          + " is not allowed");
     }
-    if (!allowDrafts) {
-      throw new MethodNotAllowedException("Draft workflow is disabled");
+
+    if (!ctx.getControl().canDelete(ctx.getDb(), status)) {
+      throw new AuthException("Deleting change " + id + " is not permitted");
     }
-    if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
-      throw new AuthException("Not permitted to delete this draft change");
-    }
-    for (PatchSet ps : patchSets) {
-      if (!ps.isDraft()) {
-        throw new ResourceConflictException("Cannot delete draft change " + id
-            + ": patch set " + ps.getPatchSetId() + " is not a draft");
+
+    if (status == Change.Status.DRAFT) {
+      if (!allowDrafts && !ctx.getControl().isAdmin()) {
+        throw new MethodNotAllowedException("Draft workflow is disabled");
+      }
+      for (PatchSet ps : patchSets) {
+        if (!ps.isDraft()) {
+          throw new ResourceConflictException("Cannot delete draft change " + id
+              + ": patch set " + ps.getPatchSetId() + " is not a draft");
+        }
       }
     }
   }

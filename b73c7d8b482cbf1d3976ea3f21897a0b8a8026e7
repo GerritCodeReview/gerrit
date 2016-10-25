@@ -140,6 +140,24 @@
       "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01f9748d_ec00ab66",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-25T11:15:26Z",
+      "side": 1,
+      "message": "that\u0027s useful, thanks. Can you add this as a comment/docstring?",
+      "parentUuid": "218cb849_0d0a7192",
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

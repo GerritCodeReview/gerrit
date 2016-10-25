@@ -28,7 +28,6 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Collection;
-import java.util.stream.StreamSupport;
 
 /** Implementation of GroupBackend for the internal group system. */
 @Singleton
@@ -68,7 +67,7 @@ public class InternalGroupBackend implements GroupBackend {
   @Override
   public Collection<GroupReference> suggest(final String name,
       final ProjectControl project) {
-    return StreamSupport.stream(groupCache.all().spliterator(), false)
+    return groupCache.all().stream()
         .filter(group ->
             // startsWithIgnoreCase && isVisible
             group.getName().regionMatches(true, 0, name, 0, name.length())

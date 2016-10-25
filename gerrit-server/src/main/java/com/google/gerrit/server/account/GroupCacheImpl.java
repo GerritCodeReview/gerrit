@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -32,7 +33,6 @@ import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -151,12 +151,12 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public Iterable<AccountGroup> all() {
+  public ImmutableList<AccountGroup> all() {
     try (ReviewDb db = schema.open()) {
-      return Collections.unmodifiableList(db.accountGroups().all().toList());
+      return ImmutableList.copyOf(db.accountGroups().all());
     } catch (OrmException e) {
       log.warn("Cannot list internal groups", e);
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
   }
 

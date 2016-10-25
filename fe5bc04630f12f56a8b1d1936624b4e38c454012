@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e152a0c5_e3725258",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-25T22:46:40Z",
+      "side": 1,
+      "message": "`String#repeat` won\u0027t work in IE. How about ...\n\n    (new Array(52)).join(\u0027a\u0027)\n\n... ?",
+      "range": {
+        "startLine": 144,
+        "startChar": 17,
+        "endLine": 144,
+        "endChar": 31
+      },
+      "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e152a0c5_a37c5a29",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-25T22:46:40Z",
+      "side": 1,
+      "message": "Remove this space, and the space preceding the close-brace.",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

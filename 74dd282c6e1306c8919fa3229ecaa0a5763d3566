@@ -34,6 +34,24 @@
       "revId": "74dd282c6e1306c8919fa3229ecaa0a5763d3566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01f9748d_0cab772a",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T11:52:32Z",
+      "side": 1,
+      "message": "OK, can you do it?",
+      "parentUuid": "e160e01d_93d5dcd2",
+      "revId": "74dd282c6e1306c8919fa3229ecaa0a5763d3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -55,6 +55,52 @@
     },
     {
       "key": {
+        "uuid": "014b349d_dcc00de6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-25T22:04:10Z",
+      "side": 1,
+      "message": "Def want to ensure that nothing malicious can make its way into the innerHTML below. I would be diligent about unit tests, here.",
+      "range": {
+        "startLine": 38,
+        "startChar": 16,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_fcc349ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-25T22:04:10Z",
+      "side": 1,
+      "message": "don’t put spaces around `\u003d` in html",
+      "range": {
+        "startLine": 39,
+        "startChar": 46,
+        "endLine": 39,
+        "endChar": 49
+      },
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "014b349d_fc550968",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.js",
         "patchSetId": 2

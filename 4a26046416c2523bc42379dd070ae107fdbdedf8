@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01f9748d_cc2b2fda",
+        "filename": "gerrit-pgm/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T11:51:54Z",
+      "side": 1,
+      "message": "Nit: This should be sorted.",
+      "revId": "4a26046416c2523bc42379dd070ae107fdbdedf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

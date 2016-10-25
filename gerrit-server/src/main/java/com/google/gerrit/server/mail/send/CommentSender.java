@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -41,6 +42,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -238,6 +240,8 @@ public class CommentSender extends ReplyToChangeSender {
       }
     }
 
+    Collections.sort(groups,
+        Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
     return groups;
   }
 

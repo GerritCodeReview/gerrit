@@ -2,10 +2,7 @@
 
 Bazel build is experimental. Major missing parts:
 
-* PolyGerrit
-* Documentation index
 * License tracking
-* Version stamping
 * Custom plugins
 * Eclipse project generation.
 * Publishing to maven.
@@ -114,6 +111,20 @@ The output JAR file will be be placed in:
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
+
+
+[[IDEs]]
+== Using an IDE.
+
+=== IntelliJ
+
+The Gerrit build works with Bazel's [IntelliJ
+plugin](https://ij.bazel.io). Do the following:
+
+  * Install the plugin (requires IJ 2016.2 or newer)
+  * Select "File > Import Bazel project".
+  * Select "Workspace": (directory holding gerrit source)
+  * Select "project view: generate from BUILD": (enter top level BUILD file)
 
 [[documentation]]
 === Documentation

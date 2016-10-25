@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "014b349d_3ce5b1c7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4696,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-25T17:29:58Z",
+      "side": 1,
+      "message": "Sure, good idea, updated.",
+      "parentUuid": "01f9748d_acaa2358",
+      "revId": "f1d2a3ee21a476484c51fcda703c981d842411f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218cb849_ed88c504",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-25T08:03:48Z",
       "side": 1,
       "message": "nit: unneeded blank line",
+      "revId": "f1d2a3ee21a476484c51fcda703c981d842411f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_dcb64dbe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2074,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-25T17:29:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "218cb849_ed88c504",
       "revId": "f1d2a3ee21a476484c51fcda703c981d842411f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

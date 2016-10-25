@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01f9748d_0c9c1746",
+        "filename": "tools/bzl/setup-intellij.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-25T08:06:58Z",
+      "side": 1,
+      "message": "Check if the build is cold first (i.e. if the user has already built gerrit with bazel) and make a \"bazel build //...\" on demand. Otherwise you get a lot of these:\n\n\"warning: gensrc root bazel-bin/gerrit-server/_javac/server/server_sourcegenfiles does not exist\"\n\nOr just add the build command and build irrespective just as the eclipse script does.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 3
+      },
+      "revId": "a7b0da2d8ede1f856b1e6c35b66f79267eb1fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

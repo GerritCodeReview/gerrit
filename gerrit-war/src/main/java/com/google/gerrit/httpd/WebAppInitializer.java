@@ -266,6 +266,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
     }
     modules.add(new DatabaseModule());
+    modules.add(new ConfigNotesMigration.Module());
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(PRODUCTION, modules);
   }
@@ -287,7 +288,6 @@ public class WebAppInitializer extends GuiceServletContextListener
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new SchemaModule());
-    modules.add(new ConfigNotesMigration.Module());
     modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);

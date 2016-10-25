@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01f9748d_4c7d7f24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T06:00:58Z",
+      "side": 1,
+      "message": "Whe i also try to re-use it in WORKSPACE file: [1] I\u0027m getting this error: [2].\n\n  \n\n* [1] http://paste.openstack.org/show/586918\n* [2] http://paste.openstack.org/show/586920",
+      "revId": "31c7364cbedf565bb49109c2eed9058977257141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

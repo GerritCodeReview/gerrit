@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
@@ -31,8 +32,8 @@ public interface GroupCache {
   @Nullable
   AccountGroup get(AccountGroup.UUID uuid);
 
-  /** @return sorted iteration of groups. */
-  Iterable<AccountGroup> all();
+  /** @return sorted list of groups. */
+  ImmutableList<AccountGroup> all();
 
   /** Notify the cache that a new group was constructed. */
   void onCreateGroup(AccountGroup.NameKey newGroupName);

@@ -45,6 +45,7 @@ import com.google.inject.Provider;
 import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -314,11 +315,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groups;
   }
 
-  private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
-    final List<AccountGroup> filteredGroups = new ArrayList<>();
-    final boolean isAdmin =
+  private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) {
+    List<AccountGroup> filteredGroups = new ArrayList<>(groups.size());
+    boolean isAdmin =
         identifiedUser.get().getCapabilities().canAdministrateServer();
-    for (final AccountGroup group : groups) {
+    for (AccountGroup group : groups) {
       if (!Strings.isNullOrEmpty(matchSubstring)) {
         if (!group.getName().toLowerCase(Locale.US)
             .contains(matchSubstring.toLowerCase(Locale.US))) {
@@ -326,7 +327,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         }
       }
       if (!isAdmin) {
-        final GroupControl c = groupControlFactory.controlFor(group);
+        GroupControl c = groupControlFactory.controlFor(group);
         if (!c.isVisible()) {
           continue;
         }

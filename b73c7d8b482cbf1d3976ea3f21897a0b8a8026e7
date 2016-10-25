@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "218cb849_6de4d5c8",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-25T09:59:02Z",
+      "side": 1,
+      "message": "this is a little clumsy. Why don\u0027t you introduce a separate \"docs\" attribute?",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 25
+      },
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "218cb849_add5ddd1",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-25T09:59:02Z",
+      "side": 1,
+      "message": "this here too, actually. What does \u0027context\u0027 mean?",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 31
+      },
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "218cb849_8dd82109",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-25T09:59:02Z",
+      "side": 1,
+      "message": "you\u0027d add it here.",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 12
+      },
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

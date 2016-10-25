@@ -94,6 +94,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ChangeData {
   private static final int BATCH_SIZE = 50;
@@ -108,12 +109,8 @@ public class ChangeData {
   }
 
   public static Map<Change.Id, ChangeData> asMap(List<ChangeData> changes) {
-    Map<Change.Id, ChangeData> result =
-        Maps.newHashMapWithExpectedSize(changes.size());
-    for (ChangeData cd : changes) {
-      result.put(cd.getId(), cd);
-    }
-    return result;
+    return changes.stream().collect(
+        Collectors.toMap(ChangeData::getId, cd -> cd));
   }
 
   public static void ensureChangeLoaded(Iterable<ChangeData> changes)

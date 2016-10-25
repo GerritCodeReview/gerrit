@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c1b67ce6_3a0f61a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T19:21:06Z",
+      "side": 1,
+      "message": "I was getting an error that done() was called twice. This was an attempt to ensure that didn\u0027t happen (by removing the stub). It seemed to pass the tests after doing this, so wanted to give it a try.",
+      "parentUuid": "014b349d_bc1d41da",
+      "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1b67ce6_dad2e5e6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 119,
         "endChar": 43
       },
+      "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_dc248d26",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-25T19:21:06Z",
+      "side": 1,
+      "message": "you\u0027re right, and it also appears to be unused... so removing.",
+      "parentUuid": "c1b67ce6_dad2e5e6",
       "revId": "2cb3134c7c659be43343026fb3bcec3e881e0391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

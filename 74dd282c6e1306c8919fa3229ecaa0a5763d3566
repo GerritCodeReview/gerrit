@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01f9748d_6c62fb56",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T11:28:55Z",
+      "side": 1,
+      "message": "Can you reproduce the compilation breakage?",
+      "revId": "74dd282c6e1306c8919fa3229ecaa0a5763d3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

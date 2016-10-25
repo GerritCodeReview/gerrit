@@ -22,6 +22,30 @@
       "revId": "a7b0da2d8ede1f856b1e6c35b66f79267eb1fc04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01f9748d_2c58f3a2",
+        "filename": "tools/bzl/setup-intellij.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-25T11:30:24Z",
+      "side": 1,
+      "message": "I removed the warning.",
+      "parentUuid": "01f9748d_0c9c1746",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 3
+      },
+      "revId": "a7b0da2d8ede1f856b1e6c35b66f79267eb1fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "74dd282c6e1306c8919fa3229ecaa0a5763d3566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e160e01d_93d5dcd2",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-25T11:31:52Z",
+      "side": 1,
+      "message": "No. This commit is more of a RFC/WiP. I was going to comment on the bouncy castle change that we could try to rebase on this to see what happens.",
+      "parentUuid": "01f9748d_6c62fb56",
+      "revId": "74dd282c6e1306c8919fa3229ecaa0a5763d3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

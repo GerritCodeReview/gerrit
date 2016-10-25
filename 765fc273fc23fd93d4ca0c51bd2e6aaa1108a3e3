@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e160e01d_13ea6c95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-25T10:48:18Z",
+      "side": 1,
+      "message": "I tried to convert this too, but the lambda doesn\u0027t like that cd.change() can throw OrmException.",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "765fc273fc23fd93d4ca0c51bd2e6aaa1108a3e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

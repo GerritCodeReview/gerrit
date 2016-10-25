@@ -158,6 +158,24 @@
       "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01f9748d_cc87af9b",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-25T20:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01f9748d_ec00ab66",
+      "revId": "b73c7d8b482cbf1d3976ea3f21897a0b8a8026e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

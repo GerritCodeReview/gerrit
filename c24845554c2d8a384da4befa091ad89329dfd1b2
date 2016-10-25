@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "014b349d_9c4845ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-25T20:08:04Z",
+      "side": 1,
+      "message": "This will overflow in files with vary many lines. Can we avoid this problem by putting the line number in the TD itself?",
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_fc550968",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-25T20:08:04Z",
+      "side": 1,
+      "message": "It looks like these two implementations are the same. Why not implement it on the base class?",
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014b349d_1c5d5593",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-25T20:08:04Z",
+      "side": 1,
+      "message": "Make this a one-line object literal or add a trailing comma following `false`.",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 7
+      },
+      "revId": "c24845554c2d8a384da4befa091ad89329dfd1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

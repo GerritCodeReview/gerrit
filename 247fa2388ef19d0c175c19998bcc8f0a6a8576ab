@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1b67ce6_da274528",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-25T20:08:04Z",
+      "side": 0,
+      "message": "I should still be able to set the columns. In the GWT UI, it draws a vertical rule where the column limit stands, even when the diff is full-width.",
+      "revId": "247fa2388ef19d0c175c19998bcc8f0a6a8576ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

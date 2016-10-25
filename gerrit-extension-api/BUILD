@@ -1,3 +1,4 @@
+load('//lib/jgit:jgit.bzl', 'JGIT_DOC_URL')
 load('//tools/bzl:gwt.bzl', 'gwt_module')
 
 SRC = 'src/main/java/com/google/gerrit/extensions/'
@@ -52,4 +53,5 @@ java_doc(
   title = 'Gerrit Review Extension API Documentation',
   libs = [':api'],
   pkgs = ['com.google.gerrit.extensions'],
+  external_docs = [JGIT_DOC_URL],
 )

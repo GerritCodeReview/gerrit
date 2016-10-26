@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f2f818_fdc58729",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-26T05:39:14Z",
+      "side": 1,
+      "message": "This dependency was only added in BUCK build file and broke Bazel build tool chain.",
+      "revId": "696457218503adf430c2be93bccbc052ae553f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e152a0c5_4307a67f",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2016-10-26T20:22:39Z",
+      "side": 1,
+      "message": "I test it on Mac\n$ t\u003d$(mktemp -d)\nusage: mktemp [-d] [-q] [-t prefix] [-u] template ...\n       mktemp [-d] [-q] [-u] -t prefix \n\nIt need a provided parameter name\n\nConfused I am here that it works in Bazel. Will you please help give me a line of hint?",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "3254ec74921577a83c9dc174860f0102f3780fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

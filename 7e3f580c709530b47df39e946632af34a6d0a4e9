@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "a10fc8e1_39d9cf0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-26T15:03:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a10fc8e1_79ba27a4",
+      "revId": "7e3f580c709530b47df39e946632af34a6d0a4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a10fc8e1_19adeb68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2016-10-26T13:37:36Z",
       "side": 1,
       "message": "While you\u0027re in here, you could remove this line, since new TreeMap\u003c\u003e is now the preferred way.",
+      "revId": "7e3f580c709530b47df39e946632af34a6d0a4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "011414f7_34b0b0c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-26T15:03:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a10fc8e1_19adeb68",
       "revId": "7e3f580c709530b47df39e946632af34a6d0a4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

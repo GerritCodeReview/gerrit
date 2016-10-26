@@ -1,0 +1,22 @@
+directories:
+  .
+  -eclipse-out
+  -contrib
+  -gerrit-package-plugins
+  -gerrit-plugin-gwt-archetype
+  -gerrit-plugin-js-archetype
+  -gerrit-plugin-archetype
+  -logs
+  -./.metadata
+  -./.settings
+  -./.apt_generated
+  # BUCK excludes; Remove after we have entirely switched to Bazel
+  -./.buckd
+  -bucklets
+
+targets:
+  //...:all
+
+java_language_level: 8
+
+workspace_type: java

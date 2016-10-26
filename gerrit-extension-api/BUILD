@@ -1,3 +1,4 @@
+load('//lib:guava.bzl', 'GUAVA_DOC_URL')
 load('//lib/jgit:jgit.bzl', 'JGIT_DOC_URL')
 load('//tools/bzl:gwt.bzl', 'gwt_module')
 
@@ -53,5 +54,5 @@ java_doc(
   title = 'Gerrit Review Extension API Documentation',
   libs = [':api'],
   pkgs = ['com.google.gerrit.extensions'],
-  external_docs = [JGIT_DOC_URL],
+  external_docs = [JGIT_DOC_URL, GUAVA_DOC_URL],
 )

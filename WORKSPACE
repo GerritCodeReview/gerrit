@@ -221,10 +221,12 @@ maven_jar(
   sha1 = '675642ac208e0b741bc9118dcbcae44c271b992a',
 )
 
+load('//lib:guava.bzl', 'GUAVA_VERSION', 'GUAVA_BIN_SHA1')
+
 maven_jar(
   name = 'guava',
-  artifact = 'com.google.guava:guava:20.0-rc1',
-  sha1 = '4c2a4581b69b16a57968da32fcadb8e362b639b2',
+  artifact = 'com.google.guava:guava:' + GUAVA_VERSION,
+  sha1 = GUAVA_BIN_SHA1,
 )
 
 maven_jar(

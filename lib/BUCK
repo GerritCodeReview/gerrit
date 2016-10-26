@@ -70,7 +70,7 @@ maven_jar(
 maven_jar(
   name = 'guava',
   id = 'com.google.guava:guava:' + GUAVA_VERSION,
-  sha1 = '4c2a4581b69b16a57968da32fcadb8e362b639b2',
+  sha1 = GUAVA_BIN_SHA1,
   license = 'Apache2.0',
 )
 

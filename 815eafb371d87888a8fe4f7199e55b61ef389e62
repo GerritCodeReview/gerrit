@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a10fc8e1_b9e4bfcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-26T14:39:10Z",
+      "side": 1,
+      "message": "Do we need to check here too that e.getKey().project() is equal to \u0027All-Projects\u0027?",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 9
+      },
+      "revId": "815eafb371d87888a8fe4f7199e55b61ef389e62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

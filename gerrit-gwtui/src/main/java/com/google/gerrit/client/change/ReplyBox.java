@@ -304,6 +304,9 @@ public class ReplyBox extends Composite {
     for (String id : names) {
       JsArrayString p = permitted.get(id);
       if (p != null) {
+        if (!all.containsKey(id)) {
+          continue;
+        }
         Set<Short> a = new TreeSet<>();
         for (int i = 0; i < p.length(); i++) {
           a.add(LabelInfo.parseValue(p.get(i)));

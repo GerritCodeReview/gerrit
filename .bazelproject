@@ -1,0 +1,18 @@
+directories:
+  .
+  -eclipse-out
+  -contrib
+  -gerrit-package-plugins
+  -bucklets
+  -logs
+  -./.buckd
+  -./.metadata
+  -./.settings
+  -./.apt_generated
+
+targets:
+  //...:all
+
+java_language_level: 8
+
+workspace_type: java

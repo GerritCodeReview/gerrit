@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f2f818_7da5f787",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-26T05:19:34Z",
+      "side": 1,
+      "message": "ui can be None for headless.war, so that this condition should be:\n\n  if ui and ui !\u003d \u0027polygerrit\u0027:",
+      "range": {
+        "startLine": 132,
+        "startChar": 2,
+        "endLine": 132,
+        "endChar": 23
+      },
+      "revId": "da5999b039246df43e3a96fd83527188781bcf57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

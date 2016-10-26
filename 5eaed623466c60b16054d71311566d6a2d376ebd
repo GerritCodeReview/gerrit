@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a10fc8e1_59892306",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-26T11:12:45Z",
+      "side": 1,
+      "message": "you could include the .bzl directly over here.",
+      "range": {
+        "startLine": 2,
+        "startChar": 20,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "5eaed623466c60b16054d71311566d6a2d376ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -99,6 +99,8 @@ public class ProjectWatch {
       Account.Id accountId = a.getAccount().getId();
       for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :
           a.getProjectWatches().entrySet()) {
+        if (!e.getKey().project().equals(project))
+            continue;
         if (add(matching, accountId, e.getKey(), e.getValue(), type)) {
           // We only want to prevent matching All-Projects if this filter hits
           projectWatchers.add(accountId);

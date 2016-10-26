@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
@@ -37,44 +36,42 @@ import java.nio.file.Path;
 public class ServerInfoIT extends AbstractDaemonTest {
 
   @Test
-  @GerritConfigs({
-    // auth
-    @GerritConfig(name = "auth.type", value = "HTTP"),
-    @GerritConfig(name = "auth.contributorAgreements", value = "true"),
-    @GerritConfig(name = "auth.loginUrl", value = "https://example.com/login"),
-    @GerritConfig(name = "auth.loginText", value = "LOGIN"),
-    @GerritConfig(name = "auth.switchAccountUrl", value = "https://example.com/switch"),
+  // auth
+  @GerritConfig(name = "auth.type", value = "HTTP")
+  @GerritConfig(name = "auth.contributorAgreements", value = "true")
+  @GerritConfig(name = "auth.loginUrl", value = "https://example.com/login")
+  @GerritConfig(name = "auth.loginText", value = "LOGIN")
+  @GerritConfig(name = "auth.switchAccountUrl", value = "https://example.com/switch")
 
-    // auth fields ignored when auth == HTTP
-    @GerritConfig(name = "auth.registerUrl", value = "https://example.com/register"),
-    @GerritConfig(name = "auth.registerText", value = "REGISTER"),
-    @GerritConfig(name = "auth.editFullNameUrl", value = "https://example.com/editname"),
-    @GerritConfig(name = "auth.httpPasswordUrl", value = "https://example.com/password"),
+  // auth fields ignored when auth == HTTP
+  @GerritConfig(name = "auth.registerUrl", value = "https://example.com/register")
+  @GerritConfig(name = "auth.registerText", value = "REGISTER")
+  @GerritConfig(name = "auth.editFullNameUrl", value = "https://example.com/editname")
+  @GerritConfig(name = "auth.httpPasswordUrl", value = "https://example.com/password")
 
-    // change
-    @GerritConfig(name = "change.allowDrafts", value = "false"),
-    @GerritConfig(name = "change.largeChange", value = "300"),
-    @GerritConfig(name = "change.replyTooltip", value = "Publish votes and draft comments"),
-    @GerritConfig(name = "change.replyLabel", value = "Vote"),
-    @GerritConfig(name = "change.updateDelay", value = "50s"),
+  // change
+  @GerritConfig(name = "change.allowDrafts", value = "false")
+  @GerritConfig(name = "change.largeChange", value = "300")
+  @GerritConfig(name = "change.replyTooltip", value = "Publish votes and draft comments")
+  @GerritConfig(name = "change.replyLabel", value = "Vote")
+  @GerritConfig(name = "change.updateDelay", value = "50s")
 
-    // download
-    @GerritConfig(name = "download.archive", values = {"tar",
-        "tbz2", "tgz", "txz"}),
+  // download
+  @GerritConfig(name = "download.archive", values = {"tar",
+      "tbz2", "tgz", "txz"})
 
-    // gerrit
-    @GerritConfig(name = "gerrit.allProjects", value = "Root"),
-    @GerritConfig(name = "gerrit.allUsers", value = "Users"),
-    @GerritConfig(name = "gerrit.enableGwtUi", value = "true"),
-    @GerritConfig(name = "gerrit.reportBugText", value = "REPORT BUG"),
-    @GerritConfig(name = "gerrit.reportBugUrl", value = "https://example.com/report"),
+  // gerrit
+  @GerritConfig(name = "gerrit.allProjects", value = "Root")
+  @GerritConfig(name = "gerrit.allUsers", value = "Users")
+  @GerritConfig(name = "gerrit.enableGwtUi", value = "true")
+  @GerritConfig(name = "gerrit.reportBugText", value = "REPORT BUG")
+  @GerritConfig(name = "gerrit.reportBugUrl", value = "https://example.com/report")
 
-    // suggest
-    @GerritConfig(name = "suggest.from", value = "3"),
+  // suggest
+  @GerritConfig(name = "suggest.from", value = "3")
 
-    // user
-    @GerritConfig(name = "user.anonymousCoward", value = "Unnamed User"),
-  })
+  // user
+  @GerritConfig(name = "user.anonymousCoward", value = "Unnamed User")
   public void serverConfig() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
 

@@ -84,10 +84,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfigs(
-      {@GerritConfig(name = "suggest.from", value = "1"),
-       @GerritConfig(name = "accounts.visibility", value = "NONE")
-      })
+  @GerritConfig(name = "suggest.from", value = "1")
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
   public void suggestReviewersNoResult2() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
@@ -227,10 +225,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfigs({
-    @GerritConfig(name = "addreviewer.maxAllowed", value="2"),
-    @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value="1"),
-  })
+  @GerritConfig(name = "addreviewer.maxAllowed", value="2")
+  @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value="1")
   public void suggestReviewersGroupSizeConsiderations() throws Exception {
     AccountGroup largeGroup = group("large");
     AccountGroup mediumGroup = group("medium");

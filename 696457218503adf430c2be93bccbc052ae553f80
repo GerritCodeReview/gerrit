@@ -16,6 +16,24 @@
       "revId": "696457218503adf430c2be93bccbc052ae553f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21f2f818_1dadd368",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-26T05:42:32Z",
+      "side": 1,
+      "message": "Fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/90012",
+      "parentUuid": "21f2f818_fdc58729",
+      "revId": "696457218503adf430c2be93bccbc052ae553f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

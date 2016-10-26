@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4191accd_fe95611a",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-26T06:35:31Z",
+      "side": 1,
+      "message": "Is it possible to load multiple variables here?  if so we could also put the binary\u0027s sha1 in guava.bzl so it\u0027s reused by both builds.",
+      "revId": "7ad58d1e9f63e4d0cb507ed610548b448a4f2ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

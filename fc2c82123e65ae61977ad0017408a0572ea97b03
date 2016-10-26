@@ -22,6 +22,30 @@
       "revId": "fc2c82123e65ae61977ad0017408a0572ea97b03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1e11c42_e2ca0637",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4698,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-10-26T17:32:12Z",
+      "side": 1,
+      "message": "Sorry for the misunderstanding, I just want to clarify one thing before the update. Regarding the code ChangeJson#607:\n\n    if (detailed) {\n      setAllApprovals(ctl, cd, labels);\n    }\n\nthe entire ApprovalInfo is set only with DETAILED_LABELS request for open change. Similar logic is for closed change.\n\n\nSo, it seems ApprovalInfo may be present only for DETAILED_LABELS request. In case the ApprovalInfo is present some fields are populated.\n\n\nAlso, it\u0027s mentioned in the doc https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#_fields_set_by_code_detailed_labels_code\n\n\nWhat do you think?",
+      "parentUuid": "a10fc8e1_b9bb1fac",
+      "range": {
+        "startLine": 4696,
+        "startChar": 64,
+        "endLine": 4698,
+        "endChar": 48
+      },
+      "revId": "fc2c82123e65ae61977ad0017408a0572ea97b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

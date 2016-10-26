@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e1be2036_83721e57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-26T00:49:24Z",
+      "side": 1,
+      "message": "It would be better to have a more precise summary of what is being fixed.  I.e. something like: \"Prevent circular module dependency when running in container\".",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "32b62de7f9934f3889b8ea98c1a19cabe8865195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218cb849_4d9719d4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +36,29 @@
       "writtenOn": "2016-10-25T20:19:30Z",
       "side": 1,
       "message": "Nit: max line length in the commit message is 72 char. here and below. First letter in the statement should be uppercase.",
+      "revId": "32b62de7f9934f3889b8ea98c1a19cabe8865195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4191accd_3e7fc91c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-26T00:49:24Z",
+      "side": 1,
+      "message": "\"Commit 220a3f5 introduced\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 72
+      },
       "revId": "32b62de7f9934f3889b8ea98c1a19cabe8865195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

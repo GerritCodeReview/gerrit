@@ -54,7 +54,7 @@
   {/if}
 
   {if $coverLetter}
-    <pre style="font-size:12px">{$coverLetter}</pre>
+    <pre style="font-family:monospace,monospace">{$coverLetter}</pre>
   {/if}
 
   <ul style="{$ulStyle}">
@@ -89,14 +89,16 @@
                   </a>{sp}
                 {/if}
                 {if length($comment.lines) == 1}
-                  <code style="font-size:12px">{$comment.lines[0]}</code>
+                  <code style="font-family:monospace,monospace">
+                    {$comment.lines[0]}
+                  </code>
                 {/if}
               </p>
 
               {if length($comment.lines) > 1}
                 <p>
                   <blockquote style="{$blockquoteStyle}">
-                    <pre style="font-size:12px">
+                    <pre style="font-family:monospace,monospace">
                       {foreach $line in $comment.lines}
                         {$line}{\n}
                       {/foreach}

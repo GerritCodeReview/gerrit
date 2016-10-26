@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01fb34f7_dc188deb",
+        "filename": ".bazelproject",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-26T15:59:33Z",
+      "side": 1,
+      "message": "Just excluding this dependency isn\u0027t enough within my IntelliJ workspace. I also needed to exclude:\n-gerrit-plugin-gwt-archetype\n-gerrit-plugin-js-archetype\n-gerrit-plugin-archetype\nCould you please add them?",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 25
+      },
+      "revId": "b17d6a15768725affb5dd7d24258639919d5b0f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01fb34f7_fc13c9cd",
+        "filename": ".bazelproject",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-26T15:59:33Z",
+      "side": 1,
+      "message": "Some of them are only necessary because of Buck and the previous dependency on the Eclipse project. Could you please order them a bit so that those exclusions can easily be removed as soon as we fully migrate to Bazel and the IntelliJ plugin?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "b17d6a15768725affb5dd7d24258639919d5b0f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2123,7 +2123,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .get();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
-    assertThat(change.permittedLabels).isEmpty();
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
   }
 
   @Test
@@ -2138,8 +2138,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .get();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
-    assertThat(change.labels).isEmpty();
-    assertThat(change.permittedLabels).isEmpty();
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
   }
 
   @Test

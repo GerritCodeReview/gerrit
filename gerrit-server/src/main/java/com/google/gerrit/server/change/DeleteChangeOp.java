@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -39,10 +40,14 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 
 class DeleteChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
@@ -101,11 +106,18 @@ class DeleteChangeOp extends BatchUpdate.Op {
 
   private void ensureDeletable(ChangeContext ctx, Change.Id id,
       Collection<PatchSet> patchSets) throws ResourceConflictException,
-      MethodNotAllowedException, OrmException, AuthException {
+      MethodNotAllowedException, OrmException, AuthException, IOException {
     Change.Status status = ctx.getChange().getStatus();
     if (status == Change.Status.MERGED) {
       throw new MethodNotAllowedException("Deleting merged change " + id
           + " is not allowed");
+    }
+    for (PatchSet patchSet : patchSets) {
+      if (isPatchSetMerged(ctx, patchSet)) {
+        throw new ResourceConflictException(String.format(
+            "Cannot delete change %s: patch set %s is already merged",
+            id, patchSet.getPatchSetId()));
+      }
     }
 
     if (!ctx.getControl().canDelete(ctx.getDb(), status)) {
@@ -123,6 +135,23 @@ class DeleteChangeOp extends BatchUpdate.Op {
         }
       }
     }
+  }
+
+  private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet)
+      throws IOException {
+    Repository repository = ctx.getRepository();
+    RevWalk revWalk = ctx.getRevWalk();
+    ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
+    RevCommit revCommit = revWalk.parseCommit(objectId);
+    Branch.NameKey destinationNameKey = ctx.getChange().getDest();
+    Ref destinationRef = repository.exactRef(destinationNameKey.get());
+
+    if (destinationRef == null) {
+      return false;
+    }
+
+    return IncludedInResolver.includedInOne(repository, revWalk, revCommit,
+        Collections.singletonList(destinationRef));
   }
 
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id)

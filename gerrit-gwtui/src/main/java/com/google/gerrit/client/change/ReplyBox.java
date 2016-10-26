@@ -308,6 +308,9 @@ public class ReplyBox extends Composite {
         for (int i = 0; i < p.length(); i++) {
           a.add(LabelInfo.parseValue(p.get(i)));
         }
+        if (!all.containsKey(id)) {
+          continue;
+        }
         labels.add(new LabelAndValues(all.get(id), a));
         values.addAll(a);
       }

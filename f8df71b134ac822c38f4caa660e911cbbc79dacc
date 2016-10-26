@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "011414f7_34ab9060",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-26T11:26:11Z",
+      "side": 1,
+      "message": "Teure still an issue with eclipse-out directory. To repro:\n\n* 1. tools/eclipy/project.py\n* 2. Open Gerrit in Eclipse\n* 3. Build gerrit project\n* 4. Try bagel test //...\n\nResult: it\u0027s failing as it is trying to read stuff from eclipse-out. The only workaround for now is rm -rf eclipse-out.\n\nIt\u0027s solved in Buck in .buckconfig, by excluding scanning eclipse-out directory. Unfortunately such setting seems to be missing in Bazel.",
+      "revId": "f8df71b134ac822c38f4caa660e911cbbc79dacc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

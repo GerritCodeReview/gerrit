@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c1e11c42_42abf25e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-26T00:01:11Z",
+      "side": 1,
+      "message": "Oh, I see - it\u0027s probably simpler to keep it if _handleScroll being called multiple times isn\u0027t a regression.",
+      "parentUuid": "e152a0c5_03a52e88",
+      "revId": "fe5bc04630f12f56a8b1d1936624b4e38c454012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e152a0c5_83903e2c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
         "patchSetId": 3

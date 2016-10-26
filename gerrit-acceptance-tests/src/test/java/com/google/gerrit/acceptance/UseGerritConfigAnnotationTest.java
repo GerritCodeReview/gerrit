@@ -35,10 +35,8 @@ public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfigs({
-      @GerritConfig(name = "x.y", value = "z"),
-      @GerritConfig(name = "a.b", value = "c")
-  })
+  @GerritConfig(name = "x.y", value = "z")
+  @GerritConfig(name = "a.b", value = "c")
   public void testMultiple() {
     assertThat(serverConfig.getString("x", null, "y")).isEqualTo("z");
     assertThat(serverConfig.getString("a", null, "b")).isEqualTo("c");

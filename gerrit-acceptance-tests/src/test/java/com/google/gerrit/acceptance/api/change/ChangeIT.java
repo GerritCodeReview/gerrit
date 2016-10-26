@@ -36,7 +36,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -1699,10 +1698,8 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfigs({
-    @GerritConfig(name = "gerrit.editGpgKeys", value = "true"),
-    @GerritConfig(name = "receive.enableSignedPush", value = "true"),
-  })
+  @GerritConfig(name = "gerrit.editGpgKeys", value = "true")
+  @GerritConfig(name = "receive.enableSignedPush", value = "true")
   public void pushCertificates() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = amendChange(r1.getChangeId());

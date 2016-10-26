@@ -17,11 +17,13 @@ package com.google.gerrit.acceptance;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 @Target({METHOD})
 @Retention(RUNTIME)
+@Repeatable(GerritConfigs.class)
 public @interface GerritConfig {
   String name();
   String value() default "";

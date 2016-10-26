@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f2f818_fd610752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-26T20:09:31Z",
+      "side": 1,
+      "message": "Strange, why I\u0027m not seeing the error prone warning when building with Bazel? Here is the log: [1].\n\n* [1] http://paste.openstack.org/show/587145",
+      "revId": "7f40029a0b2328dfb212594e31a1fed264c1dcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

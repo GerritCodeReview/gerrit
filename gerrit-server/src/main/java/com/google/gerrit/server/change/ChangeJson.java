@@ -504,7 +504,9 @@ public class ChangeJson {
       // list permitted labels, since users can't vote on those patch sets.
       if (!limitToPsId.isPresent()
           || limitToPsId.get().equals(in.currentPatchSetId())) {
-        out.permittedLabels = permittedLabels(ctl, cd);
+        out.permittedLabels = cd.change().getStatus().isOpen()
+            ? permittedLabels(ctl, cd)
+            : ImmutableMap.of();
       }
       out.removableReviewers = removableReviewers(ctl, out.labels.values());
 

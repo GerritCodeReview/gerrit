@@ -64,6 +64,7 @@ junit_tests(
     ':client',
     '//lib:guava',
     '//lib:junit',
+    '//lib:truth',
   ],
 )
 

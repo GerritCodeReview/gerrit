@@ -129,7 +129,7 @@ def pkg_war(name, ui = 'ui_optdbg', context = [], **kwargs):
   ui_deps = []
   if ui == 'polygerrit' or ui == 'ui_optdbg' or ui == 'ui_optdbg_r':
     ui_deps.append('//polygerrit-ui/app:polygerrit_ui')
-  if ui != 'polygerrit':
+  if ui and ui != 'polygerrit':
     ui_deps.append('//gerrit-gwtui:%s' % ui)
 
   _pkg_war(

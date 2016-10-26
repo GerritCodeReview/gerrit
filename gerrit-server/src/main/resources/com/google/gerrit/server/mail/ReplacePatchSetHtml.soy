@@ -36,12 +36,12 @@
     </p>
   {/if}
 
-  <pre style="font-size:12px">
+  <pre style="font-family:monospace,monospace">
     {$email.changeDetail}
   </pre>
 
   {if $email.sshHost}
-    <pre style="font-size:12px">
+    <pre style="font-family:monospace,monospace">
       git pull ssh:{print '//'}{$email.sshHost}/{$projectName}{sp}
           {$patchSet.refName}
     </pre>

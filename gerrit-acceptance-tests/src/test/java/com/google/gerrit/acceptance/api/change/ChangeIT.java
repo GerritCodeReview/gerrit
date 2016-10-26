@@ -2106,6 +2106,57 @@ public class ChangeIT extends AbstractDaemonTest {
             .get(0).commit).isNotEqualTo(currentMaster.getCommit().getName());
   }
 
+  @Test
+  public void checkLabelsForMergedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+
+    ChangeInfo change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+  }
+
+  @Test
+  public void checkLabelsForAutoClosedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit.Result result = push.to("refs/heads/master");
+    result.assertOkStatus();
+
+    ChangeInfo change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+  }
+
+  @Test
+  public void checkLabelsForAbandonedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .abandon();
+
+    ChangeInfo change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(change.labels).isEmpty();
+    assertThat(change.permittedLabels).isEmpty();
+  }
+
   private static Iterable<Account.Id> getReviewers(
       Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> new Account.Id(a._accountId));

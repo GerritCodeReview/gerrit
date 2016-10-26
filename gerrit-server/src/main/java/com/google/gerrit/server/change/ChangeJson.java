@@ -504,7 +504,10 @@ public class ChangeJson {
       // list permitted labels, since users can't vote on those patch sets.
       if (!limitToPsId.isPresent()
           || limitToPsId.get().equals(in.currentPatchSetId())) {
-        out.permittedLabels = permittedLabels(ctl, cd);
+        out.permittedLabels =
+            cd.change().getStatus() != Change.Status.ABANDONED
+                ? permittedLabels(ctl, cd)
+                : ImmutableMap.of();
       }
       out.removableReviewers = removableReviewers(ctl, out.labels.values());
 
@@ -783,16 +786,29 @@ public class ChangeJson {
       }
     }
 
-    // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
-    Map<String, LabelWithStatus> labels =
-        new TreeMap<>(labelTypes.nameComparator());
-    for (String name : labelNames) {
-      LabelType type = labelTypes.byLabel(name);
-      LabelWithStatus l = LabelWithStatus.create(new LabelInfo(), null);
-      if (detailed) {
-        setLabelValues(type, l);
+    Map<String, LabelWithStatus> labels;
+    if (cd.change().getStatus() == Change.Status.ABANDONED) {
+      // For abandoned changes return only labels for which an approval exists.
+      // Other labels are not needed since voting on abandoned changes is not
+      // allowed.
+      labels = new TreeMap<>(labelTypes.nameComparator());
+      for (String name : labelNames) {
+        labels.put(labelTypes.byLabel(name).getName(),
+            LabelWithStatus.create(new LabelInfo(), null));
       }
-      labels.put(type.getName(), l);
+    } else {
+      // Since voting on merged changes is allowed all labels which apply to
+      // the change must be returned. All applying labels can be retrieved from
+      // the submit records, which is what initLabels does.
+      // It's not possible to compute the labels based on the approvals since
+      // merged changes may not have approvals for all labels (e.g. if not all
+      // labels are required for submit or if the change was auto-closed due to
+      // direct push or if new labels were defined after the change was merged).
+      labels = initLabels(cd, labelTypes, standard);
+    }
+    if (detailed) {
+      labels.entrySet().stream().forEach(
+          e -> setLabelValues(labelTypes.byLabel(e.getKey()), e.getValue()));
     }
 
     for (Account.Id accountId : allUsers) {

@@ -576,5 +576,24 @@ limitations under the License.
       var shortenedPath = element._shortenPath(path);
       assert.equal(shortenedPath, expectedPath);
     });
+
+    test('_onLineSelected', function() {
+      var replaceStateStub = sinon.stub(history, 'replaceState');
+      var moveStub = sinon.stub(element.$.cursor, 'moveToLineNumber');
+
+      var e = {};
+      var detail = {number: 123, side: 'right'};
+
+      element._onLineSelected(e, detail);
+
+      assert.isTrue(moveStub.called);
+      assert.equal(moveStub.lastCall.args[0], detail.number);
+      assert.equal(moveStub.lastCall.args[1], detail.side);
+
+      assert.isTrue(replaceStateStub.called);
+
+      replaceStateStub.restore();
+      moveStub.restore();
+    });
   });
 </script>

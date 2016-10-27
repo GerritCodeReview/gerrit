@@ -22,6 +22,30 @@
       "revId": "8e71a190ea3b2ff1ca7587c4c692248a95417f60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_2d778d46",
+        "filename": "gerrit-acceptance-framework/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T19:25:06Z",
+      "side": 1,
+      "message": "Actually, I managed to fix it in both Buck and Bazel builds in the ps 2.",
+      "parentUuid": "26fa0e32_dd00cb68",
+      "range": {
+        "startLine": 52,
+        "startChar": 18,
+        "endLine": 52,
+        "endChar": 22
+      },
+      "revId": "8e71a190ea3b2ff1ca7587c4c692248a95417f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

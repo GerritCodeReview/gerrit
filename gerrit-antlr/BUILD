@@ -18,7 +18,7 @@ genrule2(
     '@bazel_tools//tools/zip:zipper',
     '//lib/antlr:antlr-tool',
   ],
-  out = 'query_antlr.srcjar',
+  outs = [ 'query_antlr.srcjar' ],
 )
 
 java_library(

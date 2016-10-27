@@ -24,6 +24,7 @@
  * @param messageClass
  * @param patchSet
  * @param projectName
+ * @param reviewerEmails
  */
 {template .ChangeFooterHtml autoescape="strict" kind="html"}
   {let $footerStyle kind="css"}
@@ -49,6 +50,9 @@
     Gerrit-Project: {$projectName}<br/>
     Gerrit-Branch: {$branch.shortName}<br/>
     Gerrit-Owner: {$change.ownerEmail}
+    {foreach $reviewer in $reviewerEmails}
+      Gerrit-Reviewer: {$reviewer}</br>
+    {/foreach}
   </p>
 
   {if $email.changeUrl}

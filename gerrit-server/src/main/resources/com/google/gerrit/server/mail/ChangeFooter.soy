@@ -26,6 +26,7 @@
  * @param messageClass
  * @param patchSet
  * @param projectName
+ * @param reviewerEmails
  */
 {template .ChangeFooter autoescape="strict" kind="text"}
   --{sp}
@@ -49,4 +50,7 @@
   Gerrit-Project: {$projectName}{\n}
   Gerrit-Branch: {$branch.shortName}{\n}
   Gerrit-Owner: {$change.ownerEmail}{\n}
+  {foreach $reviewer in $reviewerEmails}
+    Gerrit-Reviewer: {$reviewer}{\n}
+  {/foreach}
 {/template}

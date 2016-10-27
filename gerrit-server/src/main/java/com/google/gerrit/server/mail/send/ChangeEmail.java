@@ -53,14 +53,15 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends NotificationEmail {
@@ -125,17 +126,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     appendText(textTemplate("ChangeFooter"));
     if (useHtml()) {
       appendHtml(soyHtmlTemplate("ChangeFooterHtml"));
-    }
-    try {
-      TreeSet<String> names = new TreeSet<>();
-      for (Account.Id who : changeData.reviewers().all()) {
-        names.add(getNameEmailFor(who));
-      }
-      for (String name : names) {
-        appendText("Gerrit-Reviewer: " + name + "\n");
-      }
-    } catch (OrmException e) {
-      log.warn("Cannot get change reviewers", e);
     }
     formatFooter();
   }
@@ -474,7 +464,21 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetData.put("refName", patchSet.getRefName());
     soyContext.put("patchSet", patchSetData);
 
+    soyContext.put("reviewerEmails", getReviewerEmails());
+
     // TODO(wyatta): patchSetInfo
+  }
+
+  private List<String> getReviewerEmails() {
+    List<String> reviewers = new ArrayList<>();
+    try {
+      for (Account.Id who : changeData.reviewers().all()) {
+        reviewers.add(getNameEmailFor(who));
+      }
+    } catch (OrmException e) {
+      log.warn("Cannot get change reviewers", e);
+    }
+    return reviewers;
   }
 
   public boolean getIncludeDiff() {

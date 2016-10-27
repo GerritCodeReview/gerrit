@@ -34,6 +34,24 @@
       "revId": "8bb09344ab35b2b5c527c982f7c81fb44b8c4f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01fb34f7_9c78c5e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-10-27T10:47:35Z",
+      "side": 1,
+      "message": "sorry for caring about quality, that doesn\u0027t seem to be valued that highly in polygerrit. ;)",
+      "parentUuid": "dc60231e_f3725001",
+      "revId": "8bb09344ab35b2b5c527c982f7c81fb44b8c4f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

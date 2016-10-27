@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
 import com.google.gerrit.extensions.client.ListAccountsOption;
@@ -281,10 +282,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user3 = newAccountWithEmail("user3", "user3@" + domain);
 
     List<AccountInfo> result = assertQuery(domain, user1, user2, user3);
-    assertThat(result.get(result.size() - 1)._moreAccounts).isNull();
+    assertThat(Iterables.getLast(result)._moreAccounts).isNull();
 
     result = assertQuery(newQuery(domain).withLimit(2), user1, user2);
-    assertThat(result.get(result.size() - 1)._moreAccounts).isTrue();
+    assertThat(Iterables.getLast(result)._moreAccounts).isTrue();
   }
 
   @Test

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1e11c42_c2f26281",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-27T03:58:41Z",
+      "side": 1,
+      "message": "Since we never use pushState now, I\u0027d remove tests for it.",
+      "revId": "791d35bbc7f17d83cdd57efd3449a1d1c7a21cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

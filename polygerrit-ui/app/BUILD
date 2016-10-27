@@ -43,7 +43,7 @@ filegroup(
 genrule(
   name = "polygerrit_ui",
   cmd = " && ".join([
-    "t=$$(mktemp  -d)",
+    "t=$$(mktemp -d -t 'bazel-tmp')",
     "p=$$PWD",
     "mkdir -p $$t/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
     "cp $(locations :gr-app) $$t/polygerrit_ui/elements/",

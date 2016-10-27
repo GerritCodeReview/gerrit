@@ -87,7 +87,7 @@ def _bower_archive(ctx):
     fail("failed %s: %s" % (" ".join(cmd), out.stderr))
 
   _bash(ctx, " && " .join([
-    "TMP=$(mktemp -d )",
+    "TMP=$(mktemp -d -t 'bazel-tmp')",
     "cd $TMP",
     "mkdir bower_components",
     "cd bower_components",

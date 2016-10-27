@@ -18,10 +18,10 @@
 #   accept single output
 
 def genrule2(out, cmd, **kwargs):
-  cmd = ' && '.join([
-    'ROOT=$$PWD',
-    'TMP=$$(mktemp -d)',
-    '(' + cmd + ')',
+  cmd = " && ".join([
+    "ROOT=$$PWD",
+    "TMP=$$(mktemp -d -t 'bazel-tmp')",
+    "(" + cmd + ")",
   ])
   native.genrule(
     cmd = cmd,

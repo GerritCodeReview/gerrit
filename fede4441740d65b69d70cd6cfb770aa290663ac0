@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e152a0c5_232ceaf1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpServletResponseRecorder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-10-27T15:41:17Z",
+      "side": 1,
+      "message": "The servlet API 2.5 doesn\u0027t have a getStatus method \u003chttp://docs.oracle.com/cd/E17802_01/products/products/servlet/2.5/docs/servlet-2_5-mr2/javax/servlet/http/HttpServletResponse.html\u003e, so this @Override produces compilation errors. I\u0027ll try building to see whether there are other errors.",
+      "revId": "fede4441740d65b69d70cd6cfb770aa290663ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

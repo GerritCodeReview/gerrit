@@ -16,6 +16,24 @@
       "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "660de62b_17e5f4c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T22:53:43Z",
+      "side": 1,
+      "message": "As I understand it, these headers are for email rules, so I suspect it makes sense iff there\u0027s a use-case where an email rule needs to discriminate CC from REVIEWER.\n\nIn this regard, maybe it will just make the most sense to filter it to REVIEWER only and leave CCs out of the footer.\n\nAt least keeping them together like it is currently will preserve existing behavior.\n\nIn summary, I have no strong feelings one way or another.",
+      "parentUuid": "660de62b_57eb6c9c",
+      "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

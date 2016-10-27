@@ -18,7 +18,7 @@ vulcanize(
     'test/**',
     '**/*_test.html',
     ]),
-  deps = [ "//polygerrit-ui:polygerrit_components"],
+  deps = [ "//polygerrit-ui:polygerrit_components.bower_components"],
 )
 
 filegroup(
@@ -65,7 +65,7 @@ bower_component_bundle(
   name = 'test_components',
   testonly = 1,
   deps = [
-    '//polygerrit-ui:polygerrit_components',
+    '//polygerrit-ui:polygerrit_components.bower_components',
     '//lib/js:iron-test-helpers',
     '//lib/js:test-fixture',
     '//lib/js:web-component-tester',

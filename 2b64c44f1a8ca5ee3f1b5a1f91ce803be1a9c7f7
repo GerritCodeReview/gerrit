@@ -22,6 +22,30 @@
       "revId": "2b64c44f1a8ca5ee3f1b5a1f91ce803be1a9c7f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "666966e4_77721057",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-27T21:20:37Z",
+      "side": 1,
+      "message": "Doh.  Fixed in https://gerrit-review.googlesource.com/90190",
+      "parentUuid": "e152a0c5_e37812e9",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 29
+      },
+      "revId": "2b64c44f1a8ca5ee3f1b5a1f91ce803be1a9c7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

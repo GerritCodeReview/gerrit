@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.launcher.GerritLauncher;
 
 import java.io.IOException;
@@ -27,10 +28,10 @@ class FontsServlet extends ResourceServlet {
   private final Path zip;
   private final Path fonts;
 
-  FontsServlet(Cache<Path, Resource> cache, Path buckOut)
+  FontsServlet(Cache<Path, Resource> cache, @Nullable BuildSystem builder)
       throws IOException {
     super(cache, true);
-    zip = getZipPath(buckOut);
+    zip = getZipPath(builder);
     if (zip == null || !Files.exists(zip)) {
       fonts = null;
     } else {
@@ -49,13 +50,10 @@ class FontsServlet extends ResourceServlet {
     return fonts.resolve(pathInfo);
   }
 
-  private static Path getZipPath(Path buckOut) {
-    if (buckOut == null) {
+  private static Path getZipPath(@Nullable BuildSystem builder) {
+    if (builder == null) {
       return null;
     }
-    return buckOut.resolve("gen")
-        .resolve("polygerrit-ui")
-        .resolve("fonts")
-        .resolve("fonts.zip");
+    return builder.targetPath(builder.fontZipLabel());
   }
 }

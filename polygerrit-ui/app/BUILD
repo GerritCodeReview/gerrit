@@ -6,7 +6,7 @@ load("//tools/bzl:js.bzl", "bower_component_bundle", "vulcanize")
 bower_component_bundle(
   name = 'test_components',
   deps = [
-    '//polygerrit-ui:polygerrit_components',
+    '//polygerrit-ui:polygerrit_components.bower_components',
     '//lib/js:iron-test-helpers',
     '//lib/js:test-fixture',
     '//lib/js:web-component-tester',
@@ -24,7 +24,7 @@ vulcanize(
     'test/**',
     '**/*_test.html',
     ]),
-  deps = [ "//polygerrit-ui:polygerrit_components"],
+  deps = [ "//polygerrit-ui:polygerrit_components.bower_components"],
 )
 
 filegroup(

@@ -24,7 +24,7 @@ genrule2(
     'OpenSans-Regular.woff',
     'OpenSans-Regular.woff2'
   ],
-  out = 'opensans.zip',
+  outs = [ 'opensans.zip' ],
 # TODO(hanwen): license.
 #  license = 'Apache2.0',
   visibility = ['//visibility:public'],

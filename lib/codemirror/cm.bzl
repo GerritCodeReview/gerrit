@@ -347,7 +347,7 @@ def pkg_cm():
       ] + [
         ':theme_%s%s' % (n, suffix) for n in CM_THEMES
       ],
-      out = 'codemirror%s.jar' % suffix,
+      outs = [ 'codemirror%s.jar' % suffix ],
     )
 
     native.java_import(

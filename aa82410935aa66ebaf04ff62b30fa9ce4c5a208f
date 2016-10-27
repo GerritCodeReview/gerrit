@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e618f670_d3a43491",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T20:30:14Z",
+      "side": 1,
+      "message": "Looks like GR-HEADER hasn\u0027t been added to the commit.",
+      "revId": "aa82410935aa66ebaf04ff62b30fa9ce4c5a208f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,7 +33,7 @@ genrule2(
     'zip -Dq $$ROOT/$@ org/eclipse/jgit/diff/Edit.java',
   ]),
   tools = ['@jgit_src//file'],
-  out = 'edit.srcjar',
+  outs = [ 'edit.srcjar' ],
 )
 
 java_library(

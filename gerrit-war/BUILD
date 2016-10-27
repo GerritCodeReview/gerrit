@@ -35,7 +35,7 @@ genrule2(
   name = 'webapp_assets',
   cmd = 'cd gerrit-war/src/main/webapp; zip -qr $$ROOT/$@ .',
   srcs = glob(['src/main/webapp/**/*']),
-  out = 'webapp_assets.zip',
+  outs = [ 'webapp_assets.zip' ],
   visibility = ['//visibility:public'],
 )
 
@@ -49,7 +49,7 @@ genrule2(
   name = 'log4j-config__jar',
   cmd = 'cd gerrit-war/src/main/resources && zip -9Dqr $$ROOT/$@ .',
   srcs = ['src/main/resources/log4j.properties'],
-  out = 'log4j-config.jar',
+  outs = [ 'log4j-config.jar' ],
 )
 
 java_import(
@@ -67,5 +67,5 @@ genrule2(
     'zip -9Dqr $$ROOT/$@ .',
   ]),
   tools = ['//:version.txt'],
-  out = 'gen_version.jar',
+  outs = [ 'gen_version.jar' ],
 )

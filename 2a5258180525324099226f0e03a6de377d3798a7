@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "01fb34f7_5c0bdd3f",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-27T14:55:14Z",
+      "side": 1,
+      "message": "not necessary. this only has html and js.",
+      "parentUuid": "26fa0e32_5daa7b29",
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26fa0e32_3dafaf39",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 4
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "01fb34f7_bcf82111",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-27T14:55:14Z",
+      "side": 1,
+      "message": "(we should really, really use https://github.com/bazelbuild/buildifier)",
+      "parentUuid": "26fa0e32_3dafaf39",
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26fa0e32_1db4f385",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 4
@@ -59,6 +95,24 @@
         "endLine": 92,
         "endChar": 30
       },
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_5d46fb98",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-27T14:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26fa0e32_1db4f385",
       "revId": "2a5258180525324099226f0e03a6de377d3798a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

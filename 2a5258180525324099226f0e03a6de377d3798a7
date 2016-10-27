@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26fa0e32_5daa7b29",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T12:07:59Z",
+      "side": 1,
+      "message": "Exclude new *.sh files here and in BUCK build?",
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_3dafaf39",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T12:07:59Z",
+      "side": 1,
+      "message": "Nit: Inconsistent formatting, close parenthesis should be on the new line.",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 5
+      },
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_1db4f385",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T12:07:59Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 92,
+        "startChar": 29,
+        "endLine": 92,
+        "endChar": 30
+      },
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

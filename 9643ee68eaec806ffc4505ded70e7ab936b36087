@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "660de62b_57eb6c9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-10-27T22:39:35Z",
+      "side": 1,
+      "message": "This mixes together CCs with reviewers (compare to ReviewerSet#byState). Would it make sense to have a second list for CCs, and use a Gerrit-CC footer?",
+      "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

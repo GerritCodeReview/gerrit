@@ -26,7 +26,7 @@ def prolog_cafe_library(
       '$(SRCS)',
     srcs = srcs,
     tools = ['//lib/prolog:compiler_bin'],
-    out = name + '.srcjar',
+    outs = [ name + '.srcjar' ],
   )
   native.java_library(
     name = name,

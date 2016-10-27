@@ -2,6 +2,7 @@ package(
   default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:js.bzl", "bower_component_bundle", "vulcanize")
+load('//tools/bzl:genrule2.bzl', 'genrule2')
 
 bower_component_bundle(
   name = 'test_components',
@@ -40,21 +41,19 @@ filegroup(
   srcs = glob(['styles/**/*.css'])
 )
 
-genrule(
+genrule2(
   name = "polygerrit_ui",
   cmd = " && ".join([
-    "t=$$(mktemp -d || mktemp -d -t bazel-tmp)",
-    "p=$$PWD",
-    "mkdir -p $$t/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
-    "cp $(locations :gr-app) $$t/polygerrit_ui/elements/",
-    "cp $(locations //lib/fonts:sourcecodepro) $$t/polygerrit_ui/fonts/",
-    "for f in $(locations :top_sources); do cp $$f $$t/polygerrit_ui/; done",
-    "for f in $(locations :css_sources); do cp $$f $$t/polygerrit_ui/styles; done",
-    "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$t/polygerrit_ui/bower_components/highlightjs/ ; done",
-    "unzip -qd $$t/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
-    "cd $$t",
+    "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
+    "cp $(locations :gr-app) $$TMP/polygerrit_ui/elements/",
+    "cp $(locations //lib/fonts:sourcecodepro) $$TMP/polygerrit_ui/fonts/",
+    "for f in $(locations :top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
+    "for f in $(locations :css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
+    "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
+    "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
+    "cd $$TMP",
     "find . -exec touch -t 198001010000 '{}' ';'",
-    "zip -qr $$p/$@ *",
+    "zip -qr $$ROOT/$@ *",
   ]),
   srcs = [
     "//lib/fonts:sourcecodepro",

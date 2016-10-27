@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26fa0e32_dd51eb49",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Nit: empty line between methods.",
+      "revId": "2cc17935547a03e69fc69a8034ba6297d3da037c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

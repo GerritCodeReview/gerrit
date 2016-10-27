@@ -52,6 +52,24 @@
       "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e618f670_73e680d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-10-27T23:19:15Z",
+      "side": 1,
+      "message": "FWIW, my filters for Monorail bugs do discriminate based on whether I\u0027m the issue reporter, owner, or CC\u0027d, and I would love it if my review filters could do the same. I\u0027d like to look at reviews I\u0027m CC\u0027d on once per day, but have things I\u0027m the reviewer on pop to the top of my inbox immediately.",
+      "parentUuid": "660de62b_17e5f4c4",
+      "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

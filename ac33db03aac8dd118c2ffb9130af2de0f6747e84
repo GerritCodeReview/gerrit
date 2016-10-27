@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01fb34f7_5cfe3d46",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T06:00:44Z",
+      "side": 1,
+      "message": "Doesn\u0027t work here:\n\n  $ uname -a\n  Linux wizball #1 SMP PREEMPT Wed Aug 24 06:20:09 UTC 2016 (de9ddf8) x86_64 x86_64 x86_64 GNU/Linux\n\nWith this error:\n\n  $ $ mktemp -d -t bazel-tmp\n  mktemp: too few X\u0027s in template ‘bazel-tmp’\n\nand this build failure: [1].\n\nLookin into mktrmp --help rveals, that:\n\n  TEMPLATE must contain at least 3 consecutive \u0027X\u0027s in last component.\n\nand\n\n  -t     interpret  TEMPLATE  as  a single file name component, relative to a directory: $TMPDIR, if set; else the directory specified via -p; else\n              /tmp [deprecated]\n\nSo this works:\n\n  $ $ mktemp -d -t \u0027bazel-tmp.XXX\u0027\n  /tmp/bazel-tmp.b5a\n\nAlso given, tha this option is deprecated, we may want to mention in this commit message, that this workaround should be removed, on once we don\u0027t support it Mac Os X version prior to El Capitan.\n\n* [1] http://paste.openstack.org/show/587153",
+      "revId": "ac33db03aac8dd118c2ffb9130af2de0f6747e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

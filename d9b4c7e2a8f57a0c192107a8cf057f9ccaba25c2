@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "462b827e_8e879bf5",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T21:03:56Z",
+      "side": 1,
+      "message": "Exclude bower_components here, like in vulcanize on line 11.\n\n  exclude \u003d [\u0027bower_components/**\u0027]),",
+      "revId": "d9b4c7e2a8f57a0c192107a8cf057f9ccaba25c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_6e946f1e",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T21:03:56Z",
+      "side": 1,
+      "message": "Doesn\u0027t work for me with --subcommands option: [1]. Buck wct tests work and browser windows appears.\n\n* [1] http://paste.openstack.org/show/587216",
+      "revId": "d9b4c7e2a8f57a0c192107a8cf057f9ccaba25c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_ed8065e1",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T21:03:56Z",
+      "side": 1,
+      "message": "Remove debug output",
+      "range": {
+        "startLine": 3,
+        "startChar": 6,
+        "endLine": 3,
+        "endChar": 7
+      },
+      "revId": "d9b4c7e2a8f57a0c192107a8cf057f9ccaba25c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_ce7da323",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T21:03:56Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "d9b4c7e2a8f57a0c192107a8cf057f9ccaba25c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_ae8a57fd",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T21:03:56Z",
+      "side": 1,
+      "message": "Doesn\u0027t work here, as test_components.zip and pg_code.zip contains same stuff: [1]. That\u0027s because i had polygerrit-ui/app/bower_component directory tree.\n\n* [1] http://paste.openstack.org/show/587214",
+      "revId": "d9b4c7e2a8f57a0c192107a8cf057f9ccaba25c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

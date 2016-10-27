@@ -16,6 +16,24 @@
       "revId": "7f40029a0b2328dfb212594e31a1fed264c1dcce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1be2036_23b08ac4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-27T00:41:38Z",
+      "side": 1,
+      "message": "Wild guess: Google is using a later version internally than the version used in Bazel?\n\nFWIW this problem was also flagged by Findbugs.",
+      "parentUuid": "21f2f818_fd610752",
+      "revId": "7f40029a0b2328dfb212594e31a1fed264c1dcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

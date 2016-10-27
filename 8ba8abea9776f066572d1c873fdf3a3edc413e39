@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "01fb34f7_5c6f5d17",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T11:56:14Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "26fa0e32_5d471bbc",
+      "revId": "8ba8abea9776f066572d1c873fdf3a3edc413e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26fa0e32_3dc9ef46",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "this holds for all commands that use //... , actually.",
       "parentUuid": "26fa0e32_3dc9ef46",
+      "revId": "8ba8abea9776f066572d1c873fdf3a3edc413e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_bd2f3feb",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T11:56:14Z",
+      "side": 1,
+      "message": "True, add this warning on another place in this file? Or add new Troubleshooting section, in which case it could be done in another change?",
+      "parentUuid": "26fa0e32_1dce334f",
       "revId": "8ba8abea9776f066572d1c873fdf3a3edc413e39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

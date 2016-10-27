@@ -2,26 +2,6 @@ load('//tools/bzl:java.bzl', 'java_library2')
 
 SRCS = glob(['src/test/java/com/google/gerrit/acceptance/*.java'])
 
-DEPS = [
-  '//gerrit-antlr:query_exception',
-  '//gerrit-gpg:gpg',
-  '//gerrit-launcher:launcher',
-  '//gerrit-openid:openid',
-  '//gerrit-pgm:daemon',
-  '//gerrit-pgm:http-jetty',
-  '//gerrit-pgm:util-nodep',
-  '//gerrit-server/src/main/prolog:common',
-  '//gerrit-server:testutil',
-  '//lib/auto:auto-value',
-  '//lib/httpcomponents:fluent-hc',
-  '//lib/httpcomponents:httpclient',
-  '//lib/httpcomponents:httpcore',
-  '//lib/jetty:servlet',
-  '//lib/jgit/org.eclipse.jgit.junit:junit',
-  '//lib/log:impl_log4j',
-  '//lib/log:log4j',
-]
-
 PROVIDED = [
   '//gerrit-common:annotations',
   '//gerrit-common:server',
@@ -48,7 +28,24 @@ java_binary(
 java_library2(
   name = 'lib',
   srcs = SRCS,
-  exported_deps = DEPS + [
+  exported_deps = [
+    '//gerrit-antlr:query_exception',
+    '//gerrit-gpg:gpg',
+    '//gerrit-launcher:launcher',
+    '//gerrit-openid:openid',
+    '//gerrit-pgm:daemon',
+    '//gerrit-pgm:http-jetty',
+    '//gerrit-pgm:util-nodep',
+    '//gerrit-server/src/main/prolog:common',
+    '//gerrit-server:testutil',
+    '//lib/auto:auto-value',
+    '//lib/httpcomponents:fluent-hc',
+    '//lib/httpcomponents:httpclient',
+    '//lib/httpcomponents:httpcore',
+    '//lib/jetty:servlet',
+    '//lib/jgit/org.eclipse.jgit.junit:junit',
+    '//lib/log:impl_log4j',
+    '//lib/log:log4j',
     '//lib:truth',
   ],
   deps = PROVIDED + [ # We want these deps to be exported_deps

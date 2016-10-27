@@ -1,5 +1,4 @@
 package(default_visibility = [ "//visibility:public" ])
-load('//tools/bzl:genrule2.bzl', 'genrule2')
 load("//tools/bzl:js.bzl", "bower_component", "js_component")
 
 # For updating the bower versions, run

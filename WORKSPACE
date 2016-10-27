@@ -62,18 +62,18 @@ maven_jar(
   sha1 = '5d9e2e895e3111622720157d0aa540066d5fce3a',
 )
 
-GWT_VERS = '2.8.0-rc2'
+GWT_VERS = '2.8.0'
 
 maven_jar(
   name = 'user',
   artifact = 'com.google.gwt:gwt-user:' + GWT_VERS,
-  sha1 = 'ad99b09a626c20cce2bdacf3726a51b2cd16b99e',
+  sha1 = '518579870499e15531f454f35dca0772d7fa31f7',
 )
 
 maven_jar(
   name = 'dev',
   artifact = 'com.google.gwt:gwt-dev:' + GWT_VERS,
-  sha1 = 'd70a6feb4661c07488090cb81303415e9110b15a',
+  sha1 = 'f160a61272c5ebe805cd2d3d3256ed3ecf14893f',
 )
 
 maven_jar(

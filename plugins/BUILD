@@ -17,6 +17,6 @@ genrule2(
     'ln -s $$ROOT/$$s $$TMP/WEB-INF/plugins;done;' +
     'cd $$TMP;' +
     'zip -qr $$ROOT/$@ .',
-  out = 'core.zip',
+  outs = [ 'core.zip' ],
   visibility = ['//visibility:public'],
 )

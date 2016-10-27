@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -31,9 +33,11 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class HttpServletResponseRecorder extends HttpServletResponseWrapper {
   private static final Logger log = LoggerFactory
       .getLogger(HttpServletResponseWrapper.class);
+  private static final String LOCATION_HEADER = "Location";
 
   private int status;
   private String statusMsg = "";
+  private Map<String, String> headers = new HashMap<>();
 
   /**
    * Constructs a response recorder wrapping the given response.
@@ -58,10 +62,19 @@ public class HttpServletResponseRecorder extends HttpServletResponseWrapper {
   @Override
   public void sendRedirect(String location) throws IOException {
     this.status = SC_MOVED_TEMPORARILY;
-    super.setHeader("Location", location);
+    setHeader(LOCATION_HEADER, location);
   }
 
   @Override
+  public void setHeader(String name, String value) {
+    super.setHeader(name, value);
+    headers.put(name, value);
+  }
+
+  @SuppressWarnings("all")
+  // @Override is omitted for backwards compatibility with servlet-api 2.5
+  // TODO: Remove @SuppressWarnings and add @Override when Google upgrades
+  //       to servlet-api 3.1
   public int getStatus() {
     return status;
   }
@@ -71,7 +84,7 @@ public class HttpServletResponseRecorder extends HttpServletResponseWrapper {
       log.debug("Replaying {} {}", status, statusMsg);
 
       if (status == SC_MOVED_TEMPORARILY) {
-        super.sendRedirect(getHeader("Location"));
+        super.sendRedirect(headers.get(LOCATION_HEADER));
       } else {
         super.sendError(status, statusMsg);
       }

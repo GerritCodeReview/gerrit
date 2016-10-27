@@ -16,6 +16,24 @@
       "revId": "3427bda2b714dbadeb149ca826752a8377693de2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_7d41b77e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-27T14:51:40Z",
+      "side": 1,
+      "message": "because it\u0027s closer to the bazel semantics. \n\nhaving a single output was a design mistake in buck, which is one of the reasons for the liberal use of zip + unzip in the buck build.",
+      "parentUuid": "26fa0e32_ddb56b82",
+      "revId": "3427bda2b714dbadeb149ca826752a8377693de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

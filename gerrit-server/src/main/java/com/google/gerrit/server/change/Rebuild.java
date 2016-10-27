@@ -14,12 +14,19 @@
 
 package com.google.gerrit.server.change;
 
+import static java.util.stream.Collectors.joining;
+
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.Rebuild.Input;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -31,6 +38,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
+import java.util.List;
 
 @Singleton
 public class Rebuild implements RestModifyView<ChangeResource, Input> {
@@ -40,29 +48,52 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
   private final ChangeRebuilder rebuilder;
+  private final ChangeBundleReader bundleReader;
+  private final CommentsUtil commentsUtil;
+  private final ChangeNotes.Factory notesFactory;
 
   @Inject
   Rebuild(Provider<ReviewDb> db,
       NotesMigration migration,
-      ChangeRebuilder rebuilder) {
+      ChangeRebuilder rebuilder,
+      ChangeBundleReader bundleReader,
+      CommentsUtil commentsUtil,
+      ChangeNotes.Factory notesFactory) {
     this.db = db;
     this.migration = migration;
     this.rebuilder = rebuilder;
+    this.bundleReader = bundleReader;
+    this.commentsUtil = commentsUtil;
+    this.notesFactory = notesFactory;
   }
 
   @Override
-  public Response<?> apply(ChangeResource rsrc, Input input)
+  public BinaryResult apply(ChangeResource rsrc, Input input)
       throws ResourceNotFoundException, IOException, OrmException,
       ConfigInvalidException {
     if (!migration.commitChangeWrites()) {
       throw new ResourceNotFoundException();
     }
+    // Not the same transaction as the rebuild, so may result in spurious diffs
+    // in the case of races. This should be easy enough to detect by rerunning.
+    ChangeBundle reviewDbBundle = bundleReader.fromReviewDb(
+        ReviewDbUtil.unwrapDb(db.get()), rsrc.getId());
     try {
       rebuilder.rebuild(db.get(), rsrc.getId());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(
           IdString.fromDecoded(rsrc.getId().toString()));
     }
-    return Response.none();
+    ChangeNotes notes = notesFactory.create(
+        db.get(), rsrc.getChange().getProject(), rsrc.getId());
+    ChangeBundle noteDbBundle = ChangeBundle.fromNotes(commentsUtil, notes);
+    List<String> diffs = reviewDbBundle.differencesFrom(noteDbBundle);
+    if (diffs.isEmpty()) {
+      return BinaryResult.create("No differences between ReviewDb and NoteDb");
+    }
+    return BinaryResult.create(
+        diffs.stream()
+            .collect(joining(
+                "\n", "Differences between ReviewDb and NoteDb:\n", "\n")));
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26fa0e32_1d4193a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-27T11:48:00Z",
+      "side": 1,
+      "message": "polygerrit-ui/app/BUILD still uses genrule.",
+      "revId": "877fb7158f0c965448f3f81a64ad31b148e48f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

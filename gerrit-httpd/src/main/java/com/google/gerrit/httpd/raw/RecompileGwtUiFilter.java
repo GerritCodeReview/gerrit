@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gerrit.httpd.raw.BuckUtils.BuildFailureException;
 import com.google.gwtexpui.linker.server.UserAgentRule;
 
 import java.io.File;
@@ -43,16 +42,14 @@ class RecompileGwtUiFilter implements Filter {
   private final UserAgentRule rule = new UserAgentRule();
   private final Set<String> uaInitialized = new HashSet<>();
   private final Path unpackedWar;
-  private final Path gen;
-  private final Path root;
+  private final BuildSystem builder;
 
   private String lastTarget;
   private long lastTime;
 
-  RecompileGwtUiFilter(Path buckOut, Path unpackedWar) {
+  RecompileGwtUiFilter(BuildSystem builder, Path unpackedWar) {
     this.unpackedWar = unpackedWar;
-    gen = buckOut.resolve("gen");
-    root = buckOut.getParent();
+    this.builder = builder;
   }
 
   @Override
@@ -68,13 +65,14 @@ class RecompileGwtUiFilter implements Filter {
       // $ buck targets --show_output //gerrit-gwtui:ui_safari \
       //    | awk '{print $2}'
       String child = String.format("%s/__gwt_binary_%s__", pkg, target);
-      File zip = gen.resolve(child).resolve(target + ".zip").toFile();
+      BuildSystem.Label label = new BuildSystem.Label(pkg , target + ".zip");
+      File zip = builder.targetPath(label).toFile();
 
       synchronized (this) {
         try {
-          BuckUtils.build(root, gen, rule);
-        } catch (BuildFailureException e) {
-          BuckUtils.displayFailure(rule, e.why, (HttpServletResponse) res);
+          builder.build(label);
+        } catch (BuildSystem.BuildFailureException e) {
+          e.display(rule, (HttpServletResponse) res);
           return;
         }
 

@@ -50,7 +50,6 @@ class PolyGerritWctTests(unittest.TestCase):
 
   def _extract_resources(self):
     tmpdir = tempfile.mkdtemp()
-    atexit.register(lambda: shutil.rmtree(tmpdir))
     root = os.path.join(tmpdir, 'polygerrit')
     os.mkdir(root)
 
@@ -103,6 +102,8 @@ class PolyGerritWctTests(unittest.TestCase):
       },
     })
 
+    print(root)
+    raise 'boom'
     p = subprocess.Popen(cmd, cwd=root,
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()

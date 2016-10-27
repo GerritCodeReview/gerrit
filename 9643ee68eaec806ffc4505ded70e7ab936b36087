@@ -34,6 +34,24 @@
       "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "660de62b_f7d9600b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T23:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "660de62b_17e5f4c4",
+      "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

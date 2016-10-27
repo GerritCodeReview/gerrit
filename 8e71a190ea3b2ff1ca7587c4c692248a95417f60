@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26fa0e32_dd00cb68",
+        "filename": "gerrit-acceptance-framework/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-10-27T09:15:45Z",
+      "side": 1,
+      "message": "add TODO to inline this after we get rid of BUCK.",
+      "range": {
+        "startLine": 52,
+        "startChar": 18,
+        "endLine": 52,
+        "endChar": 22
+      },
+      "revId": "8e71a190ea3b2ff1ca7587c4c692248a95417f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

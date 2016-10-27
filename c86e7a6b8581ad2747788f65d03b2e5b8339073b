@@ -22,6 +22,30 @@
       "revId": "c86e7a6b8581ad2747788f65d03b2e5b8339073b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "666966e4_d780bce1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-27T22:21:18Z",
+      "side": 1,
+      "message": "*sigh*\n\nThis is what happens when you make patches at 6:15am before coffee.\n\nDone.",
+      "parentUuid": "26284e82_ad8a5dfd",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "c86e7a6b8581ad2747788f65d03b2e5b8339073b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

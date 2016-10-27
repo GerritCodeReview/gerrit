@@ -193,8 +193,7 @@ public class LabelType {
     if (values.isEmpty()) {
       return null;
     }
-    final LabelValue v = values.get(values.size() - 1);
-    return v.getValue() > 0 ? v : null;
+    return values.get(values.size() - 1);
   }
 
   public short getDefaultValue() {

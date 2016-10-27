@@ -15,6 +15,8 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.httpd.raw.BuildSystem.Label;
 import com.google.gerrit.launcher.GerritLauncher;
 
 import java.io.IOException;
@@ -26,11 +28,16 @@ class BowerComponentsServlet extends ResourceServlet {
 
   private final Path zip;
   private final Path bowerComponents;
+  private final String buildCommand;
 
-  BowerComponentsServlet(Cache<Path, Resource> cache, Path buckOut)
-      throws IOException {
+  BowerComponentsServlet(Cache<Path, Resource> cache,
+      @Nullable BuildSystem builder) throws IOException {
     super(cache, true);
-    zip = getZipPath(buckOut);
+
+    Label pgLabel = builder.polygerritComponents();
+    buildCommand = builder.buildCommand(pgLabel);
+
+    zip = builder.targetPath(pgLabel);
     if (zip == null || !Files.exists(zip)) {
       bowerComponents = null;
     } else {
@@ -44,18 +51,8 @@ class BowerComponentsServlet extends ResourceServlet {
   protected Path getResourcePath(String pathInfo) throws IOException {
     if (bowerComponents == null) {
       throw new IOException("No polymer components found: " + zip
-          + ". Run `buck build //polygerrit-ui:polygerrit_components`?");
+          + ". Run `" + buildCommand + "`?");
     }
     return bowerComponents.resolve(pathInfo);
-  }
-
-  private static Path getZipPath(Path buckOut) {
-    if (buckOut == null) {
-      return null;
-    }
-    return buckOut.resolve("gen")
-        .resolve("polygerrit-ui")
-        .resolve("polygerrit_components")
-        .resolve("polygerrit_components.bower_components.zip");
   }
 }

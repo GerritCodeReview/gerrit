@@ -1,4 +1,3 @@
-load('//tools/bzl:genrule2.bzl', 'genrule2')
 load('//tools/bzl:java.bzl', 'java_library2')
 load('//tools/bzl:junit.bzl', 'junit_tests')
 load('//tools/bzl:gwt.bzl', 'gwt_module')

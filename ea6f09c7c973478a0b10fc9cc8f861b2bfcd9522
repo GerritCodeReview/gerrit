@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e1be2036_e3de72f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-27T09:55:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure I agree that debugging would be easier; in that case each argument can be put on a separate line, which may indeed be the case anyway due to long lines.\n\nBut anyway, yes, I missed that revWalk is used more than once, so this is a moot point. The new version is better.\n\nThere\u0027s no huge concern about the imports; just a minor nice side effect of inlining instead of using an intermediate variable.",
+      "parentUuid": "26fa0e32_5df5db63",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 56
+      },
+      "revId": "ea6f09c7c973478a0b10fc9cc8f861b2bfcd9522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1be2036_03ad8e68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 1

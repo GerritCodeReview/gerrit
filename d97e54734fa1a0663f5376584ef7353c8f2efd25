@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "660de62b_77bf9098",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T20:19:31Z",
+      "side": 1,
+      "message": "Nitpick: I think these can a little easier to read with using fewer variables ...\n\n    var width \u003d fontSize * 4;\n    var colgroup \u003d document.createElement(\u0027colgroup\u0027);\n\n    // Add left-side line number.\n    var col \u003d document.createElement(\u0027col\u0027);\n    col.setAttribute(\u0027width\u0027, width);\n    colgroup.appendChild(col);\n\n    // Add left-side content.\n    colgroup.appendChild(document.createElement(\u0027col\u0027));\n\n    // Add right-side line number.\n    col \u003d document.createElement(\u0027col\u0027);\n    col.setAttribute(\u0027width\u0027, width);\n    colgroup.appendChild(col);\n\n    // Add right-side content.\n    colgroup.appendChild(document.createElement(\u0027col\u0027));\n\n    outputEl.appendChild(colgroup);\n\n... what do you think?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 35
+      },
+      "revId": "d97e54734fa1a0663f5376584ef7353c8f2efd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "660de62b_b7a1a87f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T20:19:31Z",
+      "side": 1,
+      "message": "`render` returns a promise. Would the following tests not need to `flush` if the setup concludes with ...\n\n    element.render({left: [], right: []}, prefs).then(done);\n\n... ?",
+      "revId": "d97e54734fa1a0663f5376584ef7353c8f2efd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e618f670_338ec810",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T20:19:31Z",
+      "side": 1,
+      "message": "Same here. Does ...\n\n    element.render({left: [], right: []}, {}).then(function() {\n\n... work instead of `flush`?\n\nAlso, wouldn\u0027t this test pass even if `render` isn\u0027t called here at all? `render` is called called in the `setup` after the stub has been established.",
+      "range": {
+        "startLine": 637,
+        "startChar": 8,
+        "endLine": 638,
+        "endChar": 26
+      },
+      "revId": "d97e54734fa1a0663f5376584ef7353c8f2efd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "660de62b_57c48c2e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T20:19:31Z",
+      "side": 1,
+      "message": "This is indented too far. Might as well put each attribute on its own line too, since there are so many.",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 15
+      },
+      "revId": "d97e54734fa1a0663f5376584ef7353c8f2efd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "660de62b_37c91847",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T20:19:31Z",
+      "side": 1,
+      "message": "Unnecessary break.",
+      "range": {
+        "startLine": 100,
+        "startChar": 40,
+        "endLine": 101,
+        "endChar": 10
+      },
+      "revId": "d97e54734fa1a0663f5376584ef7353c8f2efd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e618f670_f3a73093",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-27T20:19:31Z",
+      "side": 1,
+      "message": "This is not needed. The `if` block will coerce to truthiness already.",
+      "range": {
+        "startLine": 374,
+        "startChar": 10,
+        "endLine": 374,
+        "endChar": 12
+      },
+      "revId": "d97e54734fa1a0663f5376584ef7353c8f2efd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

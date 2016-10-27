@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "462b827e_6e6d8f78",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T21:03:56Z",
+      "side": 1,
+      "message": "I was confused by different excludes and missed the srcs glob.",
+      "parentUuid": "01fb34f7_5c0bdd3f",
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26fa0e32_3dafaf39",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 4
@@ -72,6 +90,24 @@
       "side": 1,
       "message": "(we should really, really use https://github.com/bazelbuild/buildifier)",
       "parentUuid": "26fa0e32_3dafaf39",
+      "revId": "2a5258180525324099226f0e03a6de377d3798a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_6d6d9578",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T21:03:56Z",
+      "side": 1,
+      "message": "Yes, we will re-format Bazel build files, at the end of migration.",
+      "parentUuid": "01fb34f7_bcf82111",
       "revId": "2a5258180525324099226f0e03a6de377d3798a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

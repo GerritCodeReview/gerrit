@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26fa0e32_5df5db63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-27T08:58:09Z",
+      "side": 1,
+      "message": "I moved these lines after the if-block.\n\nInverting the if-condition and moving the whole block into the parentheses would negatively impact readability in my opinion. That\u0027s why I left the if-condition as it is.\n\nI didn\u0027t inline the variables revWalk and revCommit because:\n- revWalk is used twice,\n- debugging exceptions thrown by revWalk.parseCommit(..) will be easier if it\u0027s the only statement in a line,\n- and generally I think that code which is split up in individual sections, variables and methods is easier to read.\n\nFrom your comment I understood that you are concerned about the imports. Is it important that we keep the number of imports as minimal as possible?",
+      "parentUuid": "4191accd_3ead0969",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 56
+      },
+      "revId": "ea6f09c7c973478a0b10fc9cc8f861b2bfcd9522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1be2036_03ad8e68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-27T03:55:13Z",
       "side": 1,
       "message": "This can be inlined at line 147, so the intermediate variable (and import of Branch) is not needed).",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 66
+      },
+      "revId": "ea6f09c7c973478a0b10fc9cc8f861b2bfcd9522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_9d23631d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-10-27T08:58:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1be2036_03ad8e68",
       "range": {
         "startLine": 146,
         "startChar": 4,

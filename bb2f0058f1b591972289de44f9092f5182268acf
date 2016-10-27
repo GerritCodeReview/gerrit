@@ -1,0 +1,324 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "462b827e_0ece0b4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Mention BuckUtils as well?",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_ada13d7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Also building with Buck from Eclipse with both PolyGerrit UI (this looks good) and GWT UI (currently broken) should work.",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_2dc9cd46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "I\u0027m on Linux and Bazel 0.3.2. Something is wrong, because when only bazel build polygerrit was built, still polygerrit_components.bower_components.zip is missng, and polygerrit.war with --polygerrit.dev option doesn\u0027t work:\n\n  $ bazel build polygerrit\n  $ ls -all /home/davido/projects/gerrit/bazel-bin/polygerrit-ui/polygerrit_components.bower_components.zip\n  ls: cannot access /home/davido/projects/gerrit/bazel-bin/polygerrit-ui/polygerrit_components.bower_components.zip: No such file or directory\n\nAnd the attempt to run polygerrit.war is failing: [1]. Only after manually rebuilding it with:\n\n  $ bazel build polygerrit-ui:polygerrit_components.bower_components\n\nwith this result: [2], polygerrit.war is working again.\n\nSimilar issue exists in Buck, after buck clean, buck build polygerrit, buck-out/gen/polygerrit-ui/polygerrit_components/polygerrit_components.bower_components.zip was missing as well, to recover, however, --deep option to build command can be used:\n\n  $ buck build --deep polygerrit\n\n* [1] http://paste.openstack.org/show/587218\n* [2] http://paste.openstack.org/show/587219",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_2e8e6710",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Here in all other new files.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_4dc4192f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "This is stale now. May be use builder.getName()?",
+      "range": {
+        "startLine": 48,
+        "startChar": 20,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_6d94751e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Nit: long line.",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_0e93ab34",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Nit: long line.",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_eea73f93",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/FontsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Nit: missing space after ,.",
+      "range": {
+        "startLine": 58,
+        "startChar": 23,
+        "endLine": 58,
+        "endChar": 24
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_4d99b954",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RecompileGwtUiFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Unused now.",
+      "range": {
+        "startLine": 67,
+        "startChar": 13,
+        "endLine": 67,
+        "endChar": 18
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_cea48391",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RecompileGwtUiFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "This produce wrong label on Buck per user agent:\n\n* Chrome: buck build //gerrit-gwtui:ui_safari.zip\n* FF: //gerrit-gwtui:ui_gecko1_8.zip\n\nWith the error:\n\n  BUILD FAILED: No rule found when resolving target //gerrit-gwtui:ui_gecko1_8.zip in build file //gerrit-gwtui/BUCK\n\nCorrect labels should not contain \".zip\" suffix.\n\n  $ buck build //gerrit-gwtui:ui_safari\n  [-] PROCESSING BUCK FILES...FINISHED 0.1s [100%]",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_2ec9c746",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RecompileGwtUiFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "This produces wrong location of output artifact:\n\n  buck-out/gen/gerrit-gwtui/ui_safari.zip/ui_safari.zip\n\nIt should be:\n\n  $ buck targets --show_output //gerrit-gwtui:ui_safari | awk \u0027{print $2}\u0027\n  buck-out/gen/gerrit-gwtui/__gwt_binary_ui_safari__/ui_safari.zip\n\nThat\u0027s because native gwt_binary rule puts its output in very special location. See the explanation in TODO on line 62.",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 52
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_8e9e7b37",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Why are we swallowing it?",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462b827e_aea1377f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Nit: Long line.",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_6dbfd598",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Remove debug output",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_2d8e6d10",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "This method is unused now.",
+      "range": {
+        "startLine": 399,
+        "startChar": 4,
+        "endLine": 405,
+        "endChar": 5
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26284e82_8d9e8137",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T22:57:16Z",
+      "side": 1,
+      "message": "Nice hack. Put a comment to this rule that explains this implementation of Dave\u0027s idea?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 1
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

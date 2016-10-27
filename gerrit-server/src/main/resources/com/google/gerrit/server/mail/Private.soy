@@ -16,6 +16,10 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
+/*
+ * Private templates that cannot be overridden.
+ */
+
 /**
  * Private template to generate "View Change" buttons.
  * @param email
@@ -32,3 +36,17 @@
   {/let}
   <a style="{$visitButtonStyle}" href="{$email.changeUrl}">View Change</a>
 {/template}
+
+/**
+ * Private template to render PRE block with consistent font-sizing.
+ * @param content
+ */
+{template .Pre private="true" autoescape="strict" kind="html"}
+  {let $preStyle kind="css"}
+    font-family: monospace,monospace; // Use this to avoid browsers scaling down
+                                      // monospace text.
+    white-space: pre-wrap;
+  {/let}
+  <pre style="{$preStyle}">{$content}</pre>
+{/template}
+

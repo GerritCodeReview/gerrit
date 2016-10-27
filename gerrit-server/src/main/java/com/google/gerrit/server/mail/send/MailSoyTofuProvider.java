@@ -58,6 +58,7 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     "MergedHtml.soy",
     "NewChange.soy",
     "NewChangeHtml.soy",
+    "Private.soy",
     "RegisterNewEmail.soy",
     "ReplacePatchSet.soy",
     "ReplacePatchSetHtml.soy",
@@ -65,7 +66,6 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     "RestoredHtml.soy",
     "Reverted.soy",
     "RevertedHtml.soy",
-    "ViewChangeButton.soy",
   };
 
   private final SitePaths site;

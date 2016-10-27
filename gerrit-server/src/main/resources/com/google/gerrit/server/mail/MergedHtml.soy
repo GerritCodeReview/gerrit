@@ -32,17 +32,11 @@
     </p>
   {/if}
 
-  <pre style="font-size:12px">
-    {$email.changeDetail}
-  </pre>
+  {call .Pre}{param content: $email.changeDetail /}{/call}
 
-  <pre style="font-size:12px">
-    {$email.approvals}
-  </pre>
+  {call .Pre}{param content: $email.approvals /}{/call}
 
   {if $email.includeDiff}
-    <pre style="font-size:12px">
-      {$email.unifiedDiff}
-    </pre>
+    {call .Pre}{param content: $email.unifiedDiff /}{/call}
   {/if}
 {/template}

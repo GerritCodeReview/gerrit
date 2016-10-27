@@ -46,20 +46,16 @@
     </p>
   {/if}
 
-  <pre style="font-size:12px">
-    {$email.changeDetail}
-  </pre>
+  {call .Pre}{param content: $email.changeDetail /}{/call}
 
   {if $email.sshHost}
-    <pre style="font-size:12px">
+    {call .Pre}{param content kind="html"}
       git pull ssh:{print '//'}{$email.sshHost}/{$projectName}
           {sp}{$patchSet.refName}
-    </pre>
+    {/param}{/call}
   {/if}
 
   {if $email.includeDiff}
-    <pre style="font-size:12px">
-      {$email.unifiedDiff}
-    </pre>
+    {call .Pre}{param content: $email.unifiedDiff /}{/call}
   {/if}
 {/template}

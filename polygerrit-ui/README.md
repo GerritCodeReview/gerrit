@@ -111,6 +111,14 @@ For interactively working on a single test file, do the following:
 
 Then visit http://localhost:8081/elements/foo/bar_test.html
 
+## Running tests (bazel)
+
+Run
+
+```sh
+WCT_ARGS='--some-flag' sh polygerrit-ui/app/run_test.sh
+```
+
 ## Style guide
 
 We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)

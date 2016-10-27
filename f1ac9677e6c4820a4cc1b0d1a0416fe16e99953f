@@ -22,6 +22,24 @@
       "revId": "f1ac9677e6c4820a4cc1b0d1a0416fe16e99953f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6ff1621_3b77b746",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-27T17:24:59Z",
+      "side": 1,
+      "message": "I\u0027ll +2 just in case Wyatt decides not to, but this is definitely a nice thing to do.",
+      "parentUuid": "e152a0c5_43ba4676",
+      "revId": "f1ac9677e6c4820a4cc1b0d1a0416fe16e99953f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

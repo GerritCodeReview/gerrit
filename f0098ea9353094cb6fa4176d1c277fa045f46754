@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "01fb34f7_7c569974",
+        "filename": ".bazelproject",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T06:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f2f818_3d4c0fe1",
+      "revId": "f0098ea9353094cb6fa4176d1c277fa045f46754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21f2f818_1d4953d1",
         "filename": ".bazelproject",
         "patchSetId": 2

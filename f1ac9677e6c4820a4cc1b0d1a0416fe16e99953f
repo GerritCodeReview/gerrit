@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e152a0c5_43ba4676",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-27T16:54:59Z",
+      "side": 1,
+      "message": "You *could* use this change to replace these stubs, and the ones in the other tests, with a sandbox :)\n\nDefinitely not blocking, though.",
+      "range": {
+        "startLine": 581,
+        "startChar": 6,
+        "endLine": 582,
+        "endChar": 70
+      },
+      "revId": "f1ac9677e6c4820a4cc1b0d1a0416fe16e99953f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

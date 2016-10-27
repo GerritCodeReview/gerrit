@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26fa0e32_dddc4bcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c112fc46_da2e85a5",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a117c836_5930431f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-25T09:11:35Z",
       "side": 1,
       "message": "\u0027POP3\u0027, \u0027IMAP\u0027 and \u0027NONE\u0027",
+      "range": {
+        "startLine": 3428,
+        "startChar": 0,
+        "endLine": 3428,
+        "endChar": 17
+      },
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_1dcbd307",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3428,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a117c836_5930431f",
       "range": {
         "startLine": 3428,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "26fa0e32_fddf07be",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3443,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "I added this in receiveemail.protocol",
+      "parentUuid": "a117c836_39258fdd",
+      "range": {
+        "startLine": 3443,
+        "startChar": 11,
+        "endLine": 3443,
+        "endChar": 39
+      },
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218cb849_8daae158",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSettings.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-10-25T09:11:35Z",
       "side": 1,
       "message": "[optional] define a constant for this",
+      "range": {
+        "startLine": 46,
+        "startChar": 27,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01fb34f7_bc414181",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "218cb849_8daae158",
       "range": {
         "startLine": 46,
         "startChar": 27,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "01fb34f7_9c460595",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01f9748d_ccb68fbe",
+      "range": {
+        "startLine": 50,
+        "startChar": 75,
+        "endLine": 50,
+        "endChar": 79
+      },
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218cb849_2dc1ed1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 1
@@ -128,6 +248,24 @@
       "writtenOn": "2016-10-25T09:11:35Z",
       "side": 1,
       "message": "Does this need to be thread safe?",
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01fb34f7_1c531556",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Yes, I wrapped the access in a synchronized block. Will copy it out in the beginning of handleEmails;",
+      "parentUuid": "218cb849_2dc1ed1d",
       "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "26fa0e32_7d7777f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "218cb849_6dcbf53b",
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218cb849_4dc63937",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 1
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "26fa0e32_9dd6c3a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "218cb849_4dc63937",
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01f9748d_4ce45fc8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 1
@@ -179,6 +353,30 @@
       "writtenOn": "2016-10-25T09:11:35Z",
       "side": 1,
       "message": "Better use switch so that you get a warning here if a new Protocol is added?\n\n  if (mailSettings.protocol \u003d\u003d Protocol.NONE) {\n    return;\n  }\n\n  listener().to(MailReceiver.class);\n  switch (mailSettings.protocol) {\n    case IMAP:             \n      bind(MailReceiver.class).to(ImapMailReceiver.class);\n      break;\n    case POP3:\n      bind(MailReceiver.class).to(Pop3MailReceiver.class);\n      break;\n    case NONE:\n    default:\n  }",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 7
+      },
+      "revId": "715e7bef6aa0eb267f3d12c41a0c481183aaf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01fb34f7_dc508d4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-10-27T13:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01f9748d_4ce45fc8",
       "range": {
         "startLine": 42,
         "startChar": 6,

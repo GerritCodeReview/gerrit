@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -33,6 +31,7 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.RecipientType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -53,14 +52,15 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends NotificationEmail {
@@ -125,17 +125,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     appendText(textTemplate("ChangeFooter"));
     if (useHtml()) {
       appendHtml(soyHtmlTemplate("ChangeFooterHtml"));
-    }
-    try {
-      TreeSet<String> names = new TreeSet<>();
-      for (Account.Id who : changeData.reviewers().all()) {
-        names.add(getNameEmailFor(who));
-      }
-      for (String name : names) {
-        appendText("Gerrit-Reviewer: " + name + "\n");
-      }
-    } catch (OrmException e) {
-      log.warn("Cannot get change reviewers", e);
     }
     formatFooter();
   }
@@ -377,7 +366,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     try {
-      for (Account.Id id : changeData.reviewers().byState(REVIEWER)) {
+      for (Account.Id id : changeData.reviewers()
+          .byState(ReviewerStateInternal.REVIEWER)) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
@@ -474,7 +464,24 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetData.put("refName", patchSet.getRefName());
     soyContext.put("patchSet", patchSetData);
 
+    soyContext.put("reviewerEmails",
+        getEmailsByState(ReviewerStateInternal.REVIEWER));
+    soyContext.put("ccEmails",
+        getEmailsByState(ReviewerStateInternal.CC));
+
     // TODO(wyatta): patchSetInfo
+  }
+
+  private List<String> getEmailsByState(ReviewerStateInternal state) {
+    List<String> reviewers = new ArrayList<>();
+    try {
+      for (Account.Id who : changeData.reviewers().byState(state)) {
+        reviewers.add(getNameEmailFor(who));
+      }
+    } catch (OrmException e) {
+      log.warn("Cannot get change reviewers", e);
+    }
+    return reviewers;
   }
 
   public boolean getIncludeDiff() {

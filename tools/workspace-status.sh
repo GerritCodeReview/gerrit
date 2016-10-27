@@ -13,3 +13,4 @@
 git_rev=$(git describe --always --match "v[0-9].*" --dirty)
 
 echo "STABLE_BUILD_GERRIT_LABEL ${git_rev}"
+echo "STABLE_WORKSPACE_ROOT ${PWD}"

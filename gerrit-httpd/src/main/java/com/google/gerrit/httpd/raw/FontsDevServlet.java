@@ -18,6 +18,7 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.launcher.GerritLauncher;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -27,18 +28,15 @@ class FontsDevServlet extends ResourceServlet {
 
   private final Path fonts;
 
-  FontsDevServlet(Cache<Path, Resource> cache, Path buckOut)
+  FontsDevServlet(Cache<Path, Resource> cache, BuildSystem builder)
       throws IOException {
     super(cache, true);
-    Objects.requireNonNull(buckOut);
+    Objects.requireNonNull(builder);
 
-    Path zip = buckOut.resolve("gen")
-        .resolve("polygerrit-ui")
-        .resolve("fonts")
-        .resolve("fonts.zip");
-    fonts = GerritLauncher
-        .newZipFileSystem(zip)
-        .getPath("/");
+    Path zip = builder.targetPath(builder.fontZipLabel());
+    Objects.requireNonNull(zip);
+
+    fonts = GerritLauncher.newZipFileSystem(zip).getPath("/");
   }
 
   @Override

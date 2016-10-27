@@ -15,9 +15,8 @@
 # Syntactic sugar for native genrule() rule:
 #   expose ROOT shell variable
 #   expose TMP shell variable
-#   accept single output
 
-def genrule2(out, cmd, **kwargs):
+def genrule2(cmd, **kwargs):
   cmd = ' && '.join([
     'ROOT=$$PWD',
     'TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)',
@@ -25,5 +24,4 @@ def genrule2(out, cmd, **kwargs):
   ])
   native.genrule(
     cmd = cmd,
-    outs = [out],
     **kwargs)

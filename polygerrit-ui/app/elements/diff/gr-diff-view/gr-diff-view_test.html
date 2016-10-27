@@ -41,8 +41,11 @@ limitations under the License.
 <script>
   suite('gr-diff-view tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
+
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
         getProjectConfig: function() { return Promise.resolve({}); },
@@ -53,11 +56,14 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    teardown(function() {
+      sandbox.restore();
+    });
+
     test('toggle left diff with a hotkey', function() {
-      var toggleLeftDiffStub = sinon.stub(element.$.diff, 'toggleLeftDiff');
+      var toggleLeftDiffStub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
       MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'a'
       assert.isTrue(toggleLeftDiffStub.calledOnce);
-      toggleLeftDiffStub.restore();
     });
 
     test('keyboard shortcuts', function() {
@@ -75,7 +81,7 @@ limitations under the License.
       element._path = 'glados.txt';
       element.changeViewState.selectedFileIndex = 1;
 
-      var showStub = sinon.stub(page, 'show');
+      var showStub = sandbox.stub(page, 'show');
       MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
       assert(showStub.lastCall.calledWithExactly('/c/42/'),
           'Should navigate to /c/42/');
@@ -103,54 +109,44 @@ limitations under the License.
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
-      var showPrefsStub = sinon.stub(element.$.prefsOverlay, 'open',
+      var showPrefsStub = sandbox.stub(element.$.prefsOverlay, 'open',
           function() { return Promise.resolve({}); });
 
       MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
       assert(showPrefsStub.calledOnce);
 
-      var scrollStub = sinon.stub(element.$.cursor, 'moveToNextChunk');
+      var scrollStub = sandbox.stub(element.$.cursor, 'moveToNextChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 78);  // 'n'
       assert(scrollStub.calledOnce);
-      scrollStub.restore();
 
-      scrollStub = sinon.stub(element.$.cursor, 'moveToPreviousChunk');
+      scrollStub = sandbox.stub(element.$.cursor, 'moveToPreviousChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 80);  // 'p'
       assert(scrollStub.calledOnce);
-      scrollStub.restore();
 
-      scrollStub = sinon.stub(element.$.cursor, 'moveToNextCommentThread');
+      scrollStub = sandbox.stub(element.$.cursor, 'moveToNextCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 78, ['shift']);  // 'N'
       assert(scrollStub.calledOnce);
-      scrollStub.restore();
 
-      scrollStub = sinon.stub(element.$.cursor, 'moveToPreviousCommentThread');
+      scrollStub = sandbox.stub(element.$.cursor,
+          'moveToPreviousCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 80, ['shift']);  // 'P'
       assert(scrollStub.calledOnce);
-      scrollStub.restore();
-
-      showPrefsStub.restore();
-      showStub.restore();
     });
 
     test('saving diff preferences', function() {
-      var savePrefs = sinon.stub(element, '_handlePrefsSave');
-      var cancelPrefs = sinon.stub(element, '_handlePrefsCancel');
+      var savePrefs = sandbox.stub(element, '_handlePrefsSave');
+      var cancelPrefs = sandbox.stub(element, '_handlePrefsCancel');
       element.$.diffPreferences._handleSave();
       assert(savePrefs.calledOnce);
       assert(cancelPrefs.notCalled);
-      savePrefs.restore();
-      cancelPrefs.restore();
     });
 
     test('cancelling diff preferences', function() {
-      var savePrefs = sinon.stub(element, '_handlePrefsSave');
-      var cancelPrefs = sinon.stub(element, '_handlePrefsCancel');
+      var savePrefs = sandbox.stub(element, '_handlePrefsSave');
+      var cancelPrefs = sandbox.stub(element, '_handlePrefsCancel');
       element.$.diffPreferences._handleCancel();
       assert(cancelPrefs.calledOnce);
       assert(savePrefs.notCalled);
-      savePrefs.restore();
-      cancelPrefs.restore();
     });
 
     test('keyboard shortcuts with patch range', function() {
@@ -167,7 +163,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      var showStub = sinon.stub(page, 'show');
+      var showStub = sandbox.stub(page, 'show');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
@@ -204,8 +200,6 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
           'Should navigate to /c/42/5..10');
-
-      showStub.restore();
     });
 
     test('keyboard shortcuts with old patch number', function() {
@@ -223,7 +217,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      var showStub = sinon.stub(page, 'show');
+      var showStub = sandbox.stub(page, 'show');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
@@ -260,8 +254,6 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
-
-      showStub.restore();
     });
 
     test('go up to change via kb without change loaded', function() {
@@ -274,7 +266,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      var showStub = sinon.stub(page, 'show');
+      var showStub = sandbox.stub(page, 'show');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
@@ -311,8 +303,6 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
-
-      showStub.restore();
     });
 
     test('jump to file dropdown', function() {
@@ -421,7 +411,7 @@ limitations under the License.
       };
       element._fileList = ['/COMMIT_MSG'];
       element._path = '/COMMIT_MSG';
-      var saveReviewedStub = sinon.stub(element, '_saveReviewedState',
+      var saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           function() { return Promise.resolve(); });
 
       flush(function() {
@@ -437,7 +427,6 @@ limitations under the License.
         assert.isTrue(commitMsg.checked);
         assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
 
-        saveReviewedStub.restore();
         done();
       });
     });
@@ -445,7 +434,7 @@ limitations under the License.
     test('diff mode selector correctly toggles the diff', function() {
       var select = element.$.modeSelect;
       var diffDisplay = element.$.diff;
-      var blurSpy = sinon.spy(select, 'blur');
+      var blurSpy = sandbox.spy(select, 'blur');
       element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
 
       // The mode selected in the view state reflects the selected option.
@@ -473,7 +462,7 @@ limitations under the License.
       var prefsPromise = new Promise(function(resolve) {
         resolvePrefs = resolve;
       });
-      var getPreferencesStub = sinon.stub(element.$.restAPI, 'getPreferences',
+      var getPreferencesStub = sandbox.stub(element.$.restAPI, 'getPreferences',
           function() { return prefsPromise; });
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
@@ -489,7 +478,6 @@ limitations under the License.
       resolvePrefs({diff_view: 'UNIFIED'});
       flushAsynchronousOperations();
       assert.equal(select.value, 'SIDE_BY_SIDE');
-      getPreferencesStub.restore();
     });
 
     test('unified view is always default on small screens', function() {
@@ -498,7 +486,7 @@ limitations under the License.
         resolvePrefs = resolve;
       });
 
-      var getPreferencesStub = sinon.stub(element.$.restAPI, 'getPreferences',
+      var getPreferencesStub = sandbox.stub(element.$.restAPI, 'getPreferences',
           function() { return prefsPromise; });
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
@@ -506,9 +494,7 @@ limitations under the License.
 
       view.changeViewState = {diffMode: null};
 
-      sinon.stub(view, '_getWindowWidth', function() {
-        return 800;
-      });
+      sandbox.stub(view, '_getWindowWidth', function() { return 800; });
 
       var select = view.$.modeSelect;
       fixture('blank').appendChild(view);
@@ -523,7 +509,6 @@ limitations under the License.
 
       // On small screens, unified should override user perferences
       assert.equal(select.value, 'UNIFIED_DIFF');
-      getPreferencesStub.restore();
     });
 
     test('_loadHash', function() {
@@ -575,6 +560,22 @@ limitations under the License.
       var expectedPath = 'file.js';
       var shortenedPath = element._shortenPath(path);
       assert.equal(shortenedPath, expectedPath);
+    });
+
+    test('_onLineSelected', function() {
+      var replaceStateStub = sandbox.stub(history, 'replaceState');
+      var moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
+
+      var e = {};
+      var detail = {number: 123, side: 'right'};
+
+      element._onLineSelected(e, detail);
+
+      assert.isTrue(moveStub.called);
+      assert.equal(moveStub.lastCall.args[0], detail.number);
+      assert.equal(moveStub.lastCall.args[1], detail.side);
+
+      assert.isTrue(replaceStateStub.called);
     });
   });
 </script>

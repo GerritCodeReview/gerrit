@@ -15,9 +15,11 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.httpd.raw.BuildSystem.Label;
 import com.google.gerrit.launcher.GerritLauncher;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -26,24 +28,33 @@ class BowerComponentsDevServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
 
   private final Path bowerComponents;
+  private final String buildCommand;
+  private final Path zip;
 
-  BowerComponentsDevServlet(Cache<Path, Resource> cache, Path buckOut)
-      throws IOException {
+  BowerComponentsDevServlet(Cache<Path, Resource> cache,
+      BuildSystem builder) throws IOException {
     super(cache, true);
-    Objects.requireNonNull(buckOut);
 
-    Path zip = buckOut.resolve("gen")
-        .resolve("polygerrit-ui")
-        .resolve("polygerrit_components")
-        .resolve("polygerrit_components.bower_components.zip");
+    Objects.requireNonNull(builder);
+    Label pgLabel = builder.polygerritComponents();
+    buildCommand = builder.buildCommand(pgLabel);
 
-    bowerComponents = GerritLauncher
-        .newZipFileSystem(zip)
-        .getPath("/");
+    zip = builder.targetPath(pgLabel);
+    if (zip == null || !Files.exists(zip)) {
+      bowerComponents = null;
+    } else {
+      bowerComponents = GerritLauncher
+          .newZipFileSystem(zip)
+          .getPath("/");
+    }
   }
 
   @Override
   protected Path getResourcePath(String pathInfo) throws IOException {
+    if (bowerComponents == null) {
+      throw new IOException("No polymer components found: " + zip
+          + ". Run `" + buildCommand + "`?");
+    }
     return bowerComponents.resolve(pathInfo);
   }
 }

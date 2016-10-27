@@ -370,7 +370,7 @@ public class ChangeControl {
     Account.Id currentAssignee = notes.getChange().getAssignee();
     if (currentAssignee != null && getUser().isIdentifiedUser()) {
       Account.Id id = getUser().getAccountId();
-      return id.equals(currentAssignee.get());
+      return id.equals(currentAssignee);
     }
     return false;
   }

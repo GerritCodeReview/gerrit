@@ -286,7 +286,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
             refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
         origCtl.getProjectControl().getProject(),
         origCtl.getRefControl().getRefName(),
-        commit, ctx.getIdentifiedUser());
+        commit, ctx.getIdentifiedUser(), ctx.getRevWalk());
 
     try {
       commitValidatorsFactory

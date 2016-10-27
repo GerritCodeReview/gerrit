@@ -2650,7 +2650,7 @@ public class ReceiveCommits {
     RevCommit c = rw.parseCommit(id);
     rw.parseBody(c);
     CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user);
+        new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user, rw);
 
     CommitValidators.Policy policy;
     if (magicBranch != null

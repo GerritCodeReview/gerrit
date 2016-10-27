@@ -473,7 +473,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
           refControl.getProjectControl().getProject(),
           change.getDest().get(),
           commit,
-          ctx.getIdentifiedUser());
+          ctx.getIdentifiedUser(), ctx.getRevWalk());
       commitValidatorsFactory
           .create(
               validatePolicy, refControl, new NoSshInfo(), ctx.getRepository())

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class CommitReceivedEvent extends RefEvent {
@@ -27,19 +28,21 @@ public class CommitReceivedEvent extends RefEvent {
   public String refName;
   public RevCommit commit;
   public IdentifiedUser user;
+  public RevWalk rw;
 
   public CommitReceivedEvent() {
     super(TYPE);
   }
 
   public CommitReceivedEvent(ReceiveCommand command, Project project,
-      String refName, RevCommit commit, IdentifiedUser user) {
+      String refName, RevCommit commit, IdentifiedUser user, RevWalk rw) {
     this();
     this.command = command;
     this.project = project;
     this.refName = refName;
     this.commit = commit;
     this.user = user;
+    this.rw = rw;
   }
 
   @Override

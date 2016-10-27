@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26fa0e32_fd6a670c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T13:43:43Z",
+      "side": 1,
+      "message": "ChangeApi",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "745d74262898065a1e307376b19bc678247cef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26fa0e32_1d8633ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/OneOffRequestContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-27T13:43:43Z",
+      "side": 1,
+      "message": "openAs is shorter as openForUser?",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "745d74262898065a1e307376b19bc678247cef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

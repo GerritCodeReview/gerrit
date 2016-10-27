@@ -39,17 +39,23 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletResponse;
 
-class BuckUtils {
+class BuckUtils implements BuildSystem {
   private static final Logger log =
       LoggerFactory.getLogger(BuckUtils.class);
+  private final Path sourceRoot;
 
-  static void build(Path root, Path gen, String target)
+  BuckUtils(Path sourceRoot) {
+    this.sourceRoot = sourceRoot;
+  }
+
+  @Override
+  public void build(Label label)
       throws IOException, BuildFailureException {
-    log.info("buck build " + target);
-    Properties properties = loadBuckProperties(gen);
+    log.info("buck build " + label);
+    Properties properties = loadBuckProperties(targetPath(label));
     String buck = firstNonNull(properties.getProperty("buck"), "buck");
-    ProcessBuilder proc = new ProcessBuilder(buck, "build", target)
-        .directory(root.toFile())
+    ProcessBuilder proc = new ProcessBuilder(buck, "build", label.fullName())
+        .directory(sourceRoot.toFile())
         .redirectErrorStream(true);
     if (properties.containsKey("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
@@ -74,7 +80,8 @@ class BuckUtils {
     }
 
     long time = TimeUtil.nowMs() - start;
-    log.info(String.format("UPDATED    %s in %.3fs", target, time / 1000.0));
+    log.info(
+        String.format("UPDATED    %s in %.3fs", label.fullName(), time / 1000.0));
   }
 
   private static Properties loadBuckProperties(Path gen) throws IOException {
@@ -88,31 +95,14 @@ class BuckUtils {
     return properties;
   }
 
-  static void displayFailure(String rule, byte[] why, HttpServletResponse res)
-      throws IOException {
-    res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    res.setContentType("text/html");
-    res.setCharacterEncoding(UTF_8.name());
-    CacheHeaders.setNotCacheable(res);
-
-    Escaper html = HtmlEscapers.htmlEscaper();
-    try (PrintWriter w = res.getWriter()) {
-      w.write("<html><title>BUILD FAILED</title><body>");
-      w.format("<h1>%s FAILED</h1>", html.escape(rule));
-      w.write("<pre>");
-      w.write(html.escape(RawParseUtils.decode(why)));
-      w.write("</pre>");
-      w.write("</body></html>");
-    }
+  @Override
+  public Path targetPath(Label label) {
+    return sourceRoot.resolve("buck-out")
+        .resolve("gen").resolve(label.pkg).resolve(label.name).resolve(label.artifact);
   }
 
-  static class BuildFailureException extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    final byte[] why;
-
-    BuildFailureException(byte[] why) {
-      this.why = why;
-    }
+  @Override
+  public String buildCommand(Label l) {
+    return "buck build " + l.toString();
   }
 }

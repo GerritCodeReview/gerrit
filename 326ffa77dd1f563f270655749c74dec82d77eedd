@@ -40,6 +40,24 @@
       "revId": "326ffa77dd1f563f270655749c74dec82d77eedd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01fb34f7_fcaf4932",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpServletResponseRecorder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-10-27T08:19:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26fa0e32_ddd68bd9",
+      "revId": "326ffa77dd1f563f270655749c74dec82d77eedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gerrit.httpd.raw.BuckUtils.BuildFailureException;
+import com.google.gerrit.httpd.raw.BuildSystem.Label;
 import com.google.gwtexpui.linker.server.UserAgentRule;
 
 import java.io.File;
@@ -43,48 +43,40 @@ class RecompileGwtUiFilter implements Filter {
   private final UserAgentRule rule = new UserAgentRule();
   private final Set<String> uaInitialized = new HashSet<>();
   private final Path unpackedWar;
-  private final Path gen;
-  private final Path root;
+  private final BuildSystem builder;
 
-  private String lastTarget;
+  private String lastAgent;
   private long lastTime;
 
-  RecompileGwtUiFilter(Path buckOut, Path unpackedWar) {
+  RecompileGwtUiFilter(BuildSystem builder, Path unpackedWar) {
+    this.builder = builder;
     this.unpackedWar = unpackedWar;
-    gen = buckOut.resolve("gen");
-    root = buckOut.getParent();
   }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse res,
       FilterChain chain) throws IOException, ServletException {
-    String pkg = "gerrit-gwtui";
-    String target = "ui_" + rule.select((HttpServletRequest) request);
-    if (gwtuiRecompile || !uaInitialized.contains(target)) {
-      String rule = "//" + pkg + ":" + target;
-      // TODO(davido): instead of assuming specific Buck's internal
-      // target directory for gwt_binary() artifacts, ask Buck for
-      // the location of user agent permutation GWT zip, e. g.:
-      // $ buck targets --show_output //gerrit-gwtui:ui_safari \
-      //    | awk '{print $2}'
-      String child = String.format("%s/__gwt_binary_%s__", pkg, target);
-      File zip = gen.resolve(child).resolve(target + ".zip").toFile();
+    String agent = rule.select((HttpServletRequest) request);
+    if (unpackedWar != null
+        && (gwtuiRecompile || !uaInitialized.contains(agent))) {
+      Label label = builder.gwtZipLabel(agent);
+      File zip = builder.targetPath(label).toFile();
 
       synchronized (this) {
         try {
-          BuckUtils.build(root, gen, rule);
-        } catch (BuildFailureException e) {
-          BuckUtils.displayFailure(rule, e.why, (HttpServletResponse) res);
+          builder.build(label);
+        } catch (BuildSystem.BuildFailureException e) {
+          e.display(label.toString(), (HttpServletResponse) res);
           return;
         }
 
-        if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
-          lastTarget = target;
+        if (!agent.equals(lastAgent) || lastTime != zip.lastModified()) {
+          lastAgent = agent;
           lastTime = zip.lastModified();
           unpack(zip, unpackedWar.toFile());
         }
       }
-      uaInitialized.add(target);
+      uaInitialized.add(agent);
     }
     chain.doFilter(request, res);
   }

@@ -221,8 +221,7 @@ public class StaticModule extends ServletModule {
       if (p.unpackedWar != null) {
         return p.unpackedWar.resolve(name);
       }
-      return p.buckOut.resolveSibling("gerrit-war").resolve("src")
-          .resolve("main").resolve("webapp").resolve(name);
+      return p.sourceRoot.resolve("gerrit-war/src/main/webapp/" + name);
     }
   }
 
@@ -233,7 +232,7 @@ public class StaticModule extends ServletModule {
           .with(Key.get(HttpServlet.class, Names.named(GWT_UI_SERVLET)));
       Paths p = getPaths();
       if (p.isDev()) {
-        filter("/").through(new RecompileGwtUiFilter(p.buckOut, p.unpackedWar));
+        filter("/").through(new RecompileGwtUiFilter(p.builder, p.unpackedWar));
       }
     }
 
@@ -286,7 +285,7 @@ public class StaticModule extends ServletModule {
     BowerComponentsDevServlet getBowerComponentsServlet(
         @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
       return getPaths().isDev()
-          ? new BowerComponentsDevServlet(cache, getPaths().buckOut)
+          ? new BowerComponentsDevServlet(cache, getPaths().builder)
           : null;
     }
 
@@ -295,19 +294,19 @@ public class StaticModule extends ServletModule {
     FontsDevServlet getFontsServlet(
         @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
       return getPaths().isDev()
-          ? new FontsDevServlet(cache, getPaths().buckOut)
+          ? new FontsDevServlet(cache, getPaths().builder)
           : null;
     }
 
     private Path polyGerritBasePath() {
       Paths p = getPaths();
       if (options.forcePolyGerritDev()) {
-        checkArgument(p.buckOut != null,
-            "no buck-out directory found for PolyGerrit developer mode");
+        checkArgument(p.sourceRoot != null,
+            "no source root directory found for PolyGerrit developer mode");
       }
 
       if (p.isDev()) {
-        return p.buckOut.getParent().resolve("polygerrit-ui").resolve("app");
+        return p.sourceRoot.resolve("polygerrit-ui").resolve("app");
       }
 
       return p.warFs != null
@@ -318,7 +317,8 @@ public class StaticModule extends ServletModule {
 
   private static class Paths {
     private final FileSystem warFs;
-    private final Path buckOut;
+    private final BuildSystem builder;
+    private final Path sourceRoot;
     private final Path unpackedWar;
     private final boolean development;
 
@@ -338,27 +338,41 @@ public class StaticModule extends ServletModule {
               .getParentFile()
               .getParentFile()
               .toURI());
-          buckOut = null;
+          sourceRoot = null;
           development = false;
+          builder = null;
           return;
         }
         warFs = getDistributionArchive(launcherLoadedFrom);
         if (warFs == null) {
-          buckOut = getDeveloperBuckOut();
           unpackedWar = makeWarTempDir();
           development = true;
         } else if (options.forcePolyGerritDev()) {
-          buckOut = getDeveloperBuckOut();
           unpackedWar = null;
           development = true;
         } else {
-          buckOut = null;
           unpackedWar = null;
           development = false;
+          sourceRoot = null;
+          builder = null;
+          return;
         }
       } catch (IOException e) {
         throw new ProvisionException(
             "Error initializing static content paths", e);
+      }
+
+      sourceRoot = getSourseRootOrNull();
+      builder = GerritLauncher.isBazel()
+          ? new BazelBuild(sourceRoot)
+          : new BuckUtils(sourceRoot);
+    }
+
+    private static Path getSourseRootOrNull() {
+      try {
+        return GerritLauncher.resolveInSourceRoot(".");
+      } catch (FileNotFoundException e) {
+        return null;
       }
     }
 
@@ -388,14 +402,6 @@ public class StaticModule extends ServletModule {
 
     private boolean isDev() {
       return development;
-    }
-
-    private Path getDeveloperBuckOut() {
-      try {
-        return GerritLauncher.getDeveloperBuckOut();
-      } catch (FileNotFoundException e) {
-        return null;
-      }
     }
 
     private Path makeWarTempDir() {

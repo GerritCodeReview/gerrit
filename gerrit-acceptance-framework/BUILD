@@ -36,6 +36,7 @@ PROVIDED = [
   '//lib/jgit/org.eclipse.jgit:jgit',
   '//lib/mina:sshd',
   '//lib:servlet-api-3_1',
+  '//lib:truth',
 ]
 
 java_binary(
@@ -48,9 +49,7 @@ java_binary(
 java_library2(
   name = 'lib',
   srcs = SRCS,
-  exported_deps = DEPS + [
-    '//lib:truth',
-  ],
+  exported_deps = DEPS,
   deps = PROVIDED + [ # We want these deps to be exported_deps
     '//lib:gwtorm',
     '//lib/guice:guice',

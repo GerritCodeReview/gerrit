@@ -111,7 +111,7 @@ def _bash(ctx, cmd):
   cmd_list = ["/bin/bash", "-c", cmd]
   out = ctx.execute(cmd_list)
   if out.return_code:
-    fail("failed %s: %s", cmd_list, out.stderr)
+    fail("failed %s: %s" % (" ".join(cmd_list), out.stderr))
 
 
 bower_archive=repository_rule(

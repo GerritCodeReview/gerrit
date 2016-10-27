@@ -20,7 +20,7 @@
 def genrule2(out, cmd, **kwargs):
   cmd = ' && '.join([
     'ROOT=$$PWD',
-    'TMP=$$(mktemp -d)',
+    'TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)',
     '(' + cmd + ')',
   ])
   native.genrule(

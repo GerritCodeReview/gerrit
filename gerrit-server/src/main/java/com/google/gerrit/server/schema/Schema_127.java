@@ -45,18 +45,18 @@ public class Schema_127 extends SchemaVersion {
     H2AccountPatchReviewStore.createTableIfNotExists(url);
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("INSERT INTO ACCOUNT_PATCH_REVIEWS "
-                + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
+            con.prepareStatement("INSERT INTO account_patch_reviews "
+                + "(account_id, change_id, patch_set_id, file_name) VALUES "
                 + "(?, ?, ?, ?)")) {
       int batchCount = 0;
 
       try (Statement s = newStatement(db);
-        ResultSet rs = s.executeQuery("SELECT * from ACCOUNT_PATCH_REVIEWS")) {
+        ResultSet rs = s.executeQuery("SELECT * from account_patch_reviews")) {
         while (rs.next()) {
-          stmt.setInt(1, rs.getInt("ACCOUNT_ID"));
-          stmt.setInt(2, rs.getInt("CHANGE_ID"));
-          stmt.setInt(3, rs.getInt("PATCH_SET_ID"));
-          stmt.setString(4, rs.getString("FILE_NAME"));
+          stmt.setInt(1, rs.getInt("account_id"));
+          stmt.setInt(2, rs.getInt("change_id"));
+          stmt.setInt(3, rs.getInt("patch_set_id"));
+          stmt.setString(4, rs.getString("file_name"));
           stmt.addBatch();
           batchCount++;
           if (batchCount >= MAX_BATCH_SIZE) {

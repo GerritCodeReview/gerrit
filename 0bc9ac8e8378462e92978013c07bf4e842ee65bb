@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6c9d645_4b6d0578",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-28T02:47:35Z",
+      "side": 1,
+      "message": "Can you give these all a common prefix or suffix like TAG_ to indicate their intended usage? I wonder if it would also be cleaner to move these to a separate constants-only class.",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6c9d645_6b724157",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-28T02:47:35Z",
+      "side": 1,
+      "message": "Would it make sense for these tags to be consistent with the message class strings used in email footers? For example AbandonSender uses \"abandon\" instead of \"abandoned\".\n\nI guess not all of these have corresponding messages, but for the ones that do, consistency might be a good idea.",
+      "range": {
+        "startLine": 48,
+        "startChar": 28,
+        "endLine": 48,
+        "endChar": 37
+      },
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06cd0a4f_8c8a27fe",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-28T02:47:35Z",
+      "side": 1,
+      "message": "Why did this change?",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6c9d645_0b77fd45",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-28T02:47:35Z",
+      "side": 1,
+      "message": "Unrelated?",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46454283_5e7cf527",
+        "filename": "polygerrit-ui/app/elements/shared/gr-header/gr-header.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-28T17:36:48Z",
+      "side": 1,
+      "message": "Does this have an observable effect? Is there much jank in the header? I don\u0027t have any problem with this, but I wouldn\u0027t have expected this component to need it.",
+      "revId": "8fafbdb65d9b588329f29caaa0c9189d90be4969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46454283_be8099e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-header/gr-header.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-28T17:36:48Z",
+      "side": 1,
+      "message": "Looks like these should be `_topInitial` and `_topLast` resp.",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "8fafbdb65d9b588329f29caaa0c9189d90be4969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46454283_de8765f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-header/gr-header.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-28T17:36:48Z",
+      "side": 1,
+      "message": "I\u0027m wary of blanket scroll listeners. I\u0027m not sure if this is the problem, but something about this change is making scrolling very large diffs choppy on my MBP.\n\nFor example, using run-server.sh and full context, note choppy scrolling at the following:\n\n    http://localhost:8081/c/87970/6/Documentation/rest-api-changes.txt",
+      "revId": "8fafbdb65d9b588329f29caaa0c9189d90be4969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

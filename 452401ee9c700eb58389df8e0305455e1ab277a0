@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46454283_7e773145",
+        "filename": "polygerrit-ui/app/elements/shared/gr-bindable-select/gr-bindable-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-28T16:53:12Z",
+      "side": 1,
+      "message": "Does GR-SELECT not work for this?",
+      "revId": "452401ee9c700eb58389df8e0305455e1ab277a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

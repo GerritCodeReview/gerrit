@@ -27,7 +27,6 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -36,10 +35,10 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -171,11 +170,29 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
       throws IntegrationException {
-    try {
-      return new RebaseSorter(
-          args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
-    } catch (IOException e) {
-      throw new IntegrationException("Commit sorting failed", e);
+    List<CodeReviewCommit> sorted =
+        Lists.newArrayListWithCapacity(toSort.size());
+    int initialSize = toSort.size();
+    for (int i = 0; i <= initialSize; i++) {
+      Iterator<CodeReviewCommit> itr = toSort.iterator();
+      CodeReviewCommit crc;
+      while (itr.hasNext()) {
+        crc = itr.next();
+        if (crc.getParentCount() == 0
+            || !toSort.contains(crc.getParents()[0])) {
+          sorted.add(crc);
+          itr.remove();
+          continue;
+        }
+      }
+      if (toSort.isEmpty()) {
+        break;
+      }
+    }
+    if (toSort.isEmpty()) {
+      return sorted;
+    } else {
+      throw new IntegrationException("Could not sort commits");
     }
   }
 

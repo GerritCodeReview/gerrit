@@ -656,8 +656,21 @@ public class MergeUtil {
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.REVERSE, true);
       rw.markStart(mergeTip);
-      for (RevCommit c : alreadyAccepted) {
-        rw.markUninteresting(c);
+
+      RevCommit[] parents = mergeTip.getParents();
+      try (RevWalk mirw = new RevWalk(rw.getObjectReader().newReader())) {
+        mirw.reset();
+        mirw.markStart(mergeTip);
+
+        outerloop: for (RevCommit c : alreadyAccepted) {
+          for (int i = 0; i < parents.length; i++) {
+            if (mirw.isMergedInto(mirw.parseCommit(parents[i]),
+                mirw.parseCommit(mergeTip))) {
+              continue outerloop;
+            }
+          }
+          rw.markUninteresting(c);
+        }
       }
 
       CodeReviewCommit c;

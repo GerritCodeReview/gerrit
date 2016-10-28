@@ -22,10 +22,22 @@ limitations under the License.
     <style>
       :host {
         display: block;
+        max-height: 90vh;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        max-height: 90vh;
       }
       header {
         border-bottom: 1px solid #ddd;
         font-weight: bold;
+        flex-shrink: 0;
+      }
+      main {
+        display: flex;
+        flex-shrink: 1;
+        width: 100%;
       }
       header,
       main,
@@ -35,14 +47,19 @@ limitations under the License.
       footer {
         display: flex;
         justify-content: space-between;
+        flex-shrink: 0;
       }
     </style>
-    <header><content select=".header"></content></header>
-    <main><content select=".main"></content></main>
-    <footer>
-      <gr-button primary on-tap="_handleConfirmTap">[[confirmLabel]]</gr-button>
-      <gr-button on-tap="_handleCancelTap">Cancel</gr-button>
-    </footer>
+    <div class="container">
+      <header><content select=".header"></content></header>
+      <main><content select=".main"></content></main>
+      <footer>
+        <gr-button primary on-tap="_handleConfirmTap">
+          [[confirmLabel]]
+        </gr-button>
+        <gr-button on-tap="_handleCancelTap">Cancel</gr-button>
+      </footer>
+    </div>
   </template>
   <script src="gr-confirm-dialog.js"></script>
 </dom-module>

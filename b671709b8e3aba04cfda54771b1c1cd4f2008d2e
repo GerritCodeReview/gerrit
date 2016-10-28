@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86b2dac3_c8800fe2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T08:19:27Z",
+      "side": 1,
+      "message": "this went into 2.13\n\nBTW is it just me, or is the \"included in\" dropdown broken?",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "b671709b8e3aba04cfda54771b1c1cd4f2008d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

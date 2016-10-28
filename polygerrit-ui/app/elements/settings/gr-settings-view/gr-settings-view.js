@@ -206,6 +206,10 @@
       }.bind(this));
     },
 
+    _handleLineWrappingChanged: function() {
+      this.set('_diffPrefs.line_wrapping', this.$.lineWrapping.checked);
+    },
+
     _handleShowTabsChanged: function() {
       this.set('_diffPrefs.show_tabs', this.$.showTabs.checked);
     },

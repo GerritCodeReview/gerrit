@@ -210,7 +210,17 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Columns</span>
+            <span class="title">Fit to Screen</span>
+            <span class="value">
+              <input
+                  id="lineWrapping"
+                  type="checkbox"
+                  checked$="[[_diffPrefs.line_wrapping]]"
+                  on-change="_handleLineWrappingChanged">
+            </span>
+          </section>
+          <section id="columnsPref" hidden$="[[_diffPrefs.line_wrapping]]">
+            <span class="title">Diff Width</span>
             <span class="value">
               <input
                   is="iron-input"

@@ -84,7 +84,7 @@ limitations under the License.
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: 'PARENT',
-          patchNum: 1,
+          patchNum: 1
         };
         element._change = {
           change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
@@ -546,6 +546,7 @@ limitations under the License.
                   assert.isTrue(scrollStub.called);
                   document.body.style.height =
                       originalHeight + 'px';
+                  scrollStub.restore();
                   done();
                 });
             document.body.style.height = '10000px';

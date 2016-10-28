@@ -126,6 +126,7 @@ limitations under the License.
           this.$.processor.keyLocations = this._getCommentLocations(comments);
 
           this._clearDiffContent();
+          this._builder.addColumns(this.diffElement, prefs.font_size);
 
           var reporting = this.$.reporting;
 

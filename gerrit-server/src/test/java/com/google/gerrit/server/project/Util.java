@@ -128,6 +128,15 @@ public class Util {
     return rule;
   }
 
+  public static PermissionRule remove(ProjectConfig project,
+      String permissionName, AccountGroup.UUID group, String ref) {
+    PermissionRule rule = newRule(project, group);
+    project.getAccessSection(ref, true)
+        .getPermission(permissionName, true)
+        .remove(rule);
+    return rule;
+  }
+
   public static PermissionRule block(ProjectConfig project,
       String capabilityName, AccountGroup.UUID group) {
     PermissionRule rule = newRule(project, group);

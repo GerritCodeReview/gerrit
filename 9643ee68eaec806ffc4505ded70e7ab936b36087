@@ -70,6 +70,24 @@
       "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e618f670_d3d674d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-28T00:03:19Z",
+      "side": 1,
+      "message": "Good feedback. In that case I went ahead and listed CC separately using `Gerrit-CC:`",
+      "parentUuid": "e618f670_73e680d6",
+      "revId": "9643ee68eaec806ffc4505ded70e7ab936b36087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

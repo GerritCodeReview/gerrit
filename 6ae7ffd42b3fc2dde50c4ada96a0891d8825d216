@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46454283_fed341e6",
+        "filename": "tools/eclipse/gerrit_daemon_polygerrit.launch",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-10-28T19:33:15Z",
+      "side": 1,
+      "message": "Remove this file.",
+      "revId": "6ae7ffd42b3fc2dde50c4ada96a0891d8825d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

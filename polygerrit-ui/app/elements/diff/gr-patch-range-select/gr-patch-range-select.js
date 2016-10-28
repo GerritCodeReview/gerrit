@@ -21,27 +21,29 @@
       availablePatches: Array,
       changeNum: String,
       filesWeblinks: Object,
-      patchRange: Object,
       path: String,
+      patchRange: {
+        type: Object,
+        observer: '_updateSelected'
+      },
+      _rightSelected: String,
+      _leftSelected: String,
+    },
+
+    _updateSelected: function() {
+      this._rightSelected = this.patchRange.patchNum;
+      this._leftSelected = this.patchRange.basePatchNum;
     },
 
     _handlePatchChange: function(e) {
-      var leftPatch = this.$.leftPatchSelect.value;
-      var rightPatch = this.$.rightPatchSelect.value;
+      var leftPatch = this._leftSelected;
+      var rightPatch = this._rightSelected;
       var rangeStr = rightPatch;
       if (leftPatch != 'PARENT') {
         rangeStr = leftPatch + '..' + rangeStr;
       }
       page.show('/c/' + this.changeNum + '/' + rangeStr + '/' + this.path);
       e.target.blur();
-    },
-
-    _computeLeftSelected: function(patchNum, patchRange) {
-      return patchNum == patchRange.basePatchNum;
-    },
-
-    _computeRightSelected: function(patchNum, patchRange) {
-      return patchNum == patchRange.patchNum;
     },
 
     _computeLeftDisabled: function(patchNum, patchRange) {
@@ -51,6 +53,19 @@
     _computeRightDisabled: function(patchNum, patchRange) {
       if (patchRange.basePatchNum == 'PARENT') { return false; }
       return parseInt(patchNum, 10) <= parseInt(patchRange.basePatchNum, 10);
+    },
+
+    // On page load, the dom-if for options getting added occurs after
+    // the value was set in the select. This ensures that after they
+    // are loaded, the correct value will get selected.  I attempted to
+    // debounce these, but because they are detecting two different
+    // events, sometimes the timing was off and one ended up missing.
+    _synchronizeSelectionRight: function() {
+      this.$.rightPatchSelect.value = this._rightSelected;
+    },
+
+    _synchronizeSelectionLeft: function() {
+      this.$.leftPatchSelect.value = this._leftSelected;
     },
   });
 })();

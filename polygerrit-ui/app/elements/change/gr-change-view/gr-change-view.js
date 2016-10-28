@@ -65,7 +65,7 @@
         value: false,
       },
       _hideEditCommitMessage: {
-        type: Boolean,
+        type: Boolean,`
         computed: '_computeHideEditCommitMessage(_loggedIn, ' +
             '_editingCommitMessage, _change)',
       },
@@ -73,7 +73,10 @@
         type: String,
         value: '',
       },
-      _patchRange: Object,
+      _patchRange: {
+        type: Object,
+        observer: '_updateSelected',
+      },
       _allPatchSets: {
         type: Array,
         computed: '_computeAllPatchSets(_change)',
@@ -89,6 +92,7 @@
         value: 'Reply',
         computed: '_computeReplyButtonLabel(_diffDrafts.*)',
       },
+      _selectedPatchSet: String,
       _initialLoadComplete: {
         type: Boolean,
         value: false,
@@ -528,10 +532,6 @@
       }
     },
 
-    _computePatchIndexIsSelected: function(index, patchNum) {
-      return this._allPatchSets[index] == patchNum;
-    },
-
     _computeLabelNames: function(labels) {
       return Object.keys(labels).sort();
     },
@@ -776,5 +776,9 @@
         this.$.fileList.reload(),
       ]);
     },
+
+    _updateSelected: function() {
+      this._selectedPatchSet = this._patchRange.patchNum;
+    }
   });
 })();

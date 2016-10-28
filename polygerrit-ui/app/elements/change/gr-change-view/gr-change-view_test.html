@@ -277,12 +277,12 @@ limitations under the License.
       var optionEls = Polymer.dom(element.root).querySelectorAll(
           '.patchInfo-header option');
       assert.equal(optionEls.length, 4);
-      assert.isFalse(element.$$('.patchInfo-header option[value="1"]')
-          .hasAttribute('selected'));
-      assert.isTrue(element.$$('.patchInfo-header option[value="2"]')
-          .hasAttribute('selected'));
-      assert.isFalse(element.$$('.patchInfo-header option[value="3"]')
-          .hasAttribute('selected'));
+      assert.notEqual(
+        element.$$('.patchInfo-header #patchSetSelect').current, 1);
+      assert.equal(
+        element.$$('.patchInfo-header #patchSetSelect').current, 2);
+      assert.notEqual(
+        element.$$('.patchInfo-header #patchSetSelect').current, 3);
       assert.equal(optionEls[3].value, 13);
 
       var showStub = sandbox.stub(page, 'show');
@@ -329,12 +329,12 @@ limitations under the License.
       var optionEls = Polymer.dom(element.root).querySelectorAll(
           '.patchInfo-header option');
       assert.equal(optionEls.length, 4);
-      assert.isFalse(element.$$('.patchInfo-header option[value="1"]')
-          .hasAttribute('selected'));
-      assert.isTrue(element.$$('.patchInfo-header option[value="2"]')
-          .hasAttribute('selected'));
-      assert.isFalse(element.$$('.patchInfo-header option[value="3"]')
-          .hasAttribute('selected'));
+      assert.notEqual(
+        element.$$('.patchInfo-header #patchSetSelect').current, 1);
+      assert.equal(
+        element.$$('.patchInfo-header #patchSetSelect').current, 2);
+      assert.notEqual(
+        element.$$('.patchInfo-header #patchSetSelect').current, 3);
       assert.equal(optionEls[3].value, 13);
 
       var showStub = sandbox.stub(page, 'show');

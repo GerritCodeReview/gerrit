@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
+<link rel="import" href="../../shared/gr-bindable-select/gr-bindable-select.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -206,14 +207,21 @@ limitations under the License.
         }
       }
     </style>
-    <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
+    <div class="container loading" hidden$="{{!_loading}}">
+      Loading...
+    </div>
     <div class="container" hidden$="{{_loading}}">
       <div class="header">
         <span class="header-title">
-          <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
-          <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
+          <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]">
+        </gr-change-star>
+          <a href$="[[_computeChangePermalink(_change._number)]]">
+            [[_change._number]]
+          </a><span>:</span>
           <span>[[_change.subject]]</span>
-          <span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span>
+          <span class="changeStatus">
+            [[_computeChangeStatus(_change, _patchRange.patchNum)]]
+          </span>
         </span>
       </div>
       <section class="changeInfo">
@@ -260,18 +268,24 @@ limitations under the License.
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"
                   change="[[_change]]"
-                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"></gr-related-changes-list>
+                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]">
+              </gr-related-changes-list>
             </div>
           </div>
         </div>
       </section>
-      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum, _allPatchSets)]]">
+      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum,
+          _allPatchSets)]]">
         <div class="patchInfo-header">
           <div>
-            <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
-            <select id="patchSetSelect" on-change="_handlePatchChange">
-              <template is="dom-repeat" items="[[_allPatchSets]]" as="patchNumber">
-                <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
+            <label class="patchSelectLabel" for="patchSetSelect">
+              Patch set
+            </label>
+            <select id="patchSetSelect" current="{{_selectedPatchSet}}"
+                is="gr-bindable-select" on-change="_handlePatchChange">
+              <template is="dom-repeat" items="[[_allPatchSets]]"
+                  as="patchNumber">
+                <option value$="[[patchNumber]]">
                   <span>[[patchNumber]]</span>
                   /
                   <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>

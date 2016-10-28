@@ -7,7 +7,6 @@ Bazel build is experimental. Major missing parts:
 * Version stamping
 * Custom plugins
 * Eclipse project generation.
-* Publishing to maven.
 * Test suites for SSH, acceptance, etc.
 * tag tests as slow, flaky, etc.
 
@@ -81,7 +80,17 @@ project directories, here as example for plugin API:
   bazel-bin/gerrit-extension-api/extension-api_deploy.jar
 ----
 
-TODO - fix and document deployment to maven
+Install {extension,plugin,gwt}-api to the local maven repository:
+
+----
+  tools/maven/api.sh install bazel
+----
+
+Install gerrit.war to the local maven repository:
+
+----
+  tools/maven/api.sh war_install bazel
+----
 
 === Plugins
 

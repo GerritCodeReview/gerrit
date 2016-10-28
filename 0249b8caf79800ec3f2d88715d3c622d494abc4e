@@ -23,6 +23,30 @@
       "revId": "0249b8caf79800ec3f2d88715d3c622d494abc4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6c19e1f_49f0a175",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-10-28T15:10:53Z",
+      "side": 1,
+      "message": "I was thinking about this, but found it more readable like this, because then the comments on this code can be specific to either merged or abandoned changes.",
+      "parentUuid": "c6313218_028b2a04",
+      "range": {
+        "startLine": 802,
+        "startChar": 6,
+        "endLine": 806,
+        "endChar": 7
+      },
+      "revId": "0249b8caf79800ec3f2d88715d3c622d494abc4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

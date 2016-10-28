@@ -16,6 +16,24 @@
       "revId": "452401ee9c700eb58389df8e0305455e1ab277a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c65a1268_baa71194",
+        "filename": "polygerrit-ui/app/elements/shared/gr-bindable-select/gr-bindable-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-28T17:45:49Z",
+      "side": 1,
+      "message": "@becky\n\u003e I didn\u0027t try to implement it, but I don\u0027t believe it would work because it \n\u003e adds the \"selected\" by looping through options, which is where the problem \n\u003e occurred in the previous implementation of this.\n\nIs there a way to enhance GR-SELECT instead? I don\u0027t see the reason to fragment our SELECT implementations.\n\n@andy\n\u003e Keep in mind that type extension elements are not supported in Polymer 2.0\n\nIn light of this, we can definitely also upgrade GR-SELECT to be a normal Polymer component.\n\nI want to avoid having several custom SELECT implementations that are each good at avoiding a single bug. Rather one custom SELECT that has all quirks ironed out.",
+      "parentUuid": "46454283_7e773145",
+      "revId": "452401ee9c700eb58389df8e0305455e1ab277a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

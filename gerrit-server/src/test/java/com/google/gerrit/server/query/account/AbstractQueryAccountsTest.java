@@ -284,7 +284,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     List<AccountInfo> result = assertQuery(domain, user1, user2, user3);
     assertThat(Iterables.getLast(result)._moreAccounts).isNull();
 
-    result = assertQuery(newQuery(domain).withLimit(2), user1, user2);
+    result = assertQuery(newQuery(domain).withLimit(2), result.subList(0, 2));
     assertThat(Iterables.getLast(result)._moreAccounts).isTrue();
   }
 
@@ -295,8 +295,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccountWithEmail("user2", "user2@" + domain);
     AccountInfo user3 = newAccountWithEmail("user3", "user3@" + domain);
 
-    assertQuery(domain, user1, user2, user3);
-    assertQuery(newQuery(domain).withStart(1), user2, user3);
+    List<AccountInfo> result = assertQuery(domain, user1, user2, user3);
+    assertQuery(newQuery(domain).withStart(1), result.subList(1, 3));
   }
 
   @Test
@@ -445,8 +445,14 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return assertQuery(newQuery(query), accounts);
   }
 
-  protected List<AccountInfo> assertQuery(QueryRequest query, AccountInfo... accounts)
-      throws Exception {
+  protected List<AccountInfo> assertQuery(QueryRequest query,
+      AccountInfo... accounts) throws Exception {
+    return assertQuery(query, Arrays.asList(accounts));
+  }
+
+
+  protected List<AccountInfo> assertQuery(QueryRequest query,
+      List<AccountInfo> accounts) throws Exception {
     List<AccountInfo> result = query.get();
     Iterable<Integer> ids = ids(result);
     assertThat(ids).named(format(query, result, accounts))
@@ -454,12 +460,12 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return result;
   }
 
-  private String format(QueryRequest query, Iterable<AccountInfo> actualIds,
-      AccountInfo... expectedAccounts) {
+  private String format(QueryRequest query, List<AccountInfo> actualIds,
+      List<AccountInfo> expectedAccounts) {
     StringBuilder b = new StringBuilder();
     b.append("query '").append(query.getQuery())
         .append("' with expected accounts ");
-    b.append(format(Arrays.asList(expectedAccounts)));
+    b.append(format(expectedAccounts));
     b.append(" and result ");
     b.append(format(actualIds));
     return b.toString();

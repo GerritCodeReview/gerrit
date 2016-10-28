@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66b7a6b6_27931a35",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpServletResponseRecorder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T23:44:05Z",
+      "side": 1,
+      "message": "Missing @Override on this method causes a warning in Eclipse.  IIUC we can\u0027t add it because it would cause a compiler error in the 2.5 API.\n\nUnfortunately it doesn\u0027t look like it\u0027s possible to suppress only that warning, only \"all\".",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 3
+      },
+      "revId": "3712722cc4833b5b2433cf05a1a6dba23eb76628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

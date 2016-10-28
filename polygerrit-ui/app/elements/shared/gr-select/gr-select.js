@@ -16,40 +16,31 @@
 
   Polymer({
     is: 'gr-select',
-
     extends: 'select',
-
     properties: {
       bindValue: {
         type: String,
         notify: true,
+        observer: '_updateValue'
       },
     },
 
-    observers: [
-      '_valueChanged(bindValue)',
-    ],
+    listeners: {
+      change: '_valueChanged',
+      'dom-change': '_updateValue',
+    },
 
-    attached: function() {
-      this.addEventListener('change', function() {
-        this.bindValue = this.value;
-      });
+    _updateValue: function() {
+      this.value = this.bindValue;
+    },
+
+    _valueChanged: function() {
+      this.bindValue = this.value;
     },
 
     ready: function() {
       // If not set via the property, set bind-value to the element value.
       if (!this.bindValue) { this.bindValue = this.value; }
-    },
-
-    _valueChanged: function(bindValue) {
-      var options = Polymer.dom(this.root).querySelectorAll('option');
-      for (var i = 0; i < options.length; i++) {
-        if (options[i].getAttribute('value') === bindValue + '') {
-          options[i].setAttribute('selected', true);
-          this.value = bindValue;
-          break;
-        }
-      }
     },
   });
 })();

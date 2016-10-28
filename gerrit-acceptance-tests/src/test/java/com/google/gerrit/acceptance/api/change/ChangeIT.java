@@ -2142,6 +2142,56 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkLabelsForOpenChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeInfo change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+
+    // add new label and assert that it's returned for existing changes
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    LabelType verified = Util.verified();
+    cfg.getLabelSections().put(verified.getName(), verified);
+    AccountGroup.UUID registeredUsers =
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+    Util.allow(cfg, Permission.forLabel(verified.getName()), -1, 1,
+        registeredUsers, heads);
+    saveProjectConfig(project, cfg);
+
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.labels.keySet())
+        .containsExactly("Code-Review", "Verified");
+    assertThat(change.permittedLabels.keySet())
+        .containsExactly("Code-Review", "Verified");
+
+    // add an approval on the new label
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(new ReviewInput().label(
+            verified.getName(), verified.getMax().getValue()));
+
+    // remove label and assert that it's no longer returned for existing
+    // changes, even if there is an approval for it
+    cfg.getLabelSections().remove(verified.getName());
+    Util.remove(cfg, Permission.forLabel(verified.getName()), registeredUsers,
+        heads);
+    saveProjectConfig(project, cfg);
+
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+  }
+
+  @Test
   public void checkLabelsForMergedChange() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
@@ -2157,6 +2207,72 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .get();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+
+    // add new label and assert that it's returned for existing changes
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    LabelType verified = Util.verified();
+    cfg.getLabelSections().put(verified.getName(), verified);
+    AccountGroup.UUID registeredUsers =
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+    Util.allow(cfg, Permission.forLabel(verified.getName()), -1, 1,
+        registeredUsers, heads);
+    saveProjectConfig(project, cfg);
+
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.labels.keySet())
+        .containsExactly("Code-Review", "Verified");
+    assertThat(change.permittedLabels.keySet())
+        .containsExactly("Code-Review", "Verified");
+
+    // ignore the new label by Prolog submit rule and assert that the label is
+    // no longer returned
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Ignore Verified",
+        "rules.pl",
+        "submit_rule(submit(CR)) :-\n"
+            + "  gerrit:max_with_block(-2, 2, 'Code-Review', CR).");
+    push2.to(RefNames.REFS_CONFIG);
+
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+
+    // add an approval on the new label and assert that the label is now
+    // returned although it is ignored by the Prolog submit rule and hence not
+    // included in the submit records
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(new ReviewInput().label(
+            verified.getName(), verified.getMax().getValue()));
+
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.labels.keySet())
+        .containsExactly("Code-Review", "Verified");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+
+    // remove label and assert that it's no longer returned for existing
+    // changes, even if there is an approval for it
+    cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().remove(verified.getName());
+    Util.remove(cfg, Permission.forLabel(verified.getName()), registeredUsers,
+        heads);
+    saveProjectConfig(project, cfg);
+
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
     assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
   }

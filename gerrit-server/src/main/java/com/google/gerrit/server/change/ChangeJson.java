@@ -771,8 +771,6 @@ public class ChangeJson {
       }
     }
 
-    // We can only approximately reconstruct what the submit rule evaluator
-    // would have done. These should really come from a stored submit record.
     Set<String> labelNames = new HashSet<>();
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
     for (PatchSetApproval a : cd.currentApprovals()) {
@@ -787,25 +785,35 @@ public class ChangeJson {
     }
 
     Map<String, LabelWithStatus> labels;
-    if (cd.change().getStatus() == Change.Status.ABANDONED) {
-      // For abandoned changes return only labels for which an approval exists.
+    if (cd.change().getStatus() == Change.Status.MERGED) {
+      // Since voting on merged changes is allowed all labels which apply to
+      // the change must be returned. All applying labels can be retrieved from
+      // the submit records, which is what initLabels does.
+      // It's not possible to only compute the labels based on the approvals
+      // since merged changes may not have approvals for all labels (e.g. if not
+      // all labels are required for submit or if the change was auto-closed due
+      // to direct push or if new labels were defined after the change was
+      // merged).
+      labels = initLabels(cd, labelTypes, standard);
+
+      // Also include all labels for which approvals exists. E.g. there can be
+      // approvals for labels that are ignored by a Prolog submit rule and hence
+      // it wouldn't be included in the submit records.
+      for (String name : labelNames) {
+        if (!labels.containsKey(name)) {
+          labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
+        }
+      }
+    } else {
+      // For abandoned changes return only labels for which approvals exist.
       // Other labels are not needed since voting on abandoned changes is not
       // allowed.
       labels = new TreeMap<>(labelTypes.nameComparator());
       for (String name : labelNames) {
-        labels.put(labelTypes.byLabel(name).getName(),
-            LabelWithStatus.create(new LabelInfo(), null));
+        labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
       }
-    } else {
-      // Since voting on merged changes is allowed all labels which apply to
-      // the change must be returned. All applying labels can be retrieved from
-      // the submit records, which is what initLabels does.
-      // It's not possible to compute the labels based on the approvals since
-      // merged changes may not have approvals for all labels (e.g. if not all
-      // labels are required for submit or if the change was auto-closed due to
-      // direct push or if new labels were defined after the change was merged).
-      labels = initLabels(cd, labelTypes, standard);
     }
+
     if (detailed) {
       labels.entrySet().stream().forEach(
           e -> setLabelValues(labelTypes.byLabel(e.getKey()), e.getValue()));

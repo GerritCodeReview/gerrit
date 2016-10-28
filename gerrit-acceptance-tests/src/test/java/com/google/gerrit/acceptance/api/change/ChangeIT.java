@@ -2224,15 +2224,41 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.labels.keySet()).containsExactly("Code-Review", "Verified");
     assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review", "Verified");
 
-    // add an approval on the new label
+    // ignore the new label by Prolog submit rule and assert that the label is
+    // no longer returned
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Ignore Verified",
+        "rules.pl",
+        "submit_rule(submit(CR)) :-\n"
+            + "  gerrit:max_with_block(-2, 2, 'Code-Review', CR).");
+    push2.to(RefNames.REFS_CONFIG);
+
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.labels.keySet()).containsExactly("Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+
+    // add an approval on the new label and assert that the label is now
+    // returned although it is ignored by the Prolog submit rule and hence not
+    // included in the submit records
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
         .review(new ReviewInput().label(
             verified.getName(), verified.getMax().getValue()));
 
+    change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.labels.keySet()).containsExactly("Code-Review", "Verified");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+
     // remove label and assert that it's no longer returned for existing
     // changes, even if there is an approval for it
+    cfg = projectCache.checkedGet(project).getConfig();
     cfg.getLabelSections().remove(verified.getName());
     Util.remove(cfg, Permission.forLabel(verified.getName()), registeredUsers, heads);
     saveProjectConfig(project, cfg);

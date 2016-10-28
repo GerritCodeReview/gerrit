@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6a2b67b_23930a35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-28T16:29:13Z",
+      "side": 1,
+      "message": "Looks like you stopped sorting these. I don\u0027t think ReviewerSet guarantees any kind of order.",
+      "revId": "b0dd2a4170ffbdb12c6b6f59269a23eefbdb9283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

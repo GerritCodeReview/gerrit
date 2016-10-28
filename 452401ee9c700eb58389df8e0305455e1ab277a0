@@ -34,6 +34,24 @@
       "revId": "452401ee9c700eb58389df8e0305455e1ab277a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46454283_de9e4538",
+        "filename": "polygerrit-ui/app/elements/shared/gr-bindable-select/gr-bindable-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-28T17:52:00Z",
+      "side": 1,
+      "message": "Sounds good, I\u0027ll work on this today.",
+      "parentUuid": "c65a1268_baa71194",
+      "revId": "452401ee9c700eb58389df8e0305455e1ab277a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

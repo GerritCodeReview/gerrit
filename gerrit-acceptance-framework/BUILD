@@ -67,4 +67,5 @@ java_doc(
   title = 'Gerrit Acceptance Test Framework Documentation',
   libs = [':lib'],
   pkgs = ['com.google.gerrit.acceptance'],
+  visibility = ['//visibility:public'],
 )

@@ -25,7 +25,10 @@
     is: 'gr-file-list',
 
     properties: {
-      patchRange: Object,
+      patchRange: {
+        type: Object,
+        observer: '_updateSelected',
+      },
       patchNum: String,
       changeNum: String,
       comments: Object,
@@ -58,6 +61,7 @@
         type: Array,
         value: function() { return []; },
       },
+      _diffAgainst: String,
       _diffPrefs: Object,
       _userPrefs: Object,
       _localPrefs: Object,
@@ -179,10 +183,6 @@
 
     _computePatchSetDisabled: function(patchNum, currentPatchNum) {
       return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
-    },
-
-    _computePatchSetSelected: function(patchNum, basePatchNum) {
-      return parseInt(patchNum, 10) === parseInt(basePatchNum, 10);
     },
 
     _handleHiddenChange: function(e) {
@@ -525,6 +525,10 @@
 
     _showAllFiles: function() {
       this._numFilesShown = this._files.length;
+    },
+
+    _updateSelected: function(patchRange) {
+      this._diffAgainst = patchRange.basePatchNum;
     },
 
     /**

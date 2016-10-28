@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "26adae6a_e5a41691",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-28T18:31:04Z",
+      "side": 1,
+      "message": "Actually primarily what I meant by that question was what code change was actually responsible for the behavior difference in this change. Then I went back and saw that yes there is a small change to ChangeNotesParser.java that accounts for this change.\n\nI think this would have been clearer if that parser change and this test change were in their own commit, but at this point it\u0027s probably not worth the effort.",
+      "parentUuid": "46454283_5eceb54f",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c9d645_0b77fd45",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 8

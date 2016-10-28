@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -359,7 +360,14 @@ public class PostReviewers
         if (addedCCs == null) {
           addedCCs = new ArrayList<>();
         }
-        emailReviewers(rsrc.getChange(), addedReviewers, addedCCs, notify);
+        List<Account.Id> accounts = Lists.transform(addedReviewers,
+            new Function<PatchSetApproval, Account.Id>() {
+              public Account.Id apply(PatchSetApproval psa) {
+                return psa.getAccountId();
+              }
+            });
+
+        emailReviewers(rsrc.getChange(), accounts, addedCCs, notify);
         if (!addedReviewers.isEmpty()) {
           for (PatchSetApproval psa : addedReviewers) {
             Account account = accountCache.get(psa.getAccountId()).getAccount();
@@ -371,7 +379,7 @@ public class PostReviewers
     }
   }
 
-  private void emailReviewers(Change change, List<PatchSetApproval> added,
+  public void emailReviewers(Change change, Collection<Account.Id> added,
       Collection<Account.Id> copied, NotifyHandling notify) {
     if (added.isEmpty() && copied.isEmpty()) {
       return;
@@ -382,9 +390,9 @@ public class PostReviewers
     // The user knows they added themselves, don't bother emailing them.
     List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
     Account.Id userId = user.get().getAccountId();
-    for (PatchSetApproval psa : added) {
-      if (!psa.getAccountId().equals(userId)) {
-        toMail.add(psa.getAccountId());
+    for (Account.Id id : added) {
+      if (!id.equals(userId)) {
+        toMail.add(id);
       }
     }
     List<Account.Id> toCopy = Lists.newArrayListWithCapacity(copied.size());

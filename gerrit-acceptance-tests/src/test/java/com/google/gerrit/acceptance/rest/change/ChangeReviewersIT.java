@@ -451,35 +451,24 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Verify emails were sent to added reviewers.
     List<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(3);
+    assertThat(messages).hasSize(2);
     // First email to user.
     Message m = messages.get(0);
-    if (notesMigration.readChanges()) {
-      assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    } else {
-      assertThat(m.rcpt()).containsExactly(
-          user.emailAddress, observer.emailAddress);
-    }
-    assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
-    assertThat(m.body()).contains("I'd like you to do a code review.");
+    assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
+    assertThat(m.body()).contains(admin.fullName + " has posted comments on this change.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    // Second email to reviewer and observer.
+    assertThat(m.body()).contains("Patch Set 1: Code-Review+2");
+
+    // Third email is review to user and observer.
     m = messages.get(1);
     if (notesMigration.readChanges()) {
       assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
       assertThat(m.body()).contains(admin.fullName + " has uploaded a new change for review.");
     } else {
       assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
-      assertThat(m.body()).contains("Hello " + observer.fullName + ",\n");
+      assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
       assertThat(m.body()).contains("I'd like you to do a code review.");
     }
-
-    // Third email is review to user and observer.
-    m = messages.get(2);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
-    assertThat(m.body()).contains(admin.fullName + " has posted comments on this change.");
-    assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertThat(m.body()).contains("Patch Set 1: Code-Review+2");
   }
 
   @Test

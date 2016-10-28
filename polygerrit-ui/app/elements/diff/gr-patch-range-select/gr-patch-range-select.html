@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
+<link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <dom-module id="gr-patch-range-select">
@@ -28,12 +28,11 @@ limitations under the License.
     </style>
     Patch set:
     <span class="patchRange">
-      <select id="leftPatchSelect" on-change="_handlePatchChange">
-        <option value="PARENT"
-            selected$="[[_computeLeftSelected('PARENT', patchRange)]]">Base</option>
+      <select id="leftPatchSelect" bind-value="{{_leftSelected}}"
+          on-change="_handlePatchChange" is="gr-select">
+        <option value="PARENT">Base</option>
         <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
           <option value$="[[patchNum]]"
-              selected$="[[_computeLeftSelected(patchNum, patchRange)]]"
               disabled$="[[_computeLeftDisabled(patchNum, patchRange)]]">[[patchNum]]</option>
         </template>
       </select>
@@ -46,10 +45,10 @@ limitations under the License.
     </span>
     &rarr;
     <span class="patchRange">
-      <select id="rightPatchSelect" on-change="_handlePatchChange">
+      <select id="rightPatchSelect" bind-value="{{_rightSelected}}"
+          on-change="_handlePatchChange" is="gr-select">
         <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
           <option value$="[[patchNum]]"
-              selected$="[[_computeRightSelected(patchNum, patchRange)]]"
               disabled$="[[_computeRightDisabled(patchNum, patchRange)]]">[[patchNum]]</option>
         </template>
       </select>

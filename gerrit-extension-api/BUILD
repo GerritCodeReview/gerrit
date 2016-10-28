@@ -55,4 +55,5 @@ java_doc(
   libs = [':api'],
   pkgs = ['com.google.gerrit.extensions'],
   external_docs = [JGIT_DOC_URL, GUAVA_DOC_URL],
+  visibility = ['//visibility:public'],
 )

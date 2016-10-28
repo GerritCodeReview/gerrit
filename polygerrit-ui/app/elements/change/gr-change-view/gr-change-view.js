@@ -73,7 +73,10 @@
         type: String,
         value: '',
       },
-      _patchRange: Object,
+      _patchRange: {
+        type: Object,
+        observer: '_updateSelected',
+      },
       _allPatchSets: {
         type: Array,
         computed: '_computeAllPatchSets(_change)',
@@ -89,6 +92,7 @@
         value: 'Reply',
         computed: '_computeReplyButtonLabel(_diffDrafts.*)',
       },
+      _selectedPatchSet: String,
       _initialLoadComplete: {
         type: Boolean,
         value: false,
@@ -458,6 +462,8 @@
           this._patchRange.patchNum ||
               this._computeLatestPatchNum(this._allPatchSets));
 
+      this._updateSelected();
+
       var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title: title});
     },
@@ -526,10 +532,6 @@
           return change.revisions[rev];
         }
       }
-    },
-
-    _computePatchIndexIsSelected: function(index, patchNum) {
-      return this._allPatchSets[index] == patchNum;
     },
 
     _computeLabelNames: function(labels) {
@@ -775,6 +777,10 @@
         this._getCommitInfo(),
         this.$.fileList.reload(),
       ]);
+    },
+
+    _updateSelected: function() {
+      this._selectedPatchSet = this._patchRange.patchNum;
     },
   });
 })();

@@ -24,12 +24,12 @@
  */
 {template .DeleteReviewerHtml autoescape="strict" kind="html"}
   <p>
-    <strong>{$fromName}</strong> removed{sp}
+    {$fromName} removed{sp}
     {foreach $reviewerName in $email.reviewerNames}
       {if not isFirst($reviewerName)},{sp}{/if}
-      <strong>{$reviewerName}</strong>
+      {$reviewerName}
     {/foreach}{sp}
-    from <strong>{$change.subject}</strong>.
+    from {$change.subject}.
   </p>
 
   {if $email.changeUrl}

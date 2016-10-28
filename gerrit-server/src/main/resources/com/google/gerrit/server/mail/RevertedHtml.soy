@@ -24,8 +24,7 @@
  */
 {template .RevertedHtml autoescape="strict" kind="html"}
   <p>
-    <strong>{$fromName}</strong> reverted the change:{sp}
-    <strong>{$change.subject}</strong>.
+    {$fromName} reverted the change: {$change.subject}.
   </p>
 
   {if $email.changeUrl}

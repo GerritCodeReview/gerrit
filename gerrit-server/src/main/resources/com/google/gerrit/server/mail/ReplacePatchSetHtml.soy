@@ -25,9 +25,7 @@
  */
 {template .ReplacePatchSetHtml autoescape="strict" kind="html"}
   <p>
-    <strong>{$fromName}</strong> uploaded patch set{sp}
-    <strong>#{$patchSet.patchSetId}</strong> to{sp}
-    <strong>{$change.subject}</strong>.
+    {$fromName} uploaded patch set #{$patchSet.patchSetId} to {$change.subject}.
   </p>
 
   {if $email.changeUrl}

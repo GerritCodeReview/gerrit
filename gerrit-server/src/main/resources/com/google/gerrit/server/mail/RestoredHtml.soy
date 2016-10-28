@@ -24,8 +24,7 @@
  */
 {template .RestoredHtml autoescape="strict" kind="html"}
   <p>
-    <strong>{$fromName}</strong> restored{sp}
-    <strong>{$change.subject}</strong>.
+    {$fromName} restored {$change.subject}.
   </p>
 
   {if $email.changeUrl}

@@ -44,8 +44,7 @@
   {/let}
 
   <p>
-    <strong>{$fromName}</strong> posted comments on{sp}
-    <strong>{$change.subject}</strong>.
+    {$fromName} posted comments on {$change.subject}.
   </p>
 
   {if $email.changeUrl}
@@ -62,7 +61,7 @@
     {foreach $group in $commentFiles}
       <li>
         <p>
-          <strong><a href="{$group.link}">{$group.title}:</a></strong>
+          <a href="{$group.link}">{$group.title}:</a>
         </p>
 
         <ul style="{$ulStyle}">

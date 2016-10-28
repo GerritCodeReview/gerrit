@@ -26,17 +26,16 @@
 {template .NewChangeHtml autoescape="strict" kind="html"}
   <p>
     {if $email.reviewerNames}
-      <strong>{$fromName}</strong> would like{sp}
+      {$fromName} would like{sp}
       {foreach $reviewerName in $email.reviewerNames}
         {if not isFirst($reviewerName)}
           {if isLast($reviewerName)}{sp}and{else},{/if}{sp}
         {/if}
-        <strong>{$reviewerName}</strong>
+        {$reviewerName}
       {/foreach}{sp}
-      to review <strong>{$change.subject}</strong>.
+      to review {$change.subject}.
     {else}
-      <strong>{$fromName}</strong> uploaded{sp}
-      <strong>{$change.subject}</strong> for review.
+      {$fromName} uploaded {$change.subject} for review.
     {/if}
   </p>
 

@@ -40,7 +40,13 @@ abstract class Event implements Comparable<Event> {
   final Account.Id realUser;
   final String tag;
   final boolean predatesChange;
+
+  /**
+   * Dependencies of this event; other events that must happen before this
+   * one.
+   */
   final List<Event> deps;
+
   Timestamp when;
   PatchSet.Id psId;
 

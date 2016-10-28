@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46454283_bed9b90c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-dialog/gr-confirm-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-28T19:31:03Z",
+      "side": 1,
+      "message": "Would fixing size for gr-overlay enable all the dialogs to the same behavior?\nI remember users were complaining about reply dialog being too tall.",
+      "revId": "d67d746592d9c44c15d4b9fdec0e4c292075207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

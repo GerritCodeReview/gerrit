@@ -54,15 +54,27 @@ war_deploy)
     ;;
 esac
 
+buildProc=buck
+case "$2" in
+bazel)
+    buildProc=bazel
+    ;;
+esac
+
 if [[ "${VERBOSE:-x}" != "x" ]]; then
   set -o xtrace
 fi
 
-buck build //tools/maven:gen_${command} || \
-  { echo "buck failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
+$buildProc build //tools/maven:gen_${command} || \
+  { echo "$buildProc failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 
-script="./buck-out/gen/tools/maven/gen_${command}/${command}.sh"
+if [[ "$buildProc" = "buck" ]]; then
+  script="./buck-out/gen/tools/maven/gen_${command}/${command}.sh"
+else
+  script="./bazel-genfiles/tools/maven/${command}.sh"
+fi
 
+# Buck:
 # The PEX wrapper does some funky exit handling, so even if the script
 # does "exit(0)", the return status is '1'. So we can't tell if the
 # following invocation was successful.

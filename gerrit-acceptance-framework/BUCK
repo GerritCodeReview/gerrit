@@ -1,25 +1,5 @@
 SRCS = glob(['src/test/java/com/google/gerrit/acceptance/*.java'])
 
-DEPS = [
-  '//gerrit-antlr:query_exception',
-  '//gerrit-gpg:gpg',
-  '//gerrit-launcher:launcher',
-  '//gerrit-openid:openid',
-  '//gerrit-pgm:daemon',
-  '//gerrit-pgm:http-jetty',
-  '//gerrit-pgm:util-nodep',
-  '//gerrit-server/src/main/prolog:common',
-  '//gerrit-server:testutil',
-  '//lib/auto:auto-value',
-  '//lib/httpcomponents:fluent-hc',
-  '//lib/httpcomponents:httpclient',
-  '//lib/httpcomponents:httpcore',
-  '//lib/jetty:servlet',
-  '//lib/jgit/org.eclipse.jgit.junit:junit',
-  '//lib/log:impl_log4j',
-  '//lib/log:log4j',
-]
-
 PROVIDED = [
   '//gerrit-common:annotations',
   '//gerrit-common:server',
@@ -55,7 +35,24 @@ genrule(
 java_library(
   name = 'lib',
   srcs = SRCS,
-  exported_deps = DEPS + [
+  exported_deps = [
+    '//gerrit-antlr:query_exception',
+    '//gerrit-gpg:gpg',
+    '//gerrit-launcher:launcher',
+    '//gerrit-openid:openid',
+    '//gerrit-pgm:daemon',
+    '//gerrit-pgm:http-jetty',
+    '//gerrit-pgm:util-nodep',
+    '//gerrit-server/src/main/prolog:common',
+    '//gerrit-server:testutil',
+    '//lib/auto:auto-value',
+    '//lib/httpcomponents:fluent-hc',
+    '//lib/httpcomponents:httpclient',
+    '//lib/httpcomponents:httpcore',
+    '//lib/jetty:servlet',
+    '//lib/jgit/org.eclipse.jgit.junit:junit',
+    '//lib/log:impl_log4j',
+    '//lib/log:log4j',
     '//lib:truth',
   ],
   provided_deps = PROVIDED + [
@@ -79,7 +76,8 @@ java_doc(
   pkgs = [' com.google.gerrit.acceptance'],
   source_jar = ':acceptance-framework-src',
   srcs = SRCS,
-  deps = DEPS + PROVIDED + [
+  deps = PROVIDED + [
+    ':lib',
     '//lib:guava',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice_library',
@@ -87,7 +85,6 @@ java_doc(
     '//lib/guice:javax-inject',
     '//lib:gwtorm_client',
     '//lib:junit',
-    '//lib:truth',
   ],
   visibility = ['PUBLIC'],
 )

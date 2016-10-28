@@ -150,7 +150,8 @@ public class MergedByPushOp extends BatchUpdate.Op {
     }
     msgBuf.append(".");
     ChangeMessage msg = ChangeMessagesUtil.newMessage(
-        ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString());
+        ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString(),
+        ChangeMessagesUtil.TAG_MERGED);
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     PatchSetApproval submitter = ApprovalsUtil.newApproval(

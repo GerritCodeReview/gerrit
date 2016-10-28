@@ -25,6 +25,7 @@ import com.google.common.collect.SetMultimap;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Helper to sort a list of events.
@@ -63,12 +64,12 @@ class EventSorter {
 
   void sort() {
     // First pass: sort by natural order.
-    Collections.sort(out);
+    PriorityQueue<Event> todo = new PriorityQueue<>(out);
 
     // Populate waiting map after initial sort to preserve natural order.
     waiting = ArrayListMultimap.create();
     deps = HashMultimap.create();
-    for (Event e : out) {
+    for (Event e : todo) {
       for (Event d : e.deps) {
         deps.put(e, d);
         waiting.put(d, e);
@@ -77,8 +78,8 @@ class EventSorter {
 
     // Second pass: enforce dependencies.
     int size = out.size();
-    for (Event e : out) {
-      process(e);
+    while (!todo.isEmpty()) {
+      process(todo.remove(), todo);
     }
     checkState(sorted.size() == size,
         "event sort expected %s elements, got %s", size, sorted.size());
@@ -88,20 +89,26 @@ class EventSorter {
     out.addAll(sorted);
   }
 
-  void process(Event e) {
+  void process(Event e, PriorityQueue<Event> todo) {
     if (sorted.contains(e)) {
+      return; // Already emitted.
+    }
+    if (!deps.get(e).isEmpty()) {
+      // Not all events that e depends on have been emitted yet. Ignore e for
+      // now; it will get added back to the queue in the block below once its
+      // last dependency is processed.
       return;
     }
-    // If all events that e depends on have been emitted:
-    //  - e can be emitted.
-    //  - remove e from the dependency set of all events waiting on e, and then
-    //    re-process those events in case they can now be emitted.
-    if (deps.get(e).isEmpty()) {
-      sorted.add(e);
-      for (Event w : waiting.get(e)) {
-        deps.get(w).remove(e);
-        process(w);
-      }
+
+    // All events that e depends on have been emitted, so e can be emitted.
+    sorted.add(e);
+
+    // Remove e from the dependency set of all events waiting on e, and add
+    // those events back to the queue in the original priority order for
+    // reconsideration.
+    for (Event w : waiting.get(e)) {
+      deps.get(w).remove(e);
+      todo.add(w);
     }
   }
 }

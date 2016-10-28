@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c65a1268_1ac43d2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-28T18:22:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6c9d645_4b6d0578",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c9d645_6b724157",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 8
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "c65a1268_7ac9f945",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-28T18:22:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6c9d645_6b724157",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06cd0a4f_8c8a27fe",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 8
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "46454283_5eceb54f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-28T18:22:48Z",
+      "side": 1,
+      "message": "This was a design decision that the tag shouldn\u0027t \"duplicate\" the approval and it shouldn\u0027t be required to delete-- so then the second approval was set, it updated the original one, hence the count of 1 instead of 1. Locan started a discussion here regarding this question:\nhttps://groups.google.com/forum/#!topic/repo-discuss/yxqI73ycxzk",
+      "parentUuid": "06cd0a4f_8c8a27fe",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c9d645_0b77fd45",
         "filename": "polygerrit-ui/app/elements/gr-app_test.html",
         "patchSetId": 8
@@ -70,6 +124,24 @@
       "writtenOn": "2016-10-28T02:47:35Z",
       "side": 1,
       "message": "Unrelated?",
+      "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c65a1268_da9e4538",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-28T18:22:48Z",
+      "side": 1,
+      "message": "Yes, unrelated-- I added a pre-commit hook to lint and this was caught.",
+      "parentUuid": "e6c9d645_0b77fd45",
       "revId": "0bc9ac8e8378462e92978013c07bf4e842ee65bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

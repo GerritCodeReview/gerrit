@@ -25,16 +25,7 @@
  * @param email
  */
 {template .ViewChangeButton private="true" autoescape="strict" kind="html"}
-  {let $visitButtonStyle kind="css"}
-    background: #4d90fe;
-    border: 1px solid #3079ed;
-    border-radius: 4px;
-    color: #fff;
-    display: inline-block;
-    margin-right: 8px;
-    padding: 6px 12px;
-  {/let}
-  <a style="{$visitButtonStyle}" href="{$email.changeUrl}">View Change</a>
+  <a href="{$email.changeUrl}">View Change</a>
 {/template}
 
 /**

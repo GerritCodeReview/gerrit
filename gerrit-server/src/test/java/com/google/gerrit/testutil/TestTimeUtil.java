@@ -22,6 +22,7 @@ import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
 import org.joda.time.DateTimeZone;
 
+import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -65,8 +66,31 @@ public class TestTimeUtil {
     });
   }
 
+  /**
+   * Set the clock to a specific timestamp.
+   *
+   * @param ts time to set
+   */
+  public static synchronized void setClock(Timestamp ts) {
+    checkState(clockMs != null, "call resetWithClockStep first");
+    clockMs.set(ts.getTime());
+  }
+
+  /**
+   * Increment the clock once by a given amount.
+   *
+   * @param clockStep amount to increment clock by.
+   * @param clockStepUnit time unit for {@code clockStep}.
+   */
+  public static synchronized void incrementClock(
+      long clockStep, TimeUnit clockStepUnit) {
+    checkState(clockMs != null, "call resetWithClockStep first");
+    clockMs.addAndGet(clockStepUnit.toMillis(clockStep));
+  }
+
   /** Reset the clock to use the actual system clock. */
   public static synchronized void useSystemTime() {
+    clockMs = null;
     DateTimeUtils.setCurrentMillisSystem();
   }
 

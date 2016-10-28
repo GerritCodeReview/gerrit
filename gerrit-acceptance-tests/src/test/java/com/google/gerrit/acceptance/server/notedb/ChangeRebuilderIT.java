@@ -72,6 +72,7 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -1069,6 +1070,22 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(pub.get(1).getMessage()).isEqualTo("comment with impersonation");
     assertThat(pub.get(1).getAuthor()).isEqualTo(user.id);
     assertThat(pub.get(1).getRealAuthor()).isEqualTo(admin.id);
+  }
+
+  @Test
+  public void laterEventsDependingOnEarlierPatchSetDontIntefereWithOtherPatchSets()
+      throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    ChangeData cd = r1.getChange();
+    Change.Id id = cd.getId();
+    amendChange(cd.change().getKey().get());
+    TestTimeUtil.incrementClock(90, TimeUnit.DAYS);
+
+    ReviewInput rin = ReviewInput.approve();
+    rin.message = "Some very late message on PS1";
+    gApi.changes().id(id.get()).revision(1).review(rin);
+
+    checker.rebuildAndCheckChanges(id);
   }
 
   private void assertChangesReadOnly(RestApiException e) throws Exception {

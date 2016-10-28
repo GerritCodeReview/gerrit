@@ -67,6 +67,10 @@ limitations under the License.
       element.changeNum = '42';
       element.path = 'path/to/file.txt';
       element.availablePatches = ['1', '2', '3'];
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '3',
+      };
       flushAsynchronousOperations();
 
       var numEvents = 0;

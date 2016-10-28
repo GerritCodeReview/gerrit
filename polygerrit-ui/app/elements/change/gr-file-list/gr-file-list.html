@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
 
 <dom-module id="gr-file-list">
   <template>
@@ -183,13 +184,17 @@ limitations under the License.
         <span class="separator">/</span>
         <label>
           Diff against
-          <select id="patchChange" on-change="_handlePatchChange">
+          <select id="patchChange" bind-value="{{_diffAgainst}}" is="gr-select"
+              on-change="_handlePatchChange">
             <option value="PARENT">Base</option>
-            <template is="dom-repeat" items="[[_computePatchSets(revisions, patchRange.*)]]" as="patchNum">
-              <option
-                  value$="[[patchNum]]"
-                  selected$="[[_computePatchSetSelected(patchNum, patchRange.basePatchNum)]]"
-                  disabled$="[[_computePatchSetDisabled(patchNum, patchRange.patchNum)]]">[[patchNum]]</option>
+            <template 
+                is="dom-repeat" 
+                items="[[_computePatchSets(revisions, patchRange.*)]]"
+                as="patchNum">
+              <option value$="[[patchNum]]" disabled$=
+                  "[[_computePatchSetDisabled(patchNum, patchRange.patchNum)]]">
+                [[patchNum]]
+              </option>
             </template>
           </select>
         </label>
@@ -208,7 +213,8 @@ limitations under the License.
         <div class$="[[_computeClass('status', file.__path)]]">
           [[_computeFileStatus(file.status)]]
         </div>
-        <a class="path" href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
+        <a class="path"
+            href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
           <div title$="[[_computeFileDisplayName(file.__path)]]">
             [[_computeFileDisplayName(file.__path)]]
           </div>
@@ -218,7 +224,9 @@ limitations under the License.
           </div>
         </a>
         <div class="comments">
-          <span class="drafts">[[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]</span>
+          <span class="drafts">
+            [[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]
+          </span>
           [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
         </div>
         <div class$="[[_computeClass('stats', file.__path)]]">

@@ -106,6 +106,92 @@
     },
     {
       "key": {
+        "uuid": "6690860a_5f94cb1d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "private final?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "666966e4_178e3410",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "not thrown?",
+      "range": {
+        "startLine": 28,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 70
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "666966e4_37933835",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "NotImplementedException?",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "666966e4_7799b054",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "nit: missing blank line",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26284e82_4dc4192f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
         "patchSetId": 3
@@ -146,6 +232,46 @@
     },
     {
       "key": {
+        "uuid": "666966e4_d7a75c93",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "private final?",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 9
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6690860a_7f998f54",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "long line",
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "462b827e_0e93ab34",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
         "patchSetId": 3
@@ -180,6 +306,23 @@
         "endLine": 58,
         "endChar": 24
       },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6690860a_1f8e4310",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RecompileGwtUiFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "nit: initialize variables in the same order that they\u0027re declared in the constructor parameters.",
       "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -242,6 +385,29 @@
         "startChar": 6,
         "endLine": 69,
         "endChar": 52
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "666966e4_f7a4e090",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T01:11:19Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 22,
+        "startChar": 30,
+        "endLine": 22,
+        "endChar": 43
       },
       "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

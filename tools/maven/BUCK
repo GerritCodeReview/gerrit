@@ -1,6 +1,6 @@
-include_defs('//VERSION')
 include_defs('//tools/maven/package.defs')
 include_defs('//tools/maven/repository.defs')
+include_defs('//version.bzl')
 
 if GERRIT_VERSION.endswith('-SNAPSHOT'):
   URL = MAVEN_SNAPSHOT_URL

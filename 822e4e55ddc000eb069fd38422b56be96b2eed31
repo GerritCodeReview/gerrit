@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66b7a6b6_277c7a27",
+        "filename": "VERSION",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-10-28T07:54:57Z",
+      "side": 1,
+      "message": "If you change this file you also need to change tools/version.py to update the version in version.bzl instead.",
+      "revId": "822e4e55ddc000eb069fd38422b56be96b2eed31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

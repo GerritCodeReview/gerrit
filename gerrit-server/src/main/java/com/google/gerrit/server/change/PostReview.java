@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -54,6 +55,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -181,6 +184,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
       for (AddReviewerInput reviewerInput : input.reviewers) {
+        // Prevent notifications because setting reviewers is batched.
+        reviewerInput.notify = NotifyHandling.NONE;
+
         PostReviewers.Addition result = postReviewers.prepareApplication(
             revision.getChangeResource(), reviewerInput);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
@@ -218,9 +224,25 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults();
       }
+
+      emailReviewers(revision.getChange(), reviewerResults, input.notify);
     }
 
     return Response.ok(output);
+  }
+
+  private void emailReviewers(Change change,
+      List<PostReviewers.Addition> reviewerAdditions, NotifyHandling notify) {
+    List<Account.Id> to = new ArrayList<>();
+    List<Account.Id> cc = new ArrayList<>();
+    for (PostReviewers.Addition addition : reviewerAdditions) {
+      if (addition.op.state == ReviewerState.REVIEWER) {
+        to.addAll(addition.op.reviewers.keySet());
+      } else if (addition.op.state == ReviewerState.CC) {
+        cc.addAll(addition.op.reviewers.keySet());
+      }
+    }
+    postReviewers.emailReviewers(change, to, cc, notify);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)

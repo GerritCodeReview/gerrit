@@ -103,4 +103,5 @@ java_doc(
     '//gerrit-gwtexpui:server',
     '//gerrit-reviewdb:server',
   ],
+  visibility = ['//visibility:public'],
 )

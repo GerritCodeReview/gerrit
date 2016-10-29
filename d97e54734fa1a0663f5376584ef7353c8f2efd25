@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "c65a1268_fafd094a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-29T00:03:28Z",
+      "side": 1,
+      "message": "Did you also un-bind the call to `done();` in `renderHandler`? Otherwise it\u0027s a bug if the promise from one render resolves multiple times.",
+      "parentUuid": "46454283_1ec42d2e",
+      "revId": "d97e54734fa1a0663f5376584ef7353c8f2efd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e618f670_338ec810",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 5

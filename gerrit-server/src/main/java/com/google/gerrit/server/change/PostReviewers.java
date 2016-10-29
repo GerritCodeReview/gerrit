@@ -364,9 +364,7 @@ public class PostReviewers
         if (addedCCs == null) {
           addedCCs = new ArrayList<>();
         }
-        emailReviewers(rsrc.getChange(),
-            Lists.transform(addedReviewers, r -> r.getAccountId()), addedCCs,
-            notify);
+        emailReviewers(rsrc.getChange(), addedReviewers, addedCCs, notify);
         if (!addedReviewers.isEmpty()) {
           List<Account> reviewers = Lists.transform(addedReviewers,
               psa -> accountCache.get(psa.getAccountId()).getAccount());
@@ -377,7 +375,7 @@ public class PostReviewers
     }
   }
 
-  public void emailReviewers(Change change, Collection<Account.Id> added,
+  private void emailReviewers(Change change, List<PatchSetApproval> added,
       Collection<Account.Id> copied, NotifyHandling notify) {
     if (added.isEmpty() && copied.isEmpty()) {
       return;
@@ -388,9 +386,9 @@ public class PostReviewers
     // The user knows they added themselves, don't bother emailing them.
     List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
     Account.Id userId = user.get().getAccountId();
-    for (Account.Id id : added) {
-      if (!id.equals(userId)) {
-        toMail.add(id);
+    for (PatchSetApproval psa : added) {
+      if (!psa.getAccountId().equals(userId)) {
+        toMail.add(psa.getAccountId());
       }
     }
     List<Account.Id> toCopy = Lists.newArrayListWithCapacity(copied.size());

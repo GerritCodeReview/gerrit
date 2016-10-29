@@ -10,6 +10,12 @@
 # If the script exits with non-zero code, it's considered as a failure
 # and the output will be discarded.
 
-git_rev=$(git describe --always --match "v[0-9].*" --dirty)
+function rev() {
+  cd $1; git describe --always --match "v[0-9].*" --dirty
+}
 
-echo "STABLE_BUILD_GERRIT_LABEL ${git_rev}"
+echo STABLE_BUILD_GERRIT_LABEL $(rev .)
+for p in plugins/* ; do
+  test -d "$p" || continue
+  echo STABLE_BUILD_$(echo $(basename $p)_LABEL|tr [a-z] [A-Z]) $(rev $p)
+done

@@ -32,16 +32,20 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwt.thirdparty.guava.common.collect.Sets;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RebaseIfNecessary extends SubmitStrategy {
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -171,6 +175,22 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
       throws IntegrationException {
+    Set<RevCommit> filteredAccepted = Sets.newHashSet(args.alreadyAccepted);
+    try (RevWalk mirw = new RevWalk(args.rw.getObjectReader().newReader())) {
+      outerloop: for (RevCommit aac : args.alreadyAccepted) {
+        for (RevCommit cts : toSort) {
+          // Trying to check if aac is child of merge candidate
+          // having no luck. filteredAccepted still contains children of
+          // merge candidates after this loop...
+          if (mirw.isMergedInto(mirw.parseCommit(cts), mirw.parseCommit(aac))) {
+            continue outerloop;
+          }
+        }
+        filteredAccepted.add(aac);
+      }
+    } catch (IOException ioe) {
+      throw new IntegrationException("Commit sorting failed", ioe);
+    }
     try {
       return new RebaseSorter(
           args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);

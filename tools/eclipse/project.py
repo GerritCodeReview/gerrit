@@ -80,14 +80,14 @@ def gen_plugin_classpath(root):
   with open(p, 'w') as fd:
     if path.exists(path.join(root, 'src', 'test', 'java')):
       testpath = """
-  <classpathentry kind="src" path="src/test/java"\
+  <classpathentry excluding="**/BUILD" kind="src" path="src/test/java"\
  out="eclipse-out/test"/>"""
     else:
       testpath = ""
     print("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="src" path="src/main/java"/>%(testpath)s
+  <classpathentry excluding="**/BUILD" kind="src" path="src/main/java"/>%(testpath)s
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry combineaccessrules="false" kind="src" path="/gerrit"/>
   <classpathentry kind="output" path="eclipse-out/classes"/>
@@ -101,6 +101,11 @@ def gen_classpath():
   def classpathentry(kind, path, src=None, out=None, exported=None):
     e = doc.createElement('classpathentry')
     e.setAttribute('kind', kind)
+    # TODO(davido): Remove this and other exclude BUILD files hack
+    # when this Bazel bug is fixed:
+    # https://github.com/bazelbuild/bazel/issues/1083
+    if kind == 'src':
+      e.setAttribute('excluding', '**/BUILD')
     e.setAttribute('path', path)
     if src:
       e.setAttribute('sourcepath', src)

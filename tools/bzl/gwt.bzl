@@ -12,12 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# GWT Rules Skylark rules for building [GWT](http://www.gwtproject.org/)
-# modules using Bazel.
+# Port of Buck native gwt_binary() rule. See discussion in context of
+# https://github.com/facebook/buck/issues/109
 load('//tools/bzl:genrule2.bzl', 'genrule2')
 load('//tools/bzl:java.bzl', 'java_library2')
 
 jar_filetype = FileType(['.jar'])
+
+BROWSERS = [
+  'chrome',
+  'firefox',
+  'gecko1_8',
+  'safari',
+  'msie', 'ie8', 'ie9', 'ie10',
+  'edge',
+]
+ALIASES = {
+  'chrome': 'safari',
+  'firefox': 'gecko1_8',
+  'msie': 'ie10',
+  'edge': 'gecko1_8',
+}
 
 MODULE = 'com.google.gerrit.GerritGwtUI'
 
@@ -56,6 +71,13 @@ DEPS = GWT_TRANSITIVE_DEPS + [
   '@jgit_src//file',
 ]
 
+USER_AGENT_XML = """<module rename-to='gerrit_ui'>
+<inherits name='%s'/>
+<set-property name='user.agent' value='%s'/>
+<set-property name='locale' value='default'/>
+</module>
+"""
+
 def gwt_module(gwt_xml=None, resources=[], srcs=[], **kwargs):
   if gwt_xml:
     resources += [gwt_xml]
@@ -65,7 +87,46 @@ def gwt_module(gwt_xml=None, resources=[], srcs=[], **kwargs):
     resources = resources,
     **kwargs)
 
-def _impl(ctx):
+def _gwt_user_agent_module(ctx):
+  """Generate user agent specific GWT module."""
+  if not ctx.attr.ua:
+    return None
+
+  ua = ctx.attr.ua
+  impl = ua
+  if ua in ALIASES:
+    impl = ALIASES[ua]
+
+  # intermediate artifact: user agent speific GWT xml file
+  gwt_user_agent_xml = ctx.new_file(ctx.label.name + "_gwt.xml")
+  ctx.file_action(output = gwt_user_agent_xml,
+                  content=USER_AGENT_XML % (MODULE, impl))
+
+  # intermediate artifact: user agent specific zip with GWT module
+  gwt_user_agent_zip = ctx.new_file(ctx.label.name + "_gwt.zip")
+  gwt = '%s_%s.gwt.xml' % (MODULE.replace('.', '/'), ua)
+  dir = gwt_user_agent_zip.path + ".dir"
+  cmd = " && ".join([
+    "p=$PWD",
+    "mkdir -p %s" % dir,
+    "cd %s" % dir,
+    "mkdir -p $(dirname %s)" % gwt,
+    "cp $p/%s %s" % (gwt_user_agent_xml.path, gwt),
+    "$p/%s cC $p/%s $(find . | sed 's|^./||')" % (ctx.executable._zip.path, gwt_user_agent_zip.path)
+  ])
+  ctx.action(
+    inputs = [gwt_user_agent_xml] + ctx.files._zip,
+    outputs = [gwt_user_agent_zip],
+    command = cmd,
+    mnemonic = "GenerateUserAgentGWTModule")
+
+  return struct(
+    zip=gwt_user_agent_zip,
+    module=MODULE + '_' + ua
+  )
+
+def _gwt_binary_impl(ctx):
+  module = MODULE
   output_zip = ctx.outputs.output
   output_dir = output_zip.path + '.gwt_output'
   deploy_dir = output_zip.path + '.gwt_deploy'
@@ -75,6 +136,13 @@ def _impl(ctx):
   paths = []
   for dep in deps:
     paths.append(dep.path)
+
+  gwt_user_agent_modules = []
+  ua = _gwt_user_agent_module(ctx)
+  if ua:
+    paths.append(ua.zip.path)
+    gwt_user_agent_modules.append(ua.zip)
+    module = ua.module
 
   cmd = "external/local_jdk/bin/java %s -Dgwt.normalizeTimestamps=true -cp %s %s -war %s -deploy %s " % (
     " ".join(ctx.attr.jvm_args),
@@ -88,7 +156,7 @@ def _impl(ctx):
     "-optimize %s" % ctx.attr.optimize,
     "-strict",
     " ".join(ctx.attr.compiler_args),
-    " ".join(ctx.attr.modules) + "\n",
+    module + "\n",
     "rm -rf %s/gwt-unitCache\n" % output_dir,
     "root=`pwd`\n",
     "cd %s; $root/%s Cc ../%s $(find .)\n" % (
@@ -99,7 +167,7 @@ def _impl(ctx):
   ])
 
   ctx.action(
-    inputs = list(deps) + ctx.files._jdk + ctx.files._zip,
+    inputs = list(deps) + ctx.files._jdk + ctx.files._zip + gwt_user_agent_modules,
     outputs = [output_zip],
     mnemonic = "GwtBinary",
     progress_message = "GWT compiling " + output_zip.short_path,
@@ -120,12 +188,12 @@ def _get_transitive_closure(ctx):
   return deps
 
 gwt_binary = rule(
-  implementation = _impl,
+  implementation = _gwt_binary_impl,
   attrs = {
+    "ua": attr.string(),
     "style": attr.string(default = "OBF"),
     "optimize": attr.string(default = "9"),
     "deps": attr.label_list(allow_files=jar_filetype),
-    "modules": attr.string_list(mandatory=True),
     "module_deps": attr.label_list(allow_files=jar_filetype),
     "compiler_args": attr.string_list(),
     "jvm_args": attr.string_list(),
@@ -168,7 +236,6 @@ def gwt_genrule(suffix = ""):
 
   gwt_binary(
     name = opt,
-    modules = [MODULE],
     module_deps = [module_dep],
     deps = DEPS,
     compiler_args = args,
@@ -177,7 +244,6 @@ def gwt_genrule(suffix = ""):
 
   gwt_binary(
     name = dbg,
-    modules = [MODULE],
     style = 'PRETTY',
     optimize = "0",
     module_deps = [module_dep],
@@ -205,4 +271,15 @@ def gen_ui_module(name, suffix = ""):
     visibility = ['//visibility:public'],
   )
 
-
+def gwt_user_agent_permutations():
+  for ua in BROWSERS:
+    gwt_binary(
+      name = "ui_%s" % ua,
+      ua = ua,
+      style = 'PRETTY',
+      optimize = "0",
+      module_deps = [':ui_module'],
+      deps = DEPS,
+      compiler_args = GWT_COMPILER_ARGS,
+      jvm_args = GWT_JVM_ARGS,
+    )

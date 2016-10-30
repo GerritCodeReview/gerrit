@@ -175,6 +175,30 @@
     },
     {
       "key": {
+        "uuid": "66a6c6c5_4fc9cd45",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-10-30T23:08:37Z",
+      "side": 1,
+      "message": "User Agent specific GWT module build is implemented now and can be used here: [1]:\n\n  $ bazel build //gerrit-gwtui:ui_safari\n  INFO: Found 1 target...\n  Target //gerrit-gwtui:ui_safari up-to-date:\n    bazel-bin/gerrit-gwtui/ui_safari.zip\n  INFO: Elapsed time: 0.491s, Critical Path: 0.07s\n\n* [1] https://gerrit-review.googlesource.com/90412",
+      "parentUuid": "666966e4_37933835",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "bb2f0058f1b591972289de44f9092f5182268acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "666966e4_7799b054",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelUtils.java",
         "patchSetId": 3

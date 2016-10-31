@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66a6c6c5_cf2f7dea",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T21:16:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c7de80_d9985354",
+      "revId": "4f35c046bea4f5454ef88bd2632b9be4cf7ba47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86b81af7_9892d52e",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-31T21:04:40Z",
       "side": 1,
       "message": "computeIsHidden?",
+      "revId": "4f35c046bea4f5454ef88bd2632b9be4cf7ba47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06950a4c_6cef7b97",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T21:16:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86b81af7_9892d52e",
       "revId": "4f35c046bea4f5454ef88bd2632b9be4cf7ba47a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +136,24 @@
       "writtenOn": "2016-10-31T21:04:40Z",
       "side": 1,
       "message": "Ideally, that should be 3 different test cases, so they could fail faster and pinpoint the failure more accurate.\nNot critical, up to you.",
+      "revId": "4f35c046bea4f5454ef88bd2632b9be4cf7ba47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a406cc_5f01cb69",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T21:16:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c7de80_b98d9f14",
       "revId": "4f35c046bea4f5454ef88bd2632b9be4cf7ba47a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

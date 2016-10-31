@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66a6c6c5_0f0985a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-10-31T09:33:50Z",
+      "side": 1,
+      "message": "For your information, you could create a rule that overwrite the MANIFEST.MF after the java_binary as a workaround. (unzip MANIFEST, add your lines, add the manifest to the jar)",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "0612feb28a1e2c90e714928f190361c7d5254f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a6c6c5_efd0c1dc",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-10-31T09:33:50Z",
+      "side": 1,
+      "message": "Add an error code to fail the build?",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "0612feb28a1e2c90e714928f190361c7d5254f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,29 @@
     return sectionEl;
   };
 
+  GrDiffBuilderSideBySide.prototype.addColumns = function(outputEl, fontSize) {
+    var width = fontSize * 4;
+    var colgroup = document.createElement('colgroup');
+
+    // Add left-side line number.
+    var col = document.createElement('col');
+    col.setAttribute('width', width);
+    colgroup.appendChild(col);
+
+    // Add left-side content.
+    colgroup.appendChild(document.createElement('col'));
+
+    // Add right-side line number.
+    col = document.createElement('col');
+    col.setAttribute('width', width);
+    colgroup.appendChild(col);
+
+    // Add right-side content.
+    colgroup.appendChild(document.createElement('col'));
+
+    outputEl.appendChild(colgroup);
+  };
+
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
       rightLine) {
     var row = this._createElement('tr');

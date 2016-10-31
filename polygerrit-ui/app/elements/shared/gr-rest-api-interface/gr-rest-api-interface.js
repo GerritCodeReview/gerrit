@@ -195,6 +195,7 @@
           ignore_whitespace: 'IGNORE_NONE',
           intraline_difference: true,
           line_length: 100,
+          line_wrapping: false,
           show_line_endings: true,
           show_tabs: true,
           show_whitespace_errors: true,

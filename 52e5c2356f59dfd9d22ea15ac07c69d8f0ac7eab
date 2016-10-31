@@ -1,0 +1,20 @@
+Revision: 52e5c2356f59dfd9d22ea15ac07c69d8f0ac7eab
+Patch-set: 2
+File: gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java
+
+597
+Mon Oct 31 21:59:27 2016 +0000
+Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+UUID: 66f246e8_ef934135
+Bytes: 402
+I think this is too eager. If you see a Description footer in one commit, then no Description footer in its parent, you will overwrite the non-null value.
+
+I think it'll be clearer and more correct if you move this assignment to right after where you call ps.setDescription above. The way I think about it is, the setDescription call is "consuming" the current description, leaving it unset afterwards.
+
+603
+Mon Oct 31 21:59:27 2016 +0000
+Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+UUID: 66f246e8_2f8b8905
+Bytes: 141
+What's the intended behavior wrt null? This will parse "Description: \n" as the empty string, whereas in PatchSet itself the default is null.
+

@@ -1,0 +1,11 @@
+Revision: ee3ce7de8ce25d01cae34693129ea3662396a3c8
+Patch-set: 1
+File: gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java
+
+36:16-36:35
+Mon Oct 31 14:34:57 2016 +0000
+Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+UUID: 66a406cc_9f7bd330
+Bytes: 93
+A revision is essentially the same thing as a patch set, so this should just be "description"
+

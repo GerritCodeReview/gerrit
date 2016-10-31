@@ -1,5 +1,14 @@
 Revision: 52e5c2356f59dfd9d22ea15ac07c69d8f0ac7eab
 Patch-set: 2
+File: gerrit-server/src/main/java/com/google/gerrit/server/PatchSetUtil.java
+
+107
+Mon Oct 31 22:00:39 2016 +0000
+Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+UUID: 46d62238_768150e3
+Bytes: 49
+You need to call the ChangeUpdate method as well.
+
 File: gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java
 
 597

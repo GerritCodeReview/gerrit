@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66a406cc_1f88e304",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewChangeHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-31T17:29:41Z",
+      "side": 1,
+      "message": "I can understand why bolding each author name might be distracting, but I feel like there should be some sort of visual distinction between the rest of the sentence and the change subject. Right now it\u0027s \"Some person would like someone else to review \u003cA new capitalized sentence in the imperative mood\u003e\" which seems odd.\n\n(I\u0027m fine with the other bold removals in this change.)",
+      "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,9 +19,12 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
 
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Collection;
 import java.util.List;
+
+import autovalue.shaded.com.google.common.common.collect.ImmutableSet;
 
 public class MergeIfNecessary extends SubmitStrategy {
   MergeIfNecessary(SubmitStrategy.Arguments args) {
@@ -58,9 +61,10 @@ public class MergeIfNecessary extends SubmitStrategy {
               args.destBranch, branchTip, mergedFrom);
       mergeTip.moveTipTo(branchTip, mergedFrom);
     }
-
+    RevCommit initialTip = mergeTip.getInitialTip();
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, branchTip,
-        args.alreadyAccepted);
+        initialTip == null ? ImmutableSet.<RevCommit> of()
+            : ImmutableSet.of(initialTip));
     setRefLogIdent();
     return mergeTip;
   }

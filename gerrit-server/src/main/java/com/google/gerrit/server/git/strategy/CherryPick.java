@@ -40,6 +40,7 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
@@ -48,6 +49,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import autovalue.shaded.com.google.common.common.collect.ImmutableSet;
 
 public class CherryPick extends SubmitStrategy {
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -238,8 +241,10 @@ public class CherryPick extends SubmitStrategy {
             toMerge);
         mergeTip.moveTipTo(result, toMerge);
       }
+      RevCommit initialTip = mergeTip.getInitialTip();
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          mergeTip.getCurrentTip(), args.alreadyAccepted);
+          mergeTip.getCurrentTip(), initialTip == null
+              ? ImmutableSet.<RevCommit> of() : ImmutableSet.of(initialTip));
       setRefLogIdent();
     }
   }

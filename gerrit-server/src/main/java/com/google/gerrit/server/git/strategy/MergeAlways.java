@@ -19,9 +19,12 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
 
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Collection;
 import java.util.List;
+
+import autovalue.shaded.com.google.common.common.collect.ImmutableSet;
 
 public class MergeAlways extends SubmitStrategy {
   MergeAlways(SubmitStrategy.Arguments args) {
@@ -53,8 +56,10 @@ public class MergeAlways extends SubmitStrategy {
       mergeTip.moveTipTo(newTip, mergedFrom);
     }
 
+    RevCommit initialTip = mergeTip.getInitialTip();
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-        mergeTip.getCurrentTip(), args.alreadyAccepted);
+        mergeTip.getCurrentTip(), initialTip == null
+            ? ImmutableSet.<RevCommit> of() : ImmutableSet.of(initialTip));
     setRefLogIdent();
 
     return mergeTip;

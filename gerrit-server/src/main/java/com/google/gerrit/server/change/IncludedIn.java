@@ -83,8 +83,11 @@ class IncludedIn implements RestReadView<ChangeResource> {
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
       Multimap<String, String> external = ArrayListMultimap.create();
       for (ExternalIncludedIn ext : includedIn) {
-        external.putAll(ext.getIncludedIn(project.get(), rev.name(),
-            d.getTags(), d.getBranches()));
+        Multimap<String, String> extIncludedIns = ext.getIncludedIn(
+            project.get(), rev.name(), d.getTags(), d.getBranches());
+        if (extIncludedIns != null) {
+          external.putAll(extIncludedIns);
+        }
       }
       return new IncludedInInfo(d,
           (!external.isEmpty() ? external.asMap() : null));

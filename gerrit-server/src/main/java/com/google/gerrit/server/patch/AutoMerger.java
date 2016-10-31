@@ -57,7 +57,7 @@ import java.util.Map;
 public class AutoMerger {
   private static final Logger log = LoggerFactory.getLogger(AutoMerger.class);
 
-  static boolean cacheAutomerge(Config cfg) {
+  public static boolean cacheAutomerge(Config cfg) {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
   }
 

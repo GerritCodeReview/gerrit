@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
+
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,8 +45,10 @@ public class FastForwardOnly extends SubmitStrategy {
       n.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
     }
 
+    RevCommit initialTip = mergeTip.getInitialTip();
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-        newMergeTipCommit, args.alreadyAccepted);
+        mergeTip.getCurrentTip(), initialTip == null
+            ? ImmutableSet.<RevCommit> of() : ImmutableSet.of(initialTip));
     setRefLogIdent();
 
     return mergeTip;

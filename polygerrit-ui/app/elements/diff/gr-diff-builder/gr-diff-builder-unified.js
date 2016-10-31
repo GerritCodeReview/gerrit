@@ -33,6 +33,26 @@
     return sectionEl;
   };
 
+  GrDiffBuilderUnified.prototype.addColumns = function(outputEl, fontSize) {
+    var width = fontSize * 4;
+    var colgroup = document.createElement('colgroup');
+
+    // Add left-side line number.
+    var col = document.createElement('col');
+    col.setAttribute('width', width);
+    colgroup.appendChild(col);
+
+    // Add right-side line number.
+    col = document.createElement('col');
+    col.setAttribute('width', width);
+    colgroup.appendChild(col);
+
+    // Add the content.
+    colgroup.appendChild(document.createElement('col'));
+
+    outputEl.appendChild(colgroup);
+  };
+
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
     var row = this._createElement('tr', line.type);
     var lineEl = this._createLineEl(line, line.beforeNumber,

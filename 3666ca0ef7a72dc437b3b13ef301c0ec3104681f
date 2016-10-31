@@ -52,6 +52,24 @@
       "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a406cc_ffbe5f9a",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewChangeHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-10-31T18:17:51Z",
+      "side": 1,
+      "message": "Well, in terms of just tweaking the boldness of existing text, I\u0027m fine with PS2 as-is. Are you saying you would rather not submit this now, and go back to the drawing board instead?",
+      "parentUuid": "66a406cc_df983b54",
+      "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -36,10 +36,12 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -155,8 +157,10 @@ public class RebaseIfNecessary extends SubmitStrategy {
                     args.repo, args.rw, args.inserter, args.canMergeFlag,
                     args.destBranch, mergeTip.getCurrentTip(), n), n);
           }
+          RevCommit initialTip = mergeTip.getInitialTip();
           args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-              mergeTip.getCurrentTip(), args.alreadyAccepted);
+              mergeTip.getCurrentTip(), initialTip == null ?
+                  ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
           setRefLogIdent();
         } catch (IOException e) {
           throw new IntegrationException("Cannot merge " + n.name(), e);
@@ -171,11 +175,31 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
       throws IntegrationException {
-    try {
-      return new RebaseSorter(
-          args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
-    } catch (IOException e) {
-      throw new IntegrationException("Commit sorting failed", e);
+    List<CodeReviewCommit> sorted =
+        Lists.newArrayListWithCapacity(toSort.size());
+    int initialSize = toSort.size();
+    for (int i = 0; i <= initialSize; i++) {
+      Iterator<CodeReviewCommit> itr = toSort.iterator();
+      CodeReviewCommit crc;
+      middle: while (itr.hasNext()) {
+        crc = itr.next();
+        for (RevCommit prt : crc.getParents()) {
+          if (toSort.contains(prt)) {
+            continue middle;
+          }
+        }
+        sorted.add(crc);
+        itr.remove();
+        continue;
+      }
+      if (toSort.isEmpty()) {
+        break;
+      }
+    }
+    if (toSort.isEmpty()) {
+      return sorted;
+    } else {
+      throw new IntegrationException("Could not sort commits");
     }
   }
 

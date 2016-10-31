@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "86b81af7_38a2a983",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-10-31T21:11:58Z",
+      "side": 1,
+      "message": "I would add a friendly note, just like in other places and do the right thing.\nOr import underscore/lazy/etc already.\nOf course, up to Becky.\n^_^",
+      "parentUuid": "66a406cc_9fee3399",
+      "revId": "4f35c046bea4f5454ef88bd2632b9be4cf7ba47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6c7de80_b98d9f14",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 8

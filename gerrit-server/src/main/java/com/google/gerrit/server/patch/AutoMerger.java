@@ -96,11 +96,7 @@ public class AutoMerger {
     }
 
     rw.parseHeaders(merge);
-    String hash = merge.name();
-    String refName = RefNames.REFS_CACHE_AUTOMERGE
-        + hash.substring(0, 2)
-        + "/"
-        + hash.substring(2);
+    String refName = RefNames.refsCacheAutomerge(merge.name());
     Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {
       RevObject obj = rw.parseAny(ref.getObjectId());

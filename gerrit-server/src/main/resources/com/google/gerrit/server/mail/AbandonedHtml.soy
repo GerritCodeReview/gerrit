@@ -24,8 +24,7 @@
  */
 {template .AbandonedHtml autoescape="strict" kind="html"}
   <p>
-    <strong>{$fromName}</strong> abandoned{sp}
-    <strong>{$change.subject}</strong>.
+    {$fromName} abandoned <strong>{$change.subject}</strong>.
   </p>
 
   {if $email.changeUrl}

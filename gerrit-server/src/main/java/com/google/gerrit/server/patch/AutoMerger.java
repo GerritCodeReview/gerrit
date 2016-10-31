@@ -57,7 +57,7 @@ import java.util.Map;
 public class AutoMerger {
   private static final Logger log = LoggerFactory.getLogger(AutoMerger.class);
 
-  static boolean cacheAutomerge(Config cfg) {
+  public static boolean cacheAutomerge(Config cfg) {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
   }
 
@@ -96,11 +96,7 @@ public class AutoMerger {
     }
 
     rw.parseHeaders(merge);
-    String hash = merge.name();
-    String refName = RefNames.REFS_CACHE_AUTOMERGE
-        + hash.substring(0, 2)
-        + "/"
-        + hash.substring(2);
+    String refName = RefNames.refsCacheAutomerge(merge.name());
     Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {
       RevObject obj = rw.parseAny(ref.getObjectId());

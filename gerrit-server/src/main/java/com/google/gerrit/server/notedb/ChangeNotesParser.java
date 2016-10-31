@@ -47,7 +47,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.metrics.Timer1;

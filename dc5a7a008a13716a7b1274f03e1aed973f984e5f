@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "46454283_5eb4f586",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66a406cc_ffe53fc8",
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46454283_7e3c5129",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 6
@@ -42,6 +60,24 @@
         "endLine": 54,
         "endChar": 45
       },
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a406cc_7fda4f01",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46454283_7e3c5129",
       "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "46454283_beb8997b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46454283_5e4195a3",
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46454283_3ea5a958",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 6
@@ -88,6 +142,24 @@
         "endLine": 127,
         "endChar": 27
       },
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46454283_9eb5dd83",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46454283_3ea5a958",
       "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "66a406cc_5fd78bd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66a406cc_3fbde798",
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46454283_de2c85f8",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 6
@@ -128,6 +218,24 @@
       "writtenOn": "2016-10-31T19:28:14Z",
       "side": 1,
       "message": "This can just be `return false;` and the last line be `return true;`. Then we can remove the `hasNoAutomatedMessages` local.",
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46454283_fec221ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "I thought so too, but it seemed that because the first return was inside of another function, it actually ended up returning incorrectly.",
+      "parentUuid": "46454283_de2c85f8",
       "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "46454283_debf655f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46454283_3e42c9ac",
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46454283_1e470dbd",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 6
@@ -168,6 +294,24 @@
       "writtenOn": "2016-10-31T19:28:14Z",
       "side": 1,
       "message": "The suite body is indented too far.",
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a406cc_ff089f9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46454283_1e470dbd",
       "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -197,6 +341,24 @@
     },
     {
       "key": {
+        "uuid": "46454283_3ecc8920",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66a406cc_1fba23a1",
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46454283_1eaa6d28",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 6
@@ -214,6 +376,24 @@
         "endLine": 256,
         "endChar": 9
       },
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a406cc_3fd4c7ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-10-31T20:07:19Z",
+      "side": 1,
+      "message": "Yeah, you\u0027re right. not sure why I didn\u0027t do this before.",
+      "parentUuid": "46454283_1eaa6d28",
       "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

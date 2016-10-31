@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -40,6 +41,7 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
@@ -238,8 +240,10 @@ public class CherryPick extends SubmitStrategy {
             toMerge);
         mergeTip.moveTipTo(result, toMerge);
       }
+      RevCommit initialTip = mergeTip.getInitialTip();
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          mergeTip.getCurrentTip(), args.alreadyAccepted);
+          mergeTip.getCurrentTip(), initialTip == null
+              ? ImmutableSet.<RevCommit> of() : ImmutableSet.of(initialTip));
       setRefLogIdent();
     }
   }

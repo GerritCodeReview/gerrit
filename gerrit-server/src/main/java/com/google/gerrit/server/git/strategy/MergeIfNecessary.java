@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
 
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Collection;
 import java.util.List;
@@ -58,9 +60,10 @@ public class MergeIfNecessary extends SubmitStrategy {
               args.destBranch, branchTip, mergedFrom);
       mergeTip.moveTipTo(branchTip, mergedFrom);
     }
-
+    RevCommit initialTip = mergeTip.getInitialTip();
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, branchTip,
-        args.alreadyAccepted);
+        initialTip == null ? ImmutableSet.<RevCommit> of()
+            : ImmutableSet.of(initialTip));
     setRefLogIdent();
     return mergeTip;
   }

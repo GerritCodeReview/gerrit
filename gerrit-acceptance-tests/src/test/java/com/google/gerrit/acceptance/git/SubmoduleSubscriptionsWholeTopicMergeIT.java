@@ -641,7 +641,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> repoA = createProjectWithPush("project-a");
     TestRepository<?> repoB = createProjectWithPush("project-b");
     // bootstrap the dev branch
-    ObjectId a0 = pushChangeTo(repoA, "dev");
+    pushChangeTo(repoA, "dev");
 
     // bootstrap the dev branch
     ObjectId b0 = pushChangeTo(repoB, "dev");

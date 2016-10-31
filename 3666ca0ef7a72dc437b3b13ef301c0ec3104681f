@@ -34,6 +34,24 @@
       "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a406cc_3fa28783",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewChangeHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-31T18:17:43Z",
+      "side": 1,
+      "message": "@Dave I agree. Bold is most effective in greater moderation. Done.\n\n@Andy Yes emails can be more minimal, but should optimize for legibility rather than minimality. Moreover, removing the salutation feels to me like a separate change, being that this one modifies CSS only.\n\nConsider, also, whether the commenter/action-taker that causes the email is always clear from the message headers (for every server configuration, or for every mail client). It may also be unclear when receiving a Gerrit email from a mailing list. These reasons make me hesitant to remove such info from the message body.",
+      "parentUuid": "66a406cc_df983b54",
+      "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

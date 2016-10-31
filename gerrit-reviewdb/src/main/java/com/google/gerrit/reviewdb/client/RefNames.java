@@ -257,4 +257,11 @@ public class RefNames {
 
   private RefNames() {
   }
+
+  public static String refsCacheAutomerge(String hash) {
+    return REFS_CACHE_AUTOMERGE
+        + hash.substring(0, 2)
+        + '/'
+        + hash.substring(2);
+  }
 }

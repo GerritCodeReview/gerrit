@@ -70,6 +70,24 @@
       "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46454283_be4ed9db",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewChangeHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-31T18:22:12Z",
+      "side": 1,
+      "message": "I’m not sure I agree with this, but I don’t want to block this change. Let’s talk outside of it.",
+      "parentUuid": "66a406cc_3fa28783",
+      "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

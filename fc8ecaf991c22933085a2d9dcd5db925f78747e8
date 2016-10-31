@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f246e8_0f9fa535",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-31T23:31:11Z",
+      "side": 1,
+      "message": "Can remove this, since now it\u0027s just a handler that removes itself.",
+      "range": {
+        "startLine": 591,
+        "startChar": 8,
+        "endLine": 594,
+        "endChar": 58
+      },
+      "revId": "fc8ecaf991c22933085a2d9dcd5db925f78747e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f246e8_efbea19a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-31T23:31:11Z",
+      "side": 1,
+      "message": "Should this be ...\n\n    sinon.stub(builder, \u0027addColumns\u0027);\n\n... ? Also, does it get restored someplace?",
+      "revId": "fc8ecaf991c22933085a2d9dcd5db925f78747e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

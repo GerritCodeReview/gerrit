@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "66a406cc_9fee3399",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-31T21:08:35Z",
+      "side": 1,
+      "message": "`Array#find` is not supported in IE.",
+      "parentUuid": "86b81af7_78a82165",
+      "revId": "4f35c046bea4f5454ef88bd2632b9be4cf7ba47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6c7de80_b98d9f14",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 8

@@ -33,7 +33,7 @@ load('//tools/bzl:junit.bzl', 'junit_tests')
 
 junit_tests(
   name = 'elasticsearch_tests',
-  tags = ['elastic'],
+  tags = ['elastic', 'flaky'],
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':elasticsearch',

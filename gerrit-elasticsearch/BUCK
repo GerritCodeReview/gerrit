@@ -31,7 +31,7 @@ java_library(
 
 java_test(
   name = 'elasticsearch_tests',
-  labels = ['elastic'],
+  labels = ['elastic', 'flaky'],
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':elasticsearch',

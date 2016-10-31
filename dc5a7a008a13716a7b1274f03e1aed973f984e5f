@@ -194,6 +194,29 @@
       "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46454283_1eaa6d28",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-10-31T19:33:28Z",
+      "side": 1,
+      "message": "Why do you loop through them all to set this? Aren\u0027t they all bound to `element._hideAutomated`? Could you just set that one property?",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 256,
+        "endChar": 9
+      },
+      "revId": "dc5a7a008a13716a7b1274f03e1aed973f984e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

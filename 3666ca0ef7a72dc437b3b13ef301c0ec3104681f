@@ -16,6 +16,24 @@
       "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a406cc_df983b54",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewChangeHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-10-31T17:51:38Z",
+      "side": 1,
+      "message": "I actually don’t think this info is necessary aside from the initial email, which can elide the change subject since it’s repeated within the change description.\n\nThe fact that this is within an email gives us a lot of what we need. If Dave replies to something, a message comes from Dave. There’s no need to repeat the fact that Dave took action. It’s implied.\n\nI say emulate Critique more closely, here, without the greetings on follow-up messages. Feel free to grab me for an offline discussion if need be.",
+      "parentUuid": "66a406cc_1f88e304",
+      "revId": "3666ca0ef7a72dc437b3b13ef301c0ec3104681f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

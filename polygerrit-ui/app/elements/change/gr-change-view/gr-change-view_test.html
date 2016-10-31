@@ -546,6 +546,7 @@ limitations under the License.
                   assert.isTrue(scrollStub.called);
                   document.body.style.height =
                       originalHeight + 'px';
+                  scrollStub.restore();
                   done();
                 });
             document.body.style.height = '10000px';

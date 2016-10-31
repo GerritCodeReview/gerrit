@@ -65,7 +65,20 @@
 
   var PARTIAL_CONTEXT_AMOUNT = 10;
 
-  GrDiffBuilder.prototype.buildSectionElement = function(group) {
+  /**
+   * Abstract method
+   * @param {string} outputEl
+   * @param {number} fontSize
+   */
+  GrDiffBuilder.prototype.addColumns = function() {
+    throw Error('Subclasses must implement addColumns');
+  };
+
+  /**
+   * Abstract method
+   * @param {Object} group
+   */
+  GrDiffBuilder.prototype.buildSectionElement = function() {
     throw Error('Subclasses must implement buildGroupElement');
   };
 
@@ -377,7 +390,8 @@
     var html = util.escapeHTML(text);
     html = this._addTabWrappers(html, this._prefs.tab_size);
 
-    if (this._textLength(text, this._prefs.tab_size) >
+    if (!this._prefs.line_wrapping &&
+        this._textLength(text, this._prefs.tab_size) >
         this._prefs.line_length) {
       html = this._addNewlines(text, html);
     }

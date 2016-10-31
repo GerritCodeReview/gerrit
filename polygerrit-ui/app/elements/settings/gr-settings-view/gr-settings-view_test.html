@@ -95,6 +95,7 @@ limitations under the License.
         font_size: 12,
         line_length: 100,
         cursor_blink_rate: 0,
+        line_wrapping: false,
         intraline_difference: true,
         show_line_endings: true,
         show_tabs: true,
@@ -189,7 +190,7 @@ limitations under the License.
       // Rendered with the expected preferences selected.
       assert.equal(valueOf('Context', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.context);
-      assert.equal(valueOf('Columns', 'diffPreferences')
+      assert.equal(valueOf('Diff Width', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.line_length);
       assert.equal(valueOf('Tab Width', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.tab_size);
@@ -197,6 +198,8 @@ limitations under the License.
           .firstElementChild.bindValue, diffPreferences.font_size);
       assert.equal(valueOf('Show Tabs', 'diffPreferences')
           .firstElementChild.checked, diffPreferences.show_tabs);
+      assert.equal(valueOf('Fit to Screen', 'diffPreferences')
+          .firstElementChild.checked, diffPreferences.line_wrapping);
 
       assert.isFalse(element._diffPrefsChanged);
 
@@ -219,6 +222,16 @@ limitations under the License.
         assert.isFalse(element._diffPrefsChanged);
         done();
       });
+    });
+
+    test('columns input is hidden with fit to scsreen is selected', function() {
+      assert.isFalse(element.$.columnsPref.hidden);
+
+      MockInteractions.tap(element.$.lineWrapping);
+      assert.isTrue(element.$.columnsPref.hidden);
+
+      MockInteractions.tap(element.$.lineWrapping);
+      assert.isFalse(element.$.columnsPref.hidden);
     });
 
     test('menu', function(done) {

@@ -123,6 +123,35 @@ limitations under the License.
       assert.equal(linkEl2.textContent, 'Issue 3450');
     });
 
+    test('Change-Id pattern parsed before bug pattern', function() {
+      // "Change-Id:" pattern.
+      var changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
+      var prefix = 'Change-Id: ';
+
+      // "Issue/Bug" pattern.
+      var bug = 'Issue 3650';
+
+      var changeUrl = '/q/' + changeID;
+      var bugUrl = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+
+      element.content = prefix + changeID + bug;
+
+      var textNode = element.$.output.childNodes[0];
+      var changeLinkEl = element.$.output.childNodes[1];
+      var bugLinkEl = element.$.output.childNodes[2];
+
+      assert.equal(textNode.textContent, prefix);
+
+      assert.equal(changeLinkEl.target, '_blank');
+      assert.isTrue(changeLinkEl.href.endsWith(changeUrl));
+      assert.equal(changeLinkEl.textContent, changeID);
+
+      assert.equal(bugLinkEl.target, '_blank');
+      assert.equal(bugLinkEl.href, bugUrl);
+      assert.equal(bugLinkEl.textContent, 'Issue 3650');
+    });
+
+
     test('html field in link config', function() {
       element.content = 'google:do a barrel roll';
       var linkEl = element.$.output.childNodes[0];

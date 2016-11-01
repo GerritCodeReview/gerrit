@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26468ef2_9d766347",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-01T07:25:43Z",
+      "side": 1,
+      "message": "This was introduced in [1] on stable-2.13.  Should this be fixed there too?\n\n[1] https://gerrit-review.googlesource.com/#/c/86245/",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "e7c39267ea02e9ac8aee67a4c6075dfab64f54d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

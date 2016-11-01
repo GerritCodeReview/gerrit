@@ -415,7 +415,7 @@ limitations under the License.
         labels: {},
       };
       var status = element._computeChangeStatus(element._change, '1');
-      assert.equal(status, '(Draft)');
+      assert.equal(status, ' (Draft)');
     });
 
     test('revision status draft', function() {
@@ -438,7 +438,7 @@ limitations under the License.
         labels: {},
       };
       var status = element._computeChangeStatus(element._change, '2');
-      assert.equal(status, '(Draft)');
+      assert.equal(status, ' (Draft)');
     });
 
     test('show commit message edit button', function() {

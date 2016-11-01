@@ -495,7 +495,7 @@
       } else {
         statusString = this.changeStatusString(change);
       }
-      return statusString ? '(' + statusString + ')' : '';
+      return statusString ? ' (' + statusString + ')' : '';
     },
 
     _computeLatestPatchNum: function(allPatchSets) {

@@ -1002,6 +1002,23 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void implicitlyCcSelf() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(new ReviewInput());
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(
+        c.reviewers.get(CC).stream().map(ai -> ai._accountId).toArray())
+        .asList().contains(user.id.get());
+  }
+
+  @Test
   public void addReviewerToClosedChange() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()

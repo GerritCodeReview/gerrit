@@ -9,6 +9,14 @@ UUID: 46d62238_768150e3
 Bytes: 49
 You need to call the ChangeUpdate method as well.
 
+107
+Tue Nov 01 00:04:24 2016 +0000
+Author: Kasper Nilsson <1029297@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+Parent: 46d62238_768150e3
+UUID: 46d62238_36a2b883
+Bytes: 4
+Done
+
 File: gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java
 
 597
@@ -20,10 +28,26 @@ I think this is too eager. If you see a Description footer in one commit, then n
 
 I think it'll be clearer and more correct if you move this assignment to right after where you call ps.setDescription above. The way I think about it is, the setDescription call is "consuming" the current description, leaving it unset afterwards.
 
+597
+Tue Nov 01 00:04:24 2016 +0000
+Author: Kasper Nilsson <1029297@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+Parent: 66f246e8_ef934135
+UUID: 66f246e8_0fba05a1
+Bytes: 16
+Awesome, thanks!
+
 603
 Mon Oct 31 21:59:27 2016 +0000
 Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
 UUID: 66f246e8_2f8b8905
 Bytes: 141
 What's the intended behavior wrt null? This will parse "Description: \n" as the empty string, whereas in PatchSet itself the default is null.
+
+603
+Tue Nov 01 00:04:24 2016 +0000
+Author: Kasper Nilsson <1029297@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+Parent: 66f246e8_2f8b8905
+UUID: 46d62238_9692ac2e
+Bytes: 168
+Good point. I think maybe this was working with empty descriptions because whitespace is trimmed? But I'll revisit it; desired behavior is the same as the change topic.
 

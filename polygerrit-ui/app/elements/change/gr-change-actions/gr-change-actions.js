@@ -79,18 +79,18 @@
         type: String,
         value: '',
       },
+      revisionActions: {
+        type: Object,
+        value: function() { return {}; },
+      },
 
       _loading: {
         type: Boolean,
         value: true,
       },
-      _revisionActions: {
-        type: Object,
-        value: function() { return {}; },
-      },
       _revisionActionValues: {
         type: Array,
-        computed: '_computeRevisionActionValues(_revisionActions.*, ' +
+        computed: '_computeRevisionActionValues(revisionActions.*, ' +
             'primaryActionKeys.*, _additionalActions.*)',
       },
       _changeActionValues: {
@@ -121,7 +121,7 @@
     ],
 
     observers: [
-      '_actionsChanged(actions.*, _revisionActions.*, _additionalActions.*)',
+      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
     ],
 
     ready: function() {
@@ -137,7 +137,7 @@
       return this._getRevisionActions().then(function(revisionActions) {
         if (!revisionActions) { return; }
 
-        this._revisionActions = revisionActions;
+        this.revisionActions = revisionActions;
         this._loading = false;
       }.bind(this)).catch(function(err) {
         alert('Couldn’t load revision actions. Check the console ' +
@@ -363,7 +363,7 @@
           /* falls through */ // required by JSHint
         default:
           this._fireAction(this._prependSlash(key),
-              this._revisionActions[key], true);
+              this.revisionActions[key], true);
       }
     },
 
@@ -400,7 +400,7 @@
       }
       this.$.overlay.close();
       el.hidden = true;
-      this._fireAction('/rebase', this._revisionActions.rebase, true, payload);
+      this._fireAction('/rebase', this.revisionActions.rebase, true, payload);
     },
 
     _handleCherrypickConfirm: function() {
@@ -418,7 +418,7 @@
       el.hidden = true;
       this._fireAction(
           '/cherrypick',
-          this._revisionActions.cherrypick,
+          this.revisionActions.cherrypick,
           true,
           {
             destination: el.branch,

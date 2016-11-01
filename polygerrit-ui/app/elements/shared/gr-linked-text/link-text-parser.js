@@ -27,13 +27,83 @@ GrLinkTextParser.prototype.addText = function(text, href) {
   this.callback(text, href);
 };
 
-GrLinkTextParser.prototype.addHTML = function(html) {
-  this.callback(null, null, html);
+GrLinkTextParser.prototype.processLinks = function(text, outputArray) {
+  this.sortArrayReverse(outputArray);
+  var fragment = document.createDocumentFragment();
+  var cursor = text.length;
+
+  // Start inserting linkified URLs from the end of the String. That way, the
+  // string positions of the items don't change as we iterate through.
+  outputArray.forEach(function(item) {
+    // Add any text between the current linkified item and the item added before
+    // if it exists.
+    if (item.position + item.length !== cursor) {
+      fragment.insertBefore(
+          document.createTextNode(text.slice(
+          item.position + item.length, cursor)),fragment.firstChild);
+    }
+    fragment.insertBefore(item.html, fragment.firstChild);
+    cursor = item.position;
+  });
+
+  // Add the beginning portion at the end.
+  if (cursor !== 0) {
+    fragment.insertBefore(
+        document.createTextNode(text.slice(0, cursor)),
+        fragment.firstChild);
+  }
+
+  this.callback(null, null, fragment);
+};
+
+GrLinkTextParser.prototype.sortArrayReverse = function(outputArray) {
+  outputArray.sort(function(a, b) {return b.position - a.position});
+};
+
+GrLinkTextParser.prototype.addItem =
+    function(text, href, html, position, length, outputArray) {
+  var htmlOutput = '';
+
+  if (href) {
+    var a = document.createElement('a');
+    a.href = href;
+    a.textContent = text;
+    a.target = '_blank';
+    htmlOutput = a;
+  } else if (html) {
+    var fragment = document.createDocumentFragment();
+    // Create temporary div to hold the nodes in.
+    var div = document.createElement('div');
+    div.innerHTML = html;
+    while (div.firstChild) {
+      fragment.appendChild(div.firstChild);
+    }
+    htmlOutput = fragment;
+  }
+
+  outputArray.push({
+    html: htmlOutput,
+    position: position,
+    length: length,
+  });
+};
+
+GrLinkTextParser.prototype.addLink =
+    function(text, href, position, length, outputArray) {
+  if (!text) {
+    return;
+  }
+  this.addItem(text, href, null, position, length, outputArray);
+};
+
+GrLinkTextParser.prototype.addHTML =
+    function(html, position, length, outputArray) {
+  this.addItem(null, null, html, position, length, outputArray);
 };
 
 GrLinkTextParser.prototype.parse = function(text) {
   linkify(text, {
-    callback: this.parseChunk.bind(this)
+    callback: this.parseChunk.bind(this),
   });
 };
 
@@ -46,6 +116,8 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
 };
 
 GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
+  // The outputArray is used to store all of the matches found for all patterns.
+  var outputArray = [];
   for (var p in patterns) {
     if (patterns[p].enabled != null && patterns[p].enabled == false) {
       continue;
@@ -66,22 +138,29 @@ GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
     var pattern = new RegExp(patterns[p].match, 'g');
 
     var match;
-    while ((match = pattern.exec(text)) != null) {
-      var before = text.substr(0, match.index);
-      this.addText(before);
-      text = text.substr(match.index + match[0].length);
+    var textToCheck = text;
+    var susbtrIndex = 0;
+
+    while ((match = pattern.exec(textToCheck)) != null) {
+      textToCheck = textToCheck.substr(match.index + match[0].length);
       var result = match[0].replace(pattern,
           patterns[p].html || patterns[p].link);
 
       if (patterns[p].html) {
-        this.addHTML(result);
+        this.addHTML(
+            result, susbtrIndex + match.index, match[0].length, outputArray);
       } else if (patterns[p].link) {
-        this.addText(match[0], result);
+        this.addLink(match[0], result,
+            susbtrIndex + match.index, match[0].length, outputArray);
       } else {
         throw Error('linkconfig entry ' + p +
             ' doesn’t contain a link or html attribute.');
       }
+
+      // Update the substring location so we know where we are in relation to
+      // the initial full text string.
+      susbtrIndex = susbtrIndex + match.index + match[0].length;
     }
   }
-  this.addText(text);
+  this.processLinks(text, outputArray);
 };

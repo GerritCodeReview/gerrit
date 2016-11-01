@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46d62238_b63b6831",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-01T22:27:36Z",
+      "side": 1,
+      "message": "Too bad we don\u0027t have a templating language with whitespace normalization.\n\nAs long as we\u0027re fudging whitespace, my instinct is to at least keep it under 80 characters and make it a little easier to read ...\n\n    \u003cdiv class\u003d\"header\"\u003e\n      \u003cspan class\u003d\"header-title\"\u003e\n        \u003cgr-change-star change\u003d\"{{_change}}\" hidden$\u003d\"[[!_loggedIn]]\"\u003e\n        \u003c/gr-change-star\u003e\n        \u003ca href$\u003d\"[[_computeChangePermalink(_change._number)]]\"\u003e\n          [[_change._number]]\u003c!--\n     --\u003e\u003c/a\u003e\u003c!--\n     --\u003e\u003cspan class\u003d\"changeStatus\"\u003e\u003c!--\n       --\u003e[[_computeChangeStatus(_change, _patchRange.patchNum)]]\u003c!--\n     --\u003e\u003c/span\u003e\u003c!--\n     --\u003e\u003cspan\u003e:\u003c/span\u003e\n        \u003cspan\u003e[[_change.subject]]\u003c/span\u003e\n      \u003c/span\u003e\n    \u003c/div\u003e\n\n... won\u0027t block this change though.",
+      "range": {
+        "startLine": 214,
+        "startChar": 89,
+        "endLine": 215,
+        "endChar": 10
+      },
+      "revId": "3e7778e93c0d334722b081effc714eeae77c4b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46d62238_d646e4be",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-01T22:27:36Z",
+      "side": 1,
+      "message": "Extra newline.",
+      "revId": "3e7778e93c0d334722b081effc714eeae77c4b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

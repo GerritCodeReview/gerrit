@@ -20,19 +20,18 @@
   <template>
     <style>
       :host {
+        display: block;
         height: var(--header-height);
       }
       header {
         background: inherit;
         border: inherit;
+        height: inherit;
         left: 0;
         position: fixed;
         width: 100%;
         will-change: top;
         z-index: 1;
-      }
-      .spacer {
-        height: var(--header-height);
       }
     </style>
     <header id="header">
@@ -40,7 +39,6 @@
         <content></content>
       </div>
     </header>
-    <div class="spacer"></div>
   </template>
   <script src="gr-header.js"></script>
 </dom-module>

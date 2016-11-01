@@ -54,6 +54,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -92,6 +93,7 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 
+import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -999,6 +1001,23 @@ public class ChangeIT extends AbstractDaemonTest {
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+  }
+
+  @Test
+  public void implicitlyCcOnNonVotingReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(new ReviewInput());
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    ReviewerState state = notesMigration.readChanges() ? CC : REVIEWER;
+    Stream ccs = c.reviewers.get(state).stream().map(ai -> ai._accountId);
+    assertThat(ccs.toArray()).asList().contains(user.id.get());
   }
 
   @Test

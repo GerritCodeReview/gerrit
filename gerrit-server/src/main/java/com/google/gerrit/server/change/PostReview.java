@@ -47,8 +47,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -227,11 +229,41 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
           revision.getChange().getProject(), revision.getUser(), ts)) {
+      Account.Id id = bu.getUser().getAccountId();
+      ReviewerSet currentReviewers = approvalsUtil.getReviewers(
+          db.get(), revision.getChangeResource().getNotes());
+      boolean ccOrReviewer = currentReviewers.all().contains(id);
+
       // Apply reviewer changes first. Revision emails should be sent to the
       // updated set of reviewers.
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
+        if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
+          for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
+            if (id.equals(reviewerInfo._accountId)) {
+              ccOrReviewer = true;
+              break;
+            }
+          }
+        }
+        if (!ccOrReviewer && reviewerResult.result.ccs != null) {
+          for (AccountInfo accountInfo : reviewerResult.result.ccs) {
+            if (id.equals(accountInfo._accountId)) {
+              ccOrReviewer = true;
+              break;
+            }
+          }
+        }
       }
+
+      if (!ccOrReviewer) {
+        // User posting this review isn't currently in the reviewer or CC list.
+        // Automatically CC them on this change so they receive replies.
+        PostReviewers.Addition selfAddition =
+            postReviewers.ccCurrentUser(bu.getUser(), revision);
+        bu.addOp(revision.getChange().getId(), selfAddition.op);
+      }
+
       bu.addOp(
           revision.getChange().getId(),
           new Op(revision.getPatchSet().getId(), input, reviewerResults));

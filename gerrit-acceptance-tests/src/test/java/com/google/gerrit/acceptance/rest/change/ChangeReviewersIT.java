@@ -281,8 +281,13 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ChangeInfo c = gApi.changes()
         .id(r.getChangeId())
         .get();
-    assertReviewers(c, REVIEWER);
-    assertReviewers(c, CC);
+    if (notesMigration.readChanges()) {
+      assertReviewers(c, REVIEWER);
+      assertReviewers(c, CC, user);
+    } else {
+      assertReviewers(c, REVIEWER, user);
+      assertReviewers(c, CC);
+    }
   }
 
   @Test

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c61e92f3_3a888105",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-01T08:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61052d1_2a8b7f05",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "998556e5894ecd693196f009a24d20d2541771f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c61052d1_ca718352",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2016-11-01T05:58:24Z",
       "side": 1,
       "message": "Wrong import.  Should be com.google.common.collect.ImmutableSet",
+      "revId": "998556e5894ecd693196f009a24d20d2541771f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61e92f3_da938535",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-01T08:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61052d1_ca718352",
       "revId": "998556e5894ecd693196f009a24d20d2541771f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c61e92f3_fa98c953",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOnly.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-01T08:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61052d1_8a7b8b30",
+      "revId": "998556e5894ecd693196f009a24d20d2541771f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26468ef2_dd6ceb7e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
         "patchSetId": 8
@@ -70,6 +130,24 @@
       "writtenOn": "2016-11-01T05:58:24Z",
       "side": 1,
       "message": "com.google.common.collect.ImmutableSet",
+      "revId": "998556e5894ecd693196f009a24d20d2541771f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61e92f3_9a8d0d15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-01T08:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26468ef2_dd6ceb7e",
       "revId": "998556e5894ecd693196f009a24d20d2541771f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "4649c200_de938535",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-01T08:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61052d1_6a8177e3",
+      "revId": "998556e5894ecd693196f009a24d20d2541771f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26468ef2_fd71a751",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
         "patchSetId": 8
@@ -104,6 +200,24 @@
       "writtenOn": "2016-11-01T05:58:24Z",
       "side": 1,
       "message": "com.google.common.collect.ImmutableSet",
+      "revId": "998556e5894ecd693196f009a24d20d2541771f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4649c200_fe98c153",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-01T08:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26468ef2_fd71a751",
       "revId": "998556e5894ecd693196f009a24d20d2541771f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

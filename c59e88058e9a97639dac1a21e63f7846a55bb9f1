@@ -22,6 +22,24 @@
       "revId": "c59e88058e9a97639dac1a21e63f7846a55bb9f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46d62238_764f10da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-01T21:39:10Z",
+      "side": 1,
+      "message": "The general methodology I\u0027ve been taking to these tests is \u0027Perform js logic, then assert that the DOM reflects it\u0027. I know that this results in a little bit of overlap in tests wrt native DOM functions, but I\u0027d rather have a test that fails mysteriously than a test that passes while the UI element it corresponds to fails.\n\nI feel pretty strongly about this -- mostly because for my first couple of months on this project, I had more than a few instances where all of the JS logic worked, but I wasn\u0027t using something else (usually Polymer\u0027s data binding) correctly. This style of test covers those cases, even though this is a pretty basic case.",
+      "parentUuid": "66f246e8_6fe07184",
+      "revId": "c59e88058e9a97639dac1a21e63f7846a55bb9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

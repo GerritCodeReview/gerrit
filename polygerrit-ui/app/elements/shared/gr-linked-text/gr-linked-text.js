@@ -50,27 +50,18 @@
     _contentOrConfigChanged: function(content, config) {
       var output = Polymer.dom(this.$.output);
       output.textContent = '';
-      var parser = new GrLinkTextParser(config, function(text, href, html) {
+      var parser = new GrLinkTextParser(config, function(text, href, fragment) {
         if (href) {
           var a = document.createElement('a');
           a.href = href;
           a.textContent = text;
           a.target = '_blank';
           output.appendChild(a);
-        } else if (html) {
-          var fragment = document.createDocumentFragment();
-          // Create temporary div to hold the nodes in.
-          var div = document.createElement('div');
-          div.innerHTML = html;
-          while (div.firstChild) {
-            fragment.appendChild(div.firstChild);
-          }
+        } else if (fragment) {
           output.appendChild(fragment);
-        } else {
-          output.appendChild(document.createTextNode(text));
         }
       });
       parser.parse(content);
-    }
+    },
   });
 })();

@@ -76,7 +76,7 @@ limitations under the License.
               on-tap="_handleActionTap"></gr-button>
         </template>
       </section>
-      <section hidden$="[[!_actionCount(_revisionActions.*, _additionalActions.*)]]">
+      <section hidden$="[[!_actionCount(revisionActions.*, _additionalActions.*)]]">
         <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               hidden$="[[_computeActionHidden(action.__key, _hiddenRevisionActions.*)]]"

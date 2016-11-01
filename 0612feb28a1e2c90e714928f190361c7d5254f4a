@@ -69,6 +69,30 @@
       "revId": "0612feb28a1e2c90e714928f190361c7d5254f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61e92f3_1abd7d98",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-01T12:39:08Z",
+      "side": 1,
+      "message": "Do we want to fail the build? Consider the use case, where a user link a new plugin directory, that is not under the git control yet.",
+      "parentUuid": "66a6c6c5_efd0c1dc",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "0612feb28a1e2c90e714928f190361c7d5254f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

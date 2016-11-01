@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c61052d1_2a8b7f05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-01T05:58:58Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "998556e5894ecd693196f009a24d20d2541771f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c61052d1_ca718352",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 8

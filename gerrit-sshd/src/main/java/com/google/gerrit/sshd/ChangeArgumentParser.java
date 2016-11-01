@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -21,31 +23,41 @@ import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ChangeArgumentParser {
   private final CurrentUser currentUser;
   private final ChangesCollection changesCollection;
   private final ChangeFinder changeFinder;
   private final ReviewDb db;
+  private final ChangeNotes.Factory changeNotesFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   ChangeArgumentParser(CurrentUser currentUser,
       ChangesCollection changesCollection,
       ChangeFinder changeFinder,
-      ReviewDb db) {
+      ReviewDb db,
+      ChangeNotes.Factory changeNotesFactory,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.currentUser = currentUser;
     this.changesCollection = changesCollection;
     this.changeFinder = changeFinder;
     this.db = db;
+    this.changeNotesFactory = changeNotesFactory;
+    this.changeControlFactory = changeControlFactory;
   }
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes)
@@ -55,7 +67,16 @@ public class ChangeArgumentParser {
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes,
       ProjectControl projectControl) throws UnloggedFailure, OrmException {
-    List<ChangeControl> matched = changeFinder.find(id, currentUser);
+    addChange(id, changes, projectControl, true);
+  }
+
+  public void addChange(String id, Map<Change.Id, ChangeResource> changes,
+      ProjectControl projectControl, boolean useIndex) throws UnloggedFailure,
+      OrmException {
+    List<ChangeControl> matched =
+        useIndex ?
+            changeFinder.find(id, currentUser) :
+            changeFromNotesFactory(id, currentUser);
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
     for (ChangeControl ctl : matched) {
       if (!changes.containsKey(ctl.getId())
@@ -72,6 +93,24 @@ public class ChangeArgumentParser {
     }
     ChangeControl ctl = toAdd.get(0);
     changes.put(ctl.getId(), changesCollection.parse(ctl));
+  }
+
+  private List<ChangeControl> changeFromNotesFactory(String id, CurrentUser currentUser)
+      throws OrmException {
+    return changeNotesFactory.create(db, Arrays.asList(Change.Id.parse(id)))
+        .stream()
+        .map(changeNote -> controlForChange(changeNote, currentUser))
+        .filter(changeControl -> changeControl.isPresent())
+        .map(changeControl -> changeControl.get())
+        .collect(toList());
+  }
+
+  private Optional<ChangeControl> controlForChange(ChangeNotes change, CurrentUser user) {
+    try {
+      return Optional.of(changeControlFactory.controlFor(change, user));
+    } catch (NoSuchChangeException e) {
+      return Optional.empty();
+    }
   }
 
   private boolean inProject(ProjectControl projectControl, Project project) {

@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
@@ -264,6 +265,13 @@ public class PostReviewers
     addition.result.confirm = confirm ? true : null;
     addition.result.error = error;
     return addition;
+  }
+
+  Addition ccCurrentUser(CurrentUser user, RevisionResource revision) {
+    return new Addition(
+        user.getUserName(), revision.getChangeResource(),
+        ImmutableMap.of(user.getAccountId(), revision.getControl()),
+        CC, NotifyHandling.NONE);
   }
 
   public class Addition {

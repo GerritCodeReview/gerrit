@@ -14,10 +14,8 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicates;
-import com.google.common.collect.FluentIterable;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -37,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ChangeArgumentParser {
   private final CurrentUser currentUser;
@@ -96,24 +95,21 @@ public class ChangeArgumentParser {
     changes.put(ctl.getId(), changesCollection.parse(ctl));
   }
 
-  private List<ChangeControl> changeFromNotesFactory(String id,
-      final CurrentUser currentUser) throws OrmException {
-    List<ChangeNotes> changes =
-        changeNotesFactory.create(db, Arrays.asList(Change.Id.parse(id)));
-    return FluentIterable.from(changes)
-        .transform(new Function<ChangeNotes, ChangeControl>() {
-          @Override
-          public ChangeControl apply(ChangeNotes changeNote) {
-            return controlForChange(changeNote, currentUser);
-          }
-        }).filter(Predicates.notNull()).toList();
+  private List<ChangeControl> changeFromNotesFactory(String id, CurrentUser currentUser)
+      throws OrmException {
+    return changeNotesFactory.create(db, Arrays.asList(Change.Id.parse(id)))
+        .stream()
+        .map(changeNote -> controlForChange(changeNote, currentUser))
+        .filter(changeControl -> changeControl.isPresent())
+        .map(changeControl -> changeControl.get())
+        .collect(toList());
   }
 
-  private ChangeControl controlForChange(ChangeNotes change, CurrentUser user) {
+  private Optional<ChangeControl> controlForChange(ChangeNotes change, CurrentUser user) {
     try {
-      return changeControlFactory.controlFor(change, user);
+      return Optional.of(changeControlFactory.controlFor(change, user));
     } catch (NoSuchChangeException e) {
-      return null;
+      return Optional.empty();
     }
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06950a4c_0ce6f7d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-01T12:37:29Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s exactly what i described on line 15-16 above.",
+      "parentUuid": "66a6c6c5_0f0985a0",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "0612feb28a1e2c90e714928f190361c7d5254f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66a6c6c5_efd0c1dc",
         "filename": "tools/workspace-status.sh",
         "patchSetId": 1

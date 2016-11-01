@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c61e92f3_3a240124",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-01T23:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26468ef2_3d886f05",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 59
+      },
+      "revId": "978537c06d13d92f91cb84035093c83161d37adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c61052d1_0a9f9b35",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-01T23:27:57Z",
       "side": 1,
       "message": "ChangeNotes.Factory",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 23
+      },
+      "revId": "978537c06d13d92f91cb84035093c83161d37adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4649c200_9ee97d95",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-01T23:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61052d1_0a9f9b35",
       "range": {
         "startLine": 45,
         "startChar": 16,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4649c200_beeeb998",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-01T23:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26468ef2_dd938b35",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 2
+      },
+      "revId": "978537c06d13d92f91cb84035093c83161d37adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26468ef2_fd98c753",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 3
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "c61e92f3_daef0598",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-01T23:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26468ef2_fd98c753",
+      "revId": "978537c06d13d92f91cb84035093c83161d37adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c61052d1_eabe879a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 3
@@ -99,6 +189,30 @@
       "writtenOn": "2016-11-01T23:27:57Z",
       "side": 1,
       "message": "This can be imported as static",
+      "range": {
+        "startLine": 104,
+        "startChar": 17,
+        "endLine": 104,
+        "endChar": 36
+      },
+      "revId": "978537c06d13d92f91cb84035093c83161d37adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61e92f3_faf4496a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-01T23:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61052d1_eabe879a",
       "range": {
         "startLine": 104,
         "startChar": 17,

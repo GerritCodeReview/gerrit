@@ -235,16 +235,16 @@ limitations under the License.
                 on-tap="_handlePrefsTap">Preferences</gr-button>
           </span>
         </div>
-        <gr-overlay id="prefsOverlay" with-backdrop>
-          <gr-diff-preferences
-              id="diffPreferences"
-              prefs="{{_prefs}}"
-              local-prefs="{{_localPrefs}}"
-              on-save="_handlePrefsSave"
-              on-cancel="_handlePrefsCancel"></gr-diff-preferences>
-        </gr-overlay>
       </div>
     </gr-header>
+    <gr-overlay id="prefsOverlay" with-backdrop>
+      <gr-diff-preferences
+          id="diffPreferences"
+          prefs="{{_prefs}}"
+          local-prefs="{{_localPrefs}}"
+          on-save="_handlePrefsSave"
+          on-cancel="_handlePrefsCancel"></gr-diff-preferences>
+    </gr-overlay>
     <gr-diff
         id="diff"
         hidden

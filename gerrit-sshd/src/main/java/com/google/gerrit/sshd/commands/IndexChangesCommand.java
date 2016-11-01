@@ -42,7 +42,7 @@ final class IndexChangesCommand extends SshCommand {
       usage = "changes to index")
   void addChange(String token) {
     try {
-      changeArgumentParser.addChange(token, changes);
+      changeArgumentParser.addChange(token, changes, null, false);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {

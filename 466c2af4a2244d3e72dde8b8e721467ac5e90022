@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "46d62238_f6e560c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-01T00:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46d62238_d6c38426",
+      "revId": "466c2af4a2244d3e72dde8b8e721467ac5e90022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46d62238_b6c80844",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-01T00:20:50Z",
       "side": 1,
       "message": "This needs one more level of indent.",
+      "revId": "466c2af4a2244d3e72dde8b8e721467ac5e90022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46d62238_d6ea6498",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-01T00:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46d62238_b6c80844",
       "revId": "466c2af4a2244d3e72dde8b8e721467ac5e90022",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

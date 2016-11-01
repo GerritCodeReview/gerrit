@@ -45,6 +45,13 @@ limitations under the License.
         min-height: 100vh;
         flex-direction: column;
       }
+      gr-header {
+        /**
+         * This gr-header should have higher z-index than the one in gr-diff-view
+         * because it contains settings overlay.
+         */
+        z-index: 2;
+      }
       gr-main-header,
       footer {
         color: var(--primary-text-color);

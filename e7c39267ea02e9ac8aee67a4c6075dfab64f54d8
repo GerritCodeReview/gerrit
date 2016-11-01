@@ -22,6 +22,30 @@
       "revId": "e7c39267ea02e9ac8aee67a4c6075dfab64f54d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4649c200_5eb3f5ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-01T10:19:33Z",
+      "side": 1,
+      "message": "I considered that, but as mentioned on line 12 in this commit message, this only used for development from the Eclipse, so that we really don\u0027t care, as Gerrit cannot be developed on Windows, because it cannot be built there. IOW we could even remove all these user agent constants and nobody would even notice.",
+      "parentUuid": "26468ef2_9d766347",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "e7c39267ea02e9ac8aee67a4c6075dfab64f54d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

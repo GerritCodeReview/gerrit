@@ -55,6 +55,7 @@
         observer: '_changeChanged',
       },
       _commitInfo: Object,
+      _files: Object,
       _changeNum: String,
       _diffDrafts: {
         type: Object,
@@ -77,6 +78,7 @@
         type: Object,
         observer: '_updateSelected',
       },
+      _currentRevisionActions: Object,
       _allPatchSets: {
         type: Array,
         computed: '_computeAllPatchSets(_change)',
@@ -681,7 +683,16 @@
                 if (!change.reviewer_updates) {
                   change.reviewer_updates = null;
                 }
+                var currentRevision = change.revisions &&
+                  change.revisions[change.current_revision];
+                this._latestCommitMessage = currentRevision.commit.message;
                 this._change = change;
+                if (!this._patchRange || !this._patchRange.patchNum ||
+                    this._patchRange.patchNum === currentRevision._number) {
+                  this._commitInfo = currentRevision.commit;
+                  this._currentRevisionActions = currentRevision.actions;
+                  // TODO: Fetch and process files.
+                }
               }.bind(this));
     },
 
@@ -728,38 +739,23 @@
 
       var detailCompletes = this._getChangeDetail().then(function() {
         this._loading = false;
+        this._getProjectConfig();
       }.bind(this));
       this._getComments();
 
       if (this._patchRange.patchNum) {
-        return this._reloadPatchNumDependentResources().then(function() {
-          return detailCompletes;
-        }).then(function() {
-          return this._reloadDetailDependentResources();
+        return Promise.all([
+          this._reloadPatchNumDependentResources(),
+          detailCompletes,
+        ]).then(function() {
+          return this.$.actions.reload();
         }.bind(this));
       } else {
         // The patch number is reliant on the change detail request.
         return detailCompletes.then(function() {
-          return this._reloadPatchNumDependentResources();
-        }.bind(this)).then(function() {
-          return this._reloadDetailDependentResources();
+          this.$.fileList.reload();
         }.bind(this));
       }
-    },
-
-    /**
-     * Kicks off requests for resources that rely on the change detail
-     * (`this._change`) being loaded.
-     */
-    _reloadDetailDependentResources: function() {
-      if (!this._change) { return Promise.resolve(); }
-
-      return this._getProjectConfig().then(function() {
-        return Promise.all([
-          this._getLatestCommitMessage(),
-          this.$.actions.reload(),
-        ]);
-      }.bind(this));
     },
 
     /**

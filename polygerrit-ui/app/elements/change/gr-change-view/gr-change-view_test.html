@@ -102,7 +102,7 @@ limitations under the License.
           return Promise.resolve({
             change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
             revisions: {
-              rev1: {_number: 1},
+              rev1: {_number: 1, commit:{}},
               rev13: {_number: 13},
             },
             current_revision: 'rev1',
@@ -468,7 +468,12 @@ limitations under the License.
     test('topic is coalesced to null', function(done) {
       sandbox.stub(element, '_changeChanged');
       sandbox.stub(element.$.restAPI, 'getChangeDetail', function() {
-        return Promise.resolve({id: '123456789', labels: {}});
+        return Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision:'foo',
+          revisions: {foo: {commit: {}}}
+        });
       });
 
       element._getChangeDetail().then(function() {

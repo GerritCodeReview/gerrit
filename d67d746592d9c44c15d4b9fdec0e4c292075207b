@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "66f246e8_ef08e19e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-abandon-dialog/gr-confirm-abandon-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-01T00:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46454283_de23e51b",
+      "revId": "d67d746592d9c44c15d4b9fdec0e4c292075207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c65a1268_1af55d65",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
         "patchSetId": 2
@@ -42,6 +60,24 @@
         "endLine": 41,
         "endChar": 31
       },
+      "revId": "d67d746592d9c44c15d4b9fdec0e4c292075207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f246e8_cf0d1dad",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-01T00:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c65a1268_1af55d65",
       "revId": "d67d746592d9c44c15d4b9fdec0e4c292075207b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "66f246e8_0fd1e5de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-dialog/gr-confirm-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-01T00:22:20Z",
+      "side": 1,
+      "message": "Hmm, I dunno how this would solve that case... This is just a max-height. Why would the user not want the dialog to stretch to fit as much content as possible?",
+      "parentUuid": "46454283_bed9b90c",
+      "revId": "d67d746592d9c44c15d4b9fdec0e4c292075207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c65a1268_ba039173",
         "filename": "polygerrit-ui/app/elements/shared/gr-confirm-dialog/gr-confirm-dialog.html",
         "patchSetId": 2
@@ -100,6 +154,24 @@
         "endLine": 35,
         "endChar": 23
       },
+      "revId": "d67d746592d9c44c15d4b9fdec0e4c292075207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46d62238_96cd0c54",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-dialog/gr-confirm-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-01T00:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c65a1268_ba039173",
       "revId": "d67d746592d9c44c15d4b9fdec0e4c292075207b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

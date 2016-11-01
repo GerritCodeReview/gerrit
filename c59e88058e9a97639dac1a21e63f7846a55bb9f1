@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f246e8_6fe07184",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-01T21:34:07Z",
+      "side": 1,
+      "message": "This is fine with me, but IMO testing `_computeDownloadLink` directly would have sufficed.",
+      "range": {
+        "startLine": 391,
+        "startChar": 6,
+        "endLine": 392,
+        "endChar": 64
+      },
+      "revId": "c59e88058e9a97639dac1a21e63f7846a55bb9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

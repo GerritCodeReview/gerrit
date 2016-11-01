@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -231,6 +232,34 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertThat(cd.patchSets()).hasSize(2);
     assertThat(cd.patchSet(psId1).getRevision().get()).isEqualTo(c1.name());
     assertThat(cd.patchSet(psId2).getRevision().get()).isEqualTo(c2.name());
+  }
+
+  @Test
+  public void mergeOnPushToBranchWithOldPatchset() throws Exception {
+    grant(Permission.PUSH, project, "refs/heads/master");
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    RevCommit c1 = r.getCommit();
+    PatchSet.Id psId1 = r.getPatchSetId();
+    String changeId = r.getChangeId();
+    assertThat(psId1.get()).isEqualTo(1);
+
+    r = amendChange(changeId);
+    ChangeData cd = r.getChange();
+    PatchSet.Id psId2 = cd.change().currentPatchSetId();
+    assertThat(psId2.getParentKey()).isEqualTo(psId1.getParentKey());
+    assertThat(psId2.get()).isEqualTo(2);
+
+    testRepo.reset(c1);
+    assertPushOk(
+        pushHead(testRepo, "refs/heads/master", false), "refs/heads/master");
+
+    cd = changeDataFactory.create(db, project, psId1.getParentKey());
+    Change c = cd.change();
+    assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(c.currentPatchSetId()).isEqualTo(psId1);
+    assertThat(cd.patchSets().stream().map(ps -> ps.getId()).collect(toList()))
+        .containsExactly(psId1, psId2);
   }
 
   @Test

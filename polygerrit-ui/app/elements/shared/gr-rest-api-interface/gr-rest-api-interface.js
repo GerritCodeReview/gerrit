@@ -388,11 +388,13 @@
       var options = this._listChangesOptionsToHex(
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.CHANGE_ACTIONS,
+          ListChangesOption.CURRENT_ACTIONS,
+          ListChangesOption.CURRENT_COMMIT,
           ListChangesOption.DOWNLOAD_COMMANDS,
           ListChangesOption.SUBMITTABLE
       );
-      return this._getChangeDetail(changeNum, options, opt_errFn,
-          opt_cancelCondition);
+      return this._getChangeDetail(
+          changeNum, options, opt_errFn, opt_cancelCondition);
     },
 
     getDiffChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {

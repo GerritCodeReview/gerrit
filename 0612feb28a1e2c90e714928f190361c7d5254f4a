@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "4649c200_9eae5d3a",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-02T08:14:08Z",
+      "side": 1,
+      "message": "nit: you\u0027re trying to share code with plugins and toplevel, which makes this harder than it should be.\n\nfunction rev() {\n  cd $1; git describe --dirty ... \n}\n  \necho STABLE_GERRIT $(rev .)\n\nfor p in plugins/* ; do\n  echo STABLE_$(echo $(basename $p)|tr [a-z] [A-Z]) $(rev $p)\ndone",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "0612feb28a1e2c90e714928f190361c7d5254f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66a6c6c5_efd0c1dc",
         "filename": "tools/workspace-status.sh",
         "patchSetId": 1

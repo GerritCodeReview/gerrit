@@ -397,6 +397,20 @@ maven_jar(
   sha1 = 'ab5daef2f881c42c8e280cbe918ec4d7fdfd7efe',
 )
 
+MIME4J_VERS = '0.8.0'
+
+maven_jar(
+  name = 'mime4j_core',
+  artifact = 'org.apache.james:apache-mime4j-core:' + MIME4J_VERS,
+  sha1 = 'd54f45fca44a2f210569656b4ca3574b42911c95',
+)
+
+maven_jar(
+  name = 'mime4j_dom',
+  artifact = 'org.apache.james:apache-mime4j-dom:' + MIME4J_VERS,
+  sha1 = '6720c93d14225c3e12c4a69768a0370c80e376a3',
+)
+
 OW2_VERS = '5.1'
 
 maven_jar(

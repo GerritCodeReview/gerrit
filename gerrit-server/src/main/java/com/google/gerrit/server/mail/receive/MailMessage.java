@@ -16,6 +16,8 @@ package com.google.gerrit.server.mail.receive;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.mail.Address;
 
 import org.joda.time.DateTime;
 
@@ -25,51 +27,57 @@ import org.joda.time.DateTime;
  * by the MailParser after MailReceiver has received a message. Transformations
  * done by the parser include stitching mime parts together, transforming all
  * content to UTF-16 and removing attachments.
+ *
+ * A valid MailMessage contains at least the following fields: id, from, to,
+ * subject and dateReceived.
  */
 @AutoValue
 public abstract class MailMessage {
   // Unique Identifier
   public abstract String id();
   // Envelop Information
-  public abstract String from();
-  public abstract ImmutableList<String> to();
-  public abstract ImmutableList<String> cc();
+  public abstract Address from();
+  public abstract ImmutableList<Address> to();
+  @Nullable
+  public abstract ImmutableList<Address> cc();
   // Metadata
   public abstract DateTime dateReceived();
   public abstract ImmutableList<String> additionalHeaders();
   // Content
   public abstract String subject();
+  @Nullable
   public abstract String textContent();
+  @Nullable
   public abstract String htmlContent();
 
-  static Builder builder() {
+  public static Builder builder() {
     return new AutoValue_MailMessage.Builder();
   }
 
   @AutoValue.Builder
-  abstract static class Builder {
-    abstract Builder id(String val);
-    abstract Builder from(String val);
-    abstract ImmutableList.Builder<String> toBuilder();
-    public Builder addTo(String val) {
+  public abstract static class Builder {
+    public abstract Builder id(String val);
+    public abstract Builder from(Address val);
+    public abstract ImmutableList.Builder<Address> toBuilder();
+    public Builder addTo(Address val) {
       toBuilder().add(val);
       return this;
     }
-    abstract ImmutableList.Builder<String> ccBuilder();
-    public Builder addCc(String val) {
+    public abstract ImmutableList.Builder<Address> ccBuilder();
+    public Builder addCc(Address val) {
       ccBuilder().add(val);
       return this;
     }
-    abstract Builder dateReceived(DateTime val);
-    abstract ImmutableList.Builder<String> additionalHeadersBuilder();
+    public abstract Builder dateReceived(DateTime val);
+    public abstract ImmutableList.Builder<String> additionalHeadersBuilder();
     public Builder addAdditionalHeader(String val) {
       additionalHeadersBuilder().add(val);
       return this;
     }
-    abstract Builder subject(String val);
-    abstract Builder textContent(String val);
-    abstract Builder htmlContent(String val);
+    public abstract Builder subject(String val);
+    public abstract Builder textContent(String val);
+    public abstract Builder htmlContent(String val);
 
-    abstract MailMessage build();
+    public abstract MailMessage build();
   }
 }

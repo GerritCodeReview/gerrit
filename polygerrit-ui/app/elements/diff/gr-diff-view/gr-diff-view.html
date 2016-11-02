@@ -14,18 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-header/gr-header.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../gr-diff/gr-diff.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
+<link rel="import" href="../gr-diff/gr-diff.html">
 <link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
 
 <dom-module id="gr-diff-view">
@@ -33,7 +34,14 @@ limitations under the License.
     <style>
       :host {
         background-color: var(--view-background-color);
-        display: block;
+      }
+      gr-diff {
+        border: none;
+      }
+      gr-header {
+        background-color: #fff;
+        border-bottom: 1px #eee solid;
+        z-index: 1;
       }
       header,
       .subHeader {
@@ -177,66 +185,67 @@ limitations under the License.
         }
       }
     </style>
-    <header>
-      <h3>
-        <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
-          [[_changeNum]]</a><span>:</span>
-        <span>[[_change.subject]]</span>
-        <span class="dash">—</span>
-        <input id="reviewed"
-               class="reviewed"
-               type="checkbox"
-               on-change="_handleReviewedChange"
-               hidden$="[[!_loggedIn]]" hidden>
-        <div class="jumpToFileContainer desktop">
-          <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
-            <span>[[_computeFileDisplayName(_path)]]</span>
-            <span class="downArrow">&#9660;</span>
-          </gr-button>
-          <!-- *-align="" to disable iron-dropdown's element positioning. -->
-          <iron-dropdown id="dropdown"
-              allow-outside-scroll
-              vertical-align=""
-              horizontal-align="">
-            <div class="dropdown-content">
-              <template
-                  is="dom-repeat"
-                  items="[[_fileList]]"
-                  as="path"
-                  initial-count="75">
-                <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
-                   selected$="[[_computeFileSelected(path, _path)]]"
-                   data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
-                   on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
+    <gr-header
+        keep-on-scroll
+        ready-for-measure="[[!_loading]]">
+      <header>
+        <h3>
+          <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
+            [[_changeNum]]</a><span>:</span>
+          <span>[[_change.subject]]</span>
+          <span class="dash">—</span>
+          <input id="reviewed"
+                 class="reviewed"
+                 type="checkbox"
+                 on-change="_handleReviewedChange"
+                 hidden$="[[!_loggedIn]]" hidden>
+          <div class="jumpToFileContainer desktop">
+            <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
+              <span>[[_computeFileDisplayName(_path)]]</span>
+              <span class="downArrow">&#9660;</span>
+            </gr-button>
+            <!-- *-align="" to disable iron-dropdown's element positioning. -->
+            <iron-dropdown id="dropdown"
+                allow-outside-scroll
+                vertical-align=""
+                horizontal-align="">
+              <div class="dropdown-content">
+                <template
+                    is="dom-repeat"
+                    items="[[_fileList]]"
+                    as="path"
+                    initial-count="75">
+                  <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
+                     selected$="[[_computeFileSelected(path, _path)]]"
+                     data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
+                     on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
+                </template>
+              </div>
+            </iron-dropdown>
+          </div>
+          <div class="mobileJumpToFileContainer mobile">
+            <select on-change="_handleMobileSelectChange">
+              <template is="dom-repeat" items="[[_fileList]]" as="path">
+                <option
+                    value$="[[path]]"
+                    selected$="[[_computeFileSelected(path, _path)]]">
+                  [[_computeTruncatedFileDisplayName(path)]]
+                </option>
               </template>
-            </div>
-          </iron-dropdown>
+            </select>
+          </div>
+        </h3>
+        <div class="navLinks desktop">
+          <a class="navLink"
+             href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">Prev</a>
+          /
+          <a class="navLink"
+             href$="[[_computeUpURL(_changeNum, _patchRange, _change, _change.revisions)]]">Up</a>
+          /
+          <a class="navLink"
+             href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">Next</a>
         </div>
-        <div class="mobileJumpToFileContainer mobile">
-          <select on-change="_handleMobileSelectChange">
-            <template is="dom-repeat" items="[[_fileList]]" as="path">
-              <option
-                  value$="[[path]]"
-                  selected$="[[_computeFileSelected(path, _path)]]">
-                [[_computeTruncatedFileDisplayName(path)]]
-              </option>
-            </template>
-          </select>
-        </div>
-      </h3>
-      <div class="navLinks desktop">
-        <a class="navLink"
-           href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">Prev</a>
-        /
-        <a class="navLink"
-           href$="[[_computeUpURL(_changeNum, _patchRange, _change, _change.revisions)]]">Up</a>
-        /
-        <a class="navLink"
-           href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">Next</a>
-      </div>
-    </header>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <div hidden$="[[_loading]]" hidden>
+      </header>
       <div class="subHeader">
         <div class="patchRangeLeft">
           <gr-patch-range-select
@@ -276,6 +285,9 @@ limitations under the License.
           </span>
         </div>
       </div>
+    </gr-header>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden hidden$="[[_loading]]">
       <gr-diff-preferences
           id="diffPreferences"
           prefs="{{_prefs}}"
@@ -290,6 +302,8 @@ limitations under the License.
       </div>
       <gr-diff
           id="diff"
+          hidden
+          hidden$="[[_loading]]"
           is-image-diff="{{_isImageDiff}}"
           files-weblinks="{{_filesWeblinks}}"
           change-num="[[_changeNum]]"

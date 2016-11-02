@@ -142,11 +142,14 @@ public abstract class SchemaVersion {
   private void migrateData(List<SchemaVersion> pending, UpdateUI ui,
       CurrentSchemaVersion curr, ReviewDb db) throws OrmException, SQLException {
     for (SchemaVersion v : pending) {
+      long startSec = System.currentTimeMillis();
       ui.message(String.format(
           "Migrating data to schema %d ...",
           v.getVersionNbr()));
       v.migrateData(db, ui);
       v.finish(curr, db);
+      ui.message(String.format("                          > Done (%.3f s)",
+          (System.currentTimeMillis() - startSec) / 1000.0));
     }
   }
 

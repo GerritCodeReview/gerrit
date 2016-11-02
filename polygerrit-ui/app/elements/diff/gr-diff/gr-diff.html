@@ -31,7 +31,8 @@ limitations under the License.
         --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
         --light-add-highlight-color: #efe;
         --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
-
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
       }
       :host.no-left .sideBySide ::content .left,
       :host.no-left .sideBySide ::content .left + td,
@@ -40,11 +41,8 @@ limitations under the License.
         display: none;
       }
       .diffContainer {
-        border-bottom: 1px solid #eee;
-        border-top: 1px solid #eee;
         display: flex;
         font: 12px var(--monospace-font-family);
-        overflow-x: auto;
         will-change: transform;
       }
       table {

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbe93b6b_2269ce38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T23:11:27Z",
+      "side": 1,
+      "message": "After fixing the issues and running:\n\n  $ sh polygerrit-ui/app/run_test.sh\n\nwith parrent change, with updated bower packages, it\u0027s still failing here: [1].\n\n* [1] http://paste.openstack.org/show/587699",
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_294c0de3",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T23:11:27Z",
+      "side": 1,
+      "message": "What is that? Just \"visibility\" is also not needed here because it\u0027s alreay set on line 1 above.",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 46
+      },
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_495941a0",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T23:11:27Z",
+      "side": 1,
+      "message": "Dupliation of the the same rule form line 10 above, so that Bazel confused with:\n\n  BUILD:74:1: bower_component_bundle rule \u0027test_components\u0027 i\n  in package \u0027polygerrit-ui/app\u0027 conflicts with existing bower_component_bundle rule.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 1
+      },
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_4264d262",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T23:11:27Z",
+      "side": 1,
+      "message": "Should be rebased, it was renamed to outs.",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 22
+      },
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

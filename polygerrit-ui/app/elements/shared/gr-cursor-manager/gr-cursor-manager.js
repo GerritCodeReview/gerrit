@@ -52,6 +52,7 @@
       cursorTargetClass: {
         type: String,
         value: null,
+        observer: '_getClasses',
       },
 
       /**
@@ -63,6 +64,7 @@
         type: String,
         value: ScrollBehavior.NEVER,
       },
+      _cursorTargetClasses: Array,
     },
 
     detached: function() {
@@ -139,14 +141,24 @@
     },
 
     _decorateTarget: function() {
-      if (this.target && this.cursorTargetClass) {
-        this.target.classList.add(this.cursorTargetClass);
+      if (this.target && this._cursorTargetClasses) {
+        this._cursorTargetClasses.forEach(function(className) {
+          this.target.classList.add(className);
+        }.bind(this));
       }
     },
 
     _unDecorateTarget: function() {
-      if (this.target && this.cursorTargetClass) {
-        this.target.classList.remove(this.cursorTargetClass);
+      if (this.target && this._cursorTargetClasses) {
+        this._cursorTargetClasses.forEach(function(className) {
+          this.target.classList.remove(className);
+        }.bind(this));
+      }
+    },
+
+    _getClasses: function(cursorTargetClass) {
+      if (cursorTargetClass) {
+        this._cursorTargetClasses = cursorTargetClass.split(' ');
       }
     },
 

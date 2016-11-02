@@ -109,6 +109,34 @@ limitations under the License.
       assert.equal(cursorElement._scrollBehavior, 'keep-visible');
     });
 
+    test('diff cursor does not start with underline', function() {
+      assert.isFalse(cursorElement.displayLine);
+      assert.deepEqual(
+        cursorElement.$.cursorManager._cursorTargetClasses, ['target-row']);
+      assert.equal(
+        cursorElement.$.cursorManager.cursorTargetClass, 'target-row');
+    });
+
+    test('calling moveDown() adds cursor underline', function() {
+      cursorElement.moveDown();
+      assert.isTrue(cursorElement.displayLine);
+      assert.deepEqual(
+        cursorElement.$.cursorManager._cursorTargetClasses,
+        ['target-row', 'display-line']);
+      assert.equal(
+        cursorElement.$.cursorManager.cursorTargetClass,
+        'target-row display-line');
+    });
+
+    test('calling moveUp() adds cursor underline', function() {
+      cursorElement.moveUp();
+      assert.isTrue(cursorElement.displayLine);
+      assert.deepEqual(cursorElement.$.cursorManager._cursorTargetClasses,
+        ['target-row', 'display-line']);
+      assert.equal(cursorElement.$.cursorManager.cursorTargetClass,
+        'target-row display-line');
+    });
+
     suite('unified diff', function() {
 
       setup(function(done) {

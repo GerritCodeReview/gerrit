@@ -131,6 +131,14 @@ limitations under the License.
           'moveToPreviousCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 80, ['shift']);  // 'P'
       assert(scrollStub.calledOnce);
+
+      var targetClassStub = sandbox.stub(element.$.cursor,
+          '_getTargetClass');
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      assert(targetClassStub.lastCall.calledWithExactly(true));
+
+      MockInteractions.pressAndReleaseKeyOn(element, 27);  // 'escape'
+      assert(targetClassStub.lastCall.calledWithExactly(false));
     });
 
     test('saving diff preferences', function() {

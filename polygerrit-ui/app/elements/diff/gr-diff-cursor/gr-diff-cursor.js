@@ -48,6 +48,10 @@
         notify: true,
         observer: '_rowChanged',
       },
+      displayLine: {
+        type: Boolean,
+        value: false,
+      },
 
       /**
        * The diff views to cursor through and listen to.
@@ -111,6 +115,7 @@
     },
 
     moveDown: function() {
+      this.displayLine = true;
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
         this.$.cursorManager.next(this._rowHasSide.bind(this));
       } else {
@@ -119,6 +124,7 @@
     },
 
     moveUp: function() {
+      this.displayLine = true;
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
         this.$.cursorManager.previous(this._rowHasSide.bind(this));
       } else {
@@ -242,6 +248,10 @@
       if (!number || number === 'FILE') { return ''; }
 
       return (cell.matches('.left') ? 'b' : '') + number;
+    },
+
+    _getTargetClass: function(displayLine) {
+      return displayLine ? 'target-row display-line' : 'target-row';
     },
 
     _getViewMode: function() {

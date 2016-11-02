@@ -193,6 +193,15 @@
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       switch (e.keyCode) {
+        case 27: // escape
+          e.preventDefault();
+          this.$.cursor.displayLine = false;
+          var selected = this.$.diff.$.diffTable.querySelectorAll(
+            '.target-row')[0];
+          if (selected) {
+            selected.classList.remove('display-line');
+          }
+          break;
         case 37: // left
           if (e.shiftKey) {
             e.preventDefault();

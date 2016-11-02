@@ -22,7 +22,7 @@ limitations under the License.
     <gr-cursor-manager
         id="cursorManager"
         scroll="[[_scrollBehavior]]"
-        cursor-target-class="target-row"
+        cursor-target-class="[[_getTargetClass(displayLine)]]"
         target="{{diffRow}}"></gr-cursor-manager>
   </template>
   <script src="gr-diff-cursor.js"></script>

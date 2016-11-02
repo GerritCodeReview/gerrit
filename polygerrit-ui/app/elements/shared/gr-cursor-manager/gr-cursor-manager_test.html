@@ -120,5 +120,23 @@ limitations under the License.
       assert.isNotOk(element.target);
       assert.equal(element.index, -1);
     });
+    test('single target class', function() {
+      element.stops = list.querySelectorAll('li');
+      element.cursorTargetClass = 'class1';
+      element.setCursor(list.children[0]);
+      assert.deepEqual(
+        element._cursorTargetClasses, ['class1']);
+      assert.isTrue(list.children[0].classList.contains('class1'));
+    });
+
+    test('multiple target classes', function() {
+      element.stops = list.querySelectorAll('li');
+      element.cursorTargetClass = 'class1 class2';
+      element.setCursor(list.children[0]);
+      assert.deepEqual(
+        element._cursorTargetClasses, ['class1', 'class2']);
+      assert.isTrue(list.children[0].classList.contains('class1'));
+      assert.isTrue(list.children[0].classList.contains('class2'));
+    });
   });
 </script>

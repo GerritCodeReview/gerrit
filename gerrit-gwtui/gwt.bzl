@@ -153,7 +153,7 @@ def gwt_genrule(suffix = ""):
       'unzip -qo $$ROOT/$(location :%s);' % opt +
       'mkdir -p $$(dirname $@);' +
       'zip -qr $$ROOT/$@ .',
-    out = 'ui_optdbg' + suffix + '.zip',
+    outs = ['ui_optdbg' + suffix + '.zip'],
     visibility = ['//visibility:public'],
    )
 

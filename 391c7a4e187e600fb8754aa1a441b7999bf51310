@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c61e92f3_7a4cb9e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T08:13:54Z",
+      "side": 1,
+      "message": "Thanks for fixing it!",
+      "revId": "391c7a4e187e600fb8754aa1a441b7999bf51310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4649c200_fea9a134",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T08:13:54Z",
+      "side": 1,
+      "message": "[Optional] implicitlyCcOnNonVotingReview",
+      "range": {
+        "startLine": 1007,
+        "startChar": 14,
+        "endLine": 1007,
+        "endChar": 30
+      },
+      "revId": "391c7a4e187e600fb8754aa1a441b7999bf51310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4649c200_9e3bbd31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T08:13:54Z",
+      "side": 1,
+      "message": "Not sure if self prefix make the intent more clear here? Just id?",
+      "range": {
+        "startLine": 232,
+        "startChar": 17,
+        "endLine": 232,
+        "endChar": 23
+      },
+      "revId": "391c7a4e187e600fb8754aa1a441b7999bf51310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61e92f3_fa5f6988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T08:13:54Z",
+      "side": 1,
+      "message": "Nit: 4 space on line continuation.",
+      "revId": "391c7a4e187e600fb8754aa1a441b7999bf51310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4649c200_be40f9a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T08:13:54Z",
+      "side": 1,
+      "message": "[Optional] ccOrReviewer is better explain what is meant here.",
+      "range": {
+        "startLine": 235,
+        "startChar": 14,
+        "endLine": 235,
+        "endChar": 28
+      },
+      "revId": "391c7a4e187e600fb8754aa1a441b7999bf51310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4649c200_fe4681be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T08:13:54Z",
+      "side": 1,
+      "message": "Remove this. You moved the creation of the map into ccCurrentUser method, so that it\u0027s not used and not needed here.",
+      "range": {
+        "startLine": 262,
+        "startChar": 8,
+        "endLine": 263,
+        "endChar": 59
+      },
+      "revId": "391c7a4e187e600fb8754aa1a441b7999bf51310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61e92f3_5a4f75d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T08:13:54Z",
+      "side": 1,
+      "message": "Not sure if we have rule to put package protected methods in a class before the private methodes, in which case it should appear on line 181.",
+      "revId": "391c7a4e187e600fb8754aa1a441b7999bf51310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

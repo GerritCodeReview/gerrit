@@ -51,6 +51,10 @@
       },
       project: String,
       commit: String,
+      displayLine: {
+        type: Boolean,
+        value: false,
+      },
       isImageDiff: {
         type: Boolean,
         computed: '_computeIsImageDiff(_diff)',
@@ -176,7 +180,7 @@
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
     },
 
-    _computeContainerClass: function(loggedIn, viewMode) {
+    _computeContainerClass: function(loggedIn, viewMode, displayLine) {
       var classes = ['diffContainer'];
       switch (viewMode) {
         case DiffViewMode.UNIFIED:
@@ -190,6 +194,9 @@
       }
       if (loggedIn) {
         classes.push('canComment');
+      }
+      if (displayLine) {
+        classes.push('displayLine');
       }
       return classes.join(' ');
     },

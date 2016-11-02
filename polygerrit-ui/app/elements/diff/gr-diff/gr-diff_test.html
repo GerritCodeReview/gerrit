@@ -50,6 +50,21 @@ limitations under the License.
         assert.isFalse(element.classList.contains('no-left'));
       });
 
+      test('view does not start with displayLine classList',
+          function() {
+        assert.isFalse(
+            element.$$('.diffContainer').classList.contains('displayLine'));
+      });
+
+      test('displayLine class added called when displayLine is true',
+          function() {
+        var spy = sinon.spy(element, '_computeContainerClass');
+        element.displayLine = true;
+        assert.isTrue(spy.called);
+        assert.isTrue(
+            element.$$('.diffContainer').classList.contains('displayLine'));
+      });
+
       test('get drafts', function(done) {
         element.patchRange = {basePatchNum: 0, patchNum: 0};
 

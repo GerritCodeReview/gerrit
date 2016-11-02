@@ -63,6 +63,24 @@
       "revId": "e7c39267ea02e9ac8aee67a4c6075dfab64f54d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_e2a5268d",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-11-02T10:23:22Z",
+      "side": 1,
+      "message": "The issue is that you have timestampped files, so you will kill caching.\n\nFor zipper it is working as intended, it takes the name you give from the command line, here how I made it work:\n[dmarting@trantor git gerrit ((HEAD detached at FETCH_HEAD))] $ git diff\ndiff --git a/gerrit-gwtui/gwt.bzl b/gerrit-gwtui/gwt.bzl\nindex c0dcad9..80db5ba 100644\n--- a/gerrit-gwtui/gwt.bzl\n+++ b/gerrit-gwtui/gwt.bzl\n@@ -103,10 +103,10 @@ def _gwt_user_agent_module(ctx):\n     \"cd %s\" % dir,\n     \"mkdir -p $(dirname %s)\" % gwt,\n     \"cp $p/%s %s\" % (gwt_user_agent_xml.path, gwt),\n-    \"zip -qr $p/%s *\" % gwt_user_agent_zip.path\n+    \"$p/%s cC $p/%s $(find . | sed \u0027s|^./||\u0027)\" % (ctx.executable._zip.path, gwt_user_agent_zip.path)\n   ])\n   ctx.action(\n-    inputs \u003d [gwt_user_agent_xml],\n+    inputs \u003d [gwt_user_agent_xml] + ctx.files._zip,\n     outputs \u003d [gwt_user_agent_zip],\n     command \u003d cmd,\n     mnemonic \u003d \"GenerateUserAgentGWTModule\")\ndiff --git a/plugins/hooks b/plugins/hooks\nindex 052ecd9..f27c7e7 160000\n--- a/plugins/hooks\n+++ b/plugins/hooks\n@@ -1 +1 @@\n-Subproject commit 052ecd9c4ed12e1ca0beef53e7bc4fb2e17ee580\n+Subproject commit f27c7e7cd865d6638d89d1db130176949c298ce5",
+      "parentUuid": "4649c200_7eb031c1",
+      "revId": "e7c39267ea02e9ac8aee67a4c6075dfab64f54d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

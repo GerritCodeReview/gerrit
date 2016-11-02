@@ -215,7 +215,9 @@
     _handleTextareaKeydown: function(e) {
       switch (e.keyCode) {
         case 27: // 'esc'
-          this._handleCancel(e);
+          if (this._messageText.length > 0) {
+            this._handleCancel(e);
+          }
           break;
         case 83: // 's'
           if (e.ctrlKey) {

@@ -16,6 +16,24 @@
       "revId": "e3c3ef2a19f7edbc6264dccef288411c4da0de01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06450a36_2c7ed31e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-02T11:17:35Z",
+      "side": 1,
+      "message": "h2 is also used for caches, not only review DB.\n\nBut you\u0027re right about the migration.  Let\u0027s put this on hold until at least we don\u0027t use h2 for the review DB.",
+      "parentUuid": "cbe93b6b_22cd4e51",
+      "revId": "e3c3ef2a19f7edbc6264dccef288411c4da0de01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

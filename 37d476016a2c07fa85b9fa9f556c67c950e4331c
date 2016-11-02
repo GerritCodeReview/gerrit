@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbe93b6b_c2fea244",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T22:52:37Z",
+      "side": 1,
+      "message": "This import should be sorted and appear in java.* section below. If I type Ctrl+Shift+o in Eclipse, it\u0027s relocated as the last import statement in this file. I\u0027ve suggested below to avoid using it directly.",
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_a95f1d89",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T22:52:37Z",
+      "side": 1,
+      "message": "There is a warning in Eclipse:\n\n  Stream is a raw type. References to generic type Stream\u003cT\u003e should be \n\t parameterized",
+      "range": {
+        "startLine": 1019,
+        "startChar": 4,
+        "endLine": 1019,
+        "endChar": 10
+      },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_e201a66c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T22:52:37Z",
+      "side": 1,
+      "message": "This naming is misleading, as in ReviewDb case the state is reviewer and not cc. I\u0027ve suggested below to avoid using it.",
+      "range": {
+        "startLine": 1019,
+        "startChar": 11,
+        "endLine": 1019,
+        "endChar": 14
+      },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_c9645164",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T22:52:37Z",
+      "side": 1,
+      "message": "Better containsExactly, so may be combine in single statement:\n\n  assertThat(c.reviewers.get(state).stream().map(ai -\u003e ai._accountId)\n        .collect(toList())).containsExactly(user.id.get());",
+      "range": {
+        "startLine": 1020,
+        "startChar": 39,
+        "endLine": 1020,
+        "endChar": 47
+      },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_69fb6555",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T22:52:37Z",
+      "side": 1,
+      "message": "This comment is now stale, as in ReviewDb case the user is added as reviewer now.",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 43
+      },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_094f49da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T22:52:37Z",
+      "side": 1,
+      "message": "I\u0027ve noticed, that all() could also contain REMOVED state. E.g. in ChangUpdate#removeReviewer() is setting it as the state for removed reviewer. Would it be possible that this state would also be returned here? In which case ccOrReviewer would be wrong name and the condition wouldn\u0027t work as expected below (on non voting review by a old-reviewer that was deleted as reviewer).",
+      "range": {
+        "startLine": 235,
+        "startChar": 29,
+        "endLine": 235,
+        "endChar": 51
+      },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_825ada98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T22:52:37Z",
+      "side": 1,
+      "message": "This condition would also be true, when a user is voting on the change first time (by providing a label, say CRVW+1). The user isn\u0027t a reviewer (or CC) until now. So as the outcome of the PostReviewers.Addition she will be added with CC state. But later on line 269 below, and later in updateLabels(), line 853 she will be added as reviewer as well, or better to say her state as CC will be overwritten by the state reviewer. I think we should avoid setting the state as CC just to overwrite it later as REVIEWER on voting review. Extend this condition to be: not a CC or reviewer until now, and there is no votes as part of this review?",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 265,
+        "endChar": 7
+      },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -39,6 +39,24 @@
       "revId": "6cf77a7fbf90d383811fb7932b3643c9234aedb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_cecd6353",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-02T00:54:26Z",
+      "side": 1,
+      "message": "Looks like my lint command was excluding gr-linked-text, which is why this was all missed.",
+      "parentUuid": "46a38215_aebe1799",
+      "revId": "6cf77a7fbf90d383811fb7932b3643c9234aedb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

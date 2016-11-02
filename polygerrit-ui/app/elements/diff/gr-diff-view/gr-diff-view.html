@@ -22,7 +22,6 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../../shared/gr-header/gr-header.html">
 <link rel="import" href="../gr-diff/gr-diff.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
@@ -33,25 +32,19 @@ limitations under the License.
     <style>
       :host {
         background-color: var(--view-background-color);
+        display: block;
       }
-      gr-header {
-        background-color: #fff;
-        border-bottom: 1px #eee solid;
-      }
-      .titleHeader,
-      .patchRangeHeader {
+      header,
+      .subHeader {
         align-items: center;
         display: flex;
         justify-content: space-between;
       }
-      .patchRangeLeft {
-        display: flex;
-      }
-      .titleHeader {
+      header {
         padding: .75em var(--default-horizontal-margin);
       }
-      .patchRangeHeader {
-        margin: 0 var(--default-horizontal-margin) .75em;
+      .patchRangeLeft {
+        display: flex;
       }
       .navLink:not([href]),
       .downloadLink:not([href]) {
@@ -118,6 +111,9 @@ limitations under the License.
         padding: 0 var(--default-horizontal-margin) 1em;
         color: #666;
       }
+      .subHeader {
+        margin: 0 var(--default-horizontal-margin) .75em;
+      }
       .prefsButton {
         text-align: right;
       }
@@ -146,62 +142,60 @@ limitations under the License.
         }
       }
     </style>
-    <gr-header keep-on-scroll>
-      <div class="titleHeader">
-        <h3>
-          <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
-            [[_changeNum]]</a><span>:</span>
-          <span>[[_change.subject]]</span>
-          <span class="dash">—</span>
-          <input
-              id="reviewed"
-              class="reviewed"
-              type="checkbox"
-              on-change="_handleReviewedChange"
-              hidden$="[[!_loggedIn]]"
-              hidden>
-          <div class="jumpToFileContainer">
-            <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
-              <span>[[_computeFileDisplayName(_path)]]</span>
-              <span class="downArrow">&#9660;</span>
-            </gr-button>
-            <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
-              <div class="dropdown-content">
-                <template
-                    is="dom-repeat"
-                    items="[[_fileList]]"
-                    as="path"
-                    initial-count="75">
-                  <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
-                     selected$="[[_computeFileSelected(path, _path)]]"
-                     data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
-                     on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
-                </template>
-              </div>
-            </iron-dropdown>
-          </div>
-          <div class="mobileJumpToFileContainer">
-            <select on-change="_handleMobileSelectChange">
-              <template is="dom-repeat" items="[[_fileList]]" as="path">
-                <option
-                    value$="[[path]]"
-                    selected$="[[_computeFileSelected(path, _path)]]">
-                  [[_computeTruncatedFileDisplayName(path)]]
-                </option>
+    <header>
+      <h3>
+        <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
+          [[_changeNum]]</a><span>:</span>
+        <span>[[_change.subject]]</span>
+        <span class="dash">—</span>
+        <input id="reviewed"
+               class="reviewed"
+               type="checkbox"
+               on-change="_handleReviewedChange"
+               hidden$="[[!_loggedIn]]" hidden>
+        <div class="jumpToFileContainer">
+          <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
+            <span>[[_computeFileDisplayName(_path)]]</span>
+            <span class="downArrow">&#9660;</span>
+          </gr-button>
+          <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
+            <div class="dropdown-content">
+              <template
+                  is="dom-repeat"
+                  items="[[_fileList]]"
+                  as="path"
+                  initial-count="75">
+                <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
+                   selected$="[[_computeFileSelected(path, _path)]]"
+                   data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
+                   on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
               </template>
-            </select>
-          </div>
-        </h3>
-        <div>
-          <a class="navLink"
-             href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">Prev</a>
-          /
-          <a class="navLink"
-             href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">Next</a>
+            </div>
+          </iron-dropdown>
         </div>
+        <div class="mobileJumpToFileContainer">
+          <select on-change="_handleMobileSelectChange">
+            <template is="dom-repeat" items="[[_fileList]]" as="path">
+              <option
+                  value$="[[path]]"
+                  selected$="[[_computeFileSelected(path, _path)]]">
+                [[_computeTruncatedFileDisplayName(path)]]
+              </option>
+            </template>
+          </select>
+        </div>
+      </h3>
+      <div>
+        <a class="navLink"
+           href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">Prev</a>
+        /
+        <a class="navLink"
+           href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">Next</a>
       </div>
-      <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-      <div class="patchRangeHeader" hidden hidden$="[[_loading]]">
+    </header>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
+      <div class="subHeader">
         <div class="patchRangeLeft">
           <gr-patch-range-select
               path="[[_path]]"
@@ -212,7 +206,7 @@ limitations under the License.
           </gr-patch-range-select>
           <span class="separator">/</span>
           <a class="downloadLink"
-              href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
+             href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
             Download
           </a>
         </div>
@@ -229,38 +223,35 @@ limitations under the License.
           <span hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]">
             <span
                 hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">/</span>
-            <gr-button
-                link
+            <gr-button link
                 class="prefsButton"
                 on-tap="_handlePrefsTap">Preferences</gr-button>
           </span>
         </div>
-        <gr-overlay id="prefsOverlay" with-backdrop>
-          <gr-diff-preferences
-              id="diffPreferences"
-              prefs="{{_prefs}}"
-              local-prefs="{{_localPrefs}}"
-              on-save="_handlePrefsSave"
-              on-cancel="_handlePrefsCancel"></gr-diff-preferences>
-        </gr-overlay>
       </div>
-    </gr-header>
-    <gr-diff
-        id="diff"
-        hidden
-        hidden$="[[_loading]]"
-        project="[[_change.project]]"
-        commit="[[_change.current_revision]]"
-        is-image-diff="{{_isImageDiff}}"
-        files-weblinks="{{_filesWeblinks}}"
-        change-num="[[_changeNum]]"
-        patch-range="[[_patchRange]]"
-        path="[[_path]]"
-        prefs="[[_prefs]]"
-        project-config="[[_projectConfig]]"
-        view-mode="[[_diffMode]]"
-        on-line-selected="_onLineSelected">
-    </gr-diff>
+      <gr-overlay id="prefsOverlay" with-backdrop>
+        <gr-diff-preferences
+            id="diffPreferences"
+            prefs="{{_prefs}}"
+            local-prefs="{{_localPrefs}}"
+            on-save="_handlePrefsSave"
+            on-cancel="_handlePrefsCancel"></gr-diff-preferences>
+      </gr-overlay>
+      <gr-diff
+          id="diff"
+          project="[[_change.project]]"
+          commit="[[_change.current_revision]]"
+          is-image-diff="{{_isImageDiff}}"
+          files-weblinks="{{_filesWeblinks}}"
+          change-num="[[_changeNum]]"
+          patch-range="[[_patchRange]]"
+          path="[[_path]]"
+          prefs="[[_prefs]]"
+          project-config="[[_projectConfig]]"
+          view-mode="[[_diffMode]]"
+          on-line-selected="_onLineSelected">
+      </gr-diff>
+    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor"></gr-diff-cursor>

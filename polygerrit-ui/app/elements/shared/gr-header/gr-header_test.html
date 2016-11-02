@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-header</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="gr-header.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-header>
+      <div style="height: 100px"></div>
+    </gr-header>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-header', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('header is the height of the content', () => {
+      assert.equal(element.getBoundingClientRect().height, 100);
+    });
+
+    test('scroll triggers _handleScroll', () => {
+      sandbox.stub(element, '_handleScroll');
+      window.dispatchEvent(new CustomEvent('scroll'));
+      assert.isTrue(element._handleScroll.called);
+    });
+
+    suite('_handleScroll', () => {
+      const getHeaderTop = function() {
+        return element.$.header.style.top;
+      };
+
+      const emulateScrollY = function(distance) {
+        element._getScrollY.returns(distance);
+        element._handleScroll();
+        element.flushDebouncer('scroll');
+      };
+
+      setup(() => {
+        element._headerTopInitial = 10;
+        sandbox.stub(element, '_getScrollY').returns(0);
+      });
+
+      test('is debounced', () => {
+        sandbox.stub(element, 'debounce');
+        element._handleScroll();
+        assert.isTrue(element.debounce.called);
+      });
+
+      test('scrolls header along with document', () => {
+        emulateScrollY(20);
+        assert.equal(getHeaderTop(), '-10px');
+      });
+
+      test('does not stick to the top by default', () => {
+        emulateScrollY(150);
+        assert.equal(getHeaderTop(), '-140px');
+      });
+
+      test('sticks to the top if enabled', () => {
+        element.keepOnScroll = true;
+        emulateScrollY(120);
+        assert.equal(getHeaderTop(), '0px');
+      });
+    });
+  });
+</script>

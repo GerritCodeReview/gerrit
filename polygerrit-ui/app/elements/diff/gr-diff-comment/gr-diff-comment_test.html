@@ -47,6 +47,7 @@ limitations under the License.
 
   suite('gr-diff-comment tests', function() {
     var element;
+    var sandbox;
     setup(function() {
       stub('gr-rest-api-interface', {
         getAccount: function() { return Promise.resolve(null); },
@@ -62,6 +63,11 @@ limitations under the License.
         message: 'is this a crossover episode!?',
         updated: '2015-12-08 19:48:33.843000000',
       };
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('collapsible comments', function() {
@@ -148,6 +154,22 @@ limitations under the License.
           'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is is not visible');
+    });
+
+    test('esc does not close comment unless text is empty', function(done) {
+      element.editing = true;
+      element._messageText = 'test';
+      var textarea = element.$.editTextarea;
+      var closeSpy = sandbox.spy(element, '_handleCancel');
+
+      flush(function() {
+        MockInteractions.pressAndReleaseKeyOn(textarea, 27); // esc
+        assert.isFalse(closeSpy.called);
+        element._messageText = '';
+        MockInteractions.pressAndReleaseKeyOn(textarea, 27); // esc
+        assert.isTrue(closeSpy.called);
+        done();
+      });
     });
   });
 
@@ -321,6 +343,7 @@ limitations under the License.
       MockInteractions.tap(element.$$('.cancel'));
       MockInteractions.tap(element.$$('.discard'));
       element.flushDebouncer('fire-update');
+      element._messageText = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
     });
 

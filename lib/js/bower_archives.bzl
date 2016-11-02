@@ -7,6 +7,21 @@
 load("//tools/bzl:js.bzl", "bower_archive")
 def load_bower_archives():
   bower_archive(
+    name = "accessibility-developer-tools",
+    package = "accessibility-developer-tools",
+    version = "2.11.0",
+    sha1 = "792cb24b649dafb316e7e536f8ae65d0d7b52bab")
+  bower_archive(
+    name = "async",
+    package = "async",
+    version = "1.5.2",
+    sha1 = "1ec975d3b3834646a7e3d4b7e68118b90ed72508")
+  bower_archive(
+    name = "chai",
+    package = "chai",
+    version = "3.5.0",
+    sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa")
+  bower_archive(
     name = "iron-a11y-announcer",
     package = "iron-a11y-announcer",
     version = "1.0.5",
@@ -52,10 +67,35 @@ def load_bower_archives():
     version = "1.1.1",
     sha1 = "480423380be0536f948735d91bc472f6e7ced5b4")
   bower_archive(
+    name = "lodash",
+    package = "lodash",
+    version = "3.10.1",
+    sha1 = "2f207a8293c4c554bf6cf071241f7a00dc513d3a")
+  bower_archive(
+    name = "mocha",
+    package = "mocha",
+    version = "2.5.3",
+    sha1 = "22ef0d1f43ba5e2241369c501ac648f00c0440c0")
+  bower_archive(
     name = "neon-animation",
     package = "neon-animation",
     version = "1.2.4",
     sha1 = "e8ccbb930c4b7ff470b1450baa901618888a7fd3")
+  bower_archive(
+    name = "sinon-chai",
+    package = "sinon-chai",
+    version = "2.8.0",
+    sha1 = "0464b5d944fdf8116bb23e0b02ecfbac945b3517")
+  bower_archive(
+    name = "sinonjs",
+    package = "sinonjs",
+    version = "1.17.1",
+    sha1 = "a26a6aab7358807de52ba738770f6ac709afd240")
+  bower_archive(
+    name = "stacky",
+    package = "stacky",
+    version = "1.3.2",
+    sha1 = "d6c07a0112ab2e9677fe085933744466a89232fb")
   bower_archive(
     name = "web-animations-js",
     package = "web-animations-js",

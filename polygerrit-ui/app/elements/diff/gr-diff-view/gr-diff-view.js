@@ -92,6 +92,7 @@
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -389,7 +390,7 @@
 
     _getDiffURL: function(changeNum, patchRange, path) {
       return '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
-          path;
+          this.encodeURL(path, true);
     },
 
     _computeDiffURL: function(changeNum, patchRangeRecord, path) {

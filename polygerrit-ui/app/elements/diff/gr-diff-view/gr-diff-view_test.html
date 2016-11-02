@@ -590,5 +590,13 @@ limitations under the License.
 
       assert.isTrue(replaceStateStub.called);
     });
+
+    test('_getDiffURL encodes special characters', function() {
+      var changeNum = 123;
+      var patchRange = {basePatchNum: 123, patchNum: 456};
+      var path = 'c++/cpp.cpp';
+      assert.equal(element._getDiffURL(changeNum, patchRange, path),
+          '/c/123/123..456/c%252B%252B/cpp.cpp');
+    });
   });
 </script>

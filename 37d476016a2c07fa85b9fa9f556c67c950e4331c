@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_4a3833e8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-02T23:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbe93b6b_c2fea244",
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_a95f1d89",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 8
@@ -65,6 +83,42 @@
     },
     {
       "key": {
+        "uuid": "46a38215_0eebeb39",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-02T23:48:24Z",
+      "side": 1,
+      "message": "I suppose so, but someday we won\u0027t need the ternary on the previous line. I don\u0027t see a lot of value gained by renaming the variable here, but I do see value in commenting about it.",
+      "parentUuid": "cbe93b6b_e201a66c",
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_aa43af5f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-02T23:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6399eba_a95f1d89",
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_c9645164",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 8
@@ -82,6 +136,24 @@
         "endLine": 1020,
         "endChar": 47
       },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_6ee8af3b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-02T23:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6399eba_c9645164",
       "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "46a38215_4ee5f35f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-02T23:48:24Z",
+      "side": 1,
+      "message": "Oops, updated.",
+      "parentUuid": "a6399eba_69fb6555",
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_094f49da",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 8
@@ -134,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "46a38215_ae1c577f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-02T23:48:24Z",
+      "side": 1,
+      "message": "My understanding is that REMOVED would never be returned by ApprovalsUtil::getReviewers. It\u0027s a special value that is useful when representing a delta on a ReviewerSet, but would never be returned in a lookup of current state.\n\nIf, for whatever reason, the current user showed up as REMOVED, then they wouldn\u0027t be CCed. I\u0027m ok with that.",
+      "parentUuid": "a6399eba_094f49da",
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbe93b6b_825ada98",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 8
@@ -151,6 +259,24 @@
         "endLine": 265,
         "endChar": 7
       },
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_ee265fd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-02T23:48:24Z",
+      "side": 1,
+      "message": "Good catch, I didn\u0027t think of that. I added a test for this scenario and the outcome is as intended as is, but I agree, let\u0027s avoid the churn.",
+      "parentUuid": "cbe93b6b_825ada98",
       "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

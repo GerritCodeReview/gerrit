@@ -22,6 +22,24 @@
       "revId": "4f6fabbe0df0a437f04fc2d0e7470cabc8aa79c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_0ad75bd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-02T04:03:11Z",
+      "side": 1,
+      "message": "Done\nBTW, even though http://english.stackexchange.com/questions/37903/difference-between-artifact-and-artefact",
+      "parentUuid": "46a38215_0ea5ab8a",
+      "revId": "4f6fabbe0df0a437f04fc2d0e7470cabc8aa79c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

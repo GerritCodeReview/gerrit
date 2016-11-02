@@ -32,18 +32,3 @@ filegroup(
   srcs = [ "//lib/highlightjs:highlight.min.js" ],
   data = ['//lib:LICENSE-highlightjs',],
 )
-
-bower_component(
-     name = 'iron-test-helpers',
-     seed = True,
-)
-
-bower_component(
-     name = 'test-fixture',
-     seed = True,
-)
-
-bower_component(
-     name = 'web-component-tester',
-     seed = True,
-)

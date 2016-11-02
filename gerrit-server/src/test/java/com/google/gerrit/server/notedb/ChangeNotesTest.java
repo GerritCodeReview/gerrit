@@ -2487,6 +2487,35 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(msg.getRealAuthor()).isEqualTo(changeOwner.getAccountId());
   }
 
+  @Test
+  public void ignoreEntitiesBeyondCurrentPatchSet() throws Exception {
+    Change c = newChange();
+    ChangeNotes notes = newNotes(c);
+    int numMessages = notes.getChangeMessages().size();
+    int numPatchSets = notes.getPatchSets().size();
+    int numApprovals = notes.getApprovals().size();
+    int numComments = notes.getComments().size();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setPatchSetId(
+        new PatchSet.Id(c.getId(), c.currentPatchSetId().get() + 1));
+    update.setChangeMessage("Should be ignored");
+    update.putApproval("Code-Review", (short) 2);
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    Comment comment = newComment(update.getPatchSetId(), "filename",
+        "uuid", range, range.getEndLine(), changeOwner, null,
+        new Timestamp(update.getWhen().getTime()), "comment", (short) 1,
+        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.putComment(Status.PUBLISHED, comment);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getChangeMessages()).hasSize(numMessages);
+    assertThat(notes.getPatchSets()).hasSize(numPatchSets);
+    assertThat(notes.getApprovals()).hasSize(numApprovals);
+    assertThat(notes.getComments()).hasSize(numComments);
+  }
+
   private boolean testJson() {
     return noteUtil.getWriteJson();
   }

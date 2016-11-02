@@ -60,6 +60,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -73,6 +74,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -91,8 +94,13 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.function.Function;
 
 class ChangeNotesParser {
+  private static final Logger log =
+      LoggerFactory.getLogger(ChangeNotesParser.class);
+
   // Sentinel RevId indicating a mutable field on a patch set was parsed, but
   // the parser does not yet know its commit SHA-1.
   private static final RevId PARTIAL_PATCH_SET =
@@ -232,8 +240,8 @@ class ChangeNotesParser {
   private Multimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
     Multimap<PatchSet.Id, PatchSetApproval> result = ArrayListMultimap.create();
     for (PatchSetApproval a : approvals.values()) {
-      if (patchSetStates.get(a.getPatchSetId()) == PatchSetState.DELETED) {
-        continue; // Patch set was explicitly deleted.
+      if (!patchSets.containsKey(a.getPatchSetId())) {
+        continue; // Patch set deleted or missing.
       } else if (allPastReviewers.contains(a.getAccountId())
           && !reviewers.containsRow(a.getAccountId())) {
         continue; // Reviewer was explicitly removed.
@@ -283,10 +291,6 @@ class ChangeNotesParser {
     }
 
     PatchSet.Id psId = parsePatchSetId(commit);
-    if (currentPatchSetId == null || psId.get() > currentPatchSetId.get()) {
-      currentPatchSetId = psId;
-    }
-
     PatchSetState psState = parsePatchSetState(commit);
     if (psState != null) {
       if (!patchSetStates.containsKey(psId)) {
@@ -874,18 +878,16 @@ class ChangeNotesParser {
     }
   }
 
-  private void updatePatchSetStates() throws ConfigInvalidException {
-    for (PatchSet ps : patchSets.values()) {
+  private void updatePatchSetStates() {
+    Set<PatchSet.Id> missing = new TreeSet<>(ReviewDbUtil.intKeyOrdering());
+    for (Iterator<PatchSet> it = patchSets.values().iterator();
+        it.hasNext();) {
+      PatchSet ps = it.next();
       if (ps.getRevision().equals(PARTIAL_PATCH_SET)) {
-        throw parseException("No %s found for patch set %s",
-            FOOTER_COMMIT, ps.getPatchSetId());
+        missing.add(ps.getId());
+        it.remove();
       }
     }
-    if (patchSetStates.isEmpty()) {
-      return;
-    }
-
-    boolean deleted = false;
     for (Map.Entry<PatchSet.Id, PatchSetState> e : patchSetStates.entrySet()) {
       switch (e.getValue()) {
         case PUBLISHED:
@@ -893,7 +895,6 @@ class ChangeNotesParser {
           break;
 
         case DELETED:
-          deleted = true;
           patchSets.remove(e.getKey());
           break;
 
@@ -905,15 +906,11 @@ class ChangeNotesParser {
           break;
       }
     }
-    if (!deleted) {
-      return;
-    }
 
     // Post-process other collections to remove items corresponding to deleted
-    // patch sets. This is safer than trying to prevent insertion, as it will
-    // also filter out items racily added after the patch set was deleted.
-    //
-    // Approvals are filtered in buildApprovals().
+    // (or otherwise missing) patch sets. This is safer than trying to prevent
+    // insertion, as it will also filter out items racily added after the patch
+    // set was deleted.
     NavigableSet<PatchSet.Id> all = patchSets.navigableKeySet();
     if (!all.isEmpty()) {
       currentPatchSetId = all.last();
@@ -922,19 +919,35 @@ class ChangeNotesParser {
     }
     changeMessagesByPatchSet.keys().retainAll(all);
 
-    for (Iterator<ChangeMessage> it = allChangeMessages.iterator();
-        it.hasNext();) {
-      if (!all.contains(it.next().getPatchSetId())) {
+    int pruned = pruneEntitiesForMissingPatchSets(
+        allChangeMessages, ChangeMessage::getPatchSetId, missing);
+    pruned += pruneEntitiesForMissingPatchSets(
+        comments.values(), c -> new PatchSet.Id(id, c.key.patchSetId), missing);
+    pruned += pruneEntitiesForMissingPatchSets(
+        approvals.values(), PatchSetApproval::getPatchSetId, missing);
+
+    if (!missing.isEmpty()) {
+      log.warn(
+          "ignoring {} additional entities due to missing patch sets: {}",
+          pruned, missing);
+    }
+  }
+
+  private <T> int pruneEntitiesForMissingPatchSets(
+      Iterable<T> ents, Function<T, PatchSet.Id> psIdFunc,
+      Set<PatchSet.Id> missing) {
+    int pruned = 0;
+    for (Iterator<T> it = ents.iterator(); it.hasNext();) {
+      PatchSet.Id psId = psIdFunc.apply(it.next());
+      if (!patchSets.containsKey(psId)) {
+        pruned++;
+        missing.add(psId);
         it.remove();
+      } else if (deletedPatchSets.contains(psId)) {
+        it.remove(); // Not an error we need to report, don't increment pruned.
       }
     }
-    for (Iterator<Comment> it = comments.values().iterator();
-        it.hasNext();) {
-      PatchSet.Id psId = new PatchSet.Id(id, it.next().key.patchSetId);
-      if (!all.contains(psId)) {
-        it.remove();
-      }
-    }
+    return pruned;
   }
 
   private void checkMandatoryFooters() throws ConfigInvalidException {

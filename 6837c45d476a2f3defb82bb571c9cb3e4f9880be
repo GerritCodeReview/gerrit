@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "46a38215_ce428359",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-02T23:45:08Z",
+      "side": 1,
+      "message": "For a single case `switch` I\u0027d prefer just an `if` statement and upgrade it to a `switch` if there are other keycodes later on.",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 28
+      },
+      "revId": "6837c45d476a2f3defb82bb571c9cb3e4f9880be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_aa6e0fe3",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 1

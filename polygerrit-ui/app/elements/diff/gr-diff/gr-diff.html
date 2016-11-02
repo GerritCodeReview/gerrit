@@ -150,6 +150,9 @@ limitations under the License.
       .contextControl td:not(.lineNum) {
         text-align: center;
       }
+      .displayLine .diff-row.target-row {
+        border-bottom: 1px solid #bbb;
+      }
       .br:after {
         /* Line feed */
         content: '\A';
@@ -164,7 +167,7 @@ limitations under the License.
       }
     </style>
     <style include="gr-theme-default"></style>
-    <div class$="[[_computeContainerClass(_loggedIn, viewMode)]]"
+    <div class$="[[_computeContainerClass(_loggedIn, viewMode, displayLine)]]"
         on-tap="_handleTap">
       <gr-diff-selection diff="[[_diff]]">
         <gr-diff-highlight

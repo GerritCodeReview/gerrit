@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6399eba_894179aa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T23:39:59Z",
+      "side": 1,
+      "message": "Label is here fine, but only for GWT user agen permutation, e.g. fo safari its:\n\n  buck-out/gen/gerrit-gwtui/__gwt_binary_ui_safari__/ui_safari.zip\n\nHowever, later in loadBuckProperties() it\u0027s erroneously used to retrieve tools/buck/buck.properties.",
+      "revId": "7dd5091307d30dabef576a36f9e8e2c2e5b63d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_a9463dbd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T23:39:59Z",
+      "side": 1,
+      "message": "This cannot work, as tools/buck/buck.properties is added to buck-out/gen/gerrit-gwtui/__gwt_binary_ui_safari__/ui_safari.zip, instead to be a standalone path to\n\n  $ cat buck-out/gen/tools/buck/buck.properties\n  buck\u003d/home/davido/bin/buck\n  PATH\u003d/usr/lib64/jvm/java/bin:[...]\n\nThe error is: [1].\n\n* [1] http://paste.openstack.org/show/587703",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 66
+      },
+      "revId": "7dd5091307d30dabef576a36f9e8e2c2e5b63d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

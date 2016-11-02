@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
@@ -251,7 +250,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa2.getAccountId().get()).isEqualTo(1);
     assertThat(psa2.getLabel()).isEqualTo("Code-Review");
     assertThat(psa2.getValue()).isEqualTo((short) +1);
-    assertThat(psa2.getGranted()).isEqualTo(truncate(after(c, 3000)));
+    assertThat(psa2.getGranted()).isEqualTo(truncate(after(c, 4000)));
   }
 
   @Test
@@ -873,10 +872,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ts4).isGreaterThan(ts3);
 
     incrementPatchSet(c);
-    RevCommit commit = tr.commit().message("PS2").create();
-    update = newUpdate(c, changeOwner);
-    update.setCommit(rw, commit);
-    update.commit();
     Timestamp ts5 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts5).isGreaterThan(ts4);
 
@@ -983,11 +978,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ps1.getUploader()).isEqualTo(changeOwner.getAccountId());
 
     // ps2 by other user
-    incrementPatchSet(c);
-    RevCommit commit = tr.commit().message("PS2").create();
-    ChangeUpdate update = newUpdate(c, otherUser);
-    update.setCommit(rw, commit);
-    update.commit();
+    RevCommit commit = incrementPatchSet(c, otherUser);
     notes = newNotes(c);
     PatchSet ps2 = notes.getCurrentPatchSet();
     assertThat(ps2.getId()).isEqualTo(new PatchSet.Id(c.getId(), 2));
@@ -998,10 +989,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ps2.getRevision().get()).isNotEqualTo(ps1.getRevision());
     assertThat(ps2.getRevision().get()).isEqualTo(commit.name());
     assertThat(ps2.getUploader()).isEqualTo(otherUser.getAccountId());
-    assertThat(ps2.getCreatedOn()).isEqualTo(update.getWhen());
+    assertThat(ps2.getCreatedOn())
+        .isEqualTo(notes.getChange().getLastUpdatedOn());
 
     // comment on ps1, current patch set is still ps2
-    update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdate(c, changeOwner);
     update.setPatchSetId(ps1.getId());
     update.setChangeMessage("Comment on old patch set.");
     update.commit();
@@ -1014,8 +1006,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     PatchSet.Id psId1 = c.currentPatchSetId();
 
-    // ps2
-    incrementPatchSet(c);
+    incrementCurrentPatchSetFieldOnly(c);
     PatchSet.Id psId2 = c.currentPatchSetId();
     RevCommit commit = tr.commit().message("PS2").create();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -1074,8 +1065,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getPatchSets().get(psId1).getGroups())
       .containsExactly("a", "b").inOrder();
 
-    // ps2
-    incrementPatchSet(c);
+    incrementCurrentPatchSetFieldOnly(c);
     PatchSet.Id psId2 = c.currentPatchSetId();
     update = newUpdate(c, changeOwner);
     update.setCommit(rw, tr.commit().message("PS2").create());
@@ -1101,7 +1091,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // ps2 with push cert
     Change c = newChange();
     PatchSet.Id psId1 = c.currentPatchSetId();
-    incrementPatchSet(c);
+    incrementCurrentPatchSetFieldOnly(c);
     PatchSet.Id psId2 = c.currentPatchSetId();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setPatchSetId(psId2);
@@ -1656,6 +1646,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void patchLineCommentNotesFormatMultiplePatchSetsSameRevId()
       throws Exception {
     Change c = newChange();
+    PatchSet.Id psId1 = c.currentPatchSetId();
+    incrementPatchSet(c);
+    PatchSet.Id psId2 = c.currentPatchSetId();
     String uuid1 = "uuid1";
     String uuid2 = "uuid2";
     String uuid3 = "uuid3";
@@ -1666,9 +1659,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     CommentRange range2 = new CommentRange(2, 1, 3, 1);
     Timestamp time = TimeUtil.nowTs();
     RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
-
-    PatchSet.Id psId1 = c.currentPatchSetId();
-    PatchSet.Id psId2 = new PatchSet.Id(c.getId(), psId1.get() + 1);
 
     Comment comment1 =
         newComment(psId1, "file1", uuid1, range1, range1.getEndLine(),
@@ -2528,5 +2518,25 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             + Throwables.getStackTraceAsString(e))
         .isNotNull();
     assertThat(cause.getMessage()).isEqualTo(expectedMsg);
+  }
+
+  private void incrementCurrentPatchSetFieldOnly(Change c) {
+    TestChanges.incrementPatchSet(c);
+  }
+
+  private RevCommit incrementPatchSet(Change c) throws Exception {
+    return incrementPatchSet(c, userFactory.create(c.getOwner()));
+  }
+
+  private RevCommit incrementPatchSet(Change c, IdentifiedUser user)
+      throws Exception {
+    incrementCurrentPatchSetFieldOnly(c);
+    RevCommit commit = tr.commit()
+        .message("PS" + c.currentPatchSetId().get())
+        .create();
+    ChangeUpdate update = newUpdate(c, user);
+    update.setCommit(rw, commit);
+    update.commit();
+    return tr.parseBody(commit);
   }
 }

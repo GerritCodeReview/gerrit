@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1477944344 -0400\nnonce AG58fQpUWtA4Lytl0ol88DF68t20dRTp5MYnHWGycd/LgR0T2PTcnEfoW0+lUaMqOlTu/CBYypTf\n\n0000000000000000000000000000000000000000 47a7607658cc79fa2c6e630878f3e11ad263cdb5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYF6QYAAoJEF/XxZqaEoiMq58QANYrCLCUiaXS3uDd+p4rdvfL\nW5dVNm7mqTB5+gFDOab4S2gnfV+Z2Fbi92UspVwG+DB1HrWYWevS3aflFXt04pKg\ntL14in44ZxnSJCvL4t4Hf+6Xww3mviyMVB+x/gsjkvlUZcWZx61oXKkdl76i6y/R\nLlLCXId3LNykqY/uYdU41aCviD34FDG0c0Ynb6pFMcteetavHPPBFGGza79YqOE5\nCEHI6tbKwX9R3amEbqNQsEO6zuYIW1ogAmm1yHKBk7u/ct6J6G6a/oDVAlsobviN\njMGK7elQipM4Xb4kImqaotmbDp+kBRVxpokXJrFpPx9huANCghlnhBHM3XZK80Oo\neOAIzERakPFirvoUyCXTkJ4OqdcUwlvJi1NH1lUhp4HNlxHC3E+X57VZAWYOeNtd\nIIQ+54JHh8TxiWJLD6lMDpDHueTK0NrIW4ETKSBFfxwNve911xi9nSx3hgzkQAzV\nzfjlY1i3dm9PW8qoKr8PAsShf64f0FCbyBbdr7Li7V7ZcMDMMJfWQAP8uZEMhfj8\niPbUJBbtvQr3j6vPpfA8lFMe9Xo9b5bD3xBL6bhJ4jJ0PBKK417oiSEkVrTwwMEc\nKreuqxPjpcr4L11OshkYuiKMG6qydIn7ZtUhpHHMFmpPStXPu6HlPsvpP4d/PsVm\ng26cxIztF6kqHr0hVc+B\n\u003d8Pgz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6d852b2_4a883306",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-11-02T00:09:00Z",
+      "side": 1,
+      "message": "parts is only empty if str was empty, so no point in printing it, just state it is missing.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 67
+      },
+      "revId": "0d870fa83be439dd0908a6fe6f10abeedf69a599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_8e987b53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-11-02T00:09:00Z",
+      "side": 1,
+      "message": "Worth doing additional validation on the results of this parse?",
+      "range": {
+        "startLine": 102,
+        "startChar": 21,
+        "endLine": 102,
+        "endChar": 55
+      },
+      "revId": "0d870fa83be439dd0908a6fe6f10abeedf69a599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46a38215_4e9fb334",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-02T00:29:21Z",
+      "side": 1,
+      "message": "Can you be more specific on these changes?\n\nAlso, the settings dropdown appears below the header still.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "bd38d1740d6d2d828a18591a59d3355e98f2fe8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -72,6 +72,8 @@ java_library(
     '//lib/lucene:lucene-analyzers-common',
     '//lib/lucene:lucene-core-and-backward-codecs',
     '//lib/lucene:lucene-queryparser',
+    '//lib/mime4j:core',
+    '//lib/mime4j:dom',
     '//lib/ow2:ow2-asm',
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-util',

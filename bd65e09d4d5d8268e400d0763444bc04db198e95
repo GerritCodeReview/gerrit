@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbe93b6b_4276124b",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-02T09:30:41Z",
+      "side": 1,
+      "message": "you have set -o nounset, so if $1 is missing, I think this will fail. \n\nmake this a mandatory argument and provide a nice message if it is missing.",
+      "revId": "bd65e09d4d5d8268e400d0763444bc04db198e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_e97bd52e",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-02T09:30:41Z",
+      "side": 1,
+      "message": "can you wrap the whole thing inside the case ? \n\nThe PEX comment doesn\u0027t hold for Bazel, I would hope.",
+      "revId": "bd65e09d4d5d8268e400d0763444bc04db198e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

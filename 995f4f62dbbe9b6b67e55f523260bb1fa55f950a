@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_4a0e7353",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T21:47:43Z",
+      "side": 1,
+      "message": "\u003e If primary storage is notedb, why do you have to look at any migration state?\n\nThis is just a sanity check in case you accidentally turn off NoteDb reads once you\u0027ve started migrating the PrimaryStorages. If we didn\u0027t this check, we might start writing data back to ReviewDb for migrated changes, which would make things irreparably out of sync.\n\n \u003e Is there a fuller explanation of post migration states somewhere?\n\nI\u0027m not sure what you\u0027re asking here.",
+      "parentUuid": "c6d852b2_4a2dd3f0",
+      "revId": "995f4f62dbbe9b6b67e55f523260bb1fa55f950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_8aa98b36",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 4
@@ -49,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "46a38215_0e392b06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T21:47:43Z",
+      "side": 1,
+      "message": "It\u0027s a debug log which is already pretty chatty. IMO this has equal value to the existing logDebug statements in the if block.\n\nPut another way, if I\u0027m walking through a debug log and the corresponding code, I would want to know why you\u0027re *not* seeing the \"Updating change\" message. If I stare hard enough at the code I can probably figure out it\u0027s due to the PrimaryStorage thing, but I would rather not have that cognitive overhead.",
+      "parentUuid": "c6d852b2_8aa98b36",
+      "revId": "995f4f62dbbe9b6b67e55f523260bb1fa55f950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_cab3839e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 4
@@ -60,6 +96,24 @@
       "writtenOn": "2016-11-02T17:07:26Z",
       "side": 1,
       "message": "columns() is still documented as @Nullable",
+      "revId": "995f4f62dbbe9b6b67e55f523260bb1fa55f950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_6e36ef15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T21:47:43Z",
+      "side": 1,
+      "message": "On the LHS we have checkNotNull(columns()) to throw NPE indicating it\u0027s programmer error if you call this method on a ChangeNotesState whose columns() is null.\n\nRemoving the checkNotNull doesn\u0027t change the behavior: it still throws NPE. But your comment is telling me there was some value to having checkNotNull explicitly check the expected precondition against programmer error. Replaced.",
+      "parentUuid": "c6d852b2_cab3839e",
       "revId": "995f4f62dbbe9b6b67e55f523260bb1fa55f950a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +137,24 @@
         "endLine": 528,
         "endChar": 34
       },
+      "revId": "995f4f62dbbe9b6b67e55f523260bb1fa55f950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_aaf9ef14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T21:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46a38215_ce40c3a3",
       "revId": "995f4f62dbbe9b6b67e55f523260bb1fa55f950a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

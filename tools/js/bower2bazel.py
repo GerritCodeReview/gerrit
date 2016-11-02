@@ -39,6 +39,7 @@ license_map = {
   # TODO(hanwen): remove these, and add appropriate license files under //lib
   "BSD": "polymer",
   "MIT": "polymer",
+  "BSD-3-Clause": "polymer",
 }
 
 # list of licenses for packages that don't specify one in their bower.json file.
@@ -47,8 +48,11 @@ package_licenses = {
   "fetch": "fetch",
   "moment": "moment",
   "page": "page.js",
+  "lodash": "polymer", # MIT, actually.
   "promise-polyfill": "promise-polyfill",
   "webcomponentsjs": "polymer",   # self-identifies as BSD.
+  "sinon-chai": "polymer", # WTFPL & BSD.
+  "sinonjs": "polymer", # BSD.
 }
 
 
@@ -201,7 +205,7 @@ def interpret_bower_json(seeds, ws_out, build_out):
       license = license_map.get(license, license)
     else:
       if pkg_name not in package_licenses:
-        msg = "package %s does not specify license." % pkg_name
+        msg = "package %s does not specify license: %s" % (pkg_name, pkg)
         sys.stderr.write(msg)
         raise Exception(msg)
       license = package_licenses[pkg_name]

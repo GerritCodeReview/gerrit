@@ -31,7 +31,6 @@ limitations under the License.
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
 
-<link rel="import" href="./shared/gr-header/gr-header.html">
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -88,10 +87,8 @@ limitations under the License.
         color: #b71c1c;
       }
     </style>
-    <gr-header>
-      <gr-main-header id="mainHeader" search-query="{{params.query}}">
-      </gr-main-header>
-    </gr-header>
+    <gr-main-header id="mainHeader" search-query="{{params.query}}">
+    </gr-main-header>
     <main>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view

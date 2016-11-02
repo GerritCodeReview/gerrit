@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_aabe0f99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-02T01:12:06Z",
+      "side": 1,
+      "message": "This still needs to be fixed.",
+      "parentUuid": "46a38215_ce92832f",
+      "revId": "6cf77a7fbf90d383811fb7932b3643c9234aedb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46a38215_aebe1799",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
         "patchSetId": 1

@@ -31,6 +31,13 @@
      * @event cancel
      */
 
+    /**
+     * Fired on keydown to allow for custom hooks into autocomplete textbox
+     * behavior.
+     *
+     * @event input-keydown
+     */
+
     properties: {
 
       /**
@@ -212,6 +219,7 @@
           this._commit();
           break;
       }
+      this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },
 
     _cancel: function() {

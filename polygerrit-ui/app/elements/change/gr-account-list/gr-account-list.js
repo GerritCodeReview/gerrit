@@ -37,6 +37,10 @@
       'remove': '_handleRemove',
     },
 
+    get accountChips() {
+      return Polymer.dom(this.root).querySelectorAll('gr-account-chip');
+    },
+
     get focusStart() {
       return this.$.entry.focusStart;
     },
@@ -102,6 +106,19 @@
       }
       console.warn('received remove event for missing account',
           e.detail.account);
+    },
+
+    _handleInputKeydown: function(e) {
+      var input = e.detail.input;
+      if (input.selectionStart !== input.selectionEnd ||
+          input.selectionStart !== 0) {
+        return;
+      }
+      switch (e.detail.keyCode) {
+        case 8: // Backspace
+          this.splice('accounts', this.accounts.length - 1, 1);
+          break;
+      }
     },
 
     additions: function() {

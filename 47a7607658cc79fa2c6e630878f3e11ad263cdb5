@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "46a38215_ce21e3ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T22:01:09Z",
+      "side": 1,
+      "message": "Done. R[meta-sha] was also incorrect, it should be R,[meta-sha].",
+      "parentUuid": "c6d852b2_0aa59b8a",
+      "revId": "47a7607658cc79fa2c6e630878f3e11ad263cdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_2aa85f64",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 2
@@ -49,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "46a38215_ae129778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T22:01:09Z",
+      "side": 1,
+      "message": "See the comment I added below. What I am interested in is the lag time between reading the state in ReviewDb at the top of checkNotReadOnly, and finishing the NoteDb write. It\u0027s convenient to reuse the existing metric for that. But stage() is a) a thing that happens before reading ReviewDb, and b) highly variable, either lots of work or a no-op depending on whether the caller previously called stage() before execute().\n\nAs far as changing the semantics of this timer, we don\u0027t have any monitoring off this particular metric at the moment, so I don\u0027t think that\u0027s a huge concern.",
+      "parentUuid": "c6d852b2_2aa85f64",
+      "revId": "47a7607658cc79fa2c6e630878f3e11ad263cdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_4a9f9334",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
         "patchSetId": 2
@@ -66,6 +102,24 @@
         "endLine": 274,
         "endChar": 36
       },
+      "revId": "47a7607658cc79fa2c6e630878f3e11ad263cdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_ee1c9f8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T22:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6d852b2_4a9f9334",
       "revId": "47a7607658cc79fa2c6e630878f3e11ad263cdb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

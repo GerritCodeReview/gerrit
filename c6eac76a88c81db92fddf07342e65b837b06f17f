@@ -22,6 +22,30 @@
       "revId": "c6eac76a88c81db92fddf07342e65b837b06f17f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_c2258224",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-02T19:59:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46a38215_8ea99b36",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 22
+      },
+      "revId": "c6eac76a88c81db92fddf07342e65b837b06f17f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

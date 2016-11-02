@@ -319,10 +319,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       List<Event> msgEvents = parseChangeMessage(msg, change, noteDbChange);
       if (msg.getPatchSetId() != null) {
         PatchSetEvent pse = patchSetEvents.get(msg.getPatchSetId());
-        if (pse != null) {
-          for (Event e : msgEvents) {
-            e.addDep(pse);
-          }
+        if (pse == null) {
+          continue; // Ignore events for missing patch sets.
+        }
+        for (Event e : msgEvents) {
+          e.addDep(pse);
         }
       }
       events.addAll(msgEvents);

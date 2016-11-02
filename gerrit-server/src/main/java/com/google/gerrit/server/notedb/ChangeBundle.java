@@ -327,16 +327,16 @@ public class ChangeBundle {
   private Timestamp getLatestTimestamp() {
     Ordering<Timestamp> o = Ordering.natural().nullsFirst();
     Timestamp ts = null;
-    for (ChangeMessage cm : getChangeMessages()) {
+    for (ChangeMessage cm : filterChangeMessages()) {
       ts = o.max(ts, cm.getWrittenOn());
     }
     for (PatchSet ps : getPatchSets()) {
       ts = o.max(ts, ps.getCreatedOn());
     }
-    for (PatchSetApproval psa : getPatchSetApprovals()) {
+    for (PatchSetApproval psa : filterPatchSetApprovals().values()) {
       ts = o.max(ts, psa.getGranted());
     }
-    for (PatchLineComment plc : getPatchLineComments()) {
+    for (PatchLineComment plc : filterPatchLineComments().values()) {
       // Ignore draft comments, as they do not show up in the change meta graph.
       if (plc.getStatus() != PatchLineComment.Status.DRAFT) {
         ts = o.max(ts, plc.getWrittenOn());

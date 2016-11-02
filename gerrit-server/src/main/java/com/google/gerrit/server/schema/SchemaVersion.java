@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -30,6 +31,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {
@@ -142,11 +144,14 @@ public abstract class SchemaVersion {
   private void migrateData(List<SchemaVersion> pending, UpdateUI ui,
       CurrentSchemaVersion curr, ReviewDb db) throws OrmException, SQLException {
     for (SchemaVersion v : pending) {
+      Stopwatch sw = Stopwatch.createStarted();
       ui.message(String.format(
           "Migrating data to schema %d ...",
           v.getVersionNbr()));
       v.migrateData(db, ui);
       v.finish(curr, db);
+      ui.message(String.format("\t> Done (%.3f s)",
+          sw.elapsed(TimeUnit.MILLISECONDS) / 1000d));
     }
   }
 

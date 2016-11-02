@@ -81,6 +81,24 @@
       "revId": "e7c39267ea02e9ac8aee67a4c6075dfab64f54d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_62c35629",
+        "filename": "gerrit-gwtui/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-02T10:43:24Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "cbe93b6b_e2a5268d",
+      "revId": "e7c39267ea02e9ac8aee67a4c6075dfab64f54d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

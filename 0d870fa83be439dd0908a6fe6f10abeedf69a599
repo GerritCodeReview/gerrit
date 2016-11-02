@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_0a047b31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T21:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6d852b2_4a883306",
+      "revId": "0d870fa83be439dd0908a6fe6f10abeedf69a599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46a38215_8e987b53",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
         "patchSetId": 3
@@ -42,6 +60,47 @@
         "startChar": 21,
         "endLine": 102,
         "endChar": 55
+      },
+      "revId": "0d870fa83be439dd0908a6fe6f10abeedf69a599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_ce2603e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T21:48:10Z",
+      "side": 1,
+      "message": "Account.Id.parse throws IAE if it\u0027s not numeric, is that what you were thinking?",
+      "parentUuid": "46a38215_8e987b53",
+      "revId": "0d870fa83be439dd0908a6fe6f10abeedf69a599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_2e3ce7f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-02T21:48:10Z",
+      "side": 1,
+      "message": "Should be refState.get(). Goes away in a later change which is why I didn\u0027t catch it here.",
+      "range": {
+        "startLine": 258,
+        "startChar": 11,
+        "endLine": 258,
+        "endChar": 19
       },
       "revId": "0d870fa83be439dd0908a6fe6f10abeedf69a599",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

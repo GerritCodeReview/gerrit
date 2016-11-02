@@ -1,7 +1,6 @@
-load('//tools/bzl:gwt.bzl', 'gwt_module')
-load('//tools/bzl:genrule2.bzl', 'genrule2')
+load('//tools/bzl:gwt.bzl', 'gwt_module', 'gwt_binary',
+     'gwt_genrule', 'gen_ui_module')
 load('//tools/bzl:license.bzl', 'license_test')
-load(':gwt.bzl', 'gwt_binary', 'gwt_genrule', 'gen_ui_module')
 
 gwt_genrule()
 gwt_genrule('_r')

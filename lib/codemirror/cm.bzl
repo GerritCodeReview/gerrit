@@ -243,7 +243,7 @@ def pkg_cm():
         '@codemirror_original//jar',
         '@codemirror_minified//jar',
       ],
-      out = 'cm%s.js' % suffix,
+      outs = ['cm%s.js' % suffix],
     )
 
     # Main CSS
@@ -261,7 +261,7 @@ def pkg_cm():
         '@codemirror_original//jar',
         '@codemirror_minified//jar',
       ],
-      out = 'cm%s.css' % suffix,
+      outs = ['cm%s.css' % suffix],
     )
 
     # Modes
@@ -279,7 +279,7 @@ def pkg_cm():
           '@codemirror_original//jar',
           '@codemirror_minified//jar',
         ],
-        out = 'mode_%s%s.js' % (n, suffix),
+        outs = ['mode_%s%s.js' % (n, suffix)],
       )
 
     # Themes
@@ -297,7 +297,7 @@ def pkg_cm():
           '@codemirror_original//jar',
           '@codemirror_minified//jar',
         ],
-        out = 'theme_%s%s.css' % (n, suffix),
+        outs = ['theme_%s%s.css' % (n, suffix)],
       )
 
     # Merge Addon bundled with diff-match-patch
@@ -321,7 +321,7 @@ def pkg_cm():
         '@codemirror_original//jar',
         '@codemirror_minified//jar',
       ],
-      out = 'addon_merge%s.js' % suffix,
+      outs = ['addon_merge%s.js' % suffix],
     )
 
     # Jar packaging
@@ -347,7 +347,7 @@ def pkg_cm():
       ] + [
         ':theme_%s%s' % (n, suffix) for n in CM_THEMES
       ],
-      outs = [ 'codemirror%s.jar' % suffix ],
+      outs = ['codemirror%s.jar' % suffix],
     )
 
     native.java_import(

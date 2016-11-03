@@ -4,28 +4,12 @@ load('//tools/bzl:genrule2.bzl', 'genrule2')
 # https://github.com/adobe-fonts/source-code-pro/releases/tag/2.010R-ro%2F1.030R-it
 filegroup(
   name = 'sourcecodepro',
+  cmd = 'zip -rq $@ $(SRCS)',
   srcs = [
     'SourceCodePro-Regular.woff',
     'SourceCodePro-Regular.woff2'
   ],
+  outs = [ 'sourcecodepro.zip' ],
   data = [ "//lib:LICENSE-OFL1.1" ],
-  visibility = ['//visibility:public'],
-)
-
-# Open Sans at Revision 53a5266 and converted using a Google woff file
-# converter (same one that Google Fonts uses).
-# https://github.com/google/fonts/tree/master/apache/opensans
-genrule2(
-  name = 'opensans',
-  cmd = 'zip -rq $@ $(SRCS)',
-  srcs = [
-    'OpenSans-Bold.woff',
-    'OpenSans-Bold.woff2',
-    'OpenSans-Regular.woff',
-    'OpenSans-Regular.woff2'
-  ],
-  outs = [ 'opensans.zip' ],
-# TODO(hanwen): license.
-#  license = 'Apache2.0',
   visibility = ['//visibility:public'],
 )

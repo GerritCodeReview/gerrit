@@ -99,6 +99,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -136,23 +137,23 @@ public class WebAppInitializer extends GuiceServletContextListener
     filter.doFilter(req, res, chain);
   }
 
-  private synchronized void init() {
+  private synchronized void doInit(Optional<FilterConfig> fc) {
     if (manager == null) {
-      final String path = System.getProperty("gerrit.site_path");
+      final String path = getProperty(fc, "gerrit.site_path");
       if (path != null) {
         sitePath = Paths.get(path);
       }
 
-      if (System.getProperty("gerrit.init") != null) {
+      if (getProperty(fc,"gerrit.init") != null) {
         List<String> pluginsToInstall;
-        String installPlugins = System.getProperty("gerrit.install_plugins");
+        String installPlugins = getProperty(fc, "gerrit.install_plugins");
         if (installPlugins == null) {
           pluginsToInstall = null;
         } else {
           pluginsToInstall = Splitter.on(",").trimResults().omitEmptyStrings()
               .splitToList(installPlugins);
         }
-        new SiteInitializer(path, System.getProperty("gerrit.init_path"),
+        new SiteInitializer(path, getProperty(fc,"gerrit.init_path"),
             new UnzippedDistribution(servletContext), pluginsToInstall).init();
       }
 
@@ -217,6 +218,11 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
       manager.add(webInjector);
     }
+  }
+
+  private String getProperty(Optional<FilterConfig> config, String key) {
+    return System.getProperty(key,
+        config.map(c -> c.getInitParameter(key)).orElse(null));
   }
 
   private boolean sshdOff() {
@@ -403,7 +409,7 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   @Override
   protected Injector getInjector() {
-    init();
+    doInit(Optional.empty());
     return webInjector;
   }
 
@@ -411,7 +417,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   public void init(FilterConfig cfg) throws ServletException {
     servletContext = cfg.getServletContext();
     contextInitialized(new ServletContextEvent(servletContext));
-    init();
+    doInit(Optional.of(cfg));
     manager.start();
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6399eba_e94035a3",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-03T06:58:52Z",
+      "side": 1,
+      "message": "This change is mergung two files, without any content changes to them. Well beside adjusting the code to compile on master, by replaceing out with outs. Concerning this place, it was added in this change [1],[2] and wa pproved by you. So I prefer to do this clean-up in a follow-up change.\n\n* [1] https://gerrit-review.googlesource.com/85333\n* [2] https://gerrit-review.googlesource.com/#/c/85333/6/gerrit-gwtui/gwt.bzl@45",
+      "parentUuid": "cbe93b6b_c2bb42a3",
+      "range": {
+        "startLine": 91,
+        "startChar": 34,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "e075ef6fc7f9ac1dd57d5af9428e9abf2965a614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbe93b6b_a254be68",
         "filename": "tools/bzl/gwt.bzl",
         "patchSetId": 1

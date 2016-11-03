@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_ca9ee39b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-03T04:04:04Z",
+      "side": 1,
+      "message": "Because there’s currently no concept of a row that’s not selected, and when scanning code initially, the line can be annoying.",
+      "parentUuid": "c6d852b2_ca7d4395",
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_6a6d37e2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
         "patchSetId": 1

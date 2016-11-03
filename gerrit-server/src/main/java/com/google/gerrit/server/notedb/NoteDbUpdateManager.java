@@ -400,7 +400,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
     StagedResult sr = stage().get(change.getId());
     NoteDbChangeState newState = NoteDbChangeState.applyDelta(
         change, sr != null ? sr.delta() : null,
-        NoteDbChangeState.timeForReadOnlyCheck(skewMs));
+        NoteDbChangeState.timeForReadOnlyCheck(skewMs),
+        checkReadOnly);
     return Result.create(sr, newState);
   }
 

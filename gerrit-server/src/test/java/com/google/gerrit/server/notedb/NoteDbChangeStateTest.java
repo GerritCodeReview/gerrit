@@ -138,7 +138,9 @@ public class NoteDbChangeStateTest {
   public void applyDeltaToNullWithNoNewMetaId() throws Exception {
     Change c = newChange();
     assertThat(c.getNoteDbState()).isNull();
-    applyDelta(c, Delta.create(c.getId(), noMetaId(), noDrafts()), nowTs());
+    applyDelta(
+        c, Delta.create(c.getId(), noMetaId(), noDrafts()),
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isNull();
 
     applyDelta(
@@ -146,28 +148,33 @@ public class NoteDbChangeStateTest {
         Delta.create(
             c.getId(), noMetaId(),
             drafts(new Account.Id(1001), zeroId())),
-        nowTs());
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isNull();
   }
 
   @Test
   public void applyDeltaToMetaId() throws Exception {
     Change c = newChange();
-    applyDelta(c, Delta.create(c.getId(), metaId(SHA1), noDrafts()), nowTs());
+    applyDelta(
+        c, Delta.create(c.getId(), metaId(SHA1), noDrafts()),
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo(SHA1.name());
 
-    applyDelta(c, Delta.create(c.getId(), metaId(SHA2), noDrafts()), nowTs());
+    applyDelta(
+        c, Delta.create(c.getId(), metaId(SHA2), noDrafts()),
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo(SHA2.name());
 
     // No-op delta.
-    applyDelta(c, Delta.create(c.getId(), noMetaId(), noDrafts()), nowTs());
+    applyDelta(
+        c, Delta.create(c.getId(), noMetaId(), noDrafts()),
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo(SHA2.name());
 
     // Set to zero clears the field.
     applyDelta(
-        c,
-        Delta.create(c.getId(), metaId(zeroId()), noDrafts()),
-        nowTs());
+        c, Delta.create(c.getId(), metaId(zeroId()), noDrafts()),
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isNull();
   }
 
@@ -179,7 +186,7 @@ public class NoteDbChangeStateTest {
         Delta.create(
             c.getId(), metaId(SHA1),
             drafts(new Account.Id(1001), SHA2)),
-        nowTs());
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA1.name() + ",1001=" + SHA2.name());
 
@@ -188,7 +195,7 @@ public class NoteDbChangeStateTest {
         Delta.create(
             c.getId(), noMetaId(),
             drafts(new Account.Id(2003), SHA3)),
-        nowTs());
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA1.name() + ",1001=" + SHA2.name() + ",2003=" + SHA3.name());
 
@@ -197,12 +204,12 @@ public class NoteDbChangeStateTest {
         Delta.create(
             c.getId(), noMetaId(),
             drafts(new Account.Id(2003), zeroId())),
-        nowTs());
+        nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA1.name() + ",1001=" + SHA2.name());
 
     applyDelta(
-        c, Delta.create(c.getId(), metaId(SHA3), noDrafts()), nowTs());
+        c, Delta.create(c.getId(), metaId(SHA3), noDrafts()), nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo(
         SHA3.name() + ",1001=" + SHA2.name());
   }
@@ -218,7 +225,7 @@ public class NoteDbChangeStateTest {
     c.setNoteDbState(state.toString());
     Delta delta = Delta.create(c.getId(), metaId(SHA2), noDrafts());
     try {
-      applyDelta(c, delta, ts);
+      applyDelta(c, delta, ts, true);
       assert_().fail("expected applyDelta to fail");
     } catch (OrmException e) {
       assertThat(e.getMessage()).contains("read-only");
@@ -230,7 +237,7 @@ public class NoteDbChangeStateTest {
         state.getRefState(),
         Optional.empty());
     c.setNoteDbState(state.toString());
-    applyDelta(c, delta, ts);
+    applyDelta(c, delta, ts, true);
   }
 
   @Test
@@ -252,7 +259,7 @@ public class NoteDbChangeStateTest {
     c.setNoteDbState("N");
     applyDelta(c, Delta.create(c.getId(), metaId(SHA1),
         drafts(new Account.Id(1001), SHA2)),
-        TimeUtil.nowTs());
+        TimeUtil.nowTs(), true);
     assertThat(c.getNoteDbState()).isEqualTo("N");
   }
 

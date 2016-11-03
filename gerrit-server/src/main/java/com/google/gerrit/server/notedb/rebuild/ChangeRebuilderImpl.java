@@ -159,6 +159,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   public Result rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
+    return rebuild(db, changeId, true);
+  }
+
+  public Result rebuild(ReviewDb db, Change.Id changeId, boolean checkReadOnly)
+      throws NoSuchChangeException, IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
     // Read change just to get project; this instance is then discarded so we
     // can read a consistent ChangeBundle inside a transaction.
@@ -168,7 +173,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     try (NoteDbUpdateManager manager =
         updateManagerFactory.create(change.getProject())
-            .setCheckReadOnly(true, db)) {
+            .setCheckReadOnly(checkReadOnly, db)) {
       buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
       return execute(db, changeId, manager);
     }

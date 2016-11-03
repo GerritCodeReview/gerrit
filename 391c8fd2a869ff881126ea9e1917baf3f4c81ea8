@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46a38215_6e526f26",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-03T00:11:20Z",
+      "side": 1,
+      "message": "Total nit, but I like to use a ref variable here when I\u0027m referring to the same expression over and over, for legibility reasons. \n\nvar select \u003d element.$$(\u0027.patchInfo-header #patchSetSelect\u0027).bindValue;\nassert.notEqual(select, 1);\nassert.equal(select, 2);\nassert.notEqual(select, 3);",
+      "range": {
+        "startLine": 281,
+        "startChar": 8,
+        "endLine": 281,
+        "endChar": 55
+      },
+      "revId": "391c8fd2a869ff881126ea9e1917baf3f4c81ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_4e4fb37e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-03T00:11:20Z",
+      "side": 1,
+      "message": "Alphabetize imports.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 64
+      },
+      "revId": "391c8fd2a869ff881126ea9e1917baf3f4c81ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_ae6e17e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-03T00:11:20Z",
+      "side": 1,
+      "message": "Line exceeds 80ch",
+      "range": {
+        "startLine": 190,
+        "startChar": 12,
+        "endLine": 190,
+        "endChar": 92
+      },
+      "revId": "391c8fd2a869ff881126ea9e1917baf3f4c81ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_8a9a2bb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-03T00:11:20Z",
+      "side": 1,
+      "message": "Line exceeds 80ch",
+      "range": {
+        "startLine": 439,
+        "startChar": 4,
+        "endLine": 439,
+        "endChar": 80
+      },
+      "revId": "391c8fd2a869ff881126ea9e1917baf3f4c81ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

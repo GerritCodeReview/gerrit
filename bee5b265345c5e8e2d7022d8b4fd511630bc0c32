@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_8a806b1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-03T16:50:50Z",
+      "side": 1,
+      "message": "\u003e Because there’s currently no concept of a row that’s not selected\n\nCan you elaborate? A row is not selected if `:not(.target-row)`. Do you mean there is no action that deselects the cursor position? That\u0027s not the behavior in this change.\n\n\u003e the line can be annoying\n\nSince the [ESC] behavior doesn\u0027t change anything about the way the page behaves, I argue we shouldn\u0027t add an extra visual state, which may be misleading to users. In what way is the line annoying? Can it be a lighter color to make it less annoying?",
+      "parentUuid": "c6d852b2_ca9ee39b",
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_6a6d37e2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
         "patchSetId": 1

@@ -61,6 +61,29 @@
     },
     {
       "key": {
+        "uuid": "46a38215_ce19e35d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-03T16:56:06Z",
+      "side": 1,
+      "message": "Why is the additional class needed? The set of cursor stops don\u0027t change when display-line is enabled is it?",
+      "range": {
+        "startLine": 254,
+        "startChar": 39,
+        "endLine": 254,
+        "endChar": 51
+      },
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_6a6d37e2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
         "patchSetId": 1

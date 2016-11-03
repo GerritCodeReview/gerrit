@@ -28,6 +28,9 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /** Static utility methods for dealing with dates and times in tests. */
 public class TestTimeUtil {
+  public static final DateTime START =
+      new DateTime(2009, 9, 30, 17, 0, 0, DateTimeZone.forOffsetHours(-4));
+
   private static Long clockStepMs;
   private static AtomicLong clockMs;
 
@@ -42,9 +45,7 @@ public class TestTimeUtil {
   public static synchronized void resetWithClockStep(
       long clockStep, TimeUnit clockStepUnit) {
     // Set an arbitrary start point so tests are more repeatable.
-    clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0, DateTimeZone.forOffsetHours(-4))
-            .getMillis());
+    clockMs = new AtomicLong(START.getMillis());
     setClockStep(clockStep, clockStepUnit);
   }
 

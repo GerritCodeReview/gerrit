@@ -94,6 +94,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -970,15 +971,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo));
-    Change change2 = insert(repo, newChange(repo));
-    // Queried by AgePredicate constructor.
+    long startMs = TestTimeUtil.START.getMillis();
+    Change change1 =
+        insert(repo, newChange(repo), null, new Timestamp(startMs));
+    Change change2 = insert(
+        repo, newChange(repo), null,
+        new Timestamp(startMs + thirtyHoursInMs));
+
+    // Stop time so age queries use the same endpoint.
     TestTimeUtil.setClockStep(0, MILLISECONDS);
-    long now = TimeUtil.nowMs();
+    TestTimeUtil.setClock(new Timestamp(startMs + 2 * thirtyHoursInMs));
+    long nowMs = TimeUtil.nowMs();
+
     assertThat(lastUpdatedMs(change2) - lastUpdatedMs(change1))
         .isEqualTo(thirtyHoursInMs);
-    assertThat(now - lastUpdatedMs(change2)).isEqualTo(thirtyHoursInMs);
-    assertThat(TimeUtil.nowMs()).isEqualTo(now);
+    assertThat(nowMs - lastUpdatedMs(change2)).isEqualTo(thirtyHoursInMs);
+    assertThat(TimeUtil.nowMs()).isEqualTo(nowMs);
 
     assertQuery("-age:1d");
     assertQuery("-age:" + (30 * 60 - 1) + "m");
@@ -991,10 +999,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byBefore() throws Exception {
-    resetTimeWithClockStep(30, HOURS);
+    long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
+    resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo));
-    Change change2 = insert(repo, newChange(repo));
+    long startMs = TestTimeUtil.START.getMillis();
+    Change change1 =
+        insert(repo, newChange(repo), null, new Timestamp(startMs));
+    Change change2 = insert(
+        repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     assertQuery("before:2009-09-29");
@@ -1011,10 +1023,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAfter() throws Exception {
-    resetTimeWithClockStep(30, HOURS);
+    long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
+    resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo));
-    Change change2 = insert(repo, newChange(repo));
+    long startMs = TestTimeUtil.START.getMillis();
+    Change change1 =
+        insert(repo, newChange(repo), null, new Timestamp(startMs));
+    Change change2 = insert(
+        repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     assertQuery("after:2009-10-03");
@@ -1607,17 +1623,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected Change insert(TestRepository<Repo> repo, ChangeInserter ins) throws Exception {
-    return insert(repo, ins, null);
+    return insert(repo, ins, null, TimeUtil.nowTs());
   }
 
   protected Change insert(TestRepository<Repo> repo, ChangeInserter ins,
       @Nullable Account.Id owner) throws Exception {
+    return insert(repo, ins, owner, TimeUtil.nowTs());
+  }
+
+  protected Change insert(TestRepository<Repo> repo, ChangeInserter ins,
+      @Nullable Account.Id owner, Timestamp createdOn) throws Exception {
     Project.NameKey project = new Project.NameKey(
         repo.getRepository().getDescription().getRepositoryName());
     Account.Id ownerId = owner != null ? owner : userId;
     IdentifiedUser user = userFactory.create(ownerId);
-    try (BatchUpdate bu =
-        updateFactory.create(db, project, user, TimeUtil.nowTs())) {
+    try (BatchUpdate bu = updateFactory.create(db, project, user, createdOn)) {
       bu.insertChange(ins);
       bu.execute();
       return ins.getChange();

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbe93b6b_8229babd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T12:08:34Z",
+      "side": 1,
+      "message": "I can\u0027t reproduce. What version of wct/node/npm are you using? I tested this with \n\nnode-v6.9.1-linux-x64\n\n$ npm version\n{ http_parser: \u00271.0\u0027,\n  node: \u00270.10.25\u0027,\n  v8: \u00273.14.5.9\u0027,\n  ares: \u00271.10.0\u0027,\n  uv: \u00270.10.23\u0027,\n  zlib: \u00271.2.8\u0027,\n  modules: \u002711\u0027,\n  openssl: \u00271.0.1f\u0027,\n  npm: \u00271.3.10\u0027 }",
+      "parentUuid": "cbe93b6b_2269ce38",
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_294c0de3",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 10
@@ -36,6 +54,24 @@
         "endLine": 18,
         "endChar": 46
       },
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_c94a919b",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T12:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6399eba_294c0de3",
       "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a6399eba_e94f55a8",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T12:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6399eba_495941a0",
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbe93b6b_4264d262",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 10
@@ -82,6 +136,24 @@
         "endLine": 97,
         "endChar": 22
       },
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_622eb6c5",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T12:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbe93b6b_4264d262",
       "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

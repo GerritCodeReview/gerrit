@@ -1,0 +1,78 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.plugins;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+
+public class DelegatingClassLoader extends ClassLoader {
+  public ClassLoader target;
+
+  public DelegatingClassLoader(ClassLoader parent, ClassLoader target) {
+    super(parent);
+    this.target = target;
+  }
+
+  public Class<?> findClass(String name) throws ClassNotFoundException {
+    String path = name.replace('.', '/') + ".class";
+    InputStream resource = target.getResourceAsStream(path);
+    if (resource != null) {
+      try {
+        byte[] bytes = getBytes(resource);
+        return defineClass(name, bytes, 0 , bytes.length);
+      } catch (IOException e) {
+      }
+    }
+    throw new ClassNotFoundException(name);
+  }
+
+  public URL getResource(String name) {
+    URL rtn = getParent().getResource(name);
+    if (rtn == null) {
+      rtn = target.getResource(name);
+    }
+    return rtn;
+  }
+
+  public Enumeration<URL> getResources(String name) throws IOException {
+    Enumeration<URL> rtn = getParent().getResources(name);
+    if (rtn == null) {
+      rtn = target.getResources(name);
+    }
+    return rtn;
+  }
+
+  public InputStream getResourceAsStream(String name) {
+    InputStream rtn = getParent().getResourceAsStream(name);
+    if (rtn == null) {
+      rtn = target.getResourceAsStream(name);
+    }
+    return rtn;
+  }
+
+  private static byte[] getBytes(InputStream in) throws IOException {
+    try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+      byte[] buffer = new byte[0xFFFF];
+      for (int len; (len = in.read(buffer)) != -1; ) {
+        out.write(buffer, 0, len);
+      }
+      out.flush();
+      return out.toByteArray();
+    }
+  }
+}

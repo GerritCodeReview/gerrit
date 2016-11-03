@@ -15,7 +15,9 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.plugins.DelegatingClassLoader;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -82,15 +84,17 @@ public class DynamicOptions {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
   }
 
-  Object bean;
-  Map<String, DynamicBean> beansByPlugin;
+  protected Object bean;
+  protected Map<String, DynamicBean> beansByPlugin;
+  protected Injector injector;
 
   /**
    * Internal: For Gerrit to include options from DynamicBeans, setup a
    * DynamicMap and instantiate this class so the following methods can
    * be called if desired:
    *
-   *    DynamicOptions pluginOptions = new DynamicOptions(bean, dynamicBeans);
+   *    DynamicOptions pluginOptions = new DynamicOptions(bean, injector,
+   *        dynamicBeans);
    *    pluginOptions.parseDynamicBeans(clp);
    *    pluginOptions.setDynamicBeans();
    *    pluginOptions.onBeanParseStart();
@@ -99,16 +103,37 @@ public class DynamicOptions {
    *
    *    pluginOptions.onBeanParseEnd();
    */
-  public DynamicOptions(Object bean, DynamicMap<DynamicBean> dynamicBeans) {
+  public DynamicOptions(Object bean, Injector injector,
+      DynamicMap<DynamicBean> dynamicBeans) {
     this.bean = bean;
+    this.injector = injector;
     beansByPlugin = new HashMap<String, DynamicBean>();
     for (String plugin : dynamicBeans.plugins()) {
       Provider<DynamicBean> provider = dynamicBeans.byPlugin(plugin)
           .get(bean.getClass().getCanonicalName());
       if (provider != null) {
-        beansByPlugin.put(plugin, provider.get());
+        beansByPlugin.put(plugin, getDynamicBean(bean, provider.get()));
       }
     }
+  }
+
+  public DynamicBean getDynamicBean(Object bean, DynamicBean dynamicBean) {
+    ClassLoader coreCl = getClass().getClassLoader();
+    ClassLoader beanCl = bean.getClass().getClassLoader();
+    if (beanCl != coreCl) { // bean from a plugin?
+      ClassLoader dynamicBeanCl = dynamicBean.getClass().getClassLoader();
+      if (beanCl != dynamicBeanCl) { // in a different plugin?
+        ClassLoader mergedCL = new DelegatingClassLoader(beanCl, dynamicBeanCl);
+        try {
+          return injector.createChildInjector().getInstance(
+              (Class<DynamicOptions.DynamicBean>)
+              mergedCL.loadClass(dynamicBean.getClass().getCanonicalName()));
+        } catch (ClassNotFoundException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    }
+    return dynamicBean;
   }
 
   public void parseDynamicBeans(CmdLineParser clp) {

@@ -36,6 +36,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import org.kohsuke.args4j.CmdLineException;
 
@@ -54,12 +55,14 @@ class ParameterParser {
       "pp", "prettyPrint", "strict", "callback", "alt", "fields");
 
   private final CmdLineParser.Factory parserFactory;
+  private final Injector injector;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
-  ParameterParser(CmdLineParser.Factory pf,
+  ParameterParser(CmdLineParser.Factory pf, Injector injector,
       DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
     this.parserFactory = pf;
+    this.injector = injector;
     this.dynamicBeans = dynamicBeans;
   }
 
@@ -69,7 +72,8 @@ class ParameterParser {
       HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
-    DynamicOptions pluginOptions = new DynamicOptions(param, dynamicBeans);
+    DynamicOptions pluginOptions = new DynamicOptions(param, injector,
+        dynamicBeans);
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
     pluginOptions.onBeanParseStart();

@@ -65,6 +65,24 @@
       "revId": "9cc596685ddc7efa7ea715b28a8482f0a3a0f064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_891c1980",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/NoteDbChangeStateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-03T15:18:22Z",
+      "side": 1,
+      "message": "Ah okay, I missed this.",
+      "parentUuid": "c6d852b2_4a0673fa",
+      "revId": "9cc596685ddc7efa7ea715b28a8482f0a3a0f064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

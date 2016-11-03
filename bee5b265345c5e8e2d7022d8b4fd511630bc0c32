@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_4a87932d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-03T20:35:40Z",
+      "side": 1,
+      "message": "great idea!",
+      "parentUuid": "c6d852b2_2a905f65",
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6d852b2_6a6d37e2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
         "patchSetId": 1

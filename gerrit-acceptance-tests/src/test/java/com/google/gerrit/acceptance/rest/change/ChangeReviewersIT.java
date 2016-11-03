@@ -277,12 +277,19 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNull();
 
-    // Verify user is not added as reviewer.
+    // Verify user is added to CC list.
     ChangeInfo c = gApi.changes()
         .id(r.getChangeId())
         .get();
-    assertReviewers(c, REVIEWER);
-    assertReviewers(c, CC);
+    if (notesMigration.readChanges()) {
+      assertReviewers(c, REVIEWER);
+      assertReviewers(c, CC, user);
+    } else {
+      // If we aren't reading from NoteDb, the user will appear as a
+      // reviewer.
+      assertReviewers(c, REVIEWER, user);
+      assertReviewers(c, CC);
+    }
   }
 
   @Test

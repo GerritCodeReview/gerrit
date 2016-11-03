@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbe93b6b_82765afa",
+        "filename": "lib/fonts/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T11:51:56Z",
+      "side": 1,
+      "message": "just leave this as is? Or fix it. Filegroup doesn\u0027t have a cmd argument.",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "15f76ef73aa94740f6f605cf9c3bc855a634ff6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
@@ -1086,6 +1087,32 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     gApi.changes().id(id.get()).revision(1).review(rin);
 
     checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void ignoreChangeMessageBeyondCurrentPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id psId1 = r.getPatchSetId();
+    Change.Id id = psId1.getParentKey();
+    gApi.changes().id(id.get()).current().review(ReviewInput.recommend());
+
+    r = amendChange(r.getChangeId());
+    PatchSet.Id psId2 = r.getPatchSetId();
+
+    assertThat(db.patchSets().byChange(id)).hasSize(2);
+    assertThat(db.changeMessages().byPatchSet(psId2)).hasSize(1);
+    db.patchSets().deleteKeys(Collections.singleton(psId2));
+
+    checker.rebuildAndCheckChanges(psId2.getParentKey());
+    setNotesMigration(true, true);
+
+    ChangeData cd = changeDataFactory.create(db, project, id);
+    assertThat(cd.change().currentPatchSetId()).isEqualTo(psId1);
+    assertThat(cd.patchSets().stream().map(ps -> ps.getId()).collect(toList()))
+        .containsExactly(psId1);
+    PatchSet ps = cd.currentPatchSet();
+    assertThat(ps).isNotNull();
+    assertThat(ps.getId()).isEqualTo(psId1);
   }
 
   private void assertChangesReadOnly(RestApiException e) throws Exception {

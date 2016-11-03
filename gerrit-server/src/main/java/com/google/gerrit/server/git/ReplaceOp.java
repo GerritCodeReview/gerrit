@@ -69,7 +69,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -289,7 +288,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedByPushOp == null) {
-      resetChange(ctx, msg);
+      resetChange(ctx);
     } else {
       mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet))
           .updateChange(ctx);
@@ -333,16 +332,8 @@ public class ReplaceOp extends BatchUpdate.Op {
     return current;
   }
 
-  private void resetChange(ChangeContext ctx, ChangeMessage msg)
-      throws OrmException {
+  private void resetChange(ChangeContext ctx) {
     Change change = ctx.getChange();
-    if (change.getStatus().isClosed()) {
-      ctx.getDb().patchSets().delete(Collections.singleton(newPatchSet));
-      ctx.getDb().changeMessages().delete(Collections.singleton(msg));
-      rejectMessage = CHANGE_IS_CLOSED;
-      return;
-    }
-
     if (!change.currentPatchSetId().equals(priorPatchSetId)) {
       return;
     }

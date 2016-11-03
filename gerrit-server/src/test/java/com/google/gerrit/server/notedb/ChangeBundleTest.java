@@ -328,6 +328,10 @@ public class ChangeBundleTest {
       throws Exception {
     Change c1 = TestChanges.newChange(
         new Project.NameKey("project"), new Account.Id(100));
+    PatchSet ps = new PatchSet(c1.currentPatchSetId());
+    ps.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps.setUploader(accountId);
+    ps.setCreatedOn(TimeUtil.nowTs());
     PatchSetApproval a = new PatchSetApproval(
         new PatchSetApproval.Key(
             c1.currentPatchSetId(), accountId, new LabelId("Code-Review")),
@@ -338,16 +342,16 @@ public class ChangeBundleTest {
     c2.setLastUpdatedOn(a.getGranted());
 
     // Both ReviewDb, exact match required.
-    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(),
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(ps),
         approvals(a), comments(), reviewers(), REVIEW_DB);
-    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(),
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(ps),
         approvals(a), comments(), reviewers(), REVIEW_DB);
     assertDiffs(b1, b2,
         "effective last updated time differs for Change.Id " + c1.getId() + ":"
-            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}");
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:12.0}");
 
     // NoteDb allows latest timestamp from all entities in bundle.
-    b2 = new ChangeBundle(c2, messages(), patchSets(),
+    b2 = new ChangeBundle(c2, messages(), patchSets(ps),
         approvals(a), comments(), reviewers(), NOTE_DB);
     assertNoDiffs(b1, b2);
   }
@@ -356,6 +360,10 @@ public class ChangeBundleTest {
   public void diffChangesIgnoresChangeTimestampIfAnyOtherEntitiesExist() {
     Change c1 = TestChanges.newChange(
         new Project.NameKey("project"), new Account.Id(100));
+    PatchSet ps = new PatchSet(c1.currentPatchSetId());
+    ps.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps.setUploader(accountId);
+    ps.setCreatedOn(TimeUtil.nowTs());
     PatchSetApproval a = new PatchSetApproval(
         new PatchSetApproval.Key(
             c1.currentPatchSetId(), accountId, new LabelId("Code-Review")),
@@ -368,9 +376,9 @@ public class ChangeBundleTest {
 
     // ReviewDb has later lastUpdatedOn timestamp than NoteDb, allowed since
     // NoteDb matches the latest timestamp of a non-Change entity.
-    ChangeBundle b1 = new ChangeBundle(c2, messages(), patchSets(),
+    ChangeBundle b1 = new ChangeBundle(c2, messages(), patchSets(ps),
         approvals(a), comments(), reviewers(), REVIEW_DB);
-    ChangeBundle b2 = new ChangeBundle(c1, messages(), patchSets(),
+    ChangeBundle b2 = new ChangeBundle(c1, messages(), patchSets(ps),
         approvals(a), comments(), reviewers(), NOTE_DB);
     assertThat(b1.getChange().getLastUpdatedOn())
         .isGreaterThan(b2.getChange().getLastUpdatedOn());
@@ -384,7 +392,7 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "effective last updated time differs for Change.Id " + c1.getId()
             + " in NoteDb vs. ReviewDb:"
-            + " {2009-09-30 17:00:06.0} != {2009-09-30 17:00:12.0}");
+            + " {2009-09-30 17:00:12.0} != {2009-09-30 17:00:18.0}");
   }
 
   @Test

@@ -7,6 +7,18 @@
 load("//tools/bzl:js.bzl", "bower_component")
 def define_bower_components():
   bower_component(
+    name = "accessibility-developer-tools",
+    license = "//lib:LICENSE-Apache2.0",
+  )
+  bower_component(
+    name = "async",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "chai",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
     name = "es6-promise",
     license = "//lib:LICENSE-polymer",
     seed = True,
@@ -112,12 +124,26 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "iron-test-helpers",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
+    seed = True,
+  )
+  bower_component(
     name = "iron-validatable-behavior",
     license = "//lib:LICENSE-polymer",
     deps = [
       ":iron-meta",
       ":polymer",
     ],
+  )
+  bower_component(
+    name = "lodash",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "mocha",
+    license = "//lib:LICENSE-polymer",
   )
   bower_component(
     name = "moment",
@@ -153,8 +179,41 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "sinon-chai",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "sinonjs",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "stacky",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "test-fixture",
+    license = "//lib:LICENSE-polymer",
+    seed = True,
+  )
+  bower_component(
     name = "web-animations-js",
     license = "//lib:LICENSE-Apache2.0",
+  )
+  bower_component(
+    name = "web-component-tester",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":accessibility-developer-tools",
+      ":async",
+      ":chai",
+      ":lodash",
+      ":mocha",
+      ":sinon-chai",
+      ":sinonjs",
+      ":stacky",
+      ":test-fixture",
+    ],
+    seed = True,
   )
   bower_component(
     name = "webcomponentsjs",

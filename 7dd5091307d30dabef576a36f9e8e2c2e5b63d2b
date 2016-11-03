@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbe93b6b_e239a605",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6399eba_894179aa",
+      "revId": "7dd5091307d30dabef576a36f9e8e2c2e5b63d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_a9463dbd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
         "endLine": 89,
         "endChar": 66
       },
+      "revId": "7dd5091307d30dabef576a36f9e8e2c2e5b63d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_c236a215",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6399eba_a9463dbd",
       "revId": "7dd5091307d30dabef576a36f9e8e2c2e5b63d2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

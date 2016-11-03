@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Change;

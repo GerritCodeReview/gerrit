@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cbe93b6b_c230e24a",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-03T07:28:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbe93b6b_4276124b",
+      "revId": "bd65e09d4d5d8268e400d0763444bc04db198e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_e97bd52e",
         "filename": "tools/maven/api.sh",
         "patchSetId": 7
@@ -48,6 +66,24 @@
       "writtenOn": "2016-11-02T09:30:41Z",
       "side": 1,
       "message": "can you wrap the whole thing inside the case ? \n\nThe PEX comment doesn\u0027t hold for Bazel, I would hope.",
+      "revId": "bd65e09d4d5d8268e400d0763444bc04db198e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_89a4195d",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-03T07:28:58Z",
+      "side": 1,
+      "message": "That why I tried to add the comment # Buck on line 77. Done.",
+      "parentUuid": "a6399eba_e97bd52e",
       "revId": "bd65e09d4d5d8268e400d0763444bc04db198e95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

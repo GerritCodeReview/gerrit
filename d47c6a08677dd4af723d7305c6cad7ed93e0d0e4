@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6399eba_498ce1c2",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-03T11:46:19Z",
+      "side": 1,
+      "message": "war_deploy \u003cbuck|bazel\u003e ?",
+      "range": {
+        "startLine": 189,
+        "startChar": 35,
+        "endLine": 189,
+        "endChar": 40
+      },
+      "revId": "d47c6a08677dd4af723d7305c6cad7ed93e0d0e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

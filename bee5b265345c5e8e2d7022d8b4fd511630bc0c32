@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "46a38215_4e705387",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-03T20:39:52Z",
+      "side": 1,
+      "message": "n/a anymore (removed)",
+      "parentUuid": "c6d852b2_6a6d37e2",
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46a38215_8ef6bbdf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -172,6 +190,24 @@
       "writtenOn": "2016-11-03T17:08:48Z",
       "side": 1,
       "message": "If the `.display-line` class is applied to the diff element instead of the row element, then this can be ...\n\n    :host.display-line .diff-row.target-row\n\n... then the cursor manager doesn\u0027t need to deal with more than one class.",
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_2a1b3f35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-03T20:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46a38215_8ef6bbdf",
       "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -195,6 +231,24 @@
         "endLine": 128,
         "endChar": 8
       },
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_ca3543a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-03T20:39:52Z",
+      "side": 1,
+      "message": "n/a anymore -- removed.",
+      "parentUuid": "c6d852b2_4a6af3cb",
       "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

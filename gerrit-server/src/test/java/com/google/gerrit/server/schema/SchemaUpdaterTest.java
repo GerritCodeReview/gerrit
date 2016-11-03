@@ -154,6 +154,15 @@ public class SchemaUpdaterTest {
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();
     assertThat(sc.sitePath)
-        .isEqualTo(paths.site_path.toAbsolutePath().toString());
+        .isEqualTo(SchemaCreator.truncate(
+            paths.site_path.toAbsolutePath().toString()));
+  }
+
+  private static String PATH_TRUNCATED = "/home/jenkins/.cache/bazel/_bazel_jenkins/d6587ecb0efd8ed00f5e4c3a1f8fde87/bazel-sandbox/18d3166a-a3f4-4d1f-a91b-3ddab1ad0c62-118d3166a-a3f4-4d1f-a91b-3ddab1ad0c62-118d3166a-a3f4-4d1f-a91b-3ddab1ad0c62-118d3166a-a3f4-4d1f-a91b-3ddab1ad0c62-118d3166a-a3f4-";
+  private static String PATH = PATH_TRUNCATED + PATH_TRUNCATED;
+
+  @Test
+  public void testSitePathTruncation() {
+    assertThat(SchemaCreator.truncate(PATH)).isEqualTo(PATH_TRUNCATED);
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.schema.SchemaCreator.truncate;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
@@ -136,9 +138,11 @@ public class SchemaUpdater {
       throw new OrmException("No record in system_config table");
     }
     try {
-      sc.sitePath = site.site_path.toRealPath().normalize().toString();
+      sc.sitePath = truncate(
+          site.site_path.toRealPath().normalize().toString());
     } catch (IOException e) {
-      sc.sitePath = site.site_path.toAbsolutePath().normalize().toString();
+      sc.sitePath = truncate(
+          site.site_path.toAbsolutePath().normalize().toString());
     }
     db.systemConfig().update(Collections.singleton(sc));
   }

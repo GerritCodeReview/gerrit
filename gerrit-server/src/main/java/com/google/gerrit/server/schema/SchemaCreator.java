@@ -120,11 +120,18 @@ public class SchemaCreator {
 
     final SystemConfig s = SystemConfig.create();
     try {
-      s.sitePath = site_path.toRealPath().normalize().toString();
+      s.sitePath = truncate(
+          site_path.toRealPath().normalize().toString());
     } catch (IOException e) {
-      s.sitePath = site_path.toAbsolutePath().normalize().toString();
+      s.sitePath = truncate(
+          site_path.toAbsolutePath().normalize().toString());
     }
     c.systemConfig().insert(Collections.singleton(s));
     return s;
+  }
+
+  // Only needed for sandboxed tests to succeed
+  public static String truncate(String s) {
+    return s.substring(0, Math.min(s.length(), 255));
   }
 }

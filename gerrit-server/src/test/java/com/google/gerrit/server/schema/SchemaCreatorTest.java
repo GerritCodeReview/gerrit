@@ -94,7 +94,7 @@ public class SchemaCreatorTest {
       sitePath = sitePath.getParentFile();
     }
     assertThat(db.getSystemConfig().sitePath)
-        .isEqualTo(sitePath.getCanonicalPath());
+        .isEqualTo(SchemaCreator.truncate(sitePath.getCanonicalPath()));
   }
 
   private LabelTypes getLabelTypes() throws Exception {

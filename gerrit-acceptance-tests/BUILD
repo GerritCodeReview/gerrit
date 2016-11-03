@@ -24,6 +24,7 @@ java_library2(
         "//gerrit-test-util:test_util",
         "//lib:args4j",
         "//lib:gson",
+        "//lib:guava-retrying",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
         "//lib:h2",

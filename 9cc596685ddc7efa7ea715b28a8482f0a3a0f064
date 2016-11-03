@@ -23,6 +23,24 @@
       "revId": "9cc596685ddc7efa7ea715b28a8482f0a3a0f064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_4a0673fa",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/NoteDbChangeStateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-03T15:17:34Z",
+      "side": 1,
+      "message": "Except \"expected parse to fail\" was the AssertionError message, I wasn\u0027t checking the IAE message. I think if you\u0027re not asserting anything but the exception type, then @Test(expected...) is cleaner.",
+      "parentUuid": "a6399eba_29eb2d3a",
+      "revId": "9cc596685ddc7efa7ea715b28a8482f0a3a0f064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

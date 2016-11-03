@@ -40,6 +40,24 @@
       "revId": "7416b235e4b0b202b010b4e8b847bdb609b13fe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_ae0a9703",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-03T16:34:20Z",
+      "side": 1,
+      "message": "You would add an observer in the observers array like so:\n\nobservers: [\u0027_updateSelected(patchRange.*)\u0027]\n\nand it will then look at all subproperties for changes.",
+      "parentUuid": "46a38215_6eaeefd0",
+      "revId": "7416b235e4b0b202b010b4e8b847bdb609b13fe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

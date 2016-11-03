@@ -337,6 +337,7 @@ public class ChangeIndexer {
       for (ChangeIndex i : getWriteIndexes()) {
         i.delete(id);
       }
+      log.info("Deleted change {} from index.", id.get());
       fireChangeDeletedFromIndexEvent(id.get());
       return null;
     }

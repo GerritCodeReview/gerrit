@@ -55,7 +55,7 @@ public final class SystemConfig {
   /**
    * Local filesystem location of header/footer/CSS configuration files
    */
-  @Column(id = 3, notNull = false)
+  @Column(id = 3, notNull = false, length = Integer.MAX_VALUE)
   public transient String sitePath;
 
 

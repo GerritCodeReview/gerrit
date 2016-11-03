@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c6d852b2_0afc7bc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-03T15:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6399eba_69c0c5e5",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "e60b9e2e43b6757bd05482e8da6e74a29af9321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbe93b6b_02b80a78",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2016-11-03T08:43:51Z",
       "side": 1,
       "message": "ReviewDb?",
+      "range": {
+        "startLine": 1064,
+        "startChar": 26,
+        "endLine": 1064,
+        "endChar": 32
+      },
+      "revId": "e60b9e2e43b6757bd05482e8da6e74a29af9321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d852b2_6a09b70a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-03T15:20:36Z",
+      "side": 1,
+      "message": "Good catch, done.",
+      "parentUuid": "cbe93b6b_02b80a78",
       "range": {
         "startLine": 1064,
         "startChar": 26,

@@ -90,6 +90,10 @@ limitations under the License.
       .full-width {
         width: 100%;
       }
+      .full-width .contentText {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
       .lineNum,
       .content {
         /* Set font size based the user's diff preference. */
@@ -137,10 +141,6 @@ limitations under the License.
       .contextControl {
         background-color: #fef;
         color: #849;
-      }
-      .contentText {
-        white-space: pre-wrap;
-        word-wrap: break-word;
       }
       .contextControl gr-button {
         display: inline-block;

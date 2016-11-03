@@ -46,6 +46,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -211,8 +212,9 @@ public class NoteDbChangeState {
         "invalid state string for change " + id + ": " + str);
   }
 
+  // TODO(dborowitz): support ignoring read-only
   static NoteDbChangeState applyDelta(Change change, Delta delta,
-      Timestamp now) throws OrmException {
+      Timestamp now, boolean checkReadOnly) throws OrmException {
     if (delta == null) {
       return null;
     }
@@ -230,7 +232,7 @@ public class NoteDbChangeState {
         // no-op.
         return oldState;
       }
-      if (oldState.isReadOnly(now)) {
+      if (checkReadOnly && oldState.isReadOnly(now)) {
         throw new OrmException(String.format(
           "state for change %s is read-only until %s: %s (now=%s)",
           change.getId(), oldState.readOnlyUntil.get(), oldState, now));
@@ -266,7 +268,10 @@ public class NoteDbChangeState {
             ? oldState.getPrimaryStorage()
             : REVIEW_DB,
         Optional.of(RefState.create(changeMetaId, draftIds)),
-        Optional.empty());
+        // Copy old read-only deadline rather than advancing it; the caller is
+        // still responsible for finishing the rest of its work until the lease
+        // runs out.
+        oldState != null ? oldState.getReadOnlyUntil() : Optional.empty());
     change.setNoteDbState(state.toString());
     return state;
   }
@@ -335,7 +340,7 @@ public class NoteDbChangeState {
       Optional<Timestamp> readOnlyUntil) {
     this.changeId = checkNotNull(changeId);
     this.primaryStorage = checkNotNull(primaryStorage);
-    this.refState = refState;
+    this.refState = checkNotNull(refState);
     this.readOnlyUntil = checkNotNull(readOnlyUntil);
 
     switch (primaryStorage) {
@@ -455,5 +460,22 @@ public class NoteDbChangeState {
         throw new IllegalArgumentException(
           "Unsupported PrimaryStorage: " + primaryStorage);
     }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(changeId, primaryStorage, refState, readOnlyUntil);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof NoteDbChangeState)) {
+      return false;
+    }
+    NoteDbChangeState s = (NoteDbChangeState) o;
+    return changeId.equals(s.changeId)
+        && primaryStorage.equals(s.primaryStorage)
+        && refState.equals(s.refState)
+        && readOnlyUntil.equals(s.readOnlyUntil);
   }
 }

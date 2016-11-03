@@ -242,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "a6399eba_29b6cd8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-03T08:32:28Z",
+      "side": 1,
+      "message": "| My understanding is that REMOVED would never be returned by ApprovalsUtil::getReviewers.\n\nAh, right, it is even documented in ReviewerSet:\n\n  No reviewers with state {@link ReviewerStateInternal#REMOVED} are ever exposed\n  by this interface.\n\n| If, for whatever reason, the current user showed up as REMOVED, then they wouldn\u0027t be CCed. I\u0027m ok with that.\n\nNo. This would be wrong because of this use case:\n\n* user x voted CRVW+1 on a change # state reviewer\n* user x was removed # state REMOVED\n* user add non voting review on the same change\n\nOutcome:\n\n* Expected: User is added as CC on the change\n* Actual: now it\u0027s the case, because REMOVED state isn\u0027t exposed from the ReviewerSet#all() method. But if it would be exposed, this logic wouldn\u0027t work here, because ccOrReviewer erroneously would be true.\n\nIt would be also nice to add a test for the use case above, but this could be done in a follow-up change (if at all).",
+      "parentUuid": "46a38215_ae1c577f",
+      "revId": "37d476016a2c07fa85b9fa9f556c67c950e4331c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbe93b6b_825ada98",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 8

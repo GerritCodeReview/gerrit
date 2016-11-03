@@ -22,6 +22,30 @@
       "revId": "b782d3fc5d6844b743d4548e1ce2791137d66f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6399eba_0963c9f9",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-03T22:18:15Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/90741",
+      "parentUuid": "a6399eba_c978d1a7",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 39
+      },
+      "revId": "b782d3fc5d6844b743d4548e1ce2791137d66f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

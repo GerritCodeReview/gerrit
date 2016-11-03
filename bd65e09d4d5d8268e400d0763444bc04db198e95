@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbe93b6b_423df222",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-03T07:03:48Z",
+      "side": 1,
+      "message": "Good cath. Buck build is failing now with:\n\n  ./tools/maven/api.sh: line 58: $2: unbound variable",
+      "parentUuid": "cbe93b6b_4276124b",
+      "revId": "bd65e09d4d5d8268e400d0763444bc04db198e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_e97bd52e",
         "filename": "tools/maven/api.sh",
         "patchSetId": 7

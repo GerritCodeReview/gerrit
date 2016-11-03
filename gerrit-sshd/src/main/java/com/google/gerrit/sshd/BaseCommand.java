@@ -35,6 +35,7 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.EndOfOptionsHandler;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -86,12 +87,14 @@ public abstract class BaseCommand implements Command {
 
   @Inject private SshScope.Context context;
 
-  @Inject private DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
-
   /** Commands declared by a plugin can be scoped by the plugin name. */
   @Inject(optional = true)
   @PluginName
   private String pluginName;
+
+  @Inject private Injector injector;
+
+  @Inject private DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
 
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;
@@ -197,7 +200,7 @@ public abstract class BaseCommand implements Command {
    */
   protected void parseCommandLine(Object options) throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser(options);
-    DynamicOptions pluginOptions = new DynamicOptions(options, dynamicBeans);
+    DynamicOptions pluginOptions = new DynamicOptions(options, injector, dynamicBeans);
     pluginOptions.parseDynamicBeans(clp);
     pluginOptions.setDynamicBeans();
     pluginOptions.onBeanParseStart();

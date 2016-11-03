@@ -28,6 +28,7 @@ import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
@@ -54,6 +55,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -999,6 +1001,65 @@ public class ChangeIT extends AbstractDaemonTest {
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+  }
+
+  @Test
+  public void implicitlyCcOnNonVotingReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(new ReviewInput());
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    // If we're not reading from NoteDb, then the CCed user will be returned
+    // in the REVIEWER state.
+    ReviewerState state = notesMigration.readChanges() ? CC : REVIEWER;
+    assertThat(c.reviewers.get(state).stream().map(ai -> ai._accountId)
+        .collect(toList())).containsExactly(user.id.get());
+  }
+
+  @Test
+  public void implicitlyAddReviewerOnVotingReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.recommend().message("LGTM"));
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(c.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId)
+        .collect(toList())).containsExactly(user.id.get());
+
+    // Further test: remove the vote, then comment again. The user should be
+    // implicitly re-added to the ReviewerSet, as a CC if we're using NoteDb.
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .remove();
+    c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(c.reviewers.values()).isEmpty();
+
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(new ReviewInput().message("hi"));
+    c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    ReviewerState state = notesMigration.readChanges() ? CC : REVIEWER;
+    assertThat(c.reviewers.get(state).stream().map(ai -> ai._accountId)
+        .collect(toList())).containsExactly(user.id.get());
   }
 
   @Test

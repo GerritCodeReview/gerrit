@@ -41,6 +41,30 @@
       "revId": "9cc596685ddc7efa7ea715b28a8482f0a3a0f064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_627356cb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/NoteDbChangeStateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-03T15:17:44Z",
+      "side": 1,
+      "message": "Ah, but since this test is not inheriting from GerritBaseTests (maybe it should?) you would also need\n\n  @Rule\n  public ExpectedException exception \u003d ExpectedException.none();",
+      "parentUuid": "a6399eba_29eb2d3a",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 156,
+        "endChar": 3
+      },
+      "revId": "9cc596685ddc7efa7ea715b28a8482f0a3a0f064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

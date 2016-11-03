@@ -18,6 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
@@ -39,32 +42,52 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
+import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 public class NoteDbPrimaryIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setString("notedb", null, "concurrentWriterTimeout", "0s");
+    cfg.setString("notedb", null, "primaryStorageMigrationTimeout", "1d");
+    cfg.setBoolean("noteDb", null, "testRebuilderWrapper", true);
+    return cfg;
+  }
+
   @Inject
   private AllUsersName allUsers;
+
+  @Inject
+  private PrimaryStorageMigrator migrator;
+
+  @Inject
+  private TestChangeRebuilderWrapper rebuilderWrapper;
 
   @Before
   public void setUp() throws Exception {
     assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.READ_WRITE);
     db = ReviewDbUtil.unwrapDb(db);
-    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
   }
 
   @After
@@ -226,6 +249,104 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
         .isEqualTo(PushOneCommit.SUBJECT);
     gApi.changes().id(id.get()).topic("a-topic");
     assertThat(gApi.changes().id(id.get()).get().topic).isEqualTo("a-topic");
+  }
+
+  @Test
+  public void migrateToNoteDb() throws Exception {
+    testMigrateToNoteDb(createChange().getChange().getId());
+  }
+
+  @Test
+  public void migrateToNoteDbWithRebuildingFirst() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    Change c = db.changes().get(id);
+    c.setNoteDbState("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    db.changes().update(Collections.singleton(c));
+    testMigrateToNoteDb(id);
+  }
+
+  private void testMigrateToNoteDb(Change.Id id) throws Exception {
+    assertThat(PrimaryStorage.of(db.changes().get(id)))
+        .isEqualTo(PrimaryStorage.REVIEW_DB);
+    migrator.migrateToNoteDbPrimary(id);
+    assertThat(db.changes().get(id).getNoteDbState())
+        .isEqualTo(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+
+    gApi.changes().id(id.get()).topic("a-topic");
+    assertThat(gApi.changes().id(id.get()).get().topic).isEqualTo("a-topic");
+    assertThat(db.changes().get(id).getTopic()).isNull();
+  }
+
+  @Test
+  public void migrateToNoteDbFailsRebuilding() throws Exception {
+    Change.Id id = createChange().getChange().getId();
+
+    Change c = db.changes().get(id);
+    c.setNoteDbState("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    db.changes().update(Collections.singleton(c));
+    rebuilderWrapper.failNextUpdate();
+
+    exception.expect(IOException.class);
+    exception.expectMessage("Update failed");
+    migrator.migrateToNoteDbPrimary(id);
+  }
+
+  @Test
+  public void migrateToNoteDbMissingOldState() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    Change c = db.changes().get(id);
+    c.setNoteDbState(null);
+    db.changes().update(Collections.singleton(c));
+
+    exception.expect(OrmRuntimeException.class);
+    exception.expectMessage("no note_db_state");
+    migrator.migrateToNoteDbPrimary(id);
+  }
+
+  @Test
+  public void migrateToNoteDbLeaseExpires() throws Exception {
+    TestTimeUtil.resetWithClockStep(2, DAYS);
+    exception.expect(OrmRuntimeException.class);
+    exception.expectMessage("read-only lease");
+    migrator.migrateToNoteDbPrimary(createChange().getChange().getId());
+  }
+
+  @Test
+  public void migrateToNoteDbAlreadyReadOnly() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    Change c = db.changes().get(id);
+    NoteDbChangeState state = NoteDbChangeState.parse(c);
+    Timestamp until =
+        new Timestamp(TimeUtil.nowMs() + MILLISECONDS.convert(1, DAYS));
+    state = state.withReadOnlyUntil(until);
+    c.setNoteDbState(state.toString());
+    db.changes().update(Collections.singleton(c));
+
+    exception.expect(OrmRuntimeException.class);
+    exception.expectMessage("read-only until " + until);
+    migrator.migrateToNoteDbPrimary(id);
+  }
+
+  @Test
+  public void migrateToNoteDbAlreadyMigrated() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    assertThat(PrimaryStorage.of(db.changes().get(id)))
+        .isEqualTo(PrimaryStorage.REVIEW_DB);
+    migrator.migrateToNoteDbPrimary(id);
+    assertThat(db.changes().get(id).getNoteDbState())
+        .isEqualTo(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+
+    migrator.migrateToNoteDbPrimary(id);
+    assertThat(db.changes().get(id).getNoteDbState())
+        .isEqualTo(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
   }
 
   private void setNoteDbPrimary(Change.Id id) throws Exception {

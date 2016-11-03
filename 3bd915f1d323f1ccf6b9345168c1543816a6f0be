@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6d852b2_2a05ffbf",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-11-03T23:40:03Z",
+      "side": 1,
+      "message": "The test is failed at there, not sure if that is a false alarm.\n\nhttps://travis-ci.org/facebook/buck/builds/173066013",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "3bd915f1d323f1ccf6b9345168c1543816a6f0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

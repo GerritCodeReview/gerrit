@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "46a38215_ee993fb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-03T15:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06450a36_acc3a326",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 48
+      },
+      "revId": "09d73f5c9e2f029cb5485c381960174faea4a508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bf4cf41_9f86b3f9",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/NoteDbChangeStateTest.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2016-11-03T00:50:19Z",
       "side": 1,
       "message": "Use ExpectedException?",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 5
+      },
+      "revId": "09d73f5c9e2f029cb5485c381960174faea4a508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_ce9e039c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/NoteDbChangeStateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-03T15:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bf4cf41_9f86b3f9",
       "range": {
         "startLine": 156,
         "startChar": 4,

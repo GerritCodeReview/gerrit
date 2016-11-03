@@ -297,5 +297,13 @@ limitations under the License.
       focusSpy.restore();
       commitSpy.restore();
     });
+
+    test('input-keydown event fired', function() {
+      var listener = sinon.spy();
+      element.addEventListener('input-keydown', listener);
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      flushAsynchronousOperations();
+      assert.isTrue(listener.called);
+    });
   });
 </script>

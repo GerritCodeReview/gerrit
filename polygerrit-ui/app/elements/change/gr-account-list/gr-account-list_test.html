@@ -228,5 +228,34 @@ limitations under the License.
         },
       ]);
     });
+
+    suite('keyboard interactions', function() {
+      var sandbox;
+      setup(function() {
+        sandbox = sinon.sandbox.create();
+      });
+
+      teardown(function() {
+        sandbox.restore();
+      });
+
+      test('backspace from input removes account iff cursor is in start pos',
+          function(done) {
+        var input = element.$.entry.$.input;
+        sandbox.stub(element.$.entry, '_getReviewerSuggestions');
+        sandbox.stub(input, '_updateSuggestions');
+        input.text = 'test';
+        MockInteractions.focus(input.$.input);
+        flush(function() {
+          assert.equal(element.accounts.length, 2);
+          MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
+          assert.equal(element.accounts.length, 2);
+          input.text = '';
+          MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
+          assert.equal(element.accounts.length, 1);
+          done();
+        });
+      });
+    });
   });
 </script>

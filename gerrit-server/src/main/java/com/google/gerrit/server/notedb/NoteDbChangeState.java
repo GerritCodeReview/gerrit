@@ -419,6 +419,11 @@ public class NoteDbChangeState {
         changeId, primaryStorage, refState, Optional.of(ts));
   }
 
+  public NoteDbChangeState withoutReadOnlyUntil() {
+    return new NoteDbChangeState(
+        changeId, primaryStorage, refState, Optional.empty());
+  }
+
   public Change.Id getChangeId() {
     return changeId;
   }

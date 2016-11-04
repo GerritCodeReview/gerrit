@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46a38215_0e180b35",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-04T00:32:16Z",
+      "side": 1,
+      "message": "Extra indentation here and the following few lines.",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 10
+      },
+      "revId": "0e66dd691b2acaddf5f76e6f830feabc1b2427e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a38215_6e254f71",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-04T00:32:16Z",
+      "side": 1,
+      "message": "Remove blank line.",
+      "revId": "0e66dd691b2acaddf5f76e6f830feabc1b2427e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

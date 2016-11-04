@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1478269038 +0100\nnonce AG58fQpqVZ56RhBj6A+m1RoAGecfc2b2VS7bVnFUjMOcIdTHCcvhARXCNTh31MQfgY5LfRu3LICw\n\n0000000000000000000000000000000000000000 aca143a1463a74a6ca563ff72569bbdded604f67 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYHJhuAAoJEFG1/Zeg0O9RtO8IAKpqQdMr5rAd2//NtJSszm37\nHibFEzqd9bFGmkj/B+iFPyTgZJm8n3dIy3BIRC0NuBFf3Ys2xvoKxErmZFMsSR2X\nlUFNPTBid7z7Ce13vVv9d7GSAKpk12Bjyyq/GeD8sEPKPDYTPvocxUBNQYsBv0LQ\nPZIwv43v5s1uebQmMLV1bRwYZx3OMNE164M6PL8w/Taq2c5rcL8THF/HBrgzheug\nKtgoxdVViOIZ05IVdiu5iY/+sftIyp3d3lO0AIfRjHhfSbioq6/VIKRmri1sZj7V\nwsea9UN4sld7zZ5/jLbS8R/GMct8jl9BEN0bW0hU2fraalPIn+9z0A00i1rqs0w\u003d\n\u003doDgy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b64a30b_3817a9ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T20:37:58Z",
+      "side": 1,
+      "message": "Can inline this var.",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9fd31e_1cebb58b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T20:37:58Z",
+      "side": 1,
+      "message": "Not directly related, but we should also short-circuit prior to suggesting groups if suggestedReviewer is already larger than the limit. Actually we could even go further and have suggestAccountGroups short-circuit its internal loop once the list is big enough.",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b64a30b_1812e5c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T20:37:58Z",
+      "side": 1,
+      "message": "You don\u0027t have to run your own stopwatch, you can use timer.start to do the metric recording via an AutoCloseable.",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9fd31e_7cf67974",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T20:37:58Z",
+      "side": 1,
+      "message": "Are you up for more refactoring? If so, you could do\n\n accountIds.stream()\n     .map(accountLoader::get)\n     .filter(Objects::nonNull)\n     .map(SugggestedReviewerInfo::new)\n     .collect(toList());\n\n(adding a SuggestedReviewerInfo(AccountInfo) constructor of course)\n\nOr we could just leave that for later cleanup",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

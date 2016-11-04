@@ -37,6 +37,17 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     return SubmitType.CHERRY_PICK;
   }
 
+  @Override
+  @Test
+  public void submitWholeTopic() throws Exception {
+    super.submitWholeTopic();
+
+    // Check that the repo has the expected number of commits, which should
+    // be 4 - the initial commit plus the 3 that were submitted.
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log).hasSize(4);
+  }
+
   @Test
   public void submitWithCherryPickIfFastForwardPossible() throws Exception {
     PushOneCommit.Result change = createChange();

@@ -99,7 +99,7 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
   }
 
   private void rebuild(ChangeResource rsrc) throws ResourceNotFoundException,
-      ConfigInvalidException, OrmException, IOException {
+      OrmException, IOException {
     try {
       rebuilder.rebuild(db.get(), rsrc.getId());
     } catch (NoSuchChangeException e) {

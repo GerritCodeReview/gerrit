@@ -25,8 +25,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
@@ -59,12 +57,11 @@ public abstract class ChangeRebuilder {
   }
 
   public abstract Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException;
+      throws NoSuchChangeException, IOException, OrmException;
 
   public abstract Result rebuild(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
-      OrmException, ConfigInvalidException;
+      OrmException;
 
   public abstract void buildUpdates(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws IOException, OrmException;

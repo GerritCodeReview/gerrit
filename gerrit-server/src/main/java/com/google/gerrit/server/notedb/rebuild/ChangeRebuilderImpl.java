@@ -157,8 +157,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   @Override
   public Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException {
+      throws NoSuchChangeException, IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
     // Read change just to get project; this instance is then discarded so we
     // can read a consistent ChangeBundle inside a transaction.
@@ -176,7 +175,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   @Override
   public Result rebuild(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
-      OrmException, ConfigInvalidException {
+      OrmException {
     Change change = new Change(bundle.getChange());
     buildUpdates(manager, bundle);
     return manager.stageAndApplyDelta(change);

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b64a30b_98d4b5d2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3468,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:51:44Z",
+      "side": 1,
+      "message": "There is now Config#getTimeUnit so we can support times like \"30s\", \"60m\", etc.",
+      "range": {
+        "startLine": 3468,
+        "startChar": 0,
+        "endLine": 3468,
+        "endChar": 15
+      },
+      "revId": "8491084bc57fe384360ea17ac0e8bec00bad14c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9fd31e_dc1b0de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSettings.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:51:44Z",
+      "side": 1,
+      "message": "getTimeUnit",
+      "revId": "8491084bc57fe384360ea17ac0e8bec00bad14c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b64a30b_b8d179e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMessage.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:51:44Z",
+      "side": 1,
+      "message": "Envelope?",
+      "revId": "8491084bc57fe384360ea17ac0e8bec00bad14c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9fd31e_fc1849e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMessage.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:51:44Z",
+      "side": 1,
+      "message": "Nit: blank lines separating non-abstract methods.",
+      "revId": "8491084bc57fe384360ea17ac0e8bec00bad14c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9fd31e_bc22c118",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:51:44Z",
+      "side": 1,
+      "message": "Not sure I agree with the name in this case. \"Eventually\" kind of implies that it will happen eventually, even if at a much later date. Maybe \"requestDeletion\"?",
+      "range": {
+        "startLine": 90,
+        "startChar": 47,
+        "endLine": 90,
+        "endChar": 79
+      },
+      "revId": "8491084bc57fe384360ea17ac0e8bec00bad14c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9fd31e_5cf13d79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:51:44Z",
+      "side": 1,
+      "message": "You could avoid some boilerplate here and below by using Collections.synchronizedSet",
+      "revId": "8491084bc57fe384360ea17ac0e8bec00bad14c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b64a30b_58085d9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:51:44Z",
+      "side": 1,
+      "message": "Wasn\u0027t there some mode where we leave an IMAP connection open?",
+      "range": {
+        "startLine": 101,
+        "startChar": 23,
+        "endLine": 101,
+        "endChar": 59
+      },
+      "revId": "8491084bc57fe384360ea17ac0e8bec00bad14c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

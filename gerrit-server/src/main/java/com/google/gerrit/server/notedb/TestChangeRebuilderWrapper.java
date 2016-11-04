@@ -16,6 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
@@ -110,5 +112,14 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
       throws IOException, OrmException {
     // Don't check for manual failure; that happens in execute().
     delegate.buildUpdates(manager, bundle);
+  }
+
+  @Override
+  public void rebuildReviewDb(ReviewDb db, Project.NameKey project, Id changeId)
+      throws OrmException {
+    if (failNextUpdate.getAndSet(false)) {
+      throw new OrmException("Update failed");
+    }
+    delegate.rebuildReviewDb(db, project, changeId);
   }
 }

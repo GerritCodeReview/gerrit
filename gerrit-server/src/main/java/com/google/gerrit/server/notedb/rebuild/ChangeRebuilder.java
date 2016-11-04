@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb.rebuild;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
@@ -53,6 +54,17 @@ public abstract class ChangeRebuilder {
           }
         });
   }
+
+  /**
+   * Rebuild ReviewDb contents by copying from NoteDb.
+   *
+   * <p>Requires NoteDb to be the primary storage for the change.
+   */
+  public abstract void rebuildReviewDb(ReviewDb db, Project.NameKey project, Change.Id changeId)
+      throws OrmException;
+
+  // In the following methods "rebuilding" always refers to copying the state
+  // from ReviewDb to NoteDb, i.e. assuming ReviewDb is the primary storage.
 
   public abstract Result rebuild(ReviewDb db, Change.Id changeId) throws IOException, OrmException;
 

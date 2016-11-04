@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b82abce_564354b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b82abce_f6d700d5",
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7327cf_f91857e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2016-11-04T10:42:30Z",
       "side": 1,
       "message": "Should this be private to ensure that no subclass accesses this outside a synchronized block?",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 11
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_f9b4d787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "ab7327cf_f91857e6",
       "range": {
         "startLine": 31,
         "startChar": 2,
@@ -82,6 +124,48 @@
     },
     {
       "key": {
+        "uuid": "4b82abce_163ddc23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b82abce_16e15cba",
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_364258ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b82abce_36e6d8d3",
+      "range": {
+        "startLine": 66,
+        "startChar": 21,
+        "endLine": 66,
+        "endChar": 22
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b82abce_d6da04fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 3
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "ab7327cf_d9b7938a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b82abce_d6da04fe",
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7327cf_59f14379",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 3
@@ -110,6 +212,30 @@
       "writtenOn": "2016-11-04T10:42:30Z",
       "side": 1,
       "message": "Maybe a copy of pendingDeletion should be passed into this method?",
+      "range": {
+        "startLine": 102,
+        "startChar": 26,
+        "endLine": 102,
+        "endChar": 38
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_d6368447",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of this because we would then need to pass back which emails were deleted. I\"d rather try to handle this here and have added two methods to do so",
+      "parentUuid": "ab7327cf_59f14379",
       "range": {
         "startLine": 102,
         "startChar": 26,
@@ -156,6 +282,48 @@
         "endLine": 32,
         "endChar": 45
       },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_7648d0ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b82abce_96d48cd2",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_39b32fa2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab7327cf_b922df18",
       "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

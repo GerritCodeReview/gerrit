@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab7327cf_79a44744",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-04T21:05:16Z",
+      "side": 1,
+      "message": "Better:\n\n  assertThat(c.reviewers.values()).isEmpty();\n\nto make sure, reviewer state wasn\u0027t demoted to CC on reviewer deletion. This would also verify that REMOVED state isn\u0027t leaked from the implementation on reviewer deletion.",
+      "revId": "780c34aa6071e8fab0629e6c6f848b9ed3cab36e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

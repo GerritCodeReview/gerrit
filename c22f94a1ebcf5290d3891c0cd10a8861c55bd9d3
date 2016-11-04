@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4b82abce_1664fc61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:01:54Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve added a check at the very end of this method.",
+      "parentUuid": "4b82abce_d61be4e0",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7327cf_19642b62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-04T12:15:29Z",
       "side": 1,
       "message": "Better define a static immutable set that contains these headers.",
+      "range": {
+        "startLine": 79,
+        "startChar": 22,
+        "endLine": 79,
+        "endChar": 71
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_3669f838",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab7327cf_19642b62",
       "range": {
         "startLine": 79,
         "startChar": 22,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4b82abce_d64d24e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab7327cf_d94d53e1",
+      "range": {
+        "startLine": 92,
+        "startChar": 31,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7327cf_f94a97c6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "ab7327cf_19ae6b3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab7327cf_f94a97c6",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 46
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b82abce_76f69074",
         "filename": "lib/mime4j/BUCK",
         "patchSetId": 1
@@ -105,6 +201,24 @@
       "writtenOn": "2016-11-04T12:15:29Z",
       "side": 1,
       "message": "nit: unneeded blank line",
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_79a9a731",
+        "filename": "lib/mime4j/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T14:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b82abce_76f69074",
       "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

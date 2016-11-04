@@ -496,9 +496,9 @@ public class CommitValidators {
           if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
             final String e = footer.getEmailAddress();
             if (e != null) {
-              sboAuthor |= author.getEmailAddress().equals(e);
-              sboCommitter |= committer.getEmailAddress().equals(e);
-              sboMe |= currentUser.hasEmailAddress(e);
+              sboAuthor = author.getEmailAddress().equals(e);
+              sboCommitter = committer.getEmailAddress().equals(e);
+              sboMe = currentUser.hasEmailAddress(e);
             }
           }
         }

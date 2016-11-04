@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1478283653 -0400\nnonce AG58fQqnBfgrOOHhzWoWtYUo9EP3tByyr2W/LwKX5Sgt4Kowd21Ts8gCyovNUcgxXlPdOz6iwA/D\n\n0000000000000000000000000000000000000000 5915a0e3b628536d7acb5e9f15ccd06735cde820 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYHNGFAAoJEF/XxZqaEoiMyVQQALSm7g2W1U7b/SanVx3tYbRd\nQZ1DkyzIbmh0wpJaMWZXogE0LPmTbuFb5GKXRCpDb279sChQU/n6SL0gZvhCi+aH\nMOTAdk/83Kl8atjfDG3/ttXAT+dWsQZmdPOtF6hzGjdMw8ZQ/kYdDijvsZmOJQpN\nlRwjqL9ZgIAs48wmku7QlAcmDAer2531D6RDIAFxKwqA3bPdFYld7mvt1ODbttpS\nmYCIu/yAhfVpS0JessjLI1oDMRPRTk6a8Y/bzg0I9cZYa9L0ZCLgV/0s3iU7Gnry\nMeKjKuvAvldtomJoYDebHSeC055OOCqckLqgbdOOi89rN6IHiinhMmNuN8vlLhFb\nRGLB0kapu7P5hjhU3huoG5lEMQj8VBorTHDkg8rOqX/abnl/N2rT9VQyhVYgBTAE\nKR1zaammCjYlUiuEOp2Ax8jTc0+SPolnPeahTqww8tbaEdbqcma8bd4O6dXvEy3A\nnzahMKEPhRq5gBF/Lz2PedzUWVTFfV/6erOyRJJzaXMtm7YRsRQQfz8ARppfKoCE\n7vrgtTcDPv2x5ELMtFD3tgzysrtJIC5CByhax4y+Wk9eVtnjzA9PBjATK+H+S/l1\nVGtDMFsV/yN7n/+yBAk53eYZVHaEQt9PJO44pkEjTiF2SmQQ/hznThNcwfwBxA2Q\npC+qzSnsCPciyOG0URiI\n\u003d2GfM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b64a30b_58e7fdd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-11-04T19:02:12Z",
+      "side": 1,
+      "message": "Can we really be sure all current writers are done just by sleeping for some number of seconds? This seems overstated. s/waitForConcurrentWriters/delayForConcurrentWriters/ and soften the \"we are sure\" language. What is the error mode if a concurrent writer hasn\u0027t completed by the time delayForConcurrentWriters completes? Can we keep some kind of reference count of open writes?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 0
+      },
+      "revId": "1c81b8c11cad979b459217f561d935aa7e781cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

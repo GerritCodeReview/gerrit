@@ -93,12 +93,31 @@ GrLinkTextParser.prototype.addLink =
   if (!text) {
     return;
   }
-  this.addItem(text, href, null, position, length, outputArray);
+  if (!this.hasOverlap(position, length, outputArray)) {
+    this.addItem(text, href, null, position, length, outputArray);
+  }
 };
 
 GrLinkTextParser.prototype.addHTML =
     function(html, position, length, outputArray) {
-  this.addItem(null, null, html, position, length, outputArray);
+  if (!this.hasOverlap(position, length, outputArray)) {
+    this.addItem(null, null, html, position, length, outputArray);
+  }
+};
+
+GrLinkTextParser.prototype.hasOverlap =
+    function(position, length, outputArray) {
+  var endPosition = position + length;
+  for (var i = 0; i < outputArray.length; i++) {
+    var arrayItemStart = outputArray[i].position;
+    var arrayItemEnd = outputArray[i].position + outputArray[i].length;
+    if ((position >= arrayItemStart && position < arrayItemEnd) ||
+      (endPosition > arrayItemStart && endPosition <= arrayItemEnd) ||
+      (position === arrayItemStart && position === arrayItemEnd)) {
+          return true;
+    }
+  }
+  return false;
 };
 
 GrLinkTextParser.prototype.parse = function(text) {

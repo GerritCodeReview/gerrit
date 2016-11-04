@@ -47,6 +47,10 @@ limitations under the License.
           match: '(I[0-9a-f]{8,40})',
           link: '#/q/$1'
         },
+        changeid2: {
+          match: 'Change-Id: +(I[0-9a-f]{8,40})',
+          link: '#/q/$1'
+        },
         googlesearch: {
           match: 'google:(.+)',
           link: 'https://bing.com/search?q=$1',  // html should supercede link.
@@ -150,7 +154,6 @@ limitations under the License.
       assert.equal(bugLinkEl.href, bugUrl);
       assert.equal(bugLinkEl.textContent, 'Issue 3650');
     });
-
 
     test('html field in link config', function() {
       element.content = 'google:do a barrel roll';

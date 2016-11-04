@@ -19,6 +19,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
@@ -93,6 +94,11 @@ public class NoteDbModule extends FactoryModule {
 
                 @Override
                 public void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle) {
+                  // Do nothing.
+                }
+
+                @Override
+                public void rebuildReviewDb(ReviewDb db, Project.NameKey project, Id changeId) {
                   // Do nothing.
                 }
               });

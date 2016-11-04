@@ -27,6 +27,8 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -34,6 +36,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -41,9 +44,14 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -78,7 +86,8 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   @Inject private AllUsersName allUsers;
-
+  @Inject private ChangeBundleReader bundleReader;
+  @Inject private CommentsUtil commentsUtil;
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;
 
   private PrimaryStorageMigrator migrator;
@@ -366,6 +375,69 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
 
     migrator.migrateToNoteDbPrimary(id);
     assertNoteDbPrimary(id);
+  }
+
+  @Test
+  public void rebuildReviewDb() throws Exception {
+    Change c = createChange().getChange().change();
+    Change.Id id = c.getId();
+
+    CommentInput cin = new CommentInput();
+    cin.line = 1;
+    cin.message = "Published comment";
+    ReviewInput rin = ReviewInput.approve();
+    rin.comments = ImmutableMap.of(PushOneCommit.FILE_NAME, ImmutableList.of(cin));
+    gApi.changes().id(id.get()).current().review(ReviewInput.approve());
+
+    DraftInput din = new DraftInput();
+    din.path = PushOneCommit.FILE_NAME;
+    din.line = 1;
+    din.message = "Draft comment";
+    gApi.changes().id(id.get()).current().createDraft(din);
+    gApi.changes().id(id.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(id.get()).current().createDraft(din);
+
+    assertThat(db.changeMessages().byChange(id)).isNotEmpty();
+    assertThat(db.patchSets().byChange(id)).isNotEmpty();
+    assertThat(db.patchSetApprovals().byChange(id)).isNotEmpty();
+    assertThat(db.patchComments().byChange(id)).isNotEmpty();
+
+    ChangeBundle noteDbBundle =
+        ChangeBundle.fromNotes(commentsUtil, notesFactory.create(db, project, id));
+
+    setNoteDbPrimary(id);
+
+    db.changeMessages().delete(db.changeMessages().byChange(id));
+    db.patchSets().delete(db.patchSets().byChange(id));
+    db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
+    db.patchComments().delete(db.patchComments().byChange(id));
+    ChangeMessage bogusMessage =
+        ChangeMessagesUtil.newMessage(
+            c.currentPatchSetId(),
+            identifiedUserFactory.create(admin.getId()),
+            TimeUtil.nowTs(),
+            "some message",
+            null);
+    db.changeMessages().insert(Collections.singleton(bogusMessage));
+
+    rebuilderWrapper.rebuildReviewDb(db, project, id);
+
+    assertThat(db.changeMessages().byChange(id)).isNotEmpty();
+    assertThat(db.patchSets().byChange(id)).isNotEmpty();
+    assertThat(db.patchSetApprovals().byChange(id)).isNotEmpty();
+    assertThat(db.patchComments().byChange(id)).isNotEmpty();
+
+    ChangeBundle reviewDbBundle = bundleReader.fromReviewDb(ReviewDbUtil.unwrapDb(db), id);
+    assertThat(reviewDbBundle.differencesFrom(noteDbBundle)).isEmpty();
+  }
+
+  @Test
+  public void rebuildReviewDbRequiresNoteDbPrimary() throws Exception {
+    Change.Id id = createChange().getChange().getId();
+
+    exception.expect(OrmException.class);
+    exception.expectMessage("primary storage of " + id + " is REVIEW_DB");
+    rebuilderWrapper.rebuildReviewDb(db, project, id);
   }
 
   private void setNoteDbPrimary(Change.Id id) throws Exception {

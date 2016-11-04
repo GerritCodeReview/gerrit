@@ -38,22 +38,22 @@ public class AssigneeSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   protected void _onRequestSuggestions(Request req, Callback cb) {
     ChangeApi
-    .suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), true)
-    .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
-      @Override
-      public void onSuccess(JsArray<SuggestReviewerInfo> result) {
-        List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
-        for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
-          r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
-        }
-        cb.onSuggestionsReady(req, new Response(r));
-      }
+        .suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), true)
+        .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
+          @Override
+          public void onSuccess(JsArray<SuggestReviewerInfo> result) {
+            List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
+            for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
+              r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
+            }
+            cb.onSuggestionsReady(req, new Response(r));
+          }
 
-      @Override
-      public void onFailure(Throwable err) {
-        List<Suggestion> r = Collections.emptyList();
-        cb.onSuggestionsReady(req, new Response(r));
-      }
-    });
+          @Override
+          public void onFailure(Throwable err) {
+            List<Suggestion> r = Collections.emptyList();
+            cb.onSuggestionsReady(req, new Response(r));
+          }
+        });
   }
 }

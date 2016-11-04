@@ -111,8 +111,10 @@ public class Assignee extends Composite {
     UIObject.setVisible(error, false);
     editAssigneeIcon.setVisible(false);
     suggestBox.setFocus(true);
-    suggestBox.setText(FormatUtil.nameEmail(currentAssignee));
-    suggestBox.selectAll();
+    if (currentAssignee != null) {
+      suggestBox.setText(FormatUtil.nameEmail(currentAssignee));
+      suggestBox.selectAll();
+    }
   }
 
   void onCloseForm() {

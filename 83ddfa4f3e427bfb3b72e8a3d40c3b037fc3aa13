@@ -1,0 +1,11 @@
+Revision: 83ddfa4f3e427bfb3b72e8a3d40c3b037fc3aa13
+Patch-set: 10
+File: gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java
+
+111
+Fri Nov 04 20:38:56 2016 +0000
+Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+UUID: 8b64a30b_d81b0de1
+Bytes: 85
+More asserts (in this method is fine) for changing and then removing the description.
+

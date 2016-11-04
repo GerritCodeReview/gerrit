@@ -1,3 +1,4 @@
+package(default_visibility = ['//visibility:public'])
 load('//tools/bzl:pkg_war.bzl', 'pkg_war')
 
 genrule(

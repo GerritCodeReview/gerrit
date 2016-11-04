@@ -19,3 +19,15 @@ I don't know that there is or isn't value in it. I assumed that I should leave t
 
 Do you think I should remove it?
 
+235
+Fri Nov 04 19:41:49 2016 +0000
+Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+Parent: 8b64a30b_38e6c9d3
+UUID: 0b9fd31e_1c12d5c9
+Bytes: 542
+If we don't include the description in the ChangeMessage, then there is no record in the message log that says what the new description is. I guess the value would be in showing the history of the description for a given patch set.
+
+Let's use change topic as an analogy. If you push a new patch set with a topic, it doesn't mention the topic in the message. But it does add a message each time you change the topic after that. So by that analogy, we should not do it here.
+
+But I'm not sure what the best behavior would be. What do you think?
+

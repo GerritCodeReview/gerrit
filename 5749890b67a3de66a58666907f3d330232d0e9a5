@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b64a30b_d8da2dfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-04T19:31:42Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be some form of checked exception, like OrmException or NoSuchChangeException?",
+      "revId": "5749890b67a3de66a58666907f3d330232d0e9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

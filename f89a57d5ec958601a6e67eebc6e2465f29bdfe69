@@ -1,0 +1,11 @@
+Revision: f89a57d5ec958601a6e67eebc6e2465f29bdfe69
+Patch-set: 9
+File: gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java
+
+235
+Fri Nov 04 19:14:59 2016 +0000
+Author: Dave Borowitz <1010008@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+UUID: 8b64a30b_18e185ba
+Bytes: 161
+Is there value in repeating the description in a ChangeMessage as well? I thought the point here was to replace the ChangeMessage with the patch set description.
+

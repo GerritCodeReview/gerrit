@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a6399eba_e994b58c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-04T00:07:13Z",
+      "side": 1,
+      "message": "I used xset + and now I see the browser windows appear, but still the same failure.\n\n  $ npm version\n{ npm: \u00272.15.9\u0027,\n  ares: \u00271.10.1-DEV\u0027,\n  http_parser: \u00272.7.0\u0027,\n  modules: \u002746\u0027,\n  node: \u00274.6.0\u0027,\n  openssl: \u00271.0.2j\u0027,\n  uv: \u00271.9.1\u0027,\n  v8: \u00274.5.103.37\u0027,\n  zlib: \u00271.2.8\u0027 }",
+      "parentUuid": "cbe93b6b_8229babd",
+      "revId": "3e926b59aad19ae34c42bb1cdb5b90d167adf8a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6399eba_294c0de3",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 10

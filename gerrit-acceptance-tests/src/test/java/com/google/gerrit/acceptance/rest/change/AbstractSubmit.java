@@ -162,6 +162,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Also check submitters for changes submitted via the topic relationship.
     assertSubmitter(change1);
     assertSubmitter(change2);
+
+    // Check that the repo has the expected number of commits
+    List<RevCommit> log = getRemoteLog();
+    int expectedCommits = getSubmitType() == SubmitType.MERGE_ALWAYS
+        ? 5 // initial commit + 3 commits + merge commit
+        : 4; // initial commit + 3 commits
+    assertThat(log).hasSize(expectedCommits);
   }
 
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {

@@ -22,6 +22,30 @@
       "revId": "40eb6e73766694f209630ba566e26c98cc72d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_d6b1a4c7",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-04T09:23:21Z",
+      "side": 1,
+      "message": "Got confused with bash ... this is sh :-)\nThe correct function definition should then be:\n\n  rev() {\n   ...\n  }",
+      "parentUuid": "4b82abce_168f1c0c",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "40eb6e73766694f209630ba566e26c98cc72d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

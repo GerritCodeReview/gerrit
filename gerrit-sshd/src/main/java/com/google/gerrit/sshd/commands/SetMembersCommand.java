@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -84,26 +85,30 @@ public class SetMembersCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure, Failure, Exception {
-    for (AccountGroup.UUID groupUuid : groups) {
-      GroupResource resource =
-          groupsCollection.parse(TopLevelResource.INSTANCE,
-              IdString.fromUrl(groupUuid.get()));
-      if (!accountsToRemove.isEmpty()) {
-        deleteMembers.apply(resource, fromMembers(accountsToRemove));
-        reportMembersAction("removed from", resource, accountsToRemove);
+    try {
+      for (AccountGroup.UUID groupUuid : groups) {
+        GroupResource resource =
+            groupsCollection.parse(TopLevelResource.INSTANCE,
+                IdString.fromUrl(groupUuid.get()));
+        if (!accountsToRemove.isEmpty()) {
+          deleteMembers.apply(resource, fromMembers(accountsToRemove));
+          reportMembersAction("removed from", resource, accountsToRemove);
+        }
+        if (!groupsToRemove.isEmpty()) {
+          deleteIncludedGroups.apply(resource, fromGroups(groupsToRemove));
+          reportGroupsAction("excluded from", resource, groupsToRemove);
+        }
+        if (!accountsToAdd.isEmpty()) {
+          addMembers.apply(resource, fromMembers(accountsToAdd));
+          reportMembersAction("added to", resource, accountsToAdd);
+        }
+        if (!groupsToInclude.isEmpty()) {
+          addIncludedGroups.apply(resource, fromGroups(groupsToInclude));
+          reportGroupsAction("included to", resource, groupsToInclude);
+        }
       }
-      if (!groupsToRemove.isEmpty()) {
-        deleteIncludedGroups.apply(resource, fromGroups(groupsToRemove));
-        reportGroupsAction("excluded from", resource, groupsToRemove);
-      }
-      if (!accountsToAdd.isEmpty()) {
-        addMembers.apply(resource, fromMembers(accountsToAdd));
-        reportMembersAction("added to", resource, accountsToAdd);
-      }
-      if (!groupsToInclude.isEmpty()) {
-        addIncludedGroups.apply(resource, fromGroups(groupsToInclude));
-        reportGroupsAction("included to", resource, groupsToInclude);
-      }
+    } catch (RestApiException e) {
+      throw die(e.getMessage());
     }
   }
 

@@ -44,6 +44,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
+import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -57,6 +58,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -69,6 +71,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     Config cfg = new Config();
     cfg.setString("notedb", null, "concurrentWriterTimeout", "0s");
     cfg.setString("notedb", null, "primaryStorageMigrationTimeout", "1d");
+    cfg.setBoolean("noteDb", null, "testRebuilderWrapper", true);
     return cfg;
   }
 
@@ -77,6 +80,9 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
 
   @Inject
   private PrimaryStorageMigrator migrator;
+
+  @Inject
+  private TestChangeRebuilderWrapper rebuilderWrapper;
 
   @Before
   public void setUp() throws Exception {
@@ -271,6 +277,20 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     gApi.changes().id(id.get()).topic("a-topic");
     assertThat(gApi.changes().id(id.get()).get().topic).isEqualTo("a-topic");
     assertThat(db.changes().get(id).getTopic()).isNull();
+  }
+
+  @Test
+  public void migrateToNoteDbFailsRebuilding() throws Exception {
+    Change.Id id = createChange().getChange().getId();
+
+    Change c = db.changes().get(id);
+    c.setNoteDbState("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    db.changes().update(Collections.singleton(c));
+    rebuilderWrapper.failNextUpdate();
+
+    exception.expect(IOException.class);
+    exception.expectMessage("Update failed");
+    migrator.migrateToNoteDbPrimary(id);
   }
 
   @Test

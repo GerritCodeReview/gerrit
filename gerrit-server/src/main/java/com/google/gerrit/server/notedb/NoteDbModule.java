@@ -18,6 +18,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
@@ -65,6 +66,11 @@ public class NoteDbModule extends FactoryModule {
       bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder(null) {
         @Override
         public Result rebuild(ReviewDb db, Change.Id changeId) {
+          return null;
+        }
+
+        @Override
+        public Result rebuildEvenIfReadOnly(ReviewDb db, Id changeId) {
           return null;
         }
 

@@ -161,7 +161,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return rebuild(db, changeId, true);
   }
 
-  public Result rebuild(ReviewDb db, Change.Id changeId, boolean checkReadOnly)
+  @Override
+  public Result rebuildEvenIfReadOnly(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException {
+    return rebuild(db, changeId, false);
+  }
+
+  private Result rebuild(ReviewDb db, Change.Id changeId, boolean checkReadOnly)
       throws NoSuchChangeException, IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
     // Read change just to get project; this instance is then discarded so we

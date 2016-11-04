@@ -29,7 +29,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -53,7 +53,7 @@ public class PrimaryStorageMigrator {
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
-  private final ChangeRebuilderImpl rebuilder;
+  private final ChangeRebuilder rebuilder;
 
   private final long skewMs;
   private final long timeoutMs;
@@ -64,7 +64,7 @@ public class PrimaryStorageMigrator {
       Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      ChangeRebuilderImpl rebuilder) {
+      ChangeRebuilder rebuilder) {
     this.db = db;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
@@ -154,7 +154,8 @@ public class PrimaryStorageMigrator {
         Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       if (!readOnlyState.isUpToDate(
           new RepoRefCache(changeRepo), new RepoRefCache(allUsersRepo))) {
-        NoteDbUpdateManager.Result r = rebuilder.rebuild(db(), id, false);
+        NoteDbUpdateManager.Result r =
+            rebuilder.rebuildEvenIfReadOnly(db(), id);
         checkState(
             r.newState().getReadOnlyUntil()
                 .equals(readOnlyState.getReadOnlyUntil()),

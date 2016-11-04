@@ -34,12 +34,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.RefCache;
+
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * The state of all relevant NoteDb refs across all repos corresponding to a

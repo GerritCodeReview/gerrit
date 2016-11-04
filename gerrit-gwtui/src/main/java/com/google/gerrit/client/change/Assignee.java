@@ -98,7 +98,6 @@ public class Assignee extends Composite {
     this.changeId = info.legacyId();
     this.canEdit = info.hasActions() && info.actions().containsKey("assignee");
     setAssignee(info.assignee());
-    assigneeSuggestOracle.setChange(changeId);
     editAssigneeIcon.setVisible(canEdit);
     if (!canEdit) {
       show.setTitle(null);

@@ -14,13 +14,12 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.change.ReviewerSuggestOracle.RestReviewerSuggestion;
-import com.google.gerrit.client.change.ReviewerSuggestOracle.SuggestReviewerInfo;
-import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.account.AccountApi;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.ui.AccountSuggestOracle.AccountSuggestion;
 import com.google.gerrit.client.ui.SuggestAfterTypingNCharsOracle;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JsArray;
 
 import java.util.ArrayList;
@@ -29,22 +28,15 @@ import java.util.List;
 
 /** REST API based suggestion Oracle for assignee */
 public class AssigneeSuggestOracle extends SuggestAfterTypingNCharsOracle {
-  private Change.Id changeId;
-
-  public void setChange(Change.Id changeId) {
-    this.changeId = changeId;
-  }
-
   @Override
   protected void _onRequestSuggestions(Request req, Callback cb) {
-    ChangeApi
-        .suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), true)
-        .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
+    AccountApi.suggest(req.getQuery(), req.getLimit(),
+        new GerritCallback<JsArray<AccountInfo>>() {
           @Override
-          public void onSuccess(JsArray<SuggestReviewerInfo> result) {
-            List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
-            for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
-              r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
+          public void onSuccess(JsArray<AccountInfo> result) {
+            List<AccountSuggestion> r = new ArrayList<>(result.length());
+            for (AccountInfo reviewer : Natives.asList(result)) {
+              r.add(new AccountSuggestion(reviewer, req.getQuery()));
             }
             cb.onSuggestionsReady(req, new Response(r));
           }

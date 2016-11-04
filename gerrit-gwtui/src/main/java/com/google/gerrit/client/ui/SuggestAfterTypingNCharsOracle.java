@@ -29,7 +29,8 @@ public abstract class SuggestAfterTypingNCharsOracle extends HighlightSuggestOra
 
   @Override
   protected void onRequestSuggestions(Request req, Callback cb) {
-    if (req.getQuery().length() >= Gerrit.info().suggest().from()) {
+    if (req.getQuery() != null
+        && req.getQuery().length() >= Gerrit.info().suggest().from()) {
       _onRequestSuggestions(req, cb);
     } else {
       List<Suggestion> none = Collections.emptyList();

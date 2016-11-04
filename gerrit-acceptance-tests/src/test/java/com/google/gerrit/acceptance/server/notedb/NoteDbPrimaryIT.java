@@ -24,6 +24,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -49,7 +50,6 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -58,7 +58,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -270,7 +269,8 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   private void testMigrateToNoteDb(Change.Id id) throws Exception {
     assertThat(PrimaryStorage.of(db.changes().get(id)))
         .isEqualTo(PrimaryStorage.REVIEW_DB);
-    migrator.migrateToNoteDbPrimary(id);
+    assertThat(migrator.migrateToNoteDbPrimary(id).status())
+        .isEqualTo(PrimaryStorageMigrator.Status.MIGRATED);
     assertThat(db.changes().get(id).getNoteDbState())
         .isEqualTo(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
 
@@ -288,37 +288,38 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     db.changes().update(Collections.singleton(c));
     rebuilderWrapper.failNextUpdate();
 
-    exception.expect(IOException.class);
-    exception.expectMessage("Update failed");
-    migrator.migrateToNoteDbPrimary(id);
+    PrimaryStorageMigrator.Result r = migrator.migrateToNoteDbPrimary(id);
+    assertThat(r.status()).isEqualTo(PrimaryStorageMigrator.Status.ERROR);
+    assertThat(r.message()).contains("Update failed");
+    NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
+    assertThat(state.getReadOnlyUntil().isPresent()).isFalse();
   }
 
   @Test
   public void migrateToNoteDbMissingOldState() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
+    Change.Id id = createChange().getChange().getId();
 
     Change c = db.changes().get(id);
     c.setNoteDbState(null);
     db.changes().update(Collections.singleton(c));
 
-    exception.expect(OrmRuntimeException.class);
-    exception.expectMessage("no note_db_state");
-    migrator.migrateToNoteDbPrimary(id);
+    PrimaryStorageMigrator.Result r = migrator.migrateToNoteDbPrimary(id);
+    assertThat(r.status()).isEqualTo(PrimaryStorageMigrator.Status.ERROR);
+    assertThat(r.message()).contains("no note_db_state");
   }
 
   @Test
   public void migrateToNoteDbLeaseExpires() throws Exception {
     TestTimeUtil.resetWithClockStep(2, DAYS);
-    exception.expect(OrmRuntimeException.class);
-    exception.expectMessage("read-only lease");
-    migrator.migrateToNoteDbPrimary(createChange().getChange().getId());
+    PrimaryStorageMigrator.Result r =
+        migrator.migrateToNoteDbPrimary(createChange().getChange().getId());
+    assertThat(r.status()).isEqualTo(PrimaryStorageMigrator.Status.ERROR);
+    assertThat(r.message()).contains("read-only lease");
   }
 
   @Test
   public void migrateToNoteDbAlreadyReadOnly() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
+    Change.Id id = createChange().getChange().getId();
 
     Change c = db.changes().get(id);
     NoteDbChangeState state = NoteDbChangeState.parse(c);
@@ -328,9 +329,9 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     c.setNoteDbState(state.toString());
     db.changes().update(Collections.singleton(c));
 
-    exception.expect(OrmRuntimeException.class);
-    exception.expectMessage("read-only until " + until);
-    migrator.migrateToNoteDbPrimary(id);
+    PrimaryStorageMigrator.Result r = migrator.migrateToNoteDbPrimary(id);
+    assertThat(r.status()).isEqualTo(PrimaryStorageMigrator.Status.ERROR);
+    assertThat(r.message()).contains("read-only until");
   }
 
   @Test
@@ -344,9 +345,40 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     assertThat(db.changes().get(id).getNoteDbState())
         .isEqualTo(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
 
-    migrator.migrateToNoteDbPrimary(id);
+    assertThat(migrator.migrateToNoteDbPrimary(id).status())
+        .isEqualTo(PrimaryStorageMigrator.Status.ALREADY_MIGRATED);
     assertThat(db.changes().get(id).getNoteDbState())
         .isEqualTo(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+  }
+
+  @Test
+  public void migrateMultipleChangesToNoteDbWithPartialSuccess()
+      throws Exception {
+    Change.Id id1 = createChange().getChange().getId();
+    Change.Id id2 = createChange().getChange().getId();
+
+    Change c1 = db.changes().get(id1);
+    c1.setNoteDbState("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    db.changes().update(Collections.singleton(c1));
+    rebuilderWrapper.failNextUpdate();
+
+    List<PrimaryStorageMigrator.Result> results =
+        migrator.migrateToNoteDbPrimary(ImmutableList.of(id1, id2));
+    assertThat(results.size()).isEqualTo(2);
+
+    PrimaryStorageMigrator.Result r1 = results.get(0);
+    assertThat(r1.id()).isEqualTo(id1);
+    assertThat(r1.status()).isEqualTo(PrimaryStorageMigrator.Status.ERROR);
+    assertThat(r1.message()).contains("Update failed");
+    NoteDbChangeState state1 = NoteDbChangeState.parse(db.changes().get(id1));
+    assertThat(state1.getReadOnlyUntil().isPresent()).isFalse();
+
+    PrimaryStorageMigrator.Result r2 = results.get(1);
+    assertThat(r2.id()).isEqualTo(id2);
+    assertThat(r2.status()).isEqualTo(PrimaryStorageMigrator.Status.MIGRATED);
+    NoteDbChangeState s2 = NoteDbChangeState.parse(db.changes().get(id2));
+    assertThat(s2.getPrimaryStorage()).isEqualTo(PrimaryStorage.NOTE_DB);
+    assertThat(s2.getReadOnlyUntil().isPresent()).isFalse();
   }
 
   private void setNoteDbPrimary(Change.Id id) throws Exception {

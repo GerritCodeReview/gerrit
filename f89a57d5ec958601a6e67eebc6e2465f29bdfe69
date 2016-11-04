@@ -9,3 +9,13 @@ UUID: 8b64a30b_18e185ba
 Bytes: 161
 Is there value in repeating the description in a ChangeMessage as well? I thought the point here was to replace the ChangeMessage with the patch set description.
 
+235
+Fri Nov 04 19:23:29 2016 +0000
+Author: Kasper Nilsson <1029297@173816e5-2b9a-37c3-8a2e-48639d4f1153>
+Parent: 8b64a30b_18e185ba
+UUID: 8b64a30b_38e6c9d3
+Bytes: 180
+I don't know that there is or isn't value in it. I assumed that I should leave the existing feature as-is in order to not break anyone's workflow.
+
+Do you think I should remove it?
+

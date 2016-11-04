@@ -45,7 +45,7 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
   public static class AccountSuggestion implements SuggestOracle.Suggestion {
     private final String suggestion;
 
-    AccountSuggestion(AccountInfo info, String query) {
+    public AccountSuggestion(AccountInfo info, String query) {
       this.suggestion = format(info, query);
     }
 

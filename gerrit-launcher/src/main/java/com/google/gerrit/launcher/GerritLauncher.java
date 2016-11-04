@@ -97,11 +97,26 @@ public final class GerritLauncher {
       argv[0] = "ls";
     }
 
-    // Run the application class
-    //
-    final ClassLoader cl = libClassLoader(isProlog(programClassName(argv[0])));
+    // Check if we should use the internal class loader (for bazel binaries) or
+    // the URL dev classloader (for starting this with eclipse).
+    List<String> args = new ArrayList<>();
+    boolean useInternalClassloader = false;
+    for (String arg : argv) {
+      if (arg.equals("--use-internal-classloader")) {
+        useInternalClassloader = true;
+      } else {
+        args.add(arg);
+      }
+    }
+    String[] filteredArgs = args.toArray(new String[args.size()]);
+    ClassLoader cl;
+    if (useInternalClassloader) {
+      cl = GerritLauncher.class.getClassLoader();
+    } else {
+      cl = libClassLoader(isProlog(programClassName(filteredArgs[0])));
+    }
     Thread.currentThread().setContextClassLoader(cl);
-    return invokeProgram(cl, argv);
+    return invokeProgram(cl, filteredArgs);
   }
 
   public static void daemonStart(final String[] argv) throws Exception {

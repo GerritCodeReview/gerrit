@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b82abce_d61be4e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T12:15:29Z",
+      "side": 1,
+      "message": "Should we fail if from or to are missing? The comment in MailMessage says that these fields are mandatory.",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_19642b62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T12:15:29Z",
+      "side": 1,
+      "message": "Better define a static immutable set that contains these headers.",
+      "range": {
+        "startLine": 79,
+        "startChar": 22,
+        "endLine": 79,
+        "endChar": 71
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_d94d53e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T12:15:29Z",
+      "side": 1,
+      "message": "Strings.emptyToNull(textBuilder.toString())",
+      "range": {
+        "startLine": 92,
+        "startChar": 31,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_f94a97c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T12:15:29Z",
+      "side": 1,
+      "message": "Check if it\u0027s equals to \"text/plain\" or \"text/html\" to avoid unnecessary build of the result for other text/* mime types?",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 46
+      },
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_76f69074",
+        "filename": "lib/mime4j/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T12:15:29Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "c22f94a1ebcf5290d3891c0cd10a8861c55bd9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

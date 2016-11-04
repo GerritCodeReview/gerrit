@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6399eba_c98ff179",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-04T00:05:30Z",
+      "side": 1,
+      "message": "Many unused imports.",
+      "revId": "22c7343afd8904e4a5ee85cd6660affb2d9e2610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe93b6b_e2b1a62e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-04T00:05:30Z",
+      "side": 1,
+      "message": "Still doesn\u0027t work with number of problems:\n\n* 1. rule is constructed with //// prefix\n* 2. constructed rule with // still doesn\u0027t exist:\n\n  $ buck build //gerrit-gwtui:__gwt_binary_ui_safari__\n  [+] PARSING BUCK FILES...1.0s\n  BUILD FAILED: No rule found when resolving target //gerrit-  \n  gwtui:__gwt_binary_ui_safari__ in build file //gerrit-gwtui/BUCK\n  Defined in file: /home/davido/projects/gerrit/gerrit-gwtui/BUCK\n\nI think you cannot induce output directory from rule name:\n  \n  $ buck build //gerrit-gwtui:ui_safari\n  [-] PROCESSING BUCK FILES...FINISHED 0.2s [100%]\n  [-] DOWNLOADING... (0.00 B/S AVG, TOTAL: 0.00 B, 0 Artifacts)\n  [-] BUILDING...FINISHED 37.5s [100%] (55/55 JOBS, 39 UPDATED, 1 [1.8%] CACHE MISS)\n\nAnd the output is:\n\n  $ buck targets --show_output //gerrit-gwtui:ui_safari\n  //gerrit-gwtui:ui_safari buck-out/gen/gerrit-gwtui/__gwt_binary_ui_safari__/ui_safari.zip",
+      "revId": "22c7343afd8904e4a5ee85cd6660affb2d9e2610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

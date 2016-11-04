@@ -22,6 +22,30 @@
       "revId": "8ac64c34d8499d3a26a7c9bc6110e29745ef44cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_d6a8c465",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-04T08:12:34Z",
+      "side": 1,
+      "message": "Otherwise it would not show up the fractions (msec).\nPossibly better to just display ms avoiding the /1000d?",
+      "parentUuid": "a6399eba_8995f98b",
+      "range": {
+        "startLine": 154,
+        "startChar": 10,
+        "endLine": 154,
+        "endChar": 51
+      },
+      "revId": "8ac64c34d8499d3a26a7c9bc6110e29745ef44cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

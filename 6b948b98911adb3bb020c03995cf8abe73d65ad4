@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1478251266 +0100\nnonce AG58fQpi+0WS/eYSrqWWHJCGVNrMn12onkYPiEw8izYCt4nSFXfmQ+YTngv+4gHu0RBCChTTy44h\n\n0000000000000000000000000000000000000000 6b948b98911adb3bb020c03995cf8abe73d65ad4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYHFMCAAoJEFG1/Zeg0O9R0SMH/1CsOBQBwSOghpM5gPLzAB6c\n21AahhgNWmcm4Lb9Q739egUPTARxZ5mQwkkJhurSlGOEBfNhR4Zfbi6ZnHVMEwVT\nBGzNFRVJ75gB7PQvuwcamdiLvcQwvEhTSLvYNk9Sv8N4EDp/IpMluO6AO+6FPAs5\nXVXV2W+d1joYVvVMwxhzUzX6OR23bICdsbL8npiKAdrkpvsxeHUQxdrDC4mB5Mgn\nn+swJ0fwSEqbZW+JBWC01cPmvbcBGNX0NCgq/jmKKag4NBb9ka3aEg/y0Blw8976\naBT6nfvOIpsHEaqpaHwSWgMJKm1Zw9IE2+Y4enHbU4Kzw6A2koJy8/HFP+y9+E8\u003d\n\u003d6pFI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab8a47d9_819afa47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-04T10:12:49Z",
+      "side": 1,
+      "message": "indentation",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "6b948b98911adb3bb020c03995cf8abe73d65ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

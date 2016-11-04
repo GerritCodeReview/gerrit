@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab8a47d9_017d8a20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-04T09:00:00Z",
+      "side": 1,
+      "message": "Can you expand on this to mention why it\u0027s needed?",
+      "revId": "94def9d72ca35d92b01a067fc3262d8a553362db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7327cf_39e6cfd3",
         "filename": "gerrit-launcher/BUILD",
         "patchSetId": 1

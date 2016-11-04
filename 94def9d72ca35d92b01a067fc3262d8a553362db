@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab7327cf_39e6cfd3",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-04T08:15:47Z",
+      "side": 1,
+      "message": "The formatting here is wired, but this is how the bazel plugin formatted it for me.",
+      "revId": "94def9d72ca35d92b01a067fc3262d8a553362db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

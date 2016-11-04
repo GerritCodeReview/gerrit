@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b82abce_f6d700d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "Missing @Override annotation.",
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_f91857e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "Should this be private to ensure that no subclass accesses this outside a synchronized block?",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 11
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_36e6d8d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "nit: missing blank before \u0027{\u0027",
+      "range": {
+        "startLine": 66,
+        "startChar": 21,
+        "endLine": 66,
+        "endChar": 22
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_16e15cba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "Missing @Override annotation.",
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_d6da04fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "Missing @Override annotation.",
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_59f14379",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "Maybe a copy of pendingDeletion should be passed into this method?",
+      "range": {
+        "startLine": 102,
+        "startChar": 26,
+        "endLine": 102,
+        "endChar": 38
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_b922df18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "Missing @Override annotation.",
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_96d48cd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-04T10:42:30Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027{\u0027",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "019e2abd4ecf4bfb035ba946b31c2f1c96dc09ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b64a30b_d8b1cdc7",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-04T18:29:51Z",
+      "side": 1,
+      "message": "Hmm... Some funky syntax highlighting going on here.",
+      "range": {
+        "startLine": 237,
+        "startChar": 12,
+        "endLine": 237,
+        "endChar": 53
+      },
+      "revId": "40713a50deaeec0cd709c2f69c5f3ca29cf1eb5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

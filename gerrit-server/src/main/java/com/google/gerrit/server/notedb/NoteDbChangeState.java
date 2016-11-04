@@ -63,19 +63,21 @@ public class NoteDbChangeState {
   public static final String NOTE_DB_PRIMARY_STATE = "N";
 
   public enum PrimaryStorage {
-    REVIEW_DB('R', true),
-    NOTE_DB('N', false);
+    REVIEW_DB('R'),
+    NOTE_DB('N');
 
     private final char code;
-    private final boolean writeToReviewDb;
 
-    private PrimaryStorage(char code, boolean writeToReviewDb) {
+    private PrimaryStorage(char code) {
       this.code = code;
-      this.writeToReviewDb = writeToReviewDb;
     }
 
-    public boolean writeToReviewDb() {
-      return writeToReviewDb;
+    public static PrimaryStorage of(Change c) {
+      return of(NoteDbChangeState.parse(c));
+    }
+
+    public static PrimaryStorage of(NoteDbChangeState s) {
+      return s != null ? s.getPrimaryStorage() : REVIEW_DB;
     }
   }
 
@@ -234,6 +236,9 @@ public class NoteDbChangeState {
 
   public static boolean isChangeUpToDate(@Nullable NoteDbChangeState state,
       RefCache changeRepoRefs, Change.Id changeId) throws IOException {
+    if (PrimaryStorage.of(state) == NOTE_DB) {
+      return true; // Primary storage is NoteDb, up to date by definition.
+    }
     if (state == null) {
       return !changeRepoRefs.get(changeMetaRef(changeId)).isPresent();
     }
@@ -243,6 +248,9 @@ public class NoteDbChangeState {
   public static boolean areDraftsUpToDate(@Nullable NoteDbChangeState state,
       RefCache draftsRepoRefs, Change.Id changeId, Account.Id accountId)
       throws IOException {
+    if (PrimaryStorage.of(state) == NOTE_DB) {
+      return true; // Primary storage is NoteDb, up to date by definition.
+    }
     if (state == null) {
       return !draftsRepoRefs.get(refsDraftComments(changeId, accountId))
           .isPresent();
@@ -286,6 +294,9 @@ public class NoteDbChangeState {
   }
 
   public boolean isChangeUpToDate(RefCache changeRepoRefs) throws IOException {
+    if (primaryStorage == NOTE_DB) {
+      return true; // Primary storage is NoteDb, up to date by definition.
+    }
     Optional<ObjectId> id = changeRepoRefs.get(changeMetaRef(changeId));
     if (!id.isPresent()) {
       return getChangeMetaId().equals(ObjectId.zeroId());
@@ -295,6 +306,9 @@ public class NoteDbChangeState {
 
   public boolean areDraftsUpToDate(RefCache draftsRepoRefs, Account.Id accountId)
       throws IOException {
+    if (primaryStorage == NOTE_DB) {
+      return true; // Primary storage is NoteDb, up to date by definition.
+    }
     Optional<ObjectId> id =
         draftsRepoRefs.get(refsDraftComments(changeId, accountId));
     if (!id.isPresent()) {
@@ -305,6 +319,9 @@ public class NoteDbChangeState {
 
   public boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs)
       throws IOException {
+    if (primaryStorage == NOTE_DB) {
+      return true; // Primary storage is NoteDb, up to date by definition.
+    }
     if (!isChangeUpToDate(changeRepoRefs)) {
       return false;
     }

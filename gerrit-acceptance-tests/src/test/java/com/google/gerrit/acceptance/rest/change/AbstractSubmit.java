@@ -136,6 +136,27 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Also check submitters for changes submitted via the topic relationship.
     assertSubmitter(change1);
     assertSubmitter(change2);
+
+    // Check that the repo has the expected commits
+    List<RevCommit> log = getRemoteLog();
+    List<String> commitsInRepo = Lists.transform(log,
+        new Function<RevCommit, String>() {
+          @Override
+          public String apply(RevCommit input) {
+            return input.getShortMessage();
+          }
+        });
+    int expectedCommitCount = getSubmitType() == SubmitType.MERGE_ALWAYS
+        ? 5 // initial commit + 3 commits + merge commit
+        : 4; // initial commit + 3 commits
+    assertThat(log).hasSize(expectedCommitCount);
+
+    assertThat(commitsInRepo).containsAllOf(
+        "Initial empty repository", "Change 1", "Change 2", "Change 3");
+    if (getSubmitType() == SubmitType.MERGE_ALWAYS) {
+      assertThat(commitsInRepo).contains(
+          "Merge changes from topic 'test-topic'");
+    }
   }
 
   @Test

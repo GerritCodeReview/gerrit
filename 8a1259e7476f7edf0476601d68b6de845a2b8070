@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab8a47d9_01afca64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-05T00:58:13Z",
+      "side": 1,
+      "message": "This will cause sboAuthor to incorrectly be set to false if there are multiple Signed-off-by lines where the first is the author but subsequent ones are not.\n\nI.e.:\n\n Signed-off-by: Author \u003cauthor@example.com\u003e\n Signed-off-by: Not Author \u003cnot-author@example.com\u003e\n\nOn the first iteration it gets set to true, but on the second iteration it is set to false.",
+      "range": {
+        "startLine": 499,
+        "startChar": 14,
+        "endLine": 499,
+        "endChar": 26
+      },
+      "revId": "8a1259e7476f7edf0476601d68b6de845a2b8070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

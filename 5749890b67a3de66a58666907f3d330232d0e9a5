@@ -16,6 +16,24 @@
       "revId": "5749890b67a3de66a58666907f3d330232d0e9a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab8a47d9_81c3da27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-05T00:30:52Z",
+      "side": 1,
+      "message": "It could be, but is it worth it?  If we get null here there\u0027s nothing we can do and throwing a checked exception isn\u0027t going to help much.\n\ncheckNotNull will raise NPE which is what we already get later anyway. The only difference is now we fail earlier with a better message in the log.",
+      "parentUuid": "8b64a30b_d8da2dfe",
+      "revId": "5749890b67a3de66a58666907f3d330232d0e9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

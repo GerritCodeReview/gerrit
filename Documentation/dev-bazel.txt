@@ -12,7 +12,6 @@ Bazel build is experimental. Major missing parts:
 
 Nice to have:
 
-* JGit build from local tree.
 * Global maven artifact caching.
 * local.properties proxy config.
 * coverage
@@ -125,7 +124,38 @@ The output JAR file will be be placed in:
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
+=== JGit build from local tree
 
+It's simple to route dependencies in Bazel to development tree instead of
+consuming them from Central. The only requirement is that Bazel driven build
+exists for this dependency. For JGit, Bazel driven build was partially
+implemented. There are three steps, to route JGit to development tree:
+
+1. Apply this pending patch: https://git.eclipse.org/r/84527
+
+2. Activate this JGit local repository in `WORKSPACE`, uncomment the related
+section:
+
+----
+  local_repository(
+    name = 'jgit',
+    path = '/home/davido/projects/jgit',
+  )
+----
+
+3. Swap the alias for jgit-alias to point to the jgit library form local
+rpository in lib/jgit/org.eclipse.jgit/BUILD file:
+
+----
+  alias(
+    name = 'jgit-alias',
+    actual = '@jgit//org.eclipse.jgit:jgit',
+    visibility = ['//visibility:public'],
+  )
+----
+
+Note: If needed, other JGit dependencies can be routed to the development
+tree as well, like `jgit-servlet`, `jgit-archive` and `jgit-junit`.
 
 [[IDEs]]
 == Using an IDE.

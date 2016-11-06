@@ -134,8 +134,15 @@ http_jar(
 
 load('//lib/jgit:jgit.bzl', 'JGIT_VERS')
 
+# Uncomment jgit repository to route JGit dependency to development tree
+# Alias change is also required in lib/jgit/org.eclipse.jgit/BUILD file.
+#local_repository(
+#  name = 'jgit',
+#  path = '/home/<username>/projects/jgit',
+#)
+
 maven_jar(
-  name = 'jgit',
+  name = 'jgit_core',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit:' + JGIT_VERS,
   sha1 = '3e3d0b73dcf4ad649f37758ea8502d92f3d299de',
 )

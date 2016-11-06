@@ -132,6 +132,14 @@ maven_jar(
 
 load("//lib/jgit:jgit.bzl", "JGIT_VERS", "JGIT_REPO", "JGIT_SHA1", "JGIT_SRC_SHA1", "JGIT_SERVLET_SHA1", "JGIT_ARCHIVE_SHA1", "JGIT_JUNIT_SHA1")
 
+# Uncomment jgit repository to route JGit dependency to development tree.
+# Comment out the maven_jar definition for jgit target. Aliases also need
+# to be adjusted in lib/jgit/**/BUILD files.
+#local_repository(
+#    name = "jgit",
+#    path = "/home/davido/projects/jgit",
+#)
+
 maven_jar(
     name = "jgit",
     artifact = "org.eclipse.jgit:org.eclipse.jgit:" + JGIT_VERS,

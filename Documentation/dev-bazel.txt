@@ -333,6 +333,12 @@ And corresponding WORKSPACE excerpt:
  )
 ----
 
+[[consume-jgit-from-development-tree]]
+
+To consume the JGit dependency from the development tree, uncomment
+`local_repository` rule for `jgit` in WORKSPACE file, comment out
+`maven_jar` rule for `jgit` target and swap the lines in the
+`lib/jgit/**/BUILD` files for `jgit` rule aliases.
 
 [[clean-cache]]
 === Cleaning The download cache

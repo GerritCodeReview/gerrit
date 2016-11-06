@@ -9,7 +9,7 @@ maven_jar(
   license = 'jgit',
   repository = REPO,
   unsign = True,
-  deps = [':ewah'],
+  deps = [':javaewah'],
   exclude = [
     'META-INF/eclipse.inf',
     'about.html',
@@ -18,7 +18,7 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'ewah',
+  name = 'javaewah',
   id = 'com.googlecode.javaewah:JavaEWAH:0.7.9',
   sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
   license = 'Apache2.0',

@@ -132,8 +132,18 @@ maven_jar(
 
 load("//lib/jgit:jgit.bzl", "JGIT_VERS", "JGIT_REPO", "JGIT_SHA1", "JGIT_SRC_SHA1", "JGIT_SERVLET_SHA1", "JGIT_ARCHIVE_SHA1", "JGIT_JUNIT_SHA1")
 
+#
+# Uncomment jgit repository to route JGit dependency to development tree.
+# Pass jgit-dev=1 in to bazel: `bazel test --define jgit-dev=1 ...`
+# Due to: https://github.com/bazelbuild/bazel/issues/2707
+# aliases to jgit should be uncommented in lib/jgit/**/BUILD files.
+#local_repository(
+#    name = "jgit",
+#    path = "/home/davido/projects/jgit",
+#)
+
 maven_jar(
-    name = "jgit",
+    name = "jgit_lib",
     artifact = "org.eclipse.jgit:org.eclipse.jgit:" + JGIT_VERS,
     repository = JGIT_REPO,
     sha1 = JGIT_SHA1,

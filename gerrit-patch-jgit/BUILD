@@ -28,12 +28,12 @@ genrule2(
     name = "jgit_edit_src",
     outs = ["edit.srcjar"],
     cmd = " && ".join([
-        "unzip -qd $$TMP $(location @jgit//jar:src) " +
+        "unzip -qd $$TMP $(location //lib/jgit/org.eclipse.jgit:jgit-source) " +
         "org/eclipse/jgit/diff/Edit.java",
         "cd $$TMP",
         "zip -Dq $$ROOT/$@ org/eclipse/jgit/diff/Edit.java",
     ]),
-    tools = ["@jgit//jar:src"],
+    tools = ["//lib/jgit/org.eclipse.jgit:jgit-source"],
 )
 
 java_library(

@@ -333,6 +333,16 @@ And corresponding WORKSPACE excerpt:
  )
 ----
 
+[[consume-jgit-from-development-tree]]
+
+To consume the JGit dependency from the development tree, uncomment
+`local_repository` rule for `jgit` in WORKSPACE file and uncomment
+the lines in the `lib/jgit/**/BUILD` files for `jgit` rule aliases.
+`jgit-dev=1` must be passed in to bazel:
+
+----
+  $ bazel test --define jgit-dev=1 ...
+----
 
 [[clean-cache]]
 === Cleaning The download cache

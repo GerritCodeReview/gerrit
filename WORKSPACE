@@ -156,7 +156,7 @@ http_file(
 )
 
 maven_jar(
-  name = 'ewah',
+  name = 'javaewah',
   artifact = 'com.googlecode.javaewah:JavaEWAH:0.7.9',
   sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
 )

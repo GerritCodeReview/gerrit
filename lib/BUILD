@@ -11,6 +11,14 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
+config_setting(
+    name = "jgit-dev",
+    values = {
+        "define": "jgit-dev=1",
+    },
+    visibility = ["//visibility:public"],
+)
+
 java_library(
     name = "servlet-api-3_1",
     data = ["//lib:LICENSE-Apache2.0"],

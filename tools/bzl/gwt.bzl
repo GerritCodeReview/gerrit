@@ -85,7 +85,7 @@ DEPS = GWT_TRANSITIVE_DEPS + [
     "//gerrit-gwtexpui:CSS",
     "//lib:gwtjsonrpc",
     "//lib/gwt:dev",
-    "@jgit//jar:src",
+    "//lib/jgit/org.eclipse.jgit:jgit-source",
 ]
 
 USER_AGENT_XML = """<module rename-to='gerrit_ui'>

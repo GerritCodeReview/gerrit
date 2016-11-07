@@ -2,17 +2,10 @@ package(
   default_visibility = ["//visibility:public"])
 
 load('//tools/bzl:genrule2.bzl', 'genrule2')
-load("//tools/bzl:js.bzl", "bower_component_bundle", "vulcanize")
-
-bower_component_bundle(
-  name = 'test_components',
-  deps = [
-    '//polygerrit-ui:polygerrit_components',
-    '//lib/js:iron-test-helpers',
-    '//lib/js:test-fixture',
-    '//lib/js:web-component-tester',
-  ],
-)
+load(
+  "//tools/bzl:js.bzl",
+  "bower_component_bundle", "vulcanize",
+  "bower_component", "js_component")
 
 vulcanize(
   name = "gr-app",
@@ -30,10 +23,10 @@ vulcanize(
 
 filegroup(
   name = "top_sources",
-  srcs = glob([
+  srcs = [
     'favicon.ico',
     'index.html',
-  ]),
+  ],
 )
 
 filegroup(
@@ -66,4 +59,47 @@ genrule2(
     "//lib/js:webcomponentsjs",
   ],
   outs = [ "polygerrit_ui.zip" ],
+)
+
+bower_component_bundle(
+  name = 'test_components',
+  deps = [
+    '//polygerrit-ui:polygerrit_components',
+    '//lib/js:iron-test-helpers',
+    '//lib/js:test-fixture',
+    '//lib/js:web-component-tester',
+  ],
+)
+
+filegroup(
+  name = "pg_code",
+  srcs = glob([
+    '**/*.html',
+    '**/*.js',
+  ], exclude = [
+    'bower_components/**',
+  ])
+)
+
+genrule2(
+  name = "pg_code_zip",
+  outs = [ "pg_code.zip", ],
+  srcs = [ ":pg_code" ],
+  cmd = " && ".join([
+    ("tar -cf- --mtime=1980-01-01\\ 00:00 $(locations :pg_code) |"
+     + " tar --strip-components=2 -C $$TMP/ -xf-"),
+    "cd $$TMP",
+    "zip -rq $$ROOT/$@ *"])
+)
+
+sh_test(
+  name = "wct_test",
+  srcs = [ "wct_test.sh" ],
+  data = [
+    ":pg_code.zip",
+    ":test_components.zip",
+    "test/index.html",
+  ],
+  # Should not run sandboxed.
+  tags = ["local"],
 )

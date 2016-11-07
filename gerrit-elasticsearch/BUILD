@@ -35,6 +35,7 @@ junit_tests(
   name = 'elasticsearch_tests',
   tags = ['elastic', 'flaky'],
   srcs = glob(['src/test/java/**/*.java']),
+  size = "medium",
   deps = [
     ':elasticsearch',
     '//gerrit-extension-api:api',

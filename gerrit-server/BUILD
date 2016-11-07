@@ -191,6 +191,7 @@ java_library(
 junit_tests(
   name = 'query_tests',
   srcs = QUERY_TESTS,
+  size = "medium",
   deps = TESTUTIL_DEPS + [
     ':testutil',
     '//gerrit-antlr:query_exception',
@@ -209,6 +210,7 @@ junit_tests(
     exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
   ),
   resources = glob(['src/test/resources/com/google/gerrit/server/mail/*']),
+  size = "medium",
   deps = TESTUTIL_DEPS + [
     ':testutil',
     '//gerrit-antlr:query_exception',

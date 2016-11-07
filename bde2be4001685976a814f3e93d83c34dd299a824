@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b8bc3df_409e2eed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-07T15:37:49Z",
+      "side": 1,
+      "message": "logDebug(\"Failed to get change {} from unwrapped db\", id);\n\nAlthough I would think the NSCE is already going to be logged.",
+      "revId": "bde2be4001685976a814f3e93d83c34dd299a824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

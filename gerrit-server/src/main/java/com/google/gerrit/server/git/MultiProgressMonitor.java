@@ -319,7 +319,7 @@ public class MultiProgressMonitor {
     if (!tasks.isEmpty()) {
       boolean first = true;
       for (Task t : tasks) {
-        int count = t.count;
+        int count = t.getCount();
         if (count == 0) {
           continue;
         }

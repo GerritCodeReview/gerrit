@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcaab6f_f6d180e0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DraftChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-07T23:15:49Z",
+      "side": 1,
+      "message": "I think I have too many imports here from the conflict resolution. Will fix.",
+      "revId": "f1aa988ca59b42cff50c881faf80ddaf0f99b855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -9,6 +9,7 @@ CORE = [
 ]
 CUSTOM = [
   # Add custom core plugins here
+  'git-numberer',
 ]
 
 # buck audit parses and resolves all deps even if not reachable

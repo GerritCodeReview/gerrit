@@ -22,6 +22,30 @@
       "revId": "0fdd471aaf9705b76f4578e096b8fbdb5b57caf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_193f4bce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSettings.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-07T10:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b82abce_3621f8c9",
+      "range": {
+        "startLine": 41,
+        "startChar": 41,
+        "endLine": 41,
+        "endChar": 48
+      },
+      "revId": "0fdd471aaf9705b76f4578e096b8fbdb5b57caf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

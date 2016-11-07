@@ -86,7 +86,8 @@ public class ChangeNotesCache {
       // Numbers are largely hand-wavy based on
       // http://stackoverflow.com/questions/258120/what-is-the-memory-consumption-of-an-object-in-java
       return
-          K // changeId
+          P + O + 20 // metaId
+          + K // changeId
           + str(40) // changeKey
           + T // createdOn
           + T // lastUpdatedOn

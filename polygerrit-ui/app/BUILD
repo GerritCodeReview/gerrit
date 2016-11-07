@@ -63,6 +63,7 @@ genrule2(
 
 bower_component_bundle(
   name = 'test_components',
+  testonly = 1,
   deps = [
     '//polygerrit-ui:polygerrit_components',
     '//lib/js:iron-test-helpers',

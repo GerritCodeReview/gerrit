@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "abbb27d0_19f1cb7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-07T23:26:22Z",
+      "side": 1,
+      "message": "Is this because I can\u0027t insert an empty string into ReviewDB, or because I haven\u0027t implemented the ReviewDB side correctly? Because if it\u0027s the latter, I\u0027d rather fix the inconsistency than add more code to mitigate the differences, which seems to be the purpose of ChangeBundle.",
+      "parentUuid": "abbb27d0_1908eb9a",
+      "revId": "041308538f21d6ac7d70925bf71d5919cddbc33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbb27d0_390dafab",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 2

@@ -16,14 +16,14 @@
 
 java_library(
   name = 'javax-validation_src',
-  exports = ['@javax_validation_src//jar'],
+  exports = ['@javax_validation//src'],
   visibility = ['//visibility:public'],
   data = ['//lib:LICENSE-Apache2.0'],
 )
 
 java_library(
   name = 'jsinterop-annotations_src',
-  exports = ['@jsinterop_annotations_src//jar'],
+  exports = ['@jsinterop_annotations//src'],
   visibility = ['//visibility:public'],
   data = ['//lib:LICENSE-Apache2.0'],
 )

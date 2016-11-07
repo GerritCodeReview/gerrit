@@ -20,11 +20,13 @@ import com.google.gerrit.server.mail.receive.MailMessage;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 
 /**
  * Tests that all mime parts that are neither text/plain, nor text/html are
  * dropped.
  */
+@Ignore
 public class AttachmentMessage extends RawMailMessage {
   private static String raw = "MIME-Version: 1.0\n" +
       "Date: Tue, 25 Oct 2016 02:11:35 -0700\n" +

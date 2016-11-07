@@ -19,10 +19,12 @@ import com.google.gerrit.server.mail.receive.MailMessage;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 
 /**
  * Tests a message containing mime/alternative (text + html) content.
  */
+@Ignore
 public class HtmlMimeMessage extends RawMailMessage {
   private static String textContent = "Simple test";
 

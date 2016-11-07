@@ -19,10 +19,12 @@ import com.google.gerrit.server.mail.receive.MailMessage;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 
 /**
  * Tests parsing a simple text message with different headers.
  */
+@Ignore
 public class SimpleTextMessage extends RawMailMessage {
   private static String textContent = "" +
       "Jonathan Nieder has posted comments on this change. (  \n" +

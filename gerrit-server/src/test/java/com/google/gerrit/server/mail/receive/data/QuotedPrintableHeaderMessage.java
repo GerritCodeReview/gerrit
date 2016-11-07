@@ -19,10 +19,12 @@ import com.google.gerrit.server.mail.receive.MailMessage;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 
 /**
  * Tests parsing a quoted printable encoded subject
  */
+@Ignore
 public class QuotedPrintableHeaderMessage extends RawMailMessage {
   private static String textContent = "Some Text";
   private static String raw = "" +

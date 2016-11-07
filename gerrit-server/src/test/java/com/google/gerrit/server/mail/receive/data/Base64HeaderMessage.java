@@ -19,10 +19,12 @@ import com.google.gerrit.server.mail.receive.MailMessage;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 
 /**
  * Tests parsing a Base64 encoded subject.
  */
+@Ignore
 public class Base64HeaderMessage extends RawMailMessage {
   private static String textContent = "Some Text";
   private static String raw = "" +

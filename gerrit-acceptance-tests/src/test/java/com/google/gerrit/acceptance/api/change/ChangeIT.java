@@ -85,14 +85,12 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -118,9 +116,6 @@ import java.util.Map;
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
   private String systemTimeZone;
-
-  @Inject
-  private BatchUpdate.Factory updateFactory;
 
   @Before
   public void setTimeForTesting() {
@@ -463,19 +458,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(createEmptyCommit = false)
-  public void deleteNewChangeForBranchWithoutCommits() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-
-    gApi.changes()
-        .id(changeId)
-        .delete();
-
-    assertThat(query(changeId)).isEmpty();
-  }
-
-  @Test
   @TestProjectInput(cloneAs = "user")
   public void deleteAbandonedChangeAsNormalUser() throws Exception {
     PushOneCommit.Result changeResult =
@@ -527,23 +509,6 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage(String.format(
         "Deleting merged change %s is not allowed", id));
-    gApi.changes()
-        .id(changeId)
-        .delete();
-  }
-
-  @Test
-  public void deleteNewChangeWithMergedPatchSet() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
-
-    merge(changeResult);
-    setChangeStatus(id, Change.Status.NEW);
-
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format(
-        "Cannot delete change %s: patch set 1 is already merged", id));
     gApi.changes()
         .id(changeId)
         .delete();
@@ -2380,43 +2345,5 @@ public class ChangeIT extends AbstractDaemonTest {
         r.getChangeId(), atrScope.get().getUser());
     assertThat(ctls).hasSize(1);
     return changeResourceFactory.create(ctls.get(0));
-  }
-
-  private void setChangeStatus(Change.Id id, Change.Status newStatus)
-      throws Exception {
-    try (BatchUpdate batchUpdate = updateFactory
-        .create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
-      batchUpdate.addOp(id, new ChangeStatusUpdateOp(newStatus));
-      batchUpdate.execute();
-    }
-
-    ChangeStatus changeStatus = gApi.changes()
-        .id(id.get())
-        .get()
-        .status;
-    assertThat(changeStatus).isEqualTo(newStatus.asChangeStatus());
-  }
-
-  private class ChangeStatusUpdateOp extends BatchUpdate.Op {
-    private final Change.Status newStatus;
-
-    ChangeStatusUpdateOp(Change.Status newStatus) {
-      this.newStatus = newStatus;
-    }
-
-    @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx)
-        throws Exception {
-      Change change = ctx.getChange();
-
-      // Change status in database.
-      change.setStatus(newStatus);
-
-      // Change status in NoteDb.
-      PatchSet.Id currentPatchSetId = change.currentPatchSetId();
-      ctx.getUpdate(currentPatchSetId).setStatus(newStatus);
-
-      return true;
-    }
   }
 }

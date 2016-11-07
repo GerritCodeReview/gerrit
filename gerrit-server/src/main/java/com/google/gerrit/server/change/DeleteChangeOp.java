@@ -41,14 +41,10 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 
 class DeleteChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
@@ -107,18 +103,11 @@ class DeleteChangeOp extends BatchUpdate.Op {
 
   private void ensureDeletable(ChangeContext ctx, Change.Id id,
       Collection<PatchSet> patchSets) throws ResourceConflictException,
-      MethodNotAllowedException, OrmException, AuthException, IOException {
+      MethodNotAllowedException, OrmException, AuthException {
     Change.Status status = ctx.getChange().getStatus();
     if (status == Change.Status.MERGED) {
       throw new MethodNotAllowedException("Deleting merged change " + id
           + " is not allowed");
-    }
-    for (PatchSet patchSet : patchSets) {
-      if (isPatchSetMerged(ctx, patchSet)) {
-        throw new ResourceConflictException(String.format(
-            "Cannot delete change %s: patch set %s is already merged",
-            id, patchSet.getPatchSetId()));
-      }
     }
 
     if (!ctx.getControl().canDelete(ctx.getDb(), status)) {
@@ -136,21 +125,6 @@ class DeleteChangeOp extends BatchUpdate.Op {
         }
       }
     }
-  }
-
-  private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet)
-      throws IOException {
-    Repository repository = ctx.getRepository();
-    Ref destinationRef = repository.exactRef(ctx.getChange().getDest().get());
-    if (destinationRef == null) {
-      return false;
-    }
-
-    RevWalk revWalk = ctx.getRevWalk();
-    ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
-    RevCommit revCommit = revWalk.parseCommit(objectId);
-    return IncludedInResolver.includedInOne(repository, revWalk, revCommit,
-        Collections.singletonList(destinationRef));
   }
 
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id)

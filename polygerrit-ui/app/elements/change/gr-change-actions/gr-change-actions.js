@@ -336,6 +336,8 @@
       var type = el.getAttribute('data-action-type');
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
+      } else if (key === ChangeActions.DELETE) {
+        this._showActionDialog(this.$.confirmDeleteDialog);
       } else if (key === ChangeActions.REVERT) {
         this.showRevertDialog();
       } else if (key === ChangeActions.ABANDON) {
@@ -439,6 +441,10 @@
       el.hidden = true;
       this._fireAction('/abandon', this.actions.abandon, false,
           {message: el.message});
+    },
+
+    _handleDeleteConfirm: function() {
+      this._fireAction('/', this.actions[ChangeActions.DELETE], false);
     },
 
     _setLoadingOnButtonWithKey: function(key) {

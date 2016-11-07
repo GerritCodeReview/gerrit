@@ -62,7 +62,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private final BatchUpdate.Factory updateFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
-  private final Provider<DeleteChangeOp> deleteChangeOpProvider;
+  private final Provider<DeleteDraftChangeOp> deleteChangeOpProvider;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
   private final boolean allowDrafts;
 
@@ -71,7 +71,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       BatchUpdate.Factory updateFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
-      Provider<DeleteChangeOp> deleteChangeOpProvider,
+      Provider<DeleteDraftChangeOp> deleteChangeOpProvider,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       @GerritServerConfig Config cfg) {
     this.db = db;
@@ -100,7 +100,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
     private Collection<PatchSet> patchSetsBeforeDeletion;
     private PatchSet patchSet;
-    private DeleteChangeOp deleteChangeOp;
+    private DeleteDraftChangeOp deleteChangeOp;
 
     private Op(PatchSet.Id psId) {
       this.psId = psId;
@@ -119,7 +119,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       if (!allowDrafts) {
         throw new MethodNotAllowedException("Draft workflow is disabled");
       }
-      if (!ctx.getControl().canDelete(ctx.getDb(), Change.Status.DRAFT)) {
+      if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
         throw new AuthException("Not permitted to delete this draft patch set");
       }
 
@@ -150,12 +150,12 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
       accountPatchReviewStore.get().clearReviewed(psId);
       if (PrimaryStorage.of(ctx.getChange()) == REVIEW_DB) {
-        // Avoid OrmConcurrencyException trying to delete non-existent entities.
-        // Use the unwrap from DeleteChangeOp to handle BatchUpdateReviewDb.
-        ReviewDb db = DeleteChangeOp.unwrap(ctx.getDb());
-        db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
-        db.patchComments().delete(db.patchComments().byPatchSet(psId));
-        db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
+	// Avoid OrmConcurrencyException trying to delete non-existent entities.
+	// Use the unwrap from DeleteDraftChangeOp to handle BatchUpdateReviewDb.
+	ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
+	db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
+	db.patchComments().delete(db.patchComments().byPatchSet(psId));
+	db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
       }
     }
 
@@ -201,7 +201,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
             rsrc.getPatchSet().getPatchSetId()))
         .setVisible(allowDrafts
             && rsrc.getPatchSet().isDraft()
-            && rsrc.getControl().canDelete(db.get(), Change.Status.DRAFT)
+            && rsrc.getControl().canDeleteDraft(db.get())
             && psCount > 1);
     } catch (OrmException e) {
       throw new IllegalStateException(e);

@@ -69,7 +69,6 @@ import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -400,7 +399,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteDraftChange() throws Exception {
+  public void delete() throws Exception {
     PushOneCommit.Result r = createChange("refs/drafts/master");
     assertThat(query(r.getChangeId())).hasSize(1);
     assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
@@ -408,110 +407,6 @@ public class ChangeIT extends AbstractDaemonTest {
       .id(r.getChangeId())
       .delete();
     assertThat(query(r.getChangeId())).isEmpty();
-  }
-
-  @Test
-  public void deleteNewChangeAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-
-    gApi.changes()
-        .id(changeId)
-        .delete();
-
-    assertThat(query(changeId)).isEmpty();
-  }
-
-  @Test
-  @TestProjectInput(cloneAs = "user")
-  public void deleteNewChangeAsNormalUser() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo)
-            .to("refs/for/master");
-    String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
-
-    setApiUser(user);
-    exception.expect(AuthException.class);
-    exception.expectMessage(String.format(
-        "Deleting change %s is not permitted", id));
-    gApi.changes()
-        .id(changeId)
-        .delete();
-  }
-
-  @Test
-  @TestProjectInput(cloneAs = "user")
-  public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo)
-            .to("refs/for/master");
-    changeResult.assertOkStatus();
-    String changeId = changeResult.getChangeId();
-
-    setApiUser(admin);
-    gApi.changes()
-        .id(changeId)
-        .delete();
-
-    assertThat(query(changeId)).isEmpty();
-  }
-
-  @Test
-  @TestProjectInput(cloneAs = "user")
-  public void deleteAbandonedChangeAsNormalUser() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo)
-        .to("refs/for/master");
-    String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
-
-    setApiUser(user);
-    gApi.changes()
-        .id(changeId)
-        .abandon();
-
-    exception.expect(AuthException.class);
-    exception.expectMessage(String.format(
-        "Deleting change %s is not permitted", id));
-    gApi.changes()
-        .id(changeId)
-        .delete();
-  }
-
-  @Test
-  @TestProjectInput(cloneAs = "user")
-  public void deleteAbandonedChangeOfAnotherUserAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo)
-        .to("refs/for/master");
-    String changeId = changeResult.getChangeId();
-
-    gApi.changes()
-        .id(changeId)
-        .abandon();
-
-    gApi.changes()
-        .id(changeId)
-        .delete();
-
-    assertThat(query(changeId)).isEmpty();
-  }
-
-  @Test
-  public void deleteMergedChange() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
-
-    merge(changeResult);
-
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage(String.format(
-        "Deleting merged change %s is not allowed", id));
-    gApi.changes()
-        .id(changeId)
-        .delete();
   }
 
   @Test

@@ -261,23 +261,10 @@ public class ChangeControl {
         && isVisible(db);
   }
 
-  /** Can this user delete this change or any patch set of this change? */
-  public boolean canDelete(ReviewDb db, Change.Status status)
-      throws OrmException {
-    if (!isVisible(db)) {
-      return false;
-    }
-
-    switch (status) {
-      case DRAFT:
-        return (isOwner() || getRefControl().canDeleteDrafts());
-      case NEW:
-      case ABANDONED:
-        return isAdmin();
-      case MERGED:
-      default:
-        return false;
-    }
+  /** Can this user delete this draft change or any draft patch set of this change? */
+  public boolean canDeleteDraft(final ReviewDb db) throws OrmException {
+    return (isOwner() || getRefControl().canDeleteDrafts())
+        && isVisible(db);
   }
 
   /** Can this user rebase this change? */
@@ -388,10 +375,6 @@ public class ChangeControl {
       return results.contains(getUser().getAccountId());
     }
     return false;
-  }
-
-  public boolean isAdmin() {
-    return getUser().getCapabilities().canAdministrateServer();
   }
 
   /** @return true if the user is allowed to remove this reviewer. */

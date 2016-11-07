@@ -45,7 +45,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.CreateMergePatchSet;
 import com.google.gerrit.server.change.DeleteAssignee;
-import com.google.gerrit.server.change.DeleteChange;
+import com.google.gerrit.server.change.DeleteDraftChange;
 import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
@@ -98,7 +98,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<SubmittedTogether> submittedTogether;
   private final PublishDraftPatchSet.CurrentRevision
     publishDraftChange;
-  private final DeleteChange deleteChange;
+  private final DeleteDraftChange deleteDraftChange;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
   private final PostReviewers postReviewers;
@@ -129,7 +129,7 @@ class ChangeApiImpl implements ChangeApi {
       CreateMergePatchSet updateByMerge,
       Provider<SubmittedTogether> submittedTogether,
       PublishDraftPatchSet.CurrentRevision publishDraftChange,
-      DeleteChange deleteChange,
+      DeleteDraftChange deleteDraftChange,
       GetTopic getTopic,
       PutTopic putTopic,
       PostReviewers postReviewers,
@@ -159,7 +159,7 @@ class ChangeApiImpl implements ChangeApi {
     this.updateByMerge = updateByMerge;
     this.submittedTogether = submittedTogether;
     this.publishDraftChange = publishDraftChange;
-    this.deleteChange = deleteChange;
+    this.deleteDraftChange = deleteDraftChange;
     this.getTopic = getTopic;
     this.putTopic = putTopic;
     this.postReviewers = postReviewers;
@@ -324,7 +324,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      deleteChange.apply(change, null);
+      deleteDraftChange.apply(change, null);
     } catch (UpdateException e) {
       throw new RestApiException("Cannot delete change", e);
     }

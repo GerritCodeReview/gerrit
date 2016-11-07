@@ -14,16 +14,21 @@
 
 package com.google.gerrit.server;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Project;
@@ -49,6 +54,7 @@ import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,9 +62,46 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class ReviewersUtil {
+  @Singleton
+  private static class Metrics {
+    final Timer0 queryAccountsLatency;
+    final Timer0 recommendAccountsLatency;
+    final Timer0 loadAccountsLatency;
+    final Timer0 queryGroupsLatency;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      queryAccountsLatency = metricMaker.newTimer(
+          "reviewer_suggestion/query_accounts",
+          new Description(
+                  "Latency for querying accounts for reviewer suggestion")
+              .setCumulative()
+              .setUnit(Units.MILLISECONDS));
+      recommendAccountsLatency = metricMaker.newTimer(
+          "reviewer_suggestion/recommend_accounts",
+          new Description(
+                  "Latency for recommending accounts for reviewer suggestion")
+              .setCumulative()
+              .setUnit(Units.MILLISECONDS));
+      loadAccountsLatency = metricMaker.newTimer(
+          "reviewer_suggestion/load_accounts",
+          new Description(
+                  "Latency for loading accounts for reviewer suggestion")
+              .setCumulative()
+              .setUnit(Units.MILLISECONDS));
+      queryGroupsLatency = metricMaker.newTimer(
+          "reviewer_suggestion/query_groups",
+          new Description(
+                  "Latency for querying groups for reviewer suggestion")
+              .setCumulative()
+              .setUnit(Units.MILLISECONDS));
+    }
+  }
+
   private static final String MAX_SUFFIX = "\u9fa5";
   // Generate a candidate list at 3x the size of what the user wants to see to
   // give the ranking algorithm a good set of candidates it can work with
@@ -75,6 +118,7 @@ public class ReviewersUtil {
   private final Provider<CurrentUser> currentUser;
   private final Provider<ReviewDb> dbProvider;
   private final ReviewerRecommender reviewerRecommender;
+  private final Metrics metrics;
 
   @Inject
   ReviewersUtil(AccountCache accountCache,
@@ -87,7 +131,8 @@ public class ReviewersUtil {
       GroupMembers.Factory groupMembersFactory,
       Provider<CurrentUser> currentUser,
       Provider<ReviewDb> dbProvider,
-      ReviewerRecommender reviewerRecommender) {
+      ReviewerRecommender reviewerRecommender,
+      Metrics metrics) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.accountCache = accountCache;
@@ -101,6 +146,7 @@ public class ReviewersUtil {
     this.groupBackend = groupBackend;
     this.groupMembersFactory = groupMembersFactory;
     this.reviewerRecommender = reviewerRecommender;
+    this.metrics = metrics;
   }
 
   public interface VisibilityControl {
@@ -123,58 +169,34 @@ public class ReviewersUtil {
       candidateList = suggestAccounts(suggestReviewers, visibilityControl);
     }
 
-    List<Account.Id> sortedRecommendations = reviewerRecommender
-        .suggestReviewers(changeNotes, suggestReviewers, projectControl,
-            candidateList);
-
-    // Populate AccountInfo
-    List<SuggestedReviewerInfo> reviewer = new ArrayList<>();
-    for (Account.Id id : sortedRecommendations) {
-      AccountInfo account = accountLoader.get(id);
-      if (account != null) {
-        SuggestedReviewerInfo info = new SuggestedReviewerInfo();
-        info.account = account;
-        info.count = 1;
-        reviewer.add(info);
-      }
-    }
-    accountLoader.fill();
+    List<Account.Id> sortedRecommendations = recommendAccounts(changeNotes,
+        suggestReviewers, projectControl, candidateList);
+    List<SuggestedReviewerInfo> suggestedReviewer =
+        loadAccounts(sortedRecommendations);
 
     if (!excludeGroups && !Strings.isNullOrEmpty(query)) {
-      for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
-        GroupAsReviewer result = suggestGroupAsReviewer(
-            suggestReviewers, projectControl.getProject(), g, visibilityControl);
-        if (result.allowed || result.allowedWithConfirmation) {
-          GroupBaseInfo info = new GroupBaseInfo();
-          info.id = Url.encode(g.getUUID().get());
-          info.name = g.getName();
-          SuggestedReviewerInfo suggestedReviewerInfo = new SuggestedReviewerInfo();
-          suggestedReviewerInfo.group = info;
-          suggestedReviewerInfo.count = result.size;
-          if (result.allowedWithConfirmation) {
-            suggestedReviewerInfo.confirm = true;
-          }
-          // Always add groups at the end as individual accounts are usually
-          // more important
-          reviewer.add(suggestedReviewerInfo);
-        }
-      }
+      // Add groups at the end as individual accounts are usually more
+      // important.
+      suggestedReviewer.addAll(suggestAccountGroups(
+          suggestReviewers, projectControl, visibilityControl));
     }
 
-    if (reviewer.size() <= limit) {
-      return reviewer;
+    if (suggestedReviewer.size() <= limit) {
+      return suggestedReviewer;
     }
-    return reviewer.subList(0, limit);
+    return suggestedReviewer.subList(0, limit);
   }
 
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers,
       VisibilityControl visibilityControl)
       throws OrmException {
-    AccountIndex searchIndex = accountIndexes.getSearchIndex();
-    if (searchIndex != null) {
-      return suggestAccountsFromIndex(suggestReviewers);
+    try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
+      AccountIndex searchIndex = accountIndexes.getSearchIndex();
+      if (searchIndex != null) {
+        return suggestAccountsFromIndex(suggestReviewers);
+      }
+      return suggestAccountsFromDb(suggestReviewers, visibilityControl);
     }
-    return suggestAccountsFromDb(suggestReviewers, visibilityControl);
   }
 
   private List<Account.Id> suggestAccountsFromIndex(
@@ -249,7 +271,60 @@ public class ReviewersUtil {
     return false;
   }
 
-  private List<GroupReference> suggestAccountGroup(
+  private List<Account.Id> recommendAccounts(ChangeNotes changeNotes,
+      SuggestReviewers suggestReviewers, ProjectControl projectControl,
+      List<Account.Id> candidateList) throws OrmException {
+    try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
+      return reviewerRecommender.suggestReviewers(changeNotes, suggestReviewers,
+          projectControl, candidateList);
+    }
+  }
+
+  private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
+      throws OrmException {
+    try (Timer0.Context ctx = metrics.loadAccountsLatency.start()) {
+      List<SuggestedReviewerInfo> reviewer = accountIds.stream()
+          .map(accountLoader::get)
+          .filter(Objects::nonNull)
+          .map(a -> {
+            SuggestedReviewerInfo info = new SuggestedReviewerInfo();
+            info.account = a;
+            info.count = 1;
+            return info;
+          }).collect(toList());
+      accountLoader.fill();
+      return reviewer;
+    }
+  }
+
+  private List<SuggestedReviewerInfo> suggestAccountGroups(
+      SuggestReviewers suggestReviewers, ProjectControl projectControl,
+      VisibilityControl visibilityControl) throws OrmException, IOException {
+    try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
+      List<SuggestedReviewerInfo> groups = new ArrayList<>();
+      for (GroupReference g : suggestAccountGroups(suggestReviewers,
+          projectControl)) {
+        GroupAsReviewer result = suggestGroupAsReviewer(suggestReviewers,
+            projectControl.getProject(), g, visibilityControl);
+        if (result.allowed || result.allowedWithConfirmation) {
+          GroupBaseInfo info = new GroupBaseInfo();
+          info.id = Url.encode(g.getUUID().get());
+          info.name = g.getName();
+          SuggestedReviewerInfo suggestedReviewerInfo =
+              new SuggestedReviewerInfo();
+          suggestedReviewerInfo.group = info;
+          suggestedReviewerInfo.count = result.size;
+          if (result.allowedWithConfirmation) {
+            suggestedReviewerInfo.confirm = true;
+          }
+          groups.add(suggestedReviewerInfo);
+        }
+      }
+      return groups;
+    }
+  }
+
+  private List<GroupReference> suggestAccountGroups(
       SuggestReviewers suggestReviewers, ProjectControl ctl) {
     return Lists.newArrayList(
         Iterables.limit(groupBackend.suggest(suggestReviewers.getQuery(), ctl),

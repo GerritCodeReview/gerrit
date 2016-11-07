@@ -11,20 +11,3 @@ genrule(
   license = 'OFL1.1',
   visibility = ['PUBLIC'],
 )
-
-# Open Sans at Revision 53a5266 and converted using a Google woff file
-# converter (same one that Google Fonts uses).
-# https://github.com/google/fonts/tree/master/apache/opensans
-genrule(
-  name = 'opensans',
-  cmd = 'zip -rq $OUT .',
-  srcs = [
-    'OpenSans-Bold.woff',
-    'OpenSans-Bold.woff2',
-    'OpenSans-Regular.woff',
-    'OpenSans-Regular.woff2'
-  ],
-  out = 'opensans.zip',
-  license = 'Apache2.0',
-  visibility = ['PUBLIC'],
-)

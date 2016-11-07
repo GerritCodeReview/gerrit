@@ -43,7 +43,7 @@ genrule(
     'cd $TMP/polygerrit_ui',
     'mkdir -p {fonts,elements}',
     ' && '.join(JS_LIBS_MKDIR_CMDS),
-    'unzip -qd fonts $(location //polygerrit-ui:fonts)',
+    'unzip -qd . $(location //polygerrit-ui:fonts)',
     'unzip -qd elements $(location :gr-app)',
     'cp -rp $SRCDIR/* .',
     ' && '.join(JS_LIBS_UNZIP_CMDS),

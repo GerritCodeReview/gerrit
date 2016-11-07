@@ -87,6 +87,8 @@ public abstract class ResourceServlet extends HttpServlet {
         .put("tif", "image/tiff")
         .put("tiff", "image/tiff")
         .put("txt", "text/plain")
+        .put("woff", "font/woff")
+        .put("woff2", "font/woff2")
         .build();
 
   protected static String contentType(String name) {

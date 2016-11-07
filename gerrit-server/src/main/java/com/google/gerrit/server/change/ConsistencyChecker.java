@@ -658,7 +658,7 @@ public class ConsistencyChecker {
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, PatchSetInfoNotAvailableException {
       // Delete dangling key references.
-      ReviewDb db = DeleteChangeOp.unwrap(ctx.getDb());
+      ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
       accountPatchReviewStore.get().clearReviewed(psId);
       db.changeMessages().delete(
           db.changeMessages().byChange(psId.getParentKey()));

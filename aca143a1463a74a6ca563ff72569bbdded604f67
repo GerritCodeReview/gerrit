@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "ab7327cf_f9eb7735",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-07T08:33:05Z",
+      "side": 1,
+      "message": "Done in\n\n  https://gerrit-review.googlesource.com/90845",
+      "parentUuid": "ab7327cf_990fdb4e",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b64a30b_1812e5c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 1

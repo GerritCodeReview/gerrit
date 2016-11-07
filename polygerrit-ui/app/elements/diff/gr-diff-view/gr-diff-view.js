@@ -193,6 +193,10 @@
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       switch (e.keyCode) {
+        case 27: // escape
+          e.preventDefault();
+          this.$.diff.displayLine = false;
+          break;
         case 37: // left
           if (e.shiftKey) {
             e.preventDefault();
@@ -208,11 +212,13 @@
         case 40: // down
         case 74: // 'j'
           e.preventDefault();
+          this.$.diff.displayLine = true;
           this.$.cursor.moveDown();
           break;
         case 38: // up
         case 75: // 'k'
           e.preventDefault();
+          this.$.diff.displayLine = true;
           this.$.cursor.moveUp();
           break;
         case 67: // 'c'

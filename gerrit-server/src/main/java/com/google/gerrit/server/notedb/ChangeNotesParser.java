@@ -210,6 +210,7 @@ class ChangeNotesParser {
 
   private ChangeNotesState buildState() {
     return ChangeNotesState.create(
+        tip.copy(),
         id,
         new Change.Key(changeId),
         createdOn,

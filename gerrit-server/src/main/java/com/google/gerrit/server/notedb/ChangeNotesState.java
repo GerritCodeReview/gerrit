@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
@@ -35,7 +36,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 
+import org.eclipse.jgit.lib.ObjectId;
+
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +61,7 @@ import java.util.Set;
 public abstract class ChangeNotesState {
   static ChangeNotesState empty(Change change) {
     return new AutoValue_ChangeNotesState(
+        null,
         change.getId(),
         null,
         ImmutableSet.of(),
@@ -72,6 +78,7 @@ public abstract class ChangeNotesState {
   }
 
   static ChangeNotesState create(
+      @Nullable ObjectId metaId,
       Change.Id changeId,
       Change.Key changeKey,
       Timestamp createdOn,
@@ -100,6 +107,7 @@ public abstract class ChangeNotesState {
       hashtags = ImmutableSet.of();
     }
     return new AutoValue_ChangeNotesState(
+        metaId,
         changeId,
         new AutoValue_ChangeNotesState_ChangeColumns(
             changeKey,
@@ -156,8 +164,12 @@ public abstract class ChangeNotesState {
     @Nullable abstract Change.Status status();
   }
 
+  // Only null if NoteDb is disabled.
+  @Nullable abstract ObjectId metaId();
+
   abstract Change.Id changeId();
 
+  // Only null if NoteDb is disabled.
   @Nullable abstract ChangeColumns columns();
 
   // Other related to this Change.
@@ -189,13 +201,34 @@ public abstract class ChangeNotesState {
     return change;
   }
 
-  void copyColumnsTo(Change change) {
-    ChangeColumns c = checkNotNull(columns(), "columns are required");
+  void copyColumnsTo(Change change) throws IOException {
+    ChangeColumns c = columns();
+    checkState(c != null && metaId() != null,
+        "missing columns or metaId in ChangeNotesState; is NoteDb enabled? %s",
+        this);
+    checkMetaId(change);
     change.setKey(c.changeKey());
     change.setOwner(c.owner());
     change.setDest(new Branch.NameKey(change.getProject(), c.branch()));
     change.setCreatedOn(c.createdOn());
     copyNonConstructorColumnsTo(change);
+  }
+
+  private void checkMetaId(Change change) throws IOException {
+    NoteDbChangeState state = NoteDbChangeState.parse(change);
+    if (state == null) {
+      return; // Can happen during small NoteDb tests.
+    } else if (state.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
+      return;
+    }
+    checkState(state.getRefState().isPresent(), "expected RefState: %s", state);
+    ObjectId idFromState = state.getRefState().get().changeMetaId();
+    if (!idFromState.equals(metaId())) {
+      throw new IOException(
+          "cannot copy ChangeNotesState into Change " + changeId()
+          + "; this ChangeNotesState was created from " + metaId()
+          + ", but change requires state " + idFromState);
+    }
   }
 
   private void copyNonConstructorColumnsTo(Change change) {

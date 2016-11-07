@@ -7,16 +7,12 @@ BOUNCYCASTLE = [
 
 def acceptance_tests(
     group,
-    srcs,
-    flaky = 0,
     deps = [],
     labels = [],
     vm_args = ['-Xmx256m'],
     **kwargs):
   junit_tests(
     name = group,
-    srcs = srcs,
-    flaky = flaky,
     deps = deps + BOUNCYCASTLE + [
       '//gerrit-acceptance-tests:lib',
     ],
@@ -24,6 +20,7 @@ def acceptance_tests(
       'acceptance',
       'slow',
     ],
+    size = "medium",
     jvm_flags = vm_args,
     **kwargs
   )

@@ -12,7 +12,6 @@ Bazel build is experimental. Major missing parts:
 Nice to have:
 
 * JGit build from local tree.
-* Global maven artifact caching.
 * local.properties proxy config.
 * coverage
 

@@ -16,9 +16,12 @@ package com.google.gerrit.server.mail.receive.data;
 
 import com.google.gerrit.server.mail.receive.MailMessage;
 
+import org.junit.Ignore;
+
 /**
  * Base class for all email parsing tests.
  */
+@Ignore
 public abstract class RawMailMessage {
   // Raw content to feed the parser
   public abstract String raw();

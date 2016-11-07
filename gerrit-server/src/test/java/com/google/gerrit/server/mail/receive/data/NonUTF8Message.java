@@ -18,10 +18,12 @@ import com.google.gerrit.server.mail.receive.MailMessage;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 
 /**
  * Tests that non-UTF8 encodings are handled correctly.
  */
+@Ignore
 public class NonUTF8Message extends RawMailMessage {
   private static String textContent = "Some Text";
   private static String raw = "" +

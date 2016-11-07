@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ab7327cf_f9029727",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-07T08:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b64a30b_3817a9ba",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b9fd31e_1cebb58b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2016-11-04T20:37:58Z",
       "side": 1,
       "message": "Not directly related, but we should also short-circuit prior to suggesting groups if suggestedReviewer is already larger than the limit. Actually we could even go further and have suggestAccountGroups short-circuit its internal loop once the list is big enough.",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_990fdb4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-07T08:23:04Z",
+      "side": 1,
+      "message": "Good idea, will do this as a follow-up change.",
+      "parentUuid": "0b9fd31e_1cebb58b",
       "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "ab7327cf_b90c1f5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-07T08:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b64a30b_1812e5c9",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b9fd31e_7cf67974",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2016-11-04T20:37:58Z",
       "side": 1,
       "message": "Are you up for more refactoring? If so, you could do\n\n accountIds.stream()\n     .map(accountLoader::get)\n     .filter(Objects::nonNull)\n     .map(SugggestedReviewerInfo::new)\n     .collect(toList());\n\n(adding a SuggestedReviewerInfo(AccountInfo) constructor of course)\n\nOr we could just leave that for later cleanup",
+      "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_f6506047",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-07T08:23:04Z",
+      "side": 1,
+      "message": "Done, but slightly different as we also need to set info.count to 1.",
+      "parentUuid": "0b9fd31e_7cf67974",
       "revId": "aca143a1463a74a6ca563ff72569bbdded604f67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

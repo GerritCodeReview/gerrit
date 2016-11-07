@@ -35,6 +35,7 @@ java_library(
     '//lib/bouncycastle:bcprov-without-neverlink',
   ],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )
 
 junit_tests(

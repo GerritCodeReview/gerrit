@@ -20,6 +20,7 @@ java_library(
     '//lib/jgit/org.eclipse.jgit:jgit',
   ],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )
 
 junit_tests(

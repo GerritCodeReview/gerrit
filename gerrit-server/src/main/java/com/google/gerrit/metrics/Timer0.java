@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * Typical usage in a try-with-resources block:
  *
  * <pre>
- * try (Timer.Context ctx = timer.start()) {
+ * try (Timer0.Context ctx = timer.start()) {
  * }
  * </pre>
  */

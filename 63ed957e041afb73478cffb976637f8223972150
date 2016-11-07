@@ -1,0 +1,365 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b82abce_760f7014",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Long line, here and in many other places in this CL. Max length is 80 char.",
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_76a690fe",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_d9fd53c3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "aka target.",
+      "range": {
+        "startLine": 108,
+        "startChar": 49,
+        "endLine": 108,
+        "endChar": 62
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_36a018dd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "nit: space is missing.",
+      "range": {
+        "startLine": 109,
+        "startChar": 68,
+        "endLine": 109,
+        "endChar": 69
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_169b9cad",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "the same.",
+      "range": {
+        "startLine": 109,
+        "startChar": 54,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_d6b44421",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "nit: wrong indentation.",
+      "range": {
+        "startLine": 115,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 4
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_f6b1402e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuildSystem.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_f9fa97c8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuildSystem.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Wrong position of static import. Always above all other import statements.",
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_79f8c7cc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/FontsServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "If you annotate it as @Nullable below on line 53, it should be annotated here as well.",
+      "range": {
+        "startLine": 31,
+        "startChar": 44,
+        "endLine": 31,
+        "endChar": 63
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_b6abc8bc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RecompileGwtUiFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Unrelated white spaces change.",
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_56a114e3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Early return is missing here to avoid builder construction in production code path below.",
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_f6c860b0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Isn\u0027t this is equivalent to:\n\n  try {\n    sourceRoot \u003d GerritLauncher.resolveInSourceRoot(\".\");\n  } catch (FileNotFoundException e) {}",
+      "range": {
+        "startLine": 356,
+        "startChar": 6,
+        "endLine": 361,
+        "endChar": 28
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_3919ef5a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Why are we constructing development billder in production code path?",
+      "range": {
+        "startLine": 362,
+        "startChar": 6,
+        "endLine": 364,
+        "endChar": 38
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_560a7405",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "So, we end up with this file get included in release.war?",
+      "range": {
+        "startLine": 6,
+        "startChar": 17,
+        "endLine": 6,
+        "endChar": 36
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_59f383f3",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Nit: single quotes to be consistent with this file.",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_9907dbf7",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_b9041ff3",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T17:43:24Z",
+      "side": 1,
+      "message": "Can\u0027t we assume, that we on Bazel 0.4.0 and only account for stable-status.txt?",
+      "range": {
+        "startLine": 16,
+        "startChar": 14,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

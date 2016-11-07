@@ -20,17 +20,16 @@ import com.google.gerrit.server.mail.Encryption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.net.pop3.POP3Client;
 import org.apache.commons.net.pop3.POP3MessageInfo;
 import org.apache.commons.net.pop3.POP3SClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class Pop3MailReceiver extends MailReceiver {
@@ -84,14 +83,15 @@ public class Pop3MailReceiver extends MailReceiver {
               // Message was deleted
               continue;
             }
-            Reader reader = pop3.retrieveMessage(msginfo.number);
-            if (reader == null) {
-              log.error("Could not retrieve POP3 message header for message " +
-                  msginfo.identifier);
-              return;
-            }
-            int[] message = fetchMessage(reader);
-            try {
+            try (BufferedReader reader =
+                (BufferedReader) pop3.retrieveMessage(msginfo.number)) {
+              if (reader == null) {
+                log.error(
+                    "Could not retrieve POP3 message header for message {}",
+                    msginfo.identifier);
+                return;
+              }
+              int[] message = fetchMessage(reader);
               MailMessage mailMessage = RawMailParser.parse(message);
               // Delete messages where deletion is pending. This requires
               // knowing the integer message ID of the email. We therefore parse
@@ -123,26 +123,12 @@ public class Pop3MailReceiver extends MailReceiver {
     }
   }
 
-  public final int[] fetchMessage(Reader reader) throws IOException {
-    BufferedReader bufferedReader;
-    if (reader instanceof BufferedReader) {
-      bufferedReader = (BufferedReader) reader;
-    } else {
-      bufferedReader = new BufferedReader(reader);
+  public final int[] fetchMessage(BufferedReader reader) throws IOException {
+    List<Integer> character = new ArrayList<>();
+    int ch;
+    while ((ch = reader.read()) != -1) {
+      character.add(ch);
     }
-
-    try {
-      List<Integer> character = new ArrayList<>();
-      int ch;
-      while ((ch = bufferedReader.read()) != -1) {
-        character.add(ch);
-      }
-      return Ints.toArray(character);
-    } finally {
-      bufferedReader.close();
-      if (bufferedReader != reader) {
-        reader.close();
-      }
-    }
+    return Ints.toArray(character);
   }
 }

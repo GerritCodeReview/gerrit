@@ -17,8 +17,6 @@ package com.google.gerrit.acceptance.server.mail;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.testutil.ConfigSuite;

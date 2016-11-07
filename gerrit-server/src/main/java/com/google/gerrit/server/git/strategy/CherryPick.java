@@ -158,6 +158,7 @@ public class CherryPick extends SubmitStrategy {
         newCommit = args.mergeUtil.createCherryPickFromCommit(
             args.repo, args.inserter, mergeTip.getCurrentTip(), toMerge,
             committer, cherryPickCmtMsg, args.rw);
+        mergeTip.moveTipTo(newCommit, newCommit);
         ctx.addRefUpdate(
             new ReceiveCommand(ObjectId.zeroId(), newCommit, psId.toRefName()));
         patchSetInfo =
@@ -200,7 +201,6 @@ public class CherryPick extends SubmitStrategy {
       newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
       newCommit.setControl(
           args.changeControlFactory.controlFor(toMerge.change(), args.caller));
-      mergeTip.moveTipTo(newCommit, newCommit);
       newCommits.put(c.getId(), newCommit);
       setRefLogIdent();
     }

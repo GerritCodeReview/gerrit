@@ -1,4 +1,5 @@
 workspace(name="gerrit")
+load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
 ANTLR_VERS = '3.5.2'
 
@@ -24,6 +25,7 @@ maven_jar(
   name = 'antlr27',
   artifact = 'antlr:antlr:2.7.7',
   sha1 = '83cd2cd674a217ade95a4bb83a8a14f351f48bd0',
+  attach_source = False,
 )
 
 GUICE_VERS = '4.1.0'
@@ -88,30 +90,35 @@ maven_jar(
   name = 'javax_validation',
   artifact = 'javax.validation:validation-api:1.0.0.GA',
   sha1 = 'b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e',
+  src_sha1 = '7a561191db2203550fbfa40d534d4997624cd369',
 )
 
 maven_jar(
   name = 'jsinterop_annotations',
   artifact = 'com.google.jsinterop:jsinterop-annotations:1.0.0',
   sha1 = '23c3a3c060ffe4817e67673cc8294e154b0a4a95',
+  src_sha1 = '5d7c478efbfccc191430d7c118d7bd2635e43750',
 )
 
 maven_jar(
   name = 'ant',
   artifact = 'ant:ant:1.6.5',
   sha1 = '7d18faf23df1a5c3a43613952e0e8a182664564b',
+  attach_source = False,
 )
 
 maven_jar(
   name = 'colt',
   artifact = 'colt:colt:1.2.0',
   sha1 = '0abc984f3adc760684d49e0f11ddf167ba516d4f',
+  attach_source = False,
 )
 
 maven_jar(
   name = 'tapestry',
   artifact = 'tapestry:tapestry:4.0.2',
   sha1 = 'e855a807425d522e958cbce8697f21e9d679b1f7',
+  attach_source = False,
 )
 
 maven_jar(
@@ -120,24 +127,13 @@ maven_jar(
   sha1 = 'cdb2dcb4e22b83d6b32b93095f644c3462739e82',
 )
 
-http_jar(
-  name = "javax_validation_src",
-  url = "http://repo1.maven.org/maven2/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar",
-  sha256 = 'a394d52a9b7fe2bb14f0718d2b3c8308ffe8f37e911956012398d55c9f9f9b54',
-)
-
-http_jar(
-  name = "jsinterop_annotations_src",
-  url = "http://central.maven.org/maven2/com/google/jsinterop/jsinterop-annotations/1.0.0/jsinterop-annotations-1.0.0-sources.jar",
-  sha256 = '80d63c117736ae2fb9837b7a39576f3f0c5bd19cd75127886550c77b4c478f87',
-)
-
 load('//lib/jgit:jgit.bzl', 'JGIT_VERS')
 
 maven_jar(
   name = 'jgit',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit:' + JGIT_VERS,
   sha1 = '3e3d0b73dcf4ad649f37758ea8502d92f3d299de',
+  src_sha1 = 'fc352952db91a4046e4b832145eb2dc8afce8db1',
 )
 
 maven_jar(
@@ -146,19 +142,11 @@ maven_jar(
   sha1 = '6e36638888918d9941dddec7e2abe1f162cc74d9',
 )
 
-# TODO(davido): Remove this hack when maven_jar supports pulling sources
-# https://github.com/bazelbuild/bazel/issues/308
-http_file(
-  name = 'jgit_src',
-  sha256 = '426bf32d097a846a247d5fb1d258fcde1707dec3362b8a62c68785b953c2ae65',
-  url = 'http://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/' +
-      '%s/org.eclipse.jgit-%s-sources.jar' % (JGIT_VERS, JGIT_VERS),
-)
-
 maven_jar(
   name = 'javaewah',
   artifact = 'com.googlecode.javaewah:JavaEWAH:0.7.9',
   sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
+  attach_source = False,
 )
 
 maven_jar(
@@ -177,12 +165,7 @@ maven_jar(
   name = 'gwtjsonrpc',
   artifact = 'com.google.gerrit:gwtjsonrpc:1.11',
   sha1 = '0990e7eec9eec3a15661edcf9232acbac4aeacec',
-)
-
-http_jar(
-  name = 'gwtjsonrpc_src',
-  sha256 = 'fc503488872c022073e244015fcb6806a64b65afe546bdac2db167a3875fb418',
-  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtjsonrpc/1.11/gwtjsonrpc-1.11-sources.jar',
+  src_sha1 = 'a682afc46284fb58197a173cb5818770a1e7834a',
 )
 
 maven_jar(
@@ -195,12 +178,7 @@ maven_jar(
   name = 'gwtorm_client',
   artifact = 'com.google.gerrit:gwtorm:1.16',
   sha1 = '3e41b6d7bb352fa0539ce23b9bce97cf8c26c3bf',
-)
-
-http_jar(
-  name = 'gwtorm_client_src',
-  sha256 = 'd3e482c9ac1f828aa853debe6545c16503fbbde3bda94b18f652d9830b7f84b1',
-  url = 'http://repo.maven.apache.org/maven2/com/google/gerrit/gwtorm/1.16/gwtorm-1.16-sources.jar',
+  src_sha1 = 'f45b7bacc79a0e5a7f6cf799a2dba23cc5bca19b',
 )
 
 maven_jar(
@@ -540,6 +518,7 @@ maven_jar(
   name = 'mime_util',
   artifact = 'eu.medsea.mimeutil:mime-util:2.1.3',
   sha1 = '0c9cfae15c74f62491d4f28def0dff1dabe52a47',
+  attach_source = False,
 )
 
 PROLOG_VERS = '1.4.2'
@@ -549,6 +528,7 @@ maven_jar(
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'com.googlecode.prolog-cafe:prolog-runtime:' + PROLOG_VERS,
   sha1 = '4421b4806b6e3a318680f6ab1d57569e857169c6',
+  attach_source = False,
 )
 
 maven_jar(
@@ -556,6 +536,7 @@ maven_jar(
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'com.googlecode.prolog-cafe:prolog-compiler:' + PROLOG_VERS,
   sha1 = '7e5a7ca5efe7db7f69e015cf492f8f04665244d8',
+  attach_source = False,
 )
 
 maven_jar(
@@ -563,6 +544,7 @@ maven_jar(
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'com.googlecode.prolog-cafe:prolog-io:' + PROLOG_VERS,
   sha1 = 'd177f6211d1013e0f31a507127f5c87a7f6941f3',
+  attach_source = False,
 )
 
 maven_jar(
@@ -570,6 +552,7 @@ maven_jar(
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'com.googlecode.prolog-cafe:prolog-cafeteria:' + PROLOG_VERS,
   sha1 = '11f396cb2588b65e6a78070488aaa58d12bf000e',
+  attach_source = False,
 )
 
 maven_jar(
@@ -589,6 +572,7 @@ maven_jar(
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'com/google/gitiles:blame-cache:0.1-9',
   sha1 = '51d35e6f8bbc2412265066cea9653dd758c95826',
+  attach_source = False,
 )
 
 # Keep this version of Soy synchronized with the version used in Gitiles.
@@ -768,6 +752,7 @@ maven_jar(
   name = 'derby',
   artifact = 'org.apache.derby:derby:10.11.1.1',
   sha1 = 'df4b50061e8e4c348ce243b921f53ee63ba9bbe1',
+  attach_source = False,
 )
 
 JETTY_VERS = '9.3.11.v20160721'
@@ -842,6 +827,7 @@ maven_jar(
   name = 'xerces',
   artifact = 'xerces:xercesImpl:2.8.1',
   sha1 = '25101e37ec0c907db6f0612cbf106ee519c1aef1',
+  attach_source = False,
 )
 
 maven_jar(
@@ -868,6 +854,7 @@ maven_jar(
   name = 'diff_match_patch',
   artifact = 'org.webjars:google-diff-match-patch:20121119-1',
   sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
+  attach_source = False,
 )
 
 maven_jar(
@@ -981,7 +968,9 @@ maven_jar(
   name = 'httpcore_niossl',
   artifact = 'org.apache.httpcomponents:httpcore-niossl:4.0-alpha6',
   sha1 = '9c662e7247ca8ceb1de5de629f685c9ef3e4ab58',
+  attach_source = False,
 )
+
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
 npm_binary(

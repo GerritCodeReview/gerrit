@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "abbb27d0_7994871c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-07T21:11:04Z",
+      "side": 1,
+      "message": "What part of it is brittle?",
+      "parentUuid": "eb9b5f31_3b9eb7ec",
+      "revId": "6a7085e5ab00727eebe63fc86960f3c466c0ffd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b904f0a_3f94671b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
         "patchSetId": 3

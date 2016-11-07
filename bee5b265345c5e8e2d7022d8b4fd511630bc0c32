@@ -79,6 +79,24 @@
     },
     {
       "key": {
+        "uuid": "abbb27d0_598fc30a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-07T21:11:04Z",
+      "side": 1,
+      "message": "In that case, should not deselecting the line also de-select the cursor?",
+      "parentUuid": "abbb27d0_19954b1b",
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46a38215_ce19e35d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 1

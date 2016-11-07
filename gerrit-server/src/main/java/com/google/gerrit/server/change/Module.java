@@ -68,7 +68,7 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "check").to(Check.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
-    delete(CHANGE_KIND).to(DeleteChange.class);
+    delete(CHANGE_KIND).to(DeleteDraftChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
     post(CHANGE_KIND, "hashtags").to(PostHashtags.class);
     post(CHANGE_KIND, "publish").to(PublishDraftPatchSet.CurrentRevision.class);

@@ -112,7 +112,7 @@ public interface ChangeApi {
   void publish() throws RestApiException;
 
   /**
-   * Deletes a change.
+   * Deletes a draft change.
    */
   void delete() throws RestApiException;
 

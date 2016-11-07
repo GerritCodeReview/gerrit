@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1478535410 -0500\nnonce AG58fQq1Oac9qPjFySDJtFM5dQ6P+WueaMbp4uDrqVqOjXbhG4NhjyT01k7NUPfsqooLbtT/pcKa\n\n0000000000000000000000000000000000000000 2301af90b6a0ee25d932bd1ecff46e830ffad51b refs/for/master%r\u003dhiesel\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYIKjyAAoJEF/XxZqaEoiMev8P/0mjzB/KwV0HTEBASNn+9rfh\nlDIF/w/+Ifxb+hL6ZX/o8exzJ+XxXOH44cLnFisvySCILAijRNEIZpdWwl08+q4c\ntNVQRFWVx1CyIpQnWDIWRkwWYbwer8ZmTWDnTvXuPu6PTgz7x/wbDD91qLP05Ey3\nYuLi/vUyXl77pPJtF1bnQz2wfOeQtdAZdjYlcJsV2+O+bSlgK3Uma78NzuXsiYcs\nr7sIWomGj0SCfNQoq4gmkzj1mTvj5RvFzHaoypCeyuoUchBI4Ov8sChlB61xWp+J\nRmDjaEcHilHHZ/Hz+0881bYggksqyH6CxX1srA2i9MKbZXdag6Zl2t3JYIVK0QJq\nEHRwTy2o5KnamjpWNAGH0fxVmCM7zGIF5JKBvhbn3nK+vfqyx7GSp0iYe8CTCz9h\n/GAn1tEKXTtOefPi01J2EOpDeMp39hAkHAuCo4b5sEW6kPgcGhvkg7OgRJ+IjB1x\nM8oUVoADNKx5DhuYdXnqetlDJ39Q5xGAOQ1W3n8hemYzaYUQWXzNE5byJ359qd1d\nfpxOh4ievipwQZ9acUlsOeNgo8TwB8KEPxB4SezGct8z+6MgdRUqf+tF+qYlIGyI\nxYjhhkDt493CQ/REXZiMJODTo17k7lpbSVNVA9xOyvLPnVSAGeZZSBtZ7rLJAM6C\nepOnqkS1pEJGMrVZd34y\n\u003da8Wh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b8bc3df_a08cdac2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-07T16:17:42Z",
+      "side": 1,
+      "message": "Not related to this change, but I couldn\u0027t let this go without pointing out that there is a huge boxing cost here for large messages.",
+      "revId": "2301af90b6a0ee25d932bd1ecff46e830ffad51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

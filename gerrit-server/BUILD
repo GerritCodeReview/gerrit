@@ -129,6 +129,7 @@ java_library(
     '//lib/powermock:powermock-module-junit4-common',
   ],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )
 
 PROLOG_TEST_CASE = [
@@ -153,6 +154,7 @@ java_library(
     '//lib/guice:guice',
     '//lib/prolog:runtime',
   ],
+  testonly = 1,
 )
 
 junit_tests(
@@ -183,6 +185,7 @@ java_library(
     '//lib/antlr:java_runtime',
   ],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )
 
 junit_tests(

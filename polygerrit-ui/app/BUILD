@@ -101,5 +101,5 @@ sh_test(
     "test/index.html",
   ],
   # Should not run sandboxed.
-  tags = ["local"],
+  tags = ["local", "manual"],
 )

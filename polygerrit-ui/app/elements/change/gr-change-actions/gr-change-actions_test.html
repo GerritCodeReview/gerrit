@@ -434,5 +434,59 @@ limitations under the License.
         populateRevertMsgStub.restore();
       });
     });
+
+    suite('delete change', function() {
+      var fireActionStub;
+      var deleteAction;
+
+      var tapDeleteAction = function() {
+        var deleteButton = element.$$('gr-button[data-action-key=\'/\']');
+        MockInteractions.tap(deleteButton);
+        flushAsynchronousOperations();
+      };
+
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        element.change = {
+          current_revision: 'abc1234',
+        };
+        deleteAction = {
+          method: 'DELETE',
+          label: 'Delete Change',
+          title: 'Delete change X_X',
+          enabled: true,
+        };
+        element.actions = {
+          '/': deleteAction,
+        };
+      });
+
+      teardown(function() {
+        fireActionStub.restore();
+      });
+
+      test('does not delete on action', function() {
+        tapDeleteAction();
+        assert.isFalse(fireActionStub.called);
+      });
+
+      test('shows confirm dialog', function() {
+        tapDeleteAction();
+        assert.isFalse(element.$$('#confirmDeleteDialog').hidden);
+        MockInteractions.tap(
+            element.$$('#confirmDeleteDialog').$$('gr-button[primary]'));
+        flushAsynchronousOperations();
+        assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
+      });
+
+      test('hides delete confirm on cancel', function() {
+        tapDeleteAction();
+        MockInteractions.tap(
+            element.$$('#confirmDeleteDialog').$$('gr-button:not([primary])'));
+        flushAsynchronousOperations();
+        assert.isTrue(element.$$('#confirmDeleteDialog').hidden);
+        assert.isFalse(fireActionStub.called);
+      });
+    });
   });
 </script>

@@ -112,6 +112,19 @@ limitations under the License.
           on-confirm="_handleAbandonDialogConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-abandon-dialog>
+      <gr-confirm-dialog
+          class="confirmDialog"
+          id="confirmDeleteDialog"
+          confirm-label="Delete"
+          on-confirm="_handleDeleteConfirm"
+          on-cancel="_handleConfirmDialogCancel">
+        <div class="header">
+          Delete Change
+        </div>
+        <div class="main">
+          Do you really want to delete the change?
+        </div>
+      </gr-confirm-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

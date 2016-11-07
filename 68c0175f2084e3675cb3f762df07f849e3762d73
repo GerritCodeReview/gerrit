@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9bfb7a_927f5c1a",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T22:57:39Z",
+      "side": 1,
+      "message": "M-x: untabify",
+      "range": {
+        "startLine": 68,
+        "startChar": 38,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "68c0175f2084e3675cb3f762df07f849e3762d73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

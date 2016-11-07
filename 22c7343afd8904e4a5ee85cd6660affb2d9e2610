@@ -87,6 +87,24 @@
       "revId": "22c7343afd8904e4a5ee85cd6660affb2d9e2610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7327cf_b9817f4b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-07T14:33:50Z",
+      "side": 1,
+      "message": "well, some things are currently broken. I tried the instructions from polygerrit/README.md,   \n\n\nbuck build polygerrit \u0026\u0026 java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev -d ../gerrit_testsite --console-log --show-stack-trace\n\nand then I get\n\n\n [2016-11-07 15:30:16,273] [HTTP-66] WARN  org.eclipse.jetty.servlet.ServletHandler : /\njava.lang.NullPointerException\n\tat com.google.gerrit.httpd.raw.RecompileGwtUiFilter.doFilter(RecompileGwtUiFilter.java:84)\n\tat com.google.gerrit.httpd.raw.StaticModule$PolyGerritFilter.doFilter(StaticModule.java:470)\n\tat com.google.gerrit.httpd.GetUserFilter.doFilter(GetUserFilter.java:82)",
+      "parentUuid": "4b82abce_d661a4f1",
+      "revId": "22c7343afd8904e4a5ee85cd6660affb2d9e2610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

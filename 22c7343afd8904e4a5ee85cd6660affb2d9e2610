@@ -69,6 +69,24 @@
       "revId": "22c7343afd8904e4a5ee85cd6660affb2d9e2610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_d661a4f1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-07T14:29:00Z",
+      "side": 1,
+      "message": "Oh, I missed this question from previous ps. No. This code path is only activated form Eclipse. However, it\u0027s a matter of couple of minutes to set up Eclipse environment with Gerrit. We have dev-eclipse.txt in Documentation directory. and ./tools/eclipse/project.py is your friend to generate .classpath and other Eclipse related project files.\n\nThis is something we need for Bazel build anyway, but before we can use something like that, we still need to replace native maven_jar with custom maven_archive Skylark rule (I\u0027m working on that right now). We need it to fetch sources classifier from Central as well for all Gerrit dependencies. This is need to debug stuff, say to step into SSHD Mina or JGit code.",
+      "parentUuid": "4b82abce_7673f0ca",
+      "revId": "22c7343afd8904e4a5ee85cd6660affb2d9e2610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

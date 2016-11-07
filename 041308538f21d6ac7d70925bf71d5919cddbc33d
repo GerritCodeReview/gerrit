@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcaab6f_56e154b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-07T23:03:13Z",
+      "side": 1,
+      "message": "Nit: Stray blank line",
+      "revId": "041308538f21d6ac7d70925bf71d5919cddbc33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbb27d0_1908eb9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-07T23:03:13Z",
+      "side": 1,
+      "message": "By doing this, you\u0027re effectively saying there is no difference between null and \"\" for descriptions. Specifically, desc is never null, but it might be \"\". IMO this is fine from a UX perspective.\n\nSuppose that desc could be null, and you have commits A\u003c-B where A has description \"foo\" and B has description null, i.e. the user explicitly cleared the existing description. When parsing B you would setDescription(null), and then when parsing A you would see that ps.getDescription() is null, so the description would end up as \"foo\". That\u0027s not what the user intended.\n\nTo fix this problem, you have to distinguish between \"empty because it was never set\" and \"explicitly set to empty.\" Fortunately, you\u0027re already doing this: null means never set, and \"\" means set to empty. So there\u0027s nothing you have to fix in ChangeNotesParser.\n\nHowever, I think this means you might end up with a PatchSet in ReviewDb that has a null description, but a description of \"\" in NoteDb. This means there is one far-flung part of the code where you do have to check this,  ChangeBundle#diffPatchSets.",
+      "revId": "041308538f21d6ac7d70925bf71d5919cddbc33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbb27d0_390dafab",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-07T23:03:13Z",
+      "side": 1,
+      "message": "Particularly given my comments in ChangeNotesParser, I think you want to test setting it back to null.\n\nAnother potential test: modifying the description for PS1 doesn\u0027t affect PS2.",
+      "revId": "041308538f21d6ac7d70925bf71d5919cddbc33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

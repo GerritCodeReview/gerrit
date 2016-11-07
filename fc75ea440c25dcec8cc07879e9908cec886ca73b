@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbb27d0_9904fb7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-07T23:50:10Z",
+      "side": 1,
+      "message": "Can maybe remove this before submitting, as I think it belongs more in the change discussion than the commit log.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "fc75ea440c25dcec8cc07879e9908cec886ca73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

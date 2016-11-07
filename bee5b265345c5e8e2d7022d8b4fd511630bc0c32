@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "abbb27d0_19954b1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-07T20:57:46Z",
+      "side": 1,
+      "message": "Both Critique and Rietveld have a state of “No line is currently selected using keyboard shortcuts.” Which is the desired behavior, here.\n\nWe want the line to be distinguishable, so I don’t think making it a lighter color will help.",
+      "parentUuid": "c6d852b2_8a806b1c",
+      "revId": "bee5b265345c5e8e2d7022d8b4fd511630bc0c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46a38215_ce19e35d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 1

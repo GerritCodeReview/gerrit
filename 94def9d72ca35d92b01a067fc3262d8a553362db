@@ -51,6 +51,24 @@
       "revId": "94def9d72ca35d92b01a067fc3262d8a553362db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b82abce_b633c823",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-07T09:55:44Z",
+      "side": 1,
+      "message": "now that we\u0027ve ported most of the things, is there any reason why we should keep the BUILD files formatted in the Buck style?",
+      "parentUuid": "ab7327cf_9936fb14",
+      "revId": "94def9d72ca35d92b01a067fc3262d8a553362db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

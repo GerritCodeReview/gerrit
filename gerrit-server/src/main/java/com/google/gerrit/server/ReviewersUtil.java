@@ -174,11 +174,12 @@ public class ReviewersUtil {
     List<SuggestedReviewerInfo> suggestedReviewer =
         loadAccounts(sortedRecommendations);
 
-    if (!excludeGroups && !Strings.isNullOrEmpty(query)) {
+    if (!excludeGroups && suggestedReviewer.size() < limit
+        && !Strings.isNullOrEmpty(query)) {
       // Add groups at the end as individual accounts are usually more
       // important.
-      suggestedReviewer.addAll(suggestAccountGroups(
-          suggestReviewers, projectControl, visibilityControl));
+      suggestedReviewer.addAll(suggestAccountGroups(suggestReviewers,
+          projectControl, visibilityControl, limit - suggestedReviewer.size()));
     }
 
     if (suggestedReviewer.size() <= limit) {
@@ -299,7 +300,8 @@ public class ReviewersUtil {
 
   private List<SuggestedReviewerInfo> suggestAccountGroups(
       SuggestReviewers suggestReviewers, ProjectControl projectControl,
-      VisibilityControl visibilityControl) throws OrmException, IOException {
+      VisibilityControl visibilityControl, int limit)
+          throws OrmException, IOException {
     try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
       List<SuggestedReviewerInfo> groups = new ArrayList<>();
       for (GroupReference g : suggestAccountGroups(suggestReviewers,
@@ -318,6 +320,9 @@ public class ReviewersUtil {
             suggestedReviewerInfo.confirm = true;
           }
           groups.add(suggestedReviewerInfo);
+          if (groups.size() >= limit) {
+            break;
+          }
         }
       }
       return groups;

@@ -1,12 +1,6 @@
 load('//tools/bzl:genrule2.bzl', 'genrule2')
 
 CORE = [
-  'commit-message-length-validator',
-  'download-commands',
-  'hooks',
-  'replication',
-  'reviewnotes',
-  'singleusergroup'
 ]
 
 genrule2(

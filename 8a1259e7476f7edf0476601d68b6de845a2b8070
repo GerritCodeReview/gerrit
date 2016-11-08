@@ -22,6 +22,24 @@
       "revId": "8a1259e7476f7edf0476601d68b6de845a2b8070",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_b1ae2066",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-08T10:23:07Z",
+      "side": 1,
+      "message": "Correct. I will abandon this change.",
+      "parentUuid": "ab8a47d9_01afca64",
+      "revId": "8a1259e7476f7edf0476601d68b6de845a2b8070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

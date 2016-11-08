@@ -22,8 +22,9 @@ genrule(
   name = 'fonts',
   cmd = ' && '.join([
     'cd $TMP',
-    'for file in $SRCS; do unzip -q $file; done',
-    'zip -q $OUT *',
+    'mkdir fonts',
+    'for file in $SRCS; do echo `pwd` > /tmp/log.log; unzip -qd fonts/ $file; done',
+    'zip -qr $OUT fonts',
   ]),
   srcs = [
     '//lib/fonts:sourcecodepro',

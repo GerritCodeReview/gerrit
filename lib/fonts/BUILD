@@ -11,21 +11,3 @@ filegroup(
   data = [ "//lib:LICENSE-OFL1.1" ],
   visibility = ['//visibility:public'],
 )
-
-# Open Sans at Revision 53a5266 and converted using a Google woff file
-# converter (same one that Google Fonts uses).
-# https://github.com/google/fonts/tree/master/apache/opensans
-genrule2(
-  name = 'opensans',
-  cmd = 'zip -rq $@ $(SRCS)',
-  srcs = [
-    'OpenSans-Bold.woff',
-    'OpenSans-Bold.woff2',
-    'OpenSans-Regular.woff',
-    'OpenSans-Regular.woff2'
-  ],
-  outs = [ 'opensans.zip' ],
-# TODO(hanwen): license.
-#  license = 'Apache2.0',
-  visibility = ['//visibility:public'],
-)

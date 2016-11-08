@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.CharStreams;
@@ -54,7 +56,7 @@ public class RawMailParser {
     try {
       MessageBuilder builder = new DefaultMessageBuilder();
       mimeMessage =
-          builder.parseMessage(new ByteArrayInputStream(raw.getBytes()));
+          builder.parseMessage(new ByteArrayInputStream(raw.getBytes(UTF_8)));
     } catch (IOException | MimeException e) {
       throw new MailParsingException("Can't parse email", e);
     }

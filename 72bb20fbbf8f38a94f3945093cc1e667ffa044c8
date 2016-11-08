@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcaab6f_f66ee0ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "Imports are out of order.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcaab6f_167d1c5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "Most classes involving formatting in Gerrit appear to be named *Formatter.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 26
+      },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcaab6f_5677947d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "Should this be a StringBuilder?",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcaab6f_36821825",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "inUl",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 100,
+        "endChar": 17
+      },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbb27d0_f9bc17bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "inP",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcaab6f_767c905f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "Does this method assume that, once a list begins in p, that list comprises the entire remainder of p? Or is there a case where you\u0027d reset in_ul back to false?",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcaab6f_96904c68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "What are the \"[ ]\" terms for? Why not just a space, or \\s?",
+      "range": {
+        "startLine": 141,
+        "startChar": 46,
+        "endLine": 141,
+        "endChar": 49
+      },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbb27d0_39b04fdd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "Imports out of order.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbb27d0_59a5039e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-08T23:54:10Z",
+      "side": 1,
+      "message": "Could you just assume this is always BlockType.LIST?",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 34
+      },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

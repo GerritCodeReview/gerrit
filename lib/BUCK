@@ -20,6 +20,7 @@ define_license(name = 'highlightjs')
 define_license(name = 'icu4j')
 define_license(name = 'jgit')
 define_license(name = 'jsch')
+define_license(name = 'libsvm')
 define_license(name = 'MPL1.1')
 define_license(name = 'moment')
 define_license(name = 'OFL1.1')
@@ -308,4 +309,11 @@ maven_jar(
   id = 'com.ibm.icu:icu4j:57.1',
   sha1 = '198ea005f41219f038f4291f0b0e9f3259730e92',
   license = 'icu4j',
+)
+
+maven_jar(
+  name = 'libsvm',
+  id = 'tw.edu.ntu.csie:libsvm:3.17',
+  sha1 = '6036d7521e8081770c20d82a359e0c8f35810a0a',
+  license = 'libsvm',
 )

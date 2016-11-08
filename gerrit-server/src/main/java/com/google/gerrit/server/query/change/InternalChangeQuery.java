@@ -233,6 +233,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(and(new ExactTopicPredicate(topic), open()));
   }
 
+  public List<ChangeData> byTopicOpenInProject(
+      String topic, Project.NameKey project) throws OrmException {
+    return query(and(project(project), new ExactTopicPredicate(topic), open()));
+  }
+
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
     return byCommit(id.name());
   }

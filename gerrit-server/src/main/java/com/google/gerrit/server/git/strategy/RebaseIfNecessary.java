@@ -31,6 +31,8 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +47,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
   @Override
   public List<SubmitStrategyOp> buildOps(
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    List<CodeReviewCommit> sorted = sort(toMerge);
+    List<CodeReviewCommit> sorted = sort(toMerge, args.mergeTip.getCurrentTip());
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
 
@@ -212,11 +214,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
     args.alreadyAccepted.add(mergeTip.getCurrentTip());
   }
 
-  private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
-      throws IntegrationException {
+  private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort,
+      RevCommit initialTip) throws IntegrationException {
     try {
       return new RebaseSorter(
-          args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
+          args.rw, initialTip, args.canMergeFlag).sort(toSort);
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);
     }

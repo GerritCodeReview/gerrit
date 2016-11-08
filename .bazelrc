@@ -1,1 +1,1 @@
-build --workspace_status_command=./tools/workspace-status.sh --strategy=Javac=worker
+build --workspace_status_command=./tools/workspace-status.sh

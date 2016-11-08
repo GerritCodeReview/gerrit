@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcaab6f_5691549b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-08T18:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcaab6f_56e154b9",
+      "revId": "1987154564cf73c03e51080825eb451914a8ff71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

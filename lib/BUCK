@@ -21,6 +21,7 @@ define_license(name = 'icu4j')
 define_license(name = 'jgit')
 define_license(name = 'jsch')
 define_license(name = 'jsoup')
+define_license(name = 'libsvm')
 define_license(name = 'MPL1.1')
 define_license(name = 'moment')
 define_license(name = 'OFL1.1')
@@ -316,4 +317,11 @@ maven_jar(
   id = 'com.google.errorprone:error_prone_ant:2.0.15',
   sha1 = '607e3866e2ee25b74708c2898f84eac2f5452d2f',
   license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'libsvm',
+  id = 'tw.edu.ntu.csie:libsvm:3.17',
+  sha1 = '6036d7521e8081770c20d82a359e0c8f35810a0a',
+  license = 'libsvm',
 )

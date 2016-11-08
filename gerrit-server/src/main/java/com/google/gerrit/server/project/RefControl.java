@@ -170,6 +170,11 @@ public class RefControl {
         && canWrite();
   }
 
+  /** @return true if this user can use similarity-match option. */
+  public boolean canUseSimilarityMatch() {
+    return canPerform(Permission.SIMILARITY_MATCH);
+  }
+
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit(boolean isChangeOwner) {
     if (RefNames.REFS_CONFIG.equals(refName)) {

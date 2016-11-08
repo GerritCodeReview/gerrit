@@ -109,6 +109,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Singleton
@@ -248,7 +249,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
           for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
-            if (id.equals(reviewerInfo._accountId)) {
+            if (Objects.equals(id.get(), reviewerInfo._accountId)) {
               ccOrReviewer = true;
               break;
             }
@@ -256,7 +257,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
         if (!ccOrReviewer && reviewerResult.result.ccs != null) {
           for (AccountInfo accountInfo : reviewerResult.result.ccs) {
-            if (id.equals(accountInfo._accountId)) {
+            if (Objects.equals(id.get(), accountInfo._accountId)) {
               ccOrReviewer = true;
               break;
             }

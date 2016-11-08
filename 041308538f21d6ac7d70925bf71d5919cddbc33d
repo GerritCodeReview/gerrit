@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "abbb27d0_79f2c7ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-08T18:13:51Z",
+      "side": 1,
+      "message": "It\u0027s possible to enforce that ReviewDb contains only the empty string and never null for this field, but it\u0027s not what you\u0027re currently doing.\n\nIf you wanted to do this, you would have to:\n\n* Remove notNull \u003d false from the column spec\n* Update existing null columns to \"\" in the schema upgrade\n* Write an online schema upgrade tool for our googlesource.com implementation that updates existing null columns to \"\" (or do something hacky within the low level storage code).\n\nAt a high level, what you\u0027d be doing in ChangeBundle is saying, explicitly, treat null and the empty string as the same thing. It doesn\u0027t take that much code to do that.",
+      "parentUuid": "abbb27d0_19f1cb7a",
+      "revId": "041308538f21d6ac7d70925bf71d5919cddbc33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbb27d0_390dafab",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 2

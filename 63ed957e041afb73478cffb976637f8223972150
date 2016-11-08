@@ -254,6 +254,30 @@
     },
     {
       "key": {
+        "uuid": "cb9bfb7a_329a304a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T08:18:41Z",
+      "side": 1,
+      "message": "Never mind, sourceRoot wouldn\u0027t be initialized that way.",
+      "parentUuid": "4b82abce_f6c860b0",
+      "range": {
+        "startLine": 356,
+        "startChar": 6,
+        "endLine": 361,
+        "endChar": 28
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7327cf_3919ef5a",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 8
@@ -356,6 +380,98 @@
         "startChar": 14,
         "endLine": 16,
         "endChar": 43
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_7194b81c",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T08:18:41Z",
+      "side": 1,
+      "message": "Resource leak.",
+      "range": {
+        "startLine": 640,
+        "startChar": 8,
+        "endLine": 640,
+        "endChar": 20
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_319a304a",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T08:18:41Z",
+      "side": 1,
+      "message": "nit: superfluous space.",
+      "range": {
+        "startLine": 640,
+        "startChar": 51,
+        "endLine": 640,
+        "endChar": 53
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb9bfb7a_528fb40a",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T08:18:41Z",
+      "side": 1,
+      "message": "just Scanner.",
+      "range": {
+        "startLine": 640,
+        "startChar": 27,
+        "endLine": 640,
+        "endChar": 44
+      },
+      "revId": "63ed957e041afb73478cffb976637f8223972150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb9bfb7a_7294b81c",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T08:18:41Z",
+      "side": 1,
+      "message": "Use: StandardCharsets.UTF_8.",
+      "range": {
+        "startLine": 640,
+        "startChar": 53,
+        "endLine": 640,
+        "endChar": 60
       },
       "revId": "63ed957e041afb73478cffb976637f8223972150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

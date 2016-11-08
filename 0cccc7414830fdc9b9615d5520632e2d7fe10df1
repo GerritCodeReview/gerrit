@@ -22,6 +22,29 @@
       "revId": "0cccc7414830fdc9b9615d5520632e2d7fe10df1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcaab6f_76a010de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-11-08T19:51:58Z",
+      "side": 1,
+      "message": "buck build api fails because if this comment.  Adding a \\ in front of the @ fixes it, but I doubt that\u0027s the right fix.",
+      "range": {
+        "startLine": 30,
+        "startChar": 9,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "0cccc7414830fdc9b9615d5520632e2d7fe10df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

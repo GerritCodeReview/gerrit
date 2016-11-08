@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aba087a6_d1d484d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-08T11:50:45Z",
+      "side": 1,
+      "message": "could be moer professional, \n\n  bazel: use a custom maven_jar rule in WORKSPACE.",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_b1d700d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-08T11:50:45Z",
+      "side": 1,
+      "message": "can you phrase this positively?\n\nthis rule supports\n\n * server support for proxies\n * supports symbolic links\n * global, per-user cache of artifacts.\n\netc.",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_f1d188e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-08T11:50:45Z",
+      "side": 1,
+      "message": "I don\u0027t understand what this means, and it\u0027s a suspect feature (are you trying to avoid using (sym)links?). Symlinks often don\u0027t work with sandboxing, and hard-links don\u0027t work across filesystems.",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb9bfb7a_d2d484d3",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-08T11:50:45Z",
+      "side": 1,
+      "message": "can this be private? \n\ncould use a doc string.",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

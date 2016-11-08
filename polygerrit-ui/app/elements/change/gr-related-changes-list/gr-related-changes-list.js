@@ -60,13 +60,17 @@
         this._getSubmittedTogether().then(function(response) {
           this._submittedTogether = response;
         }.bind(this)),
-        this._getConflicts().then(function(response) {
-          this._conflicts = response;
-        }.bind(this)),
         this._getCherryPicks().then(function(response) {
           this._cherryPicks = response;
         }.bind(this)),
       ];
+
+      // Get conflicts if change is open and is mergeable.
+      if (this.changeIsOpen(this.change.status) && this.change.mergeable) {
+        promises.push(this._getConflicts().then(function(response) {
+          this._conflicts = response;
+        }.bind(this)));
+      }
 
       promises.push(this._getServerConfig().then(function(config) {
         if (this.change.topic && !config.change.submit_whole_topic) {

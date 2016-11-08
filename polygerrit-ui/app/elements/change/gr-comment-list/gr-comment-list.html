@@ -16,14 +16,13 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
+<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 
 <dom-module id="gr-comment-list">
   <template>
     <style>
       :host {
         display: block;
-        font-family: var(--monospace-font-family);
         word-wrap: break-word;
       }
       .file {
@@ -38,7 +37,8 @@ limitations under the License.
       }
       .lineNum {
         margin-right: .35em;
-        min-width: 7em;
+        min-width: 5em;
+        text-align: right;
       }
       .message {
         flex: 1;
@@ -62,10 +62,9 @@ limitations under the License.
                File comment:
              </span>
           </a>
-          <gr-linked-text class="message"
-              pre
+          <gr-formatted-text class="message"
               content="[[comment.message]]"
-              config="[[projectConfig.commentlinks]]"></gr-linked-text>
+              config="[[projectConfig.commentlinks]]"></gr-formatted-text>
         </div>
       </template>
     </template>

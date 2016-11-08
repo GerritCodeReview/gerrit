@@ -22,6 +22,24 @@
       "revId": "46522f08b9a729ffed19f47f75fcd54f299b9348",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_511254ca",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-08T11:56:00Z",
+      "side": 1,
+      "message": "other CL ?",
+      "parentUuid": "aba087a6_5176d44a",
+      "revId": "46522f08b9a729ffed19f47f75fcd54f299b9348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

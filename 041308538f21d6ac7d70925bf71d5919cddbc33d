@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "4bcaab6f_d66ba4cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-08T18:22:21Z",
+      "side": 1,
+      "message": "Discussed offline.\n\nThe intent here was that null means never set, and empty string means set but later cleared (or I guess set to empty string). This definition can be the same in NoteDb and ReviewDb.\n\nSo at this point what\u0027s missing is the documentation in PatchSet.java of this subtle distinction.",
+      "parentUuid": "abbb27d0_79f2c7ed",
+      "revId": "041308538f21d6ac7d70925bf71d5919cddbc33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbb27d0_390dafab",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 2

@@ -107,6 +107,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private Change.Status status;
   private String topic;
   private String message;
+  private String patchSetDescription;
   private List<String> groups = Collections.emptyList();
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
@@ -216,6 +217,11 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   public ChangeInserter setMessage(String message) {
     this.message = message;
+    return this;
+  }
+
+  public ChangeInserter setPatchSetDescription(String patchSetDescription) {
+    this.patchSetDescription = patchSetDescription;
     return this;
   }
 
@@ -336,6 +342,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     update.setSubjectForCommit("Create change");
     update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());
+    update.setPsDescription(patchSetDescription);
 
     boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;
@@ -343,7 +350,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       newGroups = GroupCollector.getDefaultGroups(commit);
     }
     patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), update, psId,
-        commit, draft, newGroups, pushCert);
+        commit, draft, newGroups, pushCert, patchSetDescription);
 
     /* TODO: fixStatus is used here because the tests
      * (byStatusClosed() in AbstractQueryChangesTest)

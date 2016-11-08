@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -352,6 +353,45 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     for (ChangeMessageInfo cm : changeMessages) {
       assertThat(cm.message).isEqualTo(
           "Uploaded patch set 1.\nmy test message");
+    }
+    Collection<RevisionInfo> revisions = ci.revisions.values();
+    assertThat(revisions).hasSize(1);
+    for (RevisionInfo ri : revisions) {
+      assertThat(ri.description).isEqualTo("my test message");
+    }
+  }
+
+  @Test
+  public void pushForMasterWithMessageTwiceWithDifferentMessages()
+      throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject()
+        .setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+
+    PushOneCommit push =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+                "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master/%m=my_test_message");
+    r.assertOkStatus();
+
+    push =
+        pushFactory
+          .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+              "b.txt", "anotherContent", r.getChangeId());
+    r = push.to("refs/for/master/%m=new_test_message");
+    r.assertOkStatus();
+
+    ChangeInfo ci = get(r.getChangeId());
+    Collection<RevisionInfo> revisions = ci.revisions.values();
+    assertThat(revisions).hasSize(2);
+    for (RevisionInfo ri: revisions) {
+      if (ri.isCurrent) {
+        assertThat(ri.description).isEqualTo("new test message");
+      } else {
+        assertThat(ri.description).isEqualTo("my test message");
+      }
     }
   }
 

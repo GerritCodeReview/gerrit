@@ -217,7 +217,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       }
     }
     patchSet = psUtil.insert(db, ctx.getRevWalk(), ctx.getUpdate(psId),
-        psId, commit, draft, newGroups, null);
+        psId, commit, draft, newGroups, null, null);
 
     if (notify != NotifyHandling.NONE) {
       oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());

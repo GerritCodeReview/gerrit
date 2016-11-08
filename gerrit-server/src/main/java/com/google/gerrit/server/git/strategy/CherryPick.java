@@ -146,7 +146,7 @@ public class CherryPick extends SubmitStrategy {
       PatchSet newPs = args.psUtil.insert(ctx.getDb(), ctx.getRevWalk(),
           ctx.getUpdate(psId), psId, newCommit, false,
           prevPs != null ? prevPs.getGroups() : ImmutableList.<String> of(),
-          null);
+          null, null);
       ctx.getChange().setCurrentPatchSet(patchSetInfo);
 
       // Don't copy approvals, as this is already taken care of by

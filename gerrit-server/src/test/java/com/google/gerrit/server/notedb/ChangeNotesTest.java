@@ -98,6 +98,28 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void patchSetDescription() throws Exception {
+    String description = "descriptive";
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setPsDescription(description);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet().getDescription())
+        .isEqualTo(description);
+
+    description = "new, now more descriptive!";
+    update = newUpdate(c, changeOwner);
+    update.setPsDescription(description);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet().getDescription())
+      .isEqualTo(description);
+  }
+
+  @Test
   public void tagInlineCommenrts() throws Exception {
     String tag = "jenkins";
     Change c = newChange();

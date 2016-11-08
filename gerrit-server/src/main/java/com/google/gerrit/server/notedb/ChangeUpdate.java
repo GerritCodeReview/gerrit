@@ -27,6 +27,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
@@ -142,6 +143,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Iterable<String> groups;
   private String pushCert;
   private boolean isAllowWriteToNewtRef;
+  private String psDescription;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -320,6 +322,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setTag(String tag) {
     this.tag = tag;
+  }
+
+  public void setPsDescription(String psDescription) {
+    this.psDescription = psDescription;
   }
 
   public void putComment(PatchLineComment.Status status, Comment c) {
@@ -561,6 +567,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     addPatchSetFooter(msg, ps);
 
+    if (psDescription != null) {
+      addFooter(msg, FOOTER_PATCH_SET_DESCRIPTION, psDescription);
+    }
+
     if (changeId != null) {
       addFooter(msg, FOOTER_CHANGE_ID, changeId);
     }
@@ -703,7 +713,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && commit == null
         && psState == null
         && groups == null
-        && tag == null;
+        && tag == null
+        && psDescription == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

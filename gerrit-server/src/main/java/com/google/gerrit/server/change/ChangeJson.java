@@ -1065,6 +1065,7 @@ public class ChangeJson {
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
     out.kind = changeKindCache.getChangeKind(repo, cd, in);
+    out.description = in.getDescription();
 
     boolean setCommit = has(ALL_COMMITS)
         || (out.isCurrent && has(CURRENT_COMMIT));

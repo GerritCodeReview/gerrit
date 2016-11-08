@@ -229,9 +229,11 @@ public class ReplaceOp extends BatchUpdate.Op {
     update.setSubjectForCommit("Create patch set " + patchSetId.get());
 
     String reviewMessage = null;
+    String psDescription = null;
     if (magicBranch != null) {
       recipients.add(magicBranch.getMailRecipients());
       reviewMessage = magicBranch.message;
+      psDescription = magicBranch.message;
       approvals.putAll(magicBranch.labels);
       Set<String> hashtags = magicBranch.hashtags;
       if (hashtags != null && !hashtags.isEmpty()) {
@@ -252,8 +254,9 @@ public class ReplaceOp extends BatchUpdate.Op {
         ctx.getDb(), ctx.getRevWalk(), update, patchSetId, commit, draft, groups,
         pushCertificate != null
           ? pushCertificate.toTextWithSignature()
-          : null);
+          : null, psDescription);
 
+    update.setPsDescription(psDescription);
     recipients.add(getRecipientsFromFooters(
         ctx.getDb(), accountResolver, draft, commit.getFooterLines()));
     recipients.remove(ctx.getAccountId());

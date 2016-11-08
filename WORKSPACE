@@ -982,6 +982,13 @@ maven_jar(
   artifact = 'org.apache.httpcomponents:httpcore-niossl:4.0-alpha6',
   sha1 = '9c662e7247ca8ceb1de5de629f685c9ef3e4ab58',
 )
+
+maven_jar(
+  name = 'libsvm',
+  artifact = 'tw.edu.ntu.csie:libsvm:3.17',
+  sha1 = '6036d7521e8081770c20d82a359e0c8f35810a0a',
+)
+
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
 npm_binary(

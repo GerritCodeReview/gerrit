@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b757707_85a80265",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-08T01:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b757707_458fea0a",
+      "revId": "ec5327415453a9085bc9c68cc19847d31686df3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b78ebff_269af649",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-08T01:36:50Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "ec5327415453a9085bc9c68cc19847d31686df3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b78ebff_6694ee1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-08T01:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b78ebff_269af649",
       "revId": "ec5327415453a9085bc9c68cc19847d31686df3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

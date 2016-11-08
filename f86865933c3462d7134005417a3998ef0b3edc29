@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9bfb7a_f270a8f9",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T21:38:48Z",
+      "side": 1,
+      "message": "This broke tests and particularly gerrit-acceptance-framework: [1].\n\n* [1] http://paste.openstack.org/show/588461",
+      "revId": "f86865933c3462d7134005417a3998ef0b3edc29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

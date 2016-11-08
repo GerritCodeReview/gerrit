@@ -807,6 +807,21 @@ group's members. link:config-labels.html[Custom labels] may also be
 defined globally or on a per-project basis.
 
 
+[[category_similarity_match]]
+=== Similarity Match
+
+This category permits users to push a new patch set based on similarity. When
+a new patch-set is pushed without Change-Id with `similarity-match` and `topic`
+push options, Gerrit tries to find similar changes in the topic and adds the
+pushed patch-set. If there's no similar change, it creates a new one. The
+changes that don't match with the pushed patch-set are abandoned.
+
+The `similarity-match` is not intended for regular usage, for importing
+contributions from other non-Gerrit repositories. For example, importing a
+pull-request from GitHub to Gerrit becomes easy with this option because there's
+usually no Change-Id in it.
+
+
 [[category_submit]]
 === Submit
 

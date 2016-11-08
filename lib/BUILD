@@ -286,3 +286,10 @@ java_library(
   visibility = ['//visibility:public'],
   data = ['//lib:LICENSE-Apache2.0'],
 )
+
+java_library(
+  name = 'libsvm',
+  exports = ['@libsvm//jar'],
+  visibility = ['//visibility:public'],
+  data = ['//lib:LICENSE-libsvm'],
+)

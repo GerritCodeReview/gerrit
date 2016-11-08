@@ -77,7 +77,7 @@ public abstract class MailReceiver implements LifecycleListener {
       public void run() {
         MailReceiver.this.handleEmails();
       }
-    }, 0l, mailSettings.fetchInterval);
+    }, 0L, mailSettings.fetchInterval);
   }
 
   @Override

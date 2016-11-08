@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aba087a6_315f908b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T12:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba087a6_d1d484d3",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aba087a6_b1d700d6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-08T11:50:45Z",
       "side": 1,
       "message": "can you phrase this positively?\n\nthis rule supports\n\n * server support for proxies\n * supports symbolic links\n * global, per-user cache of artifacts.\n\netc.",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_51641463",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T12:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba087a6_b1d700d6",
       "range": {
         "startLine": 13,
         "startChar": 5,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "cb9bfb7a_32f6b073",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T12:53:30Z",
+      "side": 1,
+      "message": "I know, but unfortunately --experimental_repository_cache features suffers from not supporting user specific directories. See:[1] for more context. That why we still need our own download_file.py, see the advantages list in new ps. We may re-consider to switch back later, though.\n\n* [1] https://github.com/bazelbuild/bazel/issues/2054",
+      "parentUuid": "aba087a6_51eb348a",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb9bfb7a_d2d484d3",
         "filename": "tools/bzl/maven_jar.bzl",
         "patchSetId": 3
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "aba087a6_d1fe4444",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T12:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9bfb7a_d2d484d3",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aba087a6_9104bc7e",
         "filename": "tools/bzl/maven_jar.bzl",
         "patchSetId": 3
@@ -128,6 +224,30 @@
       "writtenOn": "2016-11-08T12:05:57Z",
       "side": 1,
       "message": "Is this command just downloading an artifact with a central cache? In that case it could be replaced by ctx.download/ctx.download_and_extract and use --experimental_repository_cache (not yet release though).",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 70
+      },
+      "revId": "ba8181ebf300a7bf5d4ae62496f6b174434abe3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb9bfb7a_72f03874",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-08T12:53:30Z",
+      "side": 1,
+      "message": "No. It has mo logic, like supporting MAVEN_LOCAL. Unfortunately --experimental_repository_cache cannot be used, see my other comment.",
+      "parentUuid": "aba087a6_9104bc7e",
       "range": {
         "startLine": 92,
         "startChar": 9,

@@ -20,4 +20,5 @@ java_library(
     '//lib:junit',
   ],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )

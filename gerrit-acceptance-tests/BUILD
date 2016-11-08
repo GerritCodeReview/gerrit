@@ -39,4 +39,5 @@ java_library2(
     '//lib/mina:sshd',
   ],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )

@@ -23,6 +23,7 @@ java_binary(
   main_class = 'Dummy',
   runtime_deps = [':lib'],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )
 
 java_library2(
@@ -57,6 +58,7 @@ java_library2(
     '//lib/mail:mail',
   ],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )
 
 load('//tools/bzl:javadoc.bzl', 'java_doc')
@@ -67,4 +69,5 @@ java_doc(
   libs = [':lib'],
   pkgs = ['com.google.gerrit.acceptance'],
   visibility = ['//visibility:public'],
+  testonly = 1,
 )

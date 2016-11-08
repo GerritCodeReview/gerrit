@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4bcaab6f_d68c84c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-08T14:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbb27d0_994ddbe2",
+      "revId": "40713a50deaeec0cd709c2f69c5f3ca29cf1eb5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b64a30b_d8b1cdc7",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
         "patchSetId": 2
@@ -54,6 +72,24 @@
       "side": 1,
       "message": "*sigh* HLJS...\n\nNow that you mention it, these calls to `resolve` should be followed by semicolons. Maybe that will fix the syntax highlighting.",
       "parentUuid": "8b64a30b_d8b1cdc7",
+      "revId": "40713a50deaeec0cd709c2f69c5f3ca29cf1eb5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcaab6f_b68f08b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-08T14:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b64a30b_98bb55a4",
       "revId": "40713a50deaeec0cd709c2f69c5f3ca29cf1eb5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

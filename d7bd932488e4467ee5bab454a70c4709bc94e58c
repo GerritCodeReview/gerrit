@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aba087a6_119feceb",
+        "filename": "plugins/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-08T22:44:06Z",
+      "side": 0,
+      "message": "Don\u0027t we need this?",
+      "revId": "d7bd932488e4467ee5bab454a70c4709bc94e58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

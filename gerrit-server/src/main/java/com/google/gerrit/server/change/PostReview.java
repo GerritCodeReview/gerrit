@@ -248,7 +248,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
           for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
-            if (id.equals(reviewerInfo._accountId)) {
+            if (id.get() == reviewerInfo._accountId) {
               ccOrReviewer = true;
               break;
             }
@@ -256,7 +256,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
         if (!ccOrReviewer && reviewerResult.result.ccs != null) {
           for (AccountInfo accountInfo : reviewerResult.result.ccs) {
-            if (id.equals(accountInfo._accountId)) {
+            if (id.get() == accountInfo._accountId) {
               ccOrReviewer = true;
               break;
             }

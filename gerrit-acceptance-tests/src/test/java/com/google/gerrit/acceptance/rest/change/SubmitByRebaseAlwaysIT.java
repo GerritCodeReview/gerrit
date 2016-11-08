@@ -50,4 +50,14 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOne() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    submit(change1.getChangeId());
+    // Fails with depends on change that was not submitted.
+    submit(change2.getChangeId());
+  }
 }

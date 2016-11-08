@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9bfb7a_f2bee862",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-08T16:10:55Z",
+      "side": 1,
+      "message": "Doesn\u0027t this work as designed?\n\n1, You create 2 changes with each 1 patch set: C1,1 and C2,1\n2. C2,1 depends on C1,1\n3. On submit of change1 Rebase Always creates a new patch set for change1: C1,2\n4. change2 cannot be submitted because it depends on an outdated patch set of change1 (C1,1)\n5. change2 must be rebased onto C1,2 to be submittable",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "d642d61670070853b40bb2d46af783e994c29f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

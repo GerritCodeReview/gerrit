@@ -305,6 +305,8 @@ public class ReceiveCommits {
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
+  private final AbandonOp.Factory abandonOpFactory;
+  private final SimilarityMatcher similarityMatcher;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -322,6 +324,7 @@ public class ReceiveCommits {
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new LinkedHashMap<>();
   private final List<UpdateGroupsRequest> updateGroups = new ArrayList<>();
+  private final List<AbandonRequest> abandonChanges = new ArrayList<>();
   private final Set<ObjectId> validCommits = new HashSet<>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
@@ -383,7 +386,9 @@ public class ReceiveCommits {
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory,
       ReplaceOp.Factory replaceOpFactory,
-      MergedByPushOp.Factory mergedByPushOpFactory) throws IOException {
+      MergedByPushOp.Factory mergedByPushOpFactory,
+      AbandonOp.Factory abandonOpFactory,
+      SimilarityMatcher similarityMatcher) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
@@ -411,6 +416,8 @@ public class ReceiveCommits {
     this.hashtagsFactory = hashtagsFactory;
     this.replaceOpFactory = replaceOpFactory;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
+    this.abandonOpFactory = abandonOpFactory;
+    this.similarityMatcher = similarityMatcher;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -842,6 +849,10 @@ public class ReceiveCommits {
 
       for (UpdateGroupsRequest update : updateGroups) {
         update.addOps(bu);
+      }
+
+      for (AbandonRequest abandon : abandonChanges) {
+        abandon.addOps(bu);
       }
 
       logDebug("Executing batch");
@@ -1299,6 +1310,10 @@ public class ReceiveCommits {
       //TODO(dpursehouse): validate hashtags
     }
 
+    @Option(name = "--similarity-match",
+        usage = "match with existing similar changes")
+    boolean similarityMatch;
+
     MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes,
         NotesMigration notesMigration) {
       this.cmd = cmd;
@@ -1333,26 +1348,36 @@ public class ReceiveCommits {
       if (!options.isEmpty()) {
         clp.parseOptionMap(options);
       }
+      ref = maybeExtractTopic(ref, repo, refs);
 
+      if (similarityMatch && Strings.isNullOrEmpty(topic)) {
+        throw clp.reject("similarity match needs a topic");
+      }
+
+      return ref;
+    }
+
+    private String maybeExtractTopic(
+        String destRef, Repository repo, Set<String> refs) {
       // Split the destination branch by branch and topic. The topic
       // suffix is entirely optional, so it might not even exist.
       String head = readHEAD(repo);
-      int split = ref.length();
+      int split = destRef.length();
       for (;;) {
-        String name = ref.substring(0, split);
+        String name = destRef.substring(0, split);
         if (refs.contains(name) || name.equals(head)) {
           break;
         }
 
         split = name.lastIndexOf('/', split - 1);
         if (split <= Constants.R_REFS.length()) {
-          return ref;
+          return destRef;
         }
       }
-      if (split < ref.length()) {
-        topic = Strings.emptyToNull(ref.substring(split + 1));
+      if (split < destRef.length()) {
+        topic = Strings.emptyToNull(destRef.substring(split + 1));
       }
-      return ref.substring(0, split);
+      return destRef.substring(0, split);
     }
   }
 
@@ -1660,6 +1685,7 @@ public class ReceiveCommits {
         return;
       }
 
+      List<RevCommit> commitsWithNoChange = new ArrayList<>();
       List<ChangeLookup> pending = new ArrayList<>();
       Set<Change.Key> newChangeIds = new HashSet<>();
       int maxBatchChanges =
@@ -1739,7 +1765,7 @@ public class ReceiveCommits {
 
         List<String> idList = c.getFooterLines(CHANGE_ID);
         if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(c, magicBranch.dest.get()));
+          commitsWithNoChange.add(c);
           continue;
         }
 
@@ -1764,13 +1790,14 @@ public class ReceiveCommits {
       }
       logDebug("Finished initial RevWalk with {} commits total: {} already"
           + " tracked, {} new changes with no Change-Id, and {} deferred"
-          + " lookups", total, alreadyTracked, newChanges.size(),
+          + " lookups", total, alreadyTracked, commitsWithNoChange.size(),
           pending.size());
 
       if (rejectImplicitMerges) {
         rejectImplicitMerges(mergedParents);
       }
 
+      List<ChangeData> associatedChanges = new ArrayList<>();
       for (Iterator<ChangeLookup> itr = pending.iterator(); itr.hasNext();) {
         ChangeLookup p = itr.next();
         if (newChangeIds.contains(p.changeKey)) {
@@ -1800,6 +1827,7 @@ public class ReceiveCommits {
         if (changes.size() == 1) {
           // Schedule as a replacement to this one matching change.
           //
+          associatedChanges.addAll(changes);
 
           RevId currentPs = changes.get(0).currentPatchSet().getRevision();
           // If Commit is already current PatchSet of target Change.
@@ -1844,8 +1872,39 @@ public class ReceiveCommits {
           }
           newChangeIds.add(p.changeKey);
         }
-        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
+        commitsWithNoChange.add(p.commit);
       }
+
+      String destName = magicBranch.dest.get();
+      if (magicBranch.similarityMatch && !commitsWithNoChange.isEmpty()) {
+        List<ChangeData> changes =
+            queryProvider.get().byTopicOpen(magicBranch.topic);
+        changes.removeAll(associatedChanges);
+        SimilarityMatcher.Result result = similarityMatcher.matchChanges(
+            commitsWithNoChange, changes, repo);
+        for (RevCommit c : result.newCommits) {
+          newChanges.add(new CreateRequest(c, destName));
+        }
+        // Update changes based on the similarity matching result.
+        for (Map.Entry<RevCommit, ChangeData> e :
+            result.updateChanges.entrySet()) {
+          if (!requestReplace(
+              magicBranch.cmd, false, e.getValue().change(), e.getKey())) {
+            // If update change has failed, make the push as no-op (by making
+            // newChanges empty) and return immediately.
+            newChanges = Collections.emptyList();
+            return;
+          }
+        }
+        for (ChangeData c : result.abandonChanges) {
+          abandonChanges.add(new AbandonRequest(c, magicBranch.notify));
+        }
+      } else {
+        for (RevCommit c : commitsWithNoChange) {
+          newChanges.add(new CreateRequest(c, destName));
+        }
+      }
+
       logDebug("Finished deferred lookups with {} updates and {} new changes",
           replaceByChange.size(), newChanges.size());
     } catch (IOException e) {
@@ -2112,6 +2171,22 @@ public class ReceiveCommits {
       } catch (Exception e) {
         throw INSERT_EXCEPTION.apply(e);
       }
+    }
+  }
+
+  private class AbandonRequest {
+    private ChangeData change;
+    private NotifyHandling notifyHandling;
+
+    protected AbandonRequest(ChangeData change, NotifyHandling notifyHandling) {
+      this.change = change;
+      this.notifyHandling = notifyHandling;
+    }
+
+    protected void addOps(BatchUpdate bu) {
+      bu.addOp(
+          change.getId(),
+          abandonOpFactory.create(user.getAccount(), "", notifyHandling));
     }
   }
 

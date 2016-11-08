@@ -59,7 +59,6 @@ public abstract class MailReceiver implements LifecycleListener {
     }
   }
 
-  @Inject
   public MailReceiver(EmailSettings mailSettings) {
     this.mailSettings = mailSettings;
     pendingDeletion = Collections.synchronizedSet(new HashSet<>());

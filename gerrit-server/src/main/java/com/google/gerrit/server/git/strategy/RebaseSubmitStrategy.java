@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
+import org.apache.commons.logging.Log;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -281,8 +282,10 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       throws IntegrationException {
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
-    return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
+    boolean res = !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
         && args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
              toMerge);
+    checkState(res);
+    return res;
   }
 }

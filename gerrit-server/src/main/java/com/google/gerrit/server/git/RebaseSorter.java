@@ -69,6 +69,7 @@ public class RebaseSorter {
             n.missing = new ArrayList<>();
           }
           n.missing.add(c);
+          System.out.printf("%s [%s] depends on %s [%s]\n", n, n.change().getId(), c, c.change().getId());
         } else {
           contents.add(c);
         }

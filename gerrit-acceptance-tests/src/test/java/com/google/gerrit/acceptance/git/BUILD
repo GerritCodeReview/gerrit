@@ -17,10 +17,12 @@ java_library(
     '//gerrit-acceptance-tests:lib',
     '//lib/joda:joda-time',
   ],
+  testonly = 1,
 )
 
 java_library(
   name = 'submodule_util',
-  srcs = ['AbstractSubmoduleSubscription.java',],
-  deps = ['//gerrit-acceptance-tests:lib',]
+  srcs = ['AbstractSubmoduleSubscription.java'],
+  deps = ['//gerrit-acceptance-tests:lib'],
+  testonly = 1,
 )

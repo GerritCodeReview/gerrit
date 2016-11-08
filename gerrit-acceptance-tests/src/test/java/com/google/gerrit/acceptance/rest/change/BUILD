@@ -29,4 +29,5 @@ java_library(
   deps = [
     '//gerrit-acceptance-tests:lib',
   ],
+  testonly = 1,
 )

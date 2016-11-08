@@ -18,7 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
+<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -26,8 +26,9 @@ limitations under the License.
   <template>
     <style>
       :host {
-        background-color: #ffd;
         display: block;
+        font-family: var(--font-family);
+        margin: .7em 0;
         --iron-autogrow-textarea: {
           padding: 2px;
         };
@@ -38,16 +39,15 @@ limitations under the License.
       :host([disabled]) .container {
         opacity: .5;
       }
-      .header,
-      .message,
-      .actions {
-        padding: .5em .7em;
-      }
       .header {
         cursor: pointer;
         display: flex;
         font-family: 'Open Sans', sans-serif;
+        margin: 0.7em 0;
         padding-bottom: 0;
+      }
+      .container.collapsed .header {
+        margin: 0;
       }
       .headerMiddle {
         color: #666;
@@ -147,7 +147,7 @@ limitations under the License.
         white-space: nowrap;
       }
       #container.collapsed .actions,
-      #container.collapsed gr-linked-text,
+      #container.collapsed gr-formatted-text,
       #container.collapsed iron-autogrow-textarea {
         display: none;
       }
@@ -183,11 +183,10 @@ limitations under the License.
           rows="4"
           bind-value="{{_messageText}}"
           on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
-      <gr-linked-text class="message"
-          pre
+      <gr-formatted-text class="message"
           content="[[comment.message]]"
           collapsed="[[collapsed]]"
-          config="[[projectConfig.commentlinks]]"></gr-linked-text>
+          config="[[projectConfig.commentlinks]]"></gr-formatted-text>
       <div class="actions" hidden$="[[!showActions]]">
         <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>
         <gr-button class="action quote" on-tap="_handleQuote">Quote</gr-button>

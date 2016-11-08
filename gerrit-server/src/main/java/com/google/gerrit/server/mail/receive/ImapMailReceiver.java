@@ -32,7 +32,7 @@ import java.util.List;
 public class ImapMailReceiver extends MailReceiver {
   private static final Logger log =
       LoggerFactory.getLogger(ImapMailReceiver.class);
-  private static final String inboxFolder = "INBOX";
+  private static final String INBOX_FOLDER = "INBOX";
 
   @Inject
   public ImapMailReceiver(EmailSettings mailSettings) {
@@ -64,8 +64,8 @@ public class ImapMailReceiver extends MailReceiver {
           return;
         }
         try {
-          if (!imap.select(inboxFolder)){
-            log.error("Could not select IMAP folder " + inboxFolder);
+          if (!imap.select(INBOX_FOLDER)){
+            log.error("Could not select IMAP folder " + INBOX_FOLDER);
             return;
           }
           // Fetch just the internal dates first to know how many messages we

@@ -22,6 +22,30 @@
       "revId": "d642d61670070853b40bb2d46af783e994c29f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb9bfb7a_12cd2c1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-08T16:16:14Z",
+      "side": 1,
+      "message": "\u003e 5. change2 must be rebased onto C1,2 to be submittable\n\nOn a second thought, exactly this is what we expect Rebase Always to do :(",
+      "parentUuid": "cb9bfb7a_f2bee862",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "d642d61670070853b40bb2d46af783e994c29f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1089,6 +1089,33 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
   }
 
+  @Test
+  public void pushForMasterWithSimilarityMatch() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(cfg);
+
+    // Create a root commit.
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+
+    // Create a commit without Change-Id line.
+    PushOneCommit c1 = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME, "abcdefghijklmn\n", "");
+    c1.setParent(r.getCommit());
+    PushOneCommit.Result r1 = c1.to("refs/for/master%topic=similarity");
+    r1.assertOkStatus();
+    assertThat(r1.getMessage()).contains("New Changes");
+
+    // Push with slightly different body.
+    PushOneCommit c2 = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME, "abcdefghijklmn\nabc", "");
+    c2.setParent(r.getCommit());
+    PushOneCommit.Result r2 = c2.to("refs/for/master%topic=similarity,similarity-match");
+    r2.assertOkStatus();
+    assertThat(r2.getMessage()).contains("Updated Changes");
+  }
+
   private void pushWithReviewerInFooter(String nameEmail,
       TestAccount expectedReviewer) throws Exception {
     int n = 5;

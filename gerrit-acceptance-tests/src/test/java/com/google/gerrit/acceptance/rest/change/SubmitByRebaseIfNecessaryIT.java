@@ -82,4 +82,43 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
         change2.getChangeId(), headAfterSecondSubmit.name(),
         change3.getChangeId(), headAfterThirdSubmit.name());
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOne() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result fasterChange = createChange();
+    submit(fasterChange.getChangeId());
+
+    // This will case a rebase.
+    submit(change1.getChangeId());
+    // This now also needs a rebase.
+    // And fails with depends on change that was not submitted.
+    submit(change2.getChangeId());
+    // FAIL!
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOneManualRebase() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result fasterChange = createChange();
+    submit(fasterChange.getChangeId());
+
+    // This will case a rebase.
+    submit(change1.getChangeId());
+    // This now also needs a rebase.
+    gApi.changes().id(change2.getChangeId()).current().rebase();
+    // And now it works.
+    submit(change2.getChangeId());
+    // OK!
+  }
 }

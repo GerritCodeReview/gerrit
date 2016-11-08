@@ -18,7 +18,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
+<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../gr-comment-list/gr-comment-list.html">
@@ -40,9 +40,8 @@ limitations under the License.
       }
       .collapsed .contentContainer {
         color: #777;
-        white-space: nowrap;
-        overflow-x: hidden;
-        text-overflow: ellipsis;
+        height: 4.5em;
+        overflow: hidden;
       }
       .showAvatar.expanded .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 2.5em);
@@ -76,9 +75,6 @@ limitations under the License.
       }
       .name {
         font-weight: bold;
-      }
-      .content {
-        font-family: var(--monospace-font-family);
       }
       .message {
         max-width: 80ch;
@@ -115,12 +111,10 @@ limitations under the License.
         <div class="name" on-tap="_handleNameTap">[[author.name]]</div>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
-            <gr-linked-text
+            <gr-formatted-text
                 class="message"
-                pre="[[expanded]]"
                 content="[[message.message]]"
-                disabled="[[!expanded]]"
-                config="[[projectConfig.commentlinks]]"></gr-linked-text>
+                config="[[projectConfig.commentlinks]]"></gr-formatted-text>
             <gr-comment-list
                 comments="[[comments]]"
                 change-num="[[changeNum]]"

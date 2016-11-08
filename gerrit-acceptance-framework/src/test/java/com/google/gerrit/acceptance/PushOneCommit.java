@@ -225,8 +225,11 @@ public class PushOneCommit {
     this.files = files;
     this.changeId = changeId;
     if (changeId != null) {
-      commitBuilder = testRepo.amendRef("HEAD")
-          .insertChangeId(changeId.substring(1));
+      if (!changeId.isEmpty()) {
+        commitBuilder = testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
+      } else {
+        commitBuilder = testRepo.branch("HEAD").commit();
+      }
     } else {
       commitBuilder = testRepo.branch("HEAD").commit().insertChangeId();
     }

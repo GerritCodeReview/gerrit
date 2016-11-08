@@ -16,6 +16,24 @@
       "revId": "bde2be4001685976a814f3e93d83c34dd299a824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b757707_e58616fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-08T01:28:00Z",
+      "side": 1,
+      "message": "\u003e logDebug(\"Failed to get change {} from unwrapped db\", id);\n\nDone\n\n\u003e Although I would think the NSCE is already going to be logged.\n\nI want to be able to distinguish whether it happened here or in the call to changeControlFactory.controlFor at L1005. The latter is a result of projectControl.controlFor throwing NoSuchProjectException or IOException rather than the change actually being missing.",
+      "parentUuid": "8b8bc3df_409e2eed",
+      "revId": "bde2be4001685976a814f3e93d83c34dd299a824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

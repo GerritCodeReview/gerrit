@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b5d77d4_e599f655",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1027122
+      },
+      "writtenOn": "2016-11-09T20:52:32Z",
+      "side": 1,
+      "message": "I think if you split this method it would be easier to maintain",
+      "revId": "eaec91969439ef4bc5217bad39e2f37696a776b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

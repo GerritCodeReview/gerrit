@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b60eb88_468012e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T19:50:40Z",
+      "side": 1,
+      "message": "Seems it\u0027s not enough on the CI. There are timeouts:\n\n  //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change:rest_change_submit TIMEOUT in 305.1s",
+      "revId": "b02b313cea5f639f97b96029f4e38058efcf50d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

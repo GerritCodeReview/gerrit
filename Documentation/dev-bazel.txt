@@ -2,8 +2,6 @@
 
 Bazel build is experimental. Major missing parts:
 
-* License tracking
-* Version stamping
 * Custom plugins
 * Eclipse project generation.
 * Test suites for SSH, acceptance, etc.

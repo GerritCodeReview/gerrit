@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "aba087a6_b150e046",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-09T09:51:24Z",
+      "side": 1,
+      "message": "I think this test illustrates my expectation well, and since second submit fails, it\u0027s clear why it\u0027s a bug.",
+      "revId": "316a33909922f97901aa9187278a5b6b005193d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b78ebff_66f06e74",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
         "patchSetId": 7

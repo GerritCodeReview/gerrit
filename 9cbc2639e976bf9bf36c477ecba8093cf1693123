@@ -23,6 +23,24 @@
       "revId": "9cbc2639e976bf9bf36c477ecba8093cf1693123",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2baad79b_7ddb7703",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-09T16:47:59Z",
+      "side": 1,
+      "message": "See the discussion on https://gerrit-review.googlesource.com/90682. The conclusion there might be that we don\u0027t need the waitForConcurrentWriters step. Either way, I will just get rid of this piece here and rewrite the commit message, if for no other reason than to avoid repeating myself.",
+      "parentUuid": "ab7327cf_39cc8f1c",
+      "revId": "9cbc2639e976bf9bf36c477ecba8093cf1693123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

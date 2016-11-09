@@ -80,7 +80,7 @@
 
   var MAX_AUTOCOMPLETE_RESULTS = 10;
 
-  var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
+  var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*"+)+\s*/g;
 
   Polymer({
     is: 'gr-search-bar',

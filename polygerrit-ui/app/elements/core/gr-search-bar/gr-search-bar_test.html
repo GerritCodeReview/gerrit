@@ -185,6 +185,20 @@ limitations under the License.
               done();
             });
       });
+
+      test('Autocomplete respects spaces',
+          function(done) {
+        return element._getSearchSuggestions('is:ope')
+            .then(function(suggestions) {
+              assert.equal(suggestions[0].name, 'is:open');
+              assert.equal(suggestions[0].value, 'is:open');
+              element._getSearchSuggestions('is:ope ')
+                  .then(function(suggestions) {
+                    assert.equal(suggestions.length, 0);
+                    done();
+                  });
+            });
+      });
     });
   });
 </script>

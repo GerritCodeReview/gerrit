@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab716759_a993dd33",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T21:48:02Z",
+      "side": 1,
+      "message": "Is `revisions` an array or an object? Probably worth encoding in a JSDoc.\n\nIf it\u0027s an array, loop using an index. If it\u0027s an object, do a `hasOwnProperty` check.",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "e5d342ff8657700de33ed169a5e25e3843404db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_cc942f21",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T21:48:02Z",
+      "side": 1,
+      "message": "Strict equality?",
+      "range": {
+        "startLine": 24,
+        "startChar": 35,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "e5d342ff8657700de33ed169a5e25e3843404db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab716759_69a6459a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T21:48:02Z",
+      "side": 1,
+      "message": "\u003e80 chars. Might as well put each attribute on its own line at this point (with `is` as the first one).",
+      "range": {
+        "startLine": 287,
+        "startChar": 16,
+        "endLine": 287,
+        "endChar": 39
+      },
+      "revId": "e5d342ff8657700de33ed169a5e25e3843404db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_ec99eb55",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T21:48:02Z",
+      "side": 1,
+      "message": "What should it return if rev is falsy?\n\nI suspect this should be\n\n    return (rev \u0026\u0026 rev.description) ? rev.description : \u0027\u0027;\n\nOr\n\n    if (rev \u0026\u0026 rev.description) {\n      return rev.description;\n    } else {\n      return \u0027\u0027;\n    }",
+      "range": {
+        "startLine": 781,
+        "startChar": 6,
+        "endLine": 781,
+        "endChar": 14
+      },
+      "revId": "e5d342ff8657700de33ed169a5e25e3843404db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_8c8e270d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T21:48:02Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "e5d342ff8657700de33ed169a5e25e3843404db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_ac93e333",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T21:48:02Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "e5d342ff8657700de33ed169a5e25e3843404db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

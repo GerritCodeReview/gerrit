@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b60eb88_26a07679",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T22:36:28Z",
+      "side": 1,
+      "message": "Note to the reviewers and for the reference: here is the script how i tracked it down: [1].\n\n* [1] http://paste.openstack.org/show/588621",
+      "revId": "2571d8d58d0998164709b2b4f3a39af488279d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b60eb88_868e0a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "You missed production PolyGerrit use case (note missing --polygerrit-dev option), that this change broke, see my another comment in BowerComponentsServlet.java:\n\n* 0.) bazel build polygerrit \u0026\u0026 $(bazel info output_base)/external/local_jdk/bin/java -jar bazel-bin/polygerrit.war daemon -d ../test_site --console-log --show-stack-trace",
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b5d77d4_858e020d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "We would like always provide optimized development environment for our contributors. PolyGerrit developers don\u0027t care ( i would guess) for (optimized) GWT UI and for documentation generation, plugins compilation. You would get it with release.war target. For optimized PolyGerrit developer experience, we introduced `bazel build polygerrit` with polygerrit.war target that would only contain JS stuff and nothing more. That why development PolyGerrit command should make use of it:\n\n  bazel build polygerrit //polygerrit-ui:polygerrit_components.bower_components.zip \u0026\u0026 $(bazel info output_base)/external/local_jdk/bin/java -jar bazel-bin/polygerrit.war daemon --polygerrit-dev -d ../test_site --console-log --show-stack-trace",
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b5d77d4_058a12ff",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "This is not equivalent replacement. Base vesion accounted on buckOut to be null, even without declaring it as @Nullable. You are emphasizing the fact it could be null with @Nullable annotation just to unconditionally invoke a method on null and to end up with a NPE: [1].\n\nThe code here is a bit strangem because we construct this servlet in production case, but it isn\u0027t used. That\u0027s done to satisfy Guice wiring. By throwing the NPE during eager initialization of development servlets that not used, you broke production use case.\n\n* [1] http://paste.openstack.org/show/588615",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b5d77d4_25870ef8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "To avoid the NPE above, it should be like in base version:\n\n  zip \u003d getZipPath(builder);\n\nwhere the getZipPath() function looks like:\n\n  private static Path getZipPath(@Nullable BuildSystem builder) {\n    if (builder \u003d\u003d null) {\n        return null;\n    }\n    [...]",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 38
+      },
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b60eb88_c6940221",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/FontsServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "Here this was done correctly, by preserving the logic in base version.",
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b60eb88_46a9f266",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "This is where this servlet is always get created.",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 5
+      },
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b60eb88_a6930634",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "This production case is broken.",
+      "range": {
+        "startLine": 348,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 9
+      },
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b5d77d4_c594fa20",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "[Optional]: Factor it out in a method:\n\n  sourceRoot \u003d getSourseRootOrNull()\n\n  private static Path getSourseRootOrNull() {\n    try {\n      return GerritLauncher.resolveInSourceRoot(\".\");\n    } catch (FileNotFoundException e) {\n      return null;\n    }\n  }",
+      "range": {
+        "startLine": 359,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 28
+      },
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b5d77d4_a593fe33",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-09T21:46:32Z",
+      "side": 1,
+      "message": "And this is the place where it is conditionally used in Paths.isDev() \u003d\u003d true case only.",
+      "range": {
+        "startLine": 486,
+        "startChar": 6,
+        "endLine": 494,
+        "endChar": 7
+      },
+      "revId": "e078c3b2eae511360e06c89397ac8981e4104dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

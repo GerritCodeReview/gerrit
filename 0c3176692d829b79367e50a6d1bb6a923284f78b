@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0b7d1329_ec0c8bb0",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-09T23:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab716759_29d28de5",
+      "revId": "0c3176692d829b79367e50a6d1bb6a923284f78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b7d1329_8ce067b8",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 192,
         "endChar": 12
       },
+      "revId": "0c3176692d829b79367e50a6d1bb6a923284f78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_8c1147c7",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-09T23:38:12Z",
+      "side": 1,
+      "message": "Yeah, formatting in this file is seriously borked. Fixed a lot of it in the next PS.",
+      "parentUuid": "0b7d1329_8ce067b8",
       "revId": "0c3176692d829b79367e50a6d1bb6a923284f78b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

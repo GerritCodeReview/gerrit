@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "6ba4cfcb_9f7ab32a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcaab6f_f66ee0ac",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcaab6f_167d1c5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2baad79b_fd6b0763",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcaab6f_167d1c5e",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcaab6f_5677947d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2016-11-08T23:54:10Z",
       "side": 1,
       "message": "Should this be a StringBuilder?",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2baad79b_dd704b50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "It is only appended to in `makeList`. I have refactored that method to use a builder rather than encode it on the class.",
+      "parentUuid": "4bcaab6f_5677947d",
       "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "2baad79b_bd757f3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcaab6f_36821825",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbb27d0_f9bc17bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
         "patchSetId": 2
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "2baad79b_9d7ac32a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbb27d0_f9bc17bd",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcaab6f_767c905f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
         "patchSetId": 2
@@ -122,6 +212,24 @@
       "writtenOn": "2016-11-08T23:54:10Z",
       "side": 1,
       "message": "Does this method assume that, once a list begins in p, that list comprises the entire remainder of p? Or is there a case where you\u0027d reset in_ul back to false?",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b757707_45eb6a8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "\u003e Or is there a case where you\u0027d reset in_ul back to false?\n\nNope, if for nothing else, because there is no `in_ul \u003d false;`. 😉\n\nMoreover, it\u0027s not an unreasonable feature to be able to switch back to a paragraph. For example, the following sample might be parsed into three blocks. (Take a look in the  GWT UI an you will see that there are two.)\n\nParagraph content.\n* List item\n* List item\nNew paragraph.\n\nBut, in the interest of extending the existing formatting language to Email and PG, I would tend to keep this behavior and perhaps improve upon it at a later time. It is also possible that some existing comments that use lists are written with the expectation of this behavior.\n\nFor context, this method is minimally modified from [1]. This behavior is equally evident in that implementation.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/SafeHtml.java#179",
+      "parentUuid": "4bcaab6f_767c905f",
       "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -151,6 +259,24 @@
     },
     {
       "key": {
+        "uuid": "aba087a6_719e78ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "Done.\n\nI guess I was just annoyed by having to double-encode backslashes.",
+      "parentUuid": "4bcaab6f_96904c68",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbb27d0_39b04fdd",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatTest.java",
         "patchSetId": 2
@@ -174,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "aba087a6_9192fcdd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbb27d0_39b04fdd",
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbb27d0_59a5039e",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatTest.java",
         "patchSetId": 2
@@ -191,6 +335,24 @@
         "endLine": 37,
         "endChar": 34
       },
+      "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba087a6_b18f00b7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T01:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbb27d0_59a5039e",
       "revId": "72bb20fbbf8f38a94f3945093cc1e667ffa044c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -24,11 +24,14 @@
       path: String,
       patchRange: {
         type: Object,
-        observer: '_updateSelected'
+        observer: '_updateSelected',
       },
+      revisions: Object,
       _rightSelected: String,
       _leftSelected: String,
     },
+
+    behaviors: [Gerrit.PatchSetBehavior],
 
     _updateSelected: function() {
       this._rightSelected = this.patchRange.patchNum;
@@ -66,6 +69,11 @@
 
     _synchronizeSelectionLeft: function() {
       this.$.leftPatchSelect.value = this._leftSelected;
+    },
+
+    _computePatchSetDescription: function(revisions, patchNum) {
+      var rev = this.getRevisionNumber(revisions, patchNum);
+      return (rev && rev.description) ? rev.description : '';
     },
   });
 })();

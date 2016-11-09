@@ -102,6 +102,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.PatchSetBehavior,
       Gerrit.URLEncodingBehavior,
     ],
 
@@ -560,6 +561,11 @@
 
     _fileListActionsVisible: function(numFilesShown, maxFilesForBulkActions) {
       return numFilesShown <= maxFilesForBulkActions;
+    },
+
+    _computePatchSetDescription: function(revisions, patchNum) {
+      var rev = this.getRevisionNumber(revisions, patchNum);
+      if (rev) { return rev.description || ''; }
     },
   });
 })();

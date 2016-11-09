@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b7d1329_4c1cbfd9",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T23:41:16Z",
+      "side": 1,
+      "message": "I hadn\u0027t noticed it before, but why do all of these tests have `return` statements? Can those be removed and the parameter made `suggestions` again?\n\nOr do `return` statements in tests do something?",
+      "range": {
+        "startLine": 180,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 14
+      },
+      "revId": "bf184520ae9adfac64c15019f532ca0968ebdba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

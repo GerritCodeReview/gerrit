@@ -8,6 +8,7 @@ maven_jar(
   sha1 = 'bdc7af42581745d3d79c2efe0b514f432b998a5b',
   license = 'Apache2.0',
   attach_source = False,
+  exclude = ['javax/servlet/*'],
 )
 
 maven_jar(

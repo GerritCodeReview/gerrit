@@ -446,6 +446,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeData.put("subject", change.getSubject());
     changeData.put("originalSubject", change.getOriginalSubject());
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
+    changeData.put("changeNumber", Integer.toString(change.getChangeId()));
     soyContext.put("change", changeData);
 
     String subject = change.getSubject();

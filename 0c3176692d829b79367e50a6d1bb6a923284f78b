@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab716759_29d28de5",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T23:13:17Z",
+      "side": 1,
+      "message": "Unnecessary wrap.",
+      "range": {
+        "startLine": 189,
+        "startChar": 41,
+        "endLine": 190,
+        "endChar": 10
+      },
+      "revId": "0c3176692d829b79367e50a6d1bb6a923284f78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_8ce067b8",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T23:13:17Z",
+      "side": 1,
+      "message": "Format brainstorming nitpick: if the parameter is shortened, the indentation can be a bit easier to follow. Up to you.\n\n    return element._getSearchSuggestions(\u0027is:ope\u0027).then(function(s) {\n      assert.equal(s[0].name, \u0027is:open\u0027);\n      assert.equal(s[0].value, \u0027is:open\u0027);\n      element._getSearchSuggestions(\u0027is:ope \u0027).then(function(s) {\n        assert.equal(s.length, 0);\n        done();\n      });\n    });",
+      "range": {
+        "startLine": 191,
+        "startChar": 53,
+        "endLine": 192,
+        "endChar": 12
+      },
+      "revId": "0c3176692d829b79367e50a6d1bb6a923284f78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

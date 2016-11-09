@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
@@ -159,6 +160,9 @@ limitations under the License.
       .latestPatchContainer {
         display: none;
       }
+      .patchSetSelect {
+        max-width: 25em;
+      }
       @media screen and (max-width: 50em) {
         .header {
           align-items: flex-start;
@@ -279,14 +283,19 @@ limitations under the License.
             <label class="patchSelectLabel" for="patchSetSelect">
               Patch set
             </label>
-            <select id="patchSetSelect" bind-value="{{_selectedPatchSet}}"
-                is="gr-select" on-change="_handlePatchChange">
+            <select
+                is="gr-select"
+                id="patchSetSelect"
+                bind-value="{{_selectedPatchSet}}"
+                class="patchSetSelect"
+                on-change="_handlePatchChange">
               <template is="dom-repeat" items="[[_allPatchSets]]"
                   as="patchNumber">
                 <option value$="[[patchNumber]]">
                   <span>[[patchNumber]]</span>
                   /
                   <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
+                  <span>[[_computePatchSetDescription(_change, patchNumber)]]</span>
                 </option>
               </template>
             </select>

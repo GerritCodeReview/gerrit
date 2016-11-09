@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "0b7d1329_8cc70733",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-09T22:40:28Z",
+      "side": 1,
+      "message": "Agree. Converting it explicitly will be better.\n\nUsing `parseInt` or (better IMO) converting to a string using `+ \u0027\u0027`.\n\nMore broadly, if we use non-strict equality for coercion reasons, there should be a comment so it doesn\u0027t look like a mistake. In this case, converting explicitly it makes more sense though.",
+      "parentUuid": "ab716759_29b92dab",
+      "revId": "e5d342ff8657700de33ed169a5e25e3843404db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab716759_69a6459a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1

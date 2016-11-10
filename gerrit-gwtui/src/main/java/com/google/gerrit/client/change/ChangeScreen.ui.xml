@@ -472,7 +472,11 @@ limitations under the License.
             <tr>
               <th><ui:msg>Reviewers</ui:msg></th>
               <td>
-                <c:Reviewers ui:field='reviewers'/>
+                <g:FlowPanel ui:field='reviewerPanel' styleName='{style.reviewerPanel}'>
+                  <x:InlineHyperlink ui:field='reviewerLink'>
+                  <c:Reviewers ui:field='reviewers'/>
+				  </x:InlineHyperlink>
+                </g:FlowPanel>
               </td>
             </tr>
             <tr>

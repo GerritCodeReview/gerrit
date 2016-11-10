@@ -186,6 +186,9 @@ public class ChangeScreen extends Screen {
   @UiField FlowPanel uploaderPanel;
   @UiField InlineLabel uploaderName;
 
+  @UiField FlowPanel reviewerPanel;
+  @UiField InlineHyperlink reviewerLink;
+
   @UiField Element statusText;
   @UiField Image projectSettings;
   @UiField AnchorElement projectSettingsLink;
@@ -1301,6 +1304,7 @@ public class ChangeScreen extends Screen {
 
     renderOwner(info);
     renderUploader(info, revisionInfo);
+    renderReviewer(info);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
@@ -1421,6 +1425,22 @@ public class ChangeScreen extends Screen {
     String name = name(uploader);
     uploaderName.setText(name);
     uploaderName.setTitle(email(uploader, name));
+  }
+
+  private void renderReviewer(ChangeInfo info) {
+    // TODO info card hover
+    String name = name(info.reviewer());
+    if (info.reviewer().avatar(AvatarInfo.DEFAULT_SIZE) != null) {
+      reviewerPanel.insert(new AvatarImage(info.reviewer()), 0);
+    }
+    reviewerLink.setText(name);
+    reviewerLink.setTitle(email(info.reviewer(), name));
+    reviewerLink.setTargetHistoryToken(PageLinks.toAccountQuery(
+        info.reviewer().name() != null
+        ? info.reviewer().name()
+        : info.reviewer().email() != null
+        ? info.reviewer().email()
+        : String.valueOf(info.reviewer()._accountId()), Change.Status.NEW));
   }
 
   private void renderPushCertificate(RevisionInfo revInfo, FlowPanel panel) {

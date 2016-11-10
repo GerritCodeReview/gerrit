@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0b7d1329_8c63875b",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-10T00:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b7d1329_ecf56b66",
+      "revId": "fc88f97b577dbbd39c3bdf986e9f50d2f342d9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b7d1329_2c237320",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior_test.html",
         "patchSetId": 4
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "ab716759_494ee1dd",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-10T00:16:16Z",
+      "side": 1,
+      "message": "Aw, but it\u0027s so much less cluttered this way. Done.",
+      "parentUuid": "0b7d1329_2c237320",
+      "revId": "fc88f97b577dbbd39c3bdf986e9f50d2f342d9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b7d1329_ccf0af79",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 4
@@ -59,6 +95,24 @@
       "writtenOn": "2016-11-09T23:48:29Z",
       "side": 1,
       "message": "Repeated attribute.",
+      "revId": "fc88f97b577dbbd39c3bdf986e9f50d2f342d9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_6c4bbbcc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-10T00:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b7d1329_ccf0af79",
       "revId": "fc88f97b577dbbd39c3bdf986e9f50d2f342d9b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

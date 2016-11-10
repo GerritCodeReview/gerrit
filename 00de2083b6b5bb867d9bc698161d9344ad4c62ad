@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b70b387_34aff064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-10T21:52:20Z",
+      "side": 1,
+      "message": "You should describe what an example config file should look like. That will make it easier to review whether what you\u0027ve implemented is what you intend; as it is, I had to guess.",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_d48ebc0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-10T21:52:20Z",
+      "side": 1,
+      "message": "Nit: long lines here and below",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_f3ccb056",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-10T21:52:20Z",
+      "side": 1,
+      "message": "What I\u0027m seeing here is a config file like:\n\n [dashboard \"something\"]\n     name \u003d Status\n [dashboard \"somethingElse\"]\n     name \u003d Project\n\nI don\u0027t think this is the most economical way to express this config. I think you want something more like:\n\n [dashboard]\n     column \u003d Status\n     column \u003d Project\n\nwhich would correspond to this method returning\n\n return Lists.newArrayList(v.getConfig().getStringList(DASHBOARD, null, \"column\");",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_d3c7b431",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-10T21:52:20Z",
+      "side": 1,
+      "message": "Nit: indentation. This line should be indented 4 spaces past the \"public\" on the preceding line.",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_14b2f4cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-10T21:52:20Z",
+      "side": 1,
+      "message": "Nit: long line",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

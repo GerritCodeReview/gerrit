@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_5458ec9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-10T23:08:43Z",
+      "side": 1,
+      "message": "The end goal is to return a list of strings to be included in the dashboard, as you described above. But, I think you are right in your assessment. If we had two dashboards, we would ultimately want to return\n{ \n  dashboard: [\"x\", \"y\"]\n  dashboard2: [\"a\", \"b\"],\n}\n\nHow would you suggest formatting the config for that?",
+      "parentUuid": "0b70b387_74fc084b",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_d3c7b431",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 1

@@ -18,14 +18,19 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 public final class HostPlatform {
-  private static final boolean win32 = computeWin32();
+  private static final boolean win32 = compute("windows");
+  private static final boolean mac = compute("mac");
 
   /** @return true if this JVM is running on a Windows platform. */
   public static boolean isWin32() {
     return win32;
   }
 
-  private static boolean computeWin32() {
+  public static boolean isMac() {
+    return mac;
+  }
+
+  private static boolean compute(String platform) {
     final String osDotName =
         AccessController.doPrivileged(new PrivilegedAction<String>() {
           @Override
@@ -34,7 +39,7 @@ public final class HostPlatform {
           }
         });
     return osDotName != null
-        && osDotName.toLowerCase().contains("windows");
+        && osDotName.toLowerCase().contains(platform);
   }
 
   private HostPlatform() {

@@ -96,6 +96,10 @@ public class PageLinks {
     return toChangeQuery(op("owner", fullname) + " " + status(status));
   }
 
+  public static String toAccountQuery(String prefix, String fullname, Status status) {
+    return toChangeQuery(prefix, op("owner", fullname) + " " + status(status));
+  }
+
   public static String toAssigneeQuery(String fullname) {
     return toChangeQuery(op("assignee", fullname));
   }
@@ -110,6 +114,10 @@ public class PageLinks {
 
   public static String toChangeQuery(String query) {
     return QUERY + KeyUtil.encode(query);
+  }
+
+  public static String toChangeQuery(String prefix, String query) {
+    return prefix + QUERY + KeyUtil.encode(query);
   }
 
   public static String toProjectDashboard(Project.NameKey name, String id) {

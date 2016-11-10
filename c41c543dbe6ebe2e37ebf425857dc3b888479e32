@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb10bf07_137dcc20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "It might be easier to review if this refactoring of Abandon to add AbandonOp was done in a separate commit.",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbaf7bf4_b294c01f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AbandonOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "nit: long lines. also in several other places in this change.",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb10bf07_d37a342b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "Copyright should be AOSP",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbaf7bf4_3280d0e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityMatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "AOSP",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb10bf07_3380c8e0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "AOSP",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbaf7bf4_127dcc20",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "For new tests please use the Google Truth library.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbaf7bf4_528754f6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "Give this a more meaningful name?  Maybe split the tests into two methods that test positive and negative similarity results?",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbaf7bf4_728a5800",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-10T02:25:27Z",
+      "side": 1,
+      "message": "Use Truth, i.e.\n\n assertThat(...isSimilar(...)).isTrue();\n\nand\n\n assertThat(...isSimilar(...)).isFalse();",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

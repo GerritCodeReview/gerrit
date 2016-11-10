@@ -151,7 +151,7 @@
       if (e.detail.quote) {
         var msg = comment.message;
         var quoteStr = msg.split('\n').map(
-            function(line) { return ' > ' + line; }).join('\n') + '\n\n';
+            function(line) { return '> ' + line; }).join('\n') + '\n\n';
       }
       var reply = this._newReply(comment.id, comment.line, quoteStr);
       reply.__editing = true;

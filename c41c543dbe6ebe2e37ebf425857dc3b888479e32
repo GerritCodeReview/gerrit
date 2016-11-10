@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_b3eb189b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb10bf07_137dcc20",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbaf7bf4_b294c01f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AbandonOp.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-10T02:25:27Z",
       "side": 1,
       "message": "nit: long lines. also in several other places in this change.",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_f4cc9856",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AbandonOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Oh. I didn\u0027t know that Gerrit\u0027s style was 80 chars. Done.",
+      "parentUuid": "cbaf7bf4_b294c01f",
       "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_14dbd403",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb10bf07_d37a342b",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbaf7bf4_3280d0e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityMatcher.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_d3e094b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityMatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbaf7bf4_3280d0e0",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb10bf07_3380c8e0",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2016-11-10T02:25:27Z",
       "side": 1,
       "message": "AOSP",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_f3e590c6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb10bf07_3380c8e0",
       "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -110,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_34d8d004",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbaf7bf4_127dcc20",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbaf7bf4_528754f6",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
         "patchSetId": 4
@@ -133,6 +241,42 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_13dbec03",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbaf7bf4_528754f6",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_33d8e804",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done.\n\nAdded a notice that these tests are not requirements (i.e. classifying the input (0.2, 0.7) to similar is not the requirement of the classifier). These inputs are happened to be classified as similar or not similar by the underlying classifier. If we change the implementation, the results can be changed.",
+      "parentUuid": "cbaf7bf4_528754f6",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbaf7bf4_728a5800",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
         "patchSetId": 4
@@ -144,6 +288,24 @@
       "writtenOn": "2016-11-10T02:25:27Z",
       "side": 1,
       "message": "Use Truth, i.e.\n\n assertThat(...isSimilar(...)).isTrue();\n\nand\n\n assertThat(...isSimilar(...)).isFalse();",
+      "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_73d260e6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SimilarityDecisionFunctionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbaf7bf4_728a5800",
       "revId": "c41c543dbe6ebe2e37ebf425857dc3b888479e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

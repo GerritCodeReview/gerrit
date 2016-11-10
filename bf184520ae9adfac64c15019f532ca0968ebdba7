@@ -22,6 +22,24 @@
       "revId": "bf184520ae9adfac64c15019f532ca0968ebdba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_2cfcd349",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-10T00:12:29Z",
+      "side": 1,
+      "message": "Not entirely sure, but it looks like it doesn\u0027t do anything. Removing.",
+      "parentUuid": "0b7d1329_4c1cbfd9",
+      "revId": "bf184520ae9adfac64c15019f532ca0968ebdba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b28eb69_866b2a64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-10T23:56:41Z",
+      "side": 1,
+      "message": "Here and below - {string} because it\u0027s a primitive type.",
+      "range": {
+        "startLine": 67,
+        "startChar": 15,
+        "endLine": 67,
+        "endChar": 21
+      },
+      "revId": "b7dd0664bf6ede7b8dabc233753a4fc0909ac34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_13376c44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-10T23:56:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t Polymer be doing this?\nConsider using Polymer.dom() from https://www.polymer-project.org/1.0/docs/devguide/local-dom#work-with-local-dom",
+      "revId": "b7dd0664bf6ede7b8dabc233753a4fc0909ac34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b257791_856b2264",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-10T23:56:41Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "b7dd0664bf6ede7b8dabc233753a4fc0909ac34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

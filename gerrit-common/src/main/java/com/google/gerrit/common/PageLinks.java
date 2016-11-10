@@ -109,7 +109,7 @@ public class PageLinks {
   }
 
   public static String toChangeQuery(String query) {
-    return QUERY + KeyUtil.encode(query);
+    return "/#/" + QUERY + KeyUtil.encode(query);
   }
 
   public static String toProjectDashboard(Project.NameKey name, String id) {

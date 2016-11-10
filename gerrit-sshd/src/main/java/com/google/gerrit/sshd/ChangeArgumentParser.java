@@ -32,12 +32,18 @@ import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class ChangeArgumentParser {
+  private static final Logger log = LoggerFactory.getLogger(ChangeArgumentParser.class);
+
   private final CurrentUser currentUser;
   private final ChangesCollection changesCollection;
   private final ChangeFinder changeFinder;
@@ -98,7 +104,7 @@ public class ChangeArgumentParser {
   private List<ChangeControl> changeFromNotesFactory(String id,
       final CurrentUser currentUser) throws OrmException {
     List<ChangeNotes> changes =
-        changeNotesFactory.create(db, Arrays.asList(Change.Id.parse(id)));
+        changeNotesFactory.create(db, parseId(id));
     return FluentIterable.from(changes)
         .transform(new Function<ChangeNotes, ChangeControl>() {
           @Override
@@ -106,6 +112,15 @@ public class ChangeArgumentParser {
             return controlForChange(changeNote, currentUser);
           }
         }).filter(Predicates.notNull()).toList();
+  }
+
+  private List<Change.Id> parseId(String id) {
+    try {
+    return Arrays.asList(new Change.Id(Integer.parseInt(id)));
+    } catch (NumberFormatException e) {
+      log.error("Invalid change ID " + id, e);
+      return Collections.emptyList();
+    }
   }
 
   private ChangeControl controlForChange(ChangeNotes change, CurrentUser user) {

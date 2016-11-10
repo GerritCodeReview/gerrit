@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_d31174c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "--similarity-match requires a topic, and the entire push will be rejected. (see MagicBranchInput#parse).\n\nI\u0027ll add this to the description.",
+      "parentUuid": "ab5087f0_11804ce0",
+      "revId": "a394210b5dc5c17e2d5cd7677166c52da0beeb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4bfb44_528ad4ff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_94f0c478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb4bfb44_528ad4ff",
+      "revId": "a394210b5dc5c17e2d5cd7677166c52da0beeb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4bfb44_327d5021",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityMatcher.java",
         "patchSetId": 5
@@ -53,6 +89,24 @@
       "writtenOn": "2016-11-10T22:17:56Z",
       "side": 1,
       "message": "Looks like most of the files in this change don\u0027t respect the max line width of 80 characters.",
+      "revId": "a394210b5dc5c17e2d5cd7677166c52da0beeb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_9407e48c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Yeah. I didn\u0027t know that Gerrit sets the max to 80. I thought it\u0027s 100.",
+      "parentUuid": "cb4bfb44_327d5021",
       "revId": "a394210b5dc5c17e2d5cd7677166c52da0beeb3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

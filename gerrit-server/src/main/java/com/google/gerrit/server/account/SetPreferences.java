@@ -21,6 +21,8 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -87,6 +89,7 @@ public class SetPreferences implements
     Account.Id id = rsrc.getUser().getAccountId();
     GeneralPreferencesInfo n = loader.merge(id, i);
 
+    n.changeTable = i.changeTable;
     n.my = i.my;
     n.urlAliases = i.urlAliases;
 
@@ -105,6 +108,7 @@ public class SetPreferences implements
       storeSection(prefs.getConfig(), UserConfigSections.GENERAL, null, i,
           GeneralPreferencesInfo.defaults());
 
+      storeMyChangeTableColumns(prefs, i.changeTable);
       storeMyMenus(prefs, i.my);
       storeUrlAliases(prefs, i.urlAliases);
       prefs.commit(md);
@@ -122,6 +126,16 @@ public class SetPreferences implements
         set(cfg, item.name, KEY_TARGET, item.target);
         set(cfg, item.name, KEY_ID, item.id);
       }
+    }
+  }
+
+  public static void storeMyChangeTableColumns(VersionedAccountPreferences prefs,
+      List<String> changeTable) {
+    Config cfg = prefs.getConfig();
+    if (changeTable != null) {
+      unsetSection(cfg, UserConfigSections.CHANGE_TABLE);
+      cfg.setStringList(UserConfigSections.CHANGE_TABLE, null, CHANGE_TABLE_COLUMN,
+          changeTable);
     }
   }
 

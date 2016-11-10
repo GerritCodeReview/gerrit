@@ -22,8 +22,12 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
+
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.reviewdb.client.Account;
@@ -91,7 +95,7 @@ public class GeneralPreferencesLoader {
           loadSection(p.getConfig(), UserConfigSections.GENERAL, null,
           new GeneralPreferencesInfo(),
           updateDefaults(allUserPrefs), in);
-
+      loadChangeTableColumns(r, p, dp);
       return loadMyMenusAndUrlAliases(r, p, dp);
     }
   }
@@ -159,6 +163,24 @@ public class GeneralPreferencesLoader {
       String defaultValue) {
     String val = cfg.getString(UserConfigSections.MY, subsection, key);
     return !Strings.isNullOrEmpty(val) ? val : defaultValue;
+  }
+
+  public GeneralPreferencesInfo loadChangeTableColumns(GeneralPreferencesInfo r,
+      VersionedAccountPreferences v, VersionedAccountPreferences d) {
+    r.changeTable = changeTable(v);
+
+    Config cfg = v.getConfig();
+    if (r.changeTable.isEmpty() && !v.isDefaults()) {
+      r.changeTable = changeTable(d);
+    }
+    return r;
+  }
+
+  private static List<String> changeTable(VersionedAccountPreferences v) {
+    List<String> columns = new ArrayList<>();
+    Config cfg = v.getConfig();
+    return Lists.newArrayList(v.getConfig().getStringList(
+        CHANGE_TABLE, null, CHANGE_TABLE_COLUMN));
   }
 
   private static Map<String, String> urlAliases(VersionedAccountPreferences v) {

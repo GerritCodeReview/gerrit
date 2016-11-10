@@ -1,0 +1,98 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
+
+<dom-module id="gr-dashboard-editor">
+  <template>
+    <style>
+      th.nameHeader {
+        width: 11em;
+      }
+      tbody tr:first-of-type td .move-up-button,
+      tbody tr:last-of-type td .move-down-button {
+        display: none;
+      }
+      .newTitleInput {
+        width: 10em;
+      }
+      .newUrlInput {
+        width: 23em;
+      }
+    </style>
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
+        <thead>
+          <tr>
+            <th class="nameHeader">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="[[dashboardItems]]">
+            <tr>
+              <td>[[item.name]]</td>
+              <td>
+                <gr-button
+                    data-index="[[index]]"
+                    on-tap="_handleMoveUpButton"
+                    class="move-up-button">↑</gr-button>
+              </td>
+              <td>
+                <gr-button
+                    data-index="[[index]]"
+                    on-tap="_handleMoveDownButton"
+                    class="move-down-button">↓</gr-button>
+              </td>
+              <td>
+                <gr-button
+                    data-index="[[index]]"
+                    on-tap="_handleDeleteButton"
+                    class="remove-button">Delete</gr-button>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>
+              <input
+                  class="newTitleInput"
+                  is="iron-input"
+                  placeholder="New Title"
+                  on-keydown="_handleInputKeydown"
+                  bind-value="{{_newName}}">
+            </th>
+            <th></th>
+            <th></th>
+            <th>
+              <gr-button
+                  disabled$="[[_computeAddDisabled(_newName)]]"
+                  on-tap="_handleAddButton">Add</gr-button>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </template>
+  <script src="gr-dashboard-editor.js"></script>
+</dom-module>

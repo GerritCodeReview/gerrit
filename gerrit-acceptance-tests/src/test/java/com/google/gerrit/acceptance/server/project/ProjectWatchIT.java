@@ -111,10 +111,15 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchFile() throws Exception {
-    // watch file in project
     String watchedProject = createProject("watchedProject").get();
+    String otherWatchedProject = createProject("otherWatchedProject").get();
     setApiUser(user);
+
+    // watch file in project
     watch(watchedProject, "file:a.txt");
+
+    // watch other project
+    watch(otherWatchedProject, null);
 
     // push a change to watched file -> should trigger email notification
     setApiUser(admin);

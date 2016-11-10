@@ -314,7 +314,11 @@ class Labels extends Grid {
         }
         html.closeSelf();
       }
-      html.append(name);
+      html.openElement("a")
+          .setAttribute("style", "color: inherit")
+          .setAttribute("href",
+              PageLinks.toAccountQuery("/#", name, Change.Status.NEW))
+          .append(name).closeElement("a");
       if (removable.contains(ai._accountId())) {
         html.openElement("button");
         if (label != null) {

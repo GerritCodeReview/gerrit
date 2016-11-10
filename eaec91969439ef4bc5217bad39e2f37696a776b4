@@ -16,6 +16,24 @@
       "revId": "eaec91969439ef4bc5217bad39e2f37696a776b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_b470604f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-10T19:33:54Z",
+      "side": 1,
+      "message": "I disagree that it needs to be split apart, but I do agree that it\u0027s hard to read. I have created comments to add clarity.",
+      "parentUuid": "2b5d77d4_e599f655",
+      "revId": "eaec91969439ef4bc5217bad39e2f37696a776b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

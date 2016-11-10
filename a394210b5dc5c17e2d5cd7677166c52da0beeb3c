@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab5087f0_11804ce0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-10T22:17:56Z",
+      "side": 1,
+      "message": "Do you refer to change\u0027s topic here? What if a topic is not given in the push command?",
+      "range": {
+        "startLine": 15,
+        "startChar": 17,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "a394210b5dc5c17e2d5cd7677166c52da0beeb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4bfb44_528ad4ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-10T22:17:56Z",
+      "side": 1,
+      "message": "It would help (for understanding and reviewing) if you provide an example here showing a case where some changes get abandoned.",
+      "revId": "a394210b5dc5c17e2d5cd7677166c52da0beeb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4bfb44_327d5021",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-10T22:17:56Z",
+      "side": 1,
+      "message": "Looks like most of the files in this change don\u0027t respect the max line width of 80 characters.",
+      "revId": "a394210b5dc5c17e2d5cd7677166c52da0beeb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

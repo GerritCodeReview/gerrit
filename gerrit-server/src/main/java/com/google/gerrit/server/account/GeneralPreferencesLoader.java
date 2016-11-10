@@ -22,6 +22,9 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
+import static com.google.gerrit.server.git.UserConfigSections.DASHBOARD;
+import static com.google.gerrit.server.git.UserConfigSections.DASHBOARD_KEY_NAME;
+
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -91,7 +94,7 @@ public class GeneralPreferencesLoader {
           loadSection(p.getConfig(), UserConfigSections.GENERAL, null,
           new GeneralPreferencesInfo(),
           updateDefaults(allUserPrefs), in);
-
+      loadDashboardColumns(r, p, dp);
       return loadMyMenusAndUrlAliases(r, p, dp);
     }
   }
@@ -159,6 +162,26 @@ public class GeneralPreferencesLoader {
       String defaultValue) {
     String val = cfg.getString(UserConfigSections.MY, subsection, key);
     return !Strings.isNullOrEmpty(val) ? val : defaultValue;
+  }
+
+  public GeneralPreferencesInfo loadDashboardColumns(
+      GeneralPreferencesInfo r, VersionedAccountPreferences v, VersionedAccountPreferences d) {
+    r.dashboard = dashboard(v);
+
+    Config cfg = v.getConfig();
+    if (r.dashboard.isEmpty() && !v.isDefaults()) {
+      r.dashboard = dashboard(d);
+    }
+    return r;
+  }
+
+  private static List<String> dashboard(VersionedAccountPreferences v) {
+    List<String> columns = new ArrayList<>();
+    Config cfg = v.getConfig();
+    for (String subsection : cfg.getSubsections(UserConfigSections.DASHBOARD)) {
+      columns.add(cfg.getString(UserConfigSections.DASHBOARD, subsection, DASHBOARD_KEY_NAME));
+    }
+    return columns;
   }
 
   private static Map<String, String> urlAliases(VersionedAccountPreferences v) {

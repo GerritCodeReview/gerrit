@@ -316,7 +316,9 @@ class Labels extends Grid {
         }
         html.closeSelf();
       }
+      html.appendHtmlConstant("<a href=' + \"owner:\" + name + \" status:open\" '>");
       html.append(name);
+      html.appendHtmlConstant("</a>");
       if (removable.contains(ai._accountId())) {
         html.openElement("button");
         if (label != null) {

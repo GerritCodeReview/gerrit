@@ -104,6 +104,7 @@ import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventsMetrics;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.AbandonOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;
@@ -377,6 +378,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AnonymousUser.class);
 
+    factory(AbandonOp.Factory.class);
     factory(RefOperationValidators.Factory.class);
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);

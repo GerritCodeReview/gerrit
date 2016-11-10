@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b60eb88_e6f57e66",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/FontsDevServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-10T14:08:53Z",
+      "side": 1,
+      "message": "this may throw npe? can you abort if zip is null in the ctor?",
+      "range": {
+        "startLine": 49,
+        "startChar": 11,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "0c5a03526d199fb86d2296f8d2beafef8e5d5471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

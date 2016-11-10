@@ -127,7 +127,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to non-watched file -> should not trigger email
     // notification
-    r = pushFactory.create(db, admin.getIdent(), testRepo,
+    r = pushFactory.create(db, admin.getIdent(), watchedRepo,
         "DONT_TRIGGER", "b.txt", "b1").to("refs/for/master");
     r.assertOkStatus();
 

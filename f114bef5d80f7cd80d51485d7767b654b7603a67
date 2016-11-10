@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b7d1329_2c2e13ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-11-10T01:54:05Z",
+      "side": 1,
+      "message": "Please add a comment for what this logic is doing.",
+      "range": {
+        "startLine": 1888,
+        "startChar": 0,
+        "endLine": 1894,
+        "endChar": 0
+      },
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab716759_e9a8f530",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-11-10T01:54:05Z",
+      "side": 1,
+      "message": "Auto formatting using standard Gerrit setup should reflow everything to 80 columns:\nhttps://gerrit-review.googlesource.com/Documentation/dev-eclipse.html#Formatting\nhttps://gerrit.googlesource.com/gerrit/+/master/tools/GoogleFormat.xml",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 0
+      },
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b7d1329_cca3cf54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-11-10T01:54:05Z",
+      "side": 1,
+      "message": "Explain how these values and those in the svm_model data were obtained.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab716759_89adb93f",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/git/similarity.svm",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-11-10T01:54:05Z",
+      "side": 1,
+      "message": "If this file supports comments, explain how this was trained directly in this file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 0
+      },
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

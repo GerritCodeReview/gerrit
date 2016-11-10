@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_74fc084b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-10T22:57:49Z",
+      "side": 1,
+      "message": "I agree that we want to be future-friendly. However, what\u0027s implemented here is not really doing separate dashboards, it\u0027s concatenating them all together.\n\nIf you take my first example config above:\n\n [dashboard \"something\"]\n     name \u003d Status\n [dashboard \"somethingElse\"]\n     name \u003d Project\n\nThis code here, when parsing that config, will return a single list containing [\"Status\", \"Project\"]. I don\u0027t think that\u0027s what\u0027s intended.",
+      "parentUuid": "0b70b387_141cb4d8",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_d3c7b431",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 1

@@ -96,9 +96,9 @@ public class ChangeArgumentParser {
   }
 
   private List<ChangeControl> changeFromNotesFactory(String id,
-      final CurrentUser currentUser) throws OrmException {
+      final CurrentUser currentUser) throws OrmException, UnloggedFailure {
     List<ChangeNotes> changes =
-        changeNotesFactory.create(db, Arrays.asList(Change.Id.parse(id)));
+        changeNotesFactory.create(db, parseId(id));
     return FluentIterable.from(changes)
         .transform(new Function<ChangeNotes, ChangeControl>() {
           @Override
@@ -106,6 +106,14 @@ public class ChangeArgumentParser {
             return controlForChange(changeNote, currentUser);
           }
         }).filter(Predicates.notNull()).toList();
+  }
+
+  private List<Change.Id> parseId(String id) throws UnloggedFailure {
+    try {
+      return Arrays.asList(new Change.Id(Integer.parseInt(id)));
+    } catch (NumberFormatException e) {
+      throw new UnloggedFailure(2, "Invalid change ID " + id, e);
+    }
   }
 
   private ChangeControl controlForChange(ChangeNotes change, CurrentUser user) {

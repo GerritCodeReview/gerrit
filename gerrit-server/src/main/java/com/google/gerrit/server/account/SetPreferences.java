@@ -21,6 +21,8 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
+import static com.google.gerrit.server.git.UserConfigSections.DASHBOARD;
+import static com.google.gerrit.server.git.UserConfigSections.DASHBOARD_KEY_NAME;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -87,6 +89,7 @@ public class SetPreferences implements
     Account.Id id = rsrc.getUser().getAccountId();
     GeneralPreferencesInfo n = loader.merge(id, i);
 
+    n.dashboard = i.dashboard;
     n.my = i.my;
     n.urlAliases = i.urlAliases;
 
@@ -105,6 +108,7 @@ public class SetPreferences implements
       storeSection(prefs.getConfig(), UserConfigSections.GENERAL, null, i,
           GeneralPreferencesInfo.defaults());
 
+      storeMyDashboardColumns(prefs, i.dashboard);
       storeMyMenus(prefs, i.my);
       storeUrlAliases(prefs, i.urlAliases);
       prefs.commit(md);
@@ -121,6 +125,17 @@ public class SetPreferences implements
         set(cfg, item.name, KEY_URL, item.url);
         set(cfg, item.name, KEY_TARGET, item.target);
         set(cfg, item.name, KEY_ID, item.id);
+      }
+    }
+  }
+
+  public static void storeMyDashboardColumns(VersionedAccountPreferences prefs,
+                                  List<String> dashboard) {
+    Config cfg = prefs.getConfig();
+    if (dashboard != null) {
+      unsetSection(cfg, UserConfigSections.DASHBOARD);
+      for (String column : dashboard) {
+        cfg.setString(UserConfigSections.DASHBOARD, column, DASHBOARD_KEY_NAME, column);
       }
     }
   }

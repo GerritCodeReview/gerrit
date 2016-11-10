@@ -75,8 +75,9 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     GeneralPreferencesInfo o = gApi.accounts()
         .id(user42.id.toString())
         .getPreferences();
-    assertPrefs(o, GeneralPreferencesInfo.defaults(), "my");
+    assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "dashboard");
     assertThat(o.my).hasSize(7);
+    assertThat(o.dashboard).isEmpty();
 
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
 
@@ -99,6 +100,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.diffView = DiffView.UNIFIED_DIFF;
     i.my = new ArrayList<>();
     i.my.add(new MenuItem("name", "url"));
+    i.dashboard = new ArrayList<>();
+    i.dashboard.add("Status");
     i.urlAliases = new HashMap<>();
     i.urlAliases.put("foo", "bar");
 
@@ -107,6 +110,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
         .setPreferences(i);
     assertPrefs(o, i, "my");
     assertThat(o.my).hasSize(1);
+    assertThat(o.dashboard).hasSize(1);
   }
 
   @Test
@@ -125,6 +129,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.changesPerPage).isEqualTo(newChangesPerPage);
 
     // assert hard-coded defaults
-    assertPrefs(o, d, "my", "changesPerPage");
+    assertPrefs(o, d, "my", "dashboard", "changesPerPage");
   }
 }

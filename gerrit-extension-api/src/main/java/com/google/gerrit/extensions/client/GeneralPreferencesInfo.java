@@ -141,6 +141,7 @@ public class GeneralPreferencesInfo {
   public Boolean muteCommonPathPrefixes;
   public Boolean signedOffBy;
   public List<MenuItem> my;
+  public List<String> dashboard;
   public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
   public DefaultBase defaultBaseForMerges;

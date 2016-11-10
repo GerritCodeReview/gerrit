@@ -20,7 +20,7 @@ def acceptance_tests(
       'acceptance',
       'slow',
     ],
-    size = "medium",
+    size = "large",
     jvm_flags = vm_args,
     **kwargs
   )

@@ -319,6 +319,7 @@
       }
 
       var patchChanged = this._patchRange &&
+          (value.patchNum !== undefined && value.basePatchNum !== undefined) &&
           (this._patchRange.patchNum !== value.patchNum ||
           this._patchRange.basePatchNum !== value.basePatchNum);
 

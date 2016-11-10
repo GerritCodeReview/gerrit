@@ -116,6 +116,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;
   public final native AccountInfo assignee() /*-{ return this.assignee; }-*/;
+  public final native AccountInfo reviewer() /*-{ return this.reviewer; }-*/;
   private native String createdRaw() /*-{ return this.created; }-*/;
   private native String updatedRaw() /*-{ return this.updated; }-*/;
   private native String submittedRaw() /*-{ return this.submitted; }-*/;

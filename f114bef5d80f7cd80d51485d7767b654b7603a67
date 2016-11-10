@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_34029071",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b7d1329_2c2e13ee",
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab716759_e9a8f530",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 40,
         "endChar": 0
       },
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_d4115cc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab716759_e9a8f530",
       "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_1305ac78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b7d1329_cca3cf54",
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab716759_89adb93f",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/git/similarity.svm",
         "patchSetId": 3
@@ -88,6 +142,24 @@
         "endLine": 2,
         "endChar": 0
       },
+      "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_f3ef5093",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/git/similarity.svm",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-10T23:04:01Z",
+      "side": 1,
+      "message": "It seems it doesn\u0027t. Added in the java file.",
+      "parentUuid": "ab716759_89adb93f",
       "revId": "f114bef5d80f7cd80d51485d7767b654b7603a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

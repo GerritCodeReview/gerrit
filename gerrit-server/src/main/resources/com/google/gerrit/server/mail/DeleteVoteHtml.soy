@@ -17,14 +17,13 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param change
  * @param coverLetter
  * @param email
  * @param fromName
  */
 {template .DeleteVoteHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} removed a vote from <strong>{$change.subject}</strong>.
+    {$fromName} <strong>removed a vote</strong> from this change.
   </p>
 
   {if $email.changeUrl}
@@ -34,6 +33,6 @@
   {/if}
 
   {if $coverLetter}
-    {call .Pre}{param content: $coverLetter /}{/call}
+    <div style="white-space:pre-wrap">{$coverLetter}</div>
   {/if}
 {/template}

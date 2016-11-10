@@ -17,28 +17,27 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param change
- * @param coverLetter
  * @param email
  * @param fromName
  */
 {template .DeleteReviewerHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} removed{sp}
-    {foreach $reviewerName in $email.reviewerNames}
-      {if not isFirst($reviewerName)},{sp}{/if}
-      {$reviewerName}
-    {/foreach}{sp}
-    from <strong>{$change.subject}</strong>.
+    {$fromName}{sp}
+    <strong>
+      removed{sp}
+      {foreach $reviewerName in $email.reviewerNames}
+        {if not isFirst($reviewerName)}
+          {if isLast($reviewerName)}{sp}and{else},{/if}{sp}
+        {/if}
+        {$reviewerName}
+      {/foreach}
+    </strong>{sp}
+    from this change.
   </p>
 
   {if $email.changeUrl}
     <p>
       {call .ViewChangeButton data="all" /}
     </p>
-  {/if}
-
-  {if $coverLetter}
-    {call .Pre}{param content: $coverLetter /}{/call}
   {/if}
 {/template}

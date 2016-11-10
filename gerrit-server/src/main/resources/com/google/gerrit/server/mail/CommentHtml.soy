@@ -17,7 +17,6 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param change
  * @param commentFiles
  * @param coverLetter
  * @param email
@@ -44,7 +43,7 @@
   {/let}
 
   <p>
-    {$fromName} posted comments on <strong>{$change.subject}</strong>.
+    {$fromName} <strong>posted comments</strong> on this change.
   </p>
 
   {if $email.changeUrl}

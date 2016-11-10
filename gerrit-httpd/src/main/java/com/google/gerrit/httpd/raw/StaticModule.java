@@ -21,6 +21,7 @@ import static java.nio.file.Files.isReadable;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
@@ -282,16 +283,20 @@ public class StaticModule extends ServletModule {
 
     @Provides
     @Singleton
-    BowerComponentsServlet getBowerComponentsServlet(
+    BowerComponentsDevServlet getBowerComponentsServlet(
         @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
-      return new BowerComponentsServlet(cache, getPaths().buckOut);
+      return getPaths().isDev()
+          ? new BowerComponentsDevServlet(cache, getPaths().buckOut)
+          : null;
     }
 
     @Provides
     @Singleton
-    FontsServlet getFontsServlet(
+    FontsDevServlet getFontsServlet(
         @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
-      return new FontsServlet(cache, getPaths().buckOut);
+      return getPaths().isDev()
+          ? new FontsDevServlet(cache, getPaths().buckOut)
+          : null;
     }
 
     private Path polyGerritBasePath() {
@@ -430,16 +435,16 @@ public class StaticModule extends ServletModule {
     private final Paths paths;
     private final HttpServlet polyGerritIndex;
     private final PolyGerritUiServlet polygerritUI;
-    private final BowerComponentsServlet bowerComponentServlet;
-    private final FontsServlet fontServlet;
+    private final BowerComponentsDevServlet bowerComponentServlet;
+    private final FontsDevServlet fontServlet;
 
     @Inject
     PolyGerritFilter(GerritOptions options,
         Paths paths,
         @Named(POLYGERRIT_INDEX_SERVLET) HttpServlet polyGerritIndex,
         PolyGerritUiServlet polygerritUI,
-        BowerComponentsServlet bowerComponentServlet,
-        FontsServlet fontServlet) {
+        @Nullable BowerComponentsDevServlet bowerComponentServlet,
+        @Nullable FontsDevServlet fontServlet) {
       this.paths = paths;
       this.options = options;
       this.polyGerritIndex = polyGerritIndex;

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b60eb88_6602ee72",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-10T14:54:46Z",
+      "side": 1,
+      "message": "nit: trailing space\n\nalso in the line below",
+      "revId": "040c4aa3616b959ce99747aa21409eea47775f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b5d77d4_05ff7241",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-10T14:54:46Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "040c4aa3616b959ce99747aa21409eea47775f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

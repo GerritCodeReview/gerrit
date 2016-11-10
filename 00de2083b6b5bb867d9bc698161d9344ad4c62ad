@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_141cb4d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-10T22:31:29Z",
+      "side": 1,
+      "message": "We were pondering whether to cement just one dashboard into the config, or design for the potential of supporting multiple dashboards. I was on the fence but leaned toward the latter and advocated for that. Either way, this change adds just one section to the user config for now.\n\nI do like \"column\" better than \"name\".",
+      "parentUuid": "eb6c3fba_f3ccb056",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_d3c7b431",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 1

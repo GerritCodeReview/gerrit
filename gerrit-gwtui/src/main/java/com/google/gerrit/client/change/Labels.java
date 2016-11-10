@@ -27,6 +27,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -316,7 +317,9 @@ class Labels extends Grid {
         }
         html.closeSelf();
       }
-      html.append(name);
+      html.openElement("a");
+      html.setAttribute("href", PageLinks.toAccountQuery(String.valueOf(name), Change.Status.NEW));
+      html.append(name).closeElement("a");
       if (removable.contains(ai._accountId())) {
         html.openElement("button");
         if (label != null) {

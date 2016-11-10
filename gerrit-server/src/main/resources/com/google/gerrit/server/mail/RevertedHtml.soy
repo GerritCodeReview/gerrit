@@ -17,23 +17,17 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param change
- * @param coverLetter
  * @param email
  * @param fromName
  */
 {template .RevertedHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} reverted the change: <strong>{$change.subject}</strong>.
+    {$fromName} <strong>reverted</strong> this change.
   </p>
 
   {if $email.changeUrl}
     <p>
       {call .ViewChangeButton data="all" /}
     </p>
-  {/if}
-
-  {if $coverLetter}
-    {call .Pre}{param content: $coverLetter /}{/call}
   {/if}
 {/template}

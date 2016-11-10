@@ -17,7 +17,6 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param change
  * @param email
  * @param fromName
  * @param patchSet
@@ -25,8 +24,8 @@
  */
 {template .ReplacePatchSetHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} uploaded patch set #{$patchSet.patchSetId} to{sp}
-    <strong>{$change.subject}</strong>.
+    {$fromName} <strong>uploaded patch set #{$patchSet.patchSetId}</strong>{sp}
+    to this change.
   </p>
 
   {if $email.changeUrl}

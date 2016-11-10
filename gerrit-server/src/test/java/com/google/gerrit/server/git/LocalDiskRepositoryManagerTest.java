@@ -15,9 +15,11 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -34,6 +36,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
@@ -164,6 +167,21 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     repoManager.createRepository(new Project.NameKey("project\\rA"));
   }
 
+  @Test(expected = IllegalStateException.class)
+  public void testProjectRecreation() throws Exception {
+    repoManager.createRepository(new Project.NameKey("a"));
+    repoManager.createRepository(new Project.NameKey("a"));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testProjectRecreationAfterRestart() throws Exception {
+    repoManager.createRepository(new Project.NameKey("a"));
+    LocalDiskRepositoryManager newRepoManager =
+        new LocalDiskRepositoryManager(site, cfg);
+    newRepoManager.start();
+    newRepoManager.createRepository(new Project.NameKey("a"));
+  }
+
   @Test
   public void testOpenRepositoryCreatedDirectlyOnDisk() throws Exception {
     Project.NameKey projectA = new Project.NameKey("projectA");
@@ -172,6 +190,42 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
       assertThat(repo).isNotNull();
     }
     assertThat(repoManager.list()).containsExactly(projectA);
+  }
+
+  @Test(expected = RepositoryCaseMismatchException.class)
+  public void testNameCaseMismatch() throws Exception {
+    assume().that(HostPlatform.isWin32() || HostPlatform.isMac());
+    repoManager.createRepository(new Project.NameKey("a"));
+    repoManager.createRepository(new Project.NameKey("A"));
+  }
+
+  @Test(expected = RepositoryCaseMismatchException.class)
+  public void testNameCaseMismatchWithSymlink() throws Exception {
+    assume().that(HostPlatform.isWin32() || HostPlatform.isMac());
+    Project.NameKey name = new Project.NameKey("a");
+    repoManager.createRepository(name);
+    createSymLink(name, "b.git");
+    repoManager.createRepository(new Project.NameKey("B"));
+  }
+
+  @Test(expected = RepositoryCaseMismatchException.class)
+  public void testNameCaseMismatchAfterRestart() throws Exception {
+    assume().that(HostPlatform.isWin32() || HostPlatform.isMac());
+    Project.NameKey name = new Project.NameKey("a");
+    repoManager.createRepository(name);
+
+    LocalDiskRepositoryManager newRepoManager =
+        new LocalDiskRepositoryManager(site, cfg);
+    newRepoManager.start();
+    newRepoManager.createRepository(new Project.NameKey("A"));
+  }
+
+  private void createSymLink(Project.NameKey project, String link)
+      throws IOException {
+    Path base = repoManager.getBasePath(project);
+    Path projectDir = base.resolve(project.get() + ".git");
+    Path symlink = base.resolve(link);
+    Files.createSymbolicLink(symlink, projectDir);
   }
 
   @Test(expected = RepositoryNotFoundException.class)

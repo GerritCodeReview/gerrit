@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_33670846",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_137.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-11T08:02:22Z",
+      "side": 1,
+      "message": "Don\u0027t we need to implement preUpdateSchema with an \"alter table\" statement like in schema 129 (change Icb3081b11)",
+      "revId": "b25f267f5dec9507b1828645bf5b2162f67a7430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -164,6 +164,43 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void watchKeyword() throws Exception {
+    String watchedProject = createProject("watchedProject").get();
+    setApiUser(user);
+
+    // watch keyword in project as user
+    watch(watchedProject, "multimaster");
+
+    // push a change with keyword -> should trigger email notification
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(new Project.NameKey(watchedProject), admin);
+    PushOneCommit.Result r = pushFactory
+        .create(db, admin.getIdent(), watchedRepo,
+            "Document multimaster setup", "a.txt", "a1")
+        .to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification for user
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body())
+        .contains("Change subject: Document multimaster setup\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
+
+    // push a change without keyword -> should not trigger email notification
+    r = pushFactory.create(db, admin.getIdent(), watchedRepo,
+        "Cleanup cache implementation", "b.txt", "b1").to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification
+    assertThat(sender.getMessages()).hasSize(0);
+  }
+
+  @Test
   public void watchAllProjects() throws Exception {
     String anyProject = createProject("anyProject").get();
     setApiUser(user);
@@ -235,6 +272,45 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(user2.emailAddress);
     assertThat(m.body()).contains("Change subject: TRIGGER_USER2\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+  }
+
+  @Test
+  public void watchKeywordAllProjects() throws Exception {
+    String anyProject = createProject("anyProject").get();
+    setApiUser(user);
+
+    // watch keyword in project as user
+    watch(allProjects.get(), "multimaster");
+
+    // push a change with keyword to any project -> should trigger email
+    // notification
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> anyRepo =
+        cloneProject(new Project.NameKey(anyProject), admin);
+    PushOneCommit.Result r = pushFactory
+        .create(db, admin.getIdent(), anyRepo,
+            "Document multimaster setup", "a.txt", "a1")
+        .to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification for user
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body())
+        .contains("Change subject: Document multimaster setup\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
+
+    // push a change without keyword to any project -> should not trigger email
+    // notification
+    r = pushFactory.create(db, admin.getIdent(), anyRepo,
+        "Cleanup cache implementation", "b.txt", "b1").to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification
+    assertThat(sender.getMessages()).hasSize(0);
   }
 
   private void watch(String project, String filter)

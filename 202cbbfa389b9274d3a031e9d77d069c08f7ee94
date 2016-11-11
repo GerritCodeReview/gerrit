@@ -35,6 +35,24 @@
       "revId": "202cbbfa389b9274d3a031e9d77d069c08f7ee94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_3356281b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-11T19:24:39Z",
+      "side": 1,
+      "message": "The reasoning is like this. Ignore means you are not interested in a change, but if it\u0027s assigned to you, the change is blocked on you. So you should still know about it.",
+      "parentUuid": "eb6c3fba_13592c4a",
+      "revId": "202cbbfa389b9274d3a031e9d77d069c08f7ee94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

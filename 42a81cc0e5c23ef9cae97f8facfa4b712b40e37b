@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb4bfb44_12b20ccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-11T16:42:30Z",
+      "side": 1,
+      "message": "I couldn\u0027t reproduce the problem you describe here. On the current master and also on stable-2.13 I tried:\n\n$ ssh -p29418 admin@localhost gerrit index changes 765\nfatal: \"765\" no such change\n\nNothing blew up.\nNothing was logged into the error_log but I don\u0027t see why would we need to log this as an error in the error_log?\n\nHow to reproduce the issue?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4bfb44_52bc949b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-11T16:42:30Z",
+      "side": 1,
+      "message": "Keep the existing:\n\n  Change.Id.parse(id)\n\nhere. It will also throws a NumberFormatException if the id is not parseable.\n\nThere is quite some logic behind the Change.Id.parse. We shouldn\u0027t remove all that logic without elaborating in the commit message the reason for that.",
+      "range": {
+        "startLine": 120,
+        "startChar": 27,
+        "endLine": 120,
+        "endChar": 62
+      },
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4bfb44_32af1065",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-11T16:42:30Z",
+      "side": 1,
+      "message": "Why do we need to log this as an error when a user makes a typo in his SSH command?",
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

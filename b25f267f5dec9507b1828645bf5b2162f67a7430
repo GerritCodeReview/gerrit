@@ -16,6 +16,24 @@
       "revId": "b25f267f5dec9507b1828645bf5b2162f67a7430",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab5087f0_b1994057",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_137.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-11T08:17:39Z",
+      "side": 1,
+      "message": "I don\u0027t think so. The problem the preUpdate() step in Icb3081b11 is solving is that the problem could already exist on stable-2.12 and because we do not support schema migrations on stable branches, we hadn\u0027t the option to bump the schema version and include the alter table (merging schema versions). So the only option Gerrit user had to overcome the problem with too many merged commits is to alter the group column in patch set column was to issue the SQL\n\n  ALTER TABLE patch_set modify groups CLOB\n\nmanually. But then with such migrated schema, the attempt to upgrade to Schema_129 would fail, as the type of the column is already CLOB.\n\nThat why this step was needed, to gracefully ignore SQl Exeption to modify groups column type. Ignoring the catched SQL exception that why it was done.\n\nSuch a problem doesn\u0027t exist here (simultaneous schema bumping on stable and master branches), we do all that only to satisfy Bazel sandboxing tests execution that appear to produce very long paths names.",
+      "parentUuid": "eb6c3fba_33670846",
+      "revId": "b25f267f5dec9507b1828645bf5b2162f67a7430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

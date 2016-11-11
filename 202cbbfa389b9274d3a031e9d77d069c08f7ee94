@@ -17,6 +17,24 @@
       "revId": "202cbbfa389b9274d3a031e9d77d069c08f7ee94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_13592c4a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-11T19:23:21Z",
+      "side": 1,
+      "message": "Yes, it was intentional that they still show up here in the dashboard.",
+      "parentUuid": "0b70b387_d4f4fc1a",
+      "revId": "202cbbfa389b9274d3a031e9d77d069c08f7ee94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

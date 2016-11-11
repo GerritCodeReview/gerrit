@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
@@ -80,15 +79,6 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     cfg.setBoolean("change", null, "submitWholeTopic", true);
     cfg.setEnum("project", null, "submitType", SubmitType.REBASE_IF_NECESSARY);
     return cfg;
-  }
-
-  protected TestRepository<?> createProjectWithPush(String name,
-      @Nullable Project.NameKey parent, boolean createEmptyCommit,
-      SubmitType submitType) throws Exception {
-    Project.NameKey project = createProject(name, parent, createEmptyCommit, submitType);
-    grant(Permission.PUSH, project, "refs/heads/*");
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
-    return cloneProject(project);
   }
 
   protected TestRepository<?> createProjectWithPush(String name,

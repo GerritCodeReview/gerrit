@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
@@ -65,14 +64,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   @ConfigSuite.Config
   public static Config rebaseIfNecessary() {
     return submitByRebaseIfNecessaryConfig();
-  }
-
-  private void skipForRebaseStrategies() {
-    //TODO(dpursehouse) remove this when rebase strategies are fixed
-    SubmitType t = getSubmitType();
-    assume()
-      .that(t != SubmitType.REBASE_ALWAYS && t != SubmitType.REBASE_IF_NECESSARY)
-      .isTrue();
   }
 
   @Test
@@ -357,8 +348,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
   @Test
   public void testSameProjectDifferentBranchDifferentPaths() throws Exception {
-    skipForRebaseStrategies();
-
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub = createProjectWithPush("sub");
 
@@ -597,8 +586,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
   @Test
   public void testProjectNoSubscriptionWholeTopic() throws Exception {
-    skipForRebaseStrategies();
-
     TestRepository<?> repoA = createProjectWithPush("project-a");
     TestRepository<?> repoB = createProjectWithPush("project-b");
     // bootstrap the dev branch
@@ -651,8 +638,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
   @Test
   public void testTwoProjectsMultipleBranchesWholeTopic() throws Exception {
-    skipForRebaseStrategies();
-
     TestRepository<?> repoA = createProjectWithPush("project-a");
     TestRepository<?> repoB = createProjectWithPush("project-b");
     // bootstrap the dev branch

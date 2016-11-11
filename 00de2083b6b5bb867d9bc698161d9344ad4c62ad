@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "4b28eb69_06801ae0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-11T00:28:33Z",
+      "side": 1,
+      "message": "Had a chat with Becky on IM, will try to summarize here.\n\nI\u0027m still not sure what the use case is for having multiple dashboard sections in a single user\u0027s preferences. As we have it, the only information we record for a dashboard is a list of columns. What does it mean to have two dashboards, aka two lists of columns? Would there be some way of switching between them in the UI? Logan, what did you have in mind here?\n\nThe simplest thing to do for now is to just support a single section, no subsection, with a single list of columns as in my original proposal. If we decide to give meaning later to different subsections, I don\u0027t think having a single [dashboard] section precludes that.\n\n(A separate issue is how does this interact with the other feature in Gerrit called \"dashboards\", does it overlap, is it orthogonal...? But we can leave that aside for now.)",
+      "parentUuid": "0b70b387_5458ec9b",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_d3c7b431",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 1

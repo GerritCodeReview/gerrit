@@ -135,7 +135,9 @@ plugin](https://ij.bazel.io). Do the following:
   * Install the plugin (requires IJ 2016.2 or newer)
   * Select "File > Import Bazel project".
   * Select "Workspace": (directory holding gerrit source)
-  * Select "project view: generate from BUILD": (enter top level BUILD file)
+  * Select the .projectview file from the Gerrit directory
+  * Once the project was created, copy toos/intellij/gerrit_daemon.xml to .idea/runConfigurations/gerrit_daemon.xml in
+    your IntelliJ output directory and replace /path/to/testsite with the absolute path to your Gerrit testsite
 
 [[documentation]]
 === Documentation

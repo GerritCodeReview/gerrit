@@ -141,7 +141,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
 
   @Override
   public void start() {
-    names = list();
   }
 
   @Override
@@ -207,7 +206,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
 
   @Override
   public Repository createRepository(Project.NameKey name)
-      throws RepositoryNotFoundException, RepositoryCaseMismatchException {
+      throws RepositoryNotFoundException, RepositoryCaseMismatchException,
+      IOException {
     Path path = getBasePath(name);
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
@@ -218,6 +218,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     if (dir != null) {
       // Already exists on disk, use the repository we found.
       //
+      Project.NameKey onDiskName = getProjectName(
+          path, dir.getCanonicalFile().toPath());
+      onCreateProject(onDiskName);
+
       loc = FileKey.exact(dir, FS.DETECTED);
 
       if (!names.contains(name)) {
@@ -378,6 +382,18 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     }
   }
 
+  private static Project.NameKey getProjectName(Path startFolder, Path p) {
+    String projectName = startFolder.relativize(p).toString();
+    if (File.separatorChar != '/') {
+      projectName = projectName.replace(File.separatorChar, '/');
+    }
+    if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
+      int newLen = projectName.length() - Constants.DOT_GIT_EXT.length();
+      projectName = projectName.substring(0, newLen);
+    }
+    return new Project.NameKey(projectName);
+  }
+
   protected class ProjectVisitor extends SimpleFileVisitor<Path> {
     private final SortedSet<Project.NameKey> found = new TreeSet<>();
     private Path startFolder;
@@ -408,7 +424,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     }
 
     private void addProject(Path p) {
-      Project.NameKey nameKey = getProjectName(p);
+      Project.NameKey nameKey = getProjectName(startFolder, p);
       if (getBasePath(nameKey).equals(startFolder)) {
         if (isUnreasonableName(nameKey)) {
           log.warn(
@@ -417,18 +433,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
           found.add(nameKey);
         }
       }
-    }
-
-    private Project.NameKey getProjectName(Path p) {
-      String projectName = startFolder.relativize(p).toString();
-      if (File.separatorChar != '/') {
-        projectName = projectName.replace(File.separatorChar, '/');
-      }
-      if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
-        int newLen = projectName.length() - Constants.DOT_GIT_EXT.length();
-        projectName = projectName.substring(0, newLen);
-      }
-      return new Project.NameKey(projectName);
     }
   }
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-chip</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+<link rel="import" href="gr-account-chip.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-chip></gr-account-chip>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-chip tests', function() {
+    var element;
+    var sandbox;
+    var dummyAccount = {id: 1};
+
+    setup(function() {
+      element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
+    });
+
+    test('_focused flag properly triggered', function(done) {
+      flush(function() {
+        assert.isFalse(element._focused);
+        var input = element.$.remove;
+        MockInteractions.focus(input);
+        assert.isTrue(element._focused);
+        MockInteractions.blur(input);
+        assert.isFalse(element._focused);
+        done();
+      });
+    });
+
+    test('fires remove event', function(done) {
+      var spy = sandbox.spy();
+      element.account = dummyAccount;
+      element.addEventListener('remove', spy);
+      flush(function() {
+        MockInteractions.tap(element.$.remove);
+        assert.isTrue(spy.called);
+        var detail = spy.lastCall.args[0].detail;
+        assert.deepEqual(detail, {account: dummyAccount});
+        done();
+      });
+    });
+
+    test('fires account-chip-keydown event', function(done) {
+      element.account = dummyAccount;
+      var spy = sandbox.spy();
+      element.addEventListener('account-chip-keydown', spy);
+      flush(function() {
+        MockInteractions.keyDownOn(element.$.remove, 13); // Enter
+        assert.isTrue(spy.called);
+        var detail = spy.lastCall.args[0].detail;
+        assert.deepEqual(detail, {keyCode: 13, chip: element});
+        done();
+      });
+    });
+  });
+</script>

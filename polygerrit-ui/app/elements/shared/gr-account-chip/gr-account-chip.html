@@ -57,13 +57,21 @@ limitations under the License.
       gr-button.transparentBackground {
         background-color: transparent;
       }
+      .focused,
+      gr-button.focused {
+        background: #ccc;
+      }
     </style>
-    <div class$="container [[_getBackgroundClass(transparentBackground)]]">
+    <div class$="container [[_getBackgroundClass(transparentBackground, _focused)]]">
       <gr-account-link account="[[account]]"></gr-account-link>
       <gr-button
-          hidden$="[[!removable]]" hidden
-          class$="remove [[_getBackgroundClass(transparentBackground)]]"
-          on-tap="_handleRemoveTap">×</gr-button>
+          id="remove"
+          hidden$="[[!removable]]"
+          class$="remove [[_getBackgroundClass(transparentBackground, _focused)]]"
+          on-tap="_handleRemoveTap"
+          on-keydown="_handleButtonKeydown"
+          on-focus="_onFocus"
+          on-blur="_onBlur">×</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

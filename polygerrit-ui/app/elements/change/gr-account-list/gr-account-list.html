@@ -42,7 +42,8 @@ limitations under the License.
           account="[[account]]"
           class$="[[_computeChipClass(account)]]"
           data-account-id$="[[account._account_id]]"
-          removable="[[_computeRemovable(account)]]">
+          removable="[[_computeRemovable(account)]]"
+          on-account-chip-keydown="_handleChipKeydown">
       </gr-account-chip>
     </template>
     <gr-account-entry

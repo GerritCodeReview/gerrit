@@ -18,8 +18,25 @@
   Polymer({
     is: 'gr-account-chip',
 
+    /**
+     * Fired to indicate a key was pressed while this chip was focused.
+     *
+     * @event account-chip-keydown
+     */
+
+    /**
+     * Fired to indicate this chip should be removed, i.e. when the x button is
+     * clicked or when the remove function is called.
+     *
+     * @event remove
+     */
+
     properties: {
       account: Object,
+      _focused: {
+        type: Boolean,
+        value: false,
+      },
       removable: {
         type: Boolean,
         value: false,
@@ -40,19 +57,45 @@
       }.bind(this));
     },
 
-    _getBackgroundClass: function(transparent) {
-      return transparent ? 'transparentBackground' : '';
+    focus: function() {
+      this.$.remove.focus();
+    },
+
+    blur: function() {
+      this.$.remove.blur();
+    },
+
+    _onFocus: function() {
+      this._focused = true;
+    },
+
+    _onBlur: function() {
+      this._focused = false;
+    },
+
+    remove: function() {
+      this.fire('remove', {account: this.account});
+    },
+
+    _getBackgroundClass: function(transparent, focused) {
+      if (transparent) { return 'transparentBackground'; }
+      if (focused) { return 'focused'; }
+      return '';
     },
 
     _handleRemoveTap: function(e) {
       e.preventDefault();
-      this.fire('remove', {account: this.account});
+      this.remove();
     },
 
     _getHasAvatars: function() {
       return this.$.restAPI.getConfig().then(function(cfg) {
         return Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars));
       });
+    },
+    _handleButtonKeydown: function(e) {
+      e.preventDefault();
+      this.fire('account-chip-keydown', {keyCode: e.keyCode, chip: this});
     },
   });
 })();

@@ -118,6 +118,48 @@
         case 8: // Backspace
           this.splice('accounts', this.accounts.length - 1, 1);
           break;
+        case 37: // Left arrow
+          var chips = this.accountChips;
+          if (chips[chips.length - 1]) {
+            chips[chips.length - 1].focus();
+          }
+          break;
+      }
+    },
+
+    _handleChipKeydown: function(e) {
+      var chip = e.detail.chip;
+      var chips = this.accountChips;
+      var index = chips.indexOf(chip);
+      switch (e.detail.keyCode) {
+        case 8: // Backspace
+        case 46: // Delete
+          chip.remove();
+          // Splice from this array to avoid inconsistent ordering of
+          // event handling.
+          chips.splice(index, 1);
+          if (index < chips.length) {
+            chips[index].focus();
+          } else if (index > 0) {
+            chips[index - 1].focus();
+          } else {
+            this.$.entry.focus();
+          }
+          break;
+        case 37: // Left arrow
+          if (index > 0) {
+            chip.blur();
+            chips[index - 1].focus();
+          }
+          break;
+        case 39: // Right arrow
+          chip.blur();
+          if (index < chips.length - 1) {
+            chips[index + 1].focus();
+          } else {
+            this.$.entry.focus();
+          }
+          break;
       }
     },
 

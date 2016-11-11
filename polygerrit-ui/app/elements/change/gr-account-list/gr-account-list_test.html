@@ -256,6 +256,46 @@ limitations under the License.
           done();
         });
       });
+
+      test('arrow key navigation', function(done) {
+        var input = element.$.entry.$.input;
+        input.text = '';
+        element.accounts = [makeAccount(), makeAccount()];
+        MockInteractions.focus(input.$.input);
+        flush(function() {
+          var chips = element.accountChips;
+          var chipsOneSpy = sandbox.spy(chips[1], 'focus');
+          MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+          assert.isTrue(chipsOneSpy.called);
+          var chipsZeroSpy = sandbox.spy(chips[0], 'focus');
+          MockInteractions.pressAndReleaseKeyOn(chips[1].$.remove, 37); // Left
+          assert.isTrue(chipsZeroSpy.called);
+          MockInteractions.pressAndReleaseKeyOn(chips[0].$.remove, 37); // Left
+          assert.isTrue(chipsZeroSpy.calledOnce);
+          MockInteractions.pressAndReleaseKeyOn(chips[0].$.remove, 39); // Right
+          assert.isTrue(chipsOneSpy.calledTwice);
+          done();
+        });
+      });
+
+      test('delete', function(done) {
+        element.accounts = [makeAccount(), makeAccount()];
+        flush(function() {
+          var chips = element.accountChips;
+          var focusSpy = sandbox.spy(element.accountChips[1], 'focus');
+          var removeSpy = sandbox.spy(element.accountChips[0], 'remove');
+          MockInteractions.pressAndReleaseKeyOn(
+              element.accountChips[0].$.remove, 8); // Backspace
+          assert.isTrue(focusSpy.called);
+          assert.isTrue(removeSpy.called);
+
+          removeSpy = sandbox.spy(element.accountChips[1], 'remove');
+          MockInteractions.pressAndReleaseKeyOn(
+              element.accountChips[1].$.remove, 46); // Delete
+          assert.isTrue(removeSpy.called);
+          done();
+        });
+      });
     });
   });
 </script>

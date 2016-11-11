@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_3334683d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-11T01:49:02Z",
+      "side": 1,
+      "message": "The same is equally true of these spans.",
+      "range": {
+        "startLine": 199,
+        "startChar": 16,
+        "endLine": 200,
+        "endChar": 81
+      },
+      "revId": "772f063364cda57dced1fb78b35b2199e31d6d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_5331e44b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-11T01:49:02Z",
+      "side": 1,
+      "message": "And these.",
+      "range": {
+        "startLine": 61,
+        "startChar": 12,
+        "endLine": 62,
+        "endChar": 77
+      },
+      "revId": "772f063364cda57dced1fb78b35b2199e31d6d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

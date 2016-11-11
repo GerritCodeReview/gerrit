@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "eb6c3fba_33de28c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-11T04:05:18Z",
+      "side": 1,
+      "message": "Nit: can we put the attribute name on the same line as the value? Even if it overflows 80 characters I think that\u0027d be easier to read.",
+      "range": {
+        "startLine": 197,
+        "startChar": 44,
+        "endLine": 197,
+        "endChar": 54
+      },
+      "revId": "772f063364cda57dced1fb78b35b2199e31d6d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_3334683d",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 6
@@ -37,6 +60,24 @@
       "side": 1,
       "message": "Should I get rid of the wrapping spans in all of the affected files, too, or is that immaterial to this change?",
       "parentUuid": "eb6c3fba_3334683d",
+      "revId": "772f063364cda57dced1fb78b35b2199e31d6d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_13e12c89",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-11T04:05:18Z",
+      "side": 1,
+      "message": "That\u0027s up to you. I\u0027d just avoid adding new instances.",
+      "parentUuid": "eb6c3fba_93a37c55",
       "revId": "772f063364cda57dced1fb78b35b2199e31d6d41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

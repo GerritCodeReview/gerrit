@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_93a37c55",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-11T01:57:18Z",
+      "side": 1,
+      "message": "Should I get rid of the wrapping spans in all of the affected files, too, or is that immaterial to this change?",
+      "parentUuid": "eb6c3fba_3334683d",
+      "revId": "772f063364cda57dced1fb78b35b2199e31d6d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_5331e44b",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
         "patchSetId": 6

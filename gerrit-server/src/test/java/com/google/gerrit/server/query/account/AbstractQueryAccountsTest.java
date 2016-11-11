@@ -35,7 +35,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -90,9 +89,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject
   protected InMemoryDatabase schemaFactory;
-
-  @Inject
-  protected InternalChangeQuery internalChangeQuery;
 
   @Inject
   protected SchemaCreator schemaCreator;

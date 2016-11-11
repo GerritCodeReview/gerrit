@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab5087f0_71a0b87a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-11T09:23:40Z",
+      "side": 1,
+      "message": "Thanks for detailed description below.\n\nWhat will happen in the following cases:\n\n1. Two changes have the same topic but belong to different projects.\nIf I push a new patch-set to one of them (using the topic/similarity-check\nopen), will the other change be abandoned?\n\n2. What if c1, c2 and c3 are not succeeding each other but are siblings\n\n  c1  c2  c3\n   \\  |  /\n    \\ | /\n     master\n\nand all have the same topic. If I push a new patch-set to any of them\nwill the other 2 get abandoned?",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "264623feea4601d067bec9faa0d24d63f5de8e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -378,6 +378,20 @@ limitations under the License.
 
     });
 
+    test('reload entire page when patchRange doesnt change', function() {
+      var reloadStub = sandbox.stub(element, '_reload',
+          function() { return Promise.resolve(); });
+
+      var value = {
+        view: 'gr-change-view',
+      };
+      element._paramsChanged(value);
+      assert.isTrue(reloadStub.calledOnce);
+      element._initialLoadComplete = true;
+      element._paramsChanged(value);
+      assert.isTrue(reloadStub.calledTwice);
+    });
+
     test('change status new', function() {
       element._changeNum = '1';
       element._patchRange = {

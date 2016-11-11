@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -1029,10 +1030,14 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     private ChangeContext newChangeContext(ReviewDb db, Repository repo,
-        RevWalk rw, Change.Id id) throws Exception {
+        RevWalk rw, Change.Id id) throws OrmException, NoSuchChangeException {
       Change c = newChanges.get(id);
       if (c == null) {
-        c = ChangeNotes.readOneReviewDbChange(db, id);
+        c = ReviewDbUtil.unwrapDb(db).changes().get(id);
+        if (c == null) {
+          logDebug("Failed to get change {} from unwrapped db", id);
+          throw new NoSuchChangeException(id);
+        }
       }
       // Pass in preloaded change to controlFor, to avoid:
       //  - reading from a db that does not belong to this update

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1478874312 -0800\nnonce AG58fQpjhcjw2AR5Ish1zxvfSpa7OPhEiG+yTaAeTwxtHbrmrtHNo76S6D5Qxz3STBESp0Mf8jRQ\n\n0000000000000000000000000000000000000000 33225a32653c3d964445795a19f4800d08cdc9d2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYJdTIAAoJEHFVO370GiZWz/wIAIOL4SKRPY55183JBCsjFVO9\nGBSwLzmbYMq22kQBsXf8AUPP/DMfj1RCV/3lLavnS1Z4MLH1HHejGA6OxtHS2zXV\nSRrtcuazOozU4hUWtWh1JFeqbEzp8D2ZfrtkuZAZp2r2yA/5lLnVOMV/xDG2JTDl\n7VYYD78DSnV80CDJ3NZhxuezMe1mpfs8cABMjvJSW7iJwPenpQ1hrbn3bC492soy\nYrPfQRYazD3/F3lX1qQFgUi0ASR5CZL4P1rKOTcYUcLvLUuY0I7OkSu4CdI9QPaI\n30ptPgYNk+eFCOYUxNh0BSCe9TBVPWG67mmfXmMqEt6jx/Vru+zCtxHddFF9dPI\u003d\n\u003dPcfW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab5087f0_31af1065",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-11T15:35:45Z",
+      "side": 1,
+      "message": "I am undecided if this makes it clearer that the dashboard now also includes assigned changes.",
+      "revId": "33225a32653c3d964445795a19f4800d08cdc9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

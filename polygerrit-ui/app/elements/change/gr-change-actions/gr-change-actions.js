@@ -49,6 +49,15 @@
 
   var ADDITIONAL_ACTION_KEY_PREFIX = '__additionalAction_';
 
+  var QUICK_APPROVE_ACTION = {
+    __key: 'review',
+    __type: 'change',
+    key: 'review',
+    label: 'Quick Approve',
+    method: 'POST',
+    title: 'Set maximal score to all labels you can.',
+  };
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -98,7 +107,7 @@
       _changeActionValues: {
         type: Array,
         computed: '_computeChangeActionValues(actions.*, ' +
-            'primaryActionKeys.*, _additionalActions.*)',
+            'primaryActionKeys.*, _additionalActions.*, change)',
       },
       _additionalActions: {
         type: Array,
@@ -243,9 +252,14 @@
     },
 
     _computeChangeActionValues: function(actionsChangeRecord,
-        primariesChangeRecord, additionalActionsChangeRecord) {
-      return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, ActionType.CHANGE);
+        primariesChangeRecord, additionalActionsChangeRecord, change) {
+      var actions = this._getActionValues(
+        actionsChangeRecord, primariesChangeRecord,
+        additionalActionsChangeRecord, ActionType.CHANGE, change);
+      if (actions.length && this._canQuickApprove(change)) {
+        actions.unshift(QUICK_APPROVE_ACTION);
+      }
+      return actions;
     },
 
     _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
@@ -287,6 +301,17 @@
         return Object.assign({}, a);
       });
       return result.concat(additionalActions);
+    },
+
+    _canQuickApprove: function(change) {
+      if (!change || !change.labels || !change.permitted_labels) {
+        return false;
+      }
+      var missingApprovals = Object.keys(change.labels).filter(function(label) {
+        return !change.labels[label].approved;
+      });
+      return missingApprovals.some(
+          function(label) { return label in change.permitted_labels; });
     },
 
     _computeLoadingLabel: function(action) {
@@ -344,6 +369,18 @@
         this.showRevertDialog();
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);
+      } else if (key === QUICK_APPROVE_ACTION.key) {
+        var review = {
+          drafts: 'PUBLISH_ALL_REVISIONS',
+          labels: {},
+        };
+        var permittedLabels = this.change.permitted_labels;
+        Object.keys(permittedLabels).forEach(function(label) {
+          // Set label to maximal score permitted for it.
+          review.labels[label] = permittedLabels[label].slice(-1)[0];
+        });
+        this._fireAction(
+            this._prependSlash(key), QUICK_APPROVE_ACTION, true, review);
       } else {
         this._fireAction(this._prependSlash(key), this.actions[key], false);
       }

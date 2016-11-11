@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_d325f4c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-11T18:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab8a47d9_017d8a20",
+      "revId": "94def9d72ca35d92b01a067fc3262d8a553362db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7327cf_39e6cfd3",
         "filename": "gerrit-launcher/BUILD",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "now that we\u0027ve ported most of the things, is there any reason why we should keep the BUILD files formatted in the Buck style?",
       "parentUuid": "ab7327cf_9936fb14",
+      "revId": "94def9d72ca35d92b01a067fc3262d8a553362db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_f32af094",
+        "filename": "gerrit-launcher/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-11T18:41:51Z",
+      "side": 1,
+      "message": "ACK. I\u0027d keep the old format for now so that the style is consistent.",
+      "parentUuid": "4b82abce_b633c823",
       "revId": "94def9d72ca35d92b01a067fc3262d8a553362db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

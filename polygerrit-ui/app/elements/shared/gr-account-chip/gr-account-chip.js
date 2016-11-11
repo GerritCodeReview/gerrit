@@ -18,6 +18,19 @@
   Polymer({
     is: 'gr-account-chip',
 
+    /**
+     * Fired to indicate a key was pressed while this chip was focused.
+     *
+     * @event account-chip-keydown
+     */
+
+    /**
+     * Fired to indicate this chip should be removed, i.e. when the x button is
+     * clicked or when the remove function is called.
+     *
+     * @event remove
+     */
+
     properties: {
       account: Object,
       removable: {

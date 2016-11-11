@@ -90,6 +90,10 @@
 
     _handleRemove: function(e) {
       var toRemove = e.detail.account;
+      this._removeAccount(toRemove);
+    },
+
+    _removeAccount: function(toRemove) {
       for (var i = 0; i < this.accounts.length; i++) {
         var matches;
         var account = this.accounts[i];
@@ -104,8 +108,7 @@
           return;
         }
       }
-      console.warn('received remove event for missing account',
-          e.detail.account);
+      console.warn('received remove event for missing account', toRemove);
     },
 
     _handleInputKeydown: function(e) {
@@ -117,6 +120,50 @@
       switch (e.detail.keyCode) {
         case 8: // Backspace
           this.splice('accounts', this.accounts.length - 1, 1);
+          break;
+        case 37: // Left arrow
+          var chips = this.accountChips;
+          if (chips[chips.length - 1]) {
+            chips[chips.length - 1].focus();
+          }
+          break;
+      }
+    },
+
+    _handleChipKeydown: function(e) {
+      var chip = e.target;
+      var chips = this.accountChips;
+      var index = chips.indexOf(chip);
+      switch (e.keyCode) {
+        case 8: // Backspace
+        case 13: // Enter
+        case 32: // Spacebar
+        case 46: // Delete
+          this._removeAccount(chip.account);
+          // Splice from this array to avoid inconsistent ordering of
+          // event handling.
+          chips.splice(index, 1);
+          if (index < chips.length) {
+            chips[index].focus();
+          } else if (index > 0) {
+            chips[index - 1].focus();
+          } else {
+            this.$.entry.focus();
+          }
+          break;
+        case 37: // Left arrow
+          if (index > 0) {
+            chip.blur();
+            chips[index - 1].focus();
+          }
+          break;
+        case 39: // Right arrow
+          chip.blur();
+          if (index < chips.length - 1) {
+            chips[index + 1].focus();
+          } else {
+            this.$.entry.focus();
+          }
           break;
       }
     },

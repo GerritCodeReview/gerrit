@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "90ee9471_6197d628",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-11T18:58:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b70b387_9428c4b9",
+      "range": {
+        "startLine": 1036,
+        "startChar": 12,
+        "endLine": 1036,
+        "endChar": 55
+      },
+      "revId": "e8e615dfd1bf5411c0576764b88a9cfa9ee14152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_53e9e43c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-11T18:31:19Z",
       "side": 1,
       "message": "What about the diff from line 160-163 from [1], should it be applied here?\n\n[1] https://gerrit-review.googlesource.com/#/c/90314/13/gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 58
+      },
+      "revId": "e8e615dfd1bf5411c0576764b88a9cfa9ee14152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90ee9471_418cd218",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-11T18:58:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6c3fba_53e9e43c",
       "range": {
         "startLine": 260,
         "startChar": 6,

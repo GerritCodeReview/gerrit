@@ -22,6 +22,24 @@
       "revId": "264623feea4601d067bec9faa0d24d63f5de8e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_f443b85c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-11-11T22:09:12Z",
+      "side": 1,
+      "message": "1. Oh. I think currently I get the existing changes by `queryProvider.get().byTopicOpen(magicBranch.topic);`. I assume this would return different projects\u0027 changes, right? Then, currently the code would abandon different projects\u0027 changes.\n\nI don\u0027t think this is an intended behavior. I\u0027ll change this.\n\n2. (I assume that \"push a new patch-set\" means pushing a new commit c4, which has `master` as the direct parent, to refs/for/master with no Change-Id line. I think you can create a new patch-set directly by pushing to refs/changes/34/1234, but not this.)\n\nTwo possible outcomes. One case is that c4 is classified as similar to c1,c2,c3, and added as a new patch-set of one of them. In this case, the rest of the changes are abandoned. The other case is that c4 is not classified as similar to any of c1,c2,c3. In this case, all of them (c1,c2,c3) are abandoned, and a new change is created based on c4.\n\n---\n\nI feel this abandon behavior can be a disaster if it\u0027s used improperly. As I wrote in the description, this option is intended to be used for importing GitHub pull-requests to Gerrit. I think not many people would do this. Plus, this similarity-match requires \"allow push without Change-Id\". Almost all projects would not allow that. This option\u0027s use case should be very narrow.\n\nAdding a permission for similarity-match option and restricting the usage to some users (which I think are robot accounts) would add additional safety. What do you think?",
+      "parentUuid": "ab5087f0_71a0b87a",
+      "revId": "264623feea4601d067bec9faa0d24d63f5de8e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

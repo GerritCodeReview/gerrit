@@ -15,6 +15,7 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.exceptions.PrologException;
@@ -26,7 +27,13 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PRED_uploader_1 extends Predicate.P1 {
+  private static final Logger log =
+      LoggerFactory.getLogger(PRED_uploader_1.class);
+
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
 
   public PRED_uploader_1(Term a1, Operation n) {
@@ -39,7 +46,14 @@ public class PRED_uploader_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Account.Id uploaderId = StoredValues.getPatchSet(engine).getUploader();
+    PatchSet patchSet = StoredValues.getPatchSet(engine);
+    if (patchSet == null) {
+      log.error("Failed to load current patch set of change "
+          + StoredValues.getChange(engine).getChangeId());
+      return engine.fail();
+    }
+
+    Account.Id uploaderId = patchSet.getUploader();
 
     if (!a1.unify(new StructureTerm(user, new IntegerTerm(uploaderId.get())),
         engine.trail)) {

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "2b257791_058012e0",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-11T00:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6c3fba_93429cac",
+      "revId": "25afb2814c28c588b1583b89ba2346173e641eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b7d1329_cc9e6fee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 5
@@ -84,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "4b28eb69_66870ef7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-11T00:43:02Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "eb6c3fba_b34798bb",
+      "revId": "25afb2814c28c588b1583b89ba2346173e641eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_d33c142a",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 5
@@ -95,6 +131,24 @@
       "writtenOn": "2016-11-10T23:44:32Z",
       "side": 1,
       "message": "I wonder if it makes sense to move this into behavior too.\nNot as \u0027_computeXXX\u0027, but something like \u0027getPatchDescription\u0027 or something like that?",
+      "revId": "25afb2814c28c588b1583b89ba2346173e641eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b28eb69_a6990657",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-11T00:43:02Z",
+      "side": 1,
+      "message": "That doesn\u0027t really work, because functions in behaviors can\u0027t reference other functions in that same behavior (unless there\u0027s a more clever way to do this that I don\u0027t realize). The getRevisionNumber function is one that is used already in the change-view, so it can\u0027t all be rolled into one function either.",
+      "parentUuid": "eb6c3fba_d33c142a",
       "revId": "25afb2814c28c588b1583b89ba2346173e641eb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

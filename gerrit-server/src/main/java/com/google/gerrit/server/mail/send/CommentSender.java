@@ -175,68 +175,69 @@ public class CommentSender extends ReplyToChangeSender {
    */
   @Deprecated
   public String getInlineComments(int lines) {
-    StringBuilder cmts = new StringBuilder();
-    for (FileCommentGroup group : getGroupedInlineComments()) {
-      String link = group.getLink();
-      if (link != null) {
-        cmts.append(link).append('\n');
+    try (Repository repo = getRepository()) {
+      StringBuilder cmts = new StringBuilder();
+      for (FileCommentGroup group : getGroupedInlineComments(repo)) {
+        String link = group.getLink();
+        if (link != null) {
+          cmts.append(link).append('\n');
+        }
+        cmts.append(group.getTitle()).append(":\n\n");
+        for (Comment c : group.comments) {
+          appendComment(cmts, lines, group.fileData, c);
+        }
+        cmts.append("\n\n");
       }
-      cmts.append(group.getTitle()).append(":\n\n");
-      for (Comment c : group.comments) {
-        appendComment(cmts, lines, group.fileData, c);
-      }
-      cmts.append("\n\n");
+      return cmts.toString();
     }
-    return cmts.toString();
   }
 
   /**
    * @return a list of FileCommentGroup objects representing the inline comments
    * grouped by the file.
    */
-  private List<CommentSender.FileCommentGroup> getGroupedInlineComments() {
+  private List<CommentSender.FileCommentGroup> getGroupedInlineComments(
+      Repository repo) {
     List<CommentSender.FileCommentGroup> groups = new ArrayList<>();
-    try (Repository repo = getRepository()) {
-      // Get the patch list:
-      PatchList patchList = null;
-      if (repo != null) {
-        try {
-          patchList = getPatchList();
-        } catch (PatchListNotAvailableException e) {
-          log.error("Failed to get patch list", e);
+    // Get the patch list:
+    PatchList patchList = null;
+    if (repo != null) {
+      try {
+        patchList = getPatchList();
+      } catch (PatchListNotAvailableException e) {
+        log.error("Failed to get patch list", e);
+      }
+    }
+
+    // Loop over the comments and collect them into groups based on the file
+    // location of the comment.
+    FileCommentGroup currentGroup = null;
+    for (Comment c : inlineComments) {
+      // If it's a new group:
+      if (currentGroup == null
+          || !c.key.filename.equals(currentGroup.filename)
+          || c.key.patchSetId != currentGroup.patchSetId) {
+        currentGroup = new FileCommentGroup();
+        currentGroup.filename = c.key.filename;
+        currentGroup.patchSetId = c.key.patchSetId;
+        groups.add(currentGroup);
+        if (patchList != null) {
+          try {
+            currentGroup.fileData =
+                new PatchFile(repo, patchList, c.key.filename);
+          } catch (IOException e) {
+            log.warn(String.format(
+                "Cannot load %s from %s in %s",
+                c.key.filename,
+                patchList.getNewId().name(),
+                projectState.getProject().getName()), e);
+            currentGroup.fileData = null;
+          }
         }
       }
 
-      // Loop over the comments and collect them into groups based on the file
-      // location of the comment.
-      FileCommentGroup currentGroup = null;
-      for (Comment c : inlineComments) {
-        // If it's a new group:
-        if (currentGroup == null
-            || !c.key.filename.equals(currentGroup.filename)
-            || c.key.patchSetId != currentGroup.patchSetId) {
-          currentGroup = new FileCommentGroup();
-          currentGroup.filename = c.key.filename;
-          currentGroup.patchSetId = c.key.patchSetId;
-          groups.add(currentGroup);
-          if (patchList != null) {
-            try {
-              currentGroup.fileData =
-                  new PatchFile(repo, patchList, c.key.filename);
-            } catch (IOException e) {
-              log.warn(String.format(
-                  "Cannot load %s from %s in %s",
-                  c.key.filename,
-                  patchList.getNewId().name(),
-                  projectState.getProject().getName()), e);
-              currentGroup.fileData = null;
-            }
-          }
-        }
-
-        if (currentGroup.fileData != null) {
-          currentGroup.comments.add(c);
-        }
+      if (currentGroup.fileData != null) {
+        currentGroup.comments.add(c);
       }
     }
 
@@ -452,10 +453,11 @@ public class CommentSender extends ReplyToChangeSender {
    * @return grouped inline comment data mapped to data structures that are
    * suitable for passing into Soy.
    */
-  private List<Map<String, Object>> getCommentGroupsTemplateData() {
+  private List<Map<String, Object>> getCommentGroupsTemplateData(
+      Repository repo) {
     List<Map<String, Object>> commentGroups = new ArrayList<>();
 
-    for (CommentSender.FileCommentGroup group : getGroupedInlineComments()) {
+    for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
       groupData.put("link", group.getLink());
       groupData.put("title", group.getTitle());
@@ -530,7 +532,9 @@ public class CommentSender extends ReplyToChangeSender {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContext.put("commentFiles", getCommentGroupsTemplateData());
+    try (Repository repo = getRepository()) {
+      soyContext.put("commentFiles", getCommentGroupsTemplateData(repo));
+    }
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

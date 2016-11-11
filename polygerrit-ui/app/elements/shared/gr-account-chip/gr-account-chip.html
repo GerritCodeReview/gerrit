@@ -53,6 +53,15 @@ limitations under the License.
         padding: 0;
         text-decoration: none;
       }
+      :host:focus {
+        border-color: transparent;
+        box-shadow: none;
+        outline: none;
+      }
+      :host:focus .container,
+      :host:focus gr-button {
+        background: #ccc;
+      }
       .transparentBackground,
       gr-button.transparentBackground {
         background-color: transparent;
@@ -61,6 +70,7 @@ limitations under the License.
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
       <gr-account-link account="[[account]]"></gr-account-link>
       <gr-button
+          id="remove"
           hidden$="[[!removable]]" hidden
           class$="remove [[_getBackgroundClass(transparentBackground)]]"
           on-tap="_handleRemoveTap">×</gr-button>

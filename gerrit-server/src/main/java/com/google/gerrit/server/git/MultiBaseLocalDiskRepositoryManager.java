@@ -37,7 +37,6 @@ public class MultiBaseLocalDiskRepositoryManager extends
           MultiBaseLocalDiskRepositoryManager.class);
       bind(LocalDiskRepositoryManager.class).to(
           MultiBaseLocalDiskRepositoryManager.class);
-      listener().to(MultiBaseLocalDiskRepositoryManager.class);
       listener().to(MultiBaseLocalDiskRepositoryManager.Lifecycle.class);
     }
   }

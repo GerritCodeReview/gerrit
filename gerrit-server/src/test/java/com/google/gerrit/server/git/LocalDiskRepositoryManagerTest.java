@@ -56,7 +56,6 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");
     repoManager = new LocalDiskRepositoryManager(site, cfg);
-    repoManager.start();
   }
 
   @Test(expected = IllegalStateException.class)
@@ -178,7 +177,6 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     repoManager.createRepository(new Project.NameKey("a"));
     LocalDiskRepositoryManager newRepoManager =
         new LocalDiskRepositoryManager(site, cfg);
-    newRepoManager.start();
     newRepoManager.createRepository(new Project.NameKey("a"));
   }
 
@@ -216,7 +214,6 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
 
     LocalDiskRepositoryManager newRepoManager =
         new LocalDiskRepositoryManager(site, cfg);
-    newRepoManager.start();
     newRepoManager.createRepository(new Project.NameKey("A"));
   }
 

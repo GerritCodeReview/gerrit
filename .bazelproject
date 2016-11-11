@@ -17,6 +17,7 @@ directories:
   # BUCK excludes; Remove after we have entirely switched to Bazel
   -./.buckd
   -bucklets
+  -buck-out
 
 targets:
   //...:all

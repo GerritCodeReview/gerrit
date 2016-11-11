@@ -372,7 +372,7 @@
         O: options,
         q: [
           'is:open owner:self',
-          'is:open reviewer:self -owner:self',
+          'is:open reviewer:self -owner:self -star:ignore',
           'is:closed (owner:self OR reviewer:self) -age:4w limit:10',
         ],
       };

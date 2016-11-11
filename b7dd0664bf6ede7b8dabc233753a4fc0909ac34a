@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_b4d140b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-11T04:00:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b28eb69_866b2a64",
+      "revId": "b7dd0664bf6ede7b8dabc233753a4fc0909ac34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_13376c44",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
         "patchSetId": 5
@@ -36,6 +54,24 @@
       "writtenOn": "2016-11-10T23:56:41Z",
       "side": 1,
       "message": "Shouldn\u0027t Polymer be doing this?\nConsider using Polymer.dom() from https://www.polymer-project.org/1.0/docs/devguide/local-dom#work-with-local-dom",
+      "revId": "b7dd0664bf6ede7b8dabc233753a4fc0909ac34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_b3d158b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-11T04:00:47Z",
+      "side": 1,
+      "message": "I didn\u0027t know `Polymer.dom()` did that! Done.",
+      "parentUuid": "eb6c3fba_13376c44",
       "revId": "b7dd0664bf6ede7b8dabc233753a4fc0909ac34a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

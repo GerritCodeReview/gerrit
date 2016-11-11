@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -160,6 +161,64 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertThat(commitsInRepo).contains(
           "Merge changes from topic '" + expectedTopic + "'");
     }
+  }
+
+  @Test
+  public void submitWholeTopicMultipleProjectsAndBranches() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    String topic = "test-topic";
+
+    // Create two test projects
+    TestRepository<?> repoA = createProjectWithPush(
+        "project-a", null, getSubmitType());
+    TestRepository<?> repoB = createProjectWithPush(
+        "project-b", null, getSubmitType());
+
+    // Create the dev branch on the test projects
+    BranchInput in = new BranchInput();
+    in.ref = "dev";
+    gApi.projects().name(name("project-a")).branch("dev").create(in);
+    gApi.projects().name(name("project-b")).branch("dev").create(in);
+
+    // Create changes on project-a
+    PushOneCommit.Result change1 =
+        createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 =
+        createChange(repoA, "master", "Change 2", "b.txt", "content", topic);
+    PushOneCommit.Result change3 =
+        createChange(repoA, "dev", "Change 3", "a.txt", "content", topic);
+    PushOneCommit.Result change4 =
+        createChange(repoA, "dev", "Change 4", "b.txt", "content", topic);
+
+    // Create changes on project-b
+    PushOneCommit.Result change5 =
+        createChange(repoB, "master", "Change 5", "a.txt", "content", topic);
+    PushOneCommit.Result change6 =
+        createChange(repoB, "master", "Change 6", "b.txt", "content", topic);
+    PushOneCommit.Result change7 =
+        createChange(repoB, "dev", "Change 7", "a.txt", "content", topic);
+    PushOneCommit.Result change8 =
+        createChange(repoB, "dev", "Change 8", "b.txt", "content", topic);
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
+    approve(change4.getChangeId());
+    approve(change5.getChangeId());
+    approve(change6.getChangeId());
+    approve(change7.getChangeId());
+    approve(change8.getChangeId());
+    submit(change8.getChangeId());
+
+    String expectedTopic = name(topic);
+    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change3.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change4.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change5.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change6.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change7.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change8.assertChange(Change.Status.MERGED, expectedTopic, admin);
   }
 
   @Test

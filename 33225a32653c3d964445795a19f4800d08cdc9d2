@@ -35,6 +35,24 @@
       "revId": "33225a32653c3d964445795a19f4800d08cdc9d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab5087f0_d1e084b9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-11T16:44:15Z",
+      "side": 1,
+      "message": "Yes, I would prefer to keep the old name(s).",
+      "parentUuid": "0b70b387_3467f045",
+      "revId": "33225a32653c3d964445795a19f4800d08cdc9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

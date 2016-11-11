@@ -363,14 +363,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     // The results of this method are cached by ProjectCacheImpl. Control only
     // enters here if the cache was flushed by the administrator to force
     // scanning the filesystem. Don't rely on the cached names collection.
-    namesUpdateLock.lock();
-    try {
-      ProjectVisitor visitor = new ProjectVisitor(basePath);
-      scanProjects(visitor);
-      return Collections.unmodifiableSortedSet(visitor.found);
-    } finally {
-      namesUpdateLock.unlock();
-    }
+    ProjectVisitor visitor = new ProjectVisitor(basePath);
+    scanProjects(visitor);
+    return Collections.unmodifiableSortedSet(visitor.found);
   }
 
   protected void scanProjects(ProjectVisitor visitor) {

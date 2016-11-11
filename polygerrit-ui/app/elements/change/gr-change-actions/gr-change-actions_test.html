@@ -84,6 +84,7 @@ limitations under the License.
       });
 
       element = fixture('basic');
+      element.change = {};
       element.changeNum = '42';
       element.patchNum = '2';
       element.actions = {
@@ -486,6 +487,80 @@ limitations under the License.
         flushAsynchronousOperations();
         assert.isTrue(element.$$('#confirmDeleteDialog').hidden);
         assert.isFalse(fireActionStub.called);
+      });
+    });
+
+    suite('quick approve', function() {
+      setup(function() {
+        element.change = {
+          current_revision: 'abc1234',
+        };
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {},
+          },
+          permitted_labels: {
+            'foo': ['-1', '0', '+1'],
+          }
+        };
+        flushAsynchronousOperations();
+      });
+
+      test('added when can approve', function() {
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNotNull(approveButton);
+      });
+
+      test('not added when no actions available', function() {
+        element.actions = [];
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('not added when already approved', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {
+              approved: {},
+            },
+          },
+          permitted_labels: {
+            'foo': [],
+          }
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('not added when can not approve', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {},
+          },
+          permitted_labels: {
+            'bar': [],
+          }
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('approves when taped', function() {
+        var fireActionStub = sinon.stub(element, '_fireAction');
+        MockInteractions.tap(
+            element.$$('gr-button[data-action-key=\'review\']'));
+        flushAsynchronousOperations();
+        assert.isTrue(fireActionStub.called);
+        assert.isTrue(fireActionStub.calledWith('/review'));
+        var payload = fireActionStub.lastCall.args[3];
+        assert.deepEqual(payload.labels, {foo: '+1'});
+        fireActionStub.restore();
       });
     });
   });

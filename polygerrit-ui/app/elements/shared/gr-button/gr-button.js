@@ -29,6 +29,10 @@
       },
     },
 
+    listeners: {
+      'tap': '_handleTap',
+    },
+
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.TooltipBehavior,
@@ -37,6 +41,14 @@
     hostAttributes: {
       role: 'button',
       tabindex: '0',
+    },
+
+    _handleTap: function(e) {
+      if (this.disabled) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
     },
 
     _disabledChanged: function(disabled) {
@@ -51,7 +63,7 @@
         case 32:  // 'spacebar'
         case 13:  // 'enter'
           e.preventDefault();
-          this.click();
+          this.tap();
       }
     },
   });

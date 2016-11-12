@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90ee9471_41da9208",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3568,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-12T01:44:13Z",
+      "side": 1,
+      "message": "in the",
+      "range": {
+        "startLine": 3568,
+        "startChar": 48,
+        "endLine": 3568,
+        "endChar": 50
+      },
+      "revId": "3b392d15817c6591580af7a65762654860b7a723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90ee9471_01d48ad6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3569,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-12T01:44:13Z",
+      "side": 1,
+      "message": "\"project.config file\"?\n\nalso, please wrap this line",
+      "range": {
+        "startLine": 3569,
+        "startChar": 76,
+        "endLine": 3569,
+        "endChar": 90
+      },
+      "revId": "3b392d15817c6591580af7a65762654860b7a723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90ee9471_21df8ef8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3569,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-12T01:44:13Z",
+      "side": 1,
+      "message": "in the",
+      "range": {
+        "startLine": 3569,
+        "startChar": 73,
+        "endLine": 3569,
+        "endChar": 75
+      },
+      "revId": "3b392d15817c6591580af7a65762654860b7a723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

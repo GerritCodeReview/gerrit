@@ -1,3 +1,4 @@
+load('//tools/bzl:genrule2.bzl', 'genrule2')
 
 def gerrit_plugin(
     name,
@@ -6,16 +7,6 @@ def gerrit_plugin(
     resources = [],
     manifest_entries = [],
     **kwargs):
-  # TODO(davido): Fix stamping: run git describe in plugin directory
-  # https://github.com/bazelbuild/bazel/issues/1758
-  manifest_lines = [
-    "Gerrit-ApiType: plugin",
-    "Implementation-Version: 1.0",
-    "Implementation-Vendor: Gerrit Code Review",
-  ]
-  for line in manifest_entries:
-    manifest_lines.append(line.replace('$', '\$'))
-
   native.java_library(
     name = name + '__plugin',
     srcs = srcs,
@@ -25,12 +16,31 @@ def gerrit_plugin(
   )
 
   native.java_binary(
-    name = name,
-    deploy_manifest_lines = manifest_lines,
+    name = '%s__non_stamped' % name,
+    deploy_manifest_lines = manifest_entries + [
+      "Gerrit-ApiType: plugin",
+      "Implementation-Vendor: Gerrit Code Review",
+    ],
     main_class = 'Dummy',
     runtime_deps = [
       ':%s__plugin' % name,
     ],
     visibility = ['//visibility:public'],
     **kwargs
+  )
+
+  # TODO(davido): Remove manual merge of manifest file when this feature
+  # request is implemented: https://github.com/bazelbuild/bazel/issues/2009
+  genrule2(
+    name = name,
+    stamp = 1,
+    srcs = ['%s__non_stamped_deploy.jar' % name],
+    cmd = " && ".join([
+      "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep %s | cut -d ' ' -f 2)" % name.upper(),
+      "cd $$TMP",
+      "unzip -q $$ROOT/$<",
+      "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
+      "zip -qr $$ROOT/$@ ."]),
+    outs = ['%s.jar' % name],
+    visibility = ['//visibility:public'],
   )

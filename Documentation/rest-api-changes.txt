@@ -3565,7 +3565,9 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
 ----
 
 If the `other-branches` parameter is specified, the mergeability will also be
-checked for all other branches.
+checked for all other branches which are listed in the
+link:config-project-config.html#branchOrder-section[branchOrder] section in the
+project.config file.
 
 .Request
 ----

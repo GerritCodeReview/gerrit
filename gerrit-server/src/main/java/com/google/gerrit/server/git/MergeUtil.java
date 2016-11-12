@@ -679,7 +679,10 @@ public class MergeUtil {
       rw.sort(RevSort.REVERSE, true);
       rw.markStart(mergeTip);
       for (RevCommit c : alreadyAccepted) {
-        rw.markUninteresting(c);
+        // If branch was not created by this submit.
+        if (c != mergeTip) {
+          rw.markUninteresting(c);
+        }
       }
 
       CodeReviewCommit c;

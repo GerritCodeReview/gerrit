@@ -25,12 +25,13 @@ If Derby is selected, Gerrit will automatically set up the embedded Derby
 database as backend so no set up or configuration is necessary.
 
 Currently only support for embedded mode is added. There are two other
-deployment options for Apache Derby that can be added later [1]:
-+
-* Derby Network Server (standalone mode)
-* Embedded Server (hybrid mode)
-+
-[1] http://db.apache.org/derby/papers/DerbyTut/ns_intro.html#ns
+deployment options for Apache Derby that can be added later:
+
+* link:http://db.apache.org/derby/papers/DerbyTut/ns_intro.html#Network+Server+Options[
+Derby Network Server (standalone mode)]
+
+* link:http://db.apache.org/derby/papers/DerbyTut/ns_intro.html#Embedded+Server[
+Embedded Server (hybrid mode)]
 
 [[createdb_postgres]]
 === PostgreSQL

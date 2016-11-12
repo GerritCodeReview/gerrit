@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_93253c7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-12T15:32:22Z",
+      "side": 1,
+      "message": "wiki-like ... to be consistent with the rest of your comments",
+      "range": {
+        "startLine": 39,
+        "startChar": 62,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "89f6c5915fa7b20a2801621f1d6e927aabb0c197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_f37bd065",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-12T15:32:22Z",
+      "side": 1,
+      "message": "string",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "89f6c5915fa7b20a2801621f1d6e927aabb0c197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_13912c6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-12T15:32:22Z",
+      "side": 1,
+      "message": "Unneeded blank line",
+      "revId": "89f6c5915fa7b20a2801621f1d6e927aabb0c197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_338e284c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-12T15:32:22Z",
+      "side": 1,
+      "message": "Unneeded new line",
+      "revId": "89f6c5915fa7b20a2801621f1d6e927aabb0c197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_14b5941a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-12T15:32:22Z",
+      "side": 1,
+      "message": "p.trim().startsWith(\"\u003e \")",
+      "range": {
+        "startLine": 171,
+        "startChar": 11,
+        "endLine": 171,
+        "endChar": 52
+      },
+      "revId": "89f6c5915fa7b20a2801621f1d6e927aabb0c197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_54af0cca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-12T15:32:22Z",
+      "side": 1,
+      "message": "Put this at the end of the expression. I think it\u0027s easier to read if expressions that match the start of the list come first",
+      "range": {
+        "startLine": 180,
+        "startChar": 11,
+        "endLine": 180,
+        "endChar": 51
+      },
+      "revId": "89f6c5915fa7b20a2801621f1d6e927aabb0c197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_7388a03d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-12T15:32:22Z",
+      "side": 1,
+      "message": "(optional) I don\u0027t think we have these markers anywhere else in the codebase and most tests were created by copy and paste, so I would remove them.",
+      "range": {
+        "startLine": 403,
+        "startChar": 2,
+        "endLine": 403,
+        "endChar": 34
+      },
+      "revId": "89f6c5915fa7b20a2801621f1d6e927aabb0c197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

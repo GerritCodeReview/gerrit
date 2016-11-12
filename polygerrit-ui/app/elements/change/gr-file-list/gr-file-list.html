@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../diff/gr-diff/gr-diff.html">
@@ -140,6 +141,9 @@ limitations under the License.
         display: block;
         margin: .25em 0 1em;
       }
+      .patchSetSelect {
+        max-width: 25em;
+      }
       @media screen and (max-width: 50em) {
         .row[selected] {
           background-color: transparent;
@@ -184,15 +188,16 @@ limitations under the License.
         <label>
           Diff against
           <select id="patchChange" bind-value="{{_diffAgainst}}" is="gr-select"
-              on-change="_handlePatchChange">
+              class="patchSetSelect" on-change="_handlePatchChange">
             <option value="PARENT">Base</option>
-            <template 
-                is="dom-repeat" 
+            <template
+                is="dom-repeat"
                 items="[[_computePatchSets(revisions, patchRange.*)]]"
                 as="patchNum">
-              <option value$="[[patchNum]]" disabled$=
-                  "[[_computePatchSetDisabled(patchNum, patchRange.patchNum)]]">
+              <option value$="[[patchNum]]"
+                  disabled$="[[_computePatchSetDisabled(patchNum, patchRange.patchNum)]]">
                 [[patchNum]]
+                [[_computePatchSetDescription(revisions, patchNum)]]
               </option>
             </template>
           </select>

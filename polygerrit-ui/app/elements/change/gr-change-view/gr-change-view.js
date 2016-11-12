@@ -101,6 +101,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -495,7 +496,7 @@
     _computeChangeStatus: function(change, patchNum) {
       var statusString;
       if (change.status === this.ChangeStatus.NEW) {
-        var rev = this._getRevisionNumber(change, patchNum);
+        var rev = this.getRevisionNumber(change.revisions, patchNum);
         if (rev && rev.draft === true) {
           statusString = 'Draft';
         }
@@ -525,14 +526,6 @@
       return patchNums.sort(function(a, b) {
         return a - b;
       });
-    },
-
-    _getRevisionNumber: function(change, patchNum) {
-      for (var rev in change.revisions) {
-        if (change.revisions[rev]._number == patchNum) {
-          return change.revisions[rev];
-        }
-      }
     },
 
     _computeLabelNames: function(labels) {
@@ -782,6 +775,11 @@
 
     _updateSelected: function() {
       this._selectedPatchSet = this._patchRange.patchNum;
+    },
+
+    _computePatchSetDescription: function(change, patchNum) {
+      var rev = this.getRevisionNumber(change.revisions, patchNum);
+      return (rev && rev.description) ? rev.description : '';
     },
   });
 })();

@@ -615,6 +615,7 @@ public final class GerritLauncher {
   /**
    * Locate the path of the {@code eclipse-out} directory in a source tree.
    *
+   * @return local path of the {@code eclipse-out} directory in a source tree.
    * @throws FileNotFoundException if the directory cannot be found.
    */
   public static Path getDeveloperEclipseOut() throws FileNotFoundException {
@@ -624,6 +625,7 @@ public final class GerritLauncher {
   /**
    * Locate the path of the {@code buck-out} directory in a source tree.
    *
+   * @return local path of the {@code buck-out} directory in a source tree.
    * @throws FileNotFoundException if the directory cannot be found.
    */
   public static Path getDeveloperBuckOut() throws FileNotFoundException {

@@ -29,6 +29,11 @@
       },
     },
 
+    listeners: {
+      'tap': '_handleAction',
+      'click': '_handleAction',
+    },
+
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.TooltipBehavior,
@@ -37,6 +42,13 @@
     hostAttributes: {
       role: 'button',
       tabindex: '0',
+    },
+
+    _handleAction: function(e) {
+      if (this.disabled) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
     },
 
     _disabledChanged: function(disabled) {

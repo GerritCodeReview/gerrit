@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.query.change.OutputStreamQuery;
 import com.google.gerrit.server.query.change.OutputStreamQuery.OutputFormat;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -26,7 +27,7 @@ import org.kohsuke.args4j.Option;
 import java.util.List;
 
 @CommandMetaData(name = "query", description = "Query the change database")
-class Query extends SshCommand {
+public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
   @Inject
   private OutputStreamQuery processor;
 
@@ -90,6 +91,12 @@ class Query extends SshCommand {
 
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
+
+  @Override
+  public void setDynamicBean(String plugin,
+      DynamicOptions.DynamicBean dynamicBean) {
+    processor.setDynamicBean(plugin, dynamicBean);
+  }
 
   @Override
   protected void run() throws Exception {

@@ -69,6 +69,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
@@ -110,6 +111,7 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -171,6 +173,7 @@ public class ChangeJson {
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
   private FixInput fix;
+  private PluginDefinedAttributesFactory pluginDefinedAttributesFactory;
 
   @AssistedInject
   ChangeJson(
@@ -225,6 +228,11 @@ public class ChangeJson {
   public ChangeJson fix(FixInput fix) {
     this.fix = fix;
     return this;
+  }
+
+  public void setPluginDefinedAttributesFactory(PluginDefinedAttributesFactory
+      pluginsFactory) {
+    this.pluginDefinedAttributesFactory = pluginsFactory;
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
@@ -458,6 +466,9 @@ public class ChangeJson {
 
     out.labels = labelsFor(ctl, cd, has(LABELS), has(DETAILED_LABELS));
     out.submitted = getSubmittedOn(cd);
+    out.plugins = pluginDefinedAttributesFactory != null ?
+        pluginDefinedAttributesFactory.create(cd) : null;
+
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't

@@ -32,3 +32,5 @@
 *.asc
 /bin/
 *~
+.primary_build_tool
+.gwt_work_dir

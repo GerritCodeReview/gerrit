@@ -17,9 +17,6 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Properties;
 
@@ -30,7 +27,7 @@ class BuckUtils extends BuildSystem {
 
   @Override
   protected ProcessBuilder newBuildProcess(Label label) throws IOException {
-    Properties properties = loadBuckProperties(
+    Properties properties = loadBuildProperties(
         sourceRoot.resolve("buck-out/gen/tools/buck/buck.properties"));
     String buck = firstNonNull(properties.getProperty("buck"), "buck");
     ProcessBuilder proc = new ProcessBuilder(buck, "build", label.fullName());
@@ -38,17 +35,6 @@ class BuckUtils extends BuildSystem {
       proc.environment().put("PATH", properties.getProperty("PATH"));
     }
     return proc;
-  }
-
-  private static Properties loadBuckProperties(Path propPath)
-      throws IOException {
-    Properties properties = new Properties();
-    try (InputStream in = Files.newInputStream(propPath)) {
-      properties.load(in);
-    } catch (NoSuchFileException e) {
-      // Ignore; will be run from PATH, with a descriptive error if it fails.
-    }
-    return properties;
   }
 
   @Override

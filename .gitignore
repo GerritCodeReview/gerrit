@@ -32,3 +32,4 @@
 *.asc
 /bin/
 *~
+.primary_build_tool

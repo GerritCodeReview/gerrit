@@ -2,12 +2,15 @@
 def _classpath_collector(ctx):
     all = set()
     for d in ctx.attr.deps:
-        all += d.java.compilation_info.runtime_classpath
+        if hasattr(d, 'java'):
+            all += d.java.transitive_runtime_deps
+            all += d.java.compilation_info.runtime_classpath
+        elif hasattr(d, 'files'):
+            all += d.files
 
     as_strs = [c.path for c in all]
     ctx.file_action(output= ctx.outputs.runtime,
                     content="\n".join(sorted(as_strs)))
-
 
 classpath_collector = rule(
     implementation = _classpath_collector,

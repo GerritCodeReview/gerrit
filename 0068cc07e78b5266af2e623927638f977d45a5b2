@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_56371211",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-13T23:44:21Z",
+      "side": 0,
+      "message": "What about the NoteDb tests vs. ReviewDb? I guess we have 4 permutations right now?",
+      "revId": "0068cc07e78b5266af2e623927638f977d45a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

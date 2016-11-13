@@ -242,6 +242,8 @@ public class ChangeInfo extends JavaScriptObject {
 
       switch (label.status()) {
         case NEED: // Label is required for submit.
+        case RECOMMEND:
+        case DISLIKE:
           if (ret != -1) {
             // more than one label is missing, so it's unclear which to quick
             // approve, return -1
@@ -268,6 +270,10 @@ public class ChangeInfo extends JavaScriptObject {
     public final SubmitRecord.Label.Status status() {
       if (approved() != null) {
         return SubmitRecord.Label.Status.OK;
+      } else if (recommended() != null) {
+        return SubmitRecord.Label.Status.RECOMMEND;
+      } else if (disliked() != null) {
+        return SubmitRecord.Label.Status.DISLIKE;
       } else if (rejected() != null) {
         return SubmitRecord.Label.Status.REJECT;
       } else if (optional()) {

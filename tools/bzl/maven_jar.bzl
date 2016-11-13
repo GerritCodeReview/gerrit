@@ -21,7 +21,7 @@ def _maven_release(ctx, parts):
     group.replace('.', '/'),
     artifact,
     version,
-    jar])
+    artifact + '-' + file_version])
 
   return jar, url
 

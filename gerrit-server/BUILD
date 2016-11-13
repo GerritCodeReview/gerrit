@@ -1,4 +1,5 @@
 load('//tools/bzl:junit.bzl', 'junit_tests')
+load("//tools/bzl:checker.bzl", "java_library_with_nullness_test")
 
 CONSTANTS_SRC = [
   'src/main/java/com/google/gerrit/server/documentation/Constants.java',
@@ -16,7 +17,7 @@ java_library(
   visibility = ['//visibility:public'],
 )
 
-java_library(
+java_library_with_nullness_test(
   name = 'server',
   srcs = SRCS,
   resources = RESOURCES,

@@ -971,6 +971,24 @@ maven_jar(
   attach_source = False,
 )
 
+maven_jar(
+  name = "checker_jdk8",
+  artifact = "org.checkerframework:jdk8:2.1.5",
+  sha1 = 'd4179cd87ea247d223d51ade1d5a1dd6390560a8',
+)
+
+maven_jar(
+  name = "checker_annotation",
+  artifact = "org.checkerframework:checker-qual:2.1.5",
+  sha1 = '124011ef874a0f5bce11c686e0330c67f995467d',
+)
+
+maven_jar(
+  name = "checker_checker",
+  artifact = "org.checkerframework:checker:2.1.5",
+  sha1 = '59a22af16efbd23234db178e507a681c0d716658',
+)
+
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
 npm_binary(

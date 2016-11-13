@@ -34,6 +34,24 @@
       "revId": "a7b00cdb6d2ea59680ff5f50d39a987ff0baf3f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_3667f645",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-13T21:33:32Z",
+      "side": 1,
+      "message": "This should be documented how to update the environment.",
+      "parentUuid": "eb6c3fba_36de16c2",
+      "revId": "a7b00cdb6d2ea59680ff5f50d39a987ff0baf3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

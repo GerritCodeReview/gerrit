@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_d7c79e31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-13T19:18:17Z",
+      "side": 1,
+      "message": "https://robots.thoughtbot.com/autosquashing-git-commits",
+      "parentUuid": "0b70b387_b7c22223",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "52e07fb0a8e74906b2cbdb75e9a5519715c8ea27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_7655ee62",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-13T19:13:56Z",
       "side": 1,
       "message": "field",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "52e07fb0a8e74906b2cbdb75e9a5519715c8ea27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_b64786bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-13T19:18:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6c3fba_7655ee62",
       "range": {
         "startLine": 9,
         "startChar": 43,

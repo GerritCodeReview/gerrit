@@ -17,16 +17,15 @@ package com.google.gerrit.httpd.raw;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class BazelBuild implements BuildSystem {
-  private final Path sourceRoot;
-
+public class BazelBuild extends BuildSystem {
   public BazelBuild(Path sourceRoot) {
-    this.sourceRoot = sourceRoot;
+    super(sourceRoot);
   }
 
   @Override
-  public void build(Label l) throws IOException, BuildFailureException {
-    throw new BuildFailureException("not implemented yet.".getBytes());
+  protected ProcessBuilder newBuildProcess(Label label) throws IOException {
+    ProcessBuilder proc = new ProcessBuilder("bazel", "build", label.fullName());
+    return proc;
   }
 
   @Override
@@ -53,5 +52,10 @@ public class BazelBuild implements BuildSystem {
   @Override
   public Label fontZipLabel() {
     return new Label("polygerrit-ui", "fonts.zip");
+  }
+
+  @Override
+  public String name() {
+    return "bazel";
   }
 }

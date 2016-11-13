@@ -32,7 +32,14 @@ class FontsDevServlet extends ResourceServlet {
     super(cache, true);
     Objects.requireNonNull(builder);
 
-    Path zip = builder.targetPath(builder.fontZipLabel());
+    BuildSystem.Label zipLabel = builder.fontZipLabel();
+    try {
+      builder.build(zipLabel);
+    } catch (BuildSystem.BuildFailureException e) {
+      throw new IOException(e);
+    }
+
+    Path zip = builder.targetPath(zipLabel);
     Objects.requireNonNull(zip);
 
     fonts = GerritLauncher.newZipFileSystem(zip).getPath("/");

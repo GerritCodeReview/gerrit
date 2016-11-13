@@ -26,6 +26,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -37,6 +38,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -353,10 +355,17 @@ public abstract class AbstractDaemonTest {
   protected Project.NameKey createProject(String nameSuffix,
       Project.NameKey parent, boolean createEmptyCommit)
       throws RestApiException {
+    return createProject(nameSuffix, parent, createEmptyCommit, SubmitType.MERGE_IF_NECESSARY);
+  }
+
+  protected Project.NameKey createProject(String nameSuffix,
+      Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
+      throws RestApiException {
     ProjectInput in = new ProjectInput();
     in.name = name(nameSuffix);
     in.parent = parent != null ? parent.get() : null;
     in.createEmptyCommit = createEmptyCommit;
+    in.submitType = submitType;
     return createProject(in);
   }
 
@@ -641,5 +650,14 @@ public abstract class AbstractDaemonTest {
         return input.changeId;
       }
     })).containsExactly((Object[])expected).inOrder();
+  }
+
+  protected TestRepository<?> createProjectWithPush(String name,
+      @Nullable Project.NameKey parent,
+      SubmitType submitType) throws Exception {
+    Project.NameKey project = createProject(name, parent, true, submitType);
+    grant(Permission.PUSH, project, "refs/heads/*");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
+    return cloneProject(project);
   }
 }

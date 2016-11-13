@@ -144,7 +144,7 @@ maven_jar(
 
 maven_jar(
   name = 'javaewah',
-  artifact = 'com.googlecode.javaewah:JavaEWAH:0.7.9',
+  artifact = 'com.googlecode.javaewah:JavaEWAH2:0.7.9',
   sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
   attach_source = False,
 )

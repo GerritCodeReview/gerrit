@@ -18,17 +18,64 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
+import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gwtexpui.server.CacheHeaders;
 
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 
 import javax.servlet.http.HttpServletResponse;
 
-public interface BuildSystem {
+public abstract class BuildSystem {
+  private static final Logger log =
+      LoggerFactory.getLogger(BuildSystem.class);
+
+  protected final Path sourceRoot;
+
+  public BuildSystem(Path sourceRoot) {
+    this.sourceRoot = sourceRoot;
+  }
+
+  protected abstract ProcessBuilder newBuildProcess(Label l) throws IOException;
+
+  // builds the given label.
+  public void build(Label label)
+      throws IOException, BuildFailureException {
+    ProcessBuilder proc = newBuildProcess(label);
+    proc.directory(sourceRoot.toFile())
+        .redirectErrorStream(true);
+    log.info("building " + label.fullName());
+    long start = TimeUtil.nowMs();
+    Process rebuild = proc.start();
+    byte[] out;
+    try (InputStream in = rebuild.getInputStream()) {
+      out = ByteStreams.toByteArray(in);
+    } finally {
+      rebuild.getOutputStream().close();
+    }
+
+    int status;
+    try {
+      status = rebuild.waitFor();
+    } catch (InterruptedException e) {
+      throw new InterruptedIOException("interrupted waiting for " + proc.toString());
+    }
+    if (status != 0) {
+      throw new BuildFailureException(out);
+    }
+
+    long time = TimeUtil.nowMs() - start;
+    log.info(String.format("UPDATED    %s in %.3fs", label.fullName(),
+        time / 1000.0));
+  }
 
   // Represents a label in either buck or bazel.
   class Label {
@@ -95,20 +142,17 @@ public interface BuildSystem {
   }
 
   /** returns the command to build given target */
-  String buildCommand(Label l);
-
-  /** builds the given label. */
-  void build(Label l) throws IOException, BuildFailureException;
+  abstract String buildCommand(Label l);
 
   /** returns the root relative path to the artifact for the given label */
-  Path targetPath(Label l);
+  abstract Path targetPath(Label l);
 
   /** Label for the agent specific GWT zip. */
-  Label gwtZipLabel(String agent);
+  abstract Label gwtZipLabel(String agent);
 
   /** Label for the polygerrit component zip. */
-  Label polygerritComponents();
+  abstract Label polygerritComponents();
 
   /** Label for the fonts zip file. */
-  Label fontZipLabel();
+  abstract Label fontZipLabel();
 }

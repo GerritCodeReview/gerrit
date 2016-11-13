@@ -128,6 +128,8 @@ public class ChangeScreen extends Screen {
     String label_may();
     String label_need();
     String label_ok();
+    String label_recommend();
+    String label_dislike();
     String label_reject();
     String label_user();
     String pushCertStatus();
@@ -1272,6 +1274,8 @@ public class ChangeScreen extends Screen {
         LabelInfo label = info.label(name);
         switch (label.status()) {
           case NEED:
+          case RECOMMEND:
+          case DISLIKE:
             statusText.setInnerText(Util.M.needs(name));
             canSubmit = false;
             break;

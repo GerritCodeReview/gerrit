@@ -23,7 +23,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +37,7 @@ public class Schema_105 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws SQLException, OrmException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException, OrmException {
     JdbcSchema schema = (JdbcSchema) db;
     SqlDialect dialect = schema.getDialect();
 
@@ -65,25 +63,24 @@ public class Schema_105 extends SchemaVersion {
     }
   }
 
-  private Set<String> listChangesIndexes(JdbcSchema schema)
-      throws SQLException {
+  private Set<String> listChangesIndexes(JdbcSchema schema) throws SQLException {
     // List of all changes indexes ever created or dropped, found with the
     // following command:
     //   find g* -name \*.sql | xargs git log -i -p -S' index changes_' | grep -io ' index changes_\w*' | cut -d' ' -f3 | tr A-Z a-z | sort -u
     // Used rather than listIndexes as we're not sure whether it might include
     // primary key indexes.
-    Set<String> allChanges = ImmutableSet.of(
-        "changes_allclosed",
-        "changes_allopen",
-        "changes_bybranchclosed",
-        "changes_byownerclosed",
-        "changes_byowneropen",
-        "changes_byproject",
-        "changes_byprojectopen",
-        "changes_key",
-        "changes_submitted");
+    Set<String> allChanges =
+        ImmutableSet.of(
+            "changes_allclosed",
+            "changes_allopen",
+            "changes_bybranchclosed",
+            "changes_byownerclosed",
+            "changes_byowneropen",
+            "changes_byproject",
+            "changes_byprojectopen",
+            "changes_key",
+            "changes_submitted");
     return Sets.intersection(
-        schema.getDialect().listIndexes(schema.getConnection(), TABLE),
-        allChanges);
+        schema.getDialect().listIndexes(schema.getConnection(), TABLE), allChanges);
   }
 }

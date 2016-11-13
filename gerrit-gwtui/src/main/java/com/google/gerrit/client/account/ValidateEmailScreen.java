@@ -37,11 +37,11 @@ public class ValidateEmailScreen extends AccountScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    ConfigServerApi.confirmEmail(magicToken,
+    ConfigServerApi.confirmEmail(
+        magicToken,
         new ScreenLoadCallback<VoidResult>(this) {
           @Override
-          protected void preDisplay(final VoidResult result) {
-          }
+          protected void preDisplay(final VoidResult result) {}
 
           @Override
           protected void postDisplay() {

@@ -19,15 +19,12 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Arrays;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class InitLabels implements InitStep {
-  private static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE =
-      "copyAllScoresIfNoCodeChange";
+  private static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
   private static final String KEY_LABEL = "label";
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_VALUE = "value";
@@ -58,7 +55,10 @@ public class InitLabels implements InitStep {
     Config cfg = allProjectsConfig.load().getConfig();
     if (installVerified) {
       cfg.setString(KEY_LABEL, LABEL_VERIFIED, KEY_FUNCTION, "MaxWithBlock");
-      cfg.setStringList(KEY_LABEL, LABEL_VERIFIED, KEY_VALUE,
+      cfg.setStringList(
+          KEY_LABEL,
+          LABEL_VERIFIED,
+          KEY_VALUE,
           Arrays.asList(new String[] {"-1 Fails", " 0 No score", "+1 Verified"}));
       cfg.setBoolean(KEY_LABEL, LABEL_VERIFIED, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, true);
       allProjectsConfig.save("Configure 'Verified' label");

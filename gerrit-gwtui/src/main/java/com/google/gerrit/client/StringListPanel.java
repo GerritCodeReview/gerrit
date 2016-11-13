@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +46,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
   private Image info;
   protected FocusWidget widget;
 
-  public StringListPanel(String title, List<String> fieldNames, FocusWidget w,
-      boolean autoSort) {
+  public StringListPanel(String title, List<String> fieldNames, FocusWidget w, boolean autoSort) {
     widget = w;
     if (title != null) {
       titlePanel = new HorizontalPanel();
@@ -64,13 +62,14 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
     buttonPanel.setStyleName(Gerrit.RESOURCES.css().stringListPanelButtons());
     deleteButton = new Button(Gerrit.C.stringListPanelDelete());
     deleteButton.setEnabled(false);
-    deleteButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        widget.setEnabled(true);
-        t.deleteChecked();
-      }
-    });
+    deleteButton.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            widget.setEnabled(true);
+            t.deleteChecked();
+          }
+        });
     buttonPanel.add(deleteButton);
     add(buttonPanel);
   }
@@ -110,8 +109,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
     StringListTable(List<String> names, boolean autoSort) {
       this.autoSort = autoSort;
 
-      addButton =
-          new Button(new ImageResourceRenderer().render(Gerrit.RESOURCES.listAdd()));
+      addButton = new Button(new ImageResourceRenderer().render(Gerrit.RESOURCES.listAdd()));
       addButton.setTitle(Gerrit.C.stringListPanelAdd());
       OnEditEnabler e = new OnEditEnabler(addButton);
       inputs = new ArrayList<>();
@@ -125,15 +123,16 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
 
         NpTextBox input = new NpTextBox();
         input.setVisibleLength(35);
-        input.addKeyPressHandler(new KeyPressHandler() {
-          @Override
-          public void onKeyPress(KeyPressEvent event) {
-            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-              widget.setEnabled(true);
-              add();
-            }
-          }
-        });
+        input.addKeyPressHandler(
+            new KeyPressHandler() {
+              @Override
+              public void onKeyPress(KeyPressEvent event) {
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                  widget.setEnabled(true);
+                  add();
+                }
+              }
+            });
         inputs.add(input);
         fmt.addStyleName(1, i + 1, Gerrit.RESOURCES.css().dataHeader());
         table.setWidget(1, i + 1, input);
@@ -141,13 +140,14 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
       }
       addButton.setEnabled(false);
 
-      addButton.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          widget.setEnabled(true);
-          add();
-        }
-      });
+      addButton.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              widget.setEnabled(true);
+              add();
+            }
+          });
       fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().leftMostCell());
       table.setWidget(1, 0, addButton);
@@ -194,12 +194,13 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
       fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().leftMostCell());
       CheckBox checkBox = new CheckBox();
-      checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<Boolean> event) {
-          enableDelete();
-        }
-      });
+      checkBox.addValueChangeHandler(
+          new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+              enableDelete();
+            }
+          });
       table.setWidget(row, 0, checkBox);
       for (int i = 0; i < values.size(); i++) {
         fmt.addStyleName(row, i + 1, Gerrit.RESOURCES.css().dataCell());
@@ -211,30 +212,31 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
 
         Image down = new Image(Gerrit.RESOURCES.arrowDown());
         down.setTitle(Gerrit.C.stringListPanelDown());
-        down.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-            moveDown(row);
-          }
-        });
+        down.addClickHandler(
+            new ClickHandler() {
+              @Override
+              public void onClick(ClickEvent event) {
+                moveDown(row);
+              }
+            });
         table.setWidget(row, values.size() + 1, down);
 
         Image up = new Image(Gerrit.RESOURCES.arrowUp());
         up.setTitle(Gerrit.C.stringListPanelUp());
-        up.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-            moveUp(row);
-          }
-        });
+        up.addClickHandler(
+            new ClickHandler() {
+              @Override
+              public void onClick(ClickEvent event) {
+                moveUp(row);
+              }
+            });
         table.setWidget(row, values.size() + 2, up);
       }
     }
 
     @Override
     protected void onCellSingleClick(Event event, int row, int column) {
-      if (column == inputs.size() + 1 && row >= 2
-          && row < table.getRowCount() - 2) {
+      if (column == inputs.size() + 1 && row >= 2 && row < table.getRowCount() - 2) {
         moveDown(row);
       } else if (column == inputs.size() + 2 && row > 2) {
         moveUp(row);
@@ -265,8 +267,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
     private void updateNavigationLinks() {
       if (!autoSort) {
         for (int row = 2; row < table.getRowCount(); row++) {
-          table.getWidget(row, inputs.size() + 1).setVisible(
-              row < table.getRowCount() - 1);
+          table.getWidget(row, inputs.size() + 1).setVisible(row < table.getRowCount() - 1);
           table.getWidget(row, inputs.size() + 2).setVisible(row > 2);
         }
       }
@@ -286,7 +287,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
       if (autoSort) {
         for (int row = 1; row < table.getRowCount(); row++) {
           int compareResult = v.get(0).compareTo(table.getText(row, 1));
-          if (compareResult < 0)  {
+          if (compareResult < 0) {
             insertPos = row;
             break;
           } else if (compareResult == 0) {
@@ -320,8 +321,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
     }
 
     @Override
-    protected void onOpenRow(int row) {
-    }
+    protected void onOpenRow(int row) {}
 
     @Override
     protected Object getRowItemKey(List<String> item) {

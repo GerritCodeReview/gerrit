@@ -24,8 +24,7 @@ public class GroupsRestApiServlet extends RestApiServlet {
   private static final long serialVersionUID = 1L;
 
   @Inject
-  GroupsRestApiServlet(RestApiServlet.Globals globals,
-      Provider<GroupsCollection> groups) {
+  GroupsRestApiServlet(RestApiServlet.Globals globals, Provider<GroupsCollection> groups) {
     super(globals, groups);
   }
 }

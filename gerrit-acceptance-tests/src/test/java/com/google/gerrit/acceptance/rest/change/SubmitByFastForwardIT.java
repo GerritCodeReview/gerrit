@@ -30,15 +30,13 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
-
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.junit.Test;
-
-import java.util.Map;
 
 public class SubmitByFastForwardIT extends AbstractSubmit {
 
@@ -89,9 +87,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertSubmittedTogether(id3, id3, id2, id1);
 
     assertRefUpdatedEvents(initialHead, updatedHead);
-    assertChangeMergedEvents(id1, updatedHead.name(),
-        id2, updatedHead.name(),
-        id3, updatedHead.name());
+    assertChangeMergedEvents(
+        id1, updatedHead.name(), id2, updatedHead.name(), id3, updatedHead.name());
   }
 
   @Test
@@ -101,9 +98,12 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange();
 
     Change.Id id1 = change1.getPatchSetId().getParentKey();
-    submitWithConflict(change2.getChangeId(),
+    submitWithConflict(
+        change2.getChangeId(),
         "Failed to submit 2 changes due to the following problems:\n"
-        + "Change " + id1 + ": needs Code-Review");
+            + "Change "
+            + id1
+            + ": needs Code-Review");
 
     RevCommit updatedHead = getRemoteHead();
     assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());
@@ -114,14 +114,12 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   @Test
   public void submitFastForwardNotPossible_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
-    PushOneCommit.Result change2 =
-        createChange("Change 2", "b.txt", "other content");
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
 
     approve(change2.getChangeId());
     Map<String, ActionInfo> actions = getActions(change2.getChangeId());
@@ -130,11 +128,14 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isNull();
 
-    submitWithConflict(change2.getChangeId(),
-        "Failed to submit 1 change due to the following problems:\n" +
-        "Change " + change2.getChange().getId() + ": Project policy requires " +
-        "all submissions to be a fast-forward. Please rebase the change " +
-        "locally and upload again for review.");
+    submitWithConflict(
+        change2.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change "
+            + change2.getChange().getId()
+            + ": Project policy requires "
+            + "all submissions to be a fast-forward. Please rebase the change "
+            + "locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(headAfterFirstSubmit);
     assertSubmitter(change.getChangeId(), 1);
 
@@ -146,10 +147,12 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   public void repairChangeStateAfterFailure() throws Exception {
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     Change.Id id = change.getChange().getId();
-    SubmitInput failAfterRefUpdates =
-        new TestSubmitInput(new SubmitInput(), true);
-    submit(change.getChangeId(), failAfterRefUpdates,
-        ResourceConflictException.class, "Failing after ref updates");
+    SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);
+    submit(
+        change.getChangeId(),
+        failAfterRefUpdates,
+        ResourceConflictException.class,
+        "Failing after ref updates");
 
     // Bad: ref advanced but change wasn't updated.
     PatchSet.Id psId = new PatchSet.Id(id, 1);
@@ -162,8 +165,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         RevWalk rw = new RevWalk(repo)) {
       rev = repo.exactRef(psId.toRefName()).getObjectId();
       assertThat(rev).isNotNull();
-      assertThat(repo.exactRef("refs/heads/master").getObjectId())
-          .isEqualTo(rev);
+      assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(rev);
     }
 
     submit(change.getChangeId());
@@ -176,8 +178,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         .isEqualTo("Change has been successfully merged by Administrator");
 
     try (Repository repo = repoManager.openRepository(project)) {
-      assertThat(repo.exactRef("refs/heads/master").getObjectId())
-          .isEqualTo(rev);
+      assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(rev);
     }
 
     assertRefUpdatedEvents();
@@ -191,15 +192,11 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     grant(Permission.CREATE, project, "refs/heads/*");
     grant(Permission.PUSH, project, "refs/heads/experimental");
 
-    RevCommit c1 = commitBuilder()
-        .add("b.txt", "1")
-        .message("commit at tip")
-        .create();
+    RevCommit c1 = commitBuilder().add("b.txt", "1").message("commit at tip").create();
     String id1 = GitUtil.getChangeId(testRepo, c1).get();
 
     PushResult r1 = pushHead(testRepo, "refs/for/master", false);
-    assertThat(r1.getRemoteUpdate("refs/for/master").getNewObjectId())
-        .isEqualTo(c1.getId());
+    assertThat(r1.getRemoteUpdate("refs/for/master").getNewObjectId()).isEqualTo(c1.getId());
 
     PushResult r2 = pushHead(testRepo, "refs/heads/experimental", false);
     assertThat(r2.getRemoteUpdate("refs/heads/experimental").getNewObjectId())

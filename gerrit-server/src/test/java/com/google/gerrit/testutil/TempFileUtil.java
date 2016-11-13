@@ -62,6 +62,5 @@ public class TempFileUtil {
     }
   }
 
-  private TempFileUtil() {
-  }
+  private TempFileUtil() {}
 }

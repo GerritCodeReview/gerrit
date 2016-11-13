@@ -41,24 +41,26 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class GetAccess implements RestReadView<ProjectResource> {
 
-  public static final BiMap<PermissionRule.Action,
-      PermissionRuleInfo.Action> ACTION_TYPE = ImmutableBiMap.of(
-          PermissionRule.Action.ALLOW, PermissionRuleInfo.Action.ALLOW,
-          PermissionRule.Action.BATCH, PermissionRuleInfo.Action.BATCH,
-          PermissionRule.Action.BLOCK, PermissionRuleInfo.Action.BLOCK,
-          PermissionRule.Action.DENY, PermissionRuleInfo.Action.DENY,
+  public static final BiMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
+      ImmutableBiMap.of(
+          PermissionRule.Action.ALLOW,
+          PermissionRuleInfo.Action.ALLOW,
+          PermissionRule.Action.BATCH,
+          PermissionRuleInfo.Action.BATCH,
+          PermissionRule.Action.BLOCK,
+          PermissionRuleInfo.Action.BLOCK,
+          PermissionRule.Action.DENY,
+          PermissionRuleInfo.Action.DENY,
           PermissionRule.Action.INTERACTIVE,
           PermissionRuleInfo.Action.INTERACTIVE);
 
@@ -72,7 +74,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final GroupBackend groupBackend;
 
   @Inject
-  public GetAccess(Provider<CurrentUser> self,
+  public GetAccess(
+      Provider<CurrentUser> self,
       GroupControl.Factory groupControlFactory,
       AllProjectsName allProjectsName,
       ProjectCache projectCache,
@@ -93,8 +96,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   public ProjectAccessInfo apply(Project.NameKey nameKey)
       throws ResourceNotFoundException, ResourceConflictException, IOException {
     try {
-      return this.apply(new ProjectResource(
-          projectControlFactory.controlFor(nameKey, self.get())));
+      return this.apply(new ProjectResource(projectControlFactory.controlFor(nameKey, self.get())));
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(nameKey.get());
     }
@@ -121,8 +123,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         projectCache.evict(config.getProject());
         pc = open(projectName);
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(
-          pc.getProjectState().getConfig().getRevision())) {
+          && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
         projectCache.evict(config.getProject());
         pc = open(projectName);
       }
@@ -175,8 +176,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
               Boolean canSeeGroup = visibleGroups.get(group);
               if (canSeeGroup == null) {
                 try {
-                  canSeeGroup = groupControlFactory.controlFor(group)
-                      .isVisible();
+                  canSeeGroup = groupControlFactory.controlFor(group).isVisible();
                 } catch (NoSuchGroupException e) {
                   canSeeGroup = Boolean.FALSE;
                 }
@@ -210,8 +210,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
       info.revision = config.getRevision().name();
     }
 
-    ProjectState parent =
-        Iterables.getFirst(pc.getProjectState().parents(), null);
+    ProjectState parent = Iterables.getFirst(pc.getProjectState().parents(), null);
     if (parent != null) {
       info.inheritsFrom = projectJson.format(parent.getProject());
     }
@@ -223,8 +222,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
     }
 
     info.isOwner = toBoolean(pc.isOwner());
-    info.canUpload = toBoolean(pc.isOwner()
-        || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
+    info.canUpload =
+        toBoolean(pc.isOwner() || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
     info.canAdd = toBoolean(pc.canAddRefs());
     info.configVisible = pc.isOwner() || metaConfigControl.isVisible();
 
@@ -235,12 +234,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
     AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
     accessSectionInfo.permissions = new HashMap<>();
     for (Permission p : section.getPermissions()) {
-      PermissionInfo pInfo = new PermissionInfo(p.getLabel(),
-          p.getExclusiveGroup() ? true : null);
+      PermissionInfo pInfo = new PermissionInfo(p.getLabel(), p.getExclusiveGroup() ? true : null);
       pInfo.rules = new HashMap<>();
       for (PermissionRule r : p.getRules()) {
-        PermissionRuleInfo info = new PermissionRuleInfo(
-            ACTION_TYPE.get(r.getAction()), r.getForce());
+        PermissionRuleInfo info =
+            new PermissionRuleInfo(ACTION_TYPE.get(r.getAction()), r.getForce());
         if (r.hasRange()) {
           info.max = r.getMax();
           info.min = r.getMin();
@@ -258,8 +256,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private ProjectControl open(Project.NameKey projectName)
       throws ResourceNotFoundException, IOException {
     try {
-      return projectControlFactory.validateFor(projectName,
-          ProjectControl.OWNER | ProjectControl.VISIBLE, self.get());
+      return projectControlFactory.validateFor(
+          projectName, ProjectControl.OWNER | ProjectControl.VISIBLE, self.get());
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(projectName.get());
     }

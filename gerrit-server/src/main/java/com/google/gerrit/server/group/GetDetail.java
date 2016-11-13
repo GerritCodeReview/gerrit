@@ -27,8 +27,7 @@ public class GetDetail implements RestReadView<GroupResource> {
 
   @Inject
   GetDetail(GroupJson json) {
-    this.json = json.addOption(ListGroupsOption.MEMBERS)
-        .addOption(ListGroupsOption.INCLUDES);
+    this.json = json.addOption(ListGroupsOption.MEMBERS).addOption(ListGroupsOption.INCLUDES);
   }
 
   @Override

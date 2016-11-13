@@ -29,7 +29,12 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
@@ -37,52 +42,61 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "set-project-parent", description = "Change the project permissions are inherited from")
+@CommandMetaData(
+  name = "set-project-parent",
+  description = "Change the project permissions are inherited from"
+)
 final class AdminSetParent extends SshCommand {
   private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
 
-  @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "new parent project")
+  @Option(
+    name = "--parent",
+    aliases = {"-p"},
+    metaVar = "NAME",
+    usage = "new parent project"
+  )
   private ProjectControl newParent;
 
-  @Option(name = "--children-of", metaVar = "NAME",
-      usage = "parent project for which the child projects should be reparented")
+  @Option(
+    name = "--children-of",
+    metaVar = "NAME",
+    usage = "parent project for which the child projects should be reparented"
+  )
   private ProjectControl oldParent;
 
-  @Option(name = "--exclude", metaVar = "NAME",
-      usage = "child project of old parent project which should not be reparented")
+  @Option(
+    name = "--exclude",
+    metaVar = "NAME",
+    usage = "child project of old parent project which should not be reparented"
+  )
   private List<ProjectControl> excludedChildren = new ArrayList<>();
 
-  @Argument(index = 0, required = false, multiValued = true, metaVar = "NAME",
-      usage = "projects to modify")
+  @Argument(
+    index = 0,
+    required = false,
+    multiValued = true,
+    metaVar = "NAME",
+    usage = "projects to modify"
+  )
   private List<ProjectControl> children = new ArrayList<>();
 
-  @Inject
-  private ProjectCache projectCache;
+  @Inject private ProjectCache projectCache;
 
-  @Inject
-  private MetaDataUpdate.User metaDataUpdateFactory;
+  @Inject private MetaDataUpdate.User metaDataUpdateFactory;
 
-  @Inject
-  private AllProjectsName allProjectsName;
+  @Inject private AllProjectsName allProjectsName;
 
-  @Inject
-  private ListChildProjects listChildProjects;
+  @Inject private ListChildProjects listChildProjects;
 
   private Project.NameKey newParentKey;
 
   @Override
   protected void run() throws Failure {
     if (oldParent == null && children.isEmpty()) {
-      throw die("child projects have to be specified as " +
-          "arguments or the --children-of option has to be set");
+      throw die(
+          "child projects have to be specified as "
+              + "arguments or the --children-of option has to be set");
     }
     if (oldParent == null && !excludedChildren.isEmpty()) {
       throw die("--exclude can only be used together with --children-of");
@@ -132,18 +146,20 @@ final class AdminSetParent extends SshCommand {
         // Try to avoid creating a cycle in the parent pointers.
         //
         err.append("error: Cycle exists between '")
-           .append(name)
-           .append("' and '")
-           .append(newParentKey != null ? newParentKey.get() : allProjectsName.get())
-           .append("'\n");
+            .append(name)
+            .append("' and '")
+            .append(newParentKey != null ? newParentKey.get() : allProjectsName.get())
+            .append("'\n");
         continue;
       }
 
       try (MetaDataUpdate md = metaDataUpdateFactory.create(nameKey)) {
         ProjectConfig config = ProjectConfig.read(md);
         config.getProject().setParentName(newParentKey);
-        md.setMessage("Inherit access from "
-            + (newParentKey != null ? newParentKey.get() : allProjectsName.get()) + "\n");
+        md.setMessage(
+            "Inherit access from "
+                + (newParentKey != null ? newParentKey.get() : allProjectsName.get())
+                + "\n");
         config.commit(md);
       } catch (RepositoryNotFoundException notFound) {
         err.append("error: Project ").append(name).append(" not found\n");
@@ -165,32 +181,34 @@ final class AdminSetParent extends SshCommand {
   }
 
   /**
-   * Returns the children of the specified parent project that should be
-   * reparented. The returned list of child projects does not contain projects
-   * that were specified to be excluded from reparenting.
+   * Returns the children of the specified parent project that should be reparented. The returned
+   * list of child projects does not contain projects that were specified to be excluded from
+   * reparenting.
    */
   private List<Project.NameKey> getChildrenForReparenting(final ProjectControl parent) {
     final List<Project.NameKey> childProjects = new ArrayList<>();
-    final List<Project.NameKey> excluded =
-        new ArrayList<>(excludedChildren.size());
+    final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (final ProjectControl excludedChild : excludedChildren) {
       excluded.add(excludedChild.getProject().getNameKey());
     }
-    final List<Project.NameKey> automaticallyExcluded =
-        new ArrayList<>(excludedChildren.size());
+    final List<Project.NameKey> automaticallyExcluded = new ArrayList<>(excludedChildren.size());
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (final ProjectInfo child : listChildProjects.apply(
-        new ProjectResource(parent))) {
+    for (final ProjectInfo child : listChildProjects.apply(new ProjectResource(parent))) {
       final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {
           childProjects.add(childName);
         } else {
-          stdout.println("Automatically excluded '" + childName + "' " +
-                         "from reparenting because it is in the parent " +
-                         "line of the new parent '" + newParentKey + "'.");
+          stdout.println(
+              "Automatically excluded '"
+                  + childName
+                  + "' "
+                  + "from reparenting because it is in the parent "
+                  + "line of the new parent '"
+                  + newParentKey
+                  + "'.");
         }
       }
     }

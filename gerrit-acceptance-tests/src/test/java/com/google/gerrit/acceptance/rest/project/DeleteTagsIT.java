@@ -27,18 +27,16 @@ import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-
+import java.util.HashMap;
+import java.util.List;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
-
 @NoHttpd
 public class DeleteTagsIT extends AbstractDaemonTest {
-  private static final List<String> TAGS = ImmutableList.of(
-      "refs/tags/test-1", "refs/tags/test-2", "refs/tags/test-3");
+  private static final List<String> TAGS =
+      ImmutableList.of("refs/tags/test-1", "refs/tags/test-2", "refs/tags/test-3");
 
   @Before
   public void setUp() throws Exception {
@@ -83,8 +81,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForTags(
-          ImmutableList.of("refs/tags/does-not-exist")));
+      assertThat(e).hasMessage(errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
     }
     assertTagsDeleted();
   }
@@ -101,8 +98,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForTags(
-          ImmutableList.of("refs/tags/does-not-exist")));
+      assertThat(e).hasMessage(errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
     }
     assertTagsDeleted();
   }
@@ -110,16 +106,16 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   private String errorMessageForTags(List<String> tags) {
     StringBuilder message = new StringBuilder();
     for (String tag : tags) {
-      message.append("Cannot delete ")
-        .append(tag)
-        .append(": it doesn't exist or you do not have permission ")
-        .append("to delete it\n");
+      message
+          .append("Cannot delete ")
+          .append(tag)
+          .append(": it doesn't exist or you do not have permission ")
+          .append("to delete it\n");
     }
     return message.toString();
   }
 
-  private HashMap<String, RevCommit> initialRevisions(List<String> tags)
-      throws Exception {
+  private HashMap<String, RevCommit> initialRevisions(List<String> tags) throws Exception {
     HashMap<String, RevCommit> result = new HashMap<>();
     for (String tag : tags) {
       result.put(tag, getRemoteHead(project, tag));
@@ -127,13 +123,10 @@ public class DeleteTagsIT extends AbstractDaemonTest {
     return result;
   }
 
-  private void assertRefUpdatedEvents(HashMap<String, RevCommit> revisions)
-      throws Exception {
+  private void assertRefUpdatedEvents(HashMap<String, RevCommit> revisions) throws Exception {
     for (String tag : revisions.keySet()) {
       RevCommit revision = revisions.get(tag);
-      eventRecorder.assertRefUpdatedEvents(project.get(), tag,
-          null, revision,
-          revision, null);
+      eventRecorder.assertRefUpdatedEvents(project.get(), tag, null, revision, revision, null);
     }
   }
 

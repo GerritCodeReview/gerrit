@@ -25,7 +25,11 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.testutil.NoteDbMode;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.eclipse.jgit.transport.PacketLineIn;
@@ -33,12 +37,6 @@ import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.util.IO;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.Set;
-import java.util.TreeSet;
 
 @NoHttpd
 @UseSsh
@@ -58,7 +56,10 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "download.archive", values = {"tar", "tbz2", "tgz", "txz"})
+  @GerritConfig(
+    name = "download.archive",
+    values = {"tar", "tbz2", "tgz", "txz"}
+  )
   public void zipFormatDisabled() throws Exception {
     archiveNotPermitted();
   }
@@ -70,8 +71,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     String c = command(r, abbreviated);
 
     InputStream out =
-        adminSshSession.exec2("git-upload-archive " + project.get(),
-            argumentsToInputStream(c));
+        adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c));
 
     // Wrap with PacketLineIn to read ACK bytes from output stream
     PacketLineIn in = new PacketLineIn(out);
@@ -94,16 +94,20 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     }
 
     assertThat(entryNames.size()).isEqualTo(1);
-    assertThat(Iterables.getOnlyElement(entryNames)).isEqualTo(
-        String.format("%s/%s", abbreviated, PushOneCommit.FILE_NAME));
+    assertThat(Iterables.getOnlyElement(entryNames))
+        .isEqualTo(String.format("%s/%s", abbreviated, PushOneCommit.FILE_NAME));
   }
 
   private String command(PushOneCommit.Result r, String abbreviated) {
-    String c = "-f=zip "
-        + "-9 "
-        + "--prefix=" + abbreviated + "/ "
-        + r.getCommit().name() + " "
-        + PushOneCommit.FILE_NAME;
+    String c =
+        "-f=zip "
+            + "-9 "
+            + "--prefix="
+            + abbreviated
+            + "/ "
+            + r.getCommit().name()
+            + " "
+            + PushOneCommit.FILE_NAME;
     return c;
   }
 
@@ -113,8 +117,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     String c = command(r, abbreviated);
 
     InputStream out =
-        adminSshSession.exec2("git-upload-archive " + project.get(),
-            argumentsToInputStream(c));
+        adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c));
 
     // Wrap with PacketLineIn to read ACK bytes from output stream
     PacketLineIn in = new PacketLineIn(out);

@@ -25,8 +25,7 @@ public class AgreementSignup {
   private final EventUtil util;
 
   @Inject
-  AgreementSignup(DynamicSet<AgreementSignupListener> listeners,
-      EventUtil util) {
+  AgreementSignup(DynamicSet<AgreementSignupListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }

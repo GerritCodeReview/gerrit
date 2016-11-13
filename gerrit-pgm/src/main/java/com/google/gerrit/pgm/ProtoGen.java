@@ -19,11 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.pgm.util.AbstractProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.schema.java.JavaSchemaModel;
-
-import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.util.IO;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.InputStream;
@@ -31,9 +26,18 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.util.IO;
+import org.kohsuke.args4j.Option;
 
 public class ProtoGen extends AbstractProgram {
-  @Option(name = "--output", aliases = {"-o"}, required = true, metaVar = "FILE", usage = "File to write .proto into")
+  @Option(
+    name = "--output",
+    aliases = {"-o"},
+    required = true,
+    metaVar = "FILE",
+    usage = "File to write .proto into"
+  )
   private File file;
 
   @Override
@@ -45,8 +49,7 @@ public class ProtoGen extends AbstractProgram {
     try {
       JavaSchemaModel jsm = new JavaSchemaModel(ReviewDb.class);
       try (OutputStream o = lock.getOutputStream();
-          PrintWriter out = new PrintWriter(
-              new BufferedWriter(new OutputStreamWriter(o, UTF_8)))) {
+          PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, UTF_8)))) {
         String header;
         try (InputStream in = getClass().getResourceAsStream("ProtoGenHeader.txt")) {
           ByteBuffer buf = IO.readWholeStream(in, 1024);

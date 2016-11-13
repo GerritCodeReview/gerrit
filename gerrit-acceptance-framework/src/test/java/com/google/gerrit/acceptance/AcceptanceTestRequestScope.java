@@ -30,14 +30,12 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 import com.google.inject.util.Providers;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /** Guice scopes for state during an Acceptance Test connection. */
 public class AcceptanceTestRequestScope {
-  private static final Key<RequestCleanup> RC_KEY =
-      Key.get(RequestCleanup.class);
+  private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
 
   private static final Key<RequestScopedReviewDbProvider> DB_KEY =
       Key.get(RequestScopedReviewDbProvider.class);
@@ -53,16 +51,13 @@ public class AcceptanceTestRequestScope {
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, SshSession s,
-        CurrentUser u, long at) {
+    private Context(SchemaFactory<ReviewDb> sf, SshSession s, CurrentUser u, long at) {
       schemaFactory = sf;
       session = s;
       user = u;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
-      map.put(DB_KEY, new RequestScopedReviewDbProvider(
-          schemaFactory,
-          Providers.of(cleanup)));
+      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
     }
 
     private Context(Context p, SshSession s, CurrentUser c) {
@@ -117,7 +112,9 @@ public class AcceptanceTestRequestScope {
     private final AcceptanceTestRequestScope atrScope;
 
     @Inject
-    Propagator(AcceptanceTestRequestScope atrScope, ThreadLocalRequestContext local,
+    Propagator(
+        AcceptanceTestRequestScope atrScope,
+        ThreadLocalRequestContext local,
         Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
       super(REQUEST, current, local, dbProviderProvider);
       this.atrScope = atrScope;
@@ -169,12 +166,13 @@ public class AcceptanceTestRequestScope {
 
   public Context disableDb() {
     Context old = current.get();
-    SchemaFactory<ReviewDb> sf = new SchemaFactory<ReviewDb>() {
-      @Override
-      public ReviewDb open() {
-        return new DisabledReviewDb();
-      }
-    };
+    SchemaFactory<ReviewDb> sf =
+        new SchemaFactory<ReviewDb>() {
+          @Override
+          public ReviewDb open() {
+            return new DisabledReviewDb();
+          }
+        };
     Context ctx = new Context(sf, old.session, old.user, old.created);
 
     current.set(ctx);
@@ -186,30 +184,30 @@ public class AcceptanceTestRequestScope {
     // Setting a new context with the same fields is enough to get the ReviewDb
     // provider to reopen the database.
     Context old = current.get();
-    return set(
-        new Context(old.schemaFactory, old.session, old.user, old.created));
+    return set(new Context(old.schemaFactory, old.session, old.user, old.created));
   }
 
   /** Returns exactly one instance per command executed. */
-  static final Scope REQUEST = new Scope() {
-    @Override
-    public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
-      return new Provider<T>() {
+  static final Scope REQUEST =
+      new Scope() {
         @Override
-        public T get() {
-          return requireContext().get(key, creator);
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+          return new Provider<T>() {
+            @Override
+            public T get() {
+              return requireContext().get(key, creator);
+            }
+
+            @Override
+            public String toString() {
+              return String.format("%s[%s]", creator, REQUEST);
+            }
+          };
         }
 
         @Override
         public String toString() {
-          return String.format("%s[%s]", creator, REQUEST);
+          return "Acceptance Test Scope.REQUEST";
         }
       };
-    }
-
-    @Override
-    public String toString() {
-      return "Acceptance Test Scope.REQUEST";
-    }
-  };
 }

@@ -18,16 +18,13 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.inject.Inject;
-
 import org.junit.After;
 import org.junit.Before;
 
 public class LightweightPluginDaemonTest extends AbstractDaemonTest {
-  @Inject
-  private PluginGuiceEnvironment env;
+  @Inject private PluginGuiceEnvironment env;
 
-  @Inject
-  private PluginUser.Factory pluginUserFactory;
+  @Inject private PluginUser.Factory pluginUserFactory;
 
   private TestServerPlugin plugin;
 
@@ -35,13 +32,15 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
   public void setUp() throws Exception {
     TestPlugin testPlugin = getTestPlugin(getClass());
     String name = testPlugin.name();
-    plugin = new TestServerPlugin(name,
-        canonicalWebUrl.get() + "plugins/" + name,
-        pluginUserFactory.create(name),
-        getClass().getClassLoader(),
-        testPlugin.sysModule(),
-        testPlugin.httpModule(),
-        testPlugin.sshModule());
+    plugin =
+        new TestServerPlugin(
+            name,
+            canonicalWebUrl.get() + "plugins/" + name,
+            pluginUserFactory.create(name),
+            getClass().getClassLoader(),
+            testPlugin.sysModule(),
+            testPlugin.httpModule(),
+            testPlugin.sshModule());
 
     plugin.start(env);
     env.onStartPlugin(plugin);

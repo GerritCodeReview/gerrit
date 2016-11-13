@@ -39,7 +39,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -68,15 +67,13 @@ public class ActionJson {
     this.visitorSet = visitorSet;
   }
 
-  public Map<String, ActionInfo> format(RevisionResource rsrc)
-      throws OrmException {
+  public Map<String, ActionInfo> format(RevisionResource rsrc) throws OrmException {
     ChangeInfo changeInfo = null;
     RevisionInfo revisionInfo = null;
     List<ActionVisitor> visitors = visitors();
     if (!visitors.isEmpty()) {
       changeInfo = changeJson().format(rsrc);
-      revisionInfo =
-          checkNotNull(Iterables.getOnlyElement(changeInfo.revisions.values()));
+      revisionInfo = checkNotNull(Iterables.getOnlyElement(changeInfo.revisions.values()));
       changeInfo.revisions = null;
     }
     return toActionMap(rsrc, visitors, changeInfo, revisionInfo);
@@ -96,8 +93,8 @@ public class ActionJson {
     return to;
   }
 
-  public RevisionInfo addRevisionActions(@Nullable ChangeInfo changeInfo,
-      RevisionInfo to, RevisionResource rsrc) throws OrmException {
+  public RevisionInfo addRevisionActions(
+      @Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc) throws OrmException {
     List<ActionVisitor> visitors = visitors();
     if (!visitors.isEmpty()) {
       if (changeInfo != null) {
@@ -140,8 +137,7 @@ public class ActionJson {
     return copy;
   }
 
-  private RevisionInfo copy(List<ActionVisitor> visitors,
-      RevisionInfo revisionInfo) {
+  private RevisionInfo copy(List<ActionVisitor> visitors, RevisionInfo revisionInfo) {
     if (visitors.isEmpty()) {
       return null;
     }
@@ -168,10 +164,8 @@ public class ActionJson {
     }
 
     Provider<CurrentUser> userProvider = Providers.of(ctl.getUser());
-    FluentIterable<UiAction.Description> descs = UiActions.from(
-        changeViews,
-        changeResourceFactory.create(ctl),
-        userProvider);
+    FluentIterable<UiAction.Description> descs =
+        UiActions.from(changeViews, changeResourceFactory.create(ctl), userProvider);
     // The followup action is a client-side only operation that does not
     // have a server side handler. It must be manually registered into the
     // resulting action map.
@@ -184,7 +178,8 @@ public class ActionJson {
       descs = descs.append(descr);
     }
 
-    ACTION: for (UiAction.Description d : descs) {
+    ACTION:
+    for (UiAction.Description d : descs) {
       ActionInfo actionInfo = new ActionInfo(d);
       for (ActionVisitor visitor : visitors) {
         if (!visitor.visit(d.getId(), actionInfo, changeInfo)) {
@@ -196,17 +191,18 @@ public class ActionJson {
     return out;
   }
 
-  private Map<String, ActionInfo> toActionMap(RevisionResource rsrc,
-      List<ActionVisitor> visitors, ChangeInfo changeInfo,
+  private Map<String, ActionInfo> toActionMap(
+      RevisionResource rsrc,
+      List<ActionVisitor> visitors,
+      ChangeInfo changeInfo,
       RevisionInfo revisionInfo) {
     if (!rsrc.getControl().getUser().isIdentifiedUser()) {
       return ImmutableMap.of();
     }
     Map<String, ActionInfo> out = new LinkedHashMap<>();
-    Provider<CurrentUser> userProvider = Providers.of(
-        rsrc.getControl().getUser());
-    ACTION: for (UiAction.Description d : UiActions.from(
-        revisions, rsrc, userProvider)) {
+    Provider<CurrentUser> userProvider = Providers.of(rsrc.getControl().getUser());
+    ACTION:
+    for (UiAction.Description d : UiActions.from(revisions, rsrc, userProvider)) {
       ActionInfo actionInfo = new ActionInfo(d);
       for (ActionVisitor visitor : visitors) {
         if (!visitor.visit(d.getId(), actionInfo, changeInfo, revisionInfo)) {

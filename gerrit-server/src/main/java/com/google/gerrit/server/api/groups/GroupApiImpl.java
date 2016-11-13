@@ -44,7 +44,6 @@ import com.google.gerrit.server.group.PutOwner;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -220,8 +219,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void addMembers(String... members) throws RestApiException {
     try {
-      addMembers.apply(
-          rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
+      addMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot add group members", e);
     }
@@ -230,8 +228,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void removeMembers(String... members) throws RestApiException {
     try {
-      deleteMembers.apply(
-          rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
+      deleteMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot remove group members", e);
     }
@@ -249,8 +246,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void addGroups(String... groups) throws RestApiException {
     try {
-      addGroups.apply(
-          rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
+      addGroups.apply(rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot add group members", e);
     }
@@ -259,8 +255,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void removeGroups(String... groups) throws RestApiException {
     try {
-      deleteGroups.apply(
-          rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
+      deleteGroups.apply(rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot remove group members", e);
     }

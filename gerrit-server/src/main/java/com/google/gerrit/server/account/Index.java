@@ -22,29 +22,24 @@ import com.google.gerrit.server.account.Index.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class Index implements RestModifyView<AccountResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final AccountCache accountCache;
   private final Provider<CurrentUser> self;
 
   @Inject
-  Index(AccountCache accountCache,
-      Provider<CurrentUser> self) {
+  Index(AccountCache accountCache, Provider<CurrentUser> self) {
     this.accountCache = accountCache;
     this.self = self;
   }
 
   @Override
-  public Response<?> apply(AccountResource rsrc, Input input)
-      throws IOException, AuthException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+  public Response<?> apply(AccountResource rsrc, Input input) throws IOException, AuthException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to index account");
     }
 

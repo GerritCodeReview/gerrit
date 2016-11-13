@@ -18,12 +18,11 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-
 import java.util.Collection;
 
 /**
- * This class starts/stops the indexes from the init program so that init can
- * write updates the indexes.
+ * This class starts/stops the indexes from the init program so that init can write updates the
+ * indexes.
  */
 public class IndexManagerOnInit {
   private final LifecycleListener indexManager;

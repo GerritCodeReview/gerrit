@@ -21,10 +21,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
-
 import java.io.IOException;
 import java.util.Iterator;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -42,8 +40,8 @@ public abstract class AllRequestFilter implements Filter {
         filter("/*").through(FilterProxy.class);
 
         bind(StopPluginListener.class)
-          .annotatedWith(UniqueAnnotations.create())
-          .to(FilterProxy.class);
+            .annotatedWith(UniqueAnnotations.create())
+            .to(FilterProxy.class);
       }
     };
   }
@@ -87,7 +85,7 @@ public abstract class AllRequestFilter implements Filter {
     }
 
     private synchronized void cleanUpInitializedFilters() {
-      Iterable<AllRequestFilter> filtersToCleanUp  = initializedFilters;
+      Iterable<AllRequestFilter> filtersToCleanUp = initializedFilters;
       initializedFilters = new DynamicSet<>();
       for (AllRequestFilter filter : filtersToCleanUp) {
         if (filters.contains(filter)) {
@@ -99,8 +97,8 @@ public abstract class AllRequestFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res,
-        final FilterChain last) throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, final FilterChain last)
+        throws IOException, ServletException {
       final Iterator<AllRequestFilter> itr = filters.iterator();
       new FilterChain() {
         @Override
@@ -127,8 +125,7 @@ public abstract class AllRequestFilter implements Filter {
             // it, given that this is really both really improbable and also
             // the "proper" fix for it would basically kill concurrency of
             // webrequests.
-            if (initializedFilters.contains(filter)
-                || initFilterIfNeeded(filter)) {
+            if (initializedFilters.contains(filter) || initFilterIfNeeded(filter)) {
               filter.doFilter(req, res, this);
               return;
             }
@@ -146,16 +143,16 @@ public abstract class AllRequestFilter implements Filter {
       // FilterConfig around, and reuse it to lazy init the AllRequestFilters.
       filterConfig = config;
 
-      for (AllRequestFilter f: filters) {
+      for (AllRequestFilter f : filters) {
         initFilterIfNeeded(f);
       }
     }
 
     @Override
     public synchronized void destroy() {
-      Iterable<AllRequestFilter> filtersToDestroy  = initializedFilters;
+      Iterable<AllRequestFilter> filtersToDestroy = initializedFilters;
       initializedFilters = new DynamicSet<>();
-      for (AllRequestFilter filter: filtersToDestroy) {
+      for (AllRequestFilter filter : filtersToDestroy) {
         filter.destroy();
       }
     }
@@ -170,10 +167,8 @@ public abstract class AllRequestFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig config) throws ServletException {
-  }
+  public void init(FilterConfig config) throws ServletException {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 }

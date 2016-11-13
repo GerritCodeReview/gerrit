@@ -19,6 +19,11 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.Retryer;
+import com.github.rholder.retry.RetryerBuilder;
+import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.gerrit.common.Nullable;
@@ -39,30 +44,21 @@ import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import com.github.rholder.retry.RetryException;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
-import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.WaitStrategies;
-
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 /** Helper to migrate the {@link PrimaryStorage} of individual changes. */
 @Singleton
 public class PrimaryStorageMigrator {
-  private static final Logger log =
-      LoggerFactory.getLogger(PrimaryStorageMigrator.class);
+  private static final Logger log = LoggerFactory.getLogger(PrimaryStorageMigrator.class);
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
@@ -74,7 +70,8 @@ public class PrimaryStorageMigrator {
   private final Retryer<NoteDbChangeState> testEnsureRebuiltRetryer;
 
   @Inject
-  PrimaryStorageMigrator(@GerritServerConfig Config cfg,
+  PrimaryStorageMigrator(
+      @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
@@ -83,7 +80,8 @@ public class PrimaryStorageMigrator {
   }
 
   @VisibleForTesting
-  public PrimaryStorageMigrator(Config cfg,
+  public PrimaryStorageMigrator(
+      Config cfg,
       Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
@@ -97,38 +95,37 @@ public class PrimaryStorageMigrator {
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
 
     String s = "notedb";
-    timeoutMs = cfg.getTimeUnit(
-        s, null, "primaryStorageMigrationTimeout",
-        MILLISECONDS.convert(60, SECONDS), MILLISECONDS);
+    timeoutMs =
+        cfg.getTimeUnit(
+            s,
+            null,
+            "primaryStorageMigrationTimeout",
+            MILLISECONDS.convert(60, SECONDS),
+            MILLISECONDS);
   }
 
   /**
    * Migrate a change's primary storage from ReviewDb to NoteDb.
-   * <p>
-   * This method will return only if the primary storage of the change is NoteDb
-   * afterwards. (It may return early if the primary storage was already
-   * NoteDb.)
-   * <p>
-   * If this method throws an exception, then the primary storage of the change
-   * is probably not NoteDb. (It is possible that the primary storage of the
-   * change is NoteDb in this case, but there was an error reading the state.)
-   * Moreover, after an exception, the change may be read-only until a lease
-   * expires. If the caller chooses to retry, they should wait until the
-   * read-only lease expires; this method will fail relatively quickly if called
-   * on a read-only change.
-   * <p>
-   * Note that if the change is read-only after this method throws an exception,
-   * that does not necessarily guarantee that the read-only lease was acquired
-   * during that particular method invocation; this call may have in fact failed
-   * because another thread acquired the lease first.
+   *
+   * <p>This method will return only if the primary storage of the change is NoteDb afterwards. (It
+   * may return early if the primary storage was already NoteDb.)
+   *
+   * <p>If this method throws an exception, then the primary storage of the change is probably not
+   * NoteDb. (It is possible that the primary storage of the change is NoteDb in this case, but
+   * there was an error reading the state.) Moreover, after an exception, the change may be
+   * read-only until a lease expires. If the caller chooses to retry, they should wait until the
+   * read-only lease expires; this method will fail relatively quickly if called on a read-only
+   * change.
+   *
+   * <p>Note that if the change is read-only after this method throws an exception, that does not
+   * necessarily guarantee that the read-only lease was acquired during that particular method
+   * invocation; this call may have in fact failed because another thread acquired the lease first.
    *
    * @param id change ID.
-   *
    * @throws OrmException if a ReviewDb-level error occurs.
    * @throws IOException if a repo-level error occurs.
    */
-  public void migrateToNoteDbPrimary(Change.Id id)
-      throws OrmException, IOException {
+  public void migrateToNoteDbPrimary(Change.Id id) throws OrmException, IOException {
     // Since there are multiple non-atomic steps in this method, we need to
     // consider what happens when there is another writer concurrent with the
     // thread executing this method.
@@ -200,10 +197,14 @@ public class PrimaryStorageMigrator {
     NoteDbChangeState rebuiltState;
     try {
       // MR,MN
-      rebuiltState = ensureRebuiltRetryer(sw).call(
-          () -> ensureRebuilt(
-              readOnlyChange.getProject(), id,
-              NoteDbChangeState.parse(readOnlyChange)));
+      rebuiltState =
+          ensureRebuiltRetryer(sw)
+              .call(
+                  () ->
+                      ensureRebuilt(
+                          readOnlyChange.getProject(),
+                          id,
+                          NoteDbChangeState.parse(readOnlyChange)));
     } catch (RetryException | ExecutionException e) {
       throw new OrmException(e);
     }
@@ -213,36 +214,39 @@ public class PrimaryStorageMigrator {
     // the primary storage to NoteDb.
 
     setPrimaryStorageNoteDb(id, rebuiltState);
-    log.info("Migrated change {} to NoteDb primary in {}ms", id,
-        sw.elapsed(MILLISECONDS));
+    log.info("Migrated change {} to NoteDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
   }
 
   private Change setReadOnly(Change.Id id) throws OrmException {
     AtomicBoolean alreadyMigrated = new AtomicBoolean(false);
-    Change result = db().changes().atomicUpdate(id, new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        NoteDbChangeState state = NoteDbChangeState.parse(change);
-        if (state == null) {
-          // Could rebuild the change here, but that's more complexity, and this
-          // really shouldn't happen.
-          throw new OrmRuntimeException(
-              "change " + id + " has no note_db_state; rebuild it first");
-        }
-        // If the change is already read-only, then the lease is held by another
-        // (likely failed) migrator thread. Fail early, as we can't take over
-        // the lease.
-        NoteDbChangeState.checkNotReadOnly(change, skewMs);
-        if (state.getPrimaryStorage() != PrimaryStorage.NOTE_DB) {
-          Timestamp now = TimeUtil.nowTs();
-          Timestamp until = new Timestamp(now.getTime() + timeoutMs);
-          change.setNoteDbState(state.withReadOnlyUntil(until).toString());
-        } else {
-          alreadyMigrated.set(true);
-        }
-        return change;
-      }
-    });
+    Change result =
+        db().changes()
+            .atomicUpdate(
+                id,
+                new AtomicUpdate<Change>() {
+                  @Override
+                  public Change update(Change change) {
+                    NoteDbChangeState state = NoteDbChangeState.parse(change);
+                    if (state == null) {
+                      // Could rebuild the change here, but that's more complexity, and this
+                      // really shouldn't happen.
+                      throw new OrmRuntimeException(
+                          "change " + id + " has no note_db_state; rebuild it first");
+                    }
+                    // If the change is already read-only, then the lease is held by another
+                    // (likely failed) migrator thread. Fail early, as we can't take over
+                    // the lease.
+                    NoteDbChangeState.checkNotReadOnly(change, skewMs);
+                    if (state.getPrimaryStorage() != PrimaryStorage.NOTE_DB) {
+                      Timestamp now = TimeUtil.nowTs();
+                      Timestamp until = new Timestamp(now.getTime() + timeoutMs);
+                      change.setNoteDbState(state.withReadOnlyUntil(until).toString());
+                    } else {
+                      alreadyMigrated.set(true);
+                    }
+                    return change;
+                  }
+                });
     return alreadyMigrated.get() ? null : result;
   }
 
@@ -252,67 +256,64 @@ public class PrimaryStorageMigrator {
     }
     // Retry the ensureRebuilt step with backoff until half the timeout has
     // expired, leaving the remaining half for the rest of the steps.
-    long remainingNanos =
-        (MILLISECONDS.toNanos(timeoutMs) / 2) - sw.elapsed(NANOSECONDS);
+    long remainingNanos = (MILLISECONDS.toNanos(timeoutMs) / 2) - sw.elapsed(NANOSECONDS);
     remainingNanos = Math.max(remainingNanos, 0);
     return RetryerBuilder.<NoteDbChangeState>newBuilder()
-        .retryIfException(
-            e -> (e instanceof IOException) || (e instanceof OrmException))
+        .retryIfException(e -> (e instanceof IOException) || (e instanceof OrmException))
         .withWaitStrategy(
             WaitStrategies.join(
                 WaitStrategies.exponentialWait(250, MILLISECONDS),
                 WaitStrategies.randomWait(50, MILLISECONDS)))
-        .withStopStrategy(
-            StopStrategies.stopAfterDelay(remainingNanos, NANOSECONDS))
+        .withStopStrategy(StopStrategies.stopAfterDelay(remainingNanos, NANOSECONDS))
         .build();
   }
 
-  private NoteDbChangeState ensureRebuilt(Project.NameKey project, Change.Id id,
-      NoteDbChangeState readOnlyState)
+  private NoteDbChangeState ensureRebuilt(
+      Project.NameKey project, Change.Id id, NoteDbChangeState readOnlyState)
       throws IOException, OrmException, RepositoryNotFoundException {
     try (Repository changeRepo = repoManager.openRepository(project);
         Repository allUsersRepo = repoManager.openRepository(allUsers)) {
-      if (!readOnlyState.isUpToDate(
-          new RepoRefCache(changeRepo), new RepoRefCache(allUsersRepo))) {
-        NoteDbUpdateManager.Result r =
-            rebuilder.rebuildEvenIfReadOnly(db(), id);
+      if (!readOnlyState.isUpToDate(new RepoRefCache(changeRepo), new RepoRefCache(allUsersRepo))) {
+        NoteDbUpdateManager.Result r = rebuilder.rebuildEvenIfReadOnly(db(), id);
         checkState(
-            r.newState().getReadOnlyUntil()
-                .equals(readOnlyState.getReadOnlyUntil()),
+            r.newState().getReadOnlyUntil().equals(readOnlyState.getReadOnlyUntil()),
             "state after rebuilding has different read-only lease: %s != %s",
-            r.newState(), readOnlyState);
+            r.newState(),
+            readOnlyState);
         readOnlyState = r.newState();
       }
     }
     return readOnlyState;
   }
 
-  private void setPrimaryStorageNoteDb(Change.Id id,
-      NoteDbChangeState expectedState) throws OrmException {
-    db().changes().atomicUpdate(id, new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        NoteDbChangeState state = NoteDbChangeState.parse(change);
-        if (!Objects.equals(state, expectedState)) {
-          throw new OrmRuntimeException(badState(state, expectedState));
-        }
-        Timestamp until = state.getReadOnlyUntil().get();
-        if (TimeUtil.nowTs().after(until)) {
-          throw new OrmRuntimeException(
-              "read-only lease on change " + id + " expired at " + until);
-        }
-        change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-        return change;
-      }
-    });
+  private void setPrimaryStorageNoteDb(Change.Id id, NoteDbChangeState expectedState)
+      throws OrmException {
+    db().changes()
+        .atomicUpdate(
+            id,
+            new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                NoteDbChangeState state = NoteDbChangeState.parse(change);
+                if (!Objects.equals(state, expectedState)) {
+                  throw new OrmRuntimeException(badState(state, expectedState));
+                }
+                Timestamp until = state.getReadOnlyUntil().get();
+                if (TimeUtil.nowTs().after(until)) {
+                  throw new OrmRuntimeException(
+                      "read-only lease on change " + id + " expired at " + until);
+                }
+                change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+                return change;
+              }
+            });
   }
 
   private ReviewDb db() {
     return ReviewDbUtil.unwrapDb(db.get());
   }
 
-  private String badState(NoteDbChangeState actual,
-      NoteDbChangeState expected) {
+  private String badState(NoteDbChangeState actual, NoteDbChangeState expected) {
     return "state changed unexpectedly: " + actual + " != " + expected;
   }
 }

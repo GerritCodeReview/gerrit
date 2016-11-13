@@ -35,7 +35,9 @@ import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -43,10 +45,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 
 class DeleteChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
@@ -63,7 +61,6 @@ class DeleteChangeOp extends BatchUpdate.Op {
     return ReviewDbUtil.unwrapDb(db);
   }
 
-
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
@@ -72,7 +69,8 @@ class DeleteChangeOp extends BatchUpdate.Op {
   private Change.Id id;
 
   @Inject
-  DeleteChangeOp(PatchSetUtil psUtil,
+  DeleteChangeOp(
+      PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       @GerritServerConfig Config cfg) {
@@ -83,15 +81,15 @@ class DeleteChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws RestApiException,
-      OrmException, IOException, NoSuchChangeException {
-    checkState(ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
+  public boolean updateChange(ChangeContext ctx)
+      throws RestApiException, OrmException, IOException, NoSuchChangeException {
+    checkState(
+        ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
         "must use DeleteChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteChangeOp");
 
     id = ctx.getChange().getId();
-    Collection<PatchSet> patchSets = psUtil.byChange(ctx.getDb(),
-        ctx.getNotes());
+    Collection<PatchSet> patchSets = psUtil.byChange(ctx.getDb(), ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);
     // Cleaning up is only possible as long as the change and its elements are
@@ -103,19 +101,19 @@ class DeleteChangeOp extends BatchUpdate.Op {
     return true;
   }
 
-  private void ensureDeletable(ChangeContext ctx, Change.Id id,
-      Collection<PatchSet> patchSets) throws ResourceConflictException,
-      MethodNotAllowedException, OrmException, AuthException, IOException {
+  private void ensureDeletable(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
+      throws ResourceConflictException, MethodNotAllowedException, OrmException, AuthException,
+          IOException {
     Change.Status status = ctx.getChange().getStatus();
     if (status == Change.Status.MERGED) {
-      throw new MethodNotAllowedException("Deleting merged change " + id
-          + " is not allowed");
+      throw new MethodNotAllowedException("Deleting merged change " + id + " is not allowed");
     }
     for (PatchSet patchSet : patchSets) {
       if (isPatchSetMerged(ctx, patchSet)) {
-        throw new ResourceConflictException(String.format(
-            "Cannot delete change %s: patch set %s is already merged",
-            id, patchSet.getPatchSetId()));
+        throw new ResourceConflictException(
+            String.format(
+                "Cannot delete change %s: patch set %s is already merged",
+                id, patchSet.getPatchSetId()));
       }
     }
 
@@ -129,15 +127,18 @@ class DeleteChangeOp extends BatchUpdate.Op {
       }
       for (PatchSet ps : patchSets) {
         if (!ps.isDraft()) {
-          throw new ResourceConflictException("Cannot delete draft change " + id
-              + ": patch set " + ps.getPatchSetId() + " is not a draft");
+          throw new ResourceConflictException(
+              "Cannot delete draft change "
+                  + id
+                  + ": patch set "
+                  + ps.getPatchSetId()
+                  + " is not a draft");
         }
       }
     }
   }
 
-  private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet)
-      throws IOException {
+  private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet) throws IOException {
     Repository repository = ctx.getRepository();
     Ref destinationRef = repository.exactRef(ctx.getChange().getDest().get());
     if (destinationRef == null) {
@@ -147,12 +148,11 @@ class DeleteChangeOp extends BatchUpdate.Op {
     RevWalk revWalk = ctx.getRevWalk();
     ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
     RevCommit revCommit = revWalk.parseCommit(objectId);
-    return IncludedInResolver.includedInOne(repository, revWalk, revCommit,
-        Collections.singletonList(destinationRef));
+    return IncludedInResolver.includedInOne(
+        repository, revWalk, revCommit, Collections.singletonList(destinationRef));
   }
 
-  private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id)
-      throws OrmException {
+  private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {
     // Only delete from ReviewDb here; deletion from NoteDb is handled in
     // BatchUpdate.
     ReviewDb db = unwrap(ctx.getDb());
@@ -162,9 +162,8 @@ class DeleteChangeOp extends BatchUpdate.Op {
     db.changeMessages().delete(db.changeMessages().byChange(id));
   }
 
-  private void cleanUpReferences(ChangeContext ctx, Change.Id id,
-      Collection<PatchSet> patchSets) throws OrmException,
-      NoSuchChangeException {
+  private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
+      throws OrmException, NoSuchChangeException {
     for (PatchSet ps : patchSets) {
       accountPatchReviewStore.get().clearReviewed(ps.getId());
     }
@@ -178,11 +177,8 @@ class DeleteChangeOp extends BatchUpdate.Op {
   public void updateRepo(RepoContext ctx) throws IOException {
     String prefix = new PatchSet.Id(id, 1).toRefName();
     prefix = prefix.substring(0, prefix.length() - 1);
-    for (Ref ref
-        : ctx.getRepository().getRefDatabase().getRefs(prefix).values()) {
-      ctx.addRefUpdate(
-          new ReceiveCommand(
-            ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
+    for (Ref ref : ctx.getRepository().getRefDatabase().getRefs(prefix).values()) {
+      ctx.addRefUpdate(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
     }
   }
 }

@@ -24,13 +24,11 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.Before;
+import org.junit.Test;
 
 public class H2CacheTest {
   private static int dbCnt;
@@ -43,13 +41,9 @@ public class H2CacheTest {
     mem = CacheBuilder.newBuilder().build();
 
     TypeLiteral<String> keyType = new TypeLiteral<String>() {};
-    SqlStore<String, Boolean> store = new SqlStore<>(
-        "jdbc:h2:mem:" + "Test_" + (++dbCnt),
-        keyType,
-        1 << 20,
-        0);
-    impl =
-        new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem);
+    SqlStore<String, Boolean> store =
+        new SqlStore<>("jdbc:h2:mem:" + "Test_" + (++dbCnt), keyType, 1 << 20, 0);
+    impl = new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem);
   }
 
   @Test
@@ -57,26 +51,32 @@ public class H2CacheTest {
     assertNull(impl.getIfPresent("foo"));
 
     final AtomicBoolean called = new AtomicBoolean();
-    assertTrue(impl.get("foo", new Callable<Boolean>() {
-      @Override
-      public Boolean call() throws Exception {
-        called.set(true);
-        return true;
-      }
-    }));
+    assertTrue(
+        impl.get(
+            "foo",
+            new Callable<Boolean>() {
+              @Override
+              public Boolean call() throws Exception {
+                called.set(true);
+                return true;
+              }
+            }));
     assertTrue("used Callable", called.get());
     assertTrue("exists in cache", impl.getIfPresent("foo"));
     mem.invalidate("foo");
     assertTrue("exists on disk", impl.getIfPresent("foo"));
 
     called.set(false);
-    assertTrue(impl.get("foo", new Callable<Boolean>() {
-      @Override
-      public Boolean call() throws Exception {
-        called.set(true);
-        return true;
-      }
-    }));
+    assertTrue(
+        impl.get(
+            "foo",
+            new Callable<Boolean>() {
+              @Override
+              public Boolean call() throws Exception {
+                called.set(true);
+                return true;
+              }
+            }));
     assertFalse("did not invoke Callable", called.get());
   }
 }

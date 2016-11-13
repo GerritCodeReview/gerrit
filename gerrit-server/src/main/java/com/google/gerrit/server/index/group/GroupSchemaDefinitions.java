@@ -22,19 +22,19 @@ import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
   @Deprecated
-  static final Schema<AccountGroup> V1 = schema(
-      GroupField.ID,
-      GroupField.UUID,
-      GroupField.OWNER_UUID,
-      GroupField.NAME,
-      GroupField.NAME_PART,
-      GroupField.DESCRIPTION,
-      GroupField.IS_VISIBLE_TO_ALL);
+  static final Schema<AccountGroup> V1 =
+      schema(
+          GroupField.ID,
+          GroupField.UUID,
+          GroupField.OWNER_UUID,
+          GroupField.NAME,
+          GroupField.NAME_PART,
+          GroupField.DESCRIPTION,
+          GroupField.IS_VISIBLE_TO_ALL);
 
   static final Schema<AccountGroup> V2 = schema(V1);
 
-  public static final GroupSchemaDefinitions INSTANCE =
-      new GroupSchemaDefinitions();
+  public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 
   private GroupSchemaDefinitions() {
     super("groups", AccountGroup.class);

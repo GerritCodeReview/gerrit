@@ -18,14 +18,11 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.mail.Address;
-
 import com.jcraft.jsch.KeyPair;
-
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class TestAccount {
   public static List<Account.Id> ids(List<TestAccount> accounts) {
@@ -53,8 +50,13 @@ public class TestAccount {
   public final String httpPassword;
   public String status;
 
-  TestAccount(Account.Id id, String username, String email, String fullName,
-      KeyPair sshKey, String httpPassword) {
+  TestAccount(
+      Account.Id id,
+      String username,
+      String email,
+      String fullName,
+      KeyPair sshKey,
+      String httpPassword) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -75,7 +77,8 @@ public class TestAccount {
   }
 
   public String getHttpUrl(GerritServer server) {
-    return String.format("http://%s:%s@%s:%d",
+    return String.format(
+        "http://%s:%s@%s:%d",
         username,
         httpPassword,
         server.getHttpAddress().getAddress().getHostAddress(),

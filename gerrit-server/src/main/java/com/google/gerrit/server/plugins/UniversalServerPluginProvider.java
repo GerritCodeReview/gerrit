@@ -17,14 +17,12 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class UniversalServerPluginProvider implements ServerPluginProvider {
@@ -38,8 +36,8 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
   }
 
   @Override
-  public ServerPlugin get(Path srcPath, FileSnapshot snapshot,
-      PluginDescription pluginDescription) throws InvalidPluginException {
+  public ServerPlugin get(Path srcPath, FileSnapshot snapshot, PluginDescription pluginDescription)
+      throws InvalidPluginException {
     return providerOf(srcPath).get(srcPath, snapshot, pluginDescription);
   }
 
@@ -67,8 +65,7 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
   }
 
   private ServerPluginProvider providerOf(Path srcPath) {
-    List<ServerPluginProvider> providers =
-        providersForHandlingPlugin(srcPath);
+    List<ServerPluginProvider> providers = providersForHandlingPlugin(srcPath);
     switch (providers.size()) {
       case 1:
         return providers.get(0);
@@ -81,13 +78,15 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
     }
   }
 
-  private List<ServerPluginProvider> providersForHandlingPlugin(
-      final Path srcPath) {
+  private List<ServerPluginProvider> providersForHandlingPlugin(final Path srcPath) {
     List<ServerPluginProvider> providers = new ArrayList<>();
     for (ServerPluginProvider serverPluginProvider : serverPluginProviders) {
       boolean handles = serverPluginProvider.handles(srcPath);
-      log.debug("File {} handled by {} ? => {}", srcPath,
-          serverPluginProvider.getProviderPluginName(), handles);
+      log.debug(
+          "File {} handled by {} ? => {}",
+          srcPath,
+          serverPluginProvider.getProviderPluginName(),
+          handles);
       if (handles) {
         providers.add(serverPluginProvider);
       }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
-
 import java.util.Set;
 
 public interface Realm {
@@ -39,11 +38,10 @@ public interface Realm {
 
   /**
    * Locate an account whose local username is the given account name.
-   * <p>
-   * Generally this only works for local realms, such as one backed by an LDAP
-   * directory, or where there is an {@link EmailExpander} configured that knows
-   * how to convert the accountName into an email address, and then locate the
-   * user by that email address.
+   *
+   * <p>Generally this only works for local realms, such as one backed by an LDAP directory, or
+   * where there is an {@link EmailExpander} configured that knows how to convert the accountName
+   * into an email address, and then locate the user by that email address.
    */
   Account.Id lookup(String accountName);
 }

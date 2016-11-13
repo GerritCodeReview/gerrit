@@ -26,9 +26,8 @@ class LimitedByteArrayOutputStream extends OutputStream {
   private final ByteArrayOutputStream buffer;
 
   /**
-   * Constructs a LimitedByteArrayOutputStream, which stores output
-   * in memory up to a certain specified size. When the output exceeds
-   * the specified size a LimitExceededException is thrown.
+   * Constructs a LimitedByteArrayOutputStream, which stores output in memory up to a certain
+   * specified size. When the output exceeds the specified size a LimitExceededException is thrown.
    *
    * @param max the maximum size in bytes which may be stored.
    * @param initial the initial size. It must be smaller than the max size.
@@ -46,7 +45,7 @@ class LimitedByteArrayOutputStream extends OutputStream {
   }
 
   @Override
-  public void write(int b) throws IOException{
+  public void write(int b) throws IOException {
     checkOversize(1);
     buffer.write(b);
   }
@@ -57,9 +56,7 @@ class LimitedByteArrayOutputStream extends OutputStream {
     buffer.write(b, off, len);
   }
 
-  /**
-   * @return a newly allocated byte array with contents of the buffer.
-   */
+  /** @return a newly allocated byte array with contents of the buffer. */
   public byte[] toByteArray() {
     return buffer.toByteArray();
   }

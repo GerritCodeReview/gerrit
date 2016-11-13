@@ -22,10 +22,8 @@ import com.google.gerrit.server.change.IncludedIn;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-
 import java.io.IOException;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 class CommitIncludedIn implements RestReadView<CommitResource> {

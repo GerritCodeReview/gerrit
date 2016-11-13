@@ -22,8 +22,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetEmail implements RestReadView<AccountResource.Email> {
   @Inject
-  public GetEmail() {
-  }
+  public GetEmail() {}
 
   @Override
   public EmailInfo apply(AccountResource.Email rsrc) {

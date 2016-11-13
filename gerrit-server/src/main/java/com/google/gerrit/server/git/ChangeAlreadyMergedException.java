@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-/**
- * Indicates that the change or commit is already in the source tree.
- */
+/** Indicates that the change or commit is already in the source tree. */
 public class ChangeAlreadyMergedException extends MergeIdenticalTreeException {
   private static final long serialVersionUID = 1L;
 

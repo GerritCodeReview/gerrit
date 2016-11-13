@@ -28,7 +28,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.testutil.ConfigSuite;
-
 import org.apache.http.Header;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.message.BasicHeader;
@@ -40,10 +39,10 @@ public class CorsIT extends AbstractDaemonTest {
   public static Config allowExampleDotCom() {
     Config cfg = new Config();
     cfg.setStringList(
-        "site", null, "allowOriginRegex",
-        ImmutableList.of(
-            "https?://(.+[.])?example[.]com",
-            "http://friend[.]ly"));
+        "site",
+        null,
+        "allowOriginRegex",
+        ImmutableList.of("https?://(.+[.])?example[.]com", "http://friend[.]ly"));
     return cfg;
   }
 
@@ -69,10 +68,9 @@ public class CorsIT extends AbstractDaemonTest {
   public void putWithOriginRefused() throws Exception {
     Result change = createChange();
     String origin = "http://example.com";
-    RestResponse r = adminRestSession.putWithHeader(
-        "/changes/" + change.getChangeId() + "/topic",
-        new BasicHeader(ORIGIN, origin),
-        "A");
+    RestResponse r =
+        adminRestSession.putWithHeader(
+            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
     r.assertOK();
     checkCors(r, false, origin);
   }
@@ -82,8 +80,8 @@ public class CorsIT extends AbstractDaemonTest {
     Result change = createChange();
 
     String origin = "http://example.com";
-    Request req = Request.Options(adminRestSession.url()
-        + "/a/changes/" + change.getChangeId() + "/detail");
+    Request req =
+        Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
     req.addHeader(ORIGIN, origin);
     req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "GET");
     req.addHeader(ACCESS_CONTROL_REQUEST_HEADERS, "X-Requested-With");
@@ -97,8 +95,8 @@ public class CorsIT extends AbstractDaemonTest {
   public void preflightBadOrigin() throws Exception {
     Result change = createChange();
 
-    Request req = Request.Options(adminRestSession.url()
-        + "/a/changes/" + change.getChangeId() + "/detail");
+    Request req =
+        Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
     req.addHeader(ORIGIN, "http://evil.attacker");
     req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "GET");
 
@@ -110,8 +108,9 @@ public class CorsIT extends AbstractDaemonTest {
     Result change = createChange();
 
     for (String method : new String[] {"POST", "PUT", "DELETE", "PATCH"}) {
-      Request req = Request.Options(adminRestSession.url()
-          + "/a/changes/" + change.getChangeId() + "/detail");
+      Request req =
+          Request.Options(
+              adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
       req.addHeader(ORIGIN, "http://example.com");
       req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, method);
       adminRestSession.execute(req).assertBadRequest();
@@ -122,8 +121,8 @@ public class CorsIT extends AbstractDaemonTest {
   public void preflightBadHeader() throws Exception {
     Result change = createChange();
 
-    Request req = Request.Options(adminRestSession.url()
-        + "/a/changes/" + change.getChangeId() + "/detail");
+    Request req =
+        Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
     req.addHeader(ORIGIN, "http://example.com");
     req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "GET");
     req.addHeader(ACCESS_CONTROL_REQUEST_HEADERS, "X-Gerrit-Auth");
@@ -131,8 +130,7 @@ public class CorsIT extends AbstractDaemonTest {
     adminRestSession.execute(req).assertBadRequest();
   }
 
-  private RestResponse check(String url, boolean accept, String origin)
-      throws Exception {
+  private RestResponse check(String url, boolean accept, String origin) throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
     RestResponse r = adminRestSession.getWithHeader(url, hdr);
     r.assertOK();

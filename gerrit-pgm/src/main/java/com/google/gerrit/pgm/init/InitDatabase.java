@@ -32,7 +32,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +46,10 @@ class InitDatabase implements InitStep {
   private final Section idSection;
 
   @Inject
-  InitDatabase(final ConsoleUI ui, final SitePaths site, final Libraries libraries,
+  InitDatabase(
+      final ConsoleUI ui,
+      final SitePaths site,
+      final Libraries libraries,
       final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
@@ -76,12 +78,10 @@ class InitDatabase implements InitStep {
       database.set("type", "jdbc");
     }
 
-    String dbType =
-        database.select("Database server type", "type", "h2", allowedValues);
+    String dbType = database.select("Database server type", "type", "h2", allowedValues);
 
     DatabaseConfigInitializer dci =
-        i.getInstance(Key.get(DatabaseConfigInitializer.class,
-            Names.named(dbType.toLowerCase())));
+        i.getInstance(Key.get(DatabaseConfigInitializer.class, Names.named(dbType.toLowerCase())));
 
     if (dci instanceof MySqlInitializer) {
       libraries.mysqlDriver.downloadRequired();
@@ -98,8 +98,7 @@ class InitDatabase implements InitStep {
     // Initialize UUID for NoteDb on first init.
     String id = idSection.get(GerritServerIdProvider.KEY);
     if (Strings.isNullOrEmpty(id)) {
-      idSection.set(
-          GerritServerIdProvider.KEY, GerritServerIdProvider.generate());
+      idSection.set(GerritServerIdProvider.KEY, GerritServerIdProvider.generate());
     }
   }
 }

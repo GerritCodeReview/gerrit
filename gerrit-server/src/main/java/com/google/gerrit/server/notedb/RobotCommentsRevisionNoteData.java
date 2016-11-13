@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.reviewdb.client.RobotComment;
-
 import java.util.List;
 
 public class RobotCommentsRevisionNoteData {

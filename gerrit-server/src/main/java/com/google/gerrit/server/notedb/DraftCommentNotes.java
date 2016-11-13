@@ -40,7 +40,8 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -52,21 +53,14 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-/**
- * View of the draft comments for a single {@link Change} based on the log of
- * its drafts branch.
- */
+/** View of the draft comments for a single {@link Change} based on the log of its drafts branch. */
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
-  private static final Logger log =
-      LoggerFactory.getLogger(DraftCommentNotes.class);
+  private static final Logger log = LoggerFactory.getLogger(DraftCommentNotes.class);
 
   public interface Factory {
     DraftCommentNotes create(Change change, Account.Id accountId);
-    DraftCommentNotes createWithAutoRebuildingDisabled(
-        Change.Id changeId, Account.Id accountId);
+
+    DraftCommentNotes createWithAutoRebuildingDisabled(Change.Id changeId, Account.Id accountId);
   }
 
   private final Change change;
@@ -78,18 +72,12 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   @AssistedInject
-  DraftCommentNotes(
-      Args args,
-      @Assisted Change change,
-      @Assisted Account.Id author) {
+  DraftCommentNotes(Args args, @Assisted Change change, @Assisted Account.Id author) {
     this(args, change, author, true, null, null);
   }
 
   @AssistedInject
-  DraftCommentNotes(
-      Args args,
-      @Assisted Change.Id changeId,
-      @Assisted Account.Id author) {
+  DraftCommentNotes(Args args, @Assisted Change.Id changeId, @Assisted Account.Id author) {
     // PrimaryStorage is unknown; this should only called by
     // PatchLineCommentsUtil#draftByAuthor, which can live with this.
     super(args, changeId, null, false);
@@ -115,7 +103,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       checkArgument(
           ref.getName().equals(getRefName()),
           "draft ref not for change %s and account %s: %s",
-          getChangeId(), author, ref.getName());
+          getChangeId(),
+          author,
+          ref.getName());
     }
   }
 
@@ -154,8 +144,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
-  protected void onLoad(LoadHandle handle)
-      throws IOException, ConfigInvalidException {
+  protected void onLoad(LoadHandle handle) throws IOException, ConfigInvalidException {
     ObjectId rev = handle.id();
     if (rev == null) {
       loadDefaults();
@@ -164,11 +153,14 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
     RevCommit tipCommit = handle.walk().parseCommit(rev);
     ObjectReader reader = handle.walk().getObjectReader();
-    revisionNoteMap = RevisionNoteMap.parse(
-        args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
-        PatchLineComment.Status.DRAFT);
-    ListMultimap<RevId, Comment> cs =
-        MultimapBuilder.hashKeys().arrayListValues().build();
+    revisionNoteMap =
+        RevisionNoteMap.parse(
+            args.noteUtil,
+            getChangeId(),
+            reader,
+            NoteMap.read(reader, tipCommit),
+            PatchLineComment.Status.DRAFT);
+    ListMultimap<RevId, Comment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (Comment c : rn.getComments()) {
         cs.put(new RevId(c.revId), c);
@@ -188,8 +180,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
-  protected LoadHandle openHandle(Repository repo)
-      throws NoSuchChangeException, IOException {
+  protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
     if (rebuildResult != null) {
       StagedResult sr = checkNotNull(rebuildResult.staged());
       return LoadHandle.create(
@@ -207,8 +198,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return super.openHandle(repo);
   }
 
-  private static ObjectId findNewId(
-      Iterable<ReceiveCommand> cmds, String refName) {
+  private static ObjectId findNewId(Iterable<ReceiveCommand> cmds, String refName) {
     for (ReceiveCommand cmd : cmds) {
       if (cmd.getRefName().equals(refName)) {
         return cmd.getNewId();
@@ -217,8 +207,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return null;
   }
 
-  private LoadHandle rebuildAndOpen(Repository repo)
-      throws NoSuchChangeException, IOException {
+  private LoadHandle rebuildAndOpen(Repository repo) throws NoSuchChangeException, IOException {
     Timer1.Context timer = args.metrics.autoRebuildLatency.start(CHANGES);
     try {
       Change.Id cid = getChangeId();
@@ -235,14 +224,11 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
           repo.scanForRepoChanges();
         } catch (OrmException | IOException e) {
           // See ChangeNotes#rebuildAndOpen.
-          log.debug("Rebuilding change {} via drafts failed: {}",
-              getChangeId(), e.getMessage());
+          log.debug("Rebuilding change {} via drafts failed: {}", getChangeId(), e.getMessage());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           checkNotNull(r.staged());
           return LoadHandle.create(
-              ChangeNotesCommit.newStagedRevWalk(
-                  repo, r.staged().allUsersObjects()),
-              draftsId(r));
+              ChangeNotesCommit.newStagedRevWalk(repo, r.staged().allUsersObjects()), draftsId(r));
         }
       }
       return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), draftsId(r));
@@ -251,11 +237,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     } catch (OrmException e) {
       throw new IOException(e);
     } finally {
-      log.debug("Rebuilt change {} in {} in {} ms via drafts",
+      log.debug(
+          "Rebuilt change {} in {} in {} ms via drafts",
           getChangeId(),
-          change != null
-              ? "project " + change.getProject()
-              : "unknown project",
+          change != null ? "project " + change.getProject() : "unknown project",
           TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
     }
   }

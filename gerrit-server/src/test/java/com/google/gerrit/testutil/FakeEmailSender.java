@@ -27,29 +27,26 @@ import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Email sender implementation that records messages in memory.
- * <p>
- * This class is mostly threadsafe. The only exception is that not all {@link
- * EmailHeader} subclasses are immutable. In particular, if a caller holds a
- * reference to an {@code AddressList} and mutates it after sending, the message
- * returned by {@link #getMessages()} may or may not reflect mutations.
+ *
+ * <p>This class is mostly threadsafe. The only exception is that not all {@link EmailHeader}
+ * subclasses are immutable. In particular, if a caller holds a reference to an {@code AddressList}
+ * and mutates it after sending, the message returned by {@link #getMessages()} may or may not
+ * reflect mutations.
  */
 @Singleton
 public class FakeEmailSender implements EmailSender {
-  private static final Logger log =
-      LoggerFactory.getLogger(FakeEmailSender.class);
+  private static final Logger log = LoggerFactory.getLogger(FakeEmailSender.class);
 
   public static class Module extends AbstractModule {
     @Override
@@ -60,15 +57,18 @@ public class FakeEmailSender implements EmailSender {
 
   @AutoValue
   public abstract static class Message {
-    private static Message create(Address from, Collection<Address> rcpt,
-        Map<String, EmailHeader> headers, String body) {
-      return new AutoValue_FakeEmailSender_Message(from,
-          ImmutableList.copyOf(rcpt), ImmutableMap.copyOf(headers), body);
+    private static Message create(
+        Address from, Collection<Address> rcpt, Map<String, EmailHeader> headers, String body) {
+      return new AutoValue_FakeEmailSender_Message(
+          from, ImmutableList.copyOf(rcpt), ImmutableMap.copyOf(headers), body);
     }
 
     public abstract Address from();
+
     public abstract ImmutableList<Address> rcpt();
+
     public abstract ImmutableMap<String, EmailHeader> headers();
+
     public abstract String body();
   }
 
@@ -92,8 +92,9 @@ public class FakeEmailSender implements EmailSender {
   }
 
   @Override
-  public void send(Address from, Collection<Address> rcpt,
-      Map<String, EmailHeader> headers, String body) throws EmailException {
+  public void send(
+      Address from, Collection<Address> rcpt, Map<String, EmailHeader> headers, String body)
+      throws EmailException {
     messages.add(Message.create(from, rcpt, headers, body));
   }
 
@@ -116,8 +117,7 @@ public class FakeEmailSender implements EmailSender {
     final String typeFooter = "\nGerrit-MessageType: " + type + "\n";
     return getMessages()
         .stream()
-        .filter(in -> in.body().contains(idFooter)
-            && in.body().contains(typeFooter))
+        .filter(in -> in.body().contains(idFooter) && in.body().contains(typeFooter))
         .collect(toList());
   }
 

@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.notedb.AbstractChangeUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -41,10 +40,7 @@ abstract class Event implements Comparable<Event> {
   final String tag;
   final boolean predatesChange;
 
-  /**
-   * Dependencies of this event; other events that must happen before this
-   * one.
-   */
+  /** Dependencies of this event; other events that must happen before this one. */
   final List<Event> deps;
 
   Timestamp when;
@@ -68,15 +64,21 @@ abstract class Event implements Comparable<Event> {
   }
 
   protected void checkUpdate(AbstractChangeUpdate update) {
-    checkState(Objects.equals(update.getPatchSetId(), psId),
+    checkState(
+        Objects.equals(update.getPatchSetId(), psId),
         "cannot apply event for %s to update for %s",
-        update.getPatchSetId(), psId);
-    checkState(when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
+        update.getPatchSetId(),
+        psId);
+    checkState(
+        when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
         "event at %s outside update window starting at %s",
-        when, update.getWhen());
-    checkState(Objects.equals(update.getNullableAccountId(), user),
+        when,
+        update.getWhen());
+    checkState(
+        Objects.equals(update.getNullableAccountId(), user),
         "cannot apply event by %s to update by %s",
-        user, update.getNullableAccountId());
+        user,
+        update.getNullableAccountId());
   }
 
   Event addDep(Event e) {
@@ -85,8 +87,8 @@ abstract class Event implements Comparable<Event> {
   }
 
   /**
-   * @return whether this event type must be unique per {@link ChangeUpdate},
-   *     i.e. there may be at most one of this type.
+   * @return whether this event type must be unique per {@link ChangeUpdate}, i.e. there may be at
+   *     most one of this type.
    */
   abstract boolean uniquePerUpdate();
 
@@ -117,11 +119,9 @@ abstract class Event implements Comparable<Event> {
         .compare(this.when, other.when)
         .compareTrueFirst(isPatchSet(), isPatchSet())
         .compareTrueFirst(this.predatesChange, other.predatesChange)
-        .compare(this.user, other.user,
-            ReviewDbUtil.intKeyOrdering())
+        .compare(this.user, other.user, ReviewDbUtil.intKeyOrdering())
         .compare(this.realUser, other.realUser, ReviewDbUtil.intKeyOrdering())
-        .compare(this.psId, other.psId,
-            ReviewDbUtil.intKeyOrdering().nullsLast())
+        .compare(this.psId, other.psId, ReviewDbUtil.intKeyOrdering().nullsLast())
         .result();
   }
 

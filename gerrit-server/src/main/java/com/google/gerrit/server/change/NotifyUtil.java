@@ -31,7 +31,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +42,13 @@ public class NotifyUtil {
   private final AccountResolver accountResolver;
 
   @Inject
-  NotifyUtil(Provider<ReviewDb> dbProvider,
-      AccountResolver accountResolver) {
+  NotifyUtil(Provider<ReviewDb> dbProvider, AccountResolver accountResolver) {
     this.dbProvider = dbProvider;
     this.accountResolver = accountResolver;
   }
 
-  public static boolean shouldNotify(NotifyHandling notify,
-      @Nullable Map<RecipientType, NotifyInfo> notifyDetails) {
+  public static boolean shouldNotify(
+      NotifyHandling notify, @Nullable Map<RecipientType, NotifyInfo> notifyDetails) {
     if (!isNullOrEmpty(notifyDetails)) {
       return true;
     }
@@ -58,8 +56,7 @@ public class NotifyUtil {
     return notify.compareTo(NotifyHandling.NONE) > 0;
   }
 
-  private static boolean isNullOrEmpty(
-      @Nullable Map<RecipientType, NotifyInfo> notifyDetails) {
+  private static boolean isNullOrEmpty(@Nullable Map<RecipientType, NotifyInfo> notifyDetails) {
     if (notifyDetails == null || notifyDetails.isEmpty()) {
       return true;
     }
@@ -79,7 +76,7 @@ public class NotifyUtil {
 
   public ListMultimap<RecipientType, Account.Id> resolveAccounts(
       @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
-          throws OrmException, BadRequestException {
+      throws OrmException, BadRequestException {
     if (isNullOrEmpty(notifyDetails)) {
       return ImmutableListMultimap.of();
     }

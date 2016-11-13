@@ -16,12 +16,11 @@ package com.google.gerrit.gpg;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.eclipse.jgit.util.NB;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.util.NB;
 
 public class Fingerprint {
   private final byte[] fp;
@@ -30,10 +29,16 @@ public class Fingerprint {
     checkLength(fp);
     return String.format(
         "%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X",
-        NB.decodeUInt16(fp, 0), NB.decodeUInt16(fp, 2), NB.decodeUInt16(fp, 4),
-        NB.decodeUInt16(fp, 6), NB.decodeUInt16(fp, 8), NB.decodeUInt16(fp, 10),
-        NB.decodeUInt16(fp, 12), NB.decodeUInt16(fp, 14),
-        NB.decodeUInt16(fp, 16), NB.decodeUInt16(fp, 18));
+        NB.decodeUInt16(fp, 0),
+        NB.decodeUInt16(fp, 2),
+        NB.decodeUInt16(fp, 4),
+        NB.decodeUInt16(fp, 6),
+        NB.decodeUInt16(fp, 8),
+        NB.decodeUInt16(fp, 10),
+        NB.decodeUInt16(fp, 12),
+        NB.decodeUInt16(fp, 14),
+        NB.decodeUInt16(fp, 16),
+        NB.decodeUInt16(fp, 18));
   }
 
   public static long getId(byte[] fp) {
@@ -49,19 +54,16 @@ public class Fingerprint {
   }
 
   private static byte[] checkLength(byte[] fp) {
-    checkArgument(fp.length == 20,
-        "fingerprint must be 20 bytes, got %s", fp.length);
+    checkArgument(fp.length == 20, "fingerprint must be 20 bytes, got %s", fp.length);
     return fp;
   }
 
   /**
    * Wrap a fingerprint byte array.
-   * <p>
-   * The newly created Fingerprint object takes ownership of the byte array,
-   * which must not be subsequently modified. (Most callers, such as hex
-   * decoders and {@code
-   * org.bouncycastle.openpgp.PGPPublicKey#getFingerprint()}, already produce
-   * fresh byte arrays).
+   *
+   * <p>The newly created Fingerprint object takes ownership of the byte array, which must not be
+   * subsequently modified. (Most callers, such as hex decoders and {@code
+   * org.bouncycastle.openpgp.PGPPublicKey#getFingerprint()}, already produce fresh byte arrays).
    *
    * @param fp 20-byte fingerprint byte array to wrap.
    */
@@ -71,17 +73,19 @@ public class Fingerprint {
 
   /**
    * Wrap a portion of a fingerprint byte array.
-   * <p>
-   * Unlike {@link #Fingerprint(byte[])}, creates a new copy of the byte array.
+   *
+   * <p>Unlike {@link #Fingerprint(byte[])}, creates a new copy of the byte array.
    *
    * @param buf byte array to wrap; must have at least {@code off + 20} bytes.
    * @param off offset in buf.
    */
   public Fingerprint(byte[] buf, int off) {
     int expected = 20 + off;
-    checkArgument(buf.length >= expected,
+    checkArgument(
+        buf.length >= expected,
         "fingerprint buffer must have at least %s bytes, got %s",
-        expected, buf.length);
+        expected,
+        buf.length);
     this.fp = new byte[20];
     System.arraycopy(buf, off, fp, 0, 20);
   }

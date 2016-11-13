@@ -27,8 +27,7 @@ public class BazelBuild extends BuildSystem {
 
   @Override
   protected ProcessBuilder newBuildProcess(Label label) throws IOException {
-    Properties properties = loadBuildProperties(
-        sourceRoot.resolve(".primary_build_tool"));
+    Properties properties = loadBuildProperties(sourceRoot.resolve(".primary_build_tool"));
     String bazel = firstNonNull(properties.getProperty("bazel"), "bazel");
     ProcessBuilder proc = new ProcessBuilder(bazel, "build", label.fullName());
     if (properties.containsKey("PATH")) {
@@ -54,8 +53,7 @@ public class BazelBuild extends BuildSystem {
 
   @Override
   public Label polygerritComponents() {
-    return new Label("polygerrit-ui",
-        "polygerrit_components.bower_components.zip");
+    return new Label("polygerrit-ui", "polygerrit_components.bower_components.zip");
   }
 
   @Override

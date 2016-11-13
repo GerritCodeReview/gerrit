@@ -48,16 +48,8 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -73,11 +65,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Cached information on a project. */
 public class ProjectState {
-  private static final Logger log =
-      LoggerFactory.getLogger(ProjectState.class);
+  private static final Logger log = LoggerFactory.getLogger(ProjectState.class);
 
   public interface Factory {
     ProjectState create(ProjectConfig config);
@@ -138,9 +134,10 @@ public class ProjectState {
     this.commentLinks = commentLinks;
     this.config = config;
     this.configs = new HashMap<>();
-    this.capabilities = isAllProjects
-      ? capabilityFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
-      : null;
+    this.capabilities =
+        isAllProjects
+            ? capabilityFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+            : null;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -190,9 +187,8 @@ public class ProjectState {
   }
 
   /**
-   * @return cached computation of all global capabilities. This should only be
-   *         invoked on the state from {@link ProjectCache#getAllProjects()}.
-   *         Null on any other project.
+   * @return cached computation of all global capabilities. This should only be invoked on the state
+   *     from {@link ProjectCache#getAllProjects()}. Null on any other project.
    */
   public CapabilityCollection getCapabilityCollection() {
     return capabilities;
@@ -202,24 +198,21 @@ public class ProjectState {
   public PrologEnvironment newPrologEnvironment() throws CompileException {
     PrologMachineCopy pmc = rulesMachine;
     if (pmc == null) {
-      pmc = rulesCache.loadMachine(
-          getProject().getNameKey(),
-          config.getRulesId());
+      pmc = rulesCache.loadMachine(getProject().getNameKey(), config.getRulesId());
       rulesMachine = pmc;
     }
     return envFactory.create(pmc);
   }
 
   /**
-   * Like {@link #newPrologEnvironment()} but instead of reading the rules.pl
-   * read the provided input stream.
+   * Like {@link #newPrologEnvironment()} but instead of reading the rules.pl read the provided
+   * input stream.
    *
    * @param name a name of the input stream. Could be any name.
    * @param in stream to read prolog rules from
    * @throws CompileException
    */
-  public PrologEnvironment newPrologEnvironment(String name, Reader in)
-      throws CompileException {
+  public PrologEnvironment newPrologEnvironment(String name, Reader in) throws CompileException {
     PrologMachineCopy pmc = rulesCache.loadMachine(name, in);
     return envFactory.create(pmc);
   }
@@ -260,8 +253,7 @@ public class ProjectState {
       sm = new ArrayList<>(fromConfig.size());
       for (AccessSection section : fromConfig) {
         if (isAllProjects) {
-          List<Permission> copy =
-              Lists.newArrayListWithCapacity(section.getPermissions().size());
+          List<Permission> copy = Lists.newArrayListWithCapacity(section.getPermissions().size());
           for (Permission p : section.getPermissions()) {
             if (Permission.canBeOnAllProjects(section.getName(), p.getName())) {
               copy.add(p);
@@ -271,8 +263,7 @@ public class ProjectState {
           section.setPermissions(copy);
         }
 
-        SectionMatcher matcher = SectionMatcher.wrap(getProject().getNameKey(),
-            section);
+        SectionMatcher matcher = SectionMatcher.wrap(getProject().getNameKey(), section);
         if (matcher != null) {
           sm.add(matcher);
         }
@@ -283,9 +274,8 @@ public class ProjectState {
   }
 
   /**
-   * Obtain all local and inherited sections. This collection is looked up
-   * dynamically and is not cached. Callers should try to cache this result
-   * per-request as much as possible.
+   * Obtain all local and inherited sections. This collection is looked up dynamically and is not
+   * cached. Callers should try to cache this result per-request as much as possible.
    */
   List<SectionMatcher> getAllSections() {
     if (isAllProjects) {
@@ -300,10 +290,9 @@ public class ProjectState {
   }
 
   /**
-   * @return all {@link AccountGroup}'s to which the owner privilege for
-   *         'refs/*' is assigned for this project (the local owners), if there
-   *         are no local owners the local owners of the nearest parent project
-   *         that has local owners are returned
+   * @return all {@link AccountGroup}'s to which the owner privilege for 'refs/*' is assigned for
+   *     this project (the local owners), if there are no local owners the local owners of the
+   *     nearest parent project that has local owners are returned
    */
   public Set<AccountGroup.UUID> getOwners() {
     for (ProjectState p : tree()) {
@@ -315,11 +304,10 @@ public class ProjectState {
   }
 
   /**
-   * @return all {@link AccountGroup}'s that are allowed to administrate the
-   *         complete project. This includes all groups to which the owner
-   *         privilege for 'refs/*' is assigned for this project (the local
-   *         owners) and all groups to which the owner privilege for 'refs/*' is
-   *         assigned for one of the parent projects (the inherited owners).
+   * @return all {@link AccountGroup}'s that are allowed to administrate the complete project. This
+   *     includes all groups to which the owner privilege for 'refs/*' is assigned for this project
+   *     (the local owners) and all groups to which the owner privilege for 'refs/*' is assigned for
+   *     one of the parent projects (the inherited owners).
    */
   public Set<AccountGroup.UUID> getAllOwners() {
     Set<AccountGroup.UUID> result = new HashSet<>();
@@ -336,24 +324,21 @@ public class ProjectState {
   }
 
   /**
-   * @return an iterable that walks through this project and then the parents of
-   *         this project. Starts from this project and progresses up the
-   *         hierarchy to All-Projects.
+   * @return an iterable that walks through this project and then the parents of this project.
+   *     Starts from this project and progresses up the hierarchy to All-Projects.
    */
   public Iterable<ProjectState> tree() {
     return new Iterable<ProjectState>() {
       @Override
       public Iterator<ProjectState> iterator() {
-        return new ProjectHierarchyIterator(
-            projectCache, allProjectsName,
-            ProjectState.this);
+        return new ProjectHierarchyIterator(projectCache, allProjectsName, ProjectState.this);
       }
     };
   }
 
   /**
-   * @return an iterable that walks in-order from All-Projects through the
-   *     project hierarchy to this project.
+   * @return an iterable that walks in-order from All-Projects through the project hierarchy to this
+   *     project.
    */
   public Iterable<ProjectState> treeInOrder() {
     List<ProjectState> projects = Lists.newArrayList(tree());
@@ -362,9 +347,8 @@ public class ProjectState {
   }
 
   /**
-   * @return an iterable that walks through the parents of this project. Starts
-   *         from the immediate parent of this project and progresses up the
-   *         hierarchy to All-Projects.
+   * @return an iterable that walks through the parents of this project. Starts from the immediate
+   *     parent of this project and progresses up the hierarchy to All-Projects.
    */
   public FluentIterable<ProjectState> parents() {
     return FluentIterable.from(tree()).skip(1);
@@ -462,8 +446,7 @@ public class ProjectState {
     return null;
   }
 
-  public Collection<SubscribeSection> getSubscribeSections(
-      Branch.NameKey branch) {
+  public Collection<SubscribeSection> getSubscribeSections(Branch.NameKey branch) {
     Collection<SubscribeSection> ret = new ArrayList<>();
     for (ProjectState s : tree()) {
       ret.addAll(s.getConfig().getSubscribeSections(branch));
@@ -499,7 +482,8 @@ public class ProjectState {
       return ThemeInfo.INHERIT;
     }
     try {
-      return new ThemeInfo(readFile(dir.resolve(SitePaths.CSS_FILENAME)),
+      return new ThemeInfo(
+          readFile(dir.resolve(SitePaths.CSS_FILENAME)),
           readFile(dir.resolve(SitePaths.HEADER_FILENAME)),
           readFile(dir.resolve(SitePaths.FOOTER_FILENAME)));
     } catch (IOException e) {
@@ -512,8 +496,7 @@ public class ProjectState {
     return Files.exists(p) ? new String(Files.readAllBytes(p), UTF_8) : null;
   }
 
-  private boolean getInheritableBoolean(
-      Function<Project, InheritableBoolean> func) {
+  private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {
     for (ProjectState s : tree()) {
       switch (func.apply(s.getProject())) {
         case TRUE:

@@ -46,21 +46,18 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MailProcessor {
-  private static final Logger log =
-      LoggerFactory.getLogger(MailProcessor.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class.getName());
 
   private final AccountByEmailCache accountByEmailCache;
   private final BatchUpdate.Factory buf;
@@ -75,7 +72,8 @@ public class MailProcessor {
   private final Provider<String> canonicalUrl;
 
   @Inject
-  public MailProcessor(AccountByEmailCache accountByEmailCache,
+  public MailProcessor(
+      AccountByEmailCache accountByEmailCache,
       BatchUpdate.Factory buf,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
@@ -101,57 +99,68 @@ public class MailProcessor {
 
   /**
    * Parse comments from MailMessage and persist them on the change.
+   *
    * @param message MailMessage to process.
    * @throws OrmException
    */
   public void process(MailMessage message) throws OrmException {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
-        log.warn("Mail: Message " + message.id() + " filtered by plugin " +
-            filter.getPluginName() + " " + filter.getExportName() +
-            ". Will delete message.");
+        log.warn(
+            "Mail: Message "
+                + message.id()
+                + " filtered by plugin "
+                + filter.getPluginName()
+                + " "
+                + filter.getExportName()
+                + ". Will delete message.");
         return;
       }
     }
 
     MailMetadata metadata = MetadataParser.parse(message);
     if (!metadata.hasRequiredFields()) {
-      log.error("Mail: Message " + message.id() +
-          " is missing required metadata, have " + metadata +
-          ". Will delete message.");
+      log.error(
+          "Mail: Message "
+              + message.id()
+              + " is missing required metadata, have "
+              + metadata
+              + ". Will delete message.");
       return;
     }
 
     Set<Account.Id> accounts = accountByEmailCache.get(metadata.author);
     if (accounts.size() != 1) {
-      log.error("Mail: Address " + metadata.author +
-          " could not be matched to a unique account. It was matched to " +
-          accounts + ". Will delete message.");
+      log.error(
+          "Mail: Address "
+              + metadata.author
+              + " could not be matched to a unique account. It was matched to "
+              + accounts
+              + ". Will delete message.");
       return;
     }
     Account.Id account = accounts.iterator().next();
     if (!reviewDb.get().accounts().get(account).isActive()) {
-      log.warn("Mail: Account " + account +
-          " is inactive. Will delete message.");
+      log.warn("Mail: Account " + account + " is inactive. Will delete message.");
       return;
     }
 
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(account)) {
-      ChangeData cd = queryProvider.get().setLimit(1)
-          .byKey(Change.Key.parse(metadata.changeId)).get(0);
+      ChangeData cd =
+          queryProvider.get().setLimit(1).byKey(Change.Key.parse(metadata.changeId)).get(0);
       if (existingMessageIds(cd).contains(message.id())) {
-        log.info("Mail: Message " + message.id() +
-            " was already processed. Will delete message.");
+        log.info("Mail: Message " + message.id() + " was already processed. Will delete message.");
         return;
       }
       // Get all comments; filter and sort them to get the original list of
       // comments from the outbound email.
       // TODO(hiesel) Also filter by original comment author.
-      Collection<Comment> comments = cd.publishedComments().stream()
-          .filter(c -> (c.writtenOn.getTime() / 1000) ==
-              (metadata.timestamp.getTime() / 1000))
-          .sorted(CommentsUtil.COMMENT_ORDER)
-          .collect(Collectors.toList());
+      Collection<Comment> comments =
+          cd.publishedComments()
+              .stream()
+              .filter(c -> (c.writtenOn.getTime() / 1000) == (metadata.timestamp.getTime() / 1000))
+              .sorted(CommentsUtil.COMMENT_ORDER)
+              .collect(Collectors.toList());
       Project.NameKey project = cd.project();
       String changeUrl = canonicalUrl.get() + "#/c/" + cd.getId().get();
 
@@ -163,15 +172,13 @@ public class MailProcessor {
       }
 
       if (parsedComments.isEmpty()) {
-        log.warn("Mail: Could not parse any comments from " + message.id() +
-            ". Will delete message.");
+        log.warn(
+            "Mail: Could not parse any comments from " + message.id() + ". Will delete message.");
         return;
       }
 
-      Op o = new Op(new PatchSet.Id(cd.getId(), metadata.patchSet),
-          parsedComments, message.id());
-      BatchUpdate batchUpdate = buf.create(cd.db(), project, ctx.getUser(),
-          TimeUtil.nowTs());
+      Op o = new Op(new PatchSet.Id(cd.getId(), metadata.patchSet), parsedComments, message.id());
+      BatchUpdate batchUpdate = buf.create(cd.db(), project, ctx.getUser(), TimeUtil.nowTs());
       batchUpdate.addOp(cd.getId(), o);
       try {
         batchUpdate.execute();
@@ -186,24 +193,22 @@ public class MailProcessor {
     private final List<MailComment> parsedComments;
     private final String tag;
 
-    private Op(PatchSet.Id psId, List<MailComment> parsedComments,
-        String messageId) {
+    private Op(PatchSet.Id psId, List<MailComment> parsedComments, String messageId) {
       this.psId = psId;
       this.parsedComments = parsedComments;
       this.tag = "mailMessageId=" + messageId;
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException,
-        UnprocessableEntityException {
+    public boolean updateChange(ChangeContext ctx)
+        throws OrmException, UnprocessableEntityException {
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new OrmException("patch set not found: " + psId);
       }
 
       String changeMsg = "Patch Set " + psId.get() + ":";
-      if (parsedComments.get(0).type ==
-          MailComment.CommentType.CHANGE_MESSAGE) {
+      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
         if (parsedComments.size() > 1) {
           changeMsg += "\n" + numComments(parsedComments.size() - 1);
         }
@@ -213,8 +218,7 @@ public class MailProcessor {
       }
 
       ChangeMessage msg = ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
-      changeMessagesUtil.addChangeMessage(ctx.getDb(),
-          ctx.getUpdate(psId), msg);
+      changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), msg);
 
       List<Comment> comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
@@ -229,9 +233,11 @@ public class MailProcessor {
         Side side;
         if (c.inReplyTo != null) {
           fileName = c.inReplyTo.key.filename;
-          psForComment = psUtil.get(ctx.getDb(), ctx.getNotes(),
-              new PatchSet.Id(ctx.getChange().getId(),
-                  c.inReplyTo.key.patchSetId));
+          psForComment =
+              psUtil.get(
+                  ctx.getDb(),
+                  ctx.getNotes(),
+                  new PatchSet.Id(ctx.getChange().getId(), c.inReplyTo.key.patchSetId));
           side = Side.fromShort(c.inReplyTo.side);
         } else {
           fileName = c.fileName;
@@ -239,9 +245,15 @@ public class MailProcessor {
           side = Side.REVISION;
         }
 
-        Comment comment = commentsUtil.newComment(ctx, fileName,
-            psForComment.getId(), (short) side.ordinal(), c.message,
-            false, null);
+        Comment comment =
+            commentsUtil.newComment(
+                ctx,
+                fileName,
+                psForComment.getId(),
+                (short) side.ordinal(),
+                c.message,
+                false,
+                null);
         comment.tag = tag;
         if (c.inReplyTo != null) {
           comment.parentUuid = c.inReplyTo.key.uuid;
@@ -249,12 +261,13 @@ public class MailProcessor {
           comment.range = c.inReplyTo.range;
           comment.unresolved = c.inReplyTo.unresolved;
         }
-        CommentsUtil.setCommentRevId(comment, patchListCache,
-            ctx.getChange(), psForComment);
+        CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), psForComment);
         comments.add(comment);
       }
-      commentsUtil.putComments(ctx.getDb(),
-          ctx.getUpdate(ctx.getChange().currentPatchSetId()), Status.PUBLISHED,
+      commentsUtil.putComments(
+          ctx.getDb(),
+          ctx.getUpdate(ctx.getChange().currentPatchSetId()),
+          Status.PUBLISHED,
           comments);
 
       return true;
@@ -271,18 +284,24 @@ public class MailProcessor {
 
   private Set<String> existingMessageIds(ChangeData cd) throws OrmException {
     Set<String> existingMessageIds = new HashSet<>();
-    cd.messages().stream().forEach(m -> {
-      String messageId = CommentsUtil.extractMessageId(m.getTag());
-      if (messageId != null) {
-        existingMessageIds.add(messageId);
-      }
-    });
-    cd.publishedComments().stream().forEach(c -> {
-      String messageId = CommentsUtil.extractMessageId(c.tag);
-      if (messageId != null) {
-        existingMessageIds.add(messageId);
-      }
-    });
+    cd.messages()
+        .stream()
+        .forEach(
+            m -> {
+              String messageId = CommentsUtil.extractMessageId(m.getTag());
+              if (messageId != null) {
+                existingMessageIds.add(messageId);
+              }
+            });
+    cd.publishedComments()
+        .stream()
+        .forEach(
+            c -> {
+              String messageId = CommentsUtil.extractMessageId(c.tag);
+              if (messageId != null) {
+                existingMessageIds.add(messageId);
+              }
+            });
     return existingMessageIds;
   }
 }

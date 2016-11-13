@@ -18,6 +18,5 @@ import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 
 public interface SshKeyCreator {
-  AccountSshKey create(AccountSshKey.Id id, String encoded)
-      throws InvalidSshKeyException;
+  AccountSshKey create(AccountSshKey.Id id, String encoded) throws InvalidSshKeyException;
 }

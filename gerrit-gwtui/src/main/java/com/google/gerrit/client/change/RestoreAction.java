@@ -32,12 +32,15 @@ class RestoreAction extends ActionMessageBox {
 
   @Override
   void send(String message) {
-    ChangeApi.restore(id.get(), message, new GerritCallback<ChangeInfo>() {
-      @Override
-      public void onSuccess(ChangeInfo result) {
-        Gerrit.display(PageLinks.toChange(id));
-        hide();
-      }
-    });
+    ChangeApi.restore(
+        id.get(),
+        message,
+        new GerritCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo result) {
+            Gerrit.display(PageLinks.toChange(id));
+            hide();
+          }
+        });
   }
 }

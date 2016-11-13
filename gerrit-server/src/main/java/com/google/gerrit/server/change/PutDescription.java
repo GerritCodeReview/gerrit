@@ -36,24 +36,23 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 
 @Singleton
-public class PutDescription implements RestModifyView<RevisionResource,
-    PutDescription.Input>, UiAction<RevisionResource> {
+public class PutDescription
+    implements RestModifyView<RevisionResource, PutDescription.Input>, UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final PatchSetUtil psUtil;
 
   public static class Input {
-    @DefaultInput
-    public String description;
+    @DefaultInput public String description;
   }
 
   @Inject
-  PutDescription(Provider<ReviewDb> dbProvider,
+  PutDescription(
+      Provider<ReviewDb> dbProvider,
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       PatchSetUtil psUtil) {
@@ -70,14 +69,15 @@ public class PutDescription implements RestModifyView<RevisionResource,
     if (!ctl.canEditDescription()) {
       throw new AuthException("changing description not permitted");
     }
-    Op op =
-        new Op(input != null ? input : new Input(), rsrc.getPatchSet().getId());
-    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        rsrc.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
+    Op op = new Op(input != null ? input : new Input(), rsrc.getPatchSet().getId());
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            dbProvider.get(), rsrc.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getChange().getId(), op);
       u.execute();
     }
-    return Strings.isNullOrEmpty(op.newDescription) ? Response.none()
+    return Strings.isNullOrEmpty(op.newDescription)
+        ? Response.none()
         : Response.ok(op.newDescription);
   }
 
@@ -117,8 +117,8 @@ public class PutDescription implements RestModifyView<RevisionResource,
       ctx.getDb().patchSets().update(Collections.singleton(ps));
 
       ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(psId, ctx.getUser(),
-              ctx.getWhen(), summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);
+          ChangeMessagesUtil.newMessage(
+              psId, ctx.getUser(), ctx.getWhen(), summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
       return true;
     }
@@ -126,7 +126,8 @@ public class PutDescription implements RestModifyView<RevisionResource,
 
   @Override
   public UiAction.Description getDescription(RevisionResource rsrc) {
-    return new UiAction.Description().setLabel("Edit Description")
+    return new UiAction.Description()
+        .setLabel("Edit Description")
         .setVisible(rsrc.getControl().canEditDescription());
   }
 }

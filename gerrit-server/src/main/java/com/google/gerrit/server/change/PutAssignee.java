@@ -35,12 +35,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
-public class PutAssignee implements
-    RestModifyView<ChangeResource, AssigneeInput>, UiAction<ChangeResource> {
+public class PutAssignee
+    implements RestModifyView<ChangeResource, AssigneeInput>, UiAction<ChangeResource> {
 
   private final SetAssigneeOp.Factory assigneeFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -49,7 +48,8 @@ public class PutAssignee implements
   private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  PutAssignee(SetAssigneeOp.Factory assigneeFactory,
+  PutAssignee(
+      SetAssigneeOp.Factory assigneeFactory,
       BatchUpdate.Factory batchUpdateFactory,
       Provider<ReviewDb> db,
       PostReviewers postReviewers,
@@ -71,19 +71,20 @@ public class PutAssignee implements
       throw new BadRequestException("missing assignee field");
     }
 
-    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-        rsrc.getChange().getProject(), rsrc.getControl().getUser(),
-        TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db.get(),
+            rsrc.getChange().getProject(),
+            rsrc.getControl().getUser(),
+            TimeUtil.nowTs())) {
       SetAssigneeOp op = assigneeFactory.create(input.assignee);
       bu.addOp(rsrc.getId(), op);
 
-      PostReviewers.Addition reviewersAddition =
-          addAssigneeAsCC(rsrc, input.assignee);
+      PostReviewers.Addition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();
-      return Response.ok(
-          accountLoaderFactory.create(true).fillOne(op.getNewAssignee()));
+      return Response.ok(accountLoaderFactory.create(true).fillOne(op.getNewAssignee()));
     }
   }
 
@@ -100,7 +101,7 @@ public class PutAssignee implements
   @Override
   public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
-      .setLabel("Edit Assignee")
-      .setVisible(resource.getControl().canEditAssignee());
+        .setLabel("Edit Assignee")
+        .setVisible(resource.getControl().canEditAssignee());
   }
 }

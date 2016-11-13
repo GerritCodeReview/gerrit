@@ -28,27 +28,25 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.lang.reflect.Field;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-
 @Singleton
 public class GetDiffPreferences implements RestReadView<AccountResource> {
-  private static final Logger log =
-      LoggerFactory.getLogger(GetDiffPreferences.class);
+  private static final Logger log = LoggerFactory.getLogger(GetDiffPreferences.class);
 
   private final Provider<CurrentUser> self;
   private final Provider<AllUsersName> allUsersName;
   private final GitRepositoryManager gitMgr;
 
   @Inject
-  GetDiffPreferences(Provider<CurrentUser> self,
+  GetDiffPreferences(
+      Provider<CurrentUser> self,
       Provider<AllUsersName> allUsersName,
       GitRepositoryManager gitMgr) {
     this.self = self;
@@ -59,8 +57,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc)
       throws AuthException, ConfigInvalidException, IOException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
 
@@ -68,26 +65,28 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     return readFromGit(id, gitMgr, allUsersName.get(), null);
   }
 
-  static DiffPreferencesInfo readFromGit(Account.Id id,
-      GitRepositoryManager gitMgr, AllUsersName allUsersName,
-      DiffPreferencesInfo in)
+  static DiffPreferencesInfo readFromGit(
+      Account.Id id, GitRepositoryManager gitMgr, AllUsersName allUsersName, DiffPreferencesInfo in)
       throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
       // Load all users prefs.
-      VersionedAccountPreferences dp =
-          VersionedAccountPreferences.forDefault();
+      VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
       dp.load(git);
       DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
-      loadSection(dp.getConfig(), UserConfigSections.DIFF, null, allUserPrefs,
-          DiffPreferencesInfo.defaults(), in);
+      loadSection(
+          dp.getConfig(),
+          UserConfigSections.DIFF,
+          null,
+          allUserPrefs,
+          DiffPreferencesInfo.defaults(),
+          in);
 
       // Load user prefs
-      VersionedAccountPreferences p =
-          VersionedAccountPreferences.forUser(id);
+      VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
       p.load(git);
       DiffPreferencesInfo prefs = new DiffPreferencesInfo();
-      loadSection(p.getConfig(), UserConfigSections.DIFF, null, prefs,
-          updateDefaults(allUserPrefs), in);
+      loadSection(
+          p.getConfig(), UserConfigSections.DIFF, null, prefs, updateDefaults(allUserPrefs), in);
       return prefs;
     }
   }

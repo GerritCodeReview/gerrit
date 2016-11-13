@@ -31,15 +31,12 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
-import java.io.IOException;
-
 @Singleton
-public class SetEditPreferences implements
-    RestModifyView<AccountResource, EditPreferencesInfo> {
+public class SetEditPreferences implements RestModifyView<AccountResource, EditPreferencesInfo> {
 
   private final Provider<CurrentUser> self;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
@@ -47,7 +44,8 @@ public class SetEditPreferences implements
   private final AllUsersName allUsersName;
 
   @Inject
-  SetEditPreferences(Provider<CurrentUser> self,
+  SetEditPreferences(
+      Provider<CurrentUser> self,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       GitRepositoryManager gitMgr,
       AllUsersName allUsersName) {
@@ -59,10 +57,9 @@ public class SetEditPreferences implements
 
   @Override
   public EditPreferencesInfo apply(AccountResource rsrc, EditPreferencesInfo in)
-      throws AuthException, BadRequestException, RepositoryNotFoundException,
-      IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+      throws AuthException, BadRequestException, RepositoryNotFoundException, IOException,
+          ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 
@@ -77,12 +74,21 @@ public class SetEditPreferences implements
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       prefs = VersionedAccountPreferences.forUser(accountId);
       prefs.load(md);
-      storeSection(prefs.getConfig(), UserConfigSections.EDIT, null,
+      storeSection(
+          prefs.getConfig(),
+          UserConfigSections.EDIT,
+          null,
           readFromGit(accountId, gitMgr, allUsersName, in),
           EditPreferencesInfo.defaults());
       prefs.commit(md);
-      out = loadSection(prefs.getConfig(), UserConfigSections.EDIT, null, out,
-          EditPreferencesInfo.defaults(), null);
+      out =
+          loadSection(
+              prefs.getConfig(),
+              UserConfigSections.EDIT,
+              null,
+              out,
+              EditPreferencesInfo.defaults(),
+              null);
     }
 
     return out;

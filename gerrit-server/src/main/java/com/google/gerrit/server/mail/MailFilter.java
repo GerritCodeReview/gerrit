@@ -19,8 +19,8 @@ import com.google.gerrit.server.mail.receive.MailMessage;
 
 /**
  * Listener to filter incoming email.
- * <p>
- * Invoked by Gerrit for each incoming email.
+ *
+ * <p>Invoked by Gerrit for each incoming email.
  */
 @ExtensionPoint
 public interface MailFilter {
@@ -28,8 +28,7 @@ public interface MailFilter {
    * Determine if Gerrit should discard or further process the message.
    *
    * @param message MailMessage parsed by Gerrit.
-   * @return {@code true}, if Gerrit should process the message, {@code false}
-   * otherwise.
+   * @return {@code true}, if Gerrit should process the message, {@code false} otherwise.
    */
   boolean shouldProcessMessage(MailMessage message);
 }

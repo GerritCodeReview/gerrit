@@ -24,21 +24,19 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 public class SubmitStrategyListener extends BatchUpdate.Listener {
   private final Collection<SubmitStrategy> strategies;
   private final CommitStatus commitStatus;
   private final boolean failAfterRefUpdates;
 
-  public SubmitStrategyListener(SubmitInput input,
-      Collection<SubmitStrategy> strategies, CommitStatus commitStatus) {
+  public SubmitStrategyListener(
+      SubmitInput input, Collection<SubmitStrategy> strategies, CommitStatus commitStatus) {
     this.strategies = strategies;
     this.commitStatus = commitStatus;
     if (input instanceof TestSubmitInput) {
@@ -76,13 +74,16 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
         continue;
       }
       SubmitStrategy.Arguments args = strategy.args;
-      Set<Change.Id> unmerged = args.mergeUtil.findUnmergedChanges(
-          args.commitStatus.getChangeIds(args.destBranch), args.rw,
-          args.canMergeFlag, args.mergeTip.getInitialTip(),
-          args.mergeTip.getCurrentTip(), alreadyMerged);
+      Set<Change.Id> unmerged =
+          args.mergeUtil.findUnmergedChanges(
+              args.commitStatus.getChangeIds(args.destBranch),
+              args.rw,
+              args.canMergeFlag,
+              args.mergeTip.getInitialTip(),
+              args.mergeTip.getCurrentTip(),
+              alreadyMerged);
       for (Change.Id id : unmerged) {
-        commitStatus.problem(id,
-            "internal error: change not reachable from new branch tip");
+        commitStatus.problem(id, "internal error: change not reachable from new branch tip");
       }
     }
     commitStatus.maybeFailVerbose();
@@ -92,21 +93,21 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
     for (SubmitStrategy strategy : strategies) {
       SubmitStrategy.Arguments args = strategy.args;
       RevCommit initialTip = args.mergeTip.getInitialTip();
-      args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          args.mergeTip.getCurrentTip(), initialTip == null ?
-              ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
+      args.mergeUtil.markCleanMerges(
+          args.rw,
+          args.canMergeFlag,
+          args.mergeTip.getCurrentTip(),
+          initialTip == null ? ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
     }
   }
 
   private List<Change.Id> checkCommitStatus() throws ResourceConflictException {
-    List<Change.Id> alreadyMerged =
-        new ArrayList<>(commitStatus.getChangeIds().size());
+    List<Change.Id> alreadyMerged = new ArrayList<>(commitStatus.getChangeIds().size());
     for (Change.Id id : commitStatus.getChangeIds()) {
       CodeReviewCommit commit = commitStatus.get(id);
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
-        commitStatus.problem(id,
-            "internal error: change not processed by merge strategy");
+        commitStatus.problem(id, "internal error: change not processed by merge strategy");
         continue;
       }
       switch (s) {
@@ -129,8 +130,7 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
         case NOT_FAST_FORWARD:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
-          commitStatus.problem(id,
-              CharMatcher.is('\n').collapseFrom(s.getMessage(), ' '));
+          commitStatus.problem(id, CharMatcher.is('\n').collapseFrom(s.getMessage(), ' '));
           break;
 
         case MISSING_DEPENDENCY:

@@ -21,5 +21,6 @@ public interface RpcConstants extends Constants {
   RpcConstants C = GWT.create(RpcConstants.class);
 
   String errorServerUnavailable();
+
   String errorRemoteJsonException();
 }

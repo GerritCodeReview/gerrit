@@ -21,7 +21,6 @@ import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
-
 import java.util.List;
 import java.util.function.Function;
 
@@ -34,12 +33,12 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
       List<E> list, Function<E, S> elementAssertThatFunction) {
     // The ListSubjectFactory always returns ListSubjects.
     // -> Casting is appropriate.
-    return (ListSubject<S, E>) assertAbout(
-        new ListSubjectFactory<>(elementAssertThatFunction)).that(list);
+    return (ListSubject<S, E>)
+        assertAbout(new ListSubjectFactory<>(elementAssertThatFunction)).that(list);
   }
 
-  private ListSubject(FailureStrategy failureStrategy, List<E> list,
-      Function<E, S> elementAssertThatFunction) {
+  private ListSubject(
+      FailureStrategy failureStrategy, List<E> list, Function<E, S> elementAssertThatFunction) {
     super(failureStrategy, list);
     this.elementAssertThatFunction = elementAssertThatFunction;
   }
@@ -82,12 +81,10 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
 
     @SuppressWarnings("unchecked")
     @Override
-    public ListSubject<S, T> getSubject(FailureStrategy failureStrategy,
-        Iterable<?> objects) {
+    public ListSubject<S, T> getSubject(FailureStrategy failureStrategy, Iterable<?> objects) {
       // The constructor of ListSubject only accepts lists.
       // -> Casting is appropriate.
-      return new ListSubject<>(failureStrategy, (List<T>) objects,
-          elementAssertThatFunction);
+      return new ListSubject<>(failureStrategy, (List<T>) objects, elementAssertThatFunction);
     }
   }
 }

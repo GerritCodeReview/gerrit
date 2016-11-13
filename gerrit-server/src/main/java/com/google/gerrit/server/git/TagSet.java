@@ -19,7 +19,13 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -33,14 +39,6 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 class TagSet {
   private static final Logger log = LoggerFactory.getLogger(TagSet.class);
@@ -59,8 +57,7 @@ class TagSet {
     return tags.get(id);
   }
 
-  boolean updateFastForward(String refName, ObjectId oldValue,
-      ObjectId newValue) {
+  boolean updateFastForward(String refName, ObjectId oldValue, ObjectId newValue) {
     CachedRef ref = refs.get(refName);
     if (ref != null) {
       // compareAndSet works on reference equality, but this operation
@@ -191,8 +188,7 @@ class TagSet {
     }
   }
 
-  void readObject(ObjectInputStream in) throws IOException,
-      ClassNotFoundException {
+  void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
     int refCnt = in.readInt();
     for (int i = 0; i < refCnt; i++) {
       String name = in.readUTF();
@@ -331,8 +327,7 @@ class TagSet {
   }
 
   static boolean skip(Ref ref) {
-    return ref.isSymbolic() || ref.getObjectId() == null
-        || PatchSet.isChangeRef(ref.getName());
+    return ref.isSymbolic() || ref.getObjectId() == null || PatchSet.isChangeRef(ref.getName());
   }
 
   private static boolean isTag(Ref ref) {

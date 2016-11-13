@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index.group;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
 import java.io.IOException;
 
 public interface GroupIndexer {

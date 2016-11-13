@@ -24,7 +24,6 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -39,18 +38,15 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<List<AccountInfo>> apply(ChangeResource rsrc)
-      throws OrmException {
+  public Response<List<AccountInfo>> apply(ChangeResource rsrc) throws OrmException {
 
-    Set<Account.Id> pastAssignees =
-        rsrc.getControl().getNotes().load().getPastAssignees();
+    Set<Account.Id> pastAssignees = rsrc.getControl().getNotes().load().getPastAssignees();
     if (pastAssignees == null) {
       return Response.ok(Collections.emptyList());
     }
 
     AccountLoader accountLoader = accountLoaderFactory.create(true);
-    List<AccountInfo> infos =
-        pastAssignees.stream().map(accountLoader::get).collect(toList());
+    List<AccountInfo> infos = pastAssignees.stream().map(accountLoader::get).collect(toList());
     accountLoader.fill();
     return Response.ok(infos);
   }

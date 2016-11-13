@@ -18,10 +18,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class EmailSettings {
@@ -52,10 +50,13 @@ public class EmailSettings {
     port = cfg.getInt(RECEIVE_EMAL, "port", 0);
     username = cfg.getString(RECEIVE_EMAL, null, "username");
     password = cfg.getString(RECEIVE_EMAL, null, "password");
-    encryption =
-        cfg.getEnum(RECEIVE_EMAL, null, "encryption", Encryption.NONE);
-    fetchInterval = cfg.getTimeUnit(RECEIVE_EMAL, null, "fetchInterval",
-        TimeUnit.MILLISECONDS.convert(60, TimeUnit.SECONDS),
-        TimeUnit.MILLISECONDS);
+    encryption = cfg.getEnum(RECEIVE_EMAL, null, "encryption", Encryption.NONE);
+    fetchInterval =
+        cfg.getTimeUnit(
+            RECEIVE_EMAL,
+            null,
+            "fetchInterval",
+            TimeUnit.MILLISECONDS.convert(60, TimeUnit.SECONDS),
+            TimeUnit.MILLISECONDS);
   }
 }

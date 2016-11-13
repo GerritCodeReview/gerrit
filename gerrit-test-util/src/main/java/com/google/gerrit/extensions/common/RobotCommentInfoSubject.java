@@ -20,45 +20,38 @@ import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.gerrit.truth.ListSubject;
-
 import java.util.List;
 
-public class RobotCommentInfoSubject
-    extends Subject<RobotCommentInfoSubject, RobotCommentInfo> {
+public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, RobotCommentInfo> {
 
   private static final SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>
       ROBOT_COMMENT_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>() {
-        @Override
-        public RobotCommentInfoSubject getSubject(
-            FailureStrategy failureStrategy,
-            RobotCommentInfo robotCommentInfo) {
-          return new RobotCommentInfoSubject(failureStrategy, robotCommentInfo);
-        }
-      };
+          new SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>() {
+            @Override
+            public RobotCommentInfoSubject getSubject(
+                FailureStrategy failureStrategy, RobotCommentInfo robotCommentInfo) {
+              return new RobotCommentInfoSubject(failureStrategy, robotCommentInfo);
+            }
+          };
 
-  public static ListSubject<RobotCommentInfoSubject,
-      RobotCommentInfo> assertThatList(
-          List<RobotCommentInfo> robotCommentInfos) {
-    return ListSubject.assertThat(robotCommentInfos,
-        RobotCommentInfoSubject::assertThat).named("robotCommentInfos");
+  public static ListSubject<RobotCommentInfoSubject, RobotCommentInfo> assertThatList(
+      List<RobotCommentInfo> robotCommentInfos) {
+    return ListSubject.assertThat(robotCommentInfos, RobotCommentInfoSubject::assertThat)
+        .named("robotCommentInfos");
   }
 
-  public static RobotCommentInfoSubject assertThat(
-      RobotCommentInfo robotCommentInfo) {
-    return assertAbout(ROBOT_COMMENT_INFO_SUBJECT_FACTORY)
-        .that(robotCommentInfo);
+  public static RobotCommentInfoSubject assertThat(RobotCommentInfo robotCommentInfo) {
+    return assertAbout(ROBOT_COMMENT_INFO_SUBJECT_FACTORY).that(robotCommentInfo);
   }
 
-  private RobotCommentInfoSubject(FailureStrategy failureStrategy,
-      RobotCommentInfo robotCommentInfo) {
+  private RobotCommentInfoSubject(
+      FailureStrategy failureStrategy, RobotCommentInfo robotCommentInfo) {
     super(failureStrategy, robotCommentInfo);
   }
 
-  public ListSubject<FixSuggestionInfoSubject,
-      FixSuggestionInfo> fixSuggestions() {
-    return ListSubject.assertThat(actual().fixSuggestions,
-        FixSuggestionInfoSubject::assertThat).named("fixSuggestions");
+  public ListSubject<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {
+    return ListSubject.assertThat(actual().fixSuggestions, FixSuggestionInfoSubject::assertThat)
+        .named("fixSuggestions");
   }
 
   public FixSuggestionInfoSubject onlyFixSuggestion() {

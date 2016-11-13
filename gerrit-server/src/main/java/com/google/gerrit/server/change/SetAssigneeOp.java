@@ -38,13 +38,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SetAssigneeOp extends BatchUpdate.Op {
-  private static final Logger log =
-      LoggerFactory.getLogger(SetAssigneeOp.class);
+  private static final Logger log = LoggerFactory.getLogger(SetAssigneeOp.class);
 
   public interface Factory {
     SetAssigneeOp create(String assignee);
@@ -64,7 +62,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private Account oldAssignee;
 
   @AssistedInject
-  SetAssigneeOp(AccountsCollection accounts,
+  SetAssigneeOp(
+      AccountsCollection accounts,
       ChangeMessagesUtil cmUtil,
       DynamicSet<AssigneeValidationListener> validationListeners,
       AssigneeChanged assigneeChanged,
@@ -83,8 +82,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(BatchUpdate.ChangeContext ctx)
-      throws OrmException, RestApiException {
+  public boolean updateChange(BatchUpdate.ChangeContext ctx) throws OrmException, RestApiException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     IdentifiedUser newAssigneeUser = accounts.parse(assignee);
@@ -98,14 +96,12 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       }
     }
     if (!newAssignee.isActive()) {
-      throw new UnprocessableEntityException(String.format(
-          "Account of %s is not active", assignee));
+      throw new UnprocessableEntityException(
+          String.format("Account of %s is not active", assignee));
     }
     if (!ctx.getControl().forUser(newAssigneeUser).isRefVisible()) {
-      throw new AuthException(String.format(
-          "Change %s is not visible to %s.",
-          change.getChangeId(),
-          assignee));
+      throw new AuthException(
+          String.format("Change %s is not visible to %s.", change.getChangeId(), assignee));
     }
     try {
       for (AssigneeValidationListener validator : validationListeners) {
@@ -122,9 +118,12 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     return true;
   }
 
-  private void addMessage(BatchUpdate.ChangeContext ctx, ChangeUpdate update,
-      IdentifiedUser previousAssignee, IdentifiedUser newAssignee)
-          throws OrmException {
+  private void addMessage(
+      BatchUpdate.ChangeContext ctx,
+      ChangeUpdate update,
+      IdentifiedUser previousAssignee,
+      IdentifiedUser newAssignee)
+      throws OrmException {
     StringBuilder msg = new StringBuilder();
     msg.append("Assignee ");
     if (previousAssignee == null) {
@@ -136,21 +135,20 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       msg.append(" to: ");
       msg.append(newAssignee.getNameEmail());
     }
-    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
-        ChangeMessagesUtil.TAG_SET_ASSIGNEE);
+    ChangeMessage cmsg =
+        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
     try {
-      SetAssigneeSender cm = setAssigneeSenderFactory
-          .create(change.getProject(), change.getId(), newAssignee.getId());
+      SetAssigneeSender cm =
+          setAssigneeSenderFactory.create(change.getProject(), change.getId(), newAssignee.getId());
       cm.setFrom(user.get().getAccountId());
       cm.send();
     } catch (Exception err) {
-      log.error("Cannot send email to new assignee of change " + change.getId(),
-          err);
+      log.error("Cannot send email to new assignee of change " + change.getId(), err);
     }
     assigneeChanged.fire(change, ctx.getAccount(), oldAssignee, ctx.getWhen());
   }

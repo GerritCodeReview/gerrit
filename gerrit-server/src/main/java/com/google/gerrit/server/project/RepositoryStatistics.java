@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.CaseFormat;
-
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -25,8 +24,9 @@ class RepositoryStatistics extends TreeMap<String, Object> {
 
   RepositoryStatistics(Properties p) {
     for (Entry<Object, Object> e : p.entrySet()) {
-      put(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,
-          e.getKey().toString()), e.getValue());
+      put(
+          CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, e.getKey().toString()),
+          e.getValue());
     }
   }
 }

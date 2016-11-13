@@ -36,20 +36,16 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-/**
- * This strategy covers RebaseAlways and RebaseIfNecessary ones.
- */
+/** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
   private final boolean rebaseAlways;
 
@@ -59,8 +55,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(
-      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
+  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
+      throws IntegrationException {
     List<CodeReviewCommit> sorted = sort(toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
@@ -71,8 +67,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // MERGE_IF_NECESSARY semantics to avoid creating duplicate
         // commits.
         //
-        sorted = args.mergeUtil.reduceToMinimalMerge(
-            args.mergeSorter, sorted, args.incoming);
+        sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted, args.incoming);
         break;
       }
     }
@@ -119,15 +114,14 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
     @Override
     public void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, InvalidChangeOperationException,
-        RestApiException, IOException, OrmException {
+        throws IntegrationException, InvalidChangeOperationException, RestApiException, IOException,
+            OrmException {
       // TODO(dborowitz): args.rw is needed because it's a CodeReviewRevWalk.
       // When hoisting BatchUpdate into MergeOp, we will need to teach
       // BatchUpdate how to produce CodeReviewRevWalks.
-      if (args.mergeUtil
-          .canFastForward(args.mergeSorter, args.mergeTip.getCurrentTip(),
-              args.rw, toMerge)) {
-        if (!rebaseAlways){
+      if (args.mergeUtil.canFastForward(
+          args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
+        if (!rebaseAlways) {
           args.mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
           toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
           acceptMergeTip(args.mergeTip);
@@ -135,48 +129,54 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         }
         // RebaseAlways means we modify commit message.
         args.rw.parseBody(toMerge);
-        newPatchSetId = ChangeUtil.nextPatchSetId(
-            args.repo, toMerge.change().currentPatchSetId());
+        newPatchSetId = ChangeUtil.nextPatchSetId(args.repo, toMerge.change().currentPatchSetId());
         RevCommit mergeTip = args.mergeTip.getCurrentTip();
         args.rw.parseBody(mergeTip);
-        String cherryPickCmtMsg =
-            args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
-        PersonIdent committer = args.caller.newCommitterIdent(ctx.getWhen(),
-            args.serverIdent.getTimeZone());
+        String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
+        PersonIdent committer =
+            args.caller.newCommitterIdent(ctx.getWhen(), args.serverIdent.getTimeZone());
         try {
-          newCommit = args.mergeUtil.createCherryPickFromCommit(args.repo,
-              args.inserter, args.mergeTip.getCurrentTip(), toMerge, committer,
-              cherryPickCmtMsg, args.rw, 0, true);
+          newCommit =
+              args.mergeUtil.createCherryPickFromCommit(
+                  args.repo,
+                  args.inserter,
+                  args.mergeTip.getCurrentTip(),
+                  toMerge,
+                  committer,
+                  cherryPickCmtMsg,
+                  args.rw,
+                  0,
+                  true);
         } catch (MergeConflictException mce) {
           // Unlike in Cherry-pick case, this should never happen.
           toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-          throw new IllegalStateException(
-              "MergeConflictException on message edit must not happen");
+          throw new IllegalStateException("MergeConflictException on message edit must not happen");
         } catch (MergeIdenticalTreeException mie) {
           // this should not happen
           toMerge.setStatusCode(SKIPPED_IDENTICAL_TREE);
           return;
         }
-        ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), newCommit,
-            newPatchSetId.toRefName()));
+        ctx.addRefUpdate(
+            new ReceiveCommand(ObjectId.zeroId(), newCommit, newPatchSetId.toRefName()));
       } else {
         // Stale read of patch set is ok; see comments in RebaseChangeOp.
-        PatchSet origPs = args.psUtil.get(ctx.getDb(),
-            toMerge.getControl().getNotes(), toMerge.getPatchsetId());
-        rebaseOp = args.rebaseFactory.create(
-              toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
-            .setFireRevisionCreated(false)
-            // Bypass approval copier since SubmitStrategyOp copy all approvals
-            // later anyway.
-            .setCopyApprovals(false)
-            .setValidatePolicy(CommitValidators.Policy.NONE)
-            .setCheckAddPatchSetPermission(false)
-            // RebaseAlways should set always modify commit message like
-            // Cherry-Pick strategy.
-            .setDetailedCommitMessage(rebaseAlways)
-            // Do not post message after inserting new patchset because there
-            // will be one about change being merged already.
-            .setPostMessage(false);
+        PatchSet origPs =
+            args.psUtil.get(ctx.getDb(), toMerge.getControl().getNotes(), toMerge.getPatchsetId());
+        rebaseOp =
+            args.rebaseFactory
+                .create(toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
+                .setFireRevisionCreated(false)
+                // Bypass approval copier since SubmitStrategyOp copy all approvals
+                // later anyway.
+                .setCopyApprovals(false)
+                .setValidatePolicy(CommitValidators.Policy.NONE)
+                .setCheckAddPatchSetPermission(false)
+                // RebaseAlways should set always modify commit message like
+                // Cherry-Pick strategy.
+                .setDetailedCommitMessage(rebaseAlways)
+                // Do not post message after inserting new patchset because there
+                // will be one about change being merged already.
+                .setPostMessage(false);
         try {
           rebaseOp.updateRepo(ctx);
         } catch (MergeConflictException | NoSuchChangeException e) {
@@ -198,8 +198,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
     @Override
     public PatchSet updateChangeImpl(ChangeContext ctx)
-        throws NoSuchChangeException, ResourceConflictException,
-        OrmException, IOException  {
+        throws NoSuchChangeException, ResourceConflictException, OrmException, IOException {
       if (newCommit == null) {
         checkState(!rebaseAlways, "RebaseAlways must never fast forward");
         // otherwise, took the fast-forward option, nothing to do.
@@ -213,13 +212,21 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       } else {
         // CherryPick
         PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
-        newPs = args.psUtil.insert(ctx.getDb(), ctx.getRevWalk(),
-            ctx.getUpdate(newPatchSetId), newPatchSetId, newCommit, false,
-            prevPs != null ? prevPs.getGroups() : ImmutableList.<String> of(),
-            null, null);
+        newPs =
+            args.psUtil.insert(
+                ctx.getDb(),
+                ctx.getRevWalk(),
+                ctx.getUpdate(newPatchSetId),
+                newPatchSetId,
+                newCommit,
+                false,
+                prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of(),
+                null,
+                null);
       }
-      ctx.getChange().setCurrentPatchSet(args.patchSetInfoFactory
-          .get(ctx.getRevWalk(), newCommit, newPatchSetId));
+      ctx.getChange()
+          .setCurrentPatchSet(
+              args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, newPatchSetId));
       newCommit.setControl(ctx.getControl());
       return newPs;
     }
@@ -238,8 +245,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     }
 
     @Override
-    public void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, IOException {
+    public void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
       // There are multiple parents, so this is a merge commit. We don't want
       // to rebase the merge as clients can't easily rebase their history with
       // that merge present and replaced by an equivalent merge with a different
@@ -253,17 +259,24 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       // are important would be well advised to prohibit uploading patches with
       // merge commits.
       MergeTip mergeTip = args.mergeTip;
-      if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge) &&
-          !args.submoduleOp.hasSubscription(args.destBranch)) {
+      if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)
+          && !args.submoduleOp.hasSubscription(args.destBranch)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
-        CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
-            args.serverIdent, args.serverIdent, args.repo, args.rw,
-            args.inserter, args.destBranch, mergeTip.getCurrentTip(), toMerge);
+        CodeReviewCommit newTip =
+            args.mergeUtil.mergeOneCommit(
+                args.serverIdent,
+                args.serverIdent,
+                args.repo,
+                args.rw,
+                args.inserter,
+                args.destBranch,
+                mergeTip.getCurrentTip(),
+                toMerge);
         mergeTip.moveTipTo(amendGitlink(newTip), toMerge);
       }
-      args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          mergeTip.getCurrentTip(), args.alreadyAccepted);
+      args.mergeUtil.markCleanMerges(
+          args.rw, args.canMergeFlag, mergeTip.getCurrentTip(), args.alreadyAccepted);
       acceptMergeTip(mergeTip);
     }
   }
@@ -276,20 +289,25 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       throws IntegrationException {
     try {
       return new RebaseSorter(
-          args.rw, args.mergeTip.getInitialTip(), args.alreadyAccepted, args.canMergeFlag,
-          args.internalChangeQuery, args.changeKindCache, args.repo).sort(toSort);
+              args.rw,
+              args.mergeTip.getInitialTip(),
+              args.alreadyAccepted,
+              args.canMergeFlag,
+              args.internalChangeQuery,
+              args.changeKindCache,
+              args.repo)
+          .sort(toSort);
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);
     }
   }
 
-  static boolean dryRun(SubmitDryRun.Arguments args,
-      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+  static boolean dryRun(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
-        && args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
-             toMerge);
+        && args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
   }
 }

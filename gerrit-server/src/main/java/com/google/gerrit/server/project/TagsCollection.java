@@ -23,21 +23,20 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
-public class TagsCollection implements
-    ChildCollection<ProjectResource, TagResource>,
-    AcceptsCreate<ProjectResource> {
+public class TagsCollection
+    implements ChildCollection<ProjectResource, TagResource>, AcceptsCreate<ProjectResource> {
   private final DynamicMap<RestView<TagResource>> views;
   private final Provider<ListTags> list;
   private final CreateTag.Factory createTagFactory;
 
   @Inject
-  public TagsCollection(DynamicMap<RestView<TagResource>> views,
-     Provider<ListTags> list,
-     CreateTag.Factory createTagFactory) {
+  public TagsCollection(
+      DynamicMap<RestView<TagResource>> views,
+      Provider<ListTags> list,
+      CreateTag.Factory createTagFactory) {
     this.views = views;
     this.list = list;
     this.createTagFactory = createTagFactory;

@@ -14,15 +14,12 @@
 
 package com.google.gerrit.pgm.util;
 
-
 import com.google.gerrit.common.Die;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlers;
-
+import java.io.StringWriter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
-
-import java.io.StringWriter;
 
 /** Base class for command line invocations of Gerrit Code Review. */
 public abstract class AbstractProgram {
@@ -69,8 +66,7 @@ public abstract class AbstractProgram {
         final Throwable cause = err.getCause();
         final String diemsg = err.getMessage();
         if (cause != null && !cause.getMessage().equals(diemsg)) {
-          System.err.println("fatal: "
-              + cause.getMessage().replaceAll("\n", "\nfatal: "));
+          System.err.println("fatal: " + cause.getMessage().replaceAll("\n", "\nfatal: "));
         }
         System.err.println("fatal: " + diemsg.replaceAll("\n", "\nfatal: "));
       }
@@ -104,9 +100,9 @@ public abstract class AbstractProgram {
 
   /**
    * Run this program's logic, returning the command exit status.
-   * <p>
-   * When this method completes, the JVM is terminated. To keep the JVM running,
-   * use {@code return never()}.
+   *
+   * <p>When this method completes, the JVM is terminated. To keep the JVM running, use {@code
+   * return never()}.
    */
   public abstract int run() throws Exception;
 }

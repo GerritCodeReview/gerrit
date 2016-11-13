@@ -21,22 +21,18 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
-
 public class ChangeReverted {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeReverted.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeReverted.class);
 
   private final DynamicSet<ChangeRevertedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeReverted(DynamicSet<ChangeRevertedListener> listeners,
-      EventUtil util) {
+  ChangeReverted(DynamicSet<ChangeRevertedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -46,8 +42,7 @@ public class ChangeReverted {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change), util.changeInfo(revertChange), when);
+      Event event = new Event(util.changeInfo(change), util.changeInfo(revertChange), when);
       for (ChangeRevertedListener l : listeners) {
         try {
           l.onChangeReverted(event);
@@ -60,8 +55,7 @@ public class ChangeReverted {
     }
   }
 
-  private static class Event extends AbstractChangeEvent
-      implements ChangeRevertedListener.Event {
+  private static class Event extends AbstractChangeEvent implements ChangeRevertedListener.Event {
     private final ChangeInfo revertChange;
 
     Event(ChangeInfo change, ChangeInfo revertChange, Timestamp when) {

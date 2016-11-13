@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.reviewdb.client.Branch;
-
 import org.junit.Test;
 
 @NoHttpd
@@ -31,24 +30,22 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
   @Test
   public void includedInOpenChange() throws Exception {
     Result result = createChange();
-    assertThat(gApi.changes().id(result.getChangeId()).includedIn().branches)
-        .isEmpty();
-    assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags)
-        .isEmpty();
+    assertThat(gApi.changes().id(result.getChangeId()).includedIn().branches).isEmpty();
+    assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags).isEmpty();
   }
 
   @Test
   public void includedInMergedChange() throws Exception {
     Result result = createChange();
-    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name())
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(result.getCommit().name())
         .review(ReviewInput.approve());
-    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name())
-        .submit();
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
 
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().branches)
         .containsExactly("master");
-    assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags)
-        .isEmpty();
+    assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags).isEmpty();
 
     grantTagPermissions();
     gApi.projects().name(project.get()).tag("test-tag").create(new TagInput());

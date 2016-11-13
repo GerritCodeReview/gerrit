@@ -19,37 +19,44 @@ import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-
 import java.util.Collections;
 import java.util.Comparator;
 
 public class FileInfo extends JavaScriptObject {
   public final native String path() /*-{ return this.path; }-*/;
+
   public final native String oldPath() /*-{ return this.old_path; }-*/;
+
   public final native int linesInserted() /*-{ return this.lines_inserted || 0; }-*/;
+
   public final native int linesDeleted() /*-{ return this.lines_deleted || 0; }-*/;
+
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
+
   public final native String status() /*-{ return this.status; }-*/;
 
   // JSNI methods cannot have 'long' as a parameter type or a return type and
   // it's suggested to use double in this case:
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html#important
   public final long size() {
-    return (long)_size();
+    return (long) _size();
   }
+
   private native double _size() /*-{ return this.size || 0; }-*/;
 
   public final long sizeDelta() {
-    return (long)_sizeDelta();
+    return (long) _sizeDelta();
   }
+
   private native double _sizeDelta() /*-{ return this.size_delta || 0; }-*/;
 
   public final native int _row() /*-{ return this._row }-*/;
+
   public final native void _row(int r) /*-{ this._row = r }-*/;
 
   public static void sortFileInfoByPath(JsArray<FileInfo> list) {
-    Collections.sort(Natives.asList(list),
-        Comparator.comparing(FileInfo::path, FilenameComparator.INSTANCE));
+    Collections.sort(
+        Natives.asList(list), Comparator.comparing(FileInfo::path, FilenameComparator.INSTANCE));
   }
 
   public static String getFileName(String path) {
@@ -66,6 +73,5 @@ public class FileInfo extends JavaScriptObject {
     return s >= 0 ? fileName.substring(s + 1) : fileName;
   }
 
-  protected FileInfo() {
-  }
+  protected FileInfo() {}
 }

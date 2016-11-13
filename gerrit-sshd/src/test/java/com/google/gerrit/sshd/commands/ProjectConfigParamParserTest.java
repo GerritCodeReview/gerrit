@@ -17,16 +17,15 @@ package com.google.gerrit.sshd.commands;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.api.projects.ConfigValue;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Collections;
 import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ProjectConfigParamParserTest {
 
   private CreateProjectCommand cmd;
+
   @Before
   public void setUp() {
     cmd = new CreateProjectCommand();

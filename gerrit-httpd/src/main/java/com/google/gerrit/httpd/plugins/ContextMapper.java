@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.plugins;
 
 import com.google.common.base.Strings;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -70,5 +69,4 @@ class ContextMapper {
       return pathInfo;
     }
   }
-
 }

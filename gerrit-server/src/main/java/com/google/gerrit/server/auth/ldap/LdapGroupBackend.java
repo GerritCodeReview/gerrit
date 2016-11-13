@@ -37,27 +37,22 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-
 import javax.naming.InvalidNameException;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import javax.security.auth.login.LoginException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Implementation of GroupBackend for the LDAP group system.
- */
+/** Implementation of GroupBackend for the LDAP group system. */
 public class LdapGroupBackend implements GroupBackend {
   static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
 
@@ -88,11 +83,10 @@ public class LdapGroupBackend implements GroupBackend {
     return uuid.get().startsWith(LDAP_UUID);
   }
 
-  private static GroupReference groupReference(ParameterizedString p,
-      LdapQuery.Result res) throws NamingException {
+  private static GroupReference groupReference(ParameterizedString p, LdapQuery.Result res)
+      throws NamingException {
     return new GroupReference(
-        new AccountGroup.UUID(LDAP_UUID + res.getDN()),
-        LDAP_NAME + LdapRealm.apply(p, res));
+        new AccountGroup.UUID(LDAP_UUID + res.getDN()), LDAP_NAME + LdapRealm.apply(p, res));
   }
 
   private static String cnFor(String dn) {
@@ -125,8 +119,7 @@ public class LdapGroupBackend implements GroupBackend {
 
     String groupDn = uuid.get().substring(LDAP_UUID.length());
     CurrentUser user = userProvider.get();
-    if (!(user.isIdentifiedUser())
-        || !membershipsOf(user.asIdentifiedUser()).contains(uuid)) {
+    if (!(user.isIdentifiedUser()) || !membershipsOf(user.asIdentifiedUser()).contains(uuid)) {
       try {
         if (!existsCache.get(groupDn)) {
           return null;
@@ -196,7 +189,6 @@ public class LdapGroupBackend implements GroupBackend {
     return null;
   }
 
-
   private Set<GroupReference> suggestLdap(String name) {
     if (name.isEmpty()) {
       return Collections.emptySet();
@@ -209,14 +201,12 @@ public class LdapGroupBackend implements GroupBackend {
         // Do exact lookups until there are at least 3 characters.
         name = Rdn.escapeValue(name) + ((name.length() >= 3) ? "*" : "");
         LdapSchema schema = helper.getSchema(ctx);
-        ParameterizedString filter = ParameterizedString.asis(
-            schema.groupPattern.replace(GROUPNAME, name).toString());
-        Set<String> returnAttrs =
-            new HashSet<>(schema.groupName.getParameterNames());
+        ParameterizedString filter =
+            ParameterizedString.asis(schema.groupPattern.replace(GROUPNAME, name).toString());
+        Set<String> returnAttrs = new HashSet<>(schema.groupName.getParameterNames());
         Map<String, String> params = Collections.emptyMap();
         for (String groupBase : schema.groupBases) {
-          LdapQuery query = new LdapQuery(
-              groupBase, schema.groupScope, filter, returnAttrs);
+          LdapQuery query = new LdapQuery(groupBase, schema.groupScope, filter, returnAttrs);
           for (LdapQuery.Result res : query.query(ctx, params)) {
             out.add(groupReference(schema.groupName, res));
           }

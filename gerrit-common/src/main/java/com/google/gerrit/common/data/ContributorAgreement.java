@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,8 +27,7 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
   protected GroupReference autoVerify;
   protected String agreementUrl;
 
-  protected ContributorAgreement() {
-  }
+  protected ContributorAgreement() {}
 
   public ContributorAgreement(String name) {
     setName(name);
@@ -95,7 +93,7 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
     if (autoVerify != null) {
       ca.autoVerify = new GroupReference();
     }
-    ca.agreementUrl = agreementUrl ;
+    ca.agreementUrl = agreementUrl;
     return ca;
   }
 }

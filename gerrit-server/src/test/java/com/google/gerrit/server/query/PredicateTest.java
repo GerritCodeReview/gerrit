@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query;
 
 import com.google.gerrit.testutil.GerritBaseTests;
-
 import org.junit.Ignore;
 
 @Ignore

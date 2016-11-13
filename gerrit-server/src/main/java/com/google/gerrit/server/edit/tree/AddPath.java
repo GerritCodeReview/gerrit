@@ -20,8 +20,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * A {@code PathEdit} which adds a file path to the index. This operation is the
- * counterpart to {@link org.eclipse.jgit.dircache.DirCacheEditor.DeletePath}.
+ * A {@code PathEdit} which adds a file path to the index. This operation is the counterpart to
+ * {@link org.eclipse.jgit.dircache.DirCacheEditor.DeletePath}.
  */
 class AddPath extends DirCacheEditor.PathEdit {
 

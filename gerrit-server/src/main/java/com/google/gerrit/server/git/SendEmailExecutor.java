@@ -17,13 +17,9 @@ package com.google.gerrit.server.git;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
-/**
- * Marker on the global {@link WorkQueue.Executor} used to send email.
- */
+/** Marker on the global {@link WorkQueue.Executor} used to send email. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface SendEmailExecutor {
-}
+public @interface SendEmailExecutor {}

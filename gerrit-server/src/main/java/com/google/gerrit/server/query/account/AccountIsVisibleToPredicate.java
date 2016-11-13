@@ -19,13 +19,11 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gwtorm.server.OrmException;
 
-public class AccountIsVisibleToPredicate
-    extends IsVisibleToPredicate<AccountState> {
+public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountState> {
   private final AccountControl accountControl;
 
   AccountIsVisibleToPredicate(AccountControl accountControl) {
-    super(AccountQueryBuilder.FIELD_VISIBLETO,
-        describe(accountControl.getUser()));
+    super(AccountQueryBuilder.FIELD_VISIBLETO, describe(accountControl.getUser()));
     this.accountControl = accountControl;
   }
 

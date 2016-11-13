@@ -28,21 +28,17 @@ import com.google.gerrit.server.config.TasksCollection;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.kohsuke.args4j.Argument;
 
 /** Kill a task in the work queue. */
 @AdminHighPriorityCommand
 @RequiresAnyCapability({KILL_TASK, MAINTAIN_SERVER})
 final class KillCommand extends SshCommand {
-  @Inject
-  private TasksCollection tasksCollection;
+  @Inject private TasksCollection tasksCollection;
 
-  @Inject
-  private DeleteTask deleteTask;
+  @Inject private DeleteTask deleteTask;
 
   @Argument(index = 0, multiValued = true, required = true, metaVar = "ID")
   private final List<String> taskIds = new ArrayList<>();

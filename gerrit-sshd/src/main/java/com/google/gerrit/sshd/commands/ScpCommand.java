@@ -28,15 +28,13 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
-
-import org.apache.sshd.server.Environment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import org.apache.sshd.server.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class ScpCommand extends BaseCommand {
   private static final String TYPE_DIR = "D";
@@ -48,8 +46,7 @@ final class ScpCommand extends BaseCommand {
   private boolean opt_f;
   private String root;
 
-  @Inject
-  private ToolsCatalog toc;
+  @Inject private ToolsCatalog toc;
   private IOException error;
 
   @Override
@@ -85,12 +82,13 @@ final class ScpCommand extends BaseCommand {
 
   @Override
   public void start(final Environment env) {
-    startThread(new Runnable() {
-      @Override
-      public void run() {
-        runImp();
-      }
-    });
+    startThread(
+        new Runnable() {
+          @Override
+          public void run() {
+            runImp();
+          }
+        });
   }
 
   private void runImp() {
@@ -130,8 +128,7 @@ final class ScpCommand extends BaseCommand {
         throw new IOException("Unsupported mode");
       }
     } catch (IOException e) {
-      if (e.getClass() == IOException.class
-          && "Pipe closed".equals(e.getMessage())) {
+      if (e.getClass() == IOException.class && "Pipe closed".equals(e.getMessage())) {
         // Ignore a pipe closed error, its the user disconnecting from us
         // while we are waiting for them to stalk.
         //
@@ -152,7 +149,7 @@ final class ScpCommand extends BaseCommand {
 
   private String readLine() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    for (;;) {
+    for (; ; ) {
       int c = in.read();
       if (c == '\n') {
         return baos.toString();
@@ -195,8 +192,8 @@ final class ScpCommand extends BaseCommand {
     readAck();
   }
 
-  private void header(final Entry dir, final int len) throws IOException,
-      UnsupportedEncodingException {
+  private void header(final Entry dir, final int len)
+      throws IOException, UnsupportedEncodingException {
     final StringBuilder buf = new StringBuilder();
     switch (dir.getType()) {
       case DIR:

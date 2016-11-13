@@ -18,11 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.replay;
 
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import java.io.IOException;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 public class QueryListTest extends TestCase {
   public static final String Q_P = "project:foo";

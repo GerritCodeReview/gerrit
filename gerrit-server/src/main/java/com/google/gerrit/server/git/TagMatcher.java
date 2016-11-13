@@ -15,15 +15,13 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.git.TagSet.Tag;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 class TagMatcher {
   final BitSet mask = new BitSet();

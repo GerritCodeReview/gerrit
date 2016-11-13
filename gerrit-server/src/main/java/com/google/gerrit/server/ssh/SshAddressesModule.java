@@ -20,27 +20,23 @@ import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SshAddressesModule extends AbstractModule {
-  private static final Logger log =
-      LoggerFactory.getLogger(SshAddressesModule.class);
+  private static final Logger log = LoggerFactory.getLogger(SshAddressesModule.class);
 
   public static final int DEFAULT_PORT = 29418;
   public static final int IANA_SSH_PORT = 22;
 
   @Override
-  protected void configure() {
-  }
+  protected void configure() {}
 
   @Provides
   @Singleton
@@ -76,8 +72,8 @@ public class SshAddressesModule extends AbstractModule {
   @Provides
   @Singleton
   @SshAdvertisedAddresses
-  List<String> getAdvertisedAddresses(@GerritServerConfig Config cfg,
-      @SshListenAddresses List<SocketAddress> listen) {
+  List<String> getAdvertisedAddresses(
+      @GerritServerConfig Config cfg, @SshListenAddresses List<SocketAddress> listen) {
     String[] want = cfg.getStringList("sshd", null, "advertisedaddress");
     if (want.length > 0) {
       return Arrays.asList(want);

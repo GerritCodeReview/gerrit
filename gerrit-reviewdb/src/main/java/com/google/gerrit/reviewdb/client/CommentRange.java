@@ -30,8 +30,7 @@ public class CommentRange {
   @Column(id = 4)
   protected int endCharacter;
 
-  protected CommentRange() {
-  }
+  protected CommentRange() {}
 
   public CommentRange(int sl, int sc, int el, int ec) {
     startLine = sl;
@@ -80,8 +79,10 @@ public class CommentRange {
   public boolean equals(Object obj) {
     if (obj instanceof CommentRange) {
       CommentRange other = (CommentRange) obj;
-      return startLine == other.startLine && startCharacter == other.startCharacter &&
-          endLine == other.endLine && endCharacter == other.endCharacter;
+      return startLine == other.startLine
+          && startCharacter == other.startCharacter
+          && endLine == other.endLine
+          && endCharacter == other.endCharacter;
     }
     return false;
   }
@@ -97,7 +98,14 @@ public class CommentRange {
 
   @Override
   public String toString() {
-    return "Range[startLine=" + startLine + ", startCharacter=" + startCharacter
-        + ", endLine=" + endLine + ", endCharacter=" + endCharacter + "]";
+    return "Range[startLine="
+        + startLine
+        + ", startCharacter="
+        + startCharacter
+        + ", endLine="
+        + endLine
+        + ", endCharacter="
+        + endCharacter
+        + "]";
   }
 }

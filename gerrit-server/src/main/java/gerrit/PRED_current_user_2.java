@@ -21,7 +21,6 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
@@ -34,14 +33,13 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-
 import java.util.Map;
 
 /**
  * Loads a CurrentUser object for a user identity.
- * <p>
- * Values are cached in the hash {@code current_user}, avoiding recreation
- * during a single evaluation.
+ *
+ * <p>Values are cached in the hash {@code current_user}, avoiding recreation during a single
+ * evaluation.
  *
  * <pre>
  *   current_user(user(+AccountId), -CurrentUser).

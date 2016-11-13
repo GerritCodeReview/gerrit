@@ -25,21 +25,29 @@ public class GroupInfo extends GroupBaseInfo {
   }
 
   public final native GroupOptionsInfo options() /*-{ return this.options; }-*/;
+
   public final native String description() /*-{ return this.description; }-*/;
+
   public final native String url() /*-{ return this.url; }-*/;
+
   public final native String owner() /*-{ return this.owner; }-*/;
+
   public final native void owner(String o) /*-{ if(o)this.owner=o; }-*/;
+
   public final native JsArray<AccountInfo> members() /*-{ return this.members; }-*/;
+
   public final native JsArray<GroupInfo> includes() /*-{ return this.includes; }-*/;
 
   private native int group_id() /*-{ return this.group_id; }-*/;
+
   private native String owner_id() /*-{ return this.owner_id; }-*/;
+
   private native void owner_id(String o) /*-{ if(o)this.owner_id=o; }-*/;
 
   public final AccountGroup.UUID getOwnerUUID() {
     String owner = owner_id();
     if (owner != null) {
-        return new AccountGroup.UUID(URL.decodeQueryString(owner));
+      return new AccountGroup.UUID(URL.decodeQueryString(owner));
     }
     return null;
   }
@@ -48,13 +56,12 @@ public class GroupInfo extends GroupBaseInfo {
     owner_id(URL.encodeQueryString(uuid.get()));
   }
 
-  protected GroupInfo() {
-  }
+  protected GroupInfo() {}
 
   public static class GroupOptionsInfo extends JavaScriptObject {
-    public final native boolean isVisibleToAll() /*-{ return this['visible_to_all'] ? true : false; }-*/;
+    public final native boolean
+        isVisibleToAll() /*-{ return this['visible_to_all'] ? true : false; }-*/;
 
-    protected GroupOptionsInfo() {
-    }
+    protected GroupOptionsInfo() {}
   }
 }

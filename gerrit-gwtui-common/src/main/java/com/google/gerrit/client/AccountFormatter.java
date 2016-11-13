@@ -25,13 +25,14 @@ public class AccountFormatter {
 
   /**
    * Formats an account as a name and an email address.
-   * <p>
-   * Example output:
+   *
+   * <p>Example output:
+   *
    * <ul>
-   * <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated</li>
-   * <li>{@code A U. Thor (12)}: missing email address</li>
-   * <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name</li>
-   * <li>{@code Anonymous Coward (12)}: missing name and email address</li>
+   *   <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated
+   *   <li>{@code A U. Thor (12)}: missing email address
+   *   <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name
+   *   <li>{@code Anonymous Coward (12)}: missing name and email address
    * </ul>
    */
   public String nameEmail(AccountInfo info) {
@@ -51,9 +52,9 @@ public class AccountFormatter {
 
   /**
    * Formats an account name.
-   * <p>
-   * If the account has a full name, it returns only the full name. Otherwise it
-   * returns a longer form that includes the email address.
+   *
+   * <p>If the account has a full name, it returns only the full name. Otherwise it returns a longer
+   * form that includes the email address.
    */
   public String name(AccountInfo ai) {
     if (ai.name() != null && !ai.name().trim().isEmpty()) {

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.base.MoreObjects;
-
 import java.sql.Timestamp;
 
 /** MailMetadata represents metadata parsed from inbound email. */
@@ -26,10 +25,12 @@ public class MailMetadata {
   public Timestamp timestamp;
   public String messageType; // we expect comment here
 
-
   public boolean hasRequiredFields() {
-    return changeId != null && patchSet != null && author != null &&
-        timestamp != null && messageType != null;
+    return changeId != null
+        && patchSet != null
+        && author != null
+        && timestamp != null
+        && messageType != null;
   }
 
   @Override

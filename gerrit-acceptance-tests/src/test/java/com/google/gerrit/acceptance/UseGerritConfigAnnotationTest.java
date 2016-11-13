@@ -18,15 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
 
-  @Inject
-  @GerritServerConfig
-  Config serverConfig;
+  @Inject @GerritServerConfig Config serverConfig;
 
   @Test
   @GerritConfig(name = "x.y", value = "z")

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 public interface AgreementSignupListener {
   interface Event extends GerritEvent {
     AccountInfo getAccount();
+
     String getAgreementName();
   }
 

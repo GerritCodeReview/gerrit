@@ -30,24 +30,26 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.lib.Config;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
+import org.kohsuke.args4j.Option;
 
 public class SuggestChangeReviewers extends SuggestReviewers
     implements RestReadView<ChangeResource> {
 
-  @Option(name = "--exclude-groups", aliases = {"-e"},
-      usage = "exclude groups from query")
+  @Option(
+    name = "--exclude-groups",
+    aliases = {"-e"},
+    usage = "exclude groups from query"
+  )
   boolean excludeGroups;
 
   private final Provider<CurrentUser> self;
 
   @Inject
-  SuggestChangeReviewers(AccountVisibility av,
+  SuggestChangeReviewers(
+      AccountVisibility av,
       GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
       Provider<CurrentUser> self,
@@ -63,8 +65,12 @@ public class SuggestChangeReviewers extends SuggestReviewers
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return reviewersUtil.suggestReviewers(rsrc.getNotes(), this,
-        rsrc.getControl().getProjectControl(), getVisibility(rsrc), excludeGroups);
+    return reviewersUtil.suggestReviewers(
+        rsrc.getNotes(),
+        this,
+        rsrc.getControl().getProjectControl(),
+        getVisibility(rsrc),
+        excludeGroups);
   }
 
   private VisibilityControl getVisibility(final ChangeResource rsrc) {

@@ -24,10 +24,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.Collection;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of GroupBackend for the internal group system. */
 @Singleton
@@ -37,7 +35,8 @@ public class InternalGroupBackend implements GroupBackend {
   private final IncludingGroupMembership.Factory groupMembershipFactory;
 
   @Inject
-  InternalGroupBackend(GroupControl.Factory groupControlFactory,
+  InternalGroupBackend(
+      GroupControl.Factory groupControlFactory,
       GroupCache groupCache,
       IncludingGroupMembership.Factory groupMembershipFactory) {
     this.groupControlFactory = groupControlFactory;
@@ -65,13 +64,15 @@ public class InternalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(final String name,
-      final ProjectControl project) {
-    return groupCache.all().stream()
-        .filter(group ->
-            // startsWithIgnoreCase && isVisible
-            group.getName().regionMatches(true, 0, name, 0, name.length())
-                && groupControlFactory.controlFor(group).isVisible())
+  public Collection<GroupReference> suggest(final String name, final ProjectControl project) {
+    return groupCache
+        .all()
+        .stream()
+        .filter(
+            group ->
+                // startsWithIgnoreCase && isVisible
+                group.getName().regionMatches(true, 0, name, 0, name.length())
+                    && groupControlFactory.controlFor(group).isVisible())
         .map(GroupReference::forGroup)
         .collect(toList());
   }

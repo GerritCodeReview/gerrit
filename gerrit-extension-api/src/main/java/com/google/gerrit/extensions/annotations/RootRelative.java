@@ -17,21 +17,17 @@ package com.google.gerrit.extensions.annotations;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation applied to HttpServletRequest and HttpServletResponse
- * when they are inherited from Gerrit instead of being injected by
- * a plugin's ServletModule.  This means that the path returned by
- * 'javax.servlet.http.HttpServletRequest#getPathInfo()' is
- * relative to the Gerrit root instead of a path within the plugin's
- * URL space.
+ * Annotation applied to HttpServletRequest and HttpServletResponse when they are inherited from
+ * Gerrit instead of being injected by a plugin's ServletModule. This means that the path returned
+ * by 'javax.servlet.http.HttpServletRequest#getPathInfo()' is relative to the Gerrit root instead
+ * of a path within the plugin's URL space.
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface RootRelative {
-}
+public @interface RootRelative {}

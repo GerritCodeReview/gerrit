@@ -29,14 +29,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class PutUsername implements RestModifyView<AccountResource, Input> {
   public static class Input {
-    @DefaultInput
-    public String username;
+    @DefaultInput public String username;
   }
 
   private final Provider<CurrentUser> self;
@@ -45,7 +43,8 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   private final Provider<ReviewDb> db;
 
   @Inject
-  PutUsername(Provider<CurrentUser> self,
+  PutUsername(
+      Provider<CurrentUser> self,
       ChangeUserName.Factory changeUserNameFactory,
       Realm realm,
       Provider<ReviewDb> db) {
@@ -56,11 +55,10 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public String apply(AccountResource rsrc, Input input) throws AuthException,
-      MethodNotAllowedException, UnprocessableEntityException,
-      ResourceConflictException, OrmException, IOException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+  public String apply(AccountResource rsrc, Input input)
+      throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
+          ResourceConflictException, OrmException, IOException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to set username");
     }
 

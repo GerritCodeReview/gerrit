@@ -28,19 +28,16 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.Map;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class FileInfoJson {
   private final PatchListCache patchListCache;
 
   @Inject
-  FileInfoJson(
-      PatchListCache patchListCache) {
+  FileInfoJson(PatchListCache patchListCache) {
     this.patchListCache = patchListCache;
   }
 
@@ -51,9 +48,7 @@ public class FileInfoJson {
 
   Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
-    ObjectId a = (base == null)
-        ? null
-        : ObjectId.fromString(base.getRevision().get());
+    ObjectId a = (base == null) ? null : ObjectId.fromString(base.getRevision().get());
     ObjectId b = ObjectId.fromString(revision.get());
     return toFileInfoMap(change, new PatchListKey(a, b, Whitespace.IGNORE_NONE));
   }
@@ -61,19 +56,19 @@ public class FileInfoJson {
   Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, int parent)
       throws PatchListNotAvailableException {
     ObjectId b = ObjectId.fromString(revision.get());
-    return toFileInfoMap(change,
-        PatchListKey.againstParentNum(parent + 1, b, Whitespace.IGNORE_NONE));
+    return toFileInfoMap(
+        change, PatchListKey.againstParentNum(parent + 1, b, Whitespace.IGNORE_NONE));
   }
 
-  private Map<String, FileInfo> toFileInfoMap(Change change,
-      PatchListKey key) throws PatchListNotAvailableException {
+  private Map<String, FileInfo> toFileInfoMap(Change change, PatchListKey key)
+      throws PatchListNotAvailableException {
     PatchList list = patchListCache.get(key, change.getProject());
 
     Map<String, FileInfo> files = new TreeMap<>();
     for (PatchListEntry e : list.getPatches()) {
       FileInfo d = new FileInfo();
-      d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
-          ? e.getChangeType().getCode() : null;
+      d.status =
+          e.getChangeType() != Patch.ChangeType.MODIFIED ? e.getChangeType().getCode() : null;
       d.oldPath = e.getOldName();
       d.sizeDelta = e.getSizeDelta();
       d.size = e.getSize();

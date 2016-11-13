@@ -20,8 +20,8 @@ import static com.google.gerrit.client.CommonMessages.M;
 import java.util.Date;
 
 /**
- * Formatter to format timestamps relative to the current time using time units
- * in the format defined by {@code git log --relative-date}.
+ * Formatter to format timestamps relative to the current time using time units in the format
+ * defined by {@code git log --relative-date}.
  */
 public class RelativeDateFormatter {
   static final long SECOND_IN_MILLIS = 1000;
@@ -34,8 +34,8 @@ public class RelativeDateFormatter {
 
   /**
    * @param when {@link Date} to format
-   * @return age of given {@link Date} compared to now formatted in the same
-   *         relative format as returned by {@code git log --relative-date}
+   * @return age of given {@link Date} compared to now formatted in the same relative format as
+   *     returned by {@code git log --relative-date}
    */
   @SuppressWarnings("boxing")
   public static String format(Date when) {

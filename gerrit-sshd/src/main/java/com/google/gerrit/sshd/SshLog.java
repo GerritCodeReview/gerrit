@@ -30,7 +30,6 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -55,8 +54,11 @@ class SshLog implements LifecycleListener {
   private final AuditService auditService;
 
   @Inject
-  SshLog(final Provider<SshSession> session, final Provider<Context> context,
-      SystemLog systemLog, @GerritServerConfig Config config,
+  SshLog(
+      final Provider<SshSession> session,
+      final Provider<Context> context,
+      SystemLog systemLog,
+      @GerritServerConfig Config config,
       AuditService auditService) {
     this.session = session;
     this.context = context;
@@ -70,8 +72,7 @@ class SshLog implements LifecycleListener {
   }
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
   public void stop() {
@@ -81,8 +82,7 @@ class SshLog implements LifecycleListener {
   }
 
   void onLogin() {
-    LoggingEvent entry =
-        log("LOGIN FROM " + session.get().getRemoteAddressAsString());
+    LoggingEvent entry = log("LOGIN FROM " + session.get().getRemoteAddressAsString());
     if (async != null) {
       async.append(entry);
     }
@@ -90,18 +90,19 @@ class SshLog implements LifecycleListener {
   }
 
   void onAuthFail(final SshSession sd) {
-    final LoggingEvent event = new LoggingEvent( //
-        Logger.class.getName(), // fqnOfCategoryClass
-        log, // logger
-        TimeUtil.nowMs(), // when
-        Level.INFO, // level
-        "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
-        "SSHD", // thread name
-        null, // exception information
-        null, // current NDC string
-        null, // caller location
-        null // MDC properties
-        );
+    final LoggingEvent event =
+        new LoggingEvent( //
+            Logger.class.getName(), // fqnOfCategoryClass
+            log, // logger
+            TimeUtil.nowMs(), // when
+            Level.INFO, // level
+            "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
+            "SSHD", // thread name
+            null, // exception information
+            null, // current NDC string
+            null, // caller location
+            null // MDC properties
+            );
 
     event.setProperty(P_SESSION, id(sd.getSessionId()));
     event.setProperty(P_USER_NAME, sd.getUsername());
@@ -163,8 +164,7 @@ class SshLog implements LifecycleListener {
     String[] cmdArgs = dcmd.getArguments();
     String paramName = null;
     int argPos = 0;
-    ListMultimap<String, String> parms =
-        MultimapBuilder.hashKeys().arrayListValues().build();
+    ListMultimap<String, String> parms = MultimapBuilder.hashKeys().arrayListValues().build();
     for (int i = 2; i < cmdArgs.length; i++) {
       String arg = cmdArgs[i];
       // -- stop parameters parsing
@@ -214,18 +214,19 @@ class SshLog implements LifecycleListener {
     final SshSession sd = session.get();
     final CurrentUser user = sd.getUser();
 
-    final LoggingEvent event = new LoggingEvent( //
-        Logger.class.getName(), // fqnOfCategoryClass
-        log, // logger
-        TimeUtil.nowMs(), // when
-        Level.INFO, // level
-        msg, // message text
-        "SSHD", // thread name
-        null, // exception information
-        null, // current NDC string
-        null, // caller location
-        null // MDC properties
-        );
+    final LoggingEvent event =
+        new LoggingEvent( //
+            Logger.class.getName(), // fqnOfCategoryClass
+            log, // logger
+            TimeUtil.nowMs(), // when
+            Level.INFO, // level
+            msg, // message text
+            "SSHD", // thread name
+            null, // exception information
+            null, // current NDC string
+            null, // caller location
+            null // MDC properties
+            );
 
     event.setProperty(P_SESSION, id(sd.getSessionId()));
 
@@ -259,8 +260,7 @@ class SshLog implements LifecycleListener {
     audit(ctx, result, extractWhat(cmd), extractParameters(cmd));
   }
 
-  private void audit(Context ctx, Object result, String cmd,
-      ListMultimap<String, ?> params) {
+  private void audit(Context ctx, Object result, String cmd, ListMultimap<String, ?> params) {
     String sessionId;
     CurrentUser currentUser;
     long created;
@@ -274,8 +274,7 @@ class SshLog implements LifecycleListener {
       currentUser = session.getUser();
       created = ctx.created;
     }
-    auditService.dispatch(new SshAuditEvent(sessionId, currentUser,
-        cmd, created, params, result));
+    auditService.dispatch(new SshAuditEvent(sessionId, currentUser, cmd, created, params, result));
   }
 
   private String extractWhat(DispatchCommand dcmd) {

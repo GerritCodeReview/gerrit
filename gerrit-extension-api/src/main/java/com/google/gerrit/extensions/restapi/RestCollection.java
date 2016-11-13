@@ -18,9 +18,9 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 
 /**
  * A collection of resources accessible through a REST API.
- * <p>
- * To build a collection declare a resource, the map in a module, and the
- * collection itself accepting the map:
+ *
+ * <p>To build a collection declare a resource, the map in a module, and the collection itself
+ * accepting the map:
  *
  * <pre>
  * public class MyResource implements RestResource {
@@ -51,19 +51,18 @@ import com.google.gerrit.extensions.registration.DynamicMap;
  * }
  * </pre>
  *
- * <p>
- * To build a nested collection, implement {@link ChildCollection}.
+ * <p>To build a nested collection, implement {@link ChildCollection}.
  *
- * @param <P> type of the parent resource. For a top level collection this
- *        should always be {@link TopLevelResource}.
+ * @param <P> type of the parent resource. For a top level collection this should always be {@link
+ *     TopLevelResource}.
  * @param <R> type of resource operated on by each view.
  */
 public interface RestCollection<P extends RestResource, R extends RestResource> {
   /**
    * Create a view to list the contents of the collection.
-   * <p>
-   * The returned view should accept the parent type to scope the search, and
-   * may want to take a "q" parameter option to narrow the results.
+   *
+   * <p>The returned view should accept the parent type to scope the search, and may want to take a
+   * "q" parameter option to narrow the results.
    *
    * @return view to list the collection.
    * @throws ResourceNotFoundException if the collection cannot be listed.
@@ -75,20 +74,20 @@ public interface RestCollection<P extends RestResource, R extends RestResource> 
    * Parse a path component into a resource handle.
    *
    * @param parent the handle to the collection.
-   * @param id string identifier supplied by the client. In a URL such as
-   *        {@code /changes/1234/abandon} this string is {@code "1234"}.
+   * @param id string identifier supplied by the client. In a URL such as {@code
+   *     /changes/1234/abandon} this string is {@code "1234"}.
    * @return a resource handle for the identified object.
-   * @throws ResourceNotFoundException the object does not exist, or the caller
-   *         is not permitted to know if the resource exists.
-   * @throws Exception if the implementation had any errors converting to a
-   *         resource handle. This results in an HTTP 500 Internal Server Error.
+   * @throws ResourceNotFoundException the object does not exist, or the caller is not permitted to
+   *     know if the resource exists.
+   * @throws Exception if the implementation had any errors converting to a resource handle. This
+   *     results in an HTTP 500 Internal Server Error.
    */
   R parse(P parent, IdString id) throws ResourceNotFoundException, Exception;
 
   /**
    * Get the views that support this collection.
-   * <p>
-   * Within a resource the views are accessed as {@code RESOURCE/plugin~view}.
+   *
+   * <p>Within a resource the views are accessed as {@code RESOURCE/plugin~view}.
    *
    * @return map of views.
    */

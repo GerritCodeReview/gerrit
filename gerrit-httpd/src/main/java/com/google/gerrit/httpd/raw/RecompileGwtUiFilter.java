@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.httpd.raw.BuildSystem.Label;
 import com.google.gwtexpui.linker.server.UserAgentRule;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +26,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -54,11 +52,10 @@ class RecompileGwtUiFilter implements Filter {
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse res,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse res, FilterChain chain)
+      throws IOException, ServletException {
     String agent = rule.select((HttpServletRequest) request);
-    if (unpackedWar != null
-        && (gwtuiRecompile || !uaInitialized.contains(agent))) {
+    if (unpackedWar != null && (gwtuiRecompile || !uaInitialized.contains(agent))) {
       Label label = builder.gwtZipLabel(agent);
       File zip = builder.targetPath(label).toFile();
 
@@ -82,12 +79,10 @@ class RecompileGwtUiFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig config) {
-  }
+  public void init(FilterConfig config) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   private static void unpack(File srcwar, File dstwar) throws IOException {
     try (ZipFile zf = new ZipFile(srcwar)) {
@@ -97,10 +92,10 @@ class RecompileGwtUiFilter implements Filter {
         final String name = ze.getName();
 
         if (ze.isDirectory()
-          || name.startsWith("WEB-INF/")
-          || name.startsWith("META-INF/")
-          || name.startsWith("com/google/gerrit/launcher/")
-          || name.equals("Main.class")) {
+            || name.startsWith("WEB-INF/")
+            || name.startsWith("META-INF/")
+            || name.startsWith("com/google/gerrit/launcher/")
+            || name.equals("Main.class")) {
           continue;
         }
 

@@ -21,8 +21,9 @@ class ConflictingUpdateException extends OrmRuntimeException {
   private static final long serialVersionUID = 1L;
 
   ConflictingUpdateException(Change change, String expectedNoteDbState) {
-    super(String.format(
-        "Expected change %s to have noteDbState %s but was %s",
-        change.getId(), expectedNoteDbState, change.getNoteDbState()));
+    super(
+        String.format(
+            "Expected change %s to have noteDbState %s but was %s",
+            change.getId(), expectedNoteDbState, change.getNoteDbState()));
   }
 }

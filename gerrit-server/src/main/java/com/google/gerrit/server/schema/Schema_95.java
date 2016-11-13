@@ -18,11 +18,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.sql.SQLException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class Schema_95 extends SchemaVersion {
   private final AllUsersCreator allUsersCreator;
@@ -34,8 +32,7 @@ public class Schema_95 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
-      SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try {
       allUsersCreator.create();
     } catch (IOException | ConfigInvalidException e) {

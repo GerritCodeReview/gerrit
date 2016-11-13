@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.group;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneQueryGroupsTest extends AbstractQueryGroupsTest {
@@ -25,7 +24,6 @@ public class LuceneQueryGroupsTest extends AbstractQueryGroupsTest {
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
-    return Guice.createInjector(
-        new InMemoryModule(luceneConfig, notesMigration));
+    return Guice.createInjector(new InMemoryModule(luceneConfig, notesMigration));
   }
 }

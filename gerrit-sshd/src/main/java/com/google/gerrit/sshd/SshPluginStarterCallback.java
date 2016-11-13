@@ -21,22 +21,18 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.apache.sshd.server.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-class SshPluginStarterCallback
-    implements StartPluginListener, ReloadPluginListener {
-  private static final Logger log = LoggerFactory
-      .getLogger(SshPluginStarterCallback.class);
+class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListener {
+  private static final Logger log = LoggerFactory.getLogger(SshPluginStarterCallback.class);
 
   private final DispatchCommandProvider root;
 
   @Inject
-  SshPluginStarterCallback(
-      @CommandName(Commands.ROOT) DispatchCommandProvider root) {
+  SshPluginStarterCallback(@CommandName(Commands.ROOT) DispatchCommandProvider root) {
     this.root = root;
   }
 
@@ -62,9 +58,8 @@ class SshPluginStarterCallback
       try {
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
-        log.warn(String.format(
-            "Plugin %s did not define its top-level command",
-            plugin.getName()), err);
+        log.warn(
+            String.format("Plugin %s did not define its top-level command", plugin.getName()), err);
       }
     }
     return null;

@@ -33,28 +33,27 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 @NoHttpd
 public class TagsIT extends AbstractDaemonTest {
-  private static final List<String> testTags = ImmutableList.of(
-      "tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
+  private static final List<String> testTags =
+      ImmutableList.of("tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
 
-  private static final String SIGNED_ANNOTATION = "annotation\n"
-      + "-----BEGIN PGP SIGNATURE-----\n"
-      + "Version: GnuPG v1\n"
-      + "\n"
-      + "iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa\n"
-      + "9tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7\n"
-      + "htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V\n"
-      + "4ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG\n"
-      + "IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY\n"
-      + "+SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=\n"
-      + "=XFeC\n"
-      + "-----END PGP SIGNATURE-----";
+  private static final String SIGNED_ANNOTATION =
+      "annotation\n"
+          + "-----BEGIN PGP SIGNATURE-----\n"
+          + "Version: GnuPG v1\n"
+          + "\n"
+          + "iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa\n"
+          + "9tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7\n"
+          + "htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V\n"
+          + "4ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG\n"
+          + "IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY\n"
+          + "+SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=\n"
+          + "=XFeC\n"
+          + "-----END PGP SIGNATURE-----";
 
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
@@ -107,8 +106,7 @@ public class TagsIT extends AbstractDaemonTest {
 
     // With regular expression filter
     result = getTags().withRegex("^tag-[C|D]$").get();
-    assertTagList(
-        FluentIterable.from(ImmutableList.of("tag-C", "tag-D")), result);
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-C", "tag-D")), result);
 
     // With substring filter
     result = getTags().withSubstring("tag-").get();
@@ -178,8 +176,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(input.ref);
     assertThat(result.revision).isEqualTo(input.revision);
 
-    eventRecorder.assertRefUpdatedEvents(project.get(), result.ref,
-        null, result.revision);
+    eventRecorder.assertRefUpdatedEvents(project.get(), result.ref, null, result.revision);
   }
 
   @Test
@@ -202,8 +199,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.tagger.name).isEqualTo(admin.fullName);
     assertThat(result.tagger.email).isEqualTo(admin.email);
 
-    eventRecorder.assertRefUpdatedEvents(project.get(), result.ref,
-        null, result.revision);
+    eventRecorder.assertRefUpdatedEvents(project.get(), result.ref, null, result.revision);
 
     // A second tag pushed on the same ref should have the same ref
     TagInput input2 = new TagInput();
@@ -217,8 +213,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result2.tagger.name).isEqualTo(admin.fullName);
     assertThat(result2.tagger.email).isEqualTo(admin.email);
 
-    eventRecorder.assertRefUpdatedEvents(project.get(), result2.ref,
-        null, result2.revision);
+    eventRecorder.assertRefUpdatedEvents(project.get(), result2.ref, null, result2.revision);
   }
 
   @Test
@@ -253,8 +248,7 @@ public class TagsIT extends AbstractDaemonTest {
     input.ref = "test";
     input.message = "annotation";
     exception.expect(AuthException.class);
-    exception.expectMessage(
-        "Cannot create annotated tag \"" + R_TAGS + "test\"");
+    exception.expectMessage("Cannot create annotated tag \"" + R_TAGS + "test\"");
     tag(input.ref).create(input);
   }
 
@@ -315,10 +309,10 @@ public class TagsIT extends AbstractDaemonTest {
     tag(input.ref).create(input);
   }
 
-  private void assertTagList(FluentIterable<String> expected,
-      List<TagInfo> actual) throws Exception {
+  private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)
+      throws Exception {
     assertThat(actual).hasSize(expected.size());
-    for (int i = 0; i < expected.size(); i ++) {
+    for (int i = 0; i < expected.size(); i++) {
       assertThat(actual.get(i).ref).isEqualTo(R_TAGS + expected.get(i));
     }
   }

@@ -25,7 +25,7 @@ public class HashtagsChangedEvent extends ChangeEvent {
   public String[] removed;
   public String[] hashtags;
 
-  public HashtagsChangedEvent (Change change) {
+  public HashtagsChangedEvent(Change change) {
     super(TYPE, change);
   }
 }

@@ -22,9 +22,9 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 /**
- * Provider of the group(s) which should become owners of a newly created
- * project. The only matching patterns supported are exact match or wildcard
- * matching which can be specified by ending the name with a {@code *}.
+ * Provider of the group(s) which should become owners of a newly created project. The only matching
+ * patterns supported are exact match or wildcard matching which can be specified by ending the name
+ * with a {@code *}.
  *
  * <pre>
  * [repository &quot;*&quot;]
@@ -41,8 +41,10 @@ public class ProjectOwnerGroupsProvider extends GroupSetProvider {
   }
 
   @AssistedInject
-  public ProjectOwnerGroupsProvider(GroupBackend gb,
-      ThreadLocalRequestContext context, ServerRequestContext serverCtx,
+  public ProjectOwnerGroupsProvider(
+      GroupBackend gb,
+      ThreadLocalRequestContext context,
+      ServerRequestContext serverCtx,
       RepositoryConfig repositoryCfg,
       @Assisted Project.NameKey project) {
     super(gb, context, serverCtx, repositoryCfg.getOwnerGroups(project));

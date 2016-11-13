@@ -22,27 +22,24 @@ import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RefOperationValidators {
   private static final GetErrorMessages GET_ERRORS = new GetErrorMessages();
-  private static final Logger LOG = LoggerFactory
-      .getLogger(RefOperationValidators.class);
+  private static final Logger LOG = LoggerFactory.getLogger(RefOperationValidators.class);
 
   public interface Factory {
     RefOperationValidators create(Project project, IdentifiedUser user, ReceiveCommand cmd);
   }
 
   public static ReceiveCommand getCommand(RefUpdate update, ReceiveCommand.Type type) {
-    return new ReceiveCommand(update.getOldObjectId(), update.getNewObjectId(),
-        update.getName(), type);
+    return new ReceiveCommand(
+        update.getOldObjectId(), update.getNewObjectId(), update.getName(), type);
   }
 
   private final RefReceivedEvent event;
@@ -51,7 +48,8 @@ public class RefOperationValidators {
   @Inject
   RefOperationValidators(
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
-      @Assisted Project project, @Assisted IdentifiedUser user,
+      @Assisted Project project,
+      @Assisted IdentifiedUser user,
       @Assisted ReceiveCommand cmd) {
     this.refOperationValidationListeners = refOperationValidationListeners;
     event = new RefReceivedEvent();
@@ -60,8 +58,7 @@ public class RefOperationValidators {
     event.user = user;
   }
 
-  public List<ValidationMessage> validateForRefOperation()
-    throws RefOperationValidationException {
+  public List<ValidationMessage> validateForRefOperation() throws RefOperationValidationException {
 
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
@@ -81,12 +78,13 @@ public class RefOperationValidators {
     return messages;
   }
 
-  private void throwException(Iterable<ValidationMessage> messages,
-      RefReceivedEvent event) throws RefOperationValidationException {
+  private void throwException(Iterable<ValidationMessage> messages, RefReceivedEvent event)
+      throws RefOperationValidationException {
     Iterable<ValidationMessage> errors = Iterables.filter(messages, GET_ERRORS);
-    String header = String.format(
-        "Ref \"%s\" %S in project %s validation failed", event.command.getRefName(),
-        event.command.getType(), event.project.getName());
+    String header =
+        String.format(
+            "Ref \"%s\" %S in project %s validation failed",
+            event.command.getRefName(), event.command.getType(), event.project.getName());
     LOG.error(header);
     throw new RefOperationValidationException(header, errors);
   }

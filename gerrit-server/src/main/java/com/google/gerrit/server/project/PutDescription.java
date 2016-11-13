@@ -28,11 +28,9 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
-import java.io.IOException;
 
 @Singleton
 public class PutDescription implements RestModifyView<ProjectResource, DescriptionInput> {
@@ -40,16 +38,14 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
   private final MetaDataUpdate.Server updateFactory;
 
   @Inject
-  PutDescription(ProjectCache cache,
-      MetaDataUpdate.Server updateFactory) {
+  PutDescription(ProjectCache cache, MetaDataUpdate.Server updateFactory) {
     this.cache = cache;
     this.updateFactory = updateFactory;
   }
 
   @Override
-  public Response<String> apply(ProjectResource resource,
-      DescriptionInput input) throws AuthException,
-      ResourceConflictException, ResourceNotFoundException, IOException {
+  public Response<String> apply(ProjectResource resource, DescriptionInput input)
+      throws AuthException, ResourceConflictException, ResourceNotFoundException, IOException {
     if (input == null) {
       input = new DescriptionInput(); // Delete would set description to null.
     }
@@ -65,9 +61,9 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       Project project = config.getProject();
       project.setDescription(Strings.emptyToNull(input.description));
 
-      String msg = MoreObjects.firstNonNull(
-        Strings.emptyToNull(input.commitMessage),
-        "Updated description.\n");
+      String msg =
+          MoreObjects.firstNonNull(
+              Strings.emptyToNull(input.commitMessage), "Updated description.\n");
       if (!msg.endsWith("\n")) {
         msg += "\n";
       }
@@ -83,8 +79,8 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(resource.getName());
     } catch (ConfigInvalidException e) {
-      throw new ResourceConflictException(String.format(
-          "invalid project.config: %s", e.getMessage()));
+      throw new ResourceConflictException(
+          String.format("invalid project.config: %s", e.getMessage()));
     }
   }
 }

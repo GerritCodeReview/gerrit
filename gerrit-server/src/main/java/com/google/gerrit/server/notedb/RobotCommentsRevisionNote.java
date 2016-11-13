@@ -17,34 +17,28 @@ package com.google.gerrit.server.notedb;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.RobotComment;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 
 public class RobotCommentsRevisionNote extends RevisionNote<RobotComment> {
   private final ChangeNoteUtil noteUtil;
 
-  RobotCommentsRevisionNote(ChangeNoteUtil noteUtil, ObjectReader reader,
-      ObjectId noteId) {
+  RobotCommentsRevisionNote(ChangeNoteUtil noteUtil, ObjectReader reader, ObjectId noteId) {
     super(reader, noteId);
     this.noteUtil = noteUtil;
   }
 
   @Override
-  protected List<RobotComment> parse(byte[] raw, int offset)
-      throws IOException {
-    try (InputStream is = new ByteArrayInputStream(
-        raw, offset, raw.length - offset);
+  protected List<RobotComment> parse(byte[] raw, int offset) throws IOException {
+    try (InputStream is = new ByteArrayInputStream(raw, offset, raw.length - offset);
         Reader r = new InputStreamReader(is, UTF_8)) {
-      return noteUtil.getGson().fromJson(r,
-          RobotCommentsRevisionNoteData.class).comments;
+      return noteUtil.getGson().fromJson(r, RobotCommentsRevisionNoteData.class).comments;
     }
   }
 }

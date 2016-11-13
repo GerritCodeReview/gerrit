@@ -41,9 +41,8 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
-  public static class Input {
+  public static class Input {}
 
-  }
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> db;
@@ -52,7 +51,8 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  DeleteAssignee(BatchUpdate.Factory batchUpdateFactory,
+  DeleteAssignee(
+      BatchUpdate.Factory batchUpdateFactory,
       ChangeMessagesUtil cmUtil,
       Provider<ReviewDb> db,
       AssigneeChanged assigneeChanged,
@@ -69,17 +69,15 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, OrmException {
-    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-        rsrc.getProject(),
-        rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op();
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
       Account.Id deletedAssignee = op.getDeletedAssignee();
       return deletedAssignee == null
           ? Response.none()
-          : Response.ok(accountLoaderFactory.create(true)
-              .fillOne(deletedAssignee));
+          : Response.ok(accountLoaderFactory.create(true).fillOne(deletedAssignee));
     }
   }
 
@@ -88,8 +86,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
     private Account deletedAssignee;
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws RestApiException, OrmException{
+    public boolean updateChange(ChangeContext ctx) throws RestApiException, OrmException {
       if (!ctx.getControl().canEditAssignee()) {
         throw new AuthException("Delete Assignee not permitted");
       }
@@ -99,8 +96,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       if (currentAssigneeId == null) {
         return false;
       }
-      IdentifiedUser deletedAssigneeUser =
-          userFactory.create(currentAssigneeId);
+      IdentifiedUser deletedAssigneeUser = userFactory.create(currentAssigneeId);
       deletedAssignee = deletedAssigneeUser.getAccount();
       // noteDb
       update.removeAssignee();
@@ -114,18 +110,20 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       return deletedAssignee != null ? deletedAssignee.getId() : null;
     }
 
-    private void addMessage(BatchUpdate.ChangeContext ctx, ChangeUpdate update,
-        IdentifiedUser deletedAssignee) throws OrmException {
-      ChangeMessage cmsg = ChangeMessagesUtil.newMessage(
-          ctx, "Assignee deleted: " + deletedAssignee.getNameEmail(),
-          ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
+    private void addMessage(
+        BatchUpdate.ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee)
+        throws OrmException {
+      ChangeMessage cmsg =
+          ChangeMessagesUtil.newMessage(
+              ctx,
+              "Assignee deleted: " + deletedAssignee.getNameEmail(),
+              ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
     }
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee,
-          ctx.getWhen());
+      assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee, ctx.getWhen());
     }
   }
 }

@@ -32,12 +32,10 @@ import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import org.kohsuke.args4j.Option;
 
 public class QueryGroups implements RestReadView<TopLevelResource> {
   private final GroupIndexCollection indexes;
@@ -48,25 +46,36 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   private String query;
   private int limit;
   private int start;
-  private EnumSet<ListGroupsOption> options =
-      EnumSet.noneOf(ListGroupsOption.class);
+  private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
 
   // TODO(ekempin): --query in ListGroups is marked as deprecated, once it is
   // removed we want to rename --query2 to --query here.
   /** --query (-q) is already used by {@link ListGroups} */
-  @Option(name = "--query2", aliases = {"-q2"}, usage = "group query")
+  @Option(
+    name = "--query2",
+    aliases = {"-q2"},
+    usage = "group query"
+  )
   public void setQuery(String query) {
     this.query = query;
   }
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
-      usage = "maximum number of groups to list")
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of groups to list"
+  )
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
-  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT",
-      usage = "number of groups to skip")
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    metaVar = "CNT",
+    usage = "number of groups to skip"
+  )
   public void setStart(int start) {
     this.start = start;
   }
@@ -82,7 +91,8 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  protected QueryGroups(GroupIndexCollection indexes,
+  protected QueryGroups(
+      GroupIndexCollection indexes,
       GroupQueryBuilder queryBuilder,
       GroupQueryProcessor queryProcessor,
       GroupJson json) {
@@ -113,12 +123,10 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
     }
 
     try {
-      QueryResult<AccountGroup> result =
-          queryProcessor.query(queryBuilder.parse(query));
+      QueryResult<AccountGroup> result = queryProcessor.query(queryBuilder.parse(query));
       List<AccountGroup> groups = result.entities();
 
-      ArrayList<GroupInfo> groupInfos =
-          Lists.newArrayListWithCapacity(groups.size());
+      ArrayList<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groups.size());
       json.addOptions(options);
       for (AccountGroup group : groups) {
         groupInfos.add(json.format(GroupDescriptions.forAccountGroup(group)));

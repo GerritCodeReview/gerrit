@@ -24,12 +24,6 @@ import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +32,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
 
 public class RebaseSorter {
   private final CodeReviewRevWalk rw;
@@ -48,10 +46,14 @@ public class RebaseSorter {
   private final ChangeKindCache changeKindCache;
   private final Repository repo;
 
-  public RebaseSorter(CodeReviewRevWalk rw, RevCommit initialTip,
-      Set<RevCommit> alreadyAccepted, RevFlag canMergeFlag,
+  public RebaseSorter(
+      CodeReviewRevWalk rw,
+      RevCommit initialTip,
+      Set<RevCommit> alreadyAccepted,
+      RevFlag canMergeFlag,
       InternalChangeQuery internalChangeQuery,
-      ChangeKindCache changeKindCache, Repository repo) {
+      ChangeKindCache changeKindCache,
+      Repository repo) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
@@ -61,8 +63,7 @@ public class RebaseSorter {
     this.repo = repo;
   }
 
-  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
-      throws IOException {
+  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(incoming);
     while (!sort.isEmpty()) {
@@ -105,16 +106,13 @@ public class RebaseSorter {
     return sorted;
   }
 
-  private boolean isAlreadyMerged(CodeReviewCommit commit, Branch.NameKey dest)
-      throws IOException {
-    try (CodeReviewRevWalk mirw =
-        CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
+  private boolean isAlreadyMerged(CodeReviewCommit commit, Branch.NameKey dest) throws IOException {
+    try (CodeReviewRevWalk mirw = CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
       mirw.reset();
       mirw.markStart(commit);
       // check if the commit is merged in other branches
       for (RevCommit accepted : alreadyAccepted) {
-        if (mirw.isMergedInto(mirw.parseCommit(accepted),
-            mirw.parseCommit(commit))) {
+        if (mirw.isMergedInto(mirw.parseCommit(accepted), mirw.parseCommit(commit))) {
           return true;
         }
       }
@@ -134,12 +132,12 @@ public class RebaseSorter {
     }
   }
 
-  private boolean isRework(Project.NameKey project, RevCommit oldCommit,
-      ChangeData change) throws OrmException, IOException {
-    RevCommit currentCommit = rw.parseCommit(
-        ObjectId.fromString(change.currentPatchSet().getRevision().get()));
-    return ChangeKind.REWORK == changeKindCache
-        .getChangeKind(project, repo, oldCommit, currentCommit);
+  private boolean isRework(Project.NameKey project, RevCommit oldCommit, ChangeData change)
+      throws OrmException, IOException {
+    RevCommit currentCommit =
+        rw.parseCommit(ObjectId.fromString(change.currentPatchSet().getRevision().get()));
+    return ChangeKind.REWORK
+        == changeKindCache.getChangeKind(project, repo, oldCommit, currentCommit);
   }
 
   private static <T> T removeOne(final Collection<T> c) {

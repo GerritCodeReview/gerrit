@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.Objects;
 
 class CommentByPredicate extends ChangeIndexPredicate {

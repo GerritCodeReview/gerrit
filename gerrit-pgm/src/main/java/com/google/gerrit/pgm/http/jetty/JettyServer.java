@@ -29,7 +29,18 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
-
+import java.lang.management.ManagementFactory;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 import org.eclipse.jetty.http.HttpScheme;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
@@ -59,20 +70,6 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.management.ManagementFactory;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-
 @Singleton
 public class JettyServer {
   private static final Logger log = LoggerFactory.getLogger(JettyServer.class);
@@ -91,14 +88,13 @@ public class JettyServer {
     public void start() {
       try {
         String origUrl = cfg.getString("httpd", null, "listenUrl");
-        boolean rewrite = !Strings.isNullOrEmpty(origUrl)
-            && origUrl.endsWith(":0/");
+        boolean rewrite = !Strings.isNullOrEmpty(origUrl) && origUrl.endsWith(":0/");
         server.httpd.start();
         if (rewrite) {
           Connector con = server.httpd.getConnectors()[0];
           if (con instanceof ServerConnector) {
             @SuppressWarnings("resource")
-            ServerConnector serverCon = (ServerConnector)con;
+            ServerConnector serverCon = (ServerConnector) con;
             String host = serverCon.getHost();
             int port = serverCon.getLocalPort();
             String url = String.format("http://%s:%d", host, port);
@@ -128,7 +124,8 @@ public class JettyServer {
   private boolean reverseProxy;
 
   @Inject
-  JettyServer(@GerritServerConfig Config cfg,
+  JettyServer(
+      @GerritServerConfig Config cfg,
       ThreadSettingsConfig threadSettingsConfig,
       SitePaths site,
       JettyEnv env,
@@ -146,8 +143,7 @@ public class JettyServer {
       app = handler;
     }
     if (cfg.getBoolean("httpd", "registerMBeans", false)) {
-      MBeanContainer mbean =
-          new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
+      MBeanContainer mbean = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
       httpd.addEventListener(mbean);
       httpd.addBean(Log.getRootLogger());
       httpd.addBean(mbean);
@@ -163,8 +159,7 @@ public class JettyServer {
     // need to use a larger default header size to ensure we have
     // the space required.
     //
-    final int requestHeaderSize =
-        cfg.getInt("httpd", "requestheadersize", 16386);
+    final int requestHeaderSize = cfg.getInt("httpd", "requestheadersize", 16386);
     final URI[] listenUrls = listenURLs(cfg);
     final boolean reuseAddress = cfg.getBoolean("httpd", "reuseaddress", true);
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 2);
@@ -178,11 +173,16 @@ public class JettyServer {
       final ServerConnector c;
       HttpConfiguration config = defaultConfig(requestHeaderSize);
 
-      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && ! "https".equals(u.getScheme())) {
-        throw new IllegalArgumentException("Protocol '" + u.getScheme()
-            + "' " + " not supported in httpd.listenurl '" + u
-            + "' when auth.type = '" + AuthType.CLIENT_SSL_CERT_LDAP.name()
-            + "'; only 'https' is supported");
+      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
+        throw new IllegalArgumentException(
+            "Protocol '"
+                + u.getScheme()
+                + "' "
+                + " not supported in httpd.listenurl '"
+                + u
+                + "' when auth.type = '"
+                + AuthType.CLIENT_SSL_CERT_LDAP.name()
+                + "'; only 'https' is supported");
       }
 
       if ("http".equals(u.getScheme())) {
@@ -214,10 +214,16 @@ public class JettyServer {
         defaultPort = 443;
 
         config.addCustomizer(new SecureRequestCustomizer());
-        c = new ServerConnector(server,
-            null, null, null, 0, acceptors,
-            new SslConnectionFactory(ssl, "http/1.1"),
-            new HttpConnectionFactory(config));
+        c =
+            new ServerConnector(
+                server,
+                null,
+                null,
+                null,
+                0,
+                acceptors,
+                new SslConnectionFactory(ssl, "http/1.1"),
+                new HttpConnectionFactory(config));
 
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
@@ -227,32 +233,38 @@ public class JettyServer {
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
-        config.addCustomizer(new HttpConfiguration.Customizer() {
-          @Override
-          public void customize(Connector connector,
-              HttpConfiguration channelConfig, Request request) {
-            request.setScheme(HttpScheme.HTTPS.asString());
-            request.setSecure(true);
-          }
-        });
+        config.addCustomizer(
+            new HttpConfiguration.Customizer() {
+              @Override
+              public void customize(
+                  Connector connector, HttpConfiguration channelConfig, Request request) {
+                request.setScheme(HttpScheme.HTTPS.asString());
+                request.setSecure(true);
+              }
+            });
         c = newServerConnector(server, acceptors, config);
 
       } else {
-        throw new IllegalArgumentException("Protocol '" + u.getScheme() + "' "
-            + " not supported in httpd.listenurl '" + u + "';"
-            + " only 'http', 'https', 'proxy-http, 'proxy-https'"
-            + " are supported");
+        throw new IllegalArgumentException(
+            "Protocol '"
+                + u.getScheme()
+                + "' "
+                + " not supported in httpd.listenurl '"
+                + u
+                + "';"
+                + " only 'http', 'https', 'proxy-http, 'proxy-https'"
+                + " are supported");
       }
 
       try {
-        if (u.getHost() == null && (u.getAuthority().equals("*") //
-            || u.getAuthority().startsWith("*:"))) {
+        if (u.getHost() == null
+            && (u.getAuthority().equals("*") //
+                || u.getAuthority().startsWith("*:"))) {
           // Bind to all local addresses. Port wasn't parsed right by URI
           // due to the illegal host of "*" so replace with a legal name
           // and parse the URI.
           //
-          final URI r =
-              new URI(u.toString().replace('*', 'A')).parseServerAuthority();
+          final URI r = new URI(u.toString().replace('*', 'A')).parseServerAuthority();
           c.setHost(null);
           c.setPort(0 < r.getPort() ? r.getPort() : defaultPort);
         } else {
@@ -270,10 +282,10 @@ public class JettyServer {
     return connectors;
   }
 
-  private static ServerConnector newServerConnector(Server server,
-      int acceptors, HttpConfiguration config) {
-    return new ServerConnector(server, null, null, null, 0, acceptors,
-        new HttpConnectionFactory(config));
+  private static ServerConnector newServerConnector(
+      Server server, int acceptors, HttpConfiguration config) {
+    return new ServerConnector(
+        server, null, null, null, 0, acceptors, new HttpConnectionFactory(config));
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {
@@ -323,19 +335,18 @@ public class JettyServer {
     int maxThreads = threadSettingsConfig.getHttpdMaxThreads();
     int minThreads = cfg.getInt("httpd", null, "minthreads", 5);
     int maxQueued = cfg.getInt("httpd", null, "maxqueued", 200);
-    int idleTimeout = (int)MILLISECONDS.convert(60, SECONDS);
-    int maxCapacity = maxQueued == 0
-        ? Integer.MAX_VALUE
-        : Math.max(minThreads, maxQueued);
-    QueuedThreadPool pool = new QueuedThreadPool(
-        maxThreads,
-        minThreads,
-        idleTimeout,
-        new BlockingArrayQueue<Runnable>(
-            minThreads, // capacity,
-            minThreads, // growBy,
-            maxCapacity // maxCapacity
-    ));
+    int idleTimeout = (int) MILLISECONDS.convert(60, SECONDS);
+    int maxCapacity = maxQueued == 0 ? Integer.MAX_VALUE : Math.max(minThreads, maxQueued);
+    QueuedThreadPool pool =
+        new QueuedThreadPool(
+            maxThreads,
+            minThreads,
+            idleTimeout,
+            new BlockingArrayQueue<Runnable>(
+                minThreads, // capacity,
+                minThreads, // growBy,
+                maxCapacity // maxCapacity
+                ));
     pool.setName("HTTP");
     return pool;
   }
@@ -373,8 +384,8 @@ public class JettyServer {
     return r;
   }
 
-  private ContextHandler makeContext(final String contextPath,
-      final JettyEnv env, final Config cfg) {
+  private ContextHandler makeContext(
+      final String contextPath, final JettyEnv env, final Config cfg) {
     final ServletContextHandler app = new ServletContextHandler();
 
     // This enables the use of sessions in Jetty, feature available
@@ -398,11 +409,12 @@ public class JettyServer {
         Class<? extends Filter> filterClass =
             (Class<? extends Filter>) Class.forName(filterClassName);
         Filter filter = env.webInjector.getInstance(filterClass);
-        app.addFilter(new FilterHolder(filter), "/*",
+        app.addFilter(
+            new FilterHolder(filter),
+            "/*",
             EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
       } catch (Throwable e) {
-        String errorMessage =
-            "Unable to instantiate front-end HTTP Filter " + filterClassName;
+        String errorMessage = "Unable to instantiate front-end HTTP Filter " + filterClassName;
         log.error(errorMessage, e);
         throw new IllegalArgumentException(errorMessage, e);
       }
@@ -413,15 +425,15 @@ public class JettyServer {
     // already have built.
     //
     GuiceFilter filter = env.webInjector.getInstance(GuiceFilter.class);
-    app.addFilter(new FilterHolder(filter), "/*", EnumSet.of(
-        DispatcherType.REQUEST,
-        DispatcherType.ASYNC));
-    app.addEventListener(new GuiceServletContextListener() {
-      @Override
-      protected Injector getInjector() {
-        return env.webInjector;
-      }
-    });
+    app.addFilter(
+        new FilterHolder(filter), "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
+    app.addEventListener(
+        new GuiceServletContextListener() {
+          @Override
+          protected Injector getInjector() {
+            return env.webInjector;
+          }
+        });
 
     // Jetty requires at least one servlet be bound before it will
     // bother running the filter above. Since the filter has all

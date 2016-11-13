@@ -42,37 +42,36 @@ public class RefNamesTest {
   @Test
   public void refsDraftComments() throws Exception {
     assertThat(RefNames.refsDraftComments(changeId, accountId))
-      .isEqualTo("refs/draft-comments/73/67473/1011123");
+        .isEqualTo("refs/draft-comments/73/67473/1011123");
   }
 
   @Test
   public void refsDraftCommentsPrefix() throws Exception {
     assertThat(RefNames.refsDraftCommentsPrefix(changeId))
-      .isEqualTo("refs/draft-comments/73/67473/");
+        .isEqualTo("refs/draft-comments/73/67473/");
   }
 
   @Test
   public void refsStarredChanges() throws Exception {
     assertThat(RefNames.refsStarredChanges(changeId, accountId))
-      .isEqualTo("refs/starred-changes/73/67473/1011123");
+        .isEqualTo("refs/starred-changes/73/67473/1011123");
   }
 
   @Test
   public void refsStarredChangesPrefix() throws Exception {
     assertThat(RefNames.refsStarredChangesPrefix(changeId))
-      .isEqualTo("refs/starred-changes/73/67473/");
+        .isEqualTo("refs/starred-changes/73/67473/");
   }
 
   @Test
   public void refsEdit() throws Exception {
     assertThat(RefNames.refsEdit(accountId, changeId, psId))
-      .isEqualTo("refs/users/23/1011123/edit-67473/42");
+        .isEqualTo("refs/users/23/1011123/edit-67473/42");
   }
 
   @Test
   public void isRefsEdit() throws Exception {
-    assertThat(RefNames.isRefsEdit("refs/users/23/1011123/edit-67473/42"))
-        .isTrue();
+    assertThat(RefNames.isRefsEdit("refs/users/23/1011123/edit-67473/42")).isTrue();
 
     // user ref, but no edit ref
     assertThat(RefNames.isRefsEdit("refs/users/23/1011123")).isFalse();
@@ -85,8 +84,7 @@ public class RefNamesTest {
   public void isRefsUsers() throws Exception {
     assertThat(RefNames.isRefsUsers("refs/users/23/1011123")).isTrue();
     assertThat(RefNames.isRefsUsers("refs/users/default")).isTrue();
-    assertThat(RefNames.isRefsUsers("refs/users/23/1011123/edit-67473/42"))
-        .isTrue();
+    assertThat(RefNames.isRefsUsers("refs/users/23/1011123/edit-67473/42")).isTrue();
 
     assertThat(RefNames.isRefsUsers("refs/heads/master")).isFalse();
   }

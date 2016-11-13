@@ -26,14 +26,12 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-
-import java.io.IOException;
 
 public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   public interface Factory {
@@ -47,9 +45,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   private ObjectId metaId;
 
   @AssistedInject
-  RobotCommentNotes(
-      Args args,
-      @Assisted Change change) {
+  RobotCommentNotes(Args args, @Assisted Change change) {
     super(args, change.getId(), PrimaryStorage.of(change), false);
     this.change = change;
   }
@@ -82,8 +78,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   }
 
   @Override
-  protected void onLoad(LoadHandle handle)
-      throws IOException, ConfigInvalidException {
+  protected void onLoad(LoadHandle handle) throws IOException, ConfigInvalidException {
     metaId = handle.id();
     if (metaId == null) {
       loadDefaults();
@@ -93,12 +88,10 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
 
     RevCommit tipCommit = handle.walk().parseCommit(metaId);
     ObjectReader reader = handle.walk().getObjectReader();
-    revisionNoteMap = RevisionNoteMap.parseRobotComments(args.noteUtil, reader,
-        NoteMap.read(reader, tipCommit));
-    ListMultimap<RevId, RobotComment> cs =
-        MultimapBuilder.hashKeys().arrayListValues().build();
-    for (RobotCommentsRevisionNote rn :
-        revisionNoteMap.revisionNotes.values()) {
+    revisionNoteMap =
+        RevisionNoteMap.parseRobotComments(args.noteUtil, reader, NoteMap.read(reader, tipCommit));
+    ListMultimap<RevId, RobotComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
+    for (RobotCommentsRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (RobotComment c : rn.getComments()) {
         cs.put(new RevId(c.revId), c);
       }

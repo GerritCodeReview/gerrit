@@ -125,7 +125,7 @@ public class PageLinks {
   }
 
   public static String projectQuery(Project.NameKey proj, Status status) {
-      return status(status) + " " + op("project", proj.get());
+    return status(status) + " " + op("project", proj.get());
   }
 
   public static String topicQuery(Status status, String topic) {
@@ -135,12 +135,11 @@ public class PageLinks {
       case DRAFT:
       case MERGED:
       case NEW:
-        return toChangeQuery(op("topic", topic) + " (" +
-            status(Status.NEW) + " OR " +
-            status(Status.MERGED) + ")");
+        return toChangeQuery(
+            op("topic", topic) + " (" + status(Status.NEW) + " OR " + status(Status.MERGED) + ")");
     }
     return toChangeQuery(status(status) + " " + op("topic", topic));
-}
+  }
 
   public static String toGroup(AccountGroup.UUID uuid) {
     return ADMIN_GROUPS + "uuid-" + uuid;
@@ -185,6 +184,5 @@ public class PageLinks {
     return value.matches("[^\u0000-\u0020!\"#$%&'():;?\\[\\]{}~]+");
   }
 
-  protected PageLinks() {
-  }
+  protected PageLinks() {}
 }

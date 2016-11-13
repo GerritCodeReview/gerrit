@@ -46,20 +46,17 @@ public abstract class LabelVote {
     if (sign == 0) {
       return create(text, (short) 1);
     }
-    return create(text.substring(0, i),
-        (short)(sign * Short.parseShort(text.substring(i + 1))));
+    return create(text.substring(0, i), (short) (sign * Short.parseShort(text.substring(i + 1))));
   }
 
   public static LabelVote parseWithEquals(String text) {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     int e = text.lastIndexOf('=');
     checkArgument(e >= 0, "Label vote missing '=': %s", text);
-    return create(text.substring(0, e),
-        Short.parseShort(text.substring(e + 1), text.length()));
+    return create(text.substring(0, e), Short.parseShort(text.substring(e + 1), text.length()));
   }
 
-  public static StringBuilder appendTo(StringBuilder sb, String label,
-      short value) {
+  public static StringBuilder appendTo(StringBuilder sb, String label, short value) {
     if (value == (short) 0) {
       return sb.append('-').append(label);
     } else if (value < 0) {
@@ -77,12 +74,12 @@ public abstract class LabelVote {
   }
 
   public abstract String label();
+
   public abstract short value();
 
   public String format() {
     // Max short string length is "-32768".length() == 6.
-    return appendTo(new StringBuilder(label().length() + 6), label(), value())
-        .toString();
+    return appendTo(new StringBuilder(label().length() + 6), label(), value()).toString();
   }
 
   public String formatWithEquals() {

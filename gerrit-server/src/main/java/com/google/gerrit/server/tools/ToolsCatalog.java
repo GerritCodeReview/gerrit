@@ -21,12 +21,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,12 +32,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Listing of all client side tools stored on this server.
- * <p>
- * Clients may download these tools through our file server, as they are
- * packaged with our own software releases.
+ *
+ * <p>Clients may download these tools through our file server, as they are packaged with our own
+ * software releases.
  */
 @Singleton
 public class ToolsCatalog {
@@ -79,8 +77,7 @@ public class ToolsCatalog {
   private static SortedMap<String, Entry> readToc() throws IOException {
     SortedMap<String, Entry> toc = new TreeMap<>();
     final BufferedReader br =
-        new BufferedReader(new InputStreamReader(new ByteArrayInputStream(
-            read("TOC")), UTF_8));
+        new BufferedReader(new InputStreamReader(new ByteArrayInputStream(read("TOC")), UTF_8));
     String line;
     while ((line = br.readLine()) != null) {
       if (line.length() > 0 && !line.startsWith("#")) {
@@ -144,7 +141,8 @@ public class ToolsCatalog {
   /** A file served out of the tools root directory. */
   public static class Entry {
     public enum Type {
-      DIR, FILE
+      DIR,
+      FILE
     }
 
     private final Type type;
@@ -209,8 +207,7 @@ public class ToolsCatalog {
         final String version = Version.getVersion();
         final int lf = RawParseUtils.nextLF(data, 0);
         if (version != null && lf < data.length) {
-          byte[] versionHeader =
-              Constants.encode("# From Gerrit Code Review " + version + "\n");
+          byte[] versionHeader = Constants.encode("# From Gerrit Code Review " + version + "\n");
 
           ByteArrayOutputStream buf = new ByteArrayOutputStream();
           buf.write(data, 0, lf);
@@ -224,7 +221,8 @@ public class ToolsCatalog {
     }
 
     private boolean isScript(byte[] data) {
-      return data != null && data.length > 3 //
+      return data != null
+          && data.length > 3 //
           && data[0] == '#' //
           && data[1] == '!' //
           && data[2] == '/';

@@ -21,8 +21,7 @@ import com.google.gerrit.metrics.Field;
 
 /** Optimized version of {@link BucketedCounter} for single dimension. */
 class CounterImpl1<F1> extends BucketedCounter {
-  CounterImpl1(DropWizardMetricMaker metrics, String name, Description desc,
-      Field<F1> field1) {
+  CounterImpl1(DropWizardMetricMaker metrics, String name, Description desc, Field<F1> field1) {
     super(metrics, name, desc, field1);
   }
 
@@ -44,8 +43,7 @@ class CounterImpl1<F1> extends BucketedCounter {
   @Override
   String name(Object field1) {
     @SuppressWarnings("unchecked")
-    Function<Object, String> fmt =
-        (Function<Object, String>) fields[0].formatter();
+    Function<Object, String> fmt = (Function<Object, String>) fields[0].formatter();
 
     return fmt.apply(field1).replace('/', '-');
   }

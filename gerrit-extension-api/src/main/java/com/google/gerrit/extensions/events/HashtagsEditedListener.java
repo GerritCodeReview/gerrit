@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import java.util.Collection;
 
 /** Notified whenever a Change's Hashtags are edited. */
@@ -23,7 +22,9 @@ import java.util.Collection;
 public interface HashtagsEditedListener {
   interface Event extends ChangeEvent {
     Collection<String> getHashtags();
+
     Collection<String> getAddedHashtags();
+
     Collection<String> getRemovedHashtags();
   }
 

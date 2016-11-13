@@ -15,22 +15,16 @@
 package com.google.gerrit.server;
 
 import com.google.inject.servlet.RequestScoped;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-
-/**
- * Registers cleanup activities to be completed when a scope ends.
- */
+/** Registers cleanup activities to be completed when a scope ends. */
 @RequestScoped
 public class RequestCleanup implements Runnable {
-  private static final Logger log =
-      LoggerFactory.getLogger(RequestCleanup.class);
+  private static final Logger log = LoggerFactory.getLogger(RequestCleanup.class);
 
   private final List<Runnable> cleanup = new LinkedList<>();
   private boolean ran;
@@ -49,7 +43,7 @@ public class RequestCleanup implements Runnable {
   public void run() {
     synchronized (cleanup) {
       ran = true;
-      for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext();) {
+      for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
         try {
           i.next().run();
         } catch (Throwable err) {

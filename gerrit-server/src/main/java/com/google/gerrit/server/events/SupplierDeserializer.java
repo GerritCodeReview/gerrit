@@ -21,20 +21,18 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public class SupplierDeserializer implements JsonDeserializer<Supplier<?>> {
 
   @Override
-  public Supplier<?> deserialize(JsonElement json, Type typeOfT,
-      JsonDeserializationContext context) throws JsonParseException {
+  public Supplier<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
     checkArgument(typeOfT instanceof ParameterizedType);
     ParameterizedType parameterizedType = (ParameterizedType) typeOfT;
     if (parameterizedType.getActualTypeArguments().length != 1) {
-      throw new JsonParseException(
-          "Expected one parameter type in Supplier interface.");
+      throw new JsonParseException("Expected one parameter type in Supplier interface.");
     }
     Type supplierOf = parameterizedType.getActualTypeArguments()[0];
     return Suppliers.ofInstance(context.deserialize(json, supplierOf));

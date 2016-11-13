@@ -45,7 +45,20 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -66,25 +79,8 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-public class AllChangesIndexer
-    extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
-  private static final Logger log =
-      LoggerFactory.getLogger(AllChangesIndexer.class);
+public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
+  private static final Logger log = LoggerFactory.getLogger(AllChangesIndexer.class);
 
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
@@ -97,7 +93,8 @@ public class AllChangesIndexer
   private final AutoMerger autoMerger;
 
   @Inject
-  AllChangesIndexer(SchemaFactory<ReviewDb> schemaFactory,
+  AllChangesIndexer(
+      SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
@@ -159,26 +156,31 @@ public class AllChangesIndexer
     return indexAll(index, projects);
   }
 
-  public SiteIndexer.Result indexAll(ChangeIndex index,
-      Iterable<ProjectHolder> projects) {
+  public SiteIndexer.Result indexAll(ChangeIndex index, Iterable<ProjectHolder> projects) {
     Stopwatch sw = Stopwatch.createStarted();
-    final MultiProgressMonitor mpm =
-        new MultiProgressMonitor(progressOut, "Reindexing changes");
-    final Task projTask = mpm.beginSubTask("projects",
-        (projects instanceof Collection)
-          ? ((Collection<?>) projects).size()
-          : MultiProgressMonitor.UNKNOWN);
-    final Task doneTask = mpm.beginSubTask(null,
-        totalWork >= 0 ? totalWork : MultiProgressMonitor.UNKNOWN);
+    final MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
+    final Task projTask =
+        mpm.beginSubTask(
+            "projects",
+            (projects instanceof Collection)
+                ? ((Collection<?>) projects).size()
+                : MultiProgressMonitor.UNKNOWN);
+    final Task doneTask =
+        mpm.beginSubTask(null, totalWork >= 0 ? totalWork : MultiProgressMonitor.UNKNOWN);
     final Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
     final List<ListenableFuture<?>> futures = new ArrayList<>();
     final AtomicBoolean ok = new AtomicBoolean(true);
 
     for (final ProjectHolder project : projects) {
-      ListenableFuture<?> future = executor.submit(reindexProject(
-          indexerFactory.create(executor, index), project.name, doneTask,
-          failedTask, verboseWriter));
+      ListenableFuture<?> future =
+          executor.submit(
+              reindexProject(
+                  indexerFactory.create(executor, index),
+                  project.name,
+                  doneTask,
+                  failedTask,
+                  verboseWriter));
       addErrorListener(future, "project " + project.name, projTask, ok);
       futures.add(future);
     }
@@ -204,15 +206,19 @@ public class AllChangesIndexer
     int nTotal = nFailed + nDone;
     double pctFailed = ((double) nFailed) / nTotal * 100;
     if (pctFailed > 10) {
-      log.error("Failed {}/{} changes ({}%); not marking new index as ready",
+      log.error(
+          "Failed {}/{} changes ({}%); not marking new index as ready",
           nFailed, nTotal, Math.round(pctFailed));
       ok.set(false);
     }
     return new Result(sw, ok.get(), nDone, nFailed);
   }
 
-  private Callable<Void> reindexProject(final ChangeIndexer indexer,
-      final Project.NameKey project, final Task done, final Task failed,
+  private Callable<Void> reindexProject(
+      final ChangeIndexer indexer,
+      final Project.NameKey project,
+      final Task done,
+      final Task failed,
       final PrintWriter verboseWriter) {
     return new Callable<Void>() {
       @Override
@@ -235,14 +241,9 @@ public class AllChangesIndexer
               byId.put(r.getObjectId(), changeDataFactory.create(db, cn));
             }
           }
-          new ProjectIndexer(indexer,
-              mergeStrategy,
-              autoMerger,
-              byId,
-              repo,
-              done,
-              failed,
-              verboseWriter).call();
+          new ProjectIndexer(
+                  indexer, mergeStrategy, autoMerger, byId, repo, done, failed, verboseWriter)
+              .call();
         } catch (RepositoryNotFoundException rnfe) {
           log.error(rnfe.getMessage());
         }
@@ -266,7 +267,8 @@ public class AllChangesIndexer
     private final PrintWriter verboseWriter;
     private final Repository repo;
 
-    private ProjectIndexer(ChangeIndexer indexer,
+    private ProjectIndexer(
+        ChangeIndexer indexer,
         ThreeWayMergeStrategy mergeStrategy,
         AutoMerger autoMerger,
         ListMultimap<ObjectId, ChangeData> changesByCommitId,
@@ -315,8 +317,7 @@ public class AllChangesIndexer
       return null;
     }
 
-    private void getPathsAndIndex(RevWalk walk, ObjectInserter ins, ObjectId b)
-        throws Exception {
+    private void getPathsAndIndex(RevWalk walk, ObjectInserter ins, ObjectId b) throws Exception {
       List<ChangeData> cds = Lists.newArrayList(byId.get(b));
       try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
         RevCommit bCommit = walk.parseCommit(b);
@@ -324,11 +325,10 @@ public class AllChangesIndexer
         RevTree aTree = aFor(bCommit, walk, ins);
         df.setRepository(repo);
         if (!cds.isEmpty()) {
-          List<String> paths = (aTree != null)
-              ? getPaths(df.scan(aTree, bTree))
-              : Collections.<String>emptyList();
+          List<String> paths =
+              (aTree != null) ? getPaths(df.scan(aTree, bTree)) : Collections.<String>emptyList();
           Iterator<ChangeData> cdit = cds.iterator();
-          for (ChangeData cd ; cdit.hasNext(); cdit.remove()) {
+          for (ChangeData cd; cdit.hasNext(); cdit.remove()) {
             cd = cdit.next();
             try {
               cd.setCurrentFilePaths(paths);
@@ -361,8 +361,7 @@ public class AllChangesIndexer
       return ImmutableList.copyOf(paths);
     }
 
-    private RevTree aFor(RevCommit b, RevWalk walk, ObjectInserter ins)
-        throws IOException {
+    private RevTree aFor(RevCommit b, RevWalk walk, ObjectInserter ins) throws IOException {
       switch (b.getParentCount()) {
         case 0:
           return walk.parseTree(emptyTree());

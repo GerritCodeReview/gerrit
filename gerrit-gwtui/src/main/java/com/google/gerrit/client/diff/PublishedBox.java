@@ -44,6 +44,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 /** An HtmlPanel for displaying a published comment */
 class PublishedBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, PublishedBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
@@ -90,20 +91,21 @@ class PublishedBox extends CommentBox {
     }
 
     initWidget(uiBinder.createAndBindUi(this));
-    header.addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        setOpen(!isOpen());
-      }
-    }, ClickEvent.getType());
+    header.addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            setOpen(!isOpen());
+          }
+        },
+        ClickEvent.getType());
 
     name.setInnerText(authorName(info));
     date.setInnerText(FormatUtil.shortFormatDayTime(info.updated()));
     if (info.message() != null) {
       String msg = info.message().trim();
       summary.setInnerText(msg);
-      message.setInnerSafeHtml(clp.apply(
-          new SafeHtmlBuilder().append(msg).wikify()));
+      message.setInnerSafeHtml(clp.apply(new SafeHtmlBuilder().append(msg).wikify()));
       ApiGlue.fireEvent("comment", message);
     }
 
@@ -154,9 +156,7 @@ class PublishedBox extends CommentBox {
     if (quote) {
       commentReply.message(ReplyBox.quote(comment.message()));
     }
-    getCommentManager().addDraftBox(
-      displaySide,
-      commentReply).setEdit(true);
+    getCommentManager().addDraftBox(displaySide, commentReply).setEdit(true);
   }
 
   void doReply() {
@@ -193,7 +193,9 @@ class PublishedBox extends CommentBox {
       done.setEnabled(false);
       CommentInfo input = CommentInfo.createReply(comment);
       input.message(PatchUtil.C.cannedReplyDone());
-      CommentApi.createDraft(psId, input,
+      CommentApi.createDraft(
+          psId,
+          input,
           new GerritCallback<CommentInfo>() {
             @Override
             public void onSuccess(CommentInfo result) {

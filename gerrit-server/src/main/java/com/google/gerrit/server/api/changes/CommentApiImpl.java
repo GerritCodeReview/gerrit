@@ -32,8 +32,7 @@ class CommentApiImpl implements CommentApi {
   private final CommentResource comment;
 
   @Inject
-  CommentApiImpl(GetComment getComment,
-      @Assisted CommentResource comment) {
+  CommentApiImpl(GetComment getComment, @Assisted CommentResource comment) {
     this.getComment = getComment;
     this.comment = comment;
   }

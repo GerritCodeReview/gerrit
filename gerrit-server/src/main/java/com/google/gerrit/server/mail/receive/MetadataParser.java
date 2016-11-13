@@ -21,7 +21,6 @@ import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.MetadataName;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -35,23 +34,17 @@ public class MetadataParser {
     // Check email headers for X-Gerrit-<Name>
     for (String header : m.additionalHeaders()) {
       if (header.startsWith(toHeaderWithDelimiter(MetadataName.CHANGE_ID))) {
-        metadata.changeId = header
-            .substring(toHeaderWithDelimiter(MetadataName.CHANGE_ID).length());
-      } else if (header.startsWith(
-          toHeaderWithDelimiter(MetadataName.PATCH_SET))) {
-        String ps = header.substring(
-            toHeaderWithDelimiter(MetadataName.PATCH_SET).length());
+        metadata.changeId =
+            header.substring(toHeaderWithDelimiter(MetadataName.CHANGE_ID).length());
+      } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.PATCH_SET))) {
+        String ps = header.substring(toHeaderWithDelimiter(MetadataName.PATCH_SET).length());
         metadata.patchSet = Ints.tryParse(ps);
-      } else if (header.startsWith(
-          toHeaderWithDelimiter(MetadataName.TIMESTAMP))) {
-        String ts = header.substring(
-            toHeaderWithDelimiter(MetadataName.TIMESTAMP).length());
-        metadata.timestamp = Timestamp.from(
-            MailUtil.rfcDateformatter.parse(ts, Instant::from));
-      } else if (header.startsWith(
-          toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE))) {
-        metadata.messageType = header.substring(
-            toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE).length());
+      } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.TIMESTAMP))) {
+        String ts = header.substring(toHeaderWithDelimiter(MetadataName.TIMESTAMP).length());
+        metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+      } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE))) {
+        metadata.messageType =
+            header.substring(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE).length());
       }
     }
     if (metadata.hasRequiredFields()) {
@@ -83,22 +76,16 @@ public class MetadataParser {
   private static void extractFooters(String[] lines, MailMetadata metadata) {
     for (String line : lines) {
       if (metadata.changeId == null && line.contains(MetadataName.CHANGE_ID)) {
-        metadata.changeId =
-            extractFooter(toFooterWithDelimiter(MetadataName.CHANGE_ID), line);
-      } else if (metadata.patchSet == null &&
-          line.contains(MetadataName.PATCH_SET)) {
-        metadata.patchSet = Ints.tryParse(
-            extractFooter(toFooterWithDelimiter(MetadataName.PATCH_SET), line));
-      } else if (metadata.timestamp == null &&
-          line.contains(MetadataName.TIMESTAMP)) {
-        String ts =
-            extractFooter(toFooterWithDelimiter(MetadataName.TIMESTAMP), line);
-        metadata.timestamp = Timestamp.from(
-            MailUtil.rfcDateformatter.parse(ts, Instant::from));
-      } else if (metadata.messageType == null &&
-          line.contains(MetadataName.MESSAGE_TYPE)) {
-        metadata.messageType = extractFooter(
-            toFooterWithDelimiter(MetadataName.MESSAGE_TYPE), line);
+        metadata.changeId = extractFooter(toFooterWithDelimiter(MetadataName.CHANGE_ID), line);
+      } else if (metadata.patchSet == null && line.contains(MetadataName.PATCH_SET)) {
+        metadata.patchSet =
+            Ints.tryParse(extractFooter(toFooterWithDelimiter(MetadataName.PATCH_SET), line));
+      } else if (metadata.timestamp == null && line.contains(MetadataName.TIMESTAMP)) {
+        String ts = extractFooter(toFooterWithDelimiter(MetadataName.TIMESTAMP), line);
+        metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+      } else if (metadata.messageType == null && line.contains(MetadataName.MESSAGE_TYPE)) {
+        metadata.messageType =
+            extractFooter(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE), line);
       }
     }
   }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -113,8 +112,8 @@ public final class SitePaths {
 
   /**
    * Resolve an absolute or relative path.
-   * <p>
-   * Relative paths are resolved relative to the {@link #site_path}.
+   *
+   * <p>Relative paths are resolved relative to the {@link #site_path}.
    *
    * @param path the path string to resolve. May be null.
    * @return the resolved path; null if {@code path} was null or empty.

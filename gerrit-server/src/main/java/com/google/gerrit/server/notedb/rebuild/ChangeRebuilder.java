@@ -23,7 +23,6 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
@@ -32,8 +31,7 @@ public abstract class ChangeRebuilder {
     private static final long serialVersionUID = 1L;
 
     NoPatchSetsException(Change.Id changeId) {
-      super("Change " + changeId
-          + " cannot be rebuilt because it has no patch sets");
+      super("Change " + changeId + " cannot be rebuilt because it has no patch sets");
     }
   }
 
@@ -45,31 +43,31 @@ public abstract class ChangeRebuilder {
 
   public final ListenableFuture<Result> rebuildAsync(
       final Change.Id id, ListeningExecutorService executor) {
-    return executor.submit(new Callable<Result>() {
-        @Override
-      public Result call() throws Exception {
-        try (ReviewDb db = schemaFactory.open()) {
-          return rebuild(db, id);
-        }
-      }
-    });
+    return executor.submit(
+        new Callable<Result>() {
+          @Override
+          public Result call() throws Exception {
+            try (ReviewDb db = schemaFactory.open()) {
+              return rebuild(db, id);
+            }
+          }
+        });
   }
 
-  public abstract Result rebuild(ReviewDb db, Change.Id changeId)
-      throws IOException, OrmException;
+  public abstract Result rebuild(ReviewDb db, Change.Id changeId) throws IOException, OrmException;
 
   public abstract Result rebuildEvenIfReadOnly(ReviewDb db, Change.Id changeId)
       throws IOException, OrmException;
 
-  public abstract Result rebuild(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws IOException, OrmException;
+  public abstract Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle)
+      throws IOException, OrmException;
 
-  public abstract void buildUpdates(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws IOException, OrmException;
+  public abstract void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
+      throws IOException, OrmException;
 
   public abstract NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
       throws IOException, OrmException;
 
-  public abstract Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws OrmException, IOException;
+  public abstract Result execute(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
+      throws OrmException, IOException;
 }

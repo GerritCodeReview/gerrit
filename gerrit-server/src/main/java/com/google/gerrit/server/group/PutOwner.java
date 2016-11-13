@@ -32,15 +32,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
 public class PutOwner implements RestModifyView<GroupResource, Input> {
   public static class Input {
-    @DefaultInput
-    public String owner;
+    @DefaultInput public String owner;
   }
 
   private final GroupsCollection groupsCollection;
@@ -49,8 +47,11 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   private final GroupJson json;
 
   @Inject
-  PutOwner(GroupsCollection groupsCollection, GroupCache groupCache,
-      Provider<ReviewDb> db, GroupJson json) {
+  PutOwner(
+      GroupsCollection groupsCollection,
+      GroupCache groupCache,
+      Provider<ReviewDb> db,
+      GroupJson json) {
     this.groupsCollection = groupsCollection;
     this.groupCache = groupCache;
     this.db = db;
@@ -59,9 +60,8 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
 
   @Override
   public GroupInfo apply(GroupResource resource, Input input)
-      throws ResourceNotFoundException, MethodNotAllowedException,
-      AuthException, BadRequestException, UnprocessableEntityException,
-      OrmException, IOException {
+      throws ResourceNotFoundException, MethodNotAllowedException, AuthException,
+          BadRequestException, UnprocessableEntityException, OrmException, IOException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();

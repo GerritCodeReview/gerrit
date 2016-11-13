@@ -24,8 +24,7 @@ public class AccessRestApiServlet extends RestApiServlet {
   private static final long serialVersionUID = 1L;
 
   @Inject
-  AccessRestApiServlet(RestApiServlet.Globals globals,
-      Provider<AccessCollection> access) {
+  AccessRestApiServlet(RestApiServlet.Globals globals, Provider<AccessCollection> access) {
     super(globals, access);
   }
 }

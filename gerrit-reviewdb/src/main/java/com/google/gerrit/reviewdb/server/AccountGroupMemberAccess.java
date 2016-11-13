@@ -23,8 +23,8 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface AccountGroupMemberAccess extends
-    Access<AccountGroupMember, AccountGroupMember.Key> {
+public interface AccountGroupMemberAccess
+    extends Access<AccountGroupMember, AccountGroupMember.Key> {
   @Override
   @PrimaryKey("key")
   AccountGroupMember get(AccountGroupMember.Key key) throws OrmException;

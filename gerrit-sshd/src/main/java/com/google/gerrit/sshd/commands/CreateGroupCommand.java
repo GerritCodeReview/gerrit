@@ -34,26 +34,34 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 /**
  * Creates a new group.
- * <p>
- * Optionally, puts an initial set of user in the newly created group.
+ *
+ * <p>Optionally, puts an initial set of user in the newly created group.
  */
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 @CommandMetaData(name = "create-group", description = "Create a new account group")
 final class CreateGroupCommand extends SshCommand {
-  @Option(name = "--owner", aliases = {"-o"}, metaVar = "GROUP", usage = "owning group, if not specified the group will be self-owning")
+  @Option(
+    name = "--owner",
+    aliases = {"-o"},
+    metaVar = "GROUP",
+    usage = "owning group, if not specified the group will be self-owning"
+  )
   private AccountGroup.Id ownerGroupId;
 
-  @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of group")
+  @Option(
+    name = "--description",
+    aliases = {"-d"},
+    metaVar = "DESC",
+    usage = "description of group"
+  )
   private String groupDescription = "";
 
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of group to be created")
@@ -61,7 +69,12 @@ final class CreateGroupCommand extends SshCommand {
 
   private final Set<Account.Id> initialMembers = new HashSet<>();
 
-  @Option(name = "--member", aliases = {"-m"}, metaVar = "USERNAME", usage = "initial set of users to become members of the group")
+  @Option(
+    name = "--member",
+    aliases = {"-m"},
+    metaVar = "USERNAME",
+    usage = "initial set of users to become members of the group"
+  )
   void addMember(final Account.Id id) {
     initialMembers.add(id);
   }
@@ -71,22 +84,23 @@ final class CreateGroupCommand extends SshCommand {
 
   private final Set<AccountGroup.UUID> initialGroups = new HashSet<>();
 
-  @Option(name = "--group", aliases = "-g", metaVar = "GROUP", usage = "initial set of groups to be included in the group")
+  @Option(
+    name = "--group",
+    aliases = "-g",
+    metaVar = "GROUP",
+    usage = "initial set of groups to be included in the group"
+  )
   void addGroup(final AccountGroup.UUID id) {
     initialGroups.add(id);
   }
 
-  @Inject
-  private CreateGroup.Factory createGroupFactory;
+  @Inject private CreateGroup.Factory createGroupFactory;
 
-  @Inject
-  private GroupsCollection groups;
+  @Inject private GroupsCollection groups;
 
-  @Inject
-  private AddMembers addMembers;
+  @Inject private AddMembers addMembers;
 
-  @Inject
-  private AddIncludedGroups addIncludedGroups;
+  @Inject private AddIncludedGroups addIncludedGroups;
 
   @Override
   protected void run() throws Failure, OrmException, IOException {
@@ -105,8 +119,7 @@ final class CreateGroupCommand extends SshCommand {
     }
   }
 
-  private GroupResource createGroup()
-      throws RestApiException, OrmException, IOException {
+  private GroupResource createGroup() throws RestApiException, OrmException, IOException {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;
@@ -115,23 +128,21 @@ final class CreateGroupCommand extends SshCommand {
       input.ownerId = String.valueOf(ownerGroupId.get());
     }
 
-    GroupInfo group = createGroupFactory.create(groupName)
-        .apply(TopLevelResource.INSTANCE, input);
-    return groups.parse(TopLevelResource.INSTANCE,
-        IdString.fromUrl(group.id));
+    GroupInfo group = createGroupFactory.create(groupName).apply(TopLevelResource.INSTANCE, input);
+    return groups.parse(TopLevelResource.INSTANCE, IdString.fromUrl(group.id));
   }
 
-  private void addMembers(GroupResource rsrc) throws RestApiException,
-      OrmException, IOException {
-    AddMembers.Input input = AddMembers.Input.fromMembers(
-        initialMembers.stream().map(Object::toString).collect(toList()));
+  private void addMembers(GroupResource rsrc) throws RestApiException, OrmException, IOException {
+    AddMembers.Input input =
+        AddMembers.Input.fromMembers(
+            initialMembers.stream().map(Object::toString).collect(toList()));
     addMembers.apply(rsrc, input);
   }
 
-  private void addIncludedGroups(GroupResource rsrc) throws RestApiException,
-      OrmException {
-    AddIncludedGroups.Input input = AddIncludedGroups.Input.fromGroups(
-        initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));
+  private void addIncludedGroups(GroupResource rsrc) throws RestApiException, OrmException {
+    AddIncludedGroups.Input input =
+        AddIncludedGroups.Input.fromGroups(
+            initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));
     addIncludedGroups.apply(rsrc, input);
   }
 }

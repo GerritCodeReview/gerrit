@@ -15,10 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.extensions.client.ReviewerState;
-
-import org.eclipse.jgit.revwalk.FooterKey;
-
 import java.util.Arrays;
+import org.eclipse.jgit.revwalk.FooterKey;
 
 /** State of a reviewer on a change. */
 public enum ReviewerStateInternal {
@@ -40,9 +38,11 @@ public enum ReviewerStateInternal {
       ok &= s.name().equals(s.state.name());
     }
     if (!ok) {
-      throw new IllegalStateException("Mismatched reviewer state mapping: "
-          + Arrays.asList(ReviewerStateInternal.values()) + " != "
-          + Arrays.asList(ReviewerState.values()));
+      throw new IllegalStateException(
+          "Mismatched reviewer state mapping: "
+              + Arrays.asList(ReviewerStateInternal.values())
+              + " != "
+              + Arrays.asList(ReviewerState.values()));
     }
   }
 

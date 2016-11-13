@@ -29,44 +29,47 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VoteDeleted {
-  private static final Logger log =
-      LoggerFactory.getLogger(VoteDeleted.class);
+  private static final Logger log = LoggerFactory.getLogger(VoteDeleted.class);
 
   private final DynamicSet<VoteDeletedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  VoteDeleted(DynamicSet<VoteDeletedListener> listeners,
-      EventUtil util) {
+  VoteDeleted(DynamicSet<VoteDeletedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps,
+  public void fire(
+      Change change,
+      PatchSet ps,
       Map<String, Short> approvals,
       Map<String, Short> oldApprovals,
-      NotifyHandling notify, String message,
-      Account remover, Timestamp when) {
+      NotifyHandling notify,
+      String message,
+      Account remover,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.revisionInfo(change.getProject(), ps),
-          util.approvals(remover, approvals, when),
-          util.approvals(remover, oldApprovals, when),
-          notify, message,
-          util.accountInfo(remover), when);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), ps),
+              util.approvals(remover, approvals, when),
+              util.approvals(remover, oldApprovals, when),
+              notify,
+              message,
+              util.accountInfo(remover),
+              when);
       for (VoteDeletedListener l : listeners) {
         try {
           l.onVoteDeleted(event);
@@ -74,24 +77,26 @@ public class VoteDeleted {
           util.logEventListenerError(this, l, e);
         }
       }
-    } catch (PatchListNotAvailableException | GpgException | IOException
-        | OrmException e) {
+    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
       log.error("Couldn't fire event", e);
     }
   }
 
-  private static class Event extends AbstractRevisionEvent
-      implements VoteDeletedListener.Event {
+  private static class Event extends AbstractRevisionEvent implements VoteDeletedListener.Event {
 
     private final Map<String, ApprovalInfo> approvals;
     private final Map<String, ApprovalInfo> oldApprovals;
     private final String message;
 
-    Event(ChangeInfo change, RevisionInfo revision,
+    Event(
+        ChangeInfo change,
+        RevisionInfo revision,
         Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals,
-        NotifyHandling notify, String message,
-        AccountInfo remover, Timestamp when) {
+        NotifyHandling notify,
+        String message,
+        AccountInfo remover,
+        Timestamp when) {
       super(change, revision, remover, when, notify);
       this.approvals = approvals;
       this.oldApprovals = oldApprovals;

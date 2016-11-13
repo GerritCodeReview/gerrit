@@ -18,9 +18,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
 public interface Resources extends ClientBundle {
-  /**
-   * silk icons (CC-BY3.0): http://famfamfam.com/lab/icons/silk/
-   */
+  /** silk icons (CC-BY3.0): http://famfamfam.com/lab/icons/silk/ */
   @Source("note_add.png")
   ImageResource addFileComment();
 
@@ -98,10 +96,7 @@ public interface Resources extends ClientBundle {
   @Source("help.png")
   ImageResource question();
 
-  /**
-   * tango icon library (public domain):
-   * http://tango.freedesktop.org/Tango_Icon_Library
-   */
+  /** tango icon library (public domain): http://tango.freedesktop.org/Tango_Icon_Library */
   @Source("goNext.png")
   ImageResource goNext();
 
@@ -118,18 +113,14 @@ public interface Resources extends ClientBundle {
   @Source("merge.png")
   ImageResource merge();
 
-  /**
-   * contributed by the artist under Apache2.0
-   */
+  /** contributed by the artist under Apache2.0 */
   @Source("sideBySideDiff.png")
   ImageResource sideBySideDiff();
 
   @Source("unifiedDiff.png")
   ImageResource unifiedDiff();
 
-  /**
-   * contributed by the artist under CC-BY3.0
-   */
+  /** contributed by the artist under CC-BY3.0 */
   @Source("diffy26.png")
   ImageResource gerritAvatar26();
 }

@@ -17,19 +17,16 @@ package com.google.gerrit.server.validators;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.account.CreateGroupArgs;
 
-/**
- * Listener to provide validation on group creation.
- */
+/** Listener to provide validation on group creation. */
 @ExtensionPoint
 public interface GroupCreationValidationListener {
   /**
    * Group creation validation.
    *
-   * Invoked by Gerrit just before a new group is going to be created.
+   * <p>Invoked by Gerrit just before a new group is going to be created.
    *
    * @param args arguments for the group creation
    * @throws ValidationException if validation fails
    */
-  void validateNewGroup(CreateGroupArgs args)
-      throws ValidationException;
+  void validateNewGroup(CreateGroupArgs args) throws ValidationException;
 }

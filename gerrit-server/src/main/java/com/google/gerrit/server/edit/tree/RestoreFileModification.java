@@ -14,19 +14,18 @@
 
 package com.google.gerrit.server.edit.tree;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 /**
- * A {@code TreeModification} which restores a file. The file is added again if
- * it was present before the specified commit or deleted if it was absent.
+ * A {@code TreeModification} which restores a file. The file is added again if it was present
+ * before the specified commit or deleted if it was absent.
  */
 public class RestoreFileModification implements TreeModification {
 
@@ -37,28 +36,24 @@ public class RestoreFileModification implements TreeModification {
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository,
-      RevCommit baseCommit)
+  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit)
       throws IOException {
     if (baseCommit.getParentCount() == 0) {
-      DirCacheEditor.DeletePath deletePath =
-          new DirCacheEditor.DeletePath(filePath);
+      DirCacheEditor.DeletePath deletePath = new DirCacheEditor.DeletePath(filePath);
       return Collections.singletonList(deletePath);
     }
 
     RevCommit base = baseCommit.getParent(0);
     try (RevWalk revWalk = new RevWalk(repository)) {
       revWalk.parseHeaders(base);
-      try (TreeWalk treeWalk = TreeWalk.forPath(revWalk.getObjectReader(),
-          filePath, base.getTree())) {
+      try (TreeWalk treeWalk =
+          TreeWalk.forPath(revWalk.getObjectReader(), filePath, base.getTree())) {
         if (treeWalk == null) {
-          DirCacheEditor.DeletePath deletePath =
-              new DirCacheEditor.DeletePath(filePath);
+          DirCacheEditor.DeletePath deletePath = new DirCacheEditor.DeletePath(filePath);
           return Collections.singletonList(deletePath);
         }
 
-        AddPath addPath = new AddPath(filePath, treeWalk.getFileMode(0),
-            treeWalk.getObjectId(0));
+        AddPath addPath = new AddPath(filePath, treeWalk.getFileMode(0), treeWalk.getObjectId(0));
         return Collections.singletonList(addPath);
       }
     }

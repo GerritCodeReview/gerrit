@@ -25,9 +25,7 @@ public class HighlightSuggestionTest {
     String keyword = "key";
     String value = "somethingkeysomething";
     HighlightSuggestion suggestion = new HighlightSuggestion(keyword, value);
-    assertEquals(
-        "something<strong>key</strong>something",
-        suggestion.getDisplayString());
+    assertEquals("something<strong>key</strong>something", suggestion.getDisplayString());
     assertEquals(value, suggestion.getReplacementString());
   }
 

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
 import java.util.Comparator;
 
 public class GroupComparator implements Comparator<AccountGroup> {

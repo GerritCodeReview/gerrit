@@ -21,17 +21,14 @@ import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Argument;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LfsPluginAuthCommand extends SshCommand {
   public interface LfsSshPluginAuth {
-    String authenticate(CurrentUser user, List<String> args)
-        throws UnloggedFailure, Failure;
+    String authenticate(CurrentUser user, List<String> args) throws UnloggedFailure, Failure;
   }
 
   public static class Module extends CommandModule {
@@ -58,8 +55,7 @@ public class LfsPluginAuthCommand extends SshCommand {
   private List<String> args = new ArrayList<>();
 
   @Inject
-  LfsPluginAuthCommand(DynamicItem<LfsSshPluginAuth> auth,
-      Provider<CurrentUser> user) {
+  LfsPluginAuthCommand(DynamicItem<LfsSshPluginAuth> auth, Provider<CurrentUser> user) {
     this.auth = auth;
     this.user = user;
   }
@@ -68,8 +64,8 @@ public class LfsPluginAuthCommand extends SshCommand {
   protected void run() throws UnloggedFailure, Failure, Exception {
     LfsSshPluginAuth pluginAuth = auth.get();
     if (pluginAuth == null) {
-      throw new Failure(1, "Server configuration error:"
-          + " LFS auth over SSH is not properly configured.");
+      throw new Failure(
+          1, "Server configuration error:" + " LFS auth over SSH is not properly configured.");
     }
 
     stdout.print(pluginAuth.authenticate(user.get(), args));

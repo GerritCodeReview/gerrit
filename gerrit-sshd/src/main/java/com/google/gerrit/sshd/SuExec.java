@@ -25,24 +25,22 @@ import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
-
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 /**
  * Executes any other command as a different user identity.
- * <p>
- * The calling user must be authenticated as a {@link PeerDaemonUser}, which
- * usually requires public key authentication using this daemon's private host
- * key, or a key on this daemon's peer host key ring.
+ *
+ * <p>The calling user must be authenticated as a {@link PeerDaemonUser}, which usually requires
+ * public key authentication using this daemon's private host key, or a key on this daemon's peer
+ * host key ring.
  */
 public final class SuExec extends BaseCommand {
   private final SshScope sshScope;
@@ -66,7 +64,8 @@ public final class SuExec extends BaseCommand {
   private final AtomicReference<Command> atomicCmd;
 
   @Inject
-  SuExec(final SshScope sshScope,
+  SuExec(
+      final SshScope sshScope,
       @CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
       final CurrentUser caller,
       final SshSession session,
@@ -131,8 +130,7 @@ public final class SuExec extends BaseCommand {
     if (caller instanceof PeerDaemonUser) {
       caller = null;
     }
-    return new SshSession(session, peer,
-        userFactory.runAs(peer, accountId, caller));
+    return new SshSession(session, peer, userFactory.runAs(peer, accountId, caller));
   }
 
   private static String join(List<String> args) {

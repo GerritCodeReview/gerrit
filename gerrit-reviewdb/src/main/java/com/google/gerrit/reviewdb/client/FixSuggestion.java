@@ -21,8 +21,7 @@ public class FixSuggestion {
   public String description;
   public List<FixReplacement> replacements;
 
-  public FixSuggestion(String fixId, String description,
-      List<FixReplacement> replacements) {
+  public FixSuggestion(String fixId, String description, List<FixReplacement> replacements) {
     this.fixId = fixId;
     this.description = description;
     this.replacements = replacements;
@@ -30,10 +29,15 @@ public class FixSuggestion {
 
   @Override
   public String toString() {
-    return "FixSuggestion{" +
-        "fixId='" + fixId + '\'' +
-        ", description='" + description + '\'' +
-        ", replacements=" + replacements +
-        '}';
+    return "FixSuggestion{"
+        + "fixId='"
+        + fixId
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + ", replacements="
+        + replacements
+        + '}';
   }
 }

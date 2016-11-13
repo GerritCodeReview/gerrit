@@ -18,6 +18,8 @@ import java.net.URL;
 
 public interface ProxyProperties {
   URL getProxyUrl();
+
   String getUsername();
+
   String getPassword();
 }

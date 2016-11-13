@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -32,8 +31,10 @@ public class SuggestParentCandidates {
   private final AllProjectsName allProject;
 
   @Inject
-  SuggestParentCandidates(final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache, final AllProjectsName allProject) {
+  SuggestParentCandidates(
+      final ProjectControl.Factory projectControlFactory,
+      final ProjectCache projectCache,
+      final AllProjectsName allProject) {
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.allProject = allProject;
@@ -49,12 +50,14 @@ public class SuggestParentCandidates {
   }
 
   public List<Project> getProjects() throws NoSuchProjectException {
-    Set<Project> projects = new TreeSet<>(new Comparator<Project>() {
-      @Override
-      public int compare(Project o1, Project o2) {
-        return o1.getName().compareTo(o2.getName());
-      }
-    });
+    Set<Project> projects =
+        new TreeSet<>(
+            new Comparator<Project>() {
+              @Override
+              public int compare(Project o1, Project o2) {
+                return o1.getName().compareTo(o2.getName());
+              }
+            });
     for (Project.NameKey p : projectCache.all()) {
       try {
         final ProjectControl control = projectControlFactory.controlFor(p);

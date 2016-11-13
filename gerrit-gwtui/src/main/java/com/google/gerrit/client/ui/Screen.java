@@ -24,15 +24,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.View;
 
 /**
-  *  A Screen layout with a header and a body.
-  *
-  * The header is mainly a text title, but it can be decorated
-  * in the West, the East, and the FarEast by any Widget.  The
-  * West and East decorations will surround the text on the
-  * left and right respectively, and the FarEast will be right
-  * justified to the right edge of the screen.  The East
-  * decoration will expand to take up any extra space.
-  */
+ * A Screen layout with a header and a body.
+ *
+ * <p>The header is mainly a text title, but it can be decorated in the West, the East, and the
+ * FarEast by any Widget. The West and East decorations will surround the text on the left and right
+ * respectively, and the FarEast will be right justified to the right edge of the screen. The East
+ * decoration will expand to take up any extra space.
+ */
 public abstract class Screen extends View {
   private Grid header;
   private InlineLabel headerText;
@@ -67,11 +65,13 @@ public abstract class Screen extends View {
     }
   }
 
-  public void registerKeys() {
-  }
+  public void registerKeys() {}
 
   private enum Cols {
-    West, Title, East, FarEast
+    West,
+    Title,
+    East,
+    FarEast
   }
 
   protected void onInitUI() {
@@ -89,8 +89,9 @@ public abstract class Screen extends View {
     header.setWidget(0, Cols.Title.ordinal(), title);
 
     header.setStyleName(Gerrit.RESOURCES.css().screenHeader());
-    header.getCellFormatter().setHorizontalAlignment(0, Cols.FarEast.ordinal(),
-      HasHorizontalAlignment.ALIGN_RIGHT);
+    header
+        .getCellFormatter()
+        .setHorizontalAlignment(0, Cols.FarEast.ordinal(), HasHorizontalAlignment.ALIGN_RIGHT);
     // force FarEast all the way to the right
     header.getCellFormatter().setWidth(0, Cols.FarEast.ordinal(), "100%");
   }

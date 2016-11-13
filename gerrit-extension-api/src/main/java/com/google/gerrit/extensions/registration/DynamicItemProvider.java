@@ -21,15 +21,13 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
-
 import java.util.List;
 
 class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
   private final TypeLiteral<T> type;
   private final Key<DynamicItem<T>> key;
 
-  @Inject
-  private Injector injector;
+  @Inject private Injector injector;
 
   DynamicItemProvider(TypeLiteral<T> type, Key<DynamicItem<T>> key) {
     this.type = type;
@@ -46,10 +44,11 @@ class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
     if (bindings != null && bindings.size() == 1) {
       return bindings.get(0).getProvider();
     } else if (bindings != null && bindings.size() > 1) {
-      throw new ProvisionException(String.format(
-        "Multiple providers bound for DynamicItem<%s>\n"
-        + "This is not allowed; check the server configuration.",
-        type));
+      throw new ProvisionException(
+          String.format(
+              "Multiple providers bound for DynamicItem<%s>\n"
+                  + "This is not allowed; check the server configuration.",
+              type));
     } else {
       return null;
     }

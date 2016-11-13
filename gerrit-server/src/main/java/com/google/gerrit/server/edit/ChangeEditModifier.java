@@ -42,7 +42,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -58,17 +61,12 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Optional;
-import java.util.TimeZone;
-
 /**
  * Utility functions to manipulate change edits.
- * <p>
- * This class contains methods to modify edit's content.
- * For retrieving, publishing and deleting edit see
- * {@link ChangeEditUtil}.
+ *
+ * <p>This class contains methods to modify edit's content. For retrieving, publishing and deleting
+ * edit see {@link ChangeEditUtil}.
+ *
  * <p>
  */
 @Singleton
@@ -82,7 +80,8 @@ public class ChangeEditModifier {
   private final PatchSetUtil patchSetUtil;
 
   @Inject
-  ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
+  ChangeEditModifier(
+      @GerritPersonIdent PersonIdent gerritIdent,
       ChangeIndexer indexer,
       Provider<ReviewDb> reviewDb,
       Provider<CurrentUser> currentUser,
@@ -100,68 +99,64 @@ public class ChangeEditModifier {
    * Creates a new change edit.
    *
    * @param repository the affected Git repository
-   * @param changeControl the {@code ChangeControl} of the change for which
-   * the change edit should be created
-   * @throws AuthException if the user isn't authenticated or not allowed to
-   * use change edits
-   * @throws InvalidChangeOperationException if a change edit already existed
-   * for the change
+   * @param changeControl the {@code ChangeControl} of the change for which the change edit should
+   *     be created
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws InvalidChangeOperationException if a change edit already existed for the change
    */
   public void createEdit(Repository repository, ChangeControl changeControl)
-      throws AuthException, IOException, InvalidChangeOperationException,
-      OrmException {
+      throws AuthException, IOException, InvalidChangeOperationException, OrmException {
     ensureAuthenticatedAndPermitted(changeControl);
 
     Optional<ChangeEdit> changeEdit = lookupChangeEdit(changeControl);
     if (changeEdit.isPresent()) {
-      throw new InvalidChangeOperationException(String.format("A change edit "
-          + "already exists for change %s", changeControl.getId()));
+      throw new InvalidChangeOperationException(
+          String.format("A change edit " + "already exists for change %s", changeControl.getId()));
     }
 
     PatchSet currentPatchSet = lookupCurrentPatchSet(changeControl);
     ObjectId patchSetCommitId = getPatchSetCommitId(currentPatchSet);
-    createEditReference(repository, changeControl, currentPatchSet,
-        patchSetCommitId, TimeUtil.nowTs());
+    createEditReference(
+        repository, changeControl, currentPatchSet, patchSetCommitId, TimeUtil.nowTs());
   }
 
   /**
    * Rebase change edit on latest patch set
    *
    * @param repository the affected Git repository
-   * @param changeControl the {@code ChangeControl} of the change whose change
-   * edit should be rebased
-   * @throws AuthException if the user isn't authenticated or not allowed to
-   * use change edits
-   * @throws InvalidChangeOperationException if a change edit doesn't exist
-   * for the specified change, the change edit is already based on the latest
-   * patch set, or the change represents the root commit
+   * @param changeControl the {@code ChangeControl} of the change whose change edit should be
+   *     rebased
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws InvalidChangeOperationException if a change edit doesn't exist for the specified
+   *     change, the change edit is already based on the latest patch set, or the change represents
+   *     the root commit
    * @throws MergeConflictException if rebase fails due to merge conflicts
    */
   public void rebaseEdit(Repository repository, ChangeControl changeControl)
-      throws AuthException, InvalidChangeOperationException, IOException,
-      OrmException, MergeConflictException {
+      throws AuthException, InvalidChangeOperationException, IOException, OrmException,
+          MergeConflictException {
     ensureAuthenticatedAndPermitted(changeControl);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(changeControl);
     if (!optionalChangeEdit.isPresent()) {
-      throw new InvalidChangeOperationException(String.format(
-          "No change edit exists for change %s", changeControl.getId()));
+      throw new InvalidChangeOperationException(
+          String.format("No change edit exists for change %s", changeControl.getId()));
     }
     ChangeEdit changeEdit = optionalChangeEdit.get();
 
     PatchSet currentPatchSet = lookupCurrentPatchSet(changeControl);
     if (isBasedOn(changeEdit, currentPatchSet)) {
-      throw new InvalidChangeOperationException(String.format(
-          "Change edit for change %s is already based on latest patch set %s",
-          changeControl.getId(), currentPatchSet.getId()));
+      throw new InvalidChangeOperationException(
+          String.format(
+              "Change edit for change %s is already based on latest patch set %s",
+              changeControl.getId(), currentPatchSet.getId()));
     }
 
     rebase(repository, changeEdit, currentPatchSet);
   }
 
-  private void rebase(Repository repository, ChangeEdit changeEdit,
-      PatchSet currentPatchSet) throws IOException, MergeConflictException,
-      InvalidChangeOperationException, OrmException {
+  private void rebase(Repository repository, ChangeEdit changeEdit, PatchSet currentPatchSet)
+      throws IOException, MergeConflictException, InvalidChangeOperationException, OrmException {
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     if (currentEditCommit.getParentCount() == 0) {
       throw new InvalidChangeOperationException(
@@ -175,39 +170,42 @@ public class ChangeEditModifier {
     ObjectId newTreeId = merge(repository, changeEdit, basePatchSetTree);
     Timestamp nowTimestamp = TimeUtil.nowTs();
     String commitMessage = currentEditCommit.getFullMessage();
-    ObjectId newEditCommitId = createCommit(repository, basePatchSetCommit,
-        newTreeId, commitMessage, nowTimestamp);
+    ObjectId newEditCommitId =
+        createCommit(repository, basePatchSetCommit, newTreeId, commitMessage, nowTimestamp);
 
     String newEditRefName = getEditRefName(change, currentPatchSet);
-    updateReferenceWithNameChange(repository, changeEdit.getRefName(),
-        currentEditCommit, newEditRefName, newEditCommitId, nowTimestamp);
+    updateReferenceWithNameChange(
+        repository,
+        changeEdit.getRefName(),
+        currentEditCommit,
+        newEditRefName,
+        newEditCommitId,
+        nowTimestamp);
     reindex(change);
   }
 
   /**
-   * Modifies the commit message of a change edit. If the change edit doesn't
-   * exist, a new one will be created based on the current patch set.
+   * Modifies the commit message of a change edit. If the change edit doesn't exist, a new one will
+   * be created based on the current patch set.
    *
    * @param repository the affected Git repository
-   * @param changeControl the {@code ChangeControl} of the change whose change
-   * edit's message should be modified
+   * @param changeControl the {@code ChangeControl} of the change whose change edit's message should
+   *     be modified
    * @param newCommitMessage the new commit message
-   * @throws AuthException if the user isn't authenticated or not allowed to
-   * use change edits
-   * @throws UnchangedCommitMessageException if the commit message is the same
-   * as before
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws UnchangedCommitMessageException if the commit message is the same as before
    */
-  public void modifyMessage(Repository repository, ChangeControl changeControl,
-      String newCommitMessage) throws AuthException, IOException,
-      UnchangedCommitMessageException, OrmException {
+  public void modifyMessage(
+      Repository repository, ChangeControl changeControl, String newCommitMessage)
+      throws AuthException, IOException, UnchangedCommitMessageException, OrmException {
     ensureAuthenticatedAndPermitted(changeControl);
     newCommitMessage = getWellFormedCommitMessage(newCommitMessage);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(changeControl);
     PatchSet basePatchSet = getBasePatchSet(optionalChangeEdit, changeControl);
     RevCommit basePatchSetCommit = lookupCommit(repository, basePatchSet);
-    RevCommit baseCommit = optionalChangeEdit.map(ChangeEdit::getEditCommit)
-        .orElse(basePatchSetCommit);
+    RevCommit baseCommit =
+        optionalChangeEdit.map(ChangeEdit::getEditCommit).orElse(basePatchSetCommit);
 
     String currentCommitMessage = baseCommit.getFullMessage();
     if (newCommitMessage.equals(currentCommitMessage)) {
@@ -216,123 +214,111 @@ public class ChangeEditModifier {
 
     RevTree baseTree = baseCommit.getTree();
     Timestamp nowTimestamp = TimeUtil.nowTs();
-    ObjectId newEditCommit = createCommit(repository, basePatchSetCommit,
-        baseTree, newCommitMessage, nowTimestamp);
+    ObjectId newEditCommit =
+        createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
 
     if (optionalChangeEdit.isPresent()) {
-      updateEditReference(repository, optionalChangeEdit.get(), newEditCommit,
-          nowTimestamp);
+      updateEditReference(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
     } else {
-      createEditReference(repository, changeControl, basePatchSet,
-          newEditCommit, nowTimestamp);
+      createEditReference(repository, changeControl, basePatchSet, newEditCommit, nowTimestamp);
     }
   }
 
   /**
-   * Modifies the contents of a file of a change edit. If the change edit
-   * doesn't exist, a new one will be created based on the current patch set.
+   * Modifies the contents of a file of a change edit. If the change edit doesn't exist, a new one
+   * will be created based on the current patch set.
    *
    * @param repository the affected Git repository
-   * @param changeControl the {@code ChangeControl} of the change whose change
-   * edit should be modified
+   * @param changeControl the {@code ChangeControl} of the change whose change edit should be
+   *     modified
    * @param filePath the path of the file whose contents should be modified
    * @param newContent the new file content
-   * @throws AuthException if the user isn't authenticated or not allowed to
-   * use change edits
-   * @throws InvalidChangeOperationException if the file already had the
-   * specified content
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws InvalidChangeOperationException if the file already had the specified content
    */
-  public void modifyFile(Repository repository, ChangeControl changeControl,
-      String filePath, RawInput newContent) throws AuthException,
-      InvalidChangeOperationException, IOException, OrmException {
-    modifyTree(repository, changeControl,
-        new ChangeFileContentModification(filePath, newContent));
+  public void modifyFile(
+      Repository repository, ChangeControl changeControl, String filePath, RawInput newContent)
+      throws AuthException, InvalidChangeOperationException, IOException, OrmException {
+    modifyTree(repository, changeControl, new ChangeFileContentModification(filePath, newContent));
   }
 
   /**
-   * Deletes a file from the Git tree of a change edit. If the change edit
-   * doesn't exist, a new one will be created based on the current patch set.
+   * Deletes a file from the Git tree of a change edit. If the change edit doesn't exist, a new one
+   * will be created based on the current patch set.
    *
    * @param repository the affected Git repository
-   * @param changeControl the {@code ChangeControl} of the change whose change
-   * edit should be modified
+   * @param changeControl the {@code ChangeControl} of the change whose change edit should be
+   *     modified
    * @param file path of the file which should be deleted
-   * @throws AuthException if the user isn't authenticated or not allowed to
-   * use change edits
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the file does not exist
    */
-  public void deleteFile(Repository repository, ChangeControl changeControl,
-      String file) throws AuthException, InvalidChangeOperationException,
-      IOException, OrmException {
+  public void deleteFile(Repository repository, ChangeControl changeControl, String file)
+      throws AuthException, InvalidChangeOperationException, IOException, OrmException {
     modifyTree(repository, changeControl, new DeleteFileModification(file));
   }
 
   /**
-   * Renames a file of a change edit or moves it to another directory. If the
-   * change edit doesn't exist, a new one will be created based on the current
-   * patch set.
+   * Renames a file of a change edit or moves it to another directory. If the change edit doesn't
+   * exist, a new one will be created based on the current patch set.
    *
    * @param repository the affected Git repository
-   * @param changeControl the {@code ChangeControl} of the change whose change
-   * edit should be modified
+   * @param changeControl the {@code ChangeControl} of the change whose change edit should be
+   *     modified
    * @param currentFilePath the current path/name of the file
    * @param newFilePath the desired path/name of the file
-   * @throws AuthException if the user isn't authenticated or not allowed to
-   * use change edits
-   * @throws InvalidChangeOperationException if the file was already renamed
-   * to the specified new name
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
+   * @throws InvalidChangeOperationException if the file was already renamed to the specified new
+   *     name
    */
-  public void renameFile(Repository repository, ChangeControl changeControl,
-      String currentFilePath, String newFilePath) throws AuthException,
-      InvalidChangeOperationException, IOException, OrmException {
-    modifyTree(repository, changeControl,
-        new RenameFileModification(currentFilePath, newFilePath));
+  public void renameFile(
+      Repository repository,
+      ChangeControl changeControl,
+      String currentFilePath,
+      String newFilePath)
+      throws AuthException, InvalidChangeOperationException, IOException, OrmException {
+    modifyTree(repository, changeControl, new RenameFileModification(currentFilePath, newFilePath));
   }
 
   /**
-   * Restores a file of a change edit to the state it was in before the patch
-   * set on which the change edit is based. If the change edit doesn't exist, a
-   * new one will be created based on the current patch set.
+   * Restores a file of a change edit to the state it was in before the patch set on which the
+   * change edit is based. If the change edit doesn't exist, a new one will be created based on the
+   * current patch set.
    *
    * @param repository the affected Git repository
-   * @param changeControl the {@code ChangeControl} of the change whose change
-   * edit should be modified
+   * @param changeControl the {@code ChangeControl} of the change whose change edit should be
+   *     modified
    * @param file the path of the file which should be restored
-   * @throws AuthException if the user isn't authenticated or not allowed to
-   * use change edits
+   * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the file was already restored
    */
-  public void restoreFile(Repository repository, ChangeControl changeControl,
-      String file) throws AuthException, InvalidChangeOperationException,
-      IOException, OrmException {
+  public void restoreFile(Repository repository, ChangeControl changeControl, String file)
+      throws AuthException, InvalidChangeOperationException, IOException, OrmException {
     modifyTree(repository, changeControl, new RestoreFileModification(file));
   }
 
-  private void modifyTree(Repository repository, ChangeControl changeControl,
-      TreeModification treeModification) throws AuthException, IOException,
-      OrmException, InvalidChangeOperationException {
+  private void modifyTree(
+      Repository repository, ChangeControl changeControl, TreeModification treeModification)
+      throws AuthException, IOException, OrmException, InvalidChangeOperationException {
     ensureAuthenticatedAndPermitted(changeControl);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(changeControl);
     PatchSet basePatchSet = getBasePatchSet(optionalChangeEdit, changeControl);
     RevCommit basePatchSetCommit = lookupCommit(repository, basePatchSet);
-    RevCommit baseCommit = optionalChangeEdit.map(ChangeEdit::getEditCommit)
-        .orElse(basePatchSetCommit);
+    RevCommit baseCommit =
+        optionalChangeEdit.map(ChangeEdit::getEditCommit).orElse(basePatchSetCommit);
 
-    ObjectId newTreeId = createNewTree(repository, baseCommit,
-        treeModification);
+    ObjectId newTreeId = createNewTree(repository, baseCommit, treeModification);
 
     String commitMessage = baseCommit.getFullMessage();
     Timestamp nowTimestamp = TimeUtil.nowTs();
-    ObjectId newEditCommit = createCommit(repository, basePatchSetCommit,
-        newTreeId, commitMessage, nowTimestamp);
+    ObjectId newEditCommit =
+        createCommit(repository, basePatchSetCommit, newTreeId, commitMessage, nowTimestamp);
 
     if (optionalChangeEdit.isPresent()) {
-      updateEditReference(repository, optionalChangeEdit.get(), newEditCommit,
-          nowTimestamp);
+      updateEditReference(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
     } else {
-      createEditReference(repository, changeControl, basePatchSet,
-          newEditCommit, nowTimestamp);
+      createEditReference(repository, changeControl, basePatchSet, newEditCommit, nowTimestamp);
     }
   }
 
@@ -348,8 +334,7 @@ public class ChangeEditModifier {
     }
   }
 
-  private void ensurePermitted(ChangeControl changeControl)
-      throws OrmException, AuthException {
+  private void ensurePermitted(ChangeControl changeControl) throws OrmException, AuthException {
     if (!changeControl.canAddPatchSet(reviewDb.get())) {
       throw new AuthException("Not allowed to edit a change.");
     }
@@ -357,8 +342,7 @@ public class ChangeEditModifier {
 
   private String getWellFormedCommitMessage(String commitMessage) {
     String wellFormedMessage = Strings.nullToEmpty(commitMessage).trim();
-    checkState(!wellFormedMessage.isEmpty(),
-        "Commit message cannot be null or empty");
+    checkState(!wellFormedMessage.isEmpty(), "Commit message cannot be null or empty");
     wellFormedMessage = wellFormedMessage + "\n";
     return wellFormedMessage;
   }
@@ -368,17 +352,15 @@ public class ChangeEditModifier {
     return changeEditUtil.byChange(changeControl);
   }
 
-  private PatchSet getBasePatchSet(Optional<ChangeEdit> optionalChangeEdit,
-      ChangeControl changeControl) throws OrmException {
-    Optional<PatchSet> editBasePatchSet =
-        optionalChangeEdit.map(ChangeEdit::getBasePatchSet);
+  private PatchSet getBasePatchSet(
+      Optional<ChangeEdit> optionalChangeEdit, ChangeControl changeControl) throws OrmException {
+    Optional<PatchSet> editBasePatchSet = optionalChangeEdit.map(ChangeEdit::getBasePatchSet);
     return editBasePatchSet.isPresent()
         ? editBasePatchSet.get()
         : lookupCurrentPatchSet(changeControl);
   }
 
-  private PatchSet lookupCurrentPatchSet(ChangeControl changeControl)
-      throws OrmException {
+  private PatchSet lookupCurrentPatchSet(ChangeControl changeControl) throws OrmException {
     return patchSetUtil.current(reviewDb.get(), changeControl.getNotes());
   }
 
@@ -387,16 +369,16 @@ public class ChangeEditModifier {
     return editBasePatchSet.getId().equals(patchSet.getId());
   }
 
-  private static RevCommit lookupCommit(Repository repository,
-      PatchSet patchSet) throws IOException {
+  private static RevCommit lookupCommit(Repository repository, PatchSet patchSet)
+      throws IOException {
     ObjectId patchSetCommitId = getPatchSetCommitId(patchSet);
     try (RevWalk revWalk = new RevWalk(repository)) {
       return revWalk.parseCommit(patchSetCommitId);
     }
   }
 
-  private static ObjectId createNewTree(Repository repository,
-      RevCommit baseCommit, TreeModification treeModification)
+  private static ObjectId createNewTree(
+      Repository repository, RevCommit baseCommit, TreeModification treeModification)
       throws IOException, InvalidChangeOperationException {
     TreeCreator treeCreator = new TreeCreator(baseCommit);
     treeCreator.addTreeModification(treeModification);
@@ -408,14 +390,13 @@ public class ChangeEditModifier {
     return newTreeId;
   }
 
-  private ObjectId merge(Repository repository, ChangeEdit changeEdit,
-      ObjectId newTreeId) throws IOException, MergeConflictException {
+  private ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
+      throws IOException, MergeConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
     ObjectId basePatchSetCommitId = getPatchSetCommitId(basePatchSet);
     ObjectId editCommitId = changeEdit.getEditCommit();
 
-    ThreeWayMerger threeWayMerger =
-        MergeStrategy.RESOLVE.newMerger(repository, true);
+    ThreeWayMerger threeWayMerger = MergeStrategy.RESOLVE.newMerger(repository, true);
     threeWayMerger.setBase(basePatchSetCommitId);
     boolean successful = threeWayMerger.merge(newTreeId, editCommitId);
 
@@ -426,9 +407,13 @@ public class ChangeEditModifier {
     return threeWayMerger.getResultTreeId();
   }
 
-  private ObjectId createCommit(Repository repository,
-      RevCommit basePatchSetCommit, ObjectId tree, String commitMessage,
-      Timestamp timestamp) throws IOException {
+  private ObjectId createCommit(
+      Repository repository,
+      RevCommit basePatchSetCommit,
+      ObjectId tree,
+      String commitMessage,
+      Timestamp timestamp)
+      throws IOException {
     try (ObjectInserter objectInserter = repository.newObjectInserter()) {
       CommitBuilder builder = new CommitBuilder();
       builder.setTreeId(tree);
@@ -451,35 +436,39 @@ public class ChangeEditModifier {
     return ObjectId.fromString(patchSet.getRevision().get());
   }
 
-  private void createEditReference(Repository repository,
-      ChangeControl changeControl, PatchSet basePatchSet,
-      ObjectId newEditCommit, Timestamp timestamp)
+  private void createEditReference(
+      Repository repository,
+      ChangeControl changeControl,
+      PatchSet basePatchSet,
+      ObjectId newEditCommit,
+      Timestamp timestamp)
       throws IOException, OrmException {
     Change change = changeControl.getChange();
     String editRefName = getEditRefName(change, basePatchSet);
-    updateReference(repository, editRefName, ObjectId.zeroId(), newEditCommit,
-        timestamp);
+    updateReference(repository, editRefName, ObjectId.zeroId(), newEditCommit, timestamp);
     reindex(change);
   }
 
   private String getEditRefName(Change change, PatchSet basePatchSet) {
     IdentifiedUser me = currentUser.get().asIdentifiedUser();
-    return RefNames.refsEdit(me.getAccountId(), change.getId(),
-        basePatchSet.getId());
+    return RefNames.refsEdit(me.getAccountId(), change.getId(), basePatchSet.getId());
   }
 
-  private void updateEditReference(Repository repository, ChangeEdit changeEdit,
-      ObjectId newEditCommit, Timestamp timestamp)
+  private void updateEditReference(
+      Repository repository, ChangeEdit changeEdit, ObjectId newEditCommit, Timestamp timestamp)
       throws IOException, OrmException {
     String editRefName = changeEdit.getRefName();
     RevCommit currentEditCommit = changeEdit.getEditCommit();
-    updateReference(repository, editRefName, currentEditCommit, newEditCommit,
-        timestamp);
+    updateReference(repository, editRefName, currentEditCommit, newEditCommit, timestamp);
     reindex(changeEdit.getChange());
   }
 
-  private void updateReference(Repository repository, String refName,
-      ObjectId currentObjectId, ObjectId targetObjectId, Timestamp timestamp)
+  private void updateReference(
+      Repository repository,
+      String refName,
+      ObjectId currentObjectId,
+      ObjectId targetObjectId,
+      Timestamp timestamp)
       throws IOException {
     RefUpdate ru = repository.updateRef(refName);
     ru.setExpectedOldObjectId(currentObjectId);
@@ -495,16 +484,18 @@ public class ChangeEditModifier {
     }
   }
 
-  private void updateReferenceWithNameChange(Repository repository,
-      String currentRefName, ObjectId currentObjectId, String newRefName,
-      ObjectId targetObjectId, Timestamp timestamp)
+  private void updateReferenceWithNameChange(
+      Repository repository,
+      String currentRefName,
+      ObjectId currentObjectId,
+      String newRefName,
+      ObjectId targetObjectId,
+      Timestamp timestamp)
       throws IOException {
-    BatchRefUpdate batchRefUpdate =
-        repository.getRefDatabase().newBatchUpdate();
-    batchRefUpdate.addCommand(new ReceiveCommand(ObjectId.zeroId(),
-        targetObjectId, newRefName));
-    batchRefUpdate.addCommand(new ReceiveCommand(currentObjectId,
-        ObjectId.zeroId(), currentRefName));
+    BatchRefUpdate batchRefUpdate = repository.getRefDatabase().newBatchUpdate();
+    batchRefUpdate.addCommand(new ReceiveCommand(ObjectId.zeroId(), targetObjectId, newRefName));
+    batchRefUpdate.addCommand(
+        new ReceiveCommand(currentObjectId, ObjectId.zeroId(), currentRefName));
     batchRefUpdate.setRefLogMessage("rebase edit", false);
     batchRefUpdate.setRefLogIdent(getRefLogIdent(timestamp));
     try (RevWalk revWalk = new RevWalk(repository)) {

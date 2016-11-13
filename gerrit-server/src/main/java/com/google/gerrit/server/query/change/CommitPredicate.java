@@ -48,8 +48,7 @@ class CommitPredicate extends ChangeIndexPredicate {
   private boolean equals(PatchSet p, String id) {
     boolean exact = getField() == EXACT_COMMIT;
     String rev = p.getRevision() != null ? p.getRevision().get() : null;
-    return (exact && id.equals(rev))
-        || (!exact && rev != null && rev.startsWith(id));
+    return (exact && id.equals(rev)) || (!exact && rev != null && rev.startsWith(id));
   }
 
   @Override

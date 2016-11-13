@@ -23,15 +23,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 /** Helps with the updating of a {@link VersionedMetaData}. */
 public class MetaDataUpdate implements AutoCloseable {
@@ -42,7 +40,9 @@ public class MetaDataUpdate implements AutoCloseable {
     private final Provider<IdentifiedUser> identifiedUser;
 
     @Inject
-    User(InternalFactory factory, GitRepositoryManager mgr,
+    User(
+        InternalFactory factory,
+        GitRepositoryManager mgr,
         @GerritPersonIdent PersonIdent serverIdent,
         Provider<IdentifiedUser> identifiedUser) {
       this.factory = factory;
@@ -65,20 +65,18 @@ public class MetaDataUpdate implements AutoCloseable {
       return create(name, user, null);
     }
 
-  /**
-   * Create an update using an existing batch ref update.
-   * <p>
-   * This allows batching together updates to multiple metadata refs. For making
-   * multiple commits to a single metadata ref, see
-   * {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
-   *
-   * @param name project name.
-   * @param user user for the update.
-   * @param batch batch update to use; the caller is responsible for committing
-   *     the update.
-   */
-    public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user,
-        BatchRefUpdate batch) throws RepositoryNotFoundException, IOException {
+    /**
+     * Create an update using an existing batch ref update.
+     *
+     * <p>This allows batching together updates to multiple metadata refs. For making multiple
+     * commits to a single metadata ref, see {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
+     *
+     * @param name project name.
+     * @param user user for the update.
+     * @param batch batch update to use; the caller is responsible for committing the update.
+     */
+    public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user, BatchRefUpdate batch)
+        throws RepositoryNotFoundException, IOException {
       Repository repo = mgr.openRepository(name);
       MetaDataUpdate md = create(name, repo, user, batch);
       md.setCloseRepository(true);
@@ -87,12 +85,12 @@ public class MetaDataUpdate implements AutoCloseable {
 
     /**
      * Create an update using an existing batch ref update.
-     * <p>
-     * This allows batching together updates to multiple metadata refs. For making
-     * multiple commits to a single metadata ref, see
-     * {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
      *
-     * Important: Create a new MetaDataUpdate instance for each update:
+     * <p>This allows batching together updates to multiple metadata refs. For making multiple
+     * commits to a single metadata ref, see {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
+     *
+     * <p>Important: Create a new MetaDataUpdate instance for each update:
+     *
      * <pre>
      * <code>
      *   try (Repository repo = repoMgr.openRepository(allUsersName);
@@ -120,14 +118,13 @@ public class MetaDataUpdate implements AutoCloseable {
      * </pre>
      *
      * @param name project name.
-     * @param repository the repository to update; the caller is responsible for
-     *     closing the repository.
+     * @param repository the repository to update; the caller is responsible for closing the
+     *     repository.
      * @param user user for the update.
-     * @param batch batch update to use; the caller is responsible for committing
-     *     the update.
+     * @param batch batch update to use; the caller is responsible for committing the update.
      */
-    public MetaDataUpdate create(Project.NameKey name, Repository repository,
-        IdentifiedUser user, BatchRefUpdate batch) {
+    public MetaDataUpdate create(
+        Project.NameKey name, Repository repository, IdentifiedUser user, BatchRefUpdate batch) {
       MetaDataUpdate md = factory.create(name, repository, batch);
       md.getCommitBuilder().setCommitter(serverIdent);
       md.setAuthor(user);
@@ -135,8 +132,7 @@ public class MetaDataUpdate implements AutoCloseable {
     }
 
     private PersonIdent createPersonIdent(IdentifiedUser user) {
-      return user.newCommitterIdent(
-          serverIdent.getWhen(), serverIdent.getTimeZone());
+      return user.newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
     }
   }
 
@@ -146,7 +142,9 @@ public class MetaDataUpdate implements AutoCloseable {
     private final PersonIdent serverIdent;
 
     @Inject
-    Server(InternalFactory factory, GitRepositoryManager mgr,
+    Server(
+        InternalFactory factory,
+        GitRepositoryManager mgr,
         @GerritPersonIdent PersonIdent serverIdent) {
       this.factory = factory;
       this.mgr = mgr;
@@ -171,7 +169,8 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   interface InternalFactory {
-    MetaDataUpdate create(@Assisted Project.NameKey projectName,
+    MetaDataUpdate create(
+        @Assisted Project.NameKey projectName,
         @Assisted Repository repository,
         @Assisted @Nullable BatchRefUpdate batch);
   }
@@ -187,8 +186,10 @@ public class MetaDataUpdate implements AutoCloseable {
   private IdentifiedUser author;
 
   @AssistedInject
-  public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
-      @Assisted Project.NameKey projectName, @Assisted Repository repository,
+  public MetaDataUpdate(
+      GitReferenceUpdated gitRefUpdated,
+      @Assisted Project.NameKey projectName,
+      @Assisted Repository repository,
       @Assisted @Nullable BatchRefUpdate batch) {
     this.gitRefUpdated = gitRefUpdated;
     this.projectName = projectName;
@@ -197,8 +198,8 @@ public class MetaDataUpdate implements AutoCloseable {
     this.commit = new CommitBuilder();
   }
 
-  public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
-      Project.NameKey projectName, Repository repository) {
+  public MetaDataUpdate(
+      GitReferenceUpdated gitRefUpdated, Project.NameKey projectName, Repository repository) {
     this(gitRefUpdated, projectName, repository, null);
   }
 
@@ -209,9 +210,11 @@ public class MetaDataUpdate implements AutoCloseable {
 
   public void setAuthor(IdentifiedUser author) {
     this.author = author;
-    getCommitBuilder().setAuthor(author.newCommitterIdent(
-        getCommitBuilder().getCommitter().getWhen(),
-        getCommitBuilder().getCommitter().getTimeZone()));
+    getCommitBuilder()
+        .setAuthor(
+            author.newCommitterIdent(
+                getCommitBuilder().getCommitter().getWhen(),
+                getCommitBuilder().getCommitter().getTimeZone()));
   }
 
   public void setAllowEmpty(boolean allowEmpty) {
@@ -260,7 +263,6 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   protected void fireGitRefUpdatedEvent(RefUpdate ru) {
-    gitRefUpdated.fire(
-        projectName, ru, author == null ? null : author.getAccount());
+    gitRefUpdated.fire(projectName, ru, author == null ? null : author.getAccount());
   }
 }

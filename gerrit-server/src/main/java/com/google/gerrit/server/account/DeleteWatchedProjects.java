@@ -29,11 +29,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteWatchedProjects
@@ -43,9 +41,8 @@ public class DeleteWatchedProjects
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  DeleteWatchedProjects(Provider<IdentifiedUser> self,
-      AccountCache accountCache,
-      WatchConfig.Accessor watchConfig) {
+  DeleteWatchedProjects(
+      Provider<IdentifiedUser> self, AccountCache accountCache, WatchConfig.Accessor watchConfig) {
     this.self = self;
     this.accountCache = accountCache;
     this.watchConfig = watchConfig;
@@ -53,12 +50,10 @@ public class DeleteWatchedProjects
 
   @Override
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
-      throws AuthException, UnprocessableEntityException, OrmException,
-      IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("It is not allowed to edit project watches "
-          + "of other users");
+      throws AuthException, UnprocessableEntityException, OrmException, IOException,
+          ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("It is not allowed to edit project watches " + "of other users");
     }
     if (input == null) {
       return Response.none();
@@ -67,8 +62,9 @@ public class DeleteWatchedProjects
     Account.Id accountId = rsrc.getUser().getAccountId();
     watchConfig.deleteProjectWatches(
         accountId,
-        input.stream().map(w -> ProjectWatchKey.create(
-                new Project.NameKey(w.project), w.filter))
+        input
+            .stream()
+            .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
             .collect(toList()));
     accountCache.evict(accountId);
     return Response.none();

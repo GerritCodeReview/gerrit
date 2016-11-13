@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b70b387_543d4c7e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-13T02:49:07Z",
+      "side": 1,
+      "message": "IE does not support `Array.prototype.includes`.\n\nMoreover, I suspect this would be easier to read as two simple for loops. Such as ...\n\n    var missingApprovals \u003d [];\n    for (var label in change.labels) {\n      if (change.labels.hasOwnProperty(label) \u0026\u0026\n          !change.labels[label].approved) {\n        missingApprovals.push(label);\n      }\n    }\n    for (label in change.permitted_labels) {\n      if (change.permitted_labels.hasOwnProperty(label) \u0026\u0026 \n          missingApprovals.indexOf(label) !\u003d\u003d -1) {\n        return true;\n      }\n    }\n    return false;",
+      "range": {
+        "startLine": 308,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 77
+      },
+      "revId": "5c836fa448a16ea76bd6f6627028b22f1af800a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_3440d0ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-13T02:49:07Z",
+      "side": 1,
+      "message": "Optional: the use of array methods here strikes me as odd. I\u0027m not sure if it\u0027s cleaner, but consider doing it without, such as ...\n\n    var values;\n    for (var label in permitted) {\n      if (permitted.hasOwnProperty(label)) {\n        // Set label to maximal score permitted for it.\n        values \u003d permitted[label];\n        review.labels[label] \u003d values[values.length - 1];\n      }\n    }\n\nIn particular, `.slice(-1).pop();` is a strange way to get the last element of an array. Even `.slice(-1)[0]` seems better to me.",
+      "range": {
+        "startLine": 378,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 11
+      },
+      "revId": "5c836fa448a16ea76bd6f6627028b22f1af800a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_743a4889",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-13T02:49:07Z",
+      "side": 1,
+      "message": "Add a trailing comma here, and on ll.532,547.",
+      "range": {
+        "startLine": 505,
+        "startChar": 10,
+        "endLine": 505,
+        "endChar": 11
+      },
+      "revId": "5c836fa448a16ea76bd6f6627028b22f1af800a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

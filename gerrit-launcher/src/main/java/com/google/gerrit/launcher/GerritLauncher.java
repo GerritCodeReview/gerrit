@@ -16,6 +16,7 @@ package com.google.gerrit.launcher;
 
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,6 +43,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.jar.Attributes;
@@ -622,20 +624,47 @@ public final class GerritLauncher {
     return resolveInSourceRoot("eclipse-out");
   }
 
-  /**
-   * Locate the path of the {@code buck-out} directory in a source tree.
-   *
-   * @return local path of the {@code buck-out} directory in a source tree.
-   * @throws FileNotFoundException if the directory cannot be found.
-   */
-  public static Path getDeveloperBuckOut() throws FileNotFoundException {
-    return resolveInSourceRoot("buck-out");
+  static String SOURCE_ROOT_RESOURCE = "/gerrit-launcher/workspace-root.txt";
+
+  /** returns whether we're running out of a bazel build. */
+  public static boolean isBazel() {
+    Class<GerritLauncher> self = GerritLauncher.class;
+    URL rootURL = self.getResource(SOURCE_ROOT_RESOURCE);
+    return rootURL != null;
   }
 
-  private static Path resolveInSourceRoot(String name)
+  /**
+   * Locate a path in the source tree.
+   *
+   * @return local path of the {@code name} directory in a source tree.
+   * @throws FileNotFoundException if the directory cannot be found.
+   */
+  public static Path resolveInSourceRoot(String name)
       throws FileNotFoundException {
+
     // Find ourselves in the classpath, as a loose class file or jar.
     Class<GerritLauncher> self = GerritLauncher.class;
+
+    // If the build system provides us with a source root, use that.
+    try (InputStream stream = self.getResourceAsStream(SOURCE_ROOT_RESOURCE)) {
+      System.err.println("URL: " + stream);
+      if (stream != null) {
+        try (Scanner scan =
+            new Scanner(stream, UTF_8.name()).useDelimiter("\n")) {
+          if (scan.hasNext()) {
+            Path p = Paths.get(scan.next());
+            if (!Files.exists(p)) {
+              throw new FileNotFoundException(
+                  "source root not found: " + p);
+            }
+            return p;
+          }
+        }
+      }
+    } catch (IOException e) {
+      // not Bazel, then.
+    }
+
     URL u = self.getResource(self.getSimpleName() + ".class");
     if (u == null) {
       throw new FileNotFoundException("Cannot find class " + self.getName());
@@ -674,7 +703,7 @@ public final class GerritLauncher {
 
   private static ClassLoader useDevClasspath()
       throws MalformedURLException, FileNotFoundException {
-    Path out = getDeveloperEclipseOut();
+    Path out = resolveInSourceRoot("eclipse-out");
     List<URL> dirs = new ArrayList<>();
     dirs.add(out.resolve("classes").toUri().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();

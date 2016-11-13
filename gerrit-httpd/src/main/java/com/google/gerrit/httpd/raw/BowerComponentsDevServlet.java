@@ -28,7 +28,6 @@ class BowerComponentsDevServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
 
   private final Path bowerComponents;
-  private final String buildCommand;
   private final Path zip;
 
   BowerComponentsDevServlet(Cache<Path, Resource> cache,
@@ -36,25 +35,21 @@ class BowerComponentsDevServlet extends ResourceServlet {
     super(cache, true);
 
     Objects.requireNonNull(builder);
-    Label pgLabel = builder.polygerritComponents();
-    buildCommand = builder.buildCommand(pgLabel);
+    Label label = builder.polygerritComponents();
+    try {
+      builder.build(label);
+    } catch (BuildSystem.BuildFailureException e) {
+      throw new IOException(e);
+    }
 
-    zip = builder.targetPath(pgLabel);
-    if (zip == null || !Files.exists(zip)) {
-      bowerComponents = null;
-    } else {
-      bowerComponents = GerritLauncher
+    zip = builder.targetPath(label);
+    bowerComponents = GerritLauncher
           .newZipFileSystem(zip)
           .getPath("/");
-    }
   }
 
   @Override
   protected Path getResourcePath(String pathInfo) throws IOException {
-    if (bowerComponents == null) {
-      throw new IOException("No polymer components found: " + zip
-          + ". Run `" + buildCommand + "`?");
-    }
     return bowerComponents.resolve(pathInfo);
   }
 }

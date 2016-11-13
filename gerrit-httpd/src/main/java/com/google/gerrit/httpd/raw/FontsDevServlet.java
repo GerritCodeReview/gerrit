@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletResponse;
+
 /* Font servlet only used in development mode */
 class FontsDevServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
@@ -32,7 +34,14 @@ class FontsDevServlet extends ResourceServlet {
     super(cache, true);
     Objects.requireNonNull(builder);
 
-    Path zip = builder.targetPath(builder.fontZipLabel());
+    BuildSystem.Label zipLabel = builder.fontZipLabel();
+    try {
+      builder.build(zipLabel);
+    } catch (BuildSystem.BuildFailureException e) {
+      throw new IOException(e);
+    }
+
+    Path zip = builder.targetPath(zipLabel);
     Objects.requireNonNull(zip);
 
     fonts = GerritLauncher.newZipFileSystem(zip).getPath("/");

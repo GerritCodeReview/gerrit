@@ -16,64 +16,27 @@ package com.google.gerrit.httpd.raw;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.google.common.io.ByteStreams;
-import com.google.gerrit.common.TimeUtil;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InterruptedIOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Properties;
 
-class BuckUtils implements BuildSystem {
-  private static final Logger log =
-      LoggerFactory.getLogger(BuckUtils.class);
-  private final Path sourceRoot;
-
+class BuckUtils extends BuildSystem {
   BuckUtils(Path sourceRoot) {
-    this.sourceRoot = sourceRoot;
+    super(sourceRoot);
   }
 
-  @Override
-  public void build(Label label)
-      throws IOException, BuildFailureException {
-    log.info("buck build " + label.fullName());
+  protected ProcessBuilder newBuildProcess(Label label) throws IOException {
     Properties properties = loadBuckProperties(
         sourceRoot.resolve("buck-out/gen/tools/buck/buck.properties"));
     String buck = firstNonNull(properties.getProperty("buck"), "buck");
-    ProcessBuilder proc = new ProcessBuilder(buck, "build", label.fullName())
-        .directory(sourceRoot.toFile())
-        .redirectErrorStream(true);
+    ProcessBuilder proc = new ProcessBuilder(buck, "build", label.fullName());
     if (properties.containsKey("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
     }
-    long start = TimeUtil.nowMs();
-    Process rebuild = proc.start();
-    byte[] out;
-    try (InputStream in = rebuild.getInputStream()) {
-      out = ByteStreams.toByteArray(in);
-    } finally {
-      rebuild.getOutputStream().close();
-    }
-
-    int status;
-    try {
-      status = rebuild.waitFor();
-    } catch (InterruptedException e) {
-      throw new InterruptedIOException("interrupted waiting for " + buck);
-    }
-    if (status != 0) {
-      throw new BuildFailureException(out);
-    }
-
-    long time = TimeUtil.nowMs() - start;
-    log.info(String.format("UPDATED    %s in %.3fs", label.fullName(),
-        time / 1000.0));
+    return proc;
   }
 
   private static Properties loadBuckProperties(Path propPath)

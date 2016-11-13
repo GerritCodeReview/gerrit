@@ -16,6 +16,24 @@
       "revId": "5b67136e933797c3cdfdee1cb92134413350a3b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_d775de3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-13T17:54:17Z",
+      "side": 1,
+      "message": "I adjusted the commit message to make it more clear. Done.",
+      "parentUuid": "0b70b387_b770624f",
+      "revId": "5b67136e933797c3cdfdee1cb92134413350a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

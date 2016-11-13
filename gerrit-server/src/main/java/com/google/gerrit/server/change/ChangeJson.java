@@ -121,15 +121,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -144,6 +135,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
@@ -152,19 +150,12 @@ public class ChangeJson {
   // efficiency reasons. Callers that care about submittability after taking
   // vote squashing into account should be looking at the submit action.
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT
-          .toBuilder()
-          .fastEvalLabels(true)
-          .build();
+      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().fastEvalLabels(true).build();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
-      ChangeField.SUBMIT_RULE_OPTIONS_STRICT
-          .toBuilder()
-          .fastEvalLabels(true)
-          .build();
+      ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().fastEvalLabels(true).build();
 
-  public static final Set<ListChangesOption> NO_OPTIONS =
-      Collections.emptySet();
+  public static final Set<ListChangesOption> NO_OPTIONS = Collections.emptySet();
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(ALL_REVISIONS, MESSAGES);
@@ -251,9 +242,8 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
-    this.options = options.isEmpty()
-        ? EnumSet.noneOf(ListChangesOption.class)
-        : EnumSet.copyOf(options);
+    this.options =
+        options.isEmpty() ? EnumSet.noneOf(ListChangesOption.class) : EnumSet.copyOf(options);
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -274,8 +264,7 @@ public class ChangeJson {
     return format(changeDataFactory.create(db.get(), change));
   }
 
-  public ChangeInfo format(Project.NameKey project, Change.Id id)
-      throws OrmException {
+  public ChangeInfo format(Project.NameKey project, Change.Id id) throws OrmException {
     ChangeNotes notes;
     try {
       notes = notesFactory.createChecked(db.get(), project, id);
@@ -292,8 +281,8 @@ public class ChangeJson {
     return format(cd, Optional.empty(), true);
   }
 
-  private ChangeInfo format(ChangeData cd, Optional<PatchSet.Id> limitToPsId,
-      boolean fillAccountLoader)
+  private ChangeInfo format(
+      ChangeData cd, Optional<PatchSet.Id> limitToPsId, boolean fillAccountLoader)
       throws OrmException {
     try {
       if (fillAccountLoader) {
@@ -303,8 +292,11 @@ public class ChangeJson {
         return res;
       }
       return toChangeInfo(cd, limitToPsId);
-    } catch (PatchListNotAvailableException | GpgException | OrmException
-        | IOException | RuntimeException e) {
+    } catch (PatchListNotAvailableException
+        | GpgException
+        | OrmException
+        | IOException
+        | RuntimeException e) {
       if (!has(CHECK)) {
         Throwables.throwIfInstanceOf(e, OrmException.class);
         throw new OrmException(e);
@@ -318,11 +310,10 @@ public class ChangeJson {
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
   }
 
-  public List<List<ChangeInfo>> formatQueryResults(
-      List<QueryResult<ChangeData>> in) throws OrmException {
+  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
+      throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    ensureLoaded(
-        FluentIterable.from(in).transformAndConcat(QueryResult::entities));
+    ensureLoaded(FluentIterable.from(in).transformAndConcat(QueryResult::entities));
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     Map<Change.Id, ChangeInfo> out = new HashMap<>();
@@ -337,8 +328,7 @@ public class ChangeJson {
     return res;
   }
 
-  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in)
-      throws OrmException {
+  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in) throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
@@ -372,21 +362,22 @@ public class ChangeJson {
     return options.contains(option);
   }
 
-  private List<ChangeInfo> toChangeInfo(Map<Change.Id, ChangeInfo> out,
-      List<ChangeData> changes) {
+  private List<ChangeInfo> toChangeInfo(Map<Change.Id, ChangeInfo> out, List<ChangeData> changes) {
     List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
     for (ChangeData cd : changes) {
       ChangeInfo i = out.get(cd.getId());
       if (i == null) {
         try {
           i = toChangeInfo(cd, Optional.empty());
-        } catch (PatchListNotAvailableException | GpgException | OrmException
-            | IOException | RuntimeException e) {
+        } catch (PatchListNotAvailableException
+            | GpgException
+            | OrmException
+            | IOException
+            | RuntimeException e) {
           if (has(CHECK)) {
             i = checkOnly(cd);
           } else {
-            log.warn(
-                "Omitting corrupt change " + cd.getId() + " from results", e);
+            log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
             continue;
           }
         }
@@ -437,9 +428,8 @@ public class ChangeJson {
     return info;
   }
 
-  private ChangeInfo toChangeInfo(ChangeData cd,
-      Optional<PatchSet.Id> limitToPsId) throws PatchListNotAvailableException,
-      GpgException, OrmException, IOException {
+  private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
     ChangeControl ctl = cd.changeControl().forUser(user);
@@ -490,9 +480,7 @@ public class ChangeJson {
 
     if (user.isIdentifiedUser()) {
       Collection<String> stars = cd.stars().get(user.getAccountId());
-      out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL)
-          ? true
-          : null;
+      out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL) ? true : null;
       if (!stars.isEmpty()) {
         out.stars = stars;
       }
@@ -509,8 +497,7 @@ public class ChangeJson {
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
       // list permitted labels, since users can't vote on those patch sets.
-      if (!limitToPsId.isPresent()
-          || limitToPsId.get().equals(in.currentPatchSetId())) {
+      if (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId())) {
         out.permittedLabels =
             cd.change().getStatus() != Change.Status.ABANDONED
                 ? permittedLabels(ctl, cd)
@@ -518,10 +505,9 @@ public class ChangeJson {
       }
 
       out.reviewers = new HashMap<>();
-      for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e
-          : cd.reviewers().asTable().rowMap().entrySet()) {
-        out.reviewers.put(e.getKey().asReviewerState(),
-            toAccountInfo(e.getValue().keySet()));
+      for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e :
+          cd.reviewers().asTable().rowMap().entrySet()) {
+        out.reviewers.put(e.getKey().asReviewerState(), toAccountInfo(e.getValue().keySet()));
       }
 
       out.removableReviewers = removableReviewers(ctl, out);
@@ -532,9 +518,7 @@ public class ChangeJson {
     }
 
     boolean needMessages = has(MESSAGES);
-    boolean needRevisions = has(ALL_REVISIONS)
-        || has(CURRENT_REVISION)
-        || limitToPsId.isPresent();
+    boolean needRevisions = has(ALL_REVISIONS) || has(CURRENT_REVISION) || limitToPsId.isPresent();
     Map<PatchSet.Id, PatchSet> src;
     if (needMessages || needRevisions) {
       src = loadPatchSets(cd, limitToPsId);
@@ -567,8 +551,7 @@ public class ChangeJson {
     return out;
   }
 
-  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd)
-      throws OrmException {
+  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) throws OrmException {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
@@ -583,17 +566,15 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) throws OrmException {
-    return SubmitRecord.findOkRecord(
-            cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT))
-        .isPresent();
+    return SubmitRecord.findOkRecord(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)).isPresent();
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
     return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
-  private Map<String, LabelInfo> labelsFor(ChangeControl ctl,
-      ChangeData cd, boolean standard, boolean detailed) throws OrmException {
+  private Map<String, LabelInfo> labelsFor(
+      ChangeControl ctl, ChangeData cd, boolean standard, boolean detailed) throws OrmException {
     if (!standard && !detailed) {
       return null;
     }
@@ -603,15 +584,15 @@ public class ChangeJson {
     }
 
     LabelTypes labelTypes = ctl.getLabelTypes();
-    Map<String, LabelWithStatus> withStatus = cd.change().getStatus().isOpen()
-      ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
-      : labelsForClosedChange(ctl, cd, labelTypes, standard, detailed);
-    return ImmutableMap.copyOf(
-        Maps.transformValues(withStatus, LabelWithStatus::label));
+    Map<String, LabelWithStatus> withStatus =
+        cd.change().getStatus().isOpen()
+            ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
+            : labelsForClosedChange(ctl, cd, labelTypes, standard, detailed);
+    return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
-  private Map<String, LabelWithStatus> labelsForOpenChange(ChangeControl ctl,
-      ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
+  private Map<String, LabelWithStatus> labelsForOpenChange(
+      ChangeControl ctl, ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
     Map<String, LabelWithStatus> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
@@ -638,8 +619,8 @@ public class ChangeJson {
     return labels;
   }
 
-  private Map<String, LabelWithStatus> initLabels(ChangeData cd,
-      LabelTypes labelTypes, boolean standard) throws OrmException {
+  private Map<String, LabelWithStatus> initLabels(
+      ChangeData cd, LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
@@ -675,8 +656,8 @@ public class ChangeJson {
     return labels;
   }
 
-  private void setLabelScores(LabelType type,
-      LabelWithStatus l, short score, Account.Id accountId) {
+  private void setLabelScores(
+      LabelType type, LabelWithStatus l, short score, Account.Id accountId) {
     if (l.label().approved != null || l.label().rejected != null) {
       return;
     }
@@ -701,11 +682,11 @@ public class ChangeJson {
     }
   }
 
-  private void setAllApprovals(ChangeControl baseCtrl, ChangeData cd,
-      Map<String, LabelWithStatus> labels) throws OrmException {
+  private void setAllApprovals(
+      ChangeControl baseCtrl, ChangeData cd, Map<String, LabelWithStatus> labels)
+      throws OrmException {
     Change.Status status = cd.change().getStatus();
-    checkState(status.isOpen(),
-        "should not call setAllApprovals on %s change", status);
+    checkState(status.isOpen(), "should not call setAllApprovals on %s change", status);
 
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.
@@ -716,8 +697,8 @@ public class ChangeJson {
       allUsers.add(psa.getAccountId());
     }
 
-    Table<Account.Id, String, PatchSetApproval> current = HashBasedTable.create(
-        allUsers.size(), baseCtrl.getLabelTypes().getLabelTypes().size());
+    Table<Account.Id, String, PatchSetApproval> current =
+        HashBasedTable.create(allUsers.size(), baseCtrl.getLabelTypes().getLabelTypes().size());
     for (PatchSetApproval psa : cd.currentApprovals()) {
       current.put(psa.getAccountId(), psa.getLabel(), psa);
     }
@@ -725,8 +706,7 @@ public class ChangeJson {
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
       ChangeControl ctl = baseCtrl.forUser(user);
-      Map<String, VotingRangeInfo> pvr =
-        getPermittedVotingRanges(permittedLabels(ctl, cd));
+      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(ctl, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
         if (lt == null) {
@@ -735,8 +715,7 @@ public class ChangeJson {
           continue;
         }
         Integer value;
-        VotingRangeInfo permittedVotingRange =
-          pvr.getOrDefault(lt.getName(), null);
+        VotingRangeInfo permittedVotingRange = pvr.getOrDefault(lt.getName(), null);
         String tag = null;
         Timestamp date = null;
         PatchSetApproval psa = current.get(accountId, lt.getName());
@@ -759,8 +738,8 @@ public class ChangeJson {
           // user can vote on this label.
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
-        addApproval(e.getValue().label(),
-            approvalInfo(accountId, value, permittedVotingRange, tag, date));
+        addApproval(
+            e.getValue().label(), approvalInfo(accountId, value, permittedVotingRange, tag, date));
       }
     }
   }
@@ -768,22 +747,23 @@ public class ChangeJson {
   private Map<String, VotingRangeInfo> getPermittedVotingRanges(
       Map<String, Collection<String>> permittedLabels) {
     Map<String, VotingRangeInfo> permittedVotingRanges =
-      Maps.newHashMapWithExpectedSize(permittedLabels.size());
+        Maps.newHashMapWithExpectedSize(permittedLabels.size());
     for (String label : permittedLabels.keySet()) {
-      List<Integer> permittedVotingRange = permittedLabels.get(label)
-        .stream()
-        .map(this::parseRangeValue)
-        .filter(java.util.Objects::nonNull)
-        .sorted()
-        .collect(toList());
+      List<Integer> permittedVotingRange =
+          permittedLabels
+              .get(label)
+              .stream()
+              .map(this::parseRangeValue)
+              .filter(java.util.Objects::nonNull)
+              .sorted()
+              .collect(toList());
 
       if (permittedVotingRange.isEmpty()) {
         permittedVotingRanges.put(label, null);
       } else {
         int minPermittedValue = permittedVotingRange.get(0);
         int maxPermittedValue = Iterables.getLast(permittedVotingRange);
-        permittedVotingRanges.put(label,
-          new VotingRangeInfo(minPermittedValue, maxPermittedValue));
+        permittedVotingRanges.put(label, new VotingRangeInfo(minPermittedValue, maxPermittedValue));
       }
     }
     return permittedVotingRanges;
@@ -798,15 +778,17 @@ public class ChangeJson {
     return Ints.tryParse(value);
   }
 
-  private Timestamp getSubmittedOn(ChangeData cd)
-      throws OrmException {
+  private Timestamp getSubmittedOn(ChangeData cd) throws OrmException {
     Optional<PatchSetApproval> s = cd.getSubmitApproval();
     return s.isPresent() ? s.get().getGranted() : null;
   }
 
   private Map<String, LabelWithStatus> labelsForClosedChange(
-      ChangeControl baseCtrl, ChangeData cd, LabelTypes labelTypes,
-      boolean standard, boolean detailed)
+      ChangeControl baseCtrl,
+      ChangeData cd,
+      LabelTypes labelTypes,
+      boolean standard,
+      boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
@@ -864,15 +846,15 @@ public class ChangeJson {
     }
 
     if (detailed) {
-      labels.entrySet().stream()
+      labels
+          .entrySet()
+          .stream()
           .filter(e -> labelTypes.byLabel(e.getKey()) != null)
-          .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()),
-              e.getValue()));
+          .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()), e.getValue()));
     }
 
     for (Account.Id accountId : allUsers) {
-      Map<String, ApprovalInfo> byLabel =
-          Maps.newHashMapWithExpectedSize(labels.size());
+      Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
         ChangeControl ctl = baseCtrl.forUser(userFactory.create(accountId));
@@ -910,15 +892,23 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value,
-      VotingRangeInfo permittedVotingRange, String tag, Timestamp date) {
+  private ApprovalInfo approvalInfo(
+      Account.Id id,
+      Integer value,
+      VotingRangeInfo permittedVotingRange,
+      String tag,
+      Timestamp date) {
     ApprovalInfo ai = getApprovalInfo(id, value, permittedVotingRange, tag, date);
     accountLoader.put(ai);
     return ai;
   }
 
-  public static ApprovalInfo getApprovalInfo(Account.Id id, Integer value,
-      VotingRangeInfo permittedVotingRange, String tag, Timestamp date) {
+  public static ApprovalInfo getApprovalInfo(
+      Account.Id id,
+      Integer value,
+      VotingRangeInfo permittedVotingRange,
+      String tag,
+      Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
     ai.permittedVotingRange = permittedVotingRange;
@@ -977,10 +967,8 @@ public class ChangeJson {
         }
       }
     }
-    List<String> toClear =
-      Lists.newArrayListWithCapacity(permitted.keySet().size());
-    for (Map.Entry<String, Collection<String>> e
-        : permitted.asMap().entrySet()) {
+    List<String> toClear = Lists.newArrayListWithCapacity(permitted.keySet().size());
+    for (Map.Entry<String, Collection<String>> e : permitted.asMap().entrySet()) {
       if (isOnlyZero(e.getValue())) {
         toClear.add(e.getKey());
       }
@@ -991,27 +979,24 @@ public class ChangeJson {
     return permitted.asMap();
   }
 
-  private Map<String, Short> currentLabels(ChangeControl ctl)
-      throws OrmException {
+  private Map<String, Short> currentLabels(ChangeControl ctl) throws OrmException {
     Map<String, Short> result = new HashMap<>();
-    for (PatchSetApproval psa : approvalsUtil.byPatchSetUser(
-        db.get(), ctl, ctl.getChange().currentPatchSetId(),
-        ctl.getUser().getAccountId())) {
+    for (PatchSetApproval psa :
+        approvalsUtil.byPatchSetUser(
+            db.get(), ctl, ctl.getChange().currentPatchSetId(), ctl.getUser().getAccountId())) {
       result.put(psa.getLabel(), psa.getValue());
     }
     return result;
   }
 
-  private Collection<ChangeMessageInfo> messages(ChangeControl ctl, ChangeData cd,
-      Map<PatchSet.Id, PatchSet> map)
-      throws OrmException {
+  private Collection<ChangeMessageInfo> messages(
+      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map) throws OrmException {
     List<ChangeMessage> messages = cmUtil.byChange(db.get(), cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
     }
 
-    List<ChangeMessageInfo> result =
-        Lists.newArrayListWithCapacity(messages.size());
+    List<ChangeMessageInfo> result = Lists.newArrayListWithCapacity(messages.size());
     for (ChangeMessage message : messages) {
       PatchSet.Id patchNum = message.getPatchSetId();
       PatchSet ps = patchNum != null ? map.get(patchNum) : null;
@@ -1029,8 +1014,7 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeControl ctl,
-      ChangeInfo out) {
+  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeInfo out) {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //
@@ -1084,9 +1068,9 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<AccountInfo> toAccountInfo(
-      Collection<Account.Id> accounts) {
-    return accounts.stream()
+  private Collection<AccountInfo> toAccountInfo(Collection<Account.Id> accounts) {
+    return accounts
+        .stream()
         .map(accountLoader::get)
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());
@@ -1100,26 +1084,23 @@ public class ChangeJson {
     return null;
   }
 
-  private Map<String, RevisionInfo> revisions(ChangeControl ctl, ChangeData cd,
-      Map<PatchSet.Id, PatchSet> map, ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, OrmException,
-      IOException {
+  private Map<String, RevisionInfo> revisions(
+      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map, ChangeInfo changeInfo)
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
     try (Repository repo = openRepoIfNecessary(ctl)) {
       for (PatchSet in : map.values()) {
-        if ((has(ALL_REVISIONS)
-            || in.getId().equals(ctl.getChange().currentPatchSetId()))
+        if ((has(ALL_REVISIONS) || in.getId().equals(ctl.getChange().currentPatchSetId()))
             && ctl.isPatchVisible(in, db.get())) {
-          res.put(in.getRevision().get(),
-              toRevisionInfo(ctl, cd, in, repo, false, changeInfo));
+          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, false, changeInfo));
         }
       }
       return res;
     }
   }
 
-  private Map<PatchSet.Id, PatchSet> loadPatchSets(ChangeData cd,
-      Optional<PatchSet.Id> limitToPsId) throws OrmException {
+  private Map<PatchSet.Id, PatchSet> loadPatchSets(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+      throws OrmException {
     Collection<PatchSet> src;
     if (has(ALL_REVISIONS) || has(MESSAGES)) {
       src = cd.patchSets();
@@ -1133,8 +1114,7 @@ public class ChangeJson {
       } else {
         ps = cd.currentPatchSet();
         if (ps == null) {
-          throw new OrmException(
-              "missing current patch set for change " + cd.getId());
+          throw new OrmException("missing current patch set for change " + cd.getId());
         }
       }
       src = Collections.singletonList(ps);
@@ -1147,21 +1127,24 @@ public class ChangeJson {
   }
 
   public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in)
-      throws PatchListNotAvailableException, GpgException, OrmException,
-      IOException {
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(ctl)) {
-      RevisionInfo rev = toRevisionInfo(
-          ctl, changeDataFactory.create(db.get(), ctl), in, repo, true, null);
+      RevisionInfo rev =
+          toRevisionInfo(ctl, changeDataFactory.create(db.get(), ctl), in, repo, true, null);
       accountLoader.fill();
       return rev;
     }
   }
 
-  private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd,
-      PatchSet in, @Nullable Repository repo, boolean fillCommit,
-      @Nullable ChangeInfo changeInfo) throws PatchListNotAvailableException,
-      GpgException, OrmException, IOException {
+  private RevisionInfo toRevisionInfo(
+      ChangeControl ctl,
+      ChangeData cd,
+      PatchSet in,
+      @Nullable Repository repo,
+      boolean fillCommit,
+      @Nullable ChangeInfo changeInfo)
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     Change c = ctl.getChange();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
@@ -1174,8 +1157,7 @@ public class ChangeJson {
     out.kind = changeKindCache.getChangeKind(repo, cd, in);
     out.description = in.getDescription();
 
-    boolean setCommit = has(ALL_COMMITS)
-        || (out.isCurrent && has(CURRENT_COMMIT));
+    boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
     if (setCommit || addFooters) {
       Project.NameKey project = c.getProject();
@@ -1189,13 +1171,14 @@ public class ChangeJson {
         if (addFooters) {
           Ref ref = repo.exactRef(ctl.getChange().getDest().get());
           RevCommit mergeTip = null;
-          if (ref != null){
+          if (ref != null) {
             mergeTip = rw.parseCommit(ref.getObjectId());
             rw.parseBody(mergeTip);
           }
-          out.commitWithFooters = mergeUtilFactory
-              .create(projectCache.get(project))
-              .createCommitMessageOnSubmit(commit, mergeTip, ctl, in.getId());
+          out.commitWithFooters =
+              mergeUtilFactory
+                  .create(projectCache.get(project))
+                  .createCommitMessageOnSubmit(commit, mergeTip, ctl, in.getId());
         }
       }
     }
@@ -1210,15 +1193,15 @@ public class ChangeJson {
         && has(CURRENT_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
 
-      actionJson.addRevisionActions(changeInfo, out,
-          new RevisionResource(changeResourceFactory.create(ctl), in));
+      actionJson.addRevisionActions(
+          changeInfo, out, new RevisionResource(changeResourceFactory.create(ctl), in));
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
       if (in.getPushCertificate() != null) {
-        out.pushCertificate = gpgApi.checkPushCertificate(
-            in.getPushCertificate(),
-            userFactory.create(in.getUploader()));
+        out.pushCertificate =
+            gpgApi.checkPushCertificate(
+                in.getPushCertificate(), userFactory.create(in.getUploader()));
       } else {
         out.pushCertificate = new PushCertificateInfo();
       }
@@ -1227,8 +1210,9 @@ public class ChangeJson {
     return out;
   }
 
-  CommitInfo toCommit(ChangeControl ctl, RevWalk rw, RevCommit commit,
-      boolean addLinks, boolean fillCommit) throws IOException {
+  CommitInfo toCommit(
+      ChangeControl ctl, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
+      throws IOException {
     Project.NameKey project = ctl.getProject().getNameKey();
     CommitInfo info = new CommitInfo();
     if (fillCommit) {
@@ -1241,8 +1225,7 @@ public class ChangeJson {
     info.message = commit.getFullMessage();
 
     if (addLinks) {
-      List<WebLinkInfo> links =
-          webLinks.getPatchSetLinks(project, commit.name());
+      List<WebLinkInfo> links = webLinks.getPatchSetLinks(project, commit.name());
       info.webLinks = links.isEmpty() ? null : links;
     }
 
@@ -1252,8 +1235,7 @@ public class ChangeJson {
       i.commit = parent.name();
       i.subject = parent.getShortMessage();
       if (addLinks) {
-        List<WebLinkInfo> parentLinks =
-            webLinks.getParentLinks(project, parent.name());
+        List<WebLinkInfo> parentLinks = webLinks.getParentLinks(project, parent.name());
         i.webLinks = parentLinks.isEmpty() ? null : parentLinks;
       }
       info.parents.add(i);
@@ -1261,8 +1243,7 @@ public class ChangeJson {
     return info;
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in)
-      throws OrmException {
+  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in) throws OrmException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
 
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
@@ -1273,8 +1254,7 @@ public class ChangeJson {
         continue;
       }
 
-      if (!scheme.isAuthSupported()
-          && !ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
+      if (!scheme.isAuthSupported() && !ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
         continue;
       }
 
@@ -1285,17 +1265,19 @@ public class ChangeJson {
       r.put(schemeName, fetchInfo);
 
       if (has(DOWNLOAD_COMMANDS)) {
-        populateFetchMap(scheme, downloadCommands, projectName, refName,
-            fetchInfo);
+        populateFetchMap(scheme, downloadCommands, projectName, refName, fetchInfo);
       }
     }
 
     return r;
   }
 
-  public static void populateFetchMap(DownloadScheme scheme,
-      DynamicMap<DownloadCommand> commands, String projectName,
-      String refName, FetchInfo fetchInfo) {
+  public static void populateFetchMap(
+      DownloadScheme scheme,
+      DynamicMap<DownloadCommand> commands,
+      String projectName,
+      String refName,
+      FetchInfo fetchInfo) {
     for (DynamicMap.Entry<DownloadCommand> e2 : commands) {
       String commandName = e2.getExportName();
       DownloadCommand command = e2.getProvider().get();
@@ -1306,8 +1288,7 @@ public class ChangeJson {
     }
   }
 
-  private static void addCommand(FetchInfo fetchInfo, String commandName,
-      String c) {
+  private static void addCommand(FetchInfo fetchInfo, String commandName, String c) {
     if (fetchInfo.commands == null) {
       fetchInfo.commands = new TreeMap<>();
     }
@@ -1315,10 +1296,9 @@ public class ChangeJson {
   }
 
   static void finish(ChangeInfo info) {
-    info.id = Joiner.on('~').join(
-        Url.encode(info.project),
-        Url.encode(info.branch),
-        Url.encode(info.changeId));
+    info.id =
+        Joiner.on('~')
+            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
   }
 
   private static void addApproval(LabelInfo label, ApprovalInfo approval) {
@@ -1330,12 +1310,13 @@ public class ChangeJson {
 
   @AutoValue
   abstract static class LabelWithStatus {
-    private static LabelWithStatus create(LabelInfo label,
-        SubmitRecord.Label.Status status) {
+    private static LabelWithStatus create(LabelInfo label, SubmitRecord.Label.Status status) {
       return new AutoValue_ChangeJson_LabelWithStatus(label, status);
     }
 
     abstract LabelInfo label();
-    @Nullable abstract SubmitRecord.Label.Status status();
+
+    @Nullable
+    abstract SubmitRecord.Label.Status status();
   }
 }

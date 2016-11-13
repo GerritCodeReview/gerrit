@@ -29,22 +29,19 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
 public class PutStatus implements RestModifyView<AccountResource, Input> {
   public static class Input {
-    @DefaultInput
-    String status;
+    @DefaultInput String status;
 
     public Input(String status) {
       this.status = status;
     }
 
-    public Input() {
-    }
+    public Input() {}
   }
 
   private final Provider<CurrentUser> self;
@@ -52,8 +49,7 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
   private final AccountCache byIdCache;
 
   @Inject
-  PutStatus(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider,
-      AccountCache byIdCache) {
+  PutStatus(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.byIdCache = byIdCache;
@@ -61,18 +57,15 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws AuthException,
-      ResourceNotFoundException, OrmException, IOException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+      throws AuthException, ResourceNotFoundException, OrmException, IOException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to set status");
     }
     return apply(rsrc.getUser(), input);
   }
 
   public Response<String> apply(IdentifiedUser user, Input input)
-      throws ResourceNotFoundException, OrmException,
-      IOException {
+      throws ResourceNotFoundException, OrmException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -84,8 +77,6 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
     a.setStatus(Strings.nullToEmpty(input.status));
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
-    return Strings.isNullOrEmpty(a.getStatus())
-        ? Response.none()
-        : Response.ok(a.getStatus());
+    return Strings.isNullOrEmpty(a.getStatus()) ? Response.none() : Response.ok(a.getStatus());
   }
 }

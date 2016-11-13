@@ -29,7 +29,13 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -38,21 +44,13 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * A single delta to apply atomically to a change.
- * <p>
- * This delta contains only robot comments on a single patch set of a change by
- * a single author. This delta will become a single commit in the repository.
- * <p>
- * This class is not thread safe.
+ *
+ * <p>This delta contains only robot comments on a single patch set of a change by a single author.
+ * This delta will become a single commit in the repository.
+ *
+ * <p>This class is not thread safe.
  */
 public class RobotCommentUpdate extends AbstractChangeUpdate {
   public interface Factory {
@@ -84,8 +82,17 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, realAccountId, authorIdent, when);
+    super(
+        migration,
+        noteUtil,
+        serverIdent,
+        anonymousCowardName,
+        notes,
+        null,
+        accountId,
+        realAccountId,
+        authorIdent,
+        when);
   }
 
   @AssistedInject
@@ -99,8 +106,17 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, realAccountId, authorIdent, when);
+    super(
+        migration,
+        noteUtil,
+        serverIdent,
+        anonymousCowardName,
+        null,
+        change,
+        accountId,
+        realAccountId,
+        authorIdent,
+        when);
   }
 
   public void putComment(RobotComment c) {
@@ -108,13 +124,11 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
     put.add(c);
   }
 
-  private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,
-      ObjectId curr, CommitBuilder cb)
+  private CommitBuilder storeCommentsInNotes(
+      RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, OrmException, IOException {
-    RevisionNoteMap<RobotCommentsRevisionNote> rnm =
-        getRevisionNoteMap(rw, curr);
-    Set<RevId> updatedRevs =
-        Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
+    RevisionNoteMap<RobotCommentsRevisionNote> rnm = getRevisionNoteMap(rw, curr);
+    Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (RobotComment c : put) {
@@ -158,9 +172,8 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
     return cb;
   }
 
-  private RevisionNoteMap<RobotCommentsRevisionNote> getRevisionNoteMap(
-      RevWalk rw, ObjectId curr)
-          throws ConfigInvalidException, OrmException, IOException {
+  private RevisionNoteMap<RobotCommentsRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
+      throws ConfigInvalidException, OrmException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
@@ -170,13 +183,10 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       // hasn't advanced.
       ChangeNotes changeNotes = getNotes();
       if (changeNotes != null) {
-        RobotCommentNotes robotCommentNotes =
-            changeNotes.load().getRobotCommentNotes();
+        RobotCommentNotes robotCommentNotes = changeNotes.load().getRobotCommentNotes();
         if (robotCommentNotes != null) {
-          ObjectId idFromNotes =
-              firstNonNull(robotCommentNotes.getRevision(), ObjectId.zeroId());
-          RevisionNoteMap<RobotCommentsRevisionNote> rnm =
-              robotCommentNotes.getRevisionNoteMap();
+          ObjectId idFromNotes = firstNonNull(robotCommentNotes.getRevision(), ObjectId.zeroId());
+          RevisionNoteMap<RobotCommentsRevisionNote> rnm = robotCommentNotes.getRevisionNoteMap();
           if (idFromNotes.equals(curr) && rnm != null) {
             return rnm;
           }
@@ -191,15 +201,12 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
     }
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
-    return RevisionNoteMap.parseRobotComments(
-        noteUtil,
-        rw.getObjectReader(),
-        noteMap);
+    return RevisionNoteMap.parseRobotComments(noteUtil, rw.getObjectReader(), noteMap);
   }
 
   @Override
-  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
-      ObjectId curr) throws OrmException, IOException {
+  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
+      throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage("Update robot comments");
     try {

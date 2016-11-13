@@ -18,26 +18,24 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import org.eclipse.jgit.util.Base64;
-
 import javax.servlet.http.HttpServletRequest;
+import org.eclipse.jgit.util.Base64;
 
 public class RemoteUserUtil {
   /**
    * Tries to get username from a request with following strategies:
+   *
    * <ul>
-   * <li>ServletRequest#getRemoteUser</li>
-   * <li>HTTP 'Authorization' header</li>
-   * <li>Custom HTTP header</li>
+   *   <li>ServletRequest#getRemoteUser
+   *   <li>HTTP 'Authorization' header
+   *   <li>Custom HTTP header
    * </ul>
    *
    * @param req request to extract username from.
-   * @param loginHeader name of header which is used for extracting
-   *    username.
+   * @param loginHeader name of header which is used for extracting username.
    * @return the extracted username or null.
    */
-  public static String getRemoteUser(HttpServletRequest req,
-      String loginHeader) {
+  public static String getRemoteUser(HttpServletRequest req, String loginHeader) {
     if (AUTHORIZATION.equals(loginHeader)) {
       String user = emptyToNull(req.getRemoteUser());
       if (user != null) {
@@ -59,8 +57,7 @@ public class RemoteUserUtil {
   }
 
   /**
-   * Extracts username from an HTTP Basic or Digest authentication
-   * header.
+   * Extracts username from an HTTP Basic or Digest authentication header.
    *
    * @param auth header value which is used for extracting.
    * @return username if available or null.

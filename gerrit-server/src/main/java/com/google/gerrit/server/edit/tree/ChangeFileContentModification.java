@@ -19,7 +19,10 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.restapi.RawInput;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -31,18 +34,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-
-/**
- * A {@code TreeModification} which changes the content of a file.
- */
+/** A {@code TreeModification} which changes the content of a file. */
 public class ChangeFileContentModification implements TreeModification {
 
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeFileContentModification.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeFileContentModification.class);
 
   private final String filePath;
   private final RawInput newContent;
@@ -53,16 +48,12 @@ public class ChangeFileContentModification implements TreeModification {
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository,
-      RevCommit baseCommit) {
-    DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath,
-        newContent, repository);
+  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit) {
+    DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath, newContent, repository);
     return Collections.singletonList(changeContentEdit);
   }
 
-  /**
-   * A {@code PathEdit} which changes the contents of a file.
-   */
+  /** A {@code PathEdit} which changes the contents of a file. */
   private static class ChangeContent extends DirCacheEditor.PathEdit {
 
     private final RawInput newContent;
@@ -93,8 +84,8 @@ public class ChangeFileContentModification implements TreeModification {
         // situation, we log them now. However, we should think of a better
         // approach.
       } catch (IOException e) {
-        String message = String.format("Could not change the content of %s",
-            dirCacheEntry.getPathString());
+        String message =
+            String.format("Could not change the content of %s", dirCacheEntry.getPathString());
         log.error(message, e);
       } catch (InvalidObjectIdException e) {
         log.error("Invalid object id in submodule link", e);
@@ -109,8 +100,7 @@ public class ChangeFileContentModification implements TreeModification {
       }
     }
 
-    private ObjectId createNewBlobAndGetItsId(ObjectInserter objectInserter)
-        throws IOException {
+    private ObjectId createNewBlobAndGetItsId(ObjectInserter objectInserter) throws IOException {
       long contentLength = newContent.getContentLength();
       if (contentLength < 0) {
         return objectInserter.insert(OBJ_BLOB, getNewContentBytes());

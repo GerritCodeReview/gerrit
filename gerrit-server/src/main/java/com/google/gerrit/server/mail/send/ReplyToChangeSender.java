@@ -27,8 +27,7 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
     T create(Project.NameKey project, Change.Id id);
   }
 
-  protected ReplyToChangeSender(EmailArguments ea, String mc, ChangeData cd)
-      throws OrmException {
+  protected ReplyToChangeSender(EmailArguments ea, String mc, ChangeData cd) throws OrmException {
     super(ea, mc, cd);
   }
 

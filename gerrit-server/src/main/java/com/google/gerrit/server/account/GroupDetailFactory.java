@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -41,7 +40,8 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private GroupControl control;
 
   @Inject
-  GroupDetailFactory(ReviewDb db,
+  GroupDetailFactory(
+      ReviewDb db,
       GroupControl.Factory groupControl,
       GroupCache groupCache,
       @Assisted AccountGroup.Id groupId) {

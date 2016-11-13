@@ -39,15 +39,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-
 @Singleton
-public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
-    UiAction<ChangeResource> {
+public class Abandon
+    implements RestModifyView<ChangeResource, AbandonInput>, UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
   private final Provider<ReviewDb> dbProvider;
@@ -77,32 +75,30 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     if (!control.canAbandon(dbProvider.get())) {
       throw new AuthException("abandon not permitted");
     }
-    Change change = abandon(control, input.message, input.notify,
-        notifyUtil.resolveAccounts(input.notifyDetails));
+    Change change =
+        abandon(
+            control, input.message, input.notify, notifyUtil.resolveAccounts(input.notifyDetails));
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
-  public Change abandon(ChangeControl control)
-      throws RestApiException, UpdateException {
+  public Change abandon(ChangeControl control) throws RestApiException, UpdateException {
     return abandon(control, "", NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
   public Change abandon(ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
-    return abandon(control, msgTxt, NotifyHandling.ALL,
-        ImmutableListMultimap.of());
+    return abandon(control, msgTxt, NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
-  public Change abandon(ChangeControl control, String msgTxt,
+  public Change abandon(
+      ChangeControl control,
+      String msgTxt,
       NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
-          throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException {
     CurrentUser user = control.getUser();
-    Account account = user.isIdentifiedUser()
-        ? user.asIdentifiedUser().getAccount()
-        : null;
-    AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling,
-        accountsToNotify);
+    Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
+    AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify);
     try (BatchUpdate u =
         batchUpdateFactory.create(
             dbProvider.get(),
@@ -115,55 +111,51 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   }
 
   /**
-   * If an extension has more than one changes to abandon that belong to the
-   * same project, they should use the batch instead of abandoning one by one.
-   * <p>
-   * It's the caller's responsibility to ensure that all jobs inside the same
-   * batch have the matching project from its ChangeControl. Violations will
-   * result in a ResourceConflictException.
+   * If an extension has more than one changes to abandon that belong to the same project, they
+   * should use the batch instead of abandoning one by one.
+   *
+   * <p>It's the caller's responsibility to ensure that all jobs inside the same batch have the
+   * matching project from its ChangeControl. Violations will result in a ResourceConflictException.
    */
-  public void batchAbandon(Project.NameKey project, CurrentUser user,
-      Collection<ChangeControl> controls, String msgTxt,
+  public void batchAbandon(
+      Project.NameKey project,
+      CurrentUser user,
+      Collection<ChangeControl> controls,
+      String msgTxt,
       NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
-          throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException {
     if (controls.isEmpty()) {
       return;
     }
-    Account account = user.isIdentifiedUser()
-        ? user.asIdentifiedUser().getAccount()
-        : null;
-    try (BatchUpdate u = batchUpdateFactory.create(
-        dbProvider.get(), project, user, TimeUtil.nowTs())) {
+    Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
+    try (BatchUpdate u =
+        batchUpdateFactory.create(dbProvider.get(), project, user, TimeUtil.nowTs())) {
       for (ChangeControl control : controls) {
         if (!project.equals(control.getProject().getNameKey())) {
           throw new ResourceConflictException(
               String.format(
                   "Project name \"%s\" doesn't match \"%s\"",
-                  control.getProject().getNameKey().get(),
-                  project.get()));
+                  control.getProject().getNameKey().get(), project.get()));
         }
         u.addOp(
             control.getId(),
-            abandonOpFactory.create(account, msgTxt, notifyHandling,
-                accountsToNotify));
+            abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify));
       }
       u.execute();
     }
   }
 
-  public void batchAbandon(Project.NameKey project, CurrentUser user,
-      Collection<ChangeControl> controls, String msgTxt)
+  public void batchAbandon(
+      Project.NameKey project, CurrentUser user, Collection<ChangeControl> controls, String msgTxt)
       throws RestApiException, UpdateException {
-    batchAbandon(project, user, controls, msgTxt, NotifyHandling.ALL,
-        ImmutableListMultimap.of());
+    batchAbandon(project, user, controls, msgTxt, NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
-  public void batchAbandon(Project.NameKey project, CurrentUser user,
-      Collection<ChangeControl> controls)
+  public void batchAbandon(
+      Project.NameKey project, CurrentUser user, Collection<ChangeControl> controls)
       throws RestApiException, UpdateException {
-    batchAbandon(project, user, controls, "", NotifyHandling.ALL,
-        ImmutableListMultimap.of());
+    batchAbandon(project, user, controls, "", NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
   @Override
@@ -175,10 +167,11 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       log.error("Cannot check canAbandon status. Assuming false.", e);
     }
     return new UiAction.Description()
-      .setLabel("Abandon")
-      .setTitle("Abandon the change")
-      .setVisible(resource.getChange().getStatus().isOpen()
-          && resource.getChange().getStatus() != Change.Status.DRAFT
-          && canAbandon);
+        .setLabel("Abandon")
+        .setTitle("Abandon the change")
+        .setVisible(
+            resource.getChange().getStatus().isOpen()
+                && resource.getChange().getStatus() != Change.Status.DRAFT
+                && canAbandon);
   }
 }

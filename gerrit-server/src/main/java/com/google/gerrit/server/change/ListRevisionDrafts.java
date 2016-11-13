@@ -23,7 +23,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.List;
 import java.util.Map;
 
@@ -34,18 +33,16 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   protected final CommentsUtil commentsUtil;
 
   @Inject
-  ListRevisionDrafts(Provider<ReviewDb> db,
-      Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+  ListRevisionDrafts(
+      Provider<ReviewDb> db, Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
     this.db = db;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(RevisionResource rsrc)
-      throws OrmException {
-    return commentsUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
-        rsrc.getAccountId(), rsrc.getNotes());
+  protected Iterable<Comment> listComments(RevisionResource rsrc) throws OrmException {
+    return commentsUtil.draftByPatchSetAuthor(
+        db.get(), rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes());
   }
 
   protected boolean includeAuthorInfo() {
@@ -53,17 +50,19 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
-      throws OrmException {
-    return commentJson.get()
+  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc) throws OrmException {
+    return commentJson
+        .get()
         .setFillAccounts(includeAuthorInfo())
-        .newCommentFormatter().format(listComments(rsrc));
+        .newCommentFormatter()
+        .format(listComments(rsrc));
   }
 
-  public List<CommentInfo> getComments(RevisionResource rsrc)
-      throws OrmException {
-    return commentJson.get()
+  public List<CommentInfo> getComments(RevisionResource rsrc) throws OrmException {
+    return commentJson
+        .get()
         .setFillAccounts(includeAuthorInfo())
-        .newCommentFormatter().formatAsList(listComments(rsrc));
+        .newCommentFormatter()
+        .formatAsList(listComments(rsrc));
   }
 }

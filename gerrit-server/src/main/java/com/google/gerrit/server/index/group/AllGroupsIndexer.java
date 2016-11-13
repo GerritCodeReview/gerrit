@@ -29,12 +29,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +36,14 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AllGroupsIndexer
-    extends SiteIndexer<AccountGroup.UUID, AccountGroup, GroupIndex> {
-  private static final Logger log =
-      LoggerFactory.getLogger(AllGroupsIndexer.class);
+public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGroup, GroupIndex> {
+  private static final Logger log = LoggerFactory.getLogger(AllGroupsIndexer.class);
 
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ListeningExecutorService executor;
@@ -65,8 +61,7 @@ public class AllGroupsIndexer
 
   @Override
   public SiteIndexer.Result indexAll(GroupIndex index) {
-    ProgressMonitor progress =
-        new TextProgressMonitor(new PrintWriter(progressOut));
+    ProgressMonitor progress = new TextProgressMonitor(new PrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();
     List<AccountGroup.UUID> uuids;
@@ -79,8 +74,8 @@ public class AllGroupsIndexer
     return reindexGroups(index, uuids, progress);
   }
 
-  private SiteIndexer.Result reindexGroups(GroupIndex index,
-      List<AccountGroup.UUID> uuids, ProgressMonitor progress) {
+  private SiteIndexer.Result reindexGroups(
+      GroupIndex index, List<AccountGroup.UUID> uuids, ProgressMonitor progress) {
     progress.beginTask("Reindexing groups", uuids.size());
     List<ListenableFuture<?>> futures = new ArrayList<>(uuids.size());
     AtomicBoolean ok = new AtomicBoolean(true);
@@ -89,25 +84,26 @@ public class AllGroupsIndexer
     Stopwatch sw = Stopwatch.createStarted();
     for (final AccountGroup.UUID uuid : uuids) {
       final String desc = "group " + uuid;
-      ListenableFuture<?> future = executor.submit(
-          new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-              try {
-                AccountGroup oldGroup = groupCache.get(uuid);
-                if (oldGroup != null) {
-                  groupCache.evict(oldGroup);
+      ListenableFuture<?> future =
+          executor.submit(
+              new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                  try {
+                    AccountGroup oldGroup = groupCache.get(uuid);
+                    if (oldGroup != null) {
+                      groupCache.evict(oldGroup);
+                    }
+                    index.replace(groupCache.get(uuid));
+                    verboseWriter.println("Reindexed " + desc);
+                    done.incrementAndGet();
+                  } catch (Exception e) {
+                    failed.incrementAndGet();
+                    throw e;
+                  }
+                  return null;
                 }
-                index.replace(groupCache.get(uuid));
-                verboseWriter.println("Reindexed " + desc);
-                done.incrementAndGet();
-              } catch (Exception e) {
-                failed.incrementAndGet();
-                throw e;
-              }
-              return null;
-            }
-          });
+              });
       addErrorListener(future, desc, progress, ok);
       futures.add(future);
     }
@@ -123,8 +119,7 @@ public class AllGroupsIndexer
     return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
   }
 
-  private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress)
-      throws OrmException {
+  private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress) throws OrmException {
     progress.beginTask("Collecting groups", ProgressMonitor.UNKNOWN);
     List<AccountGroup.UUID> uuids = new ArrayList<>();
     try (ReviewDb db = schemaFactory.open()) {

@@ -20,9 +20,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,11 +39,9 @@ class XrdsServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     final StringBuilder r = new StringBuilder();
-    r.append("<?xml version=\"1.0\" encoding=\"")
-     .append(UTF_8.name()).append("\"?>");
+    r.append("<?xml version=\"1.0\" encoding=\"").append(UTF_8.name()).append("\"?>");
     r.append("<xrds:XRDS");
     r.append(" xmlns:xrds=\"xri://$xrds\"");
     r.append(" xmlns:openid=\"http://openid.net/xmlns/1.0\"");
@@ -53,8 +49,7 @@ class XrdsServlet extends HttpServlet {
     r.append("<XRD>");
     r.append("<Service priority=\"1\">");
     r.append("<Type>http://specs.openid.net/auth/2.0/return_to</Type>");
-    r.append("<URI>").append(url.get()).append(OpenIdServiceImpl.RETURN_URL)
-     .append("</URI>");
+    r.append("<URI>").append(url.get()).append(OpenIdServiceImpl.RETURN_URL).append("</URI>");
     r.append("</Service>");
     r.append("</XRD>");
     r.append("</xrds:XRDS>");

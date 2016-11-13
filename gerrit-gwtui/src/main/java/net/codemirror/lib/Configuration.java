@@ -28,20 +28,19 @@ public class Configuration extends JavaScriptObject {
   }
 
   public final native Configuration set(String name, String val)
-  /*-{ this[name] = val; return this; }-*/;
+      /*-{ this[name] = val; return this; }-*/ ;
 
   public final native Configuration set(String name, int val)
-  /*-{ this[name] = val; return this; }-*/;
+      /*-{ this[name] = val; return this; }-*/ ;
 
   public final native Configuration set(String name, double val)
-  /*-{ this[name] = val; return this; }-*/;
+      /*-{ this[name] = val; return this; }-*/ ;
 
   public final native Configuration set(String name, boolean val)
-  /*-{ this[name] = val; return this; }-*/;
+      /*-{ this[name] = val; return this; }-*/ ;
 
   public final native Configuration set(String name, JavaScriptObject val)
-  /*-{ this[name] = val; return this; }-*/;
+      /*-{ this[name] = val; return this; }-*/ ;
 
-  protected Configuration() {
-  }
+  protected Configuration() {}
 }

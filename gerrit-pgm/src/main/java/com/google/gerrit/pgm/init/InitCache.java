@@ -22,7 +22,6 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -39,8 +38,11 @@ class InitCache implements InitStep {
   private final Section cache;
 
   @Inject
-  InitCache(final ConsoleUI ui, final InitFlags flags,
-      final SitePaths site, final Section.Factory sections) {
+  InitCache(
+      final ConsoleUI ui,
+      final InitFlags flags,
+      final SitePaths site,
+      final Section.Factory sections) {
     this.ui = ui;
     this.flags = flags;
     this.site = site;
@@ -67,8 +69,7 @@ class InitCache implements InitStep {
     Path loc = site.resolve(path);
     FileUtil.mkdirsOrDie(loc, "cannot create cache.directory");
     List<Path> cacheFiles = new ArrayList<>();
-    try (DirectoryStream<Path> stream =
-        Files.newDirectoryStream(loc, "*.{lock,h2,trace}.db")) {
+    try (DirectoryStream<Path> stream = Files.newDirectoryStream(loc, "*.{lock,h2,trace}.db")) {
       for (Path entry : stream) {
         cacheFiles.add(entry);
       }
@@ -78,8 +79,7 @@ class InitCache implements InitStep {
     }
     if (!cacheFiles.isEmpty()) {
       for (Path entry : cacheFiles) {
-        if (flags.deleteCaches ||
-            ui.yesno(false, "Delete cache file %s", entry)) {
+        if (flags.deleteCaches || ui.yesno(false, "Delete cache file %s", entry)) {
           try {
             Files.deleteIfExists(entry);
           } catch (IOException e) {

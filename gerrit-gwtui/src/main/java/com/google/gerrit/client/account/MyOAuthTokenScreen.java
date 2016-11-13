@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
-
 import java.util.Date;
 
 public class MyOAuthTokenScreen extends SettingsScreen {
@@ -73,7 +72,7 @@ public class MyOAuthTokenScreen extends SettingsScreen {
     Label netrcLabel = new Label(Util.C.labelOAuthNetRCEntry());
     netrcLabel.setStyleName(Gerrit.RESOURCES.css().oauthPanelNetRCHeading());
     flow.add(netrcLabel);
-    netrcValue= new CopyableLabel("");
+    netrcValue = new CopyableLabel("");
     netrcValue.setStyleName(Gerrit.RESOURCES.css().oauthPanelNetRCEntry());
     flow.add(netrcValue);
 
@@ -101,41 +100,46 @@ public class MyOAuthTokenScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    AccountApi.self().view("preferences")
-    .get(new ScreenLoadCallback<GeneralPreferences>(this) {
-      @Override
-      protected void preDisplay(GeneralPreferences prefs) {
-        display(prefs);
-      }
-    });
+    AccountApi.self()
+        .view("preferences")
+        .get(
+            new ScreenLoadCallback<GeneralPreferences>(this) {
+              @Override
+              protected void preDisplay(GeneralPreferences prefs) {
+                display(prefs);
+              }
+            });
   }
 
   private void display(final GeneralPreferences prefs) {
-    AccountApi.self().view("oauthtoken")
-    .get(new GerritCallback<OAuthTokenInfo>() {
-      @Override
-      public void onSuccess(OAuthTokenInfo tokenInfo) {
-        tokenLabel.setText(tokenInfo.accessToken());
-        expiresLabel.setText(getExpiresAt(tokenInfo, prefs));
-        netrcValue.setText(getNetRC(tokenInfo));
-        cookieValue.setText(getCookie(tokenInfo));
-        flow.setVisible(true);
-        expiredNote.setVisible(false);
-      }
-      @Override
-      public void onFailure(Throwable caught) {
-        if (isNoSuchEntity(caught) || isSigninFailure(caught)) {
-          tokenLabel.setText("");
-          expiresLabel.setText("");
-          netrcValue.setText("");
-          cookieValue.setText("");
-          flow.setVisible(false);
-          expiredNote.setVisible(true);
-        } else {
-          showFailure(caught);
-        }
-      }
-    });
+    AccountApi.self()
+        .view("oauthtoken")
+        .get(
+            new GerritCallback<OAuthTokenInfo>() {
+              @Override
+              public void onSuccess(OAuthTokenInfo tokenInfo) {
+                tokenLabel.setText(tokenInfo.accessToken());
+                expiresLabel.setText(getExpiresAt(tokenInfo, prefs));
+                netrcValue.setText(getNetRC(tokenInfo));
+                cookieValue.setText(getCookie(tokenInfo));
+                flow.setVisible(true);
+                expiredNote.setVisible(false);
+              }
+
+              @Override
+              public void onFailure(Throwable caught) {
+                if (isNoSuchEntity(caught) || isSigninFailure(caught)) {
+                  tokenLabel.setText("");
+                  expiresLabel.setText("");
+                  netrcValue.setText("");
+                  cookieValue.setText("");
+                  flow.setVisible(false);
+                  expiredNote.setVisible(true);
+                } else {
+                  showFailure(caught);
+                }
+              }
+            });
   }
 
   private static long getExpiresAt(OAuthTokenInfo tokenInfo) {
@@ -155,16 +159,14 @@ public class MyOAuthTokenScreen extends SettingsScreen {
     return getExpiresAt(tokenInfo) / 1000L;
   }
 
-  private static String getExpiresAt(OAuthTokenInfo tokenInfo,
-      GeneralPreferences prefs) {
+  private static String getExpiresAt(OAuthTokenInfo tokenInfo, GeneralPreferences prefs) {
     long expiresAt = getExpiresAt(tokenInfo);
     if (expiresAt == Long.MAX_VALUE) {
       return "";
     }
     String dateFormat = prefs.dateFormat().getLongFormat();
     String timeFormat = prefs.timeFormat().getFormat();
-    DateTimeFormat formatter = DateTimeFormat.getFormat(
-        dateFormat + " " + timeFormat);
+    DateTimeFormat formatter = DateTimeFormat.getFormat(dateFormat + " " + timeFormat);
     return formatter.format(new Date(expiresAt));
   }
 
@@ -193,5 +195,4 @@ public class MyOAuthTokenScreen extends SettingsScreen {
     }
     return sb.toString();
   }
-
 }

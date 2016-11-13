@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-
 import java.util.Set;
 
 /** Translates an email address to a set of matching accounts. */

@@ -22,7 +22,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.inject.Guice;
 import com.google.inject.Module;
-
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
@@ -33,7 +32,6 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -43,7 +41,6 @@ import java.io.PushbackReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 
 /** Base class for any tests written in Prolog. */
 public abstract class PrologTestCase extends GerritBaseTests {
@@ -62,8 +59,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
     moduleList.add(new PrologModule.EnvironmentModule());
     moduleList.addAll(Arrays.asList(modules));
 
-    envFactory = Guice.createInjector(moduleList)
-        .getInstance(PrologEnvironment.Factory.class);
+    envFactory = Guice.createInjector(moduleList).getInstance(PrologEnvironment.Factory.class);
     PrologEnvironment env = envFactory.create(newMachine());
     consult(env, getClass(), prologResource);
 
@@ -71,9 +67,9 @@ public abstract class PrologTestCase extends GerritBaseTests {
     hasSetup = has(env, "setup");
     hasTeardown = has(env, "teardown");
 
-    StructureTerm head = new StructureTerm(":",
-        SymbolTerm.intern(pkg),
-        new StructureTerm(test_1, new VariableTerm()));
+    StructureTerm head =
+        new StructureTerm(
+            ":", SymbolTerm.intern(pkg), new StructureTerm(test_1, new VariableTerm()));
 
     tests = new ArrayList<>();
     for (Term[] pair : env.all(Prolog.BUILTIN, "clause", head, new VariableTerm())) {
@@ -88,8 +84,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
    *
    * @param env Prolog environment.
    */
-  protected void setUpEnvironment(PrologEnvironment env) {
-  }
+  protected void setUpEnvironment(PrologEnvironment env) {}
 
   private PrologMachineCopy newMachine() {
     BufferingPrologControl ctl = new BufferingPrologControl();
@@ -98,17 +93,17 @@ public abstract class PrologTestCase extends GerritBaseTests {
     return PrologMachineCopy.save(ctl);
   }
 
-  protected void consult(BufferingPrologControl env,
-      Class<?> clazz,
-      String prologResource) throws CompileException, IOException {
+  protected void consult(BufferingPrologControl env, Class<?> clazz, String prologResource)
+      throws CompileException, IOException {
     try (InputStream in = clazz.getResourceAsStream(prologResource)) {
       if (in == null) {
         throw new FileNotFoundException(prologResource);
       }
       SymbolTerm pathTerm = SymbolTerm.create(prologResource);
       JavaObjectTerm inTerm =
-          new JavaObjectTerm(new PushbackReader(new BufferedReader(
-              new InputStreamReader(in, UTF_8)), Prolog.PUSHBACK_SIZE));
+          new JavaObjectTerm(
+              new PushbackReader(
+                  new BufferedReader(new InputStreamReader(in, UTF_8)), Prolog.PUSHBACK_SIZE));
       if (!env.execute(Prolog.BUILTIN, "consult_stream", pathTerm, inTerm)) {
         throw new CompileException("Cannot consult " + prologResource);
       }
@@ -161,13 +156,14 @@ public abstract class PrologTestCase extends GerritBaseTests {
       }
 
       if (all.size() != 1) {
-       errors++;
+        errors++;
       }
     }
 
     long end = TimeUtil.nowMs();
     System.out.println("-------------------------------");
-    System.out.format("Prolog tests: %d, Failures: %d, Time elapsed %.3f sec",
+    System.out.format(
+        "Prolog tests: %d, Failures: %d, Time elapsed %.3f sec",
         tests.size(), errors, (end - start) / 1000.0);
     System.out.println();
 
@@ -177,9 +173,9 @@ public abstract class PrologTestCase extends GerritBaseTests {
   private void call(BufferingPrologControl env, String name) {
     StructureTerm head = SymbolTerm.create(pkg, name, 0);
     assert_()
-      .withFailureMessage("Cannot invoke " + pkg + ":" + name)
-      .that(env.execute(Prolog.BUILTIN, "call", head))
-      .isTrue();
+        .withFailureMessage("Cannot invoke " + pkg + ":" + name)
+        .that(env.execute(Prolog.BUILTIN, "call", head))
+        .isTrue();
   }
 
   private Term removePackage(Term test) {

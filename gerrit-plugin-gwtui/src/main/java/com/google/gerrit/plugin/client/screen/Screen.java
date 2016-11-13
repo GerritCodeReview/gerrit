@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Screen contributed by this plugin.
  *
- * Screens should be registered early at module load:
+ * <p>Screens should be registered early at module load:
  *
  * <pre>
  * &#064;Override
@@ -43,18 +43,18 @@ public final class Screen extends SimplePanel {
   public interface EntryPoint {
     /**
      * Invoked when the screen has been created, but not yet displayed.
-     * <p>
-     * The implementation should create a single widget to define the content of
-     * this screen and added it to the passed screen instance. When the screen
-     * is ready to be displayed, call {@link Screen#show()}.
-     * <p>
-     * To use multiple widgets, compose them in panels such as {@code FlowPanel}
-     * and add only the top level widget to the screen.
-     * <p>
-     * The screen is already attached to the browser DOM in an invisible area.
-     * Any widgets added to the screen will immediately receive {@code onLoad()}.
-     * GWT will fire {@code onUnload()} when the screen is removed from the UI,
-     * generally caused by the user navigating to another screen.
+     *
+     * <p>The implementation should create a single widget to define the content of this screen and
+     * added it to the passed screen instance. When the screen is ready to be displayed, call {@link
+     * Screen#show()}.
+     *
+     * <p>To use multiple widgets, compose them in panels such as {@code FlowPanel} and add only the
+     * top level widget to the screen.
+     *
+     * <p>The screen is already attached to the browser DOM in an invisible area. Any widgets added
+     * to the screen will immediately receive {@code onLoad()}. GWT will fire {@code onUnload()}
+     * when the screen is removed from the UI, generally caused by the user navigating to another
+     * screen.
      *
      * @param screen panel that will contain the screen widget.
      */
@@ -63,18 +63,22 @@ public final class Screen extends SimplePanel {
 
   static final class Context extends JavaScriptObject {
     native Element body() /*-{ return this.body }-*/;
+
     native JsArrayString token_match() /*-{ return this.token_match }-*/;
+
     native void show() /*-{ this.show() }-*/;
+
     native void setTitle(String t) /*-{ this.setTitle(t) }-*/;
+
     native void setWindowTitle(String t) /*-{ this.setWindowTitle(t) }-*/;
+
     native void detach(Screen s) /*-{
       this.onUnload($entry(function(){
         s.@com.google.gwt.user.client.ui.Widget::onDetach()();
       }));
     }-*/;
 
-    protected Context() {
-    }
+    protected Context() {}
   }
 
   private final Context ctx;
@@ -92,8 +96,8 @@ public final class Screen extends SimplePanel {
   }
 
   /**
-   * @param group groups range from 1 to {@code getTokenGroups() - 1}. Token
-   *        group 0 is the entire token, see {@link #getToken()}.
+   * @param group groups range from 1 to {@code getTokenGroups() - 1}. Token group 0 is the entire
+   *     token, see {@link #getToken()}.
    * @return the token from the regex match group.
    */
   public String getToken(int group) {

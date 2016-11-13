@@ -20,5 +20,6 @@ import java.util.Map;
 public class DeleteReviewerInput {
   /** Who to send email notifications to after the reviewer is deleted. */
   public NotifyHandling notify = NotifyHandling.ALL;
+
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

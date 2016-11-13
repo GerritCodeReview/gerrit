@@ -26,7 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -34,16 +34,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-
 @Singleton
 public class IncludedIn {
   private final GitRepositoryManager repoManager;
   private final DynamicSet<ExternalIncludedIn> externalIncludedIn;
 
   @Inject
-  IncludedIn(GitRepositoryManager repoManager,
-      DynamicSet<ExternalIncludedIn> externalIncludedIn) {
+  IncludedIn(GitRepositoryManager repoManager, DynamicSet<ExternalIncludedIn> externalIncludedIn) {
     this.repoManager = repoManager;
     this.externalIncludedIn = externalIncludedIn;
   }
@@ -63,17 +60,16 @@ public class IncludedIn {
       }
 
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
-      ListMultimap<String, String> external =
-          MultimapBuilder.hashKeys().arrayListValues().build();
+      ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
       for (ExternalIncludedIn ext : externalIncludedIn) {
-        ListMultimap<String, String> extIncludedIns = ext.getIncludedIn(
-            project.get(), rev.name(), d.getTags(), d.getBranches());
+        ListMultimap<String, String> extIncludedIns =
+            ext.getIncludedIn(project.get(), rev.name(), d.getTags(), d.getBranches());
         if (extIncludedIns != null) {
           external.putAll(extIncludedIns);
         }
       }
-      return new IncludedInInfo(d.getBranches(), d.getTags(),
-          (!external.isEmpty() ? external.asMap() : null));
+      return new IncludedInInfo(
+          d.getBranches(), d.getTags(), (!external.isEmpty() ? external.asMap() : null));
     }
   }
 }

@@ -18,7 +18,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.UserConfig;
@@ -43,5 +42,4 @@ public class GerritPersonIdentProvider implements Provider<PersonIdent> {
   public PersonIdent get() {
     return new PersonIdent(name, email);
   }
-
 }

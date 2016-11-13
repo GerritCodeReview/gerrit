@@ -22,7 +22,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;

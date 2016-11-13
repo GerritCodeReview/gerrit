@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
-
 import java.sql.Timestamp;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
@@ -75,11 +74,10 @@ public final class AccountGroupMemberAudit {
   @Column(id = 4, notNull = false)
   protected Timestamp removedOn;
 
-  protected AccountGroupMemberAudit() {
-  }
+  protected AccountGroupMemberAudit() {}
 
-  public AccountGroupMemberAudit(final AccountGroupMember m,
-      final Account.Id adder, Timestamp addedOn) {
+  public AccountGroupMemberAudit(
+      final AccountGroupMember m, final Account.Id adder, Timestamp addedOn) {
     final Account.Id who = m.getAccountId();
     final AccountGroup.Id group = m.getAccountGroupId();
     key = new AccountGroupMemberAudit.Key(who, group, addedOn);

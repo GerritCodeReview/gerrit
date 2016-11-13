@@ -31,14 +31,11 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
-
-import org.eclipse.jgit.http.server.GitSmartHttpTools;
-
 import java.util.EnumSet;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 @RequestScoped
 public abstract class CacheBasedWebSession implements WebSession {
@@ -58,7 +55,8 @@ public abstract class CacheBasedWebSession implements WebSession {
   private Val val;
   private CurrentUser user;
 
-  protected CacheBasedWebSession(final HttpServletRequest request,
+  protected CacheBasedWebSession(
+      final HttpServletRequest request,
       final HttpServletResponse response,
       final WebSessionManager manager,
       final AuthConfig authConfig,
@@ -71,8 +69,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
 
-    if (request.getRequestURI() == null
-        || !GitSmartHttpTools.isGitClient(request)) {
+    if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
       String cookie = readCookie();
       if (cookie != null) {
         key = new Key(cookie);

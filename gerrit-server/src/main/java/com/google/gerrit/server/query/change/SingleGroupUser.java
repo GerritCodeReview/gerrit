@@ -19,20 +19,19 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
-
 import java.util.Collections;
 import java.util.Set;
 
 public final class SingleGroupUser extends CurrentUser {
   private final GroupMembership groups;
 
-  public SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
-      AccountGroup.UUID groupId) {
+  public SingleGroupUser(
+      CapabilityControl.Factory capabilityControlFactory, AccountGroup.UUID groupId) {
     this(capabilityControlFactory, Collections.singleton(groupId));
   }
 
-  public SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
-      Set<AccountGroup.UUID> groups) {
+  public SingleGroupUser(
+      CapabilityControl.Factory capabilityControlFactory, Set<AccountGroup.UUID> groups) {
     super(capabilityControlFactory);
     this.groups = new ListGroupMembership(groups);
   }

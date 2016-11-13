@@ -27,14 +27,10 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A collection of static methods which work on the Gerrit REST API for specific
- * accounts.
- */
+/** A collection of static methods which work on the Gerrit REST API for specific accounts. */
 public class AccountApi {
   public static RestApi self() {
     return new RestApi("/accounts/").view("self");
@@ -46,23 +42,20 @@ public class AccountApi {
   }
 
   /** Put the account edit preferences */
-  public static void putEditPreferences(EditPreferences in,
-      AsyncCallback<EditPreferences> cb) {
+  public static void putEditPreferences(EditPreferences in, AsyncCallback<EditPreferences> cb) {
     self().view("preferences.edit").put(in, cb);
   }
 
-  public static void suggest(String query, int limit,
-      AsyncCallback<JsArray<AccountInfo>> cb) {
+  public static void suggest(String query, int limit, AsyncCallback<JsArray<AccountInfo>> cb) {
     new RestApi("/accounts/")
-      .addParameterTrue("suggest")
-      .addParameter("q", query)
-      .addParameter("n", limit)
-      .background()
-      .get(cb);
+        .addParameterTrue("suggest")
+        .addParameter("q", query)
+        .addParameter("n", limit)
+        .background()
+        .get(cb);
   }
 
-  public static void putDiffPreferences(DiffPreferences in,
-      AsyncCallback<DiffPreferences> cb) {
+  public static void putDiffPreferences(DiffPreferences in, AsyncCallback<DiffPreferences> cb) {
     self().view("preferences.diff").put(in, cb);
   }
 
@@ -72,8 +65,7 @@ public class AccountApi {
   }
 
   /** Set the username */
-  public static void setUsername(String account, String username,
-      AsyncCallback<NativeString> cb) {
+  public static void setUsername(String account, String username, AsyncCallback<NativeString> cb) {
     UsernameInput input = UsernameInput.create();
     input.username(username);
     new RestApi("/accounts/").id(account).view("username").put(input, cb);
@@ -85,50 +77,42 @@ public class AccountApi {
   }
 
   /** Set the account name */
-  public static void setName(String account, String name,
-      AsyncCallback<NativeString> cb) {
+  public static void setName(String account, String name, AsyncCallback<NativeString> cb) {
     AccountNameInput input = AccountNameInput.create();
     input.name(name);
     new RestApi("/accounts/").id(account).view("name").put(input, cb);
   }
 
   /** Retrieve email addresses */
-  public static void getEmails(String account,
-      AsyncCallback<JsArray<EmailInfo>> cb) {
+  public static void getEmails(String account, AsyncCallback<JsArray<EmailInfo>> cb) {
     new RestApi("/accounts/").id(account).view("emails").get(cb);
   }
 
   /** Register a new email address */
-  public static void registerEmail(String account, String email,
-      AsyncCallback<EmailInfo> cb) {
+  public static void registerEmail(String account, String email, AsyncCallback<EmailInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    new RestApi("/accounts/").id(account).view("emails").id(email)
-        .ifNoneMatch().put(in, cb);
+    new RestApi("/accounts/").id(account).view("emails").id(email).ifNoneMatch().put(in, cb);
   }
 
   /** Set preferred email address */
-  public static void setPreferredEmail(String account, String email,
-      AsyncCallback<NativeString> cb) {
-    new RestApi("/accounts/").id(account).view("emails")
-        .id(email).view("preferred").put(cb);
+  public static void setPreferredEmail(
+      String account, String email, AsyncCallback<NativeString> cb) {
+    new RestApi("/accounts/").id(account).view("emails").id(email).view("preferred").put(cb);
   }
 
   /** Retrieve SSH keys */
-  public static void getSshKeys(String account,
-      AsyncCallback<JsArray<SshKeyInfo>> cb) {
+  public static void getSshKeys(String account, AsyncCallback<JsArray<SshKeyInfo>> cb) {
     new RestApi("/accounts/").id(account).view("sshkeys").get(cb);
   }
 
   /** Add a new SSH keys */
-  public static void addSshKey(String account, String sshPublicKey,
-      AsyncCallback<SshKeyInfo> cb) {
-    new RestApi("/accounts/").id(account).view("sshkeys")
-        .post(sshPublicKey, cb);
+  public static void addSshKey(String account, String sshPublicKey, AsyncCallback<SshKeyInfo> cb) {
+    new RestApi("/accounts/").id(account).view("sshkeys").post(sshPublicKey, cb);
   }
 
   /** Retrieve Watched Projects */
-  public static void getWatchedProjects(String account,
-      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+  public static void getWatchedProjects(
+      String account, AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
     new RestApi("/accounts/").id(account).view("watched.projects").get(cb);
   }
 
@@ -175,53 +159,46 @@ public class AccountApi {
   }
 
   /**
-   * Delete SSH keys. For each key to be deleted a separate DELETE request is
-   * fired to the server. The {@code onSuccess} method of the provided callback
-   * is invoked once after all requests succeeded. If any request fails the
-   * callbacks' {@code onFailure} method is invoked. In a failure case it can be
-   * that still some of the keys were successfully deleted.
+   * Delete SSH keys. For each key to be deleted a separate DELETE request is fired to the server.
+   * The {@code onSuccess} method of the provided callback is invoked once after all requests
+   * succeeded. If any request fails the callbacks' {@code onFailure} method is invoked. In a
+   * failure case it can be that still some of the keys were successfully deleted.
    */
-  public static void deleteSshKeys(String account,
-      Set<Integer> sequenceNumbers, AsyncCallback<VoidResult> cb) {
+  public static void deleteSshKeys(
+      String account, Set<Integer> sequenceNumbers, AsyncCallback<VoidResult> cb) {
     CallbackGroup group = new CallbackGroup();
     for (int seq : sequenceNumbers) {
-      new RestApi("/accounts/").id(account).view("sshkeys").id(seq)
-          .delete(group.add(cb));
+      new RestApi("/accounts/").id(account).view("sshkeys").id(seq).delete(group.add(cb));
       cb = CallbackGroup.emptyCallback();
     }
     group.done();
   }
 
   /** Retrieve the HTTP password */
-  public static void getHttpPassword(String account,
-      AsyncCallback<NativeString> cb) {
+  public static void getHttpPassword(String account, AsyncCallback<NativeString> cb) {
     new RestApi("/accounts/").id(account).view("password.http").get(cb);
   }
 
   /** Generate a new HTTP password */
-  public static void generateHttpPassword(String account,
-      AsyncCallback<NativeString> cb) {
+  public static void generateHttpPassword(String account, AsyncCallback<NativeString> cb) {
     HttpPasswordInput in = HttpPasswordInput.create();
     in.generate(true);
     new RestApi("/accounts/").id(account).view("password.http").put(in, cb);
   }
 
   /** Clear HTTP password */
-  public static void clearHttpPassword(String account,
-      AsyncCallback<VoidResult> cb) {
+  public static void clearHttpPassword(String account, AsyncCallback<VoidResult> cb) {
     new RestApi("/accounts/").id(account).view("password.http").delete(cb);
   }
 
   /** Enter a contributor agreement */
-  public static void enterAgreement(String account, String name,
-      AsyncCallback<NativeString> cb) {
+  public static void enterAgreement(String account, String name, AsyncCallback<NativeString> cb) {
     AgreementInput in = AgreementInput.create();
     in.name(name);
     new RestApi("/accounts/").id(account).view("agreements").put(in, cb);
   }
 
-  private static JsArray<ProjectWatchInfo> projectWatchArrayFromSet(
-      Set<ProjectWatchInfo> set) {
+  private static JsArray<ProjectWatchInfo> projectWatchArrayFromSet(Set<ProjectWatchInfo> set) {
     JsArray<ProjectWatchInfo> jsArray = JsArray.createArray().cast();
     for (ProjectWatchInfo p : set) {
       jsArray.push(p);
@@ -236,8 +213,7 @@ public class AccountApi {
       return createObject().cast();
     }
 
-    protected AgreementInput() {
-    }
+    protected AgreementInput() {}
   }
 
   private static class HttpPasswordInput extends JavaScriptObject {
@@ -247,8 +223,7 @@ public class AccountApi {
       return createObject().cast();
     }
 
-    protected HttpPasswordInput() {
-    }
+    protected HttpPasswordInput() {}
   }
 
   private static class UsernameInput extends JavaScriptObject {
@@ -258,8 +233,7 @@ public class AccountApi {
       return createObject().cast();
     }
 
-    protected UsernameInput() {
-    }
+    protected UsernameInput() {}
   }
 
   private static class AccountNameInput extends JavaScriptObject {
@@ -269,29 +243,24 @@ public class AccountApi {
       return createObject().cast();
     }
 
-    protected AccountNameInput() {
-    }
+    protected AccountNameInput() {}
   }
 
-  public static void addGpgKey(String account, String armored,
-      AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
-    new RestApi("/accounts/")
-      .id(account)
-      .view("gpgkeys")
-      .post(GpgKeysInput.add(armored), cb);
+  public static void addGpgKey(
+      String account, String armored, AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
+    new RestApi("/accounts/").id(account).view("gpgkeys").post(GpgKeysInput.add(armored), cb);
   }
 
-  public static void deleteGpgKeys(String account,
-      Iterable<String> fingerprints, AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
+  public static void deleteGpgKeys(
+      String account, Iterable<String> fingerprints, AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
     new RestApi("/accounts/")
-      .id(account)
-      .view("gpgkeys")
-      .post(GpgKeysInput.delete(fingerprints), cb);
+        .id(account)
+        .view("gpgkeys")
+        .post(GpgKeysInput.delete(fingerprints), cb);
   }
 
   /** List contributor agreements */
-  public static void getAgreements(String account,
-      AsyncCallback<JsArray<AgreementInfo>> cb) {
+  public static void getAgreements(String account, AsyncCallback<JsArray<AgreementInfo>> cb) {
     new RestApi("/accounts/").id(account).view("agreements").get(cb);
   }
 
@@ -308,12 +277,10 @@ public class AccountApi {
       return {'add': keys};
     }-*/;
 
-    private static native GpgKeysInput createWithDelete(
-        JsArrayString fingerprints) /*-{
+    private static native GpgKeysInput createWithDelete(JsArrayString fingerprints) /*-{
       return {'delete': fingerprints};
     }-*/;
 
-    protected GpgKeysInput() {
-    }
+    protected GpgKeysInput() {}
   }
 }

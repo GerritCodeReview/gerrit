@@ -35,4 +35,3 @@ class VotableInfo {
     return s;
   }
 }
-

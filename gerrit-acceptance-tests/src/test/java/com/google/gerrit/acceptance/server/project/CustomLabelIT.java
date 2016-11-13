@@ -37,7 +37,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,17 +44,12 @@ import org.junit.Test;
 @NoHttpd
 public class CustomLabelIT extends AbstractDaemonTest {
 
-  @Inject
-  private DynamicSet<CommentAddedListener> source;
+  @Inject private DynamicSet<CommentAddedListener> source;
 
-  private final LabelType label = category("CustomLabel",
-      value(1, "Positive"),
-      value(0, "No score"),
-      value(-1, "Negative"));
+  private final LabelType label =
+      category("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
 
-  private final LabelType P = category("CustomLabel2",
-      value(1, "Positive"),
-      value(0, "No score"));
+  private final LabelType P = category("CustomLabel2", value(1, "Positive"), value(0, "No score"));
 
   private RegistrationHandle eventListenerRegistration;
   private CommentAddedListener.Event lastCommentAddedEvent;
@@ -63,20 +57,19 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    AccountGroup.UUID anonymousUsers =
-        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    Util.allow(cfg, Permission.forLabel(label.getName()), -1, 1, anonymousUsers,
-        "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(P.getName()), 0, 1, anonymousUsers,
-        "refs/heads/*");
+    AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    Util.allow(cfg, Permission.forLabel(label.getName()), -1, 1, anonymousUsers, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(P.getName()), 0, 1, anonymousUsers, "refs/heads/*");
     saveProjectConfig(project, cfg);
 
-    eventListenerRegistration = source.add(new CommentAddedListener() {
-      @Override
-      public void onCommentAdded(Event event) {
-        lastCommentAddedEvent = event;
-      }
-    });
+    eventListenerRegistration =
+        source.add(
+            new CommentAddedListener() {
+              @Override
+              public void onCommentAdded(Event event) {
+                lastCommentAddedEvent = event;
+              }
+            });
   }
 
   @After
@@ -145,9 +138,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     ReviewInput input = new ReviewInput().label(P.getName(), 0);
     input.message = "foo";
@@ -159,8 +150,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNull();
     assertThat(q.blocking).isNull();
-    assertThat(lastCommentAddedEvent.getComment()).isEqualTo(
-        "Patch Set 1:\n\n" + input.message);
+    assertThat(lastCommentAddedEvent.getComment()).isEqualTo("Patch Set 1:\n\n" + input.message);
   }
 
   @Test
@@ -199,8 +189,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     in = new ReviewInput();
     in.label(label.getName(), label.getMax().getValue());
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Voting on labels disallowed after submit: " + label.getName());
+    exception.expectMessage("Voting on labels disallowed after submit: " + label.getName());
     revision(r).review(in);
   }
 

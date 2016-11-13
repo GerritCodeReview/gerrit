@@ -23,14 +23,13 @@ import com.google.gerrit.sshd.DispatchCommandProvider;
 import com.google.gerrit.sshd.SuExec;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
 
-
 /** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {
   private final DownloadConfig downloadConfig;
   private final LfsPluginAuthCommand.Module lfsPluginAuthModule;
 
-  public DefaultCommandModule(boolean slave, DownloadConfig downloadCfg,
-      LfsPluginAuthCommand.Module module) {
+  public DefaultCommandModule(
+      boolean slave, DownloadConfig downloadCfg, LfsPluginAuthCommand.Module module) {
     slaveMode = slave;
     downloadConfig = downloadCfg;
     lfsPluginAuthModule = module;
@@ -103,8 +102,7 @@ public class DefaultCommandModule extends CommandModule {
         command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
         command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
       }
-      command(gerrit, "test-submit").toProvider(
-          new DispatchCommandProvider(testSubmit));
+      command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
     }
     command(gerrit, Receive.class);
 

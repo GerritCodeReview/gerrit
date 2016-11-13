@@ -32,16 +32,13 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.gerrit.util.cli.OptionHandlers;
-
+import java.net.SocketAddress;
+import java.sql.Timestamp;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.spi.OptionHandler;
 
-import java.net.SocketAddress;
-import java.sql.Timestamp;
-
 public class CmdLineParserModule extends FactoryModule {
-  public CmdLineParserModule() {
-  }
+  public CmdLineParserModule() {}
 
   @Override
   protected void configure() {
@@ -59,8 +56,7 @@ public class CmdLineParserModule extends FactoryModule {
     registerOptionHandler(Timestamp.class, TimestampHandler.class);
   }
 
-  private <T> void registerOptionHandler(Class<T> type,
-      Class<? extends OptionHandler<T>> impl) {
+  private <T> void registerOptionHandler(Class<T> type, Class<? extends OptionHandler<T>> impl) {
     install(OptionHandlerUtil.moduleFor(type, impl));
   }
 }

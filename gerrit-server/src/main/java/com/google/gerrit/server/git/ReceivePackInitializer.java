@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Project;
-
 import org.eclipse.jgit.transport.ReceivePack;
 
 @ExtensionPoint
@@ -25,9 +24,9 @@ public interface ReceivePackInitializer {
   /**
    * ReceivePack initialization.
    *
-   * Invoked by Gerrit when a new ReceivePack instance is created and just
-   * before it is used. Implementors will usually call setXXX methods on the
-   * receivePack parameter in order to set additional properties on it.
+   * <p>Invoked by Gerrit when a new ReceivePack instance is created and just before it is used.
+   * Implementors will usually call setXXX methods on the receivePack parameter in order to set
+   * additional properties on it.
    *
    * @param project project for which the ReceivePack is created
    * @param receivePack the ReceivePack instance which is being initialized

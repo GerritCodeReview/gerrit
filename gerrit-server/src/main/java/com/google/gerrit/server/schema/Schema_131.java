@@ -24,15 +24,13 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 public class Schema_131 extends SchemaVersion {
   private static final String COMMIT_MSG =
@@ -42,7 +40,8 @@ public class Schema_131 extends SchemaVersion {
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_131(Provider<Schema_130> prior,
+  Schema_131(
+      Provider<Schema_130> prior,
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
@@ -57,8 +56,7 @@ public class Schema_131 extends SchemaVersion {
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
-          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-              projectName, git)) {
+          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
         ProjectConfig config = ProjectConfig.read(md);
         if (config.hasLegacyPermissions()) {
           md.getCommitBuilder().setAuthor(serverUser);
@@ -71,10 +69,7 @@ public class Schema_131 extends SchemaVersion {
         throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }
-    ui.message("\tMigration completed:  " + repoUpgraded.size()
-        + " repositories updated:");
-    ui.message("\t"
-        + repoUpgraded.stream().map(n -> n.get())
-            .collect(Collectors.joining(" ")));
+    ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
+    ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(Collectors.joining(" ")));
   }
 }

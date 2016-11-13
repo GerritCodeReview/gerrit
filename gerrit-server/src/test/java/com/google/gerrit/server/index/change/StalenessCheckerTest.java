@@ -35,14 +35,12 @@ import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
-
+import java.util.stream.Stream;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.stream.Stream;
 
 public class StalenessCheckerTest extends GerritBaseTests {
   private static final String SHA1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
@@ -53,8 +51,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
 
   private static final Change.Id C = new Change.Id(1234);
 
-  private static final ProtobufCodec<Change> CHANGE_CODEC =
-      CodecFactory.encoder(Change.class);
+  private static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
 
   private GitRepositoryManager repoManager;
   private Repository r1;
@@ -105,15 +102,11 @@ public class StalenessCheckerTest extends GerritBaseTests {
   public void refStateToByteArray() {
     assertThat(
             new String(
-                RefState.create("refs/heads/foo", ObjectId.fromString(SHA1))
-                    .toByteArray(P1),
+                RefState.create("refs/heads/foo", ObjectId.fromString(SHA1)).toByteArray(P1),
                 UTF_8))
         .isEqualTo(P1 + ":refs/heads/foo:" + SHA1);
     assertThat(
-            new String(
-                RefState.create("refs/heads/foo", (ObjectId) null)
-                    .toByteArray(P1),
-                UTF_8))
+            new String(RefState.create("refs/heads/foo", (ObjectId) null).toByteArray(P1), UTF_8))
         .isEqualTo(P1 + ":refs/heads/foo:" + ObjectId.zeroId().name());
   }
 
@@ -146,8 +139,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
     p = r.get(P2).get(0);
     assertThat(p.pattern()).isEqualTo("refs/heads/foo/*/bar");
     assertThat(p.prefix()).isEqualTo("refs/heads/foo/");
-    assertThat(p.regex().pattern())
-        .isEqualTo("^\\Qrefs/heads/foo/\\E.*\\Q/bar\\E$");
+    assertThat(p.regex().pattern()).isEqualTo("^\\Qrefs/heads/foo/\\E.*\\Q/bar\\E$");
     assertThat(p.match("refs/heads/foo//bar")).isTrue();
     assertThat(p.match("refs/heads/foo/x/bar")).isTrue();
     assertThat(p.match("refs/heads/foo/x/y/bar")).isTrue();
@@ -156,8 +148,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
     p = r.get(P2).get(1);
     assertThat(p.pattern()).isEqualTo("refs/heads/foo/*-baz/*/quux");
     assertThat(p.prefix()).isEqualTo("refs/heads/foo/");
-    assertThat(p.regex().pattern())
-        .isEqualTo("^\\Qrefs/heads/foo/\\E.*\\Q-baz/\\E.*\\Q/quux\\E$");
+    assertThat(p.regex().pattern()).isEqualTo("^\\Qrefs/heads/foo/\\E.*\\Q-baz/\\E.*\\Q/quux\\E$");
     assertThat(p.match("refs/heads/foo/-baz//quux")).isTrue();
     assertThat(p.match("refs/heads/foo/x-baz/x/quux")).isTrue();
     assertThat(p.match("refs/heads/foo/x/y-baz/x/y/quux")).isTrue();
@@ -166,8 +157,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
 
   @Test
   public void refStatePatternToByteArray() {
-    assertThat(
-            new String(RefStatePattern.create("refs/*").toByteArray(P1), UTF_8))
+    assertThat(new String(RefStatePattern.create("refs/*").toByteArray(P1), UTF_8))
         .isEqualTo(P1 + ":refs/*");
   }
 
@@ -190,7 +180,8 @@ public class StalenessCheckerTest extends GerritBaseTests {
     // Not stale.
     assertThat(
             refsAreStale(
-                repoManager, C,
+                repoManager,
+                C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P2, RefState.create(ref2, id2.name())),
@@ -200,7 +191,8 @@ public class StalenessCheckerTest extends GerritBaseTests {
     // Wrong ref value.
     assertThat(
             refsAreStale(
-                repoManager, C,
+                repoManager,
+                C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, SHA1),
                     P2, RefState.create(ref2, id2.name())),
@@ -210,7 +202,8 @@ public class StalenessCheckerTest extends GerritBaseTests {
     // Swapped repos.
     assertThat(
             refsAreStale(
-                repoManager, C,
+                repoManager,
+                C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id2.name()),
                     P2, RefState.create(ref2, id1.name())),
@@ -223,7 +216,8 @@ public class StalenessCheckerTest extends GerritBaseTests {
     tr1.update(ref3, id3);
     assertThat(
             refsAreStale(
-                repoManager, C,
+                repoManager,
+                C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref3, id3.name())),
@@ -233,16 +227,17 @@ public class StalenessCheckerTest extends GerritBaseTests {
     // Ignore ref not mentioned.
     assertThat(
             refsAreStale(
-                repoManager, C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name())),
+                repoManager,
+                C,
+                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
                 ImmutableListMultimap.of()))
         .isFalse();
 
     // One ref wrong.
     assertThat(
             refsAreStale(
-                repoManager, C,
+                repoManager,
+                C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref3, SHA1)),
@@ -258,11 +253,10 @@ public class StalenessCheckerTest extends GerritBaseTests {
     // ref1 is only ref matching pattern.
     assertThat(
             refsAreStale(
-                repoManager, C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(
-                    P1, RefStatePattern.create("refs/heads/*"))))
+                repoManager,
+                C,
+                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*"))))
         .isFalse();
 
     // Now ref2 matches pattern, so stale unless ref2 is present in state map.
@@ -270,20 +264,19 @@ public class StalenessCheckerTest extends GerritBaseTests {
     ObjectId id2 = tr1.update(ref2, tr1.commit().message("commit 2"));
     assertThat(
             refsAreStale(
-                repoManager, C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(
-                    P1, RefStatePattern.create("refs/heads/*"))))
+                repoManager,
+                C,
+                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*"))))
         .isTrue();
     assertThat(
             refsAreStale(
-                repoManager, C,
+                repoManager,
+                C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref2, id2.name())),
-                ImmutableListMultimap.of(
-                    P1, RefStatePattern.create("refs/heads/*"))))
+                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*"))))
         .isFalse();
   }
 
@@ -296,11 +289,10 @@ public class StalenessCheckerTest extends GerritBaseTests {
     // ref1 is only ref matching pattern.
     assertThat(
             refsAreStale(
-                repoManager, C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(
-                    P1, RefStatePattern.create("refs/*/foo"))))
+                repoManager,
+                C,
+                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo"))))
         .isFalse();
 
     // Now ref2 matches pattern, so stale unless ref2 is present in state map.
@@ -308,20 +300,19 @@ public class StalenessCheckerTest extends GerritBaseTests {
     ObjectId id3 = tr1.update(ref3, tr1.commit().message("commit 3"));
     assertThat(
             refsAreStale(
-                repoManager, C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(
-                    P1, RefStatePattern.create("refs/*/foo"))))
+                repoManager,
+                C,
+                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo"))))
         .isTrue();
     assertThat(
             refsAreStale(
-                repoManager, C,
+                repoManager,
+                C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref3, id3.name())),
-                ImmutableListMultimap.of(
-                    P1, RefStatePattern.create("refs/*/foo"))))
+                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo"))))
         .isFalse();
   }
 
@@ -330,30 +321,22 @@ public class StalenessCheckerTest extends GerritBaseTests {
     Change indexChange = newChange(P1, new Account.Id(1));
     indexChange.setNoteDbState(SHA1);
 
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null))
-        .isFalse();
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null)).isFalse();
 
     Change noteDbPrimary = clone(indexChange);
     noteDbPrimary.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-    assertThat(
-            StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary))
-        .isFalse();
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary)).isFalse();
 
-    assertThat(
-            StalenessChecker.reviewDbChangeIsStale(
-                indexChange, clone(indexChange)))
-        .isFalse();
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, clone(indexChange))).isFalse();
 
     // Can't easily change row version to check true case.
   }
 
   private static Iterable<byte[]> byteArrays(String... strs) {
-    return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null)
-        .collect(toList());
+    return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null).collect(toList());
   }
 
   private static Change clone(Change change) {
     return CHANGE_CODEC.decode(CHANGE_CODEC.encodeToByteArray(change));
   }
-
 }

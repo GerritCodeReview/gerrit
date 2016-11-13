@@ -21,7 +21,6 @@ import com.google.gerrit.client.api.ExtensionSettingsScreen;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.common.PageLinks;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,8 +46,7 @@ public abstract class SettingsScreen extends MenuScreen {
     if (Gerrit.info().auth().isHttpPasswordSettingsEnabled()) {
       linkByGerrit(Util.C.tabHttpAccess(), PageLinks.SETTINGS_HTTP_PASSWORD);
     }
-    if (Gerrit.info().auth().isOAuth()
-        && Gerrit.info().auth().isGitBasicAuth()) {
+    if (Gerrit.info().auth().isOAuth() && Gerrit.info().auth().isGitBasicAuth()) {
       linkByGerrit(Util.C.tabOAuthToken(), PageLinks.SETTINGS_OAUTH_TOKEN);
     }
     if (Gerrit.info().gerrit().editGpgKeys()) {
@@ -72,8 +70,7 @@ public abstract class SettingsScreen extends MenuScreen {
     for (String pluginName : ExtensionSettingsScreen.Definition.plugins()) {
       for (ExtensionSettingsScreen.Definition def :
           Natives.asList(ExtensionSettingsScreen.Definition.get(pluginName))) {
-        linkByPlugin(pluginName, def.getMenu(),
-            PageLinks.toSettings(pluginName, def.getPath()));
+        linkByPlugin(pluginName, def.getMenu(), PageLinks.toSettings(pluginName, def.getPath()));
       }
     }
   }
@@ -96,11 +93,9 @@ public abstract class SettingsScreen extends MenuScreen {
     setPageTitle(Util.C.settingsHeading());
   }
 
-  protected ExtensionPanel createExtensionPoint(
-      GerritUiExtensionPoint extensionPoint) {
+  protected ExtensionPanel createExtensionPoint(GerritUiExtensionPoint extensionPoint) {
     ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
-    extensionPanel.putObject(GerritUiExtensionPoint.Key.ACCOUNT_INFO,
-        Gerrit.getUserAccount());
+    extensionPanel.putObject(GerritUiExtensionPoint.Key.ACCOUNT_INFO, Gerrit.getUserAccount());
     return extensionPanel;
   }
 }

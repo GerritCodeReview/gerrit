@@ -26,7 +26,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
@@ -36,9 +35,7 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
   private IncludedIn includedIn;
 
   @Inject
-  ChangeIncludedIn(Provider<ReviewDb> db,
-      PatchSetUtil psUtil,
-      IncludedIn includedIn) {
+  ChangeIncludedIn(Provider<ReviewDb> db, PatchSetUtil psUtil, IncludedIn includedIn) {
     this.db = db;
     this.psUtil = psUtil;
     this.includedIn = includedIn;

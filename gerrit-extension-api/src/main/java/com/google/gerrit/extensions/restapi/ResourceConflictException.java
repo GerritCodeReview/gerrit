@@ -16,11 +16,11 @@ package com.google.gerrit.extensions.restapi;
 
 /**
  * Resource state does not permit requested operation (HTTP 409 Conflict).
- * <p>
- * {@link RestModifyView} implementations may fail with this exception when the
- * named resource does not permit the modification to take place at this time.
- * An example use is trying to abandon a change that is already merged. The
- * change cannot be abandoned once merged so an operation would throw.
+ *
+ * <p>{@link RestModifyView} implementations may fail with this exception when the named resource
+ * does not permit the modification to take place at this time. An example use is trying to abandon
+ * a change that is already merged. The change cannot be abandoned once merged so an operation would
+ * throw.
  */
 public class ResourceConflictException extends RestApiException {
   private static final long serialVersionUID = 1L;

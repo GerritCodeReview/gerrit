@@ -40,7 +40,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -48,22 +53,15 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.StreamSupport;
-
 @Singleton
 public class StalenessChecker {
-  private static final Logger log =
-      LoggerFactory.getLogger(StalenessChecker.class);
+  private static final Logger log = LoggerFactory.getLogger(StalenessChecker.class);
 
-  public static final ImmutableSet<String> FIELDS = ImmutableSet.of(
-      ChangeField.CHANGE.getName(),
-      ChangeField.REF_STATE.getName(),
-      ChangeField.REF_STATE_PATTERN.getName());
+  public static final ImmutableSet<String> FIELDS =
+      ImmutableSet.of(
+          ChangeField.CHANGE.getName(),
+          ChangeField.REF_STATE.getName(),
+          ChangeField.REF_STATE_PATTERN.getName());
 
   private final ChangeIndexCollection indexes;
   private final GitRepositoryManager repoManager;
@@ -92,15 +90,19 @@ public class StalenessChecker {
       return false; // Index version not new enough for this check.
     }
 
-    Optional<ChangeData> result = i.get(
-        id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, FIELDS));
+    Optional<ChangeData> result =
+        i.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, FIELDS));
     if (!result.isPresent()) {
       return true; // Not in index, but caller wants it to be.
     }
     ChangeData cd = result.get();
-    return isStale(repoManager, id, cd.change(),
+    return isStale(
+        repoManager,
+        id,
+        cd.change(),
         ChangeNotes.readOneReviewDbChange(db.get(), id),
-        parseStates(cd), parsePatterns(cd));
+        parseStates(cd),
+        parsePatterns(cd));
   }
 
   public static boolean isStale(
@@ -115,12 +117,12 @@ public class StalenessChecker {
   }
 
   @VisibleForTesting
-  static boolean refsAreStale(GitRepositoryManager repoManager,
+  static boolean refsAreStale(
+      GitRepositoryManager repoManager,
       Change.Id id,
       SetMultimap<Project.NameKey, RefState> states,
       ListMultimap<Project.NameKey, RefStatePattern> patterns) {
-    Set<Project.NameKey> projects =
-        Sets.union(states.keySet(), patterns.keySet());
+    Set<Project.NameKey> projects = Sets.union(states.keySet(), patterns.keySet());
 
     for (Project.NameKey p : projects) {
       if (refsAreStale(repoManager, id, p, states, patterns)) {
@@ -132,14 +134,15 @@ public class StalenessChecker {
   }
 
   @VisibleForTesting
-  static boolean reviewDbChangeIsStale(
-      Change indexChange, @Nullable Change reviewDbChange) {
+  static boolean reviewDbChangeIsStale(Change indexChange, @Nullable Change reviewDbChange) {
     if (reviewDbChange == null) {
       return false; // Nothing the caller can do.
     }
-    checkArgument(indexChange.getId().equals(reviewDbChange.getId()),
+    checkArgument(
+        indexChange.getId().equals(reviewDbChange.getId()),
         "mismatched change ID: %s != %s",
-        indexChange.getId(), reviewDbChange.getId());
+        indexChange.getId(),
+        reviewDbChange.getId());
     if (PrimaryStorage.of(reviewDbChange) != PrimaryStorage.REVIEW_DB) {
       return false; // Not a ReviewDb change, don't check rowVersion.
     }
@@ -150,8 +153,7 @@ public class StalenessChecker {
     return parseStates(cd.getRefStates());
   }
 
-  public static SetMultimap<Project.NameKey, RefState> parseStates(
-      Iterable<byte[]> states) {
+  public static SetMultimap<Project.NameKey, RefState> parseStates(Iterable<byte[]> states) {
     RefState.check(states != null, null);
     SetMultimap<Project.NameKey, RefState> result =
         MultimapBuilder.hashKeys().hashSetValues().build();
@@ -159,20 +161,13 @@ public class StalenessChecker {
       RefState.check(b != null, null);
       String s = new String(b, UTF_8);
       List<String> parts = Splitter.on(':').splitToList(s);
-      RefState.check(
-          parts.size() == 3
-              && !parts.get(0).isEmpty()
-              && !parts.get(1).isEmpty(),
-          s);
-      result.put(
-          new Project.NameKey(parts.get(0)),
-          RefState.create(parts.get(1), parts.get(2)));
+      RefState.check(parts.size() == 3 && !parts.get(0).isEmpty() && !parts.get(1).isEmpty(), s);
+      result.put(new Project.NameKey(parts.get(0)), RefState.create(parts.get(1), parts.get(2)));
     }
     return result;
   }
 
-  private ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(
-      ChangeData cd) {
+  private ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(ChangeData cd) {
     return parsePatterns(cd.getRefStatePatterns());
   }
 
@@ -186,15 +181,15 @@ public class StalenessChecker {
       String s = new String(b, UTF_8);
       List<String> parts = Splitter.on(':').splitToList(s);
       RefStatePattern.check(parts.size() == 2, s);
-      result.put(
-          new Project.NameKey(parts.get(0)),
-          RefStatePattern.create(parts.get(1)));
+      result.put(new Project.NameKey(parts.get(0)), RefStatePattern.create(parts.get(1)));
     }
     return result;
   }
 
-  private static boolean refsAreStale(GitRepositoryManager repoManager,
-      Change.Id id, Project.NameKey project,
+  private static boolean refsAreStale(
+      GitRepositoryManager repoManager,
+      Change.Id id,
+      Project.NameKey project,
       SetMultimap<Project.NameKey, RefState> allStates,
       ListMultimap<Project.NameKey, RefStatePattern> allPatterns) {
     try (Repository repo = repoManager.openRepository(project)) {
@@ -211,9 +206,7 @@ public class StalenessChecker {
       }
       return false;
     } catch (IOException e) {
-      log.warn(
-          String.format("error checking staleness of %s in %s", id, project),
-          e);
+      log.warn(String.format("error checking staleness of %s in %s", id, project), e);
       return true;
     }
   }
@@ -221,18 +214,15 @@ public class StalenessChecker {
   @AutoValue
   public abstract static class RefState {
     static RefState create(String ref, String sha) {
-      return new AutoValue_StalenessChecker_RefState(
-          ref, ObjectId.fromString(sha));
+      return new AutoValue_StalenessChecker_RefState(ref, ObjectId.fromString(sha));
     }
 
     static RefState create(String ref, @Nullable ObjectId id) {
-      return new AutoValue_StalenessChecker_RefState(
-          ref, firstNonNull(id, ObjectId.zeroId()));
+      return new AutoValue_StalenessChecker_RefState(ref, firstNonNull(id, ObjectId.zeroId()));
     }
 
     static RefState of(Ref ref) {
-      return new AutoValue_StalenessChecker_RefState(
-          ref.getName(), ref.getObjectId());
+      return new AutoValue_StalenessChecker_RefState(ref.getName(), ref.getObjectId());
     }
 
     byte[] toByteArray(Project.NameKey project) {
@@ -248,6 +238,7 @@ public class StalenessChecker {
     }
 
     abstract String ref();
+
     abstract ObjectId id();
 
     private boolean match(Repository repo) throws IOException {
@@ -259,10 +250,10 @@ public class StalenessChecker {
 
   /**
    * Pattern for matching refs.
-   * <p>
-   * Similar to '*' syntax for native Git refspecs, but slightly more powerful:
-   * the pattern may contain arbitrarily many asterisks. There must be at least
-   * one '*' and the first one must immediately follow a '/'.
+   *
+   * <p>Similar to '*' syntax for native Git refspecs, but slightly more powerful: the pattern may
+   * contain arbitrarily many asterisks. There must be at least one '*' and the first one must
+   * immediately follow a '/'.
    */
   @AutoValue
   public abstract static class RefStatePattern {
@@ -290,15 +281,16 @@ public class StalenessChecker {
     }
 
     abstract String pattern();
+
     abstract String prefix();
+
     abstract Pattern regex();
 
     boolean match(String refName) {
       return regex().matcher(refName).find();
     }
 
-    private boolean match(Repository repo, Set<RefState> expected)
-        throws IOException {
+    private boolean match(Repository repo, Set<RefState> expected) throws IOException {
       for (Ref r : repo.getRefDatabase().getRefs(prefix()).values()) {
         if (!match(r.getName())) {
           continue;

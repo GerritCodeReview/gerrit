@@ -22,12 +22,10 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
-public class DeleteBranches
-    implements RestModifyView<ProjectResource, DeleteBranchesInput> {
+public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBranchesInput> {
   private final DeleteRef.Factory deleteRefFactory;
 
   @Inject

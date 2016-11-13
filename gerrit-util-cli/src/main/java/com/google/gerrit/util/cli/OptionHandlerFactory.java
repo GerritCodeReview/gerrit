@@ -20,6 +20,6 @@ import org.kohsuke.args4j.spi.Setter;
 
 /** Creates an args4j OptionHandler through a Guice Injector. */
 public interface OptionHandlerFactory<T> {
-  OptionHandler<T> create(org.kohsuke.args4j.CmdLineParser cmdLineParser,
-      OptionDef optionDef, Setter<T> setter);
+  OptionHandler<T> create(
+      org.kohsuke.args4j.CmdLineParser cmdLineParser, OptionDef optionDef, Setter<T> setter);
 }

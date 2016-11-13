@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.api.access;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
-
 import java.util.Map;
 import java.util.Set;
 

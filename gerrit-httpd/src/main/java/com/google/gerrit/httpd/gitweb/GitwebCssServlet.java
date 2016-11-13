@@ -24,11 +24,9 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,8 +54,7 @@ abstract class GitwebCssServlet extends HttpServlet {
   private final byte[] raw_css;
   private final byte[] gz_css;
 
-  GitwebCssServlet(final Path src)
-      throws IOException {
+  GitwebCssServlet(final Path src) throws IOException {
     if (src != null) {
       final Path dir = src.getParent();
       final String name = src.getFileName().toString();
@@ -84,8 +81,8 @@ abstract class GitwebCssServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     if (raw_css != null) {
       rsp.setContentType("text/css");
       rsp.setCharacterEncoding(UTF_8.name());

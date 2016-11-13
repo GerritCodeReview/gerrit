@@ -29,16 +29,11 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -48,6 +43,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 @Singleton
 /* OAuth web filter uses active OAuth session to perform OAuth requests */
@@ -61,7 +58,8 @@ class OAuthWebFilter implements Filter {
   private OAuthServiceProvider ssoProvider;
 
   @Inject
-  OAuthWebFilter(@CanonicalWebUrl @Nullable Provider<String> urlProvider,
+  OAuthWebFilter(
+      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       DynamicMap<OAuthServiceProvider> oauthServiceProviders,
       Provider<OAuthSession> oauthSessionProvider,
       SiteHeaderFooter header) {
@@ -77,12 +75,11 @@ class OAuthWebFilter implements Filter {
   }
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -93,9 +90,8 @@ class OAuthWebFilter implements Filter {
     }
 
     String provider = httpRequest.getParameter("provider");
-    OAuthServiceProvider service = ssoProvider == null
-        ? oauthSession.getServiceProvider()
-        : ssoProvider;
+    OAuthServiceProvider service =
+        ssoProvider == null ? oauthSession.getServiceProvider() : ssoProvider;
 
     if (isGerritLogin(httpRequest) || oauthSession.isOAuthFinal(httpRequest)) {
       if (service == null && Strings.isNullOrEmpty(provider)) {
@@ -112,29 +108,24 @@ class OAuthWebFilter implements Filter {
     }
   }
 
-  private OAuthServiceProvider findService(String providerId)
-      throws ServletException {
+  private OAuthServiceProvider findService(String providerId) throws ServletException {
     Set<String> plugins = oauthServiceProviders.plugins();
     for (String pluginName : plugins) {
-      Map<String, Provider<OAuthServiceProvider>> m =
-          oauthServiceProviders.byPlugin(pluginName);
-        for (Map.Entry<String, Provider<OAuthServiceProvider>> e
-            : m.entrySet()) {
-          if (providerId.equals(
-              String.format("%s_%s", pluginName, e.getKey()))) {
-            return e.getValue().get();
-          }
+      Map<String, Provider<OAuthServiceProvider>> m = oauthServiceProviders.byPlugin(pluginName);
+      for (Map.Entry<String, Provider<OAuthServiceProvider>> e : m.entrySet()) {
+        if (providerId.equals(String.format("%s_%s", pluginName, e.getKey()))) {
+          return e.getValue().get();
         }
+      }
     }
     throw new ServletException("No provider found for: " + providerId);
   }
 
-  private void selectProvider(HttpServletRequest req, HttpServletResponse res,
-      @Nullable String errorMessage)
+  private void selectProvider(
+      HttpServletRequest req, HttpServletResponse res, @Nullable String errorMessage)
       throws IOException {
     String self = req.getRequestURI();
-    String cancel = MoreObjects.firstNonNull(
-        urlProvider != null ? urlProvider.get() : "/", "/");
+    String cancel = MoreObjects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
     cancel += LoginUrlToken.getToken(req);
 
     Document doc = header.parse(OAuthWebFilter.class, "LoginForm.html");
@@ -153,33 +144,26 @@ class OAuthWebFilter implements Filter {
 
     Set<String> plugins = oauthServiceProviders.plugins();
     for (String pluginName : plugins) {
-      Map<String, Provider<OAuthServiceProvider>> m =
-          oauthServiceProviders.byPlugin(pluginName);
-        for (Map.Entry<String, Provider<OAuthServiceProvider>> e
-            : m.entrySet()) {
-          addProvider(providers, pluginName, e.getKey(),
-              e.getValue().get().getName());
-        }
+      Map<String, Provider<OAuthServiceProvider>> m = oauthServiceProviders.byPlugin(pluginName);
+      for (Map.Entry<String, Provider<OAuthServiceProvider>> e : m.entrySet()) {
+        addProvider(providers, pluginName, e.getKey(), e.getValue().get().getName());
+      }
     }
 
     sendHtml(res, doc);
   }
 
-  private static void addProvider(Element form, String pluginName,
-      String id, String serviceName) {
+  private static void addProvider(Element form, String pluginName, String id, String serviceName) {
     Element div = form.getOwnerDocument().createElement("div");
     div.setAttribute("id", id);
     Element hyperlink = form.getOwnerDocument().createElement("a");
-    hyperlink.setAttribute("href", String.format("?provider=%s_%s",
-        pluginName, id));
-    hyperlink.setTextContent(serviceName +
-        " (" + pluginName + " plugin)");
+    hyperlink.setAttribute("href", String.format("?provider=%s_%s", pluginName, id));
+    hyperlink.setTextContent(serviceName + " (" + pluginName + " plugin)");
     div.appendChild(hyperlink);
     form.appendChild(div);
   }
 
-  private static void sendHtml(HttpServletResponse res, Document doc)
-      throws IOException {
+  private static void sendHtml(HttpServletResponse res, Document doc) throws IOException {
     byte[] bin = HtmlDomUtil.toUTF8(doc);
     res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     res.setContentType("text/html");
@@ -190,12 +174,10 @@ class OAuthWebFilter implements Filter {
     }
   }
 
-  private void pickSSOServiceProvider()
-      throws ServletException {
+  private void pickSSOServiceProvider() throws ServletException {
     SortedSet<String> plugins = oauthServiceProviders.plugins();
     if (plugins.isEmpty()) {
-      throw new ServletException(
-          "OAuth service provider wasn't installed");
+      throw new ServletException("OAuth service provider wasn't installed");
     }
     if (plugins.size() == 1) {
       SortedMap<String, Provider<OAuthServiceProvider>> services =

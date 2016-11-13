@@ -22,9 +22,8 @@ public class IncludedInInfo {
   public List<String> tags;
   public Map<String, Collection<String>> external;
 
-  public IncludedInInfo(List<String> branches,
-      List<String> tags,
-      Map<String, Collection<String>> external) {
+  public IncludedInInfo(
+      List<String> branches, List<String> tags, Map<String, Collection<String>> external) {
     this.branches = branches;
     this.tags = tags;
     this.external = external;

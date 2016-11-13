@@ -23,15 +23,19 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 
 public interface GerritApi {
   Accounts accounts();
+
   Changes changes();
+
   Config config();
+
   Groups groups();
+
   Projects projects();
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements GerritApi {
     @Override
     public Accounts accounts() {

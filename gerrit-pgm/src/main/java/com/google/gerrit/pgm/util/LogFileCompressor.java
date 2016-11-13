@@ -23,10 +23,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,11 +32,12 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.zip.GZIPOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Compresses the old error logs. */
 public class LogFileCompressor implements Runnable {
-  private static final Logger log =
-      LoggerFactory.getLogger(LogFileCompressor.class);
+  private static final Logger log = LoggerFactory.getLogger(LogFileCompressor.class);
 
   public static class Module extends LifecycleModule {
     @Override
@@ -54,8 +51,7 @@ public class LogFileCompressor implements Runnable {
     private final LogFileCompressor compressor;
 
     @Inject
-    Lifecycle(WorkQueue queue,
-        LogFileCompressor compressor) {
+    Lifecycle(WorkQueue queue, LogFileCompressor compressor) {
       this.queue = queue;
       this.compressor = compressor;
     }
@@ -66,15 +62,14 @@ public class LogFileCompressor implements Runnable {
       queue.getDefaultQueue().execute(compressor);
       ZoneId zone = ZoneId.systemDefault();
       LocalDate now = LocalDate.now(zone);
-      long milliSecondsUntil11pm = now.atStartOfDay(zone)
-          .plusHours(23).toInstant().toEpochMilli();
-      queue.getDefaultQueue().scheduleAtFixedRate(compressor,
-          milliSecondsUntil11pm, HOURS.toMillis(24), MILLISECONDS);
+      long milliSecondsUntil11pm = now.atStartOfDay(zone).plusHours(23).toInstant().toEpochMilli();
+      queue
+          .getDefaultQueue()
+          .scheduleAtFixedRate(compressor, milliSecondsUntil11pm, HOURS.toMillis(24), MILLISECONDS);
     }
 
     @Override
-    public void stop() {
-    }
+    public void stop() {}
   }
 
   private final Path logs_dir;

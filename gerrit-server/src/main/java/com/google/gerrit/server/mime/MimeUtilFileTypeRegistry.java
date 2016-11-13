@@ -17,15 +17,9 @@ package com.google.gerrit.server.mime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,13 +27,15 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
   private static final String KEY_SAFE = "safe";
   private static final String SECTION_MIMETYPE = "mimetype";
-  private static final Logger log =
-      LoggerFactory.getLogger(MimeUtilFileTypeRegistry.class);
+  private static final Logger log = LoggerFactory.getLogger(MimeUtilFileTypeRegistry.class);
 
   private final Config cfg;
   private final MimeUtil2 mimeUtil;
@@ -53,9 +49,8 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
   /**
    * Get specificity of mime types with generic types forced to low values
    *
-   * "application/octet-stream" is forced to -1.
-   * "text/plain" is forced to 0.
-   * All other mime types return the specificity reported by mimeType itself.
+   * <p>"application/octet-stream" is forced to -1. "text/plain" is forced to 0. All other mime
+   * types return the specificity reported by mimeType itself.
    *
    * @param mimeType The mimeType to get the corrected specificity for.
    * @return The corrected specificity.
@@ -103,12 +98,14 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     }
 
     final List<MimeType> types = new ArrayList<>(mimeTypes);
-    Collections.sort(types, new Comparator<MimeType>() {
-      @Override
-      public int compare(MimeType a, MimeType b) {
-        return getCorrectedMimeSpecificity(b) - getCorrectedMimeSpecificity(a);
-      }
-    });
+    Collections.sort(
+        types,
+        new Comparator<MimeType>() {
+          @Override
+          public int compare(MimeType a, MimeType b) {
+            return getCorrectedMimeSpecificity(b) - getCorrectedMimeSpecificity(a);
+          }
+        });
     return types.get(0);
   }
 
@@ -135,7 +132,6 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     if (mimeTypes.isEmpty()) {
       return true;
     }
-    return mimeTypes.size() == 1
-        && mimeTypes.contains(MimeUtil2.UNKNOWN_MIME_TYPE);
+    return mimeTypes.size() == 1 && mimeTypes.contains(MimeUtil2.UNKNOWN_MIME_TYPE);
   }
 }

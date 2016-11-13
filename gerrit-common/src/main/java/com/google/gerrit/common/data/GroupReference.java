@@ -28,18 +28,15 @@ public class GroupReference implements Comparable<GroupReference> {
   }
 
   public static GroupReference fromString(String ref) {
-    String name =
-        ref.substring(ref.indexOf("[") + 1, ref.lastIndexOf("/")).trim();
-    String uuid =
-        ref.substring(ref.lastIndexOf("/") + 1, ref.lastIndexOf("]")).trim();
+    String name = ref.substring(ref.indexOf("[") + 1, ref.lastIndexOf("/")).trim();
+    String uuid = ref.substring(ref.lastIndexOf("/") + 1, ref.lastIndexOf("]")).trim();
     return new GroupReference(new AccountGroup.UUID(uuid), name);
   }
 
   protected String uuid;
   protected String name;
 
-  protected GroupReference() {
-  }
+  protected GroupReference() {}
 
   public GroupReference(AccountGroup.UUID uuid, String name) {
     setUUID(uuid);

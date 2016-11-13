@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,8 +61,7 @@ public class DeleteTagIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteTagByProjectOwnerForcePushBlocked_Forbidden()
-      throws Exception {
+  public void deleteTagByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
     grantOwner();
     blockForcePush();
     setApiUser(user);
@@ -96,22 +94,18 @@ public class DeleteTagIT extends AbstractDaemonTest {
     allow(Permission.DELETE, ANONYMOUS_USERS, "refs/tags/*");
   }
 
-   private void grantOwner() throws Exception {
-     allow(Permission.OWNER, REGISTERED_USERS, "refs/tags/*");
-   }
+  private void grantOwner() throws Exception {
+    allow(Permission.OWNER, REGISTERED_USERS, "refs/tags/*");
+  }
 
   private TagApi tag() throws Exception {
-    return gApi.projects()
-        .name(project.get())
-        .tag(TAG);
+    return gApi.projects().name(project.get()).tag(TAG);
   }
 
   private void assertDeleteSucceeds() throws Exception {
     String tagRev = tag().get().revision;
     tag().delete();
-    eventRecorder.assertRefUpdatedEvents(project.get(), TAG,
-        null, tagRev,
-        tagRev, null);
+    eventRecorder.assertRefUpdatedEvents(project.get(), TAG, null, tagRev, tagRev, null);
     exception.expect(ResourceNotFoundException.class);
     tag().get();
   }

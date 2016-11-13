@@ -18,17 +18,30 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface ChangeMessages extends Messages {
   String patchSets(String currentlyViewedPatchSet, int currentPatchSet);
+
   String changeWithNoRevisions(int changeId);
+
   String relatedChanges(int count);
+
   String relatedChanges(String count);
+
   String conflictingChanges(int count);
+
   String conflictingChanges(String count);
+
   String cherryPicks(int count);
+
   String cherryPicks(String count);
+
   String sameTopic(int count);
+
   String sameTopic(String count);
+
   String submittedTogether(int count);
+
   String submittedTogether(String count);
+
   String editPatchSet(int patchSet);
+
   String failedToLoadFileList(String error);
 }

@@ -21,15 +21,15 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
-public class ProjectInfo
-    extends JavaScriptObject
-    implements SuggestOracle.Suggestion {
+public class ProjectInfo extends JavaScriptObject implements SuggestOracle.Suggestion {
   public final Project.NameKey name_key() {
     return new Project.NameKey(name());
   }
 
   public final native String name() /*-{ return this.name; }-*/;
+
   public final native String description() /*-{ return this.description; }-*/;
+
   public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
   public final ProjectState state() {
@@ -51,6 +51,5 @@ public class ProjectInfo
     return name();
   }
 
-  protected ProjectInfo() {
-  }
+  protected ProjectInfo() {}
 }

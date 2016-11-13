@@ -16,36 +16,33 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevCommitList;
-import org.eclipse.jgit.revwalk.RevFlag;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevCommitList;
+import org.eclipse.jgit.revwalk.RevFlag;
 
 public class MergeSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  public MergeSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted,
-      RevFlag canMergeFlag) {
+  public MergeSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted, RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
   }
 
-  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> toMerge)
-    throws IOException {
+  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> toMerge) throws IOException {
     return sort(toMerge, toMerge);
   }
 
-  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> toMerge,
-      final Collection<CodeReviewCommit> incoming) throws IOException {
+  Collection<CodeReviewCommit> sort(
+      final Collection<CodeReviewCommit> toMerge, final Collection<CodeReviewCommit> incoming)
+      throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {

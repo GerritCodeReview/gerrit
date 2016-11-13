@@ -36,7 +36,8 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Injector;
-
+import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.easymock.EasyMock;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -44,12 +45,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-import java.util.TimeZone;
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
- * Utility functions to create and manipulate Change, ChangeUpdate, and
- * ChangeControl objects for testing.
+ * Utility functions to create and manipulate Change, ChangeUpdate, and ChangeControl objects for
+ * testing.
  */
 public class TestChanges {
   private static final AtomicInteger nextChangeId = new AtomicInteger(1);
@@ -58,26 +56,24 @@ public class TestChanges {
     return newChange(project, userId, nextChangeId.getAndIncrement());
   }
 
-  public static Change newChange(Project.NameKey project, Account.Id userId,
-      int id) {
+  public static Change newChange(Project.NameKey project, Account.Id userId, int id) {
     Change.Id changeId = new Change.Id(id);
-    Change c = new Change(
-        new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
-        changeId,
-        userId,
-        new Branch.NameKey(project, "master"),
-        TimeUtil.nowTs());
+    Change c =
+        new Change(
+            new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
+            changeId,
+            userId,
+            new Branch.NameKey(project, "master"),
+            TimeUtil.nowTs());
     incrementPatchSet(c);
     return c;
   }
 
-  public static PatchSet newPatchSet(PatchSet.Id id, ObjectId revision,
-      Account.Id userId) {
+  public static PatchSet newPatchSet(PatchSet.Id id, ObjectId revision, Account.Id userId) {
     return newPatchSet(id, revision.name(), userId);
   }
 
-  public static PatchSet newPatchSet(PatchSet.Id id, String revision,
-      Account.Id userId) {
+  public static PatchSet newPatchSet(PatchSet.Id id, String revision, Account.Id userId) {
     PatchSet ps = new PatchSet(id);
     ps.setRevision(new RevId(revision));
     ps.setUploader(userId);
@@ -85,25 +81,26 @@ public class TestChanges {
     return ps;
   }
 
-  public static ChangeUpdate newUpdate(Injector injector,
-      Change c, final CurrentUser user) throws Exception  {
-    injector = injector.createChildInjector(new FactoryModule() {
-      @Override
-      public void configure() {
-        bind(CurrentUser.class).toInstance(user);
-      }
-    });
-    ChangeUpdate update = injector.getInstance(ChangeUpdate.Factory.class)
-        .create(
-            stubChangeControl(
-                injector.getInstance(AbstractChangeNotes.Args.class),
-                c,
-                user),
-            TimeUtil.nowTs(), Ordering.<String> natural());
+  public static ChangeUpdate newUpdate(Injector injector, Change c, final CurrentUser user)
+      throws Exception {
+    injector =
+        injector.createChildInjector(
+            new FactoryModule() {
+              @Override
+              public void configure() {
+                bind(CurrentUser.class).toInstance(user);
+              }
+            });
+    ChangeUpdate update =
+        injector
+            .getInstance(ChangeUpdate.Factory.class)
+            .create(
+                stubChangeControl(injector.getInstance(AbstractChangeNotes.Args.class), c, user),
+                TimeUtil.nowTs(),
+                Ordering.<String>natural());
 
     ChangeNotes notes = update.getNotes();
-    boolean hasPatchSets = notes.getPatchSets() != null
-        && !notes.getPatchSets().isEmpty();
+    boolean hasPatchSets = notes.getPatchSets() != null && !notes.getPatchSets().isEmpty();
     NotesMigration migration = injector.getInstance(NotesMigration.class);
     if (hasPatchSets || !migration.readChanges()) {
       return update;
@@ -111,16 +108,16 @@ public class TestChanges {
 
     // Change doesn't exist yet. NoteDb requires that there be a commit for the
     // first patch set, so create one.
-    GitRepositoryManager repoManager =
-        injector.getInstance(GitRepositoryManager.class);
+    GitRepositoryManager repoManager = injector.getInstance(GitRepositoryManager.class);
     try (Repository repo = repoManager.openRepository(c.getProject())) {
       TestRepository<Repository> tr = new TestRepository<>(repo);
-      PersonIdent ident = user.asIdentifiedUser()
-          .newCommitterIdent(update.getWhen(), TimeZone.getDefault());
-      TestRepository<Repository>.CommitBuilder cb = tr.commit()
-          .author(ident)
-          .committer(ident)
-          .message(firstNonNull(c.getSubject(), "Test change"));
+      PersonIdent ident =
+          user.asIdentifiedUser().newCommitterIdent(update.getWhen(), TimeZone.getDefault());
+      TestRepository<Repository>.CommitBuilder cb =
+          tr.commit()
+              .author(ident)
+              .committer(ident)
+              .message(firstNonNull(c.getSubject(), "Test change"));
       Ref parent = repo.exactRef(c.getDest().get());
       if (parent != null) {
         cb.parent(tr.getRevWalk().parseCommit(parent.getObjectId()));
@@ -133,8 +130,7 @@ public class TestChanges {
   }
 
   private static ChangeControl stubChangeControl(
-      AbstractChangeNotes.Args args,
-      Change c, CurrentUser user) throws OrmException {
+      AbstractChangeNotes.Args args, Change c, CurrentUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getProject()).andStubReturn(new Project(c.getProject()));
@@ -148,8 +144,8 @@ public class TestChanges {
 
   public static void incrementPatchSet(Change change) {
     PatchSet.Id curr = change.currentPatchSetId();
-    PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(
-        change.getId(), curr != null ? curr.get() + 1 : 1));
+    PatchSetInfo ps =
+        new PatchSetInfo(new PatchSet.Id(change.getId(), curr != null ? curr.get() + 1 : 1));
     ps.setSubject("Change subject");
     change.setCurrentPatchSet(ps);
   }

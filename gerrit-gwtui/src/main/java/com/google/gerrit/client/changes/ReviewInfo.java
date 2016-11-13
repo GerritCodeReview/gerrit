@@ -21,6 +21,5 @@ public class ReviewInfo extends JavaScriptObject {
 
   public final native NativeMap<?> labels() /*-{ return this.labels }-*/;
 
-  protected ReviewInfo() {
-  }
+  protected ReviewInfo() {}
 }

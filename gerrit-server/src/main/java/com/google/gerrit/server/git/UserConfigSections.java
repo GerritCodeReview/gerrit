@@ -31,6 +31,7 @@ public class UserConfigSections {
 
   /** The table column user preferences. */
   public static final String CHANGE_TABLE = "changeTable";
+
   public static final String CHANGE_TABLE_COLUMN = "column";
 
   /** The edit user preferences. */
@@ -39,6 +40,5 @@ public class UserConfigSections {
   /** The diff user preferences. */
   public static final String DIFF = "diff";
 
-  private UserConfigSections() {
-  }
+  private UserConfigSections() {}
 }

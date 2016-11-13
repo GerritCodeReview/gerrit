@@ -20,12 +20,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.config.SitePaths;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
-import org.junit.runner.Description;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ProcessBuilder.Redirect;
@@ -37,10 +31,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.junit.runner.Description;
 
-/**
- * @deprecated use {@link LightweightPluginDaemonTest} instead.
- */
+/** @deprecated use {@link LightweightPluginDaemonTest} instead. */
 @Deprecated
 public abstract class PluginDaemonTest extends AbstractDaemonTest {
 
@@ -73,8 +69,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     super.beforeTest(description);
   }
 
-  protected void beforeTestServerStarts() throws Exception {
-  }
+  protected void beforeTestServerStarts() throws Exception {}
 
   protected void setPluginConfigString(String name, String value)
       throws IOException, ConfigInvalidException {
@@ -85,10 +80,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     cfg.save();
   }
 
-  private FileBasedConfig getGerritConfigFile(SitePaths sitePath)
-      throws IOException {
-    FileBasedConfig cfg =
-        new FileBasedConfig(sitePath.gerrit_config.toFile(), FS.DETECTED);
+  private FileBasedConfig getGerritConfigFile(SitePaths sitePath) throws IOException {
+    FileBasedConfig cfg = new FileBasedConfig(sitePath.gerrit_config.toFile(), FS.DETECTED);
     if (!cfg.getFile().exists()) {
       Path etc_path = Files.createDirectories(sitePath.etc_dir);
       Files.createFile(etc_path.resolve("gerrit.config"));
@@ -97,8 +90,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   }
 
   private void locatePaths() throws IOException {
-    URL pluginClassesUrl =
-        getClass().getProtectionDomain().getCodeSource().getLocation();
+    URL pluginClassesUrl = getClass().getProtectionDomain().getCodeSource().getLocation();
     basePath = Paths.get(pluginClassesUrl.getPath()).getParent();
 
     int idx = 0;
@@ -141,17 +133,15 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       return false;
     }
     String pathCharStringOrNone = "[a-zA-Z0-9._-]*?";
-    Pattern pattern = Pattern.compile(pathCharStringOrNone + "gerrit" +
-        pathCharStringOrNone);
+    Pattern pattern = Pattern.compile(pathCharStringOrNone + "gerrit" + pathCharStringOrNone);
     Path partialPath = basePath;
     for (int i = basePath.getNameCount(); i > 0; i--) {
       int count = partialPath.getNameCount();
       if (count > 1) {
-        String gerritDirCandidate =
-            partialPath.subpath(count - 2, count - 1).toString();
+        String gerritDirCandidate = partialPath.subpath(count - 2, count - 1).toString();
         if (pattern.matcher(gerritDirCandidate).matches()) {
-          if (partialPath.endsWith(gerritDirCandidate + "/" + BUCKOUT) ||
-              partialPath.endsWith(gerritDirCandidate + "/" + ECLIPSE)) {
+          if (partialPath.endsWith(gerritDirCandidate + "/" + BUCKOUT)
+              || partialPath.endsWith(gerritDirCandidate + "/" + ECLIPSE)) {
             return false;
           }
         }
@@ -171,14 +161,11 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       buildfile = pluginSource.resolve("BUILD");
     }
     if (!Files.exists(buildfile)) {
-      throw new IllegalStateException("Cannot find build file in: "
-          + pluginSource);
+      throw new IllegalStateException("Cannot find build file in: " + pluginSource);
     }
     byte[] bytes = Files.readAllBytes(buildfile);
-    String buckContent =
-        new String(bytes, UTF_8).replaceAll("\\s+", "");
-    Matcher matcher =
-        Pattern.compile("gerrit_plugin\\(name='(.*?)'").matcher(buckContent);
+    String buckContent = new String(bytes, UTF_8).replaceAll("\\s+", "");
+    Matcher matcher = Pattern.compile("gerrit_plugin\\(name='(.*?)'").matcher(buckContent);
     if (matcher.find()) {
       pluginName = matcher.group(1);
     }
@@ -196,13 +183,11 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     String build;
     if (bazel) {
       dir = GerritLauncher.resolveInSourceRoot(".");
-      Properties properties = loadBuildProperties(
-          dir.resolve(".primary_build_tool"));
-      build = MoreObjects.firstNonNull(
-          properties.getProperty(BAZELLC), BAZELLC);
+      Properties properties = loadBuildProperties(dir.resolve(".primary_build_tool"));
+      build = MoreObjects.firstNonNull(properties.getProperty(BAZELLC), BAZELLC);
     } else {
-      Properties properties = loadBuildProperties(
-          gen.resolve(Paths.get("tools/buck/buck.properties")));
+      Properties properties =
+          loadBuildProperties(gen.resolve(Paths.get("tools/buck/buck.properties")));
       build = MoreObjects.firstNonNull(properties.getProperty(BUCKLC), BUCKLC);
     }
     String target;
@@ -213,7 +198,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     }
 
     ProcessBuilder processBuilder =
-        new ProcessBuilder(build, "build", target).directory(dir.toFile())
+        new ProcessBuilder(build, "build", target)
+            .directory(dir.toFile())
             .redirectErrorStream(true);
     Path forceJar = pluginSource.resolve("src/main/java/ForceJarIfMissing.java");
     if (!bazel) {

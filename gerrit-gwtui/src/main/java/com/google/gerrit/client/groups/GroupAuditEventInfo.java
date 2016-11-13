@@ -18,12 +18,14 @@ import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.GroupInfo;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
-
 import java.sql.Timestamp;
 
 public class GroupAuditEventInfo extends JavaScriptObject {
   public enum Type {
-    ADD_USER, REMOVE_USER, ADD_GROUP, REMOVE_GROUP
+    ADD_USER,
+    REMOVE_USER,
+    ADD_GROUP,
+    REMOVE_GROUP
   }
 
   public final Timestamp date() {
@@ -35,12 +37,14 @@ public class GroupAuditEventInfo extends JavaScriptObject {
   }
 
   public final native AccountInfo user() /*-{ return this.user; }-*/;
+
   public final native AccountInfo memberAsUser() /*-{ return this.member; }-*/;
+
   public final native GroupInfo memberAsGroup() /*-{ return this.member; }-*/;
 
   private native String dateRaw() /*-{ return this.date; }-*/;
+
   private native String typeRaw() /*-{ return this.type; }-*/;
 
-  protected GroupAuditEventInfo() {
-  }
+  protected GroupAuditEventInfo() {}
 }

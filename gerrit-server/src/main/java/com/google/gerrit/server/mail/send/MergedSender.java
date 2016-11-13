@@ -38,9 +38,7 @@ public class MergedSender extends ReplyToChangeSender {
   private final LabelTypes labelTypes;
 
   @Inject
-  public MergedSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public MergedSender(EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "merged", newChangeData(ea, project, id));
     labelTypes = changeData.changeControl().getLabelTypes();
@@ -69,8 +67,9 @@ public class MergedSender extends ReplyToChangeSender {
     try {
       Table<Account.Id, String, PatchSetApproval> pos = HashBasedTable.create();
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
-      for (PatchSetApproval ca : args.approvalsUtil.byPatchSet(
-            args.db.get(), changeData.changeControl(), patchSet.getId())) {
+      for (PatchSetApproval ca :
+          args.approvalsUtil.byPatchSet(
+              args.db.get(), changeData.changeControl(), patchSet.getId())) {
         LabelType lt = labelTypes.byLabel(ca.getLabelId());
         if (lt == null) {
           continue;
@@ -89,8 +88,7 @@ public class MergedSender extends ReplyToChangeSender {
     return "";
   }
 
-  private String format(String type,
-      Table<Account.Id, String, PatchSetApproval> approvals) {
+  private String format(String type, Table<Account.Id, String, PatchSetApproval> approvals) {
     StringBuilder txt = new StringBuilder();
     if (approvals.isEmpty()) {
       return "";

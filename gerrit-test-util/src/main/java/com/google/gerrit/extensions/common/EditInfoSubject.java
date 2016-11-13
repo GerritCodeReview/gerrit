@@ -22,30 +22,25 @@ import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.OptionalSubject;
-
 import java.util.Optional;
 
 public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
 
-  private static final SubjectFactory<EditInfoSubject, EditInfo>
-      EDIT_INFO_SUBJECT_FACTORY =
+  private static final SubjectFactory<EditInfoSubject, EditInfo> EDIT_INFO_SUBJECT_FACTORY =
       new SubjectFactory<EditInfoSubject, EditInfo>() {
         @Override
-        public EditInfoSubject getSubject(FailureStrategy failureStrategy,
-            EditInfo editInfo) {
+        public EditInfoSubject getSubject(FailureStrategy failureStrategy, EditInfo editInfo) {
           return new EditInfoSubject(failureStrategy, editInfo);
         }
       };
 
   public static EditInfoSubject assertThat(EditInfo editInfo) {
-    return assertAbout(EDIT_INFO_SUBJECT_FACTORY)
-        .that(editInfo);
+    return assertAbout(EDIT_INFO_SUBJECT_FACTORY).that(editInfo);
   }
 
   public static OptionalSubject<EditInfoSubject, EditInfo> assertThat(
       Optional<EditInfo> editInfoOptional) {
-    return OptionalSubject.assertThat(editInfoOptional,
-        EditInfoSubject::assertThat);
+    return OptionalSubject.assertThat(editInfoOptional, EditInfoSubject::assertThat);
   }
 
   private EditInfoSubject(FailureStrategy failureStrategy, EditInfo editInfo) {

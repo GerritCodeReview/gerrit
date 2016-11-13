@@ -23,7 +23,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,8 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
   private final CommentsUtil commentsUtil;
 
   @Inject
-  ListChangeRobotComments(Provider<ReviewDb> db,
+  ListChangeRobotComments(
+      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil) {
@@ -45,14 +45,14 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Map<String, List<RobotCommentInfo>> apply(
-      ChangeResource rsrc) throws AuthException, OrmException {
+  public Map<String, List<RobotCommentInfo>> apply(ChangeResource rsrc)
+      throws AuthException, OrmException {
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
-    return commentJson.get()
+    return commentJson
+        .get()
         .setFillAccounts(true)
         .setFillPatchSet(true)
         .newRobotCommentFormatter()
         .format(commentsUtil.robotCommentsByChange(cd.notes()));
   }
 }
-

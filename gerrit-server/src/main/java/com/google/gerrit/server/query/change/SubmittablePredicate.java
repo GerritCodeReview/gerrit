@@ -28,7 +28,8 @@ class SubmittablePredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return cd.submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT).stream()
+    return cd.submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT)
+        .stream()
         .anyMatch(r -> r.status == status);
   }
 

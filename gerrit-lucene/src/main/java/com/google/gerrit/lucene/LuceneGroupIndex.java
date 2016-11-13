@@ -32,7 +32,13 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
@@ -49,18 +55,9 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-public class LuceneGroupIndex extends
-    AbstractLuceneIndex<AccountGroup.UUID, AccountGroup> implements GroupIndex {
-  private static final Logger log =
-      LoggerFactory.getLogger(LuceneGroupIndex.class);
+public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, AccountGroup>
+    implements GroupIndex {
+  private static final Logger log = LoggerFactory.getLogger(LuceneGroupIndex.class);
 
   private static final String GROUPS = "groups";
 
@@ -78,13 +75,12 @@ public class LuceneGroupIndex extends
   private final QueryBuilder<AccountGroup> queryBuilder;
   private final Provider<GroupCache> groupCache;
 
-  private static Directory dir(Schema<AccountGroup> schema, Config cfg,
-      SitePaths sitePaths) throws IOException {
+  private static Directory dir(Schema<AccountGroup> schema, Config cfg, SitePaths sitePaths)
+      throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
     }
-    Path indexDir =
-        LuceneVersionManager.getDir(sitePaths, GROUPS + "_", schema);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, GROUPS + "_", schema);
     return FSDirectory.open(indexDir);
   }
 
@@ -93,13 +89,19 @@ public class LuceneGroupIndex extends
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
-      @Assisted Schema<AccountGroup> schema) throws IOException {
-    super(schema, sitePaths, dir(schema, cfg, sitePaths), GROUPS, null,
-        new GerritIndexWriterConfig(cfg, GROUPS), new SearcherFactory());
+      @Assisted Schema<AccountGroup> schema)
+      throws IOException {
+    super(
+        schema,
+        sitePaths,
+        dir(schema, cfg, sitePaths),
+        GROUPS,
+        null,
+        new GerritIndexWriterConfig(cfg, GROUPS),
+        new SearcherFactory());
     this.groupCache = groupCache;
 
-    indexWriterConfig =
-        new GerritIndexWriterConfig(cfg, GROUPS);
+    indexWriterConfig = new GerritIndexWriterConfig(cfg, GROUPS);
     queryBuilder = new QueryBuilder<>(schema, indexWriterConfig.getAnalyzer());
   }
 
@@ -123,9 +125,11 @@ public class LuceneGroupIndex extends
   }
 
   @Override
-  public DataSource<AccountGroup> getSource(Predicate<AccountGroup> p,
-      QueryOptions opts) throws QueryParseException {
-    return new QuerySource(opts, queryBuilder.toQuery(p),
+  public DataSource<AccountGroup> getSource(Predicate<AccountGroup> p, QueryOptions opts)
+      throws QueryParseException {
+    return new QuerySource(
+        opts,
+        queryBuilder.toQuery(p),
         new Sort(new SortField(UUID_SORT_FIELD, SortField.Type.STRING, false)));
   }
 
@@ -190,8 +194,7 @@ public class LuceneGroupIndex extends
   }
 
   private AccountGroup toAccountGroup(Document doc) {
-    AccountGroup.UUID uuid =
-        new AccountGroup.UUID(doc.getField(UUID.getName()).stringValue());
+    AccountGroup.UUID uuid = new AccountGroup.UUID(doc.getField(UUID.getName()).stringValue());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).
     return groupCache.get().get(uuid);

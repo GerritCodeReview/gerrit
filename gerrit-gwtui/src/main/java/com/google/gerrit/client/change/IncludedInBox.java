@@ -35,6 +35,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class IncludedInBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, IncludedInBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
@@ -57,25 +58,25 @@ class IncludedInBox extends Composite {
   @Override
   protected void onLoad() {
     if (!loaded) {
-      ChangeApi.includedIn(changeId.get(),
+      ChangeApi.includedIn(
+          changeId.get(),
           new AsyncCallback<IncludedInInfo>() {
-        @Override
-        public void onSuccess(IncludedInInfo r) {
-          branches.setInnerSafeHtml(formatList(r.branches()));
-          tags.setInnerSafeHtml(formatList(r.tags()));
-          for (String n : r.externalNames()) {
-            JsArrayString external = r.external(n);
-            if (external.length() > 0) {
-              appendRow(n, external);
+            @Override
+            public void onSuccess(IncludedInInfo r) {
+              branches.setInnerSafeHtml(formatList(r.branches()));
+              tags.setInnerSafeHtml(formatList(r.tags()));
+              for (String n : r.externalNames()) {
+                JsArrayString external = r.external(n);
+                if (external.length() > 0) {
+                  appendRow(n, external);
+                }
+              }
+              loaded = true;
             }
-          }
-          loaded = true;
-        }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+            @Override
+            public void onFailure(Throwable caught) {}
+          });
     }
   }
 
@@ -83,10 +84,7 @@ class IncludedInBox extends Composite {
     SafeHtmlBuilder html = new SafeHtmlBuilder();
     int size = l.length();
     for (int i = 0; i < size; i++) {
-      html.openSpan()
-          .addStyleName(style.includedInElement())
-          .append(l.get(i))
-          .closeSpan();
+      html.openSpan().addStyleName(style.includedInElement()).append(l.get(i)).closeSpan();
       if (i < size - 1) {
         html.append(", ");
       }

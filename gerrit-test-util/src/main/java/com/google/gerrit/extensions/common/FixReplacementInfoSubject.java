@@ -26,26 +26,22 @@ import com.google.gerrit.extensions.client.RangeSubject;
 public class FixReplacementInfoSubject
     extends Subject<FixReplacementInfoSubject, FixReplacementInfo> {
 
-  private static final SubjectFactory<FixReplacementInfoSubject,
-      FixReplacementInfo> FIX_REPLACEMENT_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<FixReplacementInfoSubject, FixReplacementInfo>() {
-        @Override
-        public FixReplacementInfoSubject getSubject(
-            FailureStrategy failureStrategy,
-            FixReplacementInfo fixReplacementInfo) {
-          return new FixReplacementInfoSubject(failureStrategy,
-              fixReplacementInfo);
-        }
-      };
+  private static final SubjectFactory<FixReplacementInfoSubject, FixReplacementInfo>
+      FIX_REPLACEMENT_INFO_SUBJECT_FACTORY =
+          new SubjectFactory<FixReplacementInfoSubject, FixReplacementInfo>() {
+            @Override
+            public FixReplacementInfoSubject getSubject(
+                FailureStrategy failureStrategy, FixReplacementInfo fixReplacementInfo) {
+              return new FixReplacementInfoSubject(failureStrategy, fixReplacementInfo);
+            }
+          };
 
-  public static FixReplacementInfoSubject assertThat(
-      FixReplacementInfo fixReplacementInfo) {
-    return assertAbout(FIX_REPLACEMENT_INFO_SUBJECT_FACTORY)
-        .that(fixReplacementInfo);
+  public static FixReplacementInfoSubject assertThat(FixReplacementInfo fixReplacementInfo) {
+    return assertAbout(FIX_REPLACEMENT_INFO_SUBJECT_FACTORY).that(fixReplacementInfo);
   }
 
-  private FixReplacementInfoSubject(FailureStrategy failureStrategy,
-      FixReplacementInfo fixReplacementInfo) {
+  private FixReplacementInfoSubject(
+      FailureStrategy failureStrategy, FixReplacementInfo fixReplacementInfo) {
     super(failureStrategy, fixReplacementInfo);
   }
 

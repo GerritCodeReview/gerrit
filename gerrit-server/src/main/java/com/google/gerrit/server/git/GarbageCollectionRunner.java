@@ -22,16 +22,13 @@ import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
-
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
-
 /** Runnable to enable scheduling gc to run periodically */
 public class GarbageCollectionRunner implements Runnable {
-  private static final Logger gcLog = LoggerFactory
-      .getLogger(GarbageCollection.LOG_NAME);
+  private static final Logger gcLog = LoggerFactory.getLogger(GarbageCollection.LOG_NAME);
 
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
@@ -39,8 +36,7 @@ public class GarbageCollectionRunner implements Runnable {
     private final GcConfig gcConfig;
 
     @Inject
-    Lifecycle(WorkQueue queue, GarbageCollectionRunner gcRunner,
-        GcConfig config) {
+    Lifecycle(WorkQueue queue, GarbageCollectionRunner gcRunner, GcConfig config) {
       this.queue = queue;
       this.gcRunner = gcRunner;
       this.gcConfig = config;
@@ -54,11 +50,11 @@ public class GarbageCollectionRunner implements Runnable {
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         gcLog.info("Ignoring missing gc schedule configuration");
       } else if (delay < 0 || interval <= 0) {
-        gcLog.warn(String.format(
-            "Ignoring invalid gc schedule configuration: %s", scheduleConfig));
+        gcLog.warn(String.format("Ignoring invalid gc schedule configuration: %s", scheduleConfig));
       } else {
-        queue.getDefaultQueue().scheduleAtFixedRate(gcRunner, delay,
-            interval, TimeUnit.MILLISECONDS);
+        queue
+            .getDefaultQueue()
+            .scheduleAtFixedRate(gcRunner, delay, interval, TimeUnit.MILLISECONDS);
       }
     }
 
@@ -72,8 +68,8 @@ public class GarbageCollectionRunner implements Runnable {
   private final ProjectCache projectCache;
 
   @Inject
-  GarbageCollectionRunner(GarbageCollection.Factory garbageCollectionFactory,
-      ProjectCache projectCache) {
+  GarbageCollectionRunner(
+      GarbageCollection.Factory garbageCollectionFactory, ProjectCache projectCache) {
     this.garbageCollectionFactory = garbageCollectionFactory;
     this.projectCache = projectCache;
   }
@@ -81,8 +77,7 @@ public class GarbageCollectionRunner implements Runnable {
   @Override
   public void run() {
     gcLog.info("Triggering gc on all repositories");
-    garbageCollectionFactory.create().run(
-        Lists.newArrayList(projectCache.all()));
+    garbageCollectionFactory.create().run(Lists.newArrayList(projectCache.all()));
   }
 
   @Override

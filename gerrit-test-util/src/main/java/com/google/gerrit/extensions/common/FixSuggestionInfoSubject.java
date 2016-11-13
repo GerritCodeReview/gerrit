@@ -23,29 +23,24 @@ import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.ListSubject;
 
-public class FixSuggestionInfoSubject
-    extends Subject<FixSuggestionInfoSubject, FixSuggestionInfo> {
+public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, FixSuggestionInfo> {
 
-  private static final SubjectFactory<FixSuggestionInfoSubject,
-      FixSuggestionInfo> FIX_SUGGESTION_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<FixSuggestionInfoSubject, FixSuggestionInfo>() {
-        @Override
-        public FixSuggestionInfoSubject getSubject(
-            FailureStrategy failureStrategy,
-            FixSuggestionInfo fixSuggestionInfo) {
-          return new FixSuggestionInfoSubject(failureStrategy,
-              fixSuggestionInfo);
-        }
-      };
+  private static final SubjectFactory<FixSuggestionInfoSubject, FixSuggestionInfo>
+      FIX_SUGGESTION_INFO_SUBJECT_FACTORY =
+          new SubjectFactory<FixSuggestionInfoSubject, FixSuggestionInfo>() {
+            @Override
+            public FixSuggestionInfoSubject getSubject(
+                FailureStrategy failureStrategy, FixSuggestionInfo fixSuggestionInfo) {
+              return new FixSuggestionInfoSubject(failureStrategy, fixSuggestionInfo);
+            }
+          };
 
-  public static FixSuggestionInfoSubject assertThat(
-      FixSuggestionInfo fixSuggestionInfo) {
-    return assertAbout(FIX_SUGGESTION_INFO_SUBJECT_FACTORY)
-        .that(fixSuggestionInfo);
+  public static FixSuggestionInfoSubject assertThat(FixSuggestionInfo fixSuggestionInfo) {
+    return assertAbout(FIX_SUGGESTION_INFO_SUBJECT_FACTORY).that(fixSuggestionInfo);
   }
 
-  private FixSuggestionInfoSubject(FailureStrategy failureStrategy,
-      FixSuggestionInfo fixSuggestionInfo) {
+  private FixSuggestionInfoSubject(
+      FailureStrategy failureStrategy, FixSuggestionInfo fixSuggestionInfo) {
     super(failureStrategy, fixSuggestionInfo);
   }
 
@@ -53,10 +48,9 @@ public class FixSuggestionInfoSubject
     return Truth.assertThat(actual().fixId).named("fixId");
   }
 
-  public ListSubject<FixReplacementInfoSubject,
-      FixReplacementInfo> replacements() {
-    return ListSubject.assertThat(actual().replacements,
-        FixReplacementInfoSubject::assertThat).named("replacements");
+  public ListSubject<FixReplacementInfoSubject, FixReplacementInfo> replacements() {
+    return ListSubject.assertThat(actual().replacements, FixReplacementInfoSubject::assertThat)
+        .named("replacements");
   }
 
   public FixReplacementInfoSubject onlyReplacement() {

@@ -22,38 +22,32 @@ import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.OptionalSubject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-public class BinaryResultSubject
-    extends Subject<BinaryResultSubject, BinaryResult> {
+public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResult> {
 
   private static final SubjectFactory<BinaryResultSubject, BinaryResult>
       BINARY_RESULT_SUBJECT_FACTORY =
-      new SubjectFactory<BinaryResultSubject, BinaryResult>() {
-        @Override
-        public BinaryResultSubject getSubject(FailureStrategy failureStrategy,
-            BinaryResult binaryResult) {
-          return new BinaryResultSubject(failureStrategy,
-              binaryResult);
-        }
-      };
+          new SubjectFactory<BinaryResultSubject, BinaryResult>() {
+            @Override
+            public BinaryResultSubject getSubject(
+                FailureStrategy failureStrategy, BinaryResult binaryResult) {
+              return new BinaryResultSubject(failureStrategy, binaryResult);
+            }
+          };
 
   public static BinaryResultSubject assertThat(BinaryResult binaryResult) {
-    return assertAbout(BINARY_RESULT_SUBJECT_FACTORY)
-        .that(binaryResult);
+    return assertAbout(BINARY_RESULT_SUBJECT_FACTORY).that(binaryResult);
   }
 
   public static OptionalSubject<BinaryResultSubject, BinaryResult> assertThat(
       Optional<BinaryResult> binaryResultOptional) {
-    return OptionalSubject.assertThat(binaryResultOptional,
-        BinaryResultSubject::assertThat);
+    return OptionalSubject.assertThat(binaryResultOptional, BinaryResultSubject::assertThat);
   }
 
-  private BinaryResultSubject(FailureStrategy failureStrategy,
-      BinaryResult binaryResult) {
+  private BinaryResultSubject(FailureStrategy failureStrategy, BinaryResult binaryResult) {
     super(failureStrategy, binaryResult);
   }
 

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-
 /** Indicates the change operation is not currently valid. */
 public class InvalidChangeOperationException extends Exception {
   private static final long serialVersionUID = 1L;

@@ -30,7 +30,6 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,8 +46,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
   private final Provider<IdentifiedUser> self;
 
   @Inject
-  public ListTasks(WorkQueue workQueue, ProjectCache projectCache,
-      Provider<IdentifiedUser> self) {
+  public ListTasks(WorkQueue workQueue, ProjectCache projectCache, Provider<IdentifiedUser> self) {
     this.workQueue = workQueue;
     this.projectCache = projectCache;
     this.self = self;
@@ -86,22 +84,25 @@ public class ListTasks implements RestReadView<ConfigResource> {
 
   private List<TaskInfo> getTasks() {
     List<TaskInfo> taskInfos =
-        workQueue.getTaskInfos(new TaskInfoFactory<TaskInfo>() {
+        workQueue.getTaskInfos(
+            new TaskInfoFactory<TaskInfo>() {
+              @Override
+              public TaskInfo getTaskInfo(Task<?> task) {
+                return new TaskInfo(task);
+              }
+            });
+    Collections.sort(
+        taskInfos,
+        new Comparator<TaskInfo>() {
           @Override
-          public TaskInfo getTaskInfo(Task<?> task) {
-            return new TaskInfo(task);
+          public int compare(TaskInfo a, TaskInfo b) {
+            return ComparisonChain.start()
+                .compare(a.state.ordinal(), b.state.ordinal())
+                .compare(a.delay, b.delay)
+                .compare(a.command, b.command)
+                .result();
           }
         });
-    Collections.sort(taskInfos, new Comparator<TaskInfo>() {
-      @Override
-      public int compare(TaskInfo a, TaskInfo b) {
-        return ComparisonChain.start()
-          .compare(a.state.ordinal(), b.state.ordinal())
-          .compare(a.delay, b.delay)
-          .compare(a.command, b.command)
-          .result();
-      }
-    });
     return taskInfos;
   }
 

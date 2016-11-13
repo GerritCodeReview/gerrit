@@ -39,9 +39,10 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class GroupsCollection implements
-    RestCollection<TopLevelResource, GroupResource>,
-    AcceptsCreate<TopLevelResource>, NeedsParams {
+public class GroupsCollection
+    implements RestCollection<TopLevelResource, GroupResource>,
+        AcceptsCreate<TopLevelResource>,
+        NeedsParams {
   private final DynamicMap<RestView<GroupResource>> views;
   private final Provider<ListGroups> list;
   private final Provider<QueryGroups> queryGroups;
@@ -53,7 +54,8 @@ public class GroupsCollection implements
   private boolean hasQuery2;
 
   @Inject
-  GroupsCollection(DynamicMap<RestView<GroupResource>> views,
+  GroupsCollection(
+      DynamicMap<RestView<GroupResource>> views,
       Provider<ListGroups> list,
       Provider<QueryGroups> queryGroups,
       CreateGroup.Factory createGroup,
@@ -70,11 +72,9 @@ public class GroupsCollection implements
   }
 
   @Override
-  public void setParams(ListMultimap<String, String> params)
-      throws BadRequestException {
+  public void setParams(ListMultimap<String, String> params) throws BadRequestException {
     if (params.containsKey("query") && params.containsKey("query2")) {
-      throw new BadRequestException(
-          "\"query\" and \"query2\" options are mutually exclusive");
+      throw new BadRequestException("\"query\" and \"query2\" options are mutually exclusive");
     }
 
     // The --query2 option is defined in QueryGroups
@@ -82,8 +82,7 @@ public class GroupsCollection implements
   }
 
   @Override
-  public RestView<TopLevelResource> list() throws ResourceNotFoundException,
-      AuthException {
+  public RestView<TopLevelResource> list() throws ResourceNotFoundException, AuthException {
     final CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
@@ -122,49 +121,40 @@ public class GroupsCollection implements
   /**
    * Parses a group ID from a request body and returns the group.
    *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy
-   *        group ID
+   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
    * @return the group
-   * @throws UnprocessableEntityException thrown if the group ID cannot be
-   *         resolved or if the group is not visible to the calling user
+   * @throws UnprocessableEntityException thrown if the group ID cannot be resolved or if the group
+   *     is not visible to the calling user
    */
-  public GroupDescription.Basic parse(String id)
-      throws UnprocessableEntityException {
+  public GroupDescription.Basic parse(String id) throws UnprocessableEntityException {
     GroupDescription.Basic group = parseId(id);
     if (group == null || !groupControlFactory.controlFor(group).isVisible()) {
-      throw new UnprocessableEntityException(String.format(
-          "Group Not Found: %s", id));
+      throw new UnprocessableEntityException(String.format("Group Not Found: %s", id));
     }
     return group;
   }
 
   /**
-   * Parses a group ID from a request body and returns the group if it is a
-   * Gerrit internal group.
+   * Parses a group ID from a request body and returns the group if it is a Gerrit internal group.
    *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy
-   *        group ID
+   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
    * @return the group
-   * @throws UnprocessableEntityException thrown if the group ID cannot be
-   *         resolved, if the group is not visible to the calling user or if
-   *         it's an external group
+   * @throws UnprocessableEntityException thrown if the group ID cannot be resolved, if the group is
+   *     not visible to the calling user or if it's an external group
    */
-  public GroupDescription.Basic parseInternal(String id)
-      throws UnprocessableEntityException {
+  public GroupDescription.Basic parseInternal(String id) throws UnprocessableEntityException {
     GroupDescription.Basic group = parse(id);
     if (GroupDescriptions.toAccountGroup(group) == null) {
-      throw new UnprocessableEntityException(String.format(
-          "External Group Not Allowed: %s", id));
+      throw new UnprocessableEntityException(String.format("External Group Not Allowed: %s", id));
     }
     return group;
   }
 
   /**
-   * Parses a group ID and returns the group without making any permission
-   * check whether the current user can see the group.
+   * Parses a group ID and returns the group without making any permission check whether the current
+   * user can see the group.
    *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy
-   *        group ID
+   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
    * @return the group, null if no group is found for the given group ID
    */
   public GroupDescription.Basic parseId(String id) {

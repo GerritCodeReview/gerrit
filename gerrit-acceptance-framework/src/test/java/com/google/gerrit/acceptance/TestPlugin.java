@@ -26,6 +26,8 @@ public @interface TestPlugin {
   String name();
 
   String sysModule() default "";
+
   String httpModule() default "";
+
   String sshModule() default "";
 }

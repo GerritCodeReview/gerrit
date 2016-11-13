@@ -18,14 +18,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import com.google.gerrit.reviewdb.client.Comment;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 /** HTMLParser provides parsing functionality for html email. */
 public class HtmlParser {
@@ -33,16 +31,14 @@ public class HtmlParser {
    * Parses comments from html email.
    *
    * @param email MailMessage as received from the email service.
-   * @param comments A specific set of comments as sent out in the original
-   *                 notification email. Comments are expected to be in the same
-   *                 order as they were sent out to in the email
-   * @param changeUrl Canonical change URL that points to the change on this
-   *                  Gerrit instance.
-   *                  Example: https://go-review.googlesource.com/#/c/91570
+   * @param comments A specific set of comments as sent out in the original notification email.
+   *     Comments are expected to be in the same order as they were sent out to in the email
+   * @param changeUrl Canonical change URL that points to the change on this Gerrit instance.
+   *     Example: https://go-review.googlesource.com/#/c/91570
    * @return List of MailComments parsed from the html part of the email.
    */
-  public static List<MailComment> parse(MailMessage email,
-      Collection<Comment> comments, String changeUrl) {
+  public static List<MailComment> parse(
+      MailMessage email, Collection<Comment> comments, String changeUrl) {
     // TODO(hiesel) Add support for Gmail Mobile
     // TODO(hiesel) Add tests for other popular email clients
 
@@ -53,17 +49,14 @@ public class HtmlParser {
     // Gerrit as these are generally more reliable then the text captions.
     List<MailComment> parsedComments = new ArrayList<>();
     Document d = Jsoup.parse(email.htmlContent());
-    PeekingIterator<Comment> iter =
-        Iterators.peekingIterator(comments.iterator());
+    PeekingIterator<Comment> iter = Iterators.peekingIterator(comments.iterator());
 
     String lastEncounteredFileName = null;
     Comment lastEncounteredComment = null;
     for (Element e : d.body().getAllElements()) {
       String elementName = e.tagName();
-      boolean isInBlockQuote = e.parents().stream()
-          .filter(p -> p.tagName().equals("blockquote"))
-          .findAny()
-          .isPresent();
+      boolean isInBlockQuote =
+          e.parents().stream().filter(p -> p.tagName().equals("blockquote")).findAny().isPresent();
 
       if (elementName.equals("a")) {
         String href = e.attr("href");
@@ -74,8 +67,8 @@ public class HtmlParser {
         }
         Comment perspectiveComment = iter.peek();
         if (href.equals(ParserUtil.filePath(changeUrl, perspectiveComment))) {
-          if (lastEncounteredFileName == null || !lastEncounteredFileName
-              .equals(perspectiveComment.key.filename)) {
+          if (lastEncounteredFileName == null
+              || !lastEncounteredFileName.equals(perspectiveComment.key.filename)) {
             // Not a file-level comment, but users could have typed a comment
             // right after this file annotation to create a new file-level
             // comment. If this file has a file-level comment, we have already
@@ -88,34 +81,34 @@ public class HtmlParser {
             lastEncounteredComment = perspectiveComment;
             iter.next();
           }
-        } else if (ParserUtil.isCommentUrl(href, changeUrl,
-            perspectiveComment)) {
+        } else if (ParserUtil.isCommentUrl(href, changeUrl, perspectiveComment)) {
           // This is a regular inline comment
           lastEncounteredComment = perspectiveComment;
           iter.next();
         }
-      } else if (!isInBlockQuote && elementName.equals("div") &&
-          !e.className().startsWith("gmail")) {
+      } else if (!isInBlockQuote
+          && elementName.equals("div")
+          && !e.className().startsWith("gmail")) {
         // This is a comment typed by the user
         String content = e.ownText().trim();
         if (!Strings.isNullOrEmpty(content)) {
-          if (lastEncounteredComment == null &&
-              lastEncounteredFileName == null) {
+          if (lastEncounteredComment == null && lastEncounteredFileName == null) {
             // Remove quotation line, email signature and
             // "Sent from my xyz device"
             content = ParserUtil.trimQuotationLine(content);
             // TODO(hiesel) Add more sanitizer
             if (!Strings.isNullOrEmpty(content)) {
-              parsedComments.add(new MailComment(content, null, null,
-                  MailComment.CommentType.CHANGE_MESSAGE));
+              parsedComments.add(
+                  new MailComment(content, null, null, MailComment.CommentType.CHANGE_MESSAGE));
             }
           } else if (lastEncounteredComment == null) {
-            parsedComments.add(new MailComment(content, lastEncounteredFileName,
-                null, MailComment.CommentType.FILE_COMMENT));
+            parsedComments.add(
+                new MailComment(
+                    content, lastEncounteredFileName, null, MailComment.CommentType.FILE_COMMENT));
           } else {
-            parsedComments.add(new MailComment(content, null,
-                lastEncounteredComment,
-                MailComment.CommentType.INLINE_COMMENT));
+            parsedComments.add(
+                new MailComment(
+                    content, null, lastEncounteredComment, MailComment.CommentType.INLINE_COMMENT));
           }
         }
       }

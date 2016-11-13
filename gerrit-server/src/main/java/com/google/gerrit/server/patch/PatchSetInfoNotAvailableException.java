@@ -20,5 +20,4 @@ public final class PatchSetInfoNotAvailableException extends Exception {
   public PatchSetInfoNotAvailableException(Exception cause) {
     super(cause);
   }
-
 }

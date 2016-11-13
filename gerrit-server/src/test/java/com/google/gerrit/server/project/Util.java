@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
-
 import java.util.Arrays;
 
 public class Util {
@@ -32,7 +31,8 @@ public class Util {
   public static final AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
 
   public static final LabelType codeReview() {
-    return category("Code-Review",
+    return category(
+        "Code-Review",
         value(2, "Looks good to me, approved"),
         value(1, "Looks good to me, but someone else must approve"),
         value(0, "No score"),
@@ -41,16 +41,12 @@ public class Util {
   }
 
   public static final LabelType verified() {
-    return category("Verified",
-        value(1, "Verified"),
-        value(0, "No score"),
-        value(-1, "Fails"));
+    return category("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
   }
 
   public static final LabelType patchSetLock() {
-    LabelType label = category("Patch-Set-Lock",
-        value(1, "Patch Set Locked"),
-        value(0, "Patch Set Unlocked"));
+    LabelType label =
+        category("Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
     label.setFunctionName("PatchSetLock");
     return label;
   }
@@ -63,16 +59,19 @@ public class Util {
     return new LabelType(name, Arrays.asList(values));
   }
 
-  public static PermissionRule newRule(ProjectConfig project,
-      AccountGroup.UUID groupUUID) {
+  public static PermissionRule newRule(ProjectConfig project, AccountGroup.UUID groupUUID) {
     GroupReference group = new GroupReference(groupUUID, groupUUID.get());
     group = project.resolve(group);
 
     return new PermissionRule(group);
   }
 
-  public static PermissionRule allow(ProjectConfig project,
-      String permissionName, int min, int max, AccountGroup.UUID group,
+  public static PermissionRule allow(
+      ProjectConfig project,
+      String permissionName,
+      int min,
+      int max,
+      AccountGroup.UUID group,
       String ref) {
     PermissionRule rule = newRule(project, group);
     rule.setMin(min);
@@ -80,8 +79,12 @@ public class Util {
     return grant(project, permissionName, rule, ref);
   }
 
-  public static PermissionRule block(ProjectConfig project,
-      String permissionName, int min, int max, AccountGroup.UUID group,
+  public static PermissionRule block(
+      ProjectConfig project,
+      String permissionName,
+      int min,
+      int max,
+      AccountGroup.UUID group,
       String ref) {
     PermissionRule rule = newRule(project, group);
     rule.setMin(min);
@@ -91,102 +94,104 @@ public class Util {
     return r;
   }
 
-  public static PermissionRule allow(ProjectConfig project,
-      String permissionName, AccountGroup.UUID group, String ref) {
+  public static PermissionRule allow(
+      ProjectConfig project, String permissionName, AccountGroup.UUID group, String ref) {
     return grant(project, permissionName, newRule(project, group), ref);
   }
 
-  public static PermissionRule allow(ProjectConfig project,
-      String permissionName, AccountGroup.UUID group, String ref,
+  public static PermissionRule allow(
+      ProjectConfig project,
+      String permissionName,
+      AccountGroup.UUID group,
+      String ref,
       boolean exclusive) {
-    return grant(project, permissionName, newRule(project, group), ref,
-        exclusive);
+    return grant(project, permissionName, newRule(project, group), ref, exclusive);
   }
 
-  public static PermissionRule allow(ProjectConfig project,
-      String capabilityName, AccountGroup.UUID group) {
+  public static PermissionRule allow(
+      ProjectConfig project, String capabilityName, AccountGroup.UUID group) {
     PermissionRule rule = newRule(project, group);
-    project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+    project
+        .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
         .getPermission(capabilityName, true)
         .add(rule);
-      if (GlobalCapability.hasRange(capabilityName)) {
-        PermissionRange.WithDefaults range =
-            GlobalCapability.getRange(capabilityName);
-        if (range != null) {
-          rule.setRange(range.getDefaultMin(), range.getDefaultMax());
-        }
+    if (GlobalCapability.hasRange(capabilityName)) {
+      PermissionRange.WithDefaults range = GlobalCapability.getRange(capabilityName);
+      if (range != null) {
+        rule.setRange(range.getDefaultMin(), range.getDefaultMax());
       }
+    }
     return rule;
   }
 
-  public static PermissionRule remove(ProjectConfig project,
-      String capabilityName, AccountGroup.UUID group) {
+  public static PermissionRule remove(
+      ProjectConfig project, String capabilityName, AccountGroup.UUID group) {
     PermissionRule rule = newRule(project, group);
-    project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+    project
+        .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
         .getPermission(capabilityName, true)
         .remove(rule);
     return rule;
   }
 
-  public static PermissionRule remove(ProjectConfig project,
-      String permissionName, AccountGroup.UUID group, String ref) {
+  public static PermissionRule remove(
+      ProjectConfig project, String permissionName, AccountGroup.UUID group, String ref) {
     PermissionRule rule = newRule(project, group);
-    project.getAccessSection(ref, true)
-        .getPermission(permissionName, true)
-        .remove(rule);
+    project.getAccessSection(ref, true).getPermission(permissionName, true).remove(rule);
     return rule;
   }
 
-  public static PermissionRule block(ProjectConfig project,
-      String capabilityName, AccountGroup.UUID group) {
+  public static PermissionRule block(
+      ProjectConfig project, String capabilityName, AccountGroup.UUID group) {
     PermissionRule rule = newRule(project, group);
-    project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+    project
+        .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
         .getPermission(capabilityName, true)
         .add(rule);
     return rule;
   }
 
-  public static PermissionRule block(ProjectConfig project,
-      String permissionName, AccountGroup.UUID group, String ref) {
+  public static PermissionRule block(
+      ProjectConfig project, String permissionName, AccountGroup.UUID group, String ref) {
     PermissionRule r = grant(project, permissionName, newRule(project, group), ref);
     r.setBlock();
     return r;
   }
 
-  public static PermissionRule blockLabel(ProjectConfig project,
-      String labelName, AccountGroup.UUID group, String ref) {
-    PermissionRule r =
-        grant(project, Permission.LABEL + labelName, newRule(project, group),
-            ref);
+  public static PermissionRule blockLabel(
+      ProjectConfig project, String labelName, AccountGroup.UUID group, String ref) {
+    PermissionRule r = grant(project, Permission.LABEL + labelName, newRule(project, group), ref);
     r.setBlock();
     r.setRange(-1, 1);
     return r;
   }
 
-  public static PermissionRule deny(ProjectConfig project,
-      String permissionName, AccountGroup.UUID group, String ref) {
+  public static PermissionRule deny(
+      ProjectConfig project, String permissionName, AccountGroup.UUID group, String ref) {
     PermissionRule r = grant(project, permissionName, newRule(project, group), ref);
     r.setDeny();
     return r;
   }
 
-  public static void doNotInherit(ProjectConfig project, String permissionName,
-      String ref) {
-    project.getAccessSection(ref, true) //
+  public static void doNotInherit(ProjectConfig project, String permissionName, String ref) {
+    project
+        .getAccessSection(ref, true) //
         .getPermission(permissionName, true) //
         .setExclusiveGroup(true);
   }
 
-  private static PermissionRule grant(ProjectConfig project,
-      String permissionName, PermissionRule rule, String ref) {
+  private static PermissionRule grant(
+      ProjectConfig project, String permissionName, PermissionRule rule, String ref) {
     return grant(project, permissionName, rule, ref, false);
   }
 
-  private static PermissionRule grant(ProjectConfig project,
-      String permissionName, PermissionRule rule, String ref,
+  private static PermissionRule grant(
+      ProjectConfig project,
+      String permissionName,
+      PermissionRule rule,
+      String ref,
       boolean exclusive) {
-    Permission permission = project.getAccessSection(ref, true)
-        .getPermission(permissionName, true);
+    Permission permission = project.getAccessSection(ref, true).getPermission(permissionName, true);
     if (exclusive) {
       permission.setExclusiveGroup(exclusive);
     }
@@ -194,6 +199,5 @@ public class Util {
     return rule;
   }
 
-  private Util() {
-  }
+  private Util() {}
 }

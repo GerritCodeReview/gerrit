@@ -25,20 +25,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class DeleteBranch implements RestModifyView<BranchResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final DeleteRef.Factory deleteRefFactory;
 
   @Inject
-  DeleteBranch(Provider<InternalChangeQuery> queryProvider,
-      DeleteRef.Factory deleteRefFactory) {
+  DeleteBranch(Provider<InternalChangeQuery> queryProvider, DeleteRef.Factory deleteRefFactory) {
     this.queryProvider = queryProvider;
     this.deleteRefFactory = deleteRefFactory;
   }
@@ -50,10 +47,8 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
       throw new AuthException("Cannot delete branch");
     }
 
-    if (!queryProvider.get().setLimit(1)
-        .byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
-      throw new ResourceConflictException("branch " + rsrc.getBranchKey()
-          + " has open changes");
+    if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
+      throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");
     }
 
     deleteRefFactory.create(rsrc).ref(rsrc.getRef()).delete();

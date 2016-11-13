@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.io.IOException;
 import java.util.Set;
 
@@ -44,8 +43,7 @@ public interface ProjectCache {
    * @throws IOException when there was an error.
    * @return the cached data; null if no such project exists.
    */
-  ProjectState checkedGet(Project.NameKey projectName)
-      throws IOException;
+  ProjectState checkedGet(Project.NameKey projectName) throws IOException;
 
   /** Invalidate the cached information about the given project. */
   void evict(Project p);
@@ -54,8 +52,8 @@ public interface ProjectCache {
   void evict(Project.NameKey p);
 
   /**
-   * Remove information about the given project from the cache. It will no
-   * longer be returned from {@link #all()}.
+   * Remove information about the given project from the cache. It will no longer be returned from
+   * {@link #all()}.
    */
   void remove(Project p);
 
@@ -63,9 +61,8 @@ public interface ProjectCache {
   Iterable<Project.NameKey> all();
 
   /**
-   * @return estimated set of relevant groups extracted from hot project access
-   *         rules. If the cache is cold or too small for the entire project set
-   *         of the server, this set may be incomplete.
+   * @return estimated set of relevant groups extracted from hot project access rules. If the cache
+   *     is cold or too small for the entire project set of the server, this set may be incomplete.
    */
   Set<AccountGroup.UUID> guessRelevantGroupUUIDs();
 

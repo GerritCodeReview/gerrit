@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.server.git.ProjectConfig;
-
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -51,17 +50,14 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getNonExistingCommit_NotFound() throws Exception {
-    assertNotFound(
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    assertNotFound(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
   }
 
   @Test
   public void getMergedCommit_Found() throws Exception {
     unblockRead();
-    RevCommit commit = repo.parseBody(repo.branch("master")
-        .commit()
-        .message("Create\n\nNew commit\n")
-        .create());
+    RevCommit commit =
+        repo.parseBody(repo.branch("master").commit().message("Create\n\nNew commit\n").create());
 
     CommitInfo info = getCommit(commit);
     assertThat(info.commit).isEqualTo(commit.name());
@@ -82,25 +78,22 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getMergedCommit_NotFound() throws Exception {
-    RevCommit commit = repo.parseBody(repo.branch("master")
-        .commit()
-        .message("Create\n\nNew commit\n")
-        .create());
+    RevCommit commit =
+        repo.parseBody(repo.branch("master").commit().message("Create\n\nNew commit\n").create());
     assertNotFound(commit);
   }
 
   @Test
   public void getOpenChange_Found() throws Exception {
     unblockRead();
-    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
 
     CommitInfo info = getCommit(r.getCommit());
     assertThat(info.commit).isEqualTo(r.getCommit().name());
     assertThat(info.subject).isEqualTo("test commit");
-    assertThat(info.message).isEqualTo(
-        "test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    assertThat(info.message).isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
     assertThat(info.author.name).isEqualTo("Administrator");
     assertThat(info.author.email).isEqualTo("admin@example.com");
     assertThat(info.committer.name).isEqualTo("Administrator");
@@ -116,8 +109,8 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getOpenChange_NotFound() throws Exception {
-    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
     assertNotFound(r.getCommit());
   }
@@ -129,14 +122,11 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   private void assertNotFound(ObjectId id) throws Exception {
-    userRestSession
-        .get("/projects/" + project.get() + "/commits/" + id.name())
-        .assertNotFound();
+    userRestSession.get("/projects/" + project.get() + "/commits/" + id.name()).assertNotFound();
   }
 
   private CommitInfo getCommit(ObjectId id) throws Exception {
-    RestResponse r = userRestSession.get(
-        "/projects/" + project.get() + "/commits/" + id.name());
+    RestResponse r = userRestSession.get("/projects/" + project.get() + "/commits/" + id.name());
     r.assertOK();
     CommitInfo result = newGson().fromJson(r.getReader(), CommitInfo.class);
     r.consume();

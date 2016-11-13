@@ -14,11 +14,10 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Metric;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.TypeLiteral;
-
-import com.codahale.metrics.Metric;
 
 class MetricResource extends ConfigResource {
   static final TypeLiteral<RestView<MetricResource>> METRIC_KIND =

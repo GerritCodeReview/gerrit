@@ -24,29 +24,26 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * A set of changes grouped together to be submitted atomically.
- * <p>
- * MergeSuperSet constructs ChangeSets to accumulate intermediate
- * results toward the ChangeSet it returns when done.
- * <p>
- * This class is not thread safe.
+ *
+ * <p>MergeSuperSet constructs ChangeSets to accumulate intermediate results toward the ChangeSet it
+ * returns when done.
+ *
+ * <p>This class is not thread safe.
  */
 public class ChangeSet {
   private final ImmutableMap<Change.Id, ChangeData> changeData;
 
   /**
-   * Additional changes not included in changeData because their
-   * connection to the original change is not visible to the
-   * current user.  That is, this map includes both
-   * - changes that are not visible to the current user, and
-   * - changes whose only relationship to the set is via a change
-   *   that is not visible to the current user
+   * Additional changes not included in changeData because their connection to the original change
+   * is not visible to the current user. That is, this map includes both - changes that are not
+   * visible to the current user, and - changes whose only relationship to the set is via a change
+   * that is not visible to the current user
    */
   private final ImmutableMap<Change.Id, ChangeData> nonVisibleChanges;
 
@@ -62,14 +59,14 @@ public class ChangeSet {
     return ImmutableMap.copyOf(ret);
   }
 
-  public ChangeSet(
-      Iterable<ChangeData> changes, Iterable<ChangeData> hiddenChanges) {
+  public ChangeSet(Iterable<ChangeData> changes, Iterable<ChangeData> hiddenChanges) {
     changeData = index(changes, ImmutableList.<Change.Id>of());
     nonVisibleChanges = index(hiddenChanges, changeData.keySet());
   }
 
   public ChangeSet(ChangeData change, boolean visible) {
-    this(visible ? ImmutableList.of(change) : ImmutableList.<ChangeData>of(),
+    this(
+        visible ? ImmutableList.of(change) : ImmutableList.<ChangeData>of(),
         ImmutableList.of(change));
   }
 
@@ -81,8 +78,7 @@ public class ChangeSet {
     return changeData;
   }
 
-  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch()
-      throws OrmException {
+  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch() throws OrmException {
     ListMultimap<Branch.NameKey, ChangeData> ret =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : changeData.values()) {

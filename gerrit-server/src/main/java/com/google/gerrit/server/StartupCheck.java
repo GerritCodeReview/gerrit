@@ -16,16 +16,12 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 
-/**
- * Check executed on Gerrit startup.
- */
+/** Check executed on Gerrit startup. */
 public interface StartupCheck {
   /**
-   * Performs Gerrit startup check, can abort startup by throwing
-   * {@link StartupException}.
-   * <p>
-   * Called on Gerrit startup after all {@link LifecycleListener} have been
-   * invoked.
+   * Performs Gerrit startup check, can abort startup by throwing {@link StartupException}.
+   *
+   * <p>Called on Gerrit startup after all {@link LifecycleListener} have been invoked.
    *
    * @throws StartupException thrown if Gerrit startup should be aborted
    */

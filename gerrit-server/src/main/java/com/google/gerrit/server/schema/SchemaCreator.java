@@ -30,19 +30,15 @@ import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
-  @SitePath
-  private final
-  Path site_path;
+  @SitePath private final Path site_path;
 
   private final AllProjectsCreator allProjectsCreator;
   private final AllUsersCreator allUsersCreator;
@@ -54,7 +50,8 @@ public class SchemaCreator {
   private AccountGroup batch;
 
   @Inject
-  public SchemaCreator(SitePaths site,
+  public SchemaCreator(
+      SitePaths site,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
@@ -63,7 +60,8 @@ public class SchemaCreator {
     this(site.site_path, ap, auc, au, dst, ic);
   }
 
-  public SchemaCreator(@SitePath Path site,
+  public SchemaCreator(
+      @SitePath Path site,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
@@ -77,8 +75,7 @@ public class SchemaCreator {
     indexCollection = ic;
   }
 
-  public void create(final ReviewDb db) throws OrmException, IOException,
-      ConfigInvalidException {
+  public void create(final ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
     final JdbcSchema jdbc = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(jdbc)) {
       jdbc.updateSchema(e);
@@ -91,30 +88,25 @@ public class SchemaCreator {
     createDefaultGroups(db);
     initSystemConfig(db);
     allProjectsCreator
-      .setAdministrators(GroupReference.forGroup(admin))
-      .setBatchUsers(GroupReference.forGroup(batch))
-      .create();
-    allUsersCreator
-      .setAdministrators(GroupReference.forGroup(admin))
-      .create();
+        .setAdministrators(GroupReference.forGroup(admin))
+        .setBatchUsers(GroupReference.forGroup(batch))
+        .create();
+    allUsersCreator.setAdministrators(GroupReference.forGroup(admin)).create();
     dataSourceType.getIndexScript().run(db);
   }
 
-  private void createDefaultGroups(ReviewDb db)
-      throws OrmException, IOException {
+  private void createDefaultGroups(ReviewDb db) throws OrmException, IOException {
     admin = newGroup(db, "Administrators", null);
     admin.setDescription("Gerrit Site Administrators");
     db.accountGroups().insert(Collections.singleton(admin));
-    db.accountGroupNames()
-        .insert(Collections.singleton(new AccountGroupName(admin)));
+    db.accountGroupNames().insert(Collections.singleton(new AccountGroupName(admin)));
     index(admin);
 
     batch = newGroup(db, "Non-Interactive Users", null);
     batch.setDescription("Users who perform batch actions on Gerrit");
     batch.setOwnerGroupUUID(admin.getGroupUUID());
     db.accountGroups().insert(Collections.singleton(batch));
-    db.accountGroupNames()
-        .insert(Collections.singleton(new AccountGroupName(batch)));
+    db.accountGroupNames().insert(Collections.singleton(new AccountGroupName(batch)));
     index(batch);
   }
 

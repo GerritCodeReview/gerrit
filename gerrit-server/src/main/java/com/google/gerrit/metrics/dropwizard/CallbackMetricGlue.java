@@ -16,7 +16,10 @@ package com.google.gerrit.metrics.dropwizard;
 
 interface CallbackMetricGlue {
   void beginSet();
+
   void endSet();
+
   void register(Runnable trigger);
+
   void remove();
 }

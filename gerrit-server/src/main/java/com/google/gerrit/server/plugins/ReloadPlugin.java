@@ -23,15 +23,13 @@ import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.gerrit.server.plugins.ReloadPlugin.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 class ReloadPlugin implements RestModifyView<PluginResource, Input> {
-  static class Input {
-  }
+  static class Input {}
 
   private final PluginLoader loader;
 

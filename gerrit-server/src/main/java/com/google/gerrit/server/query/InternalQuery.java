@@ -21,17 +21,15 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.List;
 import java.util.Set;
 
 /**
  * Execute a single query over a secondary index, for use by Gerrit internals.
- * <p>
- * By default, visibility of returned entities is not enforced (unlike in {@link
- * QueryProcessor}). The methods in this class are not typically used by
- * user-facing paths, but rather by internal callers that need to process all
- * matching results.
+ *
+ * <p>By default, visibility of returned entities is not enforced (unlike in {@link
+ * QueryProcessor}). The methods in this class are not typically used by user-facing paths, but
+ * rather by internal callers that need to process all matching results.
  */
 public class InternalQuery<T> {
   private final QueryProcessor<T> queryProcessor;
@@ -39,9 +37,10 @@ public class InternalQuery<T> {
 
   protected final IndexConfig indexConfig;
 
-  protected InternalQuery(QueryProcessor<T> queryProcessor,
+  protected InternalQuery(
+      QueryProcessor<T> queryProcessor,
       IndexCollection<?, T, ? extends Index<?, T>> indexes,
-          IndexConfig indexConfig) {
+      IndexConfig indexConfig) {
     this.queryProcessor = queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
     this.indexConfig = indexConfig;
@@ -63,7 +62,7 @@ public class InternalQuery<T> {
   }
 
   public InternalQuery<T> noFields() {
-    queryProcessor.setRequestedFields(ImmutableSet.<String> of());
+    queryProcessor.setRequestedFields(ImmutableSet.<String>of());
     return this;
   }
 
@@ -77,18 +76,17 @@ public class InternalQuery<T> {
 
   /**
    * Run multiple queries in parallel.
-   * <p>
-   * If a limit was specified using {@link #setLimit(int)}, that limit is
-   * applied to each query independently.
+   *
+   * <p>If a limit was specified using {@link #setLimit(int)}, that limit is applied to each query
+   * independently.
    *
    * @param queries list of queries.
-   * @return results of the queries, one list of results per input query, in the
-   *     same order as the input.
+   * @return results of the queries, one list of results per input query, in the same order as the
+   *     input.
    */
   public List<List<T>> query(List<Predicate<T>> queries) throws OrmException {
     try {
-      return Lists.transform(
-          queryProcessor.query(queries), QueryResult::entities);
+      return Lists.transform(queryProcessor.query(queries), QueryResult::entities);
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }

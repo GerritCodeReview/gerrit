@@ -25,13 +25,12 @@ import com.google.gerrit.reviewdb.client.RefNames;
 public class BranchLink extends InlineHyperlink {
   private final String query;
 
-  public BranchLink(Project.NameKey project, Change.Status status,
-      String branch, String topic) {
+  public BranchLink(Project.NameKey project, Change.Status status, String branch, String topic) {
     this(text(branch, topic), query(project, status, branch, topic));
   }
 
-  public BranchLink(String text, Project.NameKey project, Change.Status status,
-      String branch, String topic) {
+  public BranchLink(
+      String text, Project.NameKey project, Change.Status status, String branch, String topic) {
     this(text, query(project, status, branch, topic));
   }
 
@@ -56,14 +55,17 @@ public class BranchLink extends InlineHyperlink {
     return branch;
   }
 
-  public static String query(Project.NameKey project, Change.Status status,
-      String branch, String topic) {
+  public static String query(
+      Project.NameKey project, Change.Status status, String branch, String topic) {
     String query = PageLinks.projectQuery(project, status);
 
     if (branch.startsWith(RefNames.REFS)) {
       if (branch.startsWith(RefNames.REFS_HEADS)) {
-        query += " " + PageLinks.op("branch", //
-            branch.substring(RefNames.REFS_HEADS.length()));
+        query +=
+            " "
+                + PageLinks.op(
+                    "branch", //
+                    branch.substring(RefNames.REFS_HEADS.length()));
       } else {
         query += " " + PageLinks.op("ref", branch);
       }

@@ -181,15 +181,12 @@ import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.template.soy.tofu.SoyTofu;
-
+import java.util.List;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostUploadHook;
 import org.eclipse.jgit.transport.PreUploadHook;
-
-import java.util.List;
-
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
@@ -197,17 +194,14 @@ public class GerritGlobalModule extends FactoryModule {
   private final AuthModule authModule;
 
   @Inject
-  GerritGlobalModule(
-      @GerritServerConfig Config cfg,
-      AuthModule authModule) {
+  GerritGlobalModule(@GerritServerConfig Config cfg, AuthModule authModule) {
     this.cfg = cfg;
     this.authModule = authModule;
   }
 
   @Override
   protected void configure() {
-    bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
-        SINGLETON);
+    bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(SINGLETON);
 
     bind(IdGenerator.class);
     bind(RulesCache.class);
@@ -262,9 +256,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ReplacePatchSetSender.Factory.class);
     factory(SetAssigneeSender.Factory.class);
     bind(PermissionCollection.Factory.class);
-    bind(AccountVisibility.class)
-        .toProvider(AccountVisibilityProvider.class)
-        .in(SINGLETON);
+    bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     factory(ProjectOwnerGroupsProvider.Factory.class);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
@@ -283,15 +275,13 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(ApprovalsUtil.class);
 
-    bind(RuntimeInstance.class)
-        .toProvider(VelocityRuntimeProvider.class);
-    bind(SoyTofu.class)
-        .annotatedWith(MailTemplates.class)
-        .toProvider(MailSoyTofuProvider.class);
-    bind(FromAddressGenerator.class).toProvider(
-        FromAddressGeneratorProvider.class).in(SINGLETON);
-    bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
-        .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
+    bind(RuntimeInstance.class).toProvider(VelocityRuntimeProvider.class);
+    bind(SoyTofu.class).annotatedWith(MailTemplates.class).toProvider(MailSoyTofuProvider.class);
+    bind(FromAddressGenerator.class).toProvider(FromAddressGeneratorProvider.class).in(SINGLETON);
+    bind(Boolean.class)
+        .annotatedWith(DisableReverseDnsLookup.class)
+        .toProvider(DisableReverseDnsLookupProvider.class)
+        .in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
@@ -404,7 +394,8 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeUserName.Factory.class);
 
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
-        .toProvider(CommentLinkProvider.class).in(SINGLETON);
+        .toProvider(CommentLinkProvider.class)
+        .in(SINGLETON);
 
     bind(ReloadPluginListener.class)
         .annotatedWith(UniqueAnnotations.create())

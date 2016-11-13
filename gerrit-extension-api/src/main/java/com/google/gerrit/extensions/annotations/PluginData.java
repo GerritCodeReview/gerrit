@@ -17,18 +17,17 @@ package com.google.gerrit.extensions.annotations;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
  * Local path where a plugin can store its own private data.
- * <p>
- * A plugin or extension may receive this string by Guice injection to discover
- * a directory where it can store configuration or other data that is private:
- * <p>
- * This binding is on both {@link java.io.File} and {@link java.nio.file.Path},
- * pointing to the same location. The {@code File} version should be considered
- * deprecated and may be removed in a future version.
+ *
+ * <p>A plugin or extension may receive this string by Guice injection to discover a directory where
+ * it can store configuration or other data that is private:
+ *
+ * <p>This binding is on both {@link java.io.File} and {@link java.nio.file.Path}, pointing to the
+ * same location. The {@code File} version should be considered deprecated and may be removed in a
+ * future version.
  *
  * <pre>
  * {@literal @Inject}
@@ -39,5 +38,4 @@ import java.lang.annotation.Retention;
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface PluginData {
-}
+public @interface PluginData {}

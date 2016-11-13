@@ -15,7 +15,6 @@
 package com.google.gerrit.gpg;
 
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,25 +31,24 @@ public class CheckResult {
   }
 
   static CheckResult trusted() {
-    return new CheckResult(Status.TRUSTED, Collections.<String> emptyList());
+    return new CheckResult(Status.TRUSTED, Collections.<String>emptyList());
   }
 
   static CheckResult create(Status status, String... problems) {
-    List<String> problemList = problems.length > 0
-        ? Collections.unmodifiableList(Arrays.asList(problems))
-        : Collections.<String> emptyList();
+    List<String> problemList =
+        problems.length > 0
+            ? Collections.unmodifiableList(Arrays.asList(problems))
+            : Collections.<String>emptyList();
     return new CheckResult(status, problemList);
   }
 
   static CheckResult create(Status status, List<String> problems) {
-    return new CheckResult(status,
-        Collections.unmodifiableList(new ArrayList<>(problems)));
+    return new CheckResult(status, Collections.unmodifiableList(new ArrayList<>(problems)));
   }
 
   static CheckResult create(List<String> problems) {
     return new CheckResult(
-        problems.isEmpty() ? Status.OK : Status.BAD,
-        Collections.unmodifiableList(problems));
+        problems.isEmpty() ? Status.OK : Status.BAD, Collections.unmodifiableList(problems));
   }
 
   private final Status status;
@@ -86,8 +84,7 @@ public class CheckResult {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder(getClass().getSimpleName())
-        .append('[').append(status);
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append('[').append(status);
     for (int i = 0; i < problems.size(); i++) {
       sb.append(i == 0 ? ": " : ", ").append(problems.get(i));
     }

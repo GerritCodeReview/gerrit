@@ -24,8 +24,7 @@ public class ChangesRestApiServlet extends RestApiServlet {
   private static final long serialVersionUID = 1L;
 
   @Inject
-  ChangesRestApiServlet(RestApiServlet.Globals globals,
-      Provider<ChangesCollection> changes) {
+  ChangesRestApiServlet(RestApiServlet.Globals globals, Provider<ChangesCollection> changes) {
     super(globals, changes);
   }
 }

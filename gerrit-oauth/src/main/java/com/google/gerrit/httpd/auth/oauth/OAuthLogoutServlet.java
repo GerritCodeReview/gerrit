@@ -24,9 +24,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +35,8 @@ class OAuthLogoutServlet extends HttpLogoutServlet {
   private final Provider<OAuthSession> oauthSession;
 
   @Inject
-  OAuthLogoutServlet(AuthConfig authConfig,
+  OAuthLogoutServlet(
+      AuthConfig authConfig,
       DynamicItem<WebSession> webSession,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AuditService audit,
@@ -47,12 +46,10 @@ class OAuthLogoutServlet extends HttpLogoutServlet {
   }
 
   @Override
-  protected void doLogout(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+  protected void doLogout(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     super.doLogout(req, rsp);
     if (req.getSession(false) != null) {
       oauthSession.get().logout();
     }
   }
 }
-

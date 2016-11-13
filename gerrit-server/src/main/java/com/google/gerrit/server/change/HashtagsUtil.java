@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HashtagsUtil {
-  private static final CharMatcher LEADER =
-      CharMatcher.whitespace().or(CharMatcher.is('#'));
+  private static final CharMatcher LEADER = CharMatcher.whitespace().or(CharMatcher.is('#'));
   private static final String PATTERN = "(?:\\s|\\A)#[\\p{L}[0-9]-_]+";
 
   public static String cleanupHashtag(String hashtag) {
@@ -45,8 +43,7 @@ public class HashtagsUtil {
     return result;
   }
 
-  static Set<String> extractTags(Set<String> input)
-      throws IllegalArgumentException {
+  static Set<String> extractTags(Set<String> input) throws IllegalArgumentException {
     if (input == null) {
       return Collections.emptySet();
     }
@@ -63,6 +60,5 @@ public class HashtagsUtil {
     return result;
   }
 
-  private HashtagsUtil() {
-  }
+  private HashtagsUtil() {}
 }

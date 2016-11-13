@@ -29,36 +29,49 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CommandMetaData(name = "set-reviewers", description = "Add or remove reviewers on a change")
 public class SetReviewersCommand extends SshCommand {
-  private static final Logger log =
-      LoggerFactory.getLogger(SetReviewersCommand.class);
+  private static final Logger log = LoggerFactory.getLogger(SetReviewersCommand.class);
 
   @Option(name = "--project", aliases = "-p", usage = "project containing the change")
   private ProjectControl projectControl;
 
-  @Option(name = "--add", aliases = {"-a"}, metaVar = "REVIEWER", usage = "user or group that should be added as reviewer")
+  @Option(
+    name = "--add",
+    aliases = {"-a"},
+    metaVar = "REVIEWER",
+    usage = "user or group that should be added as reviewer"
+  )
   private List<String> toAdd = new ArrayList<>();
 
-  @Option(name = "--remove", aliases = {"-r"}, metaVar = "REVIEWER", usage = "user that should be removed from the reviewer list")
+  @Option(
+    name = "--remove",
+    aliases = {"-r"},
+    metaVar = "REVIEWER",
+    usage = "user that should be removed from the reviewer list"
+  )
   void optionRemove(Account.Id who) {
     toRemove.add(who);
   }
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "CHANGE", usage = "changes to modify")
+  @Argument(
+    index = 0,
+    required = true,
+    multiValued = true,
+    metaVar = "CHANGE",
+    usage = "changes to modify"
+  )
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, projectControl);
@@ -69,17 +82,13 @@ public class SetReviewersCommand extends SshCommand {
     }
   }
 
-  @Inject
-  private ReviewerResource.Factory reviewerFactory;
+  @Inject private ReviewerResource.Factory reviewerFactory;
 
-  @Inject
-  private PostReviewers postReviewers;
+  @Inject private PostReviewers postReviewers;
 
-  @Inject
-  private DeleteReviewer deleteReviewer;
+  @Inject private DeleteReviewer deleteReviewer;
 
-  @Inject
-  private ChangeArgumentParser changeArgumentParser;
+  @Inject private ChangeArgumentParser changeArgumentParser;
 
   private Set<Account.Id> toRemove = new HashSet<>();
 
@@ -116,8 +125,7 @@ public class SetReviewersCommand extends SshCommand {
       } catch (ResourceNotFoundException e) {
         error = String.format("could not remove %s: not found", reviewer);
       } catch (Exception e) {
-        error = String.format("could not remove %s: %s",
-            reviewer, e.getMessage());
+        error = String.format("could not remove %s: %s", reviewer, e.getMessage());
       }
       if (error != null) {
         ok = false;

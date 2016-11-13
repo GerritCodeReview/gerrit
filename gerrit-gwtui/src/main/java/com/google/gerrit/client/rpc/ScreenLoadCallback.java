@@ -39,8 +39,7 @@ public abstract class ScreenLoadCallback<T> extends GerritCallback<T> {
 
   protected abstract void preDisplay(T result);
 
-  protected void postDisplay() {
-  }
+  protected void postDisplay() {}
 
   @Override
   public void onFailure(final Throwable caught) {

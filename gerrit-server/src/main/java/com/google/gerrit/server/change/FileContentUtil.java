@@ -30,9 +30,12 @@ import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import eu.medsea.mimeutil.MimeType;
-
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -44,12 +47,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.NB;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 @Singleton
 public class FileContentUtil {
@@ -65,14 +62,13 @@ public class FileContentUtil {
   private final FileTypeRegistry registry;
 
   @Inject
-  FileContentUtil(GitRepositoryManager repoManager,
-      FileTypeRegistry ftr) {
+  FileContentUtil(GitRepositoryManager repoManager, FileTypeRegistry ftr) {
     this.repoManager = repoManager;
     this.registry = ftr;
   }
 
-  public BinaryResult getContent(ProjectState project, ObjectId revstr,
-      String path) throws ResourceNotFoundException, IOException {
+  public BinaryResult getContent(ProjectState project, ObjectId revstr, String path)
+      throws ResourceNotFoundException, IOException {
     try (Repository repo = openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revstr);
@@ -85,9 +81,7 @@ public class FileContentUtil {
       org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
       ObjectId id = tw.getObjectId(0);
       if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
-        return BinaryResult.create(id.name())
-            .setContentType(X_GIT_GITLINK)
-            .base64();
+        return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
       }
 
       ObjectLoader obj = repo.open(id, OBJ_BLOB);
@@ -110,24 +104,24 @@ public class FileContentUtil {
     }
   }
 
-  private static BinaryResult asBinaryResult(byte[] raw,
-      final ObjectLoader obj) {
+  private static BinaryResult asBinaryResult(byte[] raw, final ObjectLoader obj) {
     if (raw != null) {
       return BinaryResult.create(raw);
     }
-    BinaryResult result = new BinaryResult() {
-      @Override
-      public void writeTo(OutputStream os) throws IOException {
-        obj.copyTo(os);
-      }
-    };
+    BinaryResult result =
+        new BinaryResult() {
+          @Override
+          public void writeTo(OutputStream os) throws IOException {
+            obj.copyTo(os);
+          }
+        };
     result.setContentLength(obj.getSize());
     return result;
   }
 
-  public BinaryResult downloadContent(ProjectState project, ObjectId revstr,
-      String path, @Nullable Integer parent)
-          throws ResourceNotFoundException, IOException {
+  public BinaryResult downloadContent(
+      ProjectState project, ObjectId revstr, String path, @Nullable Integer parent)
+      throws ResourceNotFoundException, IOException {
     try (Repository repo = openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       String suffix = "new";
@@ -167,16 +161,20 @@ public class FileContentUtil {
     }
   }
 
-  private BinaryResult wrapBlob(String path, final ObjectLoader obj, byte[] raw,
-      MimeType contentType, @Nullable String suffix) {
+  private BinaryResult wrapBlob(
+      String path,
+      final ObjectLoader obj,
+      byte[] raw,
+      MimeType contentType,
+      @Nullable String suffix) {
     return asBinaryResult(raw, obj)
         .setContentType(contentType.toString())
         .setAttachmentName(safeFileName(path, suffix));
   }
 
   @SuppressWarnings("resource")
-  private BinaryResult zipBlob(final String path, final ObjectLoader obj,
-      RevCommit commit, @Nullable final String suffix) {
+  private BinaryResult zipBlob(
+      final String path, final ObjectLoader obj, RevCommit commit, @Nullable final String suffix) {
     final String commitName = commit.getName();
     final long when = commit.getCommitTime() * 1000L;
     return new BinaryResult() {
@@ -196,9 +194,7 @@ public class FileContentUtil {
           zipOut.closeEntry();
         }
       }
-    }.setContentType(ZIP_TYPE)
-        .setAttachmentName(safeFileName(path, suffix) + ".zip")
-        .disableGzip();
+    }.setContentType(ZIP_TYPE).setAttachmentName(safeFileName(path, suffix) + ".zip").disableGzip();
   }
 
   private static String safeFileName(String fileName, @Nullable String suffix) {
@@ -235,8 +231,7 @@ public class FileContentUtil {
     } else if (ext <= 0) {
       return fileName + "_" + suffix;
     } else {
-      return fileName.substring(0, ext) + "_" + suffix
-          + fileName.substring(ext);
+      return fileName.substring(0, ext) + "_" + suffix + fileName.substring(ext);
     }
   }
 
@@ -258,8 +253,8 @@ public class FileContentUtil {
     return h.hash().toString();
   }
 
-  public static String resolveContentType(ProjectState project, String path,
-      FileMode fileMode, String mimeType) {
+  public static String resolveContentType(
+      ProjectState project, String path, FileMode fileMode, String mimeType) {
     switch (fileMode) {
       case FILE:
         if (Patch.COMMIT_MSG.equals(path)) {

@@ -21,7 +21,6 @@ import com.google.gerrit.lucene.ReindexerAlreadyRunningException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -32,12 +31,10 @@ public class IndexStartCommand extends SshCommand {
   @Option(name = "--force", usage = "force a re-index")
   private boolean force;
 
-  @Argument(index = 0, required = true, metaVar = "INDEX",
-      usage = "index name to start")
+  @Argument(index = 0, required = true, metaVar = "INDEX", usage = "index name to start")
   private String name;
 
-  @Inject
-  private LuceneVersionManager luceneVersionManager;
+  @Inject private LuceneVersionManager luceneVersionManager;
 
   @Override
   protected void run() throws UnloggedFailure {

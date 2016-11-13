@@ -17,6 +17,11 @@ package com.google.gerrit.server.patch;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
+import java.text.SimpleDateFormat;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -31,12 +36,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
-import java.text.SimpleDateFormat;
 
 public class Text extends RawText {
   private static final Logger log = LoggerFactory.getLogger(Text.class);
@@ -58,16 +57,17 @@ public class Text extends RawText {
       switch (c.getParentCount()) {
         case 0:
           break;
-        case 1: {
-          RevCommit p = c.getParent(0);
-          rw.parseBody(p);
-          b.append("Parent:     ");
-          b.append(reader.abbreviate(p, 8).name());
-          b.append(" (");
-          b.append(p.getShortMessage());
-          b.append(")\n");
-          break;
-        }
+        case 1:
+          {
+            RevCommit p = c.getParent(0);
+            rw.parseBody(p);
+            b.append("Parent:     ");
+            b.append(reader.abbreviate(p, 8).name());
+            b.append(" (");
+            b.append(p.getShortMessage());
+            b.append(")\n");
+            break;
+          }
         default:
           for (int i = 0; i < c.getParentCount(); i++) {
             RevCommit p = c.getParent(i);
@@ -87,25 +87,24 @@ public class Text extends RawText {
     }
   }
 
-  public static Text forMergeList(ComparisonType comparisonType,
-      ObjectReader reader, AnyObjectId commitId) throws IOException {
+  public static Text forMergeList(
+      ComparisonType comparisonType, ObjectReader reader, AnyObjectId commitId) throws IOException {
     try (RevWalk rw = new RevWalk(reader)) {
       RevCommit c = rw.parseCommit(commitId);
       StringBuilder b = new StringBuilder();
       switch (c.getParentCount()) {
         case 0:
           break;
-        case 1: {
-          break;
-        }
+        case 1:
+          {
+            break;
+          }
         default:
-          int uniterestingParent = comparisonType.isAgainstParent()
-              ? comparisonType.getParentNum()
-              : 1;
+          int uniterestingParent =
+              comparisonType.isAgainstParent() ? comparisonType.getParentNum() : 1;
 
           b.append("Merge List:\n\n");
-          for (RevCommit commit : MergeListBuilder.build(rw, c,
-              uniterestingParent)) {
+          for (RevCommit commit : MergeListBuilder.build(rw, c, uniterestingParent)) {
             b.append("* ");
             b.append(reader.abbreviate(commit, 8).name());
             b.append(" ");
@@ -117,8 +116,7 @@ public class Text extends RawText {
     }
   }
 
-  private static void appendPersonIdent(StringBuilder b, String field,
-      PersonIdent person) {
+  private static void appendPersonIdent(StringBuilder b, String field, PersonIdent person) {
     if (person != null) {
       b.append(field).append(":    ");
       if (person.getName() != null) {
@@ -174,8 +172,7 @@ public class Text extends RawText {
     super(r);
   }
 
-  public Text(ObjectLoader ldr) throws MissingObjectException,
-      LargeObjectException, IOException {
+  public Text(ObjectLoader ldr) throws MissingObjectException, LargeObjectException, IOException {
     this(asByteArray(ldr));
   }
 

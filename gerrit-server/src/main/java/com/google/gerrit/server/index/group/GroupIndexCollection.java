@@ -25,6 +25,5 @@ public class GroupIndexCollection
     extends IndexCollection<AccountGroup.UUID, AccountGroup, GroupIndex> {
   @Inject
   @VisibleForTesting
-  public GroupIndexCollection() {
-  }
+  public GroupIndexCollection() {}
 }

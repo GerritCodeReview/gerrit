@@ -28,7 +28,6 @@ import com.google.gerrit.server.project.TagsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 
 public class TagApiImpl implements TagApi {
@@ -44,7 +43,8 @@ public class TagApiImpl implements TagApi {
   private final ProjectResource project;
 
   @Inject
-  TagApiImpl(ListTags listTags,
+  TagApiImpl(
+      ListTags listTags,
       CreateTag.Factory createTagFactory,
       DeleteTag deleteTag,
       TagsCollection tags,

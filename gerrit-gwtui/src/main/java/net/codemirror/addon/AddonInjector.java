@@ -16,21 +16,19 @@ package net.codemirror.addon;
 
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import net.codemirror.lib.Loader;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.codemirror.lib.Loader;
 
 public class AddonInjector {
   private static final Map<String, SafeUri> addonUris = new HashMap<>();
+
   static {
-    addonUris.put(Addons.I.merge_bundled().getName(),
-        Addons.I.merge_bundled().getSafeUri());
+    addonUris.put(Addons.I.merge_bundled().getName(), Addons.I.merge_bundled().getSafeUri());
   }
 
   public static SafeUri getAddonScriptUri(String addon) {
@@ -51,9 +49,8 @@ public class AddonInjector {
     }
 
     if (!canLoad(name)) {
-      Logger.getLogger("net.codemirror").log(
-        Level.WARNING,
-        "CodeMirror addon " + name + " not configured.");
+      Logger.getLogger("net.codemirror")
+          .log(Level.WARNING, "CodeMirror addon " + name + " not configured.");
       return this;
     }
 
@@ -74,22 +71,22 @@ public class AddonInjector {
   private void beginLoading(final String addon) {
     pending++;
     Loader.injectScript(
-      getAddonScriptUri(addon),
-      new AsyncCallback<Void>() {
-        @Override
-        public void onSuccess(Void result) {
-          pending--;
-          if (pending == 0) {
-            appCallback.onSuccess(null);
+        getAddonScriptUri(addon),
+        new AsyncCallback<Void>() {
+          @Override
+          public void onSuccess(Void result) {
+            pending--;
+            if (pending == 0) {
+              appCallback.onSuccess(null);
+            }
           }
-        }
 
-        @Override
-        public void onFailure(Throwable caught) {
-          if (--pending == 0) {
-            appCallback.onFailure(caught);
+          @Override
+          public void onFailure(Throwable caught) {
+            if (--pending == 0) {
+              appCallback.onFailure(caught);
+            }
           }
-        }
-      });
+        });
   }
 }

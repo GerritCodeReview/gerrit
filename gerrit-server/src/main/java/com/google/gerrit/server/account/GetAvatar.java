@@ -22,18 +22,19 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.concurrent.TimeUnit;
+import org.kohsuke.args4j.Option;
 
 public class GetAvatar implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;
 
   private int size;
 
-  @Option(name = "--size", aliases = {"-s"},
-      usage = "recommended size in pixels, height and width")
+  @Option(
+    name = "--size",
+    aliases = {"-s"},
+    usage = "recommended size in pixels, height and width"
+  )
   public void setSize(int s) {
     size = s;
   }
@@ -44,18 +45,15 @@ public class GetAvatar implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Response.Redirect apply(AccountResource rsrc)
-      throws ResourceNotFoundException {
+  public Response.Redirect apply(AccountResource rsrc) throws ResourceNotFoundException {
     AvatarProvider impl = avatarProvider.get();
     if (impl == null) {
-      throw (new ResourceNotFoundException())
-          .caching(CacheControl.PUBLIC(1, TimeUnit.DAYS));
+      throw (new ResourceNotFoundException()).caching(CacheControl.PUBLIC(1, TimeUnit.DAYS));
     }
 
     String url = impl.getUrl(rsrc.getUser(), size);
     if (Strings.isNullOrEmpty(url)) {
-      throw (new ResourceNotFoundException())
-          .caching(CacheControl.PUBLIC(1, TimeUnit.HOURS));
+      throw (new ResourceNotFoundException()).caching(CacheControl.PUBLIC(1, TimeUnit.HOURS));
     }
     return Response.redirect(url);
   }

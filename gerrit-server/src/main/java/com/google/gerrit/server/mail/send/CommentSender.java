@@ -36,11 +36,6 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -54,12 +49,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/** Send comments, after the author of them hit used Publish Comments in the UI.
- */
+/** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
-  private static final Logger log = LoggerFactory
-      .getLogger(CommentSender.class);
+  private static final Logger log = LoggerFactory.getLogger(CommentSender.class);
 
   public interface Factory {
     CommentSender create(Project.NameKey project, Change.Id id);
@@ -71,9 +67,7 @@ public class CommentSender extends ReplyToChangeSender {
     public PatchFile fileData;
     public List<Comment> comments = new ArrayList<>();
 
-    /**
-     * @return a web link to the given patch set and file.
-     */
+    /** @return a web link to the given patch set and file. */
     public String getLink() {
       String url = getGerritUrl();
       if (url == null) {
@@ -81,16 +75,18 @@ public class CommentSender extends ReplyToChangeSender {
       }
 
       return new StringBuilder()
-        .append(url)
-        .append("#/c/").append(change.getId())
-        .append('/').append(patchSetId)
-        .append('/').append(KeyUtil.encode(filename))
-        .toString();
+          .append(url)
+          .append("#/c/")
+          .append(change.getId())
+          .append('/')
+          .append(patchSetId)
+          .append('/')
+          .append(KeyUtil.encode(filename))
+          .toString();
     }
 
     /**
-     * @return A title for the group, i.e. "Commit Message", "Merge List", or
-     * "File [[filename]]".
+     * @return A title for the group, i.e. "Commit Message", "Merge List", or "File [[filename]]".
      */
     public String getTitle() {
       if (Patch.COMMIT_MSG.equals(filename)) {
@@ -109,10 +105,12 @@ public class CommentSender extends ReplyToChangeSender {
   private final CommentsUtil commentsUtil;
 
   @Inject
-  public CommentSender(EmailArguments ea,
+  public CommentSender(
+      EmailArguments ea,
       CommentsUtil commentsUtil,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id) throws OrmException {
+      @Assisted Change.Id id)
+      throws OrmException {
     super(ea, "comment", newChangeData(ea, project, id));
     this.commentsUtil = commentsUtil;
   }
@@ -129,11 +127,11 @@ public class CommentSender extends ReplyToChangeSender {
     changeData.setCurrentFilePaths(Ordering.natural().sortedCopy(paths));
   }
 
-  public  void setPatchSetComment(String comment) {
+  public void setPatchSetComment(String comment) {
     this.patchSetComment = comment;
   }
 
-  public  void setLabels(List<LabelVote> labels) {
+  public void setLabels(List<LabelVote> labels) {
     this.labels = labels;
   }
 
@@ -170,28 +168,19 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  /**
-   * No longer used outside Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used outside Velocity. Remove this method when VTL support is removed. */
   @Deprecated
   public boolean hasInlineComments() {
     return !inlineComments.isEmpty();
   }
 
-  /**
-   * No longer used outside Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used outside Velocity. Remove this method when VTL support is removed. */
   @Deprecated
   public String getInlineComments() {
     return getInlineComments(1);
   }
 
-  /**
-   * No longer used outside Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used outside Velocity. Remove this method when VTL support is removed. */
   @Deprecated
   public String getInlineComments(int lines) {
     try (Repository repo = getRepository()) {
@@ -212,11 +201,10 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return a list of FileCommentGroup objects representing the inline comments
-   * grouped by the file.
+   * @return a list of FileCommentGroup objects representing the inline comments grouped by the
+   *     file.
    */
-  private List<CommentSender.FileCommentGroup> getGroupedInlineComments(
-      Repository repo) {
+  private List<CommentSender.FileCommentGroup> getGroupedInlineComments(Repository repo) {
     List<CommentSender.FileCommentGroup> groups = new ArrayList<>();
     // Get the patch list:
     PatchList patchList = null;
@@ -242,14 +230,15 @@ public class CommentSender extends ReplyToChangeSender {
         groups.add(currentGroup);
         if (patchList != null) {
           try {
-            currentGroup.fileData =
-                new PatchFile(repo, patchList, c.key.filename);
+            currentGroup.fileData = new PatchFile(repo, patchList, c.key.filename);
           } catch (IOException e) {
-            log.warn(String.format(
-                "Cannot load %s from %s in %s",
-                c.key.filename,
-                patchList.getNewId().name(),
-                projectState.getProject().getName()), e);
+            log.warn(
+                String.format(
+                    "Cannot load %s from %s in %s",
+                    c.key.filename,
+                    patchList.getNewId().name(),
+                    projectState.getProject().getName()),
+                e);
             currentGroup.fileData = null;
           }
         }
@@ -260,25 +249,21 @@ public class CommentSender extends ReplyToChangeSender {
       }
     }
 
-    Collections.sort(groups,
-        Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
+    Collections.sort(groups, Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
     return groups;
   }
 
-  /**
-   * No longer used except for Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
   @Deprecated
-  private void appendComment(StringBuilder out, int contextLines,
-      PatchFile currentFileData, Comment comment) {
+  private void appendComment(
+      StringBuilder out, int contextLines, PatchFile currentFileData, Comment comment) {
     if (comment instanceof RobotComment) {
       RobotComment robotComment = (RobotComment) comment;
       out.append("Robot Comment from ")
-         .append(robotComment.robotId)
-         .append(" (run ID ")
-         .append(robotComment.robotRunId)
-         .append("):\n");
+          .append(robotComment.robotId)
+          .append(" (run ID ")
+          .append(robotComment.robotRunId)
+          .append("):\n");
     }
     if (comment.range != null) {
       appendRangedComment(out, currentFileData, comment);
@@ -287,20 +272,14 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  /**
-   * No longer used except for Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
   @Deprecated
-  private void appendRangedComment(StringBuilder out, PatchFile fileData,
-      Comment comment) {
+  private void appendRangedComment(StringBuilder out, PatchFile fileData, Comment comment) {
     String prefix = getCommentLinePrefix(comment);
     String emptyPrefix = Strings.padStart(": ", prefix.length(), ' ');
     boolean firstLine = true;
     for (String line : getLinesByRange(comment.range, fileData, comment.side)) {
-      out.append(firstLine ? prefix : emptyPrefix)
-          .append(line)
-          .append('\n');
+      out.append(firstLine ? prefix : emptyPrefix).append(line).append('\n');
       firstLine = false;
     }
     appendQuotedParent(out, comment);
@@ -308,8 +287,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private String getCommentLinePrefix(Comment comment) {
-    int lineNbr = comment.range == null ?
-        comment.lineNbr : comment.range.startLine;
+    int lineNbr = comment.range == null ? comment.lineNbr : comment.range.startLine;
     StringBuilder sb = new StringBuilder();
     sb.append("PS").append(comment.key.patchSetId);
     if (lineNbr != 0) {
@@ -320,19 +298,15 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return the lines of file content in fileData that are encompassed by range
-   * on the given side.
+   * @return the lines of file content in fileData that are encompassed by range on the given side.
    */
-  private List<String> getLinesByRange(Comment.Range range,
-      PatchFile fileData, short side) {
+  private List<String> getLinesByRange(Comment.Range range, PatchFile fileData, short side) {
     List<String> lines = new ArrayList<>();
 
     for (int n = range.startLine; n <= range.endLine; n++) {
       String s = getLine(fileData, side, n);
       if (n == range.startLine && n == range.endLine) {
-        s = s.substring(
-            Math.min(range.startChar, s.length()),
-            Math.min(range.endChar, s.length()));
+        s = s.substring(Math.min(range.startChar, s.length()), Math.min(range.endChar, s.length()));
       } else if (n == range.startLine) {
         s = s.substring(Math.min(range.startChar, s.length()));
       } else if (n == range.endLine) {
@@ -343,13 +317,10 @@ public class CommentSender extends ReplyToChangeSender {
     return lines;
   }
 
-  /**
-   * No longer used except for Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
   @Deprecated
-  private void appendLineComment(StringBuilder out, int contextLines,
-      PatchFile currentFileData, Comment comment) {
+  private void appendLineComment(
+      StringBuilder out, int contextLines, PatchFile currentFileData, Comment comment) {
     short side = comment.side;
     int lineNbr = comment.lineNbr;
 
@@ -360,12 +331,10 @@ public class CommentSender extends ReplyToChangeSender {
       maxLines = currentFileData.getLineCount(side);
     } catch (IOException err) {
       // The file could not be read, leave the max as is.
-      log.warn(String.format("Failed to read file %s on side %d",
-          comment.key.filename, side), err);
+      log.warn(String.format("Failed to read file %s on side %d", comment.key.filename, side), err);
     } catch (NoSuchEntityException err) {
       // The file could not be read, leave the max as is.
-      log.warn(String.format("Side %d of file %s didn't exist",
-           side, comment.key.filename), err);
+      log.warn(String.format("Side %d of file %s didn't exist", side, comment.key.filename), err);
     }
 
     int startLine = Math.max(1, lineNbr - contextLines + 1);
@@ -382,65 +351,51 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  /**
-   * No longer used except for Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
   @Deprecated
-  private void appendFileLine(StringBuilder cmts, PatchFile fileData,
-      short side, int line) {
+  private void appendFileLine(StringBuilder cmts, PatchFile fileData, short side, int line) {
     String lineStr = getLine(fileData, side, line);
-    cmts.append("Line ")
-        .append(line)
-        .append(": ")
-        .append(lineStr)
-        .append("\n");
+    cmts.append("Line ").append(line).append(": ").append(lineStr).append("\n");
   }
 
-  /**
-   * No longer used except for Velocity. Remove this method when VTL support is
-   * removed.
-   */
+  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
   @Deprecated
   private void appendQuotedParent(StringBuilder out, Comment child) {
     Optional<Comment> parent = getParent(child);
     if (parent.isPresent()) {
-      out.append("> ")
-          .append(getShortenedCommentMessage(parent.get()))
-          .append('\n');
+      out.append("> ").append(getShortenedCommentMessage(parent.get())).append('\n');
     }
   }
 
   /**
    * Get the parent comment of a given comment.
+   *
    * @param child the comment with a potential parent comment.
-   * @return an optional comment that will be  present if the given comment has
-   * a parent, and is empty if it does not.
+   * @return an optional comment that will be present if the given comment has a parent, and is
+   *     empty if it does not.
    */
   private Optional<Comment> getParent(Comment child) {
     if (child.parentUuid == null) {
       return Optional.empty();
     }
 
-    Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename,
-          child.key.patchSetId);
+    Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
       return commentsUtil.get(args.db.get(), changeData.notes(), key);
     } catch (OrmException e) {
-      log.warn("Could not find the parent of this comment: "
-          + child.toString());
+      log.warn("Could not find the parent of this comment: " + child.toString());
       return Optional.empty();
     }
   }
 
   /**
    * Retrieve the file lines referred to by a comment.
-   * @param comment The comment that refers to some file contents. The comment
-   *     may be a line comment or a ranged comment.
+   *
+   * @param comment The comment that refers to some file contents. The comment may be a line comment
+   *     or a ranged comment.
    * @param fileData The file on which the comment appears.
-   * @return file contents referred to by the comment. If the comment is a line
-   *     comment, the result will be a list of one string. Otherwise it will be
-   *     a list of one or more strings.
+   * @return file contents referred to by the comment. If the comment is a line comment, the result
+   *     will be a list of one string. Otherwise it will be a list of one or more strings.
    */
   private List<String> getLinesOfComment(Comment comment, PatchFile fileData) {
     List<String> lines = new ArrayList<>();
@@ -457,8 +412,8 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return a shortened version of the given comment's message. Will be
-   * shortened to 75 characters or the first line, whichever is shorter.
+   * @return a shortened version of the given comment's message. Will be shortened to 75 characters
+   *     or the first line, whichever is shorter.
    */
   private String getShortenedCommentMessage(Comment comment) {
     String msg = comment.message.trim();
@@ -473,15 +428,13 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return grouped inline comment data mapped to data structures that are
-   * suitable for passing into Soy.
+   * @return grouped inline comment data mapped to data structures that are suitable for passing
+   *     into Soy.
    */
-  private List<Map<String, Object>> getCommentGroupsTemplateData(
-      Repository repo) {
+  private List<Map<String, Object>> getCommentGroupsTemplateData(Repository repo) {
     List<Map<String, Object>> commentGroups = new ArrayList<>();
 
-    for (
-        CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
+    for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
       groupData.put("link", group.getLink());
       groupData.put("title", group.getTitle());
@@ -492,15 +445,13 @@ public class CommentSender extends ReplyToChangeSender {
         Map<String, Object> commentData = new HashMap<>();
         commentData.put("lines", getLinesOfComment(comment, group.fileData));
         commentData.put("message", comment.message.trim());
-        List<CommentFormatter.Block> blocks =
-            CommentFormatter.parse(comment.message);
+        List<CommentFormatter.Block> blocks = CommentFormatter.parse(comment.message);
         commentData.put("messageBlocks", commentBlocksToSoyData(blocks));
 
         // Set the prefix.
         String prefix = getCommentLinePrefix(comment);
         commentData.put("linePrefix", prefix);
-        commentData.put("linePrefixEmpty",
-            Strings.padStart(": ", prefix.length(), ' '));
+        commentData.put("linePrefixEmpty", Strings.padStart(": ", prefix.length(), ' '));
 
         // Set line numbers.
         int startLine;
@@ -537,8 +488,7 @@ public class CommentSender extends ReplyToChangeSender {
           // Set parent comment info.
           Optional<Comment> parent = getParent(comment);
           if (parent.isPresent()) {
-            commentData.put("parentMessage",
-                getShortenedCommentMessage(parent.get()));
+            commentData.put("parentMessage", getShortenedCommentMessage(parent.get()));
           }
         }
 
@@ -551,31 +501,32 @@ public class CommentSender extends ReplyToChangeSender {
     return commentGroups;
   }
 
-  private List<Map<String, Object>> commentBlocksToSoyData(
-      List<CommentFormatter.Block> blocks) {
-    return blocks.stream()
-        .map(b -> {
-          Map<String, Object> map = new HashMap<>();
-          switch (b.type) {
-            case PARAGRAPH:
-              map.put("type", "paragraph");
-              map.put("text", b.text);
-              break;
-            case PRE_FORMATTED:
-              map.put("type", "pre");
-              map.put("text", b.text);
-              break;
-            case QUOTE:
-              map.put("type", "quote");
-              map.put("quotedBlocks", commentBlocksToSoyData(b.quotedBlocks));
-              break;
-            case LIST:
-              map.put("type", "list");
-              map.put("items", b.items);
-              break;
-          }
-          return map;
-        })
+  private List<Map<String, Object>> commentBlocksToSoyData(List<CommentFormatter.Block> blocks) {
+    return blocks
+        .stream()
+        .map(
+            b -> {
+              Map<String, Object> map = new HashMap<>();
+              switch (b.type) {
+                case PARAGRAPH:
+                  map.put("type", "paragraph");
+                  map.put("text", b.text);
+                  break;
+                case PRE_FORMATTED:
+                  map.put("type", "pre");
+                  map.put("text", b.text);
+                  break;
+                case QUOTE:
+                  map.put("type", "quote");
+                  map.put("quotedBlocks", commentBlocksToSoyData(b.quotedBlocks));
+                  break;
+                case LIST:
+                  map.put("type", "list");
+                  map.put("items", b.items);
+                  break;
+              }
+              return map;
+            })
         .collect(Collectors.toList());
   }
 
@@ -606,13 +557,13 @@ public class CommentSender extends ReplyToChangeSender {
       hasComments = !files.isEmpty();
     }
 
-    soyContext.put("patchSetCommentBlocks",
-        commentBlocksToSoyData(CommentFormatter.parse(patchSetComment)));
+    soyContext.put(
+        "patchSetCommentBlocks", commentBlocksToSoyData(CommentFormatter.parse(patchSetComment)));
     soyContext.put("labels", getLabelVoteSoyData(labels));
     soyContext.put("commentCount", inlineComments.size());
     soyContext.put("commentTimestamp", getCommentTimestamp());
-    soyContext.put("coverLetterBlocks",
-        commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
+    soyContext.put(
+        "coverLetterBlocks", commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
 
     footers.add("Gerrit-Comment-Date: " + getCommentTimestamp());
     footers.add("Gerrit-HasComments: " + (hasComments ? "Yes" : "No"));
@@ -628,8 +579,7 @@ public class CommentSender extends ReplyToChangeSender {
     } catch (IndexOutOfBoundsException err) {
       // Default to the empty string if the given line number does not appear
       // in the file.
-      log.debug(String.format("Failed to get line number of file on side %d",
-          side), err);
+      log.debug(String.format("Failed to get line number of file on side %d", side), err);
       return "";
     } catch (NoSuchEntityException err) {
       // Default to the empty string if the side cannot be found.

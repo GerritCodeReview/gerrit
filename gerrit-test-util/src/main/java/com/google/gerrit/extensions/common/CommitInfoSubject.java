@@ -25,23 +25,20 @@ import com.google.gerrit.truth.ListSubject;
 
 public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
 
-  private static final SubjectFactory<CommitInfoSubject, CommitInfo>
-      COMMIT_INFO_SUBJECT_FACTORY =
+  private static final SubjectFactory<CommitInfoSubject, CommitInfo> COMMIT_INFO_SUBJECT_FACTORY =
       new SubjectFactory<CommitInfoSubject, CommitInfo>() {
         @Override
-        public CommitInfoSubject getSubject(FailureStrategy failureStrategy,
-            CommitInfo commitInfo) {
+        public CommitInfoSubject getSubject(
+            FailureStrategy failureStrategy, CommitInfo commitInfo) {
           return new CommitInfoSubject(failureStrategy, commitInfo);
         }
       };
 
   public static CommitInfoSubject assertThat(CommitInfo commitInfo) {
-    return assertAbout(COMMIT_INFO_SUBJECT_FACTORY)
-        .that(commitInfo);
+    return assertAbout(COMMIT_INFO_SUBJECT_FACTORY).that(commitInfo);
   }
 
-  private CommitInfoSubject(FailureStrategy failureStrategy,
-      CommitInfo commitInfo) {
+  private CommitInfoSubject(FailureStrategy failureStrategy, CommitInfo commitInfo) {
     super(failureStrategy, commitInfo);
   }
 
@@ -54,8 +51,8 @@ public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
   public ListSubject<CommitInfoSubject, CommitInfo> parents() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return ListSubject.assertThat(commitInfo.parents,
-        CommitInfoSubject::assertThat).named("parents");
+    return ListSubject.assertThat(commitInfo.parents, CommitInfoSubject::assertThat)
+        .named("parents");
   }
 
   public GitPersonSubject committer() {

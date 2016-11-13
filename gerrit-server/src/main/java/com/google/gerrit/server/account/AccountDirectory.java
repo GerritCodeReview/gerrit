@@ -15,13 +15,12 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.common.AccountInfo;
-
 import java.util.Set;
 
 /**
  * Directory of user account information.
  *
- * Implementations supply data to Gerrit about user accounts.
+ * <p>Implementations supply data to Gerrit about user accounts.
  */
 public abstract class AccountDirectory {
   /** Fields to be populated for a REST API response. */
@@ -48,9 +47,7 @@ public abstract class AccountDirectory {
     STATUS
   }
 
-  public abstract void fillAccountInfo(
-      Iterable<? extends AccountInfo> in,
-      Set<FillOptions> options)
+  public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
       throws DirectoryException;
 
   @SuppressWarnings("serial")

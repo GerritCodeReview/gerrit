@@ -16,9 +16,7 @@ package com.google.gwtexpui.safehtml.client;
 
 import com.google.gwt.core.client.GWT;
 
-/**
- * Safely constructs a {@link SafeHtml}, escaping user provided content.
- */
+/** Safely constructs a {@link SafeHtml}, escaping user provided content. */
 @SuppressWarnings("serial")
 public class SafeHtmlBuilder extends SafeHtml {
   private static final Impl impl;
@@ -163,10 +161,9 @@ public class SafeHtmlBuilder extends SafeHtml {
 
   /**
    * Open an element, appending "{@code <tagName>}" to the buffer.
-   * <p>
-   * After the element is open the attributes may be manipulated until the next
-   * {@code append}, {@code openElement}, {@code closeSelf} or
-   * {@code closeElement} call.
+   *
+   * <p>After the element is open the attributes may be manipulated until the next {@code append},
+   * {@code openElement}, {@code closeSelf} or {@code closeElement} call.
    *
    * @param tagName name of the HTML element to open.
    */
@@ -187,9 +184,8 @@ public class SafeHtmlBuilder extends SafeHtml {
    * Get an attribute of the last opened element.
    *
    * @param name name of the attribute to read.
-   * @return the attribute value, as a string. The empty string if the attribute
-   *         has not been assigned a value. The returned string is the raw
-   *         (unescaped) value.
+   * @return the attribute value, as a string. The empty string if the attribute has not been
+   *     assigned a value. The returned string is the raw (unescaped) value.
    */
   public String getAttribute(final String name) {
     assert isAttributeName(name);
@@ -201,8 +197,8 @@ public class SafeHtmlBuilder extends SafeHtml {
    * Set an attribute of the last opened element.
    *
    * @param name name of the attribute to set.
-   * @param value value to assign; any existing value is replaced. The value is
-   *        escaped (if necessary) during the assignment.
+   * @param value value to assign; any existing value is replaced. The value is escaped (if
+   *     necessary) during the assignment.
    */
   public SafeHtmlBuilder setAttribute(final String name, final String value) {
     assert isAttributeName(name);
@@ -223,10 +219,10 @@ public class SafeHtmlBuilder extends SafeHtml {
 
   /**
    * Append a new value into a whitespace delimited attribute.
-   * <p>
-   * If the attribute is not yet assigned, this method sets the attribute. If
-   * the attribute is already assigned, the new value is appended onto the end,
-   * after appending a single space to delimit the values.
+   *
+   * <p>If the attribute is not yet assigned, this method sets the attribute. If the attribute is
+   * already assigned, the new value is appended onto the end, after appending a single space to
+   * delimit the values.
    *
    * @param name name of the attribute to append onto.
    * @param value additional value to append.
@@ -257,9 +253,8 @@ public class SafeHtmlBuilder extends SafeHtml {
 
   /**
    * Add an additional CSS class name to this element.
-   *<p>
-   * If no CSS class name has been specified yet, this method initializes it to
-   * the single name.
+   *
+   * <p>If no CSS class name has been specified yet, this method initializes it to the single name.
    */
   public SafeHtmlBuilder addStyleName(final String style) {
     assert isCssName(style);
@@ -419,12 +414,11 @@ public class SafeHtmlBuilder extends SafeHtml {
       b.cb.append(escape(in));
     }
 
-    private static native String escape(String src)
-    /*-{ return src.replace(/&/g,'&amp;')
+    private static native String escape(String src)/*-{ return src.replace(/&/g,'&amp;')
                    .replace(/>/g,'&gt;')
                    .replace(/</g,'&lt;')
                    .replace(/"/g,'&quot;')
                    .replace(/'/g,'&#39;');
-     }-*/;
+     }-*/ ;
   }
 }

@@ -34,28 +34,26 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SubmittedTogether implements RestReadView<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(
-      SubmittedTogether.class);
+  private static final Logger log = LoggerFactory.getLogger(SubmittedTogether.class);
 
   private final EnumSet<SubmittedTogetherOption> options =
       EnumSet.noneOf(SubmittedTogetherOption.class);
 
-  private final EnumSet<ListChangesOption> jsonOpt = EnumSet.of(
-      ListChangesOption.CURRENT_REVISION,
-      ListChangesOption.CURRENT_COMMIT,
-      ListChangesOption.SUBMITTABLE);
+  private final EnumSet<ListChangesOption> jsonOpt =
+      EnumSet.of(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT,
+          ListChangesOption.SUBMITTABLE);
 
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
@@ -83,7 +81,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   @Inject
-  SubmittedTogether(ChangeJson.Factory json,
+  SubmittedTogether(
+      ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeSuperSet> mergeSuperSet,
@@ -100,16 +99,15 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     return this;
   }
 
-  public SubmittedTogether addSubmittedTogetherOption(
-      EnumSet<SubmittedTogetherOption> o) {
+  public SubmittedTogether addSubmittedTogetherOption(EnumSet<SubmittedTogetherOption> o) {
     options.addAll(o);
     return this;
   }
 
   @Override
   public Object apply(ChangeResource resource)
-      throws AuthException, BadRequestException,
-      ResourceConflictException, IOException, OrmException {
+      throws AuthException, BadRequestException, ResourceConflictException, IOException,
+          OrmException {
     SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {
       return info.changes;
@@ -126,8 +124,9 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
       if (c.getStatus().isOpen()) {
         ChangeSet cs =
-            mergeSuperSet.get().completeChangeSet(
-                dbProvider.get(), c, resource.getControl().getUser());
+            mergeSuperSet
+                .get()
+                .completeChangeSet(dbProvider.get(), c, resource.getControl().getUser());
         cds = cs.changes().asList();
         hidden = cs.nonVisibleChanges().size();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
@@ -138,10 +137,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         hidden = 0;
       }
 
-      if (hidden != 0
-          && !options.contains(NON_VISIBLE_CHANGES)) {
-        throw new AuthException(
-            "change would be submitted with a change that you cannot see");
+      if (hidden != 0 && !options.contains(NON_VISIBLE_CHANGES)) {
+        throw new AuthException("change would be submitted with a change that you cannot see");
       }
 
       if (cds.size() <= 1 && hidden == 0) {
@@ -162,8 +159,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     }
   }
 
-  private List<ChangeData> sort(List<ChangeData> cds)
-      throws OrmException, IOException {
+  private List<ChangeData> sort(List<ChangeData> cds) throws OrmException, IOException {
     List<ChangeData> sorted = new ArrayList<>(cds.size());
     for (PatchSetData psd : sorter.get().sort(cds)) {
       sorted.add(psd.data());

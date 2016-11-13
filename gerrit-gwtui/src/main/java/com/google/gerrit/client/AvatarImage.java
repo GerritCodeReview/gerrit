@@ -43,11 +43,9 @@ public class AvatarImage extends Image implements LoadHandler {
    * An avatar image for the given account using the requested size.
    *
    * @param account The account in which we are interested
-   * @param size A requested size. Note that the size can be ignored depending
-   *        on the avatar provider. A size <= 0 indicates to let the provider
-   *        decide a default size.
-   * @param addPopup show avatar popup with user info on hovering over the
-   *        avatar image
+   * @param size A requested size. Note that the size can be ignored depending on the avatar
+   *     provider. A size <= 0 indicates to let the provider decide a default size.
+   * @param addPopup show avatar popup with user info on hovering over the avatar image
    */
   public AvatarImage(AccountInfo account, int size, boolean addPopup) {
     addLoadHandler(this);
@@ -84,10 +82,9 @@ public class AvatarImage extends Image implements LoadHandler {
       return;
     }
 
-     // TODO Kill /accounts/*/avatar URL.
+    // TODO Kill /accounts/*/avatar URL.
     String u = account.email();
-    if (Gerrit.isSignedIn()
-        && u.equals(Gerrit.getUserAccount().email())) {
+    if (Gerrit.isSignedIn() && u.equals(Gerrit.getUserAccount().email())) {
       u = "self";
     }
     RestApi api = new RestApi("/accounts/").id(u).view("avatar");
@@ -114,8 +111,7 @@ public class AvatarImage extends Image implements LoadHandler {
   }
 
   private static boolean isGerritServer(AccountInfo account) {
-    return account._accountId() == 0
-        && Util.C.messageNoAuthor().equals(account.name());
+    return account._accountId() == 0 && Util.C.messageNoAuthor().equals(account.name());
   }
 
   private static class PopupHandler implements MouseOverHandler, MouseOutHandler {
@@ -133,18 +129,22 @@ public class AvatarImage extends Image implements LoadHandler {
 
     private UserPopupPanel createPopupPanel(AccountInfo account) {
       UserPopupPanel popup = new UserPopupPanel(account, false, false);
-      popup.addDomHandler(new MouseOverHandler() {
-        @Override
-        public void onMouseOver(MouseOverEvent event) {
-          scheduleShow();
-        }
-      }, MouseOverEvent.getType());
-      popup.addDomHandler(new MouseOutHandler() {
-        @Override
-        public void onMouseOut(MouseOutEvent event) {
-          scheduleHide();
-        }
-      }, MouseOutEvent.getType());
+      popup.addDomHandler(
+          new MouseOverHandler() {
+            @Override
+            public void onMouseOver(MouseOverEvent event) {
+              scheduleShow();
+            }
+          },
+          MouseOverEvent.getType());
+      popup.addDomHandler(
+          new MouseOutHandler() {
+            @Override
+            public void onMouseOut(MouseOutEvent event) {
+              scheduleHide();
+            }
+          },
+          MouseOutEvent.getType());
       return popup;
     }
 
@@ -163,22 +163,21 @@ public class AvatarImage extends Image implements LoadHandler {
         hideTimer.cancel();
         hideTimer = null;
       }
-      if ((popup != null && popup.isShowing() && popup.isVisible())
-          || showTimer != null) {
+      if ((popup != null && popup.isShowing() && popup.isVisible()) || showTimer != null) {
         return;
       }
-      showTimer = new Timer() {
-        @Override
-        public void run() {
-          if (popup == null) {
-            popup = createPopupPanel(account);
-          }
-          if (!popup.isShowing() || !popup.isVisible()) {
-            popup.showRelativeTo(target);
-          }
-
-        }
-      };
+      showTimer =
+          new Timer() {
+            @Override
+            public void run() {
+              if (popup == null) {
+                popup = createPopupPanel(account);
+              }
+              if (!popup.isShowing() || !popup.isVisible()) {
+                popup.showRelativeTo(target);
+              }
+            }
+          };
       showTimer.schedule(600);
     }
 
@@ -187,16 +186,16 @@ public class AvatarImage extends Image implements LoadHandler {
         showTimer.cancel();
         showTimer = null;
       }
-      if (popup == null || !popup.isShowing() || !popup.isVisible()
-              || hideTimer != null) {
+      if (popup == null || !popup.isShowing() || !popup.isVisible() || hideTimer != null) {
         return;
       }
-      hideTimer = new Timer() {
-        @Override
-        public void run() {
-          popup.hide();
-        }
-      };
+      hideTimer =
+          new Timer() {
+            @Override
+            public void run() {
+              popup.hide();
+            }
+          };
       hideTimer.schedule(50);
     }
   }

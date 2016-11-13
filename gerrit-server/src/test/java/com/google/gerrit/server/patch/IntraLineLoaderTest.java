@@ -17,12 +17,11 @@ package com.google.gerrit.server.patch;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.junit.Test;
-
-import java.util.List;
 
 public class IntraLineLoaderTest {
 
@@ -30,54 +29,44 @@ public class IntraLineLoaderTest {
   public void rewriteAtStartOfLineIsRecognized() throws Exception {
     String a = "abc1\n";
     String b = "def1\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .replace("abc", "def").common("1\n").edits
-    );
+    assertThat(intraline(a, b)).isEqualTo(ref().replace("abc", "def").common("1\n").edits);
   }
 
   @Test
   public void rewriteAtEndOfLineIsRecognized() throws Exception {
     String a = "abc1\n";
     String b = "abc2\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .common("abc").replace("1", "2").common("\n").edits
-    );
+    assertThat(intraline(a, b)).isEqualTo(ref().common("abc").replace("1", "2").common("\n").edits);
   }
 
   @Test
   public void completeRewriteIncludesNewline() throws Exception {
     String a = "abc1\n";
     String b = "def2\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .replace("abc1\n", "def2\n").edits
-    );
+    assertThat(intraline(a, b)).isEqualTo(ref().replace("abc1\n", "def2\n").edits);
   }
 
   @Test
   public void closeEditsAreCombined() throws Exception {
     String a = "ab1cdef2gh\n";
     String b = "ab2cdef3gh\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .common("ab").replace("1cdef2", "2cdef3").common("gh\n").edits
-    );
+    assertThat(intraline(a, b))
+        .isEqualTo(ref().common("ab").replace("1cdef2", "2cdef3").common("gh\n").edits);
   }
 
   @Test
   public void preferInsertAfterCommonPart1() throws Exception {
     String a = "start middle end\n";
     String b = "start middlemiddle end\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .common("start middle").insert("middle").common(" end\n").edits
-    );
+    assertThat(intraline(a, b))
+        .isEqualTo(ref().common("start middle").insert("middle").common(" end\n").edits);
   }
 
   @Test
   public void preferInsertAfterCommonPart2() throws Exception {
     String a = "abc def\n";
     String b = "abc  def\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .common("abc ").insert(" ").common("def\n").edits
-    );
+    assertThat(intraline(a, b)).isEqualTo(ref().common("abc ").insert(" ").common("def\n").edits);
   }
 
   @Test
@@ -100,10 +89,8 @@ public class IntraLineLoaderTest {
   public void preferInsertAtLineBreak2() throws Exception {
     String a = "  abc\n    def\n";
     String b = "    abc\n      def\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .insert("  ").common("  abc\n")
-        .insert("  ").common("  def\n").edits
-    );
+    assertThat(intraline(a, b))
+        .isEqualTo(ref().insert("  ").common("  abc\n").insert("  ").common("  def\n").edits);
   }
 
   //TODO: expected failure
@@ -112,19 +99,16 @@ public class IntraLineLoaderTest {
   public void preferDeleteAtLineBreak() throws Exception {
     String a = "    abc\n      def\n";
     String b = "  abc\n    def\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .remove("  ").common("  abc\n")
-        .remove("  ").common("  def\n").edits
-    );
+    assertThat(intraline(a, b))
+        .isEqualTo(ref().remove("  ").common("  abc\n").remove("  ").common("  def\n").edits);
   }
 
   @Test
   public void insertedWhitespaceIsRecognized() throws Exception {
     String a = " int *foobar\n";
     String b = " int * foobar\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .common(" int *").insert(" ").common("foobar\n").edits
-    );
+    assertThat(intraline(a, b))
+        .isEqualTo(ref().common(" int *").insert(" ").common("foobar\n").edits);
   }
 
   @Test
@@ -132,10 +116,16 @@ public class IntraLineLoaderTest {
     //         |0    5   10  |  5   20    5   30
     String a = " int *foobar\n int *foobar\n";
     String b = " int * foobar\n int * foobar\n";
-    assertThat(intraline(a, b)).isEqualTo(ref()
-        .common(" int *").insert(" ").common("foobar\n")
-        .common(" int *").insert(" ").common("foobar\n").edits
-    );
+    assertThat(intraline(a, b))
+        .isEqualTo(
+            ref()
+                .common(" int *")
+                .insert(" ")
+                .common("foobar\n")
+                .common(" int *")
+                .insert(" ")
+                .common("foobar\n")
+                .edits);
   }
 
   // helper functions to call IntraLineLoader.compute
@@ -154,8 +144,7 @@ public class IntraLineLoaderTest {
     return intraline(a, b, new Edit(0, countLines(a), 0, countLines(b)));
   }
 
-  private static List<Edit> intraline(String a, String b, Edit lines)
-      throws Exception {
+  private static List<Edit> intraline(String a, String b, Edit lines) throws Exception {
     Text aText = new Text(a.getBytes(UTF_8));
     Text bText = new Text(b.getBytes(UTF_8));
 

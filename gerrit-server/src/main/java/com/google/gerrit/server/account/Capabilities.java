@@ -28,8 +28,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-class Capabilities implements
-    ChildCollection<AccountResource, AccountResource.Capability> {
+class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
   private final Provider<CurrentUser> self;
   private final DynamicMap<RestView<AccountResource.Capability>> views;
   private final Provider<GetCapabilities> get;
@@ -52,8 +51,7 @@ class Capabilities implements
   @Override
   public Capability parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, AuthException {
-    if (self.get() != parent.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+    if (self.get() != parent.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
 

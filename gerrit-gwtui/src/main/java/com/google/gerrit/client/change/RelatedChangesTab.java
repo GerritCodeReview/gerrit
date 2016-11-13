@@ -54,7 +54,6 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -170,16 +169,15 @@ class RelatedChangesTab implements IsWidget {
     private int connectedPos;
     private int selected;
 
-    private DisplayCommand(String revision, JsArray<ChangeAndCommit> changes,
-        NavigationList navList) {
+    private DisplayCommand(
+        String revision, JsArray<ChangeAndCommit> changes, NavigationList navList) {
       this.revision = revision;
       this.changes = changes;
       this.navList = navList;
       rows = new ArrayList<>(changes.length());
       connectedPos = changes.length() - 1;
-      connected = showIndirectAncestors
-          ? new HashSet<>(Math.max(changes.length() * 4 / 3, 16))
-          : null;
+      connected =
+          showIndirectAncestors ? new HashSet<>(Math.max(changes.length() * 4 / 3, 16)) : null;
     }
 
     private boolean computeConnected() {
@@ -229,8 +227,7 @@ class RelatedChangesTab implements IsWidget {
       while (row < changes.length()) {
         ChangeAndCommit info = changes.get(row);
         String commit = info.commit().commit();
-        rows.add(new RowSafeHtml(
-            info, connected != null && !connected.contains(commit)));
+        rows.add(new RowSafeHtml(info, connected != null && !connected.contains(commit)));
         if (revision.equals(commit)) {
           selected = row;
         }
@@ -315,7 +312,8 @@ class RelatedChangesTab implements IsWidget {
         sb.setStyleName(RelatedChanges.R.css().indirect());
         sb.setAttribute("title", Resources.C.indirectAncestor());
         sb.append('~');
-      } else if (info.hasCurrentRevisionNumber() && info.hasRevisionNumber()
+      } else if (info.hasCurrentRevisionNumber()
+          && info.hasRevisionNumber()
           && info._currentRevisionNumber() != info._revisionNumber()) {
         sb.setStyleName(RelatedChanges.R.css().notCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
@@ -373,12 +371,13 @@ class RelatedChangesTab implements IsWidget {
               movePointerTo(selectedRow + 1, true);
             }
           });
-      keysNavigation.add(new KeyCommand(0, 'O', Resources.C.openChange()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          onOpenRow(getRow(selectedRow));
-        }
-      });
+      keysNavigation.add(
+          new KeyCommand(0, 'O', Resources.C.openChange()) {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+              onOpenRow(getRow(selectedRow));
+            }
+          });
 
       if (maxHeight > 0) {
         setHeight(maxHeight + "px");
@@ -400,8 +399,7 @@ class RelatedChangesTab implements IsWidget {
         rowHeight = surrogate.getOffsetHeight();
         rowWidth = surrogate.getOffsetWidth();
         getContainerElement().removeChild(surrogate);
-        getContainerElement().getStyle()
-            .setHeight(rowHeight * rows.size(), Style.Unit.PX);
+        getContainerElement().getStyle().setHeight(rowHeight * rows.size(), Style.Unit.PX);
         return true;
       }
       return false;
@@ -414,8 +412,7 @@ class RelatedChangesTab implements IsWidget {
 
         if (scroll && rowHeight != 0) {
           // Position the selected row in the middle.
-          setVerticalScrollPosition(
-              Math.max(rowHeight * selectedRow - maxHeight / 2, 0));
+          setVerticalScrollPosition(Math.max(rowHeight * selectedRow - maxHeight / 2, 0));
           render();
         }
         renderSelected(selectedRow, true);
@@ -541,8 +538,7 @@ class RelatedChangesTab implements IsWidget {
     private void onOpenRow(Element row) {
       // Find the first HREF of the anchor of the select row (if any)
       if (row != null) {
-        NodeList<Element> nodes =
-            row.getElementsByTagName(AnchorElement.TAG);
+        NodeList<Element> nodes = row.getElementsByTagName(AnchorElement.TAG);
         for (int i = 0; i < nodes.getLength(); i++) {
           String url = nodes.getItem(i).getAttribute("href");
           if (!url.isEmpty()) {

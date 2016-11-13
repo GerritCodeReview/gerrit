@@ -34,24 +34,20 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Universal implementation of the GroupBackend that works with the injected
- * set of GroupBackends.
+ * Universal implementation of the GroupBackend that works with the injected set of GroupBackends.
  */
 @Singleton
 public class UniversalGroupBackend implements GroupBackend {
-  private static final Logger log =
-      LoggerFactory.getLogger(UniversalGroupBackend.class);
+  private static final Logger log = LoggerFactory.getLogger(UniversalGroupBackend.class);
 
   private final DynamicSet<GroupBackend> backends;
 
@@ -105,41 +101,40 @@ public class UniversalGroupBackend implements GroupBackend {
   }
 
   private class UniversalGroupMembership implements GroupMembership {
-   private final Map<GroupBackend, GroupMembership> memberships;
+    private final Map<GroupBackend, GroupMembership> memberships;
 
-   private UniversalGroupMembership(IdentifiedUser user) {
-     ImmutableMap.Builder<GroupBackend, GroupMembership> builder =
-         ImmutableMap.builder();
-     for (GroupBackend g : backends) {
-       builder.put(g, g.membershipsOf(user));
-     }
-     this.memberships = builder.build();
-   }
+    private UniversalGroupMembership(IdentifiedUser user) {
+      ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();
+      for (GroupBackend g : backends) {
+        builder.put(g, g.membershipsOf(user));
+      }
+      this.memberships = builder.build();
+    }
 
-   @Nullable
-   private GroupMembership membership(AccountGroup.UUID uuid) {
-     if (uuid != null) {
-       for (Map.Entry<GroupBackend, GroupMembership> m : memberships.entrySet()) {
-         if (m.getKey().handles(uuid)) {
-           return m.getValue();
-         }
-       }
-     }
-     return null;
-   }
+    @Nullable
+    private GroupMembership membership(AccountGroup.UUID uuid) {
+      if (uuid != null) {
+        for (Map.Entry<GroupBackend, GroupMembership> m : memberships.entrySet()) {
+          if (m.getKey().handles(uuid)) {
+            return m.getValue();
+          }
+        }
+      }
+      return null;
+    }
 
-   @Override
-   public boolean contains(AccountGroup.UUID uuid) {
-     if (uuid == null) {
-       return false;
-     }
-     GroupMembership m = membership(uuid);
-     if (m == null) {
-       log.debug("Unknown GroupMembership for UUID: " + uuid);
-       return false;
-     }
-     return m.contains(uuid);
-   }
+    @Override
+    public boolean contains(AccountGroup.UUID uuid) {
+      if (uuid == null) {
+        return false;
+      }
+      GroupMembership m = membership(uuid);
+      if (m == null) {
+        log.debug("Unknown GroupMembership for UUID: " + uuid);
+        return false;
+      }
+      return m.contains(uuid);
+    }
 
     @Override
     public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
@@ -156,8 +151,8 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         lookups.put(m, uuid);
       }
-      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry
-          : lookups .asMap().entrySet()) {
+      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry :
+          lookups.asMap().entrySet()) {
         GroupMembership m = entry.getKey();
         Collection<AccountGroup.UUID> ids = entry.getValue();
         if (ids.size() == 1) {
@@ -187,8 +182,8 @@ public class UniversalGroupBackend implements GroupBackend {
         lookups.put(m, uuid);
       }
       Set<AccountGroup.UUID> groups = new HashSet<>();
-      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry
-          : lookups.asMap().entrySet()) {
+      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry :
+          lookups.asMap().entrySet()) {
         groups.addAll(entry.getKey().intersection(entry.getValue()));
       }
       return groups;
@@ -219,31 +214,33 @@ public class UniversalGroupBackend implements GroupBackend {
     private final UniversalGroupBackend universalGroupBackend;
 
     @Inject
-    ConfigCheck(@GerritServerConfig Config cfg,
-        UniversalGroupBackend groupBackend) {
+    ConfigCheck(@GerritServerConfig Config cfg, UniversalGroupBackend groupBackend) {
       this.cfg = cfg;
       this.universalGroupBackend = groupBackend;
     }
 
     @Override
     public void check() throws StartupException {
-      String invalid = cfg.getSubsections("groups").stream()
-          .filter(
-              sub -> {
-                AccountGroup.UUID uuid = new AccountGroup.UUID(sub);
-                GroupBackend groupBackend = universalGroupBackend.backend(uuid);
-                return groupBackend == null || groupBackend.get(uuid) == null;
-              })
-          .map(u -> "'" + u + "'")
-          .collect(joining(","));
+      String invalid =
+          cfg.getSubsections("groups")
+              .stream()
+              .filter(
+                  sub -> {
+                    AccountGroup.UUID uuid = new AccountGroup.UUID(sub);
+                    GroupBackend groupBackend = universalGroupBackend.backend(uuid);
+                    return groupBackend == null || groupBackend.get(uuid) == null;
+                  })
+              .map(u -> "'" + u + "'")
+              .collect(joining(","));
 
       if (!invalid.isEmpty()) {
-        throw new StartupException(String.format(
-            "Subsections for 'groups' in gerrit.config must be valid group"
-                + " UUIDs. The following group UUIDs could not be resolved: "
-                + invalid
-                + " Please remove/fix these 'groups' subsections in"
-                + " gerrit.config."));
+        throw new StartupException(
+            String.format(
+                "Subsections for 'groups' in gerrit.config must be valid group"
+                    + " UUIDs. The following group UUIDs could not be resolved: "
+                    + invalid
+                    + " Please remove/fix these 'groups' subsections in"
+                    + " gerrit.config."));
       }
     }
   }

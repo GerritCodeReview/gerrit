@@ -15,7 +15,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
 
-/** Used to retrieve the project name from an operation **/
+/** Used to retrieve the project name from an operation * */
 public interface ProjectRunnable extends Runnable {
   Project.NameKey getProjectNameKey();
 

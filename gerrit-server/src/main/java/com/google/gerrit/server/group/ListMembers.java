@@ -30,14 +30,12 @@ import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
@@ -48,7 +46,8 @@ public class ListMembers implements RestReadView<GroupResource> {
   private boolean recursive;
 
   @Inject
-  protected ListMembers(GroupCache groupCache,
+  protected ListMembers(
+      GroupCache groupCache,
       GroupDetailFactory.Factory groupDetailFactory,
       AccountLoader.Factory accountLoaderFactory) {
     this.groupCache = groupCache;
@@ -71,13 +70,11 @@ public class ListMembers implements RestReadView<GroupResource> {
     return apply(resource.getGroupUUID());
   }
 
-  public List<AccountInfo> apply(AccountGroup group)
-      throws OrmException {
+  public List<AccountInfo> apply(AccountGroup group) throws OrmException {
     return apply(group.getGroupUUID());
   }
 
-  public List<AccountInfo> apply(AccountGroup.UUID groupId)
-      throws OrmException {
+  public List<AccountInfo> apply(AccountGroup.UUID groupId) throws OrmException {
     final Map<Account.Id, AccountInfo> members =
         getMembers(groupId, new HashSet<AccountGroup.UUID>());
     final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());
@@ -86,8 +83,8 @@ public class ListMembers implements RestReadView<GroupResource> {
   }
 
   private Map<Account.Id, AccountInfo> getMembers(
-      final AccountGroup.UUID groupUUID,
-      final HashSet<AccountGroup.UUID> seenGroups) throws OrmException {
+      final AccountGroup.UUID groupUUID, final HashSet<AccountGroup.UUID> seenGroups)
+      throws OrmException {
     seenGroups.add(groupUUID);
 
     final Map<Account.Id, AccountInfo> members = new HashMap<>();

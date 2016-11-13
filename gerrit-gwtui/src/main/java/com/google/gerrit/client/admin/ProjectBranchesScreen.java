@@ -66,7 +66,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -96,7 +95,8 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
   protected void onLoad() {
     super.onLoad();
     addPanel.setVisible(false);
-    AccessMap.get(getProjectKey(),
+    AccessMap.get(
+        getProjectKey(),
         new GerritCallback<ProjectAccessInfo>() {
           @Override
           public void onSuccess(ProjectAccessInfo result) {
@@ -134,38 +134,41 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     nameTxtBox = new HintTextBox();
     nameTxtBox.setVisibleLength(texBoxLength);
     nameTxtBox.setHintText(Util.C.defaultBranchName());
-    nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          doAddNewBranch();
-        }
-      }
-    });
+    nameTxtBox.addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+              doAddNewBranch();
+            }
+          }
+        });
     addGrid.setText(0, 0, Util.C.columnBranchName() + ":");
     addGrid.setWidget(0, 1, nameTxtBox);
 
     irevTxtBox = new HintTextBox();
     irevTxtBox.setVisibleLength(texBoxLength);
     irevTxtBox.setHintText(Util.C.defaultRevisionSpec());
-    irevTxtBox.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          doAddNewBranch();
-        }
-      }
-    });
+    irevTxtBox.addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+              doAddNewBranch();
+            }
+          }
+        });
     addGrid.setText(1, 0, Util.C.initialRevision() + ":");
     addGrid.setWidget(1, 1, irevTxtBox);
 
     addBranch = new Button(Util.C.buttonAddBranch());
-    addBranch.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doAddNewBranch();
-      }
-    });
+    addBranch.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doAddNewBranch();
+          }
+        });
     addPanel.add(addGrid);
     addPanel.add(addBranch);
 
@@ -173,12 +176,13 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
 
     delBranch = new Button(Util.C.buttonDeleteBranch());
     delBranch.setStyleName(Gerrit.RESOURCES.css().branchTableDeleteButton());
-    delBranch.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        branchTable.deleteChecked();
-      }
-    });
+    delBranch.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            branchTable.deleteChecked();
+          }
+        });
     HorizontalPanel buttons = new HorizontalPanel();
     buttons.setStyleName(Gerrit.RESOURCES.css().branchTablePrevNextLinks());
     buttons.add(delBranch);
@@ -198,20 +202,21 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
     filterTxt.setValue(match);
-    filterTxt.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        Query q = new Query(filterTxt.getValue());
-        if (match.equals(q.qMatch)) {
-          q.start(start);
-        } else {
-          if (query == null) {
-            q.run();
+    filterTxt.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(KeyUpEvent event) {
+            Query q = new Query(filterTxt.getValue());
+            if (match.equals(q.qMatch)) {
+              q.start(start);
+            } else {
+              if (query == null) {
+                q.run();
+              }
+              query = q;
+            }
           }
-          query = q;
-        }
-      }
-    });
+        });
     hp.add(filterTxt);
     add(hp);
   }
@@ -226,18 +231,23 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     final String rev = irevTxtBox.getText().trim();
     if ("".equals(rev)) {
       irevTxtBox.setText("HEAD");
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        @Override
-        public void execute() {
-          irevTxtBox.selectAll();
-          irevTxtBox.setFocus(true);
-        }
-      });
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
+                @Override
+                public void execute() {
+                  irevTxtBox.selectAll();
+                  irevTxtBox.setFocus(true);
+                }
+              });
       return;
     }
 
     addBranch.setEnabled(false);
-    ProjectApi.createBranch(getProjectKey(), branchName, rev,
+    ProjectApi.createBranch(
+        getProjectKey(),
+        branchName,
+        rev,
         new GerritCallback<BranchInfo>() {
           @Override
           public void onSuccess(BranchInfo branch) {
@@ -267,13 +277,15 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     b.closeElement("p");
 
     ConfirmationDialog confirmationDialog =
-        new ConfirmationDialog(Gerrit.C.branchCreationDialogTitle(),
-            b.toSafeHtml(), new ConfirmationCallback() {
-      @Override
-      public void onOk() {
-        //do nothing
-      }
-    });
+        new ConfirmationDialog(
+            Gerrit.C.branchCreationDialogTitle(),
+            b.toSafeHtml(),
+            new ConfirmationCallback() {
+              @Override
+              public void onOk() {
+                //do nothing
+              }
+            });
     confirmationDialog.center();
     confirmationDialog.setCancelVisible(false);
   }
@@ -298,19 +310,21 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
 
-      updateDeleteHandler = new ValueChangeHandler<Boolean>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<Boolean> event) {
-          updateDeleteButton();
-        }
-      };
+      updateDeleteHandler =
+          new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+              updateDeleteButton();
+            }
+          };
     }
 
     Set<String> getCheckedRefs() {
       Set<String> refs = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final BranchInfo k = getRowItem(row);
-        if (k != null && table.getWidget(row, 1) instanceof CheckBox
+        if (k != null
+            && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           refs.add(k.ref());
         }
@@ -321,8 +335,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     void setChecked(Set<String> refs) {
       for (int row = 1; row < table.getRowCount(); row++) {
         final BranchInfo k = getRowItem(row);
-        if (k != null && refs.contains(k.ref()) &&
-            table.getWidget(row, 1) instanceof CheckBox) {
+        if (k != null && refs.contains(k.ref()) && table.getWidget(row, 1) instanceof CheckBox) {
           ((CheckBox) table.getWidget(row, 1)).setValue(true);
         }
       }
@@ -354,23 +367,27 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
 
       delBranch.setEnabled(false);
       ConfirmationDialog confirmationDialog =
-          new ConfirmationDialog(Gerrit.C.branchDeletionDialogTitle(),
-              b.toSafeHtml(), new ConfirmationCallback() {
-        @Override
-        public void onOk() {
-          deleteBranches(refs);
-        }
+          new ConfirmationDialog(
+              Gerrit.C.branchDeletionDialogTitle(),
+              b.toSafeHtml(),
+              new ConfirmationCallback() {
+                @Override
+                public void onOk() {
+                  deleteBranches(refs);
+                }
 
-        @Override
-        public void onCancel() {
-          branchTable.updateDeleteButton();
-        }
-      });
+                @Override
+                public void onCancel() {
+                  branchTable.updateDeleteButton();
+                }
+              });
       confirmationDialog.center();
     }
 
     private void deleteBranches(final Set<String> branches) {
-      ProjectApi.deleteBranches(getProjectKey(), branches,
+      ProjectApi.deleteBranches(
+          getProjectKey(),
+          branches,
           new GerritCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
@@ -443,8 +460,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
-      if (RefNames.REFS_CONFIG.equals(k.getShortName())
-          || "HEAD".equals(k.getShortName())) {
+      if (RefNames.REFS_CONFIG.equals(k.getShortName()) || "HEAD".equals(k.getShortName())) {
         iconCellStyle = Gerrit.RESOURCES.css().specialBranchIconCell();
         dataCellStyle = Gerrit.RESOURCES.css().specialBranchDataCell();
         fmt.setStyleName(row, 0, iconCellStyle);
@@ -457,9 +473,9 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       setRowItem(row, k);
     }
 
-    private void setHeadRevision(final int row, final int column,
-        final String rev) {
-      AccessMap.get(getProjectKey(),
+    private void setHeadRevision(final int row, final int column, final String rev) {
+      AccessMap.get(
+          getProjectKey(),
           new GerritCallback<ProjectAccessInfo>() {
             @Override
             public void onSuccess(ProjectAccessInfo result) {
@@ -493,47 +509,52 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       OnEditEnabler e = new OnEditEnabler(save);
       e.listenTo(input);
 
-      edit.addClickHandler(new  ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          l.setVisible(false);
-          edit.setVisible(false);
-          input.setVisible(true);
-          save.setVisible(true);
-          cancel.setVisible(true);
-        }
-      });
-      save.addClickHandler(new  ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          save.setEnabled(false);
-          ProjectApi.setHead(getProjectKey(), input.getValue().trim(),
-              new GerritCallback<NativeString>() {
+      edit.addClickHandler(
+          new ClickHandler() {
             @Override
-            public void onSuccess(NativeString result) {
-              Gerrit.display(PageLinks.toProjectBranches(getProjectKey()));
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-              super.onFailure(caught);
-              save.setEnabled(true);
+            public void onClick(ClickEvent event) {
+              l.setVisible(false);
+              edit.setVisible(false);
+              input.setVisible(true);
+              save.setVisible(true);
+              cancel.setVisible(true);
             }
           });
-        }
-      });
-      cancel.addClickHandler(new  ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          l.setVisible(true);
-          edit.setVisible(true);
-          input.setVisible(false);
-          input.setValue(headRevision);
-          save.setVisible(false);
-          save.setEnabled(false);
-          cancel.setVisible(false);
-        }
-      });
+      save.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              save.setEnabled(false);
+              ProjectApi.setHead(
+                  getProjectKey(),
+                  input.getValue().trim(),
+                  new GerritCallback<NativeString>() {
+                    @Override
+                    public void onSuccess(NativeString result) {
+                      Gerrit.display(PageLinks.toProjectBranches(getProjectKey()));
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      super.onFailure(caught);
+                      save.setEnabled(true);
+                    }
+                  });
+            }
+          });
+      cancel.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              l.setVisible(true);
+              edit.setVisible(true);
+              input.setVisible(false);
+              input.setValue(headRevision);
+              save.setVisible(false);
+              save.setEnabled(false);
+              cancel.setVisible(false);
+            }
+          });
 
       p.add(l);
       p.add(edit);
@@ -600,19 +621,23 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     Query run() {
       // Retrieve one more branch than page size to determine if there are more
       // branches to display
-      ProjectApi.getBranches(getProjectKey(), pageSize + 1, qStart, qMatch,
-              new ScreenLoadCallback<JsArray<BranchInfo>>(ProjectBranchesScreen.this) {
-                @Override
-                public void preDisplay(JsArray<BranchInfo> result) {
-                  if (!isAttached()) {
-                    // View has been disposed.
-                  } else if (query == Query.this) {
-                    query = null;
-                    showList(result);
-                  } else {
-                    query.run();
-                  }
-                }
+      ProjectApi.getBranches(
+          getProjectKey(),
+          pageSize + 1,
+          qStart,
+          qMatch,
+          new ScreenLoadCallback<JsArray<BranchInfo>>(ProjectBranchesScreen.this) {
+            @Override
+            public void preDisplay(JsArray<BranchInfo> result) {
+              if (!isAttached()) {
+                // View has been disposed.
+              } else if (query == Query.this) {
+                query = null;
+                showList(result);
+              } else {
+                query.run();
+              }
+            }
           });
       return this;
     }
@@ -626,8 +651,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
         branchTable.display(Natives.asList(result));
         next.setVisible(false);
       } else {
-        branchTable.displaySubset(Natives.asList(result), 0,
-            result.length() - 1);
+        branchTable.displaySubset(Natives.asList(result), 0, result.length() - 1);
         setupNavigationLink(next, qMatch, qStart + pageSize);
       }
       if (qStart > 0) {

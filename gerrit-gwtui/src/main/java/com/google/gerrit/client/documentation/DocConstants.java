@@ -20,6 +20,8 @@ public interface DocConstants extends Constants {
   String keyReloadSearch();
 
   String docItemHelp();
+
   String docTableColumnTitle();
+
   String docTableNone();
 }

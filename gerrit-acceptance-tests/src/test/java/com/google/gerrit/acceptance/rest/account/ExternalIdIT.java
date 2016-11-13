@@ -22,20 +22,17 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gson.reflect.TypeToken;
-
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Test;
 
 @Sandboxed
 public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void getExternalIDs() throws Exception {
-    Collection<AccountExternalId> expectedIds =
-        accountCache.get(user.getId()).getExternalIds();
+    Collection<AccountExternalId> expectedIds = accountCache.get(user.getId()).getExternalIds();
 
     List<AccountExternalIdInfo> expectedIdInfos = new ArrayList<>();
     for (AccountExternalId id : expectedIds) {
@@ -48,8 +45,9 @@ public class ExternalIdIT extends AbstractDaemonTest {
     response.assertOK();
 
     List<AccountExternalIdInfo> results =
-        newGson().fromJson(response.getReader(),
-            new TypeToken<List<AccountExternalIdInfo>>() {}.getType());
+        newGson()
+            .fromJson(
+                response.getReader(), new TypeToken<List<AccountExternalIdInfo>>() {}.getType());
 
     Collections.sort(expectedIdInfos);
     Collections.sort(results);
@@ -59,8 +57,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void deleteExternalIDs() throws Exception {
     setApiUser(user);
-    List<AccountExternalIdInfo> externalIds =
-        gApi.accounts().self().getExternalIds();
+    List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
 
     List<String> toDelete = new ArrayList<>();
     List<AccountExternalIdInfo> expectedIds = new ArrayList<>();
@@ -74,11 +71,9 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     assertThat(toDelete).hasSize(1);
 
-    RestResponse response = userRestSession.post(
-        "/accounts/self/external.ids:delete", toDelete);
+    RestResponse response = userRestSession.post("/accounts/self/external.ids:delete", toDelete);
     response.assertNoContent();
-    List<AccountExternalIdInfo> results =
-        gApi.accounts().self().getExternalIds();
+    List<AccountExternalIdInfo> results = gApi.accounts().self().getExternalIds();
     // The external ID in WebSession will not be set for tests, resulting that
     // "mailto:user@example.com" can be deleted while "username:user" can't.
     assertThat(results).hasSize(1);
@@ -90,11 +85,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
     List<String> toDelete = new ArrayList<>();
     String externalIdStr = "username:" + user.username;
     toDelete.add(externalIdStr);
-    RestResponse response = userRestSession.post(
-        "/accounts/self/external.ids:delete", toDelete);
+    RestResponse response = userRestSession.post("/accounts/self/external.ids:delete", toDelete);
     response.assertConflict();
-    assertThat(response.getEntityContent()).isEqualTo(
-        String.format("External id %s cannot be deleted", externalIdStr));
+    assertThat(response.getEntityContent())
+        .isEqualTo(String.format("External id %s cannot be deleted", externalIdStr));
   }
 
   @Test
@@ -102,11 +96,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
     List<String> toDelete = new ArrayList<>();
     String externalIdStr = "mailto:user@domain.com";
     toDelete.add(externalIdStr);
-    RestResponse response = userRestSession.post(
-        "/accounts/self/external.ids:delete", toDelete);
+    RestResponse response = userRestSession.post("/accounts/self/external.ids:delete", toDelete);
     response.assertUnprocessableEntity();
-    assertThat(response.getEntityContent()).isEqualTo(
-        String.format("External id %s does not exist", externalIdStr));
+    assertThat(response.getEntityContent())
+        .isEqualTo(String.format("External id %s does not exist", externalIdStr));
   }
 
   private static AccountExternalIdInfo toInfo(AccountExternalId id) {

@@ -21,7 +21,6 @@ import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
-
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -30,16 +29,14 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
 
   private final Function<? super T, ? extends S> valueAssertThatFunction;
 
-  public static <S extends Subject<S, ? super T>, T> OptionalSubject<S, T>
-      assertThat(Optional<T> optional,
-      Function<? super T, ? extends S> elementAssertThatFunction) {
+  public static <S extends Subject<S, ? super T>, T> OptionalSubject<S, T> assertThat(
+      Optional<T> optional, Function<? super T, ? extends S> elementAssertThatFunction) {
     OptionalSubjectFactory<S, T> optionalSubjectFactory =
         new OptionalSubjectFactory<>(elementAssertThatFunction);
     return assertAbout(optionalSubjectFactory).that(optional);
   }
 
-  public static OptionalSubject<DefaultSubject, ?> assertThat(
-      Optional<?> optional) {
+  public static OptionalSubject<DefaultSubject, ?> assertThat(Optional<?> optional) {
     // Unfortunately, we need to cast to DefaultSubject as Truth.assertThat()
     // only returns Subject<DefaultSubject, Object>. There shouldn't be a way
     // for that method not to return a DefaultSubject because the generic type
@@ -49,7 +46,9 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
     return assertThat(optional, valueAssertThatFunction);
   }
 
-  private OptionalSubject(FailureStrategy failureStrategy, Optional<T> optional,
+  private OptionalSubject(
+      FailureStrategy failureStrategy,
+      Optional<T> optional,
       Function<? super T, ? extends S> valueAssertThatFunction) {
     super(failureStrategy, optional);
     this.valueAssertThatFunction = valueAssertThatFunction;
@@ -82,22 +81,18 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
     return valueAssertThatFunction.apply(optional.get());
   }
 
-  private static class OptionalSubjectFactory<S extends Subject<S, ? super T>,
-      T> extends SubjectFactory<OptionalSubject<S, T>, Optional<T>> {
+  private static class OptionalSubjectFactory<S extends Subject<S, ? super T>, T>
+      extends SubjectFactory<OptionalSubject<S, T>, Optional<T>> {
 
     private Function<? super T, ? extends S> valueAssertThatFunction;
 
-    OptionalSubjectFactory(
-        Function<? super T, ? extends S> valueAssertThatFunction) {
+    OptionalSubjectFactory(Function<? super T, ? extends S> valueAssertThatFunction) {
       this.valueAssertThatFunction = valueAssertThatFunction;
     }
 
     @Override
-    public OptionalSubject<S, T> getSubject(FailureStrategy failureStrategy,
-        Optional<T> optional) {
-      return new OptionalSubject<>(failureStrategy, optional,
-          valueAssertThatFunction);
+    public OptionalSubject<S, T> getSubject(FailureStrategy failureStrategy, Optional<T> optional) {
+      return new OptionalSubject<>(failureStrategy, optional, valueAssertThatFunction);
     }
-
   }
 }

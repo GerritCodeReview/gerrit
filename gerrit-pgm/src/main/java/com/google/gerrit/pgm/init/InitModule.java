@@ -21,7 +21,6 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
-
 import java.lang.annotation.Annotation;
 
 /** Injection configuration for the site initialization process. */

@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 class DeleteFileBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, DeleteFileBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Change.Id changeId;
@@ -53,18 +54,20 @@ class DeleteFileBox extends Composite {
     this.changeId = changeId;
 
     path = new RemoteSuggestBox(new PathSuggestOracle(changeId, revision));
-    path.addSelectionHandler(new SelectionHandler<String>() {
-      @Override
-      public void onSelection(SelectionEvent<String> event) {
-        delete(event.getSelectedItem());
-      }
-    });
-    path.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
-      @Override
-      public void onClose(CloseEvent<RemoteSuggestBox> event) {
-        hide();
-      }
-    });
+    path.addSelectionHandler(
+        new SelectionHandler<String>() {
+          @Override
+          public void onSelection(SelectionEvent<String> event) {
+            delete(event.getSelectedItem());
+          }
+        });
+    path.addCloseHandler(
+        new CloseHandler<RemoteSuggestBox>() {
+          @Override
+          public void onClose(CloseEvent<RemoteSuggestBox> event) {
+            hide();
+          }
+        });
 
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -84,7 +87,9 @@ class DeleteFileBox extends Composite {
 
   private void delete(String path) {
     hide();
-    ChangeEditApi.delete(changeId.get(), path,
+    ChangeEditApi.delete(
+        changeId.get(),
+        path,
         new AsyncCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
@@ -92,8 +97,7 @@ class DeleteFileBox extends Composite {
           }
 
           @Override
-          public void onFailure(Throwable caught) {
-          }
+          public void onFailure(Throwable caught) {}
         });
   }
 

@@ -96,57 +96,55 @@ public class ProjectListPopup {
    *
    * @param projectName project name.
    */
-  protected void onMovePointerTo(String projectName) {
-  }
+  protected void onMovePointerTo(String projectName) {}
 
   /**
    * Invoked after opening a project row.
    *
    * @param projectName project name.
    */
-  protected void openRow(String projectName) {
-  }
+  protected void openRow(String projectName) {}
 
   public boolean isPoppingUp() {
     return poppingUp;
   }
 
-  private void createWidgets(final String popupText,
-      final String currentPageLink) {
+  private void createWidgets(final String popupText, final String currentPageLink) {
     filterPanel = new HorizontalPanel();
     filterPanel.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    final Label filterLabel =
-        new Label(com.google.gerrit.client.admin.Util.C.projectFilter());
+    final Label filterLabel = new Label(com.google.gerrit.client.admin.Util.C.projectFilter());
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     filterPanel.add(filterLabel);
     filterTxt = new NpTextBox();
-    filterTxt.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        Query q = new Query(filterTxt.getValue());
-        if (!match.equals(q.qMatch)) {
-          if (query == null) {
-            q.run();
+    filterTxt.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(KeyUpEvent event) {
+            Query q = new Query(filterTxt.getValue());
+            if (!match.equals(q.qMatch)) {
+              if (query == null) {
+                q.run();
+              }
+              query = q;
+            }
           }
-          query = q;
-        }
-      }
-    });
+        });
     filterPanel.add(filterTxt);
 
-    projectsTab = new HighlightingProjectsTable() {
-      @Override
-      protected void movePointerTo(final int row, final boolean scroll) {
-        super.movePointerTo(row, scroll);
-        onMovePointerTo(getRowItem(row).name());
-      }
+    projectsTab =
+        new HighlightingProjectsTable() {
+          @Override
+          protected void movePointerTo(final int row, final boolean scroll) {
+            super.movePointerTo(row, scroll);
+            onMovePointerTo(getRowItem(row).name());
+          }
 
-      @Override
-      protected void onOpenRow(final int row) {
-        super.onOpenRow(row);
-        openRow(getRowItem(row).name());
-      }
-    };
+          @Override
+          protected void onOpenRow(final int row) {
+            super.onOpenRow(row);
+            openRow(getRowItem(row).name());
+          }
+        };
     projectsTab.setSavePointerId(currentPageLink);
 
     closeTop = createCloseButton();
@@ -159,12 +157,13 @@ public class ProjectListPopup {
 
   private Button createCloseButton() {
     Button close = new Button(Util.C.projectsClose());
-    close.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        closePopup();
-      }
-    });
+    close.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            closePopup();
+          }
+        });
     return close;
   }
 
@@ -176,8 +175,7 @@ public class ProjectListPopup {
     } else {
       popup.setPopupPositionAndShow(popupPosition);
       GlobalKey.dialog(popup);
-      GlobalKey.addApplication(popup, new HidePopupPanelCommand(0,
-          KeyCodes.KEY_ESCAPE, popup));
+      GlobalKey.addApplication(popup, new HidePopupPanelCommand(0, KeyCodes.KEY_ESCAPE, popup));
       projectsTab.setRegisterKeys(true);
       projectsTab.finishDisplay();
       filterTxt.setFocus(true);
@@ -202,19 +200,21 @@ public class ProjectListPopup {
     }
 
     Query run() {
-      ProjectMap.match(qMatch, new GerritCallback<ProjectMap>() {
-          @Override
-          public void onSuccess(ProjectMap result) {
-            if (!firstPopupLoad && !popup.isShowing()) {
-              query = null;
-            } else if (query == Query.this) {
-              query = null;
-              showMap(result);
-            } else {
-              query.run();
+      ProjectMap.match(
+          qMatch,
+          new GerritCallback<ProjectMap>() {
+            @Override
+            public void onSuccess(ProjectMap result) {
+              if (!firstPopupLoad && !popup.isShowing()) {
+                query = null;
+              } else if (query == Query.this) {
+                query = null;
+                showMap(result);
+              } else {
+                query.run();
+              }
             }
-          }
-        });
+          });
       return this;
     }
 

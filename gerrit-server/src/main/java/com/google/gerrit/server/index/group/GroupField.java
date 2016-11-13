@@ -24,8 +24,7 @@ import com.google.gwtorm.server.OrmException;
 public class GroupField {
   /** Legacy group ID. */
   public static final FieldDef<AccountGroup, Integer> ID =
-      new FieldDef.Single<AccountGroup, Integer>(
-          "id", FieldType.INTEGER, false) {
+      new FieldDef.Single<AccountGroup, Integer>("id", FieldType.INTEGER, false) {
         @Override
         public Integer get(AccountGroup input, FillArgs args) {
           return input.getId().get();
@@ -34,8 +33,7 @@ public class GroupField {
 
   /** Group UUID. */
   public static final FieldDef<AccountGroup, String> UUID =
-      new FieldDef.Single<AccountGroup, String>(
-          "uuid", FieldType.EXACT, true) {
+      new FieldDef.Single<AccountGroup, String>("uuid", FieldType.EXACT, true) {
         @Override
         public String get(AccountGroup input, FillArgs args) {
           return input.getGroupUUID().get();
@@ -44,8 +42,7 @@ public class GroupField {
 
   /** Group owner UUID. */
   public static final FieldDef<AccountGroup, String> OWNER_UUID =
-      new FieldDef.Single<AccountGroup, String>(
-          "owner_uuid", FieldType.EXACT, false) {
+      new FieldDef.Single<AccountGroup, String>("owner_uuid", FieldType.EXACT, false) {
         @Override
         public String get(AccountGroup input, FillArgs args) {
           return input.getOwnerGroupUUID().get();
@@ -54,8 +51,7 @@ public class GroupField {
 
   /** Group name. */
   public static final FieldDef<AccountGroup, String> NAME =
-      new FieldDef.Single<AccountGroup, String>(
-          "name", FieldType.EXACT, false) {
+      new FieldDef.Single<AccountGroup, String>("name", FieldType.EXACT, false) {
         @Override
         public String get(AccountGroup input, FillArgs args) {
           return input.getName();
@@ -64,8 +60,7 @@ public class GroupField {
 
   /** Prefix match on group name parts. */
   public static final FieldDef<AccountGroup, Iterable<String>> NAME_PART =
-      new FieldDef.Repeatable<AccountGroup, String>(
-          "name_part", FieldType.PREFIX, false) {
+      new FieldDef.Repeatable<AccountGroup, String>("name_part", FieldType.PREFIX, false) {
         @Override
         public Iterable<String> get(AccountGroup input, FillArgs args) {
           return SchemaUtil.getNameParts(input.getName());
@@ -74,8 +69,7 @@ public class GroupField {
 
   /** Group description. */
   public static final FieldDef<AccountGroup, String> DESCRIPTION =
-      new FieldDef.Single<AccountGroup, String>(
-          "description", FieldType.FULL_TEXT, false) {
+      new FieldDef.Single<AccountGroup, String>("description", FieldType.FULL_TEXT, false) {
         @Override
         public String get(AccountGroup input, FillArgs args) {
           return input.getDescription();
@@ -84,11 +78,9 @@ public class GroupField {
 
   /** Whether the group is visible to all users. */
   public static final FieldDef<AccountGroup, String> IS_VISIBLE_TO_ALL =
-      new FieldDef.Single<AccountGroup, String>(
-          "is_visible_to_all", FieldType.EXACT, false) {
+      new FieldDef.Single<AccountGroup, String>("is_visible_to_all", FieldType.EXACT, false) {
         @Override
-        public String get(AccountGroup input, FillArgs args)
-            throws OrmException {
+        public String get(AccountGroup input, FillArgs args) throws OrmException {
           return input.isVisibleToAll() ? "1" : "0";
         }
       };

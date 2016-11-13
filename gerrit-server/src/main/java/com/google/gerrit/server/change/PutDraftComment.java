@@ -40,7 +40,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Optional;
@@ -57,7 +56,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final PatchListCache patchListCache;
 
   @Inject
-  PutDraftComment(Provider<ReviewDb> db,
+  PutDraftComment(
+      Provider<ReviewDb> db,
       DeleteDraftComment delete,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
@@ -74,8 +74,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in) throws
-      RestApiException, UpdateException, OrmException {
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in)
+      throws RestApiException, UpdateException, OrmException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
@@ -86,15 +86,17 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
 
-    try (BatchUpdate bu = updateFactory.create(
-        db.get(), rsrc.getChange().getProject(), rsrc.getControl().getUser(),
-        TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(
+            db.get(),
+            rsrc.getChange().getProject(),
+            rsrc.getControl().getUser(),
+            TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key, in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
-      return Response.ok(commentJson.get()
-          .setFillAccounts(false)
-          .newCommentFormatter().format(op.comment));
+      return Response.ok(
+          commentJson.get().setFillAccounts(false).newCommentFormatter().format(op.comment));
     }
   }
 
@@ -110,10 +112,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException {
-      Optional<Comment> maybeComment =
-          commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
+      Optional<Comment> maybeComment = commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
@@ -125,25 +125,25 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       // user.
       ctx.getUser().updateRealAccountId(comment::setRealAuthor);
 
-      PatchSet.Id psId =
-          new PatchSet.Id(ctx.getChange().getId(), origComment.key.patchSetId);
+      PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), origComment.key.patchSetId);
       ChangeUpdate update = ctx.getUpdate(psId);
 
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
-      if (in.path != null
-          && !in.path.equals(origComment.key.filename)) {
+      if (in.path != null && !in.path.equals(origComment.key.filename)) {
         // Updating the path alters the primary key, which isn't possible.
         // Delete then recreate the comment instead of an update.
 
-        commentsUtil.deleteComments(
-            ctx.getDb(), update, Collections.singleton(origComment));
+        commentsUtil.deleteComments(ctx.getDb(), update, Collections.singleton(origComment));
         comment.key.filename = in.path;
       }
       setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
-      commentsUtil.putComments(ctx.getDb(), update, Status.DRAFT,
+      commentsUtil.putComments(
+          ctx.getDb(),
+          update,
+          Status.DRAFT,
           Collections.singleton(update(comment, in, ctx.getWhen())));
       ctx.bumpLastUpdatedOn(false);
       return true;

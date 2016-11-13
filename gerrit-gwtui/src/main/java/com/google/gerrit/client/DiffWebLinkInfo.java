@@ -18,11 +18,10 @@ import com.google.gerrit.client.info.WebLinkInfo;
 
 public class DiffWebLinkInfo extends WebLinkInfo {
   public final native boolean showOnSideBySideDiffView()
-  /*-{ return this.show_on_side_by_side_diff_view || false; }-*/;
+      /*-{ return this.show_on_side_by_side_diff_view || false; }-*/ ;
 
   public final native boolean showOnUnifiedDiffView()
-  /*-{ return this.show_on_unified_diff_view || false; }-*/;
+      /*-{ return this.show_on_unified_diff_view || false; }-*/ ;
 
-  protected DiffWebLinkInfo() {
-  }
+  protected DiffWebLinkInfo() {}
 }

@@ -16,6 +16,9 @@ package com.google.gerrit.server.edit.tree;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -26,13 +29,9 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * A creator for a new Git tree. To create the new tree, the tree of another
- * commit is taken as a basis and modified.
+ * A creator for a new Git tree. To create the new tree, the tree of another commit is taken as a
+ * basis and modified.
  */
 public class TreeCreator {
 
@@ -46,12 +45,10 @@ public class TreeCreator {
   }
 
   /**
-   * Apply a modification to the tree which is taken as a basis. If this
-   * method is called multiple times, the modifications are applied
-   * subsequently in exactly the order they were provided.
+   * Apply a modification to the tree which is taken as a basis. If this method is called multiple
+   * times, the modifications are applied subsequently in exactly the order they were provided.
    *
-   * @param treeModification a modification which should be applied to the
-   * base tree
+   * @param treeModification a modification which should be applied to the base tree
    */
   public void addTreeModification(TreeModification treeModification) {
     checkNotNull(treeModification, "treeModification must not be null");
@@ -59,16 +56,15 @@ public class TreeCreator {
   }
 
   /**
-   * Creates the new tree. When this method is called, the specified base tree
-   * is read from the repository, the specified modifications are applied, and
-   * the resulting tree is written to the object store of the repository.
+   * Creates the new tree. When this method is called, the specified base tree is read from the
+   * repository, the specified modifications are applied, and the resulting tree is written to the
+   * object store of the repository.
    *
    * @param repository the affected Git repository
    * @return the {@code ObjectId} of the created tree
    * @throws IOException if problems arise when accessing the repository
    */
-  public ObjectId createNewTreeAndGetId(Repository repository)
-      throws IOException {
+  public ObjectId createNewTreeAndGetId(Repository repository) throws IOException {
     DirCache newTree = createNewTree(repository);
     return writeAndGetId(repository, newTree);
   }
@@ -84,15 +80,14 @@ public class TreeCreator {
     try (ObjectReader objectReader = repository.newObjectReader()) {
       DirCache dirCache = DirCache.newInCore();
       DirCacheBuilder dirCacheBuilder = dirCache.builder();
-      dirCacheBuilder.addTree(new byte[0], DirCacheEntry.STAGE_0, objectReader,
-          baseCommit.getTree());
+      dirCacheBuilder.addTree(
+          new byte[0], DirCacheEntry.STAGE_0, objectReader, baseCommit.getTree());
       dirCacheBuilder.finish();
       return dirCache;
     }
   }
 
-  private List<DirCacheEditor.PathEdit> getPathEdits(Repository repository)
-      throws IOException {
+  private List<DirCacheEditor.PathEdit> getPathEdits(Repository repository) throws IOException {
     List<DirCacheEditor.PathEdit> pathEdits = new ArrayList<>();
     for (TreeModification treeModification : treeModifications) {
       pathEdits.addAll(treeModification.getPathEdits(repository, baseCommit));
@@ -100,15 +95,13 @@ public class TreeCreator {
     return pathEdits;
   }
 
-  private static void applyPathEdits(DirCache tree,
-      List<DirCacheEditor.PathEdit> pathEdits) {
+  private static void applyPathEdits(DirCache tree, List<DirCacheEditor.PathEdit> pathEdits) {
     DirCacheEditor dirCacheEditor = tree.editor();
     pathEdits.forEach(dirCacheEditor::add);
     dirCacheEditor.finish();
   }
 
-  private static ObjectId writeAndGetId(Repository repository, DirCache tree)
-      throws IOException {
+  private static ObjectId writeAndGetId(Repository repository, DirCache tree) throws IOException {
     try (ObjectInserter objectInserter = repository.newObjectInserter()) {
       ObjectId treeId = tree.writeTree(objectInserter);
       objectInserter.flush();

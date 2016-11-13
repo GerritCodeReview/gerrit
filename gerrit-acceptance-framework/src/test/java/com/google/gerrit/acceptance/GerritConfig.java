@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
 @Repeatable(GerritConfigs.class)
 public @interface GerritConfig {
   String name();
+
   String value() default "";
+
   String[] values() default "";
 }

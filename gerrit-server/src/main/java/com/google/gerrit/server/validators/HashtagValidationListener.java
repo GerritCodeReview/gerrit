@@ -16,12 +16,9 @@ package com.google.gerrit.server.validators;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Change;
-
 import java.util.Set;
 
-/**
- * Listener to provide validation of hashtag changes.
- */
+/** Listener to provide validation of hashtag changes. */
 @ExtensionPoint
 public interface HashtagValidationListener {
   /**
@@ -32,6 +29,6 @@ public interface HashtagValidationListener {
    * @param toRemove the hashtags to be removed
    * @throws ValidationException if validation fails
    */
-  void validateHashtags(Change change, Set<String> toAdd,
-      Set<String> toRemove) throws ValidationException;
+  void validateHashtags(Change change, Set<String> toAdd, Set<String> toRemove)
+      throws ValidationException;
 }

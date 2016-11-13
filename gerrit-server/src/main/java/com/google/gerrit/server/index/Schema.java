@@ -24,15 +24,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Specific version of a secondary index schema. */
 public class Schema<T> {
@@ -81,10 +79,8 @@ public class Schema<T> {
     }
   }
 
-  private static <T> FieldDef<T, ?> checkSame(FieldDef<T, ?> f1,
-      FieldDef<T, ?> f2) {
-    checkState(f1 == f2, "Mismatched %s fields: %s != %s",
-        f1.getName(), f1, f2);
+  private static <T> FieldDef<T, ?> checkSame(FieldDef<T, ?> f1, FieldDef<T, ?> f2) {
+    checkState(f1 == f2, "Mismatched %s fields: %s != %s", f1.getName(), f1, f2);
     return f1;
   }
 
@@ -117,10 +113,10 @@ public class Schema<T> {
 
   /**
    * Get all fields in this schema.
-   * <p>
-   * This is primarily useful for iteration. Most callers should prefer one
-   * of the helper methods {@link #getField(FieldDef, FieldDef...)} or {@link
-   * #hasField(FieldDef)} to looking up fields by name
+   *
+   * <p>This is primarily useful for iteration. Most callers should prefer one of the helper methods
+   * {@link #getField(FieldDef, FieldDef...)} or {@link #hasField(FieldDef)} to looking up fields by
+   * name
    *
    * @return all fields in this schema indexed by name.
    */
@@ -128,10 +124,7 @@ public class Schema<T> {
     return fields;
   }
 
-  /**
-   * @return all fields in this schema where {@link FieldDef#isStored()} is
-   *     true.
-   */
+  /** @return all fields in this schema where {@link FieldDef#isStored()} is true. */
   public final ImmutableMap<String, FieldDef<T, ?>> getStoredFields() {
     return storedFields;
   }
@@ -141,12 +134,11 @@ public class Schema<T> {
    *
    * @param first the preferred field to look up.
    * @param rest additional fields to look up.
-   * @return the first field in the schema matching {@code first} or {@code
-   *     rest}, in order, or absent if no field matches.
+   * @return the first field in the schema matching {@code first} or {@code rest}, in order, or
+   *     absent if no field matches.
    */
   @SafeVarargs
-  public final Optional<FieldDef<T, ?>> getField(FieldDef<T, ?> first,
-      FieldDef<T, ?>... rest) {
+  public final Optional<FieldDef<T, ?>> getField(FieldDef<T, ?> first, FieldDef<T, ?>... rest) {
     FieldDef<T, ?> field = fields.get(first.getName());
     if (field != null) {
       return Optional.of(checkSame(field, first));
@@ -177,44 +169,41 @@ public class Schema<T> {
 
   /**
    * Build all fields in the schema from an input object.
-   * <p>
-   * Null values are omitted, as are fields which cause errors, which are
-   * logged.
+   *
+   * <p>Null values are omitted, as are fields which cause errors, which are logged.
    *
    * @param obj input object.
    * @param fillArgs arguments for filling fields.
    * @return all non-null field values from the object.
    */
-  public final Iterable<Values<T>> buildFields(
-      final T obj, final FillArgs fillArgs) {
+  public final Iterable<Values<T>> buildFields(final T obj, final FillArgs fillArgs) {
     return FluentIterable.from(fields.values())
-        .transform(new Function<FieldDef<T, ?>, Values<T>>() {
-          @Override
-          public Values<T> apply(FieldDef<T, ?> f) {
-            Object v;
-            try {
-              v = f.get(obj, fillArgs);
-            } catch (OrmException e) {
-              log.error(String.format("error getting field %s of %s",
-                  f.getName(), obj), e);
-              return null;
-            }
-            if (v == null) {
-              return null;
-            } else if (f.isRepeatable()) {
-              return new Values<>(f, (Iterable<?>) v);
-            } else {
-              return new Values<>(f, Collections.singleton(v));
-            }
-          }
-        }).filter(Predicates.notNull());
+        .transform(
+            new Function<FieldDef<T, ?>, Values<T>>() {
+              @Override
+              public Values<T> apply(FieldDef<T, ?> f) {
+                Object v;
+                try {
+                  v = f.get(obj, fillArgs);
+                } catch (OrmException e) {
+                  log.error(String.format("error getting field %s of %s", f.getName(), obj), e);
+                  return null;
+                }
+                if (v == null) {
+                  return null;
+                } else if (f.isRepeatable()) {
+                  return new Values<>(f, (Iterable<?>) v);
+                } else {
+                  return new Values<>(f, Collections.singleton(v));
+                }
+              }
+            })
+        .filter(Predicates.notNull());
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .addValue(fields.keySet())
-        .toString();
+    return MoreObjects.toStringHelper(this).addValue(fields.keySet()).toString();
   }
 
   public void setVersion(int version) {

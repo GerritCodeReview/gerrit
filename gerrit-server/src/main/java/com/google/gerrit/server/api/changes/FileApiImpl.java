@@ -25,7 +25,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 
 class FileApiImpl implements FileApi {
@@ -38,9 +37,7 @@ class FileApiImpl implements FileApi {
   private final FileResource file;
 
   @Inject
-  FileApiImpl(GetContent getContent,
-      GetDiff getDiff,
-      @Assisted FileResource file) {
+  FileApiImpl(GetContent getContent, GetDiff getDiff, @Assisted FileResource file) {
     this.getContent = getContent;
     this.getDiff = getDiff;
     this.file = file;

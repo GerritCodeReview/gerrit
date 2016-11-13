@@ -16,7 +16,6 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.common.data.Permission;
 import com.google.gwt.text.shared.Renderer;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

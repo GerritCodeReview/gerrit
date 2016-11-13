@@ -17,23 +17,21 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.validators.ValidationException;
-
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-import java.util.Map;
-
 /**
  * Listener to validate ref updates performed during submit operation.
  *
- * As submit strategies may generate new commits (e.g. Cherry Pick), this
- * listener allows validation of resulting new commit before destination branch
- * is updated and new patchset ref is created.
+ * <p>As submit strategies may generate new commits (e.g. Cherry Pick), this listener allows
+ * validation of resulting new commit before destination branch is updated and new patchset ref is
+ * created.
  *
- * If you only care about validating the change being submitted and not the
- * resulting new commit, consider using {@link MergeValidationListener} instead.
+ * <p>If you only care about validating the change being submitted and not the resulting new commit,
+ * consider using {@link MergeValidationListener} instead.
  */
 @ExtensionPoint
 public interface OnSubmitValidationListener {
@@ -43,8 +41,11 @@ public interface OnSubmitValidationListener {
     private ObjectReader objectReader;
     private Map<String, ReceiveCommand> commands;
 
-    public Arguments(NameKey project, Repository repository,
-        ObjectReader objectReader, Map<String, ReceiveCommand> commands) {
+    public Arguments(
+        NameKey project,
+        Repository repository,
+        ObjectReader objectReader,
+        Map<String, ReceiveCommand> commands) {
       this.project = project;
       this.repository = repository;
       this.objectReader = objectReader;
@@ -55,9 +56,7 @@ public interface OnSubmitValidationListener {
       return project;
     }
 
-    /**
-     * @return a read only repository
-     */
+    /** @return a read only repository */
     public Repository getRepository() {
       return repository;
     }
@@ -67,19 +66,18 @@ public interface OnSubmitValidationListener {
     }
 
     /**
-     * @return a map from ref to op on it covering all ref ops to be performed
-     *         on this repository as part of ongoing submit operation.
+     * @return a map from ref to op on it covering all ref ops to be performed on this repository as
+     *     part of ongoing submit operation.
      */
-    public Map<String, ReceiveCommand> getCommands(){
+    public Map<String, ReceiveCommand> getCommands() {
       return commands;
     }
   }
 
   /**
-   * Called right before branch is updated with new commit or commits as a
-   * result of submit.
+   * Called right before branch is updated with new commit or commits as a result of submit.
    *
-   * If ValidationException is thrown, submitting is aborted.
+   * <p>If ValidationException is thrown, submitting is aborted.
    */
   void preBranchUpdate(Arguments args) throws ValidationException;
 }

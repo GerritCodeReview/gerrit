@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ReviewerState;
-
 import java.sql.Timestamp;
 
 public class ReviewerUpdateInfo {

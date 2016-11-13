@@ -20,18 +20,19 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.TreeMap;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.kohsuke.args4j.Argument;
 
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.TreeMap;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "ls-level", description = "list the level of loggers",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "ls-level",
+  description = "list the level of loggers",
+  runsAt = MASTER_OR_SLAVE
+)
 public class ListLoggingLevelCommand extends SshCommand {
 
   @Argument(index = 0, required = false, metaVar = "NAME", usage = "used to match loggers")
@@ -41,8 +42,7 @@ public class ListLoggingLevelCommand extends SshCommand {
   @Override
   protected void run() {
     Map<String, String> logs = new TreeMap<>();
-    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger
-        .hasMoreElements();) {
+    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
       Logger log = logger.nextElement();
       if (name == null || log.getName().contains(name)) {
         logs.put(log.getName(), log.getEffectiveLevel().toString());

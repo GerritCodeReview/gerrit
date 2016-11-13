@@ -38,6 +38,8 @@
 
 package com.google.gerrit.server.git;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -48,13 +50,10 @@ import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMerger;
 import org.eclipse.jgit.util.io.UnionInputStream;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
 class ReviewNoteMerger implements NoteMerger {
   @Override
-  public Note merge(Note base, Note ours, Note theirs, ObjectReader reader,
-      ObjectInserter inserter) throws IOException {
+  public Note merge(Note base, Note ours, Note theirs, ObjectReader reader, ObjectInserter inserter)
+      throws IOException {
     if (ours == null) {
       return theirs;
     }
@@ -72,8 +71,8 @@ class ReviewNoteMerger implements NoteMerger {
         ByteArrayInputStream b = new ByteArrayInputStream(sep);
         ObjectStream ts = lt.openStream();
         UnionInputStream union = new UnionInputStream(os, b, ts)) {
-      ObjectId noteData = inserter.insert(Constants.OBJ_BLOB,
-          lo.getSize() + sep.length + lt.getSize(), union);
+      ObjectId noteData =
+          inserter.insert(Constants.OBJ_BLOB, lo.getSize() + sep.length + lt.getSize(), union);
       return new Note(ours, noteData);
     }
   }

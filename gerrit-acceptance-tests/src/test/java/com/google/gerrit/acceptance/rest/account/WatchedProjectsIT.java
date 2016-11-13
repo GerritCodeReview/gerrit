@@ -21,11 +21,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Test;
 
 public class WatchedProjectsIT extends AbstractDaemonTest {
 
@@ -54,8 +52,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     List<ProjectWatchInfo> persistedWatchedProjects =
         gApi.accounts().self().setWatchedProjects(projectsToWatch);
-    assertThat(persistedWatchedProjects)
-        .containsAllIn(projectsToWatch).inOrder();
+    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch).inOrder();
   }
 
   @Test
@@ -86,8 +83,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     gApi.accounts().self().deleteWatchedProjects(d);
     projectsToWatch.remove(pwi);
 
-    List<ProjectWatchInfo> persistedWatchedProjects =
-        gApi.accounts().self().getWatchedProjects();
+    List<ProjectWatchInfo> persistedWatchedProjects = gApi.accounts().self().getWatchedProjects();
 
     assertThat(persistedWatchedProjects).doesNotContain(pwi);
     assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
@@ -128,8 +124,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     projectsToWatch.add(pwi);
 
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
-    List<ProjectWatchInfo> persistedWatchedProjects =
-        gApi.accounts().self().getWatchedProjects();
+    List<ProjectWatchInfo> persistedWatchedProjects = gApi.accounts().self().getWatchedProjects();
     assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
   }
 
@@ -202,15 +197,13 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     // Perform update
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
 
-    List<ProjectWatchInfo> watchedProjects =
-        gApi.accounts().self().getWatchedProjects();
+    List<ProjectWatchInfo> watchedProjects = gApi.accounts().self().getWatchedProjects();
 
     assertThat(watchedProjects).containsAllIn(projectsToWatch);
   }
 
   @Test
-  public void setAndDeleteWatchedProjectsWithDifferentFilter()
-      throws Exception {
+  public void setAndDeleteWatchedProjectsWithDifferentFilter() throws Exception {
     String projectName = project.get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
@@ -237,8 +230,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     gApi.accounts().self().deleteWatchedProjects(d);
     projectsToWatch.remove(pwi);
 
-    List<ProjectWatchInfo> persistedWatchedProjects =
-        gApi.accounts().self().getWatchedProjects();
+    List<ProjectWatchInfo> persistedWatchedProjects = gApi.accounts().self().getWatchedProjects();
 
     assertThat(persistedWatchedProjects).doesNotContain(pwi);
     assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);

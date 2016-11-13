@@ -26,18 +26,18 @@ public abstract class MetricModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    listener().toInstance(new LifecycleListener() {
-      @Inject
-      MetricMaker metrics;
+    listener()
+        .toInstance(
+            new LifecycleListener() {
+              @Inject MetricMaker metrics;
 
-      @Override
-      public void start() {
-        configure(metrics);
-      }
+              @Override
+              public void start() {
+                configure(metrics);
+              }
 
-      @Override
-      public void stop() {
-      }
-    });
+              @Override
+              public void stop() {}
+            });
   }
 }

@@ -18,18 +18,15 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.ThreadFactory;
+import org.eclipse.jgit.lib.Config;
 
 class StreamCommandExecutorProvider implements Provider<WorkQueue.Executor> {
   private final int poolSize;
   private final WorkQueue queues;
 
   @Inject
-  StreamCommandExecutorProvider(@GerritServerConfig final Config config,
-      final WorkQueue wq) {
+  StreamCommandExecutorProvider(@GerritServerConfig final Config config, final WorkQueue wq) {
     final int cores = Runtime.getRuntime().availableProcessors();
     poolSize = config.getInt("sshd", "streamThreads", cores + 1);
     queues = wq;
@@ -42,14 +39,15 @@ class StreamCommandExecutorProvider implements Provider<WorkQueue.Executor> {
     executor = queues.createQueue(poolSize, "SSH-Stream-Worker");
 
     final ThreadFactory parent = executor.getThreadFactory();
-    executor.setThreadFactory(new ThreadFactory() {
-      @Override
-      public Thread newThread(final Runnable task) {
-        final Thread t = parent.newThread(task);
-        t.setPriority(Thread.MIN_PRIORITY);
-        return t;
-      }
-    });
+    executor.setThreadFactory(
+        new ThreadFactory() {
+          @Override
+          public Thread newThread(final Runnable task) {
+            final Thread t = parent.newThread(task);
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+          }
+        });
     return executor;
   }
 }

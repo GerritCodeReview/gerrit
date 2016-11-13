@@ -33,8 +33,8 @@ public enum NoteDbMode {
   PRIMARY,
 
   /**
-   * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check
-   * that the results match.
+   * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check that the results
+   * match.
    */
   CHECK;
 
@@ -52,11 +52,14 @@ public enum NoteDbMode {
     value = value.toUpperCase().replace("-", "_");
     NoteDbMode mode = Enums.getIfPresent(NoteDbMode.class, value).orNull();
     if (!Strings.isNullOrEmpty(System.getenv(ENV_VAR))) {
-      checkArgument(mode != null, "Invalid value for env variable %s: %s",
-          ENV_VAR, System.getenv(ENV_VAR));
+      checkArgument(
+          mode != null, "Invalid value for env variable %s: %s", ENV_VAR, System.getenv(ENV_VAR));
     } else {
-      checkArgument(mode != null, "Invalid value for system property %s: %s",
-          SYS_PROP, System.getProperty(SYS_PROP));
+      checkArgument(
+          mode != null,
+          "Invalid value for system property %s: %s",
+          SYS_PROP,
+          System.getProperty(SYS_PROP));
     }
     return mode;
   }

@@ -18,21 +18,31 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface GerritMessages extends Messages {
   String windowTitle1(String hostname);
+
   String windowTitle2(String section, String hostname);
+
   String poweredBy(String version);
 
   String noSuchAccountMessage(String who);
+
   String noSuchGroupMessage(String who);
+
   String nameAlreadyUsedBody(String alreadyUsedName);
 
   String branchCreationFailed(String branchName, String error);
+
   String invalidBranchName(String branchName);
+
   String invalidRevision(String revision);
+
   String branchCreationNotAllowedUnderRefnamePrefix(String refnamePrefix);
+
   String branchAlreadyExists(String branchName);
+
   String branchCreationConflict(String branchName, String existingBranchName);
 
   String pluginFailed(String scriptPath);
+
   String cannotDownloadPlugin(String scriptPath);
 
   String parentUpdateFailed(String message);

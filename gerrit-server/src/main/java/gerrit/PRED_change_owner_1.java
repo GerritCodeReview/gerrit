@@ -16,7 +16,6 @@ package gerrit;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.rules.StoredValues;
-
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.Operation;

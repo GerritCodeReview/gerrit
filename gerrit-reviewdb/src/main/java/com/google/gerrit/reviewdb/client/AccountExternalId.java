@@ -21,10 +21,10 @@ import com.google.gwtorm.client.StringKey;
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
   /**
-   * Scheme used for {@link AuthType#LDAP}, {@link AuthType#CLIENT_SSL_CERT_LDAP},
-   * {@link AuthType#HTTP_LDAP}, and {@link AuthType#LDAP_BIND} usernames.
-   * <p>
-   * The name {@code gerrit:} was a very poor choice.
+   * Scheme used for {@link AuthType#LDAP}, {@link AuthType#CLIENT_SSL_CERT_LDAP}, {@link
+   * AuthType#HTTP_LDAP}, and {@link AuthType#LDAP_BIND} usernames.
+   *
+   * <p>The name {@code gerrit:} was a very poor choice.
    */
   public static final String SCHEME_GERRIT = "gerrit:";
 
@@ -49,8 +49,7 @@ public final class AccountExternalId {
     @Column(id = 1)
     protected String externalId;
 
-    protected Key() {
-    }
+    protected Key() {}
 
     public Key(String scheme, final String identity) {
       if (!scheme.endsWith(":")) {
@@ -97,8 +96,7 @@ public final class AccountExternalId {
   /** <i>computed value</i> can this identity be removed from the account? */
   protected boolean canDelete;
 
-  protected AccountExternalId() {
-  }
+  protected AccountExternalId() {}
 
   /**
    * Create a new binding to an external identity.
@@ -139,9 +137,7 @@ public final class AccountExternalId {
 
   public String getSchemeRest() {
     String scheme = key.getScheme();
-    return null != scheme
-        ? getExternalId().substring(scheme.length() + 1)
-        : null;
+    return null != scheme ? getExternalId().substring(scheme.length() + 1) : null;
   }
 
   public String getPassword() {

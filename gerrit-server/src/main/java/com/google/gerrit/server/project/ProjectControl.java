@@ -46,14 +46,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,6 +55,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {
@@ -88,8 +86,8 @@ public class ProjectControl {
       return p.controlFor(user);
     }
 
-    public ProjectControl validateFor(Project.NameKey nameKey, int need,
-        CurrentUser user) throws NoSuchProjectException, IOException {
+    public ProjectControl validateFor(Project.NameKey nameKey, int need, CurrentUser user)
+        throws NoSuchProjectException, IOException {
       final ProjectControl c = controlFor(nameKey, user);
       if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
         return c;
@@ -109,23 +107,20 @@ public class ProjectControl {
       userCache = uc;
     }
 
-    public ProjectControl controlFor(final Project.NameKey nameKey)
-        throws NoSuchProjectException {
+    public ProjectControl controlFor(final Project.NameKey nameKey) throws NoSuchProjectException {
       return userCache.get().get(nameKey);
     }
 
-    public ProjectControl validateFor(final Project.NameKey nameKey)
-        throws NoSuchProjectException {
+    public ProjectControl validateFor(final Project.NameKey nameKey) throws NoSuchProjectException {
       return validateFor(nameKey, VISIBLE);
     }
 
-    public ProjectControl ownerFor(final Project.NameKey nameKey)
-        throws NoSuchProjectException {
+    public ProjectControl ownerFor(final Project.NameKey nameKey) throws NoSuchProjectException {
       return validateFor(nameKey, OWNER);
     }
 
-    public ProjectControl validateFor(final Project.NameKey nameKey,
-        final int need) throws NoSuchProjectException {
+    public ProjectControl validateFor(final Project.NameKey nameKey, final int need)
+        throws NoSuchProjectException {
       final ProjectControl c = controlFor(nameKey);
       if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
         return c;
@@ -161,7 +156,8 @@ public class ProjectControl {
   private Boolean declaredOwner;
 
   @Inject
-  ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
+  ProjectControl(
+      @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
@@ -192,28 +188,24 @@ public class ProjectControl {
     return r;
   }
 
-  public ChangeControl controlFor(ReviewDb db, Change change)
-      throws OrmException {
-    return changeControlFactory.create(controlForRef(change.getDest()), db,
-        change.getProject(), change.getId());
+  public ChangeControl controlFor(ReviewDb db, Change change) throws OrmException {
+    return changeControlFactory.create(
+        controlForRef(change.getDest()), db, change.getProject(), change.getId());
   }
 
   /**
-   * Create a change control for a change that was loaded from index. This
-   * method should only be used when database access is harmful and potentially
-   * stale data from the index is acceptable.
+   * Create a change control for a change that was loaded from index. This method should only be
+   * used when database access is harmful and potentially stale data from the index is acceptable.
    *
    * @param change change loaded from secondary index
    * @return change control
    */
   public ChangeControl controlForIndexedChange(Change change) {
-    return changeControlFactory
-        .createForIndexedChange(controlForRef(change.getDest()), change);
+    return changeControlFactory.createForIndexedChange(controlForRef(change.getDest()), change);
   }
 
   public ChangeControl controlFor(ChangeNotes notes) {
-    return changeControlFactory
-        .create(controlForRef(notes.getChange().getDest()), notes);
+    return changeControlFactory.create(controlForRef(notes.getChange().getDest()), notes);
   }
 
   public RefControl controlForRef(Branch.NameKey ref) {
@@ -226,8 +218,7 @@ public class ProjectControl {
     }
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
-      PermissionCollection relevant =
-          permissionFilter.filter(access(), refName, user);
+      PermissionCollection relevant = permissionFilter.filter(access(), refName, user);
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }
@@ -255,30 +246,26 @@ public class ProjectControl {
 
   /** Returns whether the project is hidden. */
   public boolean isHidden() {
-    return getProject().getState().equals(
-        com.google.gerrit.extensions.client.ProjectState.HIDDEN);
+    return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
   }
 
   /**
-   * Returns whether the project is readable to the current user. Note
-   * that the project could still be hidden.
+   * Returns whether the project is readable to the current user. Note that the project could still
+   * be hidden.
    */
   public boolean isReadable() {
-    return (user.isInternalUser()
-        || canPerformOnAnyRef(Permission.READ));
+    return (user.isInternalUser() || canPerformOnAnyRef(Permission.READ));
   }
 
   /**
-   * Returns whether the project is accessible to the current user, i.e.
-   * readable and not hidden.
+   * Returns whether the project is accessible to the current user, i.e. readable and not hidden.
    */
   public boolean isVisible() {
     return isReadable() && !isHidden();
   }
 
   public boolean canAddRefs() {
-    return (canPerformOnAnyRef(Permission.CREATE)
-        || isOwnerAnyRef());
+    return (canPerformOnAnyRef(Permission.CREATE) || isOwnerAnyRef());
   }
 
   public boolean canUpload() {
@@ -286,8 +273,7 @@ public class ProjectControl {
       AccessSection section = matcher.section;
       if (section.getName().startsWith("refs/for/")) {
         Permission permission = section.getPermission(Permission.PUSH);
-        if (permission != null
-            && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
+        if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
           return true;
         }
       }
@@ -297,18 +283,16 @@ public class ProjectControl {
 
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
-    return allRefsAreVisible(Collections.<String> emptySet());
+    return allRefsAreVisible(Collections.<String>emptySet());
   }
 
   public boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser()
-        || canPerformOnAllRefs(Permission.READ, ignore);
+    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
-    return (isDeclaredOwner()
-        && !controlForRef("refs/*").isBlocked(Permission.OWNER))
+    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER))
         || user.getCapabilities().canAdministrateServer();
   }
 
@@ -322,14 +306,12 @@ public class ProjectControl {
 
   /** Does this user have ownership on at least one reference name? */
   public boolean isOwnerAnyRef() {
-    return canPerformOnAnyRef(Permission.OWNER)
-        || user.getCapabilities().canAdministrateServer();
+    return canPerformOnAnyRef(Permission.OWNER) || user.getCapabilities().canAdministrateServer();
   }
 
   /** @return true if the user can upload to at least one reference */
   public Capable canPushToAtLeastOneRef() {
-    if (!canPerformOnAnyRef(Permission.PUSH) &&
-        !canPerformOnAnyRef(Permission.CREATE_TAG)) {
+    if (!canPerformOnAnyRef(Permission.PUSH) && !canPerformOnAnyRef(Permission.CREATE_TAG)) {
       String pName = state.getProject().getName();
       return new Capable("Upload denied for project '" + pName + "'");
     }
@@ -347,8 +329,7 @@ public class ProjectControl {
     return getGroups(localAccess());
   }
 
-  private static Set<GroupReference> getGroups(
-      final List<SectionMatcher> sectionMatcherList) {
+  private static Set<GroupReference> getGroups(final List<SectionMatcher> sectionMatcherList) {
     final Set<GroupReference> all = new HashSet<>();
     for (final SectionMatcher matcher : sectionMatcherList) {
       final AccessSection section = matcher.section;
@@ -362,7 +343,7 @@ public class ProjectControl {
   }
 
   private Capable verifyActiveContributorAgreement() {
-    if (! (user.isIdentifiedUser())) {
+    if (!(user.isIdentifiedUser())) {
       return new Capable("Must be logged in to verify Contributor Agreement");
     }
     final IdentifiedUser iUser = user.asIdentifiedUser();
@@ -373,7 +354,8 @@ public class ProjectControl {
       groupIds = okGroupIds;
 
       for (PermissionRule rule : ca.getAccepted()) {
-        if ((rule.getAction() == Action.ALLOW) && (rule.getGroup() != null)
+        if ((rule.getAction() == Action.ALLOW)
+            && (rule.getGroup() != null)
             && (rule.getGroup().getUUID() != null)) {
           groupIds.add(new AccountGroup.UUID(rule.getGroup().getUUID().get()));
         }
@@ -515,27 +497,27 @@ public class ProjectControl {
 
   public boolean canReadCommit(ReviewDb db, Repository repo, RevCommit commit) {
     try (RevWalk rw = new RevWalk(repo)) {
-      return isMergedIntoVisibleRef(repo, db, rw, commit,
-          repo.getAllRefs().values());
+      return isMergedIntoVisibleRef(repo, db, rw, commit, repo.getAllRefs().values());
     } catch (IOException e) {
-      String msg = String.format(
-          "Cannot verify permissions to commit object %s in repository %s",
-          commit.name(), getProject().getNameKey());
+      String msg =
+          String.format(
+              "Cannot verify permissions to commit object %s in repository %s",
+              commit.name(), getProject().getNameKey());
       log.error(msg, e);
       return false;
     }
   }
 
-  boolean isMergedIntoVisibleRef(Repository repo, ReviewDb db, RevWalk rw,
-      RevCommit commit, Collection<Ref> unfilteredRefs) throws IOException {
-    VisibleRefFilter filter = new VisibleRefFilter(
-        tagCache, changeNotesFactory, changeCache, repo, this, db, true);
+  boolean isMergedIntoVisibleRef(
+      Repository repo, ReviewDb db, RevWalk rw, RevCommit commit, Collection<Ref> unfilteredRefs)
+      throws IOException {
+    VisibleRefFilter filter =
+        new VisibleRefFilter(tagCache, changeNotesFactory, changeCache, repo, this, db, true);
     Map<String, Ref> m = Maps.newHashMapWithExpectedSize(unfilteredRefs.size());
     for (Ref r : unfilteredRefs) {
       m.put(r.getName(), r);
     }
     Map<String, Ref> refs = filter.filter(m, true);
-    return !refs.isEmpty()
-        && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
+    return !refs.isEmpty() && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
   }
 }

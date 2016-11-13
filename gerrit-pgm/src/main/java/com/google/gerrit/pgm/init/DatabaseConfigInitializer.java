@@ -20,8 +20,8 @@ import com.google.gerrit.pgm.init.api.Section;
 interface DatabaseConfigInitializer {
 
   /**
-   * Performs database platform specific configuration steps and writes
-   * configuration parameters into the given database section
+   * Performs database platform specific configuration steps and writes configuration parameters
+   * into the given database section
    */
   void initConfig(Section databaseSection);
 }

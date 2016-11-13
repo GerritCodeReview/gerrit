@@ -15,7 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.user.client.Timer;
-
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.ScrollInfo;
 
@@ -28,9 +27,7 @@ class ScrollSynchronizer {
   private CodeMirror cmB;
   private boolean autoHideDiffTableHeader;
 
-  ScrollSynchronizer(SideBySideTable diffTable,
-      CodeMirror cmA, CodeMirror cmB,
-      LineMapper mapper) {
+  ScrollSynchronizer(SideBySideTable diffTable, CodeMirror cmA, CodeMirror cmB, LineMapper mapper) {
     this.diffTable = diffTable;
     this.mapper = mapper;
     this.cmB = cmB;
@@ -73,14 +70,15 @@ class ScrollSynchronizer {
       this.src = src;
       this.dst = dst;
       this.srcSide = srcSide;
-      this.fixup = new Timer() {
-        @Override
-        public void run() {
-          if (active == ScrollCallback.this) {
-            fixup();
-          }
-        }
-      };
+      this.fixup =
+          new Timer() {
+            @Override
+            public void run() {
+              if (active == ScrollCallback.this) {
+                fixup();
+              }
+            }
+          };
     }
 
     void sync() {

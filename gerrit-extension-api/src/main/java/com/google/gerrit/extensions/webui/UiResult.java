@@ -54,6 +54,5 @@ public class UiResult {
   /** When true open {@link #url} in a new tab/window. */
   protected Boolean openWindow;
 
-  private UiResult() {
-  }
+  private UiResult() {}
 }

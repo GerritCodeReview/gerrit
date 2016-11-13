@@ -24,9 +24,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A http://go.here/ B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A <a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/</a> B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A <a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/</a> B");
   }
 
   @Test
@@ -34,9 +35,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A https://go.here/ B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A <a href=\"https://go.here/\" target=\"_blank\" rel=\"nofollow\""
-        + ">https://go.here/</a> B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A <a href=\"https://go.here/\" target=\"_blank\" rel=\"nofollow\""
+                + ">https://go.here/</a> B");
   }
 
   @Test
@@ -44,9 +46,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A (http://go.here/) B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A (<a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/</a>) B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A (<a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/</a>) B");
   }
 
   @Test
@@ -54,9 +57,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A http://go.here/#m() B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A <a href=\"http://go.here/#m()\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/#m()</a> B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A <a href=\"http://go.here/#m()\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/#m()</a> B");
   }
 
   @Test
@@ -64,9 +68,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A <http://go.here/> B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A &lt;<a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/</a>&gt; B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A &lt;<a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/</a>&gt; B");
   }
 
   @Test
@@ -74,9 +79,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A http://go.here/foo B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A <a href=\"http://go.here/foo\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/foo</a> B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A <a href=\"http://go.here/foo\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/foo</a> B");
   }
 
   @Test
@@ -84,9 +90,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A http://go.here/. B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A <a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/</a>. B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A <a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/</a>. B");
   }
 
   @Test
@@ -94,9 +101,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A http://go.here/, B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A <a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/</a>, B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A <a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/</a>, B");
   }
 
   @Test
@@ -104,9 +112,10 @@ public class SafeHtml_LinkifyTest {
     final SafeHtml o = html("A http://go.here/.. B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A <a href=\"http://go.here/.\" target=\"_blank\" rel=\"nofollow\""
-        + ">http://go.here/.</a>. B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A <a href=\"http://go.here/.\" target=\"_blank\" rel=\"nofollow\""
+                + ">http://go.here/.</a>. B");
   }
 
   private static SafeHtml html(String text) {

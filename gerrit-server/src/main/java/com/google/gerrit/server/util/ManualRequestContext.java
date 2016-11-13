@@ -21,18 +21,18 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
-/**
- * Closeable version of a {@link RequestContext} with manually-specified
- * providers.
- */
+/** Closeable version of a {@link RequestContext} with manually-specified providers. */
 public class ManualRequestContext implements RequestContext, AutoCloseable {
   private final CurrentUser user;
   private final Provider<ReviewDb> db;
   private final ThreadLocalRequestContext requestContext;
   private final RequestContext old;
 
-  public ManualRequestContext(CurrentUser user, SchemaFactory<ReviewDb> schemaFactory,
-      ThreadLocalRequestContext requestContext) throws OrmException {
+  public ManualRequestContext(
+      CurrentUser user,
+      SchemaFactory<ReviewDb> schemaFactory,
+      ThreadLocalRequestContext requestContext)
+      throws OrmException {
     this.user = user;
     this.db = Providers.of(schemaFactory.open());
     this.requestContext = requestContext;

@@ -16,14 +16,13 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-
 import java.util.List;
 
 /**
  * Listener to provide validation on received commits.
  *
- * Invoked by Gerrit when a new commit is received, has passed basic Gerrit
- * validation and can be then subject to extra validation checks.
+ * <p>Invoked by Gerrit when a new commit is received, has passed basic Gerrit validation and can be
+ * then subject to extra validation checks.
  */
 @ExtensionPoint
 public interface CommitValidationListener {

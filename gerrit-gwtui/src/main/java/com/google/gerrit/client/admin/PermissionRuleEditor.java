@@ -47,16 +47,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.ValueListBox;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class PermissionRuleEditor extends Composite implements
-    Editor<PermissionRule>, ValueAwareEditor<PermissionRule> {
-  interface Binder extends UiBinder<HTMLPanel, PermissionRuleEditor> {
-  }
+public class PermissionRuleEditor extends Composite
+    implements Editor<PermissionRule>, ValueAwareEditor<PermissionRule> {
+  interface Binder extends UiBinder<HTMLPanel, PermissionRuleEditor> {}
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -69,32 +67,25 @@ public class PermissionRuleEditor extends Composite implements
   @UiField(provided = true)
   RangeBox max;
 
-  @UiField
-  CheckBox force;
+  @UiField CheckBox force;
 
-  @UiField
-  Anchor groupNameLink;
-  @UiField
-  SpanElement groupNameSpan;
-  @UiField
-  SpanElement deletedGroupName;
+  @UiField Anchor groupNameLink;
+  @UiField SpanElement groupNameSpan;
+  @UiField SpanElement deletedGroupName;
 
-  @UiField
-  Anchor deleteRule;
+  @UiField Anchor deleteRule;
 
-  @UiField
-  DivElement normal;
-  @UiField
-  DivElement deleted;
+  @UiField DivElement normal;
+  @UiField DivElement deleted;
 
-  @UiField
-  SpanElement rangeEditor;
+  @UiField SpanElement rangeEditor;
 
   private Map<AccountGroup.UUID, GroupInfo> groupInfo;
   private boolean isDeleted;
   private HandlerRegistration clickHandler;
 
-  public PermissionRuleEditor(boolean readOnly,
+  public PermissionRuleEditor(
+      boolean readOnly,
       Map<AccountGroup.UUID, GroupInfo> groupInfo,
       AccessSection section,
       Permission permission,
@@ -103,8 +94,8 @@ public class PermissionRuleEditor extends Composite implements
     action = new ValueListBox<>(actionRenderer);
 
     if (validRange != null && 10 < validRange.getRangeSize()) {
-        min = new RangeBox.Box();
-        max = new RangeBox.Box();
+      min = new RangeBox.Box();
+      max = new RangeBox.Box();
 
     } else if (validRange != null) {
       RangeBox.List minList = new RangeBox.List();
@@ -126,16 +117,16 @@ public class PermissionRuleEditor extends Composite implements
 
       if (GlobalCapability.PRIORITY.equals(permission.getName())) {
         action.setValue(PermissionRule.Action.INTERACTIVE);
-        action.setAcceptableValues(Arrays.asList(
-            PermissionRule.Action.INTERACTIVE,
-            PermissionRule.Action.BATCH));
+        action.setAcceptableValues(
+            Arrays.asList(PermissionRule.Action.INTERACTIVE, PermissionRule.Action.BATCH));
 
       } else {
         action.setValue(PermissionRule.Action.ALLOW);
-        action.setAcceptableValues(Arrays.asList(
-            PermissionRule.Action.ALLOW,
-            PermissionRule.Action.DENY,
-            PermissionRule.Action.BLOCK));
+        action.setAcceptableValues(
+            Arrays.asList(
+                PermissionRule.Action.ALLOW,
+                PermissionRule.Action.DENY,
+                PermissionRule.Action.BLOCK));
       }
     }
 
@@ -200,9 +191,8 @@ public class PermissionRuleEditor extends Composite implements
     }
 
     GroupReference ref = value.getGroup();
-    GroupInfo info = groupInfo != null && ref.getUUID() != null
-        ? groupInfo.get(ref.getUUID())
-        : null;
+    GroupInfo info =
+        groupInfo != null && ref.getUUID() != null ? groupInfo.get(ref.getUUID()) : null;
 
     boolean link;
     if (ref.getUUID() != null && AccountGroup.isInternalGroup(ref.getUUID())) {
@@ -211,14 +201,16 @@ public class PermissionRuleEditor extends Composite implements
       groupNameLink.setHref("#" + token);
       groupNameLink.setTitle(info != null ? info.getDescription() : null);
       groupNameLink.setTarget(null);
-      clickHandler = groupNameLink.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          event.preventDefault();
-          event.stopPropagation();
-          Gerrit.display(token);
-        }
-      });
+      clickHandler =
+          groupNameLink.addClickHandler(
+              new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  Gerrit.display(token);
+                }
+              });
       link = true;
     } else if (info != null && info.getUrl() != null) {
       groupNameLink.setText(ref.getName());
@@ -238,27 +230,22 @@ public class PermissionRuleEditor extends Composite implements
   }
 
   @Override
-  public void setDelegate(EditorDelegate<PermissionRule> delegate) {
-  }
+  public void setDelegate(EditorDelegate<PermissionRule> delegate) {}
 
   @Override
-  public void flush() {
-  }
+  public void flush() {}
 
   @Override
-  public void onPropertyChange(String... paths) {
-  }
+  public void onPropertyChange(String... paths) {}
 
-  private static class ActionRenderer implements
-      Renderer<PermissionRule.Action> {
+  private static class ActionRenderer implements Renderer<PermissionRule.Action> {
     @Override
     public String render(PermissionRule.Action object) {
       return object != null ? object.toString() : "";
     }
 
     @Override
-    public void render(PermissionRule.Action object, Appendable appendable)
-        throws IOException {
+    public void render(PermissionRule.Action object, Appendable appendable) throws IOException {
       appendable.append(render(object));
     }
   }

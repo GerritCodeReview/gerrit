@@ -22,5 +22,4 @@ import java.lang.annotation.Target;
 
 @Target({METHOD})
 @Retention(RUNTIME)
-public @interface UseLocalDisk {
-}
+public @interface UseLocalDisk {}

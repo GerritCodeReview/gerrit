@@ -23,14 +23,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class CapabilitiesCollection implements
-    ChildCollection<ConfigResource, CapabilityResource> {
+public class CapabilitiesCollection implements ChildCollection<ConfigResource, CapabilityResource> {
   private final DynamicMap<RestView<CapabilityResource>> views;
   private final ListCapabilities list;
 
   @Inject
-  CapabilitiesCollection(DynamicMap<RestView<CapabilityResource>> views,
-      ListCapabilities list) {
+  CapabilitiesCollection(DynamicMap<RestView<CapabilityResource>> views, ListCapabilities list) {
     this.views = views;
     this.list = list;
   }

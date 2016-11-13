@@ -38,7 +38,9 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.testutil.ConfigSuite;
-
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -48,10 +50,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @NoHttpd
 public class SubmitTypeRuleIT extends AbstractDaemonTest {
@@ -76,8 +74,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     }
 
     @Override
-    protected boolean onSave(CommitBuilder commit)
-        throws IOException, ConfigInvalidException {
+    protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
       TestSubmitRuleInput in = new TestSubmitRuleInput();
       in.rule = rule;
       try {
@@ -97,8 +94,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     fileCounter = new AtomicInteger();
-    gApi.projects().name(project.get()).branch("test")
-        .create(new BranchInput());
+    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
     testChangeId = createChange("test", "test change").getChange().getId();
   }
 
@@ -113,36 +109,40 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
 
   private static final String SUBMIT_TYPE_FROM_SUBJECT =
       "submit_type(fast_forward_only) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*FAST_FORWARD_ONLY.*', M),"
-      + "!.\n"
-      + "submit_type(merge_if_necessary) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*MERGE_IF_NECESSARY.*', M),"
-      + "!.\n"
-      + "submit_type(rebase_if_necessary) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*REBASE_IF_NECESSARY.*', M),"
-      + "!.\n"
-      + "submit_type(rebase_always) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*REBASE_ALWAYS.*', M),"
-      + "!.\n"
-      + "submit_type(merge_always) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*MERGE_ALWAYS.*', M),"
-      + "!.\n"
-      + "submit_type(cherry_pick) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*CHERRY_PICK.*', M),"
-      + "!.\n"
-      + "submit_type(T) :- gerrit:project_default_submit_type(T).";
+          + "gerrit:commit_message(M),"
+          + "regex_matches('.*FAST_FORWARD_ONLY.*', M),"
+          + "!.\n"
+          + "submit_type(merge_if_necessary) :-"
+          + "gerrit:commit_message(M),"
+          + "regex_matches('.*MERGE_IF_NECESSARY.*', M),"
+          + "!.\n"
+          + "submit_type(rebase_if_necessary) :-"
+          + "gerrit:commit_message(M),"
+          + "regex_matches('.*REBASE_IF_NECESSARY.*', M),"
+          + "!.\n"
+          + "submit_type(rebase_always) :-"
+          + "gerrit:commit_message(M),"
+          + "regex_matches('.*REBASE_ALWAYS.*', M),"
+          + "!.\n"
+          + "submit_type(merge_always) :-"
+          + "gerrit:commit_message(M),"
+          + "regex_matches('.*MERGE_ALWAYS.*', M),"
+          + "!.\n"
+          + "submit_type(cherry_pick) :-"
+          + "gerrit:commit_message(M),"
+          + "regex_matches('.*CHERRY_PICK.*', M),"
+          + "!.\n"
+          + "submit_type(T) :- gerrit:project_default_submit_type(T).";
 
-  private PushOneCommit.Result createChange(String dest, String subject)
-      throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        subject, "file" + fileCounter.incrementAndGet(),
-        PushOneCommit.FILE_CONTENT);
+  private PushOneCommit.Result createChange(String dest, String subject) throws Exception {
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            subject,
+            "file" + fileCounter.incrementAndGet(),
+            PushOneCommit.FILE_CONTENT);
     PushOneCommit.Result r = push.to("refs/for/" + dest);
     r.assertOkStatus();
     return r;
@@ -197,8 +197,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     List<RevCommit> log = log("master", 1);
     assertThat(log.get(0).getShortMessage()).isEqualTo("CHERRY_PICK 1");
     assertThat(log.get(0).name()).isNotEqualTo(r.getCommit().name());
-    assertThat(log.get(0).getFullMessage())
-        .contains("Change-Id: " + r.getChangeId());
+    assertThat(log.get(0).getFullMessage()).contains("Change-Id: " + r.getChangeId());
     assertThat(log.get(0).getFullMessage()).contains("Reviewed-on: ");
   }
 
@@ -226,8 +225,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
 
     List<RevCommit> branchLog = log("branch", 1);
     assertThat(branchLog.get(0).getParents()).hasLength(2);
-    assertThat(branchLog.get(0).getParent(1).name())
-        .isEqualTo(r2.getCommit().name());
+    assertThat(branchLog.get(0).getParent(1).name()).isEqualTo(r2.getCommit().name());
   }
 
   @Test
@@ -244,11 +242,16 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
       gApi.changes().id(r2.getChangeId()).current().submit();
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(
-          "Failed to submit 2 changes due to the following problems:\n"
-          + "Change " + r1.getChange().getId() + ": Change has submit type "
-          + "CHERRY_PICK, but previously chose submit type MERGE_IF_NECESSARY "
-          + "from change " + r2.getChange().getId() + " in the same batch");
+      assertThat(e)
+          .hasMessage(
+              "Failed to submit 2 changes due to the following problems:\n"
+                  + "Change "
+                  + r1.getChange().getId()
+                  + ": Change has submit type "
+                  + "CHERRY_PICK, but previously chose submit type MERGE_IF_NECESSARY "
+                  + "from change "
+                  + r2.getChange().getId()
+                  + " in the same batch");
     }
   }
 
@@ -261,9 +264,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertSubmitType(SubmitType expected, String id)
-      throws Exception {
-    assertThat(gApi.changes().id(id).current().submitType())
-        .isEqualTo(expected);
+  private void assertSubmitType(SubmitType expected, String id) throws Exception {
+    assertThat(gApi.changes().id(id).current().submitType()).isEqualTo(expected);
   }
 }

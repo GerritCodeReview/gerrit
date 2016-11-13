@@ -34,7 +34,6 @@ import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,8 +50,11 @@ public class SitePathInitializer {
   private final SecureStoreInitData secureStoreInitData;
 
   @Inject
-  public SitePathInitializer(final Injector injector, final ConsoleUI ui,
-      final InitFlags flags, final SitePaths site,
+  public SitePathInitializer(
+      final Injector injector,
+      final ConsoleUI ui,
+      final InitFlags flags,
+      final SitePaths site,
       final Section.Factory sectionFactory,
       @Nullable final SecureStoreInitData secureStoreInitData) {
     this.ui = ui;
@@ -85,8 +87,7 @@ public class SitePathInitializer {
     mkdir(site.data_dir);
 
     for (InitStep step : steps) {
-      if (step instanceof InitPlugins
-          && flags.skipPlugins) {
+      if (step instanceof InitPlugins && flags.skipPlugins) {
         continue;
       }
       step.run();
@@ -135,8 +136,7 @@ public class SitePathInitializer {
 
   public void postRun(Injector injector) throws Exception {
     for (InitStep step : steps) {
-      if (step instanceof InitPlugins
-          && flags.skipPlugins) {
+      if (step instanceof InitPlugins && flags.skipPlugins) {
         continue;
       }
       injector.injectMembers(step);
@@ -146,8 +146,7 @@ public class SitePathInitializer {
 
   private void saveSecureStore() throws IOException {
     if (secureStoreInitData != null) {
-      Path dst =
-          site.lib_dir.resolve(secureStoreInitData.jarFile.getFileName());
+      Path dst = site.lib_dir.resolve(secureStoreInitData.jarFile.getFileName());
       Files.copy(secureStoreInitData.jarFile, dst);
       Section gerritSection = sectionFactory.get("gerrit", null);
       gerritSection.set("secureStoreClass", secureStoreInitData.className);

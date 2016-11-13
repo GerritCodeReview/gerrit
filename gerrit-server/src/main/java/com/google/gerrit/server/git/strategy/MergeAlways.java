@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,10 +26,9 @@ public class MergeAlways extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(
-      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    List<CodeReviewCommit> sorted =
-        args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
+      throws IntegrationException {
+    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     if (args.mergeTip.getInitialTip() == null && !sorted.isEmpty()) {
       // The branch is unborn. Take a fast-forward resolution to
@@ -45,10 +43,9 @@ public class MergeAlways extends SubmitStrategy {
     return ops;
   }
 
-  static boolean dryRun(SubmitDryRun.Arguments args,
-      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+  static boolean dryRun(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
-    return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
-        toMerge);
+    return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
   }
 }

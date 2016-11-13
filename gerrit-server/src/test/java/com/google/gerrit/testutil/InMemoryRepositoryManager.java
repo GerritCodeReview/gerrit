@@ -19,15 +19,13 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedSet;
 
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
@@ -67,8 +65,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   private Map<String, Repo> repos = new HashMap<>();
 
   @Override
-  public synchronized Repo openRepository(Project.NameKey name)
-      throws RepositoryNotFoundException {
+  public synchronized Repo openRepository(Project.NameKey name) throws RepositoryNotFoundException {
     return get(name);
   }
 
@@ -104,8 +101,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public synchronized void setProjectDescription(Project.NameKey name,
-      String description) {
+  public synchronized void setProjectDescription(Project.NameKey name, String description) {
     try {
       get(name).getDescription().desc = description;
     } catch (RepositoryNotFoundException e) {
@@ -117,8 +113,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     repos.remove(normalize(name));
   }
 
-  private synchronized Repo get(Project.NameKey name)
-      throws RepositoryNotFoundException {
+  private synchronized Repo get(Project.NameKey name) throws RepositoryNotFoundException {
     Repo repo = repos.get(normalize(name));
     if (repo != null) {
       return repo;

@@ -15,5 +15,7 @@
 package com.google.gerrit.server.mail;
 
 public enum Encryption {
-  NONE, SSL, TLS
+  NONE,
+  SSL,
+  TLS
 }

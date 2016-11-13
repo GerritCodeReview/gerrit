@@ -68,14 +68,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,6 +75,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class RefControlTest {
   private void assertAdminsAreOwnersAndDevsAreNot() {
@@ -94,10 +92,9 @@ public class RefControlTest {
   }
 
   private void assertOwner(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isOwner())
-      .named("OWN " + ref)
-      .isTrue();
+    assertThat(u.controlForRef(ref).isOwner()).named("OWN " + ref).isTrue();
   }
+
   private void assertNotOwner(ProjectControl u) {
     assertThat(u.isOwner()).named("not owner").isFalse();
   }
@@ -107,123 +104,84 @@ public class RefControlTest {
   }
 
   private void assertNotOwner(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isOwner())
-      .named("NOT OWN " + ref)
-      .isFalse();
+    assertThat(u.controlForRef(ref).isOwner()).named("NOT OWN " + ref).isFalse();
   }
 
   private void assertCanRead(ProjectControl u) {
-    assertThat(u.isVisible())
-      .named("can read")
-      .isTrue();
+    assertThat(u.isVisible()).named("can read").isTrue();
   }
 
   private void assertCannotRead(ProjectControl u) {
-    assertThat(u.isVisible())
-      .named("cannot read")
-      .isFalse();
+    assertThat(u.isVisible()).named("cannot read").isFalse();
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible())
-      .named("can read " + ref)
-      .isTrue();
+    assertThat(u.controlForRef(ref).isVisible()).named("can read " + ref).isTrue();
   }
 
   private void assertCannotRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible())
-      .named("cannot read " + ref)
-      .isFalse();
+    assertThat(u.controlForRef(ref).isVisible()).named("cannot read " + ref).isFalse();
   }
 
   private void assertCanSubmit(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canSubmit(false))
-      .named("can submit " + ref)
-      .isTrue();
+    assertThat(u.controlForRef(ref).canSubmit(false)).named("can submit " + ref).isTrue();
   }
 
   private void assertCannotSubmit(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canSubmit(false))
-      .named("can submit " + ref)
-      .isFalse();
+    assertThat(u.controlForRef(ref).canSubmit(false)).named("can submit " + ref).isFalse();
   }
 
   private void assertCanUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef())
-      .named("can upload")
-      .isEqualTo(Capable.OK);
+    assertThat(u.canPushToAtLeastOneRef()).named("can upload").isEqualTo(Capable.OK);
   }
 
   private void assertCanUpload(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpload())
-      .named("can upload " + ref)
-      .isTrue();
+    assertThat(u.controlForRef(ref).canUpload()).named("can upload " + ref).isTrue();
   }
 
   private void assertCannotUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef())
-      .named("cannot upload")
-      .isNotEqualTo(Capable.OK);
+    assertThat(u.canPushToAtLeastOneRef()).named("cannot upload").isNotEqualTo(Capable.OK);
   }
 
   private void assertCannotUpload(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpload())
-      .named("cannot upload " + ref)
-      .isFalse();
+    assertThat(u.controlForRef(ref).canUpload()).named("cannot upload " + ref).isFalse();
   }
 
   private void assertBlocked(String p, String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isBlocked(p))
-      .named(p + " is blocked for " + ref)
-      .isTrue();
+    assertThat(u.controlForRef(ref).isBlocked(p)).named(p + " is blocked for " + ref).isTrue();
   }
 
   private void assertNotBlocked(String p, String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isBlocked(p))
-      .named(p + " is blocked for " + ref)
-      .isFalse();
+    assertThat(u.controlForRef(ref).isBlocked(p)).named(p + " is blocked for " + ref).isFalse();
   }
 
   private void assertCanUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpdate())
-      .named("can update " + ref)
-      .isTrue();
+    assertThat(u.controlForRef(ref).canUpdate()).named("can update " + ref).isTrue();
   }
 
   private void assertCannotUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpdate())
-      .named("cannot update " + ref)
-      .isFalse();
+    assertThat(u.controlForRef(ref).canUpdate()).named("cannot update " + ref).isFalse();
   }
 
   private void assertCanForceUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canForceUpdate())
-      .named("can force push " + ref)
-      .isTrue();
+    assertThat(u.controlForRef(ref).canForceUpdate()).named("can force push " + ref).isTrue();
   }
 
   private void assertCannotForceUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canForceUpdate())
-      .named("cannot force push " + ref)
-      .isFalse();
+    assertThat(u.controlForRef(ref).canForceUpdate()).named("cannot force push " + ref).isFalse();
   }
 
   private void assertCanVote(int score, PermissionRange range) {
-    assertThat(range.contains(score))
-      .named("can vote " + score)
-      .isTrue();
+    assertThat(range.contains(score)).named("can vote " + score).isTrue();
   }
 
   private void assertCannotVote(int score, PermissionRange range) {
-    assertThat(range.contains(score))
-      .named("cannot vote " + score)
-      .isFalse();
+    assertThat(range.contains(score)).named("cannot vote " + score).isFalse();
   }
 
   private final AllProjectsName allProjectsName =
       new AllProjectsName(AllProjectsNameProvider.DEFAULT);
-  private final AllUsersName allUsersName =
-      new AllUsersName(AllUsersNameProvider.DEFAULT);
+  private final AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
   private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
@@ -245,67 +203,62 @@ public class RefControlTest {
   @Before
   public void setUp() throws Exception {
     repoManager = new InMemoryRepositoryManager();
-    projectCache = new ProjectCache() {
-      @Override
-      public ProjectState getAllProjects() {
-        return get(allProjectsName);
-      }
+    projectCache =
+        new ProjectCache() {
+          @Override
+          public ProjectState getAllProjects() {
+            return get(allProjectsName);
+          }
 
-      @Override
-      public ProjectState getAllUsers() {
-        return null;
-      }
+          @Override
+          public ProjectState getAllUsers() {
+            return null;
+          }
 
-      @Override
-      public ProjectState get(Project.NameKey projectName) {
-        return all.get(projectName);
-      }
+          @Override
+          public ProjectState get(Project.NameKey projectName) {
+            return all.get(projectName);
+          }
 
-      @Override
-      public void evict(Project p) {
-      }
+          @Override
+          public void evict(Project p) {}
 
-      @Override
-      public void remove(Project p) {
-      }
+          @Override
+          public void remove(Project p) {}
 
-      @Override
-      public Iterable<Project.NameKey> all() {
-        return Collections.emptySet();
-      }
+          @Override
+          public Iterable<Project.NameKey> all() {
+            return Collections.emptySet();
+          }
 
-      @Override
-      public Iterable<Project.NameKey> byName(String prefix) {
-        return Collections.emptySet();
-      }
+          @Override
+          public Iterable<Project.NameKey> byName(String prefix) {
+            return Collections.emptySet();
+          }
 
-      @Override
-      public void onCreateProject(Project.NameKey newProjectName) {
-      }
+          @Override
+          public void onCreateProject(Project.NameKey newProjectName) {}
 
-      @Override
-      public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-        return Collections.emptySet();
-      }
+          @Override
+          public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
+            return Collections.emptySet();
+          }
 
-      @Override
-      public ProjectState checkedGet(Project.NameKey projectName)
-          throws IOException {
-        return all.get(projectName);
-      }
+          @Override
+          public ProjectState checkedGet(Project.NameKey projectName) throws IOException {
+            return all.get(projectName);
+          }
 
-      @Override
-      public void evict(Project.NameKey p) {
-      }
-    };
+          @Override
+          public void evict(Project.NameKey p) {}
+        };
 
     Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
 
     try {
       Repository repo = repoManager.createRepository(allProjectsName);
-      ProjectConfig allProjects =
-          new ProjectConfig(new Project.NameKey(allProjectsName.get()));
+      ProjectConfig allProjects = new ProjectConfig(new Project.NameKey(allProjectsName.get()));
       allProjects.load(repo);
       LabelType cr = Util.codeReview();
       allProjects.getLabelSections().put(cr.getName(), cr);
@@ -330,17 +283,18 @@ public class RefControlTest {
     add(local);
     local.getProject().setParentName(parentKey);
 
-    requestContext.setContext(new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return null;
-      }
+    requestContext.setContext(
+        new RequestContext() {
+          @Override
+          public CurrentUser getUser() {
+            return null;
+          }
 
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
-    });
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return Providers.of(db);
+          }
+        });
 
     changeControlFactory = injector.getInstance(ChangeControl.Factory.class);
   }
@@ -623,13 +577,11 @@ public class RefControlTest {
   public void testBlockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
-    block(parent, LABEL + "Code-Review", -2, +2, DEVS,
-        "refs/heads/*");
+    block(parent, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
 
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCanVote(-1, range);
     assertCanVote(1, range);
     assertCannotVote(-2, range);
@@ -756,8 +708,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local, REGISTERED_USERS);
     assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
-      .named("u can read")
-      .isTrue();
+        .named("u can read")
+        .isTrue();
   }
 
   @Test
@@ -767,8 +719,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local, REGISTERED_USERS);
     assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
-      .named("u can't read")
-      .isFalse();
+        .named("u can't read")
+        .isFalse();
   }
 
   @Test
@@ -778,8 +730,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local, DEVS);
     assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
-      .named("u can edit topic name")
-      .isTrue();
+        .named("u can edit topic name")
+        .isTrue();
   }
 
   @Test
@@ -789,8 +741,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local, REGISTERED_USERS);
     assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
-      .named("u can't edit topic name")
-      .isFalse();
+        .named("u can't edit topic name")
+        .isFalse();
   }
 
   @Test
@@ -828,13 +780,11 @@ public class RefControlTest {
 
   @Test
   public void testUnblockInLocalRange_Fails() {
-    block(parent, LABEL + "Code-Review", -1, 1, ANONYMOUS_USERS,
-        "refs/heads/*");
+    block(parent, LABEL + "Code-Review", -1, 1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
   }
@@ -844,8 +794,8 @@ public class RefControlTest {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master")
-        .getRange(LABEL + "Code-Review", true);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review", true);
     assertCanVote(-2, range);
     assertCanVote(2, range);
   }
@@ -855,8 +805,7 @@ public class RefControlTest {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
-    PermissionRange range = u.controlForRef("refs/heads/master")
-        .getRange(LABEL + "Code-Review");
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
   }
@@ -884,8 +833,7 @@ public class RefControlTest {
 
   @Test(expected = InvalidNameException.class)
   public void testValidateBadRefPatternDanglingCharacter() throws Exception {
-    RefPattern
-        .validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*");
+    RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*");
   }
 
   @Test
@@ -909,26 +857,42 @@ public class RefControlTest {
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
     }
-    all.put(pc.getName(),
-        new ProjectState(sitePaths, projectCache, allProjectsName, allUsersName,
-            projectControlFactory, envFactory, repoManager, rulesCache,
-            commentLinks, capabilityCollectionFactory, pc));
+    all.put(
+        pc.getName(),
+        new ProjectState(
+            sitePaths,
+            projectCache,
+            allProjectsName,
+            allUsersName,
+            projectControlFactory,
+            envFactory,
+            repoManager,
+            rulesCache,
+            commentLinks,
+            capabilityCollectionFactory,
+            pc));
     return repo;
   }
 
-  private ProjectControl user(ProjectConfig local,
-      AccountGroup.UUID... memberOf) {
+  private ProjectControl user(ProjectConfig local, AccountGroup.UUID... memberOf) {
     return user(local, null, memberOf);
   }
 
-  private ProjectControl user(ProjectConfig local, String name,
-      AccountGroup.UUID... memberOf) {
+  private ProjectControl user(ProjectConfig local, String name, AccountGroup.UUID... memberOf) {
     String canonicalWebUrl = "http://localhost";
 
-    return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, null, changeControlFactory, null, null,
-        canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
+    return new ProjectControl(
+        Collections.<AccountGroup.UUID>emptySet(),
+        Collections.<AccountGroup.UUID>emptySet(),
+        projectCache,
+        sectionSorter,
+        null,
+        changeControlFactory,
+        null,
+        null,
+        canonicalWebUrl,
+        new MockUser(name, memberOf),
+        newProjectState(local));
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

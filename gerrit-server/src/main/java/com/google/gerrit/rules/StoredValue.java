@@ -38,16 +38,14 @@ public class StoredValue<T> {
   /**
    * Initialize a stored value key using any Java Object.
    *
-   * @param key unique identity of the stored value. This will be the hash key
-   *        in the Prolog Environments's hash map.
+   * @param key unique identity of the stored value. This will be the hash key in the Prolog
+   *     Environments's hash map.
    */
   public StoredValue(Object key) {
     this.key = key;
   }
 
-  /**
-   * Initializes a stored value key with a new unique key.
-   */
+  /** Initializes a stored value key with a new unique key. */
   public StoredValue() {
     key = this;
   }

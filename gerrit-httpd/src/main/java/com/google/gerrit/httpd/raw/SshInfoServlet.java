@@ -20,37 +20,31 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.jcraft.jsch.HostKey;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet hosting an SSH daemon on another port. During a standard HTTP GET
- * request the servlet returns the hostname and port number back to the client
- * in the form <code>${host} ${port}</code>.
- * <p>
- * Use a Git URL such as <code>ssh://${email}@${host}:${port}/${path}</code>,
- * e.g. {@code ssh://sop@google.com@gerrit.com:8010/tools/gerrit.git} to
- * access the SSH daemon itself.
- * <p>
- * Versions of Git before 1.5.3 may require setting the username and port
- * properties in the user's {@code ~/.ssh/config} file, and using a host
- * alias through a URL such as {@code gerrit-alias:/tools/gerrit.git}:
- * <pre>
- * {@code
+ * Servlet hosting an SSH daemon on another port. During a standard HTTP GET request the servlet
+ * returns the hostname and port number back to the client in the form <code>${host} ${port}</code>.
+ *
+ * <p>Use a Git URL such as <code>ssh://${email}@${host}:${port}/${path}</code>, e.g. {@code
+ * ssh://sop@google.com@gerrit.com:8010/tools/gerrit.git} to access the SSH daemon itself.
+ *
+ * <p>Versions of Git before 1.5.3 may require setting the username and port properties in the
+ * user's {@code ~/.ssh/config} file, and using a host alias through a URL such as {@code
+ * gerrit-alias:/tools/gerrit.git}:
+ *
+ * <pre>{@code
  * Host gerrit-alias
  *  User sop@google.com
  *  Hostname gerrit.com
  *  Port 8010
- * }
- * </pre>
+ * }</pre>
  */
 @SuppressWarnings("serial")
 @Singleton
@@ -63,8 +57,8 @@ public class SshInfoServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     final List<HostKey> hostKeys = sshd.getHostKeys();
     final String out;
     if (!hostKeys.isEmpty()) {

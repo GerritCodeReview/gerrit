@@ -18,18 +18,16 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.mail.Address;
-
 import org.joda.time.DateTime;
 
 /**
- * MailMessage is a simplified representation of an RFC 2045-2047 mime email
- * message used for representing received emails inside Gerrit. It is populated
- * by the MailParser after MailReceiver has received a message. Transformations
- * done by the parser include stitching mime parts together, transforming all
- * content to UTF-16 and removing attachments.
+ * MailMessage is a simplified representation of an RFC 2045-2047 mime email message used for
+ * representing received emails inside Gerrit. It is populated by the MailParser after MailReceiver
+ * has received a message. Transformations done by the parser include stitching mime parts together,
+ * transforming all content to UTF-16 and removing attachments.
  *
- * A valid MailMessage contains at least the following fields: id, from, to,
- * subject and dateReceived.
+ * <p>A valid MailMessage contains at least the following fields: id, from, to, subject and
+ * dateReceived.
  */
 @AutoValue
 public abstract class MailMessage {
@@ -37,16 +35,21 @@ public abstract class MailMessage {
   public abstract String id();
   // Envelop Information
   public abstract Address from();
+
   public abstract ImmutableList<Address> to();
+
   @Nullable
   public abstract ImmutableList<Address> cc();
   // Metadata
   public abstract DateTime dateReceived();
+
   public abstract ImmutableList<String> additionalHeaders();
   // Content
   public abstract String subject();
+
   @Nullable
   public abstract String textContent();
+
   @Nullable
   public abstract String htmlContent();
 
@@ -57,7 +60,9 @@ public abstract class MailMessage {
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract Builder id(String val);
+
     public abstract Builder from(Address val);
+
     public abstract ImmutableList.Builder<Address> toBuilder();
 
     public Builder addTo(Address val) {
@@ -73,6 +78,7 @@ public abstract class MailMessage {
     }
 
     public abstract Builder dateReceived(DateTime val);
+
     public abstract ImmutableList.Builder<String> additionalHeadersBuilder();
 
     public Builder addAdditionalHeader(String val) {
@@ -81,7 +87,9 @@ public abstract class MailMessage {
     }
 
     public abstract Builder subject(String val);
+
     public abstract Builder textContent(String val);
+
     public abstract Builder htmlContent(String val);
 
     public abstract MailMessage build();

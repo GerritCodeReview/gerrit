@@ -30,10 +30,7 @@ abstract class RightSidePopdownAction {
   private final UIObject relativeTo;
   private PopupPanel popup;
 
-  RightSidePopdownAction(
-      ChangeScreen.Style style,
-      UIObject relativeTo,
-      Widget button) {
+  RightSidePopdownAction(ChangeScreen.Style style, UIObject relativeTo, Widget button) {
     this.style = style;
     this.relativeTo = relativeTo;
     this.button = button;
@@ -48,31 +45,33 @@ abstract class RightSidePopdownAction {
       return;
     }
 
-    final PopupPanel p = new PopupPanel(true) {
-      @Override
-      public void setPopupPosition(int left, int top) {
-        top -= Document.get().getBodyOffsetTop();
+    final PopupPanel p =
+        new PopupPanel(true) {
+          @Override
+          public void setPopupPosition(int left, int top) {
+            top -= Document.get().getBodyOffsetTop();
 
-        int w = Window.getScrollLeft() + Window.getClientWidth();
-        int r = relativeTo.getAbsoluteLeft() + relativeTo.getOffsetWidth();
-        int right = w - r;
-        Style style = getElement().getStyle();
-        style.clearProperty("left");
-        style.setPropertyPx("right", right);
-        style.setPropertyPx("top", top);
-      }
-    };
+            int w = Window.getScrollLeft() + Window.getClientWidth();
+            int r = relativeTo.getAbsoluteLeft() + relativeTo.getOffsetWidth();
+            int right = w - r;
+            Style style = getElement().getStyle();
+            style.clearProperty("left");
+            style.setPropertyPx("right", right);
+            style.setPropertyPx("top", top);
+          }
+        };
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(button.getElement());
-    p.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        if (popup == p) {
-          button.removeStyleName(style.selected());
-          popup = null;
-        }
-      }
-    });
+    p.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            if (popup == p) {
+              button.removeStyleName(style.selected());
+              popup = null;
+            }
+          }
+        });
     p.add(getWidget());
     p.showRelativeTo(relativeTo);
     GlobalKey.dialog(p);

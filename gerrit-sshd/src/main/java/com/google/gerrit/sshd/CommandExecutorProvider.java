@@ -26,8 +26,7 @@ class CommandExecutorProvider implements Provider<WorkQueue.Executor> {
   private final CurrentUser user;
 
   @Inject
-  CommandExecutorProvider(QueueProvider queues,
-      CurrentUser user) {
+  CommandExecutorProvider(QueueProvider queues, CurrentUser user) {
     this.queues = queues;
     this.user = user;
   }

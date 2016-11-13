@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,7 +63,9 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
   public void deleteChecked() {
     final Set<ProjectWatchInfo> infos = getCheckedProjectWatchInfos();
     if (!infos.isEmpty()) {
-      AccountApi.deleteWatchedProjects("self", infos,
+      AccountApi.deleteWatchedProjects(
+          "self",
+          infos,
           new GerritCallback<JsArray<ProjectWatchInfo>>() {
             @Override
             public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
@@ -75,7 +76,7 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
   }
 
   protected void remove(Set<ProjectWatchInfo> infos) {
-    for (int row = 1; row < table.getRowCount();) {
+    for (int row = 1; row < table.getRowCount(); ) {
       final ProjectWatchInfo k = getRowItem(row);
       if (k != null && infos.contains(k)) {
         table.removeRow(row);
@@ -126,8 +127,7 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
 
   protected void populate(final int row, final ProjectWatchInfo info) {
     final FlowPanel fp = new FlowPanel();
-    fp.add(new ProjectLink(info.project(),
-        new Project.NameKey(info.project())));
+    fp.add(new ProjectLink(info.project(), new Project.NameKey(info.project())));
     if (info.filter() != null) {
       Label filter = new Label(info.filter());
       filter.setStyleName(Gerrit.RESOURCES.css().watchedProjectFilter());
@@ -155,34 +155,37 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
     setRowItem(row, info);
   }
 
-  protected void addNotifyButton(final ProjectWatchInfo.Type type,
-      final ProjectWatchInfo info, final int row, final int col) {
+  protected void addNotifyButton(
+      final ProjectWatchInfo.Type type, final ProjectWatchInfo info, final int row, final int col) {
     final CheckBox cbox = new CheckBox();
 
-    cbox.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final Boolean oldVal = info.notify(type);
-        info.notify(type, cbox.getValue());
-        cbox.setEnabled(false);
+    cbox.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            final Boolean oldVal = info.notify(type);
+            info.notify(type, cbox.getValue());
+            cbox.setEnabled(false);
 
-        AccountApi.updateWatchedProject("self", info,
-            new GerritCallback<JsArray<ProjectWatchInfo>>() {
-              @Override
-              public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
-                cbox.setEnabled(true);
-              }
+            AccountApi.updateWatchedProject(
+                "self",
+                info,
+                new GerritCallback<JsArray<ProjectWatchInfo>>() {
+                  @Override
+                  public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
+                    cbox.setEnabled(true);
+                  }
 
-              @Override
-              public void onFailure(Throwable caught) {
-                cbox.setEnabled(true);
-                info.notify(type, oldVal);
-                cbox.setValue(oldVal);
-                super.onFailure(caught);
-              }
-            });
-      }
-    });
+                  @Override
+                  public void onFailure(Throwable caught) {
+                    cbox.setEnabled(true);
+                    info.notify(type, oldVal);
+                    cbox.setValue(oldVal);
+                    super.onFailure(caught);
+                  }
+                });
+          }
+        });
 
     cbox.setValue(info.notify(type));
     table.setWidget(row, col, cbox);

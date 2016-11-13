@@ -23,24 +23,18 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.RecipientType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gwtorm.server.OrmException;
-
+import java.util.HashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Common class for notifications that are related to a project and branch
- */
+/** Common class for notifications that are related to a project and branch */
 public abstract class NotificationEmail extends OutgoingEmail {
-  private static final Logger log =
-      LoggerFactory.getLogger(NotificationEmail.class);
+  private static final Logger log = LoggerFactory.getLogger(NotificationEmail.class);
 
   protected Branch.NameKey branch;
 
-  protected NotificationEmail(EmailArguments ea,
-      String mc, Branch.NameKey branch) {
+  protected NotificationEmail(EmailArguments ea, String mc, Branch.NameKey branch) {
     super(ea, mc);
     this.branch = branch;
   }

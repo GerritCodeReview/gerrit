@@ -18,7 +18,8 @@ public class MergeInput {
   /**
    * {@code source} can be any Git object reference expression.
    *
-   * @see <a href="https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html">gitrevisions(7)</a>
+   * @see <a
+   *     href="https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html">gitrevisions(7)</a>
    */
   public String source;
 

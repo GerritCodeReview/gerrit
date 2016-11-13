@@ -21,20 +21,32 @@ public interface KeyConstants extends Constants {
   KeyConstants I = GWT.create(KeyConstants.class);
 
   String applicationSection();
+
   String showHelp();
+
   String closeCurrentDialog();
 
   String keyboardShortcuts();
+
   String closeButton();
+
   String orOtherKey();
+
   String thenOtherKey();
 
   String keyCtrl();
+
   String keyAlt();
+
   String keyMeta();
+
   String keyShift();
+
   String keyEnter();
+
   String keyEsc();
+
   String keyLeft();
+
   String keyRight();
 }

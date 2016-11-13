@@ -14,16 +14,15 @@
 
 package com.google.gerrit.server.ioutil;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 public class ColumnFormatterTest {
   /**
-   * Holds an in-memory {@link java.io.PrintWriter} object and allows
-   * comparisons of its contents to a supplied string via an assert statement.
+   * Holds an in-memory {@link java.io.PrintWriter} object and allows comparisons of its contents to
+   * a supplied string via an assert statement.
    */
   static class PrintWriterComparator {
     private PrintWriter printWriter;
@@ -44,14 +43,11 @@ public class ColumnFormatterTest {
     }
   }
 
-  /**
-   * Test that only lines with at least one column of text emit output.
-   */
+  /** Test that only lines with at least one column of text emit output. */
   @Test
   public void testEmptyLine() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
-    final ColumnFormatter formatter =
-        new ColumnFormatter(comparator.getPrintWriter(), '\t');
+    final ColumnFormatter formatter = new ColumnFormatter(comparator.getPrintWriter(), '\t');
     formatter.addColumn("foo");
     formatter.addColumn("bar");
     formatter.nextLine();
@@ -63,14 +59,11 @@ public class ColumnFormatterTest {
     comparator.assertEquals("foo\tbar\nfoo\tbar\n");
   }
 
-  /**
-   * Test that there is no output if no columns are ever added.
-   */
+  /** Test that there is no output if no columns are ever added. */
   @Test
   public void testEmptyOutput() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
-    final ColumnFormatter formatter =
-        new ColumnFormatter(comparator.getPrintWriter(), '\t');
+    final ColumnFormatter formatter = new ColumnFormatter(comparator.getPrintWriter(), '\t');
     formatter.nextLine();
     formatter.nextLine();
     formatter.finish();
@@ -78,44 +71,40 @@ public class ColumnFormatterTest {
   }
 
   /**
-   * Test that there is no output (nor any exceptions) if we finalize
-   * the output immediately after the creation of the {@link ColumnFormatter}.
+   * Test that there is no output (nor any exceptions) if we finalize the output immediately after
+   * the creation of the {@link ColumnFormatter}.
    */
   @Test
   public void testNoNextLine() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
-    final ColumnFormatter formatter =
-        new ColumnFormatter(comparator.getPrintWriter(), '\t');
+    final ColumnFormatter formatter = new ColumnFormatter(comparator.getPrintWriter(), '\t');
     formatter.finish();
     comparator.assertEquals("");
   }
 
   /**
-   * Test that the text in added columns is escaped while the column separator
-   * (which of course shouldn't be escaped) is left alone.
+   * Test that the text in added columns is escaped while the column separator (which of course
+   * shouldn't be escaped) is left alone.
    */
   @Test
   public void testEscapingTakesPlace() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
-    final ColumnFormatter formatter =
-        new ColumnFormatter(comparator.getPrintWriter(), '\t');
+    final ColumnFormatter formatter = new ColumnFormatter(comparator.getPrintWriter(), '\t');
     formatter.addColumn("foo");
-    formatter.addColumn(
-        "\tan indented multi-line\ntext");
+    formatter.addColumn("\tan indented multi-line\ntext");
     formatter.nextLine();
     formatter.finish();
     comparator.assertEquals("foo\t\\tan indented multi-line\\ntext\n");
   }
 
   /**
-   * Test that we get the correct output with multi-line input where the number
-   * of columns in each line varies.
+   * Test that we get the correct output with multi-line input where the number of columns in each
+   * line varies.
    */
   @Test
   public void testMultiLineDifferentColumnCount() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
-    final ColumnFormatter formatter =
-        new ColumnFormatter(comparator.getPrintWriter(), '\t');
+    final ColumnFormatter formatter = new ColumnFormatter(comparator.getPrintWriter(), '\t');
     formatter.addColumn("foo");
     formatter.addColumn("bar");
     formatter.addColumn("baz");
@@ -127,14 +116,11 @@ public class ColumnFormatterTest {
     comparator.assertEquals("foo\tbar\tbaz\nfoo\tbar\n");
   }
 
-  /**
-   * Test that we get the correct output with a single column of input.
-   */
+  /** Test that we get the correct output with a single column of input. */
   @Test
   public void testOneColumn() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
-    final ColumnFormatter formatter =
-        new ColumnFormatter(comparator.getPrintWriter(), '\t');
+    final ColumnFormatter formatter = new ColumnFormatter(comparator.getPrintWriter(), '\t');
     formatter.addColumn("foo");
     formatter.nextLine();
     formatter.finish();

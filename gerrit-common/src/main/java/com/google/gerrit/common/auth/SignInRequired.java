@@ -21,12 +21,10 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation indicating a service method requires a current user.
- * <p>
- * If there is no current user then
- * {@code com.google.gerrit.common.errors.NotSignedInException} will be given to
- * the callback's onFailure method.
+ *
+ * <p>If there is no current user then {@code com.google.gerrit.common.errors.NotSignedInException}
+ * will be given to the callback's onFailure method.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface SignInRequired {
-}
+public @interface SignInRequired {}

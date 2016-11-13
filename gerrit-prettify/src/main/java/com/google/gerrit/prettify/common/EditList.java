@@ -14,10 +14,9 @@
 
 package com.google.gerrit.prettify.common;
 
-import org.eclipse.jgit.diff.Edit;
-
 import java.util.Iterator;
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
 
 public class EditList {
   private final List<Edit> edits;
@@ -25,8 +24,8 @@ public class EditList {
   private final int aSize;
   private final int bSize;
 
-  public EditList(final List<Edit> edits, final int contextLines,
-      final int aSize, final int bSize) {
+  public EditList(
+      final List<Edit> edits, final int contextLines, final int aSize, final int bSize) {
     this.edits = edits;
     this.context = contextLines;
     this.aSize = aSize;

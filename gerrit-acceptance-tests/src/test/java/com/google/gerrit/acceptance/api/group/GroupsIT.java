@@ -40,14 +40,12 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
-
-import org.junit.Test;
-
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
@@ -137,8 +135,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateDuplicateInternalGroupCaseSensitiveName_Conflict()
-      throws Exception {
+  public void testCreateDuplicateInternalGroupCaseSensitiveName_Conflict() throws Exception {
     String dupGroupName = name("dupGroup");
     gApi.groups().create(dupGroupName);
     exception.expect(ResourceConflictException.class);
@@ -147,8 +144,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateDuplicateInternalGroupCaseInsensitiveName()
-      throws Exception {
+  public void testCreateDuplicateInternalGroupCaseInsensitiveName() throws Exception {
     String dupGroupName = name("dupGroupA");
     String dupGroupNameLowerCase = name("dupGroupA").toLowerCase();
     gApi.groups().create(dupGroupName);
@@ -158,8 +154,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateDuplicateSystemGroupCaseSensitiveName_Conflict()
-      throws Exception {
+  public void testCreateDuplicateSystemGroupCaseSensitiveName_Conflict() throws Exception {
     String newGroupName = "Registered Users";
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("group 'Registered Users' already exists");
@@ -167,8 +162,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateDuplicateSystemGroupCaseInsensitiveName_Conflict()
-      throws Exception {
+  public void testCreateDuplicateSystemGroupCaseInsensitiveName_Conflict() throws Exception {
     String newGroupName = "registered users";
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("group 'Registered Users' already exists");
@@ -203,8 +197,7 @@ public class GroupsIT extends AbstractDaemonTest {
     testGetGroup(adminGroup.getId().get(), adminGroup);
   }
 
-  private void testGetGroup(Object id, AccountGroup expectedGroup)
-      throws Exception {
+  private void testGetGroup(Object id, AccountGroup expectedGroup) throws Exception {
     GroupInfo group = gApi.groups().id(id.toString()).get();
     assertGroupInfo(expectedGroup, group);
   }
@@ -288,18 +281,15 @@ public class GroupsIT extends AbstractDaemonTest {
     String registeredUUID = SystemGroupBackend.REGISTERED_USERS.get();
 
     // get owner
-    assertThat(Url.decode(gApi.groups().id(name).owner().id))
-        .isEqualTo(info.id);
+    assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(info.id);
 
     // set owner by name
     gApi.groups().id(name).owner("Registered Users");
-    assertThat(Url.decode(gApi.groups().id(name).owner().id))
-        .isEqualTo(registeredUUID);
+    assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(registeredUUID);
 
     // set owner by UUID
     gApi.groups().id(name).owner(adminUUID);
-    assertThat(Url.decode(gApi.groups().id(name).owner().id))
-        .isEqualTo(adminUUID);
+    assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(adminUUID);
 
     // set non existing owner
     exception.expect(UnprocessableEntityException.class);
@@ -390,19 +380,17 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void defaultGroupsCreated() throws Exception {
     Iterable<String> names = gApi.groups().list().getAsMap().keySet();
-    assertThat(names).containsAllOf("Administrators", "Non-Interactive Users")
-        .inOrder();
+    assertThat(names).containsAllOf("Administrators", "Non-Interactive Users").inOrder();
   }
 
   @Test
   public void testListAllGroups() throws Exception {
-    List<String> expectedGroups = groupCache.all().stream()
-          .map(a -> a.getName())
-          .sorted()
-          .collect(toList());
+    List<String> expectedGroups =
+        groupCache.all().stream().map(a -> a.getName()).sorted().collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
-        .containsExactlyElementsIn(expectedGroups).inOrder();
+        .containsExactlyElementsIn(expectedGroups)
+        .inOrder();
   }
 
   @Test
@@ -416,8 +404,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().create(in);
 
     setApiUser(user);
-    assertThat(gApi.groups().list().getAsMap())
-        .doesNotContainKey(newGroupName);
+    assertThat(gApi.groups().list().getAsMap()).doesNotContainKey(newGroupName);
 
     setApiUser(admin);
     gApi.groups().id(newGroupName).addMembers(user.username);
@@ -436,8 +423,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void testAllGroupInfoFieldsSetCorrectly() throws Exception {
     AccountGroup adminGroup = getFromCache("Administrators");
-    Map<String, GroupInfo> groups =
-        gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();
+    Map<String, GroupInfo> groups = gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();
     assertThat(groups).hasSize(1);
     assertThat(groups).containsKey("Administrators");
     assertGroupInfo(adminGroup, Iterables.getOnlyElement(groups.values()));
@@ -481,53 +467,53 @@ public class GroupsIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertAuditEvent(GroupAuditEventInfo info, Type expectedType,
-      Account.Id expectedUser, Account.Id expectedMember) {
+  private void assertAuditEvent(
+      GroupAuditEventInfo info,
+      Type expectedType,
+      Account.Id expectedUser,
+      Account.Id expectedMember) {
     assertThat(info.user._accountId).isEqualTo(expectedUser.get());
     assertThat(info.type).isEqualTo(expectedType);
     assertThat(info).isInstanceOf(UserMemberAuditEventInfo.class);
-    assertThat(((UserMemberAuditEventInfo) info).member._accountId).isEqualTo(
-        expectedMember.get());
+    assertThat(((UserMemberAuditEventInfo) info).member._accountId).isEqualTo(expectedMember.get());
   }
 
-  private void assertAuditEvent(GroupAuditEventInfo info, Type expectedType,
-      Account.Id expectedUser, String expectedMemberGroupName) {
+  private void assertAuditEvent(
+      GroupAuditEventInfo info,
+      Type expectedType,
+      Account.Id expectedUser,
+      String expectedMemberGroupName) {
     assertThat(info.user._accountId).isEqualTo(expectedUser.get());
     assertThat(info.type).isEqualTo(expectedType);
     assertThat(info).isInstanceOf(GroupMemberAuditEventInfo.class);
-    assertThat(((GroupMemberAuditEventInfo) info).member.name).isEqualTo(
-        expectedMemberGroupName);
+    assertThat(((GroupMemberAuditEventInfo) info).member.name).isEqualTo(expectedMemberGroupName);
   }
 
-  private void assertMembers(String group, TestAccount... expectedMembers)
-      throws Exception {
+  private void assertMembers(String group, TestAccount... expectedMembers) throws Exception {
     assertMembers(
         gApi.groups().id(group).members(),
         TestAccount.names(expectedMembers).stream().toArray(String[]::new));
-    assertAccountInfos(
-        Arrays.asList(expectedMembers),
-        gApi.groups().id(group).members());
+    assertAccountInfos(Arrays.asList(expectedMembers), gApi.groups().id(group).members());
   }
 
-  private void assertMembers(Iterable<AccountInfo> members,
-      String... expectedNames) {
+  private void assertMembers(Iterable<AccountInfo> members, String... expectedNames) {
     assertThat(Iterables.transform(members, i -> i.name))
-        .containsExactlyElementsIn(Arrays.asList(expectedNames)).inOrder();
+        .containsExactlyElementsIn(Arrays.asList(expectedNames))
+        .inOrder();
   }
 
   private void assertNoMembers(String group) throws Exception {
     assertThat(gApi.groups().id(group).members()).isEmpty();
   }
 
-  private void assertIncludes(String group, String... expectedNames)
-      throws Exception {
+  private void assertIncludes(String group, String... expectedNames) throws Exception {
     assertIncludes(gApi.groups().id(group).includedGroups(), expectedNames);
   }
 
-  private static void assertIncludes(
-      Iterable<GroupInfo> includes, String... expectedNames) {
+  private static void assertIncludes(Iterable<GroupInfo> includes, String... expectedNames) {
     assertThat(Iterables.transform(includes, i -> i.name))
-        .containsExactlyElementsIn(Arrays.asList(expectedNames)).inOrder();
+        .containsExactlyElementsIn(Arrays.asList(expectedNames))
+        .inOrder();
   }
 
   private void assertNoIncludes(String group) throws Exception {

@@ -43,15 +43,13 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
 
 public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
@@ -68,12 +66,18 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   protected String message;
   private boolean checkIfOwner;
 
-  protected ProjectAccessHandler(ProjectControl.Factory projectControlFactory,
-      GroupBackend groupBackend, MetaDataUpdate.User metaDataUpdateFactory,
-      AllProjectsName allProjects, Provider<SetParent> setParent,
-      Project.NameKey projectName, ObjectId base,
-      List<AccessSection> sectionList, Project.NameKey parentProjectName,
-      String message, boolean checkIfOwner) {
+  protected ProjectAccessHandler(
+      ProjectControl.Factory projectControlFactory,
+      GroupBackend groupBackend,
+      MetaDataUpdate.User metaDataUpdateFactory,
+      AllProjectsName allProjects,
+      Provider<SetParent> setParent,
+      Project.NameKey projectName,
+      ObjectId base,
+      List<AccessSection> sectionList,
+      Project.NameKey parentProjectName,
+      String message,
+      boolean checkIfOwner) {
     this.projectControlFactory = projectControlFactory;
     this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -89,11 +93,11 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   }
 
   @Override
-  public final T call() throws NoSuchProjectException, IOException,
-      ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmException, UpdateParentFailedException, PermissionDeniedException {
-    final ProjectControl projectControl =
-        projectControlFactory.controlFor(projectName);
+  public final T call()
+      throws NoSuchProjectException, IOException, ConfigInvalidException, InvalidNameException,
+          NoSuchGroupException, OrmException, UpdateParentFailedException,
+          PermissionDeniedException {
+    final ProjectControl projectControl = projectControlFactory.controlFor(projectName);
 
     Capable r = projectControl.canPushToAtLeastOneRef();
     if (r != Capable.OK) {
@@ -130,24 +134,28 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
             config.remove(config.getAccessSection(name));
           }
 
-        } else if (!checkIfOwner ||  projectControl.controlForRef(name).isOwner()) {
+        } else if (!checkIfOwner || projectControl.controlForRef(name).isOwner()) {
           config.remove(config.getAccessSection(name));
         }
       }
 
       boolean parentProjectUpdate = false;
-      if (!config.getProject().getNameKey().equals(allProjects) &&
-          !config.getProject().getParent(allProjects).equals(parentProjectName)) {
+      if (!config.getProject().getNameKey().equals(allProjects)
+          && !config.getProject().getParent(allProjects).equals(parentProjectName)) {
         parentProjectUpdate = true;
         try {
-          setParent.get().validateParentUpdate(projectControl,
-              MoreObjects.firstNonNull(parentProjectName, allProjects).get(),
-              checkIfOwner);
+          setParent
+              .get()
+              .validateParentUpdate(
+                  projectControl,
+                  MoreObjects.firstNonNull(parentProjectName, allProjects).get(),
+                  checkIfOwner);
         } catch (AuthException e) {
           throw new UpdateParentFailedException(
               "You are not allowed to change the parent project since you are "
-              + "not an administrator. You may save the modifications for review "
-              + "so that an administrator can approve them.", e);
+                  + "not an administrator. You may save the modifications for review "
+                  + "so that an administrator can approve them.",
+              e);
         } catch (ResourceConflictException | UnprocessableEntityException e) {
           throw new UpdateParentFailedException(e.getMessage(), e);
         }
@@ -163,20 +171,18 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         md.setMessage("Modify access rules\n");
       }
 
-      return updateProjectConfig(projectControl.getUser(), config, md,
-          parentProjectUpdate);
+      return updateProjectConfig(projectControl.getUser(), config, md, parentProjectUpdate);
     } catch (RepositoryNotFoundException notFound) {
       throw new NoSuchProjectException(projectName);
     }
   }
 
-  protected abstract T updateProjectConfig(CurrentUser user,
-      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
-      throws IOException, NoSuchProjectException, ConfigInvalidException,
-      OrmException;
+  protected abstract T updateProjectConfig(
+      CurrentUser user, ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
+      throws IOException, NoSuchProjectException, ConfigInvalidException, OrmException;
 
-  private void replace(ProjectConfig config, Set<String> toDelete,
-      AccessSection section) throws NoSuchGroupException {
+  private void replace(ProjectConfig config, Set<String> toDelete, AccessSection section)
+      throws NoSuchGroupException {
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {
         lookupGroup(rule);
@@ -197,8 +203,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   private void lookupGroup(PermissionRule rule) throws NoSuchGroupException {
     GroupReference ref = rule.getGroup();
     if (ref.getUUID() == null) {
-      final GroupReference group =
-          GroupBackends.findBestSuggestion(groupBackend, ref.getName());
+      final GroupReference group = GroupBackends.findBestSuggestion(groupBackend, ref.getName());
       if (group == null) {
         throw new NoSuchGroupException(ref.getName());
       }

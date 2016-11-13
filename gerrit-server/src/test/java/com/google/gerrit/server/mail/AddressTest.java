@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.testutil.GerritBaseTests;
-
 import org.junit.Test;
 
 public class AddressTest extends GerritBaseTests {
@@ -133,14 +132,13 @@ public class AddressTest extends GerritBaseTests {
 
   @Test
   public void testToHeaderString_NameEmail6() {
-    assertThat(format("A \u20ac B", "a@a"))
-      .isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B?= <a@a>");
+    assertThat(format("A \u20ac B", "a@a")).isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B?= <a@a>");
   }
 
   @Test
   public void testToHeaderString_NameEmail7() {
     assertThat(format("A \u20ac B (Code Review)", "a@a"))
-      .isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B_=28Code_Review=29?= <a@a>");
+        .isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B_=28Code_Review=29?= <a@a>");
   }
 
   @Test

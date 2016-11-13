@@ -17,19 +17,16 @@ package com.google.gerrit.server.validators;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.project.CreateProjectArgs;
 
-/**
- * Listener to provide validation on project creation.
- */
+/** Listener to provide validation on project creation. */
 @ExtensionPoint
 public interface ProjectCreationValidationListener {
   /**
    * Project creation validation.
    *
-   * Invoked by Gerrit just before a new project is going to be created.
+   * <p>Invoked by Gerrit just before a new project is going to be created.
    *
    * @param args arguments for the project creation
    * @throws ValidationException if validation fails
    */
-  void validateNewProject(CreateProjectArgs args)
-      throws ValidationException;
+  void validateNewProject(CreateProjectArgs args) throws ValidationException;
 }

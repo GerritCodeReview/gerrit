@@ -14,19 +14,18 @@
 
 package com.google.gerrit.gpg;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openpgp.PGPPublicKey;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.Security;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openpgp.PGPPublicKey;
 
 /** Utility methods for Bouncy Castle. */
 public class BouncyCastleUtil {
   /**
    * Check for Bouncy Castle PGP support.
-   * <p>
-   * As a side effect, adds {@link BouncyCastleProvider} as a security provider.
+   *
+   * <p>As a side effect, adds {@link BouncyCastleProvider} as a security provider.
    *
    * @return whether Bouncy Castle PGP support is enabled.
    */
@@ -35,22 +34,25 @@ public class BouncyCastleUtil {
       Class.forName(PGPPublicKey.class.getName());
       addBouncyCastleProvider();
       return true;
-    } catch (NoClassDefFoundError | ClassNotFoundException | SecurityException
-        | NoSuchMethodException | InstantiationException
-        | IllegalAccessException | InvocationTargetException
+    } catch (NoClassDefFoundError
+        | ClassNotFoundException
+        | SecurityException
+        | NoSuchMethodException
+        | InstantiationException
+        | IllegalAccessException
+        | InvocationTargetException
         | ClassCastException noBouncyCastle) {
       return false;
     }
   }
 
-  private static void addBouncyCastleProvider() throws ClassNotFoundException,
-          SecurityException, NoSuchMethodException, InstantiationException,
-          IllegalAccessException, InvocationTargetException {
+  private static void addBouncyCastleProvider()
+      throws ClassNotFoundException, SecurityException, NoSuchMethodException,
+          InstantiationException, IllegalAccessException, InvocationTargetException {
     Class<?> clazz = Class.forName(BouncyCastleProvider.class.getName());
     Constructor<?> constructor = clazz.getConstructor();
     Security.addProvider((java.security.Provider) constructor.newInstance());
   }
 
-  private BouncyCastleUtil() {
-  }
+  private BouncyCastleUtil() {}
 }

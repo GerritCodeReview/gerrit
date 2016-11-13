@@ -24,7 +24,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -34,26 +33,19 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class BatchUpdateTest {
-  @Inject
-  private AccountManager accountManager;
+  @Inject private AccountManager accountManager;
 
-  @Inject
-  private IdentifiedUser.GenericFactory userFactory;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
 
-  @Inject
-  private InMemoryDatabase schemaFactory;
+  @Inject private InMemoryDatabase schemaFactory;
 
-  @Inject
-  private InMemoryRepositoryManager repoManager;
+  @Inject private InMemoryRepositoryManager repoManager;
 
-  @Inject
-  private SchemaCreator schemaCreator;
+  @Inject private SchemaCreator schemaCreator;
 
-  @Inject
-  private ThreadLocalRequestContext requestContext;
+  @Inject private ThreadLocalRequestContext requestContext;
 
-  @Inject
-  private BatchUpdate.Factory batchUpdateFactory;
+  @Inject private BatchUpdate.Factory batchUpdateFactory;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -71,8 +63,7 @@ public class BatchUpdateTest {
 
     db = schemaFactory.open();
     schemaCreator.create(db);
-    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user"))
-        .getAccountId();
+    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
 
     project = new Project.NameKey("test");
@@ -80,17 +71,18 @@ public class BatchUpdateTest {
     InMemoryRepository inMemoryRepo = repoManager.createRepository(project);
     repo = new TestRepository<>(inMemoryRepo);
 
-    requestContext.setContext(new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return user;
-      }
+    requestContext.setContext(
+        new RequestContext() {
+          @Override
+          public CurrentUser getUser() {
+            return user;
+          }
 
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
-    });
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return Providers.of(db);
+          }
+        });
   }
 
   @After
@@ -111,24 +103,22 @@ public class BatchUpdateTest {
   @Test
   public void addRefUpdateFromFastForwardCommit() throws Exception {
     final RevCommit masterCommit = repo.branch("master").commit().create();
-    final RevCommit branchCommit =
-        repo.branch("branch").commit().parent(masterCommit).create();
+    final RevCommit branchCommit = repo.branch("branch").commit().parent(masterCommit).create();
 
-    try (BatchUpdate bu = batchUpdateFactory
-        .create(db, project, user, TimeUtil.nowTs())) {
-      bu.addRepoOnlyOp(new RepoOnlyOp() {
-        @Override
-        public void updateRepo(RepoContext ctx) throws Exception {
-          ctx.addRefUpdate(
-              new ReceiveCommand(masterCommit.getId(), branchCommit.getId(),
-                  "refs/heads/master"));
-        }
-      });
+    try (BatchUpdate bu = batchUpdateFactory.create(db, project, user, TimeUtil.nowTs())) {
+      bu.addRepoOnlyOp(
+          new RepoOnlyOp() {
+            @Override
+            public void updateRepo(RepoContext ctx) throws Exception {
+              ctx.addRefUpdate(
+                  new ReceiveCommand(
+                      masterCommit.getId(), branchCommit.getId(), "refs/heads/master"));
+            }
+          });
       bu.execute();
     }
 
     assertEquals(
-        repo.getRepository().exactRef("refs/heads/master").getObjectId(),
-        branchCommit.getId());
+        repo.getRepository().exactRef("refs/heads/master").getObjectId(), branchCommit.getId());
   }
 }

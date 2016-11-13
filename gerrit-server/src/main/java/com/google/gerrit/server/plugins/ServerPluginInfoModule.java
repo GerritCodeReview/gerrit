@@ -23,7 +23,6 @@ import com.google.gerrit.server.PluginUser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,23 +44,20 @@ class ServerPluginInfoModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(PluginUser.class).toInstance(plugin.getPluginUser());
+    bind(String.class).annotatedWith(PluginName.class).toInstance(plugin.getName());
     bind(String.class)
-      .annotatedWith(PluginName.class)
-      .toInstance(plugin.getName());
-    bind(String.class)
-      .annotatedWith(PluginCanonicalWebUrl.class)
-      .toInstance(plugin.getPluginCanonicalWebUrl());
+        .annotatedWith(PluginCanonicalWebUrl.class)
+        .toInstance(plugin.getPluginCanonicalWebUrl());
 
-    install(new LifecycleModule() {
-      @Override
-      public void configure() {
-        PluginMetricMaker metrics = new PluginMetricMaker(
-            serverMetrics,
-            plugin.getName());
-        bind(MetricMaker.class).toInstance(metrics);
-        listener().toInstance(metrics);
-      }
-    });
+    install(
+        new LifecycleModule() {
+          @Override
+          public void configure() {
+            PluginMetricMaker metrics = new PluginMetricMaker(serverMetrics, plugin.getName());
+            bind(MetricMaker.class).toInstance(metrics);
+            listener().toInstance(metrics);
+          }
+        });
   }
 
   @Provides
@@ -73,9 +69,10 @@ class ServerPluginInfoModule extends AbstractModule {
           try {
             Files.createDirectories(dataDir);
           } catch (IOException e) {
-            throw new ProvisionException(String.format(
-                "Cannot create %s for plugin %s",
-                dataDir.toAbsolutePath(), plugin.getName()), e);
+            throw new ProvisionException(
+                String.format(
+                    "Cannot create %s for plugin %s", dataDir.toAbsolutePath(), plugin.getName()),
+                e);
           }
           ready = true;
         }

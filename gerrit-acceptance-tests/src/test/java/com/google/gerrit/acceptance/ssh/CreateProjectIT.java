@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assert_;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
-
 import org.junit.Test;
 
 public class CreateProjectIT extends AbstractDaemonTest {
@@ -30,12 +29,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newGroupName = "newGroup";
     adminRestSession.put("/groups/" + newGroupName);
     String newProjectName = "newProject";
-    adminSshSession.exec("gerrit create-project --branch master --owner "
-        + newGroupName + " " + newProjectName);
-    assert_().withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError()).isFalse();
-    ProjectState projectState =
-        projectCache.get(new Project.NameKey(newProjectName));
+    adminSshSession.exec(
+        "gerrit create-project --branch master --owner " + newGroupName + " " + newProjectName);
+    assert_()
+        .withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError())
+        .isFalse();
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
   }
 
@@ -45,12 +45,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
     adminRestSession.put("/groups/" + newGroupName);
     String wrongGroupName = "newG";
     String newProjectName = "newProject";
-    adminSshSession.exec("gerrit create-project --branch master --owner "
-        + wrongGroupName + " " + newProjectName);
-    assert_().withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError()).isTrue();
-    ProjectState projectState =
-        projectCache.get(new Project.NameKey(newProjectName));
+    adminSshSession.exec(
+        "gerrit create-project --branch master --owner " + wrongGroupName + " " + newProjectName);
+    assert_()
+        .withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError())
+        .isTrue();
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNull();
   }
 }

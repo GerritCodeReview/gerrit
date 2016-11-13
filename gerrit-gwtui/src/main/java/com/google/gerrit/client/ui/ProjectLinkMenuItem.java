@@ -31,7 +31,7 @@ public class ProjectLinkMenuItem extends LinkMenuItem {
     Screen screen = event.getScreen();
     Project.NameKey projectKey;
     if (screen instanceof ProjectScreen) {
-      projectKey = ((ProjectScreen)screen).getProjectKey();
+      projectKey = ((ProjectScreen) screen).getProjectKey();
     } else {
       projectKey = ProjectScreen.getSavedKey();
     }

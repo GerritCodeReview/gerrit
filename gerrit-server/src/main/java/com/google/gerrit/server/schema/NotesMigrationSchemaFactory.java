@@ -29,8 +29,7 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
 
   @Inject
   NotesMigrationSchemaFactory(
-      @ReviewDbFactory SchemaFactory<ReviewDb> delegate,
-      NotesMigration migration) {
+      @ReviewDbFactory SchemaFactory<ReviewDb> delegate, NotesMigration migration) {
     this.delegate = delegate;
     this.migration = migration;
   }

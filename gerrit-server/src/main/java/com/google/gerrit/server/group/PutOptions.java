@@ -27,12 +27,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 
 @Singleton
-public class PutOptions
-    implements RestModifyView<GroupResource, GroupOptionsInfo> {
+public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInfo> {
   private final GroupCache groupCache;
   private final Provider<ReviewDb> db;
 
@@ -45,7 +43,7 @@ public class PutOptions
   @Override
   public GroupOptionsInfo apply(GroupResource resource, GroupOptionsInfo input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-      ResourceNotFoundException, OrmException {
+          ResourceNotFoundException, OrmException {
     if (resource.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     } else if (!resource.getControl().isOwner()) {
@@ -59,8 +57,7 @@ public class PutOptions
       input.visibleToAll = false;
     }
 
-    AccountGroup group = db.get().accountGroups().get(
-        resource.toAccountGroup().getId());
+    AccountGroup group = db.get().accountGroups().get(resource.toAccountGroup().getId());
     if (group == null) {
       throw new ResourceNotFoundException();
     }

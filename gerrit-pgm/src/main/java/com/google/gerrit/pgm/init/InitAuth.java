@@ -39,10 +39,7 @@ class InitAuth implements InitStep {
   private final InitFlags flags;
 
   @Inject
-  InitAuth(InitFlags flags,
-      ConsoleUI ui,
-      Libraries libraries,
-      Section.Factory sections) {
+  InitAuth(InitFlags flags, ConsoleUI ui, Libraries libraries, Section.Factory sections) {
     this.flags = flags;
     this.ui = ui;
     this.auth = sections.get("auth", null);
@@ -64,20 +61,24 @@ class InitAuth implements InitStep {
   }
 
   private void initAuthType() {
-    AuthType authType = auth.select("Authentication method", "type",
-        flags.dev ? AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT : AuthType.OPENID);
+    AuthType authType =
+        auth.select(
+            "Authentication method",
+            "type",
+            flags.dev ? AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT : AuthType.OPENID);
     switch (authType) {
       case HTTP:
-      case HTTP_LDAP: {
-        String hdr = auth.get("httpHeader");
-        if (ui.yesno(hdr != null, "Get username from custom HTTP header")) {
-          auth.string("Username HTTP header", "httpHeader", "SM_USER");
-        } else if (hdr != null) {
-          auth.unset("httpHeader");
+      case HTTP_LDAP:
+        {
+          String hdr = auth.get("httpHeader");
+          if (ui.yesno(hdr != null, "Get username from custom HTTP header")) {
+            auth.string("Username HTTP header", "httpHeader", "SM_USER");
+          } else if (hdr != null) {
+            auth.unset("httpHeader");
+          }
+          auth.string("SSO logout URL", "logoutUrl", null);
+          break;
         }
-        auth.string("SSO logout URL", "logoutUrl", null);
-        break;
-      }
 
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
@@ -93,27 +94,27 @@ class InitAuth implements InitStep {
     switch (authType) {
       case LDAP:
       case LDAP_BIND:
-      case HTTP_LDAP: {
-        String server =
-            ldap.string("LDAP server", "server", "ldap://localhost");
-        if (server != null //
-            && !server.startsWith("ldap://") //
-            && !server.startsWith("ldaps://")) {
-          if (ui.yesno(false, "Use SSL")) {
-            server = "ldaps://" + server;
-          } else {
-            server = "ldap://" + server;
+      case HTTP_LDAP:
+        {
+          String server = ldap.string("LDAP server", "server", "ldap://localhost");
+          if (server != null //
+              && !server.startsWith("ldap://") //
+              && !server.startsWith("ldaps://")) {
+            if (ui.yesno(false, "Use SSL")) {
+              server = "ldaps://" + server;
+            } else {
+              server = "ldap://" + server;
+            }
+            ldap.set("server", server);
           }
-          ldap.set("server", server);
+
+          ldap.string("LDAP username", "username", null);
+          ldap.password("username", "password");
+
+          String aBase = ldap.string("Account BaseDN", "accountBase", dnOf(server));
+          ldap.string("Group BaseDN", "groupBase", aBase);
+          break;
         }
-
-        ldap.string("LDAP username", "username", null);
-        ldap.password("username", "password");
-
-        String aBase = ldap.string("Account BaseDN", "accountBase", dnOf(server));
-        ldap.string("Group BaseDN", "groupBase", aBase);
-        break;
-      }
 
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:

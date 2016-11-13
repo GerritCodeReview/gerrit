@@ -72,7 +72,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
@@ -96,8 +95,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Restore restore;
   private final CreateMergePatchSet updateByMerge;
   private final Provider<SubmittedTogether> submittedTogether;
-  private final PublishDraftPatchSet.CurrentRevision
-    publishDraftChange;
+  private final PublishDraftPatchSet.CurrentRevision publishDraftChange;
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
@@ -117,7 +115,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Move move;
 
   @Inject
-  ChangeApiImpl(Changes changeApi,
+  ChangeApiImpl(
+      Changes changeApi,
       Reviewers reviewers,
       Revisions revisions,
       ReviewerApiImpl.Factory reviewerApi,
@@ -197,8 +196,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public RevisionApi revision(String id) throws RestApiException {
     try {
-      return revisionApi.create(
-          revisions.parse(change, IdString.fromDecoded(id)));
+      return revisionApi.create(revisions.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot parse revision", e);
     }
@@ -207,8 +205,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ReviewerApi reviewer(String id) throws RestApiException {
     try {
-      return reviewerApi.create(
-          reviewers.parse(change, IdString.fromDecoded(id)));
+      return reviewerApi.create(reviewers.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse reviewer", e);
     }
@@ -267,43 +264,45 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
-    } catch (OrmException | IOException | UpdateException
-        | NoSuchChangeException e) {
+    } catch (OrmException | IOException | UpdateException | NoSuchChangeException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }
 
   @Override
-  public ChangeInfo createMergePatchSet(MergePatchSetInput in)
-      throws RestApiException {
+  public ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException {
     try {
       return updateByMerge.apply(change, in).value();
-    } catch (IOException | UpdateException | InvalidChangeOperationException
-        | NoSuchChangeException | OrmException e) {
+    } catch (IOException
+        | UpdateException
+        | InvalidChangeOperationException
+        | NoSuchChangeException
+        | OrmException e) {
       throw new RestApiException("Cannot update change by merge", e);
     }
   }
 
   @Override
   public List<ChangeInfo> submittedTogether() throws RestApiException {
-    SubmittedTogetherInfo info = submittedTogether(
-        EnumSet.noneOf(ListChangesOption.class),
-        EnumSet.noneOf(SubmittedTogetherOption.class));
+    SubmittedTogetherInfo info =
+        submittedTogether(
+            EnumSet.noneOf(ListChangesOption.class), EnumSet.noneOf(SubmittedTogetherOption.class));
     return info.changes;
   }
 
   @Override
-  public SubmittedTogetherInfo submittedTogether(
-      EnumSet<SubmittedTogetherOption> options) throws RestApiException {
+  public SubmittedTogetherInfo submittedTogether(EnumSet<SubmittedTogetherOption> options)
+      throws RestApiException {
     return submittedTogether(EnumSet.noneOf(ListChangesOption.class), options);
   }
 
   @Override
   public SubmittedTogetherInfo submittedTogether(
-      EnumSet<ListChangesOption> listOptions,
-      EnumSet<SubmittedTogetherOption> submitOptions) throws RestApiException {
+      EnumSet<ListChangesOption> listOptions, EnumSet<SubmittedTogetherOption> submitOptions)
+      throws RestApiException {
     try {
-      return submittedTogether.get()
+      return submittedTogether
+          .get()
           .addListChangesOption(listOptions)
           .addSubmittedTogetherOption(submitOptions)
           .applyInfo(change);
@@ -373,8 +372,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public SuggestedReviewersRequest suggestReviewers(String query)
-      throws RestApiException {
+  public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
     return suggestReviewers().withQuery(query);
   }
 
@@ -390,8 +388,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public ChangeInfo get(EnumSet<ListChangesOption> s)
-      throws RestApiException {
+  public ChangeInfo get(EnumSet<ListChangesOption> s) throws RestApiException {
     try {
       return changeJson.create(s).format(change);
     } catch (OrmException e) {
@@ -438,8 +435,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public AccountInfo setAssignee(AssigneeInput input)
-      throws RestApiException {
+  public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
     try {
       return putAssignee.apply(change, input).value();
     } catch (UpdateException | IOException | OrmException e) {

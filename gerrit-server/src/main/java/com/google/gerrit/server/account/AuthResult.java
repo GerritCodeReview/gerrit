@@ -23,8 +23,8 @@ public class AuthResult {
   private final AccountExternalId.Key externalId;
   private final boolean isNew;
 
-  public AuthResult(final Account.Id accountId,
-      final AccountExternalId.Key externalId, final boolean isNew) {
+  public AuthResult(
+      final Account.Id accountId, final AccountExternalId.Key externalId, final boolean isNew) {
     this.accountId = accountId;
     this.externalId = externalId;
     this.isNew = isNew;
@@ -42,9 +42,9 @@ public class AuthResult {
 
   /**
    * True if this account was recently created for the user.
-   * <p>
-   * New users should be redirected to the registration screen, so they can
-   * configure their new user account.
+   *
+   * <p>New users should be redirected to the registration screen, so they can configure their new
+   * user account.
    */
   public boolean isNew() {
     return isNew;

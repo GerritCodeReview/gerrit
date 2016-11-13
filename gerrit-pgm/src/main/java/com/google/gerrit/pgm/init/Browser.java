@@ -18,13 +18,11 @@ import com.google.common.base.Strings;
 import com.google.gerrit.pgm.init.api.InitUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.eclipse.jgit.lib.Config;
 
 /** Opens the user's web browser to the web UI. */
 public class Browser {
@@ -67,7 +65,7 @@ public class Browser {
     int port = InitUtil.portOf(uri);
     System.err.format("Waiting for server on %s:%d ... ", host, port);
     System.err.flush();
-    for (;;) {
+    for (; ; ) {
       Socket s;
       try {
         s = new Socket(host, port);

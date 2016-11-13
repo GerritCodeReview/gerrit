@@ -20,7 +20,9 @@ public class CacheControl {
 
   public enum Type {
     @SuppressWarnings("hiding")
-    NONE, PUBLIC, PRIVATE
+    NONE,
+    PUBLIC,
+    PRIVATE
   }
 
   public static final CacheControl NONE = new CacheControl(Type.NONE, 0, null);

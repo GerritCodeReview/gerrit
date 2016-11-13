@@ -25,9 +25,6 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-
-import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -35,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 public class ServerPlugin extends Plugin {
   private final Manifest manifest;
@@ -52,16 +50,17 @@ public class ServerPlugin extends Plugin {
   private LifecycleManager serverManager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
-  public ServerPlugin(String name,
+  public ServerPlugin(
+      String name,
       String pluginCanonicalWebUrl,
       PluginUser pluginUser,
       Path srcJar,
       FileSnapshot snapshot,
       PluginContentScanner scanner,
       Path dataDir,
-      ClassLoader classLoader) throws InvalidPluginException {
-    super(name, srcJar, pluginUser, snapshot,
-        Plugin.getApiType(getPluginManifest(scanner)));
+      ClassLoader classLoader)
+      throws InvalidPluginException {
+    super(name, srcJar, pluginUser, snapshot, Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.scanner = scanner;
     this.dataDir = dataDir;
@@ -70,16 +69,17 @@ public class ServerPlugin extends Plugin {
     loadGuiceModules(manifest, classLoader);
   }
 
-  private void loadGuiceModules(Manifest manifest, ClassLoader classLoader) throws InvalidPluginException {
+  private void loadGuiceModules(Manifest manifest, ClassLoader classLoader)
+      throws InvalidPluginException {
     Attributes main = manifest.getMainAttributes();
     String sysName = main.getValue("Gerrit-Module");
     String sshName = main.getValue("Gerrit-SshModule");
     String httpName = main.getValue("Gerrit-HttpModule");
 
     if (!Strings.isNullOrEmpty(sshName) && getApiType() != Plugin.ApiType.PLUGIN) {
-      throw new InvalidPluginException(String.format(
-          "Using Gerrit-SshModule requires Gerrit-ApiType: %s",
-          Plugin.ApiType.PLUGIN));
+      throw new InvalidPluginException(
+          String.format(
+              "Using Gerrit-SshModule requires Gerrit-ApiType: %s", Plugin.ApiType.PLUGIN));
     }
 
     try {
@@ -98,12 +98,10 @@ public class ServerPlugin extends Plugin {
       return null;
     }
 
-    Class<?> clazz =
-        Class.forName(name, false, pluginLoader);
+    Class<?> clazz = Class.forName(name, false, pluginLoader);
     if (!Module.class.isAssignableFrom(clazz)) {
-      throw new ClassCastException(String.format(
-          "Class %s does not implement %s",
-          name, Module.class.getName()));
+      throw new ClassCastException(
+          String.format("Class %s does not implement %s", name, Module.class.getName()));
     }
     return (Class<? extends Module>) clazz;
   }
@@ -119,7 +117,7 @@ public class ServerPlugin extends Plugin {
   private static Manifest getPluginManifest(PluginContentScanner scanner)
       throws InvalidPluginException {
     try {
-       return scanner.getManifest();
+      return scanner.getManifest();
     } catch (IOException e) {
       throw new InvalidPluginException("Cannot get plugin manifest", e);
     }
@@ -141,9 +139,9 @@ public class ServerPlugin extends Plugin {
     } else if ("restart".equalsIgnoreCase(v)) {
       return false;
     } else {
-      PluginLoader.log.warn(String.format(
-          "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart",
-          getName(), v));
+      PluginLoader.log.warn(
+          String.format(
+              "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart", getName(), v));
       return false;
     }
   }

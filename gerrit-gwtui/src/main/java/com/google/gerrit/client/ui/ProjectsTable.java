@@ -19,7 +19,6 @@ import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -37,8 +36,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
 
   protected void initColumnHeaders() {
     table.setText(0, C_STATE, Util.C.projectStateAbbrev());
-    table.getCellFormatter().getElement(0, C_STATE)
-        .setTitle(Util.C.projectStateHelp());
+    table.getCellFormatter().getElement(0, C_STATE).setTitle(Util.C.projectStateHelp());
     table.setText(0, C_NAME, Util.C.projectName());
     table.setText(0, C_DESCRIPTION, Util.C.projectDescription());
 
@@ -70,12 +68,14 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     }
 
     List<ProjectInfo> list = Natives.asList(projects.values());
-    Collections.sort(list, new Comparator<ProjectInfo>() {
-      @Override
-      public int compare(ProjectInfo a, ProjectInfo b) {
-        return a.name().compareTo(b.name());
-      }
-    });
+    Collections.sort(
+        list,
+        new Comparator<ProjectInfo>() {
+          @Override
+          public int compare(ProjectInfo a, ProjectInfo b) {
+            return a.name().compareTo(b.name());
+          }
+        });
     for (ProjectInfo p : list.subList(fromIndex, toIndex)) {
       insert(table.getRowCount(), p);
     }

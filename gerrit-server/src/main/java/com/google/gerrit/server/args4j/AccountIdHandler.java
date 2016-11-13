@@ -26,15 +26,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
-
-import java.io.IOException;
 
 public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final Provider<ReviewDb> db;
@@ -59,8 +57,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   }
 
   @Override
-  public int parseArguments(Parameters params)
-      throws CmdLineException {
+  public int parseArguments(Parameters params) throws CmdLineException {
     String token = params.getParameter(0);
     Account.Id accountId;
     try {
@@ -92,8 +89,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     return 1;
   }
 
-  private Account.Id createAccountByLdap(String user)
-      throws CmdLineException, IOException {
+  private Account.Id createAccountByLdap(String user) throws CmdLineException, IOException {
     if (!user.matches(Account.USER_NAME_PATTERN)) {
       throw new CmdLineException(owner, "user \"" + user + "\" not found");
     }

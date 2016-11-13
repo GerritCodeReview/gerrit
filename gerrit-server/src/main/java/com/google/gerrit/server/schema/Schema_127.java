@@ -19,7 +19,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -45,13 +44,14 @@ public class Schema_127 extends SchemaVersion {
     H2AccountPatchReviewStore.createTableIfNotExists(url);
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("INSERT INTO account_patch_reviews "
-                + "(account_id, change_id, patch_set_id, file_name) VALUES "
-                + "(?, ?, ?, ?)")) {
+            con.prepareStatement(
+                "INSERT INTO account_patch_reviews "
+                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
+                    + "(?, ?, ?, ?)")) {
       int batchCount = 0;
 
       try (Statement s = newStatement(db);
-        ResultSet rs = s.executeQuery("SELECT * from account_patch_reviews")) {
+          ResultSet rs = s.executeQuery("SELECT * from account_patch_reviews")) {
         while (rs.next()) {
           stmt.setInt(1, rs.getInt("account_id"));
           stmt.setInt(2, rs.getInt("change_id"));

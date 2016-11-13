@@ -37,10 +37,6 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-import org.kohsuke.args4j.Option;
-
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -48,6 +44,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.kohsuke.args4j.Option;
 
 public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
@@ -75,7 +73,12 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     this.suggest = suggest;
   }
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of users to return")
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of users to return"
+  )
   public void setLimit(int n) {
     queryProcessor.setLimit(n);
 
@@ -98,19 +101,29 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     options.addAll(ListAccountsOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
-  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match users")
+  @Option(
+    name = "--query",
+    aliases = {"-q"},
+    metaVar = "QUERY",
+    usage = "match users"
+  )
   public void setQuery(String query) {
     this.query = query;
   }
 
-  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT",
-      usage = "Number of accounts to skip")
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    metaVar = "CNT",
+    usage = "Number of accounts to skip"
+  )
   public void setStart(int start) {
     this.start = start;
   }
 
   @Inject
-  QueryAccounts(AccountControl.Factory accountControlFactory,
+  QueryAccounts(
+      AccountControl.Factory accountControlFactory,
       AccountLoader.Factory accountLoaderFactory,
       AccountCache accountCache,
       AccountIndexCollection indexes,
@@ -133,8 +146,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     } else {
       boolean suggest;
       try {
-        AccountVisibility av =
-            cfg.getEnum("suggest", null, "accounts", AccountVisibility.ALL);
+        AccountVisibility av = cfg.getEnum("suggest", null, "accounts", AccountVisibility.ALL);
         suggest = (av != AccountVisibility.NONE);
       } catch (IllegalArgumentException err) {
         suggest = cfg.getBoolean("suggest", null, "accounts", true);
@@ -235,14 +247,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       addSuggestion(matches, p);
     }
     if (matches.size() < suggestLimit) {
-      for (Account p : db.accounts()
-          .suggestByPreferredEmail(a, b, suggestLimit - matches.size())) {
+      for (Account p : db.accounts().suggestByPreferredEmail(a, b, suggestLimit - matches.size())) {
         addSuggestion(matches, p);
       }
     }
     if (matches.size() < suggestLimit) {
-      for (AccountExternalId e : db.accountExternalIds()
-          .suggestByEmailAddress(a, b, suggestLimit - matches.size())) {
+      for (AccountExternalId e :
+          db.accountExternalIds().suggestByEmailAddress(a, b, suggestLimit - matches.size())) {
         if (addSuggestion(matches, e.getAccountId())) {
           queryEmail.put(e.getAccountId(), e.getEmailAddress());
         }

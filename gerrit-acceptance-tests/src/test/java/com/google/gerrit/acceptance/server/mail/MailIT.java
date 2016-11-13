@@ -21,37 +21,31 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
-
 import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.user.GreenMailUser;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
-
+import javax.mail.internet.MimeMessage;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.mail.internet.MimeMessage;
-
 @NoHttpd
 @RunWith(ConfigSuite.class)
 public class MailIT extends AbstractDaemonTest {
-  private final static String RECEIVEEMAIL = "receiveemail";
-  private final static String HOST = "localhost";
-  private final static String USERNAME = "user@domain.com";
-  private final static String PASSWORD = "password";
+  private static final String RECEIVEEMAIL = "receiveemail";
+  private static final String HOST = "localhost";
+  private static final String USERNAME = "user@domain.com";
+  private static final String PASSWORD = "password";
 
-  @Inject
-  private MailReceiver mailReceiver;
+  @Inject private MailReceiver mailReceiver;
 
-  @Inject
-  private GreenMail greenMail;
+  @Inject private GreenMail greenMail;
 
   @Rule
-  public final GreenMailRule mockPop3Server = new GreenMailRule(
-      ServerSetupTest.SMTP_POP3_IMAP);
+  public final GreenMailRule mockPop3Server = new GreenMailRule(ServerSetupTest.SMTP_POP3_IMAP);
 
   @ConfigSuite.Default
   public static Config pop3Config() {
@@ -87,8 +81,7 @@ public class MailIT extends AbstractDaemonTest {
     // Check that the message is still present
     assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(1);
     // Mark the message for deletion
-    mailReceiver.requestDeletion(
-        mockPop3Server.getReceivedMessages()[0].getMessageID());
+    mailReceiver.requestDeletion(mockPop3Server.getReceivedMessages()[0].getMessageID());
     // Let Gerrit handle emails
     mailReceiver.handleEmails();
     // Check that the message was deleted
@@ -96,9 +89,7 @@ public class MailIT extends AbstractDaemonTest {
   }
 
   private MimeMessage createSimpleMessage() {
-    return GreenMailUtil
-        .createTextEmail(USERNAME, "from@localhost.com", "subject",
-            "body",
-            greenMail.getImap().getServerSetup());
+    return GreenMailUtil.createTextEmail(
+        USERNAME, "from@localhost.com", "subject", "body", greenMail.getImap().getServerSetup());
   }
 }

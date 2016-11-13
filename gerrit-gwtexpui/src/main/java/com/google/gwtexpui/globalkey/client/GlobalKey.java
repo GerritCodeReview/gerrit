@@ -26,14 +26,14 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-
 public class GlobalKey {
-  public static final KeyPressHandler STOP_PROPAGATION = new KeyPressHandler() {
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      event.stopPropagation();
-    }
-  };
+  public static final KeyPressHandler STOP_PROPAGATION =
+      new KeyPressHandler() {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          event.stopPropagation();
+        }
+      };
 
   private static State global;
   static State active;
@@ -46,24 +46,27 @@ public class GlobalKey {
 
   private static void initEvents() {
     if (active == null) {
-      DocWidget.get().addKeyPressHandler(new KeyPressHandler() {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          final KeyCommandSet s = active.live;
-          if (s != active.all) {
-            active.live = active.all;
-            restoreTimer.cancel();
-          }
-          s.onKeyPress(event);
-        }
-      });
+      DocWidget.get()
+          .addKeyPressHandler(
+              new KeyPressHandler() {
+                @Override
+                public void onKeyPress(final KeyPressEvent event) {
+                  final KeyCommandSet s = active.live;
+                  if (s != active.all) {
+                    active.live = active.all;
+                    restoreTimer.cancel();
+                  }
+                  s.onKeyPress(event);
+                }
+              });
 
-      restoreTimer = new Timer() {
-        @Override
-        public void run() {
-          active.live = active.all;
-        }
-      };
+      restoreTimer =
+          new Timer() {
+            @Override
+            public void run() {
+              active.live = active.all;
+            }
+          };
 
       global = new State(null);
       active = global;
@@ -72,12 +75,13 @@ public class GlobalKey {
 
   private static void initDialog() {
     if (restoreGlobal == null) {
-      restoreGlobal = new CloseHandler<PopupPanel>() {
-        @Override
-        public void onClose(final CloseEvent<PopupPanel> event) {
-          active = global;
-        }
-      };
+      restoreGlobal =
+          new CloseHandler<PopupPanel>() {
+            @Override
+            public void onClose(final CloseEvent<PopupPanel> event) {
+              active = global;
+            }
+          };
     }
   }
 
@@ -94,18 +98,19 @@ public class GlobalKey {
     active = new State(panel);
     active.add(new HidePopupPanelCommand(0, KeyCodes.KEY_ESCAPE, panel));
     panel.addCloseHandler(restoreGlobal);
-    panel.addDomHandler(new KeyDownHandler() {
-      @Override
-      public void onKeyDown(KeyDownEvent event) {
-        if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-          panel.hide();
-        }
-      }
-    }, KeyDownEvent.getType());
+    panel.addDomHandler(
+        new KeyDownHandler() {
+          @Override
+          public void onKeyDown(KeyDownEvent event) {
+            if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
+              panel.hide();
+            }
+          }
+        },
+        KeyDownEvent.getType());
   }
 
-  public static HandlerRegistration addApplication(final Widget widget,
-      final KeyCommand appKey) {
+  public static HandlerRegistration addApplication(final Widget widget, final KeyCommand appKey) {
     initEvents();
     final State state = stateFor(widget);
     state.add(appKey);
@@ -117,8 +122,7 @@ public class GlobalKey {
     };
   }
 
-  public static HandlerRegistration add(final Widget widget,
-      final KeyCommandSet cmdSet) {
+  public static HandlerRegistration add(final Widget widget, final KeyCommandSet cmdSet) {
     initEvents();
     final State state = stateFor(widget);
     state.add(cmdSet);
@@ -147,8 +151,7 @@ public class GlobalKey {
     }
   }
 
-  private GlobalKey() {
-  }
+  private GlobalKey() {}
 
   static class State {
     final Widget root;

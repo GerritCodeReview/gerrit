@@ -21,6 +21,5 @@ public class RangeInfo extends JavaScriptObject {
 
   public final native int end() /*-{ return this.end; }-*/;
 
-  protected RangeInfo() {
-  }
+  protected RangeInfo() {}
 }

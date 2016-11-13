@@ -17,23 +17,21 @@ package com.google.gerrit.extensions.annotations;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
  * Annotation for auto-registered extension point implementations.
- * <p>
- * Plugins or extensions using auto-registration should apply this annotation to
- * any non-abstract class that implements an unnamed extension point, such as a
- * notification listener. Gerrit will automatically determine which extension
- * points to apply based on the interfaces the type implements.
+ *
+ * <p>Plugins or extensions using auto-registration should apply this annotation to any non-abstract
+ * class that implements an unnamed extension point, such as a notification listener. Gerrit will
+ * automatically determine which extension points to apply based on the interfaces the type
+ * implements.
  *
  * @see Export
  */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface Listen {
-}
+public @interface Listen {}

@@ -22,16 +22,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.nio.file.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
-
 @Singleton
 public class SecureStoreProvider implements Provider<SecureStore> {
-  private static final Logger log = LoggerFactory
-      .getLogger(SecureStoreProvider.class);
+  private static final Logger log = LoggerFactory.getLogger(SecureStoreProvider.class);
 
   private final Path libdir;
   private final Injector injector;
@@ -39,9 +36,7 @@ public class SecureStoreProvider implements Provider<SecureStore> {
 
   @Inject
   protected SecureStoreProvider(
-      Injector injector,
-      SitePaths sitePaths,
-      @Nullable @SecureStoreClassName String className) {
+      Injector injector, SitePaths sitePaths, @Nullable @SecureStoreClassName String className) {
     this.injector = injector;
     this.libdir = sitePaths.lib_dir;
     this.className = className;
@@ -62,8 +57,7 @@ public class SecureStoreProvider implements Provider<SecureStore> {
     try {
       return (Class<? extends SecureStore>) Class.forName(className);
     } catch (ClassNotFoundException e) {
-      String msg =
-          String.format("Cannot load secure store class: %s", className);
+      String msg = String.format("Cannot load secure store class: %s", className);
       log.error(msg, e);
       throw new RuntimeException(msg, e);
     }

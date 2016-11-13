@@ -16,7 +16,6 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;
-
 import java.util.Date;
 
 public class DateFormatter {

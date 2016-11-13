@@ -16,8 +16,8 @@ package com.google.gerrit.extensions.restapi;
 
 /**
  * Indicates that a commit cannot be merged without conflicts.
- * <p>
- * Messages should be viewable by end users.
+ *
+ * <p>Messages should be viewable by end users.
  */
 public class MergeConflictException extends ResourceConflictException {
   private static final long serialVersionUID = 1L;

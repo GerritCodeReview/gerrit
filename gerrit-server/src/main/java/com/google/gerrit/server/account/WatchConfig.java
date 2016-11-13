@@ -43,12 +43,6 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,18 +51,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 
 /**
- * ‘watch.config’ file in the user branch in the All-Users repository that
- * contains the watch configuration of the user.
- * <p>
- * The 'watch.config' file is a git config file that has one 'project' section
- * for all project watches of a project.
- * <p>
- * The project name is used as subsection name and the filters with the notify
- * types that decide for which events email notifications should be sent are
- * represented as 'notify' values in the subsection. A 'notify' value is
- * formatted as {@code <filter> [<comma-separated-list-of-notify-types>]}:
+ * ‘watch.config’ file in the user branch in the All-Users repository that contains the watch
+ * configuration of the user.
+ *
+ * <p>The 'watch.config' file is a git config file that has one 'project' section for all project
+ * watches of a project.
+ *
+ * <p>The project name is used as subsection name and the filters with the notify types that decide
+ * for which events email notifications should be sent are represented as 'notify' values in the
+ * subsection. A 'notify' value is formatted as {@code <filter>
+ * [<comma-separated-list-of-notify-types>]}:
  *
  * <pre>
  *   [project "foo"]
@@ -76,22 +74,20 @@ import java.util.Set;
  *     notify = branch:master [ALL_COMMENTS, NEW_PATCHSETS]
  *     notify = branch:master owner:self [SUBMITTED_CHANGES]
  * </pre>
- * <p>
- * If two notify values in the same subsection have the same filter they are
- * merged on the next save, taking the union of the notify types.
- * <p>
- * For watch configurations that notify on no event the list of notify types is
- * empty:
+ *
+ * <p>If two notify values in the same subsection have the same filter they are merged on the next
+ * save, taking the union of the notify types.
+ *
+ * <p>For watch configurations that notify on no event the list of notify types is empty:
  *
  * <pre>
  *   [project "foo"]
  *     notify = branch:master []
  * </pre>
- * <p>
- * Unknown notify types are ignored and removed on save.
+ *
+ * <p>Unknown notify types are ignored and removed on save.
  */
-public class WatchConfig extends VersionedMetaData
-    implements ValidationError.Sink {
+public class WatchConfig extends VersionedMetaData implements ValidationError.Sink {
   @Singleton
   public static class Accessor {
     private final GitRepositoryManager repoManager;
@@ -111,8 +107,8 @@ public class WatchConfig extends VersionedMetaData
       this.userFactory = userFactory;
     }
 
-    public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches(
-        Account.Id accountId) throws IOException, ConfigInvalidException {
+    public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches(Account.Id accountId)
+        throws IOException, ConfigInvalidException {
       try (Repository git = repoManager.openRepository(allUsersName)) {
         WatchConfig watchConfig = new WatchConfig(accountId);
         watchConfig.load(git);
@@ -120,22 +116,20 @@ public class WatchConfig extends VersionedMetaData
       }
     }
 
-    public synchronized void upsertProjectWatches(Account.Id accountId,
-        Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches)
+    public synchronized void upsertProjectWatches(
+        Account.Id accountId, Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches)
         throws IOException, ConfigInvalidException {
       WatchConfig watchConfig = read(accountId);
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-          watchConfig.getProjectWatches();
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches = watchConfig.getProjectWatches();
       projectWatches.putAll(newProjectWatches);
       commit(watchConfig);
     }
 
-    public synchronized void deleteProjectWatches(Account.Id accountId,
-        Collection<ProjectWatchKey> projectWatchKeys)
-            throws IOException, ConfigInvalidException {
+    public synchronized void deleteProjectWatches(
+        Account.Id accountId, Collection<ProjectWatchKey> projectWatchKeys)
+        throws IOException, ConfigInvalidException {
       WatchConfig watchConfig = read(accountId);
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-          watchConfig.getProjectWatches();
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches = watchConfig.getProjectWatches();
       boolean commit = false;
       for (ProjectWatchKey key : projectWatchKeys) {
         if (projectWatches.remove(key) != null) {
@@ -147,8 +141,7 @@ public class WatchConfig extends VersionedMetaData
       }
     }
 
-    private WatchConfig read(Account.Id accountId)
-        throws IOException, ConfigInvalidException {
+    private WatchConfig read(Account.Id accountId) throws IOException, ConfigInvalidException {
       try (Repository git = repoManager.openRepository(allUsersName)) {
         WatchConfig watchConfig = new WatchConfig(accountId);
         watchConfig.load(git);
@@ -156,10 +149,11 @@ public class WatchConfig extends VersionedMetaData
       }
     }
 
-    private void commit(WatchConfig watchConfig)
-        throws IOException {
-      try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName,
-          userFactory.create(watchConfig.accountId))) {
+    private void commit(WatchConfig watchConfig) throws IOException {
+      try (MetaDataUpdate md =
+          metaDataUpdateFactory
+              .get()
+              .create(allUsersName, userFactory.create(watchConfig.accountId))) {
         watchConfig.commit(md);
       }
     }
@@ -167,13 +161,12 @@ public class WatchConfig extends VersionedMetaData
 
   @AutoValue
   public abstract static class ProjectWatchKey {
-    public static ProjectWatchKey create(Project.NameKey project,
-        @Nullable String filter) {
-      return new AutoValue_WatchConfig_ProjectWatchKey(project,
-          Strings.emptyToNull(filter));
+    public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {
+      return new AutoValue_WatchConfig_ProjectWatchKey(project, Strings.emptyToNull(filter));
     }
 
     public abstract Project.NameKey project();
+
     public abstract @Nullable String filter();
   }
 
@@ -205,12 +198,10 @@ public class WatchConfig extends VersionedMetaData
 
   @VisibleForTesting
   public static Map<ProjectWatchKey, Set<NotifyType>> parse(
-      Account.Id accountId, Config cfg,
-      ValidationError.Sink validationErrorSink) {
+      Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches = new HashMap<>();
     for (String projectName : cfg.getSubsections(PROJECT)) {
-      String[] notifyValues =
-          cfg.getStringList(PROJECT, projectName, KEY_NOTIFY);
+      String[] notifyValues = cfg.getStringList(PROJECT, projectName, KEY_NOTIFY);
       for (String nv : notifyValues) {
         if (Strings.isNullOrEmpty(nv)) {
           continue;
@@ -222,8 +213,8 @@ public class WatchConfig extends VersionedMetaData
           continue;
         }
 
-        ProjectWatchKey key = ProjectWatchKey
-            .create(new Project.NameKey(projectName), notifyValue.filter());
+        ProjectWatchKey key =
+            ProjectWatchKey.create(new Project.NameKey(projectName), notifyValue.filter());
         if (!projectWatches.containsKey(key)) {
           projectWatches.put(key, EnumSet.noneOf(NotifyType.class));
         }
@@ -239,8 +230,7 @@ public class WatchConfig extends VersionedMetaData
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit)
-      throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
 
     if (Strings.isNullOrEmpty(commit.getMessage())) {
@@ -254,18 +244,13 @@ public class WatchConfig extends VersionedMetaData
     }
 
     Multimap<String, String> notifyValuesByProject = ArrayListMultimap.create();
-    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches
-        .entrySet()) {
-      NotifyValue notifyValue =
-          NotifyValue.create(e.getKey().filter(), e.getValue());
-      notifyValuesByProject.put(e.getKey().project().get(),
-          notifyValue.toString());
+    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches.entrySet()) {
+      NotifyValue notifyValue = NotifyValue.create(e.getKey().filter(), e.getValue());
+      notifyValuesByProject.put(e.getKey().project().get(), notifyValue.toString());
     }
 
-    for (Map.Entry<String, Collection<String>> e : notifyValuesByProject.asMap()
-        .entrySet()) {
-      cfg.setStringList(PROJECT, e.getKey(), KEY_NOTIFY,
-          new ArrayList<>(e.getValue()));
+    for (Map.Entry<String, Collection<String>> e : notifyValuesByProject.asMap().entrySet()) {
+      cfg.setStringList(PROJECT, e.getKey(), KEY_NOTIFY, new ArrayList<>(e.getValue()));
     }
 
     saveConfig(WATCH_CONFIG, cfg);
@@ -298,15 +283,20 @@ public class WatchConfig extends VersionedMetaData
 
   @AutoValue
   public abstract static class NotifyValue {
-    public static NotifyValue parse(Account.Id accountId, String project,
-        String notifyValue, ValidationError.Sink validationErrorSink) {
+    public static NotifyValue parse(
+        Account.Id accountId,
+        String project,
+        String notifyValue,
+        ValidationError.Sink validationErrorSink) {
       notifyValue = notifyValue.trim();
       int i = notifyValue.lastIndexOf('[');
       if (i < 0 || notifyValue.charAt(notifyValue.length() - 1) != ']') {
-        validationErrorSink.error(new ValidationError(WATCH_CONFIG,
-            String.format(
-                "Invalid project watch of account %d for project %s: %s",
-                accountId.get(), project, notifyValue)));
+        validationErrorSink.error(
+            new ValidationError(
+                WATCH_CONFIG,
+                String.format(
+                    "Invalid project watch of account %d for project %s: %s",
+                    accountId.get(), project, notifyValue)));
         return null;
       }
       String filter = notifyValue.substring(0, i).trim();
@@ -316,16 +306,19 @@ public class WatchConfig extends VersionedMetaData
 
       Set<NotifyType> notifyTypes = EnumSet.noneOf(NotifyType.class);
       if (i + 1 < notifyValue.length() - 2) {
-        for (String nt : Splitter.on(',').trimResults().splitToList(
-            notifyValue.substring(i + 1, notifyValue.length() - 1))) {
-          NotifyType notifyType =
-              Enums.getIfPresent(NotifyType.class, nt).orNull();
+        for (String nt :
+            Splitter.on(',')
+                .trimResults()
+                .splitToList(notifyValue.substring(i + 1, notifyValue.length() - 1))) {
+          NotifyType notifyType = Enums.getIfPresent(NotifyType.class, nt).orNull();
           if (notifyType == null) {
-            validationErrorSink.error(new ValidationError(WATCH_CONFIG,
-                String.format(
-                    "Invalid notify type %s in project watch "
-                        + "of account %d for project %s: %s",
-                    nt, accountId.get(), project, notifyValue)));
+            validationErrorSink.error(
+                new ValidationError(
+                    WATCH_CONFIG,
+                    String.format(
+                        "Invalid notify type %s in project watch "
+                            + "of account %d for project %s: %s",
+                        nt, accountId.get(), project, notifyValue)));
             continue;
           }
           notifyTypes.add(notifyType);
@@ -334,21 +327,20 @@ public class WatchConfig extends VersionedMetaData
       return create(filter, notifyTypes);
     }
 
-    public static NotifyValue create(@Nullable String filter,
-        Set<NotifyType> notifyTypes) {
-      return new AutoValue_WatchConfig_NotifyValue(Strings.emptyToNull(filter),
-          Sets.immutableEnumSet(notifyTypes));
+    public static NotifyValue create(@Nullable String filter, Set<NotifyType> notifyTypes) {
+      return new AutoValue_WatchConfig_NotifyValue(
+          Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
     }
 
     public abstract @Nullable String filter();
+
     public abstract ImmutableSet<NotifyType> notifyTypes();
 
     @Override
     public String toString() {
       List<NotifyType> notifyTypes = new ArrayList<>(notifyTypes());
       StringBuilder notifyValue = new StringBuilder();
-      notifyValue.append(firstNonNull(filter(), AccountProjectWatch.FILTER_ALL))
-          .append(" [");
+      notifyValue.append(firstNonNull(filter(), AccountProjectWatch.FILTER_ALL)).append(" [");
       Joiner.on(", ").appendTo(notifyValue, notifyTypes);
       notifyValue.append("]");
       return notifyValue.toString();

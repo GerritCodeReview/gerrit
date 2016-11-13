@@ -23,13 +23,11 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
 import com.google.gson.reflect.TypeToken;
-
-import org.eclipse.jgit.util.Base64;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.util.Base64;
+import org.junit.Test;
 
 public class ListCachesIT extends AbstractDaemonTest {
 
@@ -38,8 +36,7 @@ public class ListCachesIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.get("/config/server/caches/");
     r.assertOK();
     Map<String, CacheInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<Map<String, CacheInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(), new TypeToken<Map<String, CacheInfo>>() {}.getType());
 
     assertThat(result).containsKey("accounts");
     CacheInfo accountsCacheInfo = result.get("accounts");
@@ -56,16 +53,14 @@ public class ListCachesIT extends AbstractDaemonTest {
     userRestSession.get("/config/server/version").consume();
     r = adminRestSession.get("/config/server/caches/");
     r.assertOK();
-    result = newGson().fromJson(r.getReader(),
-        new TypeToken<Map<String, CacheInfo>>() {}.getType());
+    result =
+        newGson().fromJson(r.getReader(), new TypeToken<Map<String, CacheInfo>>() {}.getType());
     assertThat(result.get("accounts").entries.mem).isEqualTo(2);
   }
 
   @Test
   public void listCaches_Forbidden() throws Exception {
-    userRestSession
-        .get("/config/server/caches/")
-        .assertForbidden();
+    userRestSession.get("/config/server/caches/").assertForbidden();
   }
 
   @Test
@@ -73,8 +68,7 @@ public class ListCachesIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.get("/config/server/caches/?format=LIST");
     r.assertOK();
     List<String> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<String>>() {}.getType());
+        newGson().fromJson(r.getReader(), new TypeToken<List<String>>() {}.getType());
     assertThat(result).contains("accounts");
     assertThat(result).contains("projects");
     assertThat(Ordering.natural().isOrdered(result)).isTrue();
@@ -93,8 +87,6 @@ public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
   public void listCaches_BadRequest() throws Exception {
-    adminRestSession
-        .get("/config/server/caches/?format=NONSENSE")
-        .assertBadRequest();
+    adminRestSession.get("/config/server/caches/?format=NONSENSE").assertBadRequest();
   }
 }

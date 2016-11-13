@@ -31,16 +31,14 @@ import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class WalkSorterTest {
   static {
@@ -70,10 +68,11 @@ public class WalkSorterTest {
     List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3);
     WalkSorter sorter = new WalkSorter(repoManager);
 
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd3, c3_1),
-        patchSetData(cd2, c2_1),
-        patchSetData(cd1, c1_1)));
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData(cd3, c3_1), patchSetData(cd2, c2_1), patchSetData(cd1, c1_1)));
 
     // Add new patch sets whose commits are in reverse order, so output is in
     // reverse order.
@@ -85,10 +84,11 @@ public class WalkSorterTest {
     addPatchSet(cd2, c2_2);
     addPatchSet(cd3, c3_2);
 
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd1, c1_2),
-        patchSetData(cd2, c2_2),
-        patchSetData(cd3, c3_2)));
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData(cd1, c1_2), patchSetData(cd2, c2_2), patchSetData(cd3, c3_2)));
   }
 
   @Test
@@ -104,9 +104,8 @@ public class WalkSorterTest {
     List<ChangeData> changes = ImmutableList.of(cd1, cd3);
     WalkSorter sorter = new WalkSorter(repoManager);
 
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd3, c3_1),
-        patchSetData(cd1, c1_1)));
+    assertSorted(
+        sorter, changes, ImmutableList.of(patchSetData(cd3, c3_1), patchSetData(cd1, c1_1)));
   }
 
   @Test
@@ -120,12 +119,9 @@ public class WalkSorterTest {
 
     RevWalk rw = p.getRevWalk();
     rw.parseCommit(c1);
-    assertThat(rw.parseCommit(c2).getCommitTime())
-        .isEqualTo(c1.getCommitTime());
-    assertThat(rw.parseCommit(c3).getCommitTime())
-        .isEqualTo(c1.getCommitTime());
-    assertThat(rw.parseCommit(c4).getCommitTime())
-        .isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c2).getCommitTime()).isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c3).getCommitTime()).isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c4).getCommitTime()).isEqualTo(c1.getCommitTime());
 
     ChangeData cd1 = newChange(p, c1);
     ChangeData cd2 = newChange(p, c2);
@@ -135,11 +131,14 @@ public class WalkSorterTest {
     List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
 
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd4, c4),
-        patchSetData(cd3, c3),
-        patchSetData(cd2, c2),
-        patchSetData(cd1, c1)));
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData(cd4, c4),
+            patchSetData(cd3, c3),
+            patchSetData(cd2, c2),
+            patchSetData(cd1, c1)));
   }
 
   @Test
@@ -153,12 +152,9 @@ public class WalkSorterTest {
 
     RevWalk rw = p.getRevWalk();
     rw.parseCommit(c1);
-    assertThat(rw.parseCommit(c2).getCommitTime())
-        .isLessThan(c1.getCommitTime());
-    assertThat(rw.parseCommit(c3).getCommitTime())
-        .isLessThan(c2.getCommitTime());
-    assertThat(rw.parseCommit(c4).getCommitTime())
-        .isLessThan(c3.getCommitTime());
+    assertThat(rw.parseCommit(c2).getCommitTime()).isLessThan(c1.getCommitTime());
+    assertThat(rw.parseCommit(c3).getCommitTime()).isLessThan(c2.getCommitTime());
+    assertThat(rw.parseCommit(c4).getCommitTime()).isLessThan(c3.getCommitTime());
 
     ChangeData cd1 = newChange(p, c1);
     ChangeData cd2 = newChange(p, c2);
@@ -168,11 +164,14 @@ public class WalkSorterTest {
     List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
 
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd4, c4),
-        patchSetData(cd3, c3),
-        patchSetData(cd2, c2),
-        patchSetData(cd1, c1)));
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData(cd4, c4),
+            patchSetData(cd3, c3),
+            patchSetData(cd2, c2),
+            patchSetData(cd1, c1)));
   }
 
   @Test
@@ -186,12 +185,9 @@ public class WalkSorterTest {
 
     RevWalk rw = p.getRevWalk();
     rw.parseCommit(c1);
-    assertThat(rw.parseCommit(c2).getCommitTime())
-        .isLessThan(c1.getCommitTime());
-    assertThat(rw.parseCommit(c3).getCommitTime())
-        .isLessThan(c2.getCommitTime());
-    assertThat(rw.parseCommit(c4).getCommitTime())
-        .isLessThan(c3.getCommitTime());
+    assertThat(rw.parseCommit(c2).getCommitTime()).isLessThan(c1.getCommitTime());
+    assertThat(rw.parseCommit(c3).getCommitTime()).isLessThan(c2.getCommitTime());
+    assertThat(rw.parseCommit(c4).getCommitTime()).isLessThan(c3.getCommitTime());
 
     ChangeData cd1 = newChange(p, c1);
     ChangeData cd2 = newChange(p, c2);
@@ -199,10 +195,8 @@ public class WalkSorterTest {
 
     List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
-    List<PatchSetData> expected = ImmutableList.of(
-        patchSetData(cd4, c4),
-        patchSetData(cd2, c2),
-        patchSetData(cd1, c1));
+    List<PatchSetData> expected =
+        ImmutableList.of(patchSetData(cd4, c4), patchSetData(cd2, c2), patchSetData(cd1, c1));
 
     for (List<ChangeData> list : permutations(changes)) {
       // Not inOrder(); since child of c2 is missing, partial topo sort isn't
@@ -221,12 +215,9 @@ public class WalkSorterTest {
 
     RevWalk rw = p.getRevWalk();
     rw.parseCommit(c1);
-    assertThat(rw.parseCommit(c2).getCommitTime())
-        .isEqualTo(c1.getCommitTime());
-    assertThat(rw.parseCommit(c3).getCommitTime())
-        .isEqualTo(c1.getCommitTime());
-    assertThat(rw.parseCommit(c4).getCommitTime())
-        .isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c2).getCommitTime()).isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c3).getCommitTime()).isEqualTo(c1.getCommitTime());
+    assertThat(rw.parseCommit(c4).getCommitTime()).isEqualTo(c1.getCommitTime());
 
     ChangeData cd1 = newChange(p, c1);
     ChangeData cd2 = newChange(p, c2);
@@ -236,11 +227,14 @@ public class WalkSorterTest {
     List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
 
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd4, c4),
-        patchSetData(cd3, c3),
-        patchSetData(cd2, c2),
-        patchSetData(cd1, c1)));
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData(cd4, c4),
+            patchSetData(cd3, c3),
+            patchSetData(cd2, c2),
+            patchSetData(cd1, c1)));
   }
 
   @Test
@@ -286,17 +280,14 @@ public class WalkSorterTest {
     List<ChangeData> changes = ImmutableList.of(cd1, cd2);
     WalkSorter sorter = new WalkSorter(repoManager);
 
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd1, c1_2),
-        patchSetData(cd2, c2_2)));
+    assertSorted(
+        sorter, changes, ImmutableList.of(patchSetData(cd1, c1_2), patchSetData(cd2, c2_2)));
 
     // If we restrict to PS1 of each change, the sorter uses that commit.
-    sorter.includePatchSets(ImmutableSet.of(
-        new PatchSet.Id(cd1.getId(), 1),
-        new PatchSet.Id(cd2.getId(), 1)));
-    assertSorted(sorter, changes, ImmutableList.of(
-        patchSetData(cd2, 1, c2_1),
-        patchSetData(cd1, 1, c1_1)));
+    sorter.includePatchSets(
+        ImmutableSet.of(new PatchSet.Id(cd1.getId(), 1), new PatchSet.Id(cd2.getId(), 1)));
+    assertSorted(
+        sorter, changes, ImmutableList.of(patchSetData(cd2, 1, c2_1), patchSetData(cd1, 1, c1_1)));
   }
 
   @Test
@@ -310,8 +301,9 @@ public class WalkSorterTest {
     ChangeData cd2 = newChange(pb, c2);
 
     List<ChangeData> changes = ImmutableList.of(cd1, cd2);
-    WalkSorter sorter = new WalkSorter(repoManager)
-        .includePatchSets(ImmutableSet.of(cd1.currentPatchSet().getId()));
+    WalkSorter sorter =
+        new WalkSorter(repoManager)
+            .includePatchSets(ImmutableSet.of(cd1.currentPatchSet().getId()));
 
     assertSorted(sorter, changes, ImmutableList.of(patchSetData(cd1, c1)));
   }
@@ -323,19 +315,13 @@ public class WalkSorterTest {
     ChangeData cd = newChange(p, c);
 
     List<ChangeData> changes = ImmutableList.of(cd);
-    RevCommit actual = new WalkSorter(repoManager)
-        .setRetainBody(true)
-        .sort(changes)
-        .iterator().next()
-        .commit();
+    RevCommit actual =
+        new WalkSorter(repoManager).setRetainBody(true).sort(changes).iterator().next().commit();
     assertThat(actual.getRawBuffer()).isNotNull();
     assertThat(actual.getShortMessage()).isEqualTo("message");
 
-    actual = new WalkSorter(repoManager)
-        .setRetainBody(false)
-        .sort(changes)
-        .iterator().next()
-        .commit();
+    actual =
+        new WalkSorter(repoManager).setRetainBody(false).sort(changes).iterator().next().commit();
     assertThat(actual.getRawBuffer()).isNull();
   }
 
@@ -351,8 +337,7 @@ public class WalkSorterTest {
     assertSorted(sorter, changes, ImmutableList.of(patchSetData(cd, c)));
   }
 
-  private ChangeData newChange(TestRepository<Repo> tr, ObjectId id)
-      throws Exception {
+  private ChangeData newChange(TestRepository<Repo> tr, ObjectId id) throws Exception {
     Project.NameKey project = tr.getRepository().getDescription().getProject();
     Change c = TestChanges.newChange(project, userId);
     ChangeData cd = ChangeData.createForTest(project, c.getId(), 1);
@@ -372,28 +357,23 @@ public class WalkSorterTest {
     return ps;
   }
 
-  private TestRepository<Repo> newRepo(String name)
-      throws Exception {
-    return new TestRepository<>(
-        repoManager.createRepository(new Project.NameKey(name)));
+  private TestRepository<Repo> newRepo(String name) throws Exception {
+    return new TestRepository<>(repoManager.createRepository(new Project.NameKey(name)));
   }
 
-  private static PatchSetData patchSetData(ChangeData cd, RevCommit commit)
-      throws Exception {
+  private static PatchSetData patchSetData(ChangeData cd, RevCommit commit) throws Exception {
     return PatchSetData.create(cd, cd.currentPatchSet(), commit);
   }
 
-  private static PatchSetData patchSetData(ChangeData cd, int psId,
-      RevCommit commit) throws Exception {
-    return PatchSetData.create(
-        cd, cd.patchSet(new PatchSet.Id(cd.getId(), psId)), commit);
+  private static PatchSetData patchSetData(ChangeData cd, int psId, RevCommit commit)
+      throws Exception {
+    return PatchSetData.create(cd, cd.patchSet(new PatchSet.Id(cd.getId(), psId)), commit);
   }
 
-  private static void assertSorted(WalkSorter sorter, List<ChangeData> changes,
-      List<PatchSetData> expected) throws Exception {
+  private static void assertSorted(
+      WalkSorter sorter, List<ChangeData> changes, List<PatchSetData> expected) throws Exception {
     for (List<ChangeData> list : permutations(changes)) {
-      assertThat(sorter.sort(list))
-          .containsExactlyElementsIn(expected).inOrder();
+      assertThat(sorter.sort(list)).containsExactlyElementsIn(expected).inOrder();
     }
   }
 }

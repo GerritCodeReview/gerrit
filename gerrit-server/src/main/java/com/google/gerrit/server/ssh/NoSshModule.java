@@ -16,9 +16,7 @@ package com.google.gerrit.server.ssh;
 
 import com.google.inject.AbstractModule;
 
-/**
- * Disables the SSH support by stubbing out relevant objects.
- */
+/** Disables the SSH support by stubbing out relevant objects. */
 public class NoSshModule extends AbstractModule {
   @Override
   protected void configure() {

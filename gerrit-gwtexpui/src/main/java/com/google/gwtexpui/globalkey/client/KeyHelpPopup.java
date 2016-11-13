@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,22 +40,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
-public class KeyHelpPopup extends PopupPanel implements
-    KeyPressHandler, KeyDownHandler {
+public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDownHandler {
   private final FocusPanel focus;
 
   public KeyHelpPopup() {
-    super(true/* autohide */, true/* modal */);
+    super(true /* autohide */, true /* modal */);
     setStyleName(KeyResources.I.css().helpPopup());
 
     final Anchor closer = new Anchor(KeyConstants.I.closeButton());
-    closer.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        hide();
-      }
-    });
+    closer.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            hide();
+          }
+        });
 
     final Grid header = new Grid(1, 3);
     header.setStyleName(KeyResources.I.css().helpHeader());
@@ -70,8 +68,7 @@ public class KeyHelpPopup extends PopupPanel implements
     final Grid lists = new Grid(0, 7);
     lists.setStyleName(KeyResources.I.css().helpTable());
     populate(lists);
-    lists.getCellFormatter().addStyleName(0, 3,
-        KeyResources.I.css().helpTableGlue());
+    lists.getCellFormatter().addStyleName(0, 3, KeyResources.I.css().helpTableGlue());
 
     final FlowPanel body = new FlowPanel();
     body.add(header);
@@ -129,8 +126,8 @@ public class KeyHelpPopup extends PopupPanel implements
   }
 
   /**
-   * @return an ordered collection of KeyCommandSet, combining sets which share
-   *         the same name, so that each set name appears at most once.
+   * @return an ordered collection of KeyCommandSet, combining sets which share the same name, so
+   *     that each set name appears at most once.
    */
   private static Collection<KeyCommandSet> combinedSetsByName() {
     LinkedHashMap<String, KeyCommandSet> byName = new LinkedHashMap<>();
@@ -145,8 +142,7 @@ public class KeyHelpPopup extends PopupPanel implements
     return byName.values();
   }
 
-  private int formatGroup(final Grid lists, int row, final int col,
-      final KeyCommandSet set) {
+  private int formatGroup(final Grid lists, int row, final int col, final KeyCommandSet set) {
     if (set.isEmpty()) {
       return row;
     }
@@ -155,15 +151,14 @@ public class KeyHelpPopup extends PopupPanel implements
       lists.resizeRows(row + 1);
     }
     lists.setText(row, col + 2, set.getName());
-    lists.getCellFormatter().addStyleName(row, col + 2,
-        KeyResources.I.css().helpGroup());
+    lists.getCellFormatter().addStyleName(row, col + 2, KeyResources.I.css().helpGroup());
     row++;
 
     return formatKeys(lists, row, col, set, null);
   }
 
-  private int formatKeys(final Grid lists, int row, final int col,
-      final KeyCommandSet set, final SafeHtml prefix) {
+  private int formatKeys(
+      final Grid lists, int row, final int col, final KeyCommandSet set, final SafeHtml prefix) {
     final CellFormatter fmt = lists.getCellFormatter();
     final List<KeyCommand> keys = sort(set);
     if (lists.getRowCount() < row + keys.size()) {
@@ -171,7 +166,8 @@ public class KeyHelpPopup extends PopupPanel implements
     }
 
     Map<KeyCommand, Integer> rows = new HashMap<>();
-    FORMAT_KEYS: for (int i = 0; i < keys.size(); i++) {
+    FORMAT_KEYS:
+    for (int i = 0; i < keys.size(); i++) {
       final KeyCommand k = keys.get(i);
       if (rows.containsKey(k)) {
         continue;
@@ -234,12 +230,14 @@ public class KeyHelpPopup extends PopupPanel implements
 
   private List<KeyCommand> sort(final KeyCommandSet set) {
     final List<KeyCommand> keys = new ArrayList<>(set.getKeys());
-    Collections.sort(keys, new Comparator<KeyCommand>() {
-      @Override
-      public int compare(KeyCommand arg0, KeyCommand arg1) {
-        return arg0.getHelpText().compareTo(arg1.getHelpText());
-      }
-    });
+    Collections.sort(
+        keys,
+        new Comparator<KeyCommand>() {
+          @Override
+          public int compare(KeyCommand arg0, KeyCommand arg1) {
+            return arg0.getHelpText().compareTo(arg1.getHelpText());
+          }
+        });
     return keys;
   }
 }

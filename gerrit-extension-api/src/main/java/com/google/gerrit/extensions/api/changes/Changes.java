@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -27,12 +26,11 @@ import java.util.List;
 public interface Changes {
   /**
    * Look up a change by numeric ID.
-   * <p>
-   * <strong>Note:</strong> This method eagerly reads the change. Methods that
-   * mutate the change do not necessarily re-read the change. Therefore, calling
-   * a getter method on an instance after calling a mutation method on that same
-   * instance is not guaranteed to reflect the mutation. It is not recommended
-   * to store references to {@code ChangeApi} instances.
+   *
+   * <p><strong>Note:</strong> This method eagerly reads the change. Methods that mutate the change
+   * do not necessarily re-read the change. Therefore, calling a getter method on an instance after
+   * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
+   * is not recommended to store references to {@code ChangeApi} instances.
    *
    * @param id change number.
    * @return API for accessing the change.
@@ -44,8 +42,8 @@ public interface Changes {
    * Look up a change by string ID.
    *
    * @see #id(int)
-   * @param id any identifier supported by the REST API, including change
-   *     number, Change-Id, or project~branch~Change-Id triplet.
+   * @param id any identifier supported by the REST API, including change number, Change-Id, or
+   *     project~branch~Change-Id triplet.
    * @return API for accessing the change.
    * @throws RestApiException if an error occurred.
    */
@@ -56,12 +54,12 @@ public interface Changes {
    *
    * @see #id(int)
    */
-  ChangeApi id(String project, String branch, String id)
-      throws RestApiException;
+  ChangeApi id(String project, String branch, String id) throws RestApiException;
 
   ChangeApi create(ChangeInput in) throws RestApiException;
 
   QueryRequest query();
+
   QueryRequest query(String query);
 
   abstract class QueryRequest {
@@ -120,9 +118,7 @@ public interface Changes {
 
     @Override
     public String toString() {
-      StringBuilder sb =  new StringBuilder(getClass().getSimpleName())
-          .append('{')
-          .append(query);
+      StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append('{').append(query);
       if (limit != 0) {
         sb.append(", limit=").append(limit);
       }
@@ -137,9 +133,9 @@ public interface Changes {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements Changes {
     @Override
     public ChangeApi id(int id) throws RestApiException {

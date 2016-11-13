@@ -19,8 +19,7 @@ public class ResourceNotFoundException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
   /** Requested resource is not found, failing portion not specified. */
-  public ResourceNotFoundException() {
-  }
+  public ResourceNotFoundException() {}
 
   public ResourceNotFoundException(String msg) {
     super(msg);

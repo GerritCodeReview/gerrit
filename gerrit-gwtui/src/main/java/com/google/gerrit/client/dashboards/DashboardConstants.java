@@ -18,9 +18,14 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface DashboardConstants extends Constants {
   String dashboardName();
+
   String dashboardTitle();
+
   String dashboardDescription();
+
   String dashboardInherited();
+
   String dashboardItem();
+
   String dashboardDefaultToolTip();
 }

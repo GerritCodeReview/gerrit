@@ -18,6 +18,8 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface UIMessages extends Messages {
   String helpListOpen(String item);
+
   String helpListPrev(String item);
+
   String helpListNext(String item);
 }

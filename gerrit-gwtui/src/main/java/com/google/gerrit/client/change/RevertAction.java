@@ -27,23 +27,22 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 class RevertAction {
-  static void call(final Button b, final Change.Id id, final String revision,
-      final String commitSubject) {
+  static void call(
+      final Button b, final Change.Id id, final String revision, final String commitSubject) {
     // TODO Replace ActionDialog with a nicer looking display.
     b.setEnabled(false);
-    new TextAreaActionDialog(
-        Util.C.revertChangeTitle(),
-        Util.C.headingRevertMessage()) {
+    new TextAreaActionDialog(Util.C.revertChangeTitle(), Util.C.headingRevertMessage()) {
       {
         sendButton.setText(Util.C.buttonRevertChangeSend());
-        message.setText(Util.M.revertChangeDefaultMessage(
-            commitSubject, revision));
+        message.setText(Util.M.revertChangeDefaultMessage(commitSubject, revision));
       }
 
       @Override
       public void onSend() {
-        ChangeApi.revert(id.get(),
-            getMessageText(), new GerritCallback<ChangeInfo>() {
+        ChangeApi.revert(
+            id.get(),
+            getMessageText(),
+            new GerritCallback<ChangeInfo>() {
               @Override
               public void onSuccess(ChangeInfo result) {
                 sent = true;

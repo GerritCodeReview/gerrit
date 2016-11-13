@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
-
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Optional;
@@ -31,21 +30,20 @@ class StatusChangeEvent extends Event {
   private static final ImmutableMap<Change.Status, Pattern> PATTERNS =
       ImmutableMap.of(
           Change.Status.ABANDONED, Pattern.compile("^Abandoned(\n.*)*$"),
-          Change.Status.MERGED, Pattern.compile(
-              "^Change has been successfully"
-              + " (merged|cherry-picked|rebased|pushed).*$"),
+          Change.Status.MERGED,
+              Pattern.compile(
+                  "^Change has been successfully" + " (merged|cherry-picked|rebased|pushed).*$"),
           Change.Status.NEW, Pattern.compile("^Restored(\n.*)*$"));
 
-  static Optional<StatusChangeEvent> parseFromMessage(ChangeMessage message,
-      Change change, Change noteDbChange) {
+  static Optional<StatusChangeEvent> parseFromMessage(
+      ChangeMessage message, Change change, Change noteDbChange) {
     String msg = message.getMessage();
     if (msg == null) {
       return Optional.empty();
     }
     for (Map.Entry<Change.Status, Pattern> e : PATTERNS.entrySet()) {
       if (e.getValue().matcher(msg).matches()) {
-        return Optional.of(new StatusChangeEvent(
-            message, change, noteDbChange, e.getKey()));
+        return Optional.of(new StatusChangeEvent(message, change, noteDbChange, e.getKey()));
       }
     }
     return Optional.empty();
@@ -55,16 +53,26 @@ class StatusChangeEvent extends Event {
   private final Change change;
   private final Change noteDbChange;
 
-  private StatusChangeEvent(ChangeMessage message, Change change,
-      Change noteDbChange, Change.Status status) {
-    this(message.getPatchSetId(), message.getAuthor(),
-        message.getWrittenOn(), change, noteDbChange, message.getTag(),
+  private StatusChangeEvent(
+      ChangeMessage message, Change change, Change noteDbChange, Change.Status status) {
+    this(
+        message.getPatchSetId(),
+        message.getAuthor(),
+        message.getWrittenOn(),
+        change,
+        noteDbChange,
+        message.getTag(),
         status);
   }
 
-  private StatusChangeEvent(PatchSet.Id psId, Account.Id author,
-      Timestamp when, Change change, Change noteDbChange,
-      String tag, Change.Status status) {
+  private StatusChangeEvent(
+      PatchSet.Id psId,
+      Account.Id author,
+      Timestamp when,
+      Change change,
+      Change noteDbChange,
+      String tag,
+      Change.Status status) {
     super(psId, author, author, when, change.getCreatedOn(), tag);
     this.change = change;
     this.noteDbChange = noteDbChange;

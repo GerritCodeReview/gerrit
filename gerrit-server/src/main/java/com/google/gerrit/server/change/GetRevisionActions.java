@@ -30,11 +30,9 @@ import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class GetRevisionActions implements ETagView<RevisionResource> {
@@ -71,8 +69,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       rsrc.getChangeResource().prepareETag(h, user);
       h.putBoolean(Submit.wholeTopicEnabled(config));
       ReviewDb db = dbProvider.get();
-      ChangeSet cs =
-          mergeSuperSet.get().completeChangeSet(db, rsrc.getChange(), user);
+      ChangeSet cs = mergeSuperSet.get().completeChangeSet(db, rsrc.getChange(), user);
       for (ChangeData cd : cs.changes()) {
         changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
       }

@@ -19,10 +19,11 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Provider;
 
 /**
- * The RequestContext is an interface exposing the fields that are needed
- * by the GerritGlobalModule scope.
+ * The RequestContext is an interface exposing the fields that are needed by the GerritGlobalModule
+ * scope.
  */
 public interface RequestContext {
   CurrentUser getUser();
+
   Provider<ReviewDb> getReviewDbProvider();
 }

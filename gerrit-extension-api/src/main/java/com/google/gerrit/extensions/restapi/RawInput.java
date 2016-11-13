@@ -20,6 +20,8 @@ import java.io.InputStream;
 /** Raw data stream supplied by the body of a PUT or POST. */
 public interface RawInput {
   String getContentType();
+
   long getContentLength();
+
   InputStream getInputStream() throws IOException;
 }

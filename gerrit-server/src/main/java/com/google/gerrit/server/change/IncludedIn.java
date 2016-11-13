@@ -31,17 +31,15 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 
 @Singleton
 class IncludedIn implements RestReadView<ChangeResource> {
@@ -52,7 +50,8 @@ class IncludedIn implements RestReadView<ChangeResource> {
   private final DynamicSet<ExternalIncludedIn> includedIn;
 
   @Inject
-  IncludedIn(Provider<ReviewDb> db,
+  IncludedIn(
+      Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       PatchSetUtil psUtil,
       DynamicSet<ExternalIncludedIn> includedIn) {
@@ -63,8 +62,8 @@ class IncludedIn implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public IncludedInInfo apply(ChangeResource rsrc) throws BadRequestException,
-      ResourceConflictException, OrmException, IOException {
+  public IncludedInInfo apply(ChangeResource rsrc)
+      throws BadRequestException, ResourceConflictException, OrmException, IOException {
     ChangeControl ctl = rsrc.getControl();
     PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
     Project.NameKey project = ctl.getProject().getNameKey();
@@ -83,14 +82,13 @@ class IncludedIn implements RestReadView<ChangeResource> {
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
       Multimap<String, String> external = ArrayListMultimap.create();
       for (ExternalIncludedIn ext : includedIn) {
-        Multimap<String, String> extIncludedIns = ext.getIncludedIn(
-            project.get(), rev.name(), d.getTags(), d.getBranches());
+        Multimap<String, String> extIncludedIns =
+            ext.getIncludedIn(project.get(), rev.name(), d.getTags(), d.getBranches());
         if (extIncludedIns != null) {
           external.putAll(extIncludedIns);
         }
       }
-      return new IncludedInInfo(d,
-          (!external.isEmpty() ? external.asMap() : null));
+      return new IncludedInInfo(d, (!external.isEmpty() ? external.asMap() : null));
     }
   }
 

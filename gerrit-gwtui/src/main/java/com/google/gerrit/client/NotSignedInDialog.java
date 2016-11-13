@@ -33,7 +33,7 @@ public class NotSignedInDialog extends PopupPanel implements CloseHandler<PopupP
   private boolean buttonClicked;
 
   public NotSignedInDialog() {
-    super(/* auto hide */false, /* modal */true);
+    super(/* auto hide */ false, /* modal */ true);
     setGlassEnabled(true);
     getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
     addStyleName(Gerrit.RESOURCES.css().errorDialog());
@@ -41,27 +41,29 @@ public class NotSignedInDialog extends PopupPanel implements CloseHandler<PopupP
     final FlowPanel buttons = new FlowPanel();
     signin = new Button();
     signin.setText(Gerrit.C.menuSignIn());
-    signin.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        buttonClicked = true;
-        hide();
-        Gerrit.doSignIn(History.getToken());
-      }
-    });
+    signin.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            buttonClicked = true;
+            hide();
+            Gerrit.doSignIn(History.getToken());
+          }
+        });
     buttons.add(signin);
 
     final Button close = new Button();
     close.getElement().getStyle().setProperty("marginLeft", "200px");
     close.setText(Gerrit.C.signInDialogGoAnonymous());
-    close.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        buttonClicked = true;
-        Gerrit.deleteSessionCookie();
-        hide();
-      }
-    });
+    close.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            buttonClicked = true;
+            Gerrit.deleteSessionCookie();
+            hide();
+          }
+        });
     buttons.add(close);
 
     Label title = new Label(Gerrit.C.notSignedInTitle());

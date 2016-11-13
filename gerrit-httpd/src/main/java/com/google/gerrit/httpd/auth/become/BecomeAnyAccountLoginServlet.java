@@ -37,21 +37,18 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.List;
 import java.util.UUID;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @Singleton
@@ -63,7 +60,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final InternalAccountQuery accountQuery;
 
   @Inject
-  BecomeAnyAccountLoginServlet(DynamicItem<WebSession> ws,
+  BecomeAnyAccountLoginServlet(
+      DynamicItem<WebSession> ws,
       SchemaFactory<ReviewDb> sf,
       AccountManager am,
       SiteHeaderFooter shf,
@@ -76,14 +74,14 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException, ServletException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException, ServletException {
     doPost(req, rsp);
   }
 
   @Override
-  protected void doPost(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException, ServletException {
+  protected void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException, ServletException {
     CacheHeaders.setNotCacheable(rsp);
 
     final AuthResult res;
@@ -190,22 +188,17 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private AuthResult byUserName(final String userName) {
     try {
-      AccountExternalId.Key extKey =
-          new AccountExternalId.Key(SCHEME_USERNAME, userName);
-      List<AccountState> accountStates =
-          accountQuery.byExternalId(extKey.get());
+      AccountExternalId.Key extKey = new AccountExternalId.Key(SCHEME_USERNAME, userName);
+      List<AccountState> accountStates = accountQuery.byExternalId(extKey.get());
       if (accountStates.isEmpty()) {
-        getServletContext()
-            .log("No accounts with username " + userName + " found");
+        getServletContext().log("No accounts with username " + userName + " found");
         return null;
       }
       if (accountStates.size() > 1) {
-        getServletContext()
-            .log("Multiple accounts with username " + userName + " found");
+        getServletContext().log("Multiple accounts with username " + userName + " found");
         return null;
       }
-      return auth(new AccountExternalId(
-          accountStates.get(0).getAccount().getId(), extKey));
+      return auth(new AccountExternalId(accountStates.get(0).getAccount().getId(), extKey));
     } catch (OrmException e) {
       getServletContext().log("cannot query account index", e);
       return null;

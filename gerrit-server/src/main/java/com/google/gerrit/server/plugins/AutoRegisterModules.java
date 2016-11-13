@@ -31,10 +31,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -42,6 +38,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class AutoRegisterModules {
   private static final Logger log = LoggerFactory.getLogger(AutoRegisterModules.class);
@@ -61,7 +59,8 @@ class AutoRegisterModules {
   Module sshModule;
   Module httpModule;
 
-  AutoRegisterModules(String pluginName,
+  AutoRegisterModules(
+      String pluginName,
       PluginGuiceEnvironment env,
       PluginContentScanner scanner,
       ClassLoader classLoader) {
@@ -69,12 +68,8 @@ class AutoRegisterModules {
     this.env = env;
     this.scanner = scanner;
     this.classLoader = classLoader;
-    this.sshGen = env.hasSshModule()
-        ? env.newSshModuleGenerator()
-        : new ModuleGenerator.NOP();
-    this.httpGen = env.hasHttpModule()
-        ? env.newHttpModuleGenerator()
-        : new ModuleGenerator.NOP();
+    this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : new ModuleGenerator.NOP();
+    this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : new ModuleGenerator.NOP();
   }
 
   AutoRegisterModules discover() throws InvalidPluginException {
@@ -113,8 +108,7 @@ class AutoRegisterModules {
           bind(type).annotatedWith(n).to(impl);
         }
         if (initJs != null) {
-          DynamicSet.bind(binder(), WebUiPlugin.class)
-              .toInstance(new JavaScriptPlugin(initJs));
+          DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(new JavaScriptPlugin(initJs));
         }
       }
     };
@@ -140,9 +134,12 @@ class AutoRegisterModules {
         initJs = STATIC_INIT_JS;
       }
     } catch (IOException e) {
-      log.warn(String.format("Cannot access %s from plugin %s: "
-          + "JavaScript auto-discovered plugin will not be registered",
-          STATIC_INIT_JS, pluginName), e);
+      log.warn(
+          String.format(
+              "Cannot access %s from plugin %s: "
+                  + "JavaScript auto-discovered plugin will not be registered",
+              STATIC_INIT_JS, pluginName),
+          e);
     }
   }
 
@@ -151,16 +148,17 @@ class AutoRegisterModules {
     try {
       clazz = Class.forName(def.className, false, classLoader);
     } catch (ClassNotFoundException err) {
-      throw new InvalidPluginException(String.format(
-          "Cannot load %s with @Export(\"%s\")",
-          def.className, def.annotationValue), err);
+      throw new InvalidPluginException(
+          String.format("Cannot load %s with @Export(\"%s\")", def.className, def.annotationValue),
+          err);
     }
 
     Export export = clazz.getAnnotation(Export.class);
     if (export == null) {
-      PluginLoader.log.warn(String.format(
-          "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
-          pluginName, clazz.getName(), def.annotationValue));
+      PluginLoader.log.warn(
+          String.format(
+              "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
+              pluginName, clazz.getName(), def.annotationValue));
       return;
     }
 
@@ -174,9 +172,9 @@ class AutoRegisterModules {
       listen(clazz, clazz);
       if (cnt == sysListen.size()) {
         // If no bindings were recorded, the extension isn't recognized.
-        throw new InvalidPluginException(String.format(
-            "Class %s with @Export(\"%s\") not supported",
-            clazz.getName(), export.value()));
+        throw new InvalidPluginException(
+            String.format(
+                "Class %s with @Export(\"%s\") not supported", clazz.getName(), export.value()));
       }
     }
   }
@@ -186,23 +184,21 @@ class AutoRegisterModules {
     try {
       clazz = Class.forName(def.className, false, classLoader);
     } catch (ClassNotFoundException err) {
-      throw new InvalidPluginException(String.format(
-          "Cannot load %s with @Listen",
-          def.className), err);
+      throw new InvalidPluginException(
+          String.format("Cannot load %s with @Listen", def.className), err);
     }
 
     Listen listen = clazz.getAnnotation(Listen.class);
     if (listen != null) {
       listen(clazz, clazz);
     } else {
-      PluginLoader.log.warn(String.format(
-          "In plugin %s asm incorrectly parsed %s with @Listen",
-          pluginName, clazz.getName()));
+      PluginLoader.log.warn(
+          String.format(
+              "In plugin %s asm incorrectly parsed %s with @Listen", pluginName, clazz.getName()));
     }
   }
 
-  private void listen(java.lang.reflect.Type type, Class<?> clazz)
-      throws InvalidPluginException {
+  private void listen(java.lang.reflect.Type type, Class<?> clazz) throws InvalidPluginException {
     while (type != null) {
       Class<?> rawType;
       if (type instanceof ParameterizedType) {
@@ -227,18 +223,20 @@ class AutoRegisterModules {
           sshGen.listen(tl, clazz);
         } else if (env.hasDynamicMap(tl)) {
           if (clazz.getAnnotation(Export.class) == null) {
-            throw new InvalidPluginException(String.format(
-                "Class %s requires @Export(\"name\") annotation for %s",
-                clazz.getName(), rawType.getName()));
+            throw new InvalidPluginException(
+                String.format(
+                    "Class %s requires @Export(\"name\") annotation for %s",
+                    clazz.getName(), rawType.getName()));
           }
           sysSingletons.add(clazz);
           sysListen.put(tl, clazz);
           httpGen.listen(tl, clazz);
           sshGen.listen(tl, clazz);
         } else {
-          throw new InvalidPluginException(String.format(
-              "Cannot register %s, server does not accept %s",
-              clazz.getName(), rawType.getName()));
+          throw new InvalidPluginException(
+              String.format(
+                  "Cannot register %s, server does not accept %s",
+                  clazz.getName(), rawType.getName()));
         }
         return;
       }

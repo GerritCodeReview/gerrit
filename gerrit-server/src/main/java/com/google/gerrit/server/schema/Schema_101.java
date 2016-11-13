@@ -27,7 +27,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -55,8 +54,7 @@ public class Schema_101 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     conn = ((JdbcSchema) db).getConnection();
     dialect = ((JdbcSchema) db).getDialect();
     Map<String, PrimaryKey> corrections = findPKUpdates();
@@ -78,8 +76,7 @@ public class Schema_101 extends SchemaVersion {
     }
   }
 
-  private Map<String, PrimaryKey> findPKUpdates()
-      throws OrmException, SQLException {
+  private Map<String, PrimaryKey> findPKUpdates() throws OrmException, SQLException {
     Map<String, PrimaryKey> corrections = new TreeMap<>();
     DatabaseMetaData meta = conn.getMetaData();
     JavaSchemaModel jsm = new JavaSchemaModel(ReviewDb.class);
@@ -104,8 +101,7 @@ public class Schema_101 extends SchemaVersion {
     return pk;
   }
 
-  private PrimaryKey dbTablePK(DatabaseMetaData meta, String tableName)
-      throws SQLException {
+  private PrimaryKey dbTablePK(DatabaseMetaData meta, String tableName) throws SQLException {
     if (meta.storesUpperCaseIdentifiers()) {
       tableName = tableName.toUpperCase();
     } else if (meta.storesLowerCaseIdentifiers()) {
@@ -130,21 +126,19 @@ public class Schema_101 extends SchemaVersion {
     }
   }
 
-  private void recreatePK(StatementExecutor executor, String tableName,
-      PrimaryKey pk, UpdateUI ui) throws OrmException {
+  private void recreatePK(StatementExecutor executor, String tableName, PrimaryKey pk, UpdateUI ui)
+      throws OrmException {
     if (pk.oldNameInDb == null) {
-      ui.message(String.format(
-          "warning: primary key for table %s didn't exist ... ", tableName));
+      ui.message(String.format("warning: primary key for table %s didn't exist ... ", tableName));
     } else {
       if (dialect instanceof DialectPostgreSQL) {
         // postgresql doesn't support the ALTER TABLE foo DROP PRIMARY KEY form
-        executor.execute("ALTER TABLE " + tableName + " DROP CONSTRAINT "
-            + pk.oldNameInDb);
+        executor.execute("ALTER TABLE " + tableName + " DROP CONSTRAINT " + pk.oldNameInDb);
       } else {
         executor.execute("ALTER TABLE " + tableName + " DROP PRIMARY KEY");
       }
     }
-    executor.execute("ALTER TABLE " + tableName
-        + " ADD PRIMARY KEY(" + Joiner.on(",").join(pk.cols) + ")");
+    executor.execute(
+        "ALTER TABLE " + tableName + " ADD PRIMARY KEY(" + Joiner.on(",").join(pk.cols) + ")");
   }
 }

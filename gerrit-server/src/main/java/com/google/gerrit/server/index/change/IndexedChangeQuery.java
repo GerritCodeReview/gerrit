@@ -34,7 +34,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,25 +42,23 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Wrapper combining an {@link IndexPredicate} together with a
- * {@link ChangeDataSource} that returns matching results from the index.
- * <p>
- * Appropriate to return as the rootmost predicate that can be processed using
- * the secondary index; such predicates must also implement
- * {@link ChangeDataSource} to be chosen by the query processor.
+ * Wrapper combining an {@link IndexPredicate} together with a {@link ChangeDataSource} that returns
+ * matching results from the index.
+ *
+ * <p>Appropriate to return as the rootmost predicate that can be processed using the secondary
+ * index; such predicates must also implement {@link ChangeDataSource} to be chosen by the query
+ * processor.
  */
 public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     implements ChangeDataSource, Matchable<ChangeData> {
   public static QueryOptions oneResult() {
-    return createOptions(IndexConfig.createDefault(), 0, 1,
-        ImmutableSet.<String> of());
+    return createOptions(IndexConfig.createDefault(), 0, 1, ImmutableSet.<String>of());
   }
 
-  public static QueryOptions createOptions(IndexConfig config, int start,
-      int limit, Set<String> fields) {
+  public static QueryOptions createOptions(
+      IndexConfig config, int start, int limit, Set<String> fields) {
     // Always include project since it is needed to load the change from NoteDb.
-    if (!fields.contains(CHANGE.getName())
-        && !fields.contains(PROJECT.getName())) {
+    if (!fields.contains(CHANGE.getName()) && !fields.contains(PROJECT.getName())) {
       fields = new HashSet<>(fields);
       fields.add(PROJECT.getName());
     }
@@ -71,14 +68,14 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   @VisibleForTesting
   static QueryOptions convertOptions(QueryOptions opts) {
     opts = opts.convertForBackend();
-    return IndexedChangeQuery.createOptions(opts.config(), opts.start(),
-        opts.limit(), opts.fields());
+    return IndexedChangeQuery.createOptions(
+        opts.config(), opts.start(), opts.limit(), opts.fields());
   }
 
   private final Map<ChangeData, DataSource<ChangeData>> fromSource;
 
-  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred,
-      QueryOptions opts) throws QueryParseException {
+  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred, QueryOptions opts)
+      throws QueryParseException {
     super(index, pred, convertOptions(opts));
     this.fromSource = new HashMap<>();
   }
@@ -92,11 +89,12 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       @Override
       public Iterator<ChangeData> iterator() {
         return Iterables.transform(
-            rs,
-            cd -> {
-              fromSource.put(cd, currSource);
-              return cd;
-            }).iterator();
+                rs,
+                cd -> {
+                  fromSource.put(cd, currSource);
+                  return cd;
+                })
+            .iterator();
       }
 
       @Override
@@ -122,8 +120,10 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     }
 
     Predicate<ChangeData> pred = getChild(0);
-    checkState(pred.isMatchable(),
-        "match invoked, but child predicate %s " + "doesn't implement %s", pred,
+    checkState(
+        pred.isMatchable(),
+        "match invoked, but child predicate %s " + "doesn't implement %s",
+        pred,
         Matchable.class.getName());
     return pred.asMatchable().match(cd);
   }

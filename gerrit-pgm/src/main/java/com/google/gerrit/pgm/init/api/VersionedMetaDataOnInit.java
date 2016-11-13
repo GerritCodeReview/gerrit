@@ -16,7 +16,9 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.VersionedMetaData;
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -31,10 +33,6 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FS;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-
 public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
 
   protected final String project;
@@ -42,8 +40,7 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
   private final SitePaths site;
   private final String ref;
 
-  protected VersionedMetaDataOnInit(InitFlags flags, SitePaths site,
-      String project, String ref) {
+  protected VersionedMetaDataOnInit(InitFlags flags, SitePaths site, String project, String ref) {
     this.flags = flags;
     this.site = site;
     this.project = project;
@@ -55,8 +52,7 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
     return ref;
   }
 
-  public VersionedMetaDataOnInit load()
-      throws IOException, ConfigInvalidException {
+  public VersionedMetaDataOnInit load() throws IOException, ConfigInvalidException {
     File path = getPath();
     if (path != null) {
       try (Repository repo = new FileRepository(path)) {
@@ -70,8 +66,7 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
     save(new PersonIdent("Gerrit Initialization", "init@gerrit"), message);
   }
 
-  protected void save(PersonIdent ident, String msg)
-      throws IOException, ConfigInvalidException {
+  protected void save(PersonIdent ident, String msg) throws IOException, ConfigInvalidException {
     File path = getPath();
     if (path == null) {
       throw new IOException(project + " does not exist.");
@@ -112,15 +107,15 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
     }
   }
 
-  private void updateRef(Repository repo, PersonIdent ident,
-      ObjectId newRevision, String refLogMsg) throws IOException {
+  private void updateRef(Repository repo, PersonIdent ident, ObjectId newRevision, String refLogMsg)
+      throws IOException {
     RefUpdate ru = repo.updateRef(getRefName());
     ru.setRefLogIdent(ident);
     ru.setNewObjectId(newRevision);
     ru.setExpectedOldObjectId(revision);
     ru.setRefLogMessage(refLogMsg, false);
     RefUpdate.Result r = ru.update();
-    switch(r) {
+    switch (r) {
       case FAST_FORWARD:
       case NEW:
       case NO_CHANGE:
@@ -133,8 +128,8 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
       case REJECTED_CURRENT_BRANCH:
       case RENAMED:
       default:
-        throw new IOException("Failed to update " + getRefName() + " of "
-            + project + ": " + r.name());
+        throw new IOException(
+            "Failed to update " + getRefName() + " of " + project + ": " + r.name());
     }
   }
 

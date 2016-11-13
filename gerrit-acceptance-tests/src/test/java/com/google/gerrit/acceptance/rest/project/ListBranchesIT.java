@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.RefNames;
-
 import org.junit.Test;
 
 @NoHttpd
@@ -47,9 +46,8 @@ public class ListBranchesIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void listBranchesOfEmptyProject() throws Exception {
-    assertBranches(ImmutableList.of(
-          branch("HEAD", null, false),
-          branch(RefNames.REFS_CONFIG,  null, false)),
+    assertBranches(
+        ImmutableList.of(branch("HEAD", null, false), branch(RefNames.REFS_CONFIG, null, false)),
         list().get());
   }
 
@@ -57,11 +55,12 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranches() throws Exception {
     String master = pushTo("refs/heads/master").getCommit().name();
     String dev = pushTo("refs/heads/dev").getCommit().name();
-    assertBranches(ImmutableList.of(
-          branch("HEAD", "master", false),
-          branch(RefNames.REFS_CONFIG,  null, false),
-          branch("refs/heads/dev", dev, true),
-          branch("refs/heads/master", master, false)),
+    assertBranches(
+        ImmutableList.of(
+            branch("HEAD", "master", false),
+            branch(RefNames.REFS_CONFIG, null, false),
+            branch("refs/heads/dev", dev, true),
+            branch("refs/heads/master", master, false)),
         list().get());
   }
 
@@ -72,9 +71,9 @@ public class ListBranchesIT extends AbstractDaemonTest {
     pushTo("refs/heads/dev");
     setApiUser(user);
     // refs/meta/config is hidden since user is no project owner
-    assertBranches(ImmutableList.of(
-          branch("HEAD", "master", false),
-          branch("refs/heads/master", master, false)),
+    assertBranches(
+        ImmutableList.of(
+            branch("HEAD", "master", false), branch("refs/heads/master", master, false)),
         list().get());
   }
 
@@ -85,8 +84,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     String dev = pushTo("refs/heads/dev").getCommit().name();
     setApiUser(user);
     // refs/meta/config is hidden since user is no project owner
-    assertBranches(ImmutableList.of(branch("refs/heads/dev", dev, false)),
-        list().get());
+    assertBranches(ImmutableList.of(branch("refs/heads/dev", dev, false)), list().get());
   }
 
   @Test
@@ -97,38 +95,37 @@ public class ListBranchesIT extends AbstractDaemonTest {
     pushTo("refs/heads/someBranch3");
 
     // Using only limit.
-    assertRefNames(ImmutableList.of(
-          "HEAD",
-          RefNames.REFS_CONFIG,
-          "refs/heads/master",
-          "refs/heads/someBranch1"),
+    assertRefNames(
+        ImmutableList.of(
+            "HEAD", RefNames.REFS_CONFIG, "refs/heads/master", "refs/heads/someBranch1"),
         list().withLimit(4).get());
 
     // Limit higher than total number of branches.
-    assertRefNames(ImmutableList.of(
-          "HEAD",
-          RefNames.REFS_CONFIG,
-          "refs/heads/master",
-          "refs/heads/someBranch1",
-          "refs/heads/someBranch2",
-          "refs/heads/someBranch3"),
+    assertRefNames(
+        ImmutableList.of(
+            "HEAD",
+            RefNames.REFS_CONFIG,
+            "refs/heads/master",
+            "refs/heads/someBranch1",
+            "refs/heads/someBranch2",
+            "refs/heads/someBranch3"),
         list().withLimit(25).get());
 
     // Using start only.
-    assertRefNames(ImmutableList.of(
-          "refs/heads/master",
-          "refs/heads/someBranch1",
-          "refs/heads/someBranch2",
-          "refs/heads/someBranch3"),
+    assertRefNames(
+        ImmutableList.of(
+            "refs/heads/master",
+            "refs/heads/someBranch1",
+            "refs/heads/someBranch2",
+            "refs/heads/someBranch3"),
         list().withStart(2).get());
 
     // Skip more branches than the number of available branches.
-    assertRefNames(ImmutableList.<String> of(), list().withStart(7).get());
+    assertRefNames(ImmutableList.<String>of(), list().withStart(7).get());
 
     // Ssing start and limit.
-    assertRefNames(ImmutableList.of(
-          "refs/heads/master",
-          "refs/heads/someBranch1"),
+    assertRefNames(
+        ImmutableList.of("refs/heads/master", "refs/heads/someBranch1"),
         list().withStart(2).withLimit(2).get());
   }
 
@@ -140,29 +137,25 @@ public class ListBranchesIT extends AbstractDaemonTest {
     pushTo("refs/heads/someBranch3");
 
     // Using substring.
-    assertRefNames(ImmutableList.of(
-          "refs/heads/someBranch1",
-          "refs/heads/someBranch2",
-          "refs/heads/someBranch3"),
+    assertRefNames(
+        ImmutableList.of(
+            "refs/heads/someBranch1", "refs/heads/someBranch2", "refs/heads/someBranch3"),
         list().withSubstring("some").get());
 
-    assertRefNames(ImmutableList.of(
-          "refs/heads/someBranch1",
-          "refs/heads/someBranch2",
-          "refs/heads/someBranch3"),
+    assertRefNames(
+        ImmutableList.of(
+            "refs/heads/someBranch1", "refs/heads/someBranch2", "refs/heads/someBranch3"),
         list().withSubstring("Branch").get());
 
     // Using regex.
-    assertRefNames(ImmutableList.of("refs/heads/master"),
-        list().withRegex(".*ast.*r").get());
+    assertRefNames(ImmutableList.of("refs/heads/master"), list().withRegex(".*ast.*r").get());
   }
 
   private ListRefsRequest<BranchInfo> list() throws Exception {
     return gApi.projects().name(project.get()).branches();
   }
 
-  private static BranchInfo branch(String ref, String revision,
-        boolean canDelete) {
+  private static BranchInfo branch(String ref, String revision, boolean canDelete) {
     BranchInfo info = new BranchInfo();
     info.ref = ref;
     info.revision = revision;

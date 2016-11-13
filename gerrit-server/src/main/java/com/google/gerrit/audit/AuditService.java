@@ -20,11 +20,9 @@ import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
 
 @Singleton
 public class AuditService {
@@ -34,7 +32,8 @@ public class AuditService {
   private final DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners;
 
   @Inject
-  public AuditService(DynamicSet<AuditListener> auditListeners,
+  public AuditService(
+      DynamicSet<AuditListener> auditListeners,
       DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners) {
     this.auditListeners = auditListeners;
     this.groupMemberAuditListeners = groupMemberAuditListeners;
@@ -46,8 +45,7 @@ public class AuditService {
     }
   }
 
-  public void dispatchAddAccountsToGroup(Account.Id actor,
-      Collection<AccountGroupMember> added) {
+  public void dispatchAddAccountsToGroup(Account.Id actor, Collection<AccountGroupMember> added) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
         auditListener.onAddAccountsToGroup(actor, added);
@@ -57,8 +55,8 @@ public class AuditService {
     }
   }
 
-  public void dispatchDeleteAccountsFromGroup(Account.Id actor,
-      Collection<AccountGroupMember> removed) {
+  public void dispatchDeleteAccountsFromGroup(
+      Account.Id actor, Collection<AccountGroupMember> removed) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
         auditListener.onDeleteAccountsFromGroup(actor, removed);
@@ -68,8 +66,7 @@ public class AuditService {
     }
   }
 
-  public void dispatchAddGroupsToGroup(Account.Id actor,
-      Collection<AccountGroupById> added) {
+  public void dispatchAddGroupsToGroup(Account.Id actor, Collection<AccountGroupById> added) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
         auditListener.onAddGroupsToGroup(actor, added);
@@ -79,8 +76,8 @@ public class AuditService {
     }
   }
 
-  public void dispatchDeleteGroupsFromGroup(Account.Id actor,
-      Collection<AccountGroupById> removed) {
+  public void dispatchDeleteGroupsFromGroup(
+      Account.Id actor, Collection<AccountGroupById> removed) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
         auditListener.onDeleteGroupsFromGroup(actor, removed);

@@ -19,7 +19,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
-
 import java.sql.Timestamp;
 
 public class AccountInfo extends JavaScriptObject {
@@ -28,10 +27,13 @@ public class AccountInfo extends JavaScriptObject {
   }
 
   public final native int _accountId() /*-{ return this._account_id || 0; }-*/;
+
   public final native String name() /*-{ return this.name; }-*/;
+
   public final native String email() /*-{ return this.email; }-*/;
-  public final native JsArrayString secondaryEmails()
-      /*-{ return this.secondary_emails; }-*/;
+
+  public final native JsArrayString secondaryEmails()/*-{ return this.secondary_emails; }-*/ ;
+
   public final native String username() /*-{ return this.username; }-*/;
 
   public final Timestamp registeredOn() {
@@ -44,17 +46,17 @@ public class AccountInfo extends JavaScriptObject {
   }
 
   private native String registeredOnRaw() /*-{ return this.registered_on; }-*/;
+
   private native Timestamp _getRegisteredOn() /*-{ return this._cts; }-*/;
+
   private native void _setRegisteredOn(Timestamp ts) /*-{ this._cts = ts; }-*/;
 
   /**
-   * @return true if the server supplied avatar information about this account.
-   *         The information may be an empty list, indicating no avatars are
-   *         available, such as when no plugin is installed. This method returns
-   *         false if the server did not check on avatars for the account.
+   * @return true if the server supplied avatar information about this account. The information may
+   *     be an empty list, indicating no avatars are available, such as when no plugin is installed.
+   *     This method returns false if the server did not check on avatars for the account.
    */
-  public final native boolean hasAvatarInfo()
-  /*-{ return this.hasOwnProperty('avatars') }-*/;
+  public final native boolean hasAvatarInfo()/*-{ return this.hasOwnProperty('avatars') }-*/ ;
 
   public final AvatarInfo avatar(int sz) {
     JsArray<AvatarInfo> a = avatars();
@@ -67,29 +69,30 @@ public class AccountInfo extends JavaScriptObject {
     return null;
   }
 
-  private native JsArray<AvatarInfo> avatars()
-  /*-{ return this.avatars }-*/;
+  private native JsArray<AvatarInfo> avatars()/*-{ return this.avatars }-*/ ;
 
   public final native void name(String n) /*-{ this.name = n }-*/;
+
   public final native void email(String e) /*-{ this.email = e }-*/;
+
   public final native void username(String n) /*-{ this.username = n }-*/;
 
-  public static native AccountInfo create(int id, String name,
-      String email, String username) /*-{
+  public static native AccountInfo create(int id, String name, String email, String username) /*-{
     return {'_account_id': id, 'name': name, 'email': email,
         'username': username};
   }-*/;
 
-  protected AccountInfo() {
-  }
+  protected AccountInfo() {}
 
   public static class AvatarInfo extends JavaScriptObject {
     public static final int DEFAULT_SIZE = 26;
+
     public final native String url() /*-{ return this.url }-*/;
+
     public final native int height() /*-{ return this.height || 0 }-*/;
+
     public final native int width() /*-{ return this.width || 0 }-*/;
 
-    protected AvatarInfo() {
-    }
+    protected AvatarInfo() {}
   }
 }

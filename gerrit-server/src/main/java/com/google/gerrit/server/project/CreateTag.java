@@ -36,7 +36,8 @@ import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
+import java.util.TimeZone;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -48,9 +49,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.TimeZone;
 
 public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   private static final Logger log = LoggerFactory.getLogger(CreateTag.class);
@@ -66,7 +64,8 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   private String ref;
 
   @Inject
-  CreateTag(Provider<IdentifiedUser> identifiedUser,
+  CreateTag(
+      Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
@@ -105,45 +104,45 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
 
     RefControl refControl = resource.getControl().controlForRef(ref);
     try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
-      ObjectId revid = RefUtil.parseBaseRevision(
-          repo, resource.getNameKey(), input.revision);
+      ObjectId revid = RefUtil.parseBaseRevision(repo, resource.getNameKey(), input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
       RevObject object = rw.parseAny(revid);
       rw.reset();
       boolean isAnnotated = Strings.emptyToNull(input.message) != null;
-      boolean isSigned = isAnnotated
-          && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
+      boolean isSigned = isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
       if (isSigned) {
-        throw new MethodNotAllowedException(
-            "Cannot create signed tag \"" + ref + "\"");
+        throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
       } else if (isAnnotated && !refControl.canPerform(Permission.CREATE_TAG)) {
         throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
       } else if (!refControl.canPerform(Permission.CREATE)) {
         throw new AuthException("Cannot create tag \"" + ref + "\"");
       }
       if (repo.getRefDatabase().exactRef(ref) != null) {
-        throw new ResourceConflictException(
-            "tag \"" + ref + "\" already exists");
+        throw new ResourceConflictException("tag \"" + ref + "\" already exists");
       }
 
       try (Git git = new Git(repo)) {
-        TagCommand tag = git.tag()
-            .setObjectId(object)
-            .setName(ref.substring(R_TAGS.length()))
-            .setAnnotated(isAnnotated)
-            .setSigned(isSigned);
+        TagCommand tag =
+            git.tag()
+                .setObjectId(object)
+                .setName(ref.substring(R_TAGS.length()))
+                .setAnnotated(isAnnotated)
+                .setSigned(isSigned);
 
         if (isAnnotated) {
           tag.setMessage(input.message)
-             .setTagger(identifiedUser.get()
-                 .newCommitterIdent(TimeUtil.nowTs(), TimeZone.getDefault()));
+              .setTagger(
+                  identifiedUser.get().newCommitterIdent(TimeUtil.nowTs(), TimeZone.getDefault()));
         }
 
         Ref result = tag.call();
-        tagCache.updateFastForward(resource.getNameKey(), ref,
-            ObjectId.zeroId(), result.getObjectId());
-        referenceUpdated.fire(resource.getNameKey(), ref,
-            ObjectId.zeroId(), result.getObjectId(),
+        tagCache.updateFastForward(
+            resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
+        referenceUpdated.fire(
+            resource.getNameKey(),
+            ref,
+            ObjectId.zeroId(),
+            result.getObjectId(),
             identifiedUser.get().getAccount());
         try (RevWalk w = new RevWalk(repo)) {
           return ListTags.createTagInfo(result, w);

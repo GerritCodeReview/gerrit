@@ -15,17 +15,15 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.collect.ImmutableList;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class MergeListBuilder {
-  public static List<RevCommit> build(RevWalk rw, RevCommit merge,
-      int uninterestingParent) throws IOException {
+  public static List<RevCommit> build(RevWalk rw, RevCommit merge, int uninterestingParent)
+      throws IOException {
     rw.reset();
     rw.parseBody(merge);
     if (merge.getParentCount() < 2) {

@@ -79,15 +79,10 @@ public class LabelVoteTest {
 
   @Test
   public void formatWithEquals() {
-    assertEquals("Code-Review=-2",
-        LabelVote.parseWithEquals("Code-Review=-2").formatWithEquals());
-    assertEquals("Code-Review=-1",
-        LabelVote.parseWithEquals("Code-Review=-1").formatWithEquals());
-    assertEquals("Code-Review=0",
-        LabelVote.parseWithEquals("Code-Review=0").formatWithEquals());
-    assertEquals("Code-Review=+1",
-        LabelVote.parseWithEquals("Code-Review=+1").formatWithEquals());
-    assertEquals("Code-Review=+2",
-        LabelVote.parseWithEquals("Code-Review=+2").formatWithEquals());
+    assertEquals("Code-Review=-2", LabelVote.parseWithEquals("Code-Review=-2").formatWithEquals());
+    assertEquals("Code-Review=-1", LabelVote.parseWithEquals("Code-Review=-1").formatWithEquals());
+    assertEquals("Code-Review=0", LabelVote.parseWithEquals("Code-Review=0").formatWithEquals());
+    assertEquals("Code-Review=+1", LabelVote.parseWithEquals("Code-Review=+1").formatWithEquals());
+    assertEquals("Code-Review=+2", LabelVote.parseWithEquals("Code-Review=+2").formatWithEquals());
   }
 }

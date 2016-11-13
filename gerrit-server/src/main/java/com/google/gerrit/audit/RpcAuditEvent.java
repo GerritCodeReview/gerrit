@@ -31,9 +31,16 @@ public class RpcAuditEvent extends HttpAuditEvent {
    * @param status HTTP status
    * @param result result of the event
    */
-  public RpcAuditEvent(String sessionId, CurrentUser who, String what,
-      long when, Multimap<String, ?> params, String httpMethod, Object input,
-      int status, Object result) {
+  public RpcAuditEvent(
+      String sessionId,
+      CurrentUser who,
+      String what,
+      long when,
+      Multimap<String, ?> params,
+      String httpMethod,
+      Object input,
+      int status,
+      Object result) {
     super(sessionId, who, what, when, params, httpMethod, input, status, result);
   }
 }

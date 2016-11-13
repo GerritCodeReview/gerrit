@@ -23,7 +23,10 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -49,11 +52,6 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
 public class AutoMerger {
   private static final Logger log = LoggerFactory.getLogger(AutoMerger.class);
 
@@ -65,9 +63,7 @@ public class AutoMerger {
   private final boolean save;
 
   @Inject
-  AutoMerger(
-      @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent gerritIdent) {
+  AutoMerger(@GerritServerConfig Config cfg, @GerritPersonIdent PersonIdent gerritIdent) {
     save = cacheAutomerge(cfg);
     this.gerritIdent = gerritIdent;
   }
@@ -75,11 +71,15 @@ public class AutoMerger {
   /**
    * Perform an auto-merge of the parents of the given merge commit.
    *
-   * @return auto-merge commit or {@code null} if an auto-merge commit
-   *     couldn't be created. Headers of the returned RevCommit are parsed.
+   * @return auto-merge commit or {@code null} if an auto-merge commit couldn't be created. Headers
+   *     of the returned RevCommit are parsed.
    */
-  public RevCommit merge(Repository repo, RevWalk rw, final ObjectInserter ins,
-      RevCommit merge, ThreeWayMergeStrategy mergeStrategy)
+  public RevCommit merge(
+      Repository repo,
+      RevWalk rw,
+      final ObjectInserter ins,
+      RevCommit merge,
+      ThreeWayMergeStrategy mergeStrategy)
       throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     InMemoryInserter tmpIns = null;
@@ -135,20 +135,22 @@ public class AutoMerger {
       String oursMsg = ours.getShortMessage();
       String theirsMsg = theirs.getShortMessage();
 
-      String oursName = String.format("HEAD   (%s %s)",
-          ours.abbreviate(6).name(),
-          oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
-      String theirsName = String.format("BRANCH (%s %s)",
-          theirs.abbreviate(6).name(),
-          theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
+      String oursName =
+          String.format(
+              "HEAD   (%s %s)",
+              ours.abbreviate(6).name(), oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
+      String theirsName =
+          String.format(
+              "BRANCH (%s %s)",
+              theirs.abbreviate(6).name(),
+              theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
 
       MergeFormatter fmt = new MergeFormatter();
       Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
       Map<String, ObjectId> resolved = new HashMap<>();
       for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
         MergeResult<? extends Sequence> p = entry.getValue();
-        try (TemporaryBuffer buf =
-            new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
+        try (TemporaryBuffer buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
           fmt.formatMerge(buf, p, "BASE", oursName, theirsName, UTF_8.name());
           buf.close();
 
@@ -160,7 +162,7 @@ public class AutoMerger {
 
       DirCacheBuilder builder = dc.builder();
       int cnt = dc.getEntryCount();
-      for (int i = 0; i < cnt;) {
+      for (int i = 0; i < cnt; ) {
         DirCacheEntry entry = dc.getEntry(i);
         if (entry.getStage() == 0) {
           builder.add(entry);
@@ -214,14 +216,14 @@ public class AutoMerger {
       ObjectInserter ins,
       String refName,
       ObjectId tree,
-      RevCommit merge) throws IOException {
+      RevCommit merge)
+      throws IOException {
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
-    PersonIdent ident = new PersonIdent(
-        gerritIdent,
-        merge.getCommitterIdent().getWhen(),
-        gerritIdent.getTimeZone());
+    PersonIdent ident =
+        new PersonIdent(
+            gerritIdent, merge.getCommitterIdent().getWhen(), gerritIdent.getTimeZone());
     CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(ident);
     cb.setCommitter(ident);
@@ -264,11 +266,9 @@ public class AutoMerger {
     }
 
     @Override
-    public void flush() {
-    }
+    public void flush() {}
 
     @Override
-    public void close() {
-    }
+    public void close() {}
   }
 }

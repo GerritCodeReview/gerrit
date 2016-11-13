@@ -23,18 +23,16 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
-public class FilesInCommitCollection implements
-    ChildCollection<CommitResource, FileResource> {
+public class FilesInCommitCollection implements ChildCollection<CommitResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
   private final GitRepositoryManager repoManager;
 
   @Inject
-  FilesInCommitCollection(DynamicMap<RestView<FileResource>> views,
-      GitRepositoryManager repoManager) {
+  FilesInCommitCollection(
+      DynamicMap<RestView<FileResource>> views, GitRepositoryManager repoManager) {
     this.views = views;
     this.repoManager = repoManager;
   }
@@ -48,11 +46,9 @@ public class FilesInCommitCollection implements
   public FileResource parse(CommitResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
     if (Patch.isMagic(id.get())) {
-      return new FileResource(parent.getProject(), parent.getCommit(),
-          id.get());
+      return new FileResource(parent.getProject(), parent.getCommit(), id.get());
     }
-    return FileResource.create(repoManager, parent.getProject(),
-        parent.getCommit(), id.get());
+    return FileResource.create(repoManager, parent.getProject(), parent.getCommit(), id.get());
   }
 
   @Override

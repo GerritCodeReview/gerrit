@@ -43,12 +43,12 @@ import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.Iterator;
 
 public class Hashtags extends Composite {
 
   interface Binder extends UiBinder<HTMLPanel, Hashtags> {}
+
   private static final int VISIBLE_LENGTH = 55;
   private static final Binder uiBinder = GWT.create(Binder.class);
   private static final String REMOVE;
@@ -73,15 +73,17 @@ public class Hashtags extends Composite {
     if (hashtags != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
       final PatchSet.Id psId = screen.getPatchSetId();
-      ChangeApi.hashtags(psId.getParentKey().get()).post(
-          PostInput.create(null, hashtags), new GerritCallback<JavaScriptObject>() {
-            @Override
-            public void onSuccess(JavaScriptObject result) {
-              if (screen.isCurrentView()) {
-                Gerrit.display(PageLinks.toChange(psId));
-              }
-            }
-          });
+      ChangeApi.hashtags(psId.getParentKey().get())
+          .post(
+              PostInput.create(null, hashtags),
+              new GerritCallback<JavaScriptObject>() {
+                @Override
+                public void onSuccess(JavaScriptObject result) {
+                  if (screen.isCurrentView()) {
+                    Gerrit.display(PageLinks.toChange(psId));
+                  }
+                }
+              });
     }
   }
 
@@ -111,16 +113,17 @@ public class Hashtags extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
 
     hashtagTextBox.setVisibleLength(VISIBLE_LENGTH);
-    hashtagTextBox.addKeyDownHandler(new KeyDownHandler() {
-      @Override
-      public void onKeyDown(KeyDownEvent e) {
-        if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-          onCancel(null);
-        } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-          onAdd(null);
-        }
-      }
-    });
+    hashtagTextBox.addKeyDownHandler(
+        new KeyDownHandler() {
+          @Override
+          public void onKeyDown(KeyDownEvent e) {
+            if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
+              onCancel(null);
+            } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+              onAdd(null);
+            }
+          }
+        });
 
     addHashtagIcon.addDomHandler(
         new ClickHandler() {
@@ -137,9 +140,7 @@ public class Hashtags extends Composite {
   }
 
   void set(ChangeInfo info, String revision) {
-    psId = new PatchSet.Id(
-        info.legacyId(),
-        info.revisions().get(revision)._number());
+    psId = new PatchSet.Id(info.legacyId(), info.revisions().get(revision)._number());
 
     canEdit = info.hasActions() && info.actions().containsKey("hashtags");
     this.changeId = info.legacyId();
@@ -157,6 +158,7 @@ public class Hashtags extends Composite {
   private void display(ChangeInfo info) {
     hashtagsText.setInnerSafeHtml(formatHashtags(info));
   }
+
   private void display(JsArrayString hashtags) {
     hashtagsText.setInnerSafeHtml(formatHashtags(hashtags));
   }
@@ -177,13 +179,11 @@ public class Hashtags extends Composite {
           .setAttribute(DATA_ID, hashtagName)
           .setStyleName(style.hashtagName())
           .openAnchor()
-          .setAttribute("href",
-              "#" + PageLinks.toChangeQuery("hashtag:\"" + hashtagName + "\""))
+          .setAttribute("href", "#" + PageLinks.toChangeQuery("hashtag:\"" + hashtagName + "\""))
           .setAttribute("role", "listitem")
           .openSpan()
-            .setStyleName(style.hashtagIcon())
-            .append(new ImageResourceRenderer().render(
-                Gerrit.RESOURCES.hashtag()))
+          .setStyleName(style.hashtagIcon())
+          .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.hashtag()))
           .closeSpan()
           .append(" ")
           .append(hashtagName)
@@ -219,25 +219,25 @@ public class Hashtags extends Composite {
   }
 
   private void addHashtag(final String hashtags) {
-    ChangeApi.hashtags(changeId.get()).post(
-        PostInput.create(hashtags, null),
-        new GerritCallback<JsArrayString>() {
-          @Override
-          public void onSuccess(JsArrayString result) {
-            Gerrit.display(PageLinks.toChange(
-                psId.getParentKey(),
-                String.valueOf(psId.get())));
-          }
+    ChangeApi.hashtags(changeId.get())
+        .post(
+            PostInput.create(hashtags, null),
+            new GerritCallback<JsArrayString>() {
+              @Override
+              public void onSuccess(JsArrayString result) {
+                Gerrit.display(PageLinks.toChange(psId.getParentKey(), String.valueOf(psId.get())));
+              }
 
-          @Override
-          public void onFailure(Throwable err) {
-            UIObject.setVisible(error, true);
-            error.setInnerText(err instanceof StatusCodeException
-                ? ((StatusCodeException) err).getEncodedResponse()
-                : err.getMessage());
-            hashtagTextBox.setEnabled(true);
-          }
-        });
+              @Override
+              public void onFailure(Throwable err) {
+                UIObject.setVisible(error, true);
+                error.setInnerText(
+                    err instanceof StatusCodeException
+                        ? ((StatusCodeException) err).getEncodedResponse()
+                        : err.getMessage());
+                hashtagTextBox.setEnabled(true);
+              }
+            });
   }
 
   public static class PostInput extends JavaScriptObject {
@@ -246,6 +246,7 @@ public class Hashtags extends Composite {
       input.init(toJsArrayString(add), toJsArrayString(remove));
       return input;
     }
+
     private static JsArrayString toJsArrayString(String commaSeparated) {
       if (commaSeparated == null || commaSeparated.equals("")) {
         return null;
@@ -262,7 +263,6 @@ public class Hashtags extends Composite {
       this.remove = remove;
     }-*/;
 
-    protected PostInput() {
-    }
+    protected PostInput() {}
   }
 }

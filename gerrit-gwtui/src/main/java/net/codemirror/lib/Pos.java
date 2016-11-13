@@ -27,15 +27,16 @@ public class Pos extends JavaScriptObject {
   }-*/;
 
   public final native void line(int l) /*-{ this.line = l }-*/;
+
   public final native void ch(int c) /*-{ this.ch = c }-*/;
 
   public final native int line() /*-{ return this.line }-*/;
+
   public final native int ch() /*-{ return this.ch || 0 }-*/;
 
   public final boolean equals(Pos o) {
     return this == o || (line() == o.line() && ch() == o.ch());
   }
 
-  protected Pos() {
-  }
+  protected Pos() {}
 }

@@ -21,10 +21,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
-/**
- * Predicate to match changes that contains specified text in commit messages
- * body.
- */
+/** Predicate to match changes that contains specified text in commit messages body. */
 class MessagePredicate extends ChangeIndexPredicate {
   private final ChangeIndex index;
 
@@ -36,10 +33,8 @@ class MessagePredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData object) throws OrmException {
     try {
-      Predicate<ChangeData> p = Predicate.and(
-          new LegacyChangeIdPredicate(object.getId()), this);
-      for (ChangeData cData
-          : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
+      Predicate<ChangeData> p = Predicate.and(new LegacyChangeIdPredicate(object.getId()), this);
+      for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
         if (cData.getId().equals(object.getId())) {
           return true;
         }

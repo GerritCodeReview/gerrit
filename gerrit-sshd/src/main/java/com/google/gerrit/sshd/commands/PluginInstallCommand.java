@@ -24,10 +24,6 @@ import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,12 +31,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "install", description = "Install/Add a plugin",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(name = "install", description = "Install/Add a plugin", runsAt = MASTER_OR_SLAVE)
 final class PluginInstallCommand extends SshCommand {
-  @Option(name = "--name", aliases = {"-n"}, usage = "install under name")
+  @Option(
+    name = "--name",
+    aliases = {"-n"},
+    usage = "install under name"
+  )
   private String name;
 
   @Option(name = "-")
@@ -51,8 +52,7 @@ final class PluginInstallCommand extends SshCommand {
   @Argument(index = 0, metaVar = "-|URL", usage = "JAR to load")
   private String source;
 
-  @Inject
-  private PluginLoader loader;
+  @Inject private PluginLoader loader;
 
   @Override
   protected void run() throws UnloggedFailure {
@@ -78,8 +78,7 @@ final class PluginInstallCommand extends SshCommand {
     InputStream data;
     if ("-".equalsIgnoreCase(source)) {
       data = in;
-    } else if (new File(source).isFile()
-        && source.equals(new File(source).getAbsolutePath())) {
+    } else if (new File(source).isFile() && source.equals(new File(source).getAbsolutePath())) {
       try {
         data = new FileInputStream(new File(source));
       } catch (FileNotFoundException e) {
@@ -100,8 +99,7 @@ final class PluginInstallCommand extends SshCommand {
       throw die("cannot install plugin");
     } catch (PluginInstallException e) {
       e.printStackTrace(stderr);
-      String msg =
-          String.format("Plugin failed to install. Cause: %s", e.getMessage());
+      String msg = String.format("Plugin failed to install. Cause: %s", e.getMessage());
       throw die(msg);
     } finally {
       try {

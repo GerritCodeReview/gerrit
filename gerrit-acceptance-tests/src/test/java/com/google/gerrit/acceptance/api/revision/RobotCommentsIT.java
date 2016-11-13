@@ -25,13 +25,11 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-
-import org.junit.Test;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.Test;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
@@ -45,33 +43,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     robotComments.put(in.path, Collections.singletonList(in));
     reviewInput.robotComments = robotComments;
     reviewInput.message = "comment test";
-    gApi.changes()
-       .id(r.getChangeId())
-       .current()
-       .review(reviewInput);
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
 
-    Map<String, List<RobotCommentInfo>> out = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .robotComments();
+    Map<String, List<RobotCommentInfo>> out =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).robotComments();
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
     assertRobotComment(comment, in, false);
 
-    List<RobotCommentInfo> list = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .robotCommentsAsList();
+    List<RobotCommentInfo> list =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).robotCommentsAsList();
     assertThat(list).hasSize(1);
 
     RobotCommentInfo comment2 = list.get(0);
     assertRobotComment(comment2, in);
 
-    RobotCommentInfo comment3 = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .robotComment(comment.id)
-        .get();
+    RobotCommentInfo comment3 =
+        gApi.changes()
+            .id(r.getChangeId())
+            .revision(r.getCommit().name())
+            .robotComment(comment.id)
+            .get();
     assertRobotComment(comment3, in);
   }
 
@@ -86,15 +78,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     robotComments.put(in.path, Collections.singletonList(in));
     reviewInput.robotComments = robotComments;
     reviewInput.message = "comment test";
-    gApi.changes()
-       .id(r.getChangeId())
-       .current()
-       .review(reviewInput);
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
 
-    Map<String, List<RobotCommentInfo>> out = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .robotComments();
+    Map<String, List<RobotCommentInfo>> out =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).robotComments();
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
     assertRobotComment(comment, in, false);
@@ -114,10 +101,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("robot comments not supported");
-    gApi.changes()
-       .id(r.getChangeId())
-       .current()
-       .review(reviewInput);
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
   }
 
   private RobotCommentInput createRobotCommentInputWithMandatoryFields() {
@@ -139,13 +123,12 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     return in;
   }
 
-  private void assertRobotComment(RobotCommentInfo c,
-      RobotCommentInput expected) {
+  private void assertRobotComment(RobotCommentInfo c, RobotCommentInput expected) {
     assertRobotComment(c, expected, true);
   }
 
-  private void assertRobotComment(RobotCommentInfo c,
-      RobotCommentInput expected, boolean expectPath) {
+  private void assertRobotComment(
+      RobotCommentInfo c, RobotCommentInput expected, boolean expectPath) {
     assertThat(c.robotId).isEqualTo(expected.robotId);
     assertThat(c.robotRunId).isEqualTo(expected.robotRunId);
     assertThat(c.url).isEqualTo(expected.url);

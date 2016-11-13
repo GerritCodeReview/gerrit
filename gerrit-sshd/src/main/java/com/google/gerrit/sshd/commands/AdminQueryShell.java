@@ -22,7 +22,6 @@ import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
 import org.kohsuke.args4j.Option;
 
 /** Opens a query processor. */
@@ -30,11 +29,9 @@ import org.kohsuke.args4j.Option;
 @RequiresCapability(GlobalCapability.ACCESS_DATABASE)
 @CommandMetaData(name = "gsql", description = "Administrative interface to active database")
 final class AdminQueryShell extends SshCommand {
-  @Inject
-  private QueryShell.Factory factory;
+  @Inject private QueryShell.Factory factory;
 
-  @Inject
-  private IdentifiedUser currentUser;
+  @Inject private IdentifiedUser currentUser;
 
   @Option(name = "--format", usage = "Set output format")
   private QueryShell.OutputFormat format = QueryShell.OutputFormat.PRETTY;
@@ -61,20 +58,19 @@ final class AdminQueryShell extends SshCommand {
 
   /**
    * Assert that the current user is permitted to perform raw queries.
-   * <p>
-   * As the @RequireCapability guards at various entry points of internal
-   * commands implicitly add administrators (which we want to avoid), we also
-   * check permissions within QueryShell and grant access only to those who
-   * can access the database, regardless of whether they are administrators or
-   * not.
+   *
+   * <p>As the @RequireCapability guards at various entry points of internal commands implicitly add
+   * administrators (which we want to avoid), we also check permissions within QueryShell and grant
+   * access only to those who can access the database, regardless of whether they are administrators
+   * or not.
    *
    * @throws PermissionDeniedException
    */
   private void checkPermission() throws PermissionDeniedException {
     if (!currentUser.getCapabilities().canAccessDatabase()) {
-      throw new PermissionDeniedException(String.format(
-          "%s does not have \"Access Database\" capability.",
-          currentUser.getUserName()));
+      throw new PermissionDeniedException(
+          String.format(
+              "%s does not have \"Access Database\" capability.", currentUser.getUserName()));
     }
   }
 }

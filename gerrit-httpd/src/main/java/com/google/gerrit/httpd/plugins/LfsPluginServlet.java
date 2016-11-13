@@ -27,11 +27,6 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -39,7 +34,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -49,16 +43,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class LfsPluginServlet extends HttpServlet
     implements StartPluginListener, ReloadPluginListener {
   private static final long serialVersionUID = 1L;
-  private static final Logger log
-      = LoggerFactory.getLogger(LfsPluginServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(LfsPluginServlet.class);
 
-  public static final String URL_REGEX =
-      "^(?:/a)?(?:/p/|/)(.+)(?:/info/lfs/objects/batch)$";
+  public static final String URL_REGEX = "^(?:/a)?(?:/p/|/)(.+)(?:/info/lfs/objects/batch)$";
 
   private static final String CONTENTTYPE_VND_GIT_LFS_JSON =
       "application/vnd.git-lfs+json; charset=utf-8";
@@ -73,14 +68,13 @@ public class LfsPluginServlet extends HttpServlet
   @Inject
   LfsPluginServlet(@GerritServerConfig Config cfg) {
     this.pluginName = cfg.getString("lfs", null, "plugin");
-    this.chain = new FilterChain() {
-      @Override
-      public void doFilter(ServletRequest req, ServletResponse res)
-          throws IOException {
-        Resource.NOT_FOUND.send(
-            (HttpServletRequest) req, (HttpServletResponse) res);
-      }
-    };
+    this.chain =
+        new FilterChain() {
+          @Override
+          public void doFilter(ServletRequest req, ServletResponse res) throws IOException {
+            Resource.NOT_FOUND.send((HttpServletRequest) req, (HttpServletResponse) res);
+          }
+        };
     this.filter = new AtomicReference<>();
   }
 
@@ -118,13 +112,11 @@ public class LfsPluginServlet extends HttpServlet
     install(newPlugin);
   }
 
-  private void responseLfsNotConfigured(HttpServletResponse res)
-      throws IOException {
+  private void responseLfsNotConfigured(HttpServletResponse res) throws IOException {
     CacheHeaders.setNotCacheable(res);
     res.setContentType(CONTENTTYPE_VND_GIT_LFS_JSON);
     res.setStatus(SC_NOT_IMPLEMENTED);
-    Writer w = new BufferedWriter(
-        new OutputStreamWriter(res.getOutputStream(), UTF_8));
+    Writer w = new BufferedWriter(new OutputStreamWriter(res.getOutputStream(), UTF_8));
     w.write(MESSAGE_LFS_NOT_CONFIGURED);
     w.flush();
   }
@@ -134,12 +126,13 @@ public class LfsPluginServlet extends HttpServlet
       return;
     }
     final GuiceFilter guiceFilter = load(plugin);
-    plugin.add(new RegistrationHandle() {
-      @Override
-      public void remove() {
-        filter.compareAndSet(guiceFilter, null);
-      }
-    });
+    plugin.add(
+        new RegistrationHandle() {
+          @Override
+          public void remove() {
+            filter.compareAndSet(guiceFilter, null);
+          }
+        });
     filter.set(guiceFilter);
   }
 
@@ -155,20 +148,20 @@ public class LfsPluginServlet extends HttpServlet
       }
 
       try {
-        ServletContext ctx =
-            PluginServletContext.create(plugin, "/");
+        ServletContext ctx = PluginServletContext.create(plugin, "/");
         guiceFilter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
         log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
         return null;
       }
 
-      plugin.add(new RegistrationHandle() {
-        @Override
-        public void remove() {
-          guiceFilter.destroy();
-        }
-      });
+      plugin.add(
+          new RegistrationHandle() {
+            @Override
+            public void remove() {
+              guiceFilter.destroy();
+            }
+          });
       return guiceFilter;
     }
     return null;

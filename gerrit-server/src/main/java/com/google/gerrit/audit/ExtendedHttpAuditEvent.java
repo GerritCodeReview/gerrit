@@ -19,12 +19,9 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
-
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Extended audit event. Adds request, resource and view data to HttpAuditEvent.
- */
+/** Extended audit event. Adds request, resource and view data to HttpAuditEvent. */
 public class ExtendedHttpAuditEvent extends HttpAuditEvent {
   public final HttpServletRequest httpRequest;
   public final RestResource resource;
@@ -44,12 +41,27 @@ public class ExtendedHttpAuditEvent extends HttpAuditEvent {
    * @param resource REST resource data
    * @param view view rendering object
    */
-  public ExtendedHttpAuditEvent(String sessionId, CurrentUser who,
-      HttpServletRequest httpRequest, long when, Multimap<String, ?> params,
-      Object input, int status, Object result, RestResource resource,
+  public ExtendedHttpAuditEvent(
+      String sessionId,
+      CurrentUser who,
+      HttpServletRequest httpRequest,
+      long when,
+      Multimap<String, ?> params,
+      Object input,
+      int status,
+      Object result,
+      RestResource resource,
       RestView<RestResource> view) {
-    super(sessionId, who, httpRequest.getRequestURI(), when, params, httpRequest.getMethod(),
-        input, status, result);
+    super(
+        sessionId,
+        who,
+        httpRequest.getRequestURI(),
+        when,
+        params,
+        httpRequest.getMethod(),
+        input,
+        status,
+        result);
     this.httpRequest = Preconditions.checkNotNull(httpRequest);
     this.resource = resource;
     this.view = view;

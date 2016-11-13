@@ -32,7 +32,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +46,8 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private final PatchSetUtil psUtil;
 
   @Inject
-  Revisions(DynamicMap<RestView<RevisionResource>> views,
+  Revisions(
+      DynamicMap<RestView<RevisionResource>> views,
       Provider<ReviewDb> dbProvider,
       ChangeEditUtil editUtil,
       PatchSetUtil psUtil) {
@@ -69,8 +69,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
-      throws ResourceNotFoundException, AuthException, OrmException,
-      IOException {
+      throws ResourceNotFoundException, AuthException, OrmException, IOException {
     if (id.equals("current")) {
       PatchSet ps = psUtil.current(dbProvider.get(), change.getNotes());
       if (ps != null && visible(change, ps)) {
@@ -92,13 +91,11 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
         return match.get(0);
       default:
         throw new ResourceNotFoundException(
-            "Multiple patch sets for \"" + id.get() + "\": "
-            + Joiner.on("; ").join(match));
+            "Multiple patch sets for \"" + id.get() + "\": " + Joiner.on("; ").join(match));
     }
   }
 
-  private boolean visible(ChangeResource change, PatchSet ps)
-      throws OrmException {
+  private boolean visible(ChangeResource change, PatchSet ps) throws OrmException {
     return change.getControl().isPatchVisible(ps, dbProvider.get());
   }
 
@@ -128,10 +125,13 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
   }
 
-  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change,
-      String id) throws OrmException {
-    PatchSet ps = psUtil.get(dbProvider.get(), change.getNotes(),
-        new PatchSet.Id(change.getId(), Integer.parseInt(id)));
+  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id)
+      throws OrmException {
+    PatchSet ps =
+        psUtil.get(
+            dbProvider.get(),
+            change.getNotes(),
+            new PatchSet.Id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {
       return Collections.singletonList(new RevisionResource(change, ps));
     }
@@ -145,8 +145,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(), 0));
       ps.setRevision(edit.get().getRevision());
       if (revid == null || edit.get().getRevision().equals(revid)) {
-        return Collections.singletonList(
-            new RevisionResource(change, ps, edit));
+        return Collections.singletonList(new RevisionResource(change, ps, edit));
       }
     }
     return Collections.emptyList();

@@ -17,10 +17,14 @@ package com.google.gerrit.common.data;
 public class PermissionRule implements Comparable<PermissionRule> {
   public static final String FORCE_PUSH = "Force Push";
   public static final String FORCE_EDIT = "Force Edit";
-  public enum Action {
-    ALLOW, DENY, BLOCK,
 
-    INTERACTIVE, BATCH
+  public enum Action {
+    ALLOW,
+    DENY,
+    BLOCK,
+
+    INTERACTIVE,
+    BATCH
   }
 
   protected Action action = Action.ALLOW;
@@ -29,8 +33,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
   protected int max;
   protected GroupReference group;
 
-  public PermissionRule() {
-  }
+  public PermissionRule() {}
 
   public PermissionRule(GroupReference group) {
     this.group = group;
@@ -115,7 +118,6 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
       } else if (getAction() == Action.BATCH || src.getAction() == Action.BATCH) {
         setAction(Action.BATCH);
-
       }
     }
 
@@ -265,8 +267,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
   }
 
   public boolean hasRange() {
-    return (!(getMin() == null || getMin() == 0))
-      || (!(getMax() == null || getMax() == 0));
+    return (!(getMin() == null || getMin() == 0)) || (!(getMax() == null || getMax() == 0));
   }
 
   public static int parseInt(String value) {
@@ -281,9 +282,12 @@ public class PermissionRule implements Comparable<PermissionRule> {
     if (!(obj instanceof PermissionRule)) {
       return false;
     }
-    final PermissionRule other = (PermissionRule)obj;
-    return action.equals(other.action) && force == other.force
-        && min == other.min && max == other.max && group.equals(other.group);
+    final PermissionRule other = (PermissionRule) obj;
+    return action.equals(other.action)
+        && force == other.force
+        && min == other.min
+        && max == other.max
+        && group.equals(other.group);
   }
 
   @Override

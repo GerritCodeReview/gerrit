@@ -20,7 +20,6 @@ import com.google.gerrit.plugin.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SuggestOracle;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,9 +29,7 @@ public class GroupSuggestOracle extends SuggestOracle {
 
   private final int chars;
 
-  /**
-   * @param chars minimum chars to start suggesting.
-   */
+  /** @param chars minimum chars to start suggesting. */
   public GroupSuggestOracle(int chars) {
     this.chars = chars;
   }
@@ -52,22 +49,23 @@ public class GroupSuggestOracle extends SuggestOracle {
     if (req.getLimit() > 0) {
       rest.addParameter("n", req.getLimit());
     }
-    rest.get(new AsyncCallback<NativeMap<JavaScriptObject>>() {
-      @Override
-      public void onSuccess(NativeMap<JavaScriptObject> result) {
-        List<String> keys = result.sortedKeys();
-        List<Suggestion> suggestions = new ArrayList<>(keys.size());
-        for (String g : keys) {
-          suggestions.add(new HighlightSuggestion(req.getQuery(), g));
-        }
-        done.onSuggestionsReady(req, new Response(suggestions));
-      }
+    rest.get(
+        new AsyncCallback<NativeMap<JavaScriptObject>>() {
+          @Override
+          public void onSuccess(NativeMap<JavaScriptObject> result) {
+            List<String> keys = result.sortedKeys();
+            List<Suggestion> suggestions = new ArrayList<>(keys.size());
+            for (String g : keys) {
+              suggestions.add(new HighlightSuggestion(req.getQuery(), g));
+            }
+            done.onSuggestionsReady(req, new Response(suggestions));
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        responseEmptySuggestion(req, done);
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            responseEmptySuggestion(req, done);
+          }
+        });
   }
 
   private static void responseEmptySuggestion(Request req, Callback done) {

@@ -34,14 +34,12 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Optional;
 
 @Singleton
-public class PublishChangeEdit implements
-    ChildCollection<ChangeResource, ChangeEditResource>,
-    AcceptsPost<ChangeResource> {
+public class PublishChangeEdit
+    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
 
   private final Publish publish;
 
@@ -72,8 +70,7 @@ public class PublishChangeEdit implements
   }
 
   @Singleton
-  public static class Publish
-      implements RestModifyView<ChangeResource, PublishChangeEditInput> {
+  public static class Publish implements RestModifyView<ChangeResource, PublishChangeEditInput> {
 
     private final ChangeEditUtil editUtil;
 
@@ -84,19 +81,16 @@ public class PublishChangeEdit implements
 
     @Override
     public Response<?> apply(ChangeResource rsrc, PublishChangeEditInput in)
-        throws NoSuchChangeException, IOException, OrmException,
-        RestApiException, UpdateException {
-      Capable r =
-          rsrc.getControl().getProjectControl().canPushToAtLeastOneRef();
+        throws NoSuchChangeException, IOException, OrmException, RestApiException, UpdateException {
+      Capable r = rsrc.getControl().getProjectControl().canPushToAtLeastOneRef();
       if (r != Capable.OK) {
         throw new AuthException(r.getMessage());
       }
 
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
-        throw new ResourceConflictException(String.format(
-            "no edit exists for change %s",
-            rsrc.getChange().getChangeId()));
+        throw new ResourceConflictException(
+            String.format("no edit exists for change %s", rsrc.getChange().getChangeId()));
       }
       if (in == null) {
         in = new PublishChangeEditInput();

@@ -18,39 +18,66 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface ChangeConstants extends Constants {
   String previousChange();
+
   String nextChange();
+
   String openChange();
+
   String reviewedFileTitle();
+
   String editFileInline();
+
   String removeFileInline();
+
   String restoreFileInline();
 
   String openLastFile();
+
   String openCommitMessage();
 
   String patchSet();
+
   String commit();
+
   String date();
+
   String author();
+
   String draft();
 
   String notAvailable();
+
   String relatedChanges();
+
   String relatedChangesTooltip();
+
   String conflictingChanges();
+
   String conflictingChangesTooltip();
+
   String cherryPicks();
+
   String cherryPicksTooltip();
+
   String sameTopic();
+
   String sameTopicTooltip();
+
   String submittedTogether();
+
   String submittedTogetherTooltip();
+
   String noChanges();
+
   String indirectAncestor();
+
   String merged();
+
   String abandoned();
 
   String deleteChangeEdit();
+
   String deleteChange();
+
   String deleteDraftRevision();
 }

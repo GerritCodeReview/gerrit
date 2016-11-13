@@ -16,7 +16,6 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.inject.internal.UniqueAnnotations;
-
 import java.lang.annotation.Annotation;
 
 public final class AutoRegisterUtil {

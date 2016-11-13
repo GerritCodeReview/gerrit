@@ -30,14 +30,14 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class PostHashtags
-    implements RestModifyView<ChangeResource, HashtagsInput>,
-    UiAction<ChangeResource> {
+    implements RestModifyView<ChangeResource, HashtagsInput>, UiAction<ChangeResource> {
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
 
   @Inject
-  PostHashtags(Provider<ReviewDb> db,
+  PostHashtags(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory) {
     this.db = db;
@@ -46,22 +46,22 @@ public class PostHashtags
   }
 
   @Override
-  public Response<ImmutableSortedSet<String>> apply(ChangeResource req,
-      HashtagsInput input) throws RestApiException, UpdateException {
-    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-          req.getChange().getProject(), req.getControl().getUser(),
-          TimeUtil.nowTs())) {
+  public Response<ImmutableSortedSet<String>> apply(ChangeResource req, HashtagsInput input)
+      throws RestApiException, UpdateException {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db.get(), req.getChange().getProject(), req.getControl().getUser(), TimeUtil.nowTs())) {
       SetHashtagsOp op = hashtagsFactory.create(input);
       bu.addOp(req.getId(), op);
       bu.execute();
-      return Response.<ImmutableSortedSet<String>> ok(op.getUpdatedHashtags());
+      return Response.<ImmutableSortedSet<String>>ok(op.getUpdatedHashtags());
     }
   }
 
   @Override
   public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
-      .setLabel("Edit Hashtags")
-      .setVisible(resource.getControl().canEditHashtags());
+        .setLabel("Edit Hashtags")
+        .setVisible(resource.getControl().canEditHashtags());
   }
 }

@@ -14,5 +14,4 @@
 
 package com.google.gerrit.extensions.common;
 
-public class SshdInfo {
-}
+public class SshdInfo {}

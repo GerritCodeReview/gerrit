@@ -16,7 +16,6 @@ package com.google.gerrit.server.query;
 
 import java.util.Collection;
 
-
 /** Predicate to filter a field by matching value. */
 public abstract class OperatorPredicate<T> extends Predicate<T> {
   private final String name;
@@ -55,8 +54,7 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
     }
     if (getClass() == other.getClass()) {
       final OperatorPredicate<?> p = (OperatorPredicate<?>) other;
-      return getOperator().equals(p.getOperator())
-          && getValue().equals(p.getValue());
+      return getOperator().equals(p.getOperator()) && getValue().equals(p.getValue());
     }
     return false;
   }

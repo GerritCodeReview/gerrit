@@ -38,6 +38,7 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 class RenameFileBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, RenameFileBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Change.Id changeId;
@@ -47,18 +48,20 @@ class RenameFileBox extends Composite {
 
   @UiField(provided = true)
   RemoteSuggestBox path;
+
   @UiField NpTextBox newPath;
 
   RenameFileBox(Change.Id changeId, RevisionInfo revision) {
     this.changeId = changeId;
 
     path = new RemoteSuggestBox(new PathSuggestOracle(changeId, revision));
-    path.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
-      @Override
-      public void onClose(CloseEvent<RemoteSuggestBox> event) {
-        hide();
-      }
-    });
+    path.addCloseHandler(
+        new CloseHandler<RemoteSuggestBox>() {
+          @Override
+          public void onClose(CloseEvent<RemoteSuggestBox> event) {
+            hide();
+          }
+        });
 
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -78,7 +81,10 @@ class RenameFileBox extends Composite {
 
   private void rename(String path, String newPath) {
     hide();
-    ChangeEditApi.rename(changeId.get(), path, newPath,
+    ChangeEditApi.rename(
+        changeId.get(),
+        path,
+        newPath,
         new AsyncCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
@@ -86,8 +92,7 @@ class RenameFileBox extends Composite {
           }
 
           @Override
-          public void onFailure(Throwable caught) {
-          }
+          public void onFailure(Throwable caught) {}
         });
   }
 

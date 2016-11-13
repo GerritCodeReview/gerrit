@@ -35,15 +35,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ChangeResource implements RestResource, HasETag {
   /**
    * JSON format version number for ETag computations.
-   * <p>
-   * Should be bumped on any JSON format change (new fields, etc.) so that
-   * otherwise unmodified changes get new ETags.
+   *
+   * <p>Should be bumped on any JSON format change (new fields, etc.) so that otherwise unmodified
+   * changes get new ETags.
    */
   public static final int JSON_FORMAT_VERSION = 1;
 
@@ -58,8 +57,7 @@ public class ChangeResource implements RestResource, HasETag {
   private final ChangeControl control;
 
   @AssistedInject
-  ChangeResource(StarredChangesUtil starredChangesUtil,
-      @Assisted ChangeControl control) {
+  ChangeResource(StarredChangesUtil starredChangesUtil, @Assisted ChangeControl control) {
     this.starredChangesUtil = starredChangesUtil;
     this.control = control;
   }
@@ -92,9 +90,9 @@ public class ChangeResource implements RestResource, HasETag {
   // unrelated to the UI.
   public void prepareETag(Hasher h, CurrentUser user) {
     h.putInt(JSON_FORMAT_VERSION)
-      .putLong(getChange().getLastUpdatedOn().getTime())
-      .putInt(getChange().getRowVersion())
-      .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
+        .putLong(getChange().getLastUpdatedOn().getTime())
+        .putInt(getChange().getRowVersion())
+        .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
 
     if (user.isIdentifiedUser()) {
       for (AccountGroup.UUID uuid : user.getEffectiveGroups().getKnownGroups()) {
@@ -123,9 +121,7 @@ public class ChangeResource implements RestResource, HasETag {
     CurrentUser user = control.getUser();
     Hasher h = Hashing.md5().newHasher();
     if (user.isIdentifiedUser()) {
-      h.putString(
-          starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(),
-          UTF_8);
+      h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
     }
     prepareETag(h, user);
     return h.hash().toString();

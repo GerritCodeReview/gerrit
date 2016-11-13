@@ -25,7 +25,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +41,8 @@ public class AccountResolver {
   private final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
-  AccountResolver(Realm realm,
+  AccountResolver(
+      Realm realm,
       AccountByEmailCache byEmail,
       AccountCache byId,
       AccountIndexCollection accountIndexes,
@@ -57,12 +57,11 @@ public class AccountResolver {
   /**
    * Locate exactly one account matching the name or name/email string.
    *
-   * @param nameOrEmail a string of the format
-   *        "Full Name &lt;email@example&gt;", just the email address
-   *        ("email@example"), a full name ("Full Name"), an account id
-   *        ("18419") or an user name ("username").
-   * @return the single account that matches; null if no account matches or
-   *         there are multiple candidates.
+   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
+   *     address ("email@example"), a full name ("Full Name"), an account id ("18419") or an user
+   *     name ("username").
+   * @return the single account that matches; null if no account matches or there are multiple
+   *     candidates.
    */
   public Account find(ReviewDb db, String nameOrEmail) throws OrmException {
     Set<Account.Id> r = findAll(db, nameOrEmail);
@@ -88,14 +87,12 @@ public class AccountResolver {
    * Find all accounts matching the name or name/email string.
    *
    * @param db open database handle.
-   * @param nameOrEmail a string of the format
-   *        "Full Name &lt;email@example&gt;", just the email address
-   *        ("email@example"), a full name ("Full Name"), an account id
-   *        ("18419") or an user name ("username").
-   * @return the accounts that match, empty collection if none.  Never null.
+   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
+   *     address ("email@example"), a full name ("Full Name"), an account id ("18419") or an user
+   *     name ("username").
+   * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAll(ReviewDb db, String nameOrEmail)
-      throws OrmException {
+  public Set<Account.Id> findAll(ReviewDb db, String nameOrEmail) throws OrmException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
       Account.Id id = Account.Id.parse(m.group(1));
@@ -131,14 +128,12 @@ public class AccountResolver {
    * Locate exactly one account matching the name or name/email string.
    *
    * @param db open database handle.
-   * @param nameOrEmail a string of the format
-   *        "Full Name &lt;email@example&gt;", just the email address
-   *        ("email@example"), a full name ("Full Name").
-   * @return the single account that matches; null if no account matches or
-   *         there are multiple candidates.
+   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
+   *     address ("email@example"), a full name ("Full Name").
+   * @return the single account that matches; null if no account matches or there are multiple
+   *     candidates.
    */
-  public Account findByNameOrEmail(ReviewDb db, String nameOrEmail)
-      throws OrmException {
+  public Account findByNameOrEmail(ReviewDb db, String nameOrEmail) throws OrmException {
     Set<Account.Id> r = findAllByNameOrEmail(db, nameOrEmail);
     return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
   }
@@ -147,13 +142,11 @@ public class AccountResolver {
    * Locate exactly one account matching the name or name/email string.
    *
    * @param db open database handle.
-   * @param nameOrEmail a string of the format
-   *        "Full Name &lt;email@example&gt;", just the email address
-   *        ("email@example"), a full name ("Full Name").
+   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
+   *     address ("email@example"), a full name ("Full Name").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAllByNameOrEmail(ReviewDb db, String nameOrEmail)
-      throws OrmException {
+  public Set<Account.Id> findAllByNameOrEmail(ReviewDb db, String nameOrEmail) throws OrmException {
     int lt = nameOrEmail.indexOf('<');
     int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
@@ -191,7 +184,10 @@ public class AccountResolver {
 
       // At this point we have no clue. Just perform a whole bunch of suggestions
       // and pray we come up with a reasonable result list.
-      return accountQueryProvider.get().byDefault(nameOrEmail).stream()
+      return accountQueryProvider
+          .get()
+          .byDefault(nameOrEmail)
+          .stream()
           .map(a -> a.getAccount().getId())
           .collect(toSet());
     }
@@ -209,14 +205,15 @@ public class AccountResolver {
     for (Account act : db.accounts().suggestByFullName(a, b, 10)) {
       result.add(act.getId());
     }
-    for (AccountExternalId extId : db.accountExternalIds()
-        .suggestByKey(
-            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
-            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b), 10)) {
+    for (AccountExternalId extId :
+        db.accountExternalIds()
+            .suggestByKey(
+                new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
+                new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b),
+                10)) {
       result.add(extId.getAccountId());
     }
-    for (AccountExternalId extId : db.accountExternalIds()
-        .suggestByEmailAddress(a, b, 10)) {
+    for (AccountExternalId extId : db.accountExternalIds().suggestByEmailAddress(a, b, 10)) {
       result.add(extId.getAccountId());
     }
     return result;

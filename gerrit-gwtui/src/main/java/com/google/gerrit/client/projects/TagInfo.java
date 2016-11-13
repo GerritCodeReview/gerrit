@@ -17,6 +17,5 @@ package com.google.gerrit.client.projects;
 public class TagInfo extends RefInfo {
 
   // TODO(dpursehouse) add extra tag-related fields (message, tagger, etc)
-  protected TagInfo() {
-  }
+  protected TagInfo() {}
 }

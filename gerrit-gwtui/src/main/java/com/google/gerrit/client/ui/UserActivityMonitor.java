@@ -36,15 +36,14 @@ public class UserActivityMonitor {
   private static final MonitorImpl impl;
 
   /**
-   * @return true if there has been keyboard and/or mouse activity in recent
-   *         enough history to believe a user is still controlling this session.
+   * @return true if there has been keyboard and/or mouse activity in recent enough history to
+   *     believe a user is still controlling this session.
    */
   public static boolean isActive() {
     return impl.active || impl.recent;
   }
 
-  public static HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<Boolean> handler) {
+  public static HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
     return impl.addValueChangeHandler(handler);
   }
 
@@ -56,12 +55,14 @@ public class UserActivityMonitor {
     Scheduler.get().scheduleFixedDelay(impl, 60 * 1000);
   }
 
-  private UserActivityMonitor() {
-  }
+  private UserActivityMonitor() {}
 
-  private static class MonitorImpl implements RepeatingCommand,
-      KeyPressHandler, MouseMoveHandler, ValueChangeHandler<String>,
-      HasValueChangeHandlers<Boolean> {
+  private static class MonitorImpl
+      implements RepeatingCommand,
+          KeyPressHandler,
+          MouseMoveHandler,
+          ValueChangeHandler<String>,
+          HasValueChangeHandlers<Boolean> {
     private final EventBus bus = new SimpleEventBus();
     private boolean recent = true;
     private boolean active = true;
@@ -100,8 +101,7 @@ public class UserActivityMonitor {
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(
-        ValueChangeHandler<Boolean> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
       return bus.addHandler(ValueChangeEvent.getType(), handler);
     }
 

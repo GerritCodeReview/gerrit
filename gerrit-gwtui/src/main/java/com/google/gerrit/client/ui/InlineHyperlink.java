@@ -21,8 +21,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 
 /** Standard GWT hyperlink with late updating of the token. */
-public class InlineHyperlink extends
-    com.google.gwt.user.client.ui.InlineHyperlink {
+public class InlineHyperlink extends com.google.gwt.user.client.ui.InlineHyperlink {
   /**
    * Creates a link with its text and target history token specified.
    *
@@ -34,8 +33,7 @@ public class InlineHyperlink extends
   }
 
   /** Creates an empty link. */
-  public InlineHyperlink() {
-  }
+  public InlineHyperlink() {}
 
   @Override
   public void onBrowserEvent(final Event event) {

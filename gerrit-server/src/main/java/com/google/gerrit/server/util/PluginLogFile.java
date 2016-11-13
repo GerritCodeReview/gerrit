@@ -17,7 +17,6 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.inject.Inject;
-
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
@@ -31,10 +30,8 @@ public abstract class PluginLogFile implements LifecycleListener {
   private final Layout layout;
 
   @Inject
-  public PluginLogFile(SystemLog systemLog,
-      ServerInformation serverInfo,
-      String logName,
-      Layout layout) {
+  public PluginLogFile(
+      SystemLog systemLog, ServerInformation serverInfo, String logName, Layout layout) {
     this.systemLog = systemLog;
     this.serverInfo = serverInfo;
     this.logName = logName;
@@ -43,8 +40,7 @@ public abstract class PluginLogFile implements LifecycleListener {
 
   @Override
   public void start() {
-    AsyncAppender asyncAppender =
-        systemLog.createAsyncAppender(logName, layout);
+    AsyncAppender asyncAppender = systemLog.createAsyncAppender(logName, layout);
     Logger logger = LogManager.getLogger(logName);
     logger.removeAppender(logName);
     logger.addAppender(asyncAppender);

@@ -45,7 +45,8 @@ public class OAuthTokenCache {
   private final Cache<Account.Id, OAuthToken> cache;
 
   @Inject
-  OAuthTokenCache(@Named(OAUTH_TOKENS) Cache<Account.Id, OAuthToken> cache,
+  OAuthTokenCache(
+      @Named(OAUTH_TOKENS) Cache<Account.Id, OAuthToken> cache,
       DynamicItem<OAuthTokenEncrypter> encrypter) {
     this.cache = cache;
     this.encrypter = encrypter;

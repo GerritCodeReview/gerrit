@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
-
 import org.junit.Test;
 
 @NoHttpd
@@ -43,8 +42,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   @Test
   public void getChildProject() throws Exception {
     Project.NameKey child = createProject("p1");
-    ProjectInfo childInfo = gApi.projects().name(allProjects.get())
-        .child(child.get()).get();
+    ProjectInfo childInfo = gApi.projects().name(allProjects.get()).child(child.get()).get();
 
     assertProjectInfo(projectCache.get(child).getProject(), childInfo);
   }
@@ -62,14 +60,12 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     Project.NameKey child = createProject("p1");
     Project.NameKey grandChild = createProject("p1.1", child);
 
-    ProjectInfo grandChildInfo = gApi.projects().name(allProjects.get())
-        .child(grandChild.get()).get(true);
-    assertProjectInfo(
-        projectCache.get(grandChild).getProject(), grandChildInfo);
+    ProjectInfo grandChildInfo =
+        gApi.projects().name(allProjects.get()).child(grandChild.get()).get(true);
+    assertProjectInfo(projectCache.get(grandChild).getProject(), grandChildInfo);
   }
 
-  private void assertChildNotFound(Project.NameKey parent, String child)
-      throws Exception {
+  private void assertChildNotFound(Project.NameKey parent, String child) throws Exception {
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage(child);
     gApi.projects().name(parent.get()).child(child).get();

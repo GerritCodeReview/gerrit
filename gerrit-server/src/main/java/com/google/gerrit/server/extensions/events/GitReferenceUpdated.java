@@ -21,41 +21,44 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
-
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class GitReferenceUpdated {
-  public static final GitReferenceUpdated DISABLED = new GitReferenceUpdated() {
-    @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
-        ReceiveCommand.Type type, Account updater) {}
+  public static final GitReferenceUpdated DISABLED =
+      new GitReferenceUpdated() {
+        @Override
+        public void fire(
+            Project.NameKey project,
+            RefUpdate refUpdate,
+            ReceiveCommand.Type type,
+            Account updater) {}
 
-    @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
-        Account updater) {}
+        @Override
+        public void fire(Project.NameKey project, RefUpdate refUpdate, Account updater) {}
 
-    @Override
-    public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
-        ObjectId newObjectId, Account updater) {}
+        @Override
+        public void fire(
+            Project.NameKey project,
+            String ref,
+            ObjectId oldObjectId,
+            ObjectId newObjectId,
+            Account updater) {}
 
-    @Override
-    public void fire(Project.NameKey project, ReceiveCommand cmd,
-        Account updater) {}
+        @Override
+        public void fire(Project.NameKey project, ReceiveCommand cmd, Account updater) {}
 
-    @Override
-    public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-        Account updater) {}
-  };
+        @Override
+        public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate, Account updater) {}
+      };
 
   private final DynamicSet<GitReferenceUpdatedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners,
-      EventUtil util) {
+  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -65,38 +68,60 @@ public class GitReferenceUpdated {
     this.util = null;
   }
 
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
-      ReceiveCommand.Type type, Account updater) {
-    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), type, util.accountInfo(updater));
-  }
-
-  public void fire(Project.NameKey project, RefUpdate refUpdate,
-      Account updater) {
-    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE,
+  public void fire(
+      Project.NameKey project, RefUpdate refUpdate, ReceiveCommand.Type type, Account updater) {
+    fire(
+        project,
+        refUpdate.getName(),
+        refUpdate.getOldObjectId(),
+        refUpdate.getNewObjectId(),
+        type,
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
-      ObjectId newObjectId, Account updater) {
-    fire(project, ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE,
+  public void fire(Project.NameKey project, RefUpdate refUpdate, Account updater) {
+    fire(
+        project,
+        refUpdate.getName(),
+        refUpdate.getOldObjectId(),
+        refUpdate.getNewObjectId(),
+        ReceiveCommand.Type.UPDATE,
+        util.accountInfo(updater));
+  }
+
+  public void fire(
+      Project.NameKey project,
+      String ref,
+      ObjectId oldObjectId,
+      ObjectId newObjectId,
+      Account updater) {
+    fire(
+        project,
+        ref,
+        oldObjectId,
+        newObjectId,
+        ReceiveCommand.Type.UPDATE,
         util.accountInfo(updater));
   }
 
   public void fire(Project.NameKey project, ReceiveCommand cmd, Account updater) {
-    fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType(),
+    fire(
+        project,
+        cmd.getRefName(),
+        cmd.getOldId(),
+        cmd.getNewId(),
+        cmd.getType(),
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-      Account updater) {
+  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate, Account updater) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        fire(project,
+        fire(
+            project,
             cmd.getRefName(),
             cmd.getOldId(),
             cmd.getNewId(),
@@ -106,8 +131,13 @@ public class GitReferenceUpdated {
     }
   }
 
-  private void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
-      ObjectId newObjectId, ReceiveCommand.Type type, AccountInfo updater) {
+  private void fire(
+      Project.NameKey project,
+      String ref,
+      ObjectId oldObjectId,
+      ObjectId newObjectId,
+      ReceiveCommand.Type type,
+      AccountInfo updater) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -131,8 +161,11 @@ public class GitReferenceUpdated {
     private final ReceiveCommand.Type type;
     private final AccountInfo updater;
 
-    Event(Project.NameKey project, String ref,
-        String oldObjectId, String newObjectId,
+    Event(
+        Project.NameKey project,
+        String ref,
+        String oldObjectId,
+        String newObjectId,
         ReceiveCommand.Type type,
         AccountInfo updater) {
       this.projectName = project.get();
@@ -185,8 +218,9 @@ public class GitReferenceUpdated {
 
     @Override
     public String toString() {
-      return String.format("%s[%s,%s: %s -> %s]", getClass().getSimpleName(),
-          projectName, ref, oldObjectId, newObjectId);
+      return String.format(
+          "%s[%s,%s: %s -> %s]",
+          getClass().getSimpleName(), projectName, ref, oldObjectId, newObjectId);
     }
 
     @Override

@@ -20,10 +20,6 @@ import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,28 +28,30 @@ import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 /** Standard {@link LibraryDownloader} instances derived from configuration. */
 @Singleton
 class Libraries {
-  private static final String RESOURCE_FILE =
-      "com/google/gerrit/pgm/init/libraries.config";
+  private static final String RESOURCE_FILE = "com/google/gerrit/pgm/init/libraries.config";
 
   private final Provider<LibraryDownloader> downloadProvider;
   private final List<String> skippedDownloads;
   private final boolean skipAllDownloads;
 
-  /* final */LibraryDownloader bouncyCastlePGP;
-  /* final */LibraryDownloader bouncyCastleProvider;
-  /* final */LibraryDownloader bouncyCastleSSL;
-  /* final */LibraryDownloader db2Driver;
-  /* final */LibraryDownloader db2DriverLicense;
-  /* final */LibraryDownloader hanaDriver;
-  /* final */LibraryDownloader mysqlDriver;
-  /* final */LibraryDownloader oracleDriver;
+  /* final */ LibraryDownloader bouncyCastlePGP;
+  /* final */ LibraryDownloader bouncyCastleProvider;
+  /* final */ LibraryDownloader bouncyCastleSSL;
+  /* final */ LibraryDownloader db2Driver;
+  /* final */ LibraryDownloader db2DriverLicense;
+  /* final */ LibraryDownloader hanaDriver;
+  /* final */ LibraryDownloader mysqlDriver;
+  /* final */ LibraryDownloader oracleDriver;
 
   @Inject
-  Libraries(final Provider<LibraryDownloader> downloadProvider,
+  Libraries(
+      final Provider<LibraryDownloader> downloadProvider,
       @LibraryDownload List<String> skippedDownloads,
       @LibraryDownload Boolean skipAllDownloads) {
     this.downloadProvider = downloadProvider;
@@ -71,8 +69,7 @@ class Libraries {
     }
 
     for (Field f : Libraries.class.getDeclaredFields()) {
-      if ((f.getModifiers() & Modifier.STATIC) == 0
-          && f.getType() == LibraryDownloader.class) {
+      if ((f.getModifiers() & Modifier.STATIC) == 0 && f.getType() == LibraryDownloader.class) {
         try {
           f.set(this, downloadProvider.get());
         } catch (IllegalArgumentException | IllegalAccessException e) {
@@ -82,20 +79,22 @@ class Libraries {
     }
 
     for (Field f : Libraries.class.getDeclaredFields()) {
-      if ((f.getModifiers() & Modifier.STATIC) == 0
-          && f.getType() == LibraryDownloader.class) {
+      if ((f.getModifiers() & Modifier.STATIC) == 0 && f.getType() == LibraryDownloader.class) {
         try {
           init(f, cfg);
-        } catch (IllegalArgumentException | IllegalAccessException
-            | NoSuchFieldException | SecurityException e) {
+        } catch (IllegalArgumentException
+            | IllegalAccessException
+            | NoSuchFieldException
+            | SecurityException e) {
           throw new IllegalStateException("Cannot configure " + f.getName());
         }
       }
     }
   }
 
-  private void init(Field field, Config cfg) throws IllegalArgumentException,
-      IllegalAccessException, NoSuchFieldException, SecurityException {
+  private void init(Field field, Config cfg)
+      throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+          SecurityException {
     String n = field.getName();
     LibraryDownloader dl = (LibraryDownloader) field.get(this);
     dl.setName(get(cfg, n, "name"));
@@ -116,12 +115,11 @@ class Libraries {
     return doGet(cfg, name, key, true);
   }
 
-  private static String doGet(Config cfg, String name, String key,
-      boolean required) {
+  private static String doGet(Config cfg, String name, String key, boolean required) {
     String val = cfg.getString("library", name, key);
     if ((val == null || val.isEmpty()) && required) {
-      throw new IllegalStateException("Variable library." + name + "." + key
-          + " is required within " + RESOURCE_FILE);
+      throw new IllegalStateException(
+          "Variable library." + name + "." + key + " is required within " + RESOURCE_FILE);
     }
     return val;
   }

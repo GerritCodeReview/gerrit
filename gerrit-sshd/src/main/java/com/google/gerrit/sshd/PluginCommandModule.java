@@ -18,7 +18,6 @@ import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.binder.LinkedBindingBuilder;
-
 import org.apache.sshd.server.Command;
 
 public abstract class PluginCommandModule extends CommandModule {
@@ -50,5 +49,4 @@ public abstract class PluginCommandModule extends CommandModule {
   protected void alias(final String name, Class<? extends BaseCommand> clazz) {
     alias(command, name, clazz);
   }
-
 }

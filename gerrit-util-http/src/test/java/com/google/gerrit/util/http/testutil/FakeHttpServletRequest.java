@@ -24,9 +24,6 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.Url;
-
-import org.apache.http.client.utils.DateUtils;
-
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -37,7 +34,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
@@ -51,6 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
+import org.apache.http.client.utils.DateUtils;
 
 /** Simple fake implementation of {@link HttpServletRequest}. */
 public class FakeHttpServletRequest implements HttpServletRequest {
@@ -70,8 +67,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     this("gerrit.example.com", 80, "", SERVLET_PATH);
   }
 
-  public FakeHttpServletRequest(String hostName, int port, String contextPath,
-      String servletPath) {
+  public FakeHttpServletRequest(String hostName, int port, String contextPath, String servletPath) {
     this.hostName = checkNotNull(hostName, "hostName");
     checkArgument(port > 0);
     this.port = port;
@@ -145,9 +141,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   @Override
   public Map<String, String[]> getParameterMap() {
     return Collections.unmodifiableMap(
-        Maps.transformValues(
-            parameters.asMap(),
-            vs -> vs.toArray(new String[0])));
+        Maps.transformValues(parameters.asMap(), vs -> vs.toArray(new String[0])));
   }
 
   @Override
@@ -165,7 +159,8 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     for (String entry : Splitter.on('&').split(qs)) {
       List<String> kv = Splitter.on('=').limit(2).splitToList(entry);
       try {
-        params.put(URLDecoder.decode(kv.get(0), UTF_8.name()),
+        params.put(
+            URLDecoder.decode(kv.get(0), UTF_8.name()),
             kv.size() == 2 ? URLDecoder.decode(kv.get(1), UTF_8.name()) : "");
       } catch (UnsupportedEncodingException e) {
         throw new IllegalArgumentException(e);
@@ -469,8 +464,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   }
 
   @Override
-  public <T extends HttpUpgradeHandler> T upgrade(
-      Class<T> httpUpgradeHandlerClass) {
+  public <T extends HttpUpgradeHandler> T upgrade(Class<T> httpUpgradeHandlerClass) {
     throw new UnsupportedOperationException();
   }
 

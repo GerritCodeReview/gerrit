@@ -17,9 +17,7 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 
-/**
- * An entity that keeps track of what user reviewed what patches.
- */
+/** An entity that keeps track of what user reviewed what patches. */
 public final class AccountPatchReview {
 
   public static class Key extends CompoundKey<Account.Id> {
@@ -59,8 +57,7 @@ public final class AccountPatchReview {
   @Column(id = 1, name = Column.NONE)
   protected AccountPatchReview.Key key;
 
-  protected AccountPatchReview() {
-  }
+  protected AccountPatchReview() {}
 
   public AccountPatchReview(final Patch.Key k, final Account.Id a) {
     key = new AccountPatchReview.Key(k, a);

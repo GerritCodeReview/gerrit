@@ -29,23 +29,20 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-
 import javax.sql.DataSource;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
  * An in-memory test instance of {@link ReviewDb} database.
- * <p>
- * Test classes should create one instance of this class for each unique test
- * database they want to use. When the tests needing this instance are complete,
- * ensure that {@link #drop(InMemoryDatabase)} is called to free the resources so
- * the JVM running the unit tests doesn't run out of heap space.
+ *
+ * <p>Test classes should create one instance of this class for each unique test database they want
+ * to use. When the tests needing this instance are complete, ensure that {@link
+ * #drop(InMemoryDatabase)} is called to free the resources so the JVM running the unit tests
+ * doesn't run out of heap space.
  */
 public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   public static InMemoryDatabase newDatabase(LifecycleManager lifecycle) {
@@ -147,7 +144,6 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   }
 
   public void assertSchemaVersion() throws OrmException {
-    assertThat(getSchemaVersion().versionNbr)
-      .isEqualTo(SchemaVersion.getBinaryVersion());
+    assertThat(getSchemaVersion().versionNbr).isEqualTo(SchemaVersion.getBinaryVersion());
   }
 }

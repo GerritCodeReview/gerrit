@@ -25,34 +25,30 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
-
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.PredicateEncoder;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Per-thread Prolog interpreter.
- * <p>
- * This class is not thread safe.
- * <p>
- * A single copy of the Prolog interpreter, for the current thread.
+ *
+ * <p>This class is not thread safe.
+ *
+ * <p>A single copy of the Prolog interpreter, for the current thread.
  */
 public class PrologEnvironment extends BufferingPrologControl {
-  private static final Logger log =
-      LoggerFactory.getLogger(PrologEnvironment.class);
+  private static final Logger log = LoggerFactory.getLogger(PrologEnvironment.class);
 
   public interface Factory {
     /**
@@ -112,8 +108,8 @@ public class PrologEnvironment extends BufferingPrologControl {
   }
 
   /**
-   * Copy the stored values from another interpreter to this one.
-   * Also gets the cleanup from the child interpreter
+   * Copy the stored values from another interpreter to this one. Also gets the cleanup from the
+   * child interpreter
    */
   public void copyStoredValues(PrologEnvironment child) {
     storedValues.putAll(child.storedValues);
@@ -121,9 +117,8 @@ public class PrologEnvironment extends BufferingPrologControl {
   }
 
   /**
-   * Assign the environment a cleanup list (in order to use a centralized list)
-   * If this enivronment's list is non-empty, append its cleanup tasks to the
-   * assigning list.
+   * Assign the environment a cleanup list (in order to use a centralized list) If this
+   * enivronment's list is non-empty, append its cleanup tasks to the assigning list.
    */
   public void setCleanup(List<Runnable> newCleanupList) {
     newCleanupList.addAll(cleanup);
@@ -132,17 +127,16 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   /**
    * Adds cleanup task to run when close() is called
+   *
    * @param task is run when close() is called
    */
   public void addToCleanup(Runnable task) {
     cleanup.add(task);
   }
 
-  /**
-   * Release resources stored in interpreter's hash manager.
-   */
+  /** Release resources stored in interpreter's hash manager. */
   public void close() {
-    for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext();) {
+    for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
       try {
         i.next().run();
       } catch (Throwable err) {
@@ -155,12 +149,16 @@ public class PrologEnvironment extends BufferingPrologControl {
   @Singleton
   public static class Args {
     private static final Class<Predicate> CONSULT_STREAM_2;
+
     static {
       try {
         @SuppressWarnings("unchecked")
-        Class<Predicate> c = (Class<Predicate>) Class.forName(
-            PredicateEncoder.encode(Prolog.BUILTIN, "consult_stream", 2),
-            false, RulesCache.class.getClassLoader());
+        Class<Predicate> c =
+            (Class<Predicate>)
+                Class.forName(
+                    PredicateEncoder.encode(Prolog.BUILTIN, "consult_stream", 2),
+                    false,
+                    RulesCache.class.getClassLoader());
         CONSULT_STREAM_2 = c;
       } catch (ClassNotFoundException e) {
         throw new LinkageError("cannot find predicate consult_stream", e);
@@ -177,7 +175,8 @@ public class PrologEnvironment extends BufferingPrologControl {
     private final int compileLimit;
 
     @Inject
-    Args(ProjectCache projectCache,
+    Args(
+        ProjectCache projectCache,
         GitRepositoryManager repositoryManager,
         PatchListCache patchListCache,
         PatchSetInfoFactory patchSetInfoFactory,
@@ -194,8 +193,12 @@ public class PrologEnvironment extends BufferingPrologControl {
       int limit = config.getInt("rules", null, "reductionLimit", 100000);
       reductionLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
 
-      limit = config.getInt("rules", null, "compileReductionLimit",
-          (int) Math.min(10L * limit, Integer.MAX_VALUE));
+      limit =
+          config.getInt(
+              "rules",
+              null,
+              "compileReductionLimit",
+              (int) Math.min(10L * limit, Integer.MAX_VALUE));
       compileLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
     }
 

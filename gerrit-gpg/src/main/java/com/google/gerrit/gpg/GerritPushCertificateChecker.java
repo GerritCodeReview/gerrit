@@ -19,10 +19,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
+import org.eclipse.jgit.lib.Repository;
 
 public class GerritPushCertificateChecker extends PushCertificateChecker {
   public interface Factory {

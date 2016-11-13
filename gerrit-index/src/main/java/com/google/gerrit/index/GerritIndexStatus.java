@@ -17,12 +17,10 @@ package com.google.gerrit.index;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-
-import java.io.IOException;
 
 public class GerritIndexStatus {
   private static final String SECTION = "index";
@@ -30,11 +28,10 @@ public class GerritIndexStatus {
 
   private final FileBasedConfig cfg;
 
-  public GerritIndexStatus(SitePaths sitePaths)
-      throws ConfigInvalidException, IOException {
-    cfg = new FileBasedConfig(
-        sitePaths.index_dir.resolve("gerrit_index.config").toFile(),
-        FS.detect());
+  public GerritIndexStatus(SitePaths sitePaths) throws ConfigInvalidException, IOException {
+    cfg =
+        new FileBasedConfig(
+            sitePaths.index_dir.resolve("gerrit_index.config").toFile(), FS.detect());
     cfg.load();
     convertLegacyConfig();
   }
@@ -44,8 +41,7 @@ public class GerritIndexStatus {
   }
 
   public boolean getReady(String indexName, int version) {
-    return cfg.getBoolean(SECTION, indexDirName(indexName, version), KEY_READY,
-        false);
+    return cfg.getBoolean(SECTION, indexDirName(indexName, version), KEY_READY, false);
   }
 
   public void save() throws IOException {
@@ -62,8 +58,7 @@ public class GerritIndexStatus {
         if (ready != null) {
           dirty = false;
           cfg.unset(SECTION, subsection, KEY_READY);
-          cfg.setString(SECTION, indexDirName(ChangeSchemaDefinitions.NAME, v),
-              KEY_READY, ready);
+          cfg.setString(SECTION, indexDirName(ChangeSchemaDefinitions.NAME, v), KEY_READY, ready);
         }
       }
     }

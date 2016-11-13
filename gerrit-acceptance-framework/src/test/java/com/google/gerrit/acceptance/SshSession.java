@@ -20,7 +20,6 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -42,8 +41,7 @@ public class SshSession {
   }
 
   @SuppressWarnings("resource")
-  public String exec(String command, InputStream opt) throws JSchException,
-      IOException {
+  public String exec(String command, InputStream opt) throws JSchException, IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {
       channel.setCommand(command);
@@ -61,8 +59,7 @@ public class SshSession {
     }
   }
 
-  public InputStream exec2(String command, InputStream opt) throws JSchException,
-      IOException {
+  public InputStream exec2(String command, InputStream opt) throws JSchException, IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     channel.setCommand(command);
     channel.setInputStream(opt);
@@ -93,12 +90,9 @@ public class SshSession {
   private Session getSession() throws JSchException {
     if (session == null) {
       JSch jsch = new JSch();
-      jsch.addIdentity("KeyPair",
-          account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
-      session = jsch.getSession(
-          account.username,
-          addr.getAddress().getHostAddress(),
-          addr.getPort());
+      jsch.addIdentity("KeyPair", account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
+      session =
+          jsch.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");
       session.connect();
     }

@@ -21,12 +21,14 @@ import com.google.gwt.user.client.ui.Image;
 public class WebLinkInfo extends JavaScriptObject {
 
   public final native String name() /*-{ return this.name; }-*/;
+
   public final native String imageUrl() /*-{ return this.image_url; }-*/;
+
   public final native String url() /*-{ return this.url; }-*/;
+
   public final native String target() /*-{ return this.target; }-*/;
 
-  protected WebLinkInfo() {
-  }
+  protected WebLinkInfo() {}
 
   public final Anchor toAnchor() {
     Anchor a = new Anchor();

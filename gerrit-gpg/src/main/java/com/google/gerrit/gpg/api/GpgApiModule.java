@@ -30,7 +30,6 @@ import com.google.gerrit.gpg.server.PostGpgKeys;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
-
 import java.util.List;
 import java.util.Map;
 
@@ -72,8 +71,8 @@ public class GpgApiModule extends RestApiModule {
     }
 
     @Override
-    public Map<String, GpgKeyInfo> putGpgKeys(AccountResource account,
-        List<String> add, List<String> delete) {
+    public Map<String, GpgKeyInfo> putGpgKeys(
+        AccountResource account, List<String> add, List<String> delete) {
       throw new NotImplementedException(MSG);
     }
 
@@ -83,8 +82,7 @@ public class GpgApiModule extends RestApiModule {
     }
 
     @Override
-    public PushCertificateInfo checkPushCertificate(String certStr,
-        IdentifiedUser expectedUser) {
+    public PushCertificateInfo checkPushCertificate(String certStr, IdentifiedUser expectedUser) {
       throw new NotImplementedException(MSG);
     }
   }

@@ -31,16 +31,14 @@ import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-
+import java.io.IOException;
+import java.nio.file.Path;
+import java.sql.Timestamp;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.sql.Timestamp;
 
 public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     implements ChangeIndex {
@@ -49,9 +47,15 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       Path path,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory) throws IOException {
-    this(schema, sitePaths, FSDirectory.open(path),
-        path.getFileName().toString(), writerConfig, searcherFactory);
+      SearcherFactory searcherFactory)
+      throws IOException {
+    this(
+        schema,
+        sitePaths,
+        FSDirectory.open(path),
+        path.getFileName().toString(),
+        writerConfig,
+        searcherFactory);
   }
 
   ChangeSubIndex(
@@ -60,28 +64,25 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       Directory dir,
       String subIndex,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory) throws IOException {
-    super(schema, sitePaths, dir, NAME, subIndex, writerConfig,
-        searcherFactory);
+      SearcherFactory searcherFactory)
+      throws IOException {
+    super(schema, sitePaths, dir, NAME, subIndex, writerConfig, searcherFactory);
   }
 
   @Override
   public void replace(ChangeData obj) throws IOException {
-    throw new UnsupportedOperationException(
-        "don't use ChangeSubIndex directly");
+    throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
   }
 
   @Override
   public void delete(Change.Id key) throws IOException {
-    throw new UnsupportedOperationException(
-        "don't use ChangeSubIndex directly");
+    throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
   }
 
   @Override
-  public DataSource<ChangeData> getSource(Predicate<ChangeData> p,
-      QueryOptions opts) throws QueryParseException {
-    throw new UnsupportedOperationException(
-        "don't use ChangeSubIndex directly");
+  public DataSource<ChangeData> getSource(Predicate<ChangeData> p, QueryOptions opts)
+      throws QueryParseException {
+    throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
   }
 
   @Override

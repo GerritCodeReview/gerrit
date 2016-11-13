@@ -31,7 +31,8 @@ import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-
+import java.util.Date;
+import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
@@ -43,9 +44,6 @@ import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRefBuilder;
 import org.apache.lucene.util.NumericUtils;
-
-import java.util.Date;
-import java.util.List;
 
 public class QueryBuilder<V> {
   static Term intTerm(String name, int value) {
@@ -76,8 +74,7 @@ public class QueryBuilder<V> {
     }
   }
 
-  private Query or(Predicate<V> p)
-      throws QueryParseException {
+  private Query or(Predicate<V> p) throws QueryParseException {
     try {
       BooleanQuery.Builder q = new BooleanQuery.Builder();
       for (int i = 0; i < p.getChildCount(); i++) {
@@ -89,8 +86,7 @@ public class QueryBuilder<V> {
     }
   }
 
-  private Query and(Predicate<V> p)
-      throws QueryParseException {
+  private Query and(Predicate<V> p) throws QueryParseException {
     try {
       BooleanQuery.Builder b = new BooleanQuery.Builder();
       List<Query> not = Lists.newArrayListWithCapacity(p.getChildCount());
@@ -116,8 +112,7 @@ public class QueryBuilder<V> {
     }
   }
 
-  private Query not(Predicate<V> p)
-      throws QueryParseException {
+  private Query not(Predicate<V> p) throws QueryParseException {
     Predicate<V> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
       return notTimestamp((TimestampRangePredicate<V>) n);
@@ -125,15 +120,16 @@ public class QueryBuilder<V> {
 
     // Lucene does not support negation, start with all and subtract.
     return new BooleanQuery.Builder()
-      .add(new MatchAllDocsQuery(), MUST)
-      .add(toQuery(n), MUST_NOT)
-      .build();
+        .add(new MatchAllDocsQuery(), MUST)
+        .add(toQuery(n), MUST_NOT)
+        .build();
   }
 
-  private Query fieldQuery(IndexPredicate<V> p)
-      throws QueryParseException {
-    checkArgument(schema.hasField(p.getField()),
-        "field not in schema v%s: %s", schema.getVersion(),
+  private Query fieldQuery(IndexPredicate<V> p) throws QueryParseException {
+    checkArgument(
+        schema.hasField(p.getField()),
+        "field not in schema v%s: %s",
+        schema.getVersion(),
         p.getField().getName());
     if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
@@ -152,8 +148,7 @@ public class QueryBuilder<V> {
     }
   }
 
-  private Query intQuery(IndexPredicate<V> p)
-      throws QueryParseException {
+  private Query intQuery(IndexPredicate<V> p) throws QueryParseException {
     int value;
     try {
       // Can't use IntPredicate because it and IndexPredicate are different
@@ -165,49 +160,37 @@ public class QueryBuilder<V> {
     return new TermQuery(intTerm(p.getField().getName(), value));
   }
 
-  private Query intRangeQuery(IndexPredicate<V> p)
-      throws QueryParseException {
+  private Query intRangeQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof IntegerRangePredicate) {
-      IntegerRangePredicate<V> r =
-          (IntegerRangePredicate<V>) p;
+      IntegerRangePredicate<V> r = (IntegerRangePredicate<V>) p;
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
         // Just fall back to a standard integer query.
         return new TermQuery(intTerm(p.getField().getName(), minimum));
       }
-      return NumericRangeQuery.newIntRange(
-          r.getField().getName(),
-          minimum,
-          maximum,
-          true,
-          true);
+      return NumericRangeQuery.newIntRange(r.getField().getName(), minimum, maximum, true, true);
     }
     throw new QueryParseException("not an integer range: " + p);
   }
 
-  private Query timestampQuery(IndexPredicate<V> p)
-      throws QueryParseException {
+  private Query timestampQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
-      TimestampRangePredicate<V> r =
-          (TimestampRangePredicate<V>) p;
+      TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
       return NumericRangeQuery.newLongRange(
           r.getField().getName(),
           r.getMinTimestamp().getTime(),
           r.getMaxTimestamp().getTime(),
-          true, true);
+          true,
+          true);
     }
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private Query notTimestamp(TimestampRangePredicate<V> r)
-      throws QueryParseException {
+  private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return NumericRangeQuery.newLongRange(
-          r.getField().getName(),
-          r.getMaxTimestamp().getTime(),
-          null,
-          true, true);
+          r.getField().getName(), r.getMaxTimestamp().getTime(), null, true, true);
     }
     throw new QueryParseException("cannot negate: " + r);
   }
@@ -234,17 +217,14 @@ public class QueryBuilder<V> {
     return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private Query fullTextQuery(IndexPredicate<V> p)
-      throws QueryParseException {
+  private Query fullTextQuery(IndexPredicate<V> p) throws QueryParseException {
     String value = p.getValue();
     if (value == null) {
-      throw new QueryParseException(
-          "Full-text search over empty string not supported");
+      throw new QueryParseException("Full-text search over empty string not supported");
     }
     Query query = queryBuilder.createPhraseQuery(p.getField().getName(), value);
     if (query == null) {
-      throw new QueryParseException(
-          "Cannot create full-text query with value: " + value);
+      throw new QueryParseException("Cannot create full-text query with value: " + value);
     }
     return query;
   }

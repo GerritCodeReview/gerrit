@@ -24,17 +24,18 @@ import java.net.URLEncoder;
 public final class Url {
   /**
    * Encode a path segment, escaping characters not valid for a URL.
-   * <p>
-   * The following characters are not escaped:
+   *
+   * <p>The following characters are not escaped:
+   *
    * <ul>
-   * <li>{@code a..z, A..Z, 0..9}
-   * <li>{@code . - * _}
+   *   <li>{@code a..z, A..Z, 0..9}
+   *   <li>{@code . - * _}
    * </ul>
-   * <p>
-   * ' ' (space) is encoded as '+'.
-   * <p>
-   * All other characters (including '/') are converted to the triplet "%xy"
-   * where "xy" is the hex representation of the character in UTF-8.
+   *
+   * <p>' ' (space) is encoded as '+'.
+   *
+   * <p>All other characters (including '/') are converted to the triplet "%xy" where "xy" is the
+   * hex representation of the character in UTF-8.
    *
    * @param component a string containing text to encode.
    * @return a string with all invalid URL characters escaped.
@@ -62,6 +63,5 @@ public final class Url {
     return null;
   }
 
-  private Url() {
-  }
+  private Url() {}
 }

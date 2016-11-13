@@ -31,9 +31,7 @@ public class SafeHtml_WikifyQuoteTest {
     final SafeHtml o = html("> I'm happy\n > with quotes!\n\nSee above.");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        quote("I&#39;m happy\nwith quotes!")
-        + "<p>See above.</p>");
+    assertThat(n.asString()).isEqualTo(quote("I&#39;m happy\nwith quotes!") + "<p>See above.</p>");
   }
 
   @Test
@@ -41,10 +39,8 @@ public class SafeHtml_WikifyQuoteTest {
     final SafeHtml o = html("See this said:\n\n > a quoted\n > string block\n\nOK?");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "<p>See this said:</p>"
-        + quote("a quoted\nstring block")
-        + "<p>OK?</p>");
+    assertThat(n.asString())
+        .isEqualTo("<p>See this said:</p>" + quote("a quoted\nstring block") + "<p>OK?</p>");
   }
 
   @Test

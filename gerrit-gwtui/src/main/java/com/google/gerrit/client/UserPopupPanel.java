@@ -27,9 +27,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class UserPopupPanel extends PopupPanel {
   interface Binder extends UiBinder<Widget, UserPopupPanel> {}
+
   private static final Binder binder = GWT.create(Binder.class);
 
-  @UiField(provided = true) AvatarImage avatar;
+  @UiField(provided = true)
+  AvatarImage avatar;
+
   @UiField Label userName;
   @UiField Label userEmail;
   @UiField Element userLinks;
@@ -37,9 +40,8 @@ public class UserPopupPanel extends PopupPanel {
   @UiField AnchorElement logout;
   @UiField InlineHyperlink settings;
 
-  public UserPopupPanel(AccountInfo account, boolean canLogOut,
-      boolean showSettingsLink) {
-    super(/* auto hide */true, /* modal */false);
+  public UserPopupPanel(AccountInfo account, boolean canLogOut, boolean showSettingsLink) {
+    super(/* auto hide */ true, /* modal */ false);
     avatar = new AvatarImage(account, 100, false);
     setWidget(binder.createAndBindUi(this));
     setStyleName(Gerrit.RESOURCES.css().userInfoPopup());
@@ -52,8 +54,7 @@ public class UserPopupPanel extends PopupPanel {
     if (showSettingsLink) {
       if (Gerrit.info().auth().switchAccountUrl() != null) {
         switchAccount.setHref(Gerrit.info().auth().switchAccountUrl());
-      } else if (Gerrit.info().auth().isDev()
-          || Gerrit.info().auth().isOpenId()) {
+      } else if (Gerrit.info().auth().isDev() || Gerrit.info().auth().isOpenId()) {
         switchAccount.setHref(Gerrit.selfRedirect("/login"));
       } else {
         switchAccount.removeFromParent();

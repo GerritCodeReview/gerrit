@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
-
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -37,37 +36,39 @@ import org.junit.Test;
 
 @NoHttpd
 public class DiffPreferencesIT extends AbstractDaemonTest {
-  @Inject
-  private AllUsersName allUsers;
+  @Inject private AllUsersName allUsers;
 
   @After
   public void cleanUp() throws Exception {
-    gApi.accounts().id(admin.getId().toString())
-        .setDiffPreferences(DiffPreferencesInfo.defaults());
+    gApi.accounts().id(admin.getId().toString()).setDiffPreferences(DiffPreferencesInfo.defaults());
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     try {
       fetch(allUsersRepo, RefNames.REFS_USERS_DEFAULT + ":defaults");
     } catch (TransportException e) {
-      if (e.getMessage().equals("Remote does not have "
-          + RefNames.REFS_USERS_DEFAULT + " available for fetch.")) {
+      if (e.getMessage()
+          .equals(
+              "Remote does not have " + RefNames.REFS_USERS_DEFAULT + " available for fetch.")) {
         return;
       }
       throw e;
     }
     allUsersRepo.reset("defaults");
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
-        "Delete default preferences", VersionedAccountPreferences.PREFERENCES,
-        "");
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            allUsersRepo,
+            "Delete default preferences",
+            VersionedAccountPreferences.PREFERENCES,
+            "");
     push.rm(RefNames.REFS_USERS_DEFAULT).assertOkStatus();
   }
 
   @Test
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
-    DiffPreferencesInfo o = gApi.accounts()
-        .id(admin.getId().toString())
-        .getDiffPreferences();
+    DiffPreferencesInfo o = gApi.accounts().id(admin.getId().toString()).getDiffPreferences();
     assertPrefs(o, d);
   }
 
@@ -102,17 +103,13 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.matchBrackets ^= true;
     i.lineWrapping ^= true;
 
-    DiffPreferencesInfo o = gApi.accounts()
-        .id(admin.getId().toString())
-        .setDiffPreferences(i);
+    DiffPreferencesInfo o = gApi.accounts().id(admin.getId().toString()).setDiffPreferences(i);
     assertPrefs(o, i);
 
     // Partially fill input record
     i = new DiffPreferencesInfo();
     i.tabSize = 42;
-    DiffPreferencesInfo a = gApi.accounts()
-        .id(admin.getId().toString())
-        .setDiffPreferences(i);
+    DiffPreferencesInfo a = gApi.accounts().id(admin.getId().toString()).setDiffPreferences(i);
     assertPrefs(a, o, "tabSize");
     assertThat(a.tabSize).isEqualTo(42);
   }
@@ -129,9 +126,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     update.fontSize = newFontSize;
     gApi.config().server().setDefaultDiffPreferences(update);
 
-    DiffPreferencesInfo o = gApi.accounts()
-        .id(admin.getId().toString())
-        .getDiffPreferences();
+    DiffPreferencesInfo o = gApi.accounts().id(admin.getId().toString()).getDiffPreferences();
 
     // assert configured defaults
     assertThat(o.lineLength).isEqualTo(newLineLength);

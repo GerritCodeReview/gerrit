@@ -19,13 +19,12 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.util.Set;
 
 /**
  * Listener to provide reviewer suggestions.
- * <p>
- * Invoked by Gerrit a user who is searching for a reviewer to add to a change.
+ *
+ * <p>Invoked by Gerrit a user who is searching for a reviewer to add to a change.
  */
 @ExtensionPoint
 public interface ReviewerSuggestion {
@@ -36,10 +35,12 @@ public interface ReviewerSuggestion {
    * @param changeId The changeId that the suggestion is for. Can be an {@code null}.
    * @param query The query as typed by the user. Can be an {@code null}.
    * @param candidates A set of candidates for the ranking. Can be empty.
-   * @return Set of suggested reviewers as a tuple of account id and score.
-   *         The account ids listed here don't have to be a part of candidates.
+   * @return Set of suggested reviewers as a tuple of account id and score. The account ids listed
+   *     here don't have to be a part of candidates.
    */
-  Set<SuggestedReviewer> suggestReviewers(Project.NameKey project,
-      @Nullable Change.Id changeId, @Nullable String query,
+  Set<SuggestedReviewer> suggestReviewers(
+      Project.NameKey project,
+      @Nullable Change.Id changeId,
+      @Nullable String query,
       Set<Account.Id> candidates);
 }

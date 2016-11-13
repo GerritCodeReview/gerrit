@@ -27,12 +27,10 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class SingleVersionModule extends LifecycleModule {
@@ -66,8 +64,7 @@ public class SingleVersionModule extends LifecycleModule {
       this.defs = defs;
       this.singleVersions = singleVersions;
 
-      disabled = ImmutableSet.copyOf(
-          cfg.getStringList("index", null, "testDisable"));
+      disabled = ImmutableSet.copyOf(cfg.getStringList("index", null, "testDisable"));
     }
 
     @Override
@@ -77,8 +74,7 @@ public class SingleVersionModule extends LifecycleModule {
       }
     }
 
-    private <K, V, I extends Index<K, V>> void start(
-        IndexDefinition<K, V, I> def) {
+    private <K, V, I extends Index<K, V>> void start(IndexDefinition<K, V, I> def) {
       if (disabled.contains(def.getName())) {
         return;
       }
@@ -89,8 +85,8 @@ public class SingleVersionModule extends LifecycleModule {
       } else {
         schema = def.getSchemas().get(v);
         if (schema == null) {
-          throw new ProvisionException(String.format(
-                "Unrecognized %s schema version: %s", def.getName(), v));
+          throw new ProvisionException(
+              String.format("Unrecognized %s schema version: %s", def.getName(), v));
         }
       }
       I index = def.getIndexFactory().create(schema);

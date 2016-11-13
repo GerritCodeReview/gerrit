@@ -17,7 +17,6 @@ package com.google.gerrit.server.args4j;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -28,21 +27,21 @@ import org.kohsuke.args4j.spi.Setter;
 public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
 
   @Inject
-  public PatchSetIdHandler(@Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option, @Assisted final Setter<PatchSet.Id> setter) {
+  public PatchSetIdHandler(
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
+      @Assisted final Setter<PatchSet.Id> setter) {
     super(parser, option, setter);
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     final String token = params.getParameter(0);
     final PatchSet.Id id;
     try {
       id = PatchSet.Id.parse(token);
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, "\"" + token
-          + "\" is not a valid patch set");
+      throw new CmdLineException(owner, "\"" + token + "\" is not a valid patch set");
     }
 
     setter.addValue(id);

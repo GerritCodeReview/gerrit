@@ -17,29 +17,25 @@ package com.google.gerrit.server.query;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * An abstract predicate tree for any form of query.
- * <p>
- * Implementations should be immutable, such that the meaning of a predicate
- * never changes once constructed. They should ensure their immutable promise by
- * defensively copying any structures which might be modified externally, but
- * was passed into the object's constructor.
- * <p>
- * However, implementations <i>may</i> retain non-thread-safe caches internally,
- * to speed up evaluation operations within the context of one thread's
- * evaluation of the predicate. As a result, callers should assume predicates
- * are not thread-safe, but that two predicate graphs produce the same results
- * given the same inputs if they are {@link #equals(Object)}.
- * <p>
- * Predicates should support deep inspection whenever possible, so that generic
- * algorithms can be written to operate against them. Predicates which contain
- * other predicates should override {@link #getChildren()} to return the list of
- * children nested within the predicate.
+ *
+ * <p>Implementations should be immutable, such that the meaning of a predicate never changes once
+ * constructed. They should ensure their immutable promise by defensively copying any structures
+ * which might be modified externally, but was passed into the object's constructor.
+ *
+ * <p>However, implementations <i>may</i> retain non-thread-safe caches internally, to speed up
+ * evaluation operations within the context of one thread's evaluation of the predicate. As a
+ * result, callers should assume predicates are not thread-safe, but that two predicate graphs
+ * produce the same results given the same inputs if they are {@link #equals(Object)}.
+ *
+ * <p>Predicates should support deep inspection whenever possible, so that generic algorithms can be
+ * written to operate against them. Predicates which contain other predicates should override {@link
+ * #getChildren()} to return the list of children nested within the predicate.
  *
  * @param <T> type of object the predicate can evaluate in memory.
  */
@@ -60,8 +56,7 @@ public abstract class Predicate<T> {
   }
 
   /** Combine the passed predicates into a single AND node. */
-  public static <T> Predicate<T> and(
-      final Collection<? extends Predicate<T>> that) {
+  public static <T> Predicate<T> and(final Collection<? extends Predicate<T>> that) {
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }
@@ -78,8 +73,7 @@ public abstract class Predicate<T> {
   }
 
   /** Combine the passed predicates into a single OR node. */
-  public static <T> Predicate<T> or(
-      final Collection<? extends Predicate<T>> that) {
+  public static <T> Predicate<T> or(final Collection<? extends Predicate<T>> that) {
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }
@@ -141,8 +135,7 @@ public abstract class Predicate<T> {
   private static class Any<T> extends Predicate<T> implements Matchable<T> {
     private static final Any<Object> INSTANCE = new Any<>();
 
-    private Any() {
-    }
+    private Any() {}
 
     @Override
     public Predicate<T> copy(Collection<? extends Predicate<T>> children) {

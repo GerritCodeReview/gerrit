@@ -27,14 +27,12 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AbandonUtil {
@@ -66,18 +64,14 @@ public class AbandonUtil {
     }
 
     try {
-      String query = "status:new age:"
-          + TimeUnit.MILLISECONDS.toMinutes(cfg.getAbandonAfter())
-          + "m";
+      String query =
+          "status:new age:" + TimeUnit.MILLISECONDS.toMinutes(cfg.getAbandonAfter()) + "m";
       if (!cfg.getAbandonIfMergeable()) {
         query += " -is:mergeable";
       }
 
       List<ChangeData> changesToAbandon =
-          queryProcessor
-              .enforceVisibility(false)
-              .query(queryBuilder.parse(query))
-              .entities();
+          queryProcessor.enforceVisibility(false).query(queryBuilder.parse(query)).entities();
       ImmutableMultimap.Builder<Project.NameKey, ChangeControl> builder =
           ImmutableMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
@@ -89,14 +83,12 @@ public class AbandonUtil {
       Multimap<Project.NameKey, ChangeControl> abandons = builder.build();
       String message = cfg.getAbandonMessage();
       for (Project.NameKey project : abandons.keySet()) {
-        Collection<ChangeControl> changes =
-            getValidChanges(abandons.get(project), query);
+        Collection<ChangeControl> changes = getValidChanges(abandons.get(project), query);
         try {
           abandon.batchAbandon(project, internalUser, changes, message);
           count += changes.size();
         } catch (Throwable e) {
-          StringBuilder msg =
-              new StringBuilder("Failed to auto-abandon inactive change(s):");
+          StringBuilder msg = new StringBuilder("Failed to auto-abandon inactive change(s):");
           for (ChangeControl change : changes) {
             msg.append(" ").append(change.getId().get());
           }
@@ -104,11 +96,9 @@ public class AbandonUtil {
           log.error(msg.toString(), e);
         }
       }
-      log.info(String.format("Auto-Abandoned %d of %d changes.",
-          count, changesToAbandon.size()));
+      log.info(String.format("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size()));
     } catch (QueryParseException | OrmException e) {
-      log.error(
-          "Failed to query inactive open changes for auto-abandoning.", e);
+      log.error("Failed to query inactive open changes for auto-abandoning.", e);
     }
   }
 
@@ -119,15 +109,15 @@ public class AbandonUtil {
     for (ChangeControl cc : changeControls) {
       String newQuery = query + " change:" + cc.getId();
       List<ChangeData> changesToAbandon =
-          queryProcessor.enforceVisibility(false)
-              .query(queryBuilder.parse(newQuery)).entities();
+          queryProcessor.enforceVisibility(false).query(queryBuilder.parse(newQuery)).entities();
       if (!changesToAbandon.isEmpty()) {
         validChanges.add(cc);
       } else {
         log.debug(
             "Change data with id \"{}\" does not satisfy the query \"{}\""
                 + " any more, hence skipping it in clean up",
-            cc.getId(), query);
+            cc.getId(),
+            query);
       }
     }
     return validChanges;

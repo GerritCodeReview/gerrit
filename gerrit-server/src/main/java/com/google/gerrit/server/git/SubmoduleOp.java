@@ -35,7 +35,18 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -55,24 +66,9 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
 public class SubmoduleOp {
 
-  /**
-   * Only used for branches without code review changes
-   */
+  /** Only used for branches without code review changes */
   public class GitlinkOp extends BatchUpdate.RepoOnlyOp {
     private final Branch.NameKey branch;
 
@@ -91,8 +87,7 @@ public class SubmoduleOp {
   }
 
   public interface Factory {
-    SubmoduleOp create(
-        Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
+    SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -127,16 +122,16 @@ public class SubmoduleOp {
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
       @Assisted Set<Branch.NameKey> updatedBranches,
-      @Assisted MergeOpRepoManager orm) throws SubmoduleException {
+      @Assisted MergeOpRepoManager orm)
+      throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
     this.verboseSuperProject =
-        cfg.getEnum("submodule", null, "verboseSuperprojectUpdate",
-            VerboseSuperprojectUpdate.TRUE);
-    this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
-        "enableSuperProjectSubscriptions", true);
+        cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
+    this.enableSuperProjectSubscriptions =
+        cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true);
     this.orm = orm;
     this.updatedBranches = updatedBranches;
     this.targets = HashMultimap.create();
@@ -147,8 +142,7 @@ public class SubmoduleOp {
     this.sortedBranches = calculateSubscriptionMap();
   }
 
-  private ImmutableSet<Branch.NameKey> calculateSubscriptionMap()
-      throws SubmoduleException {
+  private ImmutableSet<Branch.NameKey> calculateSubscriptionMap() throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {
       logDebug("Updating superprojects disabled");
       return null;
@@ -161,8 +155,7 @@ public class SubmoduleOp {
         continue;
       }
 
-      searchForSuperprojects(updatedBranch, new LinkedHashSet<Branch.NameKey>(),
-          allVisited);
+      searchForSuperprojects(updatedBranch, new LinkedHashSet<Branch.NameKey>(), allVisited);
     }
 
     // Since the searchForSuperprojects will add all branches (related or
@@ -174,7 +167,8 @@ public class SubmoduleOp {
     return ImmutableSet.copyOf(allVisited);
   }
 
-  private void searchForSuperprojects(Branch.NameKey current,
+  private void searchForSuperprojects(
+      Branch.NameKey current,
       LinkedHashSet<Branch.NameKey> currentVisited,
       LinkedHashSet<Branch.NameKey> allVisited)
       throws SubmoduleException {
@@ -182,8 +176,8 @@ public class SubmoduleOp {
 
     if (currentVisited.contains(current)) {
       throw new SubmoduleException(
-          "Branch level circular subscriptions detected:  " +
-              printCircularPath(currentVisited, current));
+          "Branch level circular subscriptions detected:  "
+              + printCircularPath(currentVisited, current));
     }
 
     if (allVisited.contains(current)) {
@@ -203,8 +197,7 @@ public class SubmoduleOp {
         affectedBranches.add(sub.getSubmodule());
       }
     } catch (IOException e) {
-      throw new SubmoduleException("Cannot find superprojects for " + current,
-          e);
+      throw new SubmoduleException("Cannot find superprojects for " + current, e);
     }
     currentVisited.remove(current);
     allVisited.add(current);
@@ -238,8 +231,8 @@ public class SubmoduleOp {
     return sb.toString();
   }
 
-  private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
-      SubscribeSection s) throws IOException {
+  private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src, SubscribeSection s)
+      throws IOException {
     Collection<Branch.NameKey> ret = new HashSet<>();
     logDebug("Inspecting SubscribeSection " + s);
     for (RefSpec r : s.getMatchingRefSpecs()) {
@@ -249,8 +242,7 @@ public class SubmoduleOp {
       }
       if (r.isWildcard()) {
         // refs/heads/*[:refs/somewhere/*]
-        ret.add(new Branch.NameKey(s.getProject(),
-            r.expandFromSource(src.get()).getDestination()));
+        ret.add(new Branch.NameKey(s.getProject(), r.expandFromSource(src.get()).getDestination()));
       } else {
         // e.g. refs/heads/master[:refs/heads/stable]
         String dest = r.getDestination();
@@ -276,8 +268,7 @@ public class SubmoduleOp {
         continue;
       }
 
-      for (Ref ref : or.repo.getRefDatabase().getRefs(
-          RefNames.REFS_HEADS).values()) {
+      for (Ref ref : or.repo.getRefDatabase().getRefs(RefNames.REFS_HEADS).values()) {
         if (r.getDestination() != null && !r.matchDestination(ref.getName())) {
           continue;
         }
@@ -287,23 +278,19 @@ public class SubmoduleOp {
         }
       }
     }
-    logDebug("Returning possible branches: " + ret +
-        "for project " + s.getProject());
+    logDebug("Returning possible branches: " + ret + "for project " + s.getProject());
     return ret;
   }
 
-  public Collection<SubmoduleSubscription>
-      superProjectSubscriptionsForSubmoduleBranch(Branch.NameKey srcBranch)
-      throws IOException {
+  public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
+      Branch.NameKey srcBranch) throws IOException {
     logDebug("Calculating possible superprojects for " + srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.getParentKey();
     ProjectConfig cfg = projectCache.get(srcProject).getConfig();
-    for (SubscribeSection s : projectStateFactory.create(cfg)
-        .getSubscribeSections(srcBranch)) {
+    for (SubscribeSection s : projectStateFactory.create(cfg).getSubscribeSections(srcBranch)) {
       logDebug("Checking subscribe section " + s);
-      Collection<Branch.NameKey> branches =
-          getDestinationBranches(srcBranch, s);
+      Collection<Branch.NameKey> branches = getDestinationBranches(srcBranch, s);
       for (Branch.NameKey targetBranch : branches) {
         Project.NameKey targetProject = targetBranch.getParentKey();
         try {
@@ -349,17 +336,14 @@ public class SubmoduleOp {
           }
         }
       }
-      BatchUpdate.execute(orm.batchUpdates(superProjects), Listener.NONE,
-          orm.getSubmissionId(), false);
-    } catch (RestApiException | UpdateException | IOException |
-        NoSuchProjectException e) {
+      BatchUpdate.execute(
+          orm.batchUpdates(superProjects), Listener.NONE, orm.getSubmissionId(), false);
+    } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
     }
   }
 
-  /**
-   * Create a separate gitlink commit
-   */
+  /** Create a separate gitlink commit */
   public CodeReviewCommit composeGitlinksCommit(final Branch.NameKey subscriber)
       throws IOException, SubmoduleException {
     OpenRepo or;
@@ -417,9 +401,7 @@ public class SubmoduleOp {
     return or.rw.parseCommit(id);
   }
 
-  /**
-   * Amend an existing commit with gitlink updates
-   */
+  /** Amend an existing commit with gitlink updates */
   public CodeReviewCommit composeGitlinksCommit(
       final Branch.NameKey subscriber, CodeReviewCommit currentCommit)
       throws IOException, SubmoduleException {
@@ -449,8 +431,7 @@ public class SubmoduleOp {
     commit.setParentIds(currentCommit.getParents());
     if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
       //TODO:czhen handle cherrypick footer
-      commit.setMessage(currentCommit.getFullMessage()
-          + "\n\n* submodules:\n" + msgbuf.toString());
+      commit.setMessage(currentCommit.getFullMessage() + "\n\n* submodules:\n" + msgbuf.toString());
     } else {
       commit.setMessage(currentCommit.getFullMessage());
     }
@@ -462,8 +443,8 @@ public class SubmoduleOp {
     return newCommit;
   }
 
-  private RevCommit updateSubmodule(DirCache dc, DirCacheEditor ed,
-      StringBuilder msgbuf, final SubmoduleSubscription s)
+  private RevCommit updateSubmodule(
+      DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, final SubmoduleSubscription s)
       throws SubmoduleException, IOException {
     OpenRepo subOr;
     try {
@@ -476,9 +457,13 @@ public class SubmoduleOp {
     RevCommit oldCommit = null;
     if (dce != null) {
       if (!dce.getFileMode().equals(FileMode.GITLINK)) {
-        String errMsg = "Requested to update gitlink " + s.getPath() + " in "
-            + s.getSubmodule().getParentKey().get() + " but entry "
-            + "doesn't have gitlink file mode.";
+        String errMsg =
+            "Requested to update gitlink "
+                + s.getPath()
+                + " in "
+                + s.getSubmodule().getParentKey().get()
+                + " but entry "
+                + "doesn't have gitlink file mode.";
         throw new SubmoduleException(errMsg);
       }
       oldCommit = subOr.rw.parseCommit(dce.getObjectId());
@@ -501,13 +486,14 @@ public class SubmoduleOp {
       // gitlink have already been updated for this submodule
       return null;
     }
-    ed.add(new PathEdit(s.getPath()) {
-      @Override
-      public void apply(DirCacheEntry ent) {
-        ent.setFileMode(FileMode.GITLINK);
-        ent.setObjectId(newCommit.getId());
-      }
-    });
+    ed.add(
+        new PathEdit(s.getPath()) {
+          @Override
+          public void apply(DirCacheEntry ent) {
+            ent.setFileMode(FileMode.GITLINK);
+            ent.setObjectId(newCommit.getId());
+          }
+        });
 
     if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
       createSubmoduleCommitMsg(msgbuf, s, subOr, newCommit, oldCommit);
@@ -516,8 +502,12 @@ public class SubmoduleOp {
     return newCommit;
   }
 
-  private void createSubmoduleCommitMsg(StringBuilder msgbuf,
-      SubmoduleSubscription s, OpenRepo subOr, RevCommit newCommit, RevCommit oldCommit)
+  private void createSubmoduleCommitMsg(
+      StringBuilder msgbuf,
+      SubmoduleSubscription s,
+      OpenRepo subOr,
+      RevCommit newCommit,
+      RevCommit oldCommit)
       throws SubmoduleException {
     msgbuf.append("* Update " + s.getPath());
     msgbuf.append(" from branch '" + s.getSubmodule().getShortName() + "'");
@@ -540,24 +530,24 @@ public class SubmoduleOp {
         }
       }
     } catch (IOException e) {
-      throw new SubmoduleException("Could not perform a revwalk to "
-          + "create superproject commit message", e);
+      throw new SubmoduleException(
+          "Could not perform a revwalk to " + "create superproject commit message", e);
     }
   }
 
-  private static DirCache readTree(RevWalk rw, ObjectId base)
-      throws IOException {
+  private static DirCache readTree(RevWalk rw, ObjectId base) throws IOException {
     final DirCache dc = DirCache.newInCore();
     final DirCacheBuilder b = dc.builder();
-    b.addTree(new byte[0], // no prefix path
+    b.addTree(
+        new byte[0], // no prefix path
         DirCacheEntry.STAGE_0, // standard stage
-        rw.getObjectReader(), rw.parseTree(base));
+        rw.getObjectReader(),
+        rw.parseTree(base));
     b.finish();
     return dc;
   }
 
-  public ImmutableSet<Project.NameKey> getProjectsInOrder()
-      throws SubmoduleException {
+  public ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleException {
     LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
     for (Project.NameKey project : branchesByProject.keySet()) {
       addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
@@ -569,14 +559,14 @@ public class SubmoduleOp {
     return ImmutableSet.copyOf(projects);
   }
 
-  private void addAllSubmoduleProjects(Project.NameKey project,
+  private void addAllSubmoduleProjects(
+      Project.NameKey project,
       LinkedHashSet<Project.NameKey> current,
       LinkedHashSet<Project.NameKey> projects)
       throws SubmoduleException {
     if (current.contains(project)) {
       throw new SubmoduleException(
-          "Project level circular subscriptions detected:  " +
-              printCircularPath(current, project));
+          "Project level circular subscriptions detected:  " + printCircularPath(current, project));
     }
 
     if (projects.contains(project)) {

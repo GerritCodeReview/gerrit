@@ -22,29 +22,27 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface AccountExternalIdAccess extends
-    Access<AccountExternalId, AccountExternalId.Key> {
+public interface AccountExternalIdAccess extends Access<AccountExternalId, AccountExternalId.Key> {
   @Override
   @PrimaryKey("key")
   AccountExternalId get(AccountExternalId.Key key) throws OrmException;
 
   @Query("WHERE key >= ? AND key <= ? ORDER BY key LIMIT ?")
-  ResultSet<AccountExternalId> suggestByKey(AccountExternalId.Key keyA,
-      AccountExternalId.Key keyB, int limit) throws OrmException;
+  ResultSet<AccountExternalId> suggestByKey(
+      AccountExternalId.Key keyA, AccountExternalId.Key keyB, int limit) throws OrmException;
 
   @Query("WHERE accountId = ?")
   ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
 
   @Query("WHERE accountId = ? AND emailAddress = ?")
-  ResultSet<AccountExternalId> byAccountEmail(Account.Id id, String email)
-      throws OrmException;
+  ResultSet<AccountExternalId> byAccountEmail(Account.Id id, String email) throws OrmException;
 
   @Query("WHERE emailAddress = ?")
   ResultSet<AccountExternalId> byEmailAddress(String email) throws OrmException;
 
   @Query("WHERE emailAddress >= ? AND emailAddress <= ? ORDER BY emailAddress LIMIT ?")
-  ResultSet<AccountExternalId> suggestByEmailAddress(String emailA,
-      String emailB, int limit) throws OrmException;
+  ResultSet<AccountExternalId> suggestByEmailAddress(String emailA, String emailB, int limit)
+      throws OrmException;
 
   @Query
   ResultSet<AccountExternalId> all() throws OrmException;

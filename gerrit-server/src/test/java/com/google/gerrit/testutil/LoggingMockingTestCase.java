@@ -15,21 +15,19 @@
 package com.google.gerrit.testutil;
 
 import com.google.gerrit.testutil.log.LogUtil;
-
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  * Testcase capturing associated logs and allowing to assert on them.
  *
- * For a test case SomeNameTest, the log for SomeName gets captured. Assertions
- * on logs run against the coptured log events from this logger. After the
- * tests, the logger are set back to their original settings.
+ * <p>For a test case SomeNameTest, the log for SomeName gets captured. Assertions on logs run
+ * against the coptured log events from this logger. After the tests, the logger are set back to
+ * their original settings.
  */
 public abstract class LoggingMockingTestCase extends MockingTestCase {
   private String loggerName;
@@ -38,8 +36,8 @@ public abstract class LoggingMockingTestCase extends MockingTestCase {
 
   /**
    * Assert a logged event with a given string.
-   * <p>
-   * If such a event is found, it is removed from the captured logs.
+   *
+   * <p>If such a event is found, it is removed from the captured logs.
    *
    * @param needle The string to look for.
    */
@@ -52,16 +50,15 @@ public abstract class LoggingMockingTestCase extends MockingTestCase {
         hit = event;
       }
     }
-    assertNotNull("Could not find log message containing '" + needle + "'",
-        hit);
-    assertTrue("Could not remove log message containing '" + needle + "'",
-        loggedEvents.remove(hit));
+    assertNotNull("Could not find log message containing '" + needle + "'", hit);
+    assertTrue(
+        "Could not remove log message containing '" + needle + "'", loggedEvents.remove(hit));
   }
 
   /**
    * Assert a logged event whose throwable contains a given string
-   * <p>
-   * If such a event is found, it is removed from the captured logs.
+   *
+   * <p>If such a event is found, it is removed from the captured logs.
    *
    * @param needle The string to look for.
    */
@@ -70,20 +67,17 @@ public abstract class LoggingMockingTestCase extends MockingTestCase {
     Iterator<LoggingEvent> iter = loggedEvents.iterator();
     while (hit == null && iter.hasNext()) {
       LoggingEvent event = iter.next();
-      if (event.getThrowableInformation().getThrowable().toString()
-          .contains(needle)) {
+      if (event.getThrowableInformation().getThrowable().toString().contains(needle)) {
         hit = event;
       }
     }
-    assertNotNull("Could not find log message with a Throwable containing '"
-        + needle + "'", hit);
-    assertTrue("Could not remove log message with a Throwable containing '"
-        + needle + "'", loggedEvents.remove(hit));
+    assertNotNull("Could not find log message with a Throwable containing '" + needle + "'", hit);
+    assertTrue(
+        "Could not remove log message with a Throwable containing '" + needle + "'",
+        loggedEvents.remove(hit));
   }
 
-  /**
-   * Assert that all logged events have been asserted
-   */
+  /** Assert that all logged events have been asserted */
   // As the PowerMock runner does not pass through runTest, we inject log
   // verification through @After
   @After

@@ -18,7 +18,6 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
-
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
@@ -29,7 +28,9 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-
+import java.io.IOException;
+import java.util.List;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -43,13 +44,8 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.regex.Pattern;
-
 /**
- * Returns true if any of the files that match FileNameRegex have edited lines
- * that match EditRegex
+ * Returns true if any of the files that match FileNameRegex have edited lines that match EditRegex
  *
  * <pre>
  *   'commit_edits'(+FileNameRegex, +EditRegex)
@@ -98,8 +94,8 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
           continue;
         }
 
-        if (fileRegex.matcher(newName).find() ||
-            (oldName != null && fileRegex.matcher(oldName).find())) {
+        if (fileRegex.matcher(newName).find()
+            || (oldName != null && fileRegex.matcher(oldName).find())) {
           List<Edit> edits = entry.getEdits();
 
           if (edits.isEmpty()) {
@@ -146,8 +142,8 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
   }
 
   private Text load(final ObjectId tree, final String path, final ObjectReader reader)
-      throws MissingObjectException, IncorrectObjectTypeException,
-      CorruptObjectException, IOException {
+      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+          IOException {
     if (path == null) {
       return Text.EMPTY;
     }

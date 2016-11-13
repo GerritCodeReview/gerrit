@@ -29,14 +29,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.patch.CombinedFileHeader;
-import org.eclipse.jgit.patch.FileHeader;
-import org.eclipse.jgit.util.IntList;
-import org.eclipse.jgit.util.RawParseUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -44,13 +36,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.patch.CombinedFileHeader;
+import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.util.IntList;
+import org.eclipse.jgit.util.RawParseUtils;
 
 public class PatchListEntry {
   private static final byte[] EMPTY_HEADER = {};
 
   static PatchListEntry empty(final String fileName) {
-    return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
-        fileName, EMPTY_HEADER, Collections.<Edit> emptyList(), 0, 0, 0, 0);
+    return new PatchListEntry(
+        ChangeType.MODIFIED,
+        PatchType.UNIFIED,
+        null,
+        fileName,
+        EMPTY_HEADER,
+        Collections.<Edit>emptyList(),
+        0,
+        0,
+        0,
+        0);
   }
 
   private final ChangeType changeType;
@@ -66,8 +73,7 @@ public class PatchListEntry {
   // Note: When adding new fields, the serialVersionUID in PatchListKey must be
   // incremented so that entries from the cache are automatically invalidated.
 
-  PatchListEntry(FileHeader hdr, List<Edit> editList, long size,
-      long sizeDelta) {
+  PatchListEntry(FileHeader hdr, List<Edit> editList, long size, long sizeDelta) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
 
@@ -114,9 +120,17 @@ public class PatchListEntry {
     this.sizeDelta = sizeDelta;
   }
 
-  private PatchListEntry(ChangeType changeType, PatchType patchType,
-      String oldName, String newName, byte[] header, List<Edit> edits,
-      int insertions, int deletions, long size, long sizeDelta) {
+  private PatchListEntry(
+      ChangeType changeType,
+      PatchType patchType,
+      String oldName,
+      String newName,
+      byte[] header,
+      List<Edit> edits,
+      int insertions,
+      int deletions,
+      long size,
+      long sizeDelta) {
     this.changeType = changeType;
     this.patchType = patchType;
     this.oldName = oldName;
@@ -246,8 +260,8 @@ public class PatchListEntry {
       editArray[i] = new Edit(beginA, endA, beginB, endB);
     }
 
-    return new PatchListEntry(changeType, patchType, oldName, newName, hdr,
-        toList(editArray), ins, del, size, sizeDelta);
+    return new PatchListEntry(
+        changeType, patchType, oldName, newName, hdr, toList(editArray), ins, del, size, sizeDelta);
   }
 
   private static List<Edit> toList(Edit[] l) {
@@ -288,8 +302,7 @@ public class PatchListEntry {
       case COPY:
         return Patch.ChangeType.COPIED;
       default:
-        throw new IllegalArgumentException("Unsupported type "
-            + hdr.getChangeType());
+        throw new IllegalArgumentException("Unsupported type " + hdr.getChangeType());
     }
   }
 
@@ -305,8 +318,7 @@ public class PatchListEntry {
         pt = Patch.PatchType.BINARY;
         break;
       default:
-        throw new IllegalArgumentException("Unsupported type "
-            + hdr.getPatchType());
+        throw new IllegalArgumentException("Unsupported type " + hdr.getPatchType());
     }
 
     if (pt != PatchType.BINARY) {

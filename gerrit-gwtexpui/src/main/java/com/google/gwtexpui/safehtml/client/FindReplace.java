@@ -18,19 +18,15 @@ import com.google.gwt.regexp.shared.RegExp;
 
 /** A Find/Replace pair used against the {@link SafeHtml} block of text. */
 public interface FindReplace {
-  /**
-   * @return regular expression to match substrings with; should be treated as
-   *     immutable.
-   */
+  /** @return regular expression to match substrings with; should be treated as immutable. */
   RegExp pattern();
 
   /**
    * Find and replace a single instance of this pattern in an input.
-   * <p>
-   * <b>WARNING:</b> No XSS sanitization is done on the return value of this
-   * method, e.g. this value may be passed directly to
-   * {@link SafeHtml#replaceAll(String, String)}. Implementations must sanitize output
-   * appropriately.
+   *
+   * <p><b>WARNING:</b> No XSS sanitization is done on the return value of this method, e.g. this
+   * value may be passed directly to {@link SafeHtml#replaceAll(String, String)}. Implementations
+   * must sanitize output appropriately.
    *
    * @param input input string.
    * @return result of regular expression replacement.

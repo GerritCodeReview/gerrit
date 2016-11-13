@@ -26,8 +26,7 @@ public class InitDev implements InitStep {
   private final Section plugins;
 
   @Inject
-  InitDev(InitFlags flags,
-      Section.Factory sections) {
+  InitDev(InitFlags flags, Section.Factory sections) {
     this.flags = flags;
     this.plugins = sections.get("plugins", null);
   }

@@ -17,6 +17,5 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
 public class AssigneeInput {
-  @DefaultInput
-  public String assignee;
+  @DefaultInput public String assignee;
 }

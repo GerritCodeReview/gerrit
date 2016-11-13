@@ -23,15 +23,13 @@ public class AccountInfo {
   protected String preferredEmail;
   protected String username;
 
-  protected AccountInfo() {
-  }
+  protected AccountInfo() {}
 
   /**
    * Create an 'Anonymous Coward' account info, when only the id is known.
-   * <p>
-   * This constructor should only be a last-ditch effort, when the usual account
-   * lookup has failed and a stale account id has been discovered in the data
-   * store.
+   *
+   * <p>This constructor should only be a last-ditch effort, when the usual account lookup has
+   * failed and a stale account id has been discovered in the data store.
    */
   public AccountInfo(final Account.Id id) {
     this.id = id;

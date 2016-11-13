@@ -19,14 +19,13 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 
 /**
  * Delegates to a slow SuggestOracle, such as a remote server API.
- * <p>
- * A response is only supplied to the UI if no requests were made after the
- * oracle begin that request.
- * <p>
- * When a request is made while the delegate is still processing a prior request
- * all intermediate requests are discarded and the most recent request is
- * queued. The pending request's response is discarded and the most recent
- * request is started.
+ *
+ * <p>A response is only supplied to the UI if no requests were made after the oracle begin that
+ * request.
+ *
+ * <p>When a request is made while the delegate is still processing a prior request all intermediate
+ * requests are discarded and the most recent request is queued. The pending request's response is
+ * discarded and the most recent request is started.
  */
 public class RemoteSuggestOracle extends SuggestOracle {
   private final SuggestOracle oracle;
@@ -47,7 +46,7 @@ public class RemoteSuggestOracle extends SuggestOracle {
 
   @Override
   public void requestSuggestions(Request req, Callback cb) {
-    if (!serveSuggestions){
+    if (!serveSuggestions) {
       return;
     }
 
@@ -56,18 +55,19 @@ public class RemoteSuggestOracle extends SuggestOracle {
     if (requestRetentionTimer != null) {
       requestRetentionTimer.cancel();
     }
-    requestRetentionTimer = new Timer() {
-      @Override
-      public void run() {
-        Query q = new Query(req, cb);
-        if (query == null) {
-          query = q;
-          q.start();
-        } else {
-          query = q;
-        }
-      }
-    };
+    requestRetentionTimer =
+        new Timer() {
+          @Override
+          public void run() {
+            Query q = new Query(req, cb);
+            if (query == null) {
+              query = q;
+              q.start();
+            } else {
+              query = q;
+            }
+          }
+        };
     requestRetentionTimer.schedule(200);
   }
 

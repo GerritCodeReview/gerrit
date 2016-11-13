@@ -36,7 +36,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final DynamicMap<RestView<ProjectResource>> views;
 
   @Inject
-  public GetConfig(@EnableSignedPush boolean serverEnableSignedPush,
+  public GetConfig(
+      @EnableSignedPush boolean serverEnableSignedPush,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
@@ -52,7 +53,13 @@ public class GetConfig implements RestReadView<ProjectResource> {
 
   @Override
   public ConfigInfo apply(ProjectResource resource) {
-    return new ConfigInfoImpl(serverEnableSignedPush, resource.getControl(),
-        config, pluginConfigEntries, cfgFactory, allProjects, views);
+    return new ConfigInfoImpl(
+        serverEnableSignedPush,
+        resource.getControl(),
+        config,
+        pluginConfigEntries,
+        cfgFactory,
+        allProjects,
+        views);
   }
 }

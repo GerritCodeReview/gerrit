@@ -32,8 +32,12 @@ class AddFileAction {
   private AddFileBox addBox;
   private PopupPanel popup;
 
-  AddFileAction(Change.Id changeId, RevisionInfo revision,
-      ChangeScreen.Style style, Widget addButton, FileTable files) {
+  AddFileAction(
+      Change.Id changeId,
+      RevisionInfo revision,
+      ChangeScreen.Style style,
+      Widget addButton,
+      FileTable files) {
     this.changeId = changeId;
     this.revision = revision;
     this.style = style;
@@ -56,14 +60,15 @@ class AddFileAction {
     final PopupPanel p = new PopupPanel(true);
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(addButton.getElement());
-    p.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        if (popup == p) {
-          popup = null;
-        }
-      }
-    });
+    p.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            if (popup == p) {
+              popup = null;
+            }
+          }
+        });
     p.add(addBox);
     p.showRelativeTo(addButton);
     GlobalKey.dialog(p);

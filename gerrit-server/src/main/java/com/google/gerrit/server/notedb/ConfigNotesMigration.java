@@ -23,20 +23,17 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Implement NoteDb migration stages using {@code gerrit.config}.
- * <p>
- * This class controls the state of the migration according to options in
- * {@code gerrit.config}. In general, any changes to these options should only
- * be made by adventurous administrators, who know what they're doing, on
- * non-production data, for the purposes of testing the NoteDb implementation.
- * Changing options quite likely requires re-running {@code RebuildNoteDb}. For
+ *
+ * <p>This class controls the state of the migration according to options in {@code gerrit.config}.
+ * In general, any changes to these options should only be made by adventurous administrators, who
+ * know what they're doing, on non-production data, for the purposes of testing the NoteDb
+ * implementation. Changing options quite likely requires re-running {@code RebuildNoteDb}. For
  * these reasons, the options remain undocumented.
  */
 @Singleton
@@ -60,11 +57,9 @@ public class ConfigNotesMigration extends NotesMigration {
     }
     Set<String> allowed = ImmutableSet.of(READ, WRITE, SEQUENCE);
     for (String t : cfg.getSubsections(NOTE_DB)) {
-      checkArgument(keys.contains(t.toLowerCase()),
-          "invalid NoteDb table: %s", t);
+      checkArgument(keys.contains(t.toLowerCase()), "invalid NoteDb table: %s", t);
       for (String key : cfg.getNames(NOTE_DB, t)) {
-        checkArgument(allowed.contains(key.toLowerCase()),
-            "invalid NoteDb key: %s.%s", t, key);
+        checkArgument(allowed.contains(key.toLowerCase()), "invalid NoteDb key: %s.%s", t, key);
       }
     }
   }

@@ -32,16 +32,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.revwalk.RevCommit;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class GetRelated implements RestReadView<RevisionResource> {
@@ -51,7 +49,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private final RelatedChangesSorter sorter;
 
   @Inject
-  GetRelated(Provider<ReviewDb> db,
+  GetRelated(
+      Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
       RelatedChangesSorter sorter) {
@@ -69,29 +68,27 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return relatedInfo;
   }
 
-  private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
-      throws OrmException, IOException {
+  private List<ChangeAndCommit> getRelated(RevisionResource rsrc) throws OrmException, IOException {
     Set<String> groups = getAllGroups(rsrc.getNotes());
     if (groups.isEmpty()) {
       return Collections.emptyList();
     }
 
-    List<ChangeData> cds = queryProvider.get()
-        .enforceVisibility(true)
-        .byProjectGroups(rsrc.getChange().getProject(), groups);
+    List<ChangeData> cds =
+        queryProvider
+            .get()
+            .enforceVisibility(true)
+            .byProjectGroups(rsrc.getChange().getProject(), groups);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     }
-    if (cds.size() == 1
-        && cds.get(0).getId().equals(rsrc.getChange().getId())) {
+    if (cds.size() == 1 && cds.get(0).getId().equals(rsrc.getChange().getId())) {
       return Collections.emptyList();
     }
     List<ChangeAndCommit> result = new ArrayList<>(cds.size());
 
     boolean isEdit = rsrc.getEdit().isPresent();
-    PatchSet basePs = isEdit
-        ? rsrc.getEdit().get().getBasePatchSet()
-        : rsrc.getPatchSet();
+    PatchSet basePs = isEdit ? rsrc.getEdit().get().getBasePatchSet() : rsrc.getPatchSet();
 
     reloadChangeIfStale(cds, basePs);
 
@@ -110,8 +107,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     if (result.size() == 1) {
       ChangeAndCommit r = result.get(0);
-      if (r.commit != null
-          && r.commit.commit.equals(rsrc.getPatchSet().getRevision().get())) {
+      if (r.commit != null && r.commit.commit.equals(rsrc.getPatchSet().getRevision().get())) {
         return Collections.emptyList();
       }
     }
@@ -126,8 +122,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs)
-      throws OrmException {
+  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) throws OrmException {
     for (ChangeData cd : cds) {
       if (cd.getId().equals(wantedPs.getId().getParentKey())) {
         if (cd.patchSet(wantedPs.getId()) == null) {
@@ -149,8 +144,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     public Integer _currentRevisionNumber;
     public String status;
 
-    public ChangeAndCommit() {
-    }
+    public ChangeAndCommit() {}
 
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {
@@ -188,14 +182,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     private static String toString(CommitInfo commit) {
       return MoreObjects.toStringHelper(commit)
-        .add("commit", commit.commit)
-        .add("parent", commit.parents)
-        .add("author", commit.author)
-        .add("committer", commit.committer)
-        .add("subject", commit.subject)
-        .add("message", commit.message)
-        .add("webLinks", commit.webLinks)
-        .toString();
+          .add("commit", commit.commit)
+          .add("parent", commit.parents)
+          .add("author", commit.author)
+          .add("committer", commit.committer)
+          .add("subject", commit.subject)
+          .add("message", commit.message)
+          .add("webLinks", commit.webLinks)
+          .toString();
     }
   }
 }

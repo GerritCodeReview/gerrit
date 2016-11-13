@@ -27,29 +27,27 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
-
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** Validate the schema and connect to Git. */
 public class SchemaModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
-      .toProvider(GerritPersonIdentProvider.class);
+    bind(PersonIdent.class)
+        .annotatedWith(GerritPersonIdent.class)
+        .toProvider(GerritPersonIdentProvider.class);
 
-    bind(AllProjectsName.class)
-      .toProvider(AllProjectsNameProvider.class)
-      .in(SINGLETON);
+    bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class).in(SINGLETON);
 
-    bind(AllUsersName.class)
-      .toProvider(AllUsersNameProvider.class)
-      .in(SINGLETON);
+    bind(AllUsersName.class).toProvider(AllUsersNameProvider.class).in(SINGLETON);
 
-    bind(String.class).annotatedWith(AnonymousCowardName.class).toProvider(
-        AnonymousCowardNameProvider.class);
+    bind(String.class)
+        .annotatedWith(AnonymousCowardName.class)
+        .toProvider(AnonymousCowardNameProvider.class);
 
-    bind(String.class).annotatedWith(GerritServerId.class)
-      .toProvider(GerritServerIdProvider.class)
-      .in(SINGLETON);
+    bind(String.class)
+        .annotatedWith(GerritServerId.class)
+        .toProvider(GerritServerIdProvider.class)
+        .in(SINGLETON);
   }
 }

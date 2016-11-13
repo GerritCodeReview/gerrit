@@ -21,18 +21,16 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
-
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
  * A single user's edit for a change.
- * <p>
- * There is max. one edit per user per change. Edits are stored on refs:
- * refs/users/UU/UUUU/edit-CCCC/P where UU/UUUU is sharded representation
- * of user account, CCCC is change number and P is the patch set number it
- * is based on.
+ *
+ * <p>There is max. one edit per user per change. Edits are stored on refs:
+ * refs/users/UU/UUUU/edit-CCCC/P where UU/UUUU is sharded representation of user account, CCCC is
+ * change number and P is the patch set number it is based on.
  */
 public class ChangeEdit {
   private final IdentifiedUser user;
@@ -41,8 +39,8 @@ public class ChangeEdit {
   private final RevCommit editCommit;
   private final PatchSet basePatchSet;
 
-  public ChangeEdit(IdentifiedUser user, Change change, Ref ref,
-      RevCommit editCommit, PatchSet basePatchSet) {
+  public ChangeEdit(
+      IdentifiedUser user, Change change, Ref ref, RevCommit editCommit, PatchSet basePatchSet) {
     checkNotNull(user);
     checkNotNull(change);
     checkNotNull(ref);
@@ -72,8 +70,7 @@ public class ChangeEdit {
   }
 
   public String getRefName() {
-    return RefNames.refsEdit(user.getAccountId(), change.getId(),
-        basePatchSet.getId());
+    return RefNames.refsEdit(user.getAccountId(), change.getId(), basePatchSet.getId());
   }
 
   public RevCommit getEditCommit() {

@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,8 +43,7 @@ public class LabelType {
   public static String checkName(String name) {
     checkNameInternal(name);
     if ("SUBM".equals(name)) {
-      throw new IllegalArgumentException(
-          "Reserved label name \"" + name + "\"");
+      throw new IllegalArgumentException("Reserved label name \"" + name + "\"");
     }
     return name;
   }
@@ -56,13 +54,12 @@ public class LabelType {
     }
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
-      if ((i == 0 && c == '-') ||
-          !((c >= 'a' && c <= 'z') ||
-            (c >= 'A' && c <= 'Z') ||
-            (c >= '0' && c <= '9') ||
-            c == '-')) {
-        throw new IllegalArgumentException(
-            "Illegal label name \"" + name + "\"");
+      if ((i == 0 && c == '-')
+          || !((c >= 'a' && c <= 'z')
+              || (c >= 'A' && c <= 'Z')
+              || (c >= '0' && c <= '9')
+              || c == '-')) {
+        throw new IllegalArgumentException("Illegal label name \"" + name + "\"");
       }
     }
     return name;
@@ -73,12 +70,14 @@ public class LabelType {
     if (values.size() <= 1) {
       return Collections.unmodifiableList(values);
     }
-    Collections.sort(values, new Comparator<LabelValue>() {
-      @Override
-      public int compare(LabelValue o1, LabelValue o2) {
-        return o1.getValue() - o2.getValue();
-      }
-    });
+    Collections.sort(
+        values,
+        new Comparator<LabelValue>() {
+          @Override
+          public int compare(LabelValue o1, LabelValue o2) {
+            return o1.getValue() - o2.getValue();
+          }
+        });
     short min = values.get(0).getValue();
     short max = values.get(values.size() - 1).getValue();
     short v = min;
@@ -115,8 +114,7 @@ public class LabelType {
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
-  protected LabelType() {
-  }
+  protected LabelType() {}
 
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
@@ -140,8 +138,7 @@ public class LabelType {
     setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
     setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
     setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-    setCopyAllScoresOnMergeFirstParentUpdate(
-        DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+    setCopyAllScoresOnMergeFirstParentUpdate(DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
   }
@@ -227,8 +224,7 @@ public class LabelType {
 
   public void setCopyAllScoresOnMergeFirstParentUpdate(
       boolean copyAllScoresOnMergeFirstParentUpdate) {
-    this.copyAllScoresOnMergeFirstParentUpdate =
-        copyAllScoresOnMergeFirstParentUpdate;
+    this.copyAllScoresOnMergeFirstParentUpdate = copyAllScoresOnMergeFirstParentUpdate;
   }
 
   public boolean isCopyAllScoresOnTrivialRebase() {
@@ -304,8 +300,10 @@ public class LabelType {
     LabelValue min = getMin();
     LabelValue max = getMax();
     if (min != null && max != null) {
-      sb.append(new PermissionRange(Permission.forLabel(name), min.getValue(),
-          max.getValue()).toString().trim());
+      sb.append(
+          new PermissionRange(Permission.forLabel(name), min.getValue(), max.getValue())
+              .toString()
+              .trim());
     } else if (min != null) {
       sb.append(min.formatValue().trim());
     } else if (max != null) {

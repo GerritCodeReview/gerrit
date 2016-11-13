@@ -18,11 +18,11 @@ import com.google.common.collect.ImmutableSortedMap;
 
 /**
  * Definition of an index over a Gerrit data type.
- * <p>
- * An <em>index</em> includes a set of schema definitions along with the
- * specific implementations used to query the secondary index implementation in
- * a running server. If you are just interested in the static definition of one
- * or more schemas, see the implementations of {@link SchemaDefinitions}.
+ *
+ * <p>An <em>index</em> includes a set of schema definitions along with the specific implementations
+ * used to query the secondary index implementation in a running server. If you are just interested
+ * in the static definition of one or more schemas, see the implementations of {@link
+ * SchemaDefinitions}.
  */
 public abstract class IndexDefinition<K, V, I extends Index<K, V>> {
   public interface IndexFactory<K, V, I extends Index<K, V>> {

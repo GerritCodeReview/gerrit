@@ -34,18 +34,16 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Set;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Set;
 
 @Singleton
 public class PreviewSubmit implements RestReadView<RevisionResource> {
@@ -61,7 +59,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   @Inject
-  PreviewSubmit(Provider<ReviewDb> dbProvider,
+  PreviewSubmit(
+      Provider<ReviewDb> dbProvider,
       Provider<MergeOp> mergeOpProvider,
       AllowedFormats allowedFormats) {
     this.dbProvider = dbProvider;
@@ -96,8 +95,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     try (BinaryResult b = getBundles(rsrc, f)) {
       b.disableGzip()
           .setContentType(f.getMimeType())
-          .setAttachmentName("submit-preview-"
-              + change.getChangeId() + "." + format);
+          .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
       return b;
     } catch (OrmException | IOException e) {
       throw new RestApiException("Error generating submit preview");
@@ -117,32 +115,33 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       final MergeOpRepoManager orm = op.getMergeOpRepoManager();
       final Set<Project.NameKey> projects = op.getAllProjects();
 
-      bin = new BinaryResult() {
-        @Override
-        public void writeTo(OutputStream out) throws IOException {
-          ArchiveOutputStream aos = f.createArchiveOutputStream(out);
+      bin =
+          new BinaryResult() {
+            @Override
+            public void writeTo(OutputStream out) throws IOException {
+              ArchiveOutputStream aos = f.createArchiveOutputStream(out);
 
-          for (Project.NameKey p : projects) {
-            OpenRepo or = orm.getRepo(p);
-            BundleWriter bw = new BundleWriter(or.getRepo());
-            bw.setObjectCountCallback(null);
-            bw.setPackConfig(null);
-            Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
-            for (ReceiveCommand r : refs) {
-              bw.include(r.getRefName(), r.getNewId());
-              if (!r.getOldId().equals(ObjectId.zeroId())) {
-                bw.assume(or.getCodeReviewRevWalk().parseCommit(r.getOldId()));
+              for (Project.NameKey p : projects) {
+                OpenRepo or = orm.getRepo(p);
+                BundleWriter bw = new BundleWriter(or.getRepo());
+                bw.setObjectCountCallback(null);
+                bw.setPackConfig(null);
+                Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
+                for (ReceiveCommand r : refs) {
+                  bw.include(r.getRefName(), r.getNewId());
+                  if (!r.getOldId().equals(ObjectId.zeroId())) {
+                    bw.assume(or.getCodeReviewRevWalk().parseCommit(r.getOldId()));
+                  }
+                }
+                // This naming scheme cannot produce directory/file conflicts
+                // as no projects contains ".git/":
+                aos.putArchiveEntry(f.prepareArchiveEntry(p.get() + ".git"));
+                bw.writeBundle(NullProgressMonitor.INSTANCE, aos);
+                aos.closeArchiveEntry();
               }
+              aos.finish();
             }
-            // This naming scheme cannot produce directory/file conflicts
-            // as no projects contains ".git/":
-            aos.putArchiveEntry(f.prepareArchiveEntry(p.get() + ".git"));
-            bw.writeBundle(NullProgressMonitor.INSTANCE, aos);
-            aos.closeArchiveEntry();
-          }
-          aos.finish();
-        }
-      };
+          };
     }
     return bin;
   }

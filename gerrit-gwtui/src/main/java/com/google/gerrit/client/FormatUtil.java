@@ -18,7 +18,6 @@ import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gwt.i18n.client.NumberFormat;
-
 import java.util.Date;
 
 /** Misc. formatting functions. */
@@ -60,13 +59,14 @@ public class FormatUtil {
 
   /**
    * Formats an account as a name and an email address.
-   * <p>
-   * Example output:
+   *
+   * <p>Example output:
+   *
    * <ul>
-   * <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated</li>
-   * <li>{@code A U. Thor (12)}: missing email address</li>
-   * <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name</li>
-   * <li>{@code Anonymous Coward (12)}: missing name and email address</li>
+   *   <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated
+   *   <li>{@code A U. Thor (12)}: missing email address
+   *   <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name
+   *   <li>{@code Anonymous Coward (12)}: missing name and email address
    * </ul>
    */
   public static String nameEmail(AccountInfo info) {
@@ -75,9 +75,9 @@ public class FormatUtil {
 
   /**
    * Formats an account name.
-   * <p>
-   * If the account has a full name, it returns only the full name. Otherwise it
-   * returns a longer form that includes the email address.
+   *
+   * <p>If the account has a full name, it returns only the full name. Otherwise it returns a longer
+   * form that includes the email address.
    */
   public static String name(AccountInfo info) {
     return createAccountFormatter().name(info);
@@ -121,7 +121,9 @@ public class FormatUtil {
     int exp = (int) (Math.log(Math.abs(bytes)) / Math.log(1024));
     return (bytes > 0 && !abs ? "+" : "")
         + NumberFormat.getFormat("#.0").format(bytes / Math.pow(1024, exp))
-        + " " + "KMGTPE".charAt(exp - 1) + "iB";
+        + " "
+        + "KMGTPE".charAt(exp - 1)
+        + "iB";
   }
 
   public static String formatPercentage(long size, long delta) {

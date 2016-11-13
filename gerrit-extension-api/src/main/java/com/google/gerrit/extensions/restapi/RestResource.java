@@ -18,18 +18,15 @@ import java.sql.Timestamp;
 
 /**
  * Generic resource handle defining arguments to views.
- * <p>
- * Resource handle returned by {@link RestCollection} and passed to a
- * {@link RestView} such as {@link RestReadView} or {@link RestModifyView}.
+ *
+ * <p>Resource handle returned by {@link RestCollection} and passed to a {@link RestView} such as
+ * {@link RestReadView} or {@link RestModifyView}.
  */
 public interface RestResource {
 
   /** A resource with a last modification date. */
   public interface HasLastModified {
-    /**
-     * @return time for the Last-Modified header. HTTP truncates the header
-     *         value to seconds.
-     */
+    /** @return time for the Last-Modified header. HTTP truncates the header value to seconds. */
     Timestamp getLastModified();
   }
 

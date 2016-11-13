@@ -14,5 +14,4 @@
 
 package com.google.gerrit.client.changes;
 
-public interface ChangeListScreen {
-}
+public interface ChangeListScreen {}

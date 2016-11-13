@@ -18,7 +18,6 @@ import static com.google.gerrit.server.index.change.ChangeField.FUZZY_TOPIC;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
-
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 

@@ -27,10 +27,6 @@ import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -42,24 +38,27 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 
 /** Upgrade from a 2.0.x site to a 2.1 site. */
 @Singleton
 class UpgradeFrom2_0_x implements InitStep {
-  static final String[] etcFiles = {"gerrit.config", //
-      "secure.config", //
-      "replication.config", //
-      "ssh_host_rsa_key", //
-      "ssh_host_rsa_key.pub", //
-      "ssh_host_dsa_key", //
-      "ssh_host_dsa_key.pub", //
-      "ssh_host_key", //
-      "contact_information.pub", //
-      "gitweb_config.perl", //
-      "keystore", //
-      "GerritSite.css", //
-      "GerritSiteFooter.html", //
-      "GerritSiteHeader.html", //
+  static final String[] etcFiles = {
+    "gerrit.config", //
+    "secure.config", //
+    "replication.config", //
+    "ssh_host_rsa_key", //
+    "ssh_host_rsa_key.pub", //
+    "ssh_host_dsa_key", //
+    "ssh_host_dsa_key.pub", //
+    "ssh_host_key", //
+    "contact_information.pub", //
+    "gitweb_config.perl", //
+    "keystore", //
+    "GerritSite.css", //
+    "GerritSiteFooter.html", //
+    "GerritSiteHeader.html", //
   };
 
   private final ConsoleUI ui;
@@ -71,8 +70,11 @@ class UpgradeFrom2_0_x implements InitStep {
   private final Section.Factory sections;
 
   @Inject
-  UpgradeFrom2_0_x(final SitePaths site, final InitFlags flags,
-      final ConsoleUI ui, final Section.Factory sections) {
+  UpgradeFrom2_0_x(
+      final SitePaths site,
+      final InitFlags flags,
+      final ConsoleUI ui,
+      final Section.Factory sections) {
     this.ui = ui;
     this.sections = sections;
 

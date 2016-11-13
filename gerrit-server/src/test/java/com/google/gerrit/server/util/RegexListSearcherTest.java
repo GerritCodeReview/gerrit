@@ -20,10 +20,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
-
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 public class RegexListSearcherTest {
   private static final List<String> EMPTY = ImmutableList.of();
@@ -55,30 +53,20 @@ public class RegexListSearcherTest {
     List<String> list = ImmutableList.of("bar", "foo", "quux");
     assertSearchReturns(ImmutableList.of("foo"), "f.*", list);
     assertSearchReturns(ImmutableList.of("foo"), ".*o.*", list);
-    assertSearchReturns(ImmutableList.of("bar", "foo", "quux"), ".*[aou].*",
-        list);
+    assertSearchReturns(ImmutableList.of("bar", "foo", "quux"), ".*[aou].*", list);
   }
 
   @Test
   public void commonPrefix() {
-    List<String> list = ImmutableList.of(
-        "bar",
-        "baz",
-        "foo1",
-        "foo2",
-        "foo3",
-        "quux");
+    List<String> list = ImmutableList.of("bar", "baz", "foo1", "foo2", "foo3", "quux");
     assertSearchReturns(ImmutableList.of("bar", "baz"), "b.*", list);
     assertSearchReturns(ImmutableList.of("foo1", "foo2"), "foo[12]", list);
-    assertSearchReturns(ImmutableList.of("foo1", "foo2", "foo3"), "foo.*",
-        list);
+    assertSearchReturns(ImmutableList.of("foo1", "foo2", "foo3"), "foo.*", list);
     assertSearchReturns(ImmutableList.of("quux"), "q.*", list);
   }
 
-  private void assertSearchReturns(List<?> expected, String re,
-    List<String> inputs) {
+  private void assertSearchReturns(List<?> expected, String re, List<String> inputs) {
     assertTrue(Ordering.natural().isOrdered(inputs));
-    assertEquals(expected,
-        ImmutableList.copyOf(RegexListSearcher.ofStrings(re).search(inputs)));
+    assertEquals(expected, ImmutableList.copyOf(RegexListSearcher.ofStrings(re).search(inputs)));
   }
 }

@@ -19,14 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Universal implementation of the AuthBackend that works with the injected
- * set of AuthBackends.
- */
+/** Universal implementation of the AuthBackend that works with the injected set of AuthBackends. */
 @Singleton
 public final class UniversalAuthBackend implements AuthBackend {
   private final DynamicSet<AuthBackend> authBackends;
@@ -59,14 +55,15 @@ public final class UniversalAuthBackend implements AuthBackend {
       throw new MissingCredentialsException();
     }
 
-    String msg = String.format("Multiple AuthBackends attempted to handle request:"
-        + " authUsers=%s authExs=%s", authUsers, authExs);
+    String msg =
+        String.format(
+            "Multiple AuthBackends attempted to handle request:" + " authUsers=%s authExs=%s",
+            authUsers, authExs);
     throw new AuthException(msg);
   }
 
   @Override
   public String getDomain() {
-    throw new UnsupportedOperationException(
-        "UniversalAuthBackend doesn't support domain.");
+    throw new UnsupportedOperationException("UniversalAuthBackend doesn't support domain.");
   }
 }

@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,8 +28,7 @@ import java.util.Map;
 public class ConfigInfoCache {
   private static final int PROJECT_LIMIT = 25;
   private static final int CHANGE_LIMIT = 100;
-  private static final ConfigInfoCache instance =
-      GWT.create(ConfigInfoCache.class);
+  private static final ConfigInfoCache instance = GWT.create(ConfigInfoCache.class);
 
   public static class Entry {
     private final ConfigInfo info;
@@ -68,24 +66,25 @@ public class ConfigInfoCache {
   private final LinkedHashMap<Integer, String> changeToProject;
 
   protected ConfigInfoCache() {
-    cache = new LinkedHashMap<String, Entry>(PROJECT_LIMIT) {
-      private static final long serialVersionUID = 1L;
+    cache =
+        new LinkedHashMap<String, Entry>(PROJECT_LIMIT) {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected boolean removeEldestEntry(
-          Map.Entry<String, ConfigInfoCache.Entry> e) {
-        return size() > PROJECT_LIMIT;
-      }
-    };
+          @Override
+          protected boolean removeEldestEntry(Map.Entry<String, ConfigInfoCache.Entry> e) {
+            return size() > PROJECT_LIMIT;
+          }
+        };
 
-    changeToProject = new LinkedHashMap<Integer, String>(CHANGE_LIMIT) {
-      private static final long serialVersionUID = 1L;
+    changeToProject =
+        new LinkedHashMap<Integer, String>(CHANGE_LIMIT) {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected boolean removeEldestEntry(Map.Entry<Integer, String> e) {
-        return size() > CHANGE_LIMIT;
-      }
-    };
+          @Override
+          protected boolean removeEldestEntry(Map.Entry<Integer, String> e) {
+            return size() > CHANGE_LIMIT;
+          }
+        };
   }
 
   private void getImpl(final String name, final AsyncCallback<Entry> cb) {
@@ -94,7 +93,8 @@ public class ConfigInfoCache {
       cb.onSuccess(e);
       return;
     }
-    ProjectApi.getConfig(new Project.NameKey(name),
+    ProjectApi.getConfig(
+        new Project.NameKey(name),
         new AsyncCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {
@@ -116,17 +116,19 @@ public class ConfigInfoCache {
       getImpl(name, cb);
       return;
     }
-    ChangeApi.change(id).get(new AsyncCallback<ChangeInfo>() {
-      @Override
-      public void onSuccess(ChangeInfo result) {
-        changeToProject.put(id, result.project());
-        getImpl(result.project(), cb);
-      }
+    ChangeApi.change(id)
+        .get(
+            new AsyncCallback<ChangeInfo>() {
+              @Override
+              public void onSuccess(ChangeInfo result) {
+                changeToProject.put(id, result.project());
+                getImpl(result.project(), cb);
+              }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        cb.onFailure(caught);
-      }
-    });
+              @Override
+              public void onFailure(Throwable caught) {
+                cb.onFailure(caught);
+              }
+            });
   }
 }

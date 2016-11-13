@@ -21,19 +21,19 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 public interface FileWebLink extends WebLink {
 
   /**
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo}
-   * describing a link from a file to an external service.
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a file to an
+   * external service.
    *
-   * <p>In order for the web link to be visible
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo#url}
-   * and {@link com.google.gerrit.extensions.common.WebLinkInfo#name}
-   * must be set.<p>
+   * <p>In order for the web link to be visible {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#url} and {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#name} must be set.
+   *
+   * <p>
    *
    * @param projectName Name of the project
    * @param revision Name of the revision (e.g. branch or commit ID)
    * @param fileName Name of the file
-   * @return WebLinkInfo that links to project in external service,
-   * null if there should be no link.
+   * @return WebLinkInfo that links to project in external service, null if there should be no link.
    */
   WebLinkInfo getFileWebLink(String projectName, String revision, String fileName);
 }

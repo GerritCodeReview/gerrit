@@ -66,13 +66,11 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {
@@ -110,7 +108,8 @@ public class AccountApiImpl implements AccountApi {
   private final DeleteActive deleteActive;
 
   @Inject
-  AccountApiImpl(AccountLoader.Factory ailf,
+  AccountApiImpl(
+      AccountLoader.Factory ailf,
       ChangesCollection changes,
       GetAvatar getAvatar,
       GetPreferences getPreferences,
@@ -171,8 +170,7 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public com.google.gerrit.extensions.common.AccountInfo get()
-      throws RestApiException {
+  public com.google.gerrit.extensions.common.AccountInfo get() throws RestApiException {
     AccountLoader accountLoader = accountLoaderFactory.create(true);
     try {
       AccountInfo ai = accountLoader.get(account.getUser().getAccountId());
@@ -214,8 +212,7 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
-      throws RestApiException {
+  public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in) throws RestApiException {
     try {
       return setPreferences.apply(account, in);
     } catch (IOException | ConfigInvalidException e) {
@@ -233,8 +230,7 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in)
-      throws RestApiException {
+  public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in) throws RestApiException {
     try {
       return setDiffPreferences.apply(account, in);
     } catch (IOException | ConfigInvalidException e) {
@@ -252,8 +248,7 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in)
-      throws RestApiException {
+  public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in) throws RestApiException {
     try {
       return setEditPreferences.apply(account, in);
     } catch (IOException | ConfigInvalidException e) {
@@ -271,8 +266,8 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public List<ProjectWatchInfo> setWatchedProjects(
-      List<ProjectWatchInfo> in) throws RestApiException {
+  public List<ProjectWatchInfo> setWatchedProjects(List<ProjectWatchInfo> in)
+      throws RestApiException {
     try {
       return postWatchedProjects.apply(account, in);
     } catch (OrmException | IOException | ConfigInvalidException e) {
@@ -281,8 +276,7 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public void deleteWatchedProjects(List<ProjectWatchInfo> in)
-      throws RestApiException {
+  public void deleteWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException {
     try {
       deleteWatchedProjects.apply(account, in);
     } catch (OrmException | IOException | ConfigInvalidException e) {
@@ -293,9 +287,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void starChange(String changeId) throws RestApiException {
     try {
-      ChangeResource rsrc = changes.parse(
-        TopLevelResource.INSTANCE,
-        IdString.fromUrl(changeId));
+      ChangeResource rsrc = changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
       starredChangesCreate.setChange(rsrc);
       starredChangesCreate.apply(account, new StarredChanges.EmptyInput());
     } catch (OrmException | IOException e) {
@@ -306,23 +298,19 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void unstarChange(String changeId) throws RestApiException {
     try {
-      ChangeResource rsrc =
-          changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
+      ChangeResource rsrc = changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
       AccountResource.StarredChange starredChange =
           new AccountResource.StarredChange(account.getUser(), rsrc);
-      starredChangesDelete.apply(starredChange,
-          new StarredChanges.EmptyInput());
+      starredChangesDelete.apply(starredChange, new StarredChanges.EmptyInput());
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot unstar change", e);
     }
   }
 
   @Override
-  public void setStars(String changeId, StarsInput input)
-      throws RestApiException {
+  public void setStars(String changeId, StarsInput input) throws RestApiException {
     try {
-      AccountResource.Star rsrc =
-          stars.parse(account, IdString.fromUrl(changeId));
+      AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(changeId));
       starsPost.apply(rsrc, input);
     } catch (OrmException e) {
       throw new RestApiException("Cannot post stars", e);
@@ -332,8 +320,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public SortedSet<String> getStars(String changeId) throws RestApiException {
     try {
-      AccountResource.Star rsrc =
-          stars.parse(account, IdString.fromUrl(changeId));
+      AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(changeId));
       return starsGet.apply(rsrc);
     } catch (OrmException e) {
       throw new RestApiException("Cannot get stars", e);
@@ -351,8 +338,7 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public void addEmail(EmailInput input) throws RestApiException {
-    AccountResource.Email rsrc =
-        new AccountResource.Email(account.getUser(), input.email);
+    AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
       createEmailFactory.create(input.email).apply(rsrc, input);
     } catch (EmailException | OrmException | IOException e) {
@@ -401,8 +387,8 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public Map<String, GpgKeyInfo> putGpgKeys(List<String> add,
-      List<String> delete) throws RestApiException {
+  public Map<String, GpgKeyInfo> putGpgKeys(List<String> add, List<String> delete)
+      throws RestApiException {
     try {
       return gpgApiAdapter.putGpgKeys(account, add, delete);
     } catch (GpgException e) {
@@ -434,5 +420,4 @@ public class AccountApiImpl implements AccountApi {
       throw new RestApiException("Cannot sign agreement", e);
     }
   }
-
 }

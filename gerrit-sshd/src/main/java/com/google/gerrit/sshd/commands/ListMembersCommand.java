@@ -29,20 +29,18 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-
 import java.io.PrintWriter;
 import java.util.List;
+import org.kohsuke.args4j.Argument;
 
-/**
- * Implements a command that allows the user to see the members of a group.
- */
-@CommandMetaData(name = "ls-members", description = "List the members of a given group",
-  runsAt = MASTER_OR_SLAVE)
+/** Implements a command that allows the user to see the members of a group. */
+@CommandMetaData(
+  name = "ls-members",
+  description = "List the members of a given group",
+  runsAt = MASTER_OR_SLAVE
+)
 public class ListMembersCommand extends SshCommand {
-  @Inject
-  ListMembersCommandImpl impl;
+  @Inject ListMembersCommandImpl impl;
 
   @Override
   public void run() throws Exception {
@@ -61,7 +59,8 @@ public class ListMembersCommand extends SshCommand {
     private final GroupCache groupCache;
 
     @Inject
-    protected ListMembersCommandImpl(GroupCache groupCache,
+    protected ListMembersCommandImpl(
+        GroupCache groupCache,
         Factory groupDetailFactory,
         AccountLoader.Factory accountLoaderFactory) {
       super(groupCache, groupDetailFactory, accountLoaderFactory);
@@ -91,10 +90,8 @@ public class ListMembersCommand extends SshCommand {
         }
 
         formatter.addColumn(Integer.toString(member._accountId));
-        formatter.addColumn(MoreObjects.firstNonNull(
-            member.username, "n/a"));
-        formatter.addColumn(MoreObjects.firstNonNull(
-            Strings.emptyToNull(member.name), "n/a"));
+        formatter.addColumn(MoreObjects.firstNonNull(member.username, "n/a"));
+        formatter.addColumn(MoreObjects.firstNonNull(Strings.emptyToNull(member.name), "n/a"));
         formatter.addColumn(MoreObjects.firstNonNull(member.email, "n/a"));
         formatter.nextLine();
       }

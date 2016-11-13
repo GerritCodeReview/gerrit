@@ -14,25 +14,22 @@
 
 package com.google.gerrit.httpd;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * HttpServletResponse wrapper to allow response status code override.
  *
- * Differently from the normal HttpServletResponse, this class allows multiple
- * filters to override the response http status code.
+ * <p>Differently from the normal HttpServletResponse, this class allows multiple filters to
+ * override the response http status code.
  */
 public class HttpServletResponseRecorder extends HttpServletResponseWrapper {
-  private static final Logger log = LoggerFactory
-      .getLogger(HttpServletResponseWrapper.class);
+  private static final Logger log = LoggerFactory.getLogger(HttpServletResponseWrapper.class);
   private static final String LOCATION_HEADER = "Location";
 
   private int status;

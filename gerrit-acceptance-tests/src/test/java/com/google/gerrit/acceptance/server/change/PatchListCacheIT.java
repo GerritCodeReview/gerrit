@@ -27,12 +27,10 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.inject.Inject;
-
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
-
-import java.util.List;
 
 @NoHttpd
 public class PatchListCacheIT extends AbstractDaemonTest {
@@ -44,24 +42,16 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   private static String FILE_C = "c.txt";
   private static String FILE_D = "d.txt";
 
-  @Inject
-  private PatchListCache patchListCache;
+  @Inject private PatchListCache patchListCache;
 
   @Test
   public void listPatchesAgainstBase() throws Exception {
-    commitBuilder()
-        .add(FILE_D, "4")
-        .message(SUBJECT_1)
-        .create();
+    commitBuilder().add(FILE_D, "4").message(SUBJECT_1).create();
     pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1, 1 (+FILE_A, -FILE_D)
-    RevCommit c = commitBuilder()
-        .add(FILE_A, "1")
-        .rm(FILE_D)
-        .message(SUBJECT_2)
-        .insertChangeId()
-        .create();
+    RevCommit c =
+        commitBuilder().add(FILE_A, "1").rm(FILE_D).message(SUBJECT_2).insertChangeId().create();
     String id = getChangeId(testRepo, c).get();
     pushHead(testRepo, "refs/for/master", false);
 
@@ -73,9 +63,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertDeleted(FILE_D, entries.get(2));
 
     // Change 1,2 (+FILE_A, +FILE_B, -FILE_D)
-    c = amendBuilder()
-        .add(FILE_B, "2")
-        .create();
+    c = amendBuilder().add(FILE_B, "2").create();
     pushHead(testRepo, "refs/for/master", false);
     entries = getCurrentPatches(id);
 
@@ -89,18 +77,11 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   @Test
   public void listPatchesAgainstBaseWithRebase() throws Exception {
-    commitBuilder()
-        .add(FILE_D, "4")
-        .message(SUBJECT_1)
-        .create();
+    commitBuilder().add(FILE_D, "4").message(SUBJECT_1).create();
     pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, -FILE_D)
-    RevCommit c = commitBuilder()
-        .add(FILE_A, "1")
-        .rm(FILE_D)
-        .message(SUBJECT_2)
-        .create();
+    RevCommit c = commitBuilder().add(FILE_A, "1").rm(FILE_D).message(SUBJECT_2).create();
     String id = getChangeId(testRepo, c).get();
     pushHead(testRepo, "refs/for/master", false);
     List<PatchListEntry> entries = getCurrentPatches(id);
@@ -111,10 +92,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
     // Change 2,1 (+FILE_B)
     testRepo.reset("HEAD~1");
-    commitBuilder()
-        .add(FILE_B, "2")
-        .message(SUBJECT_3)
-        .create();
+    commitBuilder().add(FILE_B, "2").message(SUBJECT_3).create();
     pushHead(testRepo, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, -FILE_D))
@@ -131,37 +109,27 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   @Test
   public void listPatchesAgainstOtherPatchSet() throws Exception {
-    commitBuilder()
-        .add(FILE_D, "4")
-        .message(SUBJECT_1)
-        .create();
+    commitBuilder().add(FILE_D, "4").message(SUBJECT_1).create();
     pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, +FILE_C, -FILE_D)
-    RevCommit a = commitBuilder()
-        .add(FILE_A, "1")
-        .add(FILE_C, "3")
-        .rm(FILE_D)
-        .message(SUBJECT_2)
-        .create();
+    RevCommit a =
+        commitBuilder().add(FILE_A, "1").add(FILE_C, "3").rm(FILE_D).message(SUBJECT_2).create();
     pushHead(testRepo, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, +FILE_B, -FILE_D)
-    RevCommit b = amendBuilder()
-        .add(FILE_B, "2")
-        .rm(FILE_C)
-        .create();
+    RevCommit b = amendBuilder().add(FILE_B, "2").rm(FILE_C).create();
     pushHead(testRepo, "refs/for/master", false);
 
     // Compare Change 1,1 with Change 1,2 (+FILE_B, -FILE_C)
-    List<PatchListEntry>  entries = getPatches(a, b);
+    List<PatchListEntry> entries = getPatches(a, b);
     assertThat(entries).hasSize(3);
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_B, entries.get(1));
     assertDeleted(FILE_C, entries.get(2));
 
     // Compare Change 1,2 with Change 1,1 (-FILE_B, +FILE_C)
-    List<PatchListEntry>  entriesReverse = getPatches(b, a);
+    List<PatchListEntry> entriesReverse = getPatches(b, a);
     assertThat(entriesReverse).hasSize(3);
     assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
     assertDeleted(FILE_B, entriesReverse.get(1));
@@ -170,43 +138,31 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   @Test
   public void listPatchesAgainstOtherPatchSetWithRebase() throws Exception {
-    commitBuilder()
-        .add(FILE_D, "4")
-        .message(SUBJECT_1)
-        .create();
+    commitBuilder().add(FILE_D, "4").message(SUBJECT_1).create();
     pushHead(testRepo, "refs/heads/master", false);
 
     // Change 1,1 (+FILE_A, -FILE_D)
-    RevCommit a = commitBuilder()
-        .add(FILE_A, "1")
-        .rm(FILE_D)
-        .message(SUBJECT_2)
-        .create();
+    RevCommit a = commitBuilder().add(FILE_A, "1").rm(FILE_D).message(SUBJECT_2).create();
     pushHead(testRepo, "refs/for/master", false);
 
     // Change 2,1 (+FILE_B)
     testRepo.reset("HEAD~1");
-    commitBuilder()
-        .add(FILE_B, "2")
-        .message(SUBJECT_3)
-        .create();
+    commitBuilder().add(FILE_B, "2").message(SUBJECT_3).create();
     pushHead(testRepo, "refs/for/master", false);
 
     // Change 1,2 (+FILE_A, +FILE_C, -FILE_D)
     testRepo.cherryPick(a);
-    RevCommit b = amendBuilder()
-        .add(FILE_C, "2")
-        .create();
+    RevCommit b = amendBuilder().add(FILE_C, "2").create();
     pushHead(testRepo, "refs/for/master", false);
 
     // Compare Change 1,1 with Change 1,2 (+FILE_C)
-    List<PatchListEntry>  entries = getPatches(a, b);
+    List<PatchListEntry> entries = getPatches(a, b);
     assertThat(entries).hasSize(2);
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_C, entries.get(1));
 
     // Compare Change 1,2 with Change 1,1 (-FILE_C)
-    List<PatchListEntry>  entriesReverse = getPatches(b, a);
+    List<PatchListEntry> entriesReverse = getPatches(b, a);
     assertThat(entriesReverse).hasSize(2);
     assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
     assertDeleted(FILE_C, entriesReverse.get(1));
@@ -232,17 +188,13 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertThat(e.getOldName()).isNull();
   }
 
-  private List<PatchListEntry> getCurrentPatches(String changeId)
-      throws Exception {
-    return patchListCache
-        .get(getKey(null, getCurrentRevisionId(changeId)), project)
-        .getPatches();
+  private List<PatchListEntry> getCurrentPatches(String changeId) throws Exception {
+    return patchListCache.get(getKey(null, getCurrentRevisionId(changeId)), project).getPatches();
   }
 
   private List<PatchListEntry> getPatches(ObjectId revisionIdA, ObjectId revisionIdB)
       throws Exception {
-    return patchListCache.get(getKey(revisionIdA, revisionIdB), project)
-        .getPatches();
+    return patchListCache.get(getKey(revisionIdA, revisionIdB), project).getPatches();
   }
 
   private PatchListKey getKey(ObjectId revisionIdA, ObjectId revisionIdB) {

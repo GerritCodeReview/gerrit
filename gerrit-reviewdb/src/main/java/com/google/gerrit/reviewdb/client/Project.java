@@ -23,15 +23,13 @@ import com.google.gwtorm.client.StringKey;
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
   /** Project name key */
-  public static class NameKey extends
-      StringKey<com.google.gwtorm.client.Key<?>> {
+  public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
     protected String name;
 
-    protected NameKey() {
-    }
+    protected NameKey() {}
 
     public NameKey(final String n) {
       name = n;
@@ -101,8 +99,7 @@ public final class Project {
 
   protected InheritableBoolean rejectImplicitMerges;
 
-  protected Project() {
-  }
+  protected Project() {}
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
@@ -177,8 +174,7 @@ public final class Project {
     return createNewChangeForAllNotInTarget;
   }
 
-  public void setCreateNewChangeForAllNotInTarget(
-      InheritableBoolean useAllNotInTarget) {
+  public void setCreateNewChangeForAllNotInTarget(InheritableBoolean useAllNotInTarget) {
     this.createNewChangeForAllNotInTarget = useAllNotInTarget;
   }
 
@@ -261,9 +257,9 @@ public final class Project {
   /**
    * Returns the name key of the parent project.
    *
-   * @return name key of the parent project, {@code null} if this project
-   *         is the wild project, {@code null} or the name key of the wild
-   *         project if this project is a direct child of the wild project
+   * @return name key of the parent project, {@code null} if this project is the wild project,
+   *     {@code null} or the name key of the wild project if this project is a direct child of the
+   *     wild project
    */
   public Project.NameKey getParent() {
     return parent;
@@ -273,8 +269,7 @@ public final class Project {
    * Returns the name key of the parent project.
    *
    * @param allProjectsName name key of the wild project
-   * @return name key of the parent project, {@code null} if this project
-   *         is the wild project
+   * @return name key of the parent project, {@code null} if this project is the wild project
    */
   public Project.NameKey getParent(final Project.NameKey allProjectsName) {
     if (parent != null) {

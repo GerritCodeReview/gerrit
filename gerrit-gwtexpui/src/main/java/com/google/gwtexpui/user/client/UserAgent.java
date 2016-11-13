@@ -19,12 +19,12 @@ import com.google.gwt.user.client.Window;
 
 /**
  * User agent feature tests we don't create permutations for.
- * <p>
- * Some features aren't worth creating full permutations in GWT for, as each new
- * boolean permutation (only two settings) doubles the compile time required. If
- * the setting only affects a couple of lines of JavaScript code, the slightly
- * larger cache files for user agents that lack the functionality requested is
- * trivial compared to the time developers lose building their application.
+ *
+ * <p>Some features aren't worth creating full permutations in GWT for, as each new boolean
+ * permutation (only two settings) doubles the compile time required. If the setting only affects a
+ * couple of lines of JavaScript code, the slightly larger cache files for user agents that lack the
+ * functionality requested is trivial compared to the time developers lose building their
+ * application.
  */
 public class UserAgent {
   private static boolean jsClip = guessJavaScriptClipboard();
@@ -38,7 +38,7 @@ public class UserAgent {
   }
 
   private static native boolean nativeHasCopy()
-  /*-{ return $doc['queryCommandSupported'] && $doc.queryCommandSupported('copy') }-*/;
+      /*-{ return $doc['queryCommandSupported'] && $doc.queryCommandSupported('copy') }-*/ ;
 
   private static boolean guessJavaScriptClipboard() {
     String ua = Window.Navigator.getUserAgent();
@@ -93,9 +93,9 @@ public class UserAgent {
 
     /**
      * Does the browser have ShockwaveFlash plugin installed?
-     * <p>
-     * This method may still return true if the user has disabled Flash or set
-     * the plugin to "click to run".
+     *
+     * <p>This method may still return true if the user has disabled Flash or set the plugin to
+     * "click to run".
      */
     public static boolean isInstalled() {
       if (!checked) {
@@ -105,8 +105,7 @@ public class UserAgent {
       return installed;
     }
 
-    private static native boolean hasFlash()
-    /*-{
+    private static native boolean hasFlash()/*-{
       if (navigator.plugins && navigator.plugins.length) {
         if (navigator.plugins['Shockwave Flash'])     return true;
         if (navigator.plugins['Shockwave Flash 2.0']) return true;
@@ -121,23 +120,22 @@ public class UserAgent {
         try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   return true; } catch (e) {}
       }
       return false;
-    }-*/;
+    }-*/ ;
   }
 
   /**
    * Test for and disallow running this application in an &lt;iframe&gt;.
-   * <p>
-   * If the application is running within an iframe this method requests a
-   * browser generated redirect to pop the application out of the iframe into
-   * the top level window, and then aborts execution by throwing an exception.
-   * This is call should be placed early within the module's onLoad() method,
-   * before any real UI can be initialized that an attacking site could try to
-   * snip out and present in a confusing context.
-   * <p>
-   * If the break out works, execution will restart automatically in a proper
-   * top level window, where the script has full control over the display. If
-   * the break out fails, execution will abort and stop immediately, preventing
-   * UI widgets from being created, leaving the user with an empty frame.
+   *
+   * <p>If the application is running within an iframe this method requests a browser generated
+   * redirect to pop the application out of the iframe into the top level window, and then aborts
+   * execution by throwing an exception. This is call should be placed early within the module's
+   * onLoad() method, before any real UI can be initialized that an attacking site could try to snip
+   * out and present in a confusing context.
+   *
+   * <p>If the break out works, execution will restart automatically in a proper top level window,
+   * where the script has full control over the display. If the break out fails, execution will
+   * abort and stop immediately, preventing UI widgets from being created, leaving the user with an
+   * empty frame.
    */
   public static void assertNotInIFrame() {
     if (GWT.isScript() && amInsideIFrame()) {
@@ -146,16 +144,13 @@ public class UserAgent {
     }
   }
 
-  private static native boolean amInsideIFrame()
-  /*-{ return top.location != $wnd.location; }-*/;
+  private static native boolean amInsideIFrame()/*-{ return top.location != $wnd.location; }-*/ ;
 
-  private static native void bustOutOfIFrame(String newloc)
-  /*-{ top.location.href = newloc }-*/;
+  private static native void bustOutOfIFrame(String newloc)/*-{ top.location.href = newloc }-*/ ;
 
   /**
-   * Test if Gerrit is running on a mobile browser. This check could be
-   * incomplete, but should cover most cases. Regexes shamelessly borrowed from
-   * CodeMirror.
+   * Test if Gerrit is running on a mobile browser. This check could be incomplete, but should cover
+   * most cases. Regexes shamelessly borrowed from CodeMirror.
    */
   public static native boolean isMobile() /*-{
     var ua = $wnd.navigator.userAgent;
@@ -164,13 +159,10 @@ public class UserAgent {
         || /Android|webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(ua);
   }-*/;
 
-  /**
-   * Check if the height of the browser view is greater than its width.
-   */
+  /** Check if the height of the browser view is greater than its width. */
   public static boolean isPortrait() {
     return Window.getClientHeight() > Window.getClientWidth();
   }
 
-  private UserAgent() {
-  }
+  private UserAgent() {}
 }

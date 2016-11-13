@@ -33,12 +33,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -51,6 +45,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 class RelatedChangesSorter {
@@ -71,11 +69,9 @@ class RelatedChangesSorter {
     ProjectControl ctl = start.data().changeControl().getProjectControl();
 
     // Map of patch set -> immediate parent.
-    ListMultimap<PatchSetData, PatchSetData> parents =
-        ArrayListMultimap.create(in.size(), 3);
+    ListMultimap<PatchSetData, PatchSetData> parents = ArrayListMultimap.create(in.size(), 3);
     // Map of patch set -> immediate children.
-    ListMultimap<PatchSetData, PatchSetData> children =
-        ArrayListMultimap.create(in.size(), 3);
+    ListMultimap<PatchSetData, PatchSetData> children = ArrayListMultimap.create(in.size(), 3);
     // All other patch sets of the same change as startPs.
     List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
 
@@ -98,8 +94,7 @@ class RelatedChangesSorter {
     Collection<PatchSetData> ancestors = walkAncestors(ctl, parents, start);
     List<PatchSetData> descendants =
         walkDescendants(ctl, children, start, otherPatchSetsOfStart, ancestors);
-    List<PatchSetData> result =
-        new ArrayList<>(ancestors.size() + descendants.size() - 1);
+    List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
     result.addAll(Lists.reverse(descendants));
     result.addAll(ancestors);
     return result;
@@ -108,15 +103,17 @@ class RelatedChangesSorter {
   private Map<String, PatchSetData> collectById(List<ChangeData> in)
       throws OrmException, IOException {
     Project.NameKey project = in.get(0).change().getProject();
-    Map<String, PatchSetData> result =
-        Maps.newHashMapWithExpectedSize(in.size() * 3);
+    Map<String, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(true);
       for (ChangeData cd : in) {
-        checkArgument(cd.change().getProject().equals(project),
+        checkArgument(
+            cd.change().getProject().equals(project),
             "Expected change %s in project %s, found %s",
-            cd.getId(), project, cd.change().getProject());
+            cd.getId(),
+            project,
+            cd.change().getProject());
         for (PatchSet ps : cd.patchSets()) {
           String id = ps.getRevision().get();
           RevCommit c = rw.parseCommit(ObjectId.fromString(id));
@@ -128,8 +125,8 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static Collection<PatchSetData> walkAncestors(ProjectControl ctl,
-      ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
+  private static Collection<PatchSetData> walkAncestors(
+      ProjectControl ctl, ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
       throws OrmException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
@@ -145,38 +142,41 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static List<PatchSetData> walkDescendants(ProjectControl ctl,
+  private static List<PatchSetData> walkDescendants(
+      ProjectControl ctl,
       ListMultimap<PatchSetData, PatchSetData> children,
-      PatchSetData start, List<PatchSetData> otherPatchSetsOfStart,
+      PatchSetData start,
+      List<PatchSetData> otherPatchSetsOfStart,
       Iterable<PatchSetData> ancestors)
       throws OrmException {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);
 
     // Prefer descendants found by following the original patch set passed in.
-    List<PatchSetData> result = walkDescendentsImpl(
-        ctl, alreadyEmittedChanges, children, ImmutableList.of(start));
+    List<PatchSetData> result =
+        walkDescendentsImpl(ctl, alreadyEmittedChanges, children, ImmutableList.of(start));
     addAllChangeIds(alreadyEmittedChanges, result);
 
     // Then, go back and add new indirect descendants found by following any
     // other patch sets of start. These show up after all direct descendants,
     // because we wouldn't know where in the walk to insert them.
-    result.addAll(walkDescendentsImpl(
-          ctl, alreadyEmittedChanges, children, otherPatchSetsOfStart));
+    result.addAll(walkDescendentsImpl(ctl, alreadyEmittedChanges, children, otherPatchSetsOfStart));
     return result;
   }
 
-  private static void addAllChangeIds(Collection<Change.Id> changeIds,
-      Iterable<PatchSetData> psds) {
+  private static void addAllChangeIds(
+      Collection<Change.Id> changeIds, Iterable<PatchSetData> psds) {
     for (PatchSetData psd : psds) {
       changeIds.add(psd.id());
     }
   }
 
-  private static List<PatchSetData> walkDescendentsImpl(ProjectControl ctl,
+  private static List<PatchSetData> walkDescendentsImpl(
+      ProjectControl ctl,
       Set<Change.Id> alreadyEmittedChanges,
       ListMultimap<PatchSetData, PatchSetData> children,
-      List<PatchSetData> start) throws OrmException {
+      List<PatchSetData> start)
+      throws OrmException {
     if (start.isEmpty()) {
       return ImmutableList.of();
     }
@@ -218,12 +218,10 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static boolean isVisible(PatchSetData psd, ProjectControl ctl)
-      throws OrmException {
+  private static boolean isVisible(PatchSetData psd, ProjectControl ctl) throws OrmException {
     // Reuse existing project control rather than lazily creating a new one for
     // each ChangeData.
-    return ctl.controlFor(psd.data().notes())
-        .isPatchVisible(psd.patchSet(), psd.data());
+    return ctl.controlFor(psd.data().notes()).isPatchVisible(psd.patchSet(), psd.data());
   }
 
   @AutoValue
@@ -234,7 +232,9 @@ class RelatedChangesSorter {
     }
 
     abstract ChangeData data();
+
     abstract PatchSet patchSet();
+
     abstract RevCommit commit();
 
     PatchSet.Id psId() {

@@ -20,7 +20,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -32,15 +31,10 @@ class ReceiveConfig {
 
   @Inject
   ReceiveConfig(@GerritServerConfig Config config) {
-    checkMagicRefs = config.getBoolean(
-        "receive", null, "checkMagicRefs",
-        true);
-    checkReferencedObjectsAreReachable = config.getBoolean(
-        "receive", null, "checkReferencedObjectsAreReachable",
-        true);
-    allowDrafts = config.getBoolean(
-        "change", null, "allowDrafts",
-        true);
+    checkMagicRefs = config.getBoolean("receive", null, "checkMagicRefs", true);
+    checkReferencedObjectsAreReachable =
+        config.getBoolean("receive", null, "checkReferencedObjectsAreReachable", true);
+    allowDrafts = config.getBoolean("change", null, "allowDrafts", true);
     systemMaxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
   }
 

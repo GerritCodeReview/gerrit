@@ -33,24 +33,24 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.util.Providers;
-
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.kohsuke.args4j.Option;
 
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {
-  @Option(name = "--batch", aliases = {"-b"},
-      usage = "Batch mode; skip interactive prompting")
+  @Option(
+    name = "--batch",
+    aliases = {"-b"},
+    usage = "Batch mode; skip interactive prompting"
+  )
   private boolean batchMode;
 
-  @Option(name = "--delete-caches",
-      usage = "Delete all persistent caches without asking")
+  @Option(name = "--delete-caches", usage = "Delete all persistent caches without asking")
   private boolean deleteCaches;
 
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
@@ -65,16 +65,16 @@ public class Init extends BaseInit {
   @Option(name = "--install-plugin", usage = "Install given plugin without asking")
   private List<String> installPlugins;
 
-  @Option(name = "--install-all-plugins",
-      usage = "Install all plugins from war without asking")
+  @Option(name = "--install-all-plugins", usage = "Install all plugins from war without asking")
   private boolean installAllPlugins;
 
-  @Option(name = "--secure-store-lib",
-      usage = "Path to jar providing SecureStore implementation class")
+  @Option(
+    name = "--secure-store-lib",
+    usage = "Path to jar providing SecureStore implementation class"
+  )
   private String secureStoreLib;
 
-  @Option(name = "--dev",
-      usage = "Setup site with default options suitable for developers")
+  @Option(name = "--dev", usage = "Setup site with default options suitable for developers")
   private boolean dev;
 
   @Option(name = "--skip-all-downloads", usage = "Don't download libraries")
@@ -83,8 +83,7 @@ public class Init extends BaseInit {
   @Option(name = "--skip-download", usage = "Don't download given library")
   private List<String> skippedDownloads;
 
-  @Inject
-  Browser browser;
+  @Inject Browser browser;
 
   public Init() {
     super(new WarDistribution(), null);
@@ -102,12 +101,10 @@ public class Init extends BaseInit {
 
     if (!skipPlugins) {
       final List<PluginData> plugins =
-          InitPlugins.listPluginsAndRemoveTempFiles(init.site,
-              pluginsDistribution);
+          InitPlugins.listPluginsAndRemoveTempFiles(init.site, pluginsDistribution);
       ConsoleUI ui = ConsoleUI.getInstance(false);
       if (installAllPlugins && !nullOrEmpty(installPlugins)) {
-        ui.message(
-            "Cannot use --install-plugin together with --install-all-plugins.\n");
+        ui.message("Cannot use --install-plugin together with --install-all-plugins.\n");
         return true;
       }
       verifyInstallPluginList(ui, plugins);
@@ -129,15 +126,17 @@ public class Init extends BaseInit {
   @Override
   protected void afterInit(SiteRun run) throws Exception {
     List<Module> modules = new ArrayList<>();
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
-        bind(Browser.class);
-        bind(String.class).annotatedWith(SecureStoreClassName.class)
-            .toProvider(Providers.of(getConfiguredSecureStoreClass()));
-      }
-    });
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
+            bind(Browser.class);
+            bind(String.class)
+                .annotatedWith(SecureStoreClassName.class)
+                .toProvider(Providers.of(getConfiguredSecureStoreClass()));
+          }
+        });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
     start(run);
@@ -168,7 +167,6 @@ public class Init extends BaseInit {
     return deleteCaches;
   }
 
-
   @Override
   protected boolean skipPlugins() {
     return skipPlugins;
@@ -186,9 +184,7 @@ public class Init extends BaseInit {
 
   @Override
   protected List<String> getSkippedDownloads() {
-    return skippedDownloads != null
-        ? skippedDownloads
-        : Collections.<String> emptyList();
+    return skippedDownloads != null ? skippedDownloads : Collections.<String>emptyList();
   }
 
   @Override
@@ -230,7 +226,7 @@ public class Init extends BaseInit {
     IoUtil.copyWithThread(proc.getInputStream(), System.err);
     IoUtil.copyWithThread(proc.getErrorStream(), System.err);
 
-    for (;;) {
+    for (; ; ) {
       try {
         int rc = proc.waitFor();
         if (rc != 0) {

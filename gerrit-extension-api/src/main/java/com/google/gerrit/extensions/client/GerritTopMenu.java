@@ -15,7 +15,12 @@
 package com.google.gerrit.extensions.client;
 
 public enum GerritTopMenu {
-  ALL, MY, PROJECTS, PEOPLE, PLUGINS, DOCUMENTATION;
+  ALL,
+  MY,
+  PROJECTS,
+  PEOPLE,
+  PLUGINS,
+  DOCUMENTATION;
 
   public final String menuName;
 

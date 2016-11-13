@@ -28,7 +28,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,6 +71,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   private native Timestamp _getCts() /*-{ return this._cts; }-*/;
+
   private native void _setCts(Timestamp ts) /*-{ this._cts = ts; }-*/;
 
   public final Timestamp updated() {
@@ -105,46 +105,75 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final native String id() /*-{ return this.id; }-*/;
+
   public final native String project() /*-{ return this.project; }-*/;
+
   public final native String branch() /*-{ return this.branch; }-*/;
+
   public final native String topic() /*-{ return this.topic; }-*/;
+
   public final native String changeId() /*-{ return this.change_id; }-*/;
+
   public final native boolean mergeable() /*-{ return this.mergeable ? true : false; }-*/;
+
   public final native int insertions() /*-{ return this.insertions; }-*/;
+
   public final native int deletions() /*-{ return this.deletions; }-*/;
+
   private native String statusRaw() /*-{ return this.status; }-*/;
+
   public final native String subject() /*-{ return this.subject; }-*/;
+
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;
+
   public final native AccountInfo assignee() /*-{ return this.assignee; }-*/;
+
   private native String createdRaw() /*-{ return this.created; }-*/;
+
   private native String updatedRaw() /*-{ return this.updated; }-*/;
+
   private native String submittedRaw() /*-{ return this.submitted; }-*/;
+
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
+
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
+
   public final native NativeMap<LabelInfo> allLabels() /*-{ return this.labels; }-*/;
+
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
+
   public final native String currentRevision() /*-{ return this.current_revision; }-*/;
+
   public final native void setCurrentRevision(String r) /*-{ this.current_revision = r; }-*/;
+
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
+
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
+
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
+
   public final native void setEdit(EditInfo edit) /*-{ this.edit = edit; }-*/;
+
   public final native EditInfo edit() /*-{ return this.edit; }-*/;
+
   public final native boolean hasEdit() /*-{ return this.hasOwnProperty('edit') }-*/;
+
   public final native JsArrayString hashtags() /*-{ return this.hashtags; }-*/;
 
   public final native boolean hasPermittedLabels()
-  /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
+      /*-{ return this.hasOwnProperty('permitted_labels') }-*/ ;
+
   public final native NativeMap<JsArrayString> permittedLabels()
-  /*-{ return this.permitted_labels; }-*/;
+      /*-{ return this.permitted_labels; }-*/ ;
+
   public final native JsArrayString permittedValues(String n)
-  /*-{ return this.permitted_labels[n]; }-*/;
+      /*-{ return this.permitted_labels[n]; }-*/ ;
 
   public final native JsArray<AccountInfo> removableReviewers()
-  /*-{ return this.removable_reviewers; }-*/;
+      /*-{ return this.removable_reviewers; }-*/ ;
 
-  private native NativeMap<JsArray<AccountInfo>> _reviewers()
-  /*-{ return this.reviewers; }-*/;
+  private native NativeMap<JsArray<AccountInfo>> _reviewers()/*-{ return this.reviewers; }-*/ ;
+
   public final Map<ReviewerState, List<AccountInfo>> reviewers() {
     NativeMap<JsArray<AccountInfo>> reviewers = _reviewers();
     Map<ReviewerState, List<AccountInfo>> result = new HashMap<>();
@@ -161,11 +190,12 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
+
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
   public final native int _number() /*-{ return this._number; }-*/;
-  public final native boolean _more_changes()
-  /*-{ return this._more_changes ? true : false; }-*/;
+
+  public final native boolean _more_changes()/*-{ return this._more_changes ? true : false; }-*/ ;
 
   public final SubmitType submitType() {
     String submitType = _submitType();
@@ -174,6 +204,7 @@ public class ChangeInfo extends JavaScriptObject {
     }
     return SubmitType.valueOf(submitType);
   }
+
   private native String _submitType() /*-{ return this.submit_type; }-*/;
 
   public final boolean submittable() {
@@ -181,12 +212,11 @@ public class ChangeInfo extends JavaScriptObject {
     return _submittable();
   }
 
-  private native boolean _submittable()
-  /*-{ return this.submittable ? true : false; }-*/;
+  private native boolean _submittable()/*-{ return this.submittable ? true : false; }-*/ ;
 
   /**
-   * @return the index of the missing label or -1
-   *         if no label is missing, or if more than one label is missing.
+   * @return the index of the missing label or -1 if no label is missing, or if more than one label
+   *     is missing.
    */
   public final int getMissingLabelIndex() {
     int i = -1;
@@ -225,8 +255,7 @@ public class ChangeInfo extends JavaScriptObject {
     return ret;
   }
 
-  protected ChangeInfo() {
-  }
+  protected ChangeInfo() {}
 
   public static class LabelInfo extends JavaScriptObject {
     public final SubmitRecord.Label.Status status() {
@@ -242,13 +271,17 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     public final native String name() /*-{ return this._name; }-*/;
+
     public final native AccountInfo approved() /*-{ return this.approved; }-*/;
+
     public final native AccountInfo rejected() /*-{ return this.rejected; }-*/;
 
     public final native AccountInfo recommended() /*-{ return this.recommended; }-*/;
+
     public final native AccountInfo disliked() /*-{ return this.disliked; }-*/;
 
     public final native JsArray<ApprovalInfo> all() /*-{ return this.all; }-*/;
+
     public final ApprovalInfo forUser(int user) {
       JsArray<ApprovalInfo> all = all();
       for (int i = 0; all != null && i < all.length(); i++) {
@@ -260,21 +293,25 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     private native NativeMap<NativeString> _values() /*-{ return this.values; }-*/;
+
     public final Set<String> values() {
       return Natives.keys(_values());
     }
+
     public final native String valueText(String n) /*-{ return this.values[n]; }-*/;
 
     public final native boolean optional() /*-{ return this.optional ? true : false; }-*/;
+
     public final native boolean blocking() /*-{ return this.blocking ? true : false; }-*/;
+
     public final native short defaultValue() /*-{ return this.default_value; }-*/;
-    public final native short _value()
-    /*-{
+
+    public final native short _value()/*-{
       if (this.value) return this.value;
       if (this.disliked) return -1;
       if (this.recommended) return 1;
       return 0;
-    }-*/;
+    }-*/ ;
 
     public final String maxValue() {
       return LabelValue.formatValue(valueSet().last());
@@ -297,35 +334,39 @@ public class ChangeInfo extends JavaScriptObject {
       return Short.parseShort(formatted);
     }
 
-    protected LabelInfo() {
-    }
+    protected LabelInfo() {}
   }
 
   public static class ApprovalInfo extends AccountInfo {
     public final native boolean hasValue() /*-{ return this.hasOwnProperty('value'); }-*/;
+
     public final native short value() /*-{ return this.value || 0; }-*/;
 
-    protected ApprovalInfo() {
-    }
+    protected ApprovalInfo() {}
   }
 
   public static class EditInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
+
     public final native String setName(String n) /*-{ this.name = n; }-*/;
+
     public final native String baseRevision() /*-{ return this.base_revision; }-*/;
+
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
 
     public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
+
     public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
     public final native boolean hasFetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
+
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
 
     public final native boolean hasFiles() /*-{ return this.hasOwnProperty('files') }-*/;
+
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
 
-    protected EditInfo() {
-    }
+    protected EditInfo() {}
   }
 
   public static class RevisionInfo extends JavaScriptObject {
@@ -334,55 +375,74 @@ public class ChangeInfo extends JavaScriptObject {
       revisionInfo.takeFromEdit(edit);
       return revisionInfo;
     }
+
     public static RevisionInfo forParent(int number, CommitInfo commit) {
       RevisionInfo revisionInfo = createObject().cast();
       revisionInfo.takeFromParent(number, commit);
       return revisionInfo;
     }
+
     private native void takeFromEdit(EditInfo edit) /*-{
       this._number = 0;
       this.name = edit.name;
       this.commit = edit.commit;
       this.edit_base = edit.base_revision;
     }-*/;
+
     private native void takeFromParent(int number, CommitInfo commit) /*-{
       this._number = number;
       this.commit = commit;
       this.name = this._number;
     }-*/;
+
     public final native int _number() /*-{ return this._number; }-*/;
+
     public final native String name() /*-{ return this.name; }-*/;
+
     public final native boolean draft() /*-{ return this.draft || false; }-*/;
+
     public final native AccountInfo uploader() /*-{ return this.uploader; }-*/;
+
     public final native boolean isEdit() /*-{ return this._number == 0; }-*/;
+
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
+
     public final native void setCommit(CommitInfo c) /*-{ this.commit = c; }-*/;
+
     public final native String editBase() /*-{ return this.edit_base; }-*/;
 
     public final native boolean hasFiles() /*-{ return this.hasOwnProperty('files') }-*/;
+
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
 
     public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
+
     public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
     public final native boolean hasFetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
+
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
 
-    public final native boolean hasPushCertificate() /*-{ return this.hasOwnProperty('push_certificate'); }-*/;
-    public final native PushCertificateInfo pushCertificate() /*-{ return this.push_certificate; }-*/;
+    public final native boolean
+        hasPushCertificate() /*-{ return this.hasOwnProperty('push_certificate'); }-*/;
+
+    public final native PushCertificateInfo
+        pushCertificate() /*-{ return this.push_certificate; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       final int editParent = findEditParent(list);
-      Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
-        @Override
-        public int compare(RevisionInfo a, RevisionInfo b) {
-          return num(a) - num(b);
-        }
+      Collections.sort(
+          Natives.asList(list),
+          new Comparator<RevisionInfo>() {
+            @Override
+            public int compare(RevisionInfo a, RevisionInfo b) {
+              return num(a) - num(b);
+            }
 
-        private int num(RevisionInfo r) {
-          return !r.isEdit() ? 2 * (r._number() - 1) + 1 : 2 * editParent;
-        }
-      });
+            private int num(RevisionInfo r) {
+              return !r.isEdit() ? 2 * (r._number() - 1) + 1 : 2 * editParent;
+            }
+          });
     }
 
     public static int findEditParent(JsArray<RevisionInfo> list) {
@@ -390,8 +450,7 @@ public class ChangeInfo extends JavaScriptObject {
       return r == null ? -1 : r._number();
     }
 
-    public static RevisionInfo findEditParentRevision(
-        JsArray<RevisionInfo> list) {
+    public static RevisionInfo findEditParentRevision(JsArray<RevisionInfo> list) {
       for (int i = 0; i < list.length(); i++) {
         // edit under revisions?
         RevisionInfo editInfo = list.get(i);
@@ -419,67 +478,77 @@ public class ChangeInfo extends JavaScriptObject {
       return commit().parents().length() > 1;
     }
 
-    protected RevisionInfo () {
-    }
+    protected RevisionInfo() {}
   }
 
   public static class FetchInfo extends JavaScriptObject {
     public final native String url() /*-{ return this.url }-*/;
+
     public final native String ref() /*-{ return this.ref }-*/;
+
     public final native NativeMap<NativeString> commands() /*-{ return this.commands }-*/;
+
     public final native String command(String n) /*-{ return this.commands[n]; }-*/;
 
-    protected FetchInfo () {
-    }
+    protected FetchInfo() {}
   }
 
   public static class CommitInfo extends JavaScriptObject {
     public final native String commit() /*-{ return this.commit; }-*/;
+
     public final native JsArray<CommitInfo> parents() /*-{ return this.parents; }-*/;
+
     public final native GitPerson author() /*-{ return this.author; }-*/;
+
     public final native GitPerson committer() /*-{ return this.committer; }-*/;
+
     public final native String subject() /*-{ return this.subject; }-*/;
+
     public final native String message() /*-{ return this.message; }-*/;
+
     public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
-    protected CommitInfo() {
-    }
+    protected CommitInfo() {}
   }
 
   public static class GitPerson extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
+
     public final native String email() /*-{ return this.email; }-*/;
+
     private native String dateRaw() /*-{ return this.date; }-*/;
 
     public final Timestamp date() {
       return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
     }
 
-    protected GitPerson() {
-    }
+    protected GitPerson() {}
   }
 
   public static class MessageInfo extends JavaScriptObject {
     public final native AccountInfo author() /*-{ return this.author; }-*/;
+
     public final native String message() /*-{ return this.message; }-*/;
+
     public final native int _revisionNumber() /*-{ return this._revision_number || 0; }-*/;
+
     public final native String tag() /*-{ return this.tag; }-*/;
+
     private native String dateRaw() /*-{ return this.date; }-*/;
 
     public final Timestamp date() {
       return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
     }
 
-    protected MessageInfo() {
-    }
+    protected MessageInfo() {}
   }
 
   public static class MergeableInfo extends JavaScriptObject {
     public final native String submitType() /*-{ return this.submit_type }-*/;
+
     public final native boolean mergeable() /*-{ return this.mergeable }-*/;
 
-    protected MergeableInfo() {
-    }
+    protected MergeableInfo() {}
   }
 
   public static class IncludedInInfo extends JavaScriptObject {
@@ -488,11 +557,13 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     public final native JsArrayString branches() /*-{ return this.branches; }-*/;
+
     public final native JsArrayString tags() /*-{ return this.tags; }-*/;
+
     public final native JsArrayString external(String n) /*-{ return this.external[n]; }-*/;
+
     private native NativeMap<JsArrayString> external() /*-{ return this.external; }-*/;
 
-    protected IncludedInInfo() {
-    }
+    protected IncludedInInfo() {}
   }
 }

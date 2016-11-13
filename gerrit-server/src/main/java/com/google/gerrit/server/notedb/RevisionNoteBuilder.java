@@ -23,7 +23,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.RevId;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,12 +36,10 @@ import java.util.Set;
 
 class RevisionNoteBuilder {
   static class Cache {
-    private final RevisionNoteMap<?
-        extends RevisionNote<? extends Comment>> revisionNoteMap;
+    private final RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap;
     private final Map<RevId, RevisionNoteBuilder> builders;
 
-    Cache(RevisionNoteMap<?
-        extends RevisionNote<? extends Comment>> revisionNoteMap) {
+    Cache(RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap) {
       this.revisionNoteMap = revisionNoteMap;
       this.builders = new HashMap<>();
     }
@@ -50,8 +47,7 @@ class RevisionNoteBuilder {
     RevisionNoteBuilder get(RevId revId) {
       RevisionNoteBuilder b = builders.get(revId);
       if (b == null) {
-        b = new RevisionNoteBuilder(
-            revisionNoteMap.revisionNotes.get(revId));
+        b = new RevisionNoteBuilder(revisionNoteMap.revisionNotes.get(revId));
         builders.put(revId, b);
       }
       return b;
@@ -86,8 +82,7 @@ class RevisionNoteBuilder {
     delete = new HashSet<>();
   }
 
-  public byte[] build(ChangeNoteUtil noteUtil, boolean writeJson)
-      throws IOException {
+  public byte[] build(ChangeNoteUtil noteUtil, boolean writeJson) throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     if (writeJson) {
       buildNoteJson(noteUtil, out);
@@ -98,8 +93,7 @@ class RevisionNoteBuilder {
   }
 
   void putComment(Comment comment) {
-    checkArgument(!delete.contains(comment.key),
-        "cannot both delete and put %s", comment.key);
+    checkArgument(!delete.contains(comment.key), "cannot both delete and put %s", comment.key);
     put.put(comment.key, comment);
   }
 
@@ -128,8 +122,7 @@ class RevisionNoteBuilder {
     return all;
   }
 
-  private void buildNoteJson(ChangeNoteUtil noteUtil, OutputStream out)
-      throws IOException {
+  private void buildNoteJson(ChangeNoteUtil noteUtil, OutputStream out) throws IOException {
     Multimap<Integer, Comment> comments = buildCommentMap();
     if (comments.isEmpty() && pushCert == null) {
       return;
@@ -144,8 +137,7 @@ class RevisionNoteBuilder {
     }
   }
 
-  private void buildNoteLegacy(ChangeNoteUtil noteUtil, OutputStream out)
-      throws IOException {
+  private void buildNoteLegacy(ChangeNoteUtil noteUtil, OutputStream out) throws IOException {
     if (pushCert != null) {
       byte[] certBytes = pushCert.getBytes(UTF_8);
       out.write(certBytes, 0, trimTrailingNewlines(certBytes));

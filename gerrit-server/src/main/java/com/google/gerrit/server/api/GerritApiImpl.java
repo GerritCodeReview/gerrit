@@ -32,11 +32,8 @@ class GerritApiImpl implements GerritApi {
   private final Projects projects;
 
   @Inject
-  GerritApiImpl(Accounts accounts,
-      Changes changes,
-      Config config,
-      Groups groups,
-      Projects projects) {
+  GerritApiImpl(
+      Accounts accounts, Changes changes, Config config, Groups groups, Projects projects) {
     this.accounts = accounts;
     this.changes = changes;
     this.config = config;

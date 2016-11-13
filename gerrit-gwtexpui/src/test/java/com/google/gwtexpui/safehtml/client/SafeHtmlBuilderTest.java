@@ -21,8 +21,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class SafeHtmlBuilderTest {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
+  @Rule public ExpectedException exception = ExpectedException.none();
 
   @Test
   public void testEmpty() {
@@ -130,12 +129,15 @@ public class SafeHtmlBuilderTest {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append((Object) null));
     assertThat(b.asString()).isEmpty();
-    assertThat(b).isSameAs(b.append(new Object() {
-      @Override
-      public String toString() {
-        return "foobar";
-      }
-    }));
+    assertThat(b)
+        .isSameAs(
+            b.append(
+                new Object() {
+                  @Override
+                  public String toString() {
+                    return "foobar";
+                  }
+                }));
     assertThat(b.asString()).isEqualTo("foobar");
   }
 

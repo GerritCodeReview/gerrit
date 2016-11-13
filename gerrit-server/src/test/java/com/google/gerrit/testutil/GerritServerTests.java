@@ -23,36 +23,34 @@ import org.junit.runners.model.Statement;
 
 @RunWith(ConfigSuite.class)
 public class GerritServerTests extends GerritBaseTests {
-  @ConfigSuite.Parameter
-  public Config config;
+  @ConfigSuite.Parameter public Config config;
 
-  @ConfigSuite.Name
-  private String configName;
+  @ConfigSuite.Name private String configName;
 
   protected TestNotesMigration notesMigration;
 
   @Rule
-  public TestRule testRunner = new TestRule() {
-    @Override
-    public Statement apply(final Statement base, final Description description) {
-      return new Statement() {
+  public TestRule testRunner =
+      new TestRule() {
         @Override
-        public void evaluate() throws Throwable {
-          beforeTest();
-          try {
-            base.evaluate();
-          } finally {
-            afterTest();
-          }
+        public Statement apply(final Statement base, final Description description) {
+          return new Statement() {
+            @Override
+            public void evaluate() throws Throwable {
+              beforeTest();
+              try {
+                base.evaluate();
+              } finally {
+                afterTest();
+              }
+            }
+          };
         }
       };
-    }
-  };
 
   public void beforeTest() throws Exception {
     notesMigration = new TestNotesMigration().setFromEnv();
   }
 
-  public void afterTest() {
-  }
+  public void afterTest() {}
 }

@@ -48,7 +48,6 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,45 +56,34 @@ import java.util.Map;
 import java.util.Set;
 
 public class ProjectAccessScreen extends ProjectScreen {
-  interface Binder extends UiBinder<HTMLPanel, ProjectAccessScreen> {
-  }
+  interface Binder extends UiBinder<HTMLPanel, ProjectAccessScreen> {}
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  interface Driver extends SimpleBeanEditorDriver< //
-      ProjectAccess, //
-      ProjectAccessEditor> {
-  }
+  interface Driver
+      extends SimpleBeanEditorDriver< //
+          ProjectAccess, //
+          ProjectAccessEditor> {}
 
-  @UiField
-  DivElement editTools;
+  @UiField DivElement editTools;
 
-  @UiField
-  Button edit;
+  @UiField Button edit;
 
-  @UiField
-  Button cancel1;
+  @UiField Button cancel1;
 
-  @UiField
-  Button cancel2;
+  @UiField Button cancel2;
 
-  @UiField
-  VerticalPanel error;
+  @UiField VerticalPanel error;
 
-  @UiField
-  ProjectAccessEditor accessEditor;
+  @UiField ProjectAccessEditor accessEditor;
 
-  @UiField
-  DivElement commitTools;
+  @UiField DivElement commitTools;
 
-  @UiField
-  NpTextArea commitMessage;
+  @UiField NpTextArea commitMessage;
 
-  @UiField
-  Button commit;
+  @UiField Button commit;
 
-  @UiField
-  Button review;
+  @UiField Button review;
 
   private Driver driver;
 
@@ -122,24 +110,27 @@ public class ProjectAccessScreen extends ProjectScreen {
     super.onLoad();
     CallbackGroup cbs = new CallbackGroup();
     ConfigServerApi.capabilities(
-        cbs.add(new AsyncCallback<NativeMap<CapabilityInfo>>() {
-          @Override
-          public void onSuccess(NativeMap<CapabilityInfo> result) {
-            capabilityMap = result;
-          }
+        cbs.add(
+            new AsyncCallback<NativeMap<CapabilityInfo>>() {
+              @Override
+              public void onSuccess(NativeMap<CapabilityInfo> result) {
+                capabilityMap = result;
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            // Handled by ScreenLoadCallback.onFailure().
-          }
-        }));
-    Util.PROJECT_SVC.projectAccess(getProjectKey(),
-        cbs.addFinal(new ScreenLoadCallback<ProjectAccess>(this) {
-          @Override
-          public void preDisplay(ProjectAccess access) {
-            displayReadOnly(access);
-          }
-        }));
+              @Override
+              public void onFailure(Throwable caught) {
+                // Handled by ScreenLoadCallback.onFailure().
+              }
+            }));
+    Util.PROJECT_SVC.projectAccess(
+        getProjectKey(),
+        cbs.addFinal(
+            new ScreenLoadCallback<ProjectAccess>(this) {
+              @Override
+              public void preDisplay(ProjectAccess access) {
+                displayReadOnly(access);
+              }
+            }));
     savedPanel = ACCESS;
   }
 
@@ -178,8 +169,8 @@ public class ProjectAccessScreen extends ProjectScreen {
     ProjectAccess mock = new ProjectAccess();
     mock.setProjectName(access.getProjectName());
     mock.setRevision(access.getRevision());
-    mock.setLocal(Collections.<AccessSection> emptyList());
-    mock.setOwnerOf(Collections.<String> emptySet());
+    mock.setLocal(Collections.<AccessSection>emptyList());
+    mock.setOwnerOf(Collections.<String>emptySet());
     driver.edit(mock);
   }
 
@@ -229,8 +220,7 @@ public class ProjectAccessScreen extends ProjectScreen {
             }
           }
 
-          private Set<String> getDiffs(ProjectAccess wantedAccess,
-              ProjectAccess newAccess) {
+          private Set<String> getDiffs(ProjectAccess wantedAccess, ProjectAccess newAccess) {
             List<AccessSection> wantedSections =
                 mergeSections(removeEmptyPermissionsAndSections(wantedAccess.getLocal()));
             List<AccessSection> newSections =
@@ -255,10 +245,12 @@ public class ProjectAccessScreen extends ProjectScreen {
             error.clear();
             enable(true);
             if (caught instanceof RemoteJsonException
-                && caught.getMessage().startsWith(
-                    UpdateParentFailedException.MESSAGE)) {
-              new ErrorDialog(Gerrit.M.parentUpdateFailed(caught.getMessage()
-                  .substring(UpdateParentFailedException.MESSAGE.length() + 1)))
+                && caught.getMessage().startsWith(UpdateParentFailedException.MESSAGE)) {
+              new ErrorDialog(
+                      Gerrit.M.parentUpdateFailed(
+                          caught
+                              .getMessage()
+                              .substring(UpdateParentFailedException.MESSAGE.length() + 1)))
                   .center();
             } else {
               super.onFailure(caught);

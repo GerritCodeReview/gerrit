@@ -19,30 +19,28 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
 /**
- * Represent an object that can be diffed. This can be either a regular patch
- * set, the base of a patch set, the parent of a merge, the auto-merge of a
- * merge or an edit patch set.
+ * Represent an object that can be diffed. This can be either a regular patch set, the base of a
+ * patch set, the parent of a merge, the auto-merge of a merge or an edit patch set.
  */
 public class DiffObject {
   public static final String AUTO_MERGE = "AutoMerge";
 
   /**
    * Parses a string that represents a diff object.
-   * <p>
-   * The following string representations are supported:
+   *
+   * <p>The following string representations are supported:
+   *
    * <ul>
-   * <li>a positive integer: represents a patch set
-   * <li>a negative integer: represents a parent of a merge patch set
-   * <li>'0': represents the edit patch set
-   * <li>empty string or null: represents the parent of a 1-parent patch set,
-   * also called base
-   * <li>'AutoMerge': represents the auto-merge of a merge patch set
+   *   <li>a positive integer: represents a patch set
+   *   <li>a negative integer: represents a parent of a merge patch set
+   *   <li>'0': represents the edit patch set
+   *   <li>empty string or null: represents the parent of a 1-parent patch set, also called base
+   *   <li>'AutoMerge': represents the auto-merge of a merge patch set
    * </ul>
    *
    * @param changeId the ID of the change to which the diff object belongs
    * @param str the string representation of the diff object
-   * @return the parsed diff object, {@code null} if str cannot be parsed as
-   *         diff object
+   * @return the parsed diff object, {@code null} if str cannot be parsed as diff object
    */
   public static DiffObject parse(Change.Id changeId, String str) {
     if (str == null || str.isEmpty()) {
@@ -60,23 +58,17 @@ public class DiffObject {
     }
   }
 
-  /**
-   * Create a DiffObject that represents the parent of a 1-parent patch set.
-   */
+  /** Create a DiffObject that represents the parent of a 1-parent patch set. */
   public static DiffObject base() {
     return new DiffObject(false);
   }
 
-  /**
-   * Create a DiffObject that represents the auto-merge for a merge patch set.
-   */
+  /** Create a DiffObject that represents the auto-merge for a merge patch set. */
   public static DiffObject autoMerge() {
     return new DiffObject(true);
   }
 
-  /**
-   * Create a DiffObject that represents a patch set.
-   */
+  /** Create a DiffObject that represents a patch set. */
   public static DiffObject patchSet(PatchSet.Id psId) {
     return new DiffObject(psId);
   }
@@ -121,10 +113,9 @@ public class DiffObject {
   /**
    * Returns the DiffObject as PatchSet.Id.
    *
-   * @return PatchSet.Id with an id > 0 for a regular patch set; PatchSet.Id
-   *         with an id < 0 for a parent of a merge; PatchSet.Id with id == 0
-   *         for an edit patch set; {@code null} for the base of a 1-parent
-   *         patch set and for the auto-merge of a merge patch set
+   * @return PatchSet.Id with an id > 0 for a regular patch set; PatchSet.Id with an id < 0 for a
+   *     parent of a merge; PatchSet.Id with id == 0 for an edit patch set; {@code null} for the
+   *     base of a 1-parent patch set and for the auto-merge of a merge patch set
    */
   public PatchSet.Id asPatchSetId() {
     return psId;
@@ -133,8 +124,7 @@ public class DiffObject {
   /**
    * Returns the parent number for a parent of a merge.
    *
-   * @return 1-based parent number, 0 if this DiffObject is not a parent of a
-   *         merge
+   * @return 1-based parent number, 0 if this DiffObject is not a parent of a merge
    */
   public int getParentNum() {
     if (!isParent()) {
@@ -145,24 +135,23 @@ public class DiffObject {
   }
 
   /**
-   * Returns a string representation of this DiffObject that can be used in
-   * URLs.
-   * <p>
-   * The following string representations are returned:
+   * Returns a string representation of this DiffObject that can be used in URLs.
+   *
+   * <p>The following string representations are returned:
+   *
    * <ul>
-   * <li>a positive integer for a patch set
-   * <li>a negative integer for a parent of a merge patch set
-   * <li>'0' for the edit patch set
-   * <li>{@code null} for the parent of a 1-parent patch set, also called base
-   * <li>'AutoMerge' for the auto-merge of a merge patch set
+   *   <li>a positive integer for a patch set
+   *   <li>a negative integer for a parent of a merge patch set
+   *   <li>'0' for the edit patch set
+   *   <li>{@code null} for the parent of a 1-parent patch set, also called base
+   *   <li>'AutoMerge' for the auto-merge of a merge patch set
    * </ul>
    *
    * @return string representation of this DiffObject
    */
   public String asString() {
     if (autoMerge) {
-      if (Gerrit.getUserPreferences()
-          .defaultBaseForMerges() != DefaultBase.AUTO_MERGE) {
+      if (Gerrit.getUserPreferences().defaultBaseForMerges() != DefaultBase.AUTO_MERGE) {
         return AUTO_MERGE;
       }
       return null;

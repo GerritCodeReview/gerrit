@@ -16,5 +16,6 @@ package com.google.gerrit.client.diff;
 
 /** Direction of traversal in an ordered list. */
 public enum Direction {
-  PREV, NEXT
+  PREV,
+  NEXT
 }

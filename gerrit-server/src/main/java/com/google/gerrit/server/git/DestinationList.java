@@ -20,7 +20,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -33,10 +32,9 @@ public class DestinationList extends TabFile {
     return destinations.get(label);
   }
 
-  public void parseLabel(String label, String text,
-      ValidationError.Sink errors) throws IOException {
-    destinations.replaceValues(label,
-        toSet(parse(text, DIR_NAME + label, TRIM, null, errors)));
+  public void parseLabel(String label, String text, ValidationError.Sink errors)
+      throws IOException {
+    destinations.replaceValues(label, toSet(parse(text, DIR_NAME + label, TRIM, null, errors)));
   }
 
   public String asText(String label) {

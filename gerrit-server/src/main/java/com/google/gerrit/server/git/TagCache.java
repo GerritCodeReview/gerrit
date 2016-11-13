@@ -21,13 +21,11 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class TagCache {
@@ -53,20 +51,19 @@ public class TagCache {
 
   /**
    * Advise the cache that a reference fast-forwarded.
-   * <p>
-   * This operation is not necessary, the cache will automatically detect changes
-   * made to references and update itself on demand. However, this method may
-   * allow the cache to update more quickly and reuse the caller's computation of
-   * the fast-forward status of a branch.
+   *
+   * <p>This operation is not necessary, the cache will automatically detect changes made to
+   * references and update itself on demand. However, this method may allow the cache to update more
+   * quickly and reuse the caller's computation of the fast-forward status of a branch.
    *
    * @param name project the branch is contained in.
    * @param refName the branch name.
-   * @param oldValue the old value, before the fast-forward. The cache
-   *        will only update itself if it is still using this old value.
+   * @param oldValue the old value, before the fast-forward. The cache will only update itself if it
+   *     is still using this old value.
    * @param newValue the current value, after the fast-forward.
    */
-  public void updateFastForward(Project.NameKey name, String refName,
-      ObjectId oldValue, ObjectId newValue) {
+  public void updateFastForward(
+      Project.NameKey name, String refName, ObjectId oldValue, ObjectId newValue) {
     // Be really paranoid and null check everything. This method should
     // never fail with an exception. Some of these references can be null
     // (e.g. not all projects are cached, or the cache is not current).
@@ -111,8 +108,7 @@ public class TagCache {
 
     transient TagSetHolder holder;
 
-    private void readObject(ObjectInputStream in) throws IOException,
-        ClassNotFoundException {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       holder = new TagSetHolder(new Project.NameKey(in.readUTF()));
       if (in.readBoolean()) {
         TagSet tags = new TagSet(holder.getProjectName());

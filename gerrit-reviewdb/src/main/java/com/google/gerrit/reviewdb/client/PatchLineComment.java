@@ -17,16 +17,15 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
  * A comment left by a user on a specific line of a {@link Patch}.
  *
- * This class represents an inline comment in ReviewDb. It should only be used
- * for writing/reading inline comments to/from ReviewDb. For all other purposes
- * inline comments should be represented by {@link Comment}.
+ * <p>This class represents an inline comment in ReviewDb. It should only be used for
+ * writing/reading inline comments to/from ReviewDb. For all other purposes inline comments should
+ * be represented by {@link Comment}.
  *
  * @see Comment
  */
@@ -35,8 +34,8 @@ public final class PatchLineComment {
     private static final long serialVersionUID = 1L;
 
     public static Key from(Change.Id changeId, Comment.Key key) {
-      return new Key(new Patch.Key(new PatchSet.Id(changeId, key.patchSetId),
-          key.filename), key.uuid);
+      return new Key(
+          new Patch.Key(new PatchSet.Id(changeId, key.patchSetId), key.filename), key.uuid);
     }
 
     @Column(id = 1, name = Column.NONE)
@@ -70,9 +69,8 @@ public final class PatchLineComment {
     }
 
     public Comment.Key asCommentKey() {
-      return new Comment.Key(get(),
-          getParentKey().getFileName(),
-          getParentKey().getParentKey().get());
+      return new Comment.Key(
+          get(), getParentKey().getFileName(), getParentKey().getParentKey().get());
     }
   }
 
@@ -104,21 +102,19 @@ public final class PatchLineComment {
     }
   }
 
-  public static PatchLineComment from(Change.Id changeId,
-      PatchLineComment.Status status, Comment c) {
-    PatchLineComment.Key key = new PatchLineComment.Key(
-        new Patch.Key(new PatchSet.Id(changeId, c.key.patchSetId),
-            c.key.filename),
-        c.key.uuid);
+  public static PatchLineComment from(
+      Change.Id changeId, PatchLineComment.Status status, Comment c) {
+    PatchLineComment.Key key =
+        new PatchLineComment.Key(
+            new Patch.Key(new PatchSet.Id(changeId, c.key.patchSetId), c.key.filename), c.key.uuid);
 
-    PatchLineComment plc = new PatchLineComment(key, c.lineNbr,
-        c.author.getId(), c.parentUuid, c.writtenOn);
+    PatchLineComment plc =
+        new PatchLineComment(key, c.lineNbr, c.author.getId(), c.parentUuid, c.writtenOn);
     plc.setSide(c.side);
     plc.setMessage(c.message);
     if (c.range != null) {
       Comment.Range r = c.range;
-      plc.setRange(
-          new CommentRange(r.startLine, r.startChar, r.endLine, r.endChar));
+      plc.setRange(new CommentRange(r.startLine, r.startChar, r.endLine, r.endChar));
     }
     plc.setTag(c.tag);
     plc.setRevId(new RevId(c.revId));
@@ -154,10 +150,7 @@ public final class PatchLineComment {
   @Column(id = 7, notNull = false, length = Integer.MAX_VALUE)
   protected String message;
 
-  /**
-   * The parent of this comment, or null if this is the first comment on this
-   * line
-   */
+  /** The parent of this comment, or null if this is the first comment on this line */
   @Column(id = 8, length = 40, notNull = false)
   protected String parentUuid;
 
@@ -167,27 +160,22 @@ public final class PatchLineComment {
   @Column(id = 10, notNull = false)
   protected String tag;
 
-  /**
-   * Real user that added this comment on behalf of the user recorded in {@link
-   * #author}.
-   */
+  /** Real user that added this comment on behalf of the user recorded in {@link #author}. */
   @Column(id = 11, notNull = false)
   protected Account.Id realAuthor;
 
   /**
    * The RevId for the commit to which this comment is referring.
    *
-   * Note that this field is not stored in the database. It is just provided
-   * for users of this class to avoid a lookup when they don't have easy access
-   * to a ReviewDb.
+   * <p>Note that this field is not stored in the database. It is just provided for users of this
+   * class to avoid a lookup when they don't have easy access to a ReviewDb.
    */
   protected RevId revId;
 
-  protected PatchLineComment() {
-  }
+  protected PatchLineComment() {}
 
-  public PatchLineComment(PatchLineComment.Key id, int line, Account.Id a,
-      String parentUuid, Timestamp when) {
+  public PatchLineComment(
+      PatchLineComment.Key id, int line, Account.Id a, String parentUuid, Timestamp when) {
     key = id;
     lineNbr = line;
     author = a;
@@ -208,11 +196,12 @@ public final class PatchLineComment {
     parentUuid = o.parentUuid;
     revId = o.revId;
     if (o.range != null) {
-      range = new CommentRange(
-          o.range.getStartLine(),
-          o.range.getStartCharacter(),
-          o.range.getEndLine(),
-          o.range.getEndCharacter());
+      range =
+          new CommentRange(
+              o.range.getStartLine(),
+              o.range.getStartCharacter(),
+              o.range.getEndLine(),
+              o.range.getEndCharacter());
     }
   }
 
@@ -287,9 +276,10 @@ public final class PatchLineComment {
 
   public void setRange(Range r) {
     if (r != null) {
-      range = new CommentRange(
-          r.startLine, r.startCharacter,
-          r.endLine, r.endCharacter);
+      range =
+          new CommentRange(
+              r.startLine, r.startCharacter,
+              r.endLine, r.endCharacter);
     } else {
       range = null;
     }
@@ -320,8 +310,7 @@ public final class PatchLineComment {
   }
 
   public Comment asComment(String serverId) {
-    Comment c = new Comment(key.asCommentKey(), author, writtenOn, side,
-        message, serverId);
+    Comment c = new Comment(key.asCommentKey(), author, writtenOn, side, message, serverId);
     c.setRevId(revId);
     c.setRange(range);
     c.lineNbr = lineNbr;
@@ -362,17 +351,13 @@ public final class PatchLineComment {
     builder.append("key=").append(key).append(',');
     builder.append("lineNbr=").append(lineNbr).append(',');
     builder.append("author=").append(author.get()).append(',');
-    builder.append("realAuthor=")
-        .append(realAuthor != null ? realAuthor.get() : "").append(',');
+    builder.append("realAuthor=").append(realAuthor != null ? realAuthor.get() : "").append(',');
     builder.append("writtenOn=").append(writtenOn.toString()).append(',');
     builder.append("status=").append(status).append(',');
     builder.append("side=").append(side).append(',');
-    builder.append("message=").append(Objects.toString(message, ""))
-      .append(',');
-    builder.append("parentUuid=").append(Objects.toString(parentUuid, ""))
-      .append(',');
-    builder.append("range=").append(Objects.toString(range, ""))
-      .append(',');
+    builder.append("message=").append(Objects.toString(message, "")).append(',');
+    builder.append("parentUuid=").append(Objects.toString(parentUuid, "")).append(',');
+    builder.append("range=").append(Objects.toString(range, "")).append(',');
     builder.append("revId=").append(revId != null ? revId.get() : "");
     builder.append("tag=").append(Objects.toString(tag, ""));
     builder.append('}');

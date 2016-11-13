@@ -26,12 +26,12 @@ import com.google.inject.assistedinject.Assisted;
 /** Asks a user to review a change. */
 public class AddReviewerSender extends NewChangeSender {
   public interface Factory {
-    AddReviewerSender create(Project.NameKey project, Change.Id id,
-        NotifyHandling notify);
+    AddReviewerSender create(Project.NameKey project, Change.Id id, NotifyHandling notify);
   }
 
   @Inject
-  public AddReviewerSender(EmailArguments ea,
+  public AddReviewerSender(
+      EmailArguments ea,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable NotifyHandling notify)

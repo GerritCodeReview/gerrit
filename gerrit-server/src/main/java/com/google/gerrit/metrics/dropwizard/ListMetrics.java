@@ -14,21 +14,18 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Metric;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
-
-import com.codahale.metrics.Metric;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.kohsuke.args4j.Option;
 
 class ListMetrics implements RestReadView<ConfigResource> {
   private final CurrentUser user;
@@ -37,8 +34,12 @@ class ListMetrics implements RestReadView<ConfigResource> {
   @Option(name = "--data-only", usage = "return only values")
   boolean dataOnly;
 
-  @Option(name = "--prefix", aliases = {"-p"}, metaVar = "PREFIX",
-      usage = "match metric by exact match or prefix")
+  @Option(
+    name = "--prefix",
+    aliases = {"-p"},
+    metaVar = "PREFIX",
+    usage = "match metric by exact match or prefix"
+  )
   List<String> query = new ArrayList<>();
 
   @Inject
@@ -48,8 +49,7 @@ class ListMetrics implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Map<String, MetricJson> apply(ConfigResource resource)
-      throws AuthException {
+  public Map<String, MetricJson> apply(ConfigResource resource) throws AuthException {
     if (!user.getCapabilities().canViewCaches()) {
       throw new AuthException("restricted to viewCaches");
     }

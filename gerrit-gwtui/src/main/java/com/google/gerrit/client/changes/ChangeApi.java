@@ -28,10 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * A collection of static methods which work on the Gerrit REST API for specific
- * changes.
- */
+/** A collection of static methods which work on the Gerrit REST API for specific changes. */
 public class ChangeApi {
   /** Abandon the change, ending its review. */
   public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
@@ -43,13 +40,17 @@ public class ChangeApi {
   /**
    * Create a new change.
    *
-   * The new change is created as DRAFT unless the draft workflow is disabled by
-   * `change.allowDrafts = false` in the configuration, in which case the new
-   * change is created as NEW.
-   *
+   * <p>The new change is created as DRAFT unless the draft workflow is disabled by
+   * `change.allowDrafts = false` in the configuration, in which case the new change is created as
+   * NEW.
    */
-  public static void createChange(String project, String branch, String topic,
-      String subject, String base, AsyncCallback<ChangeInfo> cb) {
+  public static void createChange(
+      String project,
+      String branch,
+      String topic,
+      String subject,
+      String base,
+      AsyncCallback<ChangeInfo> cb) {
     CreateChangeInput input = CreateChangeInput.create();
     input.project(emptyToNull(project));
     input.branch(emptyToNull(branch));
@@ -100,11 +101,7 @@ public class ChangeApi {
   }
 
   public static RestApi blame(PatchSet.Id id, String path, boolean base) {
-    return revision(id)
-        .view("files")
-        .id(path)
-        .view("blame")
-        .addParameter("base", base);
+    return revision(id).view("files").id(path).view("blame").addParameter("base", base);
   }
 
   public static RestApi actions(int id, String revision) {
@@ -118,8 +115,7 @@ public class ChangeApi {
     change(id).view("assignee").delete(cb);
   }
 
-  public static void setAssignee(int id, String user,
-      AsyncCallback<AccountInfo> cb) {
+  public static void setAssignee(int id, String user, AsyncCallback<AccountInfo> cb) {
     AssigneeInput input = AssigneeInput.create();
     input.assignee(user);
     change(id).view("assignee").put(user, cb);
@@ -171,9 +167,7 @@ public class ChangeApi {
   }
 
   public static RestApi suggestReviewers(int id, String q, int n, boolean e) {
-    RestApi api = change(id).view("suggest_reviewers")
-        .addParameter("n", n)
-        .addParameter("e", e);
+    RestApi api = change(id).view("suggest_reviewers").addParameter("n", n).addParameter("e", e);
     if (q != null) {
       api.addParameter("q", q);
     }
@@ -201,8 +195,8 @@ public class ChangeApi {
   }
 
   /** Submit a specific revision of a change. */
-  public static void cherrypick(int id, String commit, String destination,
-      String message, AsyncCallback<ChangeInfo> cb) {
+  public static void cherrypick(
+      int id, String commit, String destination, String message, AsyncCallback<ChangeInfo> cb) {
     CherryPickInput cherryPickInput = CherryPickInput.create();
     cherryPickInput.setMessage(message);
     cherryPickInput.setDestination(destination);
@@ -210,23 +204,21 @@ public class ChangeApi {
   }
 
   /** Edit commit message for specific revision of a change. */
-  public static void message(int id, String commit, String message,
-      AsyncCallback<JavaScriptObject> cb) {
+  public static void message(
+      int id, String commit, String message, AsyncCallback<JavaScriptObject> cb) {
     CherryPickInput input = CherryPickInput.create();
     input.setMessage(message);
     call(id, commit, "message").post(input, cb);
   }
 
   /** Submit a specific revision of a change. */
-  public static void submit(int id, String commit,
-      AsyncCallback<SubmitInfo> cb) {
+  public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     call(id, commit, "submit").post(in, cb);
   }
 
   /** Publish a specific revision of a draft change. */
-  public static void publish(int id, String commit,
-      AsyncCallback<JavaScriptObject> cb) {
+  public static void publish(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     call(id, commit, "publish").post(in, cb);
   }
@@ -237,8 +229,7 @@ public class ChangeApi {
   }
 
   /** Delete a specific draft patch set. */
-  public static void deleteRevision(int id, String commit,
-      AsyncCallback<JavaScriptObject> cb) {
+  public static void deleteRevision(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
     revision(id, commit).delete(cb);
   }
 
@@ -260,8 +251,7 @@ public class ChangeApi {
   }
 
   /** Rebase a revision onto the branch tip or another change. */
-  public static void rebase(int id, String commit, String base,
-      AsyncCallback<ChangeInfo> cb) {
+  public static void rebase(int id, String commit, String base, AsyncCallback<ChangeInfo> cb) {
     RebaseInput rebaseInput = RebaseInput.create();
     rebaseInput.setBase(base);
     call(id, commit, "rebase").post(rebaseInput, cb);
@@ -274,8 +264,7 @@ public class ChangeApi {
       return (MessageInput) createObject();
     }
 
-    protected MessageInput() {
-    }
+    protected MessageInput() {}
   }
 
   private static class AssigneeInput extends JavaScriptObject {
@@ -285,8 +274,7 @@ public class ChangeApi {
       return (AssigneeInput) createObject();
     }
 
-    protected AssigneeInput() {
-    }
+    protected AssigneeInput() {}
   }
 
   private static class TopicInput extends JavaScriptObject {
@@ -296,8 +284,7 @@ public class ChangeApi {
       return (TopicInput) createObject();
     }
 
-    protected TopicInput() {
-    }
+    protected TopicInput() {}
   }
 
   private static class CreateChangeInput extends JavaScriptObject {
@@ -306,15 +293,18 @@ public class ChangeApi {
     }
 
     public final native void branch(String b) /*-{ if(b)this.branch=b; }-*/;
-    public final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
-    public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
-    public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
-    public final native void status(String s) /*-{ if(s)this.status=s; }-*/;
-    public final native void baseChange(
-        String b) /*-{ if(b)this.base_change=b; }-*/;
 
-    protected CreateChangeInput() {
-    }
+    public final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
+
+    public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
+
+    public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
+
+    public final native void status(String s) /*-{ if(s)this.status=s; }-*/;
+
+    public final native void baseChange(String b) /*-{ if(b)this.base_change=b; }-*/;
+
+    protected CreateChangeInput() {}
   }
 
   private static class CherryPickInput extends JavaScriptObject {
@@ -326,8 +316,7 @@ public class ChangeApi {
 
     final native void setMessage(String m) /*-{ this.message = m; }-*/;
 
-    protected CherryPickInput() {
-    }
+    protected CherryPickInput() {}
   }
 
   private static class RebaseInput extends JavaScriptObject {
@@ -337,8 +326,7 @@ public class ChangeApi {
       return (RebaseInput) createObject();
     }
 
-    protected RebaseInput() {
-    }
+    protected RebaseInput() {}
   }
 
   private static RestApi call(int id, String action) {
@@ -358,11 +346,7 @@ public class ChangeApi {
     return str == null || str.isEmpty() ? null : str;
   }
 
-  public static void commitWithLinks(int changeId, String revision,
-      Callback<CommitInfo> callback) {
-    revision(changeId, revision)
-        .view("commit")
-        .addParameterTrue("links")
-        .get(callback);
+  public static void commitWithLinks(int changeId, String revision, Callback<CommitInfo> callback) {
+    revision(changeId, revision).view("commit").addParameterTrue("links").get(callback);
   }
 }

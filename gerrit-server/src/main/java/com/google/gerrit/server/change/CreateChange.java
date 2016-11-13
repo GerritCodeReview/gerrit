@@ -66,7 +66,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.List;
+import java.util.TimeZone;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -79,16 +84,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.List;
-import java.util.TimeZone;
-
 @Singleton
-public class CreateChange implements
-    RestModifyView<TopLevelResource, ChangeInput> {
+public class CreateChange implements RestModifyView<TopLevelResource, ChangeInput> {
 
   private final String anonymousCowardName;
   private final Provider<ReviewDb> db;
@@ -108,7 +105,8 @@ public class CreateChange implements
   private final SubmitType submitType;
 
   @Inject
-  CreateChange(@AnonymousCowardName String anonymousCowardName,
+  CreateChange(
+      @AnonymousCowardName String anonymousCowardName,
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       AccountCache accountCache,
@@ -137,15 +135,14 @@ public class CreateChange implements
     this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
-    this.submitType = config
-        .getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
+    this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
   }
 
   @Override
   public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInput input)
-      throws OrmException, IOException, InvalidChangeOperationException,
-      RestApiException, UpdateException {
+      throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
+          UpdateException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -159,8 +156,7 @@ public class CreateChange implements
     }
 
     if (input.status != null) {
-      if (input.status != ChangeStatus.NEW
-          && input.status != ChangeStatus.DRAFT) {
+      if (input.status != ChangeStatus.NEW && input.status != ChangeStatus.DRAFT) {
         throw new BadRequestException("unsupported change status");
       }
 
@@ -184,21 +180,18 @@ public class CreateChange implements
 
     Project.NameKey project = rsrc.getNameKey();
     try (Repository git = gitManager.openRepository(project);
-         ObjectInserter oi = git.newObjectInserter();
-         RevWalk rw = new RevWalk(oi.newReader())) {
+        ObjectInserter oi = git.newObjectInserter();
+        RevWalk rw = new RevWalk(oi.newReader())) {
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {
-        List<ChangeControl> ctls = changeFinder.find(
-            input.baseChange, rsrc.getControl().getUser());
+        List<ChangeControl> ctls = changeFinder.find(input.baseChange, rsrc.getControl().getUser());
         if (ctls.size() != 1) {
-          throw new InvalidChangeOperationException(
-              "Base change not found: " + input.baseChange);
+          throw new InvalidChangeOperationException("Base change not found: " + input.baseChange);
         }
         ChangeControl ctl = Iterables.getOnlyElement(ctls);
         if (!ctl.isVisible(db.get())) {
-          throw new InvalidChangeOperationException(
-              "Base change not found: " + input.baseChange);
+          throw new InvalidChangeOperationException("Base change not found: " + input.baseChange);
         }
         PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
         parentCommit = ObjectId.fromString(ps.getRevision().get());
@@ -207,61 +200,58 @@ public class CreateChange implements
         Ref destRef = git.getRefDatabase().exactRef(refName);
         if (destRef != null) {
           if (Boolean.TRUE.equals(input.newBranch)) {
-            throw new ResourceConflictException(String.format(
-                "Branch %s already exists.", refName));
+            throw new ResourceConflictException(
+                String.format("Branch %s already exists.", refName));
           }
           parentCommit = destRef.getObjectId();
         } else {
           if (Boolean.TRUE.equals(input.newBranch)) {
             parentCommit = null;
           } else {
-            throw new UnprocessableEntityException(String.format(
-                "Branch %s does not exist.", refName));
+            throw new UnprocessableEntityException(
+                String.format("Branch %s does not exist.", refName));
           }
         }
         groups = Collections.emptyList();
       }
-      RevCommit mergeTip =
-          parentCommit == null ? null : rw.parseCommit(parentCommit);
+      RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
       AccountState account = accountCache.get(me.getAccountId());
-      GeneralPreferencesInfo info =
-          account.getAccount().getGeneralPreferencesInfo();
+      GeneralPreferencesInfo info = account.getAccount().getGeneralPreferencesInfo();
 
-      ObjectId treeId =
-          mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
-      ObjectId id = ChangeIdUtil.computeChangeId(treeId,
-          mergeTip, author, author, input.subject);
+      ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
+      ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, input.subject);
       String commitMessage = ChangeIdUtil.insertId(input.subject, id);
       if (Boolean.TRUE.equals(info.signedOffBy)) {
-        commitMessage += String.format("%s%s",
-            SIGNED_OFF_BY_TAG,
-            account.getAccount().getNameEmail(anonymousCowardName));
+        commitMessage +=
+            String.format(
+                "%s%s", SIGNED_OFF_BY_TAG, account.getAccount().getNameEmail(anonymousCowardName));
       }
 
       RevCommit c;
       if (input.merge != null) {
         // create a merge commit
-        if (!(submitType.equals(SubmitType.MERGE_ALWAYS) ||
-              submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
-          throw new BadRequestException(
-              "Submit type: " + submitType + " is not supported");
+        if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
+            || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
+          throw new BadRequestException("Submit type: " + submitType + " is not supported");
         }
-        c = newMergeCommit(git, oi, rw, rsrc.getControl(), mergeTip, input.merge,
-            author, commitMessage);
+        c =
+            newMergeCommit(
+                git, oi, rw, rsrc.getControl(), mergeTip, input.merge, author, commitMessage);
       } else {
         // create an empty commit
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
       }
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
-      ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
-          .setValidatePolicy(CommitValidators.Policy.GERRIT);
-      ins.setMessage(String.format("Uploaded patch set %s.",
-          ins.getPatchSetId().get()));
+      ChangeInserter ins =
+          changeInserterFactory
+              .create(changeId, c, refName)
+              .setValidatePolicy(CommitValidators.Policy.GERRIT);
+      ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       String topic = input.topic;
       if (topic != null) {
         topic = Strings.emptyToNull(topic.trim());
@@ -269,8 +259,7 @@ public class CreateChange implements
       ins.setTopic(topic);
       ins.setDraft(input.status == ChangeStatus.DRAFT);
       ins.setGroups(groups);
-      try (BatchUpdate bu = updateFactory.create(
-          db.get(), project, me, now)) {
+      try (BatchUpdate bu = updateFactory.create(db.get(), project, me, now)) {
         bu.setRepository(git, rw, oi);
         bu.insertChange(ins);
         bu.execute();
@@ -282,8 +271,12 @@ public class CreateChange implements
     }
   }
 
-  private static RevCommit newCommit(ObjectInserter oi, RevWalk rw,
-      PersonIdent authorIdent, RevCommit mergeTip, String commitMessage)
+  private static RevCommit newCommit(
+      ObjectInserter oi,
+      RevWalk rw,
+      PersonIdent authorIdent,
+      RevCommit mergeTip,
+      String commitMessage)
       throws IOException {
     CommitBuilder commit = new CommitBuilder();
     if (mergeTip == null) {
@@ -298,9 +291,15 @@ public class CreateChange implements
     return rw.parseCommit(insert(oi, commit));
   }
 
-  private RevCommit newMergeCommit(Repository repo, ObjectInserter oi,
-      RevWalk rw, ProjectControl projectControl, RevCommit mergeTip,
-      MergeInput merge, PersonIdent authorIdent, String commitMessage)
+  private RevCommit newMergeCommit(
+      Repository repo,
+      ObjectInserter oi,
+      RevWalk rw,
+      ProjectControl projectControl,
+      RevCommit mergeTip,
+      MergeInput merge,
+      PersonIdent authorIdent,
+      String commitMessage)
       throws RestApiException, IOException {
     if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
@@ -308,31 +307,27 @@ public class CreateChange implements
 
     RevCommit sourceCommit = MergeUtil.resolveCommit(repo, rw, merge.source);
     if (!projectControl.canReadCommit(db.get(), repo, sourceCommit)) {
-      throw new BadRequestException(
-          "do not have read permission for: " + merge.source);
+      throw new BadRequestException("do not have read permission for: " + merge.source);
     }
 
-    MergeUtil mergeUtil =
-        mergeUtilFactory.create(projectControl.getProjectState());
+    MergeUtil mergeUtil = mergeUtilFactory.create(projectControl.getProjectState());
     // default merge strategy from project settings
-    String mergeStrategy = MoreObjects.firstNonNull(
-        Strings.emptyToNull(merge.strategy),
-        mergeUtil.mergeStrategyName());
+    String mergeStrategy =
+        MoreObjects.firstNonNull(
+            Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
 
-    return MergeUtil.createMergeCommit(repo, oi, mergeTip, sourceCommit,
-        mergeStrategy, authorIdent, commitMessage, rw);
+    return MergeUtil.createMergeCommit(
+        repo, oi, mergeTip, sourceCommit, mergeStrategy, authorIdent, commitMessage, rw);
   }
 
-  private static ObjectId insert(ObjectInserter inserter,
-      CommitBuilder commit) throws IOException,
-      UnsupportedEncodingException {
+  private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit)
+      throws IOException, UnsupportedEncodingException {
     ObjectId id = inserter.insert(commit);
     inserter.flush();
     return id;
   }
 
-  private static ObjectId emptyTreeId(ObjectInserter inserter)
-      throws IOException {
+  private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
     return inserter.insert(new TreeFormatter());
   }
 }

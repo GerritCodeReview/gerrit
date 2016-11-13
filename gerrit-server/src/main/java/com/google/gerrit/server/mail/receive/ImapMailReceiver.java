@@ -18,20 +18,17 @@ import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.mail.Encryption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.net.imap.IMAPClient;
 import org.apache.commons.net.imap.IMAPSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 @Singleton
 public class ImapMailReceiver extends MailReceiver {
-  private static final Logger log =
-      LoggerFactory.getLogger(ImapMailReceiver.class);
+  private static final Logger log = LoggerFactory.getLogger(ImapMailReceiver.class);
   private static final String INBOX_FOLDER = "INBOX";
 
   @Inject
@@ -40,8 +37,8 @@ public class ImapMailReceiver extends MailReceiver {
   }
 
   /**
-   * handleEmails will open a connection to the mail server, remove emails
-   * where deletion is pending, read new email and close the connection.
+   * handleEmails will open a connection to the mail server, remove emails where deletion is
+   * pending, read new email and close the connection.
    */
   @Override
   public synchronized void handleEmails() {
@@ -64,7 +61,7 @@ public class ImapMailReceiver extends MailReceiver {
           return;
         }
         try {
-          if (!imap.select(INBOX_FOLDER)){
+          if (!imap.select(INBOX_FOLDER)) {
             log.error("Could not select IMAP folder " + INBOX_FOLDER);
             return;
           }
@@ -98,7 +95,7 @@ public class ImapMailReceiver extends MailReceiver {
               // checked, that the fetch returned true (OK), so we safely ignore
               // those two lines.
               StringBuilder b = new StringBuilder(2 * (rawMessage.length - 2));
-              for(int j = 1; j < rawMessage.length - 1; j++) {
+              for (int j = 1; j < rawMessage.length - 1; j++) {
                 if (j > 1) {
                   b.append("\n");
                 }
@@ -111,8 +108,7 @@ public class ImapMailReceiver extends MailReceiver {
                   if (imap.store(i + ":" + i, "+FLAGS", "(\\Deleted)")) {
                     pendingDeletion.remove(mailMessage.id());
                   } else {
-                    log.error("Could not mark mail message as deleted: " +
-                        mailMessage.id());
+                    log.error("Could not mark mail message as deleted: " + mailMessage.id());
                   }
                 } else {
                   mailMessages.add(mailMessage);

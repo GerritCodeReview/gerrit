@@ -20,8 +20,7 @@ import com.google.gwt.dom.client.StyleElement;
 
 public class Themer {
   public static class ThemerIE extends Themer {
-    protected ThemerIE() {
-    }
+    protected ThemerIE() {}
 
     @Override
     protected String getCssText(StyleElement el) {
@@ -41,12 +40,12 @@ public class Themer {
   protected String headerHtml;
   protected String footerHtml;
 
-  protected Themer() {
-  }
+  protected Themer() {}
 
   public void set(ThemeInfo theme) {
     if (theme != null) {
-      set(theme.css() != null ? theme.css() : cssText,
+      set(
+          theme.css() != null ? theme.css() : cssText,
           theme.header() != null ? theme.header() : headerHtml,
           theme.footer() != null ? theme.footer() : footerHtml);
     } else {

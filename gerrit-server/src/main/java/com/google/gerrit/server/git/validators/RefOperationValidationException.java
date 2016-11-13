@@ -20,8 +20,7 @@ public class RefOperationValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
   private final Iterable<ValidationMessage> messages;
 
-  public RefOperationValidationException(String reason,
-      Iterable<ValidationMessage> messages) {
+  public RefOperationValidationException(String reason, Iterable<ValidationMessage> messages) {
     super(reason);
     this.messages = messages;
   }

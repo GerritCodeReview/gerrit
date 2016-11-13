@@ -18,30 +18,28 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
-
 import java.sql.Timestamp;
 
 /** Standard output format used by an API call. */
 public enum OutputFormat {
   /**
-   * The output is a human readable text format. It may also be regular enough
-   * to be machine readable. Whether or not the text format is machine readable
-   * and will be committed to as a long term format that tools can build upon is
-   * specific to each API call.
+   * The output is a human readable text format. It may also be regular enough to be machine
+   * readable. Whether or not the text format is machine readable and will be committed to as a long
+   * term format that tools can build upon is specific to each API call.
    */
   TEXT,
 
   /**
-   * Pretty-printed JSON format. This format uses whitespace to make the output
-   * readable by a human, but is also machine readable with a JSON library. The
-   * structure of the output is a long term format that tools can rely upon.
+   * Pretty-printed JSON format. This format uses whitespace to make the output readable by a human,
+   * but is also machine readable with a JSON library. The structure of the output is a long term
+   * format that tools can rely upon.
    */
   JSON,
 
   /**
-   * Same as {@link #JSON}, but with unnecessary whitespace removed to save
-   * generation time and copy costs. Typically JSON_COMPACT format is used by a
-   * browser based HTML client running over the network.
+   * Same as {@link #JSON}, but with unnecessary whitespace removed to save generation time and copy
+   * costs. Typically JSON_COMPACT format is used by a browser based HTML client running over the
+   * network.
    */
   JSON_COMPACT;
 
@@ -55,9 +53,10 @@ public enum OutputFormat {
     if (!isJson()) {
       throw new IllegalStateException(String.format("%s is not JSON", this));
     }
-    GsonBuilder gb = new GsonBuilder()
-      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-      .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer());
+    GsonBuilder gb =
+        new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer());
     if (this == OutputFormat.JSON) {
       gb.setPrettyPrinting();
     }

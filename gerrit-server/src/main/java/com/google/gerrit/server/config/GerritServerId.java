@@ -17,16 +17,13 @@ package com.google.gerrit.server.config;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
  * Marker on a string holding a unique identifier for the server.
- * <p>
- * This value is generated on first use and stored in {@code
- * $site_path/etc/uuid}.
+ *
+ * <p>This value is generated on first use and stored in {@code $site_path/etc/uuid}.
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface GerritServerId {
-}
+public @interface GerritServerId {}

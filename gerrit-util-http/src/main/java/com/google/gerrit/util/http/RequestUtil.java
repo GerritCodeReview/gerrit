@@ -31,8 +31,8 @@ public class RequestUtil {
   }
 
   /**
-   * @return the same value as {@link HttpServletRequest#getPathInfo()}, but
-   *     without decoding URL-encoded characters.
+   * @return the same value as {@link HttpServletRequest#getPathInfo()}, but without decoding
+   *     URL-encoded characters.
    */
   public static String getEncodedPathInfo(HttpServletRequest req) {
     // CS IGNORE LineLength FOR NEXT 3 LINES. REASON: URL.
@@ -41,8 +41,8 @@ public class RequestUtil {
     String servletPath = req.getServletPath();
     int servletPathLength = servletPath.length();
     String requestUri = req.getRequestURI();
-    String pathInfo = requestUri.substring(req.getContextPath().length())
-        .replaceAll("[/]{2,}", "/");
+    String pathInfo =
+        requestUri.substring(req.getContextPath().length()).replaceAll("[/]{2,}", "/");
     if (pathInfo.startsWith(servletPath)) {
       pathInfo = pathInfo.substring(servletPathLength);
       // Corner case: when servlet path & request path match exactly (without
@@ -56,6 +56,5 @@ public class RequestUtil {
     return pathInfo;
   }
 
-  private RequestUtil() {
-  }
+  private RequestUtil() {}
 }

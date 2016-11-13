@@ -18,24 +18,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
  * Annotation for interfaces that accept auto-registered implementations.
- * <p>
- * Interfaces that accept automatically registered implementations into their
- * {@link DynamicSet} must be tagged with this annotation.
- * <p>
- * Plugins or extensions that implement an {@code @ExtensionPoint} interface
- * should use the {@link Listen} annotation to automatically register.
+ *
+ * <p>Interfaces that accept automatically registered implementations into their {@link DynamicSet}
+ * must be tagged with this annotation.
+ *
+ * <p>Plugins or extensions that implement an {@code @ExtensionPoint} interface should use the
+ * {@link Listen} annotation to automatically register.
  *
  * @see Listen
  */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface ExtensionPoint {
-}
+public @interface ExtensionPoint {}

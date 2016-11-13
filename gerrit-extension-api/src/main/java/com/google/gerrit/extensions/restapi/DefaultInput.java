@@ -23,5 +23,4 @@ import java.lang.annotation.Target;
 /** Applied to a String field to indicate the default input parameter. */
 @Target({ElementType.FIELD})
 @Retention(RUNTIME)
-public @interface DefaultInput {
-}
+public @interface DefaultInput {}

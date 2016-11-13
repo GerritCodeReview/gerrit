@@ -24,30 +24,30 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
-
-import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.FooterLine;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.FooterLine;
 
 public class MailUtil {
   public static MailRecipients getRecipientsFromFooters(
-      ReviewDb db, AccountResolver accountResolver, boolean draftPatchSet,
-      List<FooterLine> footerLines) throws OrmException {
+      ReviewDb db,
+      AccountResolver accountResolver,
+      boolean draftPatchSet,
+      List<FooterLine> footerLines)
+      throws OrmException {
     MailRecipients recipients = new MailRecipients();
     if (!draftPatchSet) {
       for (FooterLine footerLine : footerLines) {
         try {
           if (isReviewer(footerLine)) {
-            recipients.reviewers.add(toAccountId(db, accountResolver, footerLine
-                .getValue().trim()));
+            recipients.reviewers.add(
+                toAccountId(db, accountResolver, footerLine.getValue().trim()));
           } else if (footerLine.matches(FooterKey.CC)) {
-            recipients.cc.add(toAccountId(db, accountResolver, footerLine
-                .getValue().trim()));
+            recipients.cc.add(toAccountId(db, accountResolver, footerLine.getValue().trim()));
           }
         } catch (NoSuchAccountException e) {
           continue;
@@ -57,21 +57,19 @@ public class MailUtil {
     return recipients;
   }
 
-  public static MailRecipients getRecipientsFromReviewers(
-      ReviewerSet reviewers) {
+  public static MailRecipients getRecipientsFromReviewers(ReviewerSet reviewers) {
     MailRecipients recipients = new MailRecipients();
     recipients.reviewers.addAll(reviewers.byState(REVIEWER));
     recipients.cc.addAll(reviewers.byState(CC));
     return recipients;
   }
 
-  private static Account.Id toAccountId(ReviewDb db,
-      AccountResolver accountResolver, String nameOrEmail)
+  private static Account.Id toAccountId(
+      ReviewDb db, AccountResolver accountResolver, String nameOrEmail)
       throws OrmException, NoSuchAccountException {
     Account a = accountResolver.findByNameOrEmail(db, nameOrEmail);
     if (a == null) {
-      throw new NoSuchAccountException("\"" + nameOrEmail
-          + "\" is not registered");
+      throw new NoSuchAccountException("\"" + nameOrEmail + "\" is not registered");
     }
     return a.getId();
   }
@@ -92,8 +90,7 @@ public class MailUtil {
       this.cc = new HashSet<>();
     }
 
-    public MailRecipients(final Set<Account.Id> reviewers,
-        final Set<Account.Id> cc) {
+    public MailRecipients(final Set<Account.Id> reviewers, final Set<Account.Id> cc) {
       this.reviewers = new HashSet<>(reviewers);
       this.cc = new HashSet<>(cc);
     }

@@ -24,8 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ConfigCollection implements
-    RestCollection<TopLevelResource, ConfigResource> {
+public class ConfigCollection implements RestCollection<TopLevelResource, ConfigResource> {
   private final DynamicMap<RestView<ConfigResource>> views;
 
   @Inject
@@ -44,8 +43,7 @@ public class ConfigCollection implements
   }
 
   @Override
-  public ConfigResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException {
+  public ConfigResource parse(TopLevelResource root, IdString id) throws ResourceNotFoundException {
     if (id.equals("server")) {
       return new ConfigResource();
     }

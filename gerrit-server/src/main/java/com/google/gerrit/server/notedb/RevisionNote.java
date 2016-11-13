@@ -19,14 +19,12 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Comment;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
-
-import java.io.IOException;
-import java.util.List;
 
 abstract class RevisionNote<T extends Comment> {
   static final int MAX_NOTE_SZ = 25 << 20;

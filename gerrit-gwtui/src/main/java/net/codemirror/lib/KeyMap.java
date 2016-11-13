@@ -39,6 +39,5 @@ public class KeyMap extends JavaScriptObject {
     return this;
   }-*/;
 
-  protected KeyMap() {
-  }
+  protected KeyMap() {}
 }

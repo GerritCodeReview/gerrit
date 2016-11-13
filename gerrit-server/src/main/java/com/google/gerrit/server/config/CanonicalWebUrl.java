@@ -17,17 +17,15 @@ package com.google.gerrit.server.config;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
  * Marker on a {@link String} holding the canonical address for this server.
- * <p>
- * Note that the String may be null, if the administrator has not configured the
- * value and we are not in an HTTP request where the URL can be guessed from the
- * request state. Clients must handle such cases explicitly.
+ *
+ * <p>Note that the String may be null, if the administrator has not configured the value and we are
+ * not in an HTTP request where the URL can be guessed from the request state. Clients must handle
+ * such cases explicitly.
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface CanonicalWebUrl {
-}
+public @interface CanonicalWebUrl {}

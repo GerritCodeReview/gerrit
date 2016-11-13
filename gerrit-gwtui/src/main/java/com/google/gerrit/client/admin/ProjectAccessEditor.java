@@ -38,39 +38,29 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectAccessEditor extends Composite implements
-    Editor<ProjectAccess>, ValueAwareEditor<ProjectAccess> {
-  interface Binder extends UiBinder<HTMLPanel, ProjectAccessEditor> {
-  }
+public class ProjectAccessEditor extends Composite
+    implements Editor<ProjectAccess>, ValueAwareEditor<ProjectAccess> {
+  interface Binder extends UiBinder<HTMLPanel, ProjectAccessEditor> {}
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField
-  DivElement inheritsFrom;
+  @UiField DivElement inheritsFrom;
 
-  @UiField
-  Hyperlink parentProject;
+  @UiField Hyperlink parentProject;
 
-  @UiField
-  @Editor.Ignore
-  ParentProjectBox parentProjectBox;
+  @UiField @Editor.Ignore ParentProjectBox parentProjectBox;
 
-  @UiField
-  DivElement history;
+  @UiField DivElement history;
 
-  @UiField
-  FlowPanel webLinkPanel;
+  @UiField FlowPanel webLinkPanel;
 
-  @UiField
-  FlowPanel localContainer;
+  @UiField FlowPanel localContainer;
   ListEditor<AccessSection, AccessSectionEditor> local;
 
-  @UiField
-  Anchor addSection;
+  @UiField Anchor addSection;
 
   private ProjectAccess value;
 
@@ -139,12 +129,10 @@ public class ProjectAccessEditor extends Composite implements
   }
 
   @Override
-  public void onPropertyChange(String... paths) {
-  }
+  public void onPropertyChange(String... paths) {}
 
   @Override
-  public void setDelegate(EditorDelegate<ProjectAccess> delegate) {
-  }
+  public void setDelegate(EditorDelegate<ProjectAccess> delegate) {}
 
   void setEditing(final boolean editing) {
     this.editing = editing;

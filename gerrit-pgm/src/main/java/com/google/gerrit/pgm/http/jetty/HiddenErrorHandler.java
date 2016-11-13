@@ -18,7 +18,10 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 
 import com.google.common.base.Strings;
 import com.google.gwtexpui.server.CacheHeaders;
-
+import java.io.IOException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.HttpConnection;
@@ -27,18 +30,13 @@ import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 class HiddenErrorHandler extends ErrorHandler {
   private static final Logger log = LoggerFactory.getLogger(HiddenErrorHandler.class);
 
   @Override
-  public void handle(String target, Request baseRequest,
-      HttpServletRequest req, HttpServletResponse res) throws IOException {
+  public void handle(
+      String target, Request baseRequest, HttpServletRequest req, HttpServletResponse res)
+      throws IOException {
     HttpConnection conn = HttpConnection.getCurrentConnection();
     baseRequest.setHandled(true);
     try {
@@ -48,11 +46,9 @@ class HiddenErrorHandler extends ErrorHandler {
     }
   }
 
-  private void reply(HttpConnection conn, HttpServletResponse res)
-      throws IOException {
+  private void reply(HttpConnection conn, HttpServletResponse res) throws IOException {
     byte[] msg = message(conn);
-    res.setHeader(HttpHeader.CONTENT_TYPE.asString(),
-        "text/plain; charset=ISO-8859-1");
+    res.setHeader(HttpHeader.CONTENT_TYPE.asString(), "text/plain; charset=ISO-8859-1");
     res.setContentLength(msg.length);
     try {
       CacheHeaders.setNotCacheable(res);
@@ -70,15 +66,14 @@ class HiddenErrorHandler extends ErrorHandler {
     } else {
       msg = conn.getHttpChannel().getResponse().getReason();
       if (msg == null) {
-        msg = HttpStatus.getMessage(conn.getHttpChannel()
-            .getResponse().getStatus());
+        msg = HttpStatus.getMessage(conn.getHttpChannel().getResponse().getStatus());
       }
     }
     return msg.getBytes(ISO_8859_1);
   }
 
   private static void log(HttpServletRequest req) {
-    Throwable err = (Throwable)req.getAttribute("javax.servlet.error.exception");
+    Throwable err = (Throwable) req.getAttribute("javax.servlet.error.exception");
     if (err != null) {
       String uri = req.getRequestURI();
       if (!Strings.isNullOrEmpty(req.getQueryString())) {

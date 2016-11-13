@@ -20,8 +20,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;
 
 /** Access interface for {@link CurrentSchemaVersion}. */
-public interface SchemaVersionAccess extends
-    Access<CurrentSchemaVersion, CurrentSchemaVersion.Key> {
+public interface SchemaVersionAccess
+    extends Access<CurrentSchemaVersion, CurrentSchemaVersion.Key> {
   @Override
   @PrimaryKey("singleton")
   CurrentSchemaVersion get(CurrentSchemaVersion.Key key) throws OrmException;

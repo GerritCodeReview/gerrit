@@ -24,15 +24,13 @@ import com.google.gerrit.server.plugins.EnablePlugin.Input;
 import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 class EnablePlugin implements RestModifyView<PluginResource, Input> {
-  static class Input {
-  }
+  static class Input {}
 
   private final PluginLoader loader;
 
@@ -45,8 +43,7 @@ class EnablePlugin implements RestModifyView<PluginResource, Input> {
   public PluginInfo apply(PluginResource resource, Input input)
       throws ResourceConflictException, MethodNotAllowedException {
     if (!loader.isRemoteAdminEnabled()) {
-      throw new MethodNotAllowedException(
-          "remote plugin administration is disabled");
+      throw new MethodNotAllowedException("remote plugin administration is disabled");
     }
     String name = resource.getName();
     try {

@@ -27,12 +27,10 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 @Singleton
 public class GetEditPreferences implements RestReadView<AccountResource> {
@@ -41,37 +39,37 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
   private final GitRepositoryManager gitMgr;
 
   @Inject
-  GetEditPreferences(Provider<CurrentUser> self,
-      AllUsersName allUsersName,
-      GitRepositoryManager gitMgr) {
+  GetEditPreferences(
+      Provider<CurrentUser> self, AllUsersName allUsersName, GitRepositoryManager gitMgr) {
     this.self = self;
     this.allUsersName = allUsersName;
     this.gitMgr = gitMgr;
   }
 
   @Override
-  public EditPreferencesInfo apply(AccountResource rsrc) throws AuthException,
-      IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+  public EditPreferencesInfo apply(AccountResource rsrc)
+      throws AuthException, IOException, ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 
-    return readFromGit(
-        rsrc.getUser().getAccountId(), gitMgr, allUsersName, null);
+    return readFromGit(rsrc.getUser().getAccountId(), gitMgr, allUsersName, null);
   }
 
-  static EditPreferencesInfo readFromGit(Account.Id id,
-      GitRepositoryManager gitMgr, AllUsersName allUsersName,
-      EditPreferencesInfo in) throws IOException, ConfigInvalidException,
-          RepositoryNotFoundException {
+  static EditPreferencesInfo readFromGit(
+      Account.Id id, GitRepositoryManager gitMgr, AllUsersName allUsersName, EditPreferencesInfo in)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
-      VersionedAccountPreferences p =
-          VersionedAccountPreferences.forUser(id);
+      VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
       p.load(git);
 
-      return loadSection(p.getConfig(), UserConfigSections.EDIT, null,
-          new EditPreferencesInfo(), EditPreferencesInfo.defaults(), in);
+      return loadSection(
+          p.getConfig(),
+          UserConfigSections.EDIT,
+          null,
+          new EditPreferencesInfo(),
+          EditPreferencesInfo.defaults(),
+          in);
     }
   }
 }

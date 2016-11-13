@@ -17,18 +17,16 @@ package com.google.gerrit.server.index;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-
 import java.io.IOException;
 
 /**
  * Secondary index implementation for arbitrary documents.
- * <p>
- * Documents are inserted into the index and are queried by converting special
- * {@link com.google.gerrit.server.query.Predicate} instances into index-aware
- * predicates that use the index search results as a source.
- * <p>
- * Implementations must be thread-safe and should batch inserts/updates where
- * appropriate.
+ *
+ * <p>Documents are inserted into the index and are queried by converting special {@link
+ * com.google.gerrit.server.query.Predicate} instances into index-aware predicates that use the
+ * index search results as a source.
+ *
+ * <p>Implementations must be thread-safe and should batch inserts/updates where appropriate.
  */
 public interface Index<K, V> {
   /** @return the schema version used by this index. */
@@ -39,14 +37,12 @@ public interface Index<K, V> {
 
   /**
    * Update a document in the index.
-   * <p>
-   * Semantically equivalent to deleting the document and reinserting it with
-   * new field values. A document that does not already exist is created. Results
-   * may not be immediately visible to searchers, but should be visible within a
-   * reasonable amount of time.
+   *
+   * <p>Semantically equivalent to deleting the document and reinserting it with new field values. A
+   * document that does not already exist is created. Results may not be immediately visible to
+   * searchers, but should be visible within a reasonable amount of time.
    *
    * @param obj document object
-   *
    * @throws IOException
    */
   void replace(V obj) throws IOException;
@@ -55,7 +51,6 @@ public interface Index<K, V> {
    * Delete a document from the index by key.
    *
    * @param key document key
-   *
    * @throws IOException
    */
   void delete(K key) throws IOException;
@@ -68,27 +63,21 @@ public interface Index<K, V> {
   void deleteAll() throws IOException;
 
   /**
-   * Convert the given operator predicate into a source searching the index and
-   * returning only the documents matching that predicate.
-   * <p>
-   * This method may be called multiple times for variations on the same
-   * predicate or multiple predicate subtrees in the course of processing a
-   * single query, so it should not have any side effects (e.g. starting a
-   * search in the background).
+   * Convert the given operator predicate into a source searching the index and returning only the
+   * documents matching that predicate.
    *
-   * @param p the predicate to match. Must be a tree containing only AND, OR,
-   *     or NOT predicates as internal nodes, and {@link IndexPredicate}s as
-   *     leaves.
-   * @param opts query options not implied by the predicate, such as start and
-   *     limit.
-   * @return a source of documents matching the predicate, returned in a
-   *     defined order depending on the type of documents.
+   * <p>This method may be called multiple times for variations on the same predicate or multiple
+   * predicate subtrees in the course of processing a single query, so it should not have any side
+   * effects (e.g. starting a search in the background).
    *
-   * @throws QueryParseException if the predicate could not be converted to an
-   *     indexed data source.
+   * @param p the predicate to match. Must be a tree containing only AND, OR, or NOT predicates as
+   *     internal nodes, and {@link IndexPredicate}s as leaves.
+   * @param opts query options not implied by the predicate, such as start and limit.
+   * @return a source of documents matching the predicate, returned in a defined order depending on
+   *     the type of documents.
+   * @throws QueryParseException if the predicate could not be converted to an indexed data source.
    */
-  DataSource<V> getSource(Predicate<V> p, QueryOptions opts)
-      throws QueryParseException;
+  DataSource<V> getSource(Predicate<V> p, QueryOptions opts) throws QueryParseException;
 
   /**
    * Mark whether this index is up-to-date and ready to serve reads.

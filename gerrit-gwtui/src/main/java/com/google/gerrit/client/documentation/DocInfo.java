@@ -20,14 +20,14 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class DocInfo extends JavaScriptObject {
 
   public final native String title() /*-{ return this.title; }-*/;
+
   public final native String url() /*-{ return this.url; }-*/;
 
   public static DocInfo create() {
     return (DocInfo) createObject();
   }
 
-  protected DocInfo() {
-  }
+  protected DocInfo() {}
 
   public final String getFullUrl() {
     return GWT.getHostPageBaseURL() + url();

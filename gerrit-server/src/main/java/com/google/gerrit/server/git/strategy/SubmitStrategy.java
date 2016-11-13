@@ -51,24 +51,22 @@ import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Base class that submit strategies must extend.
- * <p>
- * A submit strategy for a certain {@link SubmitType} defines how the submitted
- * commits should be merged.
+ *
+ * <p>A submit strategy for a certain {@link SubmitType} defines how the submitted commits should be
+ * merged.
  */
 public abstract class SubmitStrategy {
   public static Module module() {
@@ -201,8 +199,11 @@ public abstract class SubmitStrategy {
       this.submoduleOp = submoduleOp;
       this.dryrun = dryrun;
 
-      this.project = checkNotNull(projectCache.get(destBranch.getParentKey()),
-            "project not found: %s", destBranch.getParentKey());
+      this.project =
+          checkNotNull(
+              projectCache.get(destBranch.getParentKey()),
+              "project not found: %s",
+              destBranch.getParentKey());
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
       this.mergeUtil = mergeUtilFactory.create(project);
     }
@@ -216,17 +217,16 @@ public abstract class SubmitStrategy {
 
   /**
    * Add operations to a batch update that execute this submit strategy.
-   * <p>
-   * Guarantees exactly one op is added to the update for each change in the
-   * input set.
+   *
+   * <p>Guarantees exactly one op is added to the update for each change in the input set.
    *
    * @param bu batch update to add operations to.
-   * @param toMerge the set of submitted commits that should be merged using
-   *     this submit strategy. Implementations are responsible for ordering of
-   *     commits, and will not modify the input in place.
-   * @throws IntegrationException if an error occurred initializing the
-   *     operations (as opposed to an error during execution, which will be
-   *     reported only when the batch update executes the operations).
+   * @param toMerge the set of submitted commits that should be merged using this submit strategy.
+   *     Implementations are responsible for ordering of commits, and will not modify the input in
+   *     place.
+   * @throws IntegrationException if an error occurred initializing the operations (as opposed to an
+   *     error during execution, which will be reported only when the batch update executes the
+   *     operations).
    */
   public final void addOps(BatchUpdate bu, Set<CodeReviewCommit> toMerge)
       throws IntegrationException {
@@ -238,8 +238,7 @@ public abstract class SubmitStrategy {
     }
 
     // First add ops for any implicitly merged changes.
-    List<CodeReviewCommit> difference =
-        new ArrayList<>(Sets.difference(toMerge, added));
+    List<CodeReviewCommit> difference = new ArrayList<>(Sets.difference(toMerge, added));
     Collections.reverse(difference);
     for (CodeReviewCommit c : difference) {
       bu.addOp(c.change().getId(), new ImplicitIntegrateOp(args, c));
@@ -251,6 +250,6 @@ public abstract class SubmitStrategy {
     }
   }
 
-  protected abstract List<SubmitStrategyOp> buildOps(
-      Collection<CodeReviewCommit> toMerge) throws IntegrationException;
+  protected abstract List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
+      throws IntegrationException;
 }

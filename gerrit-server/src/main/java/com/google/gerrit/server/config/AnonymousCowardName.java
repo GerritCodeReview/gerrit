@@ -17,11 +17,9 @@ package com.google.gerrit.server.config;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /** Special name for a user that hasn't set a name. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface AnonymousCowardName {
-}
+public @interface AnonymousCowardName {}

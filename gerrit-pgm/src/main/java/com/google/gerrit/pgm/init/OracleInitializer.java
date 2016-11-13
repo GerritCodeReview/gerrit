@@ -18,7 +18,6 @@ import static com.google.gerrit.pgm.init.api.InitUtil.username;
 
 import com.google.gerrit.pgm.init.api.Section;
 
-
 public class OracleInitializer implements DatabaseConfigInitializer {
 
   @Override

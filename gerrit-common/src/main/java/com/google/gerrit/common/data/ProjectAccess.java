@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,8 +33,7 @@ public class ProjectAccess {
   protected Map<AccountGroup.UUID, GroupInfo> groupInfo;
   protected List<WebLinkInfoCommon> fileHistoryLinks;
 
-  public ProjectAccess() {
-  }
+  public ProjectAccess() {}
 
   public Project.NameKey getProjectName() {
     return projectName;

@@ -20,8 +20,14 @@ import com.google.common.cache.Weigher;
 public class PatchListWeigher implements Weigher<PatchListKey, PatchList> {
   @Override
   public int weigh(PatchListKey key, PatchList value) {
-    int size = 16 + 4 * 8 + 2 * 36 // Size of PatchListKey, 64 bit JVM
-        + 16 + 3 * 8 + 3 * 4 + 20; // Size of PatchList, 64 bit JVM
+    int size =
+        16
+            + 4 * 8
+            + 2 * 36 // Size of PatchListKey, 64 bit JVM
+            + 16
+            + 3 * 8
+            + 3 * 4
+            + 20; // Size of PatchList, 64 bit JVM
     for (PatchListEntry e : value.getPatches()) {
       size += e.weigh();
     }

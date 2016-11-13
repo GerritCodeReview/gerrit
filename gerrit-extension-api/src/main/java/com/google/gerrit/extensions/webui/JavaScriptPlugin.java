@@ -22,8 +22,8 @@ public class JavaScriptPlugin extends WebUiPlugin {
   private final String fileName;
 
   /**
-   * @param fileName of JavaScript source file under {@code static/}
-   *        subdirectory within the plugin's JAR.
+   * @param fileName of JavaScript source file under {@code static/} subdirectory within the
+   *     plugin's JAR.
    */
   public JavaScriptPlugin(String fileName) {
     this.fileName = fileName;

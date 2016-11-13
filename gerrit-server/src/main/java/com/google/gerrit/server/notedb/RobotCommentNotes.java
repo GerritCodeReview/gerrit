@@ -25,14 +25,12 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-
-import java.io.IOException;
 
 public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   public interface Factory {
@@ -45,9 +43,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   private RevisionNoteMap<RobotCommentsRevisionNote> revisionNoteMap;
 
   @AssistedInject
-  RobotCommentNotes(
-      Args args,
-      @Assisted Change change) {
+  RobotCommentNotes(Args args, @Assisted Change change) {
     super(args, change.getId(), PrimaryStorage.of(change), false);
     this.change = change;
   }
@@ -75,8 +71,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   }
 
   @Override
-  protected void onLoad(LoadHandle handle)
-      throws IOException, ConfigInvalidException {
+  protected void onLoad(LoadHandle handle) throws IOException, ConfigInvalidException {
     ObjectId rev = handle.id();
     if (rev == null) {
       loadDefaults();
@@ -85,11 +80,10 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
 
     RevCommit tipCommit = handle.walk().parseCommit(rev);
     ObjectReader reader = handle.walk().getObjectReader();
-    revisionNoteMap = RevisionNoteMap.parseRobotComments(args.noteUtil, reader,
-        NoteMap.read(reader, tipCommit));
+    revisionNoteMap =
+        RevisionNoteMap.parseRobotComments(args.noteUtil, reader, NoteMap.read(reader, tipCommit));
     Multimap<RevId, RobotComment> cs = ArrayListMultimap.create();
-    for (RobotCommentsRevisionNote rn :
-        revisionNoteMap.revisionNotes.values()) {
+    for (RobotCommentsRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (RobotComment c : rn.getComments()) {
         cs.put(new RevId(c.revId), c);
       }

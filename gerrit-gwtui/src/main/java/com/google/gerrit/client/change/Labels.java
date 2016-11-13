@@ -156,6 +156,8 @@ class Labels extends Grid {
   private Widget renderUsers(LabelInfo label, Set<Integer> removable) {
     Map<Integer, List<ApprovalInfo>> m = new HashMap<>(4);
     int approved = 0;
+    int recommended = 0;
+    int disliked = 0;
     int rejected = 0;
 
     for (ApprovalInfo ai : Natives.asList(label.all())) {
@@ -171,12 +173,22 @@ class Labels extends Grid {
           rejected = ai.value();
         } else if (isApproved(label, ai)) {
           approved = ai.value();
+        } else if (isDisliked(label, ai)) {
+          disliked = ai.value();
+        } else if (isRecommended(label, ai)) {
+          recommended = ai.value();
         }
       }
     }
 
     SafeHtmlBuilder html = new SafeHtmlBuilder();
-    for (Integer v : sort(m.keySet(), approved, rejected)) {
+    for (Integer v : sort(
+        m.keySet(),
+        approved,
+        recommended,
+        disliked,
+        rejected
+    )) {
       if (!html.isEmpty()) {
         html.br();
       }
@@ -184,11 +196,35 @@ class Labels extends Grid {
       String val = LabelValue.formatValue(v.shortValue());
       html.openSpan();
       html.setAttribute("title", label.valueText(val));
-      if (v.intValue() == approved) {
+
+      if (v.intValue() == approved || val.equals("+2")) {
         html.setStyleName(style.label_ok());
-      } else if (v.intValue() == rejected) {
+        html.openElement("img");
+        html.setStyleName("greenCheckClass");
+        html.setAttribute("src", "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+        html.setAttribute("width", "16");
+        html.setAttribute("height", "16");
+        html.closeSelf().append(" ");
+      } else if (v.intValue() == rejected || val.equals("-2")) {
         html.setStyleName(style.label_reject());
+        html.openElement("img");
+        html.setStyleName("redNotClass");
+        html.setAttribute("src", "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+        html.setAttribute("width", "16");
+        html.setAttribute("height", "16");
+        html.closeSelf().append(" ");
       }
+
+      if (v.intValue() == recommended || val.equals("+1")) {
+        html.setStyleName(style.label_recommend());
+
+        html.append(val).append(" ");
+      } else if (v.intValue() == disliked || val.equals("-1")) {
+        html.setStyleName(style.label_dislike());
+
+        html.append(val).append(" ");
+      }
+
       html.append(val).append(" ");
       html.append(formatUserList(style, m.get(v), removable, label.name(), null));
       html.closeSpan();
@@ -196,7 +232,13 @@ class Labels extends Grid {
     return html.toBlockWidget();
   }
 
-  private static List<Integer> sort(Set<Integer> keySet, int a, int b) {
+  private static List<Integer> sort(
+    Set<Integer> keySet,
+    int a,
+    int b,
+    int c,
+    int d
+  ) {
     List<Integer> r = new ArrayList<>(keySet);
     Collections.sort(r);
     if (keySet.contains(a)) {
@@ -205,12 +247,28 @@ class Labels extends Grid {
     } else if (keySet.contains(b)) {
       r.remove(Integer.valueOf(b));
       r.add(0, b);
+    } else if (keySet.contains(c)) {
+      r.remove(Integer.valueOf(c));
+      r.add(0, c);
+    } else if (keySet.contains(d)) {
+      r.remove(Integer.valueOf(d));
+      r.add(0, d);
     }
     return r;
   }
 
   private static boolean isApproved(LabelInfo label, ApprovalInfo ai) {
     return label.approved() != null && label.approved()._accountId() == ai._accountId();
+  }
+
+  private static boolean isRecommended(LabelInfo label, ApprovalInfo ai) {
+    return label.recommended() != null
+        && label.recommended()._accountId() == ai._accountId();
+  }
+
+  private static boolean isDisliked(LabelInfo label, ApprovalInfo ai) {
+    return label.disliked() != null
+        && label.disliked()._accountId() == ai._accountId();
   }
 
   private static boolean isRejected(LabelInfo label, ApprovalInfo ai) {
@@ -221,8 +279,12 @@ class Labels extends Grid {
     switch (label.status()) {
       case OK:
         return style.label_ok();
+      case RECOMMEND:
+        return style.label_recommend();
       case NEED:
         return style.label_need();
+      case DISLIKE:
+        return style.label_dislike();
       case REJECT:
       case IMPOSSIBLE:
         return style.label_reject();

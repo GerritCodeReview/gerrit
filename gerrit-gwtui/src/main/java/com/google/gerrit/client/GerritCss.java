@@ -127,6 +127,7 @@ public interface GerritCss extends CssResource {
   String queryIcon();
   String rebaseContentPanel();
   String rebaseSuggestBox();
+  String redNotClass();
   String registerScreenExplain();
   String registerScreenNextLinks();
   String registerScreenSection();

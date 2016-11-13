@@ -16,6 +16,24 @@
       "revId": "a9e6e1531fa417d48e861cc201b560165fcb7150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_d6e082b9",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-13T17:40:47Z",
+      "side": 1,
+      "message": "instead of using java_library, we should make a custom rule? Let me try a pof.",
+      "parentUuid": "eb6c3fba_16a91a68",
+      "revId": "a9e6e1531fa417d48e861cc201b560165fcb7150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -137,13 +137,18 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
+
     boolean requireLazyLoad =
         containsAnyOf(options, ImmutableSet.of(DETAILED_LABELS, LABELS))
             && !qb.getArgs().getSchema().hasField(ChangeField.STORED_SUBMIT_RECORD_LENIENT);
+
+    ChangeJson cjson = json.create(options);
+    cjson.setPluginDefinedAttributesFactory(this.imp);
     List<List<ChangeInfo>> res =
-        json.create(options)
+        cjson
             .lazyLoad(requireLazyLoad || containsAnyOf(options, ChangeJson.REQUIRE_LAZY_LOAD))
             .formatQueryResults(results);
+
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more()) {

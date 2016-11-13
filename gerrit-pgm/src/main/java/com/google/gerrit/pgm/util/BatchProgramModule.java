@@ -68,6 +68,7 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -112,6 +113,8 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class)
         .in(SINGLETON);
+    bind(new TypeLiteral<DynamicMap<ChangeQueryProcessor.ChangeAttributeFactory>>() {})
+        .toInstance(DynamicMap.<ChangeQueryProcessor.ChangeAttributeFactory>emptyMap());
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);

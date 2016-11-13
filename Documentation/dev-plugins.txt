@@ -736,6 +736,68 @@ public class SshModule extends AbstractModule {
   }
 ----
 
+[[query_attributes]]
+=== Query Attributes ===
+
+Plugins can provide additional attributes to be returned in Gerrit queries by
+implementing the ChangeAttributeFactory interface and registering it to the
+ChangeQueryProcessor.ChangeAttributeFactory class in the plugin module's
+'configure()' method. The new attribute(s) will be output under a "plugin"
+attribute in the change query output.
+
+The example below shows a plugin that adds two attributes ('exampleName' and
+'changeValue'), to the change query output.
+
+[source, java]
+----
+public class Module extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(ChangeAttributeFactory.class)
+        .annotatedWith(Exports.named("example"))
+        .to(AttributeFactory.class);
+  }
+}
+
+public class AttributeFactory implements ChangeAttributeFactory {
+
+  public class PluginAttribute extends PluginDefinedInfo {
+    public String exampleName;
+    public String changeValue;
+
+    public PluginAttribute(ChangeData c) {
+      this.exampleName = "Attribute Example";
+      this.changeValue = Integer.toString(c.getId().get());
+    }
+  }
+
+  @Override
+  public PluginDefinedInfo create(ChangeData c, ChangeQueryProcessor qp, String plugin) {
+    return new PluginAttribute(c);
+  }
+}
+----
+
+Example
+----
+
+ssh -p 29418 localhost gerrit query "change:1" --format json
+
+Output:
+
+{
+   "url" : "http://localhost:8080/1",
+   "plugins" : [
+      {
+         "name" : "myplugin-name",
+         "exampleName" : "Attribute Example",
+         "changeValue" : "1"
+      }
+   ],
+    ...
+}
+----
+
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`
 

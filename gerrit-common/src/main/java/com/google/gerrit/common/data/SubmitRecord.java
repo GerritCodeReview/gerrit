@@ -71,6 +71,17 @@ public class SubmitRecord {
       OK,
 
       /**
+       * The label is optional for submission, but is recommended first.
+       */
+      RECOMMEND,
+
+      /**
+       * The label is optional, but will allow you to ask for changes
+       * rejecting the whole thing.
+       */
+      DISLIKE,
+
+      /**
        * This label prevents the change from being submitted.
        *
        * <p>If provided, {@link Label#appliedBy} describes the user account that applied this label

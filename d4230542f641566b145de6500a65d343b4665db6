@@ -22,6 +22,30 @@
       "revId": "d4230542f641566b145de6500a65d343b4665db6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_974286ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-13T23:01:55Z",
+      "side": 1,
+      "message": "Jet lag. Done.",
+      "parentUuid": "eb6c3fba_768a4ea7",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "d4230542f641566b145de6500a65d343b4665db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

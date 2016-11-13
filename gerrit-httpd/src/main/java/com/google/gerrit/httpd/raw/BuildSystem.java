@@ -30,7 +30,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,6 +48,17 @@ public abstract class BuildSystem {
   }
 
   protected abstract ProcessBuilder newBuildProcess(Label l) throws IOException;
+
+  protected static Properties loadBuildProperties(Path propPath)
+      throws IOException {
+    Properties properties = new Properties();
+    try (InputStream in = Files.newInputStream(propPath)) {
+      properties.load(in);
+    } catch (NoSuchFileException e) {
+      // Ignore; will be run from PATH, with a descriptive error if it fails.
+    }
+    return properties;
+  }
 
   // builds the given label.
   public void build(Label label)

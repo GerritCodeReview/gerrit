@@ -222,7 +222,9 @@ limitations under the License.
     }
 
     .label_ok {color: #060;}
-    .label_reject {color: #d14836;}
+    .label_recommend {color: forestgreen;}
+    .label_dislike {color: #d14836;}
+    .label_reject {color: #e62e00;}
     .label_need {color: #000;}
     .label_may {color: #777;}
 

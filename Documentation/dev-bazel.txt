@@ -3,7 +3,6 @@
 Bazel build is experimental. Major missing parts:
 
 * Custom plugins
-* Eclipse project generation.
 * Test suites for SSH, acceptance, etc.
 * tag tests as slow, flaky, etc.
 
@@ -156,6 +155,25 @@ plugin](https://ij.bazel.io). Do the following:
   * Select "File > Import Bazel project".
   * Select "Workspace": (directory holding gerrit source)
   * Select "project view: generate from BUILD": (enter top level BUILD file)
+
+
+=== Eclipse
+
+==== Generating the Eclipse Project
+
+Create the Eclipse project:
+
+----
+  tools/eclipse/project_bzl.py
+----
+
+and then follow the link:dev-eclipse.html#setup[setup instructions].
+
+==== Refreshing the Classpath
+
+If an updated classpath is needed, the Eclipse project can be
+refreshed and missing dependency JARs can be downloaded by running
+`project_bzl.py` again.
 
 [[documentation]]
 === Documentation

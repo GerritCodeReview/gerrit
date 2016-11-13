@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2013 The Android Open Source Project
+# Copyright (C) 2016 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,46 +16,62 @@
 # TODO(sop): Remove hack after Buck supports Eclipse
 
 from __future__ import print_function
+# TODO(davido): use Google style for importing instead:
+# import optparse
+# ...
+# optparse.OptionParser
 from optparse import OptionParser
-from os import path
-from subprocess import Popen, PIPE, CalledProcessError, check_call
+from os import environ, path, makedirs
+from subprocess import Popen, PIPE, CalledProcessError, check_call, check_output
 from xml.dom import minidom
 import re
 import sys
 
-MAIN = ['//tools/eclipse:classpath']
-GWT = ['//gerrit-gwtui:ui_module']
+MAIN = '//tools/eclipse:classpath'
+GWT = '//gerrit-gwtui:ui_module'
+AUTO = '//lib/auto:auto-value'
 JRE = '/'.join([
   'org.eclipse.jdt.launching.JRE_CONTAINER',
   'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
   'JavaSE-1.8',
 ])
+# Map of targets to corresponding classpath collector rules
+cp_targets = {
+  AUTO: '//tools/eclipse:autovalue_classpath_collect',
+  GWT: '//tools/eclipse:gwt_classpath_collect',
+  MAIN: '//tools/eclipse:main_classpath_collect',
+}
 
 ROOT = path.abspath(__file__)
-while not path.exists(path.join(ROOT, '.buckconfig')):
+while not path.exists(path.join(ROOT, 'WORKSPACE')):
   ROOT = path.dirname(ROOT)
 
 opts = OptionParser()
-opts.add_option('--src', action='store_true',
-                help='(deprecated) attach sources')
-opts.add_option('--no-src', dest='no_src', action='store_true',
-                help='do not attach sources')
 opts.add_option('--plugins', help='create eclipse projects for plugins',
                 action='store_true')
 opts.add_option('--name', help='name of the generated project',
                 action='store', default='gerrit', dest='project_name')
 args, _ = opts.parse_args()
 
-def _query_classpath(targets):
-  deps = []
-  p = Popen(['buck', 'audit', 'classpath'] + targets, stdout=PIPE)
-  for line in p.stdout:
-    deps.append(line.strip())
-  s = p.wait()
-  if s != 0:
-    exit(s)
-  return deps
+def retrieve_ext_location():
+  return check_output(['bazel', 'info', 'output_base']).strip()
 
+def gen_primary_build_tool():
+  bazel = check_output(['which', 'bazel']).strip()
+  with open(path.join(ROOT, ".primary_build_tool"), 'w') as fd:
+    fd.write("bazel=%s\n" % bazel)
+    fd.write("PATH=%s\n" % environ["PATH"])
+
+def _query_classpath(target):
+  deps = []
+  t = cp_targets[target]
+  try:
+    check_call(['bazel', 'build', t])
+  except CalledProcessError as err:
+    exit(1)
+  name = 'bazel-bin/tools/eclipse/' + t.split(':')[1] + '.runtime_classpath'
+  deps = [line.rstrip('\n') for line in open(name)]
+  return deps
 
 def gen_project(name='gerrit', root=ROOT):
   p = path.join(root, '.project')
@@ -63,7 +79,7 @@ def gen_project(name='gerrit', root=ROOT):
     print("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>""" + name + """</name>
+  <name>%(name)s</name>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
@@ -73,11 +89,7 @@ def gen_project(name='gerrit', root=ROOT):
     <nature>org.eclipse.jdt.core.javanature</nature>
   </natures>
 </projectDescription>\
-""", file=fd)
-
-def gen_primary_build_tool():
-  with open(path.join(ROOT, ".primary_build_tool"), 'w') as fd:
-    fd.write("buck")
+    """ % {"name": name}, file=fd)
 
 def gen_plugin_classpath(root):
   p = path.join(root, '.classpath')
@@ -97,7 +109,7 @@ def gen_plugin_classpath(root):
   <classpathentry kind="output" path="eclipse-out/classes"/>
 </classpath>""" % {"testpath": testpath}, file=fd)
 
-def gen_classpath():
+def gen_classpath(ext):
   def make_classpath():
     impl = minidom.getDOMImplementation()
     return impl.createDocument(None, 'classpath', None)
@@ -127,32 +139,39 @@ def gen_classpath():
   plugins = set()
 
   # Classpath entries are absolute for cross-cell support
-  java_library = re.compile('.*/buck-out/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
-  srcs = re.compile('.*/(__.*__)/.*')
+  java_library = re.compile('bazel-out/local-fastbuild/bin/(.*)/[^/]+[.]jar$')
+  srcs = re.compile('(.*/external/[^/]+)/jar/(.*)[.]jar')
   for p in _query_classpath(MAIN):
     if p.endswith('-src.jar'):
       # gwt_module() depends on -src.jar for Java to JavaScript compiles.
+      if p.startswith("external"):
+        p = path.join(ext, p)
       gwt_lib.add(p)
       continue
 
-    if 'buck-out/gen/lib/gwt/' in p:
-      # gwt_module() depends on huge shaded GWT JARs that import
-      # incorrect versions of classes for Gerrit. Collect into
-      # a private grouping for later use.
-      gwt_lib.add(p)
-      continue
 
     m = java_library.match(p)
     if m:
       src.add(m.group(1))
+      # Exceptions: both source and lib
+      if p.endswith('libquery_parser.jar') or \
+         p.endswith('prolog/libcommon.jar'):
+        lib.add(p)
     else:
+      if p.startswith("external"):
+        p = path.join(ext, p)
       lib.add(p)
 
   for p in _query_classpath(GWT):
     m = java_library.match(p)
     if m:
       gwt_src.add(m.group(1))
-
+      # Exception: we need source here for GWT SDM mode to work
+      if p.endswith('libEdit.jar'):
+        p = p[:-4] + '-src.jar'
+        assert path.exists(p), p
+        lib.add(p)
+      
   for s in sorted(src):
     out = None
 
@@ -184,24 +203,19 @@ def gen_classpath():
   for libs in [lib, gwt_lib]:
     for j in sorted(libs):
       s = None
-      if j.endswith('.jar'):
-        s = j[:-4] + '-src.jar'
-        if not path.exists(s):
-          m = srcs.match(s)
-          if m:
-            l = m.group(1)
-            if l.endswith('__jar__'):
-              s = s.replace(l, l.replace('__jar__', '_src__'))
-            else:
-              s = s.replace(l, l[:-1] + 'src__')
-            if not path.exists(s):
-              s = None
-          else:
-            s = None
+      m = srcs.match(j)
+      if m:
+        prefix = m.group(1)
+        suffix = m.group(2)
+        p = path.join(prefix, "src", "%s-src.jar" % suffix)
+        if path.exists(p):
+          s = p
+      # TODO(davido): make plugins actually work
       if args.plugins:
         classpathentry('lib', j, s, exported=True)
       else:
         classpathentry('lib', j, s)
+
   for s in sorted(gwt_src):
     p = path.join(ROOT, s, 'src', 'main', 'java')
     if path.exists(p):
@@ -224,12 +238,12 @@ def gen_classpath():
         print('error generating project for %s: %s' % (plugin, err),
               file=sys.stderr)
 
-def gen_factorypath():
+def gen_factorypath(ext):
   doc = minidom.getDOMImplementation().createDocument(None, 'factorypath', None)
-  for jar in _query_classpath(['//lib/auto:auto-value']):
+  for jar in _query_classpath(AUTO):
     e = doc.createElement('factorypathentry')
     e.setAttribute('kind', 'EXTJAR')
-    e.setAttribute('id', path.join(ROOT, jar))
+    e.setAttribute('id', path.join(ext, jar))
     e.setAttribute('enabled', 'true')
     e.setAttribute('runInBatchMode', 'false')
     doc.documentElement.appendChild(e)
@@ -239,25 +253,19 @@ def gen_factorypath():
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
 try:
-  if not args.no_src:
-    try:
-      check_call([path.join(ROOT, 'tools', 'download_all.py'), '--src'])
-    except CalledProcessError as err:
-      exit(1)
-
+  ext_location = retrieve_ext_location()
   gen_project(args.project_name)
-  gen_classpath()
-  gen_factorypath()
+  gen_classpath(ext_location)
+  gen_factorypath(ext_location)
   gen_primary_build_tool()
-
+  
   # TODO(davido): Remove this when GWT gone
   gwt_working_dir = ".gwt_work_dir"
   if not path.isdir(gwt_working_dir):
     makedirs(path.join(ROOT, gwt_working_dir))
 
   try:
-    targets = ['//tools:buck'] + MAIN + GWT
-    check_call(['buck', 'build', '--deep'] + targets)
+    check_call(['bazel', 'build', MAIN, GWT])
   except CalledProcessError as err:
     exit(1)
 except KeyboardInterrupt:

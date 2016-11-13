@@ -14,8 +14,11 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Properties;
 
 public class BazelBuild extends BuildSystem {
   public BazelBuild(Path sourceRoot) {
@@ -24,7 +27,13 @@ public class BazelBuild extends BuildSystem {
 
   @Override
   protected ProcessBuilder newBuildProcess(Label label) throws IOException {
-    ProcessBuilder proc = new ProcessBuilder("bazel", "build", label.fullName());
+    Properties properties = loadBuildProperties(
+        sourceRoot.resolve(".primary_build_tool"));
+    String buck = firstNonNull(properties.getProperty("bazel"), "bazel");
+    ProcessBuilder proc = new ProcessBuilder(buck, "build", label.fullName());
+    if (properties.containsKey("PATH")) {
+      proc.environment().put("PATH", properties.getProperty("PATH"));
+    }
     return proc;
   }
 

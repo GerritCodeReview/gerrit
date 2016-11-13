@@ -23,28 +23,27 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 public class Schema_130 extends SchemaVersion {
   private static final String COMMIT_MSG =
       "Remove force option from 'Push Annotated Tag' permission\n"
-      + "\n"
-      + "The force option on 'Push Annotated Tag' had no effect and is no longer\n"
-      + "supported.";
+          + "\n"
+          + "The force option on 'Push Annotated Tag' had no effect and is no longer\n"
+          + "supported.";
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_130(Provider<Schema_129> prior,
+  Schema_130(
+      Provider<Schema_129> prior,
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
@@ -59,8 +58,7 @@ public class Schema_130 extends SchemaVersion {
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
-          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-              projectName, git)) {
+          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
         ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
         cfg.removeForceFromPermission("pushTag");
         if (cfg.isUpdated()) {
@@ -71,10 +69,7 @@ public class Schema_130 extends SchemaVersion {
         throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }
-    ui.message("\tMigration completed:  " + repoUpgraded.size()
-        + " repositories updated:");
-    ui.message("\t"
-        + repoUpgraded.stream().map(n -> n.get())
-            .collect(Collectors.joining(" ")));
+    ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
+    ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(Collectors.joining(" ")));
   }
 }

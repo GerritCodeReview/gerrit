@@ -35,10 +35,32 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSchException;
-
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.WatchService;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.spi.FileSystemProvider;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
@@ -90,54 +112,26 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.WatchService;
-import java.nio.file.attribute.UserPrincipalLookupService;
-import java.nio.file.spi.FileSystemProvider;
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * SSH daemon to communicate with Gerrit.
- * <p>
- * Use a Git URL such as <code>ssh://${email}@${host}:${port}/${path}</code>,
- * e.g. {@code ssh://sop@google.com@gerrit.com:8010/tools/gerrit.git} to
- * access the SSH daemon itself.
- * <p>
- * Versions of Git before 1.5.3 may require setting the username and port
- * properties in the user's {@code ~/.ssh/config} file, and using a host
- * alias through a URL such as {@code gerrit-alias:/tools/gerrit.git}:
- * <pre>
- * {@code
+ *
+ * <p>Use a Git URL such as <code>ssh://${email}@${host}:${port}/${path}</code>, e.g. {@code
+ * ssh://sop@google.com@gerrit.com:8010/tools/gerrit.git} to access the SSH daemon itself.
+ *
+ * <p>Versions of Git before 1.5.3 may require setting the username and port properties in the
+ * user's {@code ~/.ssh/config} file, and using a host alias through a URL such as {@code
+ * gerrit-alias:/tools/gerrit.git}:
+ *
+ * <pre>{@code
  * Host gerrit-alias
  *  User sop@google.com
  *  Hostname gerrit.com
  *  Port 8010
- * }
- * </pre>
+ * }</pre>
  */
 @Singleton
 public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
-  private static final Logger sshDaemonLog =
-      LoggerFactory.getLogger(SshDaemon.class);
+  private static final Logger sshDaemonLog = LoggerFactory.getLogger(SshDaemon.class);
 
   public enum SshSessionBackend {
     MINA,
@@ -152,11 +146,15 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private final Config cfg;
 
   @Inject
-  SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
+  SshDaemon(
+      final CommandFactory commandFactory,
+      final NoShell noShell,
       final PublickeyAuthenticator userAuth,
       final GerritGSSAuthenticator kerberosAuth,
-      final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
-      @GerritServerConfig final Config cfg, final SshLog sshLog,
+      final KeyPairProvider hostKeyProvider,
+      final IdGenerator idGenerator,
+      @GerritServerConfig final Config cfg,
+      final SshLog sshLog,
       @SshListenAddresses final List<SocketAddress> listen,
       @SshAdvertisedAddresses final List<String> advertised,
       MetricMaker metricMaker) {
@@ -167,52 +165,51 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     this.advertised = advertised;
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
 
-    getProperties().put(SERVER_IDENTIFICATION,
-        "GerritCodeReview_" + Version.getVersion() //
-            + " (" + super.getVersion() + ")");
+    getProperties()
+        .put(
+            SERVER_IDENTIFICATION,
+            "GerritCodeReview_"
+                + Version.getVersion() //
+                + " ("
+                + super.getVersion()
+                + ")");
 
-    getProperties().put(MAX_AUTH_REQUESTS,
-        String.valueOf(cfg.getInt("sshd", "maxAuthTries", 6)));
+    getProperties().put(MAX_AUTH_REQUESTS, String.valueOf(cfg.getInt("sshd", "maxAuthTries", 6)));
 
-    getProperties().put(
-        AUTH_TIMEOUT,
-        String.valueOf(MILLISECONDS.convert(ConfigUtil.getTimeUnit(cfg, "sshd",
-            null, "loginGraceTime", 120, SECONDS), SECONDS)));
+    getProperties()
+        .put(
+            AUTH_TIMEOUT,
+            String.valueOf(
+                MILLISECONDS.convert(
+                    ConfigUtil.getTimeUnit(cfg, "sshd", null, "loginGraceTime", 120, SECONDS),
+                    SECONDS)));
 
-    long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null,
-        "idleTimeout", 0, SECONDS);
-    getProperties().put(
-        IDLE_TIMEOUT,
-        String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
+    long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "idleTimeout", 0, SECONDS);
+    getProperties().put(IDLE_TIMEOUT, String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
 
-    long rekeyTimeLimit = ConfigUtil.getTimeUnit(cfg, "sshd", null,
-        "rekeyTimeLimit", 3600, SECONDS);
-    getProperties().put(
-        REKEY_TIME_LIMIT,
-        String.valueOf(SECONDS.toMillis(rekeyTimeLimit)));
+    long rekeyTimeLimit =
+        ConfigUtil.getTimeUnit(cfg, "sshd", null, "rekeyTimeLimit", 3600, SECONDS);
+    getProperties().put(REKEY_TIME_LIMIT, String.valueOf(SECONDS.toMillis(rekeyTimeLimit)));
 
-    getProperties().put(REKEY_BYTES_LIMIT,
-        String.valueOf(cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */)));
+    getProperties()
+        .put(
+            REKEY_BYTES_LIMIT,
+            String.valueOf(cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */)));
 
-    final int maxConnectionsPerUser =
-        cfg.getInt("sshd", "maxConnectionsPerUser", 64);
+    final int maxConnectionsPerUser = cfg.getInt("sshd", "maxConnectionsPerUser", 64);
     if (0 < maxConnectionsPerUser) {
-      getProperties().put(MAX_CONCURRENT_SESSIONS,
-          String.valueOf(maxConnectionsPerUser));
+      getProperties().put(MAX_CONCURRENT_SESSIONS, String.valueOf(maxConnectionsPerUser));
     }
 
-    final String kerberosKeytab = cfg.getString(
-        "sshd", null, "kerberosKeytab");
-    final String kerberosPrincipal = cfg.getString(
-        "sshd", null, "kerberosPrincipal");
+    final String kerberosKeytab = cfg.getString("sshd", null, "kerberosKeytab");
+    final String kerberosPrincipal = cfg.getString("sshd", null, "kerberosPrincipal");
 
-    final boolean enableCompression = cfg.getBoolean(
-        "sshd", "enableCompression", false);
+    final boolean enableCompression = cfg.getBoolean("sshd", "enableCompression", false);
 
-    SshSessionBackend backend = cfg.getEnum(
-        "sshd", null, "backend", SshSessionBackend.NIO2);
+    SshSessionBackend backend = cfg.getEnum("sshd", null, "backend", SshSessionBackend.NIO2);
 
-    System.setProperty(IoServiceFactoryFactory.class.getName(),
+    System.setProperty(
+        IoServiceFactoryFactory.class.getName(),
         backend == SshSessionBackend.MINA
             ? MinaServiceFactoryFactory.class.getName()
             : Nio2ServiceFactoryFactory.class.getName());
@@ -240,9 +237,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     metricMaker.newCallbackMetric(
         "sshd/sessions/connected",
         Integer.class,
-        new Description("Currently connected SSH sessions")
-          .setGauge()
-          .setUnit("sessions"),
+        new Description("Currently connected SSH sessions").setGauge().setUnit("sessions"),
         new Supplier<Integer>() {
           @Override
           public Integer get() {
@@ -250,66 +245,62 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           }
         });
 
-    final Counter0 sessionsCreated = metricMaker.newCounter(
-        "sshd/sessions/created",
-        new Description("Rate of new SSH sessions")
-          .setRate()
-          .setUnit("sessions"));
+    final Counter0 sessionsCreated =
+        metricMaker.newCounter(
+            "sshd/sessions/created",
+            new Description("Rate of new SSH sessions").setRate().setUnit("sessions"));
 
-    final Counter0 authFailures = metricMaker.newCounter(
-        "sshd/sessions/authentication_failures",
-        new Description("Rate of SSH authentication failures")
-          .setRate()
-          .setUnit("failures"));
+    final Counter0 authFailures =
+        metricMaker.newCounter(
+            "sshd/sessions/authentication_failures",
+            new Description("Rate of SSH authentication failures").setRate().setUnit("failures"));
 
-    setSessionFactory(new SessionFactory(this) {
-      @Override
-      protected ServerSessionImpl createSession(final IoSession io)
-          throws Exception {
-        connected.incrementAndGet();
-        sessionsCreated.increment();
-        if (io instanceof MinaSession) {
-          if (((MinaSession) io).getSession()
-              .getConfig() instanceof SocketSessionConfig) {
-            ((SocketSessionConfig) ((MinaSession) io).getSession()
-                .getConfig())
-                .setKeepAlive(keepAlive);
-          }
-        }
-
-        ServerSessionImpl s = super.createSession(io);
-        int id = idGenerator.next();
-        SocketAddress peer = io.getRemoteAddress();
-        final SshSession sd = new SshSession(id, peer);
-        s.setAttribute(SshSession.KEY, sd);
-
-        // Log a session close without authentication as a failure.
-        //
-        s.addCloseFutureListener(new SshFutureListener<CloseFuture>() {
+    setSessionFactory(
+        new SessionFactory(this) {
           @Override
-          public void operationComplete(CloseFuture future) {
-            connected.decrementAndGet();
-            if (sd.isAuthenticationError()) {
-              authFailures.increment();
-              sshLog.onAuthFail(sd);
+          protected ServerSessionImpl createSession(final IoSession io) throws Exception {
+            connected.incrementAndGet();
+            sessionsCreated.increment();
+            if (io instanceof MinaSession) {
+              if (((MinaSession) io).getSession().getConfig() instanceof SocketSessionConfig) {
+                ((SocketSessionConfig) ((MinaSession) io).getSession().getConfig())
+                    .setKeepAlive(keepAlive);
+              }
             }
+
+            ServerSessionImpl s = super.createSession(io);
+            int id = idGenerator.next();
+            SocketAddress peer = io.getRemoteAddress();
+            final SshSession sd = new SshSession(id, peer);
+            s.setAttribute(SshSession.KEY, sd);
+
+            // Log a session close without authentication as a failure.
+            //
+            s.addCloseFutureListener(
+                new SshFutureListener<CloseFuture>() {
+                  @Override
+                  public void operationComplete(CloseFuture future) {
+                    connected.decrementAndGet();
+                    if (sd.isAuthenticationError()) {
+                      authFailures.increment();
+                      sshLog.onAuthFail(sd);
+                    }
+                  }
+                });
+            return s;
+          }
+
+          @Override
+          protected ServerSessionImpl doCreateSession(IoSession ioSession) throws Exception {
+            return new ServerSessionImpl(getServer(), ioSession);
           }
         });
-        return s;
-      }
-
-      @Override
-      protected ServerSessionImpl doCreateSession(IoSession ioSession)
-          throws Exception {
-        return new ServerSessionImpl(getServer(), ioSession);
-      }
-    });
-    setGlobalRequestHandlers(Arrays.<RequestHandler<ConnectionService>> asList(
-          new KeepAliveHandler(),
-          new NoMoreSessionsHandler(),
-          new TcpipForwardHandler(),
-          new CancelTcpipForwardHandler()
-        ));
+    setGlobalRequestHandlers(
+        Arrays.<RequestHandler<ConnectionService>>asList(
+            new KeepAliveHandler(),
+            new NoMoreSessionsHandler(),
+            new TcpipForwardHandler(),
+            new CancelTcpipForwardHandler()));
 
     hostKeys = computeHostKeys();
   }
@@ -335,19 +326,17 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
       try {
         String listenAddress = cfg.getString("sshd", null, "listenAddress");
-        boolean rewrite = !Strings.isNullOrEmpty(listenAddress)
-            && listenAddress.endsWith(":0");
+        boolean rewrite = !Strings.isNullOrEmpty(listenAddress) && listenAddress.endsWith(":0");
         daemonAcceptor.bind(listen);
         if (rewrite) {
           SocketAddress bound = Iterables.getOnlyElement(daemonAcceptor.getBoundAddresses());
-          cfg.setString("sshd", null, "listenAddress", format((InetSocketAddress)bound));
+          cfg.setString("sshd", null, "listenAddress", format((InetSocketAddress) bound));
         }
       } catch (IOException e) {
         throw new IllegalStateException("Cannot bind to " + addressList(), e);
       }
 
-      sshDaemonLog.info(String.format("Started Gerrit %s on %s",
-          getVersion(), addressList()));
+      sshDaemonLog.info(String.format("Started Gerrit %s on %s", getVersion(), addressList()));
     }
   }
 
@@ -408,8 +397,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return keys;
   }
 
-  private static void addPublicKey(final Collection<PublicKey> out,
-      final KeyPairProvider p, final String type) {
+  private static void addPublicKey(
+      final Collection<PublicKey> out, final KeyPairProvider p, final String type) {
     final KeyPair pair = p.loadKey(type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
@@ -418,7 +407,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private String addressList() {
     final StringBuilder r = new StringBuilder();
-    for (Iterator<SocketAddress> i = listen.iterator(); i.hasNext();) {
+    for (Iterator<SocketAddress> i = listen.iterator(); i.hasNext(); ) {
       r.append(SocketUtil.format(i.next(), IANA_SSH_PORT));
       if (i.hasNext()) {
         r.append(", ");
@@ -429,10 +418,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initKeyExchanges(Config cfg) {
-    List<NamedFactory<KeyExchange>> a =
-        ServerBuilder.setUpDefaultKeyExchanges(true);
-    setKeyExchangeFactories(filter(cfg, "kex",
-        (NamedFactory<KeyExchange>[])a.toArray(new NamedFactory[a.size()])));
+    List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    setKeyExchangeFactories(
+        filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory[a.size()])));
   }
 
   private void initProviderBouncyCastle(Config cfg) {
@@ -484,7 +472,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     public int random(int n) {
       if (n > 0) {
         if ((n & -n) == n) {
-          return (int)((n * (long) next(31)) >> 31);
+          return (int) ((n * (long) next(31)) >> 31);
         }
         int bits;
         int val;
@@ -517,7 +505,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initCiphers(final Config cfg) {
     final List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
 
-    for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext();) {
+    for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext(); ) {
       final NamedFactory<Cipher> f = i.next();
       try {
         final Cipher c = f.create();
@@ -525,8 +513,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         final byte[] iv = new byte[c.getIVSize()];
         c.init(Cipher.Mode.Encrypt, key, iv);
       } catch (InvalidKeyException e) {
-        sshDaemonLog.warn("Disabling cipher " + f.getName() + ": " + e.getMessage()
-            + "; try installing unlimited cryptography extension");
+        sshDaemonLog.warn(
+            "Disabling cipher "
+                + f.getName()
+                + ": "
+                + e.getMessage()
+                + "; try installing unlimited cryptography extension");
         i.remove();
       } catch (Exception e) {
         sshDaemonLog.warn("Disabling cipher " + f.getName() + ": " + e.getMessage());
@@ -535,20 +527,20 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     }
 
     a.add(null);
-    setCipherFactories(filter(cfg, "cipher",
-        (NamedFactory<Cipher>[])a.toArray(new NamedFactory[a.size()])));
+    setCipherFactories(
+        filter(cfg, "cipher", (NamedFactory<Cipher>[]) a.toArray(new NamedFactory[a.size()])));
   }
 
   @SuppressWarnings("unchecked")
   private void initMacs(Config cfg) {
     List<NamedFactory<Mac>> m = BaseBuilder.setUpDefaultMacs(true);
-    setMacFactories(filter(cfg, "mac",
-       (NamedFactory<Mac>[]) m.toArray(new NamedFactory[m.size()])));
+    setMacFactories(
+        filter(cfg, "mac", (NamedFactory<Mac>[]) m.toArray(new NamedFactory[m.size()])));
   }
 
   @SafeVarargs
-  private static <T> List<NamedFactory<T>> filter(final Config cfg,
-      final String key, final NamedFactory<T>... avail) {
+  private static <T> List<NamedFactory<T>> filter(
+      final Config cfg, final String key, final NamedFactory<T>... avail) {
     final ArrayList<NamedFactory<T>> def = new ArrayList<>();
     for (final NamedFactory<T> n : avail) {
       if (n == null) {
@@ -579,8 +571,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final NamedFactory<T> n = find(name, avail);
       if (n == null) {
         final StringBuilder msg = new StringBuilder();
-        msg.append("sshd.").append(key).append(" = ").append(name)
-           .append(" unsupported; only ");
+        msg.append("sshd.").append(key).append(" = ").append(name).append(" unsupported; only ");
         for (int i = 0; i < avail.length; i++) {
           if (avail[i] == null) {
             continue;
@@ -605,8 +596,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SafeVarargs
-  private static <T> NamedFactory<T> find(final String name,
-      final NamedFactory<T>... avail) {
+  private static <T> NamedFactory<T> find(final String name, final NamedFactory<T>... avail) {
     for (final NamedFactory<T> n : avail) {
       if (n != null && name.equals(n.getName())) {
         return n;
@@ -649,33 +639,37 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initSubsystems() {
-    setSubsystemFactories(Collections.<NamedFactory<Command>> emptyList());
+    setSubsystemFactories(Collections.<NamedFactory<Command>>emptyList());
   }
 
-  private void initUserAuth(final PublickeyAuthenticator pubkey,
+  private void initUserAuth(
+      final PublickeyAuthenticator pubkey,
       final GSSAuthenticator kerberosAuthenticator,
-      String kerberosKeytab, String kerberosPrincipal) {
+      String kerberosKeytab,
+      String kerberosPrincipal) {
     List<NamedFactory<UserAuth>> authFactories = new ArrayList<>();
     if (kerberosKeytab != null) {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
       log.info("Enabling kerberos with keytab " + kerberosKeytab);
       if (!new File(kerberosKeytab).canRead()) {
-        sshDaemonLog.error("Keytab " + kerberosKeytab +
-            " does not exist or is not readable; further errors are possible");
+        sshDaemonLog.error(
+            "Keytab "
+                + kerberosKeytab
+                + " does not exist or is not readable; further errors are possible");
       }
       kerberosAuthenticator.setKeytabFile(kerberosKeytab);
       if (kerberosPrincipal == null) {
         try {
-          kerberosPrincipal = "host/" +
-              InetAddress.getLocalHost().getCanonicalHostName();
+          kerberosPrincipal = "host/" + InetAddress.getLocalHost().getCanonicalHostName();
         } catch (UnknownHostException e) {
           kerberosPrincipal = "host/localhost";
         }
       }
       sshDaemonLog.info("Using kerberos principal " + kerberosPrincipal);
       if (!kerberosPrincipal.startsWith("host/")) {
-        sshDaemonLog.warn("Host principal does not start with host/ " +
-            "which most SSH clients will supply automatically");
+        sshDaemonLog.warn(
+            "Host principal does not start with host/ "
+                + "which most SSH clients will supply automatically");
       }
       kerberosAuthenticator.setServicePrincipalName(kerberosPrincipal);
       setGSSAuthenticator(kerberosAuthenticator);
@@ -686,96 +680,96 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initForwarding() {
-    setTcpipForwardingFilter(new ForwardingFilter() {
-      @Override
-      public boolean canForwardAgent(Session session) {
-          return false;
-      }
+    setTcpipForwardingFilter(
+        new ForwardingFilter() {
+          @Override
+          public boolean canForwardAgent(Session session) {
+            return false;
+          }
 
-      @Override
-      public boolean canForwardX11(Session session) {
-          return false;
-      }
+          @Override
+          public boolean canForwardX11(Session session) {
+            return false;
+          }
 
-      @Override
-      public boolean canListen(SshdSocketAddress address, Session session) {
-          return false;
-      }
+          @Override
+          public boolean canListen(SshdSocketAddress address, Session session) {
+            return false;
+          }
 
-      @Override
-      public boolean canConnect(Type type, SshdSocketAddress address, Session session) {
-          return false;
-      }
-    });
+          @Override
+          public boolean canConnect(Type type, SshdSocketAddress address, Session session) {
+            return false;
+          }
+        });
     setTcpipForwarderFactory(new DefaultTcpipForwarderFactory());
   }
 
   private void initFileSystemFactory() {
-    setFileSystemFactory(new FileSystemFactory() {
-      @Override
-      public FileSystem createFileSystem(Session session)
-          throws IOException {
-        return new FileSystem() {
+    setFileSystemFactory(
+        new FileSystemFactory() {
           @Override
-          public void close() throws IOException {
-          }
+          public FileSystem createFileSystem(Session session) throws IOException {
+            return new FileSystem() {
+              @Override
+              public void close() throws IOException {}
 
-          @Override
-          public Iterable<FileStore> getFileStores() {
-            return null;
-          }
+              @Override
+              public Iterable<FileStore> getFileStores() {
+                return null;
+              }
 
-          @Override
-          public Path getPath(String arg0, String... arg1) {
-            return null;
-          }
+              @Override
+              public Path getPath(String arg0, String... arg1) {
+                return null;
+              }
 
-          @Override
-          public PathMatcher getPathMatcher(String arg0) {
-            return null;
-          }
+              @Override
+              public PathMatcher getPathMatcher(String arg0) {
+                return null;
+              }
 
-          @Override
-          public Iterable<Path> getRootDirectories() {
-            return null;
-          }
+              @Override
+              public Iterable<Path> getRootDirectories() {
+                return null;
+              }
 
-          @Override
-          public String getSeparator() {
-            return null;
-          }
+              @Override
+              public String getSeparator() {
+                return null;
+              }
 
-          @Override
-          public UserPrincipalLookupService getUserPrincipalLookupService() {
-            return null;
-          }
+              @Override
+              public UserPrincipalLookupService getUserPrincipalLookupService() {
+                return null;
+              }
 
-          @Override
-          public boolean isOpen() {
-            return false;
-          }
+              @Override
+              public boolean isOpen() {
+                return false;
+              }
 
-          @Override
-          public boolean isReadOnly() {
-            return false;
-          }
+              @Override
+              public boolean isReadOnly() {
+                return false;
+              }
 
-          @Override
-          public WatchService newWatchService() throws IOException {
-            return null;
-          }
+              @Override
+              public WatchService newWatchService() throws IOException {
+                return null;
+              }
 
-          @Override
-          public FileSystemProvider provider() {
-            return null;
-          }
+              @Override
+              public FileSystemProvider provider() {
+                return null;
+              }
 
-          @Override
-          public Set<String> supportedFileAttributeViews() {
-            return null;
+              @Override
+              public Set<String> supportedFileAttributeViews() {
+                return null;
+              }
+            };
           }
-        };
-      }
-    });
+        });
   }
 }

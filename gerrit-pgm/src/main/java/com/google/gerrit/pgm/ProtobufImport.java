@@ -37,11 +37,6 @@ import com.google.inject.Injector;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Parser;
 import com.google.protobuf.UnknownFieldSet;
-
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,29 +48,35 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.kohsuke.args4j.Option;
 
 /**
  * Import data from a protocol buffer dump into the database.
- * <p>
- * Takes as input a file containing protocol buffers concatenated together with
- * varint length encoding, as in {@link Parser#parseDelimitedFrom(InputStream)}.
- * Each message contains a single field with a tag corresponding to the relation
- * ID in the {@link com.google.gwtorm.server.Relation} annotation.
- * <p>
- * <strong>Warning</strong>: This method blindly upserts data into the database.
- * It should only be used to restore a protobuf-formatted backup into a new,
- * empty site.
+ *
+ * <p>Takes as input a file containing protocol buffers concatenated together with varint length
+ * encoding, as in {@link Parser#parseDelimitedFrom(InputStream)}. Each message contains a single
+ * field with a tag corresponding to the relation ID in the {@link
+ * com.google.gwtorm.server.Relation} annotation.
+ *
+ * <p><strong>Warning</strong>: This method blindly upserts data into the database. It should only
+ * be used to restore a protobuf-formatted backup into a new, empty site.
  */
 public class ProtobufImport extends SiteProgram {
-  @Option(name = "--file", aliases = {"-f"}, required = true, metaVar = "FILE",
-      usage = "File to import from")
+  @Option(
+    name = "--file",
+    aliases = {"-f"},
+    required = true,
+    metaVar = "FILE",
+    usage = "File to import from"
+  )
   private File file;
 
   private final LifecycleManager manager = new LifecycleManager();
   private final Map<Integer, Relation> relations = new HashMap<>();
 
-  @Inject
-  private SchemaFactory<ReviewDb> schemaFactory;
+  @Inject private SchemaFactory<ReviewDb> schemaFactory;
 
   @Override
   public int run() throws Exception {
@@ -84,34 +85,36 @@ public class ProtobufImport extends SiteProgram {
     Injector dbInjector = createDbInjector(SINGLE_USER);
     manager.add(dbInjector);
     manager.start();
-    RuntimeShutdown.add(new Runnable() {
-      @Override
-      public void run() {
-        manager.stop();
-      }
-    });
+    RuntimeShutdown.add(
+        new Runnable() {
+          @Override
+          public void run() {
+            manager.stop();
+          }
+        });
     dbInjector.injectMembers(this);
 
     ProgressMonitor progress = new TextProgressMonitor();
     progress.beginTask("Importing entities", ProgressMonitor.UNKNOWN);
     try (ReviewDb db = schemaFactory.open()) {
-      for (RelationModel model
-          : new JavaSchemaModel(ReviewDb.class).getRelations()) {
+      for (RelationModel model : new JavaSchemaModel(ReviewDb.class).getRelations()) {
         relations.put(model.getRelationID(), Relation.create(model, db));
       }
 
-      Parser<UnknownFieldSet> parser =
-          UnknownFieldSet.getDefaultInstance().getParserForType();
+      Parser<UnknownFieldSet> parser = UnknownFieldSet.getDefaultInstance().getParserForType();
       try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
         UnknownFieldSet msg;
         while ((msg = parser.parseDelimitedFrom(in)) != null) {
           Map.Entry<Integer, UnknownFieldSet.Field> e =
               Iterables.getOnlyElement(msg.asMap().entrySet());
-          Relation rel = checkNotNull(relations.get(e.getKey()),
-              "unknown relation ID %s in message: %s", e.getKey(), msg);
+          Relation rel =
+              checkNotNull(
+                  relations.get(e.getKey()),
+                  "unknown relation ID %s in message: %s",
+                  e.getKey(),
+                  msg);
           List<ByteString> values = e.getValue().getLengthDelimitedList();
-          checkState(values.size() == 1,
-            "expected one string field in message: %s", msg);
+          checkState(values.size() == 1, "expected one string field in message: %s", msg);
           upsert(rel, values.get(0));
           progress.update(1);
         }
@@ -123,8 +126,7 @@ public class ProtobufImport extends SiteProgram {
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  private static void upsert(Relation rel, ByteString s)
-      throws OrmException {
+  private static void upsert(Relation rel, ByteString s) throws OrmException {
     Collection ents = Collections.singleton(rel.codec().decode(s));
     try {
       // Not all relations support update; fall back manually.
@@ -138,16 +140,16 @@ public class ProtobufImport extends SiteProgram {
   @AutoValue
   abstract static class Relation {
     private static Relation create(RelationModel model, ReviewDb db)
-        throws IllegalAccessException, InvocationTargetException,
-        NoSuchMethodException, ClassNotFoundException {
+        throws IllegalAccessException, InvocationTargetException, NoSuchMethodException,
+            ClassNotFoundException {
       Method m = db.getClass().getMethod(model.getMethodName());
       Class<?> clazz = Class.forName(model.getEntityTypeClassName());
       return new AutoValue_ProtobufImport_Relation(
-          (Access<?, ?>) m.invoke(db),
-          CodecFactory.encoder(clazz));
+          (Access<?, ?>) m.invoke(db), CodecFactory.encoder(clazz));
     }
 
     abstract Access<?, ?> access();
+
     abstract ProtobufCodec<?> codec();
   }
 }

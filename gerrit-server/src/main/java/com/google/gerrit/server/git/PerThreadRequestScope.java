@@ -23,7 +23,6 @@ import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -53,7 +52,8 @@ public class PerThreadRequestScope {
 
   public static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
     @Inject
-    Propagator(ThreadLocalRequestContext local,
+    Propagator(
+        ThreadLocalRequestContext local,
         Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
       super(REQUEST, current, local, dbProviderProvider);
     }
@@ -91,25 +91,26 @@ public class PerThreadRequestScope {
     return ctx;
   }
 
-  public static final Scope REQUEST = new Scope() {
-    @Override
-    public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
-      return new Provider<T>() {
+  public static final Scope REQUEST =
+      new Scope() {
         @Override
-        public T get() {
-          return requireContext().get(key, creator);
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+          return new Provider<T>() {
+            @Override
+            public T get() {
+              return requireContext().get(key, creator);
+            }
+
+            @Override
+            public String toString() {
+              return String.format("%s[%s]", creator, REQUEST);
+            }
+          };
         }
 
         @Override
         public String toString() {
-          return String.format("%s[%s]", creator, REQUEST);
+          return "PerThreadRequestScope.REQUEST";
         }
       };
-    }
-
-    @Override
-    public String toString() {
-      return "PerThreadRequestScope.REQUEST";
-    }
-  };
 }

@@ -18,7 +18,8 @@ import java.util.Objects;
 
 public class ProblemInfo {
   public enum Status {
-    FIXED, FIX_FAILED
+    FIXED,
+    FIX_FAILED
   }
 
   public String message;
@@ -43,11 +44,9 @@ public class ProblemInfo {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder(getClass().getSimpleName())
-        .append('[').append(message);
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append('[').append(message);
     if (status != null || outcome != null) {
-      sb.append(" (").append(status).append(": ").append(outcome)
-          .append(')');
+      sb.append(" (").append(status).append(": ").append(outcome).append(')');
     }
     return sb.append(']').toString();
   }

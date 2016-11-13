@@ -15,9 +15,8 @@
 package com.google.gerrit.server.account;
 
 /**
- * Thrown by {@link AccountManager} if the user name for a newly created account
- * could not be set and the realm does not allow the user to set a user name
- * manually.
+ * Thrown by {@link AccountManager} if the user name for a newly created account could not be set
+ * and the realm does not allow the user to set a user name manually.
  */
 public class AccountUserNameException extends AccountException {
   private static final long serialVersionUID = 1L;

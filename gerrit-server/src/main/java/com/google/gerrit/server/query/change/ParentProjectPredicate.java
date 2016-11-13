@@ -24,7 +24,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.inject.Provider;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,8 +31,10 @@ import java.util.List;
 class ParentProjectPredicate extends OrPredicate<ChangeData> {
   private final String value;
 
-  ParentProjectPredicate(ProjectCache projectCache,
-      Provider<ListChildProjects> listChildProjects, Provider<CurrentUser> self,
+  ParentProjectPredicate(
+      ProjectCache projectCache,
+      Provider<ListChildProjects> listChildProjects,
+      Provider<CurrentUser> self,
       String value) {
     super(predicates(projectCache, listChildProjects, self, value));
     this.value = value;
@@ -42,7 +43,8 @@ class ParentProjectPredicate extends OrPredicate<ChangeData> {
   private static List<Predicate<ChangeData>> predicates(
       ProjectCache projectCache,
       Provider<ListChildProjects> listChildProjects,
-      Provider<CurrentUser> self, String value) {
+      Provider<CurrentUser> self,
+      String value) {
     ProjectState projectState = projectCache.get(new Project.NameKey(value));
     if (projectState == null) {
       return Collections.emptyList();
@@ -52,8 +54,7 @@ class ParentProjectPredicate extends OrPredicate<ChangeData> {
     r.add(new ProjectPredicate(projectState.getProject().getName()));
     ListChildProjects children = listChildProjects.get();
     children.setRecursive(true);
-    for (ProjectInfo p : children.apply(new ProjectResource(
-        projectState.controlFor(self.get())))) {
+    for (ProjectInfo p : children.apply(new ProjectResource(projectState.controlFor(self.get())))) {
       r.add(new ProjectPredicate(p.name));
     }
     return r;

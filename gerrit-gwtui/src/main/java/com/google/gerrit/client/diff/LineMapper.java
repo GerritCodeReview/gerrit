@@ -78,39 +78,28 @@ class LineMapper {
   /**
    * Helper method to retrieve the line number on the other side.
    *
-   * Given a line number on one side, performs a binary search in the lineMap
-   * to find the corresponding LineGap record.
+   * <p>Given a line number on one side, performs a binary search in the lineMap to find the
+   * corresponding LineGap record.
    *
-   * A LineGap records gap information from the start of an actual gap up to
-   * the start of the next gap. In the following example,
-   * lineMapAtoB will have LineGap: {start: 1, end: -1, delta: 3}
-   * (end set to -1 to represent a dummy gap of length zero. The binary search
-   * only looks at start so setting it to -1 has no effect here.)
-   * lineMapBtoA will have LineGap: {start: 1, end: 3, delta: -3}
-   * These LineGaps control lines between 1 and 5.
+   * <p>A LineGap records gap information from the start of an actual gap up to the start of the
+   * next gap. In the following example, lineMapAtoB will have LineGap: {start: 1, end: -1, delta:
+   * 3} (end set to -1 to represent a dummy gap of length zero. The binary search only looks at
+   * start so setting it to -1 has no effect here.) lineMapBtoA will have LineGap: {start: 1, end:
+   * 3, delta: -3} These LineGaps control lines between 1 and 5.
    *
-   * The "delta" is computed as the number to add on our side to get the line
-   * number on the other side given a line after the actual gap, so the result
-   * will be (line + delta). All lines within the actual gap (1 to 3) are
-   * considered corresponding to the last line above the region on the other
-   * side, which is 0 in this case. For these lines, we do (end + delta).
+   * <p>The "delta" is computed as the number to add on our side to get the line number on the other
+   * side given a line after the actual gap, so the result will be (line + delta). All lines within
+   * the actual gap (1 to 3) are considered corresponding to the last line above the region on the
+   * other side, which is 0 in this case. For these lines, we do (end + delta).
    *
-   * For example, to get the line number on the left corresponding to 1 on the
-   * right (lineOnOther(REVISION, 1)), the method looks up in lineMapBtoA,
-   * finds the "delta" to be -3, and returns 3 + (-3) = 0 since 1 falls in the
-   * actual gap. On the other hand, the line corresponding to 5 on the right
-   * will be 5 + (-3) = 2, since 5 is in the region after the gap (but still
+   * <p>For example, to get the line number on the left corresponding to 1 on the right
+   * (lineOnOther(REVISION, 1)), the method looks up in lineMapBtoA, finds the "delta" to be -3, and
+   * returns 3 + (-3) = 0 since 1 falls in the actual gap. On the other hand, the line corresponding
+   * to 5 on the right will be 5 + (-3) = 2, since 5 is in the region after the gap (but still
    * controlled by the current LineGap).
    *
-   * PARENT REVISION
-   *   0   |   0
-   *   -   |   1 \                      \
-   *   -   |   2 | Actual insertion gap |
-   *   -   |   3 /                      | Region controlled by one LineGap
-   *   1   |   4   <- delta = 4 - 1 = 3 |
-   *   2   |   5                        /
-   *   -   |   6
-   *      ...
+   * <p>PARENT REVISION 0 | 0 - | 1 \ \ - | 2 | Actual insertion gap | - | 3 / | Region controlled
+   * by one LineGap 1 | 4 <- delta = 4 - 1 = 3 | 2 | 5 / - | 6 ...
    */
   LineOnOtherInfo lineOnOther(DisplaySide mySide, int line) {
     List<LineGap> lineGaps = gapList(mySide);
@@ -204,14 +193,14 @@ class LineMapper {
   }
 
   /**
-   * Helper class to record line gap info and assist in calculation of line
-   * number on the other side.
+   * Helper class to record line gap info and assist in calculation of line number on the other
+   * side.
    *
-   * For a mapping from A to B, where A is the side with an insertion:
+   * <p>For a mapping from A to B, where A is the side with an insertion:
+   *
    * @field start The start line of the insertion in A.
    * @field end The exclusive end line of the insertion in A.
-   * @field delta The offset added to A to get the line number in B calculated
-   *              from end.
+   * @field delta The offset added to A to get the line number in B calculated from end.
    */
   private static class LineGap implements Comparable<LineGap> {
     private final int start;

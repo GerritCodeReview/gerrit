@@ -20,7 +20,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-
 import org.junit.Test;
 
 @NoHttpd
@@ -51,8 +50,7 @@ public class GetAccountIT extends AbstractDaemonTest {
     testGetAccount("self", admin);
   }
 
-  private void testGetAccount(String id, TestAccount expectedAccount)
-      throws Exception {
+  private void testGetAccount(String id, TestAccount expectedAccount) throws Exception {
     assertAccountInfo(expectedAccount, gApi.accounts().id(id).get());
   }
 }

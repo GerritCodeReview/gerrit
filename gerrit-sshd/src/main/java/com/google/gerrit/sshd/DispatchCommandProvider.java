@@ -21,22 +21,16 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
-
-import org.apache.sshd.server.Command;
-
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import org.apache.sshd.server.Command;
 
-/**
- * Creates DispatchCommand using commands registered by {@link CommandModule}.
- */
+/** Creates DispatchCommand using commands registered by {@link CommandModule}. */
 public class DispatchCommandProvider implements Provider<DispatchCommand> {
-  @Inject
-  private Injector injector;
+  @Inject private Injector injector;
 
-  @Inject
-  private DispatchCommand.Factory factory;
+  @Inject private DispatchCommand.Factory factory;
 
   private final CommandName parent;
   private volatile ConcurrentMap<String, CommandProvider> map;
@@ -50,8 +44,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     return factory.create(getMap());
   }
 
-  public RegistrationHandle register(final CommandName name,
-      final Provider<Command> cmd) {
+  public RegistrationHandle register(final CommandName name, final Provider<Command> cmd) {
     final ConcurrentMap<String, CommandProvider> m = getMap();
     final CommandProvider commandProvider = new CommandProvider(cmd, null);
     if (m.putIfAbsent(name.value(), commandProvider) != null) {
@@ -65,8 +58,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     };
   }
 
-  public RegistrationHandle replace(final CommandName name,
-      final Provider<Command> cmd) {
+  public RegistrationHandle replace(final CommandName name, final Provider<Command> cmd) {
     final ConcurrentMap<String, CommandProvider> m = getMap();
     final CommandProvider commandProvider = new CommandProvider(cmd, null);
     m.put(name.value(), commandProvider);
@@ -99,20 +91,17 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
         if (!Commands.CMD_ROOT.equals(n) && Commands.isChild(parent, n)) {
           String descr = null;
           if (annotation instanceof Commands.NestedCommandNameImpl) {
-            Commands.NestedCommandNameImpl impl =
-                ((Commands.NestedCommandNameImpl) annotation);
+            Commands.NestedCommandNameImpl impl = ((Commands.NestedCommandNameImpl) annotation);
             descr = impl.descr();
           }
-          m.put(n.value(),
-              new CommandProvider((Provider<Command>) b.getProvider(), descr));
+          m.put(n.value(), new CommandProvider((Provider<Command>) b.getProvider(), descr));
         }
       }
     }
     return m;
   }
 
-  private static final TypeLiteral<Command> type =
-      new TypeLiteral<Command>() {};
+  private static final TypeLiteral<Command> type = new TypeLiteral<Command>() {};
 
   private List<Binding<Command>> allCommands() {
     return injector.findBindingsByType(type);

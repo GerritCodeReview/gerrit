@@ -52,8 +52,8 @@ class CookieBase64 {
     return out.toString();
   }
 
-  private static void encode3to4(final StringBuilder out, final byte[] in,
-      final int inOffset, final int numSigBytes) {
+  private static void encode3to4(
+      final StringBuilder out, final byte[] in, final int inOffset, final int numSigBytes) {
     //           1         2         3
     // 01234567890123456789012345678901 Bit position
     // --------000000001111111122222222 Array position from threeBytes
@@ -66,9 +66,10 @@ class CookieBase64 {
     // We have to shift left 24 in order to flush out the 1's that appear
     // when Java treats a value as negative that is cast from a byte to an int.
     //
-    int inBuff = ( numSigBytes > 0 ? ((in[ inOffset     ] << 24) >>>  8) : 0 )
-               | ( numSigBytes > 1 ? ((in[ inOffset + 1 ] << 24) >>> 16) : 0 )
-               | ( numSigBytes > 2 ? ((in[ inOffset + 2 ] << 24) >>> 24) : 0 );
+    int inBuff =
+        (numSigBytes > 0 ? ((in[inOffset] << 24) >>> 8) : 0)
+            | (numSigBytes > 1 ? ((in[inOffset + 1] << 24) >>> 16) : 0)
+            | (numSigBytes > 2 ? ((in[inOffset + 2] << 24) >>> 24) : 0);
 
     switch (numSigBytes) {
       case 3:
@@ -94,6 +95,5 @@ class CookieBase64 {
     }
   }
 
-  private CookieBase64() {
-  }
+  private CookieBase64() {}
 }

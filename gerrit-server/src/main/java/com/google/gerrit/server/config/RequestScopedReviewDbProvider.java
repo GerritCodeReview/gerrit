@@ -31,8 +31,8 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
   private ReviewDb db;
 
   @Inject
-  public RequestScopedReviewDbProvider(final SchemaFactory<ReviewDb> schema,
-      final Provider<RequestCleanup> cleanup) {
+  public RequestScopedReviewDbProvider(
+      final SchemaFactory<ReviewDb> schema, final Provider<RequestCleanup> cleanup) {
     this.schema = schema;
     this.cleanup = cleanup;
   }
@@ -48,13 +48,16 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
         throw new ProvisionException("Cannot open ReviewDb", e);
       }
       try {
-        cleanup.get().add(new Runnable() {
-          @Override
-          public void run() {
-            c.close();
-            db = null;
-          }
-        });
+        cleanup
+            .get()
+            .add(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    c.close();
+                    db = null;
+                  }
+                });
       } catch (Throwable e) {
         c.close();
         throw new ProvisionException("Cannot defer cleanup of ReviewDb", e);

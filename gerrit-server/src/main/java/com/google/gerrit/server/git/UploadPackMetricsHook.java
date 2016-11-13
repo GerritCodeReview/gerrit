@@ -25,7 +25,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.PostUploadHook;
 
@@ -45,47 +44,51 @@ public class UploadPackMetricsHook implements PostUploadHook {
   @Inject
   UploadPackMetricsHook(MetricMaker metricMaker) {
     Field<Operation> operation = Field.ofEnum(Operation.class, "operation");
-    requestCount = metricMaker.newCounter(
-        "git/upload-pack/request_count",
-        new Description("Total number of git-upload-pack requests")
-          .setRate()
-          .setUnit("requests"),
-        operation);
+    requestCount =
+        metricMaker.newCounter(
+            "git/upload-pack/request_count",
+            new Description("Total number of git-upload-pack requests")
+                .setRate()
+                .setUnit("requests"),
+            operation);
 
-    counting = metricMaker.newTimer(
-        "git/upload-pack/phase_counting",
-        new Description("Time spent in the 'Counting...' phase")
-          .setCumulative()
-          .setUnit(Units.MILLISECONDS),
-        operation);
+    counting =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_counting",
+            new Description("Time spent in the 'Counting...' phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operation);
 
-    compressing = metricMaker.newTimer(
-        "git/upload-pack/phase_compressing",
-        new Description("Time spent in the 'Compressing...' phase")
-          .setCumulative()
-          .setUnit(Units.MILLISECONDS),
-        operation);
+    compressing =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_compressing",
+            new Description("Time spent in the 'Compressing...' phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operation);
 
-    writing = metricMaker.newTimer(
-        "git/upload-pack/phase_writing",
-        new Description("Time spent transferring bytes to client")
-          .setCumulative()
-          .setUnit(Units.MILLISECONDS),
-        operation);
+    writing =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_writing",
+            new Description("Time spent transferring bytes to client")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operation);
 
-    packBytes = metricMaker.newHistogram(
-        "git/upload-pack/pack_bytes",
-        new Description("Distribution of sizes of packs sent to clients")
-          .setCumulative()
-          .setUnit(Units.BYTES),
-        operation);
+    packBytes =
+        metricMaker.newHistogram(
+            "git/upload-pack/pack_bytes",
+            new Description("Distribution of sizes of packs sent to clients")
+                .setCumulative()
+                .setUnit(Units.BYTES),
+            operation);
   }
 
   @Override
   public void onPostUpload(PackStatistics stats) {
     Operation op = Operation.FETCH;
-    if (stats.getUninterestingObjects() == null
-        || stats.getUninterestingObjects().isEmpty()) {
+    if (stats.getUninterestingObjects() == null || stats.getUninterestingObjects().isEmpty()) {
       op = Operation.CLONE;
     }
 

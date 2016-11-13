@@ -14,12 +14,6 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Field;
-
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
@@ -27,7 +21,11 @@ import com.codahale.metrics.Meter;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
-
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -114,8 +112,7 @@ class MetricJson {
       rate_5m = m.getFiveMinuteRate();
       rate_15m = m.getFifteenMinuteRate();
 
-      double div =
-          Description.getTimeUnit(atts.get(Description.UNIT)).toNanos(1);
+      double div = Description.getTimeUnit(atts.get(Description.UNIT)).toNanos(1);
       p50 = s.getMedian() / div;
       p75 = s.get75thPercentile() / div;
       p95 = s.get95thPercentile() / div;
@@ -153,17 +150,12 @@ class MetricJson {
 
   @SuppressWarnings("unchecked")
   private static Map<String, Object> makeBuckets(
-      Field<?>[] fields,
-      Map<?, Metric> metrics,
-      ImmutableMap<String, String> atts) {
+      Field<?>[] fields, Map<?, Metric> metrics, ImmutableMap<String, String> atts) {
     if (fields.length == 1) {
-      Function<Object, String> fmt =
-          (Function<Object, String>) fields[0].formatter();
+      Function<Object, String> fmt = (Function<Object, String>) fields[0].formatter();
       Map<String, Object> out = new TreeMap<>();
       for (Map.Entry<?, Metric> e : metrics.entrySet()) {
-        out.put(
-            fmt.apply(e.getKey()),
-            new MetricJson(e.getValue(), atts, true));
+        out.put(fmt.apply(e.getKey()), new MetricJson(e.getValue(), atts, true));
       }
       return out;
     }
@@ -174,8 +166,7 @@ class MetricJson {
       Map<String, Object> dst = out;
 
       for (int i = 0; i < fields.length - 1; i++) {
-        Function<Object, String> fmt =
-            (Function<Object, String>) fields[i].formatter();
+        Function<Object, String> fmt = (Function<Object, String>) fields[i].formatter();
         String key = fmt.apply(keys.get(i));
         Map<String, Object> t = (Map<String, Object>) dst.get(key);
         if (t == null) {
@@ -187,9 +178,7 @@ class MetricJson {
 
       Function<Object, String> fmt =
           (Function<Object, String>) fields[fields.length - 1].formatter();
-      dst.put(
-          fmt.apply(keys.get(fields.length - 1)),
-          new MetricJson(e.getValue(), atts, true));
+      dst.put(fmt.apply(keys.get(fields.length - 1)), new MetricJson(e.getValue(), atts, true));
     }
     return out;
   }
@@ -202,9 +191,8 @@ class MetricJson {
     FieldJson(Field<?> field) {
       this.name = field.getName();
       this.description = field.getDescription();
-      this.type = Enum.class.isAssignableFrom(field.getType())
-          ? field.getType().getSimpleName()
-          : null;
+      this.type =
+          Enum.class.isAssignableFrom(field.getType()) ? field.getType().getSimpleName() : null;
     }
   }
 }

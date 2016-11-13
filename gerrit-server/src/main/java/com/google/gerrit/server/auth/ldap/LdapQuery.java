@@ -15,14 +15,12 @@
 package com.google.gerrit.server.auth.ldap;
 
 import com.google.gerrit.common.data.ParameterizedString;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.PartialResultException;
@@ -41,8 +39,11 @@ class LdapQuery {
   private final ParameterizedString pattern;
   private final String[] returnAttributes;
 
-  LdapQuery(final String base, final SearchScope searchScope,
-      final ParameterizedString pattern, final Set<String> returnAttributes) {
+  LdapQuery(
+      final String base,
+      final SearchScope searchScope,
+      final ParameterizedString pattern,
+      final Set<String> returnAttributes) {
     this.base = base;
     this.searchScope = searchScope;
 
@@ -126,9 +127,9 @@ class LdapQuery {
     @Override
     public String toString() {
       try {
-          return getDN();
+        return getDN();
       } catch (NamingException e) {
-          return "";
+        return "";
       }
     }
   }

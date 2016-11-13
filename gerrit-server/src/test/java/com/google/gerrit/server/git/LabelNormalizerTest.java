@@ -51,13 +51,11 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-
+import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 /** Unit tests for {@link LabelNormalizer}. */
 public class LabelNormalizerTest {
@@ -88,21 +86,21 @@ public class LabelNormalizerTest {
 
     db = schemaFactory.open();
     schemaCreator.create(db);
-    userId = accountManager.authenticate(AuthRequest.forUser("user"))
-        .getAccountId();
+    userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
 
-    requestContext.setContext(new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return user;
-      }
+    requestContext.setContext(
+        new RequestContext() {
+          @Override
+          public CurrentUser getUser() {
+            return user;
+          }
 
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
-    });
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return Providers.of(db);
+          }
+        });
 
     configureProject();
     setUpChange();
@@ -115,20 +113,20 @@ public class LabelNormalizerTest {
         sec.removePermission(forLabel(label));
       }
     }
-    LabelType lt = category("Verified",
-        value(1, "Verified"),
-        value(0, "No score"),
-        value(-1, "Fails"));
+    LabelType lt =
+        category("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
     pc.getLabelSections().put(lt.getName(), lt);
     save(pc);
   }
 
   private void setUpChange() throws Exception {
-    change = new Change(
-        new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
-        new Change.Id(1), userId,
-        new Branch.NameKey(allProjects, "refs/heads/master"),
-        TimeUtil.nowTs());
+    change =
+        new Change(
+            new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
+            new Change.Id(1),
+            userId,
+            new Branch.NameKey(allProjects, "refs/heads/master"),
+            TimeUtil.nowTs());
     PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(change.getId(), 1));
     ps.setSubject("Test change");
     change.setCurrentPatchSet(ps);
@@ -156,11 +154,8 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(Result.create(
-          list(v),
-          list(copy(cr, 1)),
-          list()),
-        norm.normalize(change, list(cr, v)));
+    assertEquals(
+        Result.create(list(v), list(copy(cr, 1)), list()), norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -172,10 +167,8 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 5);
     PatchSetApproval v = psa(userId, "Verified", 5);
-    assertEquals(Result.create(
-          list(),
-          list(copy(cr, 2), copy(v, 1)),
-          list()),
+    assertEquals(
+        Result.create(list(), list(copy(cr, 2), copy(v, 1)), list()),
         norm.normalize(change, list(cr, v)));
   }
 
@@ -183,11 +176,7 @@ public class LabelNormalizerTest {
   public void emptyPermissionRangeOmitsResult() throws Exception {
     PatchSetApproval cr = psa(userId, "Code-Review", 1);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(Result.create(
-          list(),
-          list(),
-          list(cr, v)),
-        norm.normalize(change, list(cr, v)));
+    assertEquals(Result.create(list(), list(), list(cr, v)), norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -198,11 +187,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);
     PatchSetApproval v = psa(userId, "Verified", 0);
-    assertEquals(Result.create(
-          list(cr),
-          list(),
-          list(v)),
-        norm.normalize(change, list(cr, v)));
+    assertEquals(Result.create(list(cr), list(), list(v)), norm.normalize(change, list(cr, v)));
   }
 
   private ProjectConfig loadAllProjects() throws Exception {
@@ -214,8 +199,7 @@ public class LabelNormalizerTest {
   }
 
   private void save(ProjectConfig pc) throws Exception {
-    try (MetaDataUpdate md =
-        metaDataUpdateFactory.create(pc.getProject().getNameKey(), user)) {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(pc.getProject().getNameKey(), user)) {
       pc.commit(md);
       projectCache.evict(pc.getProject().getNameKey());
     }
@@ -223,19 +207,18 @@ public class LabelNormalizerTest {
 
   private PatchSetApproval psa(Account.Id accountId, String label, int value) {
     return new PatchSetApproval(
-        new PatchSetApproval.Key(
-          change.currentPatchSetId(), accountId, new LabelId(label)),
-        (short) value, TimeUtil.nowTs());
+        new PatchSetApproval.Key(change.currentPatchSetId(), accountId, new LabelId(label)),
+        (short) value,
+        TimeUtil.nowTs());
   }
 
   private PatchSetApproval copy(PatchSetApproval src, int newValue) {
-    PatchSetApproval result =
-        new PatchSetApproval(src.getKey().getParentKey(), src);
+    PatchSetApproval result = new PatchSetApproval(src.getKey().getParentKey(), src);
     result.setValue((short) newValue);
     return result;
   }
 
   private static List<PatchSetApproval> list(PatchSetApproval... psas) {
-    return ImmutableList.<PatchSetApproval> copyOf(psas);
+    return ImmutableList.<PatchSetApproval>copyOf(psas);
   }
 }

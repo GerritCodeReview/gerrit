@@ -32,8 +32,7 @@ public class GetAvatarChangeUrl implements RestReadView<AccountResource> {
   }
 
   @Override
-  public String apply(AccountResource rsrc)
-      throws ResourceNotFoundException {
+  public String apply(AccountResource rsrc) throws ResourceNotFoundException {
     AvatarProvider impl = avatarProvider.get();
     if (impl == null) {
       throw new ResourceNotFoundException();

@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +52,7 @@ public class GarbageCollectionResult {
     protected Type type;
     protected Project.NameKey projectName;
 
-    protected Error() {
-    }
+    protected Error() {}
 
     public Error(Type type, Project.NameKey projectName) {
       this.type = type;

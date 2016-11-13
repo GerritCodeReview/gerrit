@@ -29,30 +29,25 @@ class NoteDbMetrics {
   final Timer1<NoteDbTable> updateLatency;
 
   /**
-   * The portion of {@link #updateLatency} due to preparing the sequence of
-   * updates.
-   * <p>
-   * May include some I/O (e.g. reading old refs), but excludes writes.
+   * The portion of {@link #updateLatency} due to preparing the sequence of updates.
+   *
+   * <p>May include some I/O (e.g. reading old refs), but excludes writes.
    */
   final Timer1<NoteDbTable> stageUpdateLatency;
 
-  /**
-   * End-to-end latency for reading changes from NoteDb, including reading
-   * ref(s) and parsing.
-   */
+  /** End-to-end latency for reading changes from NoteDb, including reading ref(s) and parsing. */
   final Timer1<NoteDbTable> readLatency;
 
   /**
-   * The portion of {@link #readLatency} due to parsing commits, but excluding
-   * I/O (to a best effort).
+   * The portion of {@link #readLatency} due to parsing commits, but excluding I/O (to a best
+   * effort).
    */
   final Timer1<NoteDbTable> parseLatency;
 
   /**
    * Latency due to auto-rebuilding entities when out of date.
-   * <p>
-   * Excludes latency from reading ref to check whether the entity is up to
-   * date.
+   *
+   * <p>Excludes latency from reading ref to check whether the entity is up to date.
    */
   final Timer1<NoteDbTable> autoRebuildLatency;
 
@@ -63,45 +58,50 @@ class NoteDbMetrics {
   NoteDbMetrics(MetricMaker metrics) {
     Field<NoteDbTable> view = Field.ofEnum(NoteDbTable.class, "table");
 
-    updateLatency = metrics.newTimer(
-        "notedb/update_latency",
-        new Description("NoteDb update latency by table")
-            .setCumulative()
-            .setUnit(Units.MILLISECONDS),
-        view);
+    updateLatency =
+        metrics.newTimer(
+            "notedb/update_latency",
+            new Description("NoteDb update latency by table")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            view);
 
-    stageUpdateLatency = metrics.newTimer(
-        "notedb/stage_update_latency",
-        new Description("Latency for staging updates to NoteDb by table")
-            .setCumulative()
-            .setUnit(Units.MICROSECONDS),
-        view);
+    stageUpdateLatency =
+        metrics.newTimer(
+            "notedb/stage_update_latency",
+            new Description("Latency for staging updates to NoteDb by table")
+                .setCumulative()
+                .setUnit(Units.MICROSECONDS),
+            view);
 
-    readLatency = metrics.newTimer(
-        "notedb/read_latency",
-        new Description("NoteDb read latency by table")
-            .setCumulative()
-            .setUnit(Units.MILLISECONDS),
-        view);
+    readLatency =
+        metrics.newTimer(
+            "notedb/read_latency",
+            new Description("NoteDb read latency by table")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            view);
 
-    parseLatency = metrics.newTimer(
-        "notedb/parse_latency",
-        new Description("NoteDb parse latency by table")
-            .setCumulative()
-            .setUnit(Units.MICROSECONDS),
-        view);
+    parseLatency =
+        metrics.newTimer(
+            "notedb/parse_latency",
+            new Description("NoteDb parse latency by table")
+                .setCumulative()
+                .setUnit(Units.MICROSECONDS),
+            view);
 
-    autoRebuildLatency = metrics.newTimer(
-        "notedb/auto_rebuild_latency",
-        new Description("NoteDb auto-rebuilding latency by table")
-            .setCumulative()
-            .setUnit(Units.MILLISECONDS),
-        view);
+    autoRebuildLatency =
+        metrics.newTimer(
+            "notedb/auto_rebuild_latency",
+            new Description("NoteDb auto-rebuilding latency by table")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            view);
 
-    autoRebuildFailureCount = metrics.newCounter(
-        "notedb/auto_rebuild_failure_count",
-        new Description("NoteDb auto-rebuilding attempts that failed by table")
-            .setCumulative(),
-        view);
+    autoRebuildFailureCount =
+        metrics.newCounter(
+            "notedb/auto_rebuild_failure_count",
+            new Description("NoteDb auto-rebuilding attempts that failed by table").setCumulative(),
+            view);
   }
 }

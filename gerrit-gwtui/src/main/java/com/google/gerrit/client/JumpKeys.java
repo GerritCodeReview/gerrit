@@ -40,56 +40,64 @@ public class JumpKeys {
   static void register(final Widget body) {
     final KeyCommandSet jumps = new KeyCommandSet();
 
-    jumps.add(new KeyCommand(0, 'o', Gerrit.C.jumpAllOpen()) {
-      @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.toChangeQuery("status:open"));
-      }
-    });
-    jumps.add(new KeyCommand(0, 'm', Gerrit.C.jumpAllMerged()) {
-      @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.toChangeQuery("status:merged"));
-      }
-    });
-    jumps.add(new KeyCommand(0, 'a', Gerrit.C.jumpAllAbandoned()) {
-      @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
-      }
-    });
+    jumps.add(
+        new KeyCommand(0, 'o', Gerrit.C.jumpAllOpen()) {
+          @Override
+          public void onKeyPress(final KeyPressEvent event) {
+            Gerrit.display(PageLinks.toChangeQuery("status:open"));
+          }
+        });
+    jumps.add(
+        new KeyCommand(0, 'm', Gerrit.C.jumpAllMerged()) {
+          @Override
+          public void onKeyPress(final KeyPressEvent event) {
+            Gerrit.display(PageLinks.toChangeQuery("status:merged"));
+          }
+        });
+    jumps.add(
+        new KeyCommand(0, 'a', Gerrit.C.jumpAllAbandoned()) {
+          @Override
+          public void onKeyPress(final KeyPressEvent event) {
+            Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
+          }
+        });
 
     if (Gerrit.isSignedIn()) {
-      jumps.add(new KeyCommand(0, 'i', Gerrit.C.jumpMine()) {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.MINE);
-        }
-      });
-      jumps.add(new KeyCommand(0, 'd', Gerrit.C.jumpMineDrafts()) {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft"));
-        }
-      });
-      jumps.add(new KeyCommand(0, 'c', Gerrit.C.jumpMineDraftComments()) {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.toChangeQuery("has:draft"));
-        }
-      });
-      jumps.add(new KeyCommand(0, 'w', Gerrit.C.jumpMineWatched()) {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.toChangeQuery("is:watched status:open"));
-        }
-      });
-      jumps.add(new KeyCommand(0, 's', Gerrit.C.jumpMineStarred()) {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.toChangeQuery("is:starred"));
-        }
-      });
+      jumps.add(
+          new KeyCommand(0, 'i', Gerrit.C.jumpMine()) {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+              Gerrit.display(PageLinks.MINE);
+            }
+          });
+      jumps.add(
+          new KeyCommand(0, 'd', Gerrit.C.jumpMineDrafts()) {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+              Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft"));
+            }
+          });
+      jumps.add(
+          new KeyCommand(0, 'c', Gerrit.C.jumpMineDraftComments()) {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+              Gerrit.display(PageLinks.toChangeQuery("has:draft"));
+            }
+          });
+      jumps.add(
+          new KeyCommand(0, 'w', Gerrit.C.jumpMineWatched()) {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+              Gerrit.display(PageLinks.toChangeQuery("is:watched status:open"));
+            }
+          });
+      jumps.add(
+          new KeyCommand(0, 's', Gerrit.C.jumpMineStarred()) {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+              Gerrit.display(PageLinks.toChangeQuery("is:starred"));
+            }
+          });
     }
 
     keys = new KeyCommandSet(Gerrit.C.sectionJumping());
@@ -98,6 +106,5 @@ public class JumpKeys {
     activeHandler = GlobalKey.add(body, keys);
   }
 
-  private JumpKeys() {
-  }
+  private JumpKeys() {}
 }

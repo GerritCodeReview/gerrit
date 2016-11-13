@@ -14,11 +14,10 @@
 
 package com.google.gerrit.pgm.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RuntimeShutdown {
   private static final ShutdownCallback cb = new ShutdownCallback();
@@ -43,12 +42,10 @@ public class RuntimeShutdown {
     cb.manualShutdown();
   }
 
-  private RuntimeShutdown() {
-  }
+  private RuntimeShutdown() {}
 
   private static class ShutdownCallback extends Thread {
-    private static final Logger log =
-        LoggerFactory.getLogger(ShutdownCallback.class);
+    private static final Logger log = LoggerFactory.getLogger(ShutdownCallback.class);
 
     private final List<Runnable> tasks = new ArrayList<>();
     private boolean shutdownStarted;
@@ -66,7 +63,6 @@ public class RuntimeShutdown {
           }
           tasks.add(newTask);
           return true;
-
         }
         // We don't permit adding a task once shutdown has started.
         //

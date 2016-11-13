@@ -19,14 +19,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
 import java.lang.reflect.Type;
 
-public class ProjectNameKeySerializer
-    implements JsonSerializer<Project.NameKey> {
+public class ProjectNameKeySerializer implements JsonSerializer<Project.NameKey> {
   @Override
-  public JsonElement serialize(Project.NameKey project, Type typeOfSrc,
-      JsonSerializationContext context) {
+  public JsonElement serialize(
+      Project.NameKey project, Type typeOfSrc, JsonSerializationContext context) {
     return new JsonPrimitive(project.get());
   }
 }

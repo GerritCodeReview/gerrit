@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.SubmitType;
-
 import java.util.List;
 
 public class MergeableInfo {

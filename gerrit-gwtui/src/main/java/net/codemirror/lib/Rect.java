@@ -19,10 +19,12 @@ import com.google.gwt.core.client.JavaScriptObject;
 /** {left, right, top, bottom} objects used within CodeMirror. */
 public class Rect extends JavaScriptObject {
   public final native double left() /*-{ return this.left }-*/;
+
   public final native double right() /*-{ return this.right }-*/;
+
   public final native double top() /*-{ return this.top }-*/;
+
   public final native double bottom() /*-{ return this.bottom }-*/;
 
-  protected Rect() {
-  }
+  protected Rect() {}
 }

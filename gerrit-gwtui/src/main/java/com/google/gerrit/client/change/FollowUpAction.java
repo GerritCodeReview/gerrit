@@ -37,7 +37,12 @@ class FollowUpAction extends ActionMessageBox {
 
   @Override
   void send(String message) {
-    ChangeApi.createChange(project, branch, topic, message, base,
+    ChangeApi.createChange(
+        project,
+        branch,
+        topic,
+        message,
+        base,
         new GerritCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo result) {

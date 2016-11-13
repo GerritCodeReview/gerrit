@@ -21,20 +21,19 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.Set;
 
 class SubmitRecordPredicate extends ChangeIndexPredicate {
-  static Predicate<ChangeData> create(String label,
-      SubmitRecord.Label.Status status, Set<Account.Id> accounts) {
+  static Predicate<ChangeData> create(
+      String label, SubmitRecord.Label.Status status, Set<Account.Id> accounts) {
     String lowerLabel = label.toLowerCase();
     if (accounts == null || accounts.isEmpty()) {
       return new SubmitRecordPredicate(status.name() + ',' + lowerLabel);
     }
     return Predicate.or(
-        accounts.stream()
-            .map(a -> new SubmitRecordPredicate(
-                status.name() + ',' + lowerLabel + ',' + a.get()))
+        accounts
+            .stream()
+            .map(a -> new SubmitRecordPredicate(status.name() + ',' + lowerLabel + ',' + a.get()))
             .collect(toList()));
   }
 

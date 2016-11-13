@@ -34,11 +34,9 @@ import com.google.gerrit.testutil.SshMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
-
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
@@ -58,7 +56,8 @@ public class AccountCreator {
   private final AccountIndexer indexer;
 
   @Inject
-  AccountCreator(SchemaFactory<ReviewDb> schema,
+  AccountCreator(
+      SchemaFactory<ReviewDb> schema,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       GroupCache groupCache,
       SshKeyCache sshKeyCache,
@@ -75,8 +74,8 @@ public class AccountCreator {
     this.indexer = indexer;
   }
 
-  public synchronized TestAccount create(String username, String email,
-      String fullName, String... groups) throws Exception {
+  public synchronized TestAccount create(
+      String username, String email, String fullName, String... groups) throws Exception {
     TestAccount account = accounts.get(username);
     if (account != null) {
       return account;
@@ -85,8 +84,8 @@ public class AccountCreator {
       Account.Id id = new Account.Id(db.nextAccountId());
 
       AccountExternalId extUser =
-          new AccountExternalId(id, new AccountExternalId.Key(
-              AccountExternalId.SCHEME_USERNAME, username));
+          new AccountExternalId(
+              id, new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username));
       String httpPass = "http-pass";
       extUser.setPassword(httpPass);
       db.accountExternalIds().insert(Collections.singleton(extUser));
@@ -107,8 +106,7 @@ public class AccountCreator {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
           AccountGroup g = groupCache.get(k);
           checkArgument(g != null, "group not found: %s", n);
-          AccountGroupMember m =
-              new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
+          AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
           db.accountGroupMembers().insert(Collections.singleton(m));
         }
       }
@@ -125,8 +123,7 @@ public class AccountCreator {
 
       indexer.index(id);
 
-      account =
-          new TestAccount(id, username, email, fullName, sshKey, httpPass);
+      account = new TestAccount(id, username, email, fullName, sshKey, httpPass);
       accounts.put(username, account);
       return account;
     }
@@ -141,13 +138,11 @@ public class AccountCreator {
   }
 
   public TestAccount admin() throws Exception {
-    return create("admin", "admin@example.com", "Administrator",
-      "Administrators");
+    return create("admin", "admin@example.com", "Administrator", "Administrators");
   }
 
   public TestAccount admin2() throws Exception {
-    return create("admin2", "admin2@example.com", "Administrator2",
-      "Administrators");
+    return create("admin2", "admin2@example.com", "Administrator2", "Administrators");
   }
 
   public TestAccount user() throws Exception {
@@ -159,9 +154,7 @@ public class AccountCreator {
   }
 
   public TestAccount get(String username) {
-    return checkNotNull(
-        accounts.get(username),
-        "No TestAccount created for %s", username);
+    return checkNotNull(accounts.get(username), "No TestAccount created for %s", username);
   }
 
   private AccountExternalId.Key getEmailKey(String email) {

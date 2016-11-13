@@ -19,47 +19,48 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.mail.Address;
-
-import org.joda.time.DateTime;
-import org.junit.Ignore;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.DateTime;
+import org.junit.Ignore;
 
 @Ignore
 public class AbstractParserTest {
-  protected static final String changeURL =
-      "https://gerrit-review.googlesource.com/#/changes/123";
+  protected static final String changeURL = "https://gerrit-review.googlesource.com/#/changes/123";
 
-  protected static void assertChangeMessage(String message,
-      MailComment comment) {
+  protected static void assertChangeMessage(String message, MailComment comment) {
     assertThat(comment.fileName).isNull();
     assertThat(comment.message).isEqualTo(message);
     assertThat(comment.inReplyTo).isNull();
     assertThat(comment.type).isEqualTo(MailComment.CommentType.CHANGE_MESSAGE);
   }
 
-  protected static void assertInlineComment(String message, MailComment comment,
-      Comment inReplyTo) {
+  protected static void assertInlineComment(
+      String message, MailComment comment, Comment inReplyTo) {
     assertThat(comment.fileName).isNull();
     assertThat(comment.message).isEqualTo(message);
     assertThat(comment.inReplyTo).isEqualTo(inReplyTo);
     assertThat(comment.type).isEqualTo(MailComment.CommentType.INLINE_COMMENT);
   }
 
-  protected static void assertFileComment(String message, MailComment comment,
-      String file) {
+  protected static void assertFileComment(String message, MailComment comment, String file) {
     assertThat(comment.fileName).isEqualTo(file);
     assertThat(comment.message).isEqualTo(message);
     assertThat(comment.inReplyTo).isNull();
     assertThat(comment.type).isEqualTo(MailComment.CommentType.FILE_COMMENT);
   }
 
-  protected static Comment newComment(String uuid, String file,
-      String message, int line) {
-    Comment c = new Comment(new Comment.Key(uuid, file, 1),
-        new Account.Id(0), new Timestamp(0L), (short) 0, message, "", false);
+  protected static Comment newComment(String uuid, String file, String message, int line) {
+    Comment c =
+        new Comment(
+            new Comment.Key(uuid, file, 1),
+            new Account.Id(0),
+            new Timestamp(0L),
+            (short) 0,
+            message,
+            "",
+            false);
     c.lineNbr = line;
     return c;
   }

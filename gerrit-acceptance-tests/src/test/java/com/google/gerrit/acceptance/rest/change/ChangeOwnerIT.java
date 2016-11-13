@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -83,8 +82,9 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
       ProjectConfig config = ProjectConfig.read(md);
       AccessSection s = config.getAccessSection("refs/heads/*", true);
       Permission p = s.getPermission(LABEL + "Code-Review", true);
-      PermissionRule rule = new PermissionRule(config
-          .resolve(SystemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
+      PermissionRule rule =
+          new PermissionRule(
+              config.resolve(SystemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
       rule.setMin(-2);
       rule.setMax(+2);
       p.add(rule);

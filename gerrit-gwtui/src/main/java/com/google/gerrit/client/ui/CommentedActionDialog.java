@@ -38,29 +38,31 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
   protected boolean sent;
 
   public CommentedActionDialog(final String title, final String heading) {
-    super(/* auto hide */false, /* modal */true);
+    super(/* auto hide */ false, /* modal */ true);
     setGlassEnabled(true);
     setText(title);
 
     addStyleName(Gerrit.RESOURCES.css().commentedActionDialog());
 
     sendButton = new Button(Util.C.commentedActionButtonSend());
-    sendButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        enableButtons(false);
-        onSend();
-      }
-    });
+    sendButton.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            enableButtons(false);
+            onSend();
+          }
+        });
 
     cancelButton = new Button(Util.C.commentedActionButtonCancel());
     cancelButton.getElement().getStyle().setProperty("float", "right");
-    cancelButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        hide();
-      }
-    });
+    cancelButton.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            hide();
+          }
+        });
 
     contentPanel = new FlowPanel();
     contentPanel.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());

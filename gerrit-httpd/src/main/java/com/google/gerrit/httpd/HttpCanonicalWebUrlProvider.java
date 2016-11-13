@@ -20,10 +20,8 @@ import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-
-import org.eclipse.jgit.lib.Config;
-
 import javax.servlet.http.HttpServletRequest;
+import org.eclipse.jgit.lib.Config;
 
 /** Sets {@code CanonicalWebUrl} to current HTTP request if not configured. */
 public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {

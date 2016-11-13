@@ -18,20 +18,19 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.projects.RefInfo;
-
 import java.util.List;
 
 public class RefAssert {
-  public static void assertRefs(List<? extends RefInfo> expectedRefs,
-      List<? extends RefInfo> actualRefs) {
+  public static void assertRefs(
+      List<? extends RefInfo> expectedRefs, List<? extends RefInfo> actualRefs) {
     assertRefNames(refs(expectedRefs), actualRefs);
     for (int i = 0; i < expectedRefs.size(); i++) {
       assertRefInfo(expectedRefs.get(i), actualRefs.get(i));
     }
   }
 
-  public static void assertRefNames(Iterable<String> expectedRefs,
-      Iterable<? extends RefInfo> actualRefs) {
+  public static void assertRefNames(
+      Iterable<String> expectedRefs, Iterable<? extends RefInfo> actualRefs) {
     Iterable<String> actualNames = refs(actualRefs);
     assertThat(actualNames).containsExactlyElementsIn(expectedRefs).inOrder();
   }
@@ -39,10 +38,10 @@ public class RefAssert {
   public static void assertRefInfo(RefInfo expected, RefInfo actual) {
     assertThat(actual.ref).isEqualTo(expected.ref);
     if (expected.revision != null) {
-      assertThat(actual.revision).named("revision of " + actual.ref)
-          .isEqualTo(expected.revision);
+      assertThat(actual.revision).named("revision of " + actual.ref).isEqualTo(expected.revision);
     }
-    assertThat(toBoolean(actual.canDelete)).named("can delete " + actual.ref)
+    assertThat(toBoolean(actual.canDelete))
+        .named("can delete " + actual.ref)
         .isEqualTo(toBoolean(expected.canDelete));
   }
 

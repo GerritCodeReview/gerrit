@@ -40,7 +40,7 @@ public class ParameterizedString {
   private ParameterizedString(final Constant c) {
     pattern = c.text;
     rawPattern = c.text;
-    patternOps = Collections.<Format> singletonList(c);
+    patternOps = Collections.<Format>singletonList(c);
     parameters = Collections.emptyList();
   }
 
@@ -208,25 +208,31 @@ public class ParameterizedString {
 
   private static Map<String, Function> initFunctions() {
     HashMap<String, Function> m = new HashMap<>();
-    m.put("toLowerCase", new Function() {
-      @Override
-      String apply(String a) {
-        return a.toLowerCase();
-      }
-    });
-    m.put("toUpperCase", new Function() {
-      @Override
-      String apply(String a) {
-        return a.toUpperCase();
-      }
-    });
-    m.put("localPart", new Function() {
-      @Override
-      String apply(String a) {
-        int at = a.indexOf('@');
-        return at < 0 ? a : a.substring(0, at);
-      }
-    });
+    m.put(
+        "toLowerCase",
+        new Function() {
+          @Override
+          String apply(String a) {
+            return a.toLowerCase();
+          }
+        });
+    m.put(
+        "toUpperCase",
+        new Function() {
+          @Override
+          String apply(String a) {
+            return a.toUpperCase();
+          }
+        });
+    m.put(
+        "localPart",
+        new Function() {
+          @Override
+          String apply(String a) {
+            int at = a.indexOf('@');
+            return at < 0 ? a : a.substring(0, at);
+          }
+        });
     return Collections.unmodifiableMap(m);
   }
 }

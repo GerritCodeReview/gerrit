@@ -26,16 +26,12 @@ import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.util.Types;
-
 import java.io.Serializable;
 import java.lang.reflect.Type;
 
-/**
- * Miniature DSL to support binding {@link Cache} instances in Guice.
- */
+/** Miniature DSL to support binding {@link Cache} instances in Guice. */
 public abstract class CacheModule extends FactoryModule {
-  private static final TypeLiteral<Cache<?, ?>> ANY_CACHE =
-      new TypeLiteral<Cache<?, ?>>() {};
+  private static final TypeLiteral<Cache<?, ?>> ANY_CACHE = new TypeLiteral<Cache<?, ?>>() {};
 
   /**
    * Declare a named in-memory cache.
@@ -44,10 +40,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K, V> CacheBinding<K, V> cache(
-      String name,
-      Class<K> keyType,
-      Class<V> valType) {
+  protected <K, V> CacheBinding<K, V> cache(String name, Class<K> keyType, Class<V> valType) {
     return cache(name, TypeLiteral.get(keyType), TypeLiteral.get(valType));
   }
 
@@ -58,10 +51,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K, V> CacheBinding<K, V> cache(
-      String name,
-      Class<K> keyType,
-      TypeLiteral<V> valType) {
+  protected <K, V> CacheBinding<K, V> cache(String name, Class<K> keyType, TypeLiteral<V> valType) {
     return cache(name, TypeLiteral.get(keyType), valType);
   }
 
@@ -73,12 +63,8 @@ public abstract class CacheModule extends FactoryModule {
    * @return binding to describe the cache.
    */
   protected <K, V> CacheBinding<K, V> cache(
-      String name,
-      TypeLiteral<K> keyType,
-      TypeLiteral<V> valType) {
-    Type type = Types.newParameterizedType(
-        Cache.class,
-        keyType.getType(), valType.getType());
+      String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
+    Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
 
     @SuppressWarnings("unchecked")
     Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, Names.named(name));
@@ -89,24 +75,21 @@ public abstract class CacheModule extends FactoryModule {
     return m.maximumWeight(1024);
   }
 
-  <K,V> Provider<CacheLoader<K,V>> bindCacheLoader(
-      CacheProvider<K, V> m,
-      Class<? extends CacheLoader<K,V>> impl) {
-    Type type = Types.newParameterizedType(
-        Cache.class,
-        m.keyType().getType(), m.valueType().getType());
+  <K, V> Provider<CacheLoader<K, V>> bindCacheLoader(
+      CacheProvider<K, V> m, Class<? extends CacheLoader<K, V>> impl) {
+    Type type =
+        Types.newParameterizedType(Cache.class, m.keyType().getType(), m.valueType().getType());
 
-    Type loadingType = Types.newParameterizedType(
-        LoadingCache.class,
-        m.keyType().getType(), m.valueType().getType());
+    Type loadingType =
+        Types.newParameterizedType(
+            LoadingCache.class, m.keyType().getType(), m.valueType().getType());
 
-    Type loaderType = Types.newParameterizedType(
-        CacheLoader.class,
-        m.keyType().getType(), m.valueType().getType());
+    Type loaderType =
+        Types.newParameterizedType(
+            CacheLoader.class, m.keyType().getType(), m.valueType().getType());
 
     @SuppressWarnings("unchecked")
-    Key<LoadingCache<K, V>> key =
-        (Key<LoadingCache<K, V>>) Key.get(type, Names.named(m.name));
+    Key<LoadingCache<K, V>> key = (Key<LoadingCache<K, V>>) Key.get(type, Names.named(m.name));
 
     @SuppressWarnings("unchecked")
     Key<LoadingCache<K, V>> loadingKey =
@@ -121,16 +104,13 @@ public abstract class CacheModule extends FactoryModule {
     return getProvider(loaderKey);
   }
 
-  <K,V> Provider<Weigher<K,V>> bindWeigher(
-      CacheProvider<K, V> m,
-      Class<? extends Weigher<K,V>> impl) {
-    Type weigherType = Types.newParameterizedType(
-        Weigher.class,
-        m.keyType().getType(), m.valueType().getType());
+  <K, V> Provider<Weigher<K, V>> bindWeigher(
+      CacheProvider<K, V> m, Class<? extends Weigher<K, V>> impl) {
+    Type weigherType =
+        Types.newParameterizedType(Weigher.class, m.keyType().getType(), m.valueType().getType());
 
     @SuppressWarnings("unchecked")
-    Key<Weigher<K, V>> key =
-        (Key<Weigher<K, V>>) Key.get(weigherType, Names.named(m.name));
+    Key<Weigher<K, V>> key = (Key<Weigher<K, V>>) Key.get(weigherType, Names.named(m.name));
 
     bind(key).to(impl).in(Scopes.SINGLETON);
     return getProvider(key);
@@ -144,9 +124,7 @@ public abstract class CacheModule extends FactoryModule {
    * @return binding to describe the cache.
    */
   protected <K extends Serializable, V extends Serializable> CacheBinding<K, V> persist(
-      String name,
-      Class<K> keyType,
-      Class<V> valType) {
+      String name, Class<K> keyType, Class<V> valType) {
     return persist(name, TypeLiteral.get(keyType), TypeLiteral.get(valType));
   }
 
@@ -158,9 +136,7 @@ public abstract class CacheModule extends FactoryModule {
    * @return binding to describe the cache.
    */
   protected <K extends Serializable, V extends Serializable> CacheBinding<K, V> persist(
-      String name,
-      Class<K> keyType,
-      TypeLiteral<V> valType) {
+      String name, Class<K> keyType, TypeLiteral<V> valType) {
     return persist(name, TypeLiteral.get(keyType), valType);
   }
 
@@ -172,10 +148,7 @@ public abstract class CacheModule extends FactoryModule {
    * @return binding to describe the cache.
    */
   protected <K extends Serializable, V extends Serializable> CacheBinding<K, V> persist(
-      String name,
-      TypeLiteral<K> keyType,
-      TypeLiteral<V> valType) {
-    return ((CacheProvider<K, V>) cache(name, keyType, valType))
-        .persist(true);
+      String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
+    return ((CacheProvider<K, V>) cache(name, keyType, valType)).persist(true);
   }
 }

@@ -24,14 +24,12 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Optional;
 
 @Singleton
 public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final ChangeEditUtil editUtil;
 
@@ -42,8 +40,7 @@ public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, IOException,
-      OrmException {
+      throws AuthException, ResourceNotFoundException, IOException, OrmException {
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (edit.isPresent()) {
       editUtil.delete(edit.get());

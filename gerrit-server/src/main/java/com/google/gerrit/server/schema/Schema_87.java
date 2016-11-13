@@ -20,7 +20,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,24 +34,20 @@ public class Schema_87 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     for (AccountGroup.Id id : scanSystemGroups(db)) {
       AccountGroup group = db.accountGroups().get(id);
-      if (group != null
-          && SystemGroupBackend.isSystemGroup(group.getGroupUUID())) {
+      if (group != null && SystemGroupBackend.isSystemGroup(group.getGroupUUID())) {
         db.accountGroups().delete(Collections.singleton(group));
-        db.accountGroupNames().deleteKeys(
-            Collections.singleton(group.getNameKey()));
+        db.accountGroupNames().deleteKeys(Collections.singleton(group.getNameKey()));
       }
     }
   }
 
-  private Set<AccountGroup.Id> scanSystemGroups(ReviewDb db)
-      throws SQLException {
+  private Set<AccountGroup.Id> scanSystemGroups(ReviewDb db) throws SQLException {
     try (Statement stmt = newStatement(db);
-        ResultSet rs = stmt.executeQuery(
-          "SELECT group_id FROM account_groups WHERE group_type = 'SYSTEM'")) {
+        ResultSet rs =
+            stmt.executeQuery("SELECT group_id FROM account_groups WHERE group_type = 'SYSTEM'")) {
       Set<AccountGroup.Id> ids = new HashSet<>();
       while (rs.next()) {
         ids.add(new AccountGroup.Id(rs.getInt(1)));

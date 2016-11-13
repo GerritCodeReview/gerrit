@@ -24,12 +24,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 @Singleton
 public class GetPreferences implements RestReadView<ConfigResource> {
@@ -38,8 +36,8 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   private final AllUsersName allUsersName;
 
   @Inject
-  public GetPreferences(GeneralPreferencesLoader loader,
-      GitRepositoryManager gitMgr, AllUsersName allUsersName) {
+  public GetPreferences(
+      GeneralPreferencesLoader loader, GitRepositoryManager gitMgr, AllUsersName allUsersName) {
     this.loader = loader;
     this.gitMgr = gitMgr;
     this.allUsersName = allUsersName;
@@ -51,17 +49,24 @@ public class GetPreferences implements RestReadView<ConfigResource> {
     return readFromGit(gitMgr, loader, allUsersName, null);
   }
 
-  static GeneralPreferencesInfo readFromGit(GitRepositoryManager gitMgr,
-      GeneralPreferencesLoader loader, AllUsersName allUsersName,
-      GeneralPreferencesInfo in) throws IOException, ConfigInvalidException,
-          RepositoryNotFoundException {
+  static GeneralPreferencesInfo readFromGit(
+      GitRepositoryManager gitMgr,
+      GeneralPreferencesLoader loader,
+      AllUsersName allUsersName,
+      GeneralPreferencesInfo in)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
       VersionedAccountPreferences p = VersionedAccountPreferences.forDefault();
       p.load(git);
 
-      GeneralPreferencesInfo r = loadSection(p.getConfig(),
-          UserConfigSections.GENERAL, null, new GeneralPreferencesInfo(),
-          GeneralPreferencesInfo.defaults(), in);
+      GeneralPreferencesInfo r =
+          loadSection(
+              p.getConfig(),
+              UserConfigSections.GENERAL,
+              null,
+              new GeneralPreferencesInfo(),
+              GeneralPreferencesInfo.defaults(),
+              in);
 
       // TODO(davido): Maintain cache of default values in AllUsers repository
       return loader.loadMyMenusAndUrlAliases(r, p, null);

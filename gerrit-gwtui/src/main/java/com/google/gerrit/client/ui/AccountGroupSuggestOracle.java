@@ -21,7 +21,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.SuggestOracle;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,8 +55,7 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
     this.projectName = projectName;
   }
 
-  private static class AccountGroupSuggestion implements
-      SuggestOracle.Suggestion {
+  private static class AccountGroupSuggestion implements SuggestOracle.Suggestion {
     private final GroupInfo info;
 
     AccountGroupSuggestion(final GroupInfo k) {

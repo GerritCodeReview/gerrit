@@ -18,7 +18,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
-
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -55,8 +54,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   }
 
   @Override
-  protected void doStart() throws Exception {
-  }
+  protected void doStart() throws Exception {}
 
   @Override
   protected void doStop() throws Exception {
@@ -65,18 +63,19 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Override
   public void log(final Request req, final Response rsp) {
-    final LoggingEvent event = new LoggingEvent( //
-        Logger.class.getName(), // fqnOfCategoryClass
-        log, // logger
-        TimeUtil.nowMs(), // when
-        Level.INFO, // level
-        "", // message text
-        "HTTPD", // thread name
-        null, // exception information
-        null, // current NDC string
-        null, // caller location
-        null // MDC properties
-        );
+    final LoggingEvent event =
+        new LoggingEvent( //
+            Logger.class.getName(), // fqnOfCategoryClass
+            log, // logger
+            TimeUtil.nowMs(), // when
+            Level.INFO, // level
+            "", // message text
+            "HTTPD", // thread name
+            null, // exception information
+            null, // current NDC string
+            null, // caller location
+            null // MDC properties
+            );
 
     String uri = req.getRequestURI();
     String qs = req.getQueryString();

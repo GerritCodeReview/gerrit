@@ -41,8 +41,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
   private final Account.Id account;
   private final AccountGroup.UUID group;
 
-  EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal,
-      Account.Id account) {
+  EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal, Account.Id account) {
     super(args.field, ChangeField.formatLabel(label, expVal, account));
     this.ccFactory = args.ccFactory;
     this.projectCache = args.projectCache;
@@ -105,16 +104,15 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
     return null;
   }
 
-  private boolean match(Change change, int value, Account.Id approver,
-      LabelType type) throws OrmException {
+  private boolean match(Change change, int value, Account.Id approver, LabelType type)
+      throws OrmException {
     int psVal = value;
     if (psVal == expVal) {
       // Double check the value is still permitted for the user.
       //
       IdentifiedUser reviewer = userFactory.create(approver);
       try {
-        ChangeControl cc =
-            ccFactory.controlFor(dbProvider.get(), change, reviewer);
+        ChangeControl cc = ccFactory.controlFor(dbProvider.get(), change, reviewer);
         if (!cc.isVisible(dbProvider.get())) {
           // The user can't see the change anymore.
           //

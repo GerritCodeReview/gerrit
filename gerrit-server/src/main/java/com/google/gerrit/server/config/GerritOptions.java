@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.extensions.client.UiType;
-
 import org.eclipse.jgit.lib.Config;
 
 public class GerritOptions {
@@ -29,31 +28,24 @@ public class GerritOptions {
   private final boolean forcePolyGerritDev;
   private final UiType defaultUi;
 
-  public GerritOptions(Config cfg, boolean headless, boolean slave,
-      boolean forcePolyGerritDev) {
+  public GerritOptions(Config cfg, boolean headless, boolean slave, boolean forcePolyGerritDev) {
     this.slave = slave;
-    this.enablePolyGerrit = forcePolyGerritDev
-        || cfg.getBoolean("gerrit", null, "enablePolyGerrit", true);
+    this.enablePolyGerrit =
+        forcePolyGerritDev || cfg.getBoolean("gerrit", null, "enablePolyGerrit", true);
     this.enableGwtUi = cfg.getBoolean("gerrit", null, "enableGwtUi", true);
     this.forcePolyGerritDev = forcePolyGerritDev;
     this.headless = headless || (!enableGwtUi && !enablePolyGerrit);
 
-    UiType defaultUi = enablePolyGerrit && !enableGwtUi
-        ? UiType.POLYGERRIT
-        : UiType.GWT;
-    String uiStr = firstNonNull(
-        cfg.getString("gerrit", null, "ui"),
-        defaultUi.name());
+    UiType defaultUi = enablePolyGerrit && !enableGwtUi ? UiType.POLYGERRIT : UiType.GWT;
+    String uiStr = firstNonNull(cfg.getString("gerrit", null, "ui"), defaultUi.name());
     this.defaultUi = firstNonNull(UiType.parse(uiStr), UiType.NONE);
 
     switch (defaultUi) {
       case GWT:
-        checkArgument(enableGwtUi,
-            "gerrit.ui = %s but GWT UI is disabled", defaultUi);
+        checkArgument(enableGwtUi, "gerrit.ui = %s but GWT UI is disabled", defaultUi);
         break;
       case POLYGERRIT:
-        checkArgument(enablePolyGerrit,
-            "gerrit.ui = %s but PolyGerrit is disabled", defaultUi);
+        checkArgument(enablePolyGerrit, "gerrit.ui = %s but PolyGerrit is disabled", defaultUi);
         break;
       case NONE:
       default:

@@ -28,9 +28,8 @@ public class AddReviewerSender extends NewChangeSender {
   }
 
   @Inject
-  public AddReviewerSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public AddReviewerSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, newChangeData(ea, project, id));
   }

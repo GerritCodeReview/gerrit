@@ -28,8 +28,7 @@ public class PluginUser extends InternalUser {
 
   @Inject
   protected PluginUser(
-      CapabilityControl.Factory capabilityControlFactory,
-      @Assisted String pluginName) {
+      CapabilityControl.Factory capabilityControlFactory, @Assisted String pluginName) {
     super(capabilityControlFactory);
     this.pluginName = pluginName;
   }

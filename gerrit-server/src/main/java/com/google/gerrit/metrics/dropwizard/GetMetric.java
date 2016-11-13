@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
-
 import org.kohsuke.args4j.Option;
 
 class GetMetric implements RestReadView<MetricResource> {
@@ -40,8 +39,6 @@ class GetMetric implements RestReadView<MetricResource> {
       throw new AuthException("restricted to viewCaches");
     }
     return new MetricJson(
-        resource.getMetric(),
-        metrics.getAnnotations(resource.getName()),
-        dataOnly);
+        resource.getMetric(), metrics.getAnnotations(resource.getName()), dataOnly);
   }
 }

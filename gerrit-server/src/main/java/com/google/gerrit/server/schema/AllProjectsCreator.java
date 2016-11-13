@@ -43,15 +43,13 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 /** Creates the {@code All-Projects} repository and initial ACLs. */
 public class AllProjectsCreator {
@@ -112,17 +110,15 @@ public class AllProjectsCreator {
     }
   }
 
-  private void initAllProjects(Repository git)
-      throws IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = new MetaDataUpdate(
-          GitReferenceUpdated.DISABLED,
-          allProjectsName,
-          git)) {
+  private void initAllProjects(Repository git) throws IOException, ConfigInvalidException {
+    try (MetaDataUpdate md =
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
-      md.setMessage(MoreObjects.firstNonNull(
-          Strings.emptyToNull(message),
-          "Initialized Gerrit Code Review " + Version.getVersion()));
+      md.setMessage(
+          MoreObjects.firstNonNull(
+              Strings.emptyToNull(message),
+              "Initialized Gerrit Code Review " + Version.getVersion()));
 
       ProjectConfig config = ProjectConfig.read(md);
       Project p = config.getProject();
@@ -184,12 +180,15 @@ public class AllProjectsCreator {
   }
 
   public static LabelType initCodeReviewLabel(ProjectConfig c) {
-    LabelType type = new LabelType("Code-Review", ImmutableList.of(
-        new LabelValue((short) 2, "Looks good to me, approved"),
-        new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
-        new LabelValue((short) 0, "No score"),
-        new LabelValue((short) -1, "I would prefer this is not merged as is"),
-        new LabelValue((short) -2, "This shall not be merged")));
+    LabelType type =
+        new LabelType(
+            "Code-Review",
+            ImmutableList.of(
+                new LabelValue((short) 2, "Looks good to me, approved"),
+                new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
+                new LabelValue((short) 0, "No score"),
+                new LabelValue((short) -1, "I would prefer this is not merged as is"),
+                new LabelValue((short) -2, "This shall not be merged")));
     type.setCopyMinScore(true);
     type.setCopyAllScoresOnTrivialRebase(true);
     c.getLabelSections().put(type.getName(), type);

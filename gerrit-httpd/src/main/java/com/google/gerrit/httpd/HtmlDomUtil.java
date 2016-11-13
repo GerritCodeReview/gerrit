@@ -17,13 +17,6 @@ package com.google.gerrit.httpd;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.ByteStreams;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +26,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.zip.GZIPOutputStream;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,6 +39,11 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /** Utility functions to deal with HTML using W3C DOM operations. */
 public class HtmlDomUtil {
@@ -83,8 +80,7 @@ public class HtmlDomUtil {
       serializer.setOutputProperty(OutputKeys.ENCODING, ENC.name());
       serializer.setOutputProperty(OutputKeys.METHOD, "html");
       serializer.setOutputProperty(OutputKeys.INDENT, "no");
-      serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,
-          HtmlDomUtil.HTML_STRICT);
+      serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, HtmlDomUtil.HTML_STRICT);
       serializer.transform(domSource, streamResult);
       return out.toString();
     } catch (TransformerException e) {
@@ -145,8 +141,7 @@ public class HtmlDomUtil {
   }
 
   /** Parse an XHTML file from our CLASSPATH and return the instance. */
-  public static Document parseFile(Class<?> context, String name)
-      throws IOException {
+  public static Document parseFile(Class<?> context, String name) throws IOException {
     try (InputStream in = context.getResourceAsStream(name)) {
       if (in == null) {
         return null;
@@ -175,8 +170,7 @@ public class HtmlDomUtil {
   }
 
   /** Read a Read a UTF-8 text file from our CLASSPATH and return it. */
-  public static String readFile(Class<?> context, String name)
-      throws IOException {
+  public static String readFile(Class<?> context, String name) throws IOException {
     try (InputStream in = context.getResourceAsStream(name)) {
       if (in == null) {
         return null;
@@ -201,8 +195,7 @@ public class HtmlDomUtil {
   }
 
   /** Read a UTF-8 text file from the local drive. */
-  public static String readFile(Path parentDir, String name)
-      throws IOException {
+  public static String readFile(Path parentDir, String name) throws IOException {
     if (parentDir == null) {
       return null;
     }
@@ -216,8 +209,7 @@ public class HtmlDomUtil {
     }
   }
 
-  private static DocumentBuilder newBuilder()
-      throws ParserConfigurationException {
+  private static DocumentBuilder newBuilder() throws ParserConfigurationException {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setValidating(false);
     factory.setExpandEntityReferences(false);

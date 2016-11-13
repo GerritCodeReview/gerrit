@@ -24,7 +24,6 @@ import com.google.inject.Provider;
 import com.google.inject.servlet.ServletScopes;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.SocketAddress;
@@ -49,9 +48,7 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
     this.peer = remotePeerProvider.get();
   }
 
-  /**
-   * @see RequestScopePropagator#wrap(Callable)
-   */
+  /** @see RequestScopePropagator#wrap(Callable) */
   // ServletScopes#continueRequest is deprecated, but it's not obvious their
   // recommended replacement is an appropriate drop-in solution; see
   // https://gerrit-review.googlesource.com/83971
@@ -63,12 +60,10 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
     // Request scopes appear to use specific keys in their map, instead of only
     // providers. Add bindings for both the key to the instance directly and the
     // provider to the instance to be safe.
-    seedMap.put(Key.get(typeOfProvider(String.class), CanonicalWebUrl.class),
-        Providers.of(url));
+    seedMap.put(Key.get(typeOfProvider(String.class), CanonicalWebUrl.class), Providers.of(url));
     seedMap.put(Key.get(String.class, CanonicalWebUrl.class), url);
 
-    seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class),
-        Providers.of(peer));
+    seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class), Providers.of(peer));
     seedMap.put(Key.get(SocketAddress.class, RemotePeer.class), peer);
 
     return ServletScopes.continueRequest(callable, seedMap);

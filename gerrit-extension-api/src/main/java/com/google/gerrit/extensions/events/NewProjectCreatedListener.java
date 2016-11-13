@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-
 /** Notified whenever a project is created on the master. */
 @ExtensionPoint
 public interface NewProjectCreatedListener {

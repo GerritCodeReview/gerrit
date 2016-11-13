@@ -23,20 +23,16 @@ import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.util.List;
 import org.kohsuke.args4j.Argument;
 
-import java.util.List;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "remove", description = "Disable plugins",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(name = "remove", description = "Disable plugins", runsAt = MASTER_OR_SLAVE)
 final class PluginRemoveCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "plugin to remove")
   List<String> names;
 
-  @Inject
-  private PluginLoader loader;
+  @Inject private PluginLoader loader;
 
   @Override
   protected void run() throws UnloggedFailure {

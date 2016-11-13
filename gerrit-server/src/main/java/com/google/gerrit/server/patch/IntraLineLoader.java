@@ -20,14 +20,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.MyersDiff;
-import org.eclipse.jgit.diff.ReplaceEdit;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -36,6 +28,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.MyersDiff;
+import org.eclipse.jgit.diff.ReplaceEdit;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class IntraLineLoader implements Callable<IntraLineDiff> {
   static final Logger log = LoggerFactory.getLogger(IntraLineLoader.class);
@@ -44,11 +42,10 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     IntraLineLoader create(IntraLineDiffKey key, IntraLineDiffArgs args);
   }
 
-  private static final Pattern BLANK_LINE_RE = Pattern
-      .compile("^[ \\t]*(|[{}]|/\\*\\*?|\\*)[ \\t]*$");
+  private static final Pattern BLANK_LINE_RE =
+      Pattern.compile("^[ \\t]*(|[{}]|/\\*\\*?|\\*)[ \\t]*$");
 
-  private static final Pattern CONTROL_BLOCK_START_RE = Pattern
-      .compile("[{:][ \\t]*$");
+  private static final Pattern CONTROL_BLOCK_START_RE = Pattern.compile("[{:][ \\t]*$");
 
   private final ExecutorService diffExecutor;
   private final long timeoutMillis;
@@ -56,14 +53,19 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
   private final IntraLineDiffArgs args;
 
   @AssistedInject
-  IntraLineLoader(@DiffExecutor ExecutorService diffExecutor,
+  IntraLineLoader(
+      @DiffExecutor ExecutorService diffExecutor,
       @GerritServerConfig Config cfg,
       @Assisted IntraLineDiffKey key,
       @Assisted IntraLineDiffArgs args) {
     this.diffExecutor = diffExecutor;
     timeoutMillis =
-        ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.INTRA_NAME,
-            "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
+        ConfigUtil.getTimeUnit(
+            cfg,
+            "cache",
+            PatchListCacheImpl.INTRA_NAME,
+            "timeout",
+            TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
     this.key = key;
     this.args = args;
@@ -71,23 +73,30 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
 
   @Override
   public IntraLineDiff call() throws Exception {
-    Future<IntraLineDiff> result = diffExecutor.submit(
-        new Callable<IntraLineDiff>() {
-          @Override
-          public IntraLineDiff call() throws Exception {
-            return IntraLineLoader.compute(args.aText(), args.bText(),
-                args.edits());
-          }
-        });
+    Future<IntraLineDiff> result =
+        diffExecutor.submit(
+            new Callable<IntraLineDiff>() {
+              @Override
+              public IntraLineDiff call() throws Exception {
+                return IntraLineLoader.compute(args.aText(), args.bText(), args.edits());
+              }
+            });
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
-      log.warn(timeoutMillis + " ms timeout reached for IntraLineDiff"
-          + " in project " + args.project()
-          + " on commit " + args.commit().name()
-          + " for path " + args.path()
-          + " comparing " + key.getBlobA().name()
-          + ".." + key.getBlobB().name());
+      log.warn(
+          timeoutMillis
+              + " ms timeout reached for IntraLineDiff"
+              + " in project "
+              + args.project()
+              + " on commit "
+              + args.commit().name()
+              + " for path "
+              + args.path()
+              + " comparing "
+              + key.getBlobA().name()
+              + ".."
+              + key.getBlobB().name());
       result.cancel(true);
       return new IntraLineDiff(IntraLineDiff.Status.TIMEOUT);
     } catch (ExecutionException e) {
@@ -98,8 +107,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     }
   }
 
-  static IntraLineDiff compute(Text aText, Text bText, List<Edit> edits)
-      throws Exception {
+  static IntraLineDiff compute(Text aText, Text bText, List<Edit> edits) throws Exception {
     combineLineEdits(edits, aText, bText);
 
     for (int i = 0; i < edits.size(); i++) {
@@ -116,12 +124,11 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
         // just a few characters apart we tend to get better results
         // by joining them together and taking the whole span.
         //
-        for (int j = 0; j < wordEdits.size() - 1;) {
+        for (int j = 0; j < wordEdits.size() - 1; ) {
           Edit c = wordEdits.get(j);
           Edit n = wordEdits.get(j + 1);
 
-          if (n.getBeginA() - c.getEndA() <= 5
-              || n.getBeginB() - c.getEndB() <= 5) {
+          if (n.getBeginA() - c.getEndA() <= 5 || n.getBeginB() - c.getEndB() <= 5) {
             int ab = c.getBeginA();
             int ae = n.getEndA();
 
@@ -188,7 +195,9 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
           // text might be identical. Slide down that edit and use the tail
           // rather than the leading bit.
           //
-          while (0 < ab && ab < ae && a.charAt(ab - 1) != '\n'
+          while (0 < ab
+              && ab < ae
+              && a.charAt(ab - 1) != '\n'
               && cmp.equals(a, ab - 1, a, ae - 1)) {
             ab--;
             ae--;
@@ -203,7 +212,9 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
             }
           }
 
-          while (0 < bb && bb < be && b.charAt(bb - 1) != '\n'
+          while (0 < bb
+              && bb < be
+              && b.charAt(bb - 1) != '\n'
               && cmp.equals(b, bb - 1, b, be - 1)) {
             bb--;
             be--;
@@ -223,13 +234,15 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
           //
           if (ab < ae //
               && (ab == 0 || a.charAt(ab - 1) == '\n') //
-              && ae < a.size() && a.charAt(ae - 1) != '\n'
+              && ae < a.size()
+              && a.charAt(ae - 1) != '\n'
               && a.charAt(ae) == '\n') {
             ae++;
           }
           if (bb < be //
               && (bb == 0 || b.charAt(bb - 1) == '\n') //
-              && be < b.size() && b.charAt(be - 1) != '\n'
+              && be < b.size()
+              && b.charAt(be - 1) != '\n'
               && b.charAt(be) == '\n') {
             be++;
           }
@@ -245,7 +258,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
   }
 
   private static void combineLineEdits(List<Edit> edits, Text a, Text b) {
-    for (int j = 0; j < edits.size() - 1;) {
+    for (int j = 0; j < edits.size() - 1; ) {
       Edit c = edits.get(j);
       Edit n = edits.get(j + 1);
 

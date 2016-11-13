@@ -26,7 +26,6 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
-
 import java.util.Optional;
 
 public class RevisionResource implements RestResource, HasETag {
@@ -42,8 +41,7 @@ public class RevisionResource implements RestResource, HasETag {
     this(change, ps, Optional.empty());
   }
 
-  public RevisionResource(ChangeResource change, PatchSet ps,
-      Optional<ChangeEdit> edit) {
+  public RevisionResource(ChangeResource change, PatchSet ps, Optional<ChangeEdit> edit) {
     this.change = change;
     this.ps = ps;
     this.edit = edit;

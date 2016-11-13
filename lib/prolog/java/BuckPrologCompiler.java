@@ -14,7 +14,6 @@
 
 import com.googlecode.prolog_cafe.compiler.Compiler;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -58,8 +57,7 @@ public class BuckPrologCompiler {
     }
   }
 
-  private static void add(JarOutputStream out, File classes, String prefix)
-      throws IOException {
+  private static void add(JarOutputStream out, File classes, String prefix) throws IOException {
     String[] list = classes.list();
     if (list == null) {
       return;

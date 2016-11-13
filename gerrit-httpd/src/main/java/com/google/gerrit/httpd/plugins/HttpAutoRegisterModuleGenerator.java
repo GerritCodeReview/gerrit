@@ -25,15 +25,12 @@ import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
-
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServlet;
 
-class HttpAutoRegisterModuleGenerator extends ServletModule
-    implements ModuleGenerator {
+class HttpAutoRegisterModuleGenerator extends ServletModule implements ModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = new HashMap<>();
   private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
 
@@ -56,26 +53,25 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
   }
 
   @Override
-  public void setPluginName(String name) {
-  }
+  public void setPluginName(String name) {}
 
   @SuppressWarnings("unchecked")
   @Override
-  public void export(Export export, Class<?> type)
-      throws InvalidPluginException {
+  public void export(Export export, Class<?> type) throws InvalidPluginException {
     if (HttpServlet.class.isAssignableFrom(type)) {
       Class<HttpServlet> old = serve.get(export.value());
       if (old != null) {
-        throw new InvalidPluginException(String.format(
-            "@Export(\"%s\") has duplicate bindings:\n  %s\n  %s",
-            export.value(), old.getName(), type.getName()));
+        throw new InvalidPluginException(
+            String.format(
+                "@Export(\"%s\") has duplicate bindings:\n  %s\n  %s",
+                export.value(), old.getName(), type.getName()));
       }
       serve.put(export.value(), (Class<HttpServlet>) type);
     } else {
-      throw new InvalidPluginException(String.format(
-          "Class %s with @Export(\"%s\") must extend %s",
-          type.getName(), export.value(),
-          HttpServlet.class.getName()));
+      throw new InvalidPluginException(
+          String.format(
+              "Class %s with @Export(\"%s\") must extend %s",
+              type.getName(), export.value(), HttpServlet.class.getName()));
     }
   }
 

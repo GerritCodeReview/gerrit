@@ -27,16 +27,13 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.inject.Inject;
-
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-import java.util.List;
-
 public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
-  @Inject
-  private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+  @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -69,12 +66,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
 
-    assertThat(
-        getCurrentCommit(change1).getFooterLines(FooterConstants.REVIEWED_BY))
-            .isEmpty();
-    assertThat(
-        getCurrentCommit(change2).getFooterLines(FooterConstants.REVIEWED_BY))
-            .isEmpty();
+    assertThat(getCurrentCommit(change1).getFooterLines(FooterConstants.REVIEWED_BY)).isEmpty();
+    assertThat(getCurrentCommit(change2).getFooterLines(FooterConstants.REVIEWED_BY)).isEmpty();
 
     // change1 is a fast-forward, but should be rebased in cherry pick style
     // anyway, making change2 not a fast-forward, requiring a rebase.
@@ -92,17 +85,21 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     PushOneCommit.Result change2 = createChange();
 
     RegistrationHandle handle =
-        changeMessageModifiers.add(new ChangeMessageModifier() {
-          @Override
-          public String onSubmit(String newCommitMessage, RevCommit original,
-              RevCommit mergeTip, Branch.NameKey destination) {
-            List<String> custom = mergeTip.getFooterLines("Custom");
-            if (!custom.isEmpty()) {
-              newCommitMessage += "Custom-Parent: " + custom.get(0) + "\n";
-            }
-            return newCommitMessage + "Custom: " + destination.get();
-          }
-        });
+        changeMessageModifiers.add(
+            new ChangeMessageModifier() {
+              @Override
+              public String onSubmit(
+                  String newCommitMessage,
+                  RevCommit original,
+                  RevCommit mergeTip,
+                  Branch.NameKey destination) {
+                List<String> custom = mergeTip.getFooterLines("Custom");
+                if (!custom.isEmpty()) {
+                  newCommitMessage += "Custom-Parent: " + custom.get(0) + "\n";
+                }
+                return newCommitMessage + "Custom: " + destination.get();
+              }
+            });
     try {
       // change1 is a fast-forward, but should be rebased in cherry pick style
       // anyway, making change2 not a fast-forward, requiring a rebase.
@@ -120,20 +117,17 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
         .containsExactly("refs/heads/master");
   }
 
-  private void assertLatestRevisionHasFooters(PushOneCommit.Result change)
-      throws Exception {
+  private void assertLatestRevisionHasFooters(PushOneCommit.Result change) throws Exception {
     RevCommit c = getCurrentCommit(change);
     assertThat(c.getFooterLines(FooterConstants.CHANGE_ID)).isNotEmpty();
     assertThat(c.getFooterLines(FooterConstants.REVIEWED_BY)).isNotEmpty();
     assertThat(c.getFooterLines(FooterConstants.REVIEWED_ON)).isNotEmpty();
   }
 
-  private RevCommit getCurrentCommit(PushOneCommit.Result change)
-      throws Exception {
+  private RevCommit getCurrentCommit(PushOneCommit.Result change) throws Exception {
     testRepo.git().fetch().setRemote("origin").call();
     ChangeInfo info = get(change.getChangeId());
-    RevCommit c = testRepo.getRevWalk()
-        .parseCommit(ObjectId.fromString(info.currentRevision));
+    RevCommit c = testRepo.getRevWalk().parseCommit(ObjectId.fromString(info.currentRevision));
     testRepo.getRevWalk().parseBody(c);
     return c;
   }

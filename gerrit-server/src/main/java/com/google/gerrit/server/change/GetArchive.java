@@ -21,7 +21,8 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.io.OutputStream;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -29,9 +30,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
-
-import java.io.IOException;
-import java.io.OutputStream;
 
 public class GetArchive implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
@@ -47,8 +45,8 @@ public class GetArchive implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc) throws BadRequestException,
-      IOException, MethodNotAllowedException {
+  public BinaryResult apply(RevisionResource rsrc)
+      throws BadRequestException, IOException, MethodNotAllowedException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
@@ -60,40 +58,37 @@ public class GetArchive implements RestReadView<RevisionResource> {
       throw new MethodNotAllowedException("zip format is disabled");
     }
     boolean close = true;
-    final Repository repo = repoManager
-        .openRepository(rsrc.getControl().getProject().getNameKey());
+    final Repository repo = repoManager.openRepository(rsrc.getControl().getProject().getNameKey());
     try {
       final RevCommit commit;
       String name;
       try (RevWalk rw = new RevWalk(repo)) {
-        commit = rw.parseCommit(ObjectId.fromString(
-            rsrc.getPatchSet().getRevision().get()));
+        commit = rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet().getRevision().get()));
         name = name(f, rw, commit);
       }
 
-      BinaryResult bin = new BinaryResult() {
-        @Override
-        public void writeTo(OutputStream out) throws IOException {
-          try {
-            new ArchiveCommand(repo)
-                .setFormat(f.name())
-                .setTree(commit.getTree())
-                .setOutputStream(out)
-                .call();
-          } catch (GitAPIException e) {
-            throw new IOException(e);
-          }
-        }
+      BinaryResult bin =
+          new BinaryResult() {
+            @Override
+            public void writeTo(OutputStream out) throws IOException {
+              try {
+                new ArchiveCommand(repo)
+                    .setFormat(f.name())
+                    .setTree(commit.getTree())
+                    .setOutputStream(out)
+                    .call();
+              } catch (GitAPIException e) {
+                throw new IOException(e);
+              }
+            }
 
-        @Override
-        public void close() throws IOException {
-          repo.close();
-        }
-      };
+            @Override
+            public void close() throws IOException {
+              repo.close();
+            }
+          };
 
-      bin.disableGzip()
-          .setContentType(f.getMimeType())
-          .setAttachmentName(name);
+      bin.disableGzip().setContentType(f.getMimeType()).setAttachmentName(name);
 
       close = false;
       return bin;
@@ -106,8 +101,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
 
   private static String name(ArchiveFormat format, RevWalk rw, RevCommit commit)
       throws IOException {
-    return String.format("%s%s",
-        rw.getObjectReader().abbreviate(commit,7).name(),
-        format.getDefaultSuffix());
+    return String.format(
+        "%s%s", rw.getObjectReader().abbreviate(commit, 7).name(), format.getDefaultSuffix());
   }
 }

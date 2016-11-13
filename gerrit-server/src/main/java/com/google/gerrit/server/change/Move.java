@@ -45,14 +45,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
 
 @Singleton
 public class Move implements RestModifyView<ChangeResource, MoveInput> {
@@ -65,7 +63,8 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
   private final PatchSetUtil psUtil;
 
   @Inject
-  Move(Provider<ReviewDb> dbProvider,
+  Move(
+      Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
@@ -90,8 +89,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       throw new AuthException("Move not permitted");
     }
 
-    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        req.getChange().getProject(), control.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            dbProvider.get(), req.getChange().getProject(), control.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getChange().getId(), new Op(input));
       u.execute();
     }
@@ -110,11 +110,10 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException,
-        ResourceConflictException, RepositoryNotFoundException, IOException {
+    public boolean updateChange(ChangeContext ctx)
+        throws OrmException, ResourceConflictException, RepositoryNotFoundException, IOException {
       change = ctx.getChange();
-      if (change.getStatus() != Status.NEW
-          && change.getStatus() != Status.DRAFT) {
+      if (change.getStatus() != Status.NEW && change.getStatus() != Status.DRAFT) {
         throw new ResourceConflictException("Change is " + status(change));
       }
 
@@ -122,16 +121,16 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       newDestKey = new Branch.NameKey(projectKey, input.destinationBranch);
       Branch.NameKey changePrevDest = change.getDest();
       if (changePrevDest.equals(newDestKey)) {
-        throw new ResourceConflictException(
-            "Change is already destined for the specified branch");
+        throw new ResourceConflictException("Change is already destined for the specified branch");
       }
 
       final PatchSet.Id patchSetId = change.currentPatchSetId();
       try (Repository repo = repoManager.openRepository(projectKey);
           RevWalk revWalk = new RevWalk(repo)) {
-        RevCommit currPatchsetRevCommit = revWalk.parseCommit(
-            ObjectId.fromString(psUtil.current(ctx.getDb(), ctx.getNotes())
-                .getRevision().get()));
+        RevCommit currPatchsetRevCommit =
+            revWalk.parseCommit(
+                ObjectId.fromString(
+                    psUtil.current(ctx.getDb(), ctx.getNotes()).getRevision().get()));
         if (currPatchsetRevCommit.getParentCount() > 1) {
           throw new ResourceConflictException("Merge commit cannot be moved");
         }
@@ -145,17 +144,17 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
         RevCommit refCommit = revWalk.parseCommit(refId);
         if (revWalk.isMergedInto(currPatchsetRevCommit, refCommit)) {
           throw new ResourceConflictException(
-              "Current patchset revision is reachable from tip of "
-                  + input.destinationBranch);
+              "Current patchset revision is reachable from tip of " + input.destinationBranch);
         }
       }
 
       Change.Key changeKey = change.getKey();
-      if (!asChanges(queryProvider.get().byBranchKey(newDestKey, changeKey))
-          .isEmpty()) {
+      if (!asChanges(queryProvider.get().byBranchKey(newDestKey, changeKey)).isEmpty()) {
         throw new ResourceConflictException(
-            "Destination " + newDestKey.getShortName()
-                + " has a different change with same change key " + changeKey);
+            "Destination "
+                + newDestKey.getShortName()
+                + " has a different change with same change key "
+                + changeKey);
       }
 
       if (!change.currentPatchSetId().equals(patchSetId)) {
@@ -176,8 +175,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
         msgBuf.append(input.message);
       }
       ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(
-              ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
+          ChangeMessagesUtil.newMessage(ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
 
       return true;

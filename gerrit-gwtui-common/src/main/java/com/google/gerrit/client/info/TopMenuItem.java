@@ -25,13 +25,16 @@ public class TopMenuItem extends JavaScriptObject {
   }
 
   public final native String getName() /*-{ return this.name; }-*/;
+
   public final native String getUrl() /*-{ return this.url; }-*/;
+
   public final native String getTarget() /*-{ return this.target; }-*/;
+
   public final native String getId() /*-{ return this.id; }-*/;
 
   public final native void name(String n) /*-{ this.name = n }-*/;
+
   public final native void url(String u) /*-{ this.url = u }-*/;
 
-  protected TopMenuItem() {
-  }
+  protected TopMenuItem() {}
 }

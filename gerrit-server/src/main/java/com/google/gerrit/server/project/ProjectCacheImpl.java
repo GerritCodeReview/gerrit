@@ -34,12 +34,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
@@ -50,12 +44,15 @@ import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Cache of project information, including access rights. */
 @Singleton
 public class ProjectCacheImpl implements ProjectCache {
-  private static final Logger log = LoggerFactory
-      .getLogger(ProjectCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(ProjectCacheImpl.class);
 
   private static final String CACHE_NAME = "projects";
   private static final String CACHE_LIST = "project_list";
@@ -64,20 +61,17 @@ public class ProjectCacheImpl implements ProjectCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, String.class, ProjectState.class)
-          .loader(Loader.class);
+        cache(CACHE_NAME, String.class, ProjectState.class).loader(Loader.class);
 
-        cache(CACHE_LIST,
-            ListKey.class,
-            new TypeLiteral<SortedSet<Project.NameKey>>() {})
-          .maximumWeight(1)
-          .loader(Lister.class);
+        cache(CACHE_LIST, ListKey.class, new TypeLiteral<SortedSet<Project.NameKey>>() {})
+            .maximumWeight(1)
+            .loader(Lister.class);
 
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
         bind(LifecycleListener.class)
-          .annotatedWith(UniqueAnnotations.create())
-          .to(ProjectCacheWarmer.class);
+            .annotatedWith(UniqueAnnotations.create())
+            .to(ProjectCacheWarmer.class);
       }
     };
   }
@@ -127,7 +121,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ProjectState get(final Project.NameKey projectName) {
-     try {
+    try {
       return checkedGet(projectName);
     } catch (IOException e) {
       return null;
@@ -135,8 +129,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public ProjectState checkedGet(Project.NameKey projectName)
-      throws IOException {
+  public ProjectState checkedGet(Project.NameKey projectName) throws IOException {
     if (projectName == null) {
       return null;
     }
@@ -213,7 +206,9 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-    return all().stream().map(n -> byName.getIfPresent(n.get()))
+    return all()
+        .stream()
+        .map(n -> byName.getIfPresent(n.get()))
         .filter(Objects::nonNull)
         .flatMap(p -> p.getConfig().getAllGroupUUIDs().stream())
         // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
@@ -252,7 +247,7 @@ public class ProjectCacheImpl implements ProjectCache {
               next = r;
               return true;
             }
-            itr = Collections.<Project.NameKey> emptyList().iterator();
+            itr = Collections.<Project.NameKey>emptyList().iterator();
             return false;
           }
 
@@ -306,8 +301,7 @@ public class ProjectCacheImpl implements ProjectCache {
   static class ListKey {
     static final ListKey ALL = new ListKey();
 
-    private ListKey() {
-    }
+    private ListKey() {}
   }
 
   static class Lister extends CacheLoader<ListKey, SortedSet<Project.NameKey>> {

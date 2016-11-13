@@ -27,8 +27,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DocWidget extends Widget
-    implements HasKeyPressHandlers, HasMouseMoveHandlers {
+public class DocWidget extends Widget implements HasKeyPressHandlers, HasMouseMoveHandlers {
   private static DocWidget me;
 
   public static DocWidget get() {

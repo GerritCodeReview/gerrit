@@ -25,28 +25,29 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import org.kohsuke.args4j.Argument;
 
 @CommandMetaData(name = "rename-group", description = "Rename an account group")
 public class RenameGroupCommand extends SshCommand {
-  @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of the group to be renamed")
+  @Argument(
+    index = 0,
+    required = true,
+    metaVar = "GROUP",
+    usage = "name of the group to be renamed"
+  )
   private String groupName;
 
   @Argument(index = 1, required = true, metaVar = "NEWNAME", usage = "new name of the group")
   private String newGroupName;
 
-  @Inject
-  private GroupsCollection groups;
+  @Inject private GroupsCollection groups;
 
-  @Inject
-  private PutName putName;
+  @Inject private PutName putName;
 
   @Override
   protected void run() throws Failure {
     try {
-      GroupResource rsrc = groups.parse(TopLevelResource.INSTANCE,
-          IdString.fromDecoded(groupName));
+      GroupResource rsrc = groups.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(groupName));
       PutName.Input input = new PutName.Input();
       input.name = newGroupName;
       putName.apply(rsrc, input);

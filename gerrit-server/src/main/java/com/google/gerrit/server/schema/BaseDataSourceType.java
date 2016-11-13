@@ -15,7 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-
 import java.io.IOException;
 import java.io.InputStream;
 

@@ -38,13 +38,11 @@ import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.util.MutableInteger;
-
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.util.MutableInteger;
 
 /** Rewriter that pushes boolean logic into the secondary index. */
 @Singleton
@@ -73,9 +71,8 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
    * Get the set of statuses that changes matching the given predicate may have.
    *
    * @param in predicate
-   * @return the maximal set of statuses that any changes matching the input
-   *     predicates may have, based on examining boolean and
-   *     {@link ChangeStatusPredicate}s.
+   * @return the maximal set of statuses that any changes matching the input predicates may have,
+   *     based on examining boolean and {@link ChangeStatusPredicate}s.
    */
   public static EnumSet<Change.Status> getPossibleStatus(Predicate<ChangeData> in) {
     EnumSet<Change.Status> s = extractStatus(in);
@@ -129,15 +126,14 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   private final IndexConfig config;
 
   @Inject
-  ChangeIndexRewriter(ChangeIndexCollection indexes,
-      IndexConfig config) {
+  ChangeIndexRewriter(ChangeIndexCollection indexes, IndexConfig config) {
     this.indexes = indexes;
     this.config = config;
   }
 
   @Override
-  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in,
-      QueryOptions opts) throws QueryParseException {
+  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in, QueryOptions opts)
+      throws QueryParseException {
     Predicate<ChangeData> s = rewriteImpl(in, opts);
     if (!(s instanceof ChangeDataSource)) {
       in = Predicate.and(open(), in);
@@ -149,8 +145,8 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     return s;
   }
 
-  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
-      QueryOptions opts) throws QueryParseException {
+  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in, QueryOptions opts)
+      throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();
 
     MutableInteger leafTerms = new MutableInteger();
@@ -171,16 +167,15 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
    * @param index index whose schema determines which fields are indexed.
    * @param opts other query options.
    * @param leafTerms number of leaf index query terms encountered so far.
-   * @return {@code null} if no part of this subtree can be queried in the
-   *     index directly. {@code in} if this subtree and all its children can be
-   *     queried directly in the index. Otherwise, a predicate that is
-   *     semantically equivalent, with some of its subtrees wrapped to query the
+   * @return {@code null} if no part of this subtree can be queried in the index directly. {@code
+   *     in} if this subtree and all its children can be queried directly in the index. Otherwise, a
+   *     predicate that is semantically equivalent, with some of its subtrees wrapped to query the
    *     index directly.
-   * @throws QueryParseException if the underlying index implementation does not
-   *     support this predicate.
+   * @throws QueryParseException if the underlying index implementation does not support this
+   *     predicate.
    */
-  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
-      ChangeIndex index, QueryOptions opts, MutableInteger leafTerms)
+  private Predicate<ChangeData> rewriteImpl(
+      Predicate<ChangeData> in, ChangeIndex index, QueryOptions opts, MutableInteger leafTerms)
       throws QueryParseException {
     if (isIndexPredicate(in, index)) {
       if (++leafTerms.value > config.maxTerms()) {
@@ -226,8 +221,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     return partitionChildren(in, newChildren, isIndexed, index, opts);
   }
 
-  private boolean isIndexPredicate(Predicate<ChangeData> in,
-      ChangeIndex index) {
+  private boolean isIndexPredicate(Predicate<ChangeData> in, ChangeIndex index) {
     if (!(in instanceof IndexPredicate)) {
       return false;
     }
@@ -240,21 +234,19 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       List<Predicate<ChangeData>> newChildren,
       BitSet isIndexed,
       ChangeIndex index,
-      QueryOptions opts) throws QueryParseException {
+      QueryOptions opts)
+      throws QueryParseException {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
-      newChildren.add(
-          0, new IndexedChangeQuery(index, newChildren.remove(i), opts));
+      newChildren.add(0, new IndexedChangeQuery(index, newChildren.remove(i), opts));
       return copy(in, newChildren);
     }
 
     // Group all indexed predicates into a wrapped subtree.
-    List<Predicate<ChangeData>> indexed =
-        Lists.newArrayListWithCapacity(isIndexed.cardinality());
+    List<Predicate<ChangeData>> indexed = Lists.newArrayListWithCapacity(isIndexed.cardinality());
 
     List<Predicate<ChangeData>> all =
-        Lists.newArrayListWithCapacity(
-            newChildren.size() - isIndexed.cardinality() + 1);
+        Lists.newArrayListWithCapacity(newChildren.size() - isIndexed.cardinality() + 1);
 
     for (int i = 0; i < newChildren.size(); i++) {
       Predicate<ChangeData> c = newChildren.get(i);
@@ -268,9 +260,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     return copy(in, all);
   }
 
-  private Predicate<ChangeData> copy(
-      Predicate<ChangeData> in,
-      List<Predicate<ChangeData>> all) {
+  private Predicate<ChangeData> copy(Predicate<ChangeData> in, List<Predicate<ChangeData>> all) {
     if (in instanceof AndPredicate) {
       return new AndChangeSource(all);
     } else if (in instanceof OrPredicate) {
@@ -280,9 +270,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   }
 
   private static boolean isRewritePossible(Predicate<ChangeData> p) {
-    return p.getChildCount() > 0 && (
-           p instanceof AndPredicate
-        || p instanceof OrPredicate
-        || p instanceof NotPredicate);
+    return p.getChildCount() > 0
+        && (p instanceof AndPredicate || p instanceof OrPredicate || p instanceof NotPredicate);
   }
 }

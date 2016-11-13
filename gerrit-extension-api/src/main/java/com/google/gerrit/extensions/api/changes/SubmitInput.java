@@ -18,8 +18,7 @@ import java.util.Map;
 
 public class SubmitInput {
   /** Not used anymore, kept for backward compatibility */
-  @Deprecated
-  public boolean waitForMerge;
+  @Deprecated public boolean waitForMerge;
 
   public String onBehalfOf;
 

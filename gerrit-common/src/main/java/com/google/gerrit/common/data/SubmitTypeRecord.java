@@ -16,17 +16,16 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.extensions.client.SubmitType;
 
-/**
- * Describes the submit type for a change.
- */
+/** Describes the submit type for a change. */
 public class SubmitTypeRecord {
   public enum Status {
     /** The type was computed successfully */
     OK,
 
-    /** An internal server error occurred preventing computation.
-     * <p>
-     * Additional detail may be available in {@link SubmitTypeRecord#errorMessage}
+    /**
+     * An internal server error occurred preventing computation.
+     *
+     * <p>Additional detail may be available in {@link SubmitTypeRecord#errorMessage}
      */
     RULE_ERROR
   }
@@ -45,9 +44,7 @@ public class SubmitTypeRecord {
   /** Submit type of the record; never null if {@link #status} is {@code OK}. */
   public final SubmitType type;
 
-  /**
-   * Submit type of the record; always null if {@link #status} is {@code OK}.
-   */
+  /** Submit type of the record; always null if {@link #status} is {@code OK}. */
   public final String errorMessage;
 
   private SubmitTypeRecord(Status status, SubmitType type, String errorMessage) {

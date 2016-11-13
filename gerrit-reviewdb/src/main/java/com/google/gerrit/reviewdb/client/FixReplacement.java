@@ -27,10 +27,15 @@ public class FixReplacement {
 
   @Override
   public String toString() {
-    return "FixReplacement{" +
-        "path='" + path + '\'' +
-        ", range=" + range +
-        ", replacement='" + replacement + '\'' +
-        '}';
+    return "FixReplacement{"
+        + "path='"
+        + path
+        + '\''
+        + ", range="
+        + range
+        + ", replacement='"
+        + replacement
+        + '\''
+        + '}';
   }
 }

@@ -21,15 +21,13 @@ import com.google.gwtorm.client.StringKey;
 /** Named group of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
   /** Group name key */
-  public static class NameKey extends
-      StringKey<com.google.gwtorm.client.Key<?>> {
+  public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
     protected String name;
 
-    protected NameKey() {
-    }
+    protected NameKey() {}
 
     public NameKey(final String n) {
       name = n;
@@ -47,15 +45,13 @@ public final class AccountGroup {
   }
 
   /** Globally unique identifier. */
-  public static class UUID extends
-      StringKey<com.google.gwtorm.client.Key<?>> {
+  public static class UUID extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
     protected String uuid;
 
-    protected UUID() {
-    }
+    protected UUID() {}
 
     public UUID(final String n) {
       uuid = n;
@@ -91,8 +87,7 @@ public final class AccountGroup {
     @Column(id = 1)
     protected int id;
 
-    protected Id() {
-    }
+    protected Id() {}
 
     public Id(final int id) {
       this.id = id;
@@ -144,17 +139,18 @@ public final class AccountGroup {
 
   /**
    * Identity of the group whose members can manage this group.
-   * <p>
-   * This can be a self-reference to indicate the group's members manage itself.
+   *
+   * <p>This can be a self-reference to indicate the group's members manage itself.
    */
   @Column(id = 10)
   protected UUID ownerGroupUUID;
 
-  protected AccountGroup() {
-  }
+  protected AccountGroup() {}
 
-  public AccountGroup(final AccountGroup.NameKey newName,
-      final AccountGroup.Id newId, final AccountGroup.UUID uuid) {
+  public AccountGroup(
+      final AccountGroup.NameKey newName,
+      final AccountGroup.Id newId,
+      final AccountGroup.UUID uuid) {
     name = newName;
     groupId = newId;
     visibleToAll = false;

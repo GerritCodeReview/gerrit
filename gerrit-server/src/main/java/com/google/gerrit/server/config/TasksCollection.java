@@ -32,8 +32,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class TasksCollection implements
-    ChildCollection<ConfigResource, TaskResource> {
+public class TasksCollection implements ChildCollection<ConfigResource, TaskResource> {
   private final DynamicMap<RestView<TaskResource>> views;
   private final ListTasks list;
   private final WorkQueue workQueue;
@@ -41,8 +40,11 @@ public class TasksCollection implements
   private final ProjectCache projectCache;
 
   @Inject
-  TasksCollection(DynamicMap<RestView<TaskResource>> views, ListTasks list,
-      WorkQueue workQueue, Provider<IdentifiedUser> self,
+  TasksCollection(
+      DynamicMap<RestView<TaskResource>> views,
+      ListTasks list,
+      WorkQueue workQueue,
+      Provider<IdentifiedUser> self,
       ProjectCache projectCache) {
     this.views = views;
     this.list = list;

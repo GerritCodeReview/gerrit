@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.OutputStream;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.ArchiveCommand.Format;
@@ -24,10 +27,6 @@ import org.eclipse.jgit.archive.TxzFormat;
 import org.eclipse.jgit.archive.ZipFormat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
-
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.OutputStream;
 
 public enum ArchiveFormat {
   TGZ("application/x-gzip", new TgzFormat()),
@@ -61,16 +60,14 @@ public enum ArchiveFormat {
     return format.suffixes();
   }
 
-  public ArchiveOutputStream createArchiveOutputStream(OutputStream o)
-      throws IOException {
-    return (ArchiveOutputStream)this.format.createArchiveOutputStream(o);
+  public ArchiveOutputStream createArchiveOutputStream(OutputStream o) throws IOException {
+    return (ArchiveOutputStream) this.format.createArchiveOutputStream(o);
   }
 
-  public <T extends Closeable> void putEntry(T out, String path, byte[] data)
-      throws IOException {
+  public <T extends Closeable> void putEntry(T out, String path, byte[] data) throws IOException {
     @SuppressWarnings("unchecked")
     ArchiveCommand.Format<T> fmt = (Format<T>) format;
-    fmt.putEntry(out, path, FileMode.REGULAR_FILE,
-          new ObjectLoader.SmallObject(FileMode.TYPE_FILE, data));
+    fmt.putEntry(
+        out, path, FileMode.REGULAR_FILE, new ObjectLoader.SmallObject(FileMode.TYPE_FILE, data));
   }
 }

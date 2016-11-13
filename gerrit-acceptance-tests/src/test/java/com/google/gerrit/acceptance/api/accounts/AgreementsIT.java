@@ -37,14 +37,12 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
-
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.List;
 
 public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement caAutoVerify;
@@ -173,8 +171,12 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Create a new branch
     setApiUser(admin);
-    BranchInfo dest = gApi.projects().name(project.get())
-        .branch("cherry-pick-to").create(new BranchInput()).get();
+    BranchInfo dest =
+        gApi.projects()
+            .name(project.get())
+            .branch("cherry-pick-to")
+            .create(new BranchInput())
+            .get();
 
     // Create a change succeeds when agreement is not required
     setUseContributorAgreements(InheritableBoolean.FALSE);
@@ -209,8 +211,7 @@ public class AgreementsIT extends AbstractDaemonTest {
       gApi.changes().create(newChangeInput());
       fail("Expected AuthException");
     } catch (AuthException e) {
-      assertThat(e.getMessage()).contains(
-          "A Contributor Agreement must be completed");
+      assertThat(e.getMessage()).contains("A Contributor Agreement must be completed");
     }
 
     // Sign the agreement
@@ -228,8 +229,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assertThat(info.description).isEqualTo(ca.getDescription());
     assertThat(info.url).isEqualTo(ca.getAgreementUrl());
     if (ca.getAutoVerify() != null) {
-      assertThat(info.autoVerifyGroup.name)
-          .isEqualTo(ca.getAutoVerify().getName());
+      assertThat(info.autoVerifyGroup.name).isEqualTo(ca.getAutoVerify().getName());
     } else {
       assertThat(info.autoVerifyGroup).isNull();
     }

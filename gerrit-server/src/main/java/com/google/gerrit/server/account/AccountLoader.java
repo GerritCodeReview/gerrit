@@ -25,7 +25,6 @@ import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,15 +36,17 @@ import java.util.Set;
 
 public class AccountLoader {
   public static final Set<FillOptions> DETAILED_OPTIONS =
-      Collections.unmodifiableSet(EnumSet.of(
-          FillOptions.ID,
-          FillOptions.NAME,
-          FillOptions.EMAIL,
-          FillOptions.USERNAME,
-          FillOptions.AVATARS));
+      Collections.unmodifiableSet(
+          EnumSet.of(
+              FillOptions.ID,
+              FillOptions.NAME,
+              FillOptions.EMAIL,
+              FillOptions.USERNAME,
+              FillOptions.AVATARS));
 
   public interface Factory {
     AccountLoader create(boolean detailed);
+
     AccountLoader create(Set<FillOptions> options);
   }
 
@@ -55,17 +56,12 @@ public class AccountLoader {
   private final List<AccountInfo> provided;
 
   @AssistedInject
-  AccountLoader(InternalAccountDirectory directory,
-      @Assisted boolean detailed) {
-    this(directory,
-        detailed
-            ? DETAILED_OPTIONS
-            : InternalAccountDirectory.ID_ONLY);
+  AccountLoader(InternalAccountDirectory directory, @Assisted boolean detailed) {
+    this(directory, detailed ? DETAILED_OPTIONS : InternalAccountDirectory.ID_ONLY);
   }
 
   @AssistedInject
-  AccountLoader(InternalAccountDirectory directory,
-      @Assisted Set<FillOptions> options) {
+  AccountLoader(InternalAccountDirectory directory, @Assisted Set<FillOptions> options) {
     this.directory = directory;
     this.options = options;
     created = new HashMap<>();
@@ -91,16 +87,14 @@ public class AccountLoader {
 
   public void fill() throws OrmException {
     try {
-      directory.fillAccountInfo(
-          Iterables.concat(created.values(), provided), options);
+      directory.fillAccountInfo(Iterables.concat(created.values(), provided), options);
     } catch (DirectoryException e) {
       Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
       throw new OrmException(e);
     }
   }
 
-  public void fill(Collection<? extends AccountInfo> infos)
-      throws OrmException {
+  public void fill(Collection<? extends AccountInfo> infos) throws OrmException {
     for (AccountInfo info : infos) {
       put(info);
     }

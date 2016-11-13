@@ -21,11 +21,6 @@ import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gwtexpui.server.CacheHeaders;
-
-import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -34,12 +29,13 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Properties;
-
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BuildSystem {
-  private static final Logger log =
-      LoggerFactory.getLogger(BuildSystem.class);
+  private static final Logger log = LoggerFactory.getLogger(BuildSystem.class);
 
   protected final Path sourceRoot;
 
@@ -49,8 +45,7 @@ public abstract class BuildSystem {
 
   protected abstract ProcessBuilder newBuildProcess(Label l) throws IOException;
 
-  protected static Properties loadBuildProperties(Path propPath)
-      throws IOException {
+  protected static Properties loadBuildProperties(Path propPath) throws IOException {
     Properties properties = new Properties();
     try (InputStream in = Files.newInputStream(propPath)) {
       properties.load(in);
@@ -61,11 +56,9 @@ public abstract class BuildSystem {
   }
 
   // builds the given label.
-  public void build(Label label)
-      throws IOException, BuildFailureException {
+  public void build(Label label) throws IOException, BuildFailureException {
     ProcessBuilder proc = newBuildProcess(label);
-    proc.directory(sourceRoot.toFile())
-        .redirectErrorStream(true);
+    proc.directory(sourceRoot.toFile()).redirectErrorStream(true);
     log.info("building [" + name() + "] " + label.fullName());
     long start = TimeUtil.nowMs();
     Process rebuild = proc.start();
@@ -88,8 +81,7 @@ public abstract class BuildSystem {
     }
 
     long time = TimeUtil.nowMs() - start;
-    log.info(String.format("UPDATED    %s in %.3fs", label.fullName(),
-        time / 1000.0));
+    log.info(String.format("UPDATED    %s in %.3fs", label.fullName(), time / 1000.0));
   }
 
   // Represents a label in either buck or bazel.
@@ -103,7 +95,7 @@ public abstract class BuildSystem {
     protected final String artifact;
 
     public String fullName() {
-      return  "//" + pkg + ":" + name;
+      return "//" + pkg + ":" + name;
     }
 
     @Override
@@ -137,8 +129,7 @@ public abstract class BuildSystem {
       this.why = why;
     }
 
-    public void display(String rule, HttpServletResponse res)
-        throws IOException {
+    public void display(String rule, HttpServletResponse res) throws IOException {
       res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       res.setContentType("text/html");
       res.setCharacterEncoding(UTF_8.name());

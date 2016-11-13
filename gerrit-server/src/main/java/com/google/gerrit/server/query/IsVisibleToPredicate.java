@@ -14,8 +14,7 @@
 
 package com.google.gerrit.server.query;
 
-public abstract class IsVisibleToPredicate<T> extends OperatorPredicate<T>
-    implements Matchable<T> {
+public abstract class IsVisibleToPredicate<T> extends OperatorPredicate<T> implements Matchable<T> {
   public IsVisibleToPredicate(String name, String value) {
     super(name, value);
   }

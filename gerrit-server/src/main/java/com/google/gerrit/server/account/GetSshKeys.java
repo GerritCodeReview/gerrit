@@ -26,12 +26,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class GetSshKeys implements RestReadView<AccountResource> {
@@ -40,18 +38,16 @@ public class GetSshKeys implements RestReadView<AccountResource> {
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
-  GetSshKeys(Provider<CurrentUser> self,
-      VersionedAuthorizedKeys.Accessor authorizedKeys) {
+  GetSshKeys(Provider<CurrentUser> self, VersionedAuthorizedKeys.Accessor authorizedKeys) {
     this.self = self;
     this.authorizedKeys = authorizedKeys;
   }
 
   @Override
   public List<SshKeyInfo> apply(AccountResource rsrc)
-      throws AuthException, OrmException, RepositoryNotFoundException,
-      IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+      throws AuthException, OrmException, RepositoryNotFoundException, IOException,
+          ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to get SSH keys");
     }
     return apply(rsrc.getUser());
@@ -59,9 +55,7 @@ public class GetSshKeys implements RestReadView<AccountResource> {
 
   public List<SshKeyInfo> apply(IdentifiedUser user)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    return Lists.transform(
-        authorizedKeys.getKeys(user.getAccountId()),
-        GetSshKeys::newSshKeyInfo);
+    return Lists.transform(authorizedKeys.getKeys(user.getAccountId()), GetSshKeys::newSshKeyInfo);
   }
 
   public static SshKeyInfo newSshKeyInfo(AccountSshKey sshKey) {

@@ -16,8 +16,8 @@ package com.google.gerrit.extensions.webui;
 
 /**
  * Internal implementation helper for Gerrit Code Review server.
- * <p>
- * Extensions and plugins should not invoke this class.
+ *
+ * <p>Extensions and plugins should not invoke this class.
  */
 public class PrivateInternals_UiActionDescription {
   public static void setMethod(UiAction.Description d, String method) {
@@ -28,6 +28,5 @@ public class PrivateInternals_UiActionDescription {
     d.setId(id);
   }
 
-  private PrivateInternals_UiActionDescription() {
-  }
+  private PrivateInternals_UiActionDescription() {}
 }

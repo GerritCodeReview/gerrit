@@ -26,23 +26,24 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.testutil.TestTimeUtil;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+import org.junit.Before;
+import org.junit.Test;
 
 public class EventSorterTest {
   private class TestEvent extends Event {
     protected TestEvent(Timestamp when) {
       super(
           new PatchSet.Id(new Change.Id(1), 1),
-          new Account.Id(1000), new Account.Id(1000),
-          when, changeCreatedOn, null);
+          new Account.Id(1000),
+          new Account.Id(1000),
+          when,
+          changeCreatedOn,
+          null);
     }
 
     @Override
@@ -113,10 +114,11 @@ public class EventSorterTest {
   }
 
   private List<Event> threeEventsOneDep(int depFromIdx, int depOnIdx) {
-    List<Event> events = Lists.newArrayList(
-        new TestEvent(TimeUtil.nowTs()),
-        new TestEvent(TimeUtil.nowTs()),
-        new TestEvent(TimeUtil.nowTs()));
+    List<Event> events =
+        Lists.newArrayList(
+            new TestEvent(TimeUtil.nowTs()),
+            new TestEvent(TimeUtil.nowTs()),
+            new TestEvent(TimeUtil.nowTs()));
     events.get(depFromIdx).addDep(events.get(depOnIdx));
     return events;
   }
@@ -155,9 +157,7 @@ public class EventSorterTest {
     e2.addDep(e3);
     e3.addDep(e4);
 
-    assertSorted(
-        events(e1, e2, e3, e4),
-        events(e4, e3, e2, e1));
+    assertSorted(events(e1, e2, e3, e4), events(e4, e3, e2, e1));
   }
 
   @Test
@@ -171,9 +171,7 @@ public class EventSorterTest {
     e2.addDep(e3);
 
     // Processing 3 pops 2, processing 4 pops 1.
-    assertSorted(
-        events(e2, e3, e1, e4),
-        events(e3, e2, e4, e1));
+    assertSorted(events(e2, e3, e1, e4), events(e3, e2, e4, e1));
   }
 
   @Test
@@ -187,9 +185,7 @@ public class EventSorterTest {
     e3.addDep(e4);
 
     // Processing 4 pops 1, 2, 3 in natural order.
-    assertSorted(
-        events(e4, e3, e2, e1),
-        events(e4, e1, e2, e3));
+    assertSorted(events(e4, e3, e2, e1), events(e4, e1, e2, e3));
   }
 
   @Test
@@ -200,9 +196,7 @@ public class EventSorterTest {
     // Implementation is not really defined, but infinite looping would be bad.
     // According to current implementation details, 2 pops 1, 1 pops 2 which was
     // already seen.
-    assertSorted(
-        events(e2, e1),
-        events(e1, e2));
+    assertSorted(events(e2, e1), events(e1, e2));
   }
 
   @Test
@@ -232,8 +226,6 @@ public class EventSorterTest {
   private static void assertSorted(List<Event> unsorted, List<Event> expected) {
     List<Event> actual = new ArrayList<>(unsorted);
     new EventSorter(actual).sort();
-    assertThat(actual)
-        .named("sorted" + unsorted)
-        .isEqualTo(expected);
+    assertThat(actual).named("sorted" + unsorted).isEqualTo(expected);
   }
 }

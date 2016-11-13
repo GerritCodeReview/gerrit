@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,8 +41,11 @@ public abstract class RebaseDialog extends CommentedActionDialog {
   private List<ChangeInfo> candidateChanges;
   private final boolean sendEnabled;
 
-  public RebaseDialog(final String project, final String branch,
-      final Change.Id changeId, final boolean sendEnabled) {
+  public RebaseDialog(
+      final String project,
+      final String branch,
+      final Change.Id changeId,
+      final boolean sendEnabled) {
     super(Util.C.rebaseTitle(), null);
     this.sendEnabled = sendEnabled;
     sendButton.setText(Util.C.buttonRebaseChangeSend());
@@ -51,62 +53,65 @@ public abstract class RebaseDialog extends CommentedActionDialog {
     // Create the suggestion box to filter over a list of recent changes
     // open on the same branch. The list of candidates is primed by the
     // changeParent CheckBox (below) getting enabled by the user.
-    base = new SuggestBox(new HighlightSuggestOracle() {
-      @Override
-      protected void onRequestSuggestions(Request request, Callback done) {
-        String query = request.getQuery().toLowerCase();
-        List<ChangeSuggestion> suggestions = new ArrayList<>();
-        for (ChangeInfo ci : candidateChanges) {
-          if (changeId.equals(ci.legacyId())) {
-            continue;  // do not suggest current change
-          }
-          String id = String.valueOf(ci.legacyId().get());
-          if (id.contains(query) || ci.subject().toLowerCase().contains(query)) {
-            suggestions.add(new ChangeSuggestion(ci));
-            if (suggestions.size() >= 50) { // limit to 50 suggestions
-              break;
-            }
-          }
-        }
-        done.onSuggestionsReady(request, new Response(suggestions));
-      }
-    });
-    base.getElement().setAttribute("placeholder",
-        Util.C.rebasePlaceholderMessage());
+    base =
+        new SuggestBox(
+            new HighlightSuggestOracle() {
+              @Override
+              protected void onRequestSuggestions(Request request, Callback done) {
+                String query = request.getQuery().toLowerCase();
+                List<ChangeSuggestion> suggestions = new ArrayList<>();
+                for (ChangeInfo ci : candidateChanges) {
+                  if (changeId.equals(ci.legacyId())) {
+                    continue; // do not suggest current change
+                  }
+                  String id = String.valueOf(ci.legacyId().get());
+                  if (id.contains(query) || ci.subject().toLowerCase().contains(query)) {
+                    suggestions.add(new ChangeSuggestion(ci));
+                    if (suggestions.size() >= 50) { // limit to 50 suggestions
+                      break;
+                    }
+                  }
+                }
+                done.onSuggestionsReady(request, new Response(suggestions));
+              }
+            });
+    base.getElement().setAttribute("placeholder", Util.C.rebasePlaceholderMessage());
     base.setStyleName(Gerrit.RESOURCES.css().rebaseSuggestBox());
 
     // The changeParent checkbox must be clicked to load into browser memory
     // a list of open changes from the same project and same branch that this
     // change may rebase onto.
     changeParent = new CheckBox(Util.C.rebaseConfirmMessage());
-    changeParent.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        if (changeParent.getValue()) {
-          ChangeList.query(
-              PageLinks.projectQuery(new Project.NameKey(project))
-                  + " " + PageLinks.op("branch", branch)
-                  + " is:open -age:90d",
-              Collections.<ListChangesOption> emptySet(),
-              new GerritCallback<ChangeList>() {
-                @Override
-                public void onSuccess(ChangeList result) {
-                  candidateChanges = Natives.asList(result);
-                  updateControls(true);
-                }
+    changeParent.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            if (changeParent.getValue()) {
+              ChangeList.query(
+                  PageLinks.projectQuery(new Project.NameKey(project))
+                      + " "
+                      + PageLinks.op("branch", branch)
+                      + " is:open -age:90d",
+                  Collections.<ListChangesOption>emptySet(),
+                  new GerritCallback<ChangeList>() {
+                    @Override
+                    public void onSuccess(ChangeList result) {
+                      candidateChanges = Natives.asList(result);
+                      updateControls(true);
+                    }
 
-                @Override
-                public void onFailure(Throwable err) {
-                  updateControls(false);
-                  changeParent.setValue(false);
-                  super.onFailure(err);
-                }
-              });
-        } else {
-          updateControls(false);
-        }
-      }
-    });
+                    @Override
+                    public void onFailure(Throwable err) {
+                      updateControls(false);
+                      changeParent.setValue(false);
+                      super.onFailure(err);
+                    }
+                  });
+            } else {
+              updateControls(false);
+            }
+          }
+        });
 
     // add the checkbox and suggestbox widgets to the content panel
     contentPanel.add(changeParent);

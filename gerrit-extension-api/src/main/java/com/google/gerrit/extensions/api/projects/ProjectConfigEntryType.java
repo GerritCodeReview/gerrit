@@ -15,5 +15,10 @@
 package com.google.gerrit.extensions.api.projects;
 
 public enum ProjectConfigEntryType {
-  STRING, INT, LONG, BOOLEAN, LIST, ARRAY
+  STRING,
+  INT,
+  LONG,
+  BOOLEAN,
+  LIST,
+  ARRAY
 }

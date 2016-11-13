@@ -15,5 +15,8 @@
 package com.google.gerrit.extensions.api.changes;
 
 public enum NotifyHandling {
-  NONE, OWNER, OWNER_REVIEWERS, ALL
+  NONE,
+  OWNER,
+  OWNER_REVIEWERS,
+  ALL
 }

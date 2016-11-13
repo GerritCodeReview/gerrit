@@ -57,17 +57,16 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.UIObject;
-
+import java.util.Objects;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
-import java.util.Objects;
-
 /** Displays current diff preferences. */
 public class PreferencesBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PreferencesBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   public interface Style extends CssResource {
@@ -134,32 +133,34 @@ public class PreferencesBox extends Composite {
     save.setVisible(Gerrit.isSignedIn());
 
     if (view != null) {
-      addDomHandler(new KeyDownHandler() {
-        @Override
-        public void onKeyDown(KeyDownEvent event) {
-          if (event.getNativeKeyCode() == KEY_ESCAPE
-              || event.getNativeKeyCode() == ',') {
-            close();
-          }
-        }
-      }, KeyDownEvent.getType());
+      addDomHandler(
+          new KeyDownHandler() {
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+              if (event.getNativeKeyCode() == KEY_ESCAPE || event.getNativeKeyCode() == ',') {
+                close();
+              }
+            }
+          },
+          KeyDownEvent.getType());
 
-      updateContextTimer = new Timer() {
-        @Override
-        public void run() {
-          if (prefs.context() == WHOLE_FILE_CONTEXT) {
-            contextEntireFile.setValue(true);
-          }
-          if (view.canRenderEntireFile(prefs)) {
-            renderEntireFile.setEnabled(true);
-            renderEntireFile.setValue(prefs.renderEntireFile());
-          } else {
-            renderEntireFile.setValue(false);
-            renderEntireFile.setEnabled(false);
-          }
-          view.setContext(prefs.context());
-        }
-      };
+      updateContextTimer =
+          new Timer() {
+            @Override
+            public void run() {
+              if (prefs.context() == WHOLE_FILE_CONTEXT) {
+                contextEntireFile.setValue(true);
+              }
+              if (view.canRenderEntireFile(prefs)) {
+                renderEntireFile.setEnabled(true);
+                renderEntireFile.setValue(prefs.renderEntireFile());
+              } else {
+                renderEntireFile.setValue(false);
+                renderEntireFile.setEnabled(false);
+              }
+              view.setContext(prefs.context());
+            }
+          };
     }
   }
 
@@ -187,8 +188,8 @@ public class PreferencesBox extends Composite {
     emptyPane.setValue(!prefs.hideEmptyPane());
     if (view != null) {
       leftSide.setValue(view.getDiffTable().isVisibleA());
-      leftSide.setEnabled(!(prefs.hideEmptyPane()
-          && view.getDiffTable().getChangeType() == ChangeType.ADDED));
+      leftSide.setEnabled(
+          !(prefs.hideEmptyPane() && view.getDiffTable().getChangeType() == ChangeType.ADDED));
     } else {
       UIObject.setVisible(leftSideLabel, false);
       leftSide.setVisible(false);
@@ -251,8 +252,8 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("ignoreWhitespace")
   void onIgnoreWhitespace(@SuppressWarnings("unused") ChangeEvent e) {
-    prefs.ignoreWhitespace(Whitespace.valueOf(
-        ignoreWhitespace.getValue(ignoreWhitespace.getSelectedIndex())));
+    prefs.ignoreWhitespace(
+        Whitespace.valueOf(ignoreWhitespace.getValue(ignoreWhitespace.getSelectedIndex())));
     if (view != null) {
       view.reloadDiffInfo();
     }
@@ -320,15 +321,16 @@ public class PreferencesBox extends Composite {
     if (v != null && v.length() > 0) {
       prefs.tabSize(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
-        view.operation(new Runnable() {
-          @Override
-          public void run() {
-            int v = prefs.tabSize();
-            for (CodeMirror cm : view.getCms()) {
-              cm.setOption("tabSize", v);
-            }
-          }
-        });
+        view.operation(
+            new Runnable() {
+              @Override
+              public void run() {
+                int v = prefs.tabSize();
+                for (CodeMirror cm : view.getCms()) {
+                  cm.setOption("tabSize", v);
+                }
+              }
+            });
       }
     }
   }
@@ -339,15 +341,17 @@ public class PreferencesBox extends Composite {
     if (v != null && v.length() > 0) {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
-        view.operation(new Runnable() {
-          @Override
-          public void run() {
-            view.setLineLength(prefs.lineLength());
-          }
-        });
+        view.operation(
+            new Runnable() {
+              @Override
+              public void run() {
+                view.setLineLength(prefs.lineLength());
+              }
+            });
       }
     }
   }
+
   @UiHandler("expandAllComments")
   void onExpandAllComments(ValueChangeEvent<Boolean> e) {
     prefs.expandAllComments(e.getValue());
@@ -363,10 +367,8 @@ public class PreferencesBox extends Composite {
       // A negative value hides the cursor entirely:
       // don't let user shoot himself in the foot.
       prefs.cursorBlinkRate(Math.max(0, Integer.parseInt(v)));
-      view.getCmFromSide(DisplaySide.A).setOption("cursorBlinkRate",
-          prefs.cursorBlinkRate());
-      view.getCmFromSide(DisplaySide.B).setOption("cursorBlinkRate",
-          prefs.cursorBlinkRate());
+      view.getCmFromSide(DisplaySide.A).setOption("cursorBlinkRate", prefs.cursorBlinkRate());
+      view.getCmFromSide(DisplaySide.B).setOption("cursorBlinkRate", prefs.cursorBlinkRate());
     }
   }
 
@@ -449,22 +451,26 @@ public class PreferencesBox extends Composite {
     final String mode = getSelectedMode();
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
-    new ModeInjector().add(mode).inject(new GerritCallback<Void>() {
-      @Override
-      public void onSuccess(Void result) {
-        if (prefs.syntaxHighlighting()
-            && Objects.equals(mode, getSelectedMode())
-            && view.isAttached()) {
-          view.operation(new Runnable() {
-            @Override
-            public void run() {
-              view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
-              view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
-            }
-          });
-        }
-      }
-    });
+    new ModeInjector()
+        .add(mode)
+        .inject(
+            new GerritCallback<Void>() {
+              @Override
+              public void onSuccess(Void result) {
+                if (prefs.syntaxHighlighting()
+                    && Objects.equals(mode, getSelectedMode())
+                    && view.isAttached()) {
+                  view.operation(
+                      new Runnable() {
+                        @Override
+                        public void run() {
+                          view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
+                          view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
+                        }
+                      });
+                }
+              }
+            });
   }
 
   private String getSelectedMode() {
@@ -476,15 +482,16 @@ public class PreferencesBox extends Composite {
   void onWhitespaceErrors(ValueChangeEvent<Boolean> e) {
     prefs.showWhitespaceErrors(e.getValue());
     if (view != null) {
-      view.operation(new Runnable() {
-        @Override
-        public void run() {
-          boolean s = prefs.showWhitespaceErrors();
-          for (CodeMirror cm : view.getCms()) {
-            cm.setOption("showTrailingSpace", s);
-          }
-        }
-      });
+      view.operation(
+          new Runnable() {
+            @Override
+            public void run() {
+              boolean s = prefs.showWhitespaceErrors();
+              for (CodeMirror cm : view.getCms()) {
+                cm.setOption("showTrailingSpace", s);
+              }
+            }
+          });
     }
   }
 
@@ -499,19 +506,15 @@ public class PreferencesBox extends Composite {
   @UiHandler("matchBrackets")
   void onMatchBrackets(ValueChangeEvent<Boolean> e) {
     prefs.matchBrackets(e.getValue());
-    view.getCmFromSide(DisplaySide.A).setOption("matchBrackets",
-        prefs.matchBrackets());
-    view.getCmFromSide(DisplaySide.B).setOption("matchBrackets",
-        prefs.matchBrackets());
+    view.getCmFromSide(DisplaySide.A).setOption("matchBrackets", prefs.matchBrackets());
+    view.getCmFromSide(DisplaySide.B).setOption("matchBrackets", prefs.matchBrackets());
   }
 
   @UiHandler("lineWrapping")
   void onLineWrapping(ValueChangeEvent<Boolean> e) {
     prefs.lineWrapping(e.getValue());
-    view.getCmFromSide(DisplaySide.A).setOption("lineWrapping",
-        prefs.lineWrapping());
-    view.getCmFromSide(DisplaySide.B).setOption("lineWrapping",
-        prefs.lineWrapping());
+    view.getCmFromSide(DisplaySide.A).setOption("lineWrapping", prefs.lineWrapping());
+    view.getCmFromSide(DisplaySide.B).setOption("lineWrapping", prefs.lineWrapping());
   }
 
   @UiHandler("skipDeleted")
@@ -537,22 +540,25 @@ public class PreferencesBox extends Composite {
     final Theme newTheme = getSelectedTheme();
     prefs.theme(newTheme);
     if (view != null) {
-      ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
-        @Override
-        public void onSuccess(Void result) {
-          view.operation(new Runnable() {
+      ThemeLoader.loadTheme(
+          newTheme,
+          new GerritCallback<Void>() {
             @Override
-            public void run() {
-              if (getSelectedTheme() == newTheme && isAttached()) {
-                String t = newTheme.name().toLowerCase();
-                view.getCmFromSide(DisplaySide.A).setOption("theme", t);
-                view.getCmFromSide(DisplaySide.B).setOption("theme", t);
-                view.setThemeStyles(newTheme.isDark());
-              }
+            public void onSuccess(Void result) {
+              view.operation(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      if (getSelectedTheme() == newTheme && isAttached()) {
+                        String t = newTheme.name().toLowerCase();
+                        view.getCmFromSide(DisplaySide.A).setOption("theme", t);
+                        view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+                        view.setThemeStyles(newTheme.isDark());
+                      }
+                    }
+                  });
             }
           });
-        }
-      });
     }
   }
 
@@ -567,14 +573,16 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    AccountApi.putDiffPreferences(prefs, new GerritCallback<DiffPreferences>() {
-      @Override
-      public void onSuccess(DiffPreferences result) {
-        DiffPreferencesInfo p = new DiffPreferencesInfo();
-        result.copyTo(p);
-        Gerrit.setDiffPreferences(p);
-      }
-    });
+    AccountApi.putDiffPreferences(
+        prefs,
+        new GerritCallback<DiffPreferences>() {
+          @Override
+          public void onSuccess(DiffPreferences result) {
+            DiffPreferencesInfo p = new DiffPreferencesInfo();
+            result.copyTo(p);
+            Gerrit.setDiffPreferences(p);
+          }
+        });
     if (view != null) {
       close();
     }
@@ -606,18 +614,11 @@ public class PreferencesBox extends Composite {
   }
 
   private void initIgnoreWhitespace() {
+    ignoreWhitespace.addItem(PatchUtil.C.whitespaceIGNORE_NONE(), IGNORE_NONE.name());
+    ignoreWhitespace.addItem(PatchUtil.C.whitespaceIGNORE_TRAILING(), IGNORE_TRAILING.name());
     ignoreWhitespace.addItem(
-        PatchUtil.C.whitespaceIGNORE_NONE(),
-        IGNORE_NONE.name());
-    ignoreWhitespace.addItem(
-        PatchUtil.C.whitespaceIGNORE_TRAILING(),
-        IGNORE_TRAILING.name());
-    ignoreWhitespace.addItem(
-        PatchUtil.C.whitespaceIGNORE_LEADING_AND_TRAILING(),
-        IGNORE_LEADING_AND_TRAILING.name());
-    ignoreWhitespace.addItem(
-        PatchUtil.C.whitespaceIGNORE_ALL(),
-        IGNORE_ALL.name());
+        PatchUtil.C.whitespaceIGNORE_LEADING_AND_TRAILING(), IGNORE_LEADING_AND_TRAILING.name());
+    ignoreWhitespace.addItem(PatchUtil.C.whitespaceIGNORE_ALL(), IGNORE_ALL.name());
   }
 
   private void initMode() {

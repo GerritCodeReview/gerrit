@@ -28,10 +28,8 @@ import com.google.gerrit.server.config.SetDiffPreferences;
 import com.google.gerrit.server.config.SetPreferences;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class ServerImpl implements Server {
@@ -42,7 +40,8 @@ public class ServerImpl implements Server {
   private final GetServerInfo getServerInfo;
 
   @Inject
-  ServerImpl(GetPreferences getPreferences,
+  ServerImpl(
+      GetPreferences getPreferences,
       SetPreferences setPreferences,
       GetDiffPreferences getDiffPreferences,
       SetDiffPreferences setDiffPreferences,
@@ -69,8 +68,7 @@ public class ServerImpl implements Server {
   }
 
   @Override
-  public GeneralPreferencesInfo getDefaultPreferences()
-      throws RestApiException {
+  public GeneralPreferencesInfo getDefaultPreferences() throws RestApiException {
     try {
       return getPreferences.apply(new ConfigResource());
     } catch (IOException | ConfigInvalidException e) {
@@ -79,8 +77,8 @@ public class ServerImpl implements Server {
   }
 
   @Override
-  public GeneralPreferencesInfo setDefaultPreferences(
-      GeneralPreferencesInfo in) throws RestApiException {
+  public GeneralPreferencesInfo setDefaultPreferences(GeneralPreferencesInfo in)
+      throws RestApiException {
     try {
       return setPreferences.apply(new ConfigResource(), in);
     } catch (IOException | ConfigInvalidException e) {
@@ -89,8 +87,7 @@ public class ServerImpl implements Server {
   }
 
   @Override
-  public DiffPreferencesInfo getDefaultDiffPreferences()
-      throws RestApiException {
+  public DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException {
     try {
       return getDiffPreferences.apply(new ConfigResource());
     } catch (IOException | ConfigInvalidException e) {

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.data.PermissionRule;
-
 import java.util.ArrayList;
 import java.util.List;
 

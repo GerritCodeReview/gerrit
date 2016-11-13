@@ -27,19 +27,20 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-
 class CherryPickAction {
-  static void call(final Button b, final ChangeInfo info, final String revision,
-      String project, final String commitMessage) {
+  static void call(
+      final Button b,
+      final ChangeInfo info,
+      final String revision,
+      String project,
+      final String commitMessage) {
     // TODO Replace CherryPickDialog with a nicer looking display.
     b.setEnabled(false);
     new CherryPickDialog(new Project.NameKey(project)) {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
         if (info.status() == Change.Status.MERGED) {
-          message.setText(Util.M.cherryPickedChangeDefaultMessage(
-              commitMessage.trim(),
-              revision));
+          message.setText(Util.M.cherryPickedChangeDefaultMessage(commitMessage.trim(), revision));
         } else {
           message.setText(commitMessage.trim());
         }
@@ -47,7 +48,9 @@ class CherryPickAction {
 
       @Override
       public void onSend() {
-        ChangeApi.cherrypick(info.legacyId().get(), revision,
+        ChangeApi.cherrypick(
+            info.legacyId().get(),
+            revision,
             getDestinationBranch(),
             getMessageText(),
             new GerritCallback<ChangeInfo>() {

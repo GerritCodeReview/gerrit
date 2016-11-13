@@ -15,16 +15,12 @@
 package com.google.gerrit.acceptance;
 
 import com.google.common.collect.Lists;
-
+import java.io.File;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
-import java.io.File;
-
-/**
- * A file based Config that can merge another Config instance.
- */
+/** A file based Config that can merge another Config instance. */
 public class MergeableFileBasedConfig extends FileBasedConfig {
   public MergeableFileBasedConfig(File cfgLocation, FS fs) {
     super(cfgLocation, fs);
@@ -33,9 +29,8 @@ public class MergeableFileBasedConfig extends FileBasedConfig {
   /**
    * Merge another Config into this Config.
    *
-   * In case a configuration parameter exists both in this instance and in the
-   * merged instance then the value in this instance will simply replaced by
-   * the value from the merged instance.
+   * <p>In case a configuration parameter exists both in this instance and in the merged instance
+   * then the value in this instance will simply replaced by the value from the merged instance.
    *
    * @param s Config to merge into this instance
    */
@@ -46,14 +41,17 @@ public class MergeableFileBasedConfig extends FileBasedConfig {
     for (String section : s.getSections()) {
       for (String subsection : s.getSubsections(section)) {
         for (String name : s.getNames(section, subsection)) {
-          setStringList(section, subsection, name, Lists.newArrayList(s
-              .getStringList(section, subsection, name)));
+          setStringList(
+              section,
+              subsection,
+              name,
+              Lists.newArrayList(s.getStringList(section, subsection, name)));
         }
       }
 
       for (String name : s.getNames(section, true)) {
-        setStringList(section, null, name,
-            Lists.newArrayList(s.getStringList(section, null, name)));
+        setStringList(
+            section, null, name, Lists.newArrayList(s.getStringList(section, null, name)));
       }
     }
   }

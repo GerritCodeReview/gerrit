@@ -20,13 +20,9 @@ public abstract class RefResource extends ProjectResource {
     super(control);
   }
 
-  /**
-   * @return the ref's name
-   */
+  /** @return the ref's name */
   public abstract String getRef();
 
-  /**
-   * @return the ref's revision
-   */
+  /** @return the ref's revision */
   public abstract String getRevision();
 }

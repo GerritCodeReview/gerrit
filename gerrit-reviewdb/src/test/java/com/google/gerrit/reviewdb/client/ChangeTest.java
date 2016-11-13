@@ -122,10 +122,8 @@ public class ChangeTest {
 
   @Test
   public void toRefPrefix() {
-    assertThat(new Change.Id(1).toRefPrefix())
-        .isEqualTo("refs/changes/01/1/");
-    assertThat(new Change.Id(1234).toRefPrefix())
-        .isEqualTo("refs/changes/34/1234/");
+    assertThat(new Change.Id(1).toRefPrefix()).isEqualTo("refs/changes/01/1/");
+    assertThat(new Change.Id(1234).toRefPrefix()).isEqualTo("refs/changes/34/1234/");
   }
 
   @Test
@@ -158,8 +156,7 @@ public class ChangeTest {
   }
 
   private static void assertAllUsersRef(int changeId, String refName) {
-    assertThat(Change.Id.fromAllUsersRef(refName))
-        .isEqualTo(new Change.Id(changeId));
+    assertThat(Change.Id.fromAllUsersRef(refName)).isEqualTo(new Change.Id(changeId));
   }
 
   private static void assertNotAllUsersRef(String refName) {

@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,15 +22,13 @@ import java.util.List;
 import java.util.Set;
 
 /** Portion of a {@link Project} describing access rules. */
-public class AccessSection extends RefConfigSection implements
-    Comparable<AccessSection> {
+public class AccessSection extends RefConfigSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
 
   protected List<Permission> permissions;
 
-  protected AccessSection() {
-  }
+  protected AccessSection() {}
 
   public AccessSection(String refPattern) {
     super(refPattern);
@@ -87,7 +84,7 @@ public class AccessSection extends RefConfigSection implements
 
   public void removePermission(String name) {
     if (permissions != null) {
-      for (Iterator<Permission> itr = permissions.iterator(); itr.hasNext();) {
+      for (Iterator<Permission> itr = permissions.iterator(); itr.hasNext(); ) {
         if (name.equalsIgnoreCase(itr.next().getName())) {
           itr.remove();
         }
@@ -128,7 +125,7 @@ public class AccessSection extends RefConfigSection implements
     if (!super.equals(obj) || !(obj instanceof AccessSection)) {
       return false;
     }
-    return new HashSet<>(getPermissions()).equals(new HashSet<>(
-        ((AccessSection) obj).getPermissions()));
+    return new HashSet<>(getPermissions())
+        .equals(new HashSet<>(((AccessSection) obj).getPermissions()));
   }
 }

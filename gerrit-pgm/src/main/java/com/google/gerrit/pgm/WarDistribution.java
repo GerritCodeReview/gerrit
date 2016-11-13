@@ -20,7 +20,6 @@ import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.inject.Singleton;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,8 +46,7 @@ public class WarDistribution implements PluginsDistribution {
 
           if (ze.getName().startsWith(PLUGIN_DIR) && ze.getName().endsWith(JAR)) {
             String pluginJarName = new File(ze.getName()).getName();
-            String pluginName = pluginJarName.substring(0,
-                pluginJarName.length() - JAR.length());
+            String pluginName = pluginJarName.substring(0, pluginJarName.length() - JAR.length());
             try (InputStream in = zf.getInputStream(ze)) {
               processor.process(pluginName, in);
             }

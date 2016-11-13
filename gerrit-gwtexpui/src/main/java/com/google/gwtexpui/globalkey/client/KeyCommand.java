@@ -19,7 +19,6 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-
 public abstract class KeyCommand implements KeyPressHandler {
   public static final int M_CTRL = 1 << 16;
   public static final int M_ALT = 2 << 16;
@@ -27,9 +26,7 @@ public abstract class KeyCommand implements KeyPressHandler {
   public static final int M_SHIFT = 8 << 16;
 
   public static boolean same(final KeyCommand a, final KeyCommand b) {
-    return a.getClass() == b.getClass()
-        && a.helpText.equals(b.helpText)
-        && a.sibling == b.sibling;
+    return a.getClass() == b.getClass() && a.helpText.equals(b.helpText) && a.sibling == b.sibling;
   }
 
   final int keyMask;

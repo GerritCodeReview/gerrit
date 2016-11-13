@@ -25,7 +25,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -40,8 +39,11 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
   private final DynamicItem<WebSession> session;
 
   @Inject
-  ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig, final DynamicItem<WebSession> session) {
+  ExternalIdDetailFactory(
+      final ReviewDb db,
+      final IdentifiedUser user,
+      final AuthConfig authConfig,
+      final DynamicItem<WebSession> session) {
     this.db = db;
     this.user = user;
     this.authConfig = authConfig;

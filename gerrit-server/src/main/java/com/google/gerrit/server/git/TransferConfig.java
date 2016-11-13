@@ -19,11 +19,9 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.pack.PackConfig;
-
-import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class TransferConfig {
@@ -34,8 +32,15 @@ public class TransferConfig {
 
   @Inject
   TransferConfig(@GerritServerConfig final Config cfg) {
-    timeout = (int) ConfigUtil.getTimeUnit(cfg, "transfer", null, "timeout", //
-        0, TimeUnit.SECONDS);
+    timeout =
+        (int)
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "transfer",
+                null,
+                "timeout", //
+                0,
+                TimeUnit.SECONDS);
     maxObjectSizeLimit = cfg.getLong("receive", "maxObjectSizeLimit", 0);
     maxObjectSizeLimitFormatted = cfg.getString("receive", null, "maxObjectSizeLimit");
 

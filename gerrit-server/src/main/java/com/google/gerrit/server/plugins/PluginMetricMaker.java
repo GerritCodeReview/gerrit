@@ -34,7 +34,6 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -59,9 +58,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
   }
 
   @Override
-  public <F1> Counter1<F1> newCounter(
-      String name, Description desc,
-      Field<F1> field1) {
+  public <F1> Counter1<F1> newCounter(String name, Description desc, Field<F1> field1) {
     Counter1<F1> m = root.newCounter(prefix + name, desc, field1);
     cleanup.add(m);
     return m;
@@ -69,8 +66,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
 
   @Override
   public <F1, F2> Counter2<F1, F2> newCounter(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2) {
+      String name, Description desc, Field<F1> field1, Field<F2> field2) {
     Counter2<F1, F2> m = root.newCounter(prefix + name, desc, field1, field2);
     cleanup.add(m);
     return m;
@@ -78,10 +74,8 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
 
   @Override
   public <F1, F2, F3> Counter3<F1, F2, F3> newCounter(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    Counter3<F1, F2, F3> m =
-        root.newCounter(prefix + name, desc, field1, field2, field3);
+      String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+    Counter3<F1, F2, F3> m = root.newCounter(prefix + name, desc, field1, field2, field3);
     cleanup.add(m);
     return m;
   }
@@ -94,9 +88,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
   }
 
   @Override
-  public <F1> Timer1<F1> newTimer(
-      String name, Description desc,
-      Field<F1> field1) {
+  public <F1> Timer1<F1> newTimer(String name, Description desc, Field<F1> field1) {
     Timer1<F1> m = root.newTimer(prefix + name, desc, field1);
     cleanup.add(m);
     return m;
@@ -104,8 +96,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
 
   @Override
   public <F1, F2> Timer2<F1, F2> newTimer(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2) {
+      String name, Description desc, Field<F1> field1, Field<F2> field2) {
     Timer2<F1, F2> m = root.newTimer(prefix + name, desc, field1, field2);
     cleanup.add(m);
     return m;
@@ -113,10 +104,8 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
 
   @Override
   public <F1, F2, F3> Timer3<F1, F2, F3> newTimer(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    Timer3<F1, F2, F3> m =
-        root.newTimer(prefix + name, desc, field1, field2, field3);
+      String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+    Timer3<F1, F2, F3> m = root.newTimer(prefix + name, desc, field1, field2, field3);
     cleanup.add(m);
     return m;
   }
@@ -129,9 +118,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
   }
 
   @Override
-  public <F1> Histogram1<F1> newHistogram(
-      String name, Description desc,
-      Field<F1> field1) {
+  public <F1> Histogram1<F1> newHistogram(String name, Description desc, Field<F1> field1) {
     Histogram1<F1> m = root.newHistogram(prefix + name, desc, field1);
     cleanup.add(m);
     return m;
@@ -139,8 +126,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
 
   @Override
   public <F1, F2> Histogram2<F1, F2> newHistogram(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2) {
+      String name, Description desc, Field<F1> field1, Field<F2> field2) {
     Histogram2<F1, F2> m = root.newHistogram(prefix + name, desc, field1, field2);
     cleanup.add(m);
     return m;
@@ -148,10 +134,8 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
 
   @Override
   public <F1, F2, F3> Histogram3<F1, F2, F3> newHistogram(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    Histogram3<F1, F2, F3> m =
-        root.newHistogram(prefix + name, desc, field1, field2, field3);
+      String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+    Histogram3<F1, F2, F3> m = root.newHistogram(prefix + name, desc, field1, field2, field3);
     cleanup.add(m);
     return m;
   }
@@ -165,17 +149,15 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
   }
 
   @Override
-  public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(String name,
-      Class<V> valueClass, Description desc, Field<F1> field1) {
-    CallbackMetric1<F1, V> m =
-        root.newCallbackMetric(prefix + name, valueClass, desc, field1);
+  public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(
+      String name, Class<V> valueClass, Description desc, Field<F1> field1) {
+    CallbackMetric1<F1, V> m = root.newCallbackMetric(prefix + name, valueClass, desc, field1);
     cleanup.add(m);
     return m;
   }
 
   @Override
-  public RegistrationHandle newTrigger(Set<CallbackMetric<?>> metrics,
-      Runnable trigger) {
+  public RegistrationHandle newTrigger(Set<CallbackMetric<?>> metrics, Runnable trigger) {
     final RegistrationHandle handle = root.newTrigger(metrics, trigger);
     cleanup.add(handle);
     return new RegistrationHandle() {
@@ -188,8 +170,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
   }
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
   public void stop() {

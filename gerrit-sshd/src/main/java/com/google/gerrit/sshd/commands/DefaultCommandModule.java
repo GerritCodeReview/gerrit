@@ -22,7 +22,6 @@ import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
 import com.google.gerrit.sshd.SuExec;
 
-
 /** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {
   private final DownloadConfig downloadConfig;
@@ -99,8 +98,7 @@ public class DefaultCommandModule extends CommandModule {
         command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
         command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
       }
-      command(gerrit, "test-submit").toProvider(
-          new DispatchCommandProvider(testSubmit));
+      command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
     }
     command(gerrit, Receive.class);
 

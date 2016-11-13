@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,11 +36,11 @@ class ScriptRunner {
   private final String name;
   private final List<String> commands;
 
-  static final ScriptRunner NOOP = new ScriptRunner(null, null) {
-    @Override
-    void run(final ReviewDb db) {
-    }
-  };
+  static final ScriptRunner NOOP =
+      new ScriptRunner(null, null) {
+        @Override
+        void run(final ReviewDb db) {}
+      };
 
   ScriptRunner(final String scriptName, final InputStream script) {
     this.name = scriptName;

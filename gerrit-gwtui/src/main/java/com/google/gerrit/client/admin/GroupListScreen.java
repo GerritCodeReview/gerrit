@@ -122,22 +122,24 @@ public class GroupListScreen extends Screen {
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
     filterTxt.setValue(match);
-    filterTxt.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        Query q = new Query(filterTxt.getValue())
-          .open(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
-        if (match.equals(q.qMatch)) {
-          q.start(start);
-        }
-        if (q.open || !match.equals(q.qMatch)) {
-          if (query == null) {
-            q.run();
+    filterTxt.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(KeyUpEvent event) {
+            Query q =
+                new Query(filterTxt.getValue())
+                    .open(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+            if (match.equals(q.qMatch)) {
+              q.start(start);
+            }
+            if (q.open || !match.equals(q.qMatch)) {
+              if (query == null) {
+                q.run();
+              }
+              query = q;
+            }
           }
-          query = q;
-        }
-      }
-    });
+        });
     hp.add(filterTxt);
     add(hp);
   }
@@ -178,7 +180,10 @@ public class GroupListScreen extends Screen {
 
     Query run() {
       int limit = open ? 1 : pageSize + 1;
-      GroupMap.match(qMatch, limit, qStart,
+      GroupMap.match(
+          qMatch,
+          limit,
+          qStart,
           new GerritCallback<GroupMap>() {
             @Override
             public void onSuccess(GroupMap result) {
@@ -197,8 +202,7 @@ public class GroupListScreen extends Screen {
 
     private void showMap(GroupMap result) {
       if (open && !result.isEmpty()) {
-        Gerrit.display(PageLinks.toGroup(
-            result.values().get(0).getGroupUUID()));
+        Gerrit.display(PageLinks.toGroup(result.values().get(0).getGroupUUID()));
         return;
       }
 

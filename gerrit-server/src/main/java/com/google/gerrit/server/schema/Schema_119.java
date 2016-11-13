@@ -44,14 +44,6 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -60,10 +52,16 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_119 extends SchemaVersion {
   private static final Map<String, String> LEGACY_DISPLAYNAME_MAP =
-      ImmutableMap.<String, String> of(
+      ImmutableMap.<String, String>of(
           "ANON_GIT", ANON_GIT,
           "ANON_HTTP", ANON_HTTP,
           "HTTP", HTTP,
@@ -75,7 +73,8 @@ public class Schema_119 extends SchemaVersion {
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_119(Provider<Schema_118> prior,
+  Schema_119(
+      Provider<Schema_118> prior,
       GitRepositoryManager mgr,
       AllUsersName allUsersName,
       @GerritPersonIdent PersonIdent serverUser) {
@@ -86,60 +85,56 @@ public class Schema_119 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     JdbcSchema schema = (JdbcSchema) db;
     Connection connection = schema.getConnection();
     String tableName = "accounts";
     String emailStrategy = "email_strategy";
-    Set<String> columns =
-        schema.getDialect().listColumns(connection, tableName);
+    Set<String> columns = schema.getDialect().listColumns(connection, tableName);
     Map<Account.Id, GeneralPreferencesInfo> imports = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-        ResultSet rs = stmt.executeQuery(
-          "select "
-          + "account_id, "
-          + "maximum_page_size, "
-          + "show_site_header, "
-          + "use_flash_clipboard, "
-          + "download_url, "
-          + "download_command, "
-          + (columns.contains(emailStrategy)
-              ? emailStrategy + ", "
-              : "copy_self_on_email, ")
-          + "date_format, "
-          + "time_format, "
-          + "relative_date_in_change_table, "
-          + "diff_view, "
-          + "size_bar_in_change_table, "
-          + "legacycid_in_change_table, "
-          + "review_category_strategy, "
-          + "mute_common_path_prefixes "
-          + "from " + tableName)) {
-        while (rs.next()) {
-          GeneralPreferencesInfo p =
-              new GeneralPreferencesInfo();
-          Account.Id accountId = new Account.Id(rs.getInt(1));
-          p.changesPerPage = (int)rs.getShort(2);
-          p.showSiteHeader = toBoolean(rs.getString(3));
-          p.useFlashClipboard = toBoolean(rs.getString(4));
-          p.downloadScheme = convertToModernNames(rs.getString(5));
-          p.downloadCommand = toDownloadCommand(rs.getString(6));
-          p.emailStrategy = toEmailStrategy(rs.getString(7),
-              columns.contains(emailStrategy));
-          p.dateFormat = toDateFormat(rs.getString(8));
-          p.timeFormat = toTimeFormat(rs.getString(9));
-          p.relativeDateInChangeTable = toBoolean(rs.getString(10));
-          p.diffView = toDiffView(rs.getString(11));
-          p.sizeBarInChangeTable = toBoolean(rs.getString(12));
-          p.legacycidInChangeTable = toBoolean(rs.getString(13));
-          p.reviewCategoryStrategy =
-              toReviewCategoryStrategy(rs.getString(14));
-          p.muteCommonPathPrefixes = toBoolean(rs.getString(15));
-          p.defaultBaseForMerges =
-              GeneralPreferencesInfo.defaults().defaultBaseForMerges;
-          imports.put(accountId, p);
-        }
+        ResultSet rs =
+            stmt.executeQuery(
+                "select "
+                    + "account_id, "
+                    + "maximum_page_size, "
+                    + "show_site_header, "
+                    + "use_flash_clipboard, "
+                    + "download_url, "
+                    + "download_command, "
+                    + (columns.contains(emailStrategy)
+                        ? emailStrategy + ", "
+                        : "copy_self_on_email, ")
+                    + "date_format, "
+                    + "time_format, "
+                    + "relative_date_in_change_table, "
+                    + "diff_view, "
+                    + "size_bar_in_change_table, "
+                    + "legacycid_in_change_table, "
+                    + "review_category_strategy, "
+                    + "mute_common_path_prefixes "
+                    + "from "
+                    + tableName)) {
+      while (rs.next()) {
+        GeneralPreferencesInfo p = new GeneralPreferencesInfo();
+        Account.Id accountId = new Account.Id(rs.getInt(1));
+        p.changesPerPage = (int) rs.getShort(2);
+        p.showSiteHeader = toBoolean(rs.getString(3));
+        p.useFlashClipboard = toBoolean(rs.getString(4));
+        p.downloadScheme = convertToModernNames(rs.getString(5));
+        p.downloadCommand = toDownloadCommand(rs.getString(6));
+        p.emailStrategy = toEmailStrategy(rs.getString(7), columns.contains(emailStrategy));
+        p.dateFormat = toDateFormat(rs.getString(8));
+        p.timeFormat = toTimeFormat(rs.getString(9));
+        p.relativeDateInChangeTable = toBoolean(rs.getString(10));
+        p.diffView = toDiffView(rs.getString(11));
+        p.sizeBarInChangeTable = toBoolean(rs.getString(12));
+        p.legacycidInChangeTable = toBoolean(rs.getString(13));
+        p.reviewCategoryStrategy = toReviewCategoryStrategy(rs.getString(14));
+        p.muteCommonPathPrefixes = toBoolean(rs.getString(15));
+        p.defaultBaseForMerges = GeneralPreferencesInfo.defaults().defaultBaseForMerges;
+        imports.put(accountId, p);
+      }
     }
 
     if (imports.isEmpty()) {
@@ -149,17 +144,19 @@ public class Schema_119 extends SchemaVersion {
     try (Repository git = mgr.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
-      for (Map.Entry<Account.Id, GeneralPreferencesInfo> e
-          : imports.entrySet()) {
-        try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-            allUsersName, git, bru)) {
+      for (Map.Entry<Account.Id, GeneralPreferencesInfo> e : imports.entrySet()) {
+        try (MetaDataUpdate md =
+            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
-          VersionedAccountPreferences p =
-              VersionedAccountPreferences.forUser(e.getKey());
+          VersionedAccountPreferences p = VersionedAccountPreferences.forUser(e.getKey());
           p.load(md);
-          storeSection(p.getConfig(), UserConfigSections.GENERAL, null,
-              e.getValue(), GeneralPreferencesInfo.defaults());
+          storeSection(
+              p.getConfig(),
+              UserConfigSections.GENERAL,
+              null,
+              e.getValue(),
+              GeneralPreferencesInfo.defaults());
           p.commit(md);
         }
       }
@@ -204,8 +201,8 @@ public class Schema_119 extends SchemaVersion {
     return DiffView.valueOf(v);
   }
 
-  private static EmailStrategy toEmailStrategy(String v,
-      boolean emailStrategyColumnExists) throws OrmException {
+  private static EmailStrategy toEmailStrategy(String v, boolean emailStrategyColumnExists)
+      throws OrmException {
     if (v == null) {
       return EmailStrategy.ENABLED;
     }
@@ -219,8 +216,7 @@ public class Schema_119 extends SchemaVersion {
       // EMAIL_STRATEGY='CC_ON_OWN_COMMENTS' WHERE (COPY_SELF_ON_EMAIL='Y')
       return EmailStrategy.CC_ON_OWN_COMMENTS;
     } else {
-      throw new OrmException(
-          "invalid value in accounts.copy_self_on_email: " + v);
+      throw new OrmException("invalid value in accounts.copy_self_on_email: " + v);
     }
   }
 

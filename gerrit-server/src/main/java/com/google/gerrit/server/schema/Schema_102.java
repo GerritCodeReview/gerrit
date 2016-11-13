@@ -22,7 +22,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.sql.SQLException;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -34,8 +33,7 @@ public class Schema_102 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     JdbcSchema schema = (JdbcSchema) db;
     SqlDialect dialect = schema.getDialect();
     try (StatementExecutor e = newExecutor(db)) {
@@ -43,11 +41,9 @@ public class Schema_102 extends SchemaVersion {
       // See "Delete SQL index support" commit for more details:
       // d4ae3a16d5e1464574bd04f429a63eb9c02b3b43
       Pattern pattern =
-          Pattern.compile("^changes_(allOpen|allClosed|byBranchClosed)$",
-              Pattern.CASE_INSENSITIVE);
+          Pattern.compile("^changes_(allOpen|allClosed|byBranchClosed)$", Pattern.CASE_INSENSITIVE);
       String table = "changes";
-      Set<String> listIndexes = dialect.listIndexes(
-          schema.getConnection(), table);
+      Set<String> listIndexes = dialect.listIndexes(schema.getConnection(), table);
       for (String index : listIndexes) {
         if (pattern.matcher(index).matches()) {
           dialect.dropIndex(e, table, index);
@@ -56,12 +52,18 @@ public class Schema_102 extends SchemaVersion {
 
       dialect.dropIndex(e, table, "changes_byProjectOpen");
       if (dialect instanceof DialectPostgreSQL) {
-        e.execute("CREATE INDEX changes_byProjectOpen"
-            + " ON " + table + " (dest_project_name, last_updated_on)"
-            + " WHERE open = 'Y'");
+        e.execute(
+            "CREATE INDEX changes_byProjectOpen"
+                + " ON "
+                + table
+                + " (dest_project_name, last_updated_on)"
+                + " WHERE open = 'Y'");
       } else {
-        e.execute("CREATE INDEX changes_byProjectOpen"
-            + " ON " + table + " (open, dest_project_name, last_updated_on)");
+        e.execute(
+            "CREATE INDEX changes_byProjectOpen"
+                + " ON "
+                + table
+                + " (open, dest_project_name, last_updated_on)");
       }
     }
   }

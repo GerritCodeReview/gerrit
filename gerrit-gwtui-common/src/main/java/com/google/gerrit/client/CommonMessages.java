@@ -21,13 +21,20 @@ public interface CommonMessages extends Messages {
   CommonMessages M = GWT.create(CommonMessages.class);
 
   String secondsAgo(long seconds);
+
   String minutesAgo(long minutes);
+
   String hoursAgo(long hours);
+
   String daysAgo(long days);
+
   String weeksAgo(long weeks);
+
   String monthsAgo(long months);
+
   String yearsAgo(long years);
+
   String years0MonthsAgo(long years, String yearLabel);
-  String yearsMonthsAgo(long years, String yearLabel, long months,
-      String monthLabel);
+
+  String yearsMonthsAgo(long years, String yearLabel, long months, String monthLabel);
 }

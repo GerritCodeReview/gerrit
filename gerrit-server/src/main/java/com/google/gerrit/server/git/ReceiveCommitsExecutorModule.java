@@ -21,28 +21,25 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 /** Module providing the {@link ReceiveCommitsExecutor}. */
 public class ReceiveCommitsExecutorModule extends AbstractModule {
   @Override
-  protected void configure() {
-  }
+  protected void configure() {}
 
   @Provides
   @Singleton
   @ReceiveCommitsExecutor
   public WorkQueue.Executor createReceiveCommitsExecutor(
-      @GerritServerConfig Config config,
-      WorkQueue queues) {
-    int poolSize = config.getInt("receive", null, "threadPoolSize",
-        Runtime.getRuntime().availableProcessors());
+      @GerritServerConfig Config config, WorkQueue queues) {
+    int poolSize =
+        config.getInt(
+            "receive", null, "threadPoolSize", Runtime.getRuntime().availableProcessors());
     return queues.createQueue(poolSize, "ReceiveCommits");
   }
 
@@ -68,13 +65,13 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
     }
     return MoreExecutors.listeningDecorator(
         MoreExecutors.getExitingExecutorService(
-          new ThreadPoolExecutor(1, poolSize,
-              10, TimeUnit.MINUTES,
-              new ArrayBlockingQueue<Runnable>(poolSize),
-              new ThreadFactoryBuilder()
-                .setNameFormat("ChangeUpdate-%d")
-                .setDaemon(true)
-                .build(),
-              new ThreadPoolExecutor.CallerRunsPolicy())));
+            new ThreadPoolExecutor(
+                1,
+                poolSize,
+                10,
+                TimeUnit.MINUTES,
+                new ArrayBlockingQueue<Runnable>(poolSize),
+                new ThreadFactoryBuilder().setNameFormat("ChangeUpdate-%d").setDaemon(true).build(),
+                new ThreadPoolExecutor.CallerRunsPolicy())));
   }
 }

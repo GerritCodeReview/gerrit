@@ -44,18 +44,17 @@ import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-
+import java.util.Collections;
+import java.util.List;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.Pos;
 import net.codemirror.lib.ScrollInfo;
 
-import java.util.Collections;
-import java.util.List;
-
 public class Unified extends DiffScreen {
   interface Binder extends UiBinder<FlowPanel, Unified> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField(provided = true)
@@ -69,11 +68,7 @@ public class Unified extends DiffScreen {
   private boolean autoHideDiffTableHeader;
 
   public Unified(
-      DiffObject base,
-      DiffObject revision,
-      String path,
-      DisplaySide startSide,
-      int startLine) {
+      DiffObject base, DiffObject revision, String path, DisplaySide startSide, int startLine) {
     super(base, revision, path, startSide, startLine, DiffView.UNIFIED_DIFF);
 
     diffTable = new UnifiedTable(this, base, revision, path);
@@ -87,11 +82,14 @@ public class Unified extends DiffScreen {
     return new ScreenLoadCallback<ConfigInfoCache.Entry>(Unified.this) {
       @Override
       protected void preDisplay(ConfigInfoCache.Entry result) {
-        commentManager = new UnifiedCommentManager(
-            Unified.this,
-            base, revision, path,
-            result.getCommentLinkProcessor(),
-            getChangeStatus().isOpen());
+        commentManager =
+            new UnifiedCommentManager(
+                Unified.this,
+                base,
+                revision,
+                path,
+                result.getCommentLinkProcessor(),
+                getChangeStatus().isOpen());
         setTheme(result.getTheme());
         display(comments);
         header.setupPrevNextFiles(comments);
@@ -103,13 +101,14 @@ public class Unified extends DiffScreen {
   public void onShowView() {
     super.onShowView();
 
-    operation(new Runnable() {
-      @Override
-      public void run() {
-        resizeCodeMirror();
-        cm.refresh();
-      }
-    });
+    operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            resizeCodeMirror();
+            cm.refresh();
+          }
+        });
     setLineLength(Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     diffTable.refresh();
 
@@ -125,8 +124,7 @@ public class Unified extends DiffScreen {
       }
     }
     if (getStartSide() != null && getStartLine() > 0) {
-      cm.scrollToLine(
-          chunkManager.getCmLine(getStartLine() - 1, getStartSide()));
+      cm.scrollToLine(chunkManager.getCmLine(getStartLine() - 1, getStartSide()));
       cm.focus();
     } else {
       cm.setCursor(Pos.create(0));
@@ -142,15 +140,17 @@ public class Unified extends DiffScreen {
   void registerCmEvents(final CodeMirror cm) {
     super.registerCmEvents(cm);
 
-    cm.on("scroll", new Runnable() {
-      @Override
-      public void run() {
-        ScrollInfo si = cm.getScrollInfo();
-        if (autoHideDiffTableHeader) {
-          updateDiffTableHeader(si);
-        }
-      }
-    });
+    cm.on(
+        "scroll",
+        new Runnable() {
+          @Override
+          public void run() {
+            ScrollInfo si = cm.getScrollInfo();
+            if (autoHideDiffTableHeader) {
+              updateDiffTableHeader(si);
+            }
+          }
+        });
     maybeRegisterRenderEntireFileKeyMap(cm);
   }
 
@@ -179,27 +179,25 @@ public class Unified extends DiffScreen {
       diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
     }
 
-    cm = newCm(
-        diff.metaA() == null ? diff.metaB() : diff.metaA(),
-        diff.textUnified(),
-        diffTable.cm);
+    cm =
+        newCm(diff.metaA() == null ? diff.metaB() : diff.metaA(), diff.textUnified(), diffTable.cm);
     setShowTabs(prefs.showTabs());
 
     chunkManager = new UnifiedChunkManager(this, cm, diffTable.scrollbar);
 
-    operation(new Runnable() {
-      @Override
-      public void run() {
-        // Estimate initial CodeMirror height, fixed up in onShowView.
-        int height = Window.getClientHeight()
-            - (Gerrit.getHeaderFooterHeight() + 18);
-        cm.setHeight(height);
+    operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            // Estimate initial CodeMirror height, fixed up in onShowView.
+            int height = Window.getClientHeight() - (Gerrit.getHeaderFooterHeight() + 18);
+            cm.setHeight(height);
 
-        render(diff);
-        commentManager.render(comments, prefs.expandAllComments());
-        skipManager.render(prefs.context(), diff);
-      }
-    });
+            render(diff);
+            commentManager.render(comments, prefs.expandAllComments());
+            skipManager.render(prefs.context(), diff);
+          }
+        });
 
     registerCmEvents(cm);
 
@@ -214,39 +212,37 @@ public class Unified extends DiffScreen {
     InlineHyperlink toSideBySideDiffLink = new InlineHyperlink();
     toSideBySideDiffLink.setHTML(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
-    toSideBySideDiffLink.setTargetHistoryToken(
-        Dispatcher.toSideBySide(base, revision, path));
+    toSideBySideDiffLink.setTargetHistoryToken(Dispatcher.toSideBySide(base, revision, path));
     toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
     return Collections.singletonList(toSideBySideDiffLink);
   }
 
   @Override
-  CodeMirror newCm(
-      DiffInfo.FileMeta meta,
-      String contents,
-      Element parent) {
+  CodeMirror newCm(DiffInfo.FileMeta meta, String contents, Element parent) {
     JsArrayString gutters = JavaScriptObject.createArray().cast();
     gutters.push(UnifiedTable.style.lineNumbersLeft());
     gutters.push(UnifiedTable.style.lineNumbersRight());
 
-    return CodeMirror.create(parent, Configuration.create()
-        .set("cursorBlinkRate", prefs.cursorBlinkRate())
-        .set("cursorHeight", 0.85)
-        .set("gutters", gutters)
-        .set("inputStyle", "textarea")
-        .set("keyMap", "vim_ro")
-        .set("lineNumbers", false)
-        .set("lineWrapping", prefs.lineWrapping())
-        .set("matchBrackets", prefs.matchBrackets())
-        .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)
-        .set("readOnly", true)
-        .set("scrollbarStyle", "overlay")
-        .set("styleSelectedText", true)
-        .set("showTrailingSpace", prefs.showWhitespaceErrors())
-        .set("tabSize", prefs.tabSize())
-        .set("theme", prefs.theme().name().toLowerCase())
-        .set("value", meta != null ? contents : "")
-        .set("viewportMargin", renderEntireFile() ? POSITIVE_INFINITY : 10));
+    return CodeMirror.create(
+        parent,
+        Configuration.create()
+            .set("cursorBlinkRate", prefs.cursorBlinkRate())
+            .set("cursorHeight", 0.85)
+            .set("gutters", gutters)
+            .set("inputStyle", "textarea")
+            .set("keyMap", "vim_ro")
+            .set("lineNumbers", false)
+            .set("lineWrapping", prefs.lineWrapping())
+            .set("matchBrackets", prefs.matchBrackets())
+            .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)
+            .set("readOnly", true)
+            .set("scrollbarStyle", "overlay")
+            .set("styleSelectedText", true)
+            .set("showTrailingSpace", prefs.showWhitespaceErrors())
+            .set("tabSize", prefs.tabSize())
+            .set("theme", prefs.theme().name().toLowerCase())
+            .set("value", meta != null ? contents : "")
+            .set("viewportMargin", renderEntireFile() ? POSITIVE_INFINITY : 10));
   }
 
   @Override
@@ -256,15 +252,17 @@ public class Unified extends DiffScreen {
     cm.refresh();
   }
 
-  private void setLineNumber(DisplaySide side, int cmLine, Integer line,
-      String styleName) {
+  private void setLineNumber(DisplaySide side, int cmLine, Integer line, String styleName) {
     SafeHtml html = SafeHtml.asis(line != null ? line.toString() : "&nbsp;");
     InlineHTML gutter = new InlineHTML(html);
     diffTable.add(gutter);
     gutter.setStyleName(styleName);
-    cm.setGutterMarker(cmLine, side == DisplaySide.A
-        ? UnifiedTable.style.lineNumbersLeft()
-        : UnifiedTable.style.lineNumbersRight(), gutter.getElement());
+    cm.setGutterMarker(
+        cmLine,
+        side == DisplaySide.A
+            ? UnifiedTable.style.lineNumbersLeft()
+            : UnifiedTable.style.lineNumbersRight(),
+        gutter.getElement());
   }
 
   void setLineNumber(DisplaySide side, int cmLine, int line) {
@@ -272,29 +270,29 @@ public class Unified extends DiffScreen {
   }
 
   void setLineNumberEmpty(DisplaySide side, int cmLine) {
-    setLineNumber(side, cmLine, null,
-        UnifiedTable.style.unifiedLineNumberEmpty());
+    setLineNumber(side, cmLine, null, UnifiedTable.style.unifiedLineNumberEmpty());
   }
 
   @Override
   void setSyntaxHighlighting(boolean b) {
     final DiffInfo diff = getDiff();
     if (b) {
-      injectMode(diff, new AsyncCallback<Void>() {
-        @Override
-        public void onSuccess(Void result) {
-          if (prefs.syntaxHighlighting()) {
-            cm.setOption("mode", getContentType(diff.metaA() == null
-                ? diff.metaB()
-                : diff.metaA()));
-          }
-        }
+      injectMode(
+          diff,
+          new AsyncCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+              if (prefs.syntaxHighlighting()) {
+                cm.setOption(
+                    "mode", getContentType(diff.metaA() == null ? diff.metaB() : diff.metaA()));
+              }
+            }
 
-        @Override
-        public void onFailure(Throwable caught) {
-          prefs.syntaxHighlighting(false);
-        }
-      });
+            @Override
+            public void onFailure(Throwable caught) {
+              prefs.syntaxHighlighting(false);
+            }
+          });
     } else {
       cm.setOption("mode", (String) null);
     }
@@ -328,14 +326,15 @@ public class Unified extends DiffScreen {
         // key (or j/k) is held down. Performance on Chrome is fine
         // without the deferral.
         //
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-          @Override
-          public void execute() {
-            LineHandle handle =
-                cm.getLineHandleVisualStart(cm.getCursor("end").line());
-            cm.extras().activeLine(handle);
-          }
-        });
+        Scheduler.get()
+            .scheduleDeferred(
+                new ScheduledCommand() {
+                  @Override
+                  public void execute() {
+                    LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").line());
+                    cm.extras().activeLine(handle);
+                  }
+                });
       }
     };
   }
@@ -356,12 +355,13 @@ public class Unified extends DiffScreen {
 
   @Override
   void operation(final Runnable apply) {
-    cm.operation(new Runnable() {
-      @Override
-      public void run() {
-        apply.run();
-      }
-    });
+    cm.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            apply.run();
+          }
+        });
   }
 
   @Override

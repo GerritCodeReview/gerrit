@@ -22,9 +22,14 @@ public class TestServerPlugin extends ServerPlugin {
   private String httpName;
   private String sshName;
 
-  public TestServerPlugin(String name, String pluginCanonicalWebUrl,
-      PluginUser user, ClassLoader classloader, String sysName,
-      String httpName, String sshName)
+  public TestServerPlugin(
+      String name,
+      String pluginCanonicalWebUrl,
+      PluginUser user,
+      ClassLoader classloader,
+      String sysName,
+      String httpName,
+      String sshName)
       throws InvalidPluginException {
     super(name, pluginCanonicalWebUrl, user, null, null, null, null, classloader);
     this.classLoader = classloader;

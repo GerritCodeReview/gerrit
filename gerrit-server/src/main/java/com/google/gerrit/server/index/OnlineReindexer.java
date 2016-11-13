@@ -17,17 +17,14 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OnlineReindexer<K, V, I extends Index<K, V>> {
-  private static final Logger log = LoggerFactory
-      .getLogger(OnlineReindexer.class);
+  private static final Logger log = LoggerFactory.getLogger(OnlineReindexer.class);
 
   private final IndexCollection<K, V, I> indexes;
   private final SiteIndexer<K, V, I> batchIndexer;
@@ -35,9 +32,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private I index;
   private final AtomicBoolean running = new AtomicBoolean();
 
-  public OnlineReindexer(
-      IndexDefinition<K, V, I> def,
-      int version) {
+  public OnlineReindexer(IndexDefinition<K, V, I> def, int version) {
     this.indexes = def.getIndexCollection();
     this.batchIndexer = def.getSiteIndexer();
     this.version = version;
@@ -45,18 +40,18 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
 
   public void start() {
     if (running.compareAndSet(false, true)) {
-      Thread t = new Thread() {
-        @Override
-        public void run() {
-          try {
-            reindex();
-          } finally {
-            running.set(false);
-          }
-        }
-      };
-      t.setName(String.format("Reindex v%d-v%d",
-          version(indexes.getSearchIndex()), version));
+      Thread t =
+          new Thread() {
+            @Override
+            public void run() {
+              try {
+                reindex();
+              } finally {
+                running.set(false);
+              }
+            }
+          };
+      t.setName(String.format("Reindex v%d-v%d", version(indexes.getSearchIndex()), version));
       t.start();
     }
   }
@@ -74,15 +69,21 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   }
 
   private void reindex() {
-    index = checkNotNull(indexes.getWriteIndex(version),
-        "not an active write schema version: %s", version);
-    log.info("Starting online reindex from schema version {} to {}",
-        version(indexes.getSearchIndex()), version(index));
+    index =
+        checkNotNull(
+            indexes.getWriteIndex(version), "not an active write schema version: %s", version);
+    log.info(
+        "Starting online reindex from schema version {} to {}",
+        version(indexes.getSearchIndex()),
+        version(index));
     SiteIndexer.Result result = batchIndexer.indexAll(index);
     if (!result.success()) {
-      log.error("Online reindex of schema version {} failed. Successfully"
-          + " indexed {} changes, failed to index {} changes",
-          version(index), result.doneCount(), result.failedCount());
+      log.error(
+          "Online reindex of schema version {} failed. Successfully"
+              + " indexed {} changes, failed to index {} changes",
+          version(index),
+          result.doneCount(),
+          result.failedCount());
       return;
     }
     log.info("Reindex to version {} complete", version(index));

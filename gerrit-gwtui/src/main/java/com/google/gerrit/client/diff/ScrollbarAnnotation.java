@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.RegisteredHandler;
 import net.codemirror.lib.Pos;
@@ -62,14 +61,17 @@ class ScrollbarAnnotation extends Widget implements ClickHandler {
   @Override
   protected void onLoad() {
     cmB.getWrapperElement().appendChild(getElement());
-    refresh = cmB.on("refresh", new Runnable() {
-      @Override
-      public void run() {
-        if (updateScale()) {
-          updatePosition();
-        }
-      }
-    });
+    refresh =
+        cmB.on(
+            "refresh",
+            new Runnable() {
+              @Override
+              public void run() {
+                if (updateScale()) {
+                  updatePosition();
+                }
+              }
+            });
     updateScale();
     updatePosition();
   }

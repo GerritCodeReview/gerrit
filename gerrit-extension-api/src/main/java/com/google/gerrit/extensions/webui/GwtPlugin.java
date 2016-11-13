@@ -19,8 +19,8 @@ public class GwtPlugin extends WebUiPlugin {
   private final String moduleName;
 
   /**
-   * @param moduleName name of GWT module. The resource
-   *        {@code static/$MODULE/$MODULE.nocache.js} will be used.
+   * @param moduleName name of GWT module. The resource {@code static/$MODULE/$MODULE.nocache.js}
+   *     will be used.
    */
   public GwtPlugin(String moduleName) {
     this.moduleName = moduleName;

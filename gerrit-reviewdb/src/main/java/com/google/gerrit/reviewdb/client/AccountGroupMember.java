@@ -56,8 +56,7 @@ public final class AccountGroupMember {
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  protected AccountGroupMember() {
-  }
+  protected AccountGroupMember() {}
 
   public AccountGroupMember(final AccountGroupMember.Key k) {
     key = k;

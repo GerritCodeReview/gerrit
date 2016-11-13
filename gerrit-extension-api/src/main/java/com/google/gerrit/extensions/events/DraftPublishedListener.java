@@ -19,8 +19,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 /** Notified whenever a Draft is published. */
 @ExtensionPoint
 public interface DraftPublishedListener {
-  interface Event extends RevisionEvent {
-  }
+  interface Event extends RevisionEvent {}
 
   void onDraftPublished(Event event);
 }

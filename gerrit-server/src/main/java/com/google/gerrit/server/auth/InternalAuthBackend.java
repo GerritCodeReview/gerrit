@@ -20,7 +20,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.Locale;
 
 @Singleton
@@ -41,10 +40,9 @@ public class InternalAuthBackend implements AuthBackend {
 
   @Override
   public AuthUser authenticate(AuthRequest req)
-      throws MissingCredentialsException, InvalidCredentialsException,
-      UnknownUserException, UserNotAllowedException, AuthException {
-    if (Strings.isNullOrEmpty(req.getUsername())
-        || Strings.isNullOrEmpty(req.getPassword())) {
+      throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
+          UserNotAllowedException, AuthException {
+    if (Strings.isNullOrEmpty(req.getUsername()) || Strings.isNullOrEmpty(req.getPassword())) {
       throw new MissingCredentialsException();
     }
 
@@ -59,8 +57,10 @@ public class InternalAuthBackend implements AuthBackend {
     if (who == null) {
       throw new UnknownUserException();
     } else if (!who.getAccount().isActive()) {
-      throw new UserNotAllowedException("Authentication failed for " + username
-          + ": account inactive or not provisioned in Gerrit");
+      throw new UserNotAllowedException(
+          "Authentication failed for "
+              + username
+              + ": account inactive or not provisioned in Gerrit");
     }
 
     req.checkPassword(who.getPassword(username));

@@ -15,10 +15,8 @@
 package com.google.gerrit.common;
 
 import com.google.common.annotations.GwtIncompatible;
-
-import org.joda.time.DateTimeUtils;
-
 import java.sql.Timestamp;
+import org.joda.time.DateTimeUtils;
 
 /** Static utility methods for dealing with dates and times. */
 @GwtIncompatible("Unemulated org.joda.time.DateTimeUtils")
@@ -35,6 +33,5 @@ public class TimeUtil {
     return new Timestamp((t.getTime() / 1000) * 1000);
   }
 
-  private TimeUtil() {
-  }
+  private TimeUtil() {}
 }

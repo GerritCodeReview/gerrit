@@ -16,21 +16,19 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
-
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Suggest oracle that only provides suggestions if the user has typed at least
- * as many characters as configured by 'suggest.from'. If 'suggest.from' is set
- * to 0, suggestions will always be provided.
+ * Suggest oracle that only provides suggestions if the user has typed at least as many characters
+ * as configured by 'suggest.from'. If 'suggest.from' is set to 0, suggestions will always be
+ * provided.
  */
 public abstract class SuggestAfterTypingNCharsOracle extends HighlightSuggestOracle {
 
   @Override
   protected void onRequestSuggestions(Request req, Callback cb) {
-    if (req.getQuery() != null
-        && req.getQuery().length() >= Gerrit.info().suggest().from()) {
+    if (req.getQuery() != null && req.getQuery().length() >= Gerrit.info().suggest().from()) {
       _onRequestSuggestions(req, cb);
     } else {
       List<Suggestion> none = Collections.emptyList();

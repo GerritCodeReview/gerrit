@@ -27,7 +27,6 @@ import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,7 +49,8 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private GroupControl control;
 
   @Inject
-  GroupDetailFactory(ReviewDb db,
+  GroupDetailFactory(
+      ReviewDb db,
       GroupControl.Factory groupControl,
       GroupCache groupCache,
       GroupBackend groupBackend,
@@ -93,28 +93,30 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
       }
     }
 
-    Collections.sort(members, new Comparator<AccountGroupMember>() {
-      @Override
-      public int compare(AccountGroupMember o1, AccountGroupMember o2) {
-        Account a = aic.get(o1.getAccountId());
-        Account b = aic.get(o2.getAccountId());
-        return n(a).compareTo(n(b));
-      }
+    Collections.sort(
+        members,
+        new Comparator<AccountGroupMember>() {
+          @Override
+          public int compare(AccountGroupMember o1, AccountGroupMember o2) {
+            Account a = aic.get(o1.getAccountId());
+            Account b = aic.get(o2.getAccountId());
+            return n(a).compareTo(n(b));
+          }
 
-      private String n(final Account a) {
-        String n = a.getFullName();
-        if (n != null && n.length() > 0) {
-          return n;
-        }
+          private String n(final Account a) {
+            String n = a.getFullName();
+            if (n != null && n.length() > 0) {
+              return n;
+            }
 
-        n = a.getPreferredEmail();
-        if (n != null && n.length() > 0) {
-          return n;
-        }
+            n = a.getPreferredEmail();
+            if (n != null && n.length() > 0) {
+              return n;
+            }
 
-        return a.getId().toString();
-      }
-    });
+            return a.getId().toString();
+          }
+        });
     return members;
   }
 
@@ -128,26 +130,28 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
       }
     }
 
-    Collections.sort(groups, new Comparator<AccountGroupById>() {
-      @Override
-      public int compare(AccountGroupById o1, AccountGroupById o2) {
-        GroupDescription.Basic a = gic.get(o1.getIncludeUUID());
-        GroupDescription.Basic b = gic.get(o2.getIncludeUUID());
-        return n(a).compareTo(n(b));
-      }
+    Collections.sort(
+        groups,
+        new Comparator<AccountGroupById>() {
+          @Override
+          public int compare(AccountGroupById o1, AccountGroupById o2) {
+            GroupDescription.Basic a = gic.get(o1.getIncludeUUID());
+            GroupDescription.Basic b = gic.get(o2.getIncludeUUID());
+            return n(a).compareTo(n(b));
+          }
 
-      private String n (GroupDescription.Basic a) {
-        if (a == null) {
-          return "";
-        }
+          private String n(GroupDescription.Basic a) {
+            if (a == null) {
+              return "";
+            }
 
-        String n = a.getName();
-        if (n != null && n.length() > 0) {
-          return n;
-        }
-        return a.getGroupUUID().get();
-      }
-    });
+            String n = a.getName();
+            if (n != null && n.length() > 0) {
+              return n;
+            }
+            return a.getGroupUUID().get();
+          }
+        });
 
     return groups;
   }

@@ -20,7 +20,6 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-
 import java.io.IOException;
 
 public class DummyChangeIndex implements ChangeIndex {
@@ -30,20 +29,16 @@ public class DummyChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void close() {
-  }
+  public void close() {}
 
   @Override
-  public void replace(ChangeData cd) throws IOException {
-  }
+  public void replace(ChangeData cd) throws IOException {}
 
   @Override
-  public void delete(Change.Id id) throws IOException {
-  }
+  public void delete(Change.Id id) throws IOException {}
 
   @Override
-  public void deleteAll() throws IOException {
-  }
+  public void deleteAll() throws IOException {}
 
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts) {
@@ -51,8 +46,7 @@ public class DummyChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void markReady(boolean ready) throws IOException {
-  }
+  public void markReady(boolean ready) throws IOException {}
 
   public int getMaxLimit() {
     return Integer.MAX_VALUE;

@@ -28,15 +28,12 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.Constants;
 
-import java.io.IOException;
-
 @Singleton
-public class ProjectsCollection implements
-    RestCollection<TopLevelResource, ProjectResource>,
-    AcceptsCreate<TopLevelResource> {
+public class ProjectsCollection
+    implements RestCollection<TopLevelResource, ProjectResource>, AcceptsCreate<TopLevelResource> {
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
   private final ProjectControl.GenericFactory controlFactory;
@@ -44,10 +41,12 @@ public class ProjectsCollection implements
   private final CreateProject.Factory createProjectFactory;
 
   @Inject
-  ProjectsCollection(DynamicMap<RestView<ProjectResource>> views,
+  ProjectsCollection(
+      DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
       ProjectControl.GenericFactory controlFactory,
-      CreateProject.Factory factory, Provider<CurrentUser> user) {
+      CreateProject.Factory factory,
+      Provider<CurrentUser> user) {
     this.views = views;
     this.list = list;
     this.controlFactory = controlFactory;
@@ -75,12 +74,11 @@ public class ProjectsCollection implements
    *
    * @param id ID of the project, can be a project name
    * @return the project
-   * @throws UnprocessableEntityException thrown if the project ID cannot be
-   *         resolved or if the project is not visible to the calling user
+   * @throws UnprocessableEntityException thrown if the project ID cannot be resolved or if the
+   *     project is not visible to the calling user
    * @throws IOException thrown when there is an error.
    */
-  public ProjectResource parse(String id)
-      throws UnprocessableEntityException, IOException {
+  public ProjectResource parse(String id) throws UnprocessableEntityException, IOException {
     return parse(id, true);
   }
 
@@ -88,34 +86,28 @@ public class ProjectsCollection implements
    * Parses a project ID from a request body and returns the project.
    *
    * @param id ID of the project, can be a project name
-   * @param checkVisibility Whether to check or not that project is visible to
-   *        the calling user
+   * @param checkVisibility Whether to check or not that project is visible to the calling user
    * @return the project
-   * @throws UnprocessableEntityException thrown if the project ID cannot be
-   *         resolved or if the project is not visible to the calling user and
-   *         checkVisibility is true.
+   * @throws UnprocessableEntityException thrown if the project ID cannot be resolved or if the
+   *     project is not visible to the calling user and checkVisibility is true.
    * @throws IOException thrown when there is an error.
    */
   public ProjectResource parse(String id, boolean checkVisibility)
       throws UnprocessableEntityException, IOException {
     ProjectResource rsrc = _parse(id, checkVisibility);
     if (rsrc == null) {
-      throw new UnprocessableEntityException(String.format(
-          "Project Not Found: %s", id));
+      throw new UnprocessableEntityException(String.format("Project Not Found: %s", id));
     }
     return rsrc;
   }
 
-  private ProjectResource _parse(String id, boolean checkVisibility)
-      throws IOException {
+  private ProjectResource _parse(String id, boolean checkVisibility) throws IOException {
     if (id.endsWith(Constants.DOT_GIT_EXT)) {
       id = id.substring(0, id.length() - Constants.DOT_GIT_EXT.length());
     }
     ProjectControl ctl;
     try {
-      ctl = controlFactory.controlFor(
-          new Project.NameKey(id),
-          user.get());
+      ctl = controlFactory.controlFor(new Project.NameKey(id), user.get());
     } catch (NoSuchProjectException e) {
       return null;
     }

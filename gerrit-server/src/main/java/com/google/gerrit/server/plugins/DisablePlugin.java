@@ -27,8 +27,7 @@ import com.google.inject.Singleton;
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 class DisablePlugin implements RestModifyView<PluginResource, Input> {
-  static class Input {
-  }
+  static class Input {}
 
   private final PluginLoader loader;
 
@@ -38,11 +37,9 @@ class DisablePlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public PluginInfo apply(PluginResource resource, Input input)
-      throws MethodNotAllowedException {
+  public PluginInfo apply(PluginResource resource, Input input) throws MethodNotAllowedException {
     if (!loader.isRemoteAdminEnabled()) {
-      throw new MethodNotAllowedException(
-          "remote plugin administration is disabled");
+      throw new MethodNotAllowedException("remote plugin administration is disabled");
     }
     String name = resource.getName();
     loader.disablePlugins(ImmutableSet.of(name));

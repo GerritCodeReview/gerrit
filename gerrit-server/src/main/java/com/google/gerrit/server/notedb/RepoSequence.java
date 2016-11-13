@@ -19,6 +19,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.Retryer;
+import com.github.rholder.retry.RetryerBuilder;
+import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Predicates;
@@ -31,13 +36,14 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
-
-import com.github.rholder.retry.RetryException;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
-import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.WaitStrategies;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -47,25 +53,15 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 /**
  * Class for managing an incrementing sequence backed by a git repository.
- * <p>
- * The current sequence number is stored as UTF-8 text in a blob pointed to
- * by a ref in the {@code refs/sequences/*} namespace. Multiple processes can
- * share the same sequence by incrementing the counter using normal git ref
- * updates. To amortize the cost of these ref updates, processes can increment
- * the counter by a larger number and hand out numbers from that range in memory
- * until they run out. This means concurrent processes will hand out somewhat
- * non-monotonic numbers.
+ *
+ * <p>The current sequence number is stored as UTF-8 text in a blob pointed to by a ref in the
+ * {@code refs/sequences/*} namespace. Multiple processes can share the same sequence by
+ * incrementing the counter using normal git ref updates. To amortize the cost of these ref updates,
+ * processes can increment the counter by a larger number and hand out numbers from that range in
+ * memory until they run out. This means concurrent processes will hand out somewhat non-monotonic
+ * numbers.
  */
 public class RepoSequence {
   public interface Seed {
@@ -74,17 +70,16 @@ public class RepoSequence {
 
   @VisibleForTesting
   static RetryerBuilder<RefUpdate.Result> retryerBuilder() {
-    return RetryerBuilder.<RefUpdate.Result> newBuilder()
+    return RetryerBuilder.<RefUpdate.Result>newBuilder()
         .retryIfResult(Predicates.equalTo(RefUpdate.Result.LOCK_FAILURE))
         .withWaitStrategy(
             WaitStrategies.join(
-              WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
-              WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
+                WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
+                WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
         .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS));
   }
 
-  private static final Retryer<RefUpdate.Result> RETRYER =
-      retryerBuilder().build();
+  private static final Retryer<RefUpdate.Result> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
   private final Project.NameKey projectName;
@@ -100,8 +95,7 @@ public class RepoSequence {
   private int limit;
   private int counter;
 
-  @VisibleForTesting
-  int acquireCount;
+  @VisibleForTesting int acquireCount;
 
   public RepoSequence(
       GitRepositoryManager repoManager,
@@ -109,8 +103,7 @@ public class RepoSequence {
       String name,
       Seed seed,
       int batchSize) {
-    this(repoManager, projectName, name, seed, batchSize, Runnables.doNothing(),
-        RETRYER);
+    this(repoManager, projectName, name, seed, batchSize, Runnables.doNothing(), RETRYER);
   }
 
   @VisibleForTesting
@@ -248,19 +241,17 @@ public class RepoSequence {
         // may do it properly (certainly InMemoryRepository doesn't).
         throw new IncorrectObjectTypeException(id, OBJ_BLOB);
       }
-      String str = CharMatcher.whitespace().trimFrom(
-          new String(ol.getCachedBytes(), UTF_8));
+      String str = CharMatcher.whitespace().trimFrom(new String(ol.getCachedBytes(), UTF_8));
       Integer val = Ints.tryParse(str);
       if (val == null) {
-        throw new OrmException(
-            "invalid value in " + refName + " blob at " + id.name());
+        throw new OrmException("invalid value in " + refName + " blob at " + id.name());
       }
       return val;
     }
   }
 
-  private RefUpdate.Result store(Repository repo, RevWalk rw,
-      @Nullable ObjectId oldId, int val) throws IOException {
+  private RefUpdate.Result store(Repository repo, RevWalk rw, @Nullable ObjectId oldId, int val)
+      throws IOException {
     ObjectId newId;
     try (ObjectInserter ins = repo.newObjectInserter()) {
       newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));

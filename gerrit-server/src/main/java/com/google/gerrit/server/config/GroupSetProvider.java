@@ -23,22 +23,21 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Provider;
-
+import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Set;
-
 /** Parses groups referenced in the {@code gerrit.config} file. */
-public abstract class GroupSetProvider implements
-    Provider<Set<AccountGroup.UUID>> {
+public abstract class GroupSetProvider implements Provider<Set<AccountGroup.UUID>> {
 
   protected Set<AccountGroup.UUID> groupIds;
 
-  protected GroupSetProvider(GroupBackend groupBackend,
+  protected GroupSetProvider(
+      GroupBackend groupBackend,
       ThreadLocalRequestContext threadContext,
-      ServerRequestContext serverCtx, List<String> groupNames) {
+      ServerRequestContext serverCtx,
+      List<String> groupNames) {
     RequestContext ctx = threadContext.setContext(serverCtx);
     try {
       ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();

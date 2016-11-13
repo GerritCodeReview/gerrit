@@ -11,22 +11,18 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class DirectChangeByCommit extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log =
-      LoggerFactory.getLogger(DirectChangeByCommit.class);
+  private static final Logger log = LoggerFactory.getLogger(DirectChangeByCommit.class);
 
   private final Changes changes;
 
@@ -36,8 +32,8 @@ class DirectChangeByCommit extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     String query = CharMatcher.is('/').trimTrailingFrom(req.getPathInfo());
     List<ChangeInfo> results;
     try {
@@ -50,8 +46,7 @@ class DirectChangeByCommit extends HttpServlet {
     if (results.size() == 1) {
       // If exactly one change matches, link to that change.
       // TODO Link to a specific patch set, if one matched.
-      token = PageLinks.toChange(
-          new Change.Id(results.iterator().next()._number));
+      token = PageLinks.toChange(new Change.Id(results.iterator().next()._number));
     } else {
       // Otherwise, link to the query page.
       token = PageLinks.toChangeQuery(query);

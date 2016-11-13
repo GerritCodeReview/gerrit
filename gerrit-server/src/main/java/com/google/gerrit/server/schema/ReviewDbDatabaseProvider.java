@@ -21,7 +21,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.name.Named;
-
 import javax.sql.DataSource;
 
 /** Provides the {@code Database<ReviewDb>} database handle. */

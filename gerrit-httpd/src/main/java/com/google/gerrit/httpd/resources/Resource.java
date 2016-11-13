@@ -15,45 +15,42 @@
 package com.google.gerrit.httpd.resources;
 
 import com.google.gwtexpui.server.CacheHeaders;
-
 import java.io.IOException;
 import java.io.Serializable;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class Resource implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  public static final Resource NOT_FOUND = new Resource() {
-    private static final long serialVersionUID = 1L;
+  public static final Resource NOT_FOUND =
+      new Resource() {
+        private static final long serialVersionUID = 1L;
 
-    @Override
-    public int weigh() {
-      return 0;
-    }
+        @Override
+        public int weigh() {
+          return 0;
+        }
 
-    @Override
-    public void send(HttpServletRequest req, HttpServletResponse res)
-        throws IOException {
-      CacheHeaders.setNotCacheable(res);
-      res.sendError(HttpServletResponse.SC_NOT_FOUND);
-    }
+        @Override
+        public void send(HttpServletRequest req, HttpServletResponse res) throws IOException {
+          CacheHeaders.setNotCacheable(res);
+          res.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
 
-    @Override
-    public boolean isUnchanged(long latestModifiedDate) {
-      return false;
-    }
+        @Override
+        public boolean isUnchanged(long latestModifiedDate) {
+          return false;
+        }
 
-    protected Object readResolve() {
-      return NOT_FOUND;
-    }
-  };
+        protected Object readResolve() {
+          return NOT_FOUND;
+        }
+      };
 
   public abstract boolean isUnchanged(long latestModifiedDate);
 
   public abstract int weigh();
 
-  public abstract void send(HttpServletRequest req, HttpServletResponse res)
-      throws IOException;
+  public abstract void send(HttpServletRequest req, HttpServletResponse res) throws IOException;
 }

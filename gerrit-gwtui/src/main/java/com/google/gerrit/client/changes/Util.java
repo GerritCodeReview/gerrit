@@ -44,22 +44,20 @@ public class Util {
   }
 
   /**
-   * Crops the given change subject if needed so that it has at most
-   * {@link #SUBJECT_MAX_LENGTH} characters.
+   * Crops the given change subject if needed so that it has at most {@link #SUBJECT_MAX_LENGTH}
+   * characters.
    *
-   * If the given subject is not longer than {@link #SUBJECT_MAX_LENGTH}
-   * characters it is returned unchanged.
+   * <p>If the given subject is not longer than {@link #SUBJECT_MAX_LENGTH} characters it is
+   * returned unchanged.
    *
-   * If the length of the given subject exceeds {@link #SUBJECT_MAX_LENGTH}
-   * characters it is cropped. In this case {@link #SUBJECT_CROP_APPENDIX} is
-   * appended to the cropped subject, the cropped subject including the appendix
-   * has at most {@link #SUBJECT_MAX_LENGTH} characters.
+   * <p>If the length of the given subject exceeds {@link #SUBJECT_MAX_LENGTH} characters it is
+   * cropped. In this case {@link #SUBJECT_CROP_APPENDIX} is appended to the cropped subject, the
+   * cropped subject including the appendix has at most {@link #SUBJECT_MAX_LENGTH} characters.
    *
-   * If cropping is needed, the subject will be cropped after the last space
-   * character that is found within the last {@link #SUBJECT_CROP_RANGE}
-   * characters of the potentially visible characters. If no such space is
-   * found, the subject will be cropped so that the cropped subject including
-   * the appendix has exactly {@link #SUBJECT_MAX_LENGTH} characters.
+   * <p>If cropping is needed, the subject will be cropped after the last space character that is
+   * found within the last {@link #SUBJECT_CROP_RANGE} characters of the potentially visible
+   * characters. If no such space is found, the subject will be cropped so that the cropped subject
+   * including the appendix has exactly {@link #SUBJECT_MAX_LENGTH} characters.
    *
    * @return the subject, cropped if needed
    */
@@ -67,7 +65,9 @@ public class Util {
   public static String cropSubject(final String subject) {
     if (subject.length() > SUBJECT_MAX_LENGTH) {
       final int maxLength = SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length();
-      for (int cropPosition = maxLength; cropPosition > maxLength - SUBJECT_CROP_RANGE; cropPosition--) {
+      for (int cropPosition = maxLength;
+          cropPosition > maxLength - SUBJECT_CROP_RANGE;
+          cropPosition--) {
         // Character.isWhitespace(char) can't be used because this method is not supported by GWT,
         // see https://developers.google.com/web-toolkit/doc/1.6/RefJreEmulation#Package_java_lang
         if (Character.isSpace(subject.charAt(cropPosition - 1))) {

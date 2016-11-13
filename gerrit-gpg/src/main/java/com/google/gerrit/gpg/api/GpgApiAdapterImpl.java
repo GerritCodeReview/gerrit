@@ -29,14 +29,12 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.bouncycastle.openpgp.PGPException;
-import org.eclipse.jgit.transport.PushCertificate;
-import org.eclipse.jgit.transport.PushCertificateParser;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.bouncycastle.openpgp.PGPException;
+import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.PushCertificateParser;
 
 public class GpgApiAdapterImpl implements GpgApiAdapter {
   private final PostGpgKeys postGpgKeys;
@@ -72,8 +70,8 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   }
 
   @Override
-  public Map<String, GpgKeyInfo> putGpgKeys(AccountResource account,
-      List<String> add, List<String> delete)
+  public Map<String, GpgKeyInfo> putGpgKeys(
+      AccountResource account, List<String> add, List<String> delete)
       throws RestApiException, GpgException {
     PostGpgKeys.Input in = new PostGpgKeys.Input();
     in.add = add;
@@ -96,14 +94,12 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   }
 
   @Override
-  public PushCertificateInfo checkPushCertificate(String certStr,
-      IdentifiedUser expectedUser) throws GpgException {
+  public PushCertificateInfo checkPushCertificate(String certStr, IdentifiedUser expectedUser)
+      throws GpgException {
     try {
       PushCertificate cert = PushCertificateParser.fromString(certStr);
-      PushCertificateChecker.Result result = pushCertCheckerFactory
-          .create(expectedUser)
-          .setCheckNonce(false)
-          .check(cert);
+      PushCertificateChecker.Result result =
+          pushCertCheckerFactory.create(expectedUser).setCheckNonce(false).check(cert);
       PushCertificateInfo info = new PushCertificateInfo();
       info.certificate = certStr;
       info.key = GpgKeys.toJson(result.getPublicKey(), result.getCheckResult());
@@ -112,5 +108,4 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throw new GpgException(e);
     }
   }
-
 }

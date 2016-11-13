@@ -23,19 +23,17 @@ import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.InternalQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Set;
-
 public class InternalAccountQuery extends InternalQuery<AccountState> {
-  private static final Logger log =
-      LoggerFactory.getLogger(InternalAccountQuery.class);
+  private static final Logger log = LoggerFactory.getLogger(InternalAccountQuery.class);
 
   @Inject
-  InternalAccountQuery(AccountQueryProcessor queryProcessor,
+  InternalAccountQuery(
+      AccountQueryProcessor queryProcessor,
       AccountIndexCollection indexes,
       IndexConfig indexConfig) {
     super(queryProcessor, indexes, indexConfig);
@@ -65,13 +63,11 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return this;
   }
 
-  public List<AccountState> byDefault(String query)
-      throws OrmException {
+  public List<AccountState> byDefault(String query) throws OrmException {
     return query(AccountPredicates.defaultPredicate(query));
   }
 
-  public List<AccountState> byExternalId(String externalId)
-      throws OrmException {
+  public List<AccountState> byExternalId(String externalId) throws OrmException {
     return query(AccountPredicates.externalId(externalId));
   }
 
@@ -81,23 +77,19 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
       return accountStates.get(0);
     } else if (accountStates.size() > 0) {
       StringBuilder msg = new StringBuilder();
-      msg.append("Ambiguous external ID ")
-          .append(externalId)
-          .append("for accounts: ");
-      Joiner.on(", ").appendTo(msg,
-          Lists.transform(accountStates, AccountState.ACCOUNT_ID_FUNCTION));
+      msg.append("Ambiguous external ID ").append(externalId).append("for accounts: ");
+      Joiner.on(", ")
+          .appendTo(msg, Lists.transform(accountStates, AccountState.ACCOUNT_ID_FUNCTION));
       log.warn(msg.toString());
     }
     return null;
   }
 
-  public List<AccountState> byFullName(String fullName)
-      throws OrmException {
+  public List<AccountState> byFullName(String fullName) throws OrmException {
     return query(AccountPredicates.fullName(fullName));
   }
 
-  public List<AccountState> byWatchedProject(Project.NameKey project)
-      throws OrmException {
+  public List<AccountState> byWatchedProject(Project.NameKey project) throws OrmException {
     return query(AccountPredicates.watchedProject(project));
   }
 }

@@ -30,8 +30,12 @@ class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
       return user.getAccountId().toString();
     }
     if (user instanceof SingleGroupUser) {
-      return "group:" + user.getEffectiveGroups().getKnownGroups() //
-          .iterator().next().toString();
+      return "group:"
+          + user.getEffectiveGroups()
+              .getKnownGroups() //
+              .iterator()
+              .next()
+              .toString();
     }
     return user.toString();
   }
@@ -41,9 +45,11 @@ class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
   private final ChangeControl.GenericFactory changeControl;
   private final CurrentUser user;
 
-  ChangeIsVisibleToPredicate(Provider<ReviewDb> db,
+  ChangeIsVisibleToPredicate(
+      Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
-      ChangeControl.GenericFactory changeControlFactory, CurrentUser user) {
+      ChangeControl.GenericFactory changeControlFactory,
+      CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.db = db;
     this.notesFactory = notesFactory;

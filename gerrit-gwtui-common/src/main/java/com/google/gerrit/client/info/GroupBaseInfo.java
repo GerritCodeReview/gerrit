@@ -24,8 +24,8 @@ public class GroupBaseInfo extends JavaScriptObject {
   }
 
   public final native String id() /*-{ return this.id; }-*/;
+
   public final native String name() /*-{ return this.name; }-*/;
 
-  protected GroupBaseInfo() {
-  }
+  protected GroupBaseInfo() {}
 }

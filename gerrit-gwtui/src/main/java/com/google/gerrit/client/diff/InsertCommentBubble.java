@@ -24,28 +24,28 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
-
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Rect;
 
 /** Bubble displayed near a selected region to create a comment. */
 class InsertCommentBubble extends Composite {
   interface Binder extends UiBinder<HTMLPanel, InsertCommentBubble> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Image icon;
 
-  InsertCommentBubble(
-      final CommentManager commentManager,
-      final CodeMirror cm) {
+  InsertCommentBubble(final CommentManager commentManager, final CodeMirror cm) {
     initWidget(uiBinder.createAndBindUi(this));
-    addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        setVisible(false);
-        commentManager.newDraftCallback(cm).run();
-      }
-    }, ClickEvent.getType());
+    addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            setVisible(false);
+            commentManager.newDraftCallback(cm).run();
+          }
+        },
+        ClickEvent.getType());
   }
 
   void position(Rect r) {

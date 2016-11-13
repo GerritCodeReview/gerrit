@@ -27,7 +27,14 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -37,21 +44,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 /**
  * This is a helper class for MergeOp and not intended for general use.
  *
- * Some database backends require to open a repository just once within
- * a transaction of a submission, this caches open repositories to satisfy
- * that requirement.
+ * <p>Some database backends require to open a repository just once within a transaction of a
+ * submission, this caches open repositories to satisfy that requirement.
  */
 public class MergeOpRepoManager implements AutoCloseable {
   public class OpenRepo {
@@ -105,16 +102,18 @@ public class MergeOpRepoManager implements AutoCloseable {
     public BatchUpdate getUpdate() {
       checkState(db != null, "call setContext before getUpdate");
       if (update == null) {
-        update = batchUpdateFactory.create(db, getProjectName(), caller, ts)
-            .setRepository(repo, rw, ins)
-            .setRequestId(submissionId);
+        update =
+            batchUpdateFactory
+                .create(db, getProjectName(), caller, ts)
+                .setRepository(repo, rw, ins)
+                .setRequestId(submissionId);
       }
       return update;
     }
 
     /**
-     * Make sure the update has already executed before reset it.
-     * TODO:czhen Have a flag in BatchUpdate to mark if it has been executed
+     * Make sure the update has already executed before reset it. TODO:czhen Have a flag in
+     * BatchUpdate to mark if it has been executed
      */
     void resetUpdate() {
       update = null;
@@ -145,15 +144,14 @@ public class MergeOpRepoManager implements AutoCloseable {
           oldTip = null;
           update.setExpectedOldObjectId(ObjectId.zeroId());
         } else {
-          throw new IntegrationException("The destination branch "
-              + name + " does not exist anymore.");
+          throw new IntegrationException(
+              "The destination branch " + name + " does not exist anymore.");
         }
       } catch (IOException e) {
         throw new IntegrationException("Cannot open branch " + name, e);
       }
     }
   }
-
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -177,8 +175,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller,
-      RequestId submissionId) {
+  void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller, RequestId submissionId) {
     this.db = db;
     this.ts = ts;
     this.caller = caller;
@@ -195,8 +192,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     return or;
   }
 
-  public OpenRepo openRepo(Project.NameKey project)
-      throws NoSuchProjectException, IOException {
+  public OpenRepo openRepo(Project.NameKey project) throws NoSuchProjectException, IOException {
     if (openRepos.containsKey(project)) {
       return openRepos.get(project);
     }
@@ -206,8 +202,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       throw new NoSuchProjectException(project);
     }
     try {
-      OpenRepo or =
-          new OpenRepo(repoManager.openRepository(project), projectState);
+      OpenRepo or = new OpenRepo(repoManager.openRepository(project), projectState);
       openRepos.put(project, or);
       return or;
     } catch (RepositoryNotFoundException e) {

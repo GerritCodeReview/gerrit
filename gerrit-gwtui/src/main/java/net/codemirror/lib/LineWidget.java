@@ -19,6 +19,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 /** LineWidget objects used within CodeMirror. */
 public class LineWidget extends JavaScriptObject {
   public final native void clear() /*-{ this.clear() }-*/;
+
   public final native void changed() /*-{ this.changed() }-*/;
 
   public final native void onRedraw(Runnable thunk) /*-{
@@ -36,6 +37,5 @@ public class LineWidget extends JavaScriptObject {
     w.on("redraw", h);
   }-*/;
 
-  protected LineWidget() {
-  }
+  protected LineWidget() {}
 }

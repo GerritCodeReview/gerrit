@@ -16,10 +16,6 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.pgm.init.BaseInit;
 import com.google.gerrit.pgm.init.PluginsDistribution;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -27,18 +23,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class SiteInitializer {
-  private static final Logger LOG = LoggerFactory
-      .getLogger(SiteInitializer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SiteInitializer.class);
 
   private final String sitePath;
   private final String initPath;
   private final PluginsDistribution pluginsDistribution;
   private final List<String> pluginsToInstall;
 
-  SiteInitializer(String sitePath, String initPath,
-      PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
+  SiteInitializer(
+      String sitePath,
+      String initPath,
+      PluginsDistribution pluginsDistribution,
+      List<String> pluginsToInstall) {
     this.sitePath = sitePath;
     this.initPath = initPath;
     this.pluginsDistribution = pluginsDistribution;
@@ -61,8 +61,14 @@ public final class SiteInitializer {
         }
         if (site != null) {
           LOG.info("Initializing site at " + site.toRealPath().normalize());
-          new BaseInit(site, new ReviewDbDataSourceProvider(), false, false,
-              pluginsDistribution, pluginsToInstall).run();
+          new BaseInit(
+                  site,
+                  new ReviewDbDataSourceProvider(),
+                  false,
+                  false,
+                  pluginsDistribution,
+                  pluginsToInstall)
+              .run();
         }
       }
     } catch (Exception e) {
@@ -77,8 +83,7 @@ public final class SiteInitializer {
 
   private Path getSiteFromReviewDb(Connection conn) {
     try (Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(
-          "SELECT site_path FROM system_config")) {
+        ResultSet rs = stmt.executeQuery("SELECT site_path FROM system_config")) {
       if (rs.next()) {
         return Paths.get(rs.getString(1));
       }

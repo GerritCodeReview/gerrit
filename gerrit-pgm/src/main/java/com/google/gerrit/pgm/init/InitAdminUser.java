@@ -31,14 +31,12 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-
-import org.apache.commons.validator.routines.EmailValidator;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class InitAdminUser implements InitStep {
   private final ConsoleUI ui;
@@ -48,17 +46,14 @@ public class InitAdminUser implements InitStep {
 
   @Inject
   InitAdminUser(
-      InitFlags flags,
-      ConsoleUI ui,
-      VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory) {
+      InitFlags flags, ConsoleUI ui, VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory) {
     this.flags = flags;
     this.ui = ui;
     this.authorizedKeysFactory = authorizedKeysFactory;
   }
 
   @Override
-  public void run() {
-  }
+  public void run() {}
 
   @Inject(optional = true)
   void set(SchemaFactory<ReviewDb> dbFactory) {
@@ -67,8 +62,7 @@ public class InitAdminUser implements InitStep {
 
   @Override
   public void postRun() throws Exception {
-    AuthType authType =
-        flags.cfg.getEnum(AuthType.values(), "auth", null, "type", null);
+    AuthType authType = flags.cfg.getEnum(AuthType.values(), "auth", null, "type", null);
     if (authType != AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       return;
     }
@@ -85,8 +79,8 @@ public class InitAdminUser implements InitStep {
           String email = readEmail(sshKey);
 
           AccountExternalId extUser =
-              new AccountExternalId(id, new AccountExternalId.Key(
-                  AccountExternalId.SCHEME_USERNAME, username));
+              new AccountExternalId(
+                  id, new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username));
           if (!Strings.isNullOrEmpty(httpPassword)) {
             extUser.setPassword(httpPassword);
           }
@@ -94,8 +88,8 @@ public class InitAdminUser implements InitStep {
 
           if (email != null) {
             AccountExternalId extMailto =
-                new AccountExternalId(id, new AccountExternalId.Key(
-                    AccountExternalId.SCHEME_MAILTO, email));
+                new AccountExternalId(
+                    id, new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email));
             extMailto.setEmailAddress(email);
             db.accountExternalIds().insert(Collections.singleton(extMailto));
           }
@@ -105,16 +99,14 @@ public class InitAdminUser implements InitStep {
           a.setPreferredEmail(email);
           db.accounts().insert(Collections.singleton(a));
 
-          AccountGroupName adminGroup = db.accountGroupNames().get(
-              new AccountGroup.NameKey("Administrators"));
+          AccountGroupName adminGroup =
+              db.accountGroupNames().get(new AccountGroup.NameKey("Administrators"));
           AccountGroupMember m =
-              new AccountGroupMember(new AccountGroupMember.Key(id,
-                  adminGroup.getId()));
+              new AccountGroupMember(new AccountGroupMember.Key(id, adminGroup.getId()));
           db.accountGroupMembers().insert(Collections.singleton(m));
 
           if (sshKey != null) {
-            VersionedAuthorizedKeysOnInit authorizedKeys =
-                authorizedKeysFactory.create(id).load();
+            VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
             authorizedKeys.addKey(sshKey.getSshPublicKey());
             authorizedKeys.save("Added SSH key for initial admin user\n");
           }
@@ -126,10 +118,10 @@ public class InitAdminUser implements InitStep {
   private String readEmail(AccountSshKey sshKey) {
     String defaultEmail = "admin@example.com";
     if (sshKey != null && sshKey.getComment() != null) {
-     String c = sshKey.getComment().trim();
-     if (EmailValidator.getInstance().isValid(c)) {
-       defaultEmail = c;
-     }
+      String c = sshKey.getComment().trim();
+      if (EmailValidator.getInstance().isValid(c)) {
+        defaultEmail = c;
+      }
     }
     return readEmail(defaultEmail);
   }
@@ -145,23 +137,18 @@ public class InitAdminUser implements InitStep {
 
   private AccountSshKey readSshKey(Account.Id id) throws IOException {
     String defaultPublicSshKeyFile = "";
-    Path defaultPublicSshKeyPath =
-        Paths.get(System.getProperty("user.home"), ".ssh", "id_rsa.pub");
+    Path defaultPublicSshKeyPath = Paths.get(System.getProperty("user.home"), ".ssh", "id_rsa.pub");
     if (Files.exists(defaultPublicSshKeyPath)) {
       defaultPublicSshKeyFile = defaultPublicSshKeyPath.toString();
     }
-    String publicSshKeyFile =
-        ui.readString(defaultPublicSshKeyFile, "public SSH key file");
-    return !Strings.isNullOrEmpty(publicSshKeyFile)
-        ? createSshKey(id, publicSshKeyFile) : null;
+    String publicSshKeyFile = ui.readString(defaultPublicSshKeyFile, "public SSH key file");
+    return !Strings.isNullOrEmpty(publicSshKeyFile) ? createSshKey(id, publicSshKeyFile) : null;
   }
 
-  private AccountSshKey createSshKey(Account.Id id, String keyFile)
-      throws IOException {
+  private AccountSshKey createSshKey(Account.Id id, String keyFile) throws IOException {
     Path p = Paths.get(keyFile);
     if (!Files.exists(p)) {
-      throw new IOException(String.format(
-          "Cannot add public SSH key: %s is not a file", keyFile));
+      throw new IOException(String.format("Cannot add public SSH key: %s is not a file", keyFile));
     }
     String content = new String(Files.readAllBytes(p), UTF_8);
     return new AccountSshKey(new AccountSshKey.Id(id, 1), content);

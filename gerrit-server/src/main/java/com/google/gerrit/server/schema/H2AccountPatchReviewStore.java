@@ -27,11 +27,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -41,20 +36,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class H2AccountPatchReviewStore
-    implements AccountPatchReviewStore, LifecycleListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(H2AccountPatchReviewStore.class);
+public class H2AccountPatchReviewStore implements AccountPatchReviewStore, LifecycleListener {
+  private static final Logger log = LoggerFactory.getLogger(H2AccountPatchReviewStore.class);
 
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
-      DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-          .to(H2AccountPatchReviewStore.class);
+      DynamicItem.bind(binder(), AccountPatchReviewStore.class).to(H2AccountPatchReviewStore.class);
       listener().to(H2AccountPatchReviewStore.class);
     }
   }
@@ -64,8 +58,7 @@ public class H2AccountPatchReviewStore
     @Override
     protected void configure() {
       H2AccountPatchReviewStore inMemoryStore = new H2AccountPatchReviewStore();
-      DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-          .toInstance(inMemoryStore);
+      DynamicItem.bind(binder(), AccountPatchReviewStore.class).toInstance(inMemoryStore);
       listener().toInstance(inMemoryStore);
     }
   }
@@ -73,8 +66,7 @@ public class H2AccountPatchReviewStore
   private final String url;
 
   @Inject
-  H2AccountPatchReviewStore(@GerritServerConfig Config cfg,
-      SitePaths sitePaths) {
+  H2AccountPatchReviewStore(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     this.url = H2.appendUrlOptions(cfg, getUrl(sitePaths));
   }
 
@@ -83,8 +75,8 @@ public class H2AccountPatchReviewStore
   }
 
   /**
-   * Creates an in-memory H2 database to store the reviewed flags.
-   * This should be used for tests only.
+   * Creates an in-memory H2 database to store the reviewed flags. This should be used for tests
+   * only.
    */
   @VisibleForTesting
   private H2AccountPatchReviewStore() {
@@ -106,14 +98,15 @@ public class H2AccountPatchReviewStore
   public static void createTableIfNotExists(String url) throws OrmException {
     try (Connection con = DriverManager.getConnection(url);
         Statement stmt = con.createStatement()) {
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ACCOUNT_PATCH_REVIEWS ("
-          + "ACCOUNT_ID INTEGER DEFAULT 0 NOT NULL, "
-          + "CHANGE_ID INTEGER DEFAULT 0 NOT NULL, "
-          + "PATCH_SET_ID INTEGER DEFAULT 0 NOT NULL, "
-          + "FILE_NAME VARCHAR(255) DEFAULT '' NOT NULL, "
-          + "CONSTRAINT PRIMARY_KEY_ACCOUNT_PATCH_REVIEWS "
-          + "PRIMARY KEY (ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME)"
-          + ")");
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS ACCOUNT_PATCH_REVIEWS ("
+              + "ACCOUNT_ID INTEGER DEFAULT 0 NOT NULL, "
+              + "CHANGE_ID INTEGER DEFAULT 0 NOT NULL, "
+              + "PATCH_SET_ID INTEGER DEFAULT 0 NOT NULL, "
+              + "FILE_NAME VARCHAR(255) DEFAULT '' NOT NULL, "
+              + "CONSTRAINT PRIMARY_KEY_ACCOUNT_PATCH_REVIEWS "
+              + "PRIMARY KEY (ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME)"
+              + ")");
     } catch (SQLException e) {
       throw convertError("create", e);
     }
@@ -129,17 +122,17 @@ public class H2AccountPatchReviewStore
   }
 
   @Override
-  public void stop() {
-  }
+  public void stop() {}
 
   @Override
-  public boolean markReviewed(PatchSet.Id psId, Account.Id accountId,
-      String path) throws OrmException {
+  public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path)
+      throws OrmException {
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("INSERT INTO ACCOUNT_PATCH_REVIEWS "
-                + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
-                + "(?, ?, ?, ?)")) {
+            con.prepareStatement(
+                "INSERT INTO ACCOUNT_PATCH_REVIEWS "
+                    + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
+                    + "(?, ?, ?, ?)")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());
@@ -156,17 +149,18 @@ public class H2AccountPatchReviewStore
   }
 
   @Override
-  public void markReviewed(PatchSet.Id psId, Account.Id accountId,
-      Collection<String> paths) throws OrmException {
+  public void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths)
+      throws OrmException {
     if (paths == null || paths.isEmpty()) {
       return;
     }
 
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("INSERT INTO ACCOUNT_PATCH_REVIEWS "
-                + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
-                + "(?, ?, ?, ?)")) {
+            con.prepareStatement(
+                "INSERT INTO ACCOUNT_PATCH_REVIEWS "
+                    + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
+                    + "(?, ?, ?, ?)")) {
       for (String path : paths) {
         stmt.setInt(1, accountId.get());
         stmt.setInt(2, psId.getParentKey().get());
@@ -189,9 +183,10 @@ public class H2AccountPatchReviewStore
       throws OrmException {
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("DELETE FROM ACCOUNT_PATCH_REVIEWS "
-                + "WHERE ACCOUNT_ID = ? AND CHANGE_ID + ? AND "
-                + "PATCH_SET_ID = ? AND FILE_NAME = ?")) {
+            con.prepareStatement(
+                "DELETE FROM ACCOUNT_PATCH_REVIEWS "
+                    + "WHERE ACCOUNT_ID = ? AND CHANGE_ID + ? AND "
+                    + "PATCH_SET_ID = ? AND FILE_NAME = ?")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());
@@ -206,8 +201,9 @@ public class H2AccountPatchReviewStore
   public void clearReviewed(PatchSet.Id psId) throws OrmException {
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("DELETE FROM ACCOUNT_PATCH_REVIEWS "
-                + "WHERE CHANGE_ID + ? AND PATCH_SET_ID = ?")) {
+            con.prepareStatement(
+                "DELETE FROM ACCOUNT_PATCH_REVIEWS "
+                    + "WHERE CHANGE_ID + ? AND PATCH_SET_ID = ?")) {
       stmt.setInt(1, psId.getParentKey().get());
       stmt.setInt(2, psId.get());
       stmt.executeUpdate();
@@ -221,8 +217,9 @@ public class H2AccountPatchReviewStore
       throws OrmException {
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("SELECT FILE_NAME FROM ACCOUNT_PATCH_REVIEWS "
-                + "WHERE ACCOUNT_ID = ? AND CHANGE_ID = ? AND PATCH_SET_ID = ?")) {
+            con.prepareStatement(
+                "SELECT FILE_NAME FROM ACCOUNT_PATCH_REVIEWS "
+                    + "WHERE ACCOUNT_ID = ? AND CHANGE_ID = ? AND PATCH_SET_ID = ?")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());

@@ -24,18 +24,15 @@ import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
-public class QueryScreen extends PagedSingleListScreen implements
-    ChangeListScreen {
+public class QueryScreen extends PagedSingleListScreen implements ChangeListScreen {
   // Legacy numeric identifier.
   private static final RegExp NUMERIC_ID = RegExp.compile("^[1-9][0-9]*$");
   // Commit SHA1 hash
-  private static final RegExp COMMIT_SHA1 =
-      RegExp.compile("^([0-9a-fA-F]{4," + RevId.LEN + "})$");
+  private static final RegExp COMMIT_SHA1 = RegExp.compile("^([0-9a-fA-F]{4," + RevId.LEN + "})$");
   // Change-Id
   private static final String ID_PATTERN = "[iI][0-9a-f]{4,}$";
   private static final RegExp CHANGE_ID = RegExp.compile("^" + ID_PATTERN);
-  private static final RegExp CHANGE_ID_TRIPLET =
-      RegExp.compile("^(.)+~(.)+~" + ID_PATTERN);
+  private static final RegExp CHANGE_ID_TRIPLET = RegExp.compile("^(.)+~(.)+~" + ID_PATTERN);
 
   public static QueryScreen forQuery(String query) {
     return forQuery(query, 0);
@@ -87,8 +84,7 @@ public class QueryScreen extends PagedSingleListScreen implements
   @Override
   protected void onLoad() {
     super.onLoad();
-    ChangeList.query(
-        query, ChangeTable.OPTIONS, loadCallback(), start, pageSize);
+    ChangeList.query(query, ChangeTable.OPTIONS, loadCallback(), start, pageSize);
   }
 
   private static boolean isSingleQuery(String query) {

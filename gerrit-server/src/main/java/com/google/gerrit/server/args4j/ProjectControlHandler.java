@@ -22,7 +22,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -32,11 +32,8 @@ import org.kohsuke.args4j.spi.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 public class ProjectControlHandler extends OptionHandler<ProjectControl> {
-  private static final Logger log = LoggerFactory
-      .getLogger(ProjectControlHandler.class);
+  private static final Logger log = LoggerFactory.getLogger(ProjectControlHandler.class);
   private final ProjectControl.GenericFactory projectControlFactory;
   private final Provider<CurrentUser> user;
 
@@ -44,7 +41,8 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   public ProjectControlHandler(
       final ProjectControl.GenericFactory projectControlFactory,
       Provider<CurrentUser> user,
-      @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
       @Assisted final Setter<ProjectControl> setter) {
     super(parser, option, setter);
     this.projectControlFactory = projectControlFactory;
@@ -52,8 +50,7 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     String projectName = params.getParameter(0);
 
     while (projectName.endsWith("/")) {
@@ -74,17 +71,14 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
 
     final ProjectControl control;
     try {
-      control = projectControlFactory.validateFor(
-          nameKey,
-          ProjectControl.OWNER | ProjectControl.VISIBLE,
-          user.get());
+      control =
+          projectControlFactory.validateFor(
+              nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE, user.get());
     } catch (NoSuchProjectException e) {
       throw new CmdLineException(owner, e.getMessage());
     } catch (IOException e) {
       log.warn("Cannot load project " + nameWithoutSuffix, e);
-      throw new CmdLineException(
-          owner,
-          new NoSuchProjectException(nameKey).getMessage());
+      throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     }
 
     setter.addValue(control);

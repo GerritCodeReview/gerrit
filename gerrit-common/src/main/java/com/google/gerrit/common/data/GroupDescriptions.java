@@ -18,9 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-/**
- * Utility class for building GroupDescription objects.
- */
+/** Utility class for building GroupDescription objects. */
 public class GroupDescriptions {
 
   @Nullable
@@ -62,6 +60,5 @@ public class GroupDescriptions {
     };
   }
 
-  private GroupDescriptions() {
-  }
+  private GroupDescriptions() {}
 }

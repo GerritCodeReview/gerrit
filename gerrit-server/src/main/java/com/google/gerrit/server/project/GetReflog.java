@@ -23,39 +23,51 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 public class GetReflog implements RestReadView<BranchResource> {
   private final GitRepositoryManager repoManager;
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
-      usage = "maximum number of reflog entries to list")
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of reflog entries to list"
+  )
   public GetReflog setLimit(int limit) {
     this.limit = limit;
     return this;
   }
 
-  @Option(name = "--from", metaVar = "TIMESTAMP",
-      usage = "timestamp from which the reflog entries should be listed (UTC, format: "
-          + TimestampHandler.TIMESTAMP_FORMAT + ")")
+  @Option(
+    name = "--from",
+    metaVar = "TIMESTAMP",
+    usage =
+        "timestamp from which the reflog entries should be listed (UTC, format: "
+            + TimestampHandler.TIMESTAMP_FORMAT
+            + ")"
+  )
   public GetReflog setFrom(Timestamp from) {
     this.from = from;
     return this;
   }
 
-  @Option(name = "--to", metaVar = "TIMESTAMP",
-      usage = "timestamp until which the reflog entries should be listed (UTC, format: "
-          + TimestampHandler.TIMESTAMP_FORMAT + ")")
+  @Option(
+    name = "--to",
+    metaVar = "TIMESTAMP",
+    usage =
+        "timestamp until which the reflog entries should be listed (UTC, format: "
+            + TimestampHandler.TIMESTAMP_FORMAT
+            + ")"
+  )
   public GetReflog setTo(Timestamp to) {
     this.to = to;
     return this;
@@ -71,8 +83,8 @@ public class GetReflog implements RestReadView<BranchResource> {
   }
 
   @Override
-  public List<ReflogEntryInfo> apply(BranchResource rsrc) throws AuthException,
-      ResourceNotFoundException, RepositoryNotFoundException, IOException {
+  public List<ReflogEntryInfo> apply(BranchResource rsrc)
+      throws AuthException, ResourceNotFoundException, RepositoryNotFoundException, IOException {
     if (!rsrc.getControl().isOwner()) {
       throw new AuthException("not project owner");
     }
@@ -84,16 +96,12 @@ public class GetReflog implements RestReadView<BranchResource> {
       }
       List<ReflogEntry> entries;
       if (from == null && to == null) {
-        entries =
-            limit > 0 ? r.getReverseEntries(limit) : r.getReverseEntries();
+        entries = limit > 0 ? r.getReverseEntries(limit) : r.getReverseEntries();
       } else {
-        entries = limit > 0
-            ? new ArrayList<>(limit)
-            : new ArrayList<>();
+        entries = limit > 0 ? new ArrayList<>(limit) : new ArrayList<>();
         for (ReflogEntry e : r.getReverseEntries()) {
           Timestamp timestamp = new Timestamp(e.getWho().getWhen().getTime());
-          if ((from == null || from.before(timestamp)) &&
-              (to == null || to.after(timestamp))) {
+          if ((from == null || from.before(timestamp)) && (to == null || to.after(timestamp))) {
             entries.add(e);
           }
           if (limit > 0 && entries.size() >= limit) {

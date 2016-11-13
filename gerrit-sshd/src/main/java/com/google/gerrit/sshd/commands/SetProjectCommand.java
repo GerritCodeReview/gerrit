@@ -27,7 +27,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
@@ -35,22 +35,27 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "set-project", description = "Change a project's settings")
 final class SetProjectCommand extends SshCommand {
-  private static final Logger log = LoggerFactory
-      .getLogger(SetProjectCommand.class);
+  private static final Logger log = LoggerFactory.getLogger(SetProjectCommand.class);
 
   @Argument(index = 0, required = true, metaVar = "NAME", usage = "name of the project")
   private ProjectControl projectControl;
 
-  @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
+  @Option(
+    name = "--description",
+    aliases = {"-d"},
+    metaVar = "DESCRIPTION",
+    usage = "description of project"
+  )
   private String projectDescription;
 
-  @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
-      + "(default: MERGE_IF_NECESSARY)")
+  @Option(
+    name = "--submit-type",
+    aliases = {"-t"},
+    usage = "project submit type\n" + "(default: MERGE_IF_NECESSARY)"
+  )
   private SubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
@@ -65,22 +70,38 @@ final class SetProjectCommand extends SshCommand {
   @Option(name = "--change-id", usage = "if change-id is required")
   private InheritableBoolean requireChangeID;
 
-  @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
+  @Option(
+    name = "--use-contributor-agreements",
+    aliases = {"--ca"},
+    usage = "if contributor agreement is required"
+  )
   void setUseContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--no-contributor-agreements", aliases = {"--nca"}, usage = "if contributor agreement is not required")
+  @Option(
+    name = "--no-contributor-agreements",
+    aliases = {"--nca"},
+    usage = "if contributor agreement is not required"
+  )
   void setNoContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.FALSE;
   }
 
-  @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
+  @Option(
+    name = "--use-signed-off-by",
+    aliases = {"--so"},
+    usage = "if signed-off-by is required"
+  )
   void setUseSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--no-signed-off-by", aliases = {"--nso"}, usage = "if signed-off-by is not required")
+  @Option(
+    name = "--no-signed-off-by",
+    aliases = {"--nso"},
+    usage = "if signed-off-by is not required"
+  )
   void setNoSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.FALSE;
   }
@@ -90,32 +111,45 @@ final class SetProjectCommand extends SshCommand {
     contentMerge = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--no-content-merge", usage = "don't allow automatic conflict resolving within files")
+  @Option(
+    name = "--no-content-merge",
+    usage = "don't allow automatic conflict resolving within files"
+  )
   void setNoContentMerge(@SuppressWarnings("unused") boolean on) {
     contentMerge = InheritableBoolean.FALSE;
   }
 
-  @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
+  @Option(
+    name = "--require-change-id",
+    aliases = {"--id"},
+    usage = "if change-id is required"
+  )
   void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--no-change-id", aliases = {"--nid"}, usage = "if change-id is not required")
+  @Option(
+    name = "--no-change-id",
+    aliases = {"--nid"},
+    usage = "if change-id is not required"
+  )
   void setNoChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.FALSE;
   }
 
-  @Option(name = "--project-state", aliases = {"--ps"}, usage = "project's visibility state")
+  @Option(
+    name = "--project-state",
+    aliases = {"--ps"},
+    usage = "project's visibility state"
+  )
   private ProjectState state;
 
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
 
-  @Inject
-  private MetaDataUpdate.User metaDataUpdateFactory;
+  @Inject private MetaDataUpdate.User metaDataUpdateFactory;
 
-  @Inject
-  private ProjectCache projectCache;
+  @Inject private ProjectCache projectCache;
 
   @Override
   protected void run() throws Failure {

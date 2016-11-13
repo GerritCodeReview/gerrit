@@ -24,20 +24,17 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
 import com.googlecode.prolog_cafe.exceptions.CompileException;
-
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-
 /**
- * Gets rules.pl at refs/meta/config and compiles into jar file called
- * rules-(sha1 of rules.pl).jar in (site-path)/cache/rules
+ * Gets rules.pl at refs/meta/config and compiles into jar file called rules-(sha1 of rules.pl).jar
+ * in (site-path)/cache/rules
  */
 public class Rulec extends SiteProgram {
   @Option(name = "--all", usage = "recompile all rules")
@@ -46,30 +43,36 @@ public class Rulec extends SiteProgram {
   @Option(name = "--quiet", usage = "suppress some messages")
   private boolean quiet;
 
-  @Argument(index = 0, multiValued = true, metaVar = "PROJECT", usage = "project to compile rules for")
+  @Argument(
+    index = 0,
+    multiValued = true,
+    metaVar = "PROJECT",
+    usage = "project to compile rules for"
+  )
   private List<String> projectNames = new ArrayList<>();
 
   private Injector dbInjector;
 
   private final LifecycleManager manager = new LifecycleManager();
 
-  @Inject
-  private GitRepositoryManager gitManager;
+  @Inject private GitRepositoryManager gitManager;
 
-  @Inject
-  private PrologCompiler.Factory jarFactory;
+  @Inject private PrologCompiler.Factory jarFactory;
 
   @Override
   public int run() throws Exception {
     dbInjector = createDbInjector(SINGLE_USER);
     manager.add(dbInjector);
     manager.start();
-    dbInjector.createChildInjector(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(PrologCompiler.Factory.class);
-      }
-    }).injectMembers(this);
+    dbInjector
+        .createChildInjector(
+            new FactoryModule() {
+              @Override
+              protected void configure() {
+                factory(PrologCompiler.Factory.class);
+              }
+            })
+        .injectMembers(this);
 
     LinkedHashSet<Project.NameKey> names = new LinkedHashSet<>();
     for (String name : projectNames) {

@@ -18,12 +18,10 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
-
+import java.nio.file.Path;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-
-import java.nio.file.Path;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
 
@@ -35,8 +33,7 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   }
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
   public void stop() {
@@ -46,8 +43,9 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   private static void initLogSystem(Path logdir) {
     Logger gcLogger = LogManager.getLogger(GarbageCollection.LOG_NAME);
     gcLogger.removeAllAppenders();
-    gcLogger.addAppender(SystemLog.createAppender(logdir,
-        GarbageCollection.LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n")));
+    gcLogger.addAppender(
+        SystemLog.createAppender(
+            logdir, GarbageCollection.LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n")));
     gcLogger.setAdditivity(false);
   }
 }

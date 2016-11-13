@@ -16,18 +16,15 @@ package com.google.gerrit.server.util;
 
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
-
+import java.io.IOException;
+import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Map;
-
 public final class MagicBranch {
-  private static final Logger log =
-    LoggerFactory.getLogger(MagicBranch.class);
+  private static final Logger log = LoggerFactory.getLogger(MagicBranch.class);
 
   public static final String NEW_CHANGE = "refs/for/";
   public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
@@ -66,15 +63,14 @@ public final class MagicBranch {
   }
 
   /**
-   * Checks if a (magic branch)/branch_name reference exists in the
-   * destination repository and only returns Capable.OK if it does not match any.
+   * Checks if a (magic branch)/branch_name reference exists in the destination repository and only
+   * returns Capable.OK if it does not match any.
    *
-   * These block the client from being able to even send us a pack file, as it
-   * is very unlikely the user passed the --force flag and the new commit is
-   * probably not going to fast-forward the branch.
+   * <p>These block the client from being able to even send us a pack file, as it is very unlikely
+   * the user passed the --force flag and the new commit is probably not going to fast-forward the
+   * branch.
    */
-  public static Capable checkMagicBranchRefs(Repository repo,
-      Project project) {
+  public static Capable checkMagicBranchRefs(Repository repo, Project project) {
     Capable result = checkMagicBranchRef(NEW_CHANGE, repo, project);
     if (result != Capable.OK) {
       return result;
@@ -91,8 +87,7 @@ public final class MagicBranch {
     return Capable.OK;
   }
 
-  private static Capable checkMagicBranchRef(String branchName, Repository repo,
-      Project project) {
+  private static Capable checkMagicBranchRef(String branchName, Repository repo, Project project) {
     Map<String, Ref> blockingFors;
     try {
       blockingFors = repo.getRefDatabase().getRefs(branchName);
@@ -103,15 +98,16 @@ public final class MagicBranch {
     }
     if (!blockingFors.isEmpty()) {
       String projName = project.getName();
-      log.error("Repository '" + projName
-          + "' needs the following refs removed to receive changes: "
-          + blockingFors.keySet());
+      log.error(
+          "Repository '"
+              + projName
+              + "' needs the following refs removed to receive changes: "
+              + blockingFors.keySet());
       return new Capable("One or more " + branchName + " names blocks change upload");
     }
 
     return Capable.OK;
   }
 
-  private MagicBranch() {
-  }
+  private MagicBranch() {}
 }

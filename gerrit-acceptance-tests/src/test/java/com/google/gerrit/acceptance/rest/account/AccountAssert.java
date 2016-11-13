@@ -20,7 +20,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
-
 import java.util.List;
 
 public class AccountAssert {
@@ -31,11 +30,9 @@ public class AccountAssert {
     assertThat(a.email).isEqualTo(ai.email);
   }
 
-  public static void assertAccountInfos(List<TestAccount> expected,
-      List<AccountInfo> actual) {
+  public static void assertAccountInfos(List<TestAccount> expected, List<AccountInfo> actual) {
     Iterable<Account.Id> expectedIds = TestAccount.ids(expected);
-    Iterable<Account.Id> actualIds = Iterables.transform(
-        actual, a -> new Account.Id(a._accountId));
+    Iterable<Account.Id> actualIds = Iterables.transform(actual, a -> new Account.Id(a._accountId));
     assertThat(actualIds).containsExactlyElementsIn(expectedIds).inOrder();
     for (int i = 0; i < expected.size(); i++) {
       AccountAssert.assertAccountInfo(expected.get(i), actual.get(i));

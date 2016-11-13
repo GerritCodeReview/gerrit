@@ -36,7 +36,6 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -50,11 +49,14 @@ public abstract class QueryProcessor<T> {
     @Inject
     Metrics(MetricMaker metricMaker) {
       Field<String> index = Field.ofString("index", "index name");
-      executionTime = metricMaker.newTimer("query/query_latency",
-          new Description("Successful query latency,"
-              + " accumulated over the life of the process").setCumulative()
+      executionTime =
+          metricMaker.newTimer(
+              "query/query_latency",
+              new Description(
+                      "Successful query latency," + " accumulated over the life of the process")
+                  .setCumulative()
                   .setUnit(Description.Units.MILLISECONDS),
-          index);
+              index);
     }
   }
 
@@ -117,8 +119,7 @@ public abstract class QueryProcessor<T> {
    * @param query the query.
    * @return results of the query.
    */
-  public QueryResult<T> query(Predicate<T> query)
-      throws OrmException, QueryParseException {
+  public QueryResult<T> query(Predicate<T> query) throws OrmException, QueryParseException {
     return query(ImmutableList.of(query)).get(0);
   }
 
@@ -126,8 +127,8 @@ public abstract class QueryProcessor<T> {
    * Perform multiple queries in parallel.
    *
    * @param queries list of queries.
-   * @return results of the queries, one QueryResult per input query, in the
-   *     same order as the input.
+   * @return results of the queries, one QueryResult per input query, in the same order as the
+   *     input.
    */
   public List<QueryResult<T>> query(List<Predicate<T>> queries)
       throws OrmException, QueryParseException {
@@ -143,8 +144,7 @@ public abstract class QueryProcessor<T> {
     }
   }
 
-  private List<QueryResult<T>> query(List<String> queryStrings,
-      List<Predicate<T>> queries)
+  private List<QueryResult<T>> query(List<String> queryStrings, List<Predicate<T>> queries)
       throws OrmException, QueryParseException {
     long startNanos = System.nanoTime();
 
@@ -170,8 +170,7 @@ public abstract class QueryProcessor<T> {
       // Always bump limit by 1, even if this results in exceeding the permitted
       // max for this user. The only way to see if there are more entities is to
       // ask for one more result from the query.
-      QueryOptions opts =
-          createOptions(indexConfig, start, limit + 1, getRequestedFields());
+      QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
       Predicate<T> pred = rewriter.rewrite(q, opts);
       if (enforceVisibility) {
         pred = enforceVisibility(pred);
@@ -191,27 +190,28 @@ public abstract class QueryProcessor<T> {
 
     List<QueryResult<T>> out = new ArrayList<>(cnt);
     for (int i = 0; i < cnt; i++) {
-      out.add(QueryResult.create(
-          queryStrings != null ? queryStrings.get(i) : null,
-          predicates.get(i),
-          limits.get(i),
-          matches.get(i).toList()));
+      out.add(
+          QueryResult.create(
+              queryStrings != null ? queryStrings.get(i) : null,
+              predicates.get(i),
+              limits.get(i),
+              matches.get(i).toList()));
     }
 
     // only measure successful queries
-    metrics.executionTime.record(schemaDef.getName(),
-        System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+    metrics.executionTime.record(
+        schemaDef.getName(), System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
     return out;
   }
 
-  protected QueryOptions createOptions(IndexConfig indexConfig, int start,
-      int limit, Set<String> requestedFields) {
+  protected QueryOptions createOptions(
+      IndexConfig indexConfig, int start, int limit, Set<String> requestedFields) {
     return QueryOptions.create(indexConfig, start, limit, requestedFields);
   }
 
   /**
-   * Invoked after the query was rewritten. Subclasses must overwrite this
-   * method to filter out results that are not visible to the calling user.
+   * Invoked after the query was rewritten. Subclasses must overwrite this method to filter out
+   * results that are not visible to the calling user.
    *
    * @param pred the query
    * @return the modified query
@@ -223,9 +223,7 @@ public abstract class QueryProcessor<T> {
       return requestedFields;
     }
     Index<?, T> index = indexes.getSearchIndex();
-    return index != null
-        ? index.getSchema().getStoredFields().keySet()
-        : ImmutableSet.<String> of();
+    return index != null ? index.getSchema().getStoredFields().keySet() : ImmutableSet.<String>of();
   }
 
   public boolean isDisabled() {
@@ -234,9 +232,7 @@ public abstract class QueryProcessor<T> {
 
   private int getPermittedLimit() {
     if (enforceVisibility) {
-      return userProvider.get().getCapabilities()
-        .getRange(GlobalCapability.QUERY_LIMIT)
-        .getMax();
+      return userProvider.get().getCapabilities().getRange(GlobalCapability.QUERY_LIMIT).getMax();
     }
     return Integer.MAX_VALUE;
   }

@@ -19,13 +19,11 @@ import static com.google.common.truth.Truth.assert_;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 
 public class GcAssert {
 
@@ -40,9 +38,9 @@ public class GcAssert {
       throws RepositoryNotFoundException, IOException {
     for (Project.NameKey p : projects) {
       assert_()
-        .withFailureMessage("Project " + p.get() + " has no pack files.")
-        .that(getPackFiles(p))
-        .isNotEmpty();
+          .withFailureMessage("Project " + p.get() + " has no pack files.")
+          .that(getPackFiles(p))
+          .isNotEmpty();
     }
   }
 
@@ -50,22 +48,22 @@ public class GcAssert {
       throws RepositoryNotFoundException, IOException {
     for (Project.NameKey p : projects) {
       assert_()
-        .withFailureMessage("Project " + p.get() + " has pack files.")
-        .that(getPackFiles(p))
-        .isEmpty();
+          .withFailureMessage("Project " + p.get() + " has pack files.")
+          .that(getPackFiles(p))
+          .isEmpty();
     }
   }
 
-  private String[] getPackFiles(Project.NameKey p)
-      throws RepositoryNotFoundException, IOException {
+  private String[] getPackFiles(Project.NameKey p) throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(p)) {
       File packDir = new File(repo.getDirectory(), "objects/pack");
-      return packDir.list(new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-          return name.endsWith(".pack");
-        }
-      });
+      return packDir.list(
+          new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+              return name.endsWith(".pack");
+            }
+          });
     }
   }
 }

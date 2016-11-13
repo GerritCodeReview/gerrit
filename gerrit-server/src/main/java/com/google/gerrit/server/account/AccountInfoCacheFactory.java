@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,9 +61,7 @@ public class AccountInfoCacheFactory {
     return out.get(id);
   }
 
-  /**
-   * Create an AccountInfoCache with the currently loaded Account entities.
-   * */
+  /** Create an AccountInfoCache with the currently loaded Account entities. */
   public AccountInfoCache create() {
     final List<AccountInfo> r = new ArrayList<>(out.size());
     for (final Account a : out.values()) {

@@ -19,23 +19,20 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * Redirects from {@code /Gerrit#foo} to {@code /#foo} in JavaScript.
- * <p>
- * This redirect exists to convert the older /Gerrit URL into the more modern
- * URL format which does not use a servlet name for the host page. We cannot do
- * the redirect here in the server side, as it would lose any history token that
- * appears in the URL. Instead we send an HTML page which instructs the browser
- * to replace the URL, but preserve the history token.
+ *
+ * <p>This redirect exists to convert the older /Gerrit URL into the more modern URL format which
+ * does not use a servlet name for the host page. We cannot do the redirect here in the server side,
+ * as it would lose any history token that appears in the URL. Instead we send an HTML page which
+ * instructs the browser to replace the URL, but preserve the history token.
  */
 @SuppressWarnings("serial")
 @Singleton
@@ -56,8 +53,8 @@ public class LegacyGerritServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");

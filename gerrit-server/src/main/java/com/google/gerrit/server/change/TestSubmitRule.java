@@ -118,6 +118,18 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
           }
           ok.put(n.label, who);
           break;
+        case RECOMMEND:
+          if (recommend == null) {
+            recommend = new LinkedHashMap<>();
+          }
+          recommend.put(n.label, who);
+          break;
+        case DISLIKE:
+          if (dislike == null) {
+            dislike = new LinkedHashMap<>();
+          }
+          dislike.put(n.label, who);
+          break;
         case REJECT:
           if (reject == null) {
             reject = new LinkedHashMap<>();

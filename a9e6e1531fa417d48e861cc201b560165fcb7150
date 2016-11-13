@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_16a91a68",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-13T16:03:57Z",
+      "side": 1,
+      "message": "With this in place we can do something like that: [1].\n\n* [1] http://paste.openstack.org/show/589043",
+      "revId": "a9e6e1531fa417d48e861cc201b560165fcb7150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

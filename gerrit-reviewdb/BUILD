@@ -1,3 +1,7 @@
+package(
+  default_visibility=["//visibility:public"]
+)
+
 load('//tools/bzl:gwt.bzl', 'gwt_module')
 load('//tools/bzl:junit.bzl', 'junit_tests')
 

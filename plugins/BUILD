@@ -11,7 +11,7 @@ CORE = [
 
 genrule2(
   name = 'core',
-  srcs = ['//plugins/%s:%s_deploy.jar' % (n, n) for n in CORE],
+  srcs = ['//plugins/%s:%s.jar' % (n, n) for n in CORE],
   cmd = 'mkdir -p $$TMP/WEB-INF/plugins;' +
     'for s in $(SRCS) ; do ' +
     'ln -s $$ROOT/$$s $$TMP/WEB-INF/plugins;done;' +

@@ -33,13 +33,14 @@ public class ProjectDashboardsScreen extends ProjectScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    DashboardList.all(getProjectKey(),
+    DashboardList.all(
+        getProjectKey(),
         new ScreenLoadCallback<JsArray<DashboardList>>(this) {
-      @Override
-      protected void preDisplay(JsArray<DashboardList> result) {
-        dashes.display(result);
-      }
-    });
+          @Override
+          protected void preDisplay(JsArray<DashboardList> result) {
+            dashes.display(result);
+          }
+        });
     savedPanel = DASHBOARDS;
   }
 

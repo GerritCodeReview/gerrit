@@ -24,7 +24,12 @@ import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
@@ -35,39 +40,41 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /** Receives change upload over SSH using the Git receive-pack protocol. */
-@CommandMetaData(name = "receive-pack", description = "Standard Git server side command for client side git push")
+@CommandMetaData(
+  name = "receive-pack",
+  description = "Standard Git server side command for client side git push"
+)
 final class Receive extends AbstractGitCommand {
   private static final Logger log = LoggerFactory.getLogger(Receive.class);
 
-  @Inject
-  private AsyncReceiveCommits.Factory factory;
+  @Inject private AsyncReceiveCommits.Factory factory;
 
-  @Inject
-  private IdentifiedUser currentUser;
+  @Inject private IdentifiedUser currentUser;
 
-  @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject private IdentifiedUser.GenericFactory identifiedUserFactory;
 
-  @Inject
-  private SshSession session;
+  @Inject private SshSession session;
 
   private final Set<Account.Id> reviewerId = new HashSet<>();
   private final Set<Account.Id> ccId = new HashSet<>();
 
-  @Option(name = "--reviewer", aliases = {"--re"}, metaVar = "EMAIL", usage = "request reviewer for change(s)")
+  @Option(
+    name = "--reviewer",
+    aliases = {"--re"},
+    metaVar = "EMAIL",
+    usage = "request reviewer for change(s)"
+  )
   void addReviewer(final Account.Id id) {
     reviewerId.add(id);
   }
 
-  @Option(name = "--cc", aliases = {}, metaVar = "EMAIL", usage = "CC user on change(s)")
+  @Option(
+    name = "--cc",
+    aliases = {},
+    metaVar = "EMAIL",
+    usage = "CC user on change(s)"
+  )
   void addCC(final Account.Id id) {
     ccId.add(id);
   }
@@ -78,8 +85,7 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");
     }
 
-    final ReceiveCommits receive = factory.create(projectControl, repo)
-        .getReceiveCommits();
+    final ReceiveCommits receive = factory.create(projectControl, repo).getReceiveCommits();
 
     Capable r = receive.canUpload();
     if (r != Capable.OK) {
@@ -103,7 +109,8 @@ final class Receive extends AbstractGitCommand {
       if (badStream.getCause() instanceof TooLargeObjectInPackException) {
         StringBuilder msg = new StringBuilder();
         msg.append("Receive error on project \"")
-           .append(projectControl.getProject().getName()).append("\"");
+            .append(projectControl.getProject().getName())
+            .append("\"");
         msg.append(" (user ");
         msg.append(currentUser.getAccount().getUserName());
         msg.append(" account ");
@@ -119,7 +126,8 @@ final class Receive extends AbstractGitCommand {
       //
       StringBuilder msg = new StringBuilder();
       msg.append("Unpack error on project \"")
-         .append(projectControl.getProject().getName()).append("\":\n");
+          .append(projectControl.getProject().getName())
+          .append("\":\n");
 
       msg.append("  AdvertiseRefsHook: ").append(rp.getAdvertiseRefsHook());
       if (rp.getAdvertiseRefsHook() == AdvertiseRefsHook.DEFAULT) {
@@ -135,12 +143,14 @@ final class Receive extends AbstractGitCommand {
         Map<String, Ref> adv = rp.getAdvertisedRefs();
         msg.append("  Visible references (").append(adv.size()).append("):\n");
         for (Ref ref : adv.values()) {
-          msg.append("  - ").append(ref.getObjectId().abbreviate(8).name())
-             .append(" ").append(ref.getName()).append("\n");
+          msg.append("  - ")
+              .append(ref.getObjectId().abbreviate(8).name())
+              .append(" ")
+              .append(ref.getName())
+              .append("\n");
         }
 
-        Map<String, Ref> allRefs =
-            rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
+        Map<String, Ref> allRefs = rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
         List<Ref> hidden = new ArrayList<>();
         for (Ref ref : allRefs.values()) {
           if (!adv.containsKey(ref.getName())) {
@@ -150,8 +160,11 @@ final class Receive extends AbstractGitCommand {
 
         msg.append("  Hidden references (").append(hidden.size()).append("):\n");
         for (Ref ref : hidden) {
-          msg.append("  - ").append(ref.getObjectId().abbreviate(8).name())
-              .append(" ").append(ref.getName()).append("\n");
+          msg.append("  - ")
+              .append(ref.getObjectId().abbreviate(8).name())
+              .append(" ")
+              .append(ref.getName())
+              .append("\n");
         }
       }
 
@@ -165,8 +178,7 @@ final class Receive extends AbstractGitCommand {
     for (final Account.Id id : who) {
       final IdentifiedUser user = identifiedUserFactory.create(id);
       if (!projectControl.forUser(user).isVisible()) {
-        throw die(type + " "
-            + user.getAccount().getFullName() + " cannot access the project");
+        throw die(type + " " + user.getAccount().getFullName() + " cannot access the project");
       }
     }
   }

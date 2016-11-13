@@ -15,26 +15,20 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 /**
- * This exception is thrown if a project cannot be created because a project
- * with the same name in a different case already exists. This can only happen
- * if the OS has a case insensitive file system (e.g. Windows), because in this
- * case the name for the git repository in the file system is already occupied
- * by the existing project.
+ * This exception is thrown if a project cannot be created because a project with the same name in a
+ * different case already exists. This can only happen if the OS has a case insensitive file system
+ * (e.g. Windows), because in this case the name for the git repository in the file system is
+ * already occupied by the existing project.
  */
-public class RepositoryCaseMismatchException extends
-    RepositoryNotFoundException {
+public class RepositoryCaseMismatchException extends RepositoryNotFoundException {
 
   private static final long serialVersionUID = 1L;
 
-  /**
-   * @param projectName name of the project that cannot be created
-   */
+  /** @param projectName name of the project that cannot be created */
   public RepositoryCaseMismatchException(final Project.NameKey projectName) {
-    super("Name occupied in other case. Project " + projectName.get()
-        + " cannot be created.");
+    super("Name occupied in other case. Project " + projectName.get() + " cannot be created.");
   }
 }

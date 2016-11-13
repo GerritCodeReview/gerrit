@@ -34,27 +34,25 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.RefCache;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * The state of all relevant NoteDb refs across all repos corresponding to a
- * given Change entity.
- * <p>
- * Stored serialized in the {@code Change#noteDbState} field, and used to
- * determine whether the state in NoteDb is out of date.
- * <p>
- * Serialized in one of the forms:
+ * The state of all relevant NoteDb refs across all repos corresponding to a given Change entity.
+ *
+ * <p>Stored serialized in the {@code Change#noteDbState} field, and used to determine whether the
+ * state in NoteDb is out of date.
+ *
+ * <p>Serialized in one of the forms:
+ *
  * <ul>
- *    <li>[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
- *    <li>R[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
- *    <li>N
+ *   <li>[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *   <li>R[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *   <li>N
  * </ul>
  *
  * in numeric account ID order, with hex SHA-1s for human readability.
@@ -83,53 +81,50 @@ public class NoteDbChangeState {
 
   @AutoValue
   public abstract static class Delta {
-    static Delta create(Change.Id changeId, Optional<ObjectId> newChangeMetaId,
+    static Delta create(
+        Change.Id changeId,
+        Optional<ObjectId> newChangeMetaId,
         Map<Account.Id, ObjectId> newDraftIds) {
       if (newDraftIds == null) {
         newDraftIds = ImmutableMap.of();
       }
       return new AutoValue_NoteDbChangeState_Delta(
-          changeId,
-          newChangeMetaId,
-          ImmutableMap.copyOf(newDraftIds));
+          changeId, newChangeMetaId, ImmutableMap.copyOf(newDraftIds));
     }
 
     abstract Change.Id changeId();
+
     abstract Optional<ObjectId> newChangeMetaId();
+
     abstract ImmutableMap<Account.Id, ObjectId> newDraftIds();
   }
 
   @AutoValue
   public abstract static class RefState {
     @VisibleForTesting
-    public static RefState create(ObjectId changeMetaId,
-        Map<Account.Id, ObjectId> draftIds) {
+    public static RefState create(ObjectId changeMetaId, Map<Account.Id, ObjectId> draftIds) {
       return new AutoValue_NoteDbChangeState_RefState(
           changeMetaId.copy(),
-          ImmutableMap.copyOf(
-              Maps.filterValues(draftIds, id -> !zeroId().equals(id))));
+          ImmutableMap.copyOf(Maps.filterValues(draftIds, id -> !zeroId().equals(id))));
     }
 
-    private static Optional<RefState> parse(Change.Id changeId,
-        List<String> parts) {
-      checkArgument(!parts.isEmpty(),
-          "missing state string for change %s", changeId);
+    private static Optional<RefState> parse(Change.Id changeId, List<String> parts) {
+      checkArgument(!parts.isEmpty(), "missing state string for change %s", changeId);
       ObjectId changeMetaId = ObjectId.fromString(parts.get(0));
-      Map<Account.Id, ObjectId> draftIds =
-          Maps.newHashMapWithExpectedSize(parts.size() - 1);
+      Map<Account.Id, ObjectId> draftIds = Maps.newHashMapWithExpectedSize(parts.size() - 1);
       Splitter s = Splitter.on('=');
       for (int i = 1; i < parts.size(); i++) {
         String p = parts.get(i);
         List<String> draftParts = s.splitToList(p);
-        checkArgument(draftParts.size() == 2,
-            "invalid draft state part for change %s: %s", changeId, p);
-        draftIds.put(Account.Id.parse(draftParts.get(0)),
-            ObjectId.fromString(draftParts.get(1)));
+        checkArgument(
+            draftParts.size() == 2, "invalid draft state part for change %s: %s", changeId, p);
+        draftIds.put(Account.Id.parse(draftParts.get(0)), ObjectId.fromString(draftParts.get(1)));
       }
       return Optional.of(create(changeMetaId, draftIds));
     }
 
     abstract ObjectId changeMetaId();
+
     abstract ImmutableMap<Account.Id, ObjectId> draftIds();
 
     @Override
@@ -139,12 +134,8 @@ public class NoteDbChangeState {
 
     StringBuilder appendTo(StringBuilder sb) {
       sb.append(changeMetaId().name());
-      for (Account.Id id : ReviewDbUtil.intKeyOrdering()
-          .sortedCopy(draftIds().keySet())) {
-        sb.append(',')
-            .append(id.get())
-            .append('=')
-            .append(draftIds().get(id).name());
+      for (Account.Id id : ReviewDbUtil.intKeyOrdering().sortedCopy(draftIds().keySet())) {
+        sb.append(',').append(id.get()).append('=').append(draftIds().get(id).name());
       }
       return sb;
     }
@@ -180,8 +171,7 @@ public class NoteDbChangeState {
       }
       return new NoteDbChangeState(id, REVIEW_DB, refState);
     }
-    throw new IllegalArgumentException(
-        "invalid state string for change " + id + ": " + str);
+    throw new IllegalArgumentException("invalid state string for change " + id + ": " + str);
   }
 
   public static NoteDbChangeState applyDelta(Change change, Delta delta) {
@@ -224,18 +214,18 @@ public class NoteDbChangeState {
       }
     }
 
-    NoteDbChangeState state = new NoteDbChangeState(
-        change.getId(),
-        oldState != null
-            ? oldState.getPrimaryStorage()
-            : REVIEW_DB,
-        Optional.of(RefState.create(changeMetaId, draftIds)));
+    NoteDbChangeState state =
+        new NoteDbChangeState(
+            change.getId(),
+            oldState != null ? oldState.getPrimaryStorage() : REVIEW_DB,
+            Optional.of(RefState.create(changeMetaId, draftIds)));
     change.setNoteDbState(state.toString());
     return state;
   }
 
-  public static boolean isChangeUpToDate(@Nullable NoteDbChangeState state,
-      RefCache changeRepoRefs, Change.Id changeId) throws IOException {
+  public static boolean isChangeUpToDate(
+      @Nullable NoteDbChangeState state, RefCache changeRepoRefs, Change.Id changeId)
+      throws IOException {
     if (PrimaryStorage.of(state) == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
@@ -245,15 +235,17 @@ public class NoteDbChangeState {
     return state.isChangeUpToDate(changeRepoRefs);
   }
 
-  public static boolean areDraftsUpToDate(@Nullable NoteDbChangeState state,
-      RefCache draftsRepoRefs, Change.Id changeId, Account.Id accountId)
+  public static boolean areDraftsUpToDate(
+      @Nullable NoteDbChangeState state,
+      RefCache draftsRepoRefs,
+      Change.Id changeId,
+      Account.Id accountId)
       throws IOException {
     if (PrimaryStorage.of(state) == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
     if (state == null) {
-      return !draftsRepoRefs.get(refsDraftComments(changeId, accountId))
-          .isPresent();
+      return !draftsRepoRefs.get(refsDraftComments(changeId, accountId)).isPresent();
     }
     return state.areDraftsUpToDate(draftsRepoRefs, accountId);
   }
@@ -263,9 +255,7 @@ public class NoteDbChangeState {
   private final Optional<RefState> refState;
 
   public NoteDbChangeState(
-      Change.Id changeId,
-      PrimaryStorage primaryStorage,
-      Optional<RefState> refState) {
+      Change.Id changeId, PrimaryStorage primaryStorage, Optional<RefState> refState) {
     this.changeId = checkNotNull(changeId);
     this.primaryStorage = checkNotNull(primaryStorage);
     this.refState = refState;
@@ -275,17 +265,18 @@ public class NoteDbChangeState {
         checkArgument(
             refState.isPresent(),
             "expected RefState for change %s with primary storage %s",
-            changeId, primaryStorage);
+            changeId,
+            primaryStorage);
         break;
       case NOTE_DB:
         checkArgument(
             !refState.isPresent(),
             "expected no RefState for change %s with primary storage %s",
-            changeId, primaryStorage);
+            changeId,
+            primaryStorage);
         break;
       default:
-        throw new IllegalStateException(
-            "invalid PrimaryStorage: " + primaryStorage);
+        throw new IllegalStateException("invalid PrimaryStorage: " + primaryStorage);
     }
   }
 
@@ -309,16 +300,14 @@ public class NoteDbChangeState {
     if (primaryStorage == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
-    Optional<ObjectId> id =
-        draftsRepoRefs.get(refsDraftComments(changeId, accountId));
+    Optional<ObjectId> id = draftsRepoRefs.get(refsDraftComments(changeId, accountId));
     if (!id.isPresent()) {
       return !getDraftIds().containsKey(accountId);
     }
     return id.get().equals(getDraftIds().get(accountId));
   }
 
-  public boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs)
-      throws IOException {
+  public boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs) throws IOException {
     if (primaryStorage == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
@@ -354,8 +343,7 @@ public class NoteDbChangeState {
   }
 
   private RefState refState() {
-    checkState(refState.isPresent(),
-        "state for %s has no RefState: %s", changeId, this);
+    checkState(refState.isPresent(), "state for %s has no RefState: %s", changeId, this);
     return refState.get();
   }
 
@@ -368,8 +356,7 @@ public class NoteDbChangeState {
       case NOTE_DB:
         return NOTE_DB_PRIMARY_STATE;
       default:
-        throw new IllegalArgumentException(
-          "Unsupported PrimaryStorage: " + primaryStorage);
+        throw new IllegalArgumentException("Unsupported PrimaryStorage: " + primaryStorage);
     }
   }
 }

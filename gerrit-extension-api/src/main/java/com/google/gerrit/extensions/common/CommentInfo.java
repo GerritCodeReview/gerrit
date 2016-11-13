@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.Comment;
-
 import java.util.Objects;
 
 public class CommentInfo extends Comment {
@@ -26,8 +25,7 @@ public class CommentInfo extends Comment {
   public boolean equals(Object o) {
     if (super.equals(o)) {
       CommentInfo ci = (CommentInfo) o;
-      return Objects.equals(author, ci.author)
-          && Objects.equals(tag, ci.tag);
+      return Objects.equals(author, ci.author) && Objects.equals(tag, ci.tag);
     }
     return false;
   }

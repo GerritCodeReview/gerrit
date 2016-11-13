@@ -18,8 +18,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class PushCertificateInfo extends JavaScriptObject {
   public final native String certificate() /*-{ return this.certificate; }-*/;
+
   public final native GpgKeyInfo key() /*-{ return this.key; }-*/;
 
-  protected PushCertificateInfo() {
-  }
+  protected PushCertificateInfo() {}
 }

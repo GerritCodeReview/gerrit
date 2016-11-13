@@ -26,8 +26,7 @@ public class QueryList extends TabFile {
     this.queriesByName = toMap(queriesByName);
   }
 
-  public static QueryList parse(String text, ValidationError.Sink errors)
-      throws IOException {
+  public static QueryList parse(String text, ValidationError.Sink errors) throws IOException {
     return new QueryList(parse(text, FILE_NAME, TRIM, TRIM, errors));
   }
 

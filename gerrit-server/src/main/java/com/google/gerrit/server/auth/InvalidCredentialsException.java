@@ -15,14 +15,13 @@
 package com.google.gerrit.server.auth;
 
 /**
- * An authentication exception that is thrown when the credentials are present
- * and are unable to be verified.
+ * An authentication exception that is thrown when the credentials are present and are unable to be
+ * verified.
  */
 public class InvalidCredentialsException extends AuthException {
   private static final long serialVersionUID = 3709201042080444276L;
 
-  public InvalidCredentialsException() {
-  }
+  public InvalidCredentialsException() {}
 
   public InvalidCredentialsException(String msg) {
     super(msg);

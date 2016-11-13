@@ -18,47 +18,74 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface PatchConstants extends Constants {
   String patchBase();
+
   String patchSet();
 
   String upToChange();
+
   String openReply();
+
   String linePrev();
+
   String lineNext();
+
   String chunkPrev();
+
   String chunkNext();
+
   String commentPrev();
+
   String commentNext();
+
   String focusSideA();
+
   String focusSideB();
+
   String expandComment();
+
   String expandAllCommentsOnCurrentLine();
+
   String toggleSideA();
+
   String toggleIntraline();
+
   String showPreferences();
 
   String toggleReviewed();
+
   String markAsReviewedAndGoToNext();
 
   String commentEditorSet();
+
   String commentInsert();
+
   String commentSaveDraft();
+
   String commentCancelEdit();
 
   String whitespaceIGNORE_NONE();
+
   String whitespaceIGNORE_TRAILING();
+
   String whitespaceIGNORE_LEADING_AND_TRAILING();
+
   String whitespaceIGNORE_ALL();
 
   String previousFileHelp();
+
   String nextFileHelp();
 
   String download();
+
   String edit();
+
   String blame();
+
   String addFileCommentToolTip();
 
   String cannedReplyDone();
 
   String sideBySideDiff();
+
   String unifiedDiff();
 }

@@ -18,12 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.testutil.TempFileUtil;
-
+import java.io.File;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
 
 public class ReindexIT {
   private File sitePath;
@@ -43,13 +41,18 @@ public class ReindexIT {
   @Test
   public void reindexEmptySite() throws Exception {
     initSite();
-    runGerrit("reindex", "-d", sitePath.toString(),
-        "--show-stack-trace");
+    runGerrit("reindex", "-d", sitePath.toString(), "--show-stack-trace");
   }
 
   private void initSite() throws Exception {
-    runGerrit("init", "-d", sitePath.getPath(),
-        "--batch", "--no-auto-start", "--skip-plugins", "--show-stack-trace");
+    runGerrit(
+        "init",
+        "-d",
+        sitePath.getPath(),
+        "--batch",
+        "--no-auto-start",
+        "--skip-plugins",
+        "--show-stack-trace");
   }
 
   private static void runGerrit(String... args) throws Exception {

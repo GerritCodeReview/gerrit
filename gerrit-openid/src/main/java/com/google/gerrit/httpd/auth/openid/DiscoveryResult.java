@@ -32,8 +32,7 @@ final class DiscoveryResult {
   String providerUrl;
   Map<String, String> providerArgs;
 
-  DiscoveryResult() {
-  }
+  DiscoveryResult() {}
 
   DiscoveryResult(String redirect, Map<String, String> args) {
     status = Status.VALID;

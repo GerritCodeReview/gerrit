@@ -34,7 +34,10 @@ import com.google.gitiles.blame.BlameCache;
 import com.google.gitiles.blame.Region;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -46,11 +49,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 public class GetBlame implements RestReadView<FileResource> {
 
   private final GitRepositoryManager repoManager;
@@ -59,13 +57,18 @@ public class GetBlame implements RestReadView<FileResource> {
   private final ThreeWayMergeStrategy mergeStrategy;
   private final AutoMerger autoMerger;
 
-  @Option(name = "--base", aliases = {"-b"},
-    usage = "whether to load the blame of the base revision (the direct"
-      + " parent of the change) instead of the change")
+  @Option(
+    name = "--base",
+    aliases = {"-b"},
+    usage =
+        "whether to load the blame of the base revision (the direct"
+            + " parent of the change) instead of the change"
+  )
   private boolean base;
 
   @Inject
-  GetBlame(GitRepositoryManager repoManager,
+  GetBlame(
+      GitRepositoryManager repoManager,
       BlameCache blameCache,
       @GerritServerConfig Config cfg,
       AutoMerger autoMerger) {
@@ -78,8 +81,7 @@ public class GetBlame implements RestReadView<FileResource> {
 
   @Override
   public Response<List<BlameInfo>> apply(FileResource resource)
-      throws RestApiException, OrmException, IOException,
-      InvalidChangeOperationException {
+      throws RestApiException, OrmException, IOException, InvalidChangeOperationException {
     if (!allowBlame) {
       throw new BadRequestException("blame is disabled");
     }
@@ -88,9 +90,10 @@ public class GetBlame implements RestReadView<FileResource> {
     try (Repository repository = repoManager.openRepository(project);
         ObjectInserter ins = repository.newObjectInserter();
         RevWalk revWalk = new RevWalk(ins.newReader())) {
-      String refName = resource.getRevision().getEdit().isPresent()
-          ? resource.getRevision().getEdit().get().getRefName()
-          : resource.getRevision().getPatchSet().getRefName();
+      String refName =
+          resource.getRevision().getEdit().isPresent()
+              ? resource.getRevision().getEdit().get().getRefName()
+              : resource.getRevision().getPatchSet().getRefName();
 
       Ref ref = repository.findRef(refName);
       if (ref == null) {
@@ -113,8 +116,7 @@ public class GetBlame implements RestReadView<FileResource> {
         result = blame(parents[0], path, repository, revWalk);
 
       } else if (parents.length == 2) {
-        ObjectId automerge = autoMerger.merge(repository, revWalk, ins,
-            revCommit, mergeStrategy);
+        ObjectId automerge = autoMerger.merge(repository, revWalk, ins, revCommit, mergeStrategy);
         result = blame(automerge, path, repository, revWalk);
 
       } else {
@@ -130,8 +132,8 @@ public class GetBlame implements RestReadView<FileResource> {
     }
   }
 
-  private List<BlameInfo> blame(ObjectId id, String path,
-      Repository repository, RevWalk revWalk) throws IOException {
+  private List<BlameInfo> blame(ObjectId id, String path, Repository repository, RevWalk revWalk)
+      throws IOException {
     ListMultimap<BlameInfo, RangeInfo> ranges = ArrayListMultimap.create();
     List<BlameInfo> result = new ArrayList<>();
     if (blameCache.findLastCommit(repository, id, path) == null) {
@@ -154,8 +156,7 @@ public class GetBlame implements RestReadView<FileResource> {
     return result;
   }
 
-  private static BlameInfo toBlameInfo(RevCommit commit,
-      PersonIdent sourceAuthor) {
+  private static BlameInfo toBlameInfo(RevCommit commit, PersonIdent sourceAuthor) {
     BlameInfo blameInfo = new BlameInfo();
     blameInfo.author = sourceAuthor.getName();
     blameInfo.id = commit.getName();

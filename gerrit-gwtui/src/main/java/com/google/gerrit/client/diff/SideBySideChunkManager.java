@@ -28,16 +28,14 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.EventListener;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.Pos;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /** Colors modified regions for {@link SideBySide}. */
 class SideBySideChunkManager extends ChunkManager {
@@ -45,6 +43,7 @@ class SideBySideChunkManager extends ChunkManager {
   private static double guessedLineHeightPx = 15;
   private static final JavaScriptObject focusA = initOnClick(A);
   private static final JavaScriptObject focusB = initOnClick(B);
+
   private static native JavaScriptObject initOnClick(DisplaySide s) /*-{
     return $entry(function(e){
       @com.google.gerrit.client.diff.SideBySideChunkManager::focus(
@@ -76,10 +75,7 @@ class SideBySideChunkManager extends ChunkManager {
   private List<LineWidget> padding;
   private List<Element> paddingDivs;
 
-  SideBySideChunkManager(SideBySide host,
-      CodeMirror cmA,
-      CodeMirror cmB,
-      Scrollbar scrollbar) {
+  SideBySideChunkManager(SideBySide host, CodeMirror cmA, CodeMirror cmB, Scrollbar scrollbar) {
     super(scrollbar);
 
     this.host = host;
@@ -109,9 +105,10 @@ class SideBySideChunkManager extends ChunkManager {
     padding = new ArrayList<>();
     paddingDivs = new ArrayList<>();
 
-    String diffColor = diff.metaA() == null || diff.metaB() == null
-        ? SideBySideTable.style.intralineBg()
-        : SideBySideTable.style.diff();
+    String diffColor =
+        diff.metaA() == null || diff.metaB() == null
+            ? SideBySideTable.style.intralineBg()
+            : SideBySideTable.style.diff();
 
     for (Region current : Natives.asList(diff.content())) {
       if (current.ab() != null) {
@@ -154,9 +151,7 @@ class SideBySideChunkManager extends ChunkManager {
     int aLen = a != null ? a.length() : 0;
     int bLen = b != null ? b.length() : 0;
 
-    String color = a == null || b == null
-        ? diffColor
-        : SideBySideTable.style.intralineBg();
+    String color = a == null || b == null ? diffColor : SideBySideTable.style.intralineBg();
 
     colorLines(cmA, color, startA, aLen);
     colorLines(cmB, color, startB, bLen);
@@ -187,20 +182,19 @@ class SideBySideChunkManager extends ChunkManager {
     }
   }
 
-  private void markEdit(CodeMirror cm, int startLine,
-      JsArrayString lines, JsArray<Span> edits) {
+  private void markEdit(CodeMirror cm, int startLine, JsArrayString lines, JsArray<Span> edits) {
     if (lines == null || edits == null) {
       return;
     }
 
     EditIterator iter = new EditIterator(lines, startLine);
-    Configuration bg = Configuration.create()
-        .set("className", SideBySideTable.style.intralineBg())
-        .set("readOnly", true);
+    Configuration bg =
+        Configuration.create()
+            .set("className", SideBySideTable.style.intralineBg())
+            .set("readOnly", true);
 
-    Configuration diff = Configuration.create()
-        .set("className", SideBySideTable.style.diff())
-        .set("readOnly", true);
+    Configuration diff =
+        Configuration.create().set("className", SideBySideTable.style.diff()).set("readOnly", true);
 
     Pos last = Pos.create(0, 0);
     for (Span span : Natives.asList(edits)) {
@@ -213,9 +207,8 @@ class SideBySideChunkManager extends ChunkManager {
       }
       getMarkers().add(cm.markText(from, to, diff));
       last = to;
-      colorLines(cm, LineClassWhere.BACKGROUND,
-          SideBySideTable.style.diff(),
-          from.line(), to.line());
+      colorLines(
+          cm, LineClassWhere.BACKGROUND, SideBySideTable.style.diff(), from.line(), to.line());
     }
   }
 
@@ -224,8 +217,7 @@ class SideBySideChunkManager extends ChunkManager {
    *
    * @param cm parent CodeMirror to add extra space into.
    * @param line line to put the padding below.
-   * @param len number of lines to pad. Padding is inserted only if
-   *        {@code len >= 1}.
+   * @param len number of lines to pad. Padding is inserted only if {@code len >= 1}.
    */
   private void addPadding(CodeMirror cm, int line, final int len) {
     if (0 < len) {
@@ -235,20 +227,21 @@ class SideBySideChunkManager extends ChunkManager {
       pad.getStyle().setHeight(guessedLineHeightPx * len, Unit.PX);
       focusOnClick(pad, cm.side());
       paddingDivs.add(pad);
-      padding.add(cm.addLineWidget(
-        line == -1 ? 0 : line,
-        pad,
-        Configuration.create()
-          .set("coverGutter", true)
-          .set("noHScroll", true)
-          .set("above", line == -1)));
+      padding.add(
+          cm.addLineWidget(
+              line == -1 ? 0 : line,
+              pad,
+              Configuration.create()
+                  .set("coverGutter", true)
+                  .set("noHScroll", true)
+                  .set("above", line == -1)));
     }
   }
 
-  private void addDiffChunk(CodeMirror cmToPad, int lineOnOther,
-      int chunkSize, boolean edit) {
-    chunks.add(new DiffChunkInfo(host.otherCm(cmToPad).side(),
-        lineOnOther - chunkSize + 1, lineOnOther, edit));
+  private void addDiffChunk(CodeMirror cmToPad, int lineOnOther, int chunkSize, boolean edit) {
+    chunks.add(
+        new DiffChunkInfo(
+            host.otherCm(cmToPad).side(), lineOnOther - chunkSize + 1, lineOnOther, edit));
   }
 
   @Override
@@ -256,13 +249,10 @@ class SideBySideChunkManager extends ChunkManager {
     return new Runnable() {
       @Override
       public void run() {
-        int line = cm.extras().hasActiveLine()
-            ? cm.getLineNumber(cm.extras().activeLine())
-            : 0;
-        int res = Collections.binarySearch(
-                chunks,
-                new DiffChunkInfo(cm.side(), line, 0, false),
-                getDiffChunkComparator());
+        int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
+        int res =
+            Collections.binarySearch(
+                chunks, new DiffChunkInfo(cm.side(), line, 0, false), getDiffChunkComparator());
         diffChunkNavHelper(chunks, host, res, dir);
       }
     };

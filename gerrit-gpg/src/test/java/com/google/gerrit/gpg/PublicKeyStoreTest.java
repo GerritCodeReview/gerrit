@@ -27,7 +27,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.gpg.testutil.TestKey;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
@@ -43,21 +48,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 public class PublicKeyStoreTest {
   private TestRepository<?> tr;
   private PublicKeyStore store;
 
   @Before
   public void setUp() throws Exception {
-    tr = new TestRepository<>(new InMemoryRepository(
-        new DfsRepositoryDescription("pubkeys")));
+    tr = new TestRepository<>(new InMemoryRepository(new DfsRepositoryDescription("pubkeys")));
     store = new PublicKeyStore(tr.getRepository());
   }
 
@@ -70,8 +67,9 @@ public class PublicKeyStoreTest {
   @Test
   public void testKeyToString() throws Exception {
     PGPPublicKey key = validKeyWithoutExpiration().getPublicKey();
-    assertEquals("46328A8C Testuser One <test1@example.com>"
-          + " (04AE A7ED 2F82 1133 E5B1  28D1 ED06 25DC 4632 8A8C)",
+    assertEquals(
+        "46328A8C Testuser One <test1@example.com>"
+            + " (04AE A7ED 2F82 1133 E5B1  28D1 ED06 25DC 4632 8A8C)",
         keyToString(key));
   }
 
@@ -80,8 +78,7 @@ public class PublicKeyStoreTest {
     PGPPublicKey key = validKeyWithoutExpiration().getPublicKey();
     String objId = keyObjectId(key.getKeyID()).name();
     assertEquals("ed0625dc46328a8c000000000000000000000000", objId);
-    assertEquals(keyIdToString(key.getKeyID()).toLowerCase(),
-        objId.substring(8, 16));
+    assertEquals(keyIdToString(key.getKeyID()).toLowerCase(), objId.substring(8, 16));
   }
 
   @Test
@@ -89,14 +86,12 @@ public class PublicKeyStoreTest {
     TestKey key1 = validKeyWithoutExpiration();
     tr.branch(REFS_GPG_KEYS)
         .commit()
-        .add(keyObjectId(key1.getKeyId()).name(),
-          key1.getPublicKeyArmored())
+        .add(keyObjectId(key1.getKeyId()).name(), key1.getPublicKeyArmored())
         .create();
     TestKey key2 = validKeyWithExpiration();
     tr.branch(REFS_GPG_KEYS)
         .commit()
-        .add(keyObjectId(key2.getKeyId()).name(),
-          key2.getPublicKeyArmored())
+        .add(keyObjectId(key2.getKeyId()).name(), key2.getPublicKeyArmored())
         .create();
 
     assertKeys(key1.getKeyId(), key1);
@@ -109,10 +104,11 @@ public class PublicKeyStoreTest {
     TestKey key2 = validKeyWithExpiration();
     tr.branch(REFS_GPG_KEYS)
         .commit()
-        .add(keyObjectId(key1.getKeyId()).name(),
+        .add(
+            keyObjectId(key1.getKeyId()).name(),
             key1.getPublicKeyArmored()
-              // Mismatched for this key ID, but we can still read it out.
-              + key2.getPublicKeyArmored())
+                // Mismatched for this key ID, but we can still read it out.
+                + key2.getPublicKeyArmored())
         .create();
     assertKeys(key1.getKeyId(), key1, key2);
   }
@@ -147,12 +143,13 @@ public class PublicKeyStoreTest {
 
     try (ObjectReader reader = tr.getRepository().newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
-      NoteMap notes = NoteMap.read(
-          reader, tr.getRevWalk().parseCommit(
-            tr.getRepository().exactRef(REFS_GPG_KEYS).getObjectId()));
-      String contents = new String(
-          reader.open(notes.get(keyObjectId(key1.getKeyId()))).getBytes(),
-          UTF_8);
+      NoteMap notes =
+          NoteMap.read(
+              reader,
+              tr.getRevWalk()
+                  .parseCommit(tr.getRepository().exactRef(REFS_GPG_KEYS).getObjectId()));
+      String contents =
+          new String(reader.open(notes.get(keyObjectId(key1.getKeyId()))).getBytes(), UTF_8);
       String header = "-----BEGIN PGP PUBLIC KEY BLOCK-----";
       int i1 = contents.indexOf(header);
       assertTrue(i1 >= 0);
@@ -169,7 +166,8 @@ public class PublicKeyStoreTest {
     store.add(keyRing);
     assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
 
-    assertUserIds(store.get(key5.getKeyId()).iterator().next(),
+    assertUserIds(
+        store.get(key5.getKeyId()).iterator().next(),
         "Testuser Five <test5@example.com>",
         "foo:myId");
 
@@ -218,8 +216,7 @@ public class PublicKeyStoreTest {
     assertKeys(key1.getKeyId());
   }
 
-  private void assertKeys(long keyId, TestKey... expected)
-      throws Exception {
+  private void assertKeys(long keyId, TestKey... expected) throws Exception {
     Set<String> expectedStrings = new TreeSet<>();
     for (TestKey k : expected) {
       expectedStrings.add(keyToString(k.getPublicKey()));
@@ -232,12 +229,11 @@ public class PublicKeyStoreTest {
     assertEquals(expectedStrings, actualStrings);
   }
 
-  private void assertUserIds(PGPPublicKeyRing keyRing, String... expected)
-      throws Exception {
+  private void assertUserIds(PGPPublicKeyRing keyRing, String... expected) throws Exception {
     List<String> actual = new ArrayList<>();
     @SuppressWarnings("unchecked")
-    Iterator<String> userIds = store.get(keyRing.getPublicKey().getKeyID())
-        .iterator().next().getPublicKey().getUserIDs();
+    Iterator<String> userIds =
+        store.get(keyRing.getPublicKey().getKeyID()).iterator().next().getPublicKey().getUserIDs();
     while (userIds.hasNext()) {
       actual.add(userIds.next());
     }

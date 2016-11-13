@@ -23,10 +23,7 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * A collection of static methods which work on the Gerrit REST API for server
- * configuration.
- */
+/** A collection of static methods which work on the Gerrit REST API for server configuration. */
 public class ConfigServerApi {
   /** map of the server wide capabilities (core & plugins). */
   public static void capabilities(AsyncCallback<NativeMap<CapabilityInfo>> cb) {
@@ -58,7 +55,6 @@ public class ConfigServerApi {
       return createObject().cast();
     }
 
-    protected EmailConfirmationInput() {
-    }
+    protected EmailConfirmationInput() {}
   }
 }

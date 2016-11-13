@@ -18,20 +18,16 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-
 import java.util.Collection;
 
 @ExtensionPoint
 public interface GroupMemberAuditListener {
 
-  void onAddAccountsToGroup(Account.Id actor,
-      Collection<AccountGroupMember> added);
+  void onAddAccountsToGroup(Account.Id actor, Collection<AccountGroupMember> added);
 
-  void onDeleteAccountsFromGroup(Account.Id actor,
-      Collection<AccountGroupMember> removed);
+  void onDeleteAccountsFromGroup(Account.Id actor, Collection<AccountGroupMember> removed);
 
   void onAddGroupsToGroup(Account.Id actor, Collection<AccountGroupById> added);
 
-  void onDeleteGroupsFromGroup(Account.Id actor,
-      Collection<AccountGroupById> deleted);
+  void onDeleteGroupsFromGroup(Account.Id actor, Collection<AccountGroupById> deleted);
 }

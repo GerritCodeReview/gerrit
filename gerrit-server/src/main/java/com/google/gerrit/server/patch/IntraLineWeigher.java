@@ -17,12 +17,18 @@ package com.google.gerrit.server.patch;
 import com.google.common.cache.Weigher;
 
 /** Approximates memory usage for IntralineDiff in bytes of memory used. */
-public class IntraLineWeigher implements
-    Weigher<IntraLineDiffKey, IntraLineDiff> {
+public class IntraLineWeigher implements Weigher<IntraLineDiffKey, IntraLineDiff> {
   @Override
   public int weigh(IntraLineDiffKey key, IntraLineDiff value) {
-    return 16 + 8 * 8 + 2 * 36     // Size of IntraLineDiffKey, 64 bit JVM
-        + 16 + 2 * 8 + 16 + 8 + 4 + 20 // Size of IntraLineDiff, 64 bit JVM
+    return 16
+        + 8 * 8
+        + 2 * 36 // Size of IntraLineDiffKey, 64 bit JVM
+        + 16
+        + 2 * 8
+        + 16
+        + 8
+        + 4
+        + 20 // Size of IntraLineDiff, 64 bit JVM
         + (8 + 16 + 4 * 4) * value.getEdits().size();
   }
 }

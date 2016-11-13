@@ -25,33 +25,34 @@ import com.google.common.collect.Table;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-
 import java.sql.Timestamp;
 
 /**
  * Set of reviewers on a change.
- * <p>
- * A given account may appear in multiple states and at different timestamps. No
- * reviewers with state {@link ReviewerStateInternal#REMOVED} are ever exposed
- * by this interface.
+ *
+ * <p>A given account may appear in multiple states and at different timestamps. No reviewers with
+ * state {@link ReviewerStateInternal#REMOVED} are ever exposed by this interface.
  */
 public class ReviewerSet {
-  private static final ReviewerSet EMPTY = new ReviewerSet(
-      ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>of());
+  private static final ReviewerSet EMPTY =
+      new ReviewerSet(ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>of());
 
-  public static ReviewerSet fromApprovals(
-      Iterable<PatchSetApproval> approvals) {
+  public static ReviewerSet fromApprovals(Iterable<PatchSetApproval> approvals) {
     PatchSetApproval first = null;
-    Table<ReviewerStateInternal, Account.Id, Timestamp> reviewers =
-        HashBasedTable.create();
+    Table<ReviewerStateInternal, Account.Id, Timestamp> reviewers = HashBasedTable.create();
     for (PatchSetApproval psa : approvals) {
       if (first == null) {
         first = psa;
       } else {
         checkArgument(
-            first.getKey().getParentKey().getParentKey().equals(
-              psa.getKey().getParentKey().getParentKey()),
-            "multiple change IDs: %s, %s", first.getKey(), psa.getKey());
+            first
+                .getKey()
+                .getParentKey()
+                .getParentKey()
+                .equals(psa.getKey().getParentKey().getParentKey()),
+            "multiple change IDs: %s, %s",
+            first.getKey(),
+            psa.getKey());
       }
       Account.Id id = psa.getAccountId();
       reviewers.put(REVIEWER, id, psa.getGranted());
@@ -62,8 +63,7 @@ public class ReviewerSet {
     return new ReviewerSet(reviewers);
   }
 
-  public static ReviewerSet fromTable(
-      Table<ReviewerStateInternal, Account.Id, Timestamp> table) {
+  public static ReviewerSet fromTable(Table<ReviewerStateInternal, Account.Id, Timestamp> table) {
     return new ReviewerSet(table);
   }
 
@@ -71,8 +71,7 @@ public class ReviewerSet {
     return EMPTY;
   }
 
-  private final ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp>
-      table;
+  private final ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp> table;
   private ImmutableSet<Account.Id> accounts;
 
   private ReviewerSet(Table<ReviewerStateInternal, Account.Id, Timestamp> table) {
@@ -91,8 +90,7 @@ public class ReviewerSet {
     return table.row(state).keySet();
   }
 
-  public ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp>
-      asTable() {
+  public ImmutableTable<ReviewerStateInternal, Account.Id, Timestamp> asTable() {
     return table;
   }
 

@@ -72,7 +72,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,11 +80,14 @@ import java.util.TreeSet;
 
 public class ReplyBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, ReplyBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Styles extends CssResource {
     String label_name();
+
     String label_value();
+
     String label_help();
   }
 
@@ -126,29 +128,28 @@ public class ReplyBox extends Composite {
     }
 
     addDomHandler(
-      new KeyDownHandler() {
-        @Override
-        public void onKeyDown(KeyDownEvent e) {
-          e.stopPropagation();
-          if ((e.getNativeKeyCode() == KEY_ENTER
-              || e.getNativeKeyCode() == KEY_MAC_ENTER)
-              && (e.isControlKeyDown() || e.isMetaKeyDown())) {
-            e.preventDefault();
-            if (post.isEnabled()) {
-              onPost(null);
+        new KeyDownHandler() {
+          @Override
+          public void onKeyDown(KeyDownEvent e) {
+            e.stopPropagation();
+            if ((e.getNativeKeyCode() == KEY_ENTER || e.getNativeKeyCode() == KEY_MAC_ENTER)
+                && (e.isControlKeyDown() || e.isMetaKeyDown())) {
+              e.preventDefault();
+              if (post.isEnabled()) {
+                onPost(null);
+              }
             }
           }
-        }
-      },
-      KeyDownEvent.getType());
+        },
+        KeyDownEvent.getType());
     addDomHandler(
-      new KeyPressHandler() {
-        @Override
-        public void onKeyPress(KeyPressEvent e) {
-          e.stopPropagation();
-        }
-      },
-      KeyPressEvent.getType());
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent e) {
+            e.stopPropagation();
+          }
+        },
+        KeyPressEvent.getType());
   }
 
   @Override
@@ -160,35 +161,41 @@ public class ReplyBox extends Composite {
       lc.removeReplyComment();
     }
     ChangeApi.drafts(psId.getParentKey().get())
-        .get(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
-          @Override
-          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-            displayComments(result);
-            post.setEnabled(true);
-          }
+        .get(
+            new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+              @Override
+              public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+                displayComments(result);
+                post.setEnabled(true);
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            post.setEnabled(true);
-          }
-        });
+              @Override
+              public void onFailure(Throwable caught) {
+                post.setEnabled(true);
+              }
+            });
 
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        message.setFocus(true);
-      }
-    });
-    Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-      @Override
-      public boolean execute() {
-        String t = message.getText();
-        if (t != null) {
-          message.setCursorPos(t.length());
-        }
-        return false;
-      }
-    }, 0);
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                message.setFocus(true);
+              }
+            });
+    Scheduler.get()
+        .scheduleFixedDelay(
+            new RepeatingCommand() {
+              @Override
+              public boolean execute() {
+                String t = message.getText();
+                if (t != null) {
+                  message.setCursorPos(t.length());
+                }
+                return false;
+              }
+            },
+            0);
   }
 
   @UiHandler("post")
@@ -212,20 +219,23 @@ public class ReplyBox extends Composite {
     in.drafts(DraftHandling.PUBLISH_ALL_REVISIONS);
     in.prePost();
     ChangeApi.revision(psId.getParentKey().get(), revision)
-      .view("review")
-      .post(in, new GerritCallback<ReviewInput>() {
-        @Override
-        public void onSuccess(ReviewInput result) {
-          Gerrit.display(PageLinks.toChange(psId));
-        }
-        @Override
-        public void onFailure(final Throwable caught) {
-          if (RestApi.isNotSignedIn(caught)) {
-            lc.setReplyComment(message.getText());
-          }
-          super.onFailure(caught);
-        }
-      });
+        .view("review")
+        .post(
+            in,
+            new GerritCallback<ReviewInput>() {
+              @Override
+              public void onSuccess(ReviewInput result) {
+                Gerrit.display(PageLinks.toChange(psId));
+              }
+
+              @Override
+              public void onFailure(final Throwable caught) {
+                if (RestApi.isNotSignedIn(caught)) {
+                  lc.setReplyComment(message.getText());
+                }
+                super.onFailure(caught);
+              }
+            });
     hide();
   }
 
@@ -296,9 +306,7 @@ public class ReplyBox extends Composite {
   }
 
   private void renderLabels(
-      List<String> names,
-      NativeMap<LabelInfo> all,
-      NativeMap<JsArrayString> permitted) {
+      List<String> names, NativeMap<LabelInfo> all, NativeMap<JsArrayString> permitted) {
     TreeSet<Short> values = new TreeSet<>();
     List<LabelAndValues> labels = new ArrayList<>(permitted.size());
     for (String id : names) {
@@ -349,9 +357,7 @@ public class ReplyBox extends Composite {
     return dv;
   }
 
-  private void renderRadio(int row,
-      List<Short> columns,
-      LabelAndValues lv) {
+  private void renderRadio(int row, List<Short> columns, LabelAndValues lv) {
     String id = lv.info.name();
     Short dv = normalizeDefaultValue(lv.info.defaultValue(), lv.permitted);
 
@@ -362,12 +368,10 @@ public class ReplyBox extends Composite {
     fmt.setStyleName(row, 0, style.label_name());
     fmt.setStyleName(row, labelHelpColumn, style.label_help());
 
-    ApprovalInfo self = Gerrit.isSignedIn()
-        ? lv.info.forUser(Gerrit.getUserAccount().getId().get())
-        : null;
+    ApprovalInfo self =
+        Gerrit.isSignedIn() ? lv.info.forUser(Gerrit.getUserAccount().getId().get()) : null;
 
-    final LabelRadioGroup group =
-        new LabelRadioGroup(row, id, lv.permitted.size());
+    final LabelRadioGroup group = new LabelRadioGroup(row, id, lv.permitted.size());
     for (int i = 0; i < columns.size(); i++) {
       Short v = columns.get(i);
       if (lv.permitted.contains(v)) {
@@ -386,9 +390,8 @@ public class ReplyBox extends Composite {
   }
 
   private void renderCheckBox(int row, LabelAndValues lv) {
-    ApprovalInfo self = Gerrit.isSignedIn()
-        ? lv.info.forUser(Gerrit.getUserAccount().getId().get())
-        : null;
+    ApprovalInfo self =
+        Gerrit.isSignedIn() ? lv.info.forUser(Gerrit.getUserAccount().getId().get()) : null;
 
     final String id = lv.info.name();
     final CheckBox b = new CheckBox();
@@ -397,12 +400,13 @@ public class ReplyBox extends Composite {
     if (self != null && self.value() == 1) {
       b.setValue(true);
     }
-    b.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<Boolean> event) {
-        in.label(id, event.getValue() ? (short) 1 : (short) 0);
-      }
-    });
+    b.addValueChangeHandler(
+        new ValueChangeHandler<Boolean>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<Boolean> event) {
+            in.label(id, event.getValue() ? (short) 1 : (short) 0);
+          }
+        });
     b.setStyleName(style.label_name());
     labelsTable.setWidget(row, 0, b);
 
@@ -412,9 +416,7 @@ public class ReplyBox extends Composite {
   }
 
   private static boolean isCheckBox(Set<Short> values) {
-    return values.size() == 2
-        && values.contains((short) 0)
-        && values.contains((short) 1);
+    return values.size() == 2 && values.contains((short) 0) && values.contains((short) 1);
   }
 
   private void displayComments(NativeMap<JsArray<CommentInfo>> m) {
@@ -422,13 +424,13 @@ public class ReplyBox extends Composite {
 
     JsArray<CommentInfo> l = m.get(Patch.COMMIT_MSG);
     if (l != null) {
-      comments.add(new FileComments(clp, psId,
-          Util.C.commitMessage(), copyPath(Patch.COMMIT_MSG, l)));
+      comments.add(
+          new FileComments(clp, psId, Util.C.commitMessage(), copyPath(Patch.COMMIT_MSG, l)));
     }
     l = m.get(Patch.MERGE_LIST);
     if (l != null) {
-      comments.add(new FileComments(clp, psId, Util.C.commitMessage(),
-          copyPath(Patch.MERGE_LIST, l)));
+      comments.add(
+          new FileComments(clp, psId, Util.C.commitMessage(), copyPath(Patch.MERGE_LIST, l)));
     }
 
     List<String> paths = new ArrayList<>(m.keySet());
@@ -436,8 +438,7 @@ public class ReplyBox extends Composite {
 
     for (String path : paths) {
       if (!Patch.isMagic(path)) {
-        comments.add(new FileComments(clp, psId,
-            path, copyPath(path, m.get(path))));
+        comments.add(new FileComments(clp, psId, path, copyPath(path, m.get(path))));
       }
     }
 
@@ -479,9 +480,8 @@ public class ReplyBox extends Composite {
     }
   }
 
-  private class LabelRadioButton extends RadioButton implements
-      ValueChangeHandler<Boolean>, ClickHandler, MouseOverHandler,
-      MouseOutHandler {
+  private class LabelRadioButton extends RadioButton
+      implements ValueChangeHandler<Boolean>, ClickHandler, MouseOverHandler, MouseOutHandler {
     private final LabelRadioGroup group;
     private final String text;
     private final short value;

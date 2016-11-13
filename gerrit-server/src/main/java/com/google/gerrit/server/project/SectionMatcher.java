@@ -20,9 +20,9 @@ import com.google.gerrit.server.CurrentUser;
 
 /**
  * Matches an AccessSection against a reference name.
- * <p>
- * These matchers are "compiled" versions of the AccessSection name, supporting
- * faster selection of which sections are relevant to any given input reference.
+ *
+ * <p>These matchers are "compiled" versions of the AccessSection name, supporting faster selection
+ * of which sections are relevant to any given input reference.
  */
 class SectionMatcher extends RefPatternMatcher {
   static SectionMatcher wrap(Project.NameKey project, AccessSection section) {
@@ -37,8 +37,7 @@ class SectionMatcher extends RefPatternMatcher {
   final AccessSection section;
   final RefPatternMatcher matcher;
 
-  SectionMatcher(Project.NameKey project, AccessSection section,
-      RefPatternMatcher matcher) {
+  SectionMatcher(Project.NameKey project, AccessSection section, RefPatternMatcher matcher) {
     this.project = project;
     this.section = section;
     this.matcher = matcher;

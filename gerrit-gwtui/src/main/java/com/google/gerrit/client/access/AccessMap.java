@@ -18,14 +18,12 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import java.util.Collections;
 import java.util.Set;
 
 /** Access rights available from {@code /access/}. */
 public class AccessMap extends NativeMap<ProjectAccessInfo> {
-  public static void get(Set<Project.NameKey> projects,
-      AsyncCallback<AccessMap> callback) {
+  public static void get(Set<Project.NameKey> projects, AsyncCallback<AccessMap> callback) {
     RestApi api = new RestApi("/access/");
     for (Project.NameKey p : projects) {
       api.addParameter("project", p.get());
@@ -33,21 +31,21 @@ public class AccessMap extends NativeMap<ProjectAccessInfo> {
     api.get(NativeMap.copyKeysIntoChildren(callback));
   }
 
-  public static void get(final Project.NameKey project,
-      final AsyncCallback<ProjectAccessInfo> cb) {
-    get(Collections.singleton(project), new AsyncCallback<AccessMap>() {
-      @Override
-      public void onSuccess(AccessMap result) {
-        cb.onSuccess(result.get(project.get()));
-      }
+  public static void get(final Project.NameKey project, final AsyncCallback<ProjectAccessInfo> cb) {
+    get(
+        Collections.singleton(project),
+        new AsyncCallback<AccessMap>() {
+          @Override
+          public void onSuccess(AccessMap result) {
+            cb.onSuccess(result.get(project.get()));
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        cb.onFailure(caught);
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            cb.onFailure(caught);
+          }
+        });
   }
 
-  protected AccessMap() {
-  }
+  protected AccessMap() {}
 }

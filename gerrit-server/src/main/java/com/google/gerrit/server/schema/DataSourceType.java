@@ -16,7 +16,6 @@ package com.google.gerrit.server.schema;
 
 import java.io.IOException;
 
-
 /** Abstraction of a supported database platform */
 public interface DataSourceType {
 
@@ -27,8 +26,8 @@ public interface DataSourceType {
   boolean usePool();
 
   /**
-   * Return a ScriptRunner that runs the index script. Must not return
-   * {@code null}, but may return a ScriptRunner that does nothing.
+   * Return a ScriptRunner that runs the index script. Must not return {@code null}, but may return
+   * a ScriptRunner that does nothing.
    *
    * @throws IOException
    */

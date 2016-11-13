@@ -49,22 +49,24 @@ public class ShowHelpCommand extends KeyCommand {
     }
 
     final KeyHelpPopup help = new KeyHelpPopup();
-    help.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(final CloseEvent<PopupPanel> event) {
-        current = null;
-        BUS.fireEvent(new FocusEvent() {});
-      }
-    });
+    help.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(final CloseEvent<PopupPanel> event) {
+            current = null;
+            BUS.fireEvent(new FocusEvent() {});
+          }
+        });
     current = help;
-    help.setPopupPositionAndShow(new PositionCallback() {
-      @Override
-      public void setPosition(final int pWidth, final int pHeight) {
-        final int left = (Window.getClientWidth() - pWidth) >> 1;
-        final int wLeft = Window.getScrollLeft();
-        final int wTop = Window.getScrollTop();
-        help.setPopupPosition(wLeft + left, wTop + 50);
-      }
-    });
+    help.setPopupPositionAndShow(
+        new PositionCallback() {
+          @Override
+          public void setPosition(final int pWidth, final int pHeight) {
+            final int left = (Window.getClientWidth() - pWidth) >> 1;
+            final int wLeft = Window.getScrollLeft();
+            final int wTop = Window.getScrollTop();
+            help.setPopupPosition(wLeft + left, wTop + 50);
+          }
+        });
   }
 }

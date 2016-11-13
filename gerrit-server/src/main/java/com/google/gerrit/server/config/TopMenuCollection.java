@@ -23,14 +23,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class TopMenuCollection implements
-    ChildCollection<ConfigResource, TopMenuResource> {
+class TopMenuCollection implements ChildCollection<ConfigResource, TopMenuResource> {
   private final DynamicMap<RestView<TopMenuResource>> views;
   private final ListTopMenus list;
 
   @Inject
-  TopMenuCollection(DynamicMap<RestView<TopMenuResource>> views,
-      ListTopMenus list) {
+  TopMenuCollection(DynamicMap<RestView<TopMenuResource>> views, ListTopMenus list) {
     this.views = views;
     this.list = list;
   }

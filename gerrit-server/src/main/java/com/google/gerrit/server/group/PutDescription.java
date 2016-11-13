@@ -29,14 +29,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 
 @Singleton
 public class PutDescription implements RestModifyView<GroupResource, Input> {
   public static class Input {
-    @DefaultInput
-    public String description;
+    @DefaultInput public String description;
   }
 
   private final GroupCache groupCache;
@@ -50,8 +48,7 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Response<String> apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException,
-      ResourceNotFoundException, OrmException {
+      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException {
     if (input == null) {
       input = new Input(); // Delete would set description to null.
     }
@@ -62,8 +59,7 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
       throw new AuthException("Not group owner");
     }
 
-    AccountGroup group = db.get().accountGroups().get(
-        resource.toAccountGroup().getId());
+    AccountGroup group = db.get().accountGroups().get(resource.toAccountGroup().getId());
     if (group == null) {
       throw new ResourceNotFoundException();
     }

@@ -23,7 +23,16 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testutil.TestKey;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
 import org.bouncycastle.openpgp.PGPSignature;
@@ -43,17 +52,6 @@ import org.eclipse.jgit.transport.PushCertificateParser;
 import org.eclipse.jgit.transport.SignedPushConfig;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 public class PushCertificateCheckerTest {
   private InMemoryRepository repo;
@@ -99,23 +97,20 @@ public class PushCertificateCheckerTest {
 
   @Test
   public void validCert() throws Exception {
-    PushCertificate cert =
-        newSignedCert(validNonce(), validKeyWithoutExpiration());
+    PushCertificate cert = newSignedCert(validNonce(), validKeyWithoutExpiration());
     assertNoProblems(cert);
   }
 
   @Test
   public void invalidNonce() throws Exception {
-    PushCertificate cert =
-        newSignedCert("invalid-nonce", validKeyWithoutExpiration());
+    PushCertificate cert = newSignedCert("invalid-nonce", validKeyWithoutExpiration());
     assertProblems(cert, "Invalid nonce");
   }
 
   @Test
   public void invalidNonceNotChecked() throws Exception {
     checker = newChecker(false);
-    PushCertificate cert =
-        newSignedCert("invalid-nonce", validKeyWithoutExpiration());
+    PushCertificate cert = newSignedCert("invalid-nonce", validKeyWithoutExpiration());
     assertNoProblems(cert);
   }
 
@@ -123,57 +118,58 @@ public class PushCertificateCheckerTest {
   public void missingKey() throws Exception {
     TestKey key2 = validKeyWithExpiration();
     PushCertificate cert = newSignedCert(validNonce(), key2);
-    assertProblems(cert,
-        "No public keys found for key ID " + keyIdToString(key2.getKeyId()));
+    assertProblems(cert, "No public keys found for key ID " + keyIdToString(key2.getKeyId()));
   }
 
   @Test
   public void invalidKey() throws Exception {
     TestKey key3 = expiredKey();
     PushCertificate cert = newSignedCert(validNonce(), key3);
-    assertProblems(cert,
-        "Invalid public key " + keyToString(key3.getPublicKey())
-          + ":\n  Key is expired");
+    assertProblems(
+        cert, "Invalid public key " + keyToString(key3.getPublicKey()) + ":\n  Key is expired");
   }
 
   @Test
   public void signatureByExpiredKeyBeforeExpiration() throws Exception {
     TestKey key3 = expiredKey();
-    Date now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")
-        .parse("2005-07-10 12:00:00 -0400");
+    Date now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse("2005-07-10 12:00:00 -0400");
     PushCertificate cert = newSignedCert(validNonce(), key3, now);
     assertNoProblems(cert);
   }
 
   private String validNonce() {
-    return signedPushConfig.getNonceGenerator()
+    return signedPushConfig
+        .getNonceGenerator()
         .createNonce(repo, System.currentTimeMillis() / 1000);
   }
 
-  private PushCertificate newSignedCert(String nonce, TestKey signingKey)
-      throws Exception {
+  private PushCertificate newSignedCert(String nonce, TestKey signingKey) throws Exception {
     return newSignedCert(nonce, signingKey, null);
   }
 
-  private PushCertificate newSignedCert(String nonce, TestKey signingKey,
-      Date now) throws Exception {
-    PushCertificateIdent ident = new PushCertificateIdent(
-        signingKey.getFirstUserId(), System.currentTimeMillis(), -7 * 60);
-    String payload = "certificate version 0.1\n"
-      + "pusher " + ident.getRaw() + "\n"
-      + "pushee test://localhost/repo.git\n"
-      + "nonce " + nonce + "\n"
-      + "\n"
-      + "0000000000000000000000000000000000000000"
-      + " deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
-      + " refs/heads/master\n";
-    PGPSignatureGenerator gen = new PGPSignatureGenerator(
-        new BcPGPContentSignerBuilder(
-          signingKey.getPublicKey().getAlgorithm(), PGPUtil.SHA1));
+  private PushCertificate newSignedCert(String nonce, TestKey signingKey, Date now)
+      throws Exception {
+    PushCertificateIdent ident =
+        new PushCertificateIdent(signingKey.getFirstUserId(), System.currentTimeMillis(), -7 * 60);
+    String payload =
+        "certificate version 0.1\n"
+            + "pusher "
+            + ident.getRaw()
+            + "\n"
+            + "pushee test://localhost/repo.git\n"
+            + "nonce "
+            + nonce
+            + "\n"
+            + "\n"
+            + "0000000000000000000000000000000000000000"
+            + " deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
+            + " refs/heads/master\n";
+    PGPSignatureGenerator gen =
+        new PGPSignatureGenerator(
+            new BcPGPContentSignerBuilder(signingKey.getPublicKey().getAlgorithm(), PGPUtil.SHA1));
 
     if (now != null) {
-      PGPSignatureSubpacketGenerator subGen =
-          new PGPSignatureSubpacketGenerator();
+      PGPSignatureSubpacketGenerator subGen = new PGPSignatureSubpacketGenerator();
       subGen.setSignatureCreationTime(false, now);
       gen.setHashedSubpackets(subGen.generate());
     }
@@ -183,21 +179,17 @@ public class PushCertificateCheckerTest {
     PGPSignature sig = gen.generate();
 
     ByteArrayOutputStream bout = new ByteArrayOutputStream();
-    try (BCPGOutputStream out = new BCPGOutputStream(
-        new ArmoredOutputStream(bout))) {
+    try (BCPGOutputStream out = new BCPGOutputStream(new ArmoredOutputStream(bout))) {
       sig.encode(out);
     }
 
     String cert = payload + new String(bout.toByteArray(), UTF_8);
-    Reader reader =
-        new InputStreamReader(new ByteArrayInputStream(cert.getBytes(UTF_8)));
-    PushCertificateParser parser =
-        new PushCertificateParser(repo, signedPushConfig);
+    Reader reader = new InputStreamReader(new ByteArrayInputStream(cert.getBytes(UTF_8)));
+    PushCertificateParser parser = new PushCertificateParser(repo, signedPushConfig);
     return parser.parse(reader);
   }
 
-  private void assertProblems(PushCertificate cert, String first,
-      String... rest) throws Exception {
+  private void assertProblems(PushCertificate cert, String first, String... rest) throws Exception {
     List<String> expected = new ArrayList<>();
     expected.add(first);
     expected.addAll(Arrays.asList(rest));

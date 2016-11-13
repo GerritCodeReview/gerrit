@@ -30,12 +30,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +37,14 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AllAccountsIndexer
-    extends SiteIndexer<Account.Id, AccountState, AccountIndex> {
-  private static final Logger log =
-      LoggerFactory.getLogger(AllAccountsIndexer.class);
+public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, AccountIndex> {
+  private static final Logger log = LoggerFactory.getLogger(AllAccountsIndexer.class);
 
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ListeningExecutorService executor;
@@ -66,8 +62,7 @@ public class AllAccountsIndexer
 
   @Override
   public SiteIndexer.Result indexAll(final AccountIndex index) {
-    ProgressMonitor progress =
-        new TextProgressMonitor(new PrintWriter(progressOut));
+    ProgressMonitor progress = new TextProgressMonitor(new PrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();
     List<Account.Id> ids;
@@ -80,8 +75,8 @@ public class AllAccountsIndexer
     return reindexAccounts(index, ids, progress);
   }
 
-  private SiteIndexer.Result reindexAccounts(final AccountIndex index,
-      List<Account.Id> ids, ProgressMonitor progress) {
+  private SiteIndexer.Result reindexAccounts(
+      final AccountIndex index, List<Account.Id> ids, ProgressMonitor progress) {
     progress.beginTask("Reindexing accounts", ids.size());
     List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
     AtomicBoolean ok = new AtomicBoolean(true);
@@ -90,24 +85,25 @@ public class AllAccountsIndexer
     Stopwatch sw = Stopwatch.createStarted();
     for (final Account.Id id : ids) {
       final String desc = "account " + id;
-      ListenableFuture<?> future = executor.submit(
-          new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-              try {
-                accountCache.evict(id);
-                index.replace(accountCache.get(id));
-                if (verboseWriter != null) {
-                  verboseWriter.println("Reindexed " + desc);
+      ListenableFuture<?> future =
+          executor.submit(
+              new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                  try {
+                    accountCache.evict(id);
+                    index.replace(accountCache.get(id));
+                    if (verboseWriter != null) {
+                      verboseWriter.println("Reindexed " + desc);
+                    }
+                    done.incrementAndGet();
+                  } catch (Exception e) {
+                    failed.incrementAndGet();
+                    throw e;
+                  }
+                  return null;
                 }
-                done.incrementAndGet();
-              } catch (Exception e) {
-                failed.incrementAndGet();
-                throw e;
-              }
-              return null;
-            }
-          });
+              });
       addErrorListener(future, desc, progress, ok);
       futures.add(future);
     }
@@ -123,8 +119,7 @@ public class AllAccountsIndexer
     return new Result(sw, ok.get(), done.get(), failed.get());
   }
 
-  private List<Account.Id> collectAccounts(ProgressMonitor progress)
-      throws OrmException {
+  private List<Account.Id> collectAccounts(ProgressMonitor progress) throws OrmException {
     progress.beginTask("Collecting accounts", ProgressMonitor.UNKNOWN);
     List<Account.Id> ids = new ArrayList<>();
     try (ReviewDb db = schemaFactory.open()) {

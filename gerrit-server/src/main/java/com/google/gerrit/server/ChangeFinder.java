@@ -25,7 +25,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,15 +42,13 @@ public class ChangeFinder {
   /**
    * Find changes matching the given identifier.
    *
-   * @param id change identifier, either a numeric ID, a Change-Id, or
-   *     project~branch~id triplet.
+   * @param id change identifier, either a numeric ID, a Change-Id, or project~branch~id triplet.
    * @param user user to wrap in controls.
-   * @return possibly-empty list of controls for all matching changes,
-   *     corresponding to the given user; may or may not be visible.
+   * @return possibly-empty list of controls for all matching changes, corresponding to the given
+   *     user; may or may not be visible.
    * @throws OrmException if an error occurred querying the database.
    */
-  public List<ChangeControl> find(String id, CurrentUser user)
-      throws OrmException {
+  public List<ChangeControl> find(String id, CurrentUser user) throws OrmException {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
@@ -72,10 +69,7 @@ public class ChangeFinder {
     // Try change triplet
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
     if (triplet.isPresent()) {
-      return asChangeControls(query.byBranchKey(
-          triplet.get().branch(),
-          triplet.get().id()),
-          user);
+      return asChangeControls(query.byBranchKey(triplet.get().branch(), triplet.get().id()), user);
     }
 
     return Collections.emptyList();
@@ -90,16 +84,15 @@ public class ChangeFinder {
     return ctls.get(0);
   }
 
-  public List<ChangeControl> find(Change.Id id, CurrentUser user)
-      throws OrmException {
+  public List<ChangeControl> find(Change.Id id, CurrentUser user) throws OrmException {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
     return asChangeControls(query.byLegacyChangeId(id), user);
   }
 
-  private List<ChangeControl> asChangeControls(List<ChangeData> cds,
-      CurrentUser user) throws OrmException {
+  private List<ChangeControl> asChangeControls(List<ChangeData> cds, CurrentUser user)
+      throws OrmException {
     List<ChangeControl> ctls = new ArrayList<>(cds.size());
     for (ChangeData cd : cds) {
       ctls.add(cd.changeControl(user));

@@ -64,7 +64,7 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
     public void upsert(Iterable<Change> instances) {
       throw new UnsupportedOperationException(
           "do not call upsert; existing changes are updated automatically,"
-          + " or use InsertChangeOp for insertion");
+              + " or use InsertChangeOp for insertion");
     }
 
     @Override
@@ -75,8 +75,7 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
 
     @Override
     public void beginTransaction(Change.Id key) {
-      throw new UnsupportedOperationException(
-          "updateChange is always called within a transaction");
+      throw new UnsupportedOperationException("updateChange is always called within a transaction");
     }
 
     @Override
@@ -92,11 +91,9 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
     }
 
     @Override
-    public Change atomicUpdate(Change.Id key,
-        AtomicUpdate<Change> update) {
+    public Change atomicUpdate(Change.Id key, AtomicUpdate<Change> update) {
       throw new UnsupportedOperationException(
-          "do not call atomicUpdate; updateChange is always called within a"
-          + " transaction");
+          "do not call atomicUpdate; updateChange is always called within a" + " transaction");
     }
   }
 }

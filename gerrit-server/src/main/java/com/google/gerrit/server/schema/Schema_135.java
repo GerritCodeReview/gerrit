@@ -34,14 +34,12 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Stream;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 public class Schema_135 extends SchemaVersion {
   private static final String COMMIT_MSG =
@@ -52,7 +50,8 @@ public class Schema_135 extends SchemaVersion {
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_135(Provider<Schema_134> prior,
+  Schema_135(
+      Provider<Schema_134> prior,
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
       @GerritPersonIdent PersonIdent serverUser) {
@@ -65,13 +64,12 @@ public class Schema_135 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allProjectsName);
-        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-            allProjectsName, git)) {
+        MetaDataUpdate md =
+            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git)) {
       ProjectConfig config = ProjectConfig.read(md);
 
       AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
-      Permission createRefsMetaConfigPermission =
-          meta.getPermission(Permission.CREATE, true);
+      Permission createRefsMetaConfigPermission = meta.getPermission(Permission.CREATE, true);
 
       Set<GroupReference> groups =
           Stream.concat(
@@ -86,8 +84,7 @@ public class Schema_135 extends SchemaVersion {
               .collect(toSet());
 
       for (GroupReference group : groups) {
-        createRefsMetaConfigPermission
-            .add(new PermissionRule(config.resolve(group)));
+        createRefsMetaConfigPermission.add(new PermissionRule(config.resolve(group)));
       }
 
       md.getCommitBuilder().setAuthor(serverUser);

@@ -17,7 +17,6 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,13 +27,12 @@ public class FastForwardOnly extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(
-      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    List<CodeReviewCommit> sorted =
-        args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
+      throws IntegrationException {
+    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
-    CodeReviewCommit newTipCommit = args.mergeUtil.getFirstFastForward(
-            args.mergeTip.getInitialTip(), args.rw, sorted);
+    CodeReviewCommit newTipCommit =
+        args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
     if (!newTipCommit.equals(args.mergeTip.getInitialTip())) {
       ops.add(new FastForwardOp(args, newTipCommit));
     }
@@ -55,10 +53,9 @@ public class FastForwardOnly extends SubmitStrategy {
     }
   }
 
-  static boolean dryRun(SubmitDryRun.Arguments args,
-      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+  static boolean dryRun(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
-    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw,
-        toMerge);
+    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge);
   }
 }

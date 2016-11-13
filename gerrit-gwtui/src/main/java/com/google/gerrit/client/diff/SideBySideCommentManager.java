@@ -19,18 +19,18 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
-import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.TextMarker.FromTo;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.SortedMap;
+import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.TextMarker.FromTo;
 
 /** Tracks comment widgets for {@link SideBySide}. */
 class SideBySideCommentManager extends CommentManager {
-  SideBySideCommentManager(SideBySide host,
-      DiffObject base, PatchSet.Id revision,
+  SideBySideCommentManager(
+      SideBySide host,
+      DiffObject base,
+      PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
       boolean open) {
@@ -60,8 +60,7 @@ class SideBySideCommentManager extends CommentManager {
   CommentGroup getCommentGroupOnActiveLine(CodeMirror cm) {
     CommentGroup group = null;
     if (cm.extras().hasActiveLine()) {
-      group = map(cm.side())
-          .get(cm.getLineNumber(cm.extras().activeLine()) + 1);
+      group = map(cm.side()).get(cm.getLineNumber(cm.extras().activeLine()) + 1);
     }
     return group;
   }
@@ -82,12 +81,15 @@ class SideBySideCommentManager extends CommentManager {
     int line = cm.getLineNumber(cm.extras().activeLine()) + 1;
     if (cm.somethingSelected()) {
       FromTo fromTo = adjustSelection(cm);
-      addDraftBox(cm.side(), CommentInfo.create(
-              getPath(),
-              getStoredSideFromDisplaySide(cm.side()),
-              getParentNumFromDisplaySide(cm.side()),
-              line,
-              CommentRange.create(fromTo))).setEdit(true);
+      addDraftBox(
+              cm.side(),
+              CommentInfo.create(
+                  getPath(),
+                  getStoredSideFromDisplaySide(cm.side()),
+                  getParentNumFromDisplaySide(cm.side()),
+                  line,
+                  CommentRange.create(fromTo)))
+          .setEdit(true);
       cm.setCursor(fromTo.to());
       cm.setSelection(cm.getCursor());
     } else {
@@ -103,10 +105,8 @@ class SideBySideCommentManager extends CommentManager {
     }
 
     SideBySideCommentGroup newGroup = newGroup(side, line);
-    Map<Integer, CommentGroup> map =
-        side == DisplaySide.A ? sideA : sideB;
-    Map<Integer, CommentGroup> otherMap =
-        side == DisplaySide.A ? sideB : sideA;
+    Map<Integer, CommentGroup> map = side == DisplaySide.A ? sideA : sideB;
+    Map<Integer, CommentGroup> otherMap = side == DisplaySide.A ? sideB : sideA;
     map.put(line, newGroup);
     int otherLine = host.lineOnOther(side, line - 1).getLine() + 1;
     existing = map(side.otherSide()).get(otherLine);

@@ -18,13 +18,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.QueryList;
 import com.google.gerrit.server.git.VersionedMetaData;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /** Named Queries for user accounts. */
 public class VersionedAccountQueries extends VersionedMetaData {
@@ -52,13 +50,13 @@ public class VersionedAccountQueries extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    queryList = QueryList.parse(readUTF8(QueryList.FILE_NAME),
-        QueryList.createLoggerSink(QueryList.FILE_NAME, log));
+    queryList =
+        QueryList.parse(
+            readUTF8(QueryList.FILE_NAME), QueryList.createLoggerSink(QueryList.FILE_NAME, log));
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     throw new UnsupportedOperationException("Cannot yet save named queries");
   }
 }

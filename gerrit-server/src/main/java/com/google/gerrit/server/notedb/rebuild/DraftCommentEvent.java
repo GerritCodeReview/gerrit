@@ -31,10 +31,14 @@ class DraftCommentEvent extends Event {
   private final PatchSet ps;
   private final PatchListCache cache;
 
-  DraftCommentEvent(Comment c, Change change, PatchSet ps,
-      PatchListCache cache) {
-    super(CommentsUtil.getCommentPsId(change.getId(), c), c.author.getId(),
-        c.getRealAuthor().getId(), c.writtenOn, change.getCreatedOn(), c.tag);
+  DraftCommentEvent(Comment c, Change change, PatchSet ps, PatchListCache cache) {
+    super(
+        CommentsUtil.getCommentPsId(change.getId(), c),
+        c.author.getId(),
+        c.getRealAuthor().getId(),
+        c.writtenOn,
+        change.getCreatedOn(),
+        c.tag);
     this.c = c;
     this.change = change;
     this.ps = ps;

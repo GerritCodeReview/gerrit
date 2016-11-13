@@ -16,36 +16,31 @@ package com.google.gerrit.server.util;
 
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.server.project.RefPattern;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Comparator;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Order the Ref Pattern by the most specific. This sort is done by:
+ *
  * <ul>
- * <li>1 - The minor value of Levenshtein string distance between the branch
- * name and the regex string shortest example. A shorter distance is a more
- * specific match.
- * <li>2 - Finites first, infinities after.
- * <li>3 - Number of transitions.  More transitions is more specific.
- * <li>4 - Length of the expression text.
+ *   <li>1 - The minor value of Levenshtein string distance between the branch name and the regex
+ *       string shortest example. A shorter distance is a more specific match.
+ *   <li>2 - Finites first, infinities after.
+ *   <li>3 - Number of transitions. More transitions is more specific.
+ *   <li>4 - Length of the expression text.
  * </ul>
  *
- * Levenshtein distance is a measure of the similarity between two strings.
- * The distance is the number of deletions, insertions, or substitutions
- * required to transform one string into another.
+ * Levenshtein distance is a measure of the similarity between two strings. The distance is the
+ * number of deletions, insertions, or substitutions required to transform one string into another.
  *
- * For example, if given refs/heads/m* and refs/heads/*, the distances are 5
- * and 6. It means that refs/heads/m* is more specific because it's closer to
- * refs/heads/master than refs/heads/*.
+ * <p>For example, if given refs/heads/m* and refs/heads/*, the distances are 5 and 6. It means that
+ * refs/heads/m* is more specific because it's closer to refs/heads/master than refs/heads/*.
  *
- * Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the
- * distances are both 6. Both are infinite, but refs/heads/[a-zA-Z]* has more
- * transitions, which after all turns it more specific.
+ * <p>Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the distances are both 6. Both
+ * are infinite, but refs/heads/[a-zA-Z]* has more transitions, which after all turns it more
+ * specific.
  */
-public final class MostSpecificComparator implements
-    Comparator<RefConfigSection> {
+public final class MostSpecificComparator implements Comparator<RefConfigSection> {
   private final String refName;
 
   public MostSpecificComparator(String refName) {
@@ -111,8 +106,7 @@ public final class MostSpecificComparator implements
 
   private int transitions(String pattern) {
     if (RefPattern.isRE(pattern)) {
-      return RefPattern.toRegExp(pattern).toAutomaton()
-          .getNumberOfTransitions();
+      return RefPattern.toRegExp(pattern).toAutomaton().getNumberOfTransitions();
 
     } else if (pattern.endsWith("/*")) {
       return pattern.length();

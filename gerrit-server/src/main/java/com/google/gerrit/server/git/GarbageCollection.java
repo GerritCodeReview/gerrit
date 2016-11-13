@@ -22,7 +22,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.inject.Inject;
-
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -35,18 +38,11 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-
 public class GarbageCollection {
-  private static final Logger log = LoggerFactory
-      .getLogger(GarbageCollection.class);
+  private static final Logger log = LoggerFactory.getLogger(GarbageCollection.class);
 
   public static final String LOG_NAME = "gc_log";
   private static final Logger gcLog = LoggerFactory.getLogger(LOG_NAME);
-
 
   private final GitRepositoryManager repoManager;
   private final GarbageCollectionQueue gcQueue;
@@ -58,8 +54,10 @@ public class GarbageCollection {
   }
 
   @Inject
-  GarbageCollection(GitRepositoryManager repoManager,
-      GarbageCollectionQueue gcQueue, GcConfig config,
+  GarbageCollection(
+      GitRepositoryManager repoManager,
+      GarbageCollectionQueue gcQueue,
+      GcConfig config,
       DynamicSet<GarbageCollectorListener> listeners) {
     this.repoManager = repoManager;
     this.gcQueue = gcQueue;
@@ -71,19 +69,19 @@ public class GarbageCollection {
     return run(projectNames, null);
   }
 
-  public GarbageCollectionResult run(List<Project.NameKey> projectNames,
-      PrintWriter writer) {
+  public GarbageCollectionResult run(List<Project.NameKey> projectNames, PrintWriter writer) {
     return run(projectNames, gcConfig.isAggressive(), writer);
   }
 
-  public GarbageCollectionResult run(List<Project.NameKey> projectNames,
-      boolean aggressive, PrintWriter writer) {
+  public GarbageCollectionResult run(
+      List<Project.NameKey> projectNames, boolean aggressive, PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
-    for (Project.NameKey projectName : Sets.difference(
-        Sets.newHashSet(projectNames), projectsToGc)) {
-      result.addError(new GarbageCollectionResult.Error(
-          GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED, projectName));
+    for (Project.NameKey projectName :
+        Sets.difference(Sets.newHashSet(projectNames), projectsToGc)) {
+      result.addError(
+          new GarbageCollectionResult.Error(
+              GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED, projectName));
     }
     for (Project.NameKey p : projectsToGc) {
       try (Repository repo = repoManager.openRepository(p)) {
@@ -92,21 +90,21 @@ public class GarbageCollection {
         GarbageCollectCommand gc = Git.wrap(repo).gc();
         gc.setAggressive(aggressive);
         logGcInfo(p, "before:", gc.getStatistics());
-        gc.setProgressMonitor(writer != null ? new TextProgressMonitor(writer)
-            : NullProgressMonitor.INSTANCE);
+        gc.setProgressMonitor(
+            writer != null ? new TextProgressMonitor(writer) : NullProgressMonitor.INSTANCE);
         Properties statistics = gc.call();
         logGcInfo(p, "after: ", statistics);
         print(writer, "done.\n\n");
         fire(p, statistics);
       } catch (RepositoryNotFoundException e) {
         logGcError(writer, p, e);
-        result.addError(new GarbageCollectionResult.Error(
-            GarbageCollectionResult.Error.Type.REPOSITORY_NOT_FOUND,
-            p));
+        result.addError(
+            new GarbageCollectionResult.Error(
+                GarbageCollectionResult.Error.Type.REPOSITORY_NOT_FOUND, p));
       } catch (Exception e) {
         logGcError(writer, p, e);
-        result.addError(new GarbageCollectionResult.Error(
-            GarbageCollectionResult.Error.Type.GC_FAILED, p));
+        result.addError(
+            new GarbageCollectionResult.Error(GarbageCollectionResult.Error.Type.GC_FAILED, p));
       } finally {
         gcQueue.gcFinished(p);
       }
@@ -132,8 +130,7 @@ public class GarbageCollection {
     logGcInfo(projectName, msg, null);
   }
 
-  private static void logGcInfo(Project.NameKey projectName, String msg,
-      Properties statistics) {
+  private static void logGcInfo(Project.NameKey projectName, String msg, Properties statistics) {
     StringBuilder b = new StringBuilder();
     b.append("[").append(projectName.get()).append("] ");
     b.append(msg);
@@ -148,15 +145,14 @@ public class GarbageCollection {
     gcLog.info(b.toString());
   }
 
-  private static void logGcConfiguration(Project.NameKey projectName,
-      Repository repo, boolean aggressive) {
+  private static void logGcConfiguration(
+      Project.NameKey projectName, Repository repo, boolean aggressive) {
     StringBuilder b = new StringBuilder();
     Config cfg = repo.getConfig();
     b.append("gc.aggressive=").append(aggressive).append("; ");
     b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION, null));
     for (String subsection : cfg.getSubsections(ConfigConstants.CONFIG_GC_SECTION)) {
-      b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION,
-          subsection));
+      b.append(formatConfigValues(cfg, ConfigConstants.CONFIG_GC_SECTION, subsection));
     }
     if (b.length() == 0) {
       b.append("no set");
@@ -166,8 +162,7 @@ public class GarbageCollection {
     logGcInfo(projectName, "pack config: " + (new PackConfig(repo)).toString());
   }
 
-  private static String formatConfigValues(Config config, String section,
-      String subsection) {
+  private static String formatConfigValues(Config config, String section, String subsection) {
     StringBuilder b = new StringBuilder();
     Set<String> names = config.getNames(section, subsection);
     for (String name : names) {
@@ -183,8 +178,7 @@ public class GarbageCollection {
     return b.toString();
   }
 
-  private static void logGcError(PrintWriter writer,
-      Project.NameKey projectName, Exception e) {
+  private static void logGcError(PrintWriter writer, Project.NameKey projectName, Exception e) {
     print(writer, "failed.\n\n");
     StringBuilder b = new StringBuilder();
     b.append("[").append(projectName.get()).append("]");

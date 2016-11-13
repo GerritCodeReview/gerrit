@@ -22,7 +22,6 @@ import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-
 import java.io.IOException;
 
 public class ReadOnlyChangeIndex implements ChangeIndex {
@@ -62,8 +61,8 @@ public class ReadOnlyChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public DataSource<ChangeData> getSource(Predicate<ChangeData> p,
-      QueryOptions opts) throws QueryParseException {
+  public DataSource<ChangeData> getSource(Predicate<ChangeData> p, QueryOptions opts)
+      throws QueryParseException {
     return index.getSource(p, opts);
   }
 

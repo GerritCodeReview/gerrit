@@ -23,10 +23,8 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
-
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
+import org.slf4j.LoggerFactory;
 
 /** Tracks and executes registered {@link LifecycleListener}s. */
 public class LifecycleManager {
@@ -36,34 +34,38 @@ public class LifecycleManager {
   /** Index of the last listener to start successfully; -1 when not started. */
   private int startedIndex = -1;
 
-  /** Add a handle that must be cleared during stop.
+  /**
+   * Add a handle that must be cleared during stop.
    *
    * @param handle the handle to add.
-   **/
+   */
   public void add(RegistrationHandle handle) {
     handles.add(handle);
   }
 
-  /** Add a single listener.
+  /**
+   * Add a single listener.
    *
    * @param listener the listener to add.
-   **/
+   */
   public void add(LifecycleListener listener) {
     listeners.add(Providers.of(listener));
   }
 
-  /** Add a single listener.
+  /**
+   * Add a single listener.
    *
    * @param listener the listener to add.
-   **/
+   */
   public void add(Provider<LifecycleListener> listener) {
     listeners.add(listener);
   }
 
-  /** Add all {@link LifecycleListener}s registered in the Injector.
+  /**
+   * Add all {@link LifecycleListener}s registered in the Injector.
    *
    * @param injector the injector to add.
-   **/
+   */
   public void add(Injector injector) {
     Preconditions.checkState(startedIndex < 0, "Already started");
     for (Binding<LifecycleListener> binding : get(injector)) {
@@ -71,10 +73,11 @@ public class LifecycleManager {
     }
   }
 
-  /** Add all {@link LifecycleListener}s registered in the Injectors.
+  /**
+   * Add all {@link LifecycleListener}s registered in the Injectors.
    *
    * @param injectors the injectors to add.
-   **/
+   */
   public void add(Injector... injectors) {
     for (Injector i : injectors) {
       add(i);

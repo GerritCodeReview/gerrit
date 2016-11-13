@@ -49,7 +49,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
@@ -61,16 +60,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * Tracks Guice bindings that should be exposed to loaded plugins.
- * <p>
- * This is an internal implementation detail of how the main server is able to
- * export its explicit Guice bindings to tightly coupled plugins, giving them
- * access to singletons and request scoped resources just like any core code.
+ *
+ * <p>This is an internal implementation detail of how the main server is able to export its
+ * explicit Guice bindings to tightly coupled plugins, giving them access to singletons and request
+ * scoped resources just like any core code.
  */
 @Singleton
 public class PluginGuiceEnvironment {
@@ -165,15 +163,16 @@ public class PluginGuiceEnvironment {
     final Module db = copy(dbInjector);
     final Module cm = copy(cfgInjector);
     final Module sm = copy(sysInjector);
-    sysModule = new AbstractModule() {
-      @Override
-      protected void configure() {
-        install(copyConfigModule);
-        install(db);
-        install(cm);
-        install(sm);
-      }
-    };
+    sysModule =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            install(copyConfigModule);
+            install(db);
+            install(cm);
+            install(sm);
+          }
+        };
   }
 
   public void setSshInjector(Injector injector) {
@@ -271,29 +270,25 @@ public class PluginGuiceEnvironment {
     }
   }
 
-  private void attachItem(Map<TypeLiteral<?>, DynamicItem<?>> items,
-      @Nullable Injector src,
-      Plugin plugin) {
-    for (RegistrationHandle h : PrivateInternals_DynamicTypes
-        .attachItems(src, items, plugin.getName())) {
+  private void attachItem(
+      Map<TypeLiteral<?>, DynamicItem<?>> items, @Nullable Injector src, Plugin plugin) {
+    for (RegistrationHandle h :
+        PrivateInternals_DynamicTypes.attachItems(src, items, plugin.getName())) {
       plugin.add(h);
     }
   }
 
-  private void attachSet(Map<TypeLiteral<?>, DynamicSet<?>> sets,
-      @Nullable Injector src,
-      Plugin plugin) {
-    for (RegistrationHandle h : PrivateInternals_DynamicTypes
-        .attachSets(src, sets)) {
+  private void attachSet(
+      Map<TypeLiteral<?>, DynamicSet<?>> sets, @Nullable Injector src, Plugin plugin) {
+    for (RegistrationHandle h : PrivateInternals_DynamicTypes.attachSets(src, sets)) {
       plugin.add(h);
     }
   }
 
-  private void attachMap(Map<TypeLiteral<?>, DynamicMap<?>> maps,
-      @Nullable Injector src,
-      Plugin plugin) {
-    for (RegistrationHandle h : PrivateInternals_DynamicTypes
-        .attachMaps(src, plugin.getName(), maps)) {
+  private void attachMap(
+      Map<TypeLiteral<?>, DynamicMap<?>> maps, @Nullable Injector src, Plugin plugin) {
+    for (RegistrationHandle h :
+        PrivateInternals_DynamicTypes.attachMaps(src, plugin.getName(), maps)) {
       plugin.add(h);
     }
   }
@@ -302,8 +297,7 @@ public class PluginGuiceEnvironment {
     // Index all old registrations by the raw type. These may be replaced
     // during the reattach calls below. Any that are not replaced will be
     // removed when the old plugin does its stop routine.
-    ListMultimap<TypeLiteral<?>, ReloadableRegistrationHandle<?>> old =
-        LinkedListMultimap.create();
+    ListMultimap<TypeLiteral<?>, ReloadableRegistrationHandle<?>> old = LinkedListMultimap.create();
     for (ReloadableRegistrationHandle<?> h : oldPlugin.getReloadableHandles()) {
       old.put(h.getKey().getTypeLiteral(), h);
     }
@@ -370,18 +364,14 @@ public class PluginGuiceEnvironment {
           replace(newPlugin, h, b);
           oldHandles.remove(type, h);
         } else {
-          newPlugin.add(map.put(
-              newPlugin.getName(),
-              b.getKey(),
-              b.getProvider()));
+          newPlugin.add(map.put(newPlugin.getName(), b.getKey(), b.getProvider()));
         }
       }
     }
   }
 
   /** Type used to declare unique annotations. Guice hides this, so extract it. */
-  private static final Class<?> UNIQUE_ANNOTATION =
-      UniqueAnnotations.create().annotationType();
+  private static final Class<?> UNIQUE_ANNOTATION = UniqueAnnotations.create().annotationType();
 
   private void reattachSet(
       ListMultimap<TypeLiteral<?>, ReloadableRegistrationHandle<?>> oldHandles,
@@ -439,7 +429,7 @@ public class PluginGuiceEnvironment {
         } else if (oi.hasNext()) {
           @SuppressWarnings("unchecked")
           ReloadableRegistrationHandle<Object> h2 =
-            (ReloadableRegistrationHandle<Object>) oi.next();
+              (ReloadableRegistrationHandle<Object>) oi.next();
           oi.remove();
           replace(newPlugin, h2, b);
         } else {
@@ -465,28 +455,25 @@ public class PluginGuiceEnvironment {
       @SuppressWarnings("unchecked")
       DynamicItem<Object> item = (DynamicItem<Object>) e.getValue();
 
-      Iterator<ReloadableRegistrationHandle<?>> oi =
-          oldHandles.get(type).iterator();
+      Iterator<ReloadableRegistrationHandle<?>> oi = oldHandles.get(type).iterator();
 
       for (Binding<?> binding : bindings(src, type)) {
         @SuppressWarnings("unchecked")
         Binding<Object> b = (Binding<Object>) binding;
         if (oi.hasNext()) {
           @SuppressWarnings("unchecked")
-          ReloadableRegistrationHandle<Object> h =
-            (ReloadableRegistrationHandle<Object>) oi.next();
+          ReloadableRegistrationHandle<Object> h = (ReloadableRegistrationHandle<Object>) oi.next();
           oi.remove();
           replace(newPlugin, h, b);
         } else {
-          newPlugin.add(item.set(b.getKey(), b.getProvider(),
-              newPlugin.getName()));
+          newPlugin.add(item.set(b.getKey(), b.getProvider(), newPlugin.getName()));
         }
       }
     }
   }
 
-  private static <T> void replace(Plugin newPlugin,
-      ReloadableRegistrationHandle<T> h, Binding<T> b) {
+  private static <T> void replace(
+      Plugin newPlugin, ReloadableRegistrationHandle<T> h, Binding<T> b) {
     RegistrationHandle n = h.replace(b.getKey(), b.getProvider());
     if (n != null) {
       newPlugin.add(n);
@@ -517,8 +504,7 @@ public class PluginGuiceEnvironment {
       if (type.getRawType() == DynamicItem.class) {
         ParameterizedType t = (ParameterizedType) type.getType();
         dynamicItemTypes.add(TypeLiteral.get(t.getActualTypeArguments()[0]));
-      } else if (type.getRawType() == DynamicSet.class
-          || type.getRawType() == DynamicMap.class) {
+      } else if (type.getRawType() == DynamicSet.class || type.getRawType() == DynamicMap.class) {
         ParameterizedType t = (ParameterizedType) type.getType();
         dynamicTypes.add(TypeLiteral.get(t.getActualTypeArguments()[0]));
       }

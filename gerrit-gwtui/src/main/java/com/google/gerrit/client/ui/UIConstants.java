@@ -18,16 +18,24 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface UIConstants extends Constants {
   String commentedActionButtonSend();
+
   String commentedActionButtonCancel();
 
   String projectName();
+
   String projectDescription();
+
   String projectItemHelp();
+
   String projectStateAbbrev();
+
   String projectStateHelp();
 
   String dialogCreateChangeTitle();
+
   String dialogCreateChangeHeading();
+
   String newChangeBranchSuggestion();
+
   String newChangeTopicSuggestion();
 }

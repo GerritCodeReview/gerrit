@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.server.securestore.SecureStore;
-
 import org.eclipse.jgit.lib.Config;
 
 class GerritConfig extends Config {

@@ -15,12 +15,10 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
+import java.security.MessageDigest;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-
-import java.security.MessageDigest;
 
 public class GroupUUID {
   public static AccountGroup.UUID make(String groupName, PersonIdent creator) {
@@ -30,6 +28,5 @@ public class GroupUUID {
     return new AccountGroup.UUID(ObjectId.fromRaw(md.digest()).name());
   }
 
-  private GroupUUID() {
-  }
+  private GroupUUID() {}
 }

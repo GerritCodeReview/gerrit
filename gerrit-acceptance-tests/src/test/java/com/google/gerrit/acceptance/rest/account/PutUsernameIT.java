@@ -24,49 +24,38 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.PutUsername;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-
+import java.util.Collections;
 import org.junit.Test;
 
-import java.util.Collections;
-
 public class PutUsernameIT extends AbstractDaemonTest {
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
+  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Test
   public void set() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = "myUsername";
-    RestResponse r =
-        adminRestSession.put("/accounts/" + createUser().get() + "/username", in);
+    RestResponse r = adminRestSession.put("/accounts/" + createUser().get() + "/username", in);
     r.assertOK();
-    assertThat(newGson().fromJson(r.getReader(), String.class)).isEqualTo(
-        in.username);
+    assertThat(newGson().fromJson(r.getReader(), String.class)).isEqualTo(in.username);
   }
 
   @Test
   public void setExisting_Conflict() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = admin.username;
-    adminRestSession
-        .put("/accounts/" + createUser().get() + "/username", in)
-        .assertConflict();
+    adminRestSession.put("/accounts/" + createUser().get() + "/username", in).assertConflict();
   }
 
   @Test
   public void setNew_MethodNotAllowed() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = "newUsername";
-    adminRestSession
-        .put("/accounts/" + admin.username + "/username", in)
-        .assertMethodNotAllowed();
+    adminRestSession.put("/accounts/" + admin.username + "/username", in).assertMethodNotAllowed();
   }
 
   @Test
   public void delete_MethodNotAllowed() throws Exception {
-    adminRestSession
-        .put("/accounts/" + admin.username + "/username")
-        .assertMethodNotAllowed();
+    adminRestSession.put("/accounts/" + admin.username + "/username").assertMethodNotAllowed();
   }
 
   private Account.Id createUser() throws Exception {

@@ -25,12 +25,12 @@ import com.google.inject.Singleton;
 
 /**
  * Helper to create one-off request contexts.
- * <p>
- * Each call to {@link #open()} opens a new {@link ReviewDb}, so this class
- * should only be used in a bounded try/finally block.
- * <p>
- * The user in the request context is {@link InternalUser} or the
- * {@link IdentifiedUser} associated to the userId passed as parameter.
+ *
+ * <p>Each call to {@link #open()} opens a new {@link ReviewDb}, so this class should only be used
+ * in a bounded try/finally block.
+ *
+ * <p>The user in the request context is {@link InternalUser} or the {@link IdentifiedUser}
+ * associated to the userId passed as parameter.
  */
 @Singleton
 public class OneOffRequestContext {
@@ -40,7 +40,8 @@ public class OneOffRequestContext {
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
-  OneOffRequestContext(InternalUser.Factory userFactory,
+  OneOffRequestContext(
+      InternalUser.Factory userFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
       IdentifiedUser.GenericFactory identifiedUserFactory) {
@@ -51,12 +52,11 @@ public class OneOffRequestContext {
   }
 
   public ManualRequestContext open() throws OrmException {
-    return new ManualRequestContext(userFactory.create(),
-        schemaFactory, requestContext);
+    return new ManualRequestContext(userFactory.create(), schemaFactory, requestContext);
   }
 
   public ManualRequestContext openAs(Account.Id userId) throws OrmException {
-    return new ManualRequestContext(identifiedUserFactory.create(userId),
-        schemaFactory, requestContext);
+    return new ManualRequestContext(
+        identifiedUserFactory.create(userId), schemaFactory, requestContext);
   }
 }

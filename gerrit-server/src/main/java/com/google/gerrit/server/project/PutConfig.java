@@ -41,17 +41,15 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
@@ -70,7 +68,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final Provider<CurrentUser> user;
 
   @Inject
-  PutConfig(@EnableSignedPush boolean serverEnableSignedPush,
+  PutConfig(
+      @EnableSignedPush boolean serverEnableSignedPush,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
       GitRepositoryManager gitMgr,
@@ -96,8 +95,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
   @Override
   public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
-      throws ResourceNotFoundException, BadRequestException,
-      ResourceConflictException {
+      throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
     if (!rsrc.getControl().isOwner()) {
       throw new ResourceNotFoundException(rsrc.getName());
     }
@@ -105,8 +103,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   }
 
   public ConfigInfo apply(ProjectControl ctrl, ConfigInput input)
-      throws ResourceNotFoundException, BadRequestException,
-      ResourceConflictException {
+      throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
     Project.NameKey projectName = ctrl.getProject().getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
@@ -162,8 +159,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       }
 
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(ctrl.getProjectState(),
-            projectConfig, input.pluginConfigValues);
+        setPluginConfigValues(ctrl.getProjectState(), projectConfig, input.pluginConfigValues);
       }
 
       md.setMessage("Modified project settings\n");
@@ -173,18 +169,22 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         gitMgr.setProjectDescription(projectName, p.getDescription());
       } catch (IOException e) {
         if (e.getCause() instanceof ConfigInvalidException) {
-          throw new ResourceConflictException("Cannot update " + projectName
-              + ": " + e.getCause().getMessage());
+          throw new ResourceConflictException(
+              "Cannot update " + projectName + ": " + e.getCause().getMessage());
         }
-        log.warn(String.format("Failed to update config of project %s.",
-            projectName), e);
+        log.warn(String.format("Failed to update config of project %s.", projectName), e);
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
       ProjectState state = projectStateFactory.create(projectConfig);
-      return new ConfigInfoImpl(serverEnableSignedPush,
-          state.controlFor(user.get()), config, pluginConfigEntries,
-          cfgFactory, allProjects, views);
+      return new ConfigInfoImpl(
+          serverEnableSignedPush,
+          state.controlFor(user.get()),
+          config,
+          pluginConfigEntries,
+          cfgFactory,
+          allProjects,
+          views);
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get());
     } catch (ConfigInvalidException err) {
@@ -194,19 +194,21 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     }
   }
 
-  private void setPluginConfigValues(ProjectState projectState,
-      ProjectConfig projectConfig, Map<String, Map<String, ConfigValue>> pluginConfigValues)
+  private void setPluginConfigValues(
+      ProjectState projectState,
+      ProjectConfig projectConfig,
+      Map<String, Map<String, ConfigValue>> pluginConfigValues)
       throws BadRequestException {
     for (Entry<String, Map<String, ConfigValue>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
       PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
       for (Entry<String, ConfigValue> v : e.getValue().entrySet()) {
-        ProjectConfigEntry projectConfigEntry =
-            pluginConfigEntries.get(pluginName, v.getKey());
+        ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
           if (!isValidParameterName(v.getKey())) {
-            log.warn(String.format(
-                "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
+            log.warn(
+                String.format(
+                    "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
@@ -218,8 +220,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           }
           if (Strings.emptyToNull(value) != null) {
             if (!value.equals(oldValue)) {
-              validateProjectConfigEntryIsEditable(projectConfigEntry,
-                  projectState, v.getKey(), pluginName);
+              validateProjectConfigEntryIsEditable(
+                  projectConfigEntry, projectState, v.getKey(), pluginName);
               v.setValue(projectConfigEntry.preUpdate(v.getValue()));
               value = v.getValue().value;
               try {
@@ -238,9 +240,13 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                     break;
                   case LIST:
                     if (!projectConfigEntry.getPermittedValues().contains(value)) {
-                      throw new BadRequestException(String.format(
-                          "The value '%s' is not permitted for parameter '%s' of plugin '"
-                              + pluginName + "'", value, v.getKey()));
+                      throw new BadRequestException(
+                          String.format(
+                              "The value '%s' is not permitted for parameter '%s' of plugin '"
+                                  + pluginName
+                                  + "'",
+                              value,
+                              v.getKey()));
                     }
                     //$FALL-THROUGH$
                   case STRING:
@@ -250,45 +256,51 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                     cfg.setStringList(v.getKey(), v.getValue().values);
                     break;
                   default:
-                    log.warn(String.format(
-                        "The type '%s' of parameter '%s' is not supported.",
-                        projectConfigEntry.getType().name(), v.getKey()));
+                    log.warn(
+                        String.format(
+                            "The type '%s' of parameter '%s' is not supported.",
+                            projectConfigEntry.getType().name(), v.getKey()));
                 }
               } catch (NumberFormatException ex) {
-                throw new BadRequestException(String.format(
-                    "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
-                    v.getValue(), v.getKey(), pluginName, ex.getMessage()));
+                throw new BadRequestException(
+                    String.format(
+                        "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
+                        v.getValue(), v.getKey(), pluginName, ex.getMessage()));
               }
             }
           } else {
             if (oldValue != null) {
-              validateProjectConfigEntryIsEditable(projectConfigEntry,
-                  projectState, v.getKey(), pluginName);
+              validateProjectConfigEntryIsEditable(
+                  projectConfigEntry, projectState, v.getKey(), pluginName);
               cfg.unset(v.getKey());
             }
           }
         } else {
-          throw new BadRequestException(String.format(
-              "The config parameter '%s' of plugin '%s' does not exist.",
-              v.getKey(), pluginName));
+          throw new BadRequestException(
+              String.format(
+                  "The config parameter '%s' of plugin '%s' does not exist.",
+                  v.getKey(), pluginName));
         }
       }
     }
   }
 
   private static void validateProjectConfigEntryIsEditable(
-      ProjectConfigEntry projectConfigEntry, ProjectState projectState,
-      String parameterName, String pluginName) throws BadRequestException {
+      ProjectConfigEntry projectConfigEntry,
+      ProjectState projectState,
+      String parameterName,
+      String pluginName)
+      throws BadRequestException {
     if (!projectConfigEntry.isEditable(projectState)) {
-      throw new BadRequestException(String.format(
-          "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
-          parameterName, pluginName, projectState.getProject().getName()));
+      throw new BadRequestException(
+          String.format(
+              "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
+              parameterName, pluginName, projectState.getProject().getName()));
     }
   }
 
   private static boolean isValidParameterName(String name) {
-    return CharMatcher.javaLetterOrDigit()
-        .or(CharMatcher.is('-'))
-        .matchesAllOf(name) && !name.startsWith("-");
+    return CharMatcher.javaLetterOrDigit().or(CharMatcher.is('-')).matchesAllOf(name)
+        && !name.startsWith("-");
   }
 }

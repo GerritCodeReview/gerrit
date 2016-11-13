@@ -27,7 +27,7 @@ import com.google.inject.ProvisionException;
 
 /** Validates the current schema version. */
 public class SchemaVersionCheck implements LifecycleListener {
-  public static Module module () {
+  public static Module module() {
     return new LifecycleModule() {
       @Override
       protected void configure() {
@@ -40,8 +40,7 @@ public class SchemaVersionCheck implements LifecycleListener {
   private final SitePaths site;
 
   @Inject
-  public SchemaVersionCheck(SchemaFactory<ReviewDb> schemaFactory,
-      SitePaths site) {
+  public SchemaVersionCheck(SchemaFactory<ReviewDb> schemaFactory, SitePaths site) {
     this.schema = schemaFactory;
     this.site = site;
   }
@@ -53,21 +52,30 @@ public class SchemaVersionCheck implements LifecycleListener {
       final int expectedVer = SchemaVersion.getBinaryVersion();
 
       if (currentVer == null) {
-        throw new ProvisionException("Schema not yet initialized."
-            + "  Run init to initialize the schema:\n"
-            + "$ java -jar gerrit.war init -d "
-            + site.site_path.toAbsolutePath());
+        throw new ProvisionException(
+            "Schema not yet initialized."
+                + "  Run init to initialize the schema:\n"
+                + "$ java -jar gerrit.war init -d "
+                + site.site_path.toAbsolutePath());
       }
       if (currentVer.versionNbr < expectedVer) {
-        throw new ProvisionException("Unsupported schema version "
-            + currentVer.versionNbr + "; expected schema version " + expectedVer
-            + ".  Run init to upgrade:\n"
-            + "$ java -jar " + site.gerrit_war.toAbsolutePath() + " init -d "
-            + site.site_path.toAbsolutePath());
+        throw new ProvisionException(
+            "Unsupported schema version "
+                + currentVer.versionNbr
+                + "; expected schema version "
+                + expectedVer
+                + ".  Run init to upgrade:\n"
+                + "$ java -jar "
+                + site.gerrit_war.toAbsolutePath()
+                + " init -d "
+                + site.site_path.toAbsolutePath());
       } else if (currentVer.versionNbr > expectedVer) {
-        throw new ProvisionException("Unsupported schema version "
-            + currentVer.versionNbr + "; expected schema version " + expectedVer
-            + ". Downgrade is not supported.");
+        throw new ProvisionException(
+            "Unsupported schema version "
+                + currentVer.versionNbr
+                + "; expected schema version "
+                + expectedVer
+                + ". Downgrade is not supported.");
       }
     } catch (OrmException e) {
       throw new ProvisionException("Cannot read schema_version", e);
@@ -75,8 +83,7 @@ public class SchemaVersionCheck implements LifecycleListener {
   }
 
   @Override
-  public void stop() {
-  }
+  public void stop() {}
 
   private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {
     try {

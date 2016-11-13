@@ -25,24 +25,19 @@ import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
-
-import org.apache.sshd.server.Command;
-
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.sshd.server.Command;
 
-class SshAutoRegisterModuleGenerator
-    extends AbstractModule
-    implements ModuleGenerator {
+class SshAutoRegisterModuleGenerator extends AbstractModule implements ModuleGenerator {
   private final Map<String, Class<Command>> commands = new HashMap<>();
   private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
   private CommandName command;
 
   @Override
   protected void configure() {
-    bind(Commands.key(command))
-        .toProvider(new DispatchCommandProvider(command));
+    bind(Commands.key(command)).toProvider(new DispatchCommandProvider(command));
     for (Map.Entry<String, Class<Command>> e : commands.entrySet()) {
       bind(Commands.key(command, e.getKey())).to(e.getValue());
     }
@@ -65,25 +60,24 @@ class SshAutoRegisterModuleGenerator
 
   @SuppressWarnings("unchecked")
   @Override
-  public void export(Export export, Class<?> type)
-      throws InvalidPluginException {
+  public void export(Export export, Class<?> type) throws InvalidPluginException {
     Preconditions.checkState(command != null, "pluginName must be provided");
     if (Command.class.isAssignableFrom(type)) {
       Class<Command> old = commands.get(export.value());
       if (old != null) {
-        throw new InvalidPluginException(String.format(
-            "@Export(\"%s\") has duplicate bindings:\n  %s\n  %s",
-            export.value(), old.getName(), type.getName()));
+        throw new InvalidPluginException(
+            String.format(
+                "@Export(\"%s\") has duplicate bindings:\n  %s\n  %s",
+                export.value(), old.getName(), type.getName()));
       }
       commands.put(export.value(), (Class<Command>) type);
     } else {
-      throw new InvalidPluginException(String.format(
-          "Class %s with @Export(\"%s\") must extend %s or implement %s",
-          type.getName(), export.value(),
-          SshCommand.class.getName(), Command.class.getName()));
+      throw new InvalidPluginException(
+          String.format(
+              "Class %s with @Export(\"%s\") must extend %s or implement %s",
+              type.getName(), export.value(), SshCommand.class.getName(), Command.class.getName()));
     }
   }
-
 
   @Override
   public void listen(TypeLiteral<?> tl, Class<?> clazz) {

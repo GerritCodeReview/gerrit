@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.query.QueryParseException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +22,11 @@ import java.util.Map;
 
 /**
  * This class is used to extract comma separated values in a predicate.
- * <p>
- * If tags for the values are present (e.g. "branch=jb_2.3,vote=approved") then
- * the args are placed in a map that maps tag to value (e.g., "branch" to "jb_2.3").
- * If no tag is present (e.g. "jb_2.3,approved") then the args are placed into a
- * positional list.  Args may be mixed so some may appear in the map and others
- * in the positional list (e.g. "vote=approved,jb_2.3).
+ *
+ * <p>If tags for the values are present (e.g. "branch=jb_2.3,vote=approved") then the args are
+ * placed in a map that maps tag to value (e.g., "branch" to "jb_2.3"). If no tag is present (e.g.
+ * "jb_2.3,approved") then the args are placed into a positional list. Args may be mixed so some may
+ * appear in the map and others in the positional list (e.g. "vote=approved,jb_2.3).
  */
 public class PredicateArgs {
   public List<String> positional;
@@ -36,9 +34,9 @@ public class PredicateArgs {
 
   /**
    * Parses query arguments into {@link #keyValue} and/or {@link #positional}..
-   * <p>
-   * Labels for these arguments should be kept in ChangeQueryBuilder
-   * as {@code ARG_ID_[argument name]}.
+   *
+   * <p>Labels for these arguments should be kept in ChangeQueryBuilder as {@code ARG_ID_[argument
+   * name]}.
    *
    * @param args arguments to be parsed
    * @throws QueryParseException

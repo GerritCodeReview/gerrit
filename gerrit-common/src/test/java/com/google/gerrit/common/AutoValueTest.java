@@ -17,7 +17,6 @@ package com.google.gerrit.common;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.auto.value.AutoValue;
-
 import org.junit.Test;
 
 public class AutoValueTest {

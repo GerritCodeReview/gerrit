@@ -55,15 +55,14 @@ import com.google.gerrit.server.project.SetAccess;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class ProjectApiImpl implements ProjectApi {
   interface Factory {
     ProjectApiImpl create(ProjectResource project);
+
     ProjectApiImpl create(String name);
   }
 
@@ -89,7 +88,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final DeleteBranches deleteBranches;
 
   @AssistedInject
-  ProjectApiImpl(CurrentUser user,
+  ProjectApiImpl(
+      CurrentUser user,
       CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
@@ -108,14 +108,32 @@ public class ProjectApiImpl implements ProjectApi {
       ListTags listTags,
       DeleteBranches deleteBranches,
       @Assisted ProjectResource project) {
-    this(user, createProjectFactory, projectApi, projects, getDescription,
-        putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, getAccess, setAccess, getConfig, putConfig, listBranches,
-        listTags, deleteBranches, project, null);
+    this(
+        user,
+        createProjectFactory,
+        projectApi,
+        projects,
+        getDescription,
+        putDescription,
+        childApi,
+        children,
+        projectJson,
+        branchApiFactory,
+        tagApiFactory,
+        getAccess,
+        setAccess,
+        getConfig,
+        putConfig,
+        listBranches,
+        listTags,
+        deleteBranches,
+        project,
+        null);
   }
 
   @AssistedInject
-  ProjectApiImpl(CurrentUser user,
+  ProjectApiImpl(
+      CurrentUser user,
       CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
@@ -134,13 +152,31 @@ public class ProjectApiImpl implements ProjectApi {
       ListTags listTags,
       DeleteBranches deleteBranches,
       @Assisted String name) {
-    this(user, createProjectFactory, projectApi, projects, getDescription,
-        putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, getAccess, setAccess, getConfig, putConfig, listBranches,
-        listTags, deleteBranches, null, name);
+    this(
+        user,
+        createProjectFactory,
+        projectApi,
+        projects,
+        getDescription,
+        putDescription,
+        childApi,
+        children,
+        projectJson,
+        branchApiFactory,
+        tagApiFactory,
+        getAccess,
+        setAccess,
+        getConfig,
+        putConfig,
+        listBranches,
+        listTags,
+        deleteBranches,
+        null,
+        name);
   }
 
-  private ProjectApiImpl(CurrentUser user,
+  private ProjectApiImpl(
+      CurrentUser user,
       CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
@@ -197,8 +233,7 @@ public class ProjectApiImpl implements ProjectApi {
         throw new BadRequestException("name must match input.name");
       }
       checkRequiresCapability(user, null, CreateProject.class);
-      createProjectFactory.create(name)
-          .apply(TopLevelResource.INSTANCE, in);
+      createProjectFactory.create(name).apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
     } catch (IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot create project: " + e.getMessage(), e);
@@ -228,8 +263,7 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public ProjectAccessInfo access(ProjectAccessInput p)
-      throws RestApiException {
+  public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
     try {
       return setAccess.apply(checkExists(), p);
     } catch (IOException e) {
@@ -238,8 +272,7 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public void description(DescriptionInput in)
-      throws RestApiException {
+  public void description(DescriptionInput in) throws RestApiException {
     try {
       putDescription.apply(checkExists(), in);
     } catch (IOException e) {
@@ -290,8 +323,7 @@ public class ProjectApiImpl implements ProjectApi {
     };
   }
 
-  private List<TagInfo> listTags(ListRefsRequest<TagInfo> request)
-      throws RestApiException {
+  private List<TagInfo> listTags(ListRefsRequest<TagInfo> request) throws RestApiException {
     listTags.setLimit(request.getLimit());
     listTags.setStart(request.getStart());
     listTags.setMatchSubstring(request.getSubstring());
@@ -309,8 +341,7 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public List<ProjectInfo> children(boolean recursive)
-      throws RestApiException {
+  public List<ProjectInfo> children(boolean recursive) throws RestApiException {
     ListChildProjects list = children.list();
     list.setRecursive(recursive);
     return list.apply(checkExists());
@@ -319,8 +350,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public ChildProjectApi child(String name) throws RestApiException {
     try {
-      return childApi.create(
-          children.parse(checkExists(), IdString.fromDecoded(name)));
+      return childApi.create(children.parse(checkExists(), IdString.fromDecoded(name)));
     } catch (IOException e) {
       throw new RestApiException("Cannot parse child project", e);
     }

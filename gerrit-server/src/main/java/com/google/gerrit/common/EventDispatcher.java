@@ -23,7 +23,6 @@ import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gwtorm.server.OrmException;
 
-
 /** Interface for posting (dispatching) Events */
 public interface EventDispatcher {
   /**
@@ -53,10 +52,9 @@ public interface EventDispatcher {
 
   /**
    * Post a stream event generically.
-   * <p>
-   * If you are creating a RefEvent or ChangeEvent from scratch,
-   * it is more efficient to use the specific postEvent methods
-   * for those use cases.
+   *
+   * <p>If you are creating a RefEvent or ChangeEvent from scratch, it is more efficient to use the
+   * specific postEvent methods for those use cases.
    *
    * @param event The event to post.
    * @throws OrmException on failure to post the event due to DB error

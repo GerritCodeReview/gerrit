@@ -20,13 +20,12 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Hosts a single {@link View}.
- * <p>
- * View instances are attached inside of an invisible DOM node, permitting their
- * {@code onLoad()} method to be invoked and to update the DOM prior to the
- * elements being made visible in the UI.
- * <p>
- * Complaint View instances must invoke {@link View#display()} once the DOM is
- * ready for presentation.
+ *
+ * <p>View instances are attached inside of an invisible DOM node, permitting their {@code onLoad()}
+ * method to be invoked and to update the DOM prior to the elements being made visible in the UI.
+ *
+ * <p>Complaint View instances must invoke {@link View#display()} once the DOM is ready for
+ * presentation.
  */
 public class ViewSite<V extends View> extends Composite {
   private final FlowPanel main;
@@ -46,10 +45,9 @@ public class ViewSite<V extends View> extends Composite {
 
   /**
    * Set the next view to display.
-   * <p>
-   * The view will be attached to the DOM tree within a hidden container,
-   * permitting its {@code onLoad()} method to execute and update the DOM
-   * without the user seeing the result.
+   *
+   * <p>The view will be attached to the DOM tree within a hidden container, permitting its {@code
+   * onLoad()} method to execute and update the DOM without the user seeing the result.
    *
    * @param view the next view to display.
    */
@@ -69,8 +67,7 @@ public class ViewSite<V extends View> extends Composite {
    *
    * @param view the view being displayed.
    */
-  protected void onShowView(final V view) {
-  }
+  protected void onShowView(final V view) {}
 
   @SuppressWarnings("unchecked")
   final void swap(final View v) {

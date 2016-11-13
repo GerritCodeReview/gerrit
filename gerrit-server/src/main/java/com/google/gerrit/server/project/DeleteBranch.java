@@ -27,7 +27,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -35,16 +35,13 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 @Singleton
 public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(DeleteBranch.class);
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
   private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
 
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
@@ -53,7 +50,8 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   private final RefValidationHelper refDeletionValidator;
 
   @Inject
-  DeleteBranch(Provider<IdentifiedUser> identifiedUser,
+  DeleteBranch(
+      Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       GitReferenceUpdated referenceUpdated,
@@ -62,30 +60,26 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
-    this.refDeletionValidator =
-        refHelperFactory.create(ReceiveCommand.Type.DELETE);
+    this.refDeletionValidator = refHelperFactory.create(ReceiveCommand.Type.DELETE);
   }
 
   @Override
-  public Response<?> apply(BranchResource rsrc, Input input) throws AuthException,
-      ResourceConflictException, OrmException, IOException {
+  public Response<?> apply(BranchResource rsrc, Input input)
+      throws AuthException, ResourceConflictException, OrmException, IOException {
     if (!rsrc.getControl().controlForRef(rsrc.getBranchKey()).canDelete()) {
       throw new AuthException("Cannot delete branch");
     }
-    if (!queryProvider.get().setLimit(1)
-        .byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
-      throw new ResourceConflictException("branch " + rsrc.getBranchKey()
-          + " has open changes");
+    if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
+      throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");
     }
 
     try (Repository r = repoManager.openRepository(rsrc.getNameKey())) {
       RefUpdate.Result result;
       RefUpdate u = r.updateRef(rsrc.getRef());
       u.setForceUpdate(true);
-      refDeletionValidator.validateRefOperation(
-          rsrc.getName(), identifiedUser.get(), u);
+      refDeletionValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
       int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
-      for (;;) {
+      for (; ; ) {
         try {
           result = u.delete();
         } catch (LockFailedException e) {
@@ -94,8 +88,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
           log.error("Cannot delete " + rsrc.getBranchKey(), e);
           throw e;
         }
-        if (result == RefUpdate.Result.LOCK_FAILURE
-            && --remainingLockFailureCalls > 0) {
+        if (result == RefUpdate.Result.LOCK_FAILURE && --remainingLockFailureCalls > 0) {
           try {
             Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
           } catch (InterruptedException ie) {
@@ -111,8 +104,8 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
         case NO_CHANGE:
         case FAST_FORWARD:
         case FORCED:
-          referenceUpdated.fire(rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE,
-              identifiedUser.get().getAccount());
+          referenceUpdated.fire(
+              rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE, identifiedUser.get().getAccount());
           break;
 
         case REJECTED_CURRENT_BRANCH:

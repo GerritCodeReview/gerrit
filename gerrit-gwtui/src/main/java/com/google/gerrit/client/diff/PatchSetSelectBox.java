@@ -44,14 +44,13 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtorm.client.KeyUtil;
-
-import net.codemirror.lib.CodeMirror;
-
 import java.util.List;
+import net.codemirror.lib.CodeMirror;
 
 /** HTMLPanel to select among patch sets */
 class PatchSetSelectBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface BoxStyle extends CssResource {
@@ -71,11 +70,8 @@ class PatchSetSelectBox extends Composite {
   private DiffObject idActive;
   private PatchSetSelectBox other;
 
-  PatchSetSelectBox(DiffScreen parent,
-      DisplaySide side,
-      Change.Id changeId,
-      DiffObject diffObject,
-      String path) {
+  PatchSetSelectBox(
+      DiffScreen parent, DisplaySide side, Change.Id changeId, DiffObject diffObject, String path) {
     initWidget(uiBinder.createAndBindUi(this));
     icon.setTitle(PatchUtil.C.addFileCommentToolTip());
     icon.addStyleName(Gerrit.RESOURCES.css().link());
@@ -89,27 +85,30 @@ class PatchSetSelectBox extends Composite {
     this.path = path;
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list, int parents, DiffInfo.FileMeta meta,
-      boolean editExists, boolean current, boolean open, boolean binary) {
+  void setUpPatchSetNav(
+      JsArray<RevisionInfo> list,
+      int parents,
+      DiffInfo.FileMeta meta,
+      boolean editExists,
+      boolean current,
+      boolean open,
+      boolean binary) {
     InlineHyperlink selectedLink = null;
     if (sideA) {
       if (parents <= 1) {
-        InlineHyperlink link =
-            createLink(PatchUtil.C.patchBase(), DiffObject.base());
+        InlineHyperlink link = createLink(PatchUtil.C.patchBase(), DiffObject.base());
         linkPanel.add(link);
         selectedLink = link;
       } else {
         for (int i = parents; i > 0; i--) {
           PatchSet.Id id = new PatchSet.Id(changeId, -i);
-          InlineHyperlink link =
-              createLink(Util.M.diffBaseParent(i), DiffObject.patchSet(id));
+          InlineHyperlink link = createLink(Util.M.diffBaseParent(i), DiffObject.patchSet(id));
           linkPanel.add(link);
           if (revision != null && id.equals(revision)) {
             selectedLink = link;
           }
         }
-        InlineHyperlink link =
-            createLink(Util.C.autoMerge(), DiffObject.autoMerge());
+        InlineHyperlink link = createLink(Util.C.autoMerge(), DiffObject.autoMerge());
         linkPanel.add(link);
         if (selectedLink == null) {
           selectedLink = link;
@@ -118,8 +117,8 @@ class PatchSetSelectBox extends Composite {
     }
     for (int i = 0; i < list.length(); i++) {
       RevisionInfo r = list.get(i);
-      InlineHyperlink link = createLink(r.id(),
-          DiffObject.patchSet(new PatchSet.Id(changeId, r._number())));
+      InlineHyperlink link =
+          createLink(r.id(), DiffObject.patchSet(new PatchSet.Id(changeId, r._number())));
       linkPanel.add(link);
       if (revision != null && r.id().equals(revision.getId())) {
         selectedLink = link;
@@ -136,8 +135,7 @@ class PatchSetSelectBox extends Composite {
       linkPanel.add(createDownloadLink());
     }
     if (!binary && open && !idActive.isBaseOrAutoMerge() && Gerrit.isSignedIn()) {
-      if ((editExists && idActive.isEdit())
-          || (!editExists && current)) {
+      if ((editExists && idActive.isEdit()) || (!editExists && current)) {
         linkPanel.add(createEditIcon());
       }
     }
@@ -149,46 +147,46 @@ class PatchSetSelectBox extends Composite {
     }
   }
 
-  void setUpBlame(final CodeMirror cm, final boolean isBase,
-      final PatchSet.Id rev, final String path) {
-    if (!Patch.isMagic(path) && Gerrit.isSignedIn()
-        && Gerrit.info().change().allowBlame()) {
+  void setUpBlame(
+      final CodeMirror cm, final boolean isBase, final PatchSet.Id rev, final String path) {
+    if (!Patch.isMagic(path) && Gerrit.isSignedIn() && Gerrit.info().change().allowBlame()) {
       Anchor blameIcon = createBlameIcon();
-      blameIcon.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent clickEvent) {
-          if (cm.extras().getBlameInfo() != null) {
-            cm.extras().toggleAnnotation();
-          } else {
-            ChangeApi.blame(rev, path, isBase)
-              .get(new GerritCallback<JsArray<BlameInfo>>() {
+      blameIcon.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+              if (cm.extras().getBlameInfo() != null) {
+                cm.extras().toggleAnnotation();
+              } else {
+                ChangeApi.blame(rev, path, isBase)
+                    .get(
+                        new GerritCallback<JsArray<BlameInfo>>() {
 
-                @Override
-                public void onSuccess(JsArray<BlameInfo> lines) {
-                  cm.extras().toggleAnnotation(lines);
-                }
-              });
-          }
-        }
-      });
+                          @Override
+                          public void onSuccess(JsArray<BlameInfo> lines) {
+                            cm.extras().toggleAnnotation(lines);
+                          }
+                        });
+              }
+            }
+          });
       linkPanel.add(blameIcon);
     }
   }
 
   private Widget createEditIcon() {
-    PatchSet.Id id = idActive.isBaseOrAutoMerge()
-        ? other.idActive.asPatchSetId()
-        : idActive.asPatchSetId();
-    Anchor anchor = new Anchor(
-        new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()),
-        "#" + Dispatcher.toEditScreen(id, path));
+    PatchSet.Id id =
+        idActive.isBaseOrAutoMerge() ? other.idActive.asPatchSetId() : idActive.asPatchSetId();
+    Anchor anchor =
+        new Anchor(
+            new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()),
+            "#" + Dispatcher.toEditScreen(id, path));
     anchor.setTitle(PatchUtil.C.edit());
     return anchor;
   }
 
   private Anchor createBlameIcon() {
-    Anchor anchor = new Anchor(
-        new ImageResourceRenderer().render(Gerrit.RESOURCES.blame()));
+    Anchor anchor = new Anchor(new ImageResourceRenderer().render(Gerrit.RESOURCES.blame()));
     anchor.setTitle(PatchUtil.C.blame());
     return anchor;
   }
@@ -206,21 +204,21 @@ class PatchSetSelectBox extends Composite {
     DiffObject diffBase = sideA ? id : other.idActive;
     DiffObject revision = sideA ? other.idActive : id;
 
-    return new InlineHyperlink(label,
+    return new InlineHyperlink(
+        label,
         parent.isSideBySide()
             ? Dispatcher.toSideBySide(diffBase, revision.asPatchSetId(), path)
             : Dispatcher.toUnified(diffBase, revision.asPatchSetId(), path));
   }
 
   private Anchor createDownloadLink() {
-    DiffObject diffObject = idActive.isBaseOrAutoMerge()
-        ? other.idActive : idActive;
+    DiffObject diffObject = idActive.isBaseOrAutoMerge() ? other.idActive : idActive;
     String sideURL = idActive.isBaseOrAutoMerge() ? "1" : "0";
     String base = GWT.getHostPageBaseURL() + "cat/";
-    Anchor anchor = new Anchor(
-        new ImageResourceRenderer().render(Gerrit.RESOURCES.downloadIcon()),
-        base + KeyUtil.encode(diffObject.asPatchSetId() + "," + path) + "^"
-            + sideURL);
+    Anchor anchor =
+        new Anchor(
+            new ImageResourceRenderer().render(Gerrit.RESOURCES.downloadIcon()),
+            base + KeyUtil.encode(diffObject.asPatchSetId() + "," + path) + "^" + sideURL);
     anchor.setTitle(PatchUtil.C.download());
     return anchor;
   }

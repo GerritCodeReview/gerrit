@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.config;
 
-import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.FooterLine;
-
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.FooterLine;
 
 /** Tracking entry in the configuration file */
 public class TrackingFooter {
@@ -26,8 +25,7 @@ public class TrackingFooter {
   private final Pattern match;
   private final String system;
 
-  public TrackingFooter(String f, final String m, final String s)
-      throws PatternSyntaxException {
+  public TrackingFooter(String f, final String m, final String s) throws PatternSyntaxException {
     f = f.trim();
     if (f.endsWith(":")) {
       f = f.substring(0, f.length() - 1);
@@ -54,7 +52,6 @@ public class TrackingFooter {
 
   @Override
   public String toString() {
-    return "footer = " + key.getName() + ", match = " + match.pattern()
-        + ", system = " + system;
+    return "footer = " + key.getName() + ", match = " + match.pattern() + ", system = " + system;
   }
 }

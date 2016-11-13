@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,8 +62,7 @@ public class GitwebConfig {
           DynamicSet.bind(binder(), BranchWebLink.class).to(GitwebLinks.class);
         }
 
-        if (!isNullOrEmpty(type.getFile())
-            || !isNullOrEmpty(type.getRootTree())) {
+        if (!isNullOrEmpty(type.getFile()) || !isNullOrEmpty(type.getRootTree())) {
           DynamicSet.bind(binder(), FileWebLink.class).to(GitwebLinks.class);
         }
 
@@ -83,8 +81,7 @@ public class GitwebConfig {
     }
   }
 
-  private static boolean isEmptyString(Config cfg, String section,
-      String subsection, String name) {
+  private static boolean isEmptyString(Config cfg, String section, String subsection, String name) {
     // This is currently the only way to check for the empty string in a JGit
     // config. Fun!
     String[] values = cfg.getStringList(section, subsection, name);
@@ -98,43 +95,30 @@ public class GitwebConfig {
     }
     GitwebType type = new GitwebType();
 
-    type.setLinkName(firstNonNull(
-        cfg.getString("gitweb", null, "linkname"),
-        defaultType.getLinkName()));
-    type.setBranch(firstNonNull(
-        cfg.getString("gitweb", null, "branch"),
-        defaultType.getBranch()));
-    type.setProject(firstNonNull(
-        cfg.getString("gitweb", null, "project"),
-        defaultType.getProject()));
-    type.setRevision(firstNonNull(
-        cfg.getString("gitweb", null, "revision"),
-        defaultType.getRevision()));
-    type.setRootTree(firstNonNull(
-        cfg.getString("gitweb", null, "roottree"),
-        defaultType.getRootTree()));
-    type.setFile(firstNonNull(
-        cfg.getString("gitweb", null, "file"),
-        defaultType.getFile()));
-    type.setFileHistory(firstNonNull(
-        cfg.getString("gitweb", null, "filehistory"),
-        defaultType.getFileHistory()));
-    type.setUrlEncode(
-        cfg.getBoolean("gitweb", null, "urlencode",
-            defaultType.getUrlEncode()));
+    type.setLinkName(
+        firstNonNull(cfg.getString("gitweb", null, "linkname"), defaultType.getLinkName()));
+    type.setBranch(firstNonNull(cfg.getString("gitweb", null, "branch"), defaultType.getBranch()));
+    type.setProject(
+        firstNonNull(cfg.getString("gitweb", null, "project"), defaultType.getProject()));
+    type.setRevision(
+        firstNonNull(cfg.getString("gitweb", null, "revision"), defaultType.getRevision()));
+    type.setRootTree(
+        firstNonNull(cfg.getString("gitweb", null, "roottree"), defaultType.getRootTree()));
+    type.setFile(firstNonNull(cfg.getString("gitweb", null, "file"), defaultType.getFile()));
+    type.setFileHistory(
+        firstNonNull(cfg.getString("gitweb", null, "filehistory"), defaultType.getFileHistory()));
+    type.setUrlEncode(cfg.getBoolean("gitweb", null, "urlencode", defaultType.getUrlEncode()));
     String pathSeparator = cfg.getString("gitweb", null, "pathSeparator");
     if (pathSeparator != null) {
       if (pathSeparator.length() == 1) {
         char c = pathSeparator.charAt(0);
         if (isValidPathSeparator(c)) {
-          type.setPathSeparator(
-              firstNonNull(c, defaultType.getPathSeparator()));
+          type.setPathSeparator(firstNonNull(c, defaultType.getPathSeparator()));
         } else {
           log.warn("Invalid gitweb.pathSeparator: " + c);
         }
       } else {
-        log.warn(
-            "gitweb.pathSeparator is not a single character: " + pathSeparator);
+        log.warn("gitweb.pathSeparator is not a single character: " + pathSeparator);
       }
     }
     return type;
@@ -150,8 +134,7 @@ public class GitwebConfig {
         type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
         type.setRootTree("?p=${project}.git;a=tree;hb=${commit}");
         type.setFile("?p=${project}.git;hb=${commit};f=${file}");
-        type.setFileHistory(
-            "?p=${project}.git;a=history;hb=${branch};f=${file}");
+        type.setFileHistory("?p=${project}.git;a=history;hb=${branch};f=${file}");
         break;
       case "cgit":
         type.setLinkName("cgit");
@@ -203,29 +186,28 @@ public class GitwebConfig {
   }
 
   /**
-   * @return URL of the entry point into gitweb. This URL may be relative to our
-   *         context if gitweb is hosted by ourselves; or absolute if its hosted
-   *         elsewhere; or null if gitweb has not been configured.
+   * @return URL of the entry point into gitweb. This URL may be relative to our context if gitweb
+   *     is hosted by ourselves; or absolute if its hosted elsewhere; or null if gitweb has not been
+   *     configured.
    */
   public String getUrl() {
     return url;
   }
 
   /**
-   * Determines if a given character can be used unencoded in an URL as a
-   * replacement for the path separator '/'.
+   * Determines if a given character can be used unencoded in an URL as a replacement for the path
+   * separator '/'.
    *
-   * Reasoning: http://www.ietf.org/rfc/rfc1738.txt § 2.2:
+   * <p>Reasoning: http://www.ietf.org/rfc/rfc1738.txt § 2.2:
    *
-   * ... only alphanumerics, the special characters "$-_.+!*'(),", and
-   *  reserved characters used for their reserved purposes may be used
-   * unencoded within a URL.
+   * <p>... only alphanumerics, the special characters "$-_.+!*'(),", and reserved characters used
+   * for their reserved purposes may be used unencoded within a URL.
    *
-   * The following characters might occur in file names, however:
+   * <p>The following characters might occur in file names, however:
    *
-   * alphanumeric characters,
+   * <p>alphanumeric characters,
    *
-   * "$-_.+!',"
+   * <p>"$-_.+!',"
    */
   static boolean isValidPathSeparator(char c) {
     switch (c) {
@@ -239,8 +221,8 @@ public class GitwebConfig {
   }
 
   @Singleton
-  static class GitwebLinks implements BranchWebLink, FileHistoryWebLink,
-      FileWebLink, PatchSetWebLink, ProjectWebLink {
+  static class GitwebLinks
+      implements BranchWebLink, FileHistoryWebLink, FileWebLink, PatchSetWebLink, ProjectWebLink {
     private final String url;
     private final GitwebType type;
     private final ParameterizedString branch;
@@ -254,9 +236,7 @@ public class GitwebConfig {
       this.url = config.getUrl();
       this.type = type;
       this.branch = parse(type.getBranch());
-      this.file = parse(firstNonNull(
-          emptyToNull(type.getFile()),
-          nullToEmpty(type.getRootTree())));
+      this.file = parse(firstNonNull(emptyToNull(type.getFile()), nullToEmpty(type.getRootTree())));
       this.fileHistory = parse(type.getFileHistory());
       this.project = parse(type.getProject());
       this.revision = parse(type.getRevision());
@@ -265,36 +245,36 @@ public class GitwebConfig {
     @Override
     public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
       if (branch != null) {
-        return link(branch
-            .replace("project", encode(projectName))
-            .replace("branch", encode(branchName))
-            .toString());
+        return link(
+            branch
+                .replace("project", encode(projectName))
+                .replace("branch", encode(branchName))
+                .toString());
       }
       return null;
     }
 
     @Override
-    public WebLinkInfo getFileHistoryWebLink(String projectName,
-        String revision, String fileName) {
+    public WebLinkInfo getFileHistoryWebLink(String projectName, String revision, String fileName) {
       if (fileHistory != null) {
-        return link(revision
-            .replace("project", encode(projectName))
-            .replace("branch", encode(revision))
-            .replace("file", encode(fileName))
-            .toString());
+        return link(
+            revision
+                .replace("project", encode(projectName))
+                .replace("branch", encode(revision))
+                .replace("file", encode(fileName))
+                .toString());
       }
       return null;
     }
 
     @Override
-    public WebLinkInfo getFileWebLink(String projectName, String revision,
-        String fileName) {
+    public WebLinkInfo getFileWebLink(String projectName, String revision, String fileName) {
       if (file != null) {
-        return link(file
-            .replace("project", encode(projectName))
-            .replace("commit", encode(revision))
-            .replace("file", encode(fileName))
-            .toString());
+        return link(
+            file.replace("project", encode(projectName))
+                .replace("commit", encode(revision))
+                .replace("file", encode(fileName))
+                .toString());
       }
       return null;
     }
@@ -302,10 +282,11 @@ public class GitwebConfig {
     @Override
     public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
       if (revision != null) {
-        return link(revision
-            .replace("project", encode(projectName))
-            .replace("commit", encode(commit))
-            .toString());
+        return link(
+            revision
+                .replace("project", encode(projectName))
+                .replace("commit", encode(commit))
+                .toString());
       }
       return null;
     }

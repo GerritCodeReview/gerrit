@@ -36,7 +36,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.Collections;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -45,17 +47,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.concurrent.ExecutorService;
-
 public class MergedByPushOp extends BatchUpdate.Op {
-  private static final Logger log =
-      LoggerFactory.getLogger(MergedByPushOp.class);
+  private static final Logger log = LoggerFactory.getLogger(MergedByPushOp.class);
 
   public interface Factory {
-    MergedByPushOp create(RequestScopePropagator requestScopePropagator,
-        PatchSet.Id psId, String refName);
+    MergedByPushOp create(
+        RequestScopePropagator requestScopePropagator, PatchSet.Id psId, String refName);
   }
 
   private final RequestScopePropagator requestScopePropagator;
@@ -101,15 +98,13 @@ public class MergedByPushOp extends BatchUpdate.Op {
     return refName;
   }
 
-  public MergedByPushOp setPatchSetProvider(
-      Provider<PatchSet> patchSetProvider) {
+  public MergedByPushOp setPatchSetProvider(Provider<PatchSet> patchSetProvider) {
     this.patchSetProvider = checkNotNull(patchSetProvider);
     return this;
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws OrmException, IOException {
     change = ctx.getChange();
     correctBranch = refName.equals(change.getDest().get());
     if (!correctBranch) {
@@ -121,9 +116,9 @@ public class MergedByPushOp extends BatchUpdate.Op {
       // that is not present in the old notes so we can't use PatchSetUtil.
       patchSet = patchSetProvider.get();
     } else {
-      patchSet = checkNotNull(
-          psUtil.get(ctx.getDb(), ctx.getNotes(), psId),
-          "patch set %s not found", psId);
+      patchSet =
+          checkNotNull(
+              psUtil.get(ctx.getDb(), ctx.getNotes(), psId), "patch set %s not found", psId);
     }
     info = getPatchSetInfo(ctx);
 
@@ -149,17 +144,21 @@ public class MergedByPushOp extends BatchUpdate.Op {
       }
     }
     msgBuf.append(".");
-    ChangeMessage msg = ChangeMessagesUtil.newMessage(
-        ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString(),
-        ChangeMessagesUtil.TAG_MERGED);
+    ChangeMessage msg =
+        ChangeMessagesUtil.newMessage(
+            ctx.getDb(),
+            psId,
+            ctx.getUser(),
+            ctx.getWhen(),
+            msgBuf.toString(),
+            ChangeMessagesUtil.TAG_MERGED);
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
-    PatchSetApproval submitter = ApprovalsUtil.newApproval(
-        change.currentPatchSetId(), ctx.getUser(), LabelId.legacySubmit(),
-        1, ctx.getWhen());
+    PatchSetApproval submitter =
+        ApprovalsUtil.newApproval(
+            change.currentPatchSetId(), ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
     update.putApproval(submitter.getLabel(), submitter.getValue());
-    ctx.getDb().patchSetApprovals().upsert(
-        Collections.singleton(submitter));
+    ctx.getDb().patchSetApprovals().upsert(Collections.singleton(submitter));
 
     return true;
   }
@@ -169,36 +168,36 @@ public class MergedByPushOp extends BatchUpdate.Op {
     if (!correctBranch) {
       return;
     }
-    sendEmailExecutor.submit(requestScopePropagator.wrap(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          MergedSender cm =
-              mergedSenderFactory.create(ctx.getProject(), psId.getParentKey());
-          cm.setFrom(ctx.getAccountId());
-          cm.setPatchSet(patchSet, info);
-          cm.send();
-        } catch (Exception e) {
-          log.error("Cannot send email for submitted patch set " + psId, e);
-        }
-      }
+    sendEmailExecutor.submit(
+        requestScopePropagator.wrap(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  MergedSender cm =
+                      mergedSenderFactory.create(ctx.getProject(), psId.getParentKey());
+                  cm.setFrom(ctx.getAccountId());
+                  cm.setPatchSet(patchSet, info);
+                  cm.send();
+                } catch (Exception e) {
+                  log.error("Cannot send email for submitted patch set " + psId, e);
+                }
+              }
 
-      @Override
-      public String toString() {
-        return "send-email merged";
-      }
-    }));
+              @Override
+              public String toString() {
+                return "send-email merged";
+              }
+            }));
 
-    changeMerged.fire(change, patchSet,
-        ctx.getAccount(),
-        patchSet.getRevision().get(),
-        ctx.getWhen());
+    changeMerged.fire(
+        change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
     RevWalk rw = ctx.getRevWalk();
-    RevCommit commit = rw.parseCommit(
-        ObjectId.fromString(checkNotNull(patchSet).getRevision().get()));
+    RevCommit commit =
+        rw.parseCommit(ObjectId.fromString(checkNotNull(patchSet).getRevision().get()));
     return patchSetInfoFactory.get(rw, commit, psId);
   }
 }

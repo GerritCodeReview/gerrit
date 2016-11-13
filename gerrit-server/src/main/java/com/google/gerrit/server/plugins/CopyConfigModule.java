@@ -29,25 +29,21 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-
+import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.nio.file.Path;
-
 /**
  * Copies critical objects from the {@code dbInjector} into a plugin.
- * <p>
- * Most explicit bindings are copied automatically from the cfgInjector and
- * sysInjector to be made available to a plugin's private world. This module is
- * necessary to get things bound in the dbInjector that are not otherwise easily
- * available, but that a plugin author might expect to exist.
+ *
+ * <p>Most explicit bindings are copied automatically from the cfgInjector and sysInjector to be
+ * made available to a plugin's private world. This module is necessary to get things bound in the
+ * dbInjector that are not otherwise easily available, but that a plugin author might expect to
+ * exist.
  */
 @Singleton
 class CopyConfigModule extends AbstractModule {
-  @Inject
-  @SitePath
-  private Path sitePath;
+  @Inject @SitePath private Path sitePath;
 
   @Provides
   @SitePath
@@ -55,25 +51,21 @@ class CopyConfigModule extends AbstractModule {
     return sitePath;
   }
 
-  @Inject
-  private SitePaths sitePaths;
+  @Inject private SitePaths sitePaths;
 
   @Provides
   SitePaths getSitePaths() {
     return sitePaths;
   }
 
-  @Inject
-  private TrackingFooters trackingFooters;
+  @Inject private TrackingFooters trackingFooters;
 
   @Provides
   TrackingFooters getTrackingFooters() {
     return trackingFooters;
   }
 
-  @Inject
-  @GerritServerConfig
-  private Config gerritServerConfig;
+  @Inject @GerritServerConfig private Config gerritServerConfig;
 
   @Provides
   @GerritServerConfig
@@ -81,25 +73,21 @@ class CopyConfigModule extends AbstractModule {
     return gerritServerConfig;
   }
 
-  @Inject
-  private SchemaFactory<ReviewDb> schemaFactory;
+  @Inject private SchemaFactory<ReviewDb> schemaFactory;
 
   @Provides
   SchemaFactory<ReviewDb> getSchemaFactory() {
     return schemaFactory;
   }
 
-  @Inject
-  private GitRepositoryManager gitRepositoryManager;
+  @Inject private GitRepositoryManager gitRepositoryManager;
 
   @Provides
   GitRepositoryManager getGitRepositoryManager() {
     return gitRepositoryManager;
   }
 
-  @Inject
-  @AnonymousCowardName
-  private String anonymousCowardName;
+  @Inject @AnonymousCowardName private String anonymousCowardName;
 
   @Provides
   @AnonymousCowardName
@@ -107,8 +95,7 @@ class CopyConfigModule extends AbstractModule {
     return anonymousCowardName;
   }
 
-  @Inject
-  private GerritPersonIdentProvider serverIdentProvider;
+  @Inject private GerritPersonIdentProvider serverIdentProvider;
 
   @Provides
   @GerritPersonIdent
@@ -116,8 +103,7 @@ class CopyConfigModule extends AbstractModule {
     return serverIdentProvider.get();
   }
 
-  @Inject
-  private SecureStore secureStore;
+  @Inject private SecureStore secureStore;
 
   @Provides
   SecureStore getSecureStore() {
@@ -125,10 +111,8 @@ class CopyConfigModule extends AbstractModule {
   }
 
   @Inject
-  CopyConfigModule() {
-  }
+  CopyConfigModule() {}
 
   @Override
-  protected void configure() {
-  }
+  protected void configure() {}
 }

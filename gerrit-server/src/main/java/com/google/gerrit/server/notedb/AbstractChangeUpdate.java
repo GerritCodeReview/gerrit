@@ -28,7 +28,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
-
+import java.io.IOException;
+import java.util.Date;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -36,9 +37,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
-import java.util.Date;
 
 /** A single delta related to a specific patch-set of a change. */
 public abstract class AbstractChangeUpdate {
@@ -72,10 +70,8 @@ public abstract class AbstractChangeUpdate {
     this.change = notes.getChange();
     this.accountId = accountId(ctl.getUser());
     Account.Id realAccountId = accountId(ctl.getUser().getRealUser());
-    this.realAccountId =
-        realAccountId != null ? realAccountId : accountId;
-    this.authorIdent =
-        ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
+    this.realAccountId = realAccountId != null ? realAccountId : accountId;
+    this.authorIdent = ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
     this.when = when;
   }
 
@@ -91,8 +87,7 @@ public abstract class AbstractChangeUpdate {
       PersonIdent authorIdent,
       Date when) {
     checkArgument(
-        (notes != null && change == null)
-            || (notes == null && change != null),
+        (notes != null && change == null) || (notes == null && change != null),
         "exactly one of notes or change required");
     this.migration = migration;
     this.noteUtil = noteUtil;
@@ -109,7 +104,8 @@ public abstract class AbstractChangeUpdate {
   private static void checkUserType(CurrentUser user) {
     checkArgument(
         (user instanceof IdentifiedUser) || (user instanceof InternalUser),
-        "user must be IdentifiedUser or InternalUser: %s", user);
+        "user must be IdentifiedUser or InternalUser: %s",
+        user);
   }
 
   private static Account.Id accountId(CurrentUser u) {
@@ -117,13 +113,16 @@ public abstract class AbstractChangeUpdate {
     return (u instanceof IdentifiedUser) ? u.getAccountId() : null;
   }
 
-  private static PersonIdent ident(ChangeNoteUtil noteUtil,
-      PersonIdent serverIdent, String anonymousCowardName, CurrentUser u,
+  private static PersonIdent ident(
+      ChangeNoteUtil noteUtil,
+      PersonIdent serverIdent,
+      String anonymousCowardName,
+      CurrentUser u,
       Date when) {
     checkUserType(u);
     if (u instanceof IdentifiedUser) {
-      return noteUtil.newIdent(u.asIdentifiedUser().getAccount(), when,
-          serverIdent, anonymousCowardName);
+      return noteUtil.newIdent(
+          u.asIdentifiedUser().getAccount(), when, serverIdent, anonymousCowardName);
     } else if (u instanceof InternalUser) {
       return serverIdent;
     }
@@ -157,9 +156,11 @@ public abstract class AbstractChangeUpdate {
   }
 
   public Account.Id getAccountId() {
-    checkState(accountId != null,
+    checkState(
+        accountId != null,
         "author identity for %s is not from an IdentifiedUser: %s",
-        getClass().getSimpleName(), authorIdent.toExternalString());
+        getClass().getSimpleName(),
+        authorIdent.toExternalString());
     return accountId;
   }
 
@@ -175,8 +176,8 @@ public abstract class AbstractChangeUpdate {
   public abstract boolean isEmpty();
 
   /**
-   * @return the NameKey for the project where the update will be stored,
-   *    which is not necessarily the same as the change's project.
+   * @return the NameKey for the project where the update will be stored, which is not necessarily
+   *     the same as the change's project.
    */
   protected abstract Project.NameKey getProjectName();
 
@@ -188,9 +189,9 @@ public abstract class AbstractChangeUpdate {
    * @param rw walk for reading back any objects needed for the update.
    * @param ins inserter to write to; callers should not flush.
    * @param curr the current tip of the branch prior to this update.
-   * @return commit ID produced by inserting this update's commit, or null if
-   *     this update is a no-op and should be skipped. The zero ID is a valid
-   *     return value, and indicates the ref should be deleted.
+   * @return commit ID produced by inserting this update's commit, or null if this update is a no-op
+   *     and should be skipped. The zero ID is a valid return value, and indicates the ref should be
+   *     deleted.
    * @throws OrmException if a Gerrit-level error occurred.
    * @throws IOException if a lower-level error occurred.
    */
@@ -236,18 +237,17 @@ public abstract class AbstractChangeUpdate {
    * Create a commit containing the contents of this update.
    *
    * @param ins inserter to write to; callers should not flush.
-   * @return a new commit builder representing this commit, or null to indicate
-   *     the meta ref should be deleted as a result of this update. The parent,
-   *     author, and committer fields in the return value are always
-   *     overwritten. The tree ID may be unset by this method, which indicates
-   *     to the caller that it should be copied from the parent commit. To
-   *     indicate that this update is a no-op (but this could not be determined
-   *     by {@link #isEmpty()}), return the sentinel {@link #NO_OP_UPDATE}.
+   * @return a new commit builder representing this commit, or null to indicate the meta ref should
+   *     be deleted as a result of this update. The parent, author, and committer fields in the
+   *     return value are always overwritten. The tree ID may be unset by this method, which
+   *     indicates to the caller that it should be copied from the parent commit. To indicate that
+   *     this update is a no-op (but this could not be determined by {@link #isEmpty()}), return the
+   *     sentinel {@link #NO_OP_UPDATE}.
    * @throws OrmException if a Gerrit-level error occurred.
    * @throws IOException if a lower-level error occurred.
    */
-  protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
-      ObjectId curr) throws OrmException, IOException;
+  protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
+      throws OrmException, IOException;
 
   protected static final CommitBuilder NO_OP_UPDATE = new CommitBuilder();
 
@@ -267,13 +267,16 @@ public abstract class AbstractChangeUpdate {
     checkArgument(c.revId != null, "RevId required for comment: %s", c);
     checkArgument(
         c.author.getId().equals(getAccountId()),
-        "The author for the following comment does not match the author of"
-            + " this %s (%s): %s",
-        getClass().getSimpleName(), getAccountId(), c);
+        "The author for the following comment does not match the author of" + " this %s (%s): %s",
+        getClass().getSimpleName(),
+        getAccountId(),
+        c);
     checkArgument(
         c.getRealAuthor().getId().equals(realAccountId),
         "The real author for the following comment does not match the real"
             + " author of this %s (%s): %s",
-        getClass().getSimpleName(), realAccountId, c);
+        getClass().getSimpleName(),
+        realAccountId,
+        c);
   }
 }

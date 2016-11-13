@@ -34,13 +34,6 @@ import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.RepositoryCache;
-import org.eclipse.jgit.util.FS;
-
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -54,12 +47,16 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.util.FS;
 
 public class GerritServer {
   @AutoValue
   abstract static class Description {
-    static Description forTestClass(org.junit.runner.Description testDesc,
-        String configName) {
+    static Description forTestClass(org.junit.runner.Description testDesc, String configName) {
       return new AutoValue_GerritServer_Description(
           configName,
           true, // @UseLocalDisk is only valid on methods.
@@ -67,24 +64,21 @@ public class GerritServer {
           has(Sandboxed.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
           null); // @GerritConfigs is only valid on methods.
-
     }
 
-    static Description forTestMethod(org.junit.runner.Description testDesc,
-        String configName) {
+    static Description forTestMethod(org.junit.runner.Description testDesc, String configName) {
       return new AutoValue_GerritServer_Description(
           configName,
           testDesc.getAnnotation(UseLocalDisk.class) == null,
           testDesc.getAnnotation(NoHttpd.class) == null
-            && !has(NoHttpd.class, testDesc.getTestClass()),
-          testDesc.getAnnotation(Sandboxed.class) != null ||
-              has(Sandboxed.class, testDesc.getTestClass()),
+              && !has(NoHttpd.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(Sandboxed.class) != null
+              || has(Sandboxed.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class));
     }
 
-    private static boolean has(
-        Class<? extends Annotation> annotation, Class<?> clazz) {
+    private static boolean has(Class<? extends Annotation> annotation, Class<?> clazz) {
       for (; clazz != null; clazz = clazz.getSuperclass()) {
         if (clazz.getAnnotation(annotation) != null) {
           return true;
@@ -93,17 +87,24 @@ public class GerritServer {
       return false;
     }
 
-    @Nullable abstract String configName();
+    @Nullable
+    abstract String configName();
+
     abstract boolean memory();
+
     abstract boolean httpd();
+
     abstract boolean sandboxed();
-    @Nullable abstract GerritConfig config();
-    @Nullable abstract GerritConfigs configs();
+
+    @Nullable
+    abstract GerritConfig config();
+
+    @Nullable
+    abstract GerritConfigs configs();
 
     private Config buildConfig(Config baseConfig) {
       if (configs() != null && config() != null) {
-        throw new IllegalStateException(
-            "Use either @GerritConfigs or @GerritConfig not both");
+        throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
       }
       if (configs() != null) {
         return ConfigAnnotationParser.parse(baseConfig, configs());
@@ -116,21 +117,23 @@ public class GerritServer {
   }
 
   /** Returns fully started Gerrit server */
-  static GerritServer start(Description desc, Config baseConfig)
-      throws Exception {
+  static GerritServer start(Description desc, Config baseConfig) throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
-    final Daemon daemon = new Daemon(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          serverStarted.await();
-        } catch (InterruptedException | BrokenBarrierException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }, Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir")));
+    final Daemon daemon =
+        new Daemon(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  serverStarted.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                  throw new RuntimeException(e);
+                }
+              }
+            },
+            Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir")));
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
 
     final File site;
@@ -147,25 +150,28 @@ public class GerritServer {
       cfg.setString("gitweb", null, "cgi", "");
       daemon.setEnableHttpd(desc.httpd());
       daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
-      daemon.setDatabaseForTesting(ImmutableList.<Module>of(
-          new InMemoryTestingDatabaseModule(cfg)));
+      daemon.setDatabaseForTesting(
+          ImmutableList.<Module>of(new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
       site = initSite(cfg);
       daemonService = Executors.newSingleThreadExecutor();
-      daemonService.submit(new Callable<Void>() {
-        @Override
-        public Void call() throws Exception {
-          int rc = daemon.main(new String[] {
-              "-d", site.getPath(),
-              "--headless", "--console-log", "--show-stack-trace",});
-          if (rc != 0) {
-            System.err.println("Failed to start Gerrit daemon");
-            serverStarted.reset();
-          }
-          return null;
-        }
-      });
+      daemonService.submit(
+          new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+              int rc =
+                  daemon.main(
+                      new String[] {
+                        "-d", site.getPath(), "--headless", "--console-log", "--show-stack-trace",
+                      });
+              if (rc != 0) {
+                System.err.println("Failed to start Gerrit daemon");
+                serverStarted.reset();
+              }
+              return null;
+            }
+          });
       serverStarted.await();
       System.out.println("Gerrit Server Started");
     }
@@ -177,16 +183,17 @@ public class GerritServer {
   private static File initSite(Config base) throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
-    int rc = init.main(new String[] {
-        "-d", tmp.getPath(), "--batch", "--no-auto-start",
-        "--skip-plugins",});
+    int rc =
+        init.main(
+            new String[] {
+              "-d", tmp.getPath(), "--batch", "--no-auto-start", "--skip-plugins",
+            });
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }
 
-    MergeableFileBasedConfig cfg = new MergeableFileBasedConfig(
-        new File(new File(tmp, "etc"), "gerrit.config"),
-        FS.DETECTED);
+    MergeableFileBasedConfig cfg =
+        new MergeableFileBasedConfig(new File(new File(tmp, "etc"), "gerrit.config"), FS.DETECTED);
     cfg.load();
     cfg.merge(base);
     mergeTestConfig(cfg);
@@ -195,8 +202,7 @@ public class GerritServer {
   }
 
   private static void mergeTestConfig(Config cfg) {
-    String forceEphemeralPort = String.format("%s:0",
-        getLocalHost().getHostName());
+    String forceEphemeralPort = String.format("%s:0", getLocalHost().getHostName());
     String url = "http://" + forceEphemeralPort + "/";
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
@@ -217,22 +223,24 @@ public class GerritServer {
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
     Injector sysInjector = get(daemon, "sysInjector");
-    Module module = new FactoryModule() {
-      @Override
-      protected void configure() {
-        bind(AccountCreator.class);
-        factory(PushOneCommit.Factory.class);
-        install(InProcessProtocol.module());
-        install(new NoSshModule());
-        install(new AsyncReceiveCommits.Module());
-      }
-    };
+    Module module =
+        new FactoryModule() {
+          @Override
+          protected void configure() {
+            bind(AccountCreator.class);
+            factory(PushOneCommit.Factory.class);
+            install(InProcessProtocol.module());
+            install(new NoSshModule());
+            install(new AsyncReceiveCommits.Module());
+          }
+        };
     return sysInjector.createChildInjector(module);
   }
 
   @SuppressWarnings("unchecked")
-  private static <T> T get(Object obj, String field) throws SecurityException,
-      NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+  private static <T> T get(Object obj, String field)
+      throws SecurityException, NoSuchFieldException, IllegalArgumentException,
+          IllegalAccessException {
     Field f = obj.getClass().getDeclaredField(field);
     f.setAccessible(true);
     return (T) f.get(obj);
@@ -251,21 +259,18 @@ public class GerritServer {
   private InetSocketAddress sshdAddress;
   private InetSocketAddress httpAddress;
 
-  private GerritServer(Description desc, Injector testInjector, Daemon daemon,
-      ExecutorService daemonService) {
+  private GerritServer(
+      Description desc, Injector testInjector, Daemon daemon, ExecutorService daemonService) {
     this.desc = desc;
     this.testInjector = testInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
 
-    Config cfg = testInjector.getInstance(
-      Key.get(Config.class, GerritServerConfig.class));
+    Config cfg = testInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
 
-    sshdAddress = SocketUtil.resolve(
-        cfg.getString("sshd", null, "listenAddress"),
-        0);
+    sshdAddress = SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0);
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 
@@ -292,8 +297,7 @@ public class GerritServer {
   void stop() throws Exception {
     try {
       if (NoteDbMode.get().equals(NoteDbMode.CHECK)) {
-        testInjector.getInstance(NoteDbChecker.class)
-            .rebuildAndCheckAllChanges();
+        testInjector.getInstance(NoteDbChecker.class).rebuildAndCheckAllChanges();
       }
     } finally {
       daemon.getLifecycleManager().stop();

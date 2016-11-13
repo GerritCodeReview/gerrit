@@ -17,24 +17,19 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.ssh.SshKeyCreator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SshKeyCreatorImpl implements SshKeyCreator {
-  private static final Logger log =
-      LoggerFactory.getLogger(SshKeyCreatorImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(SshKeyCreatorImpl.class);
 
   @Override
-  public AccountSshKey create(AccountSshKey.Id id, String encoded)
-      throws InvalidSshKeyException {
+  public AccountSshKey create(AccountSshKey.Id id, String encoded) throws InvalidSshKeyException {
     try {
-      AccountSshKey key =
-          new AccountSshKey(id, SshUtil.toOpenSshPublicKey(encoded));
+      AccountSshKey key = new AccountSshKey(id, SshUtil.toOpenSshPublicKey(encoded));
       SshUtil.parse(key);
       return key;
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

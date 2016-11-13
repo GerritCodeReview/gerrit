@@ -21,10 +21,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;
@@ -32,7 +30,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ProjectAccessFactory.Factory projectAccessFactory;
 
   @Inject
-  ProjectAdminServiceImpl(final ChangeProjectAccess.Factory changeProjectAccessFactory,
+  ProjectAdminServiceImpl(
+      final ChangeProjectAccess.Factory changeProjectAccessFactory,
       final ReviewProjectAccess.Factory reviewProjectAccessFactory,
       final ProjectAccessFactory.Factory projectAccessFactory) {
     this.changeProjectAccessFactory = changeProjectAccessFactory;
@@ -41,8 +40,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   }
 
   @Override
-  public void projectAccess(final Project.NameKey projectName,
-      final AsyncCallback<ProjectAccess> callback) {
+  public void projectAccess(
+      final Project.NameKey projectName, final AsyncCallback<ProjectAccess> callback) {
     projectAccessFactory.create(projectName).to(callback);
   }
 
@@ -54,18 +53,28 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   }
 
   @Override
-  public void changeProjectAccess(Project.NameKey projectName,
-      String baseRevision, String msg, List<AccessSection> sections,
-      Project.NameKey parentProjectName, AsyncCallback<ProjectAccess> cb) {
-    changeProjectAccessFactory.create(projectName, getBase(baseRevision),
-        sections, parentProjectName, msg).to(cb);
+  public void changeProjectAccess(
+      Project.NameKey projectName,
+      String baseRevision,
+      String msg,
+      List<AccessSection> sections,
+      Project.NameKey parentProjectName,
+      AsyncCallback<ProjectAccess> cb) {
+    changeProjectAccessFactory
+        .create(projectName, getBase(baseRevision), sections, parentProjectName, msg)
+        .to(cb);
   }
 
   @Override
-  public void reviewProjectAccess(Project.NameKey projectName,
-      String baseRevision, String msg, List<AccessSection> sections,
-      Project.NameKey parentProjectName, AsyncCallback<Change.Id> cb) {
-    reviewProjectAccessFactory.create(projectName, getBase(baseRevision),
-        sections, parentProjectName, msg).to(cb);
+  public void reviewProjectAccess(
+      Project.NameKey projectName,
+      String baseRevision,
+      String msg,
+      List<AccessSection> sections,
+      Project.NameKey parentProjectName,
+      AsyncCallback<Change.Id> cb) {
+    reviewProjectAccessFactory
+        .create(projectName, getBase(baseRevision), sections, parentProjectName, msg)
+        .to(cb);
   }
 }

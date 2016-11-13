@@ -18,14 +18,12 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DiffSummaryLoader implements Callable<DiffSummary> {
   static final Logger log = LoggerFactory.getLogger(DiffSummaryLoader.class);
@@ -39,9 +37,7 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
   private final Project.NameKey project;
 
   @AssistedInject
-  DiffSummaryLoader(PatchListCache plc,
-      @Assisted DiffSummaryKey k,
-      @Assisted Project.NameKey p) {
+  DiffSummaryLoader(PatchListCache plc, @Assisted DiffSummaryKey k, @Assisted Project.NameKey p) {
     patchListCache = plc;
     key = k;
     project = p;

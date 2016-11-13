@@ -21,27 +21,33 @@ import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 public interface DiffWebLink extends WebLink {
 
   /**
-   * {@link com.google.gerrit.extensions.common.DiffWebLinkInfo}
-   * describing a link from a file diff to an external service.
+   * {@link com.google.gerrit.extensions.common.DiffWebLinkInfo} describing a link from a file diff
+   * to an external service.
    *
-   * <p>In order for the web link to be visible
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo#url}
-   * and {@link com.google.gerrit.extensions.common.WebLinkInfo#name}
-   * must be set.<p>
+   * <p>In order for the web link to be visible {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#url} and {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#name} must be set.
+   *
+   * <p>
    *
    * @param projectName Name of the project
    * @param changeId ID of the change
-   * @param patchSetIdA Patch set ID of side A, <code>null</code> if no base
-   *        patch set was selected
+   * @param patchSetIdA Patch set ID of side A, <code>null</code> if no base patch set was selected
    * @param revisionA Name of the revision of side A (e.g. branch or commit ID)
    * @param fileNameA Name of the file of side A
    * @param patchSetIdB Patch set ID of side B
    * @param revisionB Name of the revision of side B (e.g. branch or commit ID)
    * @param fileNameB Name of the file of side B
-   * @return WebLinkInfo that links to file diff in external service,
-   * null if there should be no link.
+   * @return WebLinkInfo that links to file diff in external service, null if there should be no
+   *     link.
    */
-  DiffWebLinkInfo getDiffLink(String projectName, int changeId,
-        Integer patchSetIdA, String revisionA, String fileNameA,
-        int patchSetIdB, String revisionB, String fileNameB);
+  DiffWebLinkInfo getDiffLink(
+      String projectName,
+      int changeId,
+      Integer patchSetIdA,
+      String revisionA,
+      String fileNameA,
+      int patchSetIdB,
+      String revisionB,
+      String fileNameB);
 }

@@ -14,14 +14,11 @@
 
 package com.google.gerrit.extensions.restapi;
 
-/**
- * Resource state does not match request state (HTTP 412 Precondition failed).
- */
+/** Resource state does not match request state (HTTP 412 Precondition failed). */
 public class PreconditionFailedException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
-  public PreconditionFailedException() {
-  }
+  public PreconditionFailedException() {}
 
   /** @param msg message to return to the client describing the error. */
   public PreconditionFailedException(String msg) {

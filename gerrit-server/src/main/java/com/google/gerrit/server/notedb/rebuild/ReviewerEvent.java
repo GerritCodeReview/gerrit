@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gwtorm.server.OrmException;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 
@@ -40,7 +39,8 @@ class ReviewerEvent extends Event {
         // diffs when run against real data.
         reviewer.getColumnKey(),
         reviewer.getValue(),
-        changeCreatedOn, null);
+        changeCreatedOn,
+        null);
     this.reviewer = reviewer;
   }
 

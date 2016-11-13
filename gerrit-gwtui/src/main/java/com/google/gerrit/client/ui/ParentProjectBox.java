@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,38 +60,41 @@ public class ParentProjectBox extends Composite {
     public void setProject(Project.NameKey project) {
       exclude.clear();
       exclude.add(project.get());
-      ProjectApi.getChildren(project, true, new AsyncCallback<JsArray<ProjectInfo>>() {
-        @Override
-        public void onSuccess(JsArray<ProjectInfo> result) {
-          for (ProjectInfo p : Natives.asList(result)) {
-            exclude.add(p.name());
-          }
-        }
+      ProjectApi.getChildren(
+          project,
+          true,
+          new AsyncCallback<JsArray<ProjectInfo>>() {
+            @Override
+            public void onSuccess(JsArray<ProjectInfo> result) {
+              for (ProjectInfo p : Natives.asList(result)) {
+                exclude.add(p.name());
+              }
+            }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+            @Override
+            public void onFailure(Throwable caught) {}
+          });
     }
 
     @Override
     public void _onRequestSuggestions(Request req, final Callback callback) {
-      super._onRequestSuggestions(req, new Callback() {
-        @Override
-        public void onSuggestionsReady(Request request, Response response) {
-          if (exclude.size() > 0) {
-            Set<Suggestion> filteredSuggestions =
-                new HashSet<>(response.getSuggestions());
-            for (Suggestion s : response.getSuggestions()) {
-              if (exclude.contains(s.getReplacementString())) {
-                filteredSuggestions.remove(s);
+      super._onRequestSuggestions(
+          req,
+          new Callback() {
+            @Override
+            public void onSuggestionsReady(Request request, Response response) {
+              if (exclude.size() > 0) {
+                Set<Suggestion> filteredSuggestions = new HashSet<>(response.getSuggestions());
+                for (Suggestion s : response.getSuggestions()) {
+                  if (exclude.contains(s.getReplacementString())) {
+                    filteredSuggestions.remove(s);
+                  }
+                }
+                response.setSuggestions(filteredSuggestions);
               }
+              callback.onSuggestionsReady(request, response);
             }
-            response.setSuggestions(filteredSuggestions);
-          }
-          callback.onSuggestionsReady(request, response);
-        }
-      });
+          });
     }
   }
 }

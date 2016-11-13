@@ -29,9 +29,9 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 /**
- * ThreadLocalRequestContext manages the current RequestContext using a
- * ThreadLocal. When the context is set, the fields exposed by the context
- * are considered in scope. Otherwise, the FallbackRequestContext is used.
+ * ThreadLocalRequestContext manages the current RequestContext using a ThreadLocal. When the
+ * context is set, the fields exposed by the context are considered in scope. Otherwise, the
+ * FallbackRequestContext is used.
  */
 public class ThreadLocalRequestContext {
   private static final String FALLBACK = "FALLBACK";
@@ -41,13 +41,13 @@ public class ThreadLocalRequestContext {
       @Override
       protected void configure() {
         bind(ThreadLocalRequestContext.class);
-        bind(RequestContext.class).annotatedWith(Names.named(FALLBACK))
+        bind(RequestContext.class)
+            .annotatedWith(Names.named(FALLBACK))
             .to(FallbackRequestContext.class);
       }
 
       @Provides
-      RequestContext provideRequestContext(
-          @Named(FALLBACK) RequestContext fallback) {
+      RequestContext provideRequestContext(@Named(FALLBACK) RequestContext fallback) {
         return MoreObjects.firstNonNull(local.get(), fallback);
       }
 
@@ -61,8 +61,7 @@ public class ThreadLocalRequestContext {
         if (user.isIdentifiedUser()) {
           return user.asIdentifiedUser();
         }
-        throw new ProvisionException(NotSignedInException.MESSAGE,
-            new NotSignedInException());
+        throw new ProvisionException(NotSignedInException.MESSAGE, new NotSignedInException());
       }
 
       @Provides
@@ -75,8 +74,7 @@ public class ThreadLocalRequestContext {
   private static final ThreadLocal<RequestContext> local = new ThreadLocal<>();
 
   @Inject
-  ThreadLocalRequestContext() {
-  }
+  ThreadLocalRequestContext() {}
 
   public RequestContext setContext(@Nullable RequestContext ctx) {
     RequestContext old = getContext();

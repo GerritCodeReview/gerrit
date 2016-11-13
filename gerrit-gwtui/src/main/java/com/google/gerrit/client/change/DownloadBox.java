@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -58,15 +57,16 @@ class DownloadBox extends VerticalPanel {
     this.psId = psId;
     this.commandTable = new FlexTable();
     this.scheme = new ListBox();
-    this.scheme.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(ChangeEvent event) {
-        renderCommands();
-        if (Gerrit.isSignedIn()) {
-          saveScheme();
-        }
-      }
-    });
+    this.scheme.addChangeHandler(
+        new ChangeHandler() {
+          @Override
+          public void onChange(ChangeEvent event) {
+            renderCommands();
+            if (Gerrit.isSignedIn()) {
+              saveScheme();
+            }
+          }
+        });
 
     setStyleName(Gerrit.RESOURCES.css().downloadBox());
     commandTable.setStyleName(Gerrit.RESOURCES.css().downloadBoxTable());
@@ -78,36 +78,38 @@ class DownloadBox extends VerticalPanel {
   protected void onLoad() {
     if (fetch == null) {
       if (psId.get() == 0) {
-        ChangeApi.editWithCommands(change.legacyId().get()).get(
-            new AsyncCallback<EditInfo>() {
-          @Override
-          public void onSuccess(EditInfo result) {
-            fetch = result.fetch();
-            renderScheme();
-          }
+        ChangeApi.editWithCommands(change.legacyId().get())
+            .get(
+                new AsyncCallback<EditInfo>() {
+                  @Override
+                  public void onSuccess(EditInfo result) {
+                    fetch = result.fetch();
+                    renderScheme();
+                  }
 
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        });
+                  @Override
+                  public void onFailure(Throwable caught) {}
+                });
       } else {
         RestApi call = ChangeApi.detail(change.legacyId().get());
-        ChangeList.addOptions(call, EnumSet.of(
-            revision.equals(change.currentRevision())
-               ? ListChangesOption.CURRENT_REVISION
-               : ListChangesOption.ALL_REVISIONS,
-            ListChangesOption.DOWNLOAD_COMMANDS));
-        call.get(new AsyncCallback<ChangeInfo>() {
-          @Override
-          public void onSuccess(ChangeInfo result) {
-            fetch = result.revision(revision).fetch();
-            renderScheme();
-          }
+        ChangeList.addOptions(
+            call,
+            EnumSet.of(
+                revision.equals(change.currentRevision())
+                    ? ListChangesOption.CURRENT_REVISION
+                    : ListChangesOption.ALL_REVISIONS,
+                ListChangesOption.DOWNLOAD_COMMANDS));
+        call.get(
+            new AsyncCallback<ChangeInfo>() {
+              @Override
+              public void onSuccess(ChangeInfo result) {
+                fetch = result.revision(revision).fetch();
+                renderScheme();
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        });
+              @Override
+              public void onFailure(Throwable caught) {}
+            });
       }
     }
   }
@@ -116,11 +118,9 @@ class DownloadBox extends VerticalPanel {
     commandTable.removeAllRows();
 
     if (scheme.getItemCount() > 0) {
-      FetchInfo fetchInfo =
-          fetch.get(scheme.getValue(scheme.getSelectedIndex()));
+      FetchInfo fetchInfo = fetch.get(scheme.getValue(scheme.getSelectedIndex()));
       for (String commandName : fetchInfo.commands().sortedKeys()) {
-        CopyableLabel copyLabel =
-            new CopyableLabel(fetchInfo.command(commandName));
+        CopyableLabel copyLabel = new CopyableLabel(fetchInfo.command(commandName));
         copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadBoxCopyLabel());
         insertCommand(commandName, copyLabel);
       }
@@ -135,22 +135,24 @@ class DownloadBox extends VerticalPanel {
   private void insertPatch() {
     String id = revision.substring(0, 7);
     Anchor patchBase64 = new Anchor(id + ".diff.base64");
-    patchBase64.setHref(new RestApi("/changes/")
-      .id(psId.getParentKey().get())
-      .view("revisions")
-      .id(revision)
-      .view("patch")
-      .addParameterTrue("download")
-      .url());
+    patchBase64.setHref(
+        new RestApi("/changes/")
+            .id(psId.getParentKey().get())
+            .view("revisions")
+            .id(revision)
+            .view("patch")
+            .addParameterTrue("download")
+            .url());
 
     Anchor patchZip = new Anchor(id + ".diff.zip");
-    patchZip.setHref(new RestApi("/changes/")
-      .id(psId.getParentKey().get())
-      .view("revisions")
-      .id(revision)
-      .view("patch")
-      .addParameterTrue("zip")
-      .url());
+    patchZip.setHref(
+        new RestApi("/changes/")
+            .id(psId.getParentKey().get())
+            .view("revisions")
+            .id(revision)
+            .view("patch")
+            .addParameterTrue("zip")
+            .url());
 
     HorizontalPanel p = new HorizontalPanel();
     p.add(patchBase64);
@@ -170,13 +172,14 @@ class DownloadBox extends VerticalPanel {
     List<Anchor> anchors = new ArrayList<>(activated.size());
     for (String f : activated) {
       Anchor archive = new Anchor(f);
-      archive.setHref(new RestApi("/changes/")
-          .id(psId.getParentKey().get())
-          .view("revisions")
-          .id(revision)
-          .view("archive")
-          .addParameter("format", f)
-          .url());
+      archive.setHref(
+          new RestApi("/changes/")
+              .id(psId.getParentKey().get())
+              .view("revisions")
+              .id(revision)
+              .view("archive")
+              .addParameter("format", f)
+              .url());
       anchors.add(archive);
     }
 
@@ -197,8 +200,9 @@ class DownloadBox extends VerticalPanel {
   private void insertCommand(String commandName, Widget w) {
     int row = commandTable.getRowCount();
     commandTable.insertRow(row);
-    commandTable.getCellFormatter().addStyleName(row, 0,
-        Gerrit.RESOURCES.css().downloadBoxTableCommandColumn());
+    commandTable
+        .getCellFormatter()
+        .addStyleName(row, 0, Gerrit.RESOURCES.css().downloadBoxTableCommandColumn());
     if (commandName != null) {
       commandTable.setText(row, 0, commandName);
     }
@@ -241,16 +245,17 @@ class DownloadBox extends VerticalPanel {
       prefs.downloadScheme(schemeStr);
       GeneralPreferences in = GeneralPreferences.create();
       in.downloadScheme(schemeStr);
-      AccountApi.self().view("preferences")
-          .put(in, new AsyncCallback<JavaScriptObject>() {
-            @Override
-            public void onSuccess(JavaScriptObject result) {
-            }
+      AccountApi.self()
+          .view("preferences")
+          .put(
+              in,
+              new AsyncCallback<JavaScriptObject>() {
+                @Override
+                public void onSuccess(JavaScriptObject result) {}
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          });
+                @Override
+                public void onFailure(Throwable caught) {}
+              });
     }
   }
 }

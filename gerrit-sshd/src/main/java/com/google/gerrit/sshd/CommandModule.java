@@ -16,7 +16,6 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.binder.LinkedBindingBuilder;
-
 import org.apache.sshd.server.Command;
 
 /** Module to register commands in the SSH daemon. */
@@ -26,10 +25,8 @@ public abstract class CommandModule extends LifecycleModule {
   /**
    * Configure a command to be invoked by name.
    *
-   * @param name the name of the command the client will provide in order to
-   *        call the command.
-   * @return a binding that must be bound to a non-singleton provider for a
-   *         {@link Command} object.
+   * @param name the name of the command the client will provide in order to call the command.
+   * @return a binding that must be bound to a non-singleton provider for a {@link Command} object.
    */
   protected LinkedBindingBuilder<Command> command(final String name) {
     return bind(Commands.key(name));
@@ -38,10 +35,8 @@ public abstract class CommandModule extends LifecycleModule {
   /**
    * Configure a command to be invoked by name.
    *
-   * @param name the name of the command the client will provide in order to
-   *        call the command.
-   * @return a binding that must be bound to a non-singleton provider for a
-   *         {@link Command} object.
+   * @param name the name of the command the client will provide in order to call the command.
+   * @return a binding that must be bound to a non-singleton provider for a {@link Command} object.
    */
   protected LinkedBindingBuilder<Command> command(final CommandName name) {
     return bind(Commands.key(name));
@@ -50,28 +45,22 @@ public abstract class CommandModule extends LifecycleModule {
   /**
    * Configure a command to be invoked by name.
    *
-   * @param parent context of the parent command, that this command is a
-   *        subcommand of.
-   * @param name the name of the command the client will provide in order to
-   *        call the command.
-   * @return a binding that must be bound to a non-singleton provider for a
-   *         {@link Command} object.
+   * @param parent context of the parent command, that this command is a subcommand of.
+   * @param name the name of the command the client will provide in order to call the command.
+   * @return a binding that must be bound to a non-singleton provider for a {@link Command} object.
    */
-  protected LinkedBindingBuilder<Command> command(final CommandName parent,
-      final String name) {
+  protected LinkedBindingBuilder<Command> command(final CommandName parent, final String name) {
     return bind(Commands.key(parent, name));
   }
 
   /**
    * Configure a command to be invoked by name. The command is bound to the passed class.
    *
-   * @param parent context of the parent command, that this command is a
-   *        subcommand of.
-   * @param clazz class of the command with {@link CommandMetaData} annotation
-   *        to retrieve the name and the description from
+   * @param parent context of the parent command, that this command is a subcommand of.
+   * @param clazz class of the command with {@link CommandMetaData} annotation to retrieve the name
+   *     and the description from
    */
-  protected void command(final CommandName parent,
-      final Class<? extends BaseCommand> clazz) {
+  protected void command(final CommandName parent, final Class<? extends BaseCommand> clazz) {
     CommandMetaData meta = clazz.getAnnotation(CommandMetaData.class);
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
@@ -84,15 +73,13 @@ public abstract class CommandModule extends LifecycleModule {
   /**
    * Alias one command to another. The alias is bound to the passed class.
    *
-   * @param parent context of the parent command, that this command is a
-   *        subcommand of.
-   * @param name the name of the command the client will provide in order to
-   *        call the command.
-   * @param clazz class of the command with {@link CommandMetaData} annotation
-   *        to retrieve the description from
+   * @param parent context of the parent command, that this command is a subcommand of.
+   * @param name the name of the command the client will provide in order to call the command.
+   * @param clazz class of the command with {@link CommandMetaData} annotation to retrieve the
+   *     description from
    */
-  protected void alias(final CommandName parent, final String name,
-      final Class<? extends BaseCommand> clazz) {
+  protected void alias(
+      final CommandName parent, final String name, final Class<? extends BaseCommand> clazz) {
     CommandMetaData meta = clazz.getAnnotation(CommandMetaData.class);
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
@@ -103,10 +90,10 @@ public abstract class CommandModule extends LifecycleModule {
   /**
    * Alias one command to another.
    *
-   * @param from the new command name that when called will actually delegate to
-   *        {@code to}'s implementation.
-   * @param to name of an already registered command that will perform the
-   *        action when {@code from} is invoked by a client.
+   * @param from the new command name that when called will actually delegate to {@code to}'s
+   *     implementation.
+   * @param to name of an already registered command that will perform the action when {@code from}
+   *     is invoked by a client.
    */
   protected void alias(final String from, final String to) {
     bind(Commands.key(from)).to(Commands.key(to));

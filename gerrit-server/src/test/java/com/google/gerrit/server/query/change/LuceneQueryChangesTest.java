@@ -19,7 +19,6 @@ import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -30,18 +29,15 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
-    return Guice.createInjector(
-        new InMemoryModule(luceneConfig, notesMigration));
+    return Guice.createInjector(new InMemoryModule(luceneConfig, notesMigration));
   }
 
   @Test
   public void fullTextWithSpecialChars() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    RevCommit commit1 =
-        repo.parseBody(repo.commit().message("foo_bar_foo").create());
+    RevCommit commit1 = repo.parseBody(repo.commit().message("foo_bar_foo").create());
     Change change1 = insert(repo, newChangeForCommit(repo, commit1));
-    RevCommit commit2 =
-        repo.parseBody(repo.commit().message("one.two.three").create());
+    RevCommit commit2 = repo.parseBody(repo.commit().message("one.two.three").create());
     Change change2 = insert(repo, newChangeForCommit(repo, commit2));
 
     assertQuery("message:foo_ba");

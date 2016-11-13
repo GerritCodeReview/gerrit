@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.launcher.GerritLauncher;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -27,19 +26,18 @@ class BowerComponentsDevServlet extends ResourceServlet {
 
   private final Path bowerComponents;
 
-  BowerComponentsDevServlet(Cache<Path, Resource> cache, Path buckOut)
-      throws IOException {
+  BowerComponentsDevServlet(Cache<Path, Resource> cache, Path buckOut) throws IOException {
     super(cache, true);
     Objects.requireNonNull(buckOut);
 
-    Path zip = buckOut.resolve("gen")
-        .resolve("polygerrit-ui")
-        .resolve("polygerrit_components")
-        .resolve("polygerrit_components.bower_components.zip");
+    Path zip =
+        buckOut
+            .resolve("gen")
+            .resolve("polygerrit-ui")
+            .resolve("polygerrit_components")
+            .resolve("polygerrit_components.bower_components.zip");
 
-    bowerComponents = GerritLauncher
-        .newZipFileSystem(zip)
-        .getPath("/");
+    bowerComponents = GerritLauncher.newZipFileSystem(zip).getPath("/");
   }
 
   @Override

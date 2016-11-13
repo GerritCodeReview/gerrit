@@ -21,7 +21,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,18 +33,18 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * A map of members that can be modified as plugins reload.
- * <p>
- * Maps index their members by plugin name and export name.
- * <p>
- * DynamicMaps are always mapped as singletons in Guice. Maps store Providers
- * internally, and resolve the provider to an instance on demand. This enables
- * registrations to decide between singleton and non-singleton members.
+ *
+ * <p>Maps index their members by plugin name and export name.
+ *
+ * <p>DynamicMaps are always mapped as singletons in Guice. Maps store Providers internally, and
+ * resolve the provider to an instance on demand. This enables registrations to decide between
+ * singleton and non-singleton members.
  */
 public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
   /**
    * Declare a singleton {@code DynamicMap<T>} with a binder.
-   * <p>
-   * Maps must be defined in a Guice module before they can be bound:
+   *
+   * <p>Maps must be defined in a Guice module before they can be bound:
    *
    * <pre>
    * DynamicMap.mapOf(binder(), Interface.class);
@@ -63,8 +62,8 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
   /**
    * Declare a singleton {@code DynamicMap<T>} with a binder.
-   * <p>
-   * Maps must be defined in a Guice module before they can be bound:
+   *
+   * <p>Maps must be defined in a Guice module before they can be bound:
    *
    * <pre>
    * DynamicMap.mapOf(binder(), new TypeLiteral&lt;Thing&lt;Bar&gt;&gt;(){});
@@ -78,20 +77,20 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    */
   public static <T> void mapOf(Binder binder, TypeLiteral<T> member) {
     @SuppressWarnings("unchecked")
-    Key<DynamicMap<T>> key = (Key<DynamicMap<T>>) Key.get(
-        Types.newParameterizedType(DynamicMap.class, member.getType()));
-    binder.bind(key)
-        .toProvider(new DynamicMapProvider<>(member))
-        .in(Scopes.SINGLETON);
+    Key<DynamicMap<T>> key =
+        (Key<DynamicMap<T>>)
+            Key.get(Types.newParameterizedType(DynamicMap.class, member.getType()));
+    binder.bind(key).toProvider(new DynamicMapProvider<>(member)).in(Scopes.SINGLETON);
   }
 
   final ConcurrentMap<NamePair, Provider<T>> items;
 
   DynamicMap() {
-    items = new ConcurrentHashMap<>(
-        16 /* initial size */,
-        0.75f /* load factor */,
-        1 /* concurrency level of 1, load/unload is single threaded */);
+    items =
+        new ConcurrentHashMap<>(
+            16 /* initial size */,
+            0.75f /* load factor */,
+            1 /* concurrency level of 1, load/unload is single threaded */);
   }
 
   /**
@@ -99,10 +98,10 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    *
    * @param pluginName local name of the plugin providing the item.
    * @param exportName name the plugin exports the item as.
-   * @return the implementation. Null if the plugin is not running, or if the
-   *         plugin does not export this name.
-   * @throws ProvisionException if the registered provider is unable to obtain
-   *         an instance of the requested implementation.
+   * @return the implementation. Null if the plugin is not running, or if the plugin does not export
+   *     this name.
+   * @throws ProvisionException if the registered provider is unable to obtain an instance of the
+   *     requested implementation.
    */
   public T get(String pluginName, String exportName) throws ProvisionException {
     Provider<T> p = items.get(new NamePair(pluginName, exportName));
@@ -141,8 +140,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
   /** Iterate through all entries in an undefined order. */
   @Override
   public Iterator<Entry<T>> iterator() {
-    final Iterator<Map.Entry<NamePair, Provider<T>>> i =
-        items.entrySet().iterator();
+    final Iterator<Map.Entry<NamePair, Provider<T>>> i = items.entrySet().iterator();
     return new Iterator<Entry<T>>() {
       @Override
       public boolean hasNext() {
@@ -179,7 +177,9 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
   public interface Entry<T> {
     String getPluginName();
+
     String getExportName();
+
     Provider<T> getProvider();
   }
 
@@ -201,8 +201,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
     public boolean equals(Object other) {
       if (other instanceof NamePair) {
         NamePair np = (NamePair) other;
-        return pluginName.equals(np.pluginName)
-            && exportName.equals(np.exportName);
+        return pluginName.equals(np.pluginName) && exportName.equals(np.exportName);
       }
       return false;
     }

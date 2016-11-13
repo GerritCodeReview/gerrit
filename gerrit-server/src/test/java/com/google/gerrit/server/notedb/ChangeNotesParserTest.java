@@ -19,7 +19,6 @@ import static org.junit.Assert.fail;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
-
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -49,414 +48,418 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   @Test
   public void parseAuthor() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n");
-    assertParseFails(writeCommit("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n",
-        new PersonIdent("Change Owner", "owner@example.com",
-          serverIdent.getWhen(), serverIdent.getTimeZone())));
-    assertParseFails(writeCommit("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n",
-        new PersonIdent("Change Owner", "x@gerrit",
-          serverIdent.getWhen(), serverIdent.getTimeZone())));
-    assertParseFails(writeCommit("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n",
-        new PersonIdent("Change\n\u1234<Owner>", "\n\nx<@>\u0002gerrit",
-          serverIdent.getWhen(), serverIdent.getTimeZone())));
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n");
+    assertParseFails(
+        writeCommit(
+            "Update change\n" + "\n" + "Patch-set: 1\n",
+            new PersonIdent(
+                "Change Owner",
+                "owner@example.com",
+                serverIdent.getWhen(),
+                serverIdent.getTimeZone())));
+    assertParseFails(
+        writeCommit(
+            "Update change\n" + "\n" + "Patch-set: 1\n",
+            new PersonIdent(
+                "Change Owner", "x@gerrit", serverIdent.getWhen(), serverIdent.getTimeZone())));
+    assertParseFails(
+        writeCommit(
+            "Update change\n" + "\n" + "Patch-set: 1\n",
+            new PersonIdent(
+                "Change\n\u1234<Owner>",
+                "\n\nx<@>\u0002gerrit",
+                serverIdent.getWhen(),
+                serverIdent.getTimeZone())));
   }
 
   @Test
   public void parseStatus() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Status: NEW\n"
-        + "Subject: This is a test change\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Status: new\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Status: OOPS\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Status: NEW\n"
-        + "Status: NEW\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Status: NEW\n"
+            + "Subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Status: new\n"
+            + "Subject: This is a test change\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Status: OOPS\n");
+    assertParseFails(
+        "Update change\n" + "\n" + "Patch-set: 1\n" + "Status: NEW\n" + "Status: NEW\n");
   }
 
   @Test
   public void parsePatchSetId() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Patch-set: 1\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: x\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n");
+    assertParseFails("Update change\n" + "\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Patch-set: 1\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: x\n");
   }
 
   @Test
   public void parseApproval() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Label: Label1=+1\n"
-        + "Label: Label2=1\n"
-        + "Label: Label3=0\n"
-        + "Label: Label4=-1\n"
-        + "Subject: This is a test change\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Label: -Label1\n"
-        + "Label: -Label1 Other Account <2@gerrit>\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Label: Label1=X\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Label: Label1 = 1\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Label: X+Y\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Label: Label1 Other Account <2@gerrit>\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Label: -Label!1\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Label: -Label!1 Other Account <2@gerrit>\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Label: Label1=+1\n"
+            + "Label: Label2=1\n"
+            + "Label: Label3=0\n"
+            + "Label: Label4=-1\n"
+            + "Subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Label: -Label1\n"
+            + "Label: -Label1 Other Account <2@gerrit>\n"
+            + "Subject: This is a test change\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: Label1=X\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: Label1 = 1\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: X+Y\n");
+    assertParseFails(
+        "Update change\n" + "\n" + "Patch-set: 1\n" + "Label: Label1 Other Account <2@gerrit>\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: -Label!1\n");
+    assertParseFails(
+        "Update change\n" + "\n" + "Patch-set: 1\n" + "Label: -Label!1 Other Account <2@gerrit>\n");
   }
 
   @Test
   public void parseSubmitRecords() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n"
-        + "Submitted-with: NOT_READY\n"
-        + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
-        + "Submitted-with: NEED: Code-Review\n"
-        + "Submitted-with: NOT_READY\n"
-        + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
-        + "Submitted-with: NEED: Alternative-Code-Review\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Submitted-with: OOPS\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Submitted-with: NEED: X+Y\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Submitted-with: OK: X+Y: Change Owner <1@gerrit>\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Submitted-with: OK: Code-Review: 1@gerrit\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n"
+            + "Submitted-with: NOT_READY\n"
+            + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+            + "Submitted-with: NEED: Code-Review\n"
+            + "Submitted-with: NOT_READY\n"
+            + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+            + "Submitted-with: NEED: Alternative-Code-Review\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Submitted-with: OOPS\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Submitted-with: NEED: X+Y\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Submitted-with: OK: X+Y: Change Owner <1@gerrit>\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Submitted-with: OK: Code-Review: 1@gerrit\n");
   }
 
   @Test
   public void parseSubmissionId() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n"
-        + "Submission-id: 1-1453387607626-96fabc25");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Submission-id: 1-1453387607626-96fabc25\n"
-        + "Submission-id: 1-1453387901516-5d1e2450");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n"
+            + "Submission-id: 1-1453387607626-96fabc25");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Submission-id: 1-1453387607626-96fabc25\n"
+            + "Submission-id: 1-1453387901516-5d1e2450");
   }
 
   @Test
   public void parseReviewer() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Reviewer: Change Owner <1@gerrit>\n"
-        + "CC: Other Account <2@gerrit>\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Reviewer: 1@gerrit\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Reviewer: Change Owner <1@gerrit>\n"
+            + "CC: Other Account <2@gerrit>\n"
+            + "Subject: This is a test change\n");
+    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Reviewer: 1@gerrit\n");
   }
 
   @Test
   public void parseTopic() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Topic: Some Topic\n"
-        + "Subject: This is a test change\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Topic:\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Topic: Some Topic\n"
-        + "Topic: Other Topic");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Topic: Some Topic\n"
+            + "Subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Topic:\n"
+            + "Subject: This is a test change\n");
+    assertParseFails(
+        "Update change\n" + "\n" + "Patch-set: 1\n" + "Topic: Some Topic\n" + "Topic: Other Topic");
   }
 
   @Test
   public void parseBranch() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Branch: refs/heads/stable");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Branch: refs/heads/stable");
   }
 
   @Test
   public void parseChangeId() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-set: 1\n"
-        + "Subject: This is a test change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Change-id: I159532ef4844d7c18f7f3fd37a0b275590d41b1b");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Subject: This is a test change\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Change-id: I159532ef4844d7c18f7f3fd37a0b275590d41b1b");
   }
 
   @Test
   public void parseSubject() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Some subject of a change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Subject: Some subject of a change\n"
-        + "Subject: Some other subject\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Some subject of a change\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Subject: Some subject of a change\n"
+            + "Subject: Some other subject\n");
   }
 
   @Test
   public void parseCommit() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 2\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Some subject of a change\n"
-        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 2\n"
-        + "Branch: refs/heads/master\n"
-        + "Subject: Some subject of a change\n"
-        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-        + "Commit: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-    assertParseFails("Update patch set 1\n"
-        + "Uploaded patch set 1.\n"
-        + "Patch-set: 2\n"
-        + "Branch: refs/heads/master\n"
-        + "Subject: Some subject of a change\n"
-        + "Commit: beef");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 2\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Some subject of a change\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 2\n"
+            + "Branch: refs/heads/master\n"
+            + "Subject: Some subject of a change\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Commit: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    assertParseFails(
+        "Update patch set 1\n"
+            + "Uploaded patch set 1.\n"
+            + "Patch-set: 2\n"
+            + "Branch: refs/heads/master\n"
+            + "Subject: Some subject of a change\n"
+            + "Commit: beef");
   }
 
   @Test
   public void parsePatchSetState() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 1 (PUBLISHED)\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Some subject of a change\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 1 (DRAFT)\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Some subject of a change\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 1 (DELETED)\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Some subject of a change\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1 (NOT A STATUS)\n"
-        + "Branch: refs/heads/master\n"
-        + "Subject: Some subject of a change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1 (PUBLISHED)\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Some subject of a change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1 (DRAFT)\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Some subject of a change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1 (DELETED)\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Some subject of a change\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1 (NOT A STATUS)\n"
+            + "Branch: refs/heads/master\n"
+            + "Subject: Some subject of a change\n");
   }
 
   @Test
   public void parsePatchSetGroups() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 2\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-        + "Subject: Change subject\n"
-        + "Groups: a,b,c\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 2\n"
-        + "Branch: refs/heads/master\n"
-        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-        + "Subject: Change subject\n"
-        + "Groups: a,b,c\n"
-        + "Groups: d,e,f\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 2\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Subject: Change subject\n"
+            + "Groups: a,b,c\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 2\n"
+            + "Branch: refs/heads/master\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Subject: Change subject\n"
+            + "Groups: a,b,c\n"
+            + "Groups: d,e,f\n");
   }
 
   @Test
   public void parseServerIdent() throws Exception {
-    String msg = "Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Change subject\n";
+    String msg =
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Change subject\n";
     assertParseSucceeds(msg);
     assertParseSucceeds(writeCommit(msg, serverIdent));
 
-    msg = "Update change\n"
-        + "\n"
-        + "With a message."
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Change subject\n";
+    msg =
+        "Update change\n"
+            + "\n"
+            + "With a message."
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Change subject\n";
     assertParseSucceeds(msg);
     assertParseSucceeds(writeCommit(msg, serverIdent));
 
-    msg = "Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Change subject\n"
-        + "Label: Label1=+1\n";
+    msg =
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Change subject\n"
+            + "Label: Label1=+1\n";
     assertParseSucceeds(msg);
     assertParseFails(writeCommit(msg, serverIdent));
   }
 
   @Test
   public void parseTag() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Change subject\n"
-        + "Tag:\n");
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Change subject\n"
-        + "Tag: jenkins\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Subject: Change subject\n"
-        + "Tag: ci\n"
-        + "Tag: jenkins\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Change subject\n"
+            + "Tag:\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Change subject\n"
+            + "Tag: jenkins\n");
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Patch-set: 1\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Subject: Change subject\n"
+            + "Tag: ci\n"
+            + "Tag: jenkins\n");
   }
 
   @Test
   public void caseInsensitiveFooters() throws Exception {
-    assertParseSucceeds("Update change\n"
-        + "\n"
-        + "BRaNch: refs/heads/master\n"
-        + "Change-ID: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "patcH-set: 1\n"
-        + "subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "BRaNch: refs/heads/master\n"
+            + "Change-ID: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "patcH-set: 1\n"
+            + "subject: This is a test change\n");
   }
 
   private RevCommit writeCommit(String body) throws Exception {
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
-    return writeCommit(body, noteUtil.newIdent(
-        changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,
-        "Anonymous Coward"));
+    return writeCommit(
+        body,
+        noteUtil.newIdent(
+            changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent, "Anonymous Coward"));
   }
 
-  private RevCommit writeCommit(String body, PersonIdent author)
-      throws Exception {
+  private RevCommit writeCommit(String body, PersonIdent author) throws Exception {
     Change change = newChange();
     ChangeNotes notes = newNotes(change).load();
     try (ObjectInserter ins = testRepo.getRepository().newObjectInserter()) {
@@ -498,7 +501,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
-    return new ChangeNotesParser(
-        newChange().getId(), tip, walk, noteUtil, args.metrics);
+    return new ChangeNotesParser(newChange().getId(), tip, walk, noteUtil, args.metrics);
   }
 }

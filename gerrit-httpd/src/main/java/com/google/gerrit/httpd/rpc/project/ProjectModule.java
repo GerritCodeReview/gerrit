@@ -25,14 +25,15 @@ public class ProjectModule extends RpcServletModule {
 
   @Override
   protected void configureServlets() {
-    install(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(ChangeProjectAccess.Factory.class);
-        factory(ReviewProjectAccess.Factory.class);
-        factory(ProjectAccessFactory.Factory.class);
-      }
-    });
+    install(
+        new FactoryModule() {
+          @Override
+          protected void configure() {
+            factory(ChangeProjectAccess.Factory.class);
+            factory(ReviewProjectAccess.Factory.class);
+            factory(ProjectAccessFactory.Factory.class);
+          }
+        });
     rpc(ProjectAdminServiceImpl.class);
   }
 }

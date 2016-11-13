@@ -25,7 +25,6 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-
 import java.util.List;
 
 public class MyAgreementsScreen extends SettingsScreen {
@@ -44,12 +43,13 @@ public class MyAgreementsScreen extends SettingsScreen {
   protected void onLoad() {
     super.onLoad();
     AccountApi.getAgreements(
-        "self", new ScreenLoadCallback<JsArray<AgreementInfo>>(this) {
-      @Override
-      public void preDisplay(JsArray<AgreementInfo> result) {
-        agreements.display(Natives.asList(result));
-      }
-    });
+        "self",
+        new ScreenLoadCallback<JsArray<AgreementInfo>>(this) {
+          @Override
+          public void preDisplay(JsArray<AgreementInfo> result) {
+            agreements.display(Natives.asList(result));
+          }
+        });
   }
 
   private static class AgreementTable extends FancyFlexTable<ContributorAgreement> {

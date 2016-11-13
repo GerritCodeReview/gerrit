@@ -19,8 +19,7 @@ import com.google.gwtorm.client.StringKey;
 
 /** Current version of the database schema, to facilitate live upgrades. */
 public final class CurrentSchemaVersion {
-  public static final class Key extends
-      StringKey<com.google.gwtorm.client.Key<?>> {
+  public static final class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     private static final String VALUE = "X";
@@ -28,8 +27,7 @@ public final class CurrentSchemaVersion {
     @Column(id = 1, length = 1)
     public String one = VALUE;
 
-    public Key() {
-    }
+    public Key() {}
 
     @Override
     public String get() {
@@ -56,6 +54,5 @@ public final class CurrentSchemaVersion {
   @Column(id = 2)
   public transient int versionNbr;
 
-  public CurrentSchemaVersion() {
-  }
+  public CurrentSchemaVersion() {}
 }

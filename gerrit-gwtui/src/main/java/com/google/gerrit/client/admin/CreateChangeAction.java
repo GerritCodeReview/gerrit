@@ -37,23 +37,26 @@ class CreateChangeAction {
 
       @Override
       public void onSend() {
-        ChangeApi.createChange(project, getDestinationBranch(),
-          getDestinationTopic(),
-          message.getText(), null,
-          new GerritCallback<ChangeInfo>() {
-            @Override
-            public void onSuccess(ChangeInfo result) {
-              sent = true;
-              hide();
-              Gerrit.display(PageLinks.toChange(result.legacyId()));
-            }
+        ChangeApi.createChange(
+            project,
+            getDestinationBranch(),
+            getDestinationTopic(),
+            message.getText(),
+            null,
+            new GerritCallback<ChangeInfo>() {
+              @Override
+              public void onSuccess(ChangeInfo result) {
+                sent = true;
+                hide();
+                Gerrit.display(PageLinks.toChange(result.legacyId()));
+              }
 
-            @Override
-            public void onFailure(Throwable caught) {
-              enableButtons(true);
-              super.onFailure(caught);
-            }
-        });
+              @Override
+              public void onFailure(Throwable caught) {
+                enableButtons(true);
+                super.onFailure(caught);
+              }
+            });
       }
 
       @Override
@@ -61,7 +64,6 @@ class CreateChangeAction {
         super.onClose(event);
         b.setEnabled(true);
       }
-
     }.center();
   }
 }

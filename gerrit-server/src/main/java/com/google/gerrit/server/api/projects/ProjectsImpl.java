@@ -27,7 +27,6 @@ import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.SortedMap;
 
@@ -38,7 +37,8 @@ class ProjectsImpl implements Projects {
   private final Provider<ListProjects> listProvider;
 
   @Inject
-  ProjectsImpl(ProjectsCollection projects,
+  ProjectsImpl(
+      ProjectsCollection projects,
       ProjectApiImpl.Factory api,
       Provider<ListProjects> listProvider) {
     this.projects = projects;
@@ -82,8 +82,7 @@ class ProjectsImpl implements Projects {
     };
   }
 
-  private SortedMap<String, ProjectInfo> list(ListRequest request)
-      throws RestApiException {
+  private SortedMap<String, ProjectInfo> list(ListRequest request) throws RestApiException {
     ListProjects lp = listProvider.get();
     lp.setShowDescription(request.getDescription());
     lp.setLimit(request.getLimit());
@@ -112,8 +111,7 @@ class ProjectsImpl implements Projects {
         type = FilterType.PERMISSIONS;
         break;
       default:
-        throw new BadRequestException(
-            "Unknown filter type: " + request.getFilterType());
+        throw new BadRequestException("Unknown filter type: " + request.getFilterType());
     }
     lp.setFilterType(type);
 

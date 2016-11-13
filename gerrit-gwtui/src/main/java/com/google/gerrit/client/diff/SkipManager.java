@@ -18,16 +18,13 @@ import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gwt.core.client.JsArray;
-
-import net.codemirror.lib.CodeMirror;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.codemirror.lib.CodeMirror;
 
-/** Collapses common regions with {@link SkipBar} for {@link SideBySide}
- *  and {@link Unified}. */
+/** Collapses common regions with {@link SkipBar} for {@link SideBySide} and {@link Unified}. */
 class SkipManager {
   private final Set<SkipBar> skipBars;
   private final DiffScreen host;
@@ -50,17 +47,16 @@ class SkipManager {
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
       if (current.ab() != null || current.common() || current.skip() > 0) {
-        int len = current.skip() > 0
-            ? current.skip()
-            : (current.ab() != null ? current.ab() : current.b()).length();
+        int len =
+            current.skip() > 0
+                ? current.skip()
+                : (current.ab() != null ? current.ab() : current.b()).length();
         if (i == 0 && len > context + 1) {
           skips.add(new SkippedLine(0, 0, len - context));
         } else if (i == regions.length() - 1 && len > context + 1) {
-          skips.add(new SkippedLine(lineA + context, lineB + context,
-              len - context));
+          skips.add(new SkippedLine(lineA + context, lineB + context, len - context));
         } else if (len > 2 * context + 1) {
-          skips.add(new SkippedLine(lineA + context, lineB + context,
-              len - 2 * context));
+          skips.add(new SkippedLine(lineA + context, lineB + context, len - 2 * context));
         }
         lineA += len;
         lineB += len;
@@ -109,10 +105,8 @@ class SkipManager {
     }
   }
 
-  private SkipBar newSkipBar(CodeMirror cm, DisplaySide side,
-      SkippedLine skip) {
-    int start = host.getCmLine(
-        side == DisplaySide.A ? skip.getStartA() : skip.getStartB(), side);
+  private SkipBar newSkipBar(CodeMirror cm, DisplaySide side, SkippedLine skip) {
+    int start = host.getCmLine(side == DisplaySide.A ? skip.getStartA() : skip.getStartB(), side);
     int end = start + skip.getSize() - 1;
 
     SkipBar bar = new SkipBar(this, cm);

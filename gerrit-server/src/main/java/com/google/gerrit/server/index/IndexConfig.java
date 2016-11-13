@@ -17,15 +17,13 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
-
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Implementation-specific configuration for secondary indexes.
- * <p>
- * Contains configuration that is tied to a specific index implementation but is
- * otherwise global, i.e. not tied to a specific {@link Index} and schema
- * version.
+ *
+ * <p>Contains configuration that is tied to a specific index implementation but is otherwise
+ * global, i.e. not tied to a specific {@link Index} and schema version.
  */
 @AutoValue
 public abstract class IndexConfig {
@@ -42,8 +40,7 @@ public abstract class IndexConfig {
         cfg.getInt("index", null, "maxTerms", 0));
   }
 
-  public static IndexConfig create(int maxLimit, int maxPages,
-      int maxTerms) {
+  public static IndexConfig create(int maxLimit, int maxPages, int maxTerms) {
     return new AutoValue_IndexConfig(
         checkLimit(maxLimit, "maxLimit", Integer.MAX_VALUE),
         checkLimit(maxPages, "maxPages", Integer.MAX_VALUE),
@@ -59,20 +56,19 @@ public abstract class IndexConfig {
   }
 
   /**
-   * @return maximum limit supported by the underlying index, or limited for
-   * performance reasons.
+   * @return maximum limit supported by the underlying index, or limited for performance reasons.
    */
   public abstract int maxLimit();
 
   /**
-   * @return maximum number of pages (limit / start) supported by the
-   *     underlying index, or limited for performance reasons.
+   * @return maximum number of pages (limit / start) supported by the underlying index, or limited
+   *     for performance reasons.
    */
   public abstract int maxPages();
 
   /**
-   * @return maximum number of total index query terms supported by the
-   *     underlying index, or limited for performance reasons.
+   * @return maximum number of total index query terms supported by the underlying index, or limited
+   *     for performance reasons.
    */
   public abstract int maxTerms();
 }

@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.metrics.dropwizard.MetricResource.METRIC_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
+import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -49,10 +51,6 @@ import com.google.gerrit.server.cache.CacheMetrics;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
-
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricRegistry;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -123,8 +121,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   @Override
   public synchronized <F1> Counter1<F1> newCounter(
-      String name, Description desc,
-      Field<F1> field1) {
+      String name, Description desc, Field<F1> field1) {
     checkCounterDescription(name, desc);
     CounterImpl1<F1> m = new CounterImpl1<>(this, name, desc, field1);
     define(name, desc);
@@ -134,8 +131,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   @Override
   public synchronized <F1, F2> Counter2<F1, F2> newCounter(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2) {
+      String name, Description desc, Field<F1> field1, Field<F2> field2) {
     checkCounterDescription(name, desc);
     CounterImplN m = new CounterImplN(this, name, desc, field1, field2);
     define(name, desc);
@@ -145,8 +141,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   @Override
   public synchronized <F1, F2, F3> Counter3<F1, F2, F3> newCounter(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+      String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
     checkCounterDescription(name, desc);
     CounterImplN m = new CounterImplN(this, name, desc, field1, field2, field3);
     define(name, desc);
@@ -198,8 +193,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   @Override
-  public synchronized <F1, F2> Timer2<F1, F2> newTimer(String name, Description desc,
-      Field<F1> field1, Field<F2> field2) {
+  public synchronized <F1, F2> Timer2<F1, F2> newTimer(
+      String name, Description desc, Field<F1> field1, Field<F2> field2) {
     checkTimerDescription(name, desc);
     TimerImplN m = new TimerImplN(this, name, desc, field1, field2);
     define(name, desc);
@@ -209,8 +204,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   @Override
   public synchronized <F1, F2, F3> Timer3<F1, F2, F3> newTimer(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+      String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
     checkTimerDescription(name, desc);
     TimerImplN m = new TimerImplN(this, name, desc, field1, field2, field3);
     define(name, desc);
@@ -239,8 +233,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   @Override
-  public synchronized <F1> Histogram1<F1> newHistogram(String name,
-      Description desc, Field<F1> field1) {
+  public synchronized <F1> Histogram1<F1> newHistogram(
+      String name, Description desc, Field<F1> field1) {
     checkHistogramDescription(name, desc);
     HistogramImpl1<F1> m = new HistogramImpl1<>(this, name, desc, field1);
     define(name, desc);
@@ -249,8 +243,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   @Override
-  public synchronized <F1, F2> Histogram2<F1, F2> newHistogram(String name,
-      Description desc, Field<F1> field1, Field<F2> field2) {
+  public synchronized <F1, F2> Histogram2<F1, F2> newHistogram(
+      String name, Description desc, Field<F1> field1, Field<F2> field2) {
     checkHistogramDescription(name, desc);
     HistogramImplN m = new HistogramImplN(this, name, desc, field1, field2);
     define(name, desc);
@@ -260,8 +254,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   @Override
   public synchronized <F1, F2, F3> Histogram3<F1, F2, F3> newHistogram(
-      String name, Description desc,
-      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+      String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
     checkHistogramDescription(name, desc);
     HistogramImplN m = new HistogramImplN(this, name, desc, field1, field2, field3);
     define(name, desc);
@@ -293,8 +286,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc, Field<F1> field1) {
     checkMetricName(name);
-    CallbackMetricImpl1<F1, V> m = new CallbackMetricImpl1<>(this, registry,
-        name, valueClass, desc, field1);
+    CallbackMetricImpl1<F1, V> m =
+        new CallbackMetricImpl1<>(this, registry, name, valueClass, desc, field1);
     define(name, desc);
     bucketed.put(name, m);
     return m.create();
@@ -303,9 +296,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   @Override
   public synchronized RegistrationHandle newTrigger(
       Set<CallbackMetric<?>> metrics, Runnable trigger) {
-    ImmutableSet<CallbackMetricGlue> all = FluentIterable.from(metrics)
-        .transform(m -> (CallbackMetricGlue) m)
-        .toSet();
+    ImmutableSet<CallbackMetricGlue> all =
+        FluentIterable.from(metrics).transform(m -> (CallbackMetricGlue) m).toSet();
 
     trigger = new CallbackGroup(trigger, all);
     for (CallbackMetricGlue m : all) {
@@ -330,24 +322,22 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   private synchronized void define(String name, Description desc) {
     if (descriptions.containsKey(name)) {
-      throw new IllegalStateException(String.format(
-          "metric %s already defined", name));
+      throw new IllegalStateException(String.format("metric %s already defined", name));
     }
     descriptions.put(name, desc.getAnnotations());
   }
 
-  private static final Pattern METRIC_NAME_PATTERN = Pattern
-      .compile("[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*");
+  private static final Pattern METRIC_NAME_PATTERN =
+      Pattern.compile("[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*");
 
   private static void checkMetricName(String name) {
     checkArgument(
         METRIC_NAME_PATTERN.matcher(name).matches(),
-        "metric name must match %s", METRIC_NAME_PATTERN.pattern());
+        "metric name must match %s",
+        METRIC_NAME_PATTERN.pattern());
   }
 
-  static String name(Description.FieldOrdering ordering,
-      String codeName,
-      String fieldValues) {
+  static String name(Description.FieldOrdering ordering, String codeName, String fieldValues) {
     if (ordering == FieldOrdering.PREFIX_FIELDS_BASENAME) {
       int s = codeName.lastIndexOf('/');
       if (s > 0) {

@@ -36,7 +36,11 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -45,17 +49,14 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-
 public class Mergeable implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
 
-  @Option(name = "--other-branches", aliases = {"-o"},
-      usage = "test mergeability for other branches too")
+  @Option(
+    name = "--other-branches",
+    aliases = {"-o"},
+    usage = "test mergeability for other branches too"
+  )
   private boolean otherBranches;
 
   private final GitRepositoryManager gitManager;
@@ -67,7 +68,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final MergeabilityCache cache;
 
   @Inject
-  Mergeable(GitRepositoryManager gitManager,
+  Mergeable(
+      GitRepositoryManager gitManager,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeData.Factory changeDataFactory,
@@ -88,8 +90,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public MergeableInfo apply(RevisionResource resource) throws AuthException,
-      ResourceConflictException, BadRequestException, OrmException, IOException {
+  public MergeableInfo apply(RevisionResource resource)
+      throws AuthException, ResourceConflictException, BadRequestException, OrmException,
+          IOException {
     Change change = resource.getChange();
     PatchSet ps = resource.getPatchSet();
     MergeableInfo result = new MergeableInfo();
@@ -108,11 +111,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ObjectId commit = toId(ps);
       Ref ref = git.getRefDatabase().exactRef(change.getDest().get());
       ProjectState projectState = projectCache.get(change.getProject());
-      String strategy = mergeUtilFactory.create(projectState)
-          .mergeStrategyName();
+      String strategy = mergeUtilFactory.create(projectState).mergeStrategyName();
       result.strategy = strategy;
-      result.mergeable =
-          isMergable(git, change, commit, ref, result.submitType, strategy);
+      result.mergeable = isMergable(git, change, commit, ref, result.submitType, strategy);
 
       if (otherBranches) {
         result.mergeableInto = new ArrayList<>();
@@ -126,8 +127,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
             if (other == null) {
               continue;
             }
-            if (cache.get(commit, other, SubmitType.CHERRY_PICK, strategy,
-                change.getDest(), git)) {
+            if (cache.get(commit, other, SubmitType.CHERRY_PICK, strategy, change.getDest(), git)) {
               result.mergeableInto.add(other.getName().substring(prefixLen));
             }
           }
@@ -137,19 +137,22 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet)
-      throws OrmException {
-    SubmitTypeRecord rec =
-        new SubmitRuleEvaluator(cd).setPatchSet(patchSet).getSubmitType();
+  private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
+    SubmitTypeRecord rec = new SubmitRuleEvaluator(cd).setPatchSet(patchSet).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }
     return rec.type;
   }
 
-  private boolean isMergable(Repository git, Change change, ObjectId commit,
-      Ref ref, SubmitType submitType, String strategy)
-          throws IOException, OrmException {
+  private boolean isMergable(
+      Repository git,
+      Change change,
+      ObjectId commit,
+      Ref ref,
+      SubmitType submitType,
+      String strategy)
+      throws IOException, OrmException {
     if (commit == null) {
       return false;
     }
@@ -158,8 +161,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     if (old != null) {
       return old;
     }
-    return refresh(change, commit, ref, submitType,
-          strategy, git, old);
+    return refresh(change, commit, ref, submitType, strategy, git, old);
   }
 
   private static ObjectId toId(PatchSet ps) {
@@ -171,11 +173,16 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
   }
 
-  private boolean refresh(final Change change, ObjectId commit,
-      final Ref ref, SubmitType type, String strategy, Repository git,
-      Boolean old) throws OrmException, IOException {
-    final boolean mergeable =
-        cache.get(commit, ref, type, strategy, change.getDest(), git);
+  private boolean refresh(
+      final Change change,
+      ObjectId commit,
+      final Ref ref,
+      SubmitType type,
+      String strategy,
+      Repository git,
+      Boolean old)
+      throws OrmException, IOException {
+    final boolean mergeable = cache.get(commit, ref, type, strategy, change.getDest(), git);
     if (!Objects.equals(mergeable, old)) {
       invalidateETag(change.getId(), db.get());
       indexer.index(db.get(), change);
@@ -183,8 +190,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return mergeable;
   }
 
-  private static void invalidateETag(Change.Id id, ReviewDb db)
-      throws OrmException {
+  private static void invalidateETag(Change.Id id, ReviewDb db) throws OrmException {
     // Empty update of Change to bump rowVersion, changing its ETag.
     // TODO(dborowitz): Include cache info in ETag somehow instead.
     db = ReviewDbUtil.unwrapDb(db);

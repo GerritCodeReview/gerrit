@@ -24,24 +24,21 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
-import java.io.IOException;
-
 @Singleton
-public class DeleteSshKey implements
-    RestModifyView<AccountResource.SshKey, Input> {
-  public static class Input {
-  }
+public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Input> {
+  public static class Input {}
 
   private final Provider<CurrentUser> self;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
 
   @Inject
-  DeleteSshKey(Provider<CurrentUser> self,
+  DeleteSshKey(
+      Provider<CurrentUser> self,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache) {
     this.self = self;
@@ -51,15 +48,13 @@ public class DeleteSshKey implements
 
   @Override
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
-      throws AuthException, OrmException, RepositoryNotFoundException,
-      IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+      throws AuthException, OrmException, RepositoryNotFoundException, IOException,
+          ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to delete SSH keys");
     }
 
-    authorizedKeys.deleteKey(rsrc.getUser().getAccountId(),
-        rsrc.getSshKey().getKey().get());
+    authorizedKeys.deleteKey(rsrc.getUser().getAccountId(), rsrc.getSshKey().getKey().get());
     sshKeyCache.evict(rsrc.getUser().getUserName());
 
     return Response.none();

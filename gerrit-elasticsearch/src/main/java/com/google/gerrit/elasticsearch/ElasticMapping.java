@@ -15,7 +15,6 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Map;
 
 class ElasticMapping {

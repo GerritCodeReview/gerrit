@@ -20,7 +20,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
 import org.junit.Test;
 
 public class CreateGroupIT extends AbstractDaemonTest {
@@ -30,8 +29,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
     GroupInput in = new GroupInput();
     in.name = name("group");
     gApi.groups().create(in);
-    AccountGroup accountGroup =
-        groupCache.get(new AccountGroup.NameKey(in.name));
+    AccountGroup accountGroup = groupCache.get(new AccountGroup.NameKey(in.name));
     assertThat(accountGroup).isNotNull();
     assertThat(accountGroup.getName()).isEqualTo(in.name);
   }
@@ -56,10 +54,9 @@ public class CreateGroupIT extends AbstractDaemonTest {
     assertThat(groupCache.get(new AccountGroup.NameKey(in.name))).isNotNull();
 
     GroupInput inLowerCase = new GroupInput();
-    inLowerCase.name =  in.name.toUpperCase();
+    inLowerCase.name = in.name.toUpperCase();
     gApi.groups().create(inLowerCase);
-    assertThat(groupCache.get(new AccountGroup.NameKey(inLowerCase.name)))
-        .isNotNull();
+    assertThat(groupCache.get(new AccountGroup.NameKey(inLowerCase.name))).isNotNull();
   }
 
   @Test

@@ -23,7 +23,6 @@ import com.google.gerrit.server.mail.RecipientType;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -40,9 +39,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   private final Set<Account.Id> extraCC = new HashSet<>();
 
   @Inject
-  public ReplacePatchSetSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public ReplacePatchSetSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "newpatchset", newChangeData(ea, project, id));
   }

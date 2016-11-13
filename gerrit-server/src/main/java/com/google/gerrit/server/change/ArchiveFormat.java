@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -24,9 +26,6 @@ import org.eclipse.jgit.archive.Tbz2Format;
 import org.eclipse.jgit.archive.TgzFormat;
 import org.eclipse.jgit.archive.TxzFormat;
 import org.eclipse.jgit.archive.ZipFormat;
-
-import java.io.IOException;
-import java.io.OutputStream;
 
 public enum ArchiveFormat {
   TGZ("application/x-gzip", new TgzFormat()) {
@@ -85,9 +84,8 @@ public enum ArchiveFormat {
     return format.suffixes();
   }
 
-  public ArchiveOutputStream createArchiveOutputStream(OutputStream o)
-      throws IOException {
-    return (ArchiveOutputStream)this.format.createArchiveOutputStream(o);
+  public ArchiveOutputStream createArchiveOutputStream(OutputStream o) throws IOException {
+    return (ArchiveOutputStream) this.format.createArchiveOutputStream(o);
   }
 
   public abstract ArchiveEntry prepareArchiveEntry(final String fileName);

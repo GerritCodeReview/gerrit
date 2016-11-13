@@ -33,21 +33,17 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.eclipse.jgit.lib.Config;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Properties;
-
 import javax.sql.DataSource;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.eclipse.jgit.lib.Config;
 
 /** Provides access to the DataSource. */
 @Singleton
-public class DataSourceProvider implements Provider<DataSource>,
-    LifecycleListener {
+public class DataSourceProvider implements Provider<DataSource>, LifecycleListener {
   private final Config cfg;
   private final MetricMaker metrics;
   private final Context ctx;
@@ -56,7 +52,8 @@ public class DataSourceProvider implements Provider<DataSource>,
   private DataSource ds;
 
   @Inject
-  protected DataSourceProvider(@GerritServerConfig Config cfg,
+  protected DataSourceProvider(
+      @GerritServerConfig Config cfg,
       MetricMaker metrics,
       ThreadSettingsConfig threadSettingsConfig,
       Context ctx,
@@ -77,8 +74,7 @@ public class DataSourceProvider implements Provider<DataSource>,
   }
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
   public synchronized void stop() {
@@ -92,11 +88,11 @@ public class DataSourceProvider implements Provider<DataSource>,
   }
 
   public enum Context {
-    SINGLE_USER, MULTI_USER
+    SINGLE_USER,
+    MULTI_USER
   }
 
-  private DataSource open(final Config cfg, final Context context,
-      final DataSourceType dst) {
+  private DataSource open(final Config cfg, final Context context, final DataSourceType dst) {
     ConfigSection dbs = new ConfigSection(cfg, "database");
     String driver = dbs.optional("driver");
     if (Strings.isNullOrEmpty(driver)) {
@@ -132,14 +128,18 @@ public class DataSourceProvider implements Provider<DataSource>,
       int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
       ds.setMaxActive(poolLimit);
       ds.setMinIdle(cfg.getInt("database", "poolminidle", 4));
-      ds.setMaxIdle(
-          cfg.getInt("database", "poolmaxidle", Math.min(poolLimit, 16)));
-      ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
-          "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
+      ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", Math.min(poolLimit, 16)));
+      ds.setMaxWait(
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "database",
+              null,
+              "poolmaxwait",
+              MILLISECONDS.convert(30, SECONDS),
+              MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
       exportPoolMetrics(ds);
       return intercept(interceptor, ds);
-
     }
     // Don't use the connection pool.
     //
@@ -160,22 +160,23 @@ public class DataSourceProvider implements Provider<DataSource>,
   }
 
   private void exportPoolMetrics(final BasicDataSource pool) {
-    final CallbackMetric1<Boolean, Integer> cnt = metrics.newCallbackMetric(
-        "sql/connection_pool/connections",
-        Integer.class,
-        new Description("SQL database connections")
-          .setGauge()
-          .setUnit("connections"),
-        Field.ofBoolean("active"));
-    metrics.newTrigger(cnt, new Runnable() {
-      @Override
-      public void run() {
-        synchronized (pool) {
-          cnt.set(true, pool.getNumActive());
-          cnt.set(false, pool.getNumIdle());
-        }
-      }
-    });
+    final CallbackMetric1<Boolean, Integer> cnt =
+        metrics.newCallbackMetric(
+            "sql/connection_pool/connections",
+            Integer.class,
+            new Description("SQL database connections").setGauge().setUnit("connections"),
+            Field.ofBoolean("active"));
+    metrics.newTrigger(
+        cnt,
+        new Runnable() {
+          @Override
+          public void run() {
+            synchronized (pool) {
+              cnt.set(true, pool.getNumActive());
+              cnt.set(false, pool.getNumIdle());
+            }
+          }
+        });
   }
 
   private DataSource intercept(String interceptor, DataSource ds) {
@@ -184,12 +185,15 @@ public class DataSourceProvider implements Provider<DataSource>,
     }
     try {
       Constructor<?> c = Class.forName(interceptor).getConstructor();
-      DataSourceInterceptor datasourceInterceptor =
-          (DataSourceInterceptor) c.newInstance();
+      DataSourceInterceptor datasourceInterceptor = (DataSourceInterceptor) c.newInstance();
       return datasourceInterceptor.intercept("reviewDb", ds);
-    } catch (ClassNotFoundException | SecurityException | NoSuchMethodException
-        | IllegalArgumentException | InstantiationException
-        | IllegalAccessException | InvocationTargetException e) {
+    } catch (ClassNotFoundException
+        | SecurityException
+        | NoSuchMethodException
+        | IllegalArgumentException
+        | InstantiationException
+        | IllegalAccessException
+        | InvocationTargetException e) {
       throw new ProvisionException("Cannot intercept datasource", e);
     }
   }

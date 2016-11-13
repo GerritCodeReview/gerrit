@@ -19,8 +19,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 /** This entity contains information for registering a new email address. */
 public class EmailInput {
   /* The email address. If provided, must match the email address from the URL. */
-  @DefaultInput
-  public String email;
+  @DefaultInput public String email;
 
   /* Whether the new email address should become the preferred email address of
    * the user. Only supported if {@link #noConfirmation} is set or if the

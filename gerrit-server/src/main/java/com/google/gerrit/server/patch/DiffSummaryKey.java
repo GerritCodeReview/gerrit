@@ -20,14 +20,12 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Objects;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class DiffSummaryKey implements Serializable {
   public static final long serialVersionUID = 1L;
@@ -42,12 +40,11 @@ public class DiffSummaryKey implements Serializable {
   private transient Whitespace whitespace;
 
   public static DiffSummaryKey fromPatchListKey(PatchListKey plk) {
-    return new DiffSummaryKey(plk.getOldId(), plk.getParentNum(),
-        plk.getNewId(), plk.getWhitespace());
+    return new DiffSummaryKey(
+        plk.getOldId(), plk.getParentNum(), plk.getNewId(), plk.getWhitespace());
   }
 
-  private DiffSummaryKey(ObjectId oldId, Integer parentNum, ObjectId newId,
-      Whitespace whitespace) {
+  private DiffSummaryKey(ObjectId oldId, Integer parentNum, ObjectId newId, Whitespace whitespace) {
     this.oldId = oldId;
     this.parentNum = parentNum;
     this.newId = newId;

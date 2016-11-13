@@ -93,25 +93,26 @@ public class MyProfileScreen extends SettingsScreen {
 
   private void infoRow(final int row, final String name) {
     info.setText(row, labelIdx, name);
-    info.getCellFormatter().addStyleName(row, 0,
-        Gerrit.RESOURCES.css().header());
+    info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
   void display(AccountInfo account) {
     if (Gerrit.info().plugin().hasAvatars()) {
       avatar.setAccount(account, 93, false);
-      new RestApi("/accounts/").id("self").view("avatar.change.url")
-          .get(new AsyncCallback<NativeString>() {
-            @Override
-            public void onSuccess(NativeString changeUrl) {
-              changeAvatar.setHref(changeUrl.asString());
-              changeAvatar.setVisible(true);
-            }
+      new RestApi("/accounts/")
+          .id("self")
+          .view("avatar.change.url")
+          .get(
+              new AsyncCallback<NativeString>() {
+                @Override
+                public void onSuccess(NativeString changeUrl) {
+                  changeAvatar.setHref(changeUrl.asString());
+                  changeAvatar.setVisible(true);
+                }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          });
+                @Override
+                public void onFailure(Throwable caught) {}
+              });
     }
 
     int row = 0;

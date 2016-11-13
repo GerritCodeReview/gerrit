@@ -42,7 +42,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -54,14 +60,6 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class Files implements ChildCollection<RevisionResource, FileResource> {
@@ -114,7 +112,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
-    ListFiles(Provider<ReviewDb> db,
+    ListFiles(
+        Provider<ReviewDb> db,
         Provider<CurrentUser> self,
         FileInfoJson fileInfoJson,
         Revisions revisions,
@@ -139,9 +138,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     @Override
     public Response<?> apply(RevisionResource resource)
-        throws AuthException, BadRequestException, ResourceNotFoundException,
-        OrmException, RepositoryNotFoundException, IOException,
-        PatchListNotAvailableException {
+        throws AuthException, BadRequestException, ResourceNotFoundException, OrmException,
+            RepositoryNotFoundException, IOException, PatchListNotAvailableException {
       checkOptions();
       if (reviewed) {
         return Response.ok(reviewed(resource));
@@ -151,21 +149,21 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
       Response<Map<String, FileInfo>> r;
       if (base != null) {
-        RevisionResource baseResource = revisions.parse(
-            resource.getChangeResource(), IdString.fromDecoded(base));
-        r = Response.ok(fileInfoJson.toFileInfoMap(
-            resource.getChange(),
-            resource.getPatchSet().getRevision(),
-            baseResource.getPatchSet()));
+        RevisionResource baseResource =
+            revisions.parse(resource.getChangeResource(), IdString.fromDecoded(base));
+        r =
+            Response.ok(
+                fileInfoJson.toFileInfoMap(
+                    resource.getChange(),
+                    resource.getPatchSet().getRevision(),
+                    baseResource.getPatchSet()));
       } else if (parentNum > 0) {
-        r = Response.ok(fileInfoJson.toFileInfoMap(
-            resource.getChange(),
-            resource.getPatchSet().getRevision(),
-            parentNum - 1));
+        r =
+            Response.ok(
+                fileInfoJson.toFileInfoMap(
+                    resource.getChange(), resource.getPatchSet().getRevision(), parentNum - 1));
       } else {
-        r = Response.ok(fileInfoJson.toFileInfoMap(
-            resource.getChange(),
-            resource.getPatchSet()));
+        r = Response.ok(fileInfoJson.toFileInfoMap(resource.getChange(), resource.getPatchSet()));
       }
 
       if (resource.isCacheable()) {
@@ -189,8 +187,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         supplied++;
       }
       if (supplied > 1) {
-        throw new BadRequestException(
-            "cannot combine base, parent, reviewed, query");
+        throw new BadRequestException("cannot combine base, parent, reviewed, query");
       }
     }
 
@@ -201,8 +198,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           ObjectReader or = git.newObjectReader();
           RevWalk rw = new RevWalk(or);
           TreeWalk tw = new TreeWalk(or)) {
-        RevCommit c = rw.parseCommit(
-            ObjectId.fromString(resource.getPatchSet().getRevision().get()));
+        RevCommit c =
+            rw.parseCommit(ObjectId.fromString(resource.getPatchSet().getRevision().get()));
 
         tw.addTree(c.getTree());
         tw.setRecursive(true);
@@ -225,13 +222,12 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
 
       Account.Id userId = user.getAccountId();
-      Collection<String> r = accountPatchReviewStore.get()
-          .findReviewed(resource.getPatchSet().getId(), userId);
+      Collection<String> r =
+          accountPatchReviewStore.get().findReviewed(resource.getPatchSet().getId(), userId);
 
       if (r.isEmpty() && 1 < resource.getPatchSet().getPatchSetId()) {
         for (PatchSet ps : reversePatchSets(resource)) {
-          Collection<String> o =
-              accountPatchReviewStore.get().findReviewed(ps.getId(), userId);
+          Collection<String> o = accountPatchReviewStore.get().findReviewed(ps.getId(), userId);
           if (!o.isEmpty()) {
             try {
               r = copy(Sets.newHashSet(o), ps.getId(), resource, userId);
@@ -246,31 +242,26 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       return r;
     }
 
-    private List<PatchSet> reversePatchSets(RevisionResource resource)
-        throws OrmException {
-      Collection<PatchSet> patchSets =
-          psUtil.byChange(db.get(), resource.getNotes());
-      List<PatchSet> list = (patchSets instanceof List) ?
-          (List<PatchSet>) patchSets
-          : new ArrayList<>(patchSets);
+    private List<PatchSet> reversePatchSets(RevisionResource resource) throws OrmException {
+      Collection<PatchSet> patchSets = psUtil.byChange(db.get(), resource.getNotes());
+      List<PatchSet> list =
+          (patchSets instanceof List) ? (List<PatchSet>) patchSets : new ArrayList<>(patchSets);
       return Lists.reverse(list);
     }
 
-    private List<String> copy(Set<String> paths, PatchSet.Id old,
-        RevisionResource resource, Account.Id userId) throws IOException,
-        PatchListNotAvailableException, OrmException {
+    private List<String> copy(
+        Set<String> paths, PatchSet.Id old, RevisionResource resource, Account.Id userId)
+        throws IOException, PatchListNotAvailableException, OrmException {
       Project.NameKey project = resource.getChange().getProject();
       try (Repository git = gitManager.openRepository(project);
           ObjectReader reader = git.newObjectReader();
           RevWalk rw = new RevWalk(reader);
           TreeWalk tw = new TreeWalk(reader)) {
-        PatchList oldList = patchListCache.get(
-            resource.getChange(),
-            psUtil.get(db.get(), resource.getNotes(), old));
+        PatchList oldList =
+            patchListCache.get(
+                resource.getChange(), psUtil.get(db.get(), resource.getNotes(), old));
 
-        PatchList curList = patchListCache.get(
-            resource.getChange(),
-            resource.getPatchSet());
+        PatchList curList = patchListCache.get(resource.getChange(), resource.getPatchSet());
 
         int sz = paths.size();
         List<String> pathList = Lists.newArrayListWithCapacity(sz);
@@ -292,15 +283,19 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
         while (tw.next()) {
           String path = tw.getPathString();
-          if (tw.getRawMode(o) != 0 && tw.getRawMode(c) != 0
+          if (tw.getRawMode(o) != 0
+              && tw.getRawMode(c) != 0
               && tw.idEqual(o, c)
               && paths.contains(path)) {
             // File exists in previously reviewed oldList and in curList.
             // File content is identical.
             pathList.add(path);
-          } else if (op >= 0 && cp >= 0
-              && tw.getRawMode(o) == 0 && tw.getRawMode(c) == 0
-              && tw.getRawMode(op) != 0 && tw.getRawMode(cp) != 0
+          } else if (op >= 0
+              && cp >= 0
+              && tw.getRawMode(o) == 0
+              && tw.getRawMode(c) == 0
+              && tw.getRawMode(op) != 0
+              && tw.getRawMode(cp) != 0
               && tw.idEqual(op, cp)
               && paths.contains(path)) {
             // File was deleted in previously reviewed oldList and curList.
@@ -309,7 +304,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             pathList.add(path);
           }
         }
-        accountPatchReviewStore.get()
+        accountPatchReviewStore
+            .get()
             .markReviewed(resource.getPatchSet().getId(), userId, pathList);
         return pathList;
       }

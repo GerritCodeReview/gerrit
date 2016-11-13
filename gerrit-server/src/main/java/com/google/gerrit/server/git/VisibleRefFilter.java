@@ -31,7 +31,14 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -43,18 +50,8 @@ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
-  private static final Logger log =
-      LoggerFactory.getLogger(VisibleRefFilter.class);
+  private static final Logger log = LoggerFactory.getLogger(VisibleRefFilter.class);
 
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -113,8 +110,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       String name = ref.getName();
       Change.Id changeId;
       Account.Id accountId;
-      if (name.startsWith(REFS_CACHE_AUTOMERGE)
-          || (!showMetadata && isMetadata(name))) {
+      if (name.startsWith(REFS_CACHE_AUTOMERGE) || (!showMetadata && isMetadata(name))) {
         continue;
       } else if (RefNames.isRefsEdit(name)) {
         // Edits are visible only to the owning user, if change is visible.
@@ -128,8 +124,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         }
       } else if ((accountId = Account.Id.fromRef(name)) != null) {
         // Account ref is visible only to corresponding account.
-        if (viewMetadata || (accountId.equals(userId)
-            && projectCtl.controlForRef(name).isVisible())) {
+        if (viewMetadata
+            || (accountId.equals(userId) && projectCtl.controlForRef(name).isVisible())) {
           result.put(name, ref);
         }
       } else if (isTag(ref)) {
@@ -154,10 +150,13 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     // to identify what tags we can actually reach, and what we cannot.
     //
     if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeparately)) {
-      TagMatcher tags = tagCache.get(projectName).matcher(
-          tagCache,
-          db,
-          filterTagsSeparately ? filter(db.getAllRefs()).values() : result.values());
+      TagMatcher tags =
+          tagCache
+              .get(projectName)
+              .matcher(
+                  tagCache,
+                  db,
+                  filterTagsSeparately ? filter(db.getAllRefs()).values() : result.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
           result.put(tag.getName(), tag);
@@ -169,8 +168,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs) {
-    if (refs.containsKey(REFS_CONFIG)
-        && !projectCtl.controlForRef(REFS_CONFIG).isVisible()) {
+    if (refs.containsKey(REFS_CONFIG) && !projectCtl.controlForRef(REFS_CONFIG).isVisible()) {
       Map<String, Ref> r = new HashMap<>(refs);
       r.remove(REFS_CONFIG);
       return r;
@@ -191,8 +189,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   @Override
-  protected Map<String, Ref> getAdvertisedRefs(Repository repository,
-      RevWalk revWalk) throws ServiceMayNotContinueException {
+  protected Map<String, Ref> getAdvertisedRefs(Repository repository, RevWalk revWalk)
+      throws ServiceMayNotContinueException {
     try {
       return filter(repository.getRefDatabase().getRefs(RefDatabase.ALL));
     } catch (ServiceMayNotContinueException e) {
@@ -233,17 +231,18 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Project project = projectCtl.getProject();
     try {
       Set<Change.Id> visibleChanges = new HashSet<>();
-      for (ChangeData cd : changeCache.getChangeData(
-          reviewDb, project.getNameKey())) {
-        if (projectCtl.controlForIndexedChange(cd.change())
-            .isVisible(reviewDb, cd)) {
+      for (ChangeData cd : changeCache.getChangeData(reviewDb, project.getNameKey())) {
+        if (projectCtl.controlForIndexedChange(cd.change()).isVisible(reviewDb, cd)) {
           visibleChanges.add(cd.getId());
         }
       }
       return visibleChanges;
     } catch (OrmException e) {
-      log.error("Cannot load changes for project " + project.getName()
-          + ", assuming no changes are visible", e);
+      log.error(
+          "Cannot load changes for project "
+              + project.getName()
+              + ", assuming no changes are visible",
+          e);
       return Collections.emptySet();
     }
   }
@@ -259,8 +258,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       }
       return visibleChanges;
     } catch (IOException | OrmException e) {
-      log.error("Cannot load changes for project " + project
-          + ", assuming no changes are visible", e);
+      log.error(
+          "Cannot load changes for project " + project + ", assuming no changes are visible", e);
       return Collections.emptySet();
     }
   }

@@ -33,7 +33,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,8 +84,7 @@ public class AbandonOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws OrmException, ResourceConflictException {
+  public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
     change = ctx.getChange();
     PatchSet.Id psId = change.currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
@@ -113,15 +111,13 @@ public class AbandonOp extends BatchUpdate.Op {
       msg.append(msgTxt.trim());
     }
 
-    return ChangeMessagesUtil.newMessage(
-        ctx, msg.toString(), ChangeMessagesUtil.TAG_ABANDON);
+    return ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_ABANDON);
   }
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
     try {
-      ReplyToChangeSender cm =
-          abandonedSenderFactory.create(ctx.getProject(), change.getId());
+      ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
       if (account != null) {
         cm.setFrom(account.getId());
       }
@@ -131,8 +127,7 @@ public class AbandonOp extends BatchUpdate.Op {
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getId(), e);
     }
-    changeAbandoned.fire(
-        change, patchSet, account, msgTxt, ctx.getWhen(), notifyHandling);
+    changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen(), notifyHandling);
   }
 
   private static String status(Change change) {

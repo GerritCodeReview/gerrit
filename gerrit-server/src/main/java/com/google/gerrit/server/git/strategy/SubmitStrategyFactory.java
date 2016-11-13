@@ -27,7 +27,7 @@ import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -35,13 +35,10 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
-
 /** Factory to create a {@link SubmitStrategy} for a {@link SubmitType}. */
 @Singleton
 public class SubmitStrategyFactory {
-  private static final Logger log = LoggerFactory
-      .getLogger(SubmitStrategyFactory.class);
+  private static final Logger log = LoggerFactory.getLogger(SubmitStrategyFactory.class);
 
   private final SubmitStrategy.Arguments.Factory argsFactory;
 
@@ -50,16 +47,40 @@ public class SubmitStrategyFactory {
     this.argsFactory = argsFactory;
   }
 
-  public SubmitStrategy create(SubmitType submitType, ReviewDb db,
-      Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
-      RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
-      Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, RequestId submissionId,
-      NotifyHandling notifyHandling, SubmoduleOp submoduleOp, boolean dryrun)
+  public SubmitStrategy create(
+      SubmitType submitType,
+      ReviewDb db,
+      Repository repo,
+      CodeReviewRevWalk rw,
+      ObjectInserter inserter,
+      RevFlag canMergeFlag,
+      Set<RevCommit> alreadyAccepted,
+      Branch.NameKey destBranch,
+      IdentifiedUser caller,
+      MergeTip mergeTip,
+      CommitStatus commits,
+      RequestId submissionId,
+      NotifyHandling notifyHandling,
+      SubmoduleOp submoduleOp,
+      boolean dryrun)
       throws IntegrationException {
-    SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
-        commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
-        alreadyAccepted, submissionId, notifyHandling, submoduleOp, dryrun);
+    SubmitStrategy.Arguments args =
+        argsFactory.create(
+            submitType,
+            destBranch,
+            commits,
+            rw,
+            caller,
+            mergeTip,
+            inserter,
+            repo,
+            canMergeFlag,
+            db,
+            alreadyAccepted,
+            submissionId,
+            notifyHandling,
+            submoduleOp,
+            dryrun);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args);

@@ -27,13 +27,11 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
 
 public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
   public interface Factory {
@@ -54,8 +52,7 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
   }
 
   @Override
-  public VersionedAuthorizedKeysOnInit load()
-      throws IOException, ConfigInvalidException {
+  public VersionedAuthorizedKeysOnInit load() throws IOException, ConfigInvalidException {
     super.load();
     return this;
   }
@@ -69,8 +66,7 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
     checkState(keys != null, "SSH keys not loaded yet");
     int seq = keys.isEmpty() ? 1 : keys.size() + 1;
     AccountSshKey.Id keyId = new AccountSshKey.Id(accountId, seq);
-    AccountSshKey key =
-        new VersionedAuthorizedKeys.SimpleSshKeyCreator().create(keyId, pub);
+    AccountSshKey key = new VersionedAuthorizedKeys.SimpleSshKeyCreator().create(keyId, pub);
     keys.add(Optional.of(key));
     return key;
   }

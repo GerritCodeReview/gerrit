@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -94,8 +93,7 @@ public class ProjectControlTest {
     admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
     setUpPermissions();
 
-    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user"))
-        .getAccountId();
+    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
 
     Project.NameKey name = new Project.NameKey("project");
@@ -104,17 +102,18 @@ public class ProjectControlTest {
     project.load(inMemoryRepo);
     repo = new TestRepository<>(inMemoryRepo);
 
-    requestContext.setContext(new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return user;
-      }
+    requestContext.setContext(
+        new RequestContext() {
+          @Override
+          public CurrentUser getUser() {
+            return user;
+          }
 
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
-    });
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return Providers.of(db);
+          }
+        });
   }
 
   @After
@@ -235,15 +234,13 @@ public class ProjectControlTest {
     return projectControlFactory.controlFor(project.getName(), user);
   }
 
-  protected void allow(ProjectConfig project, String permission,
-      AccountGroup.UUID id, String ref)
+  protected void allow(ProjectConfig project, String permission, AccountGroup.UUID id, String ref)
       throws Exception {
     Util.allow(project, permission, id, ref);
     saveProjectConfig(project);
   }
 
-  protected void deny(ProjectConfig project, String permission,
-      AccountGroup.UUID id, String ref)
+  protected void deny(ProjectConfig project, String permission, AccountGroup.UUID id, String ref)
       throws Exception {
     Util.deny(project, permission, id, ref);
     saveProjectConfig(project);

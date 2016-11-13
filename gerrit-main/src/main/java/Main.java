@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 public final class Main {
   // We don't do any real work here because we need to import
   // the archive lookup code and we cannot import a class in
@@ -33,7 +32,6 @@ public final class Main {
     final String version = System.getProperty("java.specification.version");
     if (1.8 <= parse(version)) {
       return true;
-
     }
     System.err.println("fatal: Gerrit Code Review requires Java 8 or later");
     System.err.println("       (trying to run on Java " + version + ")");
@@ -57,6 +55,5 @@ public final class Main {
     }
   }
 
-  private Main() {
-  }
+  private Main() {}
 }

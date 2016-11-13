@@ -28,9 +28,6 @@ import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
@@ -41,7 +38,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import javax.naming.CompositeName;
 import javax.naming.Context;
 import javax.naming.Name;
@@ -55,8 +51,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+import org.eclipse.jgit.lib.Config;
 
-@Singleton class Helper {
+@Singleton
+class Helper {
   static final String LDAP_UUID = "ldap:";
 
   private final Cache<String, ImmutableSet<String>> parentGroups;
@@ -74,9 +72,9 @@ import javax.security.auth.login.LoginException;
   private final boolean groupsVisibleToAll;
 
   @Inject
-  Helper(@GerritServerConfig final Config config,
-      @Named(LdapModule.PARENT_GROUPS_CACHE)
-      Cache<String, ImmutableSet<String>> parentGroups) {
+  Helper(
+      @GerritServerConfig final Config config,
+      @Named(LdapModule.PARENT_GROUPS_CACHE) Cache<String, ImmutableSet<String>> parentGroups) {
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
     this.username = LdapRealm.optional(config, "username");
@@ -84,27 +82,23 @@ import javax.security.auth.login.LoginException;
     this.referral = LdapRealm.optional(config, "referral", "ignore");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.groupsVisibleToAll = config.getBoolean("ldap", "groupsVisibleToAll", false);
-    this.authentication =
-        LdapRealm.optional(config, "authentication", "simple");
+    this.authentication = LdapRealm.optional(config, "authentication", "simple");
     String readTimeout = LdapRealm.optional(config, "readTimeout");
     if (readTimeout != null) {
       readTimeoutMillis =
-          Long.toString(ConfigUtil.getTimeUnit(readTimeout, 0,
-              TimeUnit.MILLISECONDS));
+          Long.toString(ConfigUtil.getTimeUnit(readTimeout, 0, TimeUnit.MILLISECONDS));
     } else {
       readTimeoutMillis = null;
     }
     String connectTimeout = LdapRealm.optional(config, "connectTimeout");
     if (connectTimeout != null) {
       connectTimeoutMillis =
-          Long.toString(ConfigUtil.getTimeUnit(connectTimeout, 0,
-              TimeUnit.MILLISECONDS));
+          Long.toString(ConfigUtil.getTimeUnit(connectTimeout, 0, TimeUnit.MILLISECONDS));
     } else {
       connectTimeoutMillis = null;
     }
     this.parentGroups = parentGroups;
-    this.useConnectionPooling =
-        LdapRealm.optional(config, "useConnectionPooling", false);
+    this.useConnectionPooling = LdapRealm.optional(config, "useConnectionPooling", false);
   }
 
   private Properties createContextProperties() {
@@ -141,18 +135,19 @@ import javax.security.auth.login.LoginException;
     return new InitialDirContext(env);
   }
 
-  private DirContext kerberosOpen(final Properties env) throws LoginException,
-      NamingException {
+  private DirContext kerberosOpen(final Properties env) throws LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");
     ctx.login();
     Subject subject = ctx.getSubject();
     try {
-      return Subject.doAs(subject, new PrivilegedExceptionAction<DirContext>() {
-          @Override
-          public DirContext run() throws NamingException {
-            return new InitialDirContext(env);
-          }
-        });
+      return Subject.doAs(
+          subject,
+          new PrivilegedExceptionAction<DirContext>() {
+            @Override
+            public DirContext run() throws NamingException {
+              return new InitialDirContext(env);
+            }
+          });
     } catch (PrivilegedActionException e) {
       Throwables.throwIfInstanceOf(e.getException(), NamingException.class);
       Throwables.throwIfInstanceOf(e.getException(), RuntimeException.class);
@@ -187,8 +182,8 @@ import javax.security.auth.login.LoginException;
     return ldapSchema;
   }
 
-  LdapQuery.Result findAccount(Helper.LdapSchema schema,
-      DirContext ctx, String username, boolean fetchMemberOf)
+  LdapQuery.Result findAccount(
+      Helper.LdapSchema schema, DirContext ctx, String username, boolean fetchMemberOf)
       throws NamingException, AccountException {
     final HashMap<String, String> params = new HashMap<>();
     params.put(LdapRealm.USERNAME, username);
@@ -211,8 +206,8 @@ import javax.security.auth.login.LoginException;
     throw new NoSuchUserException(username);
   }
 
-  Set<AccountGroup.UUID> queryForGroups(final DirContext ctx,
-      final String username, LdapQuery.Result account)
+  Set<AccountGroup.UUID> queryForGroups(
+      final DirContext ctx, final String username, LdapQuery.Result account)
       throws NamingException {
     final LdapSchema schema = getSchema(ctx);
     final Set<String> groupDNs = new HashSet<>();
@@ -274,8 +269,11 @@ import javax.security.auth.login.LoginException;
     return ImmutableSet.copyOf(actual);
   }
 
-  private void recursivelyExpandGroups(final Set<String> groupDNs,
-      final LdapSchema schema, final DirContext ctx, final String groupDN) {
+  private void recursivelyExpandGroups(
+      final Set<String> groupDNs,
+      final LdapSchema schema,
+      final DirContext ctx,
+      final String groupDN) {
     if (groupDNs.add(groupDN) && schema.accountMemberField != null) {
       ImmutableSet<String> cachedParentsDNs = parentGroups.getIfPresent(groupDN);
       if (cachedParentsDNs == null) {
@@ -285,7 +283,7 @@ import javax.security.auth.login.LoginException;
           final Name compositeGroupName = new CompositeName().add(groupDN);
           final Attribute in =
               ctx.getAttributes(compositeGroupName, schema.accountMemberFieldArray)
-                .get(schema.accountMemberField);
+                  .get(schema.accountMemberField);
           if (in != null) {
             final NamingEnumeration<?> groups = in.getAll();
             try {
@@ -350,11 +348,13 @@ import javax.security.auth.login.LoginException;
       for (String groupBase : groupBases) {
         if (groupMemberPattern != null) {
           final LdapQuery groupMemberQuery =
-              new LdapQuery(groupBase, groupScope, new ParameterizedString(
-                  groupMemberPattern), Collections.<String> emptySet());
+              new LdapQuery(
+                  groupBase,
+                  groupScope,
+                  new ParameterizedString(groupMemberPattern),
+                  Collections.<String>emptySet());
           if (groupMemberQuery.getParameters().isEmpty()) {
-            throw new IllegalArgumentException(
-                "No variables in ldap.groupMemberPattern");
+            throw new IllegalArgumentException("No variables in ldap.groupMemberPattern");
           }
 
           for (final String name : groupMemberQuery.getParameters()) {
@@ -367,14 +367,12 @@ import javax.security.auth.login.LoginException;
 
       // Account query
       //
-      accountFullName =
-          LdapRealm.paramString(config, "accountFullName", type.accountFullName());
+      accountFullName = LdapRealm.paramString(config, "accountFullName", type.accountFullName());
       if (accountFullName != null) {
         accountAtts.addAll(accountFullName.getParameterNames());
       }
       accountEmailAddress =
-          LdapRealm.paramString(config, "accountEmailAddress", type
-              .accountEmailAddress());
+          LdapRealm.paramString(config, "accountEmailAddress", type.accountEmailAddress());
       if (accountEmailAddress != null) {
         accountAtts.addAll(accountEmailAddress.getParameterNames());
       }
@@ -404,18 +402,20 @@ import javax.security.auth.login.LoginException;
       }
       for (String accountBase : LdapRealm.requiredList(config, "accountBase")) {
         LdapQuery accountQuery =
-            new LdapQuery(accountBase, accountScope, new ParameterizedString(
-                accountPattern), accountAtts);
+            new LdapQuery(
+                accountBase, accountScope, new ParameterizedString(accountPattern), accountAtts);
         if (accountQuery.getParameters().isEmpty()) {
-          throw new IllegalArgumentException(
-              "No variables in ldap.accountPattern");
+          throw new IllegalArgumentException("No variables in ldap.accountPattern");
         }
         accountQueryList.add(accountQuery);
 
         if (accountWithMemberOfAtts != null) {
           LdapQuery accountWithMemberOfQuery =
-              new LdapQuery(accountBase, accountScope, new ParameterizedString(
-                  accountPattern), accountWithMemberOfAtts);
+              new LdapQuery(
+                  accountBase,
+                  accountScope,
+                  new ParameterizedString(accountPattern),
+                  accountWithMemberOfAtts);
           accountWithMemberOfQueryList.add(accountWithMemberOfQuery);
         }
       }
@@ -425,8 +425,11 @@ import javax.security.auth.login.LoginException;
       try {
         return LdapType.guessType(ctx);
       } catch (NamingException e) {
-        LdapRealm.log.warn("Cannot discover type of LDAP server at " + server
-            + ", assuming the server is RFC 2307 compliant.", e);
+        LdapRealm.log.warn(
+            "Cannot discover type of LDAP server at "
+                + server
+                + ", assuming the server is RFC 2307 compliant.",
+            e);
         return LdapType.RFC_2307;
       }
     }

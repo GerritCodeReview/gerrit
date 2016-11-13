@@ -53,16 +53,18 @@ public class CreateGroupScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
-      @Override
-      public void onSuccess(AccountCapabilities ac) {
-        if (ac.canPerform(CREATE_GROUP)) {
-          display();
-        } else {
-          Gerrit.display(PageLinks.ADMIN_CREATE_GROUP, new NotFoundScreen());
-        }
-      }
-    }, CREATE_GROUP);
+    AccountCapabilities.all(
+        new GerritCallback<AccountCapabilities>() {
+          @Override
+          public void onSuccess(AccountCapabilities ac) {
+            if (ac.canPerform(CREATE_GROUP)) {
+              display();
+            } else {
+              Gerrit.display(PageLinks.ADMIN_CREATE_GROUP, new NotFoundScreen());
+            }
+          }
+        },
+        CREATE_GROUP);
   }
 
   @Override
@@ -77,43 +79,48 @@ public class CreateGroupScreen extends Screen {
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
     addPanel.add(new SmallHeading(Util.C.headingCreateGroup()));
 
-    addTxt = new NpTextBox() {
-      @Override
-      public void onBrowserEvent(Event event) {
-        super.onBrowserEvent(event);
-        if (event.getTypeInt() == Event.ONPASTE) {
-          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-              if (addTxt.getValue().trim().length() != 0) {
-                addNew.setEnabled(true);
-              }
+    addTxt =
+        new NpTextBox() {
+          @Override
+          public void onBrowserEvent(Event event) {
+            super.onBrowserEvent(event);
+            if (event.getTypeInt() == Event.ONPASTE) {
+              Scheduler.get()
+                  .scheduleDeferred(
+                      new ScheduledCommand() {
+                        @Override
+                        public void execute() {
+                          if (addTxt.getValue().trim().length() != 0) {
+                            addNew.setEnabled(true);
+                          }
+                        }
+                      });
             }
-          });
-        }
-      }
-    };
+          }
+        };
     addTxt.sinkEvents(Event.ONPASTE);
 
     addTxt.setVisibleLength(60);
-    addTxt.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          doCreateGroup();
-        }
-      }
-    });
+    addTxt.addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+              doCreateGroup();
+            }
+          }
+        });
     addPanel.add(addTxt);
 
     addNew = new Button(Util.C.buttonCreateGroup());
     addNew.setEnabled(false);
-    addNew.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doCreateGroup();
-      }
-    });
+    addNew.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doCreateGroup();
+          }
+        });
     addPanel.add(addNew);
     add(addPanel);
 
@@ -127,18 +134,19 @@ public class CreateGroupScreen extends Screen {
     }
 
     addNew.setEnabled(false);
-    GroupApi.createGroup(newName, new GerritCallback<GroupInfo>() {
-      @Override
-      public void onSuccess(final GroupInfo result) {
-        History.newItem(Dispatcher.toGroup(result.getGroupId(),
-            AccountGroupScreen.MEMBERS));
-      }
+    GroupApi.createGroup(
+        newName,
+        new GerritCallback<GroupInfo>() {
+          @Override
+          public void onSuccess(final GroupInfo result) {
+            History.newItem(Dispatcher.toGroup(result.getGroupId(), AccountGroupScreen.MEMBERS));
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        super.onFailure(caught);
-        addNew.setEnabled(true);
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            super.onFailure(caught);
+            addNew.setEnabled(true);
+          }
+        });
   }
 }

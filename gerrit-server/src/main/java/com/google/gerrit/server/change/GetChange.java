@@ -20,15 +20,12 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.EnumSet;
+import org.kohsuke.args4j.Option;
 
 public class GetChange implements RestReadView<ChangeResource> {
   private final ChangeJson.Factory json;
-  private final EnumSet<ListChangesOption> options =
-      EnumSet.noneOf(ListChangesOption.class);
+  private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
 
   @Option(name = "-o", usage = "Output options")
   void addOption(ListChangesOption o) {

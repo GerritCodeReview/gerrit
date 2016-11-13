@@ -46,15 +46,16 @@ class PopupHelper {
     final PopupPanel p = new PopupPanel(true);
     p.setStyleName(Resources.I.style().popup());
     p.addAutoHidePartner(activatingButton.getElement());
-    p.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        activatingButton.unlink();
-        if (popup == p) {
-          popup = null;
-        }
-      }
-    });
+    p.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            activatingButton.unlink();
+            if (popup == p) {
+              popup = null;
+            }
+          }
+        });
     p.add(panel);
     p.showRelativeTo(activatingButton);
     GlobalKey.dialog(p);

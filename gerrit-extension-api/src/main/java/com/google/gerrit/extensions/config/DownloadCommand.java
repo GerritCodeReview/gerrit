@@ -19,15 +19,12 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 @ExtensionPoint
 public abstract class DownloadCommand {
   /**
-   * Returns the download command for the given download scheme, project and
-   * ref.
+   * Returns the download command for the given download scheme, project and ref.
    *
    * @param scheme the download scheme for which the command should be returned
-   * @param project the name of the project for which the download command
-   *        should be returned
+   * @param project the name of the project for which the download command should be returned
    * @param ref the change ref
    * @return the download command
    */
-  public abstract String getCommand(DownloadScheme scheme, String project,
-      String ref);
+  public abstract String getCommand(DownloadScheme scheme, String project, String ref);
 }

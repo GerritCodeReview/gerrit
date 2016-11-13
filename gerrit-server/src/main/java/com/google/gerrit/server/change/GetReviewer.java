@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.List;
 
 @Singleton

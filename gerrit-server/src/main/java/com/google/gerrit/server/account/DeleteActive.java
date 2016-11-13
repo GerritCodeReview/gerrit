@@ -29,23 +29,21 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
 public class DeleteActive implements RestModifyView<AccountResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache byIdCache;
   private final Provider<IdentifiedUser> self;
 
   @Inject
-  DeleteActive(Provider<ReviewDb> dbProvider, AccountCache byIdCache,
-      Provider<IdentifiedUser> self) {
+  DeleteActive(
+      Provider<ReviewDb> dbProvider, AccountCache byIdCache, Provider<IdentifiedUser> self) {
     this.dbProvider = dbProvider;
     this.byIdCache = byIdCache;
     this.self = self;

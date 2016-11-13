@@ -27,7 +27,6 @@ import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -43,10 +42,7 @@ class InitIndex implements InitStep {
   private final Section gerrit;
 
   @Inject
-  InitIndex(ConsoleUI ui,
-      Section.Factory sections,
-      SitePaths site,
-      InitFlags initFlags) {
+  InitIndex(ConsoleUI ui, Section.Factory sections, SitePaths site, InitFlags initFlags) {
     this.ui = ui;
     this.index = sections.get("index", null);
     this.gerrit = sections.get("gerrit", null);
@@ -63,8 +59,7 @@ class InitIndex implements InitStep {
     }
 
     if (type == IndexType.ELASTICSEARCH) {
-      index.select("Transport protocol", "protocol", "http",
-          Sets.newHashSet("http", "https"));
+      index.select("Transport protocol", "protocol", "http", Sets.newHashSet("http", "https"));
       index.string("Hostname", "hostname", "localhost");
       index.string("Port", "port", "9200");
       index.string("Index Name", "name", "gerrit");
@@ -72,17 +67,17 @@ class InitIndex implements InitStep {
 
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
-        IndexUtils.setReady(
-            site, def.getName(), def.getLatest().getVersion(), true);
+        IndexUtils.setReady(site, def.getName(), def.getLatest().getVersion(), true);
       }
     } else {
       if (IndexType.values().length <= 1) {
         ui.header("Index");
       }
-      String message = String.format(
-        "\nThe index must be %sbuilt before starting Gerrit:\n"
-        + "  java -jar gerrit.war reindex -d site_path\n",
-        site.isNew ? "" : "re");
+      String message =
+          String.format(
+              "\nThe index must be %sbuilt before starting Gerrit:\n"
+                  + "  java -jar gerrit.war reindex -d site_path\n",
+              site.isNew ? "" : "re");
       ui.message(message);
       initFlags.autoStart = false;
     }

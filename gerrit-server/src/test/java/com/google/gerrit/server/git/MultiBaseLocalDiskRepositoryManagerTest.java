@@ -26,7 +26,12 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.SortedSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -37,13 +42,6 @@ import org.eclipse.jgit.util.FS;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.SortedSet;
 
 public class MultiBaseLocalDiskRepositoryManagerTest {
 
@@ -65,8 +63,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     configMock = createNiceMock(RepositoryConfig.class);
     expect(configMock.getAllBasePaths()).andReturn(new ArrayList<Path>()).anyTimes();
     replay(configMock);
-    repoManager =
-        new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+    repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
   }
 
   @After
@@ -81,19 +78,17 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     Repository repo = repoManager.createRepository(someProjectKey);
     assertThat(repo.getDirectory()).isNotNull();
     assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent()).isEqualTo(
-        repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
+    assertThat(repo.getDirectory().getParent())
+        .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
 
     repo = repoManager.openRepository(someProjectKey);
     assertThat(repo.getDirectory()).isNotNull();
     assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent()).isEqualTo(
-        repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
+    assertThat(repo.getDirectory().getParent())
+        .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
 
-    assertThat(
-        repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
-        .isEqualTo(
-            repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
+    assertThat(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
+        .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
 
     SortedSet<Project.NameKey> repoList = repoManager.list();
     assertThat(repoList.size()).isEqualTo(1);
@@ -106,27 +101,22 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     Path alternateBasePath = TempFileUtil.createTempDirectory().toPath();
     Project.NameKey someProjectKey = new Project.NameKey("someProject");
     reset(configMock);
-    expect(configMock.getBasePath(someProjectKey)).andReturn(alternateBasePath)
-        .anyTimes();
-    expect(configMock.getAllBasePaths())
-        .andReturn(Arrays.asList(alternateBasePath)).anyTimes();
+    expect(configMock.getBasePath(someProjectKey)).andReturn(alternateBasePath).anyTimes();
+    expect(configMock.getAllBasePaths()).andReturn(Arrays.asList(alternateBasePath)).anyTimes();
     replay(configMock);
 
     Repository repo = repoManager.createRepository(someProjectKey);
     assertThat(repo.getDirectory()).isNotNull();
     assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent())
-        .isEqualTo(alternateBasePath.toString());
+    assertThat(repo.getDirectory().getParent()).isEqualTo(alternateBasePath.toString());
 
     repo = repoManager.openRepository(someProjectKey);
     assertThat(repo.getDirectory()).isNotNull();
     assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent())
-        .isEqualTo(alternateBasePath.toString());
+    assertThat(repo.getDirectory().getParent()).isEqualTo(alternateBasePath.toString());
 
-    assertThat(
-        repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
-            .isEqualTo(alternateBasePath.toString());
+    assertThat(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
+        .isEqualTo(alternateBasePath.toString());
 
     SortedSet<Project.NameKey> repoList = repoManager.list();
     assertThat(repoList.size()).isEqualTo(1);
@@ -138,28 +128,22 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
   public void testListReturnRepoFromProperLocation() throws IOException {
     Project.NameKey basePathProject = new Project.NameKey("basePathProject");
     Project.NameKey altPathProject = new Project.NameKey("altPathProject");
-    Project.NameKey misplacedProject1 =
-        new Project.NameKey("misplacedProject1");
-    Project.NameKey misplacedProject2 =
-        new Project.NameKey("misplacedProject2");
+    Project.NameKey misplacedProject1 = new Project.NameKey("misplacedProject1");
+    Project.NameKey misplacedProject2 = new Project.NameKey("misplacedProject2");
 
     Path alternateBasePath = TempFileUtil.createTempDirectory().toPath();
 
     reset(configMock);
-    expect(configMock.getBasePath(altPathProject)).andReturn(alternateBasePath)
-        .anyTimes();
-    expect(configMock.getBasePath(misplacedProject2))
-        .andReturn(alternateBasePath).anyTimes();
-    expect(configMock.getAllBasePaths())
-        .andReturn(Arrays.asList(alternateBasePath)).anyTimes();
+    expect(configMock.getBasePath(altPathProject)).andReturn(alternateBasePath).anyTimes();
+    expect(configMock.getBasePath(misplacedProject2)).andReturn(alternateBasePath).anyTimes();
+    expect(configMock.getAllBasePaths()).andReturn(Arrays.asList(alternateBasePath)).anyTimes();
     replay(configMock);
 
     repoManager.createRepository(basePathProject);
     repoManager.createRepository(altPathProject);
     // create the misplaced ones without the repomanager otherwise they would
     // end up at the proper place.
-    createRepository(repoManager.getBasePath(basePathProject),
-        misplacedProject2);
+    createRepository(repoManager.getBasePath(basePathProject), misplacedProject2);
     createRepository(alternateBasePath, misplacedProject1);
 
     SortedSet<Project.NameKey> repoList = repoManager.list();
@@ -168,8 +152,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
         .isEqualTo(new Project.NameKey[] {altPathProject, basePathProject});
   }
 
-  private void createRepository(Path directory, Project.NameKey projectName)
-      throws IOException {
+  private void createRepository(Path directory, Project.NameKey projectName) throws IOException {
     String n = projectName.get() + Constants.DOT_GIT_EXT;
     FileKey loc = FileKey.exact(directory.resolve(n).toFile(), FS.DETECTED);
     try (Repository db = RepositoryCache.open(loc, false)) {
@@ -180,10 +163,8 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
   @Test(expected = IllegalStateException.class)
   public void testRelativeAlternateLocation() {
     configMock = createNiceMock(RepositoryConfig.class);
-    expect(configMock.getAllBasePaths())
-        .andReturn(Arrays.asList(Paths.get("repos"))).anyTimes();
+    expect(configMock.getAllBasePaths()).andReturn(Arrays.asList(Paths.get("repos"))).anyTimes();
     replay(configMock);
-    repoManager =
-        new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+    repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
   }
 }

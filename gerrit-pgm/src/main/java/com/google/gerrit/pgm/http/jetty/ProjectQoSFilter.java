@@ -29,16 +29,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
-import org.eclipse.jetty.continuation.Continuation;
-import org.eclipse.jetty.continuation.ContinuationListener;
-import org.eclipse.jetty.continuation.ContinuationSupport;
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -48,20 +41,23 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.continuation.Continuation;
+import org.eclipse.jetty.continuation.ContinuationListener;
+import org.eclipse.jetty.continuation.ContinuationSupport;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Use Jetty continuations to defer execution until threads are available.
- * <p>
- * We actually schedule a task into the same execution queue as the SSH daemon
- * uses for command execution, and then park the web request in a continuation
- * until an execution thread is available. This ensures that the overall JVM
- * process doesn't exceed the configured limit on concurrent Git requests.
- * <p>
- * During Git request execution however we have to use the Jetty service thread,
- * not the thread from the SSH execution queue. Trying to complete the request
- * on the SSH execution queue caused Jetty's HTTP parser to crash, so we instead
- * block the SSH execution queue thread and ask Jetty to resume processing on
- * the web service thread.
+ *
+ * <p>We actually schedule a task into the same execution queue as the SSH daemon uses for command
+ * execution, and then park the web request in a continuation until an execution thread is
+ * available. This ensures that the overall JVM process doesn't exceed the configured limit on
+ * concurrent Git requests.
+ *
+ * <p>During Git request execution however we have to use the Jetty service thread, not the thread
+ * from the SSH execution queue. Trying to complete the request on the SSH execution queue caused
+ * Jetty's HTTP parser to crash, so we instead block the SSH execution queue thread and ask Jetty to
+ * resume processing on the web service thread.
  */
 @Singleton
 public class ProjectQoSFilter implements Filter {
@@ -69,16 +65,14 @@ public class ProjectQoSFilter implements Filter {
   private static final String TASK = ATT_SPACE + "/TASK";
   private static final String CANCEL = ATT_SPACE + "/CANCEL";
 
-  private static final String FILTER_RE =
-      "^/(.*)/(git-upload-pack|git-receive-pack)$";
+  private static final String FILTER_RE = "^/(.*)/(git-upload-pack|git-receive-pack)$";
   private static final Pattern URI_PATTERN = Pattern.compile(FILTER_RE);
 
   public static class Module extends ServletModule {
 
     @Override
     protected void configureServlets() {
-      bind(QueueProvider.class).to(CommandExecutorQueueProvider.class)
-          .in(SINGLETON);
+      bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
       filterRegex(FILTER_RE).through(ProjectQoSFilter.class);
     }
   }
@@ -90,8 +84,10 @@ public class ProjectQoSFilter implements Filter {
   private final long maxWait;
 
   @Inject
-  ProjectQoSFilter(final Provider<CurrentUser> user,
-      QueueProvider queue, final ServletContext context,
+  ProjectQoSFilter(
+      final Provider<CurrentUser> user,
+      QueueProvider queue,
+      final ServletContext context,
       @GerritServerConfig final Config cfg) {
     this.user = user;
     this.queue = queue;
@@ -100,8 +96,8 @@ public class ProjectQoSFilter implements Filter {
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) request;
     final HttpServletResponse rsp = (HttpServletResponse) response;
     final Continuation cont = ContinuationSupport.getContinuation(req);
@@ -145,15 +141,12 @@ public class ProjectQoSFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig config) {
-  }
+  public void init(FilterConfig config) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
-  private final class TaskThunk implements CancelableRunnable,
-      ContinuationListener {
+  private final class TaskThunk implements CancelableRunnable, ContinuationListener {
 
     private final WorkQueue.Executor executor;
     private final Continuation cont;
@@ -162,8 +155,8 @@ public class ProjectQoSFilter implements Filter {
     private boolean done;
     private Thread worker;
 
-    TaskThunk(final WorkQueue.Executor executor, final Continuation cont,
-        final HttpServletRequest req) {
+    TaskThunk(
+        final WorkQueue.Executor executor, final Continuation cont, final HttpServletRequest req) {
       this.executor = executor;
       this.cont = cont;
       this.name = generateName(req);
@@ -209,8 +202,7 @@ public class ProjectQoSFilter implements Filter {
     }
 
     @Override
-    public void onComplete(Continuation self) {
-    }
+    public void onComplete(Continuation self) {}
 
     @Override
     public void onTimeout(Continuation self) {

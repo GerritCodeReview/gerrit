@@ -17,10 +17,8 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.IOException;
+import org.eclipse.jgit.lib.PersonIdent;
 
 class MergeOneOp extends SubmitStrategyOp {
   MergeOneOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
@@ -28,22 +26,29 @@ class MergeOneOp extends SubmitStrategyOp {
   }
 
   @Override
-  public void updateRepoImpl(RepoContext ctx)
-      throws IntegrationException, IOException {
-    PersonIdent caller = ctx.getIdentifiedUser().newCommitterIdent(
-        ctx.getWhen(), ctx.getTimeZone());
+  public void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
+    PersonIdent caller =
+        ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone());
     if (args.mergeTip.getCurrentTip() == null) {
-      throw new IllegalStateException("cannot merge commit " + toMerge.name()
-          + " onto a null tip; expected at least one fast-forward prior to"
-          + " this operation");
+      throw new IllegalStateException(
+          "cannot merge commit "
+              + toMerge.name()
+              + " onto a null tip; expected at least one fast-forward prior to"
+              + " this operation");
     }
     // TODO(dborowitz): args.rw is needed because it's a CodeReviewRevWalk.
     // When hoisting BatchUpdate into MergeOp, we will need to teach
     // BatchUpdate how to produce CodeReviewRevWalks.
     CodeReviewCommit merged =
-        args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
-            ctx.getRepository(), args.rw, ctx.getInserter(), args.destBranch,
-            args.mergeTip.getCurrentTip(), toMerge);
+        args.mergeUtil.mergeOneCommit(
+            caller,
+            args.serverIdent,
+            ctx.getRepository(),
+            args.rw,
+            ctx.getInserter(),
+            args.destBranch,
+            args.mergeTip.getCurrentTip(),
+            toMerge);
     args.mergeTip.moveTipTo(amendGitlink(merged), toMerge);
   }
 }

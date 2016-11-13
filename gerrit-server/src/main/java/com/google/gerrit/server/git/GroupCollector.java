@@ -38,13 +38,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -52,38 +45,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper for assigning groups to commits during {@link ReceiveCommits}.
- * <p>
- * For each commit encountered along a walk between the branch tip and the tip
- * of the push, the group of a commit is defined as follows:
+ *
+ * <p>For each commit encountered along a walk between the branch tip and the tip of the push, the
+ * group of a commit is defined as follows:
+ *
  * <ul>
- *   <li>If the commit is an existing patch set of a change, the group is read
- *   from the group field in the corresponding {@link PatchSet} record.</li>
- *   <li>If all of a commit's parents are merged into the branch, then its group
- *   is its own SHA-1.</li>
- *   <li>If the commit has a single parent that is not yet merged into the
- *   branch, then its group is the same as the parent's group.<li>
- *   <li>For a merge commit, choose a parent and use that parent's group. If one
- *   of the parents has a group from a patch set, use that group, otherwise, use
- *   the group from the first parent. In addition to setting this merge commit's
- *   group, use the chosen group for all commits that would otherwise use a
- *   group from the parents that were not chosen.</li>
- *   <li>If a merge commit has multiple parents whose group comes from separate
- *   patch sets, concatenate the groups from those parents together. This
- *   indicates two side branches were pushed separately, followed by the merge.
+ *   <li>If the commit is an existing patch set of a change, the group is read from the group field
+ *       in the corresponding {@link PatchSet} record.
+ *   <li>If all of a commit's parents are merged into the branch, then its group is its own SHA-1.
+ *   <li>If the commit has a single parent that is not yet merged into the branch, then its group is
+ *       the same as the parent's group.
+ *   <li>
+ *   <li>For a merge commit, choose a parent and use that parent's group. If one of the parents has
+ *       a group from a patch set, use that group, otherwise, use the group from the first parent.
+ *       In addition to setting this merge commit's group, use the chosen group for all commits that
+ *       would otherwise use a group from the parents that were not chosen.
+ *   <li>If a merge commit has multiple parents whose group comes from separate patch sets,
+ *       concatenate the groups from those parents together. This indicates two side branches were
+ *       pushed separately, followed by the merge.
  *   <li>
  * </ul>
- * <p>
- * Callers must call {@link #visit(RevCommit)} on all commits between the
- * current branch tip and the tip of a push, in reverse topo order (parents
- * before children). Once all commits have been visited, call {@link
- * #getGroups()} for the result.
+ *
+ * <p>Callers must call {@link #visit(RevCommit)} on all commits between the current branch tip and
+ * the tip of a push, in reverse topo order (parents before children). Once all commits have been
+ * visited, call {@link #getGroups()} for the result.
  */
 public class GroupCollector {
-  private static final Logger log =
-      LoggerFactory.getLogger(GroupCollector.class);
+  private static final Logger log = LoggerFactory.getLogger(GroupCollector.class);
 
   public static List<String> getDefaultGroups(PatchSet ps) {
     return ImmutableList.of(ps.getRevision().get());
@@ -103,8 +99,7 @@ public class GroupCollector {
   }
 
   private interface Lookup {
-    List<String> lookup(PatchSet.Id psId)
-        throws OrmException, NoSuchChangeException;
+    List<String> lookup(PatchSet.Id psId) throws OrmException, NoSuchChangeException;
   }
 
   private final Multimap<ObjectId, PatchSet.Id> patchSetsBySha;
@@ -114,18 +109,19 @@ public class GroupCollector {
 
   private boolean done;
 
-  public static GroupCollector create(Multimap<ObjectId, Ref> changeRefsById,
-      final ReviewDb db, final PatchSetUtil psUtil,
-      final ChangeNotes.Factory notesFactory, final Project.NameKey project) {
+  public static GroupCollector create(
+      Multimap<ObjectId, Ref> changeRefsById,
+      final ReviewDb db,
+      final PatchSetUtil psUtil,
+      final ChangeNotes.Factory notesFactory,
+      final Project.NameKey project) {
     return new GroupCollector(
         transformRefs(changeRefsById),
         new Lookup() {
           @Override
-          public List<String> lookup(PatchSet.Id psId)
-              throws OrmException, NoSuchChangeException {
+          public List<String> lookup(PatchSet.Id psId) throws OrmException, NoSuchChangeException {
             // TODO(dborowitz): Reuse open repository from caller.
-            ChangeNotes notes =
-                notesFactory.createChecked(db, project, psId.getParentKey());
+            ChangeNotes notes = notesFactory.createChecked(db, project, psId.getParentKey());
             PatchSet ps = psUtil.get(db, notes, psId);
             return ps != null ? ps.getGroups() : null;
           }
@@ -145,19 +141,15 @@ public class GroupCollector {
         });
   }
 
-  private GroupCollector(
-      Multimap<ObjectId, PatchSet.Id> patchSetsBySha,
-      Lookup groupLookup) {
+  private GroupCollector(Multimap<ObjectId, PatchSet.Id> patchSetsBySha, Lookup groupLookup) {
     this.patchSetsBySha = patchSetsBySha;
     this.groupLookup = groupLookup;
     groups = ArrayListMultimap.create();
     groupAliases = HashMultimap.create();
   }
 
-  private static Multimap<ObjectId, PatchSet.Id> transformRefs(
-      Multimap<ObjectId, Ref> refs) {
-    return Multimaps.transformValues(
-        refs, r -> PatchSet.Id.fromRef(r.getName()));
+  private static Multimap<ObjectId, PatchSet.Id> transformRefs(Multimap<ObjectId, Ref> refs) {
+    return Multimaps.transformValues(refs, r -> PatchSet.Id.fromRef(r.getName()));
   }
 
   @VisibleForTesting
@@ -201,8 +193,8 @@ public class GroupCollector {
     for (RevCommit p : interestingParents) {
       Collection<String> parentGroups = groups.get(p);
       if (parentGroups.isEmpty()) {
-        throw new IllegalStateException(String.format(
-            "no group assigned to parent %s of commit %s", p.name(), c.name()));
+        throw new IllegalStateException(
+            String.format("no group assigned to parent %s of commit %s", p.name(), c.name()));
       }
 
       for (String parentGroup : parentGroups) {
@@ -238,12 +230,9 @@ public class GroupCollector {
   public SortedSetMultimap<ObjectId, String> getGroups()
       throws OrmException, NoSuchChangeException {
     done = true;
-    SortedSetMultimap<ObjectId, String> result = MultimapBuilder
-        .hashKeys(groups.keySet().size())
-        .treeSetValues()
-        .build();
-    for (Map.Entry<ObjectId, Collection<String>> e
-        : groups.asMap().entrySet()) {
+    SortedSetMultimap<ObjectId, String> result =
+        MultimapBuilder.hashKeys(groups.keySet().size()).treeSetValues().build();
+    for (Map.Entry<ObjectId, Collection<String>> e : groups.asMap().entrySet()) {
       ObjectId id = e.getKey();
       result.putAll(id.copy(), resolveGroups(id, e.getValue()));
     }
@@ -251,8 +240,7 @@ public class GroupCollector {
   }
 
   private Set<RevCommit> getInterestingParents(RevCommit commit) {
-    Set<RevCommit> result =
-        Sets.newLinkedHashSetWithExpectedSize(commit.getParentCount());
+    Set<RevCommit> result = Sets.newLinkedHashSetWithExpectedSize(commit.getParentCount());
     for (RevCommit p : commit.getParents()) {
       if (!p.has(UNINTERESTING)) {
         result.add(p);
@@ -266,9 +254,8 @@ public class GroupCollector {
     return id != null && patchSetsBySha.containsKey(id);
   }
 
-  private Set<String> resolveGroups(ObjectId forCommit,
-      Collection<String> candidates)
-          throws OrmException, NoSuchChangeException {
+  private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates)
+      throws OrmException, NoSuchChangeException {
     Set<String> actual = Sets.newTreeSet();
     Set<String> done = Sets.newHashSetWithExpectedSize(candidates.size());
     Set<String> seen = Sets.newHashSetWithExpectedSize(candidates.size());
@@ -298,8 +285,7 @@ public class GroupCollector {
       return ObjectId.fromString(group);
     } catch (IllegalArgumentException e) {
       // Shouldn't happen; some sort of corruption or manual tinkering?
-      log.warn("group for commit {} is not a SHA-1: {}",
-          forCommit.name(), group);
+      log.warn("group for commit {} is not a SHA-1: {}", forCommit.name(), group);
       return null;
     }
   }

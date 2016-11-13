@@ -21,7 +21,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 public class OutgoingEmailValidator {
   static {
-    DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[]{"local"});
+    DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[] {"local"});
   }
 
   public static boolean isValid(String addr) {

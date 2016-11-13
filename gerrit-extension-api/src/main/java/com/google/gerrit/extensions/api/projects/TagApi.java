@@ -23,9 +23,9 @@ public interface TagApi {
   TagInfo get() throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements TagApi {
     @Override
     public TagApi create(TagInput input) throws RestApiException {

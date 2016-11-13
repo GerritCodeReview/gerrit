@@ -26,6 +26,5 @@ public class WindowCacheStatAccessor {
     return WindowCache.getInstance().getOpenBytes();
   }
 
-  private WindowCacheStatAccessor() {
-  }
+  private WindowCacheStatAccessor() {}
 }

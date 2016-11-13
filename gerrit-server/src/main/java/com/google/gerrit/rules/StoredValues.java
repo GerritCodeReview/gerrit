@@ -36,16 +36,13 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-
 import com.googlecode.prolog_cafe.exceptions.SystemException;
 import com.googlecode.prolog_cafe.lang.Prolog;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
@@ -76,65 +73,68 @@ public final class StoredValues {
     }
   }
 
-  public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = new StoredValue<PatchSetInfo>() {
-    @Override
-    public PatchSetInfo createValue(Prolog engine) {
-      Change change = getChange(engine);
-      PatchSet ps = getPatchSet(engine);
-      PrologEnvironment env = (PrologEnvironment) engine.control;
-      PatchSetInfoFactory patchInfoFactory =
-              env.getArgs().getPatchSetInfoFactory();
-      try {
-        return patchInfoFactory.get(change.getProject(), ps);
-      } catch (PatchSetInfoNotAvailableException e) {
-        throw new SystemException(e.getMessage());
-      }
-    }
-  };
-
-  public static final StoredValue<PatchList> PATCH_LIST = new StoredValue<PatchList>() {
-    @Override
-    public PatchList createValue(Prolog engine) {
-      PrologEnvironment env = (PrologEnvironment) engine.control;
-      PatchSet ps = getPatchSet(engine);
-      PatchListCache plCache = env.getArgs().getPatchListCache();
-      Change change = getChange(engine);
-      Project.NameKey project = change.getProject();
-      ObjectId b = ObjectId.fromString(ps.getRevision().get());
-      Whitespace ws = Whitespace.IGNORE_NONE;
-      PatchListKey plKey = PatchListKey.againstDefaultBase(b, ws);
-      PatchList patchList;
-      try {
-        patchList = plCache.get(plKey, project);
-      } catch (PatchListNotAvailableException e) {
-        throw new SystemException("Cannot create " + plKey);
-      }
-      return patchList;
-    }
-  };
-
-  public static final StoredValue<Repository> REPOSITORY = new StoredValue<Repository>() {
-    @Override
-    public Repository createValue(Prolog engine) {
-      PrologEnvironment env = (PrologEnvironment) engine.control;
-      GitRepositoryManager gitMgr = env.getArgs().getGitRepositoryManager();
-      Change change = getChange(engine);
-      Project.NameKey projectKey = change.getProject();
-      final Repository repo;
-      try {
-        repo = gitMgr.openRepository(projectKey);
-      } catch (IOException e) {
-        throw new SystemException(e.getMessage());
-      }
-      env.addToCleanup(new Runnable() {
+  public static final StoredValue<PatchSetInfo> PATCH_SET_INFO =
+      new StoredValue<PatchSetInfo>() {
         @Override
-        public void run() {
-          repo.close();
+        public PatchSetInfo createValue(Prolog engine) {
+          Change change = getChange(engine);
+          PatchSet ps = getPatchSet(engine);
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          PatchSetInfoFactory patchInfoFactory = env.getArgs().getPatchSetInfoFactory();
+          try {
+            return patchInfoFactory.get(change.getProject(), ps);
+          } catch (PatchSetInfoNotAvailableException e) {
+            throw new SystemException(e.getMessage());
+          }
         }
-      });
-      return repo;
-    }
-  };
+      };
+
+  public static final StoredValue<PatchList> PATCH_LIST =
+      new StoredValue<PatchList>() {
+        @Override
+        public PatchList createValue(Prolog engine) {
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          PatchSet ps = getPatchSet(engine);
+          PatchListCache plCache = env.getArgs().getPatchListCache();
+          Change change = getChange(engine);
+          Project.NameKey project = change.getProject();
+          ObjectId b = ObjectId.fromString(ps.getRevision().get());
+          Whitespace ws = Whitespace.IGNORE_NONE;
+          PatchListKey plKey = PatchListKey.againstDefaultBase(b, ws);
+          PatchList patchList;
+          try {
+            patchList = plCache.get(plKey, project);
+          } catch (PatchListNotAvailableException e) {
+            throw new SystemException("Cannot create " + plKey);
+          }
+          return patchList;
+        }
+      };
+
+  public static final StoredValue<Repository> REPOSITORY =
+      new StoredValue<Repository>() {
+        @Override
+        public Repository createValue(Prolog engine) {
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          GitRepositoryManager gitMgr = env.getArgs().getGitRepositoryManager();
+          Change change = getChange(engine);
+          Project.NameKey projectKey = change.getProject();
+          final Repository repo;
+          try {
+            repo = gitMgr.openRepository(projectKey);
+          } catch (IOException e) {
+            throw new SystemException(e.getMessage());
+          }
+          env.addToCleanup(
+              new Runnable() {
+                @Override
+                public void run() {
+                  repo.close();
+                }
+              });
+          return repo;
+        }
+      };
 
   public static final StoredValue<AnonymousUser> ANONYMOUS_USER =
       new StoredValue<AnonymousUser>() {
@@ -153,6 +153,5 @@ public final class StoredValues {
         }
       };
 
-  private StoredValues() {
-  }
+  private StoredValues() {}
 }

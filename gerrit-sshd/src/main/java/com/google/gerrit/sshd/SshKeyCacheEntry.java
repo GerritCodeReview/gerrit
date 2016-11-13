@@ -16,7 +16,6 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-
 import java.security.PublicKey;
 
 class SshKeyCacheEntry {

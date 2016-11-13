@@ -19,8 +19,7 @@ import com.google.gwtorm.client.StringKey;
 
 /** Global configuration needed to serve web requests. */
 public final class SystemConfig {
-  public static final class Key extends
-      StringKey<com.google.gwtorm.client.Key<?>> {
+  public static final class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     private static final String VALUE = "X";
@@ -28,8 +27,7 @@ public final class SystemConfig {
     @Column(id = 1, length = 1)
     protected String one = VALUE;
 
-    public Key() {
-    }
+    public Key() {}
 
     @Override
     public String get() {
@@ -52,12 +50,9 @@ public final class SystemConfig {
   @Column(id = 1)
   protected Key singleton;
 
-  /**
-   * Local filesystem location of header/footer/CSS configuration files
-   */
+  /** Local filesystem location of header/footer/CSS configuration files */
   @Column(id = 3, notNull = false)
   public transient String sitePath;
-
 
   // DO NOT LOOK BELOW THIS LINE. These fields have all been deleted,
   // but survive to support schema upgrade code.
@@ -90,6 +85,5 @@ public final class SystemConfig {
   @Column(id = 11, notNull = false)
   public AccountGroup.UUID batchUsersGroupUUID;
 
-  protected SystemConfig() {
-  }
+  protected SystemConfig() {}
 }

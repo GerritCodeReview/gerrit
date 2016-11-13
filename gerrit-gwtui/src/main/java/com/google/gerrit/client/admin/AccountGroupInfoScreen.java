@@ -88,24 +88,27 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
     saveName = new Button(Util.C.buttonRenameGroup());
     saveName.setEnabled(false);
-    saveName.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final String newName = groupNameTxt.getText().trim();
-        GroupApi.renameGroup(getGroupUUID(), newName,
-            new GerritCallback<com.google.gerrit.client.VoidResult>() {
-              @Override
-              public void onSuccess(final com.google.gerrit.client.VoidResult result) {
-                saveName.setEnabled(false);
-                setPageTitle(Util.M.group(newName));
-                groupNameTxt.setText(newName);
-                if (getGroupUUID().equals(getOwnerGroupUUID())) {
-                  ownerTxt.setText(newName);
-                }
-              }
-            });
-      }
-    });
+    saveName.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            final String newName = groupNameTxt.getText().trim();
+            GroupApi.renameGroup(
+                getGroupUUID(),
+                newName,
+                new GerritCallback<com.google.gerrit.client.VoidResult>() {
+                  @Override
+                  public void onSuccess(final com.google.gerrit.client.VoidResult result) {
+                    saveName.setEnabled(false);
+                    setPageTitle(Util.M.group(newName));
+                    groupNameTxt.setText(newName);
+                    if (getGroupUUID().equals(getOwnerGroupUUID())) {
+                      ownerTxt.setText(newName);
+                    }
+                  }
+                });
+          }
+        });
     groupNamePanel.add(saveName);
     add(groupNamePanel);
   }
@@ -123,24 +126,27 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());
     saveOwner.setEnabled(false);
-    saveOwner.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final String newOwner = ownerTxt.getText().trim();
-        if (newOwner.length() > 0) {
-          AccountGroup.UUID ownerUuid = accountGroupOracle.getUUID(newOwner);
-          String ownerId = ownerUuid != null ? ownerUuid.get() : newOwner;
-          GroupApi.setGroupOwner(getGroupUUID(), ownerId,
-              new GerritCallback<GroupInfo>() {
-                @Override
-                public void onSuccess(final GroupInfo result) {
-                  updateOwnerGroup(result);
-                  saveOwner.setEnabled(false);
-                }
-              });
-        }
-      }
-    });
+    saveOwner.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            final String newOwner = ownerTxt.getText().trim();
+            if (newOwner.length() > 0) {
+              AccountGroup.UUID ownerUuid = accountGroupOracle.getUUID(newOwner);
+              String ownerId = ownerUuid != null ? ownerUuid.get() : newOwner;
+              GroupApi.setGroupOwner(
+                  getGroupUUID(),
+                  ownerId,
+                  new GerritCallback<GroupInfo>() {
+                    @Override
+                    public void onSuccess(final GroupInfo result) {
+                      updateOwnerGroup(result);
+                      saveOwner.setEnabled(false);
+                    }
+                  });
+            }
+          }
+        });
     ownerPanel.add(saveOwner);
     add(ownerPanel);
   }
@@ -157,19 +163,22 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
     saveDesc = new Button(Util.C.buttonSaveDescription());
     saveDesc.setEnabled(false);
-    saveDesc.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final String txt = descTxt.getText().trim();
-        GroupApi.setGroupDescription(getGroupUUID(), txt,
-            new GerritCallback<VoidResult>() {
-              @Override
-              public void onSuccess(final VoidResult result) {
-                saveDesc.setEnabled(false);
-              }
-            });
-      }
-    });
+    saveDesc.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            final String txt = descTxt.getText().trim();
+            GroupApi.setGroupDescription(
+                getGroupUUID(),
+                txt,
+                new GerritCallback<VoidResult>() {
+                  @Override
+                  public void onSuccess(final VoidResult result) {
+                    saveDesc.setEnabled(false);
+                  }
+                });
+          }
+        });
     vp.add(saveDesc);
     add(vp);
   }
@@ -187,18 +196,21 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
     saveGroupOptions = new Button(Util.C.buttonSaveGroupOptions());
     saveGroupOptions.setEnabled(false);
-    saveGroupOptions.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        GroupApi.setGroupOptions(getGroupUUID(),
-            visibleToAllCheckBox.getValue(), new GerritCallback<VoidResult>() {
-              @Override
-              public void onSuccess(final VoidResult result) {
-                saveGroupOptions.setEnabled(false);
-              }
-            });
-      }
-    });
+    saveGroupOptions.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            GroupApi.setGroupOptions(
+                getGroupUUID(),
+                visibleToAllCheckBox.getValue(),
+                new GerritCallback<VoidResult>() {
+                  @Override
+                  public void onSuccess(final VoidResult result) {
+                    saveGroupOptions.setEnabled(false);
+                  }
+                });
+          }
+        });
     groupOptionsPanel.add(saveGroupOptions);
 
     add(groupOptionsPanel);
@@ -211,9 +223,10 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   protected void display(final GroupInfo group, final boolean canModify) {
     groupUUIDLabel.setText(group.getGroupUUID().get());
     groupNameTxt.setText(group.name());
-    ownerTxt.setText(group.owner() != null
-        ? group.owner()
-        : Util.M.deletedReference(group.getOwnerUUID().get()));
+    ownerTxt.setText(
+        group.owner() != null
+            ? group.owner()
+            : Util.M.deletedReference(group.getOwnerUUID().get()));
     descTxt.setText(group.description());
     visibleToAllCheckBox.setValue(group.options().isVisibleToAll());
     setMembersTabVisible(AccountGroup.isInternalGroup(group.getGroupUUID()));

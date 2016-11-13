@@ -17,10 +17,8 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.nio.file.Path;
+import org.eclipse.jgit.lib.Config;
 
 class H2 extends BaseDataSourceType {
 
@@ -44,10 +42,7 @@ class H2 extends BaseDataSourceType {
   }
 
   public static String createUrl(Path path) {
-    return new StringBuilder()
-        .append("jdbc:h2:")
-        .append(path.toUri().toString())
-        .toString();
+    return new StringBuilder().append("jdbc:h2:").append(path.toUri().toString()).toString();
   }
 
   public static String appendUrlOptions(Config cfg, String url) {
@@ -58,8 +53,7 @@ class H2 extends BaseDataSourceType {
 
     if (h2CacheSize >= 0) {
       // H2 CACHE_SIZE is always given in KB
-      urlBuilder.append(";CACHE_SIZE=")
-          .append(h2CacheSize / 1024);
+      urlBuilder.append(";CACHE_SIZE=").append(h2CacheSize / 1024);
     }
     if (h2AutoServer) {
       urlBuilder.append(";AUTO_SERVER=TRUE");

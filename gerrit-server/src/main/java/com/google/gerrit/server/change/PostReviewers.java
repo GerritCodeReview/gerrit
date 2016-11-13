@@ -62,11 +62,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -75,12 +70,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class PostReviewers
-    implements RestModifyView<ChangeResource, AddReviewerInput> {
-  private static final Logger log =
-      LoggerFactory.getLogger(PostReviewers.class);
+public class PostReviewers implements RestModifyView<ChangeResource, AddReviewerInput> {
+  private static final Logger log = LoggerFactory.getLogger(PostReviewers.class);
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
@@ -104,7 +100,8 @@ public class PostReviewers
   private final AccountCache accountCache;
 
   @Inject
-  PostReviewers(AccountsCollection accounts,
+  PostReviewers(
+      AccountsCollection accounts,
       ReviewerResource.Factory reviewerFactory,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
@@ -151,8 +148,9 @@ public class PostReviewers
     if (addition.op == null) {
       return addition.result;
     }
-    try (BatchUpdate bu = batchUpdateFactory.create(dbProvider.get(),
-        rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, addition.op);
       bu.execute();
@@ -170,53 +168,59 @@ public class PostReviewers
       try {
         return putGroup(rsrc, input);
       } catch (UnprocessableEntityException e2) {
-        throw new UnprocessableEntityException(MessageFormat
-            .format(ChangeMessages.get().reviewerNotFound, input.reviewer));
+        throw new UnprocessableEntityException(
+            MessageFormat.format(ChangeMessages.get().reviewerNotFound, input.reviewer));
       }
     }
-    return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId),
-        input.state(), input.notify);
+    return putAccount(
+        input.reviewer, reviewerFactory.create(rsrc, accountId), input.state(), input.notify);
   }
 
   Addition ccCurrentUser(CurrentUser user, RevisionResource revision) {
     return new Addition(
-        user.getUserName(), revision.getChangeResource(),
+        user.getUserName(),
+        revision.getChangeResource(),
         ImmutableMap.of(user.getAccountId(), revision.getControl()),
-        CC, NotifyHandling.NONE);
+        CC,
+        NotifyHandling.NONE);
   }
 
-  private Addition putAccount(String reviewer, ReviewerResource rsrc,
-      ReviewerState state, NotifyHandling notify)
+  private Addition putAccount(
+      String reviewer, ReviewerResource rsrc, ReviewerState state, NotifyHandling notify)
       throws UnprocessableEntityException {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
     if (isValidReviewer(member, control)) {
-      return new Addition(reviewer, rsrc.getChangeResource(),
-          ImmutableMap.of(member.getId(), control), state, notify);
+      return new Addition(
+          reviewer,
+          rsrc.getChangeResource(),
+          ImmutableMap.of(member.getId(), control),
+          state,
+          notify);
     }
     if (member.isActive()) {
-      throw new UnprocessableEntityException(
-          String.format("Change not visible to %s", reviewer));
+      throw new UnprocessableEntityException(String.format("Change not visible to %s", reviewer));
     }
-    throw new UnprocessableEntityException(
-        String.format("Account of %s is inactive.", reviewer));
+    throw new UnprocessableEntityException(String.format("Account of %s is inactive.", reviewer));
   }
 
   private Addition putGroup(ChangeResource rsrc, AddReviewerInput input)
       throws RestApiException, OrmException, IOException {
-    GroupDescription.Basic group =
-        groupsCollection.parseInternal(input.reviewer);
+    GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
-      return fail(input.reviewer, MessageFormat.format(ChangeMessages.get().groupIsNotAllowed,
-          group.getName()));
+      return fail(
+          input.reviewer,
+          MessageFormat.format(ChangeMessages.get().groupIsNotAllowed, group.getName()));
     }
 
     Map<Account.Id, ChangeControl> reviewers = new HashMap<>();
     ChangeControl control = rsrc.getControl();
     Set<Account> members;
     try {
-      members = groupMembersFactory.create(control.getUser()).listAccounts(
-          group.getGroupUUID(), control.getProject().getNameKey());
+      members =
+          groupMembersFactory
+              .create(control.getUser())
+              .listAccounts(group.getGroupUUID(), control.getProject().getNameKey());
     } catch (NoSuchGroupException e) {
       throw new UnprocessableEntityException(e.getMessage());
     } catch (NoSuchProjectException e) {
@@ -225,22 +229,24 @@ public class PostReviewers
 
     // if maxAllowed is set to 0, it is allowed to add any number of
     // reviewers
-    int maxAllowed =
-        cfg.getInt("addreviewer", "maxAllowed", DEFAULT_MAX_REVIEWERS);
+    int maxAllowed = cfg.getInt("addreviewer", "maxAllowed", DEFAULT_MAX_REVIEWERS);
     if (maxAllowed > 0 && members.size() > maxAllowed) {
-      return fail(input.reviewer, MessageFormat.format(
-          ChangeMessages.get().groupHasTooManyMembers, group.getName()));
+      return fail(
+          input.reviewer,
+          MessageFormat.format(ChangeMessages.get().groupHasTooManyMembers, group.getName()));
     }
 
     // if maxWithoutCheck is set to 0, we never ask for confirmation
-    int maxWithoutConfirmation = cfg.getInt("addreviewer",
-        "maxWithoutConfirmation", DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
-    if (!input.confirmed() && maxWithoutConfirmation > 0
+    int maxWithoutConfirmation =
+        cfg.getInt("addreviewer", "maxWithoutConfirmation", DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+    if (!input.confirmed()
+        && maxWithoutConfirmation > 0
         && members.size() > maxWithoutConfirmation) {
-      return fail(input.reviewer, true,
+      return fail(
+          input.reviewer,
+          true,
           MessageFormat.format(
-              ChangeMessages.get().groupManyMembersConfirmation,
-              group.getName(), members.size()));
+              ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
     }
 
     for (Account member : members) {
@@ -249,8 +255,7 @@ public class PostReviewers
       }
     }
 
-    return new Addition(input.reviewer, rsrc, reviewers, input.state(),
-        input.notify);
+    return new Addition(input.reviewer, rsrc, reviewers, input.state(), input.notify);
   }
 
   private boolean isValidReviewer(Account member, ChangeControl control) {
@@ -284,8 +289,11 @@ public class PostReviewers
       this(reviewer, null, null, REVIEWER, null);
     }
 
-    protected Addition(String reviewer, ChangeResource rsrc,
-        Map<Account.Id, ChangeControl> reviewers, ReviewerState state,
+    protected Addition(
+        String reviewer,
+        ChangeResource rsrc,
+        Map<Account.Id, ChangeControl> reviewers,
+        ReviewerState state,
         NotifyHandling notify) {
       result = new AddReviewerResult(reviewer);
       if (reviewers == null) {
@@ -303,8 +311,7 @@ public class PostReviewers
       if (migration.readChanges() && op.state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(op.addedCCs.size());
         for (Account.Id accountId : op.addedCCs) {
-          result.ccs.add(
-              json.format(new ReviewerInfo(accountId.get()), reviewers.get(accountId)));
+          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), reviewers.get(accountId)));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
       } else {
@@ -312,9 +319,10 @@ public class PostReviewers
         for (PatchSetApproval psa : op.addedReviewers) {
           // New reviewers have value 0, don't bother normalizing.
           result.reviewers.add(
-            json.format(new ReviewerInfo(psa.getAccountId().get()),
-                reviewers.get(psa.getAccountId()),
-                ImmutableList.of(psa)));
+              json.format(
+                  new ReviewerInfo(psa.getAccountId().get()),
+                  reviewers.get(psa.getAccountId()),
+                  ImmutableList.of(psa)));
         }
         accountLoaderFactory.create(true).fill(result.reviewers);
       }
@@ -331,8 +339,11 @@ public class PostReviewers
     private final ChangeResource rsrc;
     private PatchSet patchSet;
 
-    Op(ChangeResource rsrc, Map<Account.Id, ChangeControl> reviewers,
-        ReviewerState state, NotifyHandling notify) {
+    Op(
+        ChangeResource rsrc,
+        Map<Account.Id, ChangeControl> reviewers,
+        ReviewerState state,
+        NotifyHandling notify) {
       this.rsrc = rsrc;
       this.reviewers = reviewers;
       this.state = state;
@@ -343,17 +354,23 @@ public class PostReviewers
     public boolean updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException {
       if (migration.readChanges() && state == CC) {
-        addedCCs = approvalsUtil.addCcs(ctx.getNotes(),
-            ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-            reviewers.keySet());
+        addedCCs =
+            approvalsUtil.addCcs(
+                ctx.getNotes(),
+                ctx.getUpdate(ctx.getChange().currentPatchSetId()),
+                reviewers.keySet());
         if (addedCCs.isEmpty()) {
           return false;
         }
       } else {
-        addedReviewers = approvalsUtil.addReviewers(ctx.getDb(), ctx.getNotes(),
-            ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-            rsrc.getControl().getLabelTypes(), rsrc.getChange(),
-            reviewers.keySet());
+        addedReviewers =
+            approvalsUtil.addReviewers(
+                ctx.getDb(),
+                ctx.getNotes(),
+                ctx.getUpdate(ctx.getChange().currentPatchSetId()),
+                rsrc.getControl().getLabelTypes(),
+                rsrc.getChange(),
+                reviewers.keySet());
         if (addedReviewers.isEmpty()) {
           return false;
         }
@@ -372,21 +389,27 @@ public class PostReviewers
         if (addedCCs == null) {
           addedCCs = new ArrayList<>();
         }
-        emailReviewers(rsrc.getChange(),
-            Lists.transform(addedReviewers, r -> r.getAccountId()), addedCCs,
+        emailReviewers(
+            rsrc.getChange(),
+            Lists.transform(addedReviewers, r -> r.getAccountId()),
+            addedCCs,
             notify);
         if (!addedReviewers.isEmpty()) {
-          List<Account> reviewers = Lists.transform(addedReviewers,
-              psa -> accountCache.get(psa.getAccountId()).getAccount());
-          reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers,
-              ctx.getAccount(), ctx.getWhen());
+          List<Account> reviewers =
+              Lists.transform(
+                  addedReviewers, psa -> accountCache.get(psa.getAccountId()).getAccount());
+          reviewerAdded.fire(
+              rsrc.getChange(), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
         }
       }
     }
   }
 
-  public void emailReviewers(Change change, Collection<Account.Id> added,
-      Collection<Account.Id> copied, NotifyHandling notify) {
+  public void emailReviewers(
+      Change change,
+      Collection<Account.Id> added,
+      Collection<Account.Id> copied,
+      NotifyHandling notify) {
     if (added.isEmpty() && copied.isEmpty()) {
       return;
     }
@@ -412,15 +435,14 @@ public class PostReviewers
     }
 
     try {
-      AddReviewerSender cm = addReviewerSenderFactory
-          .create(change.getProject(), change.getId(), notify);
+      AddReviewerSender cm =
+          addReviewerSenderFactory.create(change.getProject(), change.getId(), notify);
       cm.setFrom(userId);
       cm.addReviewers(toMail);
       cm.addExtraCC(toCopy);
       cm.send();
     } catch (Exception err) {
-      log.error("Cannot send email to new reviewers of change "
-          + change.getId(), err);
+      log.error("Cannot send email to new reviewers of change " + change.getId(), err);
     }
   }
 

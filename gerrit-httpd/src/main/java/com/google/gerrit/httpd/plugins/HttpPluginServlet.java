@@ -51,12 +51,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.servlet.GuiceFilter;
-
-import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,7 +71,6 @@ import java.util.function.Predicate;
 import java.util.jar.Attributes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -87,14 +80,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-class HttpPluginServlet extends HttpServlet
-    implements StartPluginListener, ReloadPluginListener {
+class HttpPluginServlet extends HttpServlet implements StartPluginListener, ReloadPluginListener {
   private static final int SMALL_RESOURCE = 128 * 1024;
   private static final long serialVersionUID = 1L;
-  private static final Logger log
-      = LoggerFactory.getLogger(HttpPluginServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(HttpPluginServlet.class);
 
   private final MimeUtilFileTypeRegistry mimeUtil;
   private final Provider<String> webUrl;
@@ -105,8 +100,7 @@ class HttpPluginServlet extends HttpServlet
 
   private List<Plugin> pending = new ArrayList<>();
   private ContextMapper wrapper;
-  private final ConcurrentMap<String, PluginHolder> plugins
-      = Maps.newConcurrentMap();
+  private final ConcurrentMap<String, PluginHolder> plugins = Maps.newConcurrentMap();
 
   @Inject
   HttpPluginServlet(
@@ -167,12 +161,13 @@ class HttpPluginServlet extends HttpServlet
     GuiceFilter filter = load(plugin);
     final String name = plugin.getName();
     final PluginHolder holder = new PluginHolder(plugin, filter);
-    plugin.add(new RegistrationHandle() {
-      @Override
-      public void remove() {
-        plugins.remove(name, holder);
-      }
-    });
+    plugin.add(
+        new RegistrationHandle() {
+          @Override
+          public void remove() {
+            plugins.remove(name, holder);
+          }
+        });
     plugins.put(name, holder);
   }
 
@@ -188,20 +183,20 @@ class HttpPluginServlet extends HttpServlet
       }
 
       try {
-        ServletContext ctx =
-            PluginServletContext.create(plugin, wrapper.getFullPath(name));
+        ServletContext ctx = PluginServletContext.create(plugin, wrapper.getFullPath(name));
         filter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
         log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
         return null;
       }
 
-      plugin.add(new RegistrationHandle() {
-        @Override
-        public void remove() {
-          filter.destroy();
-        }
-      });
+      plugin.add(
+          new RegistrationHandle() {
+            @Override
+            public void remove() {
+              filter.destroy();
+            }
+          });
       return filter;
     }
     return null;
@@ -210,9 +205,12 @@ class HttpPluginServlet extends HttpServlet
   @Override
   public void service(HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
-    List<String> parts = Lists.newArrayList(
-      Splitter.on('/').limit(3).omitEmptyStrings()
-        .split(Strings.nullToEmpty(RequestUtil.getEncodedPathInfo(req))));
+    List<String> parts =
+        Lists.newArrayList(
+            Splitter.on('/')
+                .limit(3)
+                .omitEmptyStrings()
+                .split(Strings.nullToEmpty(RequestUtil.getEncodedPathInfo(req))));
 
     if (isApiCall(req, parts)) {
       managerApi.service(req, res);
@@ -228,13 +226,13 @@ class HttpPluginServlet extends HttpServlet
     }
 
     HttpServletRequest wr = wrapper.create(req, name);
-    FilterChain chain = new FilterChain() {
-      @Override
-      public void doFilter(ServletRequest req, ServletResponse res)
-          throws IOException {
-        onDefault(holder, (HttpServletRequest) req, (HttpServletResponse) res);
-      }
-    };
+    FilterChain chain =
+        new FilterChain() {
+          @Override
+          public void doFilter(ServletRequest req, ServletResponse res) throws IOException {
+            onDefault(holder, (HttpServletRequest) req, (HttpServletResponse) res);
+          }
+        };
     if (holder.filter != null) {
       holder.filter.doFilter(wr, res, chain);
     } else {
@@ -250,9 +248,8 @@ class HttpPluginServlet extends HttpServlet
         || (cnt == 2 && parts.get(1).startsWith("gerrit~"));
   }
 
-  private void onDefault(PluginHolder holder,
-      HttpServletRequest req,
-      HttpServletResponse res) throws IOException {
+  private void onDefault(PluginHolder holder, HttpServletRequest req, HttpServletResponse res)
+      throws IOException {
     if (!"GET".equals(req.getMethod()) && !"HEAD".equals(req.getMethod())) {
       CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -296,8 +293,7 @@ class HttpPluginServlet extends HttpServlet
           Resource.NOT_FOUND.send(req, res);
         }
       }
-    } else if (file.equals(
-        holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
+    } else if (file.equals(holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
       res.sendRedirect(uri + "/index.html");
     } else if (file.startsWith(holder.docPrefix) && file.endsWith("/")) {
       res.sendRedirect(uri + "index.html");
@@ -313,15 +309,13 @@ class HttpPluginServlet extends HttpServlet
         if (hasUpToDateCachedResource(rsc, pluginLastModified)) {
           rsc.send(req, res);
         } else {
-          sendAutoIndex(scanner, pfx, holder.plugin.getName(), key, res,
-              pluginLastModified);
+          sendAutoIndex(scanner, pfx, holder.plugin.getName(), key, res, pluginLastModified);
         }
       } else if (entry.isPresent() && entry.get().getName().endsWith(".md")) {
         if (hasUpToDateCachedResource(rsc, entry.get().getTime())) {
           rsc.send(req, res);
         } else {
-          sendMarkdownAsHtml(scanner, entry.get(), holder.plugin.getName(),
-              key, res);
+          sendMarkdownAsHtml(scanner, entry.get(), holder.plugin.getName(), key, res);
         }
       } else if (entry.isPresent()) {
         if (hasUpToDateCachedResource(rsc, entry.get().getTime())) {
@@ -340,13 +334,17 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private boolean hasUpToDateCachedResource(Resource cachedResource, long lastUpdateTime) {
-    return cachedResource != null
-        && cachedResource.isUnchanged(lastUpdateTime);
+    return cachedResource != null && cachedResource.isUnchanged(lastUpdateTime);
   }
 
-  private void appendEntriesSection(PluginContentScanner scanner, List<PluginEntry> entries,
-      String sectionTitle, StringBuilder md, String prefix,
-      int nameOffset) throws IOException {
+  private void appendEntriesSection(
+      PluginContentScanner scanner,
+      List<PluginEntry> entries,
+      String sectionTitle,
+      StringBuilder md,
+      String prefix,
+      int nameOffset)
+      throws IOException {
     if (!entries.isEmpty()) {
       md.append("## ").append(sectionTitle).append(" ##\n");
       for (PluginEntry entry : entries) {
@@ -368,9 +366,13 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private void sendAutoIndex(PluginContentScanner scanner,
-      final String prefix, final String pluginName,
-      PluginResourceKey cacheKey, HttpServletResponse res,long lastModifiedTime)
+  private void sendAutoIndex(
+      PluginContentScanner scanner,
+      final String prefix,
+      final String pluginName,
+      PluginResourceKey cacheKey,
+      HttpServletResponse res,
+      long lastModifiedTime)
       throws IOException {
     List<PluginEntry> cmds = new ArrayList<>();
     List<PluginEntry> servlets = new ArrayList<>();
@@ -386,13 +388,11 @@ class HttpPluginServlet extends HttpServlet
               && (name.endsWith(".md") || name.endsWith(".html"))
               && size.isPresent()) {
             if (size.get() <= 0 || size.get() > SMALL_RESOURCE) {
-              log.warn(String.format(
-                  "Plugin %s: %s omitted from document index. "
-                    + "Size %d out of range (0,%d).",
-                  pluginName,
-                  name.substring(prefix.length()),
-                  size.get(),
-                  SMALL_RESOURCE));
+              log.warn(
+                  String.format(
+                      "Plugin %s: %s omitted from document index. "
+                          + "Size %d out of range (0,%d).",
+                      pluginName, name.substring(prefix.length()), size.get(), SMALL_RESOURCE));
               return false;
             }
             return true;
@@ -400,9 +400,9 @@ class HttpPluginServlet extends HttpServlet
           return false;
         };
 
-    List<PluginEntry> entries = Collections.list(scanner.entries()).stream()
-        .filter(filter).collect(toList());
-    for (PluginEntry entry: entries) {
+    List<PluginEntry> entries =
+        Collections.list(scanner.entries()).stream().filter(filter).collect(toList());
+    for (PluginEntry entry : entries) {
       String name = entry.getName().substring(prefix.length());
       if (name.startsWith("cmd-")) {
         cmds.add(entry);
@@ -414,10 +414,10 @@ class HttpPluginServlet extends HttpServlet
         if (about == null) {
           about = entry;
         } else {
-          log.warn(String.format(
-              "Plugin %s: Multiple 'about' documents found; using %s",
-              pluginName,
-              about.getName().substring(prefix.length())));
+          log.warn(
+              String.format(
+                  "Plugin %s: Multiple 'about' documents found; using %s",
+                  pluginName, about.getName().substring(prefix.length())));
         }
       } else {
         docs.add(entry);
@@ -462,8 +462,12 @@ class HttpPluginServlet extends HttpServlet
     sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res, lastModifiedTime);
   }
 
-  private void sendMarkdownAsHtml(String md, String pluginName,
-      PluginResourceKey cacheKey, HttpServletResponse res, long lastModifiedTime)
+  private void sendMarkdownAsHtml(
+      String md,
+      String pluginName,
+      PluginResourceKey cacheKey,
+      HttpServletResponse res,
+      long lastModifiedTime)
       throws UnsupportedEncodingException, IOException {
     Map<String, String> macros = new HashMap<>();
     macros.put("PLUGIN", pluginName);
@@ -490,12 +494,13 @@ class HttpPluginServlet extends HttpServlet
     }
     m.appendTail(sb);
 
-    byte[] html = new MarkdownFormatter()
-      .markdownToDocHtml(sb.toString(), UTF_8.name());
-    resourceCache.put(cacheKey, new SmallResource(html)
-        .setContentType("text/html")
-        .setCharacterEncoding(UTF_8.name())
-        .setLastModified(lastModifiedTime));
+    byte[] html = new MarkdownFormatter().markdownToDocHtml(sb.toString(), UTF_8.name());
+    resourceCache.put(
+        cacheKey,
+        new SmallResource(html)
+            .setContentType("text/html")
+            .setCharacterEncoding(UTF_8.name())
+            .setLastModified(lastModifiedTime));
     res.setContentType("text/html");
     res.setCharacterEncoding(UTF_8.name());
     res.setContentLength(html.length);
@@ -512,31 +517,23 @@ class HttpPluginServlet extends HttpServlet
 
       html.append("<table class=\"plugin_info\">");
       if (!Strings.isNullOrEmpty(t)) {
-        html.append("<tr><th>Name</th><td>")
-            .append(t)
-            .append("</td></tr>\n");
+        html.append("<tr><th>Name</th><td>").append(t).append("</td></tr>\n");
       }
       if (!Strings.isNullOrEmpty(n)) {
-        html.append("<tr><th>Vendor</th><td>")
-            .append(n)
-            .append("</td></tr>\n");
+        html.append("<tr><th>Vendor</th><td>").append(n).append("</td></tr>\n");
       }
       if (!Strings.isNullOrEmpty(v)) {
-        html.append("<tr><th>Version</th><td>")
-            .append(v)
-            .append("</td></tr>\n");
+        html.append("<tr><th>Version</th><td>").append(v).append("</td></tr>\n");
       }
       if (!Strings.isNullOrEmpty(a)) {
-        html.append("<tr><th>API Version</th><td>")
-            .append(a)
-            .append("</td></tr>\n");
+        html.append("<tr><th>API Version</th><td>").append(a).append("</td></tr>\n");
       }
       html.append("</table>\n");
     }
   }
 
   private static String extractTitleFromMarkdown(PluginContentScanner scanner, PluginEntry entry)
-        throws IOException {
+      throws IOException {
     String charEnc = null;
     Map<Object, String> atts = entry.getAttrs();
     if (atts != null) {
@@ -545,13 +542,12 @@ class HttpPluginServlet extends HttpServlet
     if (charEnc == null) {
       charEnc = UTF_8.name();
     }
-    return new MarkdownFormatter().extractTitleFromMarkdown(
-          readWholeEntry(scanner, entry),
-          charEnc);
+    return new MarkdownFormatter()
+        .extractTitleFromMarkdown(readWholeEntry(scanner, entry), charEnc);
   }
 
-  private static Optional<PluginEntry> findSource(
-      PluginContentScanner scanner, String file) throws IOException {
+  private static Optional<PluginEntry> findSource(PluginContentScanner scanner, String file)
+      throws IOException {
     if (file.endsWith(".html")) {
       int d = file.lastIndexOf('.');
       return scanner.getEntry(file.substring(0, d) + ".md");
@@ -559,8 +555,12 @@ class HttpPluginServlet extends HttpServlet
     return Optional.empty();
   }
 
-  private void sendMarkdownAsHtml(PluginContentScanner scanner, PluginEntry entry,
-      String pluginName, PluginResourceKey key, HttpServletResponse res)
+  private void sendMarkdownAsHtml(
+      PluginContentScanner scanner,
+      PluginEntry entry,
+      String pluginName,
+      PluginResourceKey key,
+      HttpServletResponse res)
       throws IOException {
     byte[] rawmd = readWholeEntry(scanner, entry);
     String encoding = null;
@@ -569,9 +569,8 @@ class HttpPluginServlet extends HttpServlet
       encoding = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
     }
 
-    String txtmd = RawParseUtils.decode(
-        Charset.forName(encoding != null ? encoding : UTF_8.name()),
-        rawmd);
+    String txtmd =
+        RawParseUtils.decode(Charset.forName(encoding != null ? encoding : UTF_8.name()), rawmd);
     long time = entry.getTime();
     if (0 < time) {
       res.setDateHeader("Last-Modified", time);
@@ -579,8 +578,11 @@ class HttpPluginServlet extends HttpServlet
     sendMarkdownAsHtml(txtmd, pluginName, key, res, time);
   }
 
-  private void sendResource(PluginContentScanner scanner, PluginEntry entry,
-      PluginResourceKey key, HttpServletResponse res)
+  private void sendResource(
+      PluginContentScanner scanner,
+      PluginEntry entry,
+      PluginResourceKey key,
+      HttpServletResponse res)
       throws IOException {
     byte[] data = null;
     Optional<Long> size = entry.getSize();
@@ -597,8 +599,7 @@ class HttpPluginServlet extends HttpServlet
     }
     if (contentType == null) {
       contentType = mimeUtil.getMimeType(entry.getName(), data).toString();
-      if ("application/octet-stream".equals(contentType)
-          && entry.getName().endsWith(".js")) {
+      if ("application/octet-stream".equals(contentType) && entry.getName().endsWith(".js")) {
         contentType = "application/javascript";
       } else if ("application/x-pointplus".equals(contentType)
           && entry.getName().endsWith(".css")) {
@@ -618,21 +619,23 @@ class HttpPluginServlet extends HttpServlet
       res.setCharacterEncoding(charEnc);
     }
     if (data != null) {
-      resourceCache.put(key, new SmallResource(data)
-          .setContentType(contentType)
-          .setCharacterEncoding(charEnc)
-          .setLastModified(time));
+      resourceCache.put(
+          key,
+          new SmallResource(data)
+              .setContentType(contentType)
+              .setCharacterEncoding(charEnc)
+              .setLastModified(time));
       res.getOutputStream().write(data);
     } else {
       writeToResponse(res, scanner.getInputStream(entry));
     }
   }
 
-  private void sendJsPlugin(Plugin plugin, PluginResourceKey key,
-      HttpServletRequest req, HttpServletResponse res) throws IOException {
+  private void sendJsPlugin(
+      Plugin plugin, PluginResourceKey key, HttpServletRequest req, HttpServletResponse res)
+      throws IOException {
     Path path = plugin.getSrcFile();
-    if (req.getRequestURI().endsWith(getJsPluginPath(plugin))
-        && Files.exists(path)) {
+    if (req.getRequestURI().endsWith(getJsPluginPath(plugin)) && Files.exists(path)) {
       res.setHeader("Content-Length", Long.toString(Files.size(path)));
       res.setContentType("application/javascript");
       writeToResponse(res, Files.newInputStream(path));
@@ -643,8 +646,8 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private static String getJsPluginPath(Plugin plugin) {
-    return String.format("/plugins/%s/static/%s", plugin.getName(),
-        plugin.getSrcFile().getFileName());
+    return String.format(
+        "/plugins/%s/static/%s", plugin.getName(), plugin.getSrcFile().getFileName());
   }
 
   private void writeToResponse(HttpServletResponse res, InputStream inputStream)
@@ -671,10 +674,8 @@ class HttpPluginServlet extends HttpServlet
     PluginHolder(Plugin plugin, GuiceFilter filter) {
       this.plugin = plugin;
       this.filter = filter;
-      this.staticPrefix =
-        getPrefix(plugin, "Gerrit-HttpStaticPrefix", "static/");
-      this.docPrefix =
-        getPrefix(plugin, "Gerrit-HttpDocumentationPrefix", "Documentation/");
+      this.staticPrefix = getPrefix(plugin, "Gerrit-HttpStaticPrefix", "static/");
+      this.docPrefix = getPrefix(plugin, "Gerrit-HttpDocumentationPrefix", "Documentation/");
     }
 
     private static String getPrefix(Plugin plugin, String attr, String def) {
@@ -684,15 +685,15 @@ class HttpPluginServlet extends HttpServlet
         return def;
       }
       try {
-        String prefix =
-            scanner.getManifest().getMainAttributes().getValue(attr);
+        String prefix = scanner.getManifest().getMainAttributes().getValue(attr);
         if (prefix != null) {
           return CharMatcher.is('/').trimFrom(prefix) + "/";
         }
         return def;
       } catch (IOException e) {
-        log.warn(String.format("Error getting %s for plugin %s, using default",
-            attr, plugin.getName()), e);
+        log.warn(
+            String.format("Error getting %s for plugin %s, using default", attr, plugin.getName()),
+            e);
         return null;
       }
     }

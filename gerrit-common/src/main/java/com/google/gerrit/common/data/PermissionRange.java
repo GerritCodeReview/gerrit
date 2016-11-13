@@ -22,8 +22,7 @@ public class PermissionRange implements Comparable<PermissionRange> {
     protected int defaultMin;
     protected int defaultMax;
 
-    protected WithDefaults() {
-    }
+    protected WithDefaults() {}
 
     public WithDefaults(String name, int min, int max, int defMin, int defMax) {
       super(name, min, max);
@@ -62,8 +61,7 @@ public class PermissionRange implements Comparable<PermissionRange> {
   protected int min;
   protected int max;
 
-  protected PermissionRange() {
-  }
+  protected PermissionRange() {}
 
   public PermissionRange(String name, int min, int max) {
     this.name = name;

@@ -58,7 +58,14 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -74,31 +81,18 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * Checks changes for various kinds of inconsistency and corruption.
- * <p>
- * A single instance may be reused for checking multiple changes, but not
- * concurrently.
+ *
+ * <p>A single instance may be reused for checking multiple changes, but not concurrently.
  */
 public class ConsistencyChecker {
-  private static final Logger log =
-      LoggerFactory.getLogger(ConsistencyChecker.class);
+  private static final Logger log = LoggerFactory.getLogger(ConsistencyChecker.class);
 
   @AutoValue
   public abstract static class Result {
-    private static Result create(ChangeControl ctl,
-        List<ProblemInfo> problems) {
-      return new AutoValue_ConsistencyChecker_Result(
-          ctl.getId(), ctl.getChange(), problems);
+    private static Result create(ChangeControl ctl, List<ProblemInfo> problems) {
+      return new AutoValue_ConsistencyChecker_Result(ctl.getId(), ctl.getChange(), problems);
     }
 
     public abstract Change.Id id();
@@ -217,8 +211,8 @@ public class ConsistencyChecker {
     try {
       currPs = psUtil.current(db.get(), ctl.getNotes());
       if (currPs == null) {
-        problem(String.format("Current patch set %d not found",
-              change().currentPatchSetId().get()));
+        problem(
+            String.format("Current patch set %d not found", change().currentPatchSetId().get()));
       }
     } catch (OrmException e) {
       error("Failed to look up current patch set", e);
@@ -246,16 +240,13 @@ public class ConsistencyChecker {
     } catch (OrmException e) {
       return error("Failed to look up patch sets", e);
     }
-    patchSetsBySha = MultimapBuilder.hashKeys(all.size())
-        .treeSetValues(PS_ID_ORDER)
-        .build();
+    patchSetsBySha = MultimapBuilder.hashKeys(all.size()).treeSetValues(PS_ID_ORDER).build();
 
     Map<String, Ref> refs;
     try {
-      refs = repo.getRefDatabase().exactRef(
-          all.stream()
-              .map(ps -> ps.getId().toRefName())
-              .toArray(String[]::new));
+      refs =
+          repo.getRefDatabase()
+              .exactRef(all.stream().map(ps -> ps.getId().toRefName()).toArray(String[]::new));
     } catch (IOException e) {
       error("error reading refs", e);
       refs = Collections.emptyMap();
@@ -266,8 +257,7 @@ public class ConsistencyChecker {
       // Check revision format.
       int psNum = ps.getId().get();
       String refName = ps.getId().toRefName();
-      ObjectId objId =
-          parseObjectId(ps.getRevision().get(), "patch set " + psNum);
+      ObjectId objId = parseObjectId(ps.getRevision().get(), "patch set " + psNum);
       if (objId == null) {
         continue;
       }
@@ -279,21 +269,18 @@ public class ConsistencyChecker {
       if (ref == null) {
         refProblem = problem("Ref missing: " + refName);
       } else if (!objId.equals(ref.getObjectId())) {
-        String actual = ref.getObjectId() != null
-            ? ref.getObjectId().name()
-            : "null";
-        refProblem = problem(String.format(
-            "Expected %s to point to %s, found %s",
-            ref.getName(), objId.name(), actual));
+        String actual = ref.getObjectId() != null ? ref.getObjectId().name() : "null";
+        refProblem =
+            problem(
+                String.format(
+                    "Expected %s to point to %s, found %s", ref.getName(), objId.name(), actual));
       }
 
       // Check object existence.
-      RevCommit psCommit = parseCommit(
-          objId, String.format("patch set %d", psNum));
+      RevCommit psCommit = parseCommit(objId, String.format("patch set %d", psNum));
       if (psCommit == null) {
         if (fix != null && fix.deletePatchSetIfCommitMissing) {
-          deletePatchSetOps.add(
-              new DeletePatchSetFromDbOp(lastProblem(), ps.getId()));
+          deletePatchSetOps.add(new DeletePatchSetFromDbOp(lastProblem(), ps.getId()));
         }
         continue;
       } else if (refProblem != null && fix != null) {
@@ -308,12 +295,12 @@ public class ConsistencyChecker {
     deletePatchSets(deletePatchSetOps);
 
     // Check for duplicates.
-    for (Map.Entry<ObjectId, Collection<PatchSet>> e
-        : patchSetsBySha.asMap().entrySet()) {
+    for (Map.Entry<ObjectId, Collection<PatchSet>> e : patchSetsBySha.asMap().entrySet()) {
       if (e.getValue().size() > 1) {
-        problem(String.format("Multiple patch sets pointing to %s: %s",
-            e.getKey().name(),
-            Collections2.transform(e.getValue(), PatchSet::getPatchSetId)));
+        problem(
+            String.format(
+                "Multiple patch sets pointing to %s: %s",
+                e.getKey().name(), Collections2.transform(e.getValue(), PatchSet::getPatchSetId)));
       }
     }
 
@@ -333,8 +320,7 @@ public class ConsistencyChecker {
       problem("Destination ref not found (may be new branch): " + refName);
       return;
     }
-    tip = parseCommit(dest.getObjectId(),
-        "destination ref " + refName);
+    tip = parseCommit(dest.getObjectId(), "destination ref " + refName);
     if (tip == null) {
       return;
     }
@@ -346,8 +332,7 @@ public class ConsistencyChecker {
       try {
         merged = rw.isMergedInto(currPsCommit, tip);
       } catch (IOException e) {
-        problem("Error checking whether patch set " + currPs.getId().get()
-            + " is merged");
+        problem("Error checking whether patch set " + currPs.getId().get() + " is merged");
         return;
       }
       checkMergedBitMatchesStatus(currPs.getId(), currPsCommit, merged);
@@ -356,14 +341,14 @@ public class ConsistencyChecker {
 
   private ProblemInfo wrongChangeStatus(PatchSet.Id psId, RevCommit commit) {
     String refName = change().getDest().get();
-    return problem(String.format(
-        "Patch set %d (%s) is merged into destination ref %s (%s), but change"
-        + " status is %s", psId.get(), commit.name(),
-        refName, tip.name(), change().getStatus()));
+    return problem(
+        String.format(
+            "Patch set %d (%s) is merged into destination ref %s (%s), but change"
+                + " status is %s",
+            psId.get(), commit.name(), refName, tip.name(), change().getStatus()));
   }
 
-  private void checkMergedBitMatchesStatus(PatchSet.Id psId, RevCommit commit,
-      boolean merged) {
+  private void checkMergedBitMatchesStatus(PatchSet.Id psId, RevCommit commit, boolean merged) {
     String refName = change().getDest().get();
     if (merged && change().getStatus() != Change.Status.MERGED) {
       ProblemInfo p = wrongChangeStatus(psId, commit);
@@ -371,16 +356,16 @@ public class ConsistencyChecker {
         fixMerged(p);
       }
     } else if (!merged && change().getStatus() == Change.Status.MERGED) {
-      problem(String.format("Patch set %d (%s) is not merged into"
-            + " destination ref %s (%s), but change status is %s",
-            currPs.getId().get(), commit.name(), refName, tip.name(),
-            change().getStatus()));
+      problem(
+          String.format(
+              "Patch set %d (%s) is not merged into"
+                  + " destination ref %s (%s), but change status is %s",
+              currPs.getId().get(), commit.name(), refName, tip.name(), change().getStatus()));
     }
   }
 
   private void checkExpectMergedAs() {
-    ObjectId objId =
-        parseObjectId(fix.expectMergedAs, "expected merged commit");
+    ObjectId objId = parseObjectId(fix.expectMergedAs, "expected merged commit");
     RevCommit commit = parseCommit(objId, "expected merged commit");
     if (commit == null) {
       return;
@@ -388,9 +373,10 @@ public class ConsistencyChecker {
 
     try {
       if (!rw.isMergedInto(commit, tip)) {
-        problem(String.format("Expected merged commit %s is not merged into"
-              + " destination ref %s (%s)",
-              commit.name(), change().getDest().get(), tip.name()));
+        problem(
+            String.format(
+                "Expected merged commit %s is not merged into" + " destination ref %s (%s)",
+                commit.name(), change().getDest().get(), tip.name()));
         return;
       }
 
@@ -404,8 +390,10 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c = notesFactory.createChecked(
-              db.get(), change().getProject(), psId.getParentKey()).getChange();
+          Change c =
+              notesFactory
+                  .createChecked(db.get(), change().getProject(), psId.getParentKey())
+                  .getChange();
           if (!c.getDest().equals(change().getDest())) {
             continue;
           }
@@ -419,13 +407,14 @@ public class ConsistencyChecker {
         case 0:
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
-          String changeId = Iterables.getFirst(
-              commit.getFooterLines(FooterConstants.CHANGE_ID), null);
+          String changeId =
+              Iterables.getFirst(commit.getFooterLines(FooterConstants.CHANGE_ID), null);
           // Missing Change-Id footer is ok, but mismatched is not.
           if (changeId != null && !changeId.equals(change().getKey().get())) {
-            problem(String.format("Expected merged commit %s has Change-Id: %s,"
-                  + " but expected %s",
-                  commit.name(), changeId, change().getKey().get()));
+            problem(
+                String.format(
+                    "Expected merged commit %s has Change-Id: %s," + " but expected %s",
+                    commit.name(), changeId, change().getKey().get()));
             return;
           }
           insertMergedPatchSet(commit, null, false);
@@ -449,41 +438,40 @@ public class ConsistencyChecker {
           break;
 
         default:
-          problem(String.format(
-                "Multiple patch sets for expected merged commit %s: %s",
-                commit.name(), intKeyOrdering().sortedCopy(thisCommitPsIds)));
+          problem(
+              String.format(
+                  "Multiple patch sets for expected merged commit %s: %s",
+                  commit.name(), intKeyOrdering().sortedCopy(thisCommitPsIds)));
           break;
       }
     } catch (IOException e) {
-      error("Error looking up expected merged commit " + fix.expectMergedAs,
-          e);
+      error("Error looking up expected merged commit " + fix.expectMergedAs, e);
     }
   }
 
-  private void insertMergedPatchSet(final RevCommit commit,
-      final @Nullable PatchSet.Id psIdToDelete, boolean reuseOldPsId) {
-    ProblemInfo notFound =
-        problem("No patch set found for merged commit " + commit.name());
+  private void insertMergedPatchSet(
+      final RevCommit commit, final @Nullable PatchSet.Id psIdToDelete, boolean reuseOldPsId) {
+    ProblemInfo notFound = problem("No patch set found for merged commit " + commit.name());
     if (!user.get().isIdentifiedUser()) {
       notFound.status = Status.FIX_FAILED;
-      notFound.outcome =
-          "Must be called by an identified user to insert new patch set";
+      notFound.outcome = "Must be called by an identified user to insert new patch set";
       return;
     }
     ProblemInfo insertPatchSetProblem;
     ProblemInfo deleteOldPatchSetProblem;
 
     if (psIdToDelete == null) {
-      insertPatchSetProblem = problem(String.format(
-          "Expected merged commit %s has no associated patch set",
-          commit.name()));
+      insertPatchSetProblem =
+          problem(
+              String.format(
+                  "Expected merged commit %s has no associated patch set", commit.name()));
       deleteOldPatchSetProblem = null;
     } else {
-      String msg = String.format(
-          "Expected merge commit %s corresponds to patch set %s,"
-              + " not the current patch set %s",
-          commit.name(), psIdToDelete.get(),
-          change().currentPatchSetId().get());
+      String msg =
+          String.format(
+              "Expected merge commit %s corresponds to patch set %s,"
+                  + " not the current patch set %s",
+              commit.name(), psIdToDelete.get(), change().currentPatchSetId().get());
       // Maybe an identical problem, but different fix.
       deleteOldPatchSetProblem = reuseOldPsId ? null : problem(msg);
       insertPatchSetProblem = problem(msg);
@@ -497,11 +485,11 @@ public class ConsistencyChecker {
     currProblems.add(insertPatchSetProblem);
 
     try {
-      PatchSet.Id psId = (psIdToDelete != null && reuseOldPsId)
-          ? psIdToDelete
-          : ChangeUtil.nextPatchSetId(repo, change().currentPatchSetId());
-      PatchSetInserter inserter =
-          patchSetInserterFactory.create(ctl, psId, commit);
+      PatchSet.Id psId =
+          (psIdToDelete != null && reuseOldPsId)
+              ? psIdToDelete
+              : ChangeUtil.nextPatchSetId(repo, change().currentPatchSetId());
+      PatchSetInserter inserter = patchSetInserterFactory.create(ctl, psId, commit);
       try (BatchUpdate bu = newBatchUpdate();
           ObjectInserter oi = repo.newObjectInserter()) {
         bu.setRepository(repo, rw, oi);
@@ -509,35 +497,41 @@ public class ConsistencyChecker {
         if (psIdToDelete != null) {
           // Delete the given patch set ref. If reuseOldPsId is true,
           // PatchSetInserter will reinsert the same ref, making it a no-op.
-          bu.addOp(ctl.getId(), new BatchUpdate.Op() {
-            @Override
-            public void updateRepo(RepoContext ctx) throws IOException {
-              ctx.addRefUpdate(new ReceiveCommand(
-                  commit, ObjectId.zeroId(), psIdToDelete.toRefName()));
-            }
-          });
+          bu.addOp(
+              ctl.getId(),
+              new BatchUpdate.Op() {
+                @Override
+                public void updateRepo(RepoContext ctx) throws IOException {
+                  ctx.addRefUpdate(
+                      new ReceiveCommand(commit, ObjectId.zeroId(), psIdToDelete.toRefName()));
+                }
+              });
           if (!reuseOldPsId) {
-            bu.addOp(ctl.getId(), new DeletePatchSetFromDbOp(
-                checkNotNull(deleteOldPatchSetProblem), psIdToDelete));
+            bu.addOp(
+                ctl.getId(),
+                new DeletePatchSetFromDbOp(checkNotNull(deleteOldPatchSetProblem), psIdToDelete));
           }
         }
 
-        bu.addOp(ctl.getId(), inserter
-            .setValidatePolicy(CommitValidators.Policy.NONE)
-            .setFireRevisionCreated(false)
-            .setNotify(NotifyHandling.NONE)
-            .setAllowClosed(true)
-            .setMessage(
-                "Patch set for merged commit inserted by consistency checker"));
+        bu.addOp(
+            ctl.getId(),
+            inserter
+                .setValidatePolicy(CommitValidators.Policy.NONE)
+                .setFireRevisionCreated(false)
+                .setNotify(NotifyHandling.NONE)
+                .setAllowClosed(true)
+                .setMessage("Patch set for merged commit inserted by consistency checker"));
         bu.addOp(ctl.getId(), new FixMergedOp(notFound));
         bu.execute();
       }
-      ctl = changeControlFactory.controlFor(
-          db.get(), inserter.getChange(), ctl.getUser());
+      ctl = changeControlFactory.controlFor(db.get(), inserter.getChange(), ctl.getUser());
       insertPatchSetProblem.status = Status.FIXED;
       insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
-    } catch (OrmException | IOException | NoSuchChangeException
-        | UpdateException | RestApiException e) {
+    } catch (OrmException
+        | IOException
+        | NoSuchChangeException
+        | UpdateException
+        | RestApiException e) {
       warn(e);
       for (ProblemInfo pi : currProblems) {
         pi.status = Status.FIX_FAILED;
@@ -557,8 +551,7 @@ public class ConsistencyChecker {
     @Override
     public boolean updateChange(ChangeContext ctx) throws OrmException {
       ctx.getChange().setStatus(Change.Status.MERGED);
-      ctx.getUpdate(ctx.getChange().currentPatchSetId())
-        .fixStatus(Change.Status.MERGED);
+      ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
       p.status = Status.FIXED;
       p.outcome = "Marked change as merged";
       return true;
@@ -579,8 +572,7 @@ public class ConsistencyChecker {
   }
 
   private BatchUpdate newBatchUpdate() {
-    return updateFactory.create(
-        db.get(), change().getProject(), ctl.getUser(), TimeUtil.nowTs());
+    return updateFactory.create(db.get(), change().getProject(), ctl.getUser(), TimeUtil.nowTs());
   }
 
   private void fixPatchSetRef(ProblemInfo p, PatchSet ps) {
@@ -660,12 +652,9 @@ public class ConsistencyChecker {
       // Delete dangling key references.
       ReviewDb db = DeleteChangeOp.unwrap(ctx.getDb());
       accountPatchReviewStore.get().clearReviewed(psId);
-      db.changeMessages().delete(
-          db.changeMessages().byChange(psId.getParentKey()));
-      db.patchSetApprovals().delete(
-          db.patchSetApprovals().byPatchSet(psId));
-      db.patchComments().delete(
-          db.patchComments().byPatchSet(psId));
+      db.changeMessages().delete(db.changeMessages().byChange(psId.getParentKey()));
+      db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
+      db.patchComments().delete(db.patchComments().byPatchSet(psId));
       db.patchSets().deleteKeys(Collections.singleton(psId));
 
       // NoteDb requires no additional fiddling; setting the state to deleted is
@@ -678,8 +667,7 @@ public class ConsistencyChecker {
     }
   }
 
-  private static class NoPatchSetsWouldRemainException
-      extends RestApiException {
+  private static class NoPatchSetsWouldRemainException extends RestApiException {
     private static final long serialVersionUID = 1L;
 
     private NoPatchSetsWouldRemainException() {
@@ -699,8 +687,7 @@ public class ConsistencyChecker {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, PatchSetInfoNotAvailableException,
-        NoPatchSetsWouldRemainException {
+        throws OrmException, PatchSetInfoNotAvailableException, NoPatchSetsWouldRemainException {
       if (!toDelete.contains(ctx.getChange().currentPatchSetId())) {
         return false;
       }
@@ -717,8 +704,8 @@ public class ConsistencyChecker {
         throw new NoPatchSetsWouldRemainException();
       }
       PatchSet.Id latest = ReviewDbUtil.intKeyOrdering().max(all);
-      ctx.getChange().setCurrentPatchSet(
-          patchSetInfoFactory.get(ctx.getDb(), ctx.getNotes(), latest));
+      ctx.getChange()
+          .setCurrentPatchSet(patchSetInfoFactory.get(ctx.getDb(), ctx.getNotes(), latest));
       return true;
     }
   }

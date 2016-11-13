@@ -17,10 +17,8 @@ package com.google.gerrit.httpd.plugins;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
-
-import org.junit.Test;
-
 import javax.servlet.http.HttpServletRequest;
+import org.junit.Test;
 
 public class ContextMapperTest {
 
@@ -35,11 +33,9 @@ public class ContextMapperTest {
     HttpServletRequest originalRequest =
         createFakeRequest("/plugins/", PLUGIN_NAME + "/" + RESOURCE);
 
-    HttpServletRequest result =
-        classUnderTest.create(originalRequest, PLUGIN_NAME);
+    HttpServletRequest result = classUnderTest.create(originalRequest, PLUGIN_NAME);
 
-    assertThat(result.getContextPath())
-        .isEqualTo(CONTEXT + "/plugins/" + PLUGIN_NAME);
+    assertThat(result.getContextPath()).isEqualTo(CONTEXT + "/plugins/" + PLUGIN_NAME);
     assertThat(result.getServletPath()).isEqualTo("");
     assertThat(result.getPathInfo()).isEqualTo("/" + RESOURCE);
     assertThat(result.getRequestURI())
@@ -53,20 +49,17 @@ public class ContextMapperTest {
     HttpServletRequest originalRequest =
         createFakeRequest("/a/plugins/", PLUGIN_NAME + "/" + RESOURCE);
 
-    HttpServletRequest result =
-        classUnderTest.create(originalRequest, PLUGIN_NAME);
+    HttpServletRequest result = classUnderTest.create(originalRequest, PLUGIN_NAME);
 
-    assertThat(result.getContextPath())
-        .isEqualTo(CONTEXT + "/a/plugins/" + PLUGIN_NAME);
+    assertThat(result.getContextPath()).isEqualTo(CONTEXT + "/a/plugins/" + PLUGIN_NAME);
     assertThat(result.getServletPath()).isEqualTo("");
     assertThat(result.getPathInfo()).isEqualTo("/" + RESOURCE);
     assertThat(result.getRequestURI())
         .isEqualTo(CONTEXT + "/a/plugins/" + PLUGIN_NAME + "/" + RESOURCE);
   }
 
-  private static FakeHttpServletRequest createFakeRequest(String servletPath,
-      String pathInfo) {
-    return new FakeHttpServletRequest(
-        "gerrit.example.com", 80, CONTEXT, servletPath).setPathInfo(pathInfo);
+  private static FakeHttpServletRequest createFakeRequest(String servletPath, String pathInfo) {
+    return new FakeHttpServletRequest("gerrit.example.com", 80, CONTEXT, servletPath)
+        .setPathInfo(pathInfo);
   }
 }

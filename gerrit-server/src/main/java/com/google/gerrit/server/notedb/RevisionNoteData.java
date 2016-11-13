@@ -15,11 +15,11 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.reviewdb.client.Comment;
-
 import java.util.List;
 
 /**
  * Holds the raw data of a RevisionNote.
+ *
  * <p>It is intended for (de)serialization to JSON only.
  */
 class RevisionNoteData {

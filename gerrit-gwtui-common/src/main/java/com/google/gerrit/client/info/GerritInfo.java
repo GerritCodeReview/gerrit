@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +39,21 @@ public class GerritInfo extends JavaScriptObject {
   }
 
   public final native String allProjects() /*-{ return this.all_projects; }-*/;
+
   public final native String allUsers() /*-{ return this.all_users; }-*/;
+
   public final native boolean docSearch() /*-{ return this.doc_search; }-*/;
+
   public final native String docUrl() /*-{ return this.doc_url; }-*/;
+
   public final native boolean editGpgKeys() /*-{ return this.edit_gpg_keys || false; }-*/;
+
   public final native String reportBugUrl() /*-{ return this.report_bug_url; }-*/;
+
   public final native String reportBugText() /*-{ return this.report_bug_text; }-*/;
 
   private native JsArrayString _webUis() /*-{ return this.web_uis; }-*/;
+
   public final List<UiType> webUis() {
     JsArrayString webUis = _webUis();
     List<UiType> result = new ArrayList<>(webUis.length());
@@ -60,6 +66,5 @@ public class GerritInfo extends JavaScriptObject {
     return result;
   }
 
-  protected GerritInfo() {
-  }
+  protected GerritInfo() {}
 }

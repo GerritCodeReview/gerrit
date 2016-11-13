@@ -54,20 +54,16 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class DeleteReviewer
-    implements RestModifyView<ReviewerResource, DeleteReviewerInput> {
-  private static final Logger log = LoggerFactory
-      .getLogger(DeleteReviewer.class);
+public class DeleteReviewer implements RestModifyView<ReviewerResource, DeleteReviewerInput> {
+  private static final Logger log = LoggerFactory.getLogger(DeleteReviewer.class);
 
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
@@ -81,7 +77,8 @@ public class DeleteReviewer
   private final NotesMigration migration;
 
   @Inject
-  DeleteReviewer(Provider<ReviewDb> dbProvider,
+  DeleteReviewer(
+      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
@@ -113,9 +110,12 @@ public class DeleteReviewer
       input.notify = NotifyHandling.ALL;
     }
 
-    try (BatchUpdate bu = batchUpdateFactory.create(dbProvider.get(),
-        rsrc.getChangeResource().getProject(),
-        rsrc.getChangeResource().getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            dbProvider.get(),
+            rsrc.getChangeResource().getProject(),
+            rsrc.getChangeResource().getUser(),
+            TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getReviewerUser().getAccount(), input);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -143,8 +143,7 @@ public class DeleteReviewer
     public boolean updateChange(ChangeContext ctx)
         throws AuthException, ResourceNotFoundException, OrmException {
       Account.Id reviewerId = reviewer.getId();
-      if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all()
-          .contains(reviewerId)) {
+      if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all().contains(reviewerId)) {
         throw new ResourceNotFoundException();
       }
       currChange = ctx.getChange();
@@ -166,8 +165,11 @@ public class DeleteReviewer
           del.add(a);
           if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
             oldApprovals.put(a.getLabel(), a.getValue());
-            removedVotesMsg.append("* ").append(a.getLabel())
-                .append(formatLabelValue(a.getValue())).append(" by ")
+            removedVotesMsg
+                .append("* ")
+                .append(a.getLabel())
+                .append(formatLabelValue(a.getValue()))
+                .append(" by ")
                 .append(userFactory.create(a.getAccountId()).getNameEmail())
                 .append("\n");
             votesRemoved = true;
@@ -189,8 +191,9 @@ public class DeleteReviewer
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 
-      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
-          ChangeMessagesUtil.TAG_DELETE_REVIEWER);
+      changeMessage =
+          ChangeMessagesUtil.newMessage(
+              ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
       cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
 
       return true;
@@ -201,22 +204,25 @@ public class DeleteReviewer
       if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
         emailReviewers(ctx.getProject(), currChange, del, changeMessage);
       }
-      reviewerDeleted.fire(currChange, currPs, reviewer,
+      reviewerDeleted.fire(
+          currChange,
+          currPs,
+          reviewer,
           ctx.getAccount(),
           changeMessage.getMessage(),
-          newApprovals, oldApprovals,
+          newApprovals,
+          oldApprovals,
           input.notify,
           ctx.getWhen());
     }
 
-    private Iterable<PatchSetApproval> approvals(ChangeContext ctx,
-        Account.Id accountId) throws OrmException {
+    private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId)
+        throws OrmException {
       Change.Id changeId = ctx.getNotes().getChangeId();
       Iterable<PatchSetApproval> approvals;
       PrimaryStorage r = PrimaryStorage.of(ctx.getChange());
 
-      if (migration.readChanges()
-          && r == PrimaryStorage.REVIEW_DB) {
+      if (migration.readChanges() && r == PrimaryStorage.REVIEW_DB) {
         // Because NoteDb and ReviewDb have different semantics for zero-value
         // approvals, we must fall back to ReviewDb as the source of truth here.
         ReviewDb db = ctx.getDb();
@@ -227,12 +233,10 @@ public class DeleteReviewer
         db = ReviewDbUtil.unwrapDb(db);
         approvals = db.patchSetApprovals().byChange(changeId);
       } else {
-        approvals =
-            approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
+        approvals = approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
       }
 
-      return Iterables.filter(
-          approvals, psa -> accountId.equals(psa.getAccountId()));
+      return Iterables.filter(approvals, psa -> accountId.equals(psa.getAccountId()));
     }
 
     private String formatLabelValue(short value) {
@@ -242,8 +246,11 @@ public class DeleteReviewer
       return Short.toString(value);
     }
 
-    private void emailReviewers(Project.NameKey projectName, Change change,
-        List<PatchSetApproval> dels, ChangeMessage changeMessage) {
+    private void emailReviewers(
+        Project.NameKey projectName,
+        Change change,
+        List<PatchSetApproval> dels,
+        ChangeMessage changeMessage) {
 
       // The user knows they removed themselves, don't bother emailing them.
       List<Account.Id> toMail = Lists.newArrayListWithCapacity(dels.size());
@@ -255,12 +262,10 @@ public class DeleteReviewer
       }
       if (!toMail.isEmpty()) {
         try {
-          DeleteReviewerSender cm =
-              deleteReviewerSenderFactory.create(projectName, change.getId());
+          DeleteReviewerSender cm = deleteReviewerSenderFactory.create(projectName, change.getId());
           cm.setFrom(userId);
           cm.addReviewers(toMail);
-          cm.setChangeMessage(changeMessage.getMessage(),
-              changeMessage.getWrittenOn());
+          cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
           cm.setNotify(input.notify);
           cm.send();
         } catch (Exception err) {

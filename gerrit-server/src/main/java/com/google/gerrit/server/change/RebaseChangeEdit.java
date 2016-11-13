@@ -36,14 +36,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Optional;
 
 @Singleton
-public class RebaseChangeEdit implements
-    ChildCollection<ChangeResource, ChangeEditResource>,
-    AcceptsPost<ChangeResource> {
+public class RebaseChangeEdit
+    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
 
   private final Rebase rebase;
 
@@ -75,8 +73,7 @@ public class RebaseChangeEdit implements
 
   @Singleton
   public static class Rebase implements RestModifyView<ChangeResource, Rebase.Input> {
-    public static class Input {
-    }
+    public static class Input {}
 
     private final ChangeEditModifier editModifier;
     private final ChangeEditUtil editUtil;
@@ -84,7 +81,8 @@ public class RebaseChangeEdit implements
     private final Provider<ReviewDb> db;
 
     @Inject
-    Rebase(ChangeEditModifier editModifier,
+    Rebase(
+        ChangeEditModifier editModifier,
         ChangeEditUtil editUtil,
         PatchSetUtil psUtil,
         Provider<ReviewDb> db) {
@@ -97,20 +95,19 @@ public class RebaseChangeEdit implements
     @Override
     public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
         throws AuthException, ResourceConflictException, IOException,
-        InvalidChangeOperationException, OrmException {
+            InvalidChangeOperationException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
-        throw new ResourceConflictException(String.format(
-            "no edit exists for change %s",
-            rsrc.getChange().getChangeId()));
+        throw new ResourceConflictException(
+            String.format("no edit exists for change %s", rsrc.getChange().getChangeId()));
       }
 
       PatchSet current = psUtil.current(db.get(), rsrc.getNotes());
       if (current.getId().equals(edit.get().getBasePatchSet().getId())) {
-        throw new ResourceConflictException(String.format(
-            "edit for change %s is already on latest patch set: %s",
-            rsrc.getChange().getChangeId(),
-            current.getId()));
+        throw new ResourceConflictException(
+            String.format(
+                "edit for change %s is already on latest patch set: %s",
+                rsrc.getChange().getChangeId(), current.getId()));
       }
       editModifier.rebaseEdit(edit.get(), current);
       return Response.none();

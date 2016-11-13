@@ -17,13 +17,11 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
 
 public class IsMergePredicate extends ChangeOperatorPredicate {
   private final Arguments args;
@@ -35,10 +33,8 @@ public class IsMergePredicate extends ChangeOperatorPredicate {
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    ObjectId id = ObjectId.fromString(
-        cd.currentPatchSet().getRevision().get());
-    try (Repository repo =
-          args.repoManager.openRepository(cd.change().getProject());
+    ObjectId id = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
+    try (Repository repo = args.repoManager.openRepository(cd.change().getProject());
         RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
       RevCommit commit = rw.parseCommit(id);
       return commit.getParentCount() > 1;

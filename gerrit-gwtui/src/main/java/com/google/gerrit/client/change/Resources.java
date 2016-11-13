@@ -23,12 +23,16 @@ public interface Resources extends ClientBundle {
   ChangeConstants C = GWT.create(ChangeConstants.class);
   ChangeMessages M = GWT.create(ChangeMessages.class);
 
-  @Source("common.css") Style style();
+  @Source("common.css")
+  Style style();
 
   public interface Style extends CssResource {
     String button();
+
     String popup();
+
     String popupContent();
+
     String section();
   }
 }

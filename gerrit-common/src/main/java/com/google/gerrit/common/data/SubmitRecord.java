@@ -15,18 +15,14 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-/**
- * Describes the state required to submit a change.
- */
+/** Describes the state required to submit a change. */
 public class SubmitRecord {
-  public static Optional<SubmitRecord> findOkRecord(
-      Collection<SubmitRecord> in) {
+  public static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
     if (in == null) {
       return Optional.empty();
     }
@@ -51,8 +47,8 @@ public class SubmitRecord {
 
     /**
      * An internal server error occurred preventing computation.
-     * <p>
-     * Additional detail may be available in {@link SubmitRecord#errorMessage}.
+     *
+     * <p>Additional detail may be available in {@link SubmitRecord#errorMessage}.
      */
     RULE_ERROR
   }
@@ -68,35 +64,32 @@ public class SubmitRecord {
 
       /**
        * This label provides what is necessary for submission.
-       * <p>
-       * If provided, {@link Label#appliedBy} describes the user account
-       * that applied this label to the change.
+       *
+       * <p>If provided, {@link Label#appliedBy} describes the user account that applied this label
+       * to the change.
        */
       OK,
 
       /**
        * This label prevents the change from being submitted.
-       * <p>
-       * If provided, {@link Label#appliedBy} describes the user account
-       * that applied this label to the change.
+       *
+       * <p>If provided, {@link Label#appliedBy} describes the user account that applied this label
+       * to the change.
        */
       REJECT,
 
-      /**
-       * The label is required for submission, but has not been satisfied.
-       */
+      /** The label is required for submission, but has not been satisfied. */
       NEED,
 
       /**
-       * The label may be set, but it's neither necessary for submission
-       * nor does it block submission if set.
+       * The label may be set, but it's neither necessary for submission nor does it block
+       * submission if set.
        */
       MAY,
 
       /**
-       * The label is required for submission, but is impossible to complete.
-       * The likely cause is access has not been granted correctly by the
-       * project owner or site administrator.
+       * The label is required for submission, but is impossible to complete. The likely cause is
+       * access has not been granted correctly by the project owner or site administrator.
        */
       IMPOSSIBLE
     }

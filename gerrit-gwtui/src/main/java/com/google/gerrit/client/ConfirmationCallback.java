@@ -15,21 +15,19 @@
 package com.google.gerrit.client;
 
 /**
- * Interface that a caller must implement to react on the result of a
- * {@link ConfirmationDialog}.
+ * Interface that a caller must implement to react on the result of a {@link ConfirmationDialog}.
  */
 public abstract class ConfirmationCallback {
 
   /**
-   * Called when the {@link ConfirmationDialog} is finished with OK.
-   * To be overwritten by subclasses.
+   * Called when the {@link ConfirmationDialog} is finished with OK. To be overwritten by
+   * subclasses.
    */
   public abstract void onOk();
 
   /**
-   * Called when the {@link ConfirmationDialog} is finished with Cancel.
-   * To be overwritten by subclasses.
+   * Called when the {@link ConfirmationDialog} is finished with Cancel. To be overwritten by
+   * subclasses.
    */
-  public void onCancel() {
-  }
+  public void onCancel() {}
 }

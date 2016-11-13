@@ -24,20 +24,16 @@ import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.util.List;
 import org.kohsuke.args4j.Argument;
 
-import java.util.List;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "enable", description = "Enable plugins",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(name = "enable", description = "Enable plugins", runsAt = MASTER_OR_SLAVE)
 final class PluginEnableCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "plugin(s) to enable")
   List<String> names;
 
-  @Inject
-  private PluginLoader loader;
+  @Inject private PluginLoader loader;
 
   @Override
   protected void run() throws UnloggedFailure {

@@ -55,13 +55,11 @@ public class RefNames {
 
   /**
    * Prefix applied to merge commit base nodes.
-   * <p>
-   * References in this directory should take the form
-   * {@code refs/cache-automerge/xx/yyyy...} where xx is
-   * the first two digits of the merge commit's object
-   * name, and yyyyy... is the remaining 38. The reference
-   * should point to a treeish that is the automatic merge
-   * result of the merge commit's parents.
+   *
+   * <p>References in this directory should take the form {@code refs/cache-automerge/xx/yyyy...}
+   * where xx is the first two digits of the merge commit's object name, and yyyyy... is the
+   * remaining 38. The reference should point to a treeish that is the automatic merge result of the
+   * merge commit's parents.
    */
   public static final String REFS_CACHE_AUTOMERGE = "refs/cache-automerge/";
 
@@ -74,8 +72,7 @@ public class RefNames {
   public static final String EDIT_PREFIX = "edit-";
 
   public static String fullName(String ref) {
-    return (ref.startsWith(REFS) || ref.equals(HEAD)) ?
-        ref : REFS_HEADS + ref;
+    return (ref.startsWith(REFS) || ref.equals(HEAD)) ? ref : REFS_HEADS + ref;
   }
 
   public static final String shortName(String ref) {
@@ -110,8 +107,7 @@ public class RefNames {
     return r.toString();
   }
 
-  public static String refsDraftComments(Change.Id changeId,
-      Account.Id accountId) {
+  public static String refsDraftComments(Change.Id changeId, Account.Id accountId) {
     StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get());
     r.append(accountId.get());
     return r.toString();
@@ -121,8 +117,7 @@ public class RefNames {
     return buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get()).toString();
   }
 
-  public static String refsStarredChanges(Change.Id changeId,
-      Account.Id accountId) {
+  public static String refsStarredChanges(Change.Id changeId, Account.Id accountId) {
     StringBuilder r = buildRefsPrefix(REFS_STARRED_CHANGES, changeId.get());
     r.append(accountId.get());
     return r.toString();
@@ -141,10 +136,7 @@ public class RefNames {
   }
 
   public static String refsCacheAutomerge(String hash) {
-    return REFS_CACHE_AUTOMERGE
-        + hash.substring(0, 2)
-        + '/'
-        + hash.substring(2);
+    return REFS_CACHE_AUTOMERGE + hash.substring(0, 2) + '/' + hash.substring(2);
   }
 
   public static String shard(int id) {
@@ -171,14 +163,13 @@ public class RefNames {
    * @param psId patch set number
    * @return reference for this change edit
    */
-  public static String refsEdit(Account.Id accountId, Change.Id changeId,
-      PatchSet.Id psId) {
+  public static String refsEdit(Account.Id accountId, Change.Id changeId, PatchSet.Id psId) {
     return refsEditPrefix(accountId, changeId) + psId.get();
   }
 
   /**
-   * Returns reference prefix for this change edit with sharded user and
-   * change number: refs/users/UU/UUUU/edit-CCCC/.
+   * Returns reference prefix for this change edit with sharded user and change number:
+   * refs/users/UU/UUUU/edit-CCCC/.
    *
    * @param accountId account id
    * @param changeId change number
@@ -262,6 +253,5 @@ public class RefNames {
     return Integer.valueOf(name.substring(i, name.length()));
   }
 
-  private RefNames() {
-  }
+  private RefNames() {}
 }

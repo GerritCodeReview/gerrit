@@ -20,7 +20,9 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.server.mail.Address;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.dom.Entity;
 import org.apache.james.mime4j.dom.Message;
@@ -31,21 +33,17 @@ import org.apache.james.mime4j.dom.address.Mailbox;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
 import org.joda.time.DateTime;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 /**
- * RawMailParser parses raw email content received through POP3 or IMAP into
- * an internal {@link MailMessage}.
+ * RawMailParser parses raw email content received through POP3 or IMAP into an internal {@link
+ * MailMessage}.
  */
 public class RawMailParser {
   private static final ImmutableSet<String> MAIN_HEADERS =
-      ImmutableSet.of("to", "from", "cc", "date", "message-id",
-          "subject", "content-type");
+      ImmutableSet.of("to", "from", "cc", "date", "message-id", "subject", "content-type");
 
   /**
    * Parses a MailMessage from a string.
+   *
    * @param raw String as received over the wire
    * @return Parsed MailMessage
    * @throws MailParsingException
@@ -55,8 +53,7 @@ public class RawMailParser {
     Message mimeMessage;
     try {
       MessageBuilder builder = new DefaultMessageBuilder();
-      mimeMessage =
-          builder.parseMessage(new ByteArrayInputStream(raw.getBytes(UTF_8)));
+      mimeMessage = builder.parseMessage(new ByteArrayInputStream(raw.getBytes(UTF_8)));
     } catch (IOException | MimeException e) {
       throw new MailParsingException("Can't parse email", e);
     }
@@ -82,10 +79,12 @@ public class RawMailParser {
     }
 
     // Add additional headers
-    mimeMessage.getHeader().getFields().stream()
+    mimeMessage
+        .getHeader()
+        .getFields()
+        .stream()
         .filter(f -> !MAIN_HEADERS.contains(f.getName().toLowerCase()))
-        .forEach(f -> messageBuilder.addAdditionalHeader(
-            f.getName() + ": " + f.getBody()));
+        .forEach(f -> messageBuilder.addAdditionalHeader(f.getName() + ": " + f.getBody()));
 
     // Add text and html body parts
     StringBuilder textBuilder = new StringBuilder();
@@ -104,19 +103,18 @@ public class RawMailParser {
       // required attributes are missing, so that the caller doesn't fall over.
       return messageBuilder.build();
     } catch (IllegalStateException e) {
-      throw new MailParsingException(
-          "Missing required attributes after email was parsed", e);
+      throw new MailParsingException("Missing required attributes after email was parsed", e);
     }
   }
 
   /**
-   * Parses a MailMessage from an array of characters. Note that the character
-   * array is int-typed. This method is only used by POP3, which specifies that
-   * all transferred characters are US-ASCII (RFC 6856). When reading the input
-   * in Java, io.Reader yields ints. These can be safely converted to chars
-   * as all US-ASCII characters fit in a char. If emails contain non-ASCII
-   * characters, such as UTF runes, these will be encoded in ASCII using either
-   * Base64 or quoted-printable encoding.
+   * Parses a MailMessage from an array of characters. Note that the character array is int-typed.
+   * This method is only used by POP3, which specifies that all transferred characters are US-ASCII
+   * (RFC 6856). When reading the input in Java, io.Reader yields ints. These can be safely
+   * converted to chars as all US-ASCII characters fit in a char. If emails contain non-ASCII
+   * characters, such as UTF runes, these will be encoded in ASCII using either Base64 or
+   * quoted-printable encoding.
+   *
    * @param chars Array as received over the wire
    * @return Parsed MailMessage
    * @throws MailParsingException
@@ -130,20 +128,19 @@ public class RawMailParser {
   }
 
   /**
-   * Traverses a mime tree and parses out text and html parts. All other parts
-   * will be dropped.
+   * Traverses a mime tree and parses out text and html parts. All other parts will be dropped.
+   *
    * @param part MimePart to parse
    * @param textBuilder StringBuilder to append all plaintext parts
    * @param htmlBuilder StringBuilder to append all html parts
    * @throws IOException
    */
-  private static void handleMimePart(Entity part, StringBuilder textBuilder,
-      StringBuilder htmlBuilder) throws IOException {
-    if (isPlainOrHtml(part.getMimeType()) &&
-        !isAttachment(part.getDispositionType())) {
+  private static void handleMimePart(
+      Entity part, StringBuilder textBuilder, StringBuilder htmlBuilder) throws IOException {
+    if (isPlainOrHtml(part.getMimeType()) && !isAttachment(part.getDispositionType())) {
       TextBody tb = (TextBody) part.getBody();
-      String result = CharStreams.toString(new InputStreamReader(
-          tb.getInputStream(), tb.getMimeCharset()));
+      String result =
+          CharStreams.toString(new InputStreamReader(tb.getInputStream(), tb.getMimeCharset()));
       if (part.getMimeType().equals("text/plain")) {
         textBuilder.append(result);
       } else if (part.getMimeType().equals("text/html")) {
@@ -162,8 +159,7 @@ public class RawMailParser {
   }
 
   private static boolean isMixedOrAlternative(String mimeType) {
-    return mimeType.equals("multipart/alternative") ||
-        mimeType.equals("multipart/mixed");
+    return mimeType.equals("multipart/alternative") || mimeType.equals("multipart/mixed");
   }
 
   private static boolean isAttachment(String dispositionType) {

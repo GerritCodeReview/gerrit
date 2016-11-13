@@ -26,8 +26,8 @@ public enum AccountVisibility {
   VISIBLE_GROUP,
 
   /**
-   * Other accounts are not visible to the given user unless they are explicitly
-   * collaborating on a change.
+   * Other accounts are not visible to the given user unless they are explicitly collaborating on a
+   * change.
    */
   NONE
 }

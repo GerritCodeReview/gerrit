@@ -23,8 +23,8 @@ public class RefInfo extends JavaScriptObject {
   }
 
   public final native String ref() /*-{ return this.ref; }-*/;
+
   public final native String revision() /*-{ return this.revision; }-*/;
 
-  protected RefInfo() {
-  }
+  protected RefInfo() {}
 }

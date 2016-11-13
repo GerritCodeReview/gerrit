@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 class AddFileBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, AddFileBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Change.Id changeId;
@@ -55,19 +56,21 @@ class AddFileBox extends Composite {
     this.fileTable = files;
 
     path = new RemoteSuggestBox(new PathSuggestOracle(changeId, revision));
-    path.addSelectionHandler(new SelectionHandler<String>() {
-      @Override
-      public void onSelection(SelectionEvent<String> event) {
-        open(event.getSelectedItem());
-      }
-    });
-    path.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
-      @Override
-      public void onClose(CloseEvent<RemoteSuggestBox> event) {
-        hide();
-        fileTable.registerKeys();
-      }
-    });
+    path.addSelectionHandler(
+        new SelectionHandler<String>() {
+          @Override
+          public void onSelection(SelectionEvent<String> event) {
+            open(event.getSelectedItem());
+          }
+        });
+    path.addCloseHandler(
+        new CloseHandler<RemoteSuggestBox>() {
+          @Override
+          public void onClose(CloseEvent<RemoteSuggestBox> event) {
+            hide();
+            fileTable.registerKeys();
+          }
+        });
 
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -87,9 +90,7 @@ class AddFileBox extends Composite {
 
   private void open(String path) {
     hide();
-    Gerrit.display(Dispatcher.toEditScreen(
-        new PatchSet.Id(changeId, revision._number()),
-        path));
+    Gerrit.display(Dispatcher.toEditScreen(new PatchSet.Id(changeId, revision._number()), path));
   }
 
   @UiHandler("cancel")

@@ -49,14 +49,12 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import org.kohsuke.args4j.Option;
 
 class GetCapabilities implements RestReadView<AccountResource> {
   @Option(name = "-q", metaVar = "CAP", usage = "Capability to inspect")
@@ -66,22 +64,21 @@ class GetCapabilities implements RestReadView<AccountResource> {
     }
     Iterables.addAll(query, OptionUtil.splitOptionValue(name));
   }
+
   private Set<String> query;
 
   private final Provider<CurrentUser> self;
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;
 
   @Inject
-  GetCapabilities(Provider<CurrentUser> self,
-      DynamicMap<CapabilityDefinition> pluginCapabilities) {
+  GetCapabilities(Provider<CurrentUser> self, DynamicMap<CapabilityDefinition> pluginCapabilities) {
     this.self = self;
     this.pluginCapabilities = pluginCapabilities;
   }
 
   @Override
   public Object apply(AccountResource resource) throws AuthException {
-    if (self.get() != resource.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+    if (self.get() != resource.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
 
@@ -138,9 +135,9 @@ class GetCapabilities implements RestReadView<AccountResource> {
       }
     }
 
-    return OutputFormat.JSON.newGson().toJsonTree(
-      have,
-      new TypeToken<Map<String, Object>>() {}.getType());
+    return OutputFormat.JSON
+        .newGson()
+        .toJsonTree(have, new TypeToken<Map<String, Object>>() {}.getType());
   }
 
   private boolean want(String name) {
@@ -149,8 +146,10 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
   private static class Range {
     private transient PermissionRange range;
+
     @SuppressWarnings("unused")
     private int min;
+
     @SuppressWarnings("unused")
     private int max;
 

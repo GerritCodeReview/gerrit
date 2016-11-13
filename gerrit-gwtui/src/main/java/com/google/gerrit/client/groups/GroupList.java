@@ -26,11 +26,9 @@ public class GroupList extends JsArray<GroupInfo> {
     new RestApi("/accounts/self/groups").get(callback);
   }
 
-  public static void included(AccountGroup.UUID group,
-      AsyncCallback<GroupList> callback) {
+  public static void included(AccountGroup.UUID group, AsyncCallback<GroupList> callback) {
     new RestApi("/groups/").id(group.get()).view("groups").get(callback);
   }
 
-  protected GroupList() {
-  }
+  protected GroupList() {}
 }

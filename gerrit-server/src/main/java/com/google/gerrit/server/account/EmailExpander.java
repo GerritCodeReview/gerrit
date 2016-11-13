@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-
-/**
- * Expands user name to a local email address, usually by adding a domain.
- */
+/** Expands user name to a local email address, usually by adding a domain. */
 public interface EmailExpander {
   boolean canExpand(String user);
 
@@ -30,8 +27,7 @@ public interface EmailExpander {
       return fmt == null || fmt.isEmpty();
     }
 
-    private None() {
-    }
+    private None() {}
 
     @Override
     public boolean canExpand(String user) {

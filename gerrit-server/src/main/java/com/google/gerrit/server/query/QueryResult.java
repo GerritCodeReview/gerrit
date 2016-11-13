@@ -16,14 +16,13 @@ package com.google.gerrit.server.query;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-
 import java.util.List;
 
 /** Results of a query over entities. */
 @AutoValue
 public abstract class QueryResult<T> {
-  static <T> QueryResult<T> create(@Nullable String query,
-      Predicate<T> predicate, int limit, List<T> entites) {
+  static <T> QueryResult<T> create(
+      @Nullable String query, Predicate<T> predicate, int limit, List<T> entites) {
     boolean more;
     if (entites.size() > limit) {
       more = true;
@@ -34,25 +33,19 @@ public abstract class QueryResult<T> {
     return new AutoValue_QueryResult<>(query, predicate, entites, more);
   }
 
-  /**
-   * @return the original query string, or null if the query was created
-   *     programmatically.
-   */
-  @Nullable public abstract String query();
+  /** @return the original query string, or null if the query was created programmatically. */
+  @Nullable
+  public abstract String query();
 
-  /**
-   * @return the predicate after all rewriting and other modification by the
-   *     query subsystem.
-   */
+  /** @return the predicate after all rewriting and other modification by the query subsystem. */
   public abstract Predicate<T> predicate();
 
   /** @return the query results. */
   public abstract List<T> entities();
 
   /**
-   * @return whether the query could be retried with
-   *     {@link QueryProcessor#setStart(int)} to produce more results. Never
-   *     true if {@link #entities()} is empty.
+   * @return whether the query could be retried with {@link QueryProcessor#setStart(int)} to produce
+   *     more results. Never true if {@link #entities()} is empty.
    */
   public abstract boolean more();
 }

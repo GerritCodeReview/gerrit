@@ -16,7 +16,6 @@ package com.google.gerrit.server.util;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,23 +70,30 @@ public class IdGenerator {
   }
 
   private static short hi16(final int in) {
-    return (short) ( //
-    ((in >>> 24 & 0xff)) | //
-    ((in >>> 16 & 0xff) << 8) //
-    );
+    return (short)
+        ( //
+        ((in >>> 24 & 0xff))
+            | //
+            ((in >>> 16 & 0xff) << 8) //
+        );
   }
 
   private static short lo16(final int in) {
-    return (short) ( //
-    ((in >>> 8 & 0xff)) | //
-    ((in & 0xff) << 8) //
-    );
+    return (short)
+        ( //
+        ((in >>> 8 & 0xff))
+            | //
+            ((in & 0xff) << 8) //
+        );
   }
 
   private static int result(final short v0, final short v1) {
-    return ((v0 & 0xff) << 24) | //
-        (((v0 >>> 8) & 0xff) << 16) | //
-        ((v1 & 0xff) << 8) | //
+    return ((v0 & 0xff) << 24)
+        | //
+        (((v0 >>> 8) & 0xff) << 16)
+        | //
+        ((v1 & 0xff) << 8)
+        | //
         ((v1 >>> 8) & 0xff);
   }
 }

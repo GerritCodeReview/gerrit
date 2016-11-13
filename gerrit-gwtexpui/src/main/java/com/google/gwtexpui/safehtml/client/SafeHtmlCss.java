@@ -18,6 +18,8 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface SafeHtmlCss extends CssResource {
   String wikiList();
+
   String wikiPreFormat();
+
   String wikiQuote();
 }

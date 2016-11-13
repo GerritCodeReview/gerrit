@@ -38,7 +38,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
-
+import java.util.Collections;
+import java.util.Set;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -46,9 +47,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
-
-import java.util.Collections;
-import java.util.Set;
 
 public class CreateProjectIT extends AbstractDaemonTest {
   @Test
@@ -65,48 +63,36 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectHttpWhenProjectAlreadyExists_Conflict()
-      throws Exception {
-    adminRestSession
-        .put("/projects/" + allProjects.get())
-        .assertConflict();
+  public void testCreateProjectHttpWhenProjectAlreadyExists_Conflict() throws Exception {
+    adminRestSession.put("/projects/" + allProjects.get()).assertConflict();
   }
 
   @Test
-  public void testCreateProjectHttpWhenProjectAlreadyExists_PreconditionFailed()
-      throws Exception {
+  public void testCreateProjectHttpWhenProjectAlreadyExists_PreconditionFailed() throws Exception {
     adminRestSession
-        .putWithHeader("/projects/" + allProjects.get(),
-            new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
+        .putWithHeader(
+            "/projects/" + allProjects.get(), new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
         .assertPreconditionFailed();
   }
 
   @Test
   @UseLocalDisk
-  public void testCreateProjectHttpWithUnreasonableName_BadRequest()
-      throws Exception {
-    adminRestSession
-        .put("/projects/" + Url.encode(name("invalid/../name")))
-        .assertBadRequest();
+  public void testCreateProjectHttpWithUnreasonableName_BadRequest() throws Exception {
+    adminRestSession.put("/projects/" + Url.encode(name("invalid/../name"))).assertBadRequest();
   }
 
   @Test
   public void testCreateProjectHttpWithNameMismatch_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("otherName");
-    adminRestSession
-        .put("/projects/" + name("someName"), in)
-        .assertBadRequest();
+    adminRestSession.put("/projects/" + name("someName"), in).assertBadRequest();
   }
 
   @Test
-  public void testCreateProjectHttpWithInvalidRefName_BadRequest()
-      throws Exception {
+  public void testCreateProjectHttpWithInvalidRefName_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.branches = Collections.singletonList(name("invalid ref name"));
-    adminRestSession
-        .put("/projects/" + name("newProject"), in)
-        .assertBadRequest();
+    adminRestSession.put("/projects/" + name("newProject"), in).assertBadRequest();
   }
 
   @Test
@@ -171,8 +157,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity()
-      throws Exception {
+  public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("newProjectName");
     in.parent = "non-existing-project";
@@ -187,8 +172,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners = Lists.newArrayListWithCapacity(3);
     in.owners.add("Anonymous Users"); // by name
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
-    in.owners.add(Integer.toString(groupCache.get(
-        new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
+    in.owners.add(
+        Integer.toString(
+            groupCache.get(new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
     gApi.projects().create(in);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
@@ -199,8 +185,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithNonExistingOwner_UnprocessableEntity()
-      throws Exception {
+  public void testCreateProjectWithNonExistingOwner_UnprocessableEntity() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("newProjectName");
     in.owners = Collections.singletonList("non-existing-group");
@@ -239,8 +224,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.branches.add("release"); // without 'refs/heads' prefix
     gApi.projects().create(in);
     assertHead(newProjectName, "refs/heads/test");
-    assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/master",
-        "refs/heads/release");
+    assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/master", "refs/heads/release");
   }
 
   @Test
@@ -252,8 +236,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWhenProjectAlreadyExists_Conflict()
-      throws Exception {
+  public void testCreateProjectWhenProjectAlreadyExists_Conflict() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = allProjects.get();
     assertCreateFails(in, ResourceConflictException.class);
@@ -263,17 +246,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
     return groupCache.get(new AccountGroup.NameKey(groupName)).getGroupUUID();
   }
 
-  private void assertHead(String projectName, String expectedRef)
-      throws Exception {
-    try (Repository repo =
-        repoManager.openRepository(new Project.NameKey(projectName))) {
-      assertThat(repo.exactRef(Constants.HEAD).getTarget().getName())
-        .isEqualTo(expectedRef);
+  private void assertHead(String projectName, String expectedRef) throws Exception {
+    try (Repository repo = repoManager.openRepository(new Project.NameKey(projectName))) {
+      assertThat(repo.exactRef(Constants.HEAD).getTarget().getName()).isEqualTo(expectedRef);
     }
   }
 
-  private void assertEmptyCommit(String projectName, String... refs)
-      throws Exception {
+  private void assertEmptyCommit(String projectName, String... refs) throws Exception {
     Project.NameKey projectKey = new Project.NameKey(projectName);
     try (Repository repo = repoManager.openRepository(projectKey);
         RevWalk rw = new RevWalk(repo);
@@ -288,8 +267,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertCreateFails(ProjectInput in,
-      Class<? extends RestApiException> errType) throws Exception {
+  private void assertCreateFails(ProjectInput in, Class<? extends RestApiException> errType)
+      throws Exception {
     exception.expect(errType);
     gApi.projects().create(in);
   }

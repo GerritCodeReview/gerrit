@@ -25,32 +25,34 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.nio.ByteBuffer;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.nio.ByteBuffer;
-
 abstract class BaseTestPrologCommand extends SshCommand {
   private TestSubmitRuleInput input = new TestSubmitRuleInput();
 
-  @Inject
-  private ChangesCollection changes;
+  @Inject private ChangesCollection changes;
 
-  @Inject
-  private Revisions revisions;
+  @Inject private Revisions revisions;
 
   @Argument(index = 0, required = true, usage = "ChangeId to load in prolog environment")
   protected String changeId;
 
-  @Option(name = "-s",
-      usage = "Read prolog script from stdin instead of reading rules.pl from the refs/meta/config branch")
+  @Option(
+    name = "-s",
+    usage =
+        "Read prolog script from stdin instead of reading rules.pl from the refs/meta/config branch"
+  )
   protected boolean useStdin;
 
-  @Option(name = "--no-filters", aliases = {"-n"},
-      usage = "Don't run the submit_filter/2 from the parent projects")
+  @Option(
+    name = "--no-filters",
+    aliases = {"-n"},
+    usage = "Don't run the submit_filter/2 from the parent projects"
+  )
   void setNoFilters(boolean no) {
     input.filters = no ? Filters.SKIP : Filters.RUN;
   }
@@ -60,17 +62,13 @@ abstract class BaseTestPrologCommand extends SshCommand {
   @Override
   protected final void run() throws UnloggedFailure {
     try {
-      RevisionResource revision = revisions.parse(
-          changes.parse(
-              TopLevelResource.INSTANCE,
-              IdString.fromUrl(changeId)),
-          IdString.fromUrl("current"));
+      RevisionResource revision =
+          revisions.parse(
+              changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId)),
+              IdString.fromUrl("current"));
       if (useStdin) {
         ByteBuffer buf = IO.readWholeStream(in, 4096);
-        input.rule = RawParseUtils.decode(
-            buf.array(),
-            buf.arrayOffset(),
-            buf.limit());
+        input.rule = RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit());
       }
       Object result = createView().apply(revision, input);
       OutputFormat.JSON.newGson().toJson(result, stdout);

@@ -17,9 +17,6 @@ package org.apache.commons.net.smtp;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
-
-import org.apache.commons.codec.binary.Base64;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,12 +28,12 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import org.apache.commons.codec.binary.Base64;
 
 public class AuthSMTPClient extends SMTPClient {
   private String authTypes;
@@ -60,7 +57,7 @@ public class AuthSMTPClient extends SMTPClient {
     if (verify) {
       SSLParameters sslParams = new SSLParameters();
       sslParams.setEndpointIdentificationAlgorithm("HTTPS");
-      ((SSLSocket)_socket_).setSSLParameters(sslParams);
+      ((SSLSocket) _socket_).setSSLParameters(sslParams);
     }
 
     // XXX: Can't call _connectAction_() because SMTP server doesn't
@@ -72,10 +69,8 @@ public class AuthSMTPClient extends SMTPClient {
     _socket_.setSoTimeout(_timeout_);
     _input_ = _socket_.getInputStream();
     _output_ = _socket_.getOutputStream();
-    _reader =
-        new BufferedReader(new InputStreamReader(_input_, UTF_8));
-    _writer =
-        new BufferedWriter(new OutputStreamWriter(_output_, UTF_8));
+    _reader = new BufferedReader(new InputStreamReader(_input_, UTF_8));
+    _writer = new BufferedWriter(new OutputStreamWriter(_output_, UTF_8));
     return true;
   }
 
@@ -154,8 +149,8 @@ public class AuthSMTPClient extends SMTPClient {
     return SMTPReply.isPositiveCompletion(sendCommand(cmd));
   }
 
-  private boolean authLogin(String smtpUser, String smtpPass) throws UnsupportedEncodingException,
-      IOException {
+  private boolean authLogin(String smtpUser, String smtpPass)
+      throws UnsupportedEncodingException, IOException {
     if (sendCommand("AUTH", "LOGIN") != 334) {
       return false;
     }
@@ -169,8 +164,9 @@ public class AuthSMTPClient extends SMTPClient {
     return SMTPReply.isPositiveCompletion(sendCommand(cmd));
   }
 
-  private static final char[] hexchar =
-      {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+  private static final char[] hexchar = {
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+  };
 
   private String toHex(final byte[] b) {
     final StringBuilder sec = new StringBuilder();
@@ -183,8 +179,8 @@ public class AuthSMTPClient extends SMTPClient {
     return sec.toString();
   }
 
-  private boolean authPlain(String smtpUser, String smtpPass) throws UnsupportedEncodingException,
-      IOException {
+  private boolean authPlain(String smtpUser, String smtpPass)
+      throws UnsupportedEncodingException, IOException {
     String token = '\0' + smtpUser + '\0' + smtpPass;
     String cmd = "PLAIN " + encodeBase64(token.getBytes(UTF_8));
     return SMTPReply.isPositiveCompletion(sendCommand("AUTH", cmd));

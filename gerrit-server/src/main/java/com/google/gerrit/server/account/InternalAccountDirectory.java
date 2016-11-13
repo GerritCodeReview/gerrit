@@ -26,7 +26,6 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,8 +35,7 @@ import java.util.Set;
 
 @Singleton
 public class InternalAccountDirectory extends AccountDirectory {
-  static final Set<FillOptions> ID_ONLY =
-      Collections.unmodifiableSet(EnumSet.of(FillOptions.ID));
+  static final Set<FillOptions> ID_ONLY = Collections.unmodifiableSet(EnumSet.of(FillOptions.ID));
 
   public static class Module extends AbstractModule {
     @Override
@@ -51,7 +49,8 @@ public class InternalAccountDirectory extends AccountDirectory {
   private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  InternalAccountDirectory(AccountCache accountCache,
+  InternalAccountDirectory(
+      AccountCache accountCache,
       DynamicItem<AvatarProvider> avatar,
       IdentifiedUser.GenericFactory userFactory) {
     this.accountCache = accountCache;
@@ -60,9 +59,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   }
 
   @Override
-  public void fillAccountInfo(
-      Iterable<? extends AccountInfo> in,
-      Set<FillOptions> options)
+  public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
       throws DirectoryException {
     if (options.equals(ID_ONLY)) {
       return;
@@ -74,7 +71,8 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
   }
 
-  private void fill(AccountInfo info,
+  private void fill(
+      AccountInfo info,
       Account account,
       @Nullable Collection<AccountExternalId> externalIds,
       Set<FillOptions> options) {
@@ -94,14 +92,10 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.email = account.getPreferredEmail();
     }
     if (options.contains(FillOptions.SECONDARY_EMAILS)) {
-      info.secondaryEmails = externalIds != null
-          ? getSecondaryEmails(account, externalIds)
-          : null;
+      info.secondaryEmails = externalIds != null ? getSecondaryEmails(account, externalIds) : null;
     }
     if (options.contains(FillOptions.USERNAME)) {
-      info.username = externalIds != null
-          ? AccountState.getUserName(externalIds)
-          : null;
+      info.username = externalIds != null ? AccountState.getUserName(externalIds) : null;
     }
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
@@ -125,8 +119,8 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
   }
 
-  public List<String> getSecondaryEmails(Account account,
-      Collection<AccountExternalId> externalIds) {
+  public List<String> getSecondaryEmails(
+      Account account, Collection<AccountExternalId> externalIds) {
     List<String> emails = new ArrayList<>(AccountState.getEmails(externalIds));
     if (account.getPreferredEmail() != null) {
       emails.remove(account.getPreferredEmail());
@@ -136,10 +130,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   }
 
   private static void addAvatar(
-      AvatarProvider provider,
-      AccountInfo account,
-      IdentifiedUser user,
-      int size) {
+      AvatarProvider provider, AccountInfo account, IdentifiedUser user, int size) {
     String url = provider.getUrl(user, size);
     if (url != null) {
       AvatarInfo avatar = new AvatarInfo();

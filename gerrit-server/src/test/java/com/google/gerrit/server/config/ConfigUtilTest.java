@@ -23,13 +23,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.extensions.client.Theme;
-
-import org.eclipse.jgit.lib.Config;
-import org.junit.Test;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Test;
 
 public class ConfigUtilTest {
   private static final String SECT = "foo";
@@ -54,6 +52,7 @@ public class ConfigUtilTest {
     public Theme td;
     public List<String> list;
     public Map<String, String> map;
+
     static SectionInfo defaults() {
       SectionInfo i = new SectionInfo();
       i.i = 1;

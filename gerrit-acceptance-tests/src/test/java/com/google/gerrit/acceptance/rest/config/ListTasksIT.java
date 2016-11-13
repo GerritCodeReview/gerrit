@@ -20,10 +20,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
-
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 public class ListTasksIT extends AbstractDaemonTest {
 
@@ -32,8 +30,7 @@ public class ListTasksIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.get("/config/server/tasks/");
     r.assertOK();
     List<TaskInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<TaskInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(), new TypeToken<List<TaskInfo>>() {}.getType());
     assertThat(result).isNotEmpty();
     boolean foundLogFileCompressorTask = false;
     for (TaskInfo info : result) {
@@ -53,8 +50,7 @@ public class ListTasksIT extends AbstractDaemonTest {
     RestResponse r = userRestSession.get("/config/server/tasks/");
     r.assertOK();
     List<TaskInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<TaskInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(), new TypeToken<List<TaskInfo>>() {}.getType());
 
     assertThat(result).isEmpty();
   }

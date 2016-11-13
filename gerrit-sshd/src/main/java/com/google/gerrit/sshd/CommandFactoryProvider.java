@@ -25,17 +25,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.ExitCallback;
-import org.apache.sshd.server.SessionAware;
-import org.apache.sshd.server.session.ServerSession;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,15 +36,20 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.SessionAware;
+import org.apache.sshd.server.session.ServerSession;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Creates a CommandFactory using commands registered by {@link CommandModule}.
- */
+/** Creates a CommandFactory using commands registered by {@link CommandModule}. */
 @Singleton
-class CommandFactoryProvider implements Provider<CommandFactory>,
-    LifecycleListener {
-  private static final Logger logger = LoggerFactory
-      .getLogger(CommandFactoryProvider.class);
+class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListener {
+  private static final Logger logger = LoggerFactory.getLogger(CommandFactoryProvider.class);
 
   private final DispatchCommandProvider dispatcher;
   private final SshLog log;
@@ -67,25 +61,28 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
   @Inject
   CommandFactoryProvider(
       @CommandName(Commands.ROOT) final DispatchCommandProvider d,
-      @GerritServerConfig final Config cfg, final WorkQueue workQueue,
-      final SshLog l, final SshScope s, SchemaFactory<ReviewDb> sf) {
+      @GerritServerConfig final Config cfg,
+      final WorkQueue workQueue,
+      final SshLog l,
+      final SshScope s,
+      SchemaFactory<ReviewDb> sf) {
     dispatcher = d;
     log = l;
     sshScope = s;
     schemaFactory = sf;
 
-    int threads = cfg.getInt("sshd","commandStartThreads", 2);
+    int threads = cfg.getInt("sshd", "commandStartThreads", 2);
     startExecutor = workQueue.createQueue(threads, "SshCommandStart");
-    destroyExecutor = Executors.newSingleThreadExecutor(
-        new ThreadFactoryBuilder()
-          .setNameFormat("SshCommandDestroy-%s")
-          .setDaemon(true)
-          .build());
+    destroyExecutor =
+        Executors.newSingleThreadExecutor(
+            new ThreadFactoryBuilder()
+                .setNameFormat("SshCommandDestroy-%s")
+                .setDaemon(true)
+                .build());
   }
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
   public void stop() {
@@ -152,22 +149,28 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
     public void start(final Environment env) throws IOException {
       this.env = env;
       final Context ctx = this.ctx;
-      task.set(startExecutor.submit(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            onStart();
-          } catch (Exception e) {
-            logger.warn("Cannot start command \"" + ctx.getCommandLine()
-                + "\" for user " + ctx.getSession().getUsername(), e);
-          }
-        }
+      task.set(
+          startExecutor.submit(
+              new Runnable() {
+                @Override
+                public void run() {
+                  try {
+                    onStart();
+                  } catch (Exception e) {
+                    logger.warn(
+                        "Cannot start command \""
+                            + ctx.getCommandLine()
+                            + "\" for user "
+                            + ctx.getSession().getUsername(),
+                        e);
+                  }
+                }
 
-        @Override
-        public String toString() {
-          return "start (user " + ctx.getSession().getUsername() + ")";
-        }
-      }));
+                @Override
+                public String toString() {
+                  return "start (user " + ctx.getSession().getUsername() + ")";
+                }
+              }));
     }
 
     private void onStart() throws IOException {
@@ -179,19 +182,20 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
           cmd.setInputStream(in);
           cmd.setOutputStream(out);
           cmd.setErrorStream(err);
-          cmd.setExitCallback(new ExitCallback() {
-            @Override
-            public void onExit(int rc, String exitMessage) {
-              exit.onExit(translateExit(rc), exitMessage);
-              log(rc);
-            }
+          cmd.setExitCallback(
+              new ExitCallback() {
+                @Override
+                public void onExit(int rc, String exitMessage) {
+                  exit.onExit(translateExit(rc), exitMessage);
+                  log(rc);
+                }
 
-            @Override
-            public void onExit(int rc) {
-              exit.onExit(translateExit(rc));
-              log(rc);
-            }
-          });
+                @Override
+                public void onExit(int rc) {
+                  exit.onExit(translateExit(rc));
+                  log(rc);
+                }
+              });
           cmd.start(env);
         } finally {
           sshScope.set(old);
@@ -226,12 +230,13 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
       Future<?> future = task.getAndSet(null);
       if (future != null) {
         future.cancel(true);
-        destroyExecutor.execute(new Runnable() {
-          @Override
-          public void run() {
-            onDestroy();
-          }
-        });
+        destroyExecutor.execute(
+            new Runnable() {
+              @Override
+              public void run() {
+                onDestroy();
+              }
+            });
       }
     }
 
@@ -258,7 +263,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
     boolean inquote = false;
     boolean inDblQuote = false;
     StringBuilder r = new StringBuilder();
-    for (int ip = 0; ip < commandLine.length();) {
+    for (int ip = 0; ip < commandLine.length(); ) {
       final char b = commandLine.charAt(ip++);
       switch (b) {
         case '\t':

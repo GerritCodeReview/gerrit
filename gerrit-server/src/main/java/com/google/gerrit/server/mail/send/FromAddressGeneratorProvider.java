@@ -27,23 +27,21 @@ import com.google.gerrit.server.mail.MailUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.regex.Pattern;
-
 /** Creates a {@link FromAddressGenerator} from the {@link GerritServerConfig} */
 @Singleton
-public class FromAddressGeneratorProvider implements
-    Provider<FromAddressGenerator> {
+public class FromAddressGeneratorProvider implements Provider<FromAddressGenerator> {
   private final FromAddressGenerator generator;
 
   @Inject
-  FromAddressGeneratorProvider(@GerritServerConfig final Config cfg,
+  FromAddressGeneratorProvider(
+      @GerritServerConfig final Config cfg,
       @AnonymousCowardName final String anonymousCowardName,
       @GerritPersonIdent final PersonIdent myIdent,
       final AccountCache accountCache) {
@@ -54,15 +52,13 @@ public class FromAddressGeneratorProvider implements
     if (from == null || "MIXED".equalsIgnoreCase(from)) {
       ParameterizedString name = new ParameterizedString("${user} (Code Review)");
       generator =
-          new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
-              srvAddr.getEmail());
+          new PatternGen(srvAddr, accountCache, anonymousCowardName, name, srvAddr.getEmail());
     } else if ("USER".equalsIgnoreCase(from)) {
       String[] domains = cfg.getStringList("sendemail", null, "allowedDomain");
       Pattern domainPattern = MailUtil.glob(domains);
-      ParameterizedString namePattern =
-          new ParameterizedString("${user} (Code Review)");
-      generator = new UserGen(accountCache, domainPattern, anonymousCowardName,
-          namePattern, srvAddr);
+      ParameterizedString namePattern = new ParameterizedString("${user} (Code Review)");
+      generator =
+          new UserGen(accountCache, domainPattern, anonymousCowardName, namePattern, srvAddr);
     } else if ("SERVER".equalsIgnoreCase(from)) {
       generator = new ServerGen(srvAddr);
     } else {
@@ -72,9 +68,7 @@ public class FromAddressGeneratorProvider implements
       if (name == null || name.getParameterNames().isEmpty()) {
         generator = new ServerGen(a);
       } else {
-        generator =
-            new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
-                a.getEmail());
+        generator = new PatternGen(srvAddr, accountCache, anonymousCowardName, name, a.getEmail());
       }
     }
   }
@@ -99,16 +93,18 @@ public class FromAddressGeneratorProvider implements
      * From address generator for USER mode
      *
      * @param accountCache get user account from id
-     * @param domainPattern allowed user domain pattern that Gerrit can send as
-     *        the user
+     * @param domainPattern allowed user domain pattern that Gerrit can send as the user
      * @param anonymousCowardName name used when user's full name is missing
-     * @param nameRewriteTmpl name template used for rewriting the sender's name
-     *        when Gerrit can not send as the user
-     * @param serverAddress serverAddress.name is used when fromId is null and
-     *        serverAddress.email is used when Gerrit can not send as the user
+     * @param nameRewriteTmpl name template used for rewriting the sender's name when Gerrit can not
+     *     send as the user
+     * @param serverAddress serverAddress.name is used when fromId is null and serverAddress.email
+     *     is used when Gerrit can not send as the user
      */
-    UserGen(AccountCache accountCache, Pattern domainPattern,
-        String anonymousCowardName, ParameterizedString nameRewriteTmpl,
+    UserGen(
+        AccountCache accountCache,
+        Pattern domainPattern,
+        String anonymousCowardName,
+        ParameterizedString nameRewriteTmpl,
         Address serverAddress) {
       this.accountCache = accountCache;
       this.domainPattern = domainPattern;
@@ -142,13 +138,11 @@ public class FromAddressGeneratorProvider implements
       }
 
       String senderEmail;
-      ParameterizedString senderEmailPattern =
-          new ParameterizedString(serverAddress.getEmail());
+      ParameterizedString senderEmailPattern = new ParameterizedString(serverAddress.getEmail());
       if (senderEmailPattern.getParameterNames().isEmpty()) {
         senderEmail = senderEmailPattern.getRawPattern();
       } else {
-        senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName))
-            .toString();
+        senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName)).toString();
       }
       return new Address(senderName, senderEmail);
     }
@@ -190,9 +184,12 @@ public class FromAddressGeneratorProvider implements
     private final String anonymousCowardName;
     private final ParameterizedString namePattern;
 
-    PatternGen(final Address serverAddress, final AccountCache accountCache,
+    PatternGen(
+        final Address serverAddress,
+        final AccountCache accountCache,
         final String anonymousCowardName,
-        final ParameterizedString namePattern, final String senderEmail) {
+        final ParameterizedString namePattern,
+        final String senderEmail) {
       this.senderEmailPattern = new ParameterizedString(senderEmail);
       this.serverAddress = serverAddress;
       this.accountCache = accountCache;
@@ -225,9 +222,7 @@ public class FromAddressGeneratorProvider implements
       if (senderEmailPattern.getParameterNames().isEmpty()) {
         senderEmail = senderEmailPattern.getRawPattern();
       } else {
-        senderEmail = senderEmailPattern
-            .replace("userHash", hashOf(senderName))
-            .toString();
+        senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName)).toString();
       }
       return new Address(senderName, senderEmail);
     }

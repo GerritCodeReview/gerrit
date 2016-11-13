@@ -28,13 +28,13 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /** Displays pending messages from the server. */
 class MessageOfTheDayBar extends Composite {
   interface Binder extends UiBinder<HTMLPanel, MessageOfTheDayBar> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final List<HostPageData.Message> motd;

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 package com.google.gerrit.server.query;
+
 import static org.junit.Assert.assertEquals;
 
 import org.antlr.runtime.tree.Tree;
@@ -30,8 +31,7 @@ public class QueryParserTest {
     assertSingleWord("project", "tools/*", r);
   }
 
-  private static void assertSingleWord(final String name, final String value,
-      final Tree r) {
+  private static void assertSingleWord(final String name, final String value, final Tree r) {
     assertEquals(QueryParser.FIELD_NAME, r.getType());
     assertEquals(name, r.getText());
     assertEquals(1, r.getChildCount());

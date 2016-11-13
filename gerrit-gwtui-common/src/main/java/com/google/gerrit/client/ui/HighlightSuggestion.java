@@ -33,7 +33,7 @@ public class HighlightSuggestion implements Suggestion {
     int start = 0;
     int keyLen = keyword.length();
     SafeHtmlBuilder builder = new SafeHtmlBuilder();
-    for (;;) {
+    for (; ; ) {
       int index = value.indexOf(keyword, start);
       if (index == -1) {
         builder.appendEscaped(value.substring(start));

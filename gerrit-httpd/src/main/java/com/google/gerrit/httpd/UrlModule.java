@@ -40,14 +40,11 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
-
-import org.eclipse.jgit.lib.Constants;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.Constants;
 
 class UrlModule extends ServletModule {
   private GerritOptions options;
@@ -74,8 +71,7 @@ class UrlModule extends ServletModule {
     }
     serve("/cat/*").with(CatServlet.class);
 
-    if (authConfig.getAuthType() != AuthType.OAUTH &&
-        authConfig.getAuthType() != AuthType.OPENID) {
+    if (authConfig.getAuthType() != AuthType.OAUTH && authConfig.getAuthType() != AuthType.OPENID) {
       serve("/logout").with(HttpLogoutServlet.class);
       serve("/signout").with(HttpLogoutServlet.class);
     }
@@ -120,143 +116,157 @@ class UrlModule extends ServletModule {
   }
 
   private Key<HttpServlet> notFound() {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(final HttpServletRequest req,
-          final HttpServletResponse rsp) throws IOException {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-      }
-    });
+          @Override
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
+            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          }
+        });
   }
 
   private Key<HttpServlet> gerritUrl() {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(final HttpServletRequest req,
-          final HttpServletResponse rsp) throws IOException {
-        toGerrit(req.getRequestURI(), req, rsp);
-      }
-    });
+          @Override
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
+            toGerrit(req.getRequestURI(), req, rsp);
+          }
+        });
   }
 
   private Key<HttpServlet> screen(final String target) {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(final HttpServletRequest req,
-          final HttpServletResponse rsp) throws IOException {
-        toGerrit(target, req, rsp);
-      }
-    });
+          @Override
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
+            toGerrit(target, req, rsp);
+          }
+        });
   }
 
   private Key<HttpServlet> legacyGerritScreen() {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(final HttpServletRequest req,
-          final HttpServletResponse rsp) throws IOException {
-        final String token = req.getPathInfo().substring(1);
-        toGerrit(token, req, rsp);
-      }
-    });
+          @Override
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
+            final String token = req.getPathInfo().substring(1);
+            toGerrit(token, req, rsp);
+          }
+        });
   }
 
   private Key<HttpServlet> directChangeById() {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(final HttpServletRequest req,
-          final HttpServletResponse rsp) throws IOException {
-        try {
-          String idString = req.getPathInfo();
-          if (idString.endsWith("/")) {
-            idString = idString.substring(0, idString.length() - 1);
+          @Override
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
+            try {
+              String idString = req.getPathInfo();
+              if (idString.endsWith("/")) {
+                idString = idString.substring(0, idString.length() - 1);
+              }
+              Change.Id id = Change.Id.parse(idString);
+              toGerrit(PageLinks.toChange(id), req, rsp);
+            } catch (IllegalArgumentException err) {
+              rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
           }
-          Change.Id id = Change.Id.parse(idString);
-          toGerrit(PageLinks.toChange(id), req, rsp);
-        } catch (IllegalArgumentException err) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-        }
-      }
-    });
+        });
   }
 
   private Key<HttpServlet> queryProjectNew() {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
-          throws IOException {
-        String name = req.getPathInfo();
-        if (Strings.isNullOrEmpty(name)) {
-          toGerrit(PageLinks.ADMIN_PROJECTS, req, rsp);
-          return;
-        }
+          @Override
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+            String name = req.getPathInfo();
+            if (Strings.isNullOrEmpty(name)) {
+              toGerrit(PageLinks.ADMIN_PROJECTS, req, rsp);
+              return;
+            }
 
-        while (name.endsWith("/")) {
-          name = name.substring(0, name.length() - 1);
-        }
-        if (name.endsWith(Constants.DOT_GIT_EXT)) {
-          name = name.substring(0, //
-              name.length() - Constants.DOT_GIT_EXT.length());
-        }
-        while (name.endsWith("/")) {
-          name = name.substring(0, name.length() - 1);
-        }
-        Project.NameKey project = new Project.NameKey(name);
-        toGerrit(PageLinks.toChangeQuery(PageLinks.projectQuery(project,
-            Change.Status.NEW)), req, rsp);
-      }
-    });
+            while (name.endsWith("/")) {
+              name = name.substring(0, name.length() - 1);
+            }
+            if (name.endsWith(Constants.DOT_GIT_EXT)) {
+              name =
+                  name.substring(
+                      0, //
+                      name.length() - Constants.DOT_GIT_EXT.length());
+            }
+            while (name.endsWith("/")) {
+              name = name.substring(0, name.length() - 1);
+            }
+            Project.NameKey project = new Project.NameKey(name);
+            toGerrit(
+                PageLinks.toChangeQuery(PageLinks.projectQuery(project, Change.Status.NEW)),
+                req,
+                rsp);
+          }
+        });
   }
 
   private Key<HttpServlet> query(final String query) {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(final HttpServletRequest req,
-          final HttpServletResponse rsp) throws IOException {
-        toGerrit(PageLinks.toChangeQuery(query), req, rsp);
-      }
-    });
+          @Override
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
+            toGerrit(PageLinks.toChangeQuery(query), req, rsp);
+          }
+        });
   }
 
   private Key<HttpServlet> key(final HttpServlet servlet) {
-    final Key<HttpServlet> srv =
-        Key.get(HttpServlet.class, UniqueAnnotations.create());
-    bind(srv).toProvider(new Provider<HttpServlet>() {
-      @Override
-      public HttpServlet get() {
-        return servlet;
-      }
-    }).in(SINGLETON);
+    final Key<HttpServlet> srv = Key.get(HttpServlet.class, UniqueAnnotations.create());
+    bind(srv)
+        .toProvider(
+            new Provider<HttpServlet>() {
+              @Override
+              public HttpServlet get() {
+                return servlet;
+              }
+            })
+        .in(SINGLETON);
     return srv;
   }
 
   private Key<HttpServlet> registerScreen() {
-    return key(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
 
-      @Override
-      protected void doGet(final HttpServletRequest req,
-          final HttpServletResponse rsp) throws IOException {
-        toGerrit("/register" + req.getPathInfo(), req, rsp);
-      }
-    });
+          @Override
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
+            toGerrit("/register" + req.getPathInfo(), req, rsp);
+          }
+        });
   }
 
-  static void toGerrit(final String target, final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  static void toGerrit(
+      final String target, final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());
     url.append('/');

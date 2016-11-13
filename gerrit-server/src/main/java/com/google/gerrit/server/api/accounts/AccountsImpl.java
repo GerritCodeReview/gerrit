@@ -36,11 +36,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AccountsImpl implements Accounts {
@@ -51,7 +49,8 @@ public class AccountsImpl implements Accounts {
   private final Provider<QueryAccounts> queryAccountsProvider;
 
   @Inject
-  AccountsImpl(AccountsCollection accounts,
+  AccountsImpl(
+      AccountsCollection accounts,
       AccountApiImpl.Factory api,
       Provider<CurrentUser> self,
       CreateAccount.Factory createAccount,
@@ -66,8 +65,7 @@ public class AccountsImpl implements Accounts {
   @Override
   public AccountApi id(String id) throws RestApiException {
     try {
-      return api.create(accounts.parse(TopLevelResource.INSTANCE,
-          IdString.fromDecoded(id)));
+      return api.create(accounts.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse change", e);
     }
@@ -100,8 +98,8 @@ public class AccountsImpl implements Accounts {
     }
     checkRequiresCapability(self, null, CreateAccount.class);
     try {
-      AccountInfo info = createAccount.create(in.username)
-          .apply(TopLevelResource.INSTANCE, in).value();
+      AccountInfo info =
+          createAccount.create(in.username).apply(TopLevelResource.INSTANCE, in).value();
       return id(info._accountId);
     } catch (OrmException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot create account " + in.username, e);
@@ -119,13 +117,11 @@ public class AccountsImpl implements Accounts {
   }
 
   @Override
-  public SuggestAccountsRequest suggestAccounts(String query)
-    throws RestApiException {
+  public SuggestAccountsRequest suggestAccounts(String query) throws RestApiException {
     return suggestAccounts().withQuery(query);
   }
 
-  private List<AccountInfo> suggestAccounts(SuggestAccountsRequest r)
-    throws RestApiException {
+  private List<AccountInfo> suggestAccounts(SuggestAccountsRequest r) throws RestApiException {
     try {
       QueryAccounts myQueryAccounts = queryAccountsProvider.get();
       myQueryAccounts.setSuggest(true);
@@ -152,8 +148,7 @@ public class AccountsImpl implements Accounts {
     return query().withQuery(query);
   }
 
-  private List<AccountInfo> query(QueryRequest r)
-    throws RestApiException {
+  private List<AccountInfo> query(QueryRequest r) throws RestApiException {
     try {
       QueryAccounts myQueryAccounts = queryAccountsProvider.get();
       myQueryAccounts.setQuery(r.getQuery());

@@ -22,8 +22,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class LinkFindReplaceTest {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
+  @Rule public ExpectedException exception = ExpectedException.none();
 
   @Test
   public void testNoEscaping() {
@@ -37,10 +36,8 @@ public class LinkFindReplaceTest {
 
   @Test
   public void testBackreference() {
-    LinkFindReplace l = new LinkFindReplace(
-        "(bug|issue)\\s*([0-9]+)", "/bug?id=$2");
-    assertThat(l.replace("issue 123"))
-      .isEqualTo("<a href=\"/bug?id=123\">issue 123</a>");
+    LinkFindReplace l = new LinkFindReplace("(bug|issue)\\s*([0-9]+)", "/bug?id=$2");
+    assertThat(l.replace("issue 123")).isEqualTo("<a href=\"/bug?id=123\">issue 123</a>");
   }
 
   @Test
@@ -65,14 +62,13 @@ public class LinkFindReplaceTest {
   @Test
   public void testInvalidSchemeWithBackreference() {
     exception.expect(IllegalArgumentException.class);
-    new LinkFindReplace(".*(script:[^;]*)", "java$1")
-        .replace("Look at this script: alert(1);");
+    new LinkFindReplace(".*(script:[^;]*)", "java$1").replace("Look at this script: alert(1);");
   }
 
   @Test
   public void testReplaceEscaping() {
     assertThat(new LinkFindReplace("find", "a\"&'<>b").replace("find"))
-      .isEqualTo("<a href=\"a&quot;&amp;&#39;&lt;&gt;b\">find</a>");
+        .isEqualTo("<a href=\"a&quot;&amp;&#39;&lt;&gt;b\">find</a>");
   }
 
   @Test
@@ -80,7 +76,6 @@ public class LinkFindReplaceTest {
     String rawFind = "<b>&quot;bold&quot;</b>";
     LinkFindReplace a = new LinkFindReplace(rawFind, "/bold");
     assertThat(a.pattern().getSource()).isEqualTo(rawFind);
-    assertThat(a.replace(rawFind))
-      .isEqualTo("<a href=\"/bold\">" + rawFind + "</a>");
+    assertThat(a.replace(rawFind)).isEqualTo("<a href=\"/bold\">" + rawFind + "</a>");
   }
 }

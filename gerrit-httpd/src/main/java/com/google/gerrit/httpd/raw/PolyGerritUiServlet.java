@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
-
 import java.nio.file.Path;
 
 class PolyGerritUiServlet extends ResourceServlet {

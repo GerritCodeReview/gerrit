@@ -18,14 +18,15 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.mail.Address;
-
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
 public class NotifyConfig implements Comparable<NotifyConfig> {
   public enum Header {
-    TO, CC, BCC
+    TO,
+    CC,
+    BCC
   }
 
   private String name;

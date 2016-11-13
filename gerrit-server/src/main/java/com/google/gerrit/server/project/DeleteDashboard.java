@@ -25,7 +25,6 @@ import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
@@ -40,7 +39,7 @@ class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboard.
   @Override
   public Response<DashboardInfo> apply(DashboardResource resource, SetDashboard.Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, MethodNotAllowedException, IOException {
+          ResourceNotFoundException, MethodNotAllowedException, IOException {
     if (resource.isProjectDefault()) {
       SetDashboard.Input in = new SetDashboard.Input();
       in.commitMessage = input != null ? input.commitMessage : null;

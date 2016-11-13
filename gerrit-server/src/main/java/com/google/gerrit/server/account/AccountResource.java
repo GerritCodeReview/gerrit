@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.inject.TypeLiteral;
-
 import java.util.Set;
 
 public class AccountResource implements RestResource {
@@ -119,8 +118,7 @@ public class AccountResource implements RestResource {
     private final ChangeResource change;
     private final Set<String> labels;
 
-    public Star(IdentifiedUser user, ChangeResource change,
-        Set<String> labels) {
+    public Star(IdentifiedUser user, ChangeResource change, Set<String> labels) {
       this.user = user;
       this.change = change;
       this.labels = labels;

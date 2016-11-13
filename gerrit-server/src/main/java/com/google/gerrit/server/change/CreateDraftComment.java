@@ -40,7 +40,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 
 @Singleton
@@ -53,7 +52,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final PatchListCache patchListCache;
 
   @Inject
-  CreateDraftComment(Provider<ReviewDb> db,
+  CreateDraftComment(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
@@ -80,13 +80,13 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
 
-    try (BatchUpdate bu = updateFactory.create(
-        db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getPatchSet().getId(), in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
-      return Response.created(commentJson.get().setFillAccounts(false)
-          .newCommentFormatter().format(op.comment));
+      return Response.created(
+          commentJson.get().setFillAccounts(false).newCommentFormatter().format(op.comment));
     }
   }
 
@@ -102,22 +102,19 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException {
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
-      comment = commentsUtil.newComment(
-          ctx, in.path, ps.getId(), in.side(), in.message.trim());
+      comment = commentsUtil.newComment(ctx, in.path, ps.getId(), in.side(), in.message.trim());
       comment.parentUuid = Url.decode(in.inReplyTo);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
-      setCommentRevId(
-          comment, patchListCache, ctx.getChange(), ps);
+      setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
 
-      commentsUtil.putComments(ctx.getDb(), ctx.getUpdate(psId), Status.DRAFT,
-          Collections.singleton(comment));
+      commentsUtil.putComments(
+          ctx.getDb(), ctx.getUpdate(psId), Status.DRAFT, Collections.singleton(comment));
       ctx.bumpLastUpdatedOn(false);
       return true;
     }

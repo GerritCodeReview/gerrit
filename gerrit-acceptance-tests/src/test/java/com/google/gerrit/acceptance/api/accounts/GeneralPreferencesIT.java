@@ -32,20 +32,17 @@ import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @Inject
-  private AllUsersName allUsers;
+  @Inject private AllUsersName allUsers;
 
   private TestAccount user42;
 
@@ -57,8 +54,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @After
   public void cleanUp() throws Exception {
-    gApi.accounts().id(user42.getId().toString())
-        .setPreferences(GeneralPreferencesInfo.defaults());
+    gApi.accounts().id(user42.getId().toString()).setPreferences(GeneralPreferencesInfo.defaults());
 
     try (Repository git = repoManager.openRepository(allUsers)) {
       if (git.exactRef(RefNames.REFS_USERS_DEFAULT) != null) {
@@ -72,9 +68,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void getAndSetPreferences() throws Exception {
-    GeneralPreferencesInfo o = gApi.accounts()
-        .id(user42.id.toString())
-        .getPreferences();
+    GeneralPreferencesInfo o = gApi.accounts().id(user42.id.toString()).getPreferences();
     assertPrefs(o, GeneralPreferencesInfo.defaults(), "my");
     assertThat(o.my).hasSize(7);
 
@@ -102,9 +96,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.urlAliases = new HashMap<>();
     i.urlAliases.put("foo", "bar");
 
-    o = gApi.accounts()
-        .id(user42.getId().toString())
-        .setPreferences(i);
+    o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
     assertPrefs(o, i, "my");
     assertThat(o.my).hasSize(1);
   }
@@ -117,9 +109,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     update.changesPerPage = newChangesPerPage;
     gApi.config().server().setDefaultPreferences(update);
 
-    GeneralPreferencesInfo o = gApi.accounts()
-        .id(user42.getId().toString())
-        .getPreferences();
+    GeneralPreferencesInfo o = gApi.accounts().id(user42.getId().toString()).getPreferences();
 
     // assert configured defaults
     assertThat(o.changesPerPage).isEqualTo(newChangesPerPage);

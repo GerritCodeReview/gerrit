@@ -31,17 +31,6 @@ import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.template.soy.data.SanitizedContent;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.context.InternalContextAdapterImpl;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.eclipse.jgit.util.SystemReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
@@ -56,6 +45,15 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.context.InternalContextAdapterImpl;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
@@ -122,8 +120,7 @@ public abstract class OutgoingEmail {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
         GeneralPreferencesInfo senderPrefs = fromUser.getGeneralPreferencesInfo();
 
-        if (senderPrefs != null
-            && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
+        if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
           // If we are impersonating a user, make sure they receive a CC of
           // this message so they can always review and audit what we sent
           // on their behalf to others.
@@ -172,8 +169,7 @@ public abstract class OutgoingEmail {
         }
       }
 
-      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers,
-          va.body, va.htmlBody);
+      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
     }
   }
 
@@ -223,8 +219,7 @@ public abstract class OutgoingEmail {
     final String email = account.getPreferredEmail();
     StringBuilder f = new StringBuilder();
 
-    if ((name != null && !name.isEmpty())
-        || (email != null && !email.isEmpty())) {
+    if ((name != null && !name.isEmpty()) || (email != null && !email.isEmpty())) {
       f.append("From");
       if (name != null && !name.isEmpty()) {
         f.append(" ").append(name);
@@ -268,8 +263,7 @@ public abstract class OutgoingEmail {
   }
 
   /** Set a header in the outgoing message using a template. */
-  protected void setVHeader(final String name, final String value) throws
-      EmailException {
+  protected void setVHeader(final String name, final String value) throws EmailException {
     setHeader(name, velocify(value));
   }
 
@@ -314,8 +308,8 @@ public abstract class OutgoingEmail {
   }
 
   /**
-   * Gets the human readable name and email for an account;
-   * if neither are available, returns the Anonymous Coward name.
+   * Gets the human readable name and email for an account; if neither are available, returns the
+   * Anonymous Coward name.
    *
    * @param accountId user to fetch.
    * @return name/email of account, or Anonymous Coward if unset.
@@ -339,9 +333,8 @@ public abstract class OutgoingEmail {
   }
 
   /**
-   * Gets the human readable name and email for an account;
-   * if both are unavailable, returns the username.  If no
-   * username is set, this function returns null.
+   * Gets the human readable name and email for an account; if both are unavailable, returns the
+   * username. If no username is set, this function returns null.
    *
    * @param accountId user to fetch.
    * @return name/email of account, username, or null if unset.
@@ -524,10 +517,8 @@ public abstract class OutgoingEmail {
   }
 
   /**
-   * Evaluate the named template according to the following priority:
-   * 1) Velocity file override, OR...
-   * 2) Soy file override, OR...
-   * 3) Soy resource.
+   * Evaluate the named template according to the following priority: 1) Velocity file override,
+   * OR... 2) Soy file override, OR... 3) Soy resource.
    */
   protected String textTemplate(String name) throws EmailException {
     String velocityName = name + ".vm";
@@ -562,15 +553,14 @@ public abstract class OutgoingEmail {
 
   protected void removeUser(Account user) {
     String fromEmail = user.getPreferredEmail();
-    for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext();) {
+    for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext(); ) {
       if (j.next().getEmail().equals(fromEmail)) {
         j.remove();
       }
     }
     for (Map.Entry<String, EmailHeader> entry : headers.entrySet()) {
       // Don't remove fromEmail from the "From" header though!
-      if (entry.getValue() instanceof AddressList
-          && !entry.getKey().equals("From")) {
+      if (entry.getValue() instanceof AddressList && !entry.getKey().equals("From")) {
         ((AddressList) entry.getValue()).remove(fromEmail);
       }
     }

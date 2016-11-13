@@ -26,13 +26,11 @@ import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
-
+import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
-
-import java.util.Map;
 
 public class ActionsIT extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -40,8 +38,7 @@ public class ActionsIT extends AbstractDaemonTest {
     return submitWholeTopicEnabledConfig();
   }
 
-  @Inject
-  private GetRevisionActions getRevisionActions;
+  @Inject private GetRevisionActions getRevisionActions;
 
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
@@ -75,8 +72,8 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("This change depends on other " +
-          "changes which are not ready");
+      assertThat(info.title)
+          .isEqualTo("This change depends on other " + "changes which are not ready");
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
 
@@ -193,14 +190,17 @@ public class ActionsIT extends AbstractDaemonTest {
     approve(changeId);
 
     // create another change with the same topic
-    String changeId2 = createChangeWithTopic(testRepo, "foo2", "touching b",
-        "b.txt", "real content").getChangeId();
+    String changeId2 =
+        createChangeWithTopic(testRepo, "foo2", "touching b", "b.txt", "real content")
+            .getChangeId();
     approve(changeId2);
 
     // collide with the other change in the same topic
     testRepo.reset("HEAD~2");
-    String collidingChange = createChangeWithTopic(testRepo, "off_topic",
-        "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage").getChangeId();
+    String collidingChange =
+        createChangeWithTopic(
+                testRepo, "off_topic", "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage")
+            .getChangeId();
     gApi.changes().id(collidingChange).current().review(ReviewInput.approve());
     gApi.changes().id(collidingChange).current().submit();
 
@@ -218,8 +218,7 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revisionActionsTwoChangesInTopicWithAncestorReady()
-      throws Exception {
+  public void revisionActionsTwoChangesInTopicWithAncestorReady() throws Exception {
     String changeId = createChange().getChangeId();
     approve(changeId);
     approve(changeId);
@@ -235,9 +234,11 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isTrue();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Submit all 2 changes of the same " +
-          "topic (3 changes including ancestors " +
-          "and other changes related by topic)");
+      assertThat(info.title)
+          .isEqualTo(
+              "Submit all 2 changes of the same "
+                  + "topic (3 changes including ancestors "
+                  + "and other changes related by topic)");
     } else {
       noSubmitWholeTopicAssertions(actions, 2);
     }
@@ -258,8 +259,7 @@ public class ActionsIT extends AbstractDaemonTest {
     noSubmitWholeTopicAssertions(actions, 3);
   }
 
-  private void noSubmitWholeTopicAssertions(Map<String, ActionInfo> actions,
-      int nrChanges) {
+  private void noSubmitWholeTopicAssertions(Map<String, ActionInfo> actions, int nrChanges) {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isTrue();
     if (nrChanges == 1) {
@@ -271,9 +271,11 @@ public class ActionsIT extends AbstractDaemonTest {
     if (nrChanges == 1) {
       assertThat(info.title).isEqualTo("Submit patch set 1 into master");
     } else {
-      assertThat(info.title).isEqualTo(String.format(
-          "Submit patch set 1 and ancestors (%d changes " +
-          "altogether) into master", nrChanges));
+      assertThat(info.title)
+          .isEqualTo(
+              String.format(
+                  "Submit patch set 1 and ancestors (%d changes " + "altogether) into master",
+                  nrChanges));
     }
   }
 
@@ -285,30 +287,33 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createCommitAndPush(
-      TestRepository<InMemoryRepository> repo, String ref,
-      String commitMsg, String fileName, String content) throws Exception {
-    return pushFactory
-        .create(db, admin.getIdent(), repo, commitMsg, fileName, content)
-        .to(ref);
+      TestRepository<InMemoryRepository> repo,
+      String ref,
+      String commitMsg,
+      String fileName,
+      String content)
+      throws Exception {
+    return pushFactory.create(db, admin.getIdent(), repo, commitMsg, fileName, content).to(ref);
   }
 
   private PushOneCommit.Result createChangeWithTopic(
-      TestRepository<InMemoryRepository> repo, String topic,
-      String commitMsg, String fileName, String content) throws Exception {
+      TestRepository<InMemoryRepository> repo,
+      String topic,
+      String commitMsg,
+      String fileName,
+      String content)
+      throws Exception {
     assertThat(topic).isNotEmpty();
-    return createCommitAndPush(repo, "refs/for/master/" + name(topic),
-        commitMsg, fileName, content);
+    return createCommitAndPush(
+        repo, "refs/for/master/" + name(topic), commitMsg, fileName, content);
   }
 
-  private PushOneCommit.Result createChangeWithTopic()
-      throws Exception {
-    return createChangeWithTopic(testRepo, "foo2",
-        "a message", "a.txt", "content\n");
+  private PushOneCommit.Result createChangeWithTopic() throws Exception {
+    return createChangeWithTopic(testRepo, "foo2", "a message", "a.txt", "content\n");
   }
 
-  private PushOneCommit.Result createDraftWithTopic()
-      throws Exception {
-    return createCommitAndPush(testRepo, "refs/drafts/master/" + name("foo2"),
-        "a message", "a.txt", "content\n");
+  private PushOneCommit.Result createDraftWithTopic() throws Exception {
+    return createCommitAndPush(
+        testRepo, "refs/drafts/master/" + name("foo2"), "a message", "a.txt", "content\n");
   }
 }

@@ -27,8 +27,8 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ComplexDisclosurePanel extends Composite implements
-    HasOpenHandlers<DisclosurePanel>, HasCloseHandlers<DisclosurePanel> {
+public class ComplexDisclosurePanel extends Composite
+    implements HasOpenHandlers<DisclosurePanel>, HasCloseHandlers<DisclosurePanel> {
   private final DisclosurePanel main;
   private final Panel header;
 
@@ -51,28 +51,30 @@ public class ComplexDisclosurePanel extends Composite implements
       headerParent = tr1;
     }
 
-    header = new ComplexPanel() {
-      {
-        setElement((Element)(DOM.createTD()));
-        getElement().setInnerHTML("&nbsp;");
-      }
+    header =
+        new ComplexPanel() {
+          {
+            setElement((Element) (DOM.createTD()));
+            getElement().setInnerHTML("&nbsp;");
+          }
 
-      @Override
-      public void add(Widget w) {
-        add(w, (Element)getElement());
-      }
-    };
+          @Override
+          public void add(Widget w) {
+            add(w, (Element) getElement());
+          }
+        };
 
-    initWidget(new ComplexPanel() {
-      {
-        final DisclosurePanel main = ComplexDisclosurePanel.this.main;
-        setElement((Element)(main.getElement()));
-        getChildren().add(main);
-        adopt(main);
+    initWidget(
+        new ComplexPanel() {
+          {
+            final DisclosurePanel main = ComplexDisclosurePanel.this.main;
+            setElement((Element) (main.getElement()));
+            getChildren().add(main);
+            adopt(main);
 
-        add(ComplexDisclosurePanel.this.header, headerParent);
-      }
-    });
+            add(ComplexDisclosurePanel.this.header, headerParent);
+          }
+        });
   }
 
   public Panel getHeader() {
@@ -93,8 +95,7 @@ public class ComplexDisclosurePanel extends Composite implements
   }
 
   @Override
-  public HandlerRegistration addCloseHandler(
-      final CloseHandler<DisclosurePanel> h) {
+  public HandlerRegistration addCloseHandler(final CloseHandler<DisclosurePanel> h) {
     return main.addCloseHandler(h);
   }
 

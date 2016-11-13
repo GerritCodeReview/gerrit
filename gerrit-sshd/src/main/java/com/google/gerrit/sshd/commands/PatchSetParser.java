@@ -34,7 +34,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,8 @@ public class PatchSetParser {
   private final Provider<CurrentUser> self;
 
   @Inject
-  PatchSetParser(Provider<ReviewDb> db,
+  PatchSetParser(
+      Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       PatchSetUtil psUtil,
@@ -62,8 +62,8 @@ public class PatchSetParser {
     this.self = self;
   }
 
-  public PatchSet parsePatchSet(String token, ProjectControl projectControl,
-      String branch) throws UnloggedFailure, OrmException {
+  public PatchSet parsePatchSet(String token, ProjectControl projectControl, String branch)
+      throws UnloggedFailure, OrmException {
     // By commit?
     //
     if (token.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
@@ -119,8 +119,11 @@ public class PatchSetParser {
       if (projectControl != null || branch != null) {
         Change change = notes.getChange();
         if (!inProject(change, projectControl)) {
-          throw error("change " + change.getId() + " not in project "
-              + projectControl.getProject().getName());
+          throw error(
+              "change "
+                  + change.getId()
+                  + " not in project "
+                  + projectControl.getProject().getName());
         }
         if (!inBranch(change, branch)) {
           throw error("change " + change.getId() + " not in branch " + branch);
@@ -132,23 +135,20 @@ public class PatchSetParser {
     throw error("\"" + token + "\" is not a valid patch set");
   }
 
-  private ChangeNotes getNotes(@Nullable ProjectControl projectControl,
-      Change.Id changeId) throws OrmException, UnloggedFailure {
+  private ChangeNotes getNotes(@Nullable ProjectControl projectControl, Change.Id changeId)
+      throws OrmException, UnloggedFailure {
     if (projectControl != null) {
-      return notesFactory.create(db.get(), projectControl.getProject().getNameKey(),
-          changeId);
+      return notesFactory.create(db.get(), projectControl.getProject().getNameKey(), changeId);
     }
     try {
       ChangeControl ctl = changeFinder.findOne(changeId, self.get());
-      return notesFactory.create(db.get(), ctl.getProject().getNameKey(),
-          changeId);
+      return notesFactory.create(db.get(), ctl.getProject().getNameKey(), changeId);
     } catch (NoSuchChangeException e) {
       throw error("\"" + changeId + "\" no such change");
     }
   }
 
-  private static boolean inProject(Change change,
-      ProjectControl projectControl) {
+  private static boolean inProject(Change change, ProjectControl projectControl) {
     if (projectControl == null) {
       // No --project option, so they want every project.
       return true;

@@ -18,20 +18,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.common.Nullable;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Class describing a merge tip during merge operation.
- * <p>
- * The current tip of a {@link MergeTip} may be null if the merge operation is
- * against an unborn branch, and has not yet been attempted. This is distinct
- * from a null {@link MergeTip} instance, which may be used to indicate that a
- * merge failed or another error state.
+ *
+ * <p>The current tip of a {@link MergeTip} may be null if the merge operation is against an unborn
+ * branch, and has not yet been attempted. This is distinct from a null {@link MergeTip} instance,
+ * which may be used to indicate that a merge failed or another error state.
  */
 public class MergeTip {
   private CodeReviewCommit initialTip;
@@ -39,13 +36,10 @@ public class MergeTip {
   private Map<ObjectId, ObjectId> mergeResults;
 
   /**
-   * @param initialTip tip before the merge operation; may be null, indicating
-   *     an unborn branch.
-   * @param toMerge list of commits to be merged in merge operation; may not be
-   *     null or empty.
+   * @param initialTip tip before the merge operation; may be null, indicating an unborn branch.
+   * @param toMerge list of commits to be merged in merge operation; may not be null or empty.
    */
-  public MergeTip(@Nullable CodeReviewCommit initialTip,
-      Collection<CodeReviewCommit> toMerge) {
+  public MergeTip(@Nullable CodeReviewCommit initialTip, Collection<CodeReviewCommit> toMerge) {
     checkNotNull(toMerge, "toMerge may not be null");
     checkArgument(!toMerge.isEmpty(), "toMerge may not be empty");
     this.initialTip = initialTip;
@@ -58,8 +52,8 @@ public class MergeTip {
   }
 
   /**
-   * @return the initial tip of the branch before the merge operation started;
-   *     may be null, indicating a previously unborn branch.
+   * @return the initial tip of the branch before the merge operation started; may be null,
+   *     indicating a previously unborn branch.
    */
   public CodeReviewCommit getInitialTip() {
     return initialTip;
@@ -80,16 +74,16 @@ public class MergeTip {
   /**
    * The merge results of all the merges of this merge operation.
    *
-   * @return The merge results of the merge operation as a map of SHA-1 to be
-   *     merged to SHA-1 of the merge result.
+   * @return The merge results of the merge operation as a map of SHA-1 to be merged to SHA-1 of the
+   *     merge result.
    */
   public Map<ObjectId, ObjectId> getMergeResults() {
     return mergeResults;
   }
 
   /**
-   * @return The current tip of the current merge operation; may be null,
-   *     indicating an unborn branch.
+   * @return The current tip of the current merge operation; may be null, indicating an unborn
+   *     branch.
    */
   @Nullable
   public CodeReviewCommit getCurrentTip() {

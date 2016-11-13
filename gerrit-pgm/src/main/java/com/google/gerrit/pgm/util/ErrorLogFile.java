@@ -18,18 +18,15 @@ import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
-
+import java.io.IOException;
+import java.nio.file.Path;
 import net.logstash.log4j.JSONEventLayoutV1;
-
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.jgit.lib.Config;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
@@ -54,16 +51,15 @@ public class ErrorLogFile {
 
   public static LifecycleListener start(final Path sitePath, final Config config)
       throws IOException {
-    Path logdir = FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir,
-        "Cannot create log directory");
+    Path logdir =
+        FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir, "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {
       initLogSystem(logdir, config);
     }
 
     return new LifecycleListener() {
       @Override
-      public void start() {
-      }
+      public void start() {}
 
       @Override
       public void stop() {
@@ -80,13 +76,14 @@ public class ErrorLogFile {
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
 
     if (text) {
-      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME,
-          new PatternLayout("[%d] [%t] %-5p %c %x: %m%n")));
+      root.addAppender(
+          SystemLog.createAppender(
+              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n")));
     }
 
     if (json) {
-      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX,
-          new JSONEventLayoutV1()));
+      root.addAppender(
+          SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1()));
     }
   }
 }

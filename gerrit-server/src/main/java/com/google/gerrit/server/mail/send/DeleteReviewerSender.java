@@ -23,28 +23,24 @@ import com.google.gerrit.server.mail.RecipientType;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Let users know that a reviewer and possibly her review have
- * been removed. */
+/** Let users know that a reviewer and possibly her review have been removed. */
 public class DeleteReviewerSender extends ReplyToChangeSender {
   private final Set<Account.Id> reviewers = new HashSet<>();
 
-  public interface Factory extends
-      ReplyToChangeSender.Factory<DeleteReviewerSender> {
+  public interface Factory extends ReplyToChangeSender.Factory<DeleteReviewerSender> {
     @Override
     DeleteReviewerSender create(Project.NameKey project, Change.Id change);
   }
 
   @Inject
-  public DeleteReviewerSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public DeleteReviewerSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "deleteReviewer", newChangeData(ea, project, id));
   }

@@ -18,7 +18,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -34,21 +39,14 @@ import org.apache.lucene.store.RAMDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 @Singleton
 public class QueryDocumentationExecutor {
-  private static final Logger log =
-      LoggerFactory.getLogger(QueryDocumentationExecutor.class);
+  private static final Logger log = LoggerFactory.getLogger(QueryDocumentationExecutor.class);
 
-  private static Map<String, Float> WEIGHTS = ImmutableMap.of(
-      Constants.TITLE_FIELD, 2.0f,
-      Constants.DOC_FIELD, 1.0f);
+  private static Map<String, Float> WEIGHTS =
+      ImmutableMap.of(
+          Constants.TITLE_FIELD, 2.0f,
+          Constants.DOC_FIELD, 1.0f);
 
   private IndexSearcher searcher;
   private SimpleQueryParser parser;
@@ -134,8 +132,7 @@ public class QueryDocumentationExecutor {
 
   @SuppressWarnings("serial")
   public static class DocQueryException extends Exception {
-    DocQueryException() {
-    }
+    DocQueryException() {}
 
     DocQueryException(String msg) {
       super(msg);

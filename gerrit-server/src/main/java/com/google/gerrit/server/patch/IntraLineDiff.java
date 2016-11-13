@@ -20,10 +20,6 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
 import com.google.gerrit.reviewdb.client.CodedEnum;
-
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.ReplaceEdit;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -33,12 +29,17 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.ReplaceEdit;
 
 public class IntraLineDiff implements Serializable {
   static final long serialVersionUID = IntraLineDiffKey.serialVersionUID;
 
   public enum Status implements CodedEnum {
-    EDIT_LIST('e'), DISABLED('D'), TIMEOUT('T'), ERROR('E');
+    EDIT_LIST('e'),
+    DISABLED('D'),
+    TIMEOUT('T'),
+    ERROR('E');
 
     private final char code;
 

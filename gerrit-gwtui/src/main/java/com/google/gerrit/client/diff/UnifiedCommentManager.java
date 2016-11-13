@@ -22,16 +22,14 @@ import com.google.gerrit.client.diff.UnifiedChunkManager.LineRegionInfo;
 import com.google.gerrit.client.diff.UnifiedChunkManager.RegionType;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
-import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.Pos;
-import net.codemirror.lib.TextMarker.FromTo;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.Pos;
+import net.codemirror.lib.TextMarker.FromTo;
 
 /** Tracks comment widgets for {@link Unified}. */
 class UnifiedCommentManager extends CommentManager {
@@ -43,8 +41,10 @@ class UnifiedCommentManager extends CommentManager {
   // duplicates and replace the entries in mergedMap on draft removal.
   private final Map<Integer, CommentGroup> duplicates;
 
-  UnifiedCommentManager(Unified host,
-      DiffObject base, PatchSet.Id revision,
+  UnifiedCommentManager(
+      Unified host,
+      DiffObject base,
+      PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
       boolean open) {
@@ -71,17 +71,13 @@ class UnifiedCommentManager extends CommentManager {
   }
 
   @Override
-  void newDraftOnGutterClick(CodeMirror cm, String gutterClass,
-      int cmLinePlusOne) {
+  void newDraftOnGutterClick(CodeMirror cm, String gutterClass, int cmLinePlusOne) {
     if (!Gerrit.isSignedIn()) {
       signInCallback(cm).run();
     } else {
-      LineRegionInfo info =
-          ((Unified) host).getLineRegionInfoFromCmLine(cmLinePlusOne - 1);
+      LineRegionInfo info = ((Unified) host).getLineRegionInfoFromCmLine(cmLinePlusOne - 1);
       DisplaySide side =
-          gutterClass.equals(UnifiedTable.style.lineNumbersLeft())
-              ? DisplaySide.A
-              : DisplaySide.B;
+          gutterClass.equals(UnifiedTable.style.lineNumbersLeft()) ? DisplaySide.A : DisplaySide.B;
       int line = info.line;
       if (info.getSide() != side) {
         line = host.lineOnOther(info.getSide(), line).getLine();
@@ -95,12 +91,9 @@ class UnifiedCommentManager extends CommentManager {
     CommentGroup group = null;
     if (cm.extras().hasActiveLine()) {
       int cmLinePlusOne = cm.getLineNumber(cm.extras().activeLine()) + 1;
-      LineRegionInfo info =
-          ((Unified) host).getLineRegionInfoFromCmLine(cmLinePlusOne - 1);
+      LineRegionInfo info = ((Unified) host).getLineRegionInfoFromCmLine(cmLinePlusOne - 1);
       CommentGroup forSide = map(info.getSide()).get(cmLinePlusOne);
-      group = forSide == null
-          ? map(info.getSide().otherSide()).get(cmLinePlusOne)
-          : forSide;
+      group = forSide == null ? map(info.getSide().otherSide()).get(cmLinePlusOne) : forSide;
     }
     return group;
   }
@@ -113,8 +106,7 @@ class UnifiedCommentManager extends CommentManager {
   @Override
   String getTokenSuffixForActiveLine(CodeMirror cm) {
     int cmLinePlusOne = cm.getLineNumber(cm.extras().activeLine()) + 1;
-    LineRegionInfo info =
-        ((Unified) host).getLineRegionInfoFromCmLine(cmLinePlusOne - 1);
+    LineRegionInfo info = ((Unified) host).getLineRegionInfoFromCmLine(cmLinePlusOne - 1);
     return (info.getSide() == DisplaySide.A ? "a" : "") + cmLinePlusOne;
   }
 
@@ -126,19 +118,15 @@ class UnifiedCommentManager extends CommentManager {
       Pos to = fromTo.to();
       Unified unified = (Unified) host;
       UnifiedChunkManager manager = unified.getChunkManager();
-      LineRegionInfo fromInfo =
-          unified.getLineRegionInfoFromCmLine(from.line());
-      LineRegionInfo toInfo =
-          unified.getLineRegionInfoFromCmLine(to.line());
+      LineRegionInfo fromInfo = unified.getLineRegionInfoFromCmLine(from.line());
+      LineRegionInfo toInfo = unified.getLineRegionInfoFromCmLine(to.line());
       DisplaySide side = toInfo.getSide();
 
       // Handle special cases in selections that span multiple regions. Force
       // start line to be on the same side as the end line.
-      if ((fromInfo.type == RegionType.INSERT
-          || fromInfo.type == RegionType.COMMON)
+      if ((fromInfo.type == RegionType.INSERT || fromInfo.type == RegionType.COMMON)
           && toInfo.type == RegionType.DELETE) {
-        LineOnOtherInfo infoOnSideA = manager.lineMapper
-            .lineOnOther(DisplaySide.B, fromInfo.line);
+        LineOnOtherInfo infoOnSideA = manager.lineMapper.lineOnOther(DisplaySide.B, fromInfo.line);
         int startLineOnSideA = infoOnSideA.getLine();
         if (infoOnSideA.isAligned()) {
           from.line(startLineOnSideA);
@@ -147,10 +135,8 @@ class UnifiedCommentManager extends CommentManager {
         }
         from.ch(0);
         to.line(toInfo.line);
-      } else if (fromInfo.type == RegionType.DELETE
-          && toInfo.type == RegionType.INSERT) {
-        LineOnOtherInfo infoOnSideB = manager.lineMapper
-            .lineOnOther(DisplaySide.A, fromInfo.line);
+      } else if (fromInfo.type == RegionType.DELETE && toInfo.type == RegionType.INSERT) {
+        LineOnOtherInfo infoOnSideB = manager.lineMapper.lineOnOther(DisplaySide.A, fromInfo.line);
         int startLineOnSideB = infoOnSideB.getLine();
         if (infoOnSideB.isAligned()) {
           from.line(startLineOnSideB);
@@ -159,10 +145,8 @@ class UnifiedCommentManager extends CommentManager {
         }
         from.ch(0);
         to.line(toInfo.line);
-      } else if (fromInfo.type == RegionType.DELETE
-          && toInfo.type == RegionType.COMMON) {
-        int toLineOnSideA = manager.lineMapper
-            .lineOnOther(DisplaySide.B, toInfo.line).getLine();
+      } else if (fromInfo.type == RegionType.DELETE && toInfo.type == RegionType.COMMON) {
+        int toLineOnSideA = manager.lineMapper.lineOnOther(DisplaySide.B, toInfo.line).getLine();
         from.line(fromInfo.line);
         // Force the end line to be on the same side as the start line.
         to.line(toLineOnSideA);
@@ -172,17 +156,19 @@ class UnifiedCommentManager extends CommentManager {
         to.line(toInfo.line);
       }
 
-      addDraftBox(side, CommentInfo.create(
-              getPath(),
-              getStoredSideFromDisplaySide(side),
-              to.line() + 1,
-              CommentRange.create(fromTo))).setEdit(true);
+      addDraftBox(
+              side,
+              CommentInfo.create(
+                  getPath(),
+                  getStoredSideFromDisplaySide(side),
+                  to.line() + 1,
+                  CommentRange.create(fromTo)))
+          .setEdit(true);
       cm.setCursor(Pos.create(host.getCmLine(to.line(), side), to.ch()));
       cm.setSelection(cm.getCursor());
     } else {
       int cmLine = cm.getLineNumber(cm.extras().activeLine());
-      LineRegionInfo info =
-          ((Unified) host).getLineRegionInfoFromCmLine(cmLine);
+      LineRegionInfo info = ((Unified) host).getLineRegionInfoFromCmLine(cmLine);
       insertNewDraft(info.getSide(), cmLine + 1);
     }
   }
@@ -195,8 +181,8 @@ class UnifiedCommentManager extends CommentManager {
       return existing;
     }
 
-    UnifiedCommentGroup g = new UnifiedCommentGroup(
-        this, host.getCmFromSide(side), side, cmLinePlusOne);
+    UnifiedCommentGroup g =
+        new UnifiedCommentGroup(this, host.getCmFromSide(side), side, cmLinePlusOne);
     map.put(cmLinePlusOne, g);
     if (mergedMap.containsKey(cmLinePlusOne)) {
       duplicates.put(cmLinePlusOne, mergedMap.remove(cmLinePlusOne));

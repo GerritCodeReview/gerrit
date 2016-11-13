@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
@@ -33,11 +32,8 @@ public class GetContent implements RestReadView<FileResource> {
   }
 
   @Override
-  public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException {
+  public BinaryResult apply(FileResource rsrc) throws ResourceNotFoundException, IOException {
     return fileContentUtil.getContent(
-        rsrc.getProject().getProjectState(),
-        rsrc.getRev(),
-        rsrc.getPath());
+        rsrc.getProject().getProjectState(), rsrc.getRev(), rsrc.getPath());
   }
 }

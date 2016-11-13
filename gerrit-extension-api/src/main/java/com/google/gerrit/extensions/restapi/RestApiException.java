@@ -19,8 +19,7 @@ public class RestApiException extends Exception {
   private static final long serialVersionUID = 1L;
   private CacheControl caching = CacheControl.NONE;
 
-  public RestApiException() {
-  }
+  public RestApiException() {}
 
   public RestApiException(String msg) {
     super(msg);

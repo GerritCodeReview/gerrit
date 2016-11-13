@@ -17,7 +17,6 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import org.apache.sshd.server.Command;
 
 /** Resolves an alias to another command. */
@@ -28,8 +27,7 @@ public class AliasCommandProvider implements Provider<Command> {
   @CommandName(Commands.ROOT)
   private DispatchCommandProvider root;
 
-  @Inject
-  private CurrentUser currentUser;
+  @Inject private CurrentUser currentUser;
 
   public AliasCommandProvider(CommandName command) {
     this.command = command;

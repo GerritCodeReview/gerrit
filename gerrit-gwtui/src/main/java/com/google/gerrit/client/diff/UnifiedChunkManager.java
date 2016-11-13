@@ -24,20 +24,19 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.EventListener;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.Pos;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 /** Colors modified regions for {@link Unified}. */
 class UnifiedChunkManager extends ChunkManager {
   private static final JavaScriptObject focus = initOnClick();
+
   private static native JavaScriptObject initOnClick() /*-{
     return $entry(function(e){
       @com.google.gerrit.client.diff.UnifiedChunkManager::focus(
@@ -70,9 +69,7 @@ class UnifiedChunkManager extends ChunkManager {
   private final Unified host;
   private final CodeMirror cm;
 
-  UnifiedChunkManager(Unified host,
-      CodeMirror cm,
-      Scrollbar scrollbar) {
+  UnifiedChunkManager(Unified host, CodeMirror cm, Scrollbar scrollbar) {
     super(scrollbar);
 
     this.host = host;
@@ -123,14 +120,19 @@ class UnifiedChunkManager extends ChunkManager {
     int bLen = b != null ? b.length() : 0;
     boolean insertOrDelete = a == null || b == null;
 
-    colorLines(cm,
+    colorLines(
+        cm,
         insertOrDelete && !useIntralineBg
             ? UnifiedTable.style.diffDelete()
-            : UnifiedTable.style.intralineDelete(), cmLine, aLen);
-    colorLines(cm,
+            : UnifiedTable.style.intralineDelete(),
+        cmLine,
+        aLen);
+    colorLines(
+        cm,
         insertOrDelete && !useIntralineBg
             ? UnifiedTable.style.diffInsert()
-            : UnifiedTable.style.intralineInsert(), cmLine + aLen,
+            : UnifiedTable.style.intralineInsert(),
+        cmLine + aLen,
         bLen);
     markEdit(DisplaySide.A, cmLine, a, region.editA());
     markEdit(DisplaySide.B, cmLine + aLen, b, region.editB());
@@ -166,20 +168,17 @@ class UnifiedChunkManager extends ChunkManager {
     }
   }
 
-  private void markEdit(DisplaySide side, int startLine,
-      JsArrayString lines, JsArray<Span> edits) {
+  private void markEdit(DisplaySide side, int startLine, JsArrayString lines, JsArray<Span> edits) {
     if (lines == null || edits == null) {
       return;
     }
 
     EditIterator iter = new EditIterator(lines, startLine);
-    Configuration bg = Configuration.create()
-        .set("className", getIntralineBgFromSide(side))
-        .set("readOnly", true);
+    Configuration bg =
+        Configuration.create().set("className", getIntralineBgFromSide(side)).set("readOnly", true);
 
-    Configuration diff = Configuration.create()
-        .set("className", getDiffColorFromSide(side))
-        .set("readOnly", true);
+    Configuration diff =
+        Configuration.create().set("className", getDiffColorFromSide(side)).set("readOnly", true);
 
     Pos last = Pos.create(0, 0);
     for (Span span : Natives.asList(edits)) {
@@ -192,26 +191,25 @@ class UnifiedChunkManager extends ChunkManager {
       }
       getMarkers().add(cm.markText(from, to, diff));
       last = to;
-      colorLines(cm, LineClassWhere.BACKGROUND,
-          getDiffColorFromSide(side),
-          from.line(), to.line());
+      colorLines(cm, LineClassWhere.BACKGROUND, getDiffColorFromSide(side), from.line(), to.line());
     }
   }
 
   private String getIntralineBgFromSide(DisplaySide side) {
-    return side == DisplaySide.A ? UnifiedTable.style.intralineDelete()
+    return side == DisplaySide.A
+        ? UnifiedTable.style.intralineDelete()
         : UnifiedTable.style.intralineInsert();
   }
 
   private String getDiffColorFromSide(DisplaySide side) {
-    return side == DisplaySide.A ? UnifiedTable.style.diffDelete()
+    return side == DisplaySide.A
+        ? UnifiedTable.style.diffDelete()
         : UnifiedTable.style.diffInsert();
   }
 
-  private void addDiffChunk(DisplaySide side, int chunkEnd, int chunkSize,
-      int cmLine, boolean edit) {
-    chunks.add(new UnifiedDiffChunkInfo(side, chunkEnd - chunkSize + 1, chunkEnd,
-        cmLine, edit));
+  private void addDiffChunk(
+      DisplaySide side, int chunkEnd, int chunkSize, int cmLine, boolean edit) {
+    chunks.add(new UnifiedDiffChunkInfo(side, chunkEnd - chunkSize + 1, chunkEnd, cmLine, edit));
   }
 
   @Override
@@ -219,10 +217,9 @@ class UnifiedChunkManager extends ChunkManager {
     return new Runnable() {
       @Override
       public void run() {
-        int line = cm.extras().hasActiveLine()
-            ? cm.getLineNumber(cm.extras().activeLine())
-            : 0;
-        int res = Collections.binarySearch(
+        int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
+        int res =
+            Collections.binarySearch(
                 chunks,
                 new UnifiedDiffChunkInfo(cm.side(), 0, 0, line, false),
                 getDiffChunkComparatorCmLine());
@@ -244,9 +241,9 @@ class UnifiedChunkManager extends ChunkManager {
   @Override
   int getCmLine(int line, DisplaySide side) {
     int res =
-        Collections.binarySearch(chunks,
-            new UnifiedDiffChunkInfo(
-                side, line, 0, 0, false), // Dummy DiffChunkInfo
+        Collections.binarySearch(
+            chunks,
+            new UnifiedDiffChunkInfo(side, line, 0, 0, false), // Dummy DiffChunkInfo
             getDiffChunkComparator());
     if (res >= 0) {
       return chunks.get(res).getCmLine();
@@ -255,22 +252,18 @@ class UnifiedChunkManager extends ChunkManager {
     res = -res - 1;
     if (res > 0) {
       UnifiedDiffChunkInfo info = chunks.get(res - 1);
-      if (side == DisplaySide.A && info.isEdit()
-          && info.getSide() == DisplaySide.B) {
+      if (side == DisplaySide.A && info.isEdit() && info.getSide() == DisplaySide.B) {
         // Need to use the start and cmLine of the deletion chunk
         UnifiedDiffChunkInfo delete = chunks.get(res - 2);
         if (line <= delete.getEnd()) {
           return delete.getCmLine() + line - delete.getStart();
         }
         // Need to add the length of the insertion chunk
-        return delete.getCmLine() + line - delete.getStart()
-            + info.getEnd() - info.getStart() + 1;
+        return delete.getCmLine() + line - delete.getStart() + info.getEnd() - info.getStart() + 1;
       } else if (side == info.getSide()) {
         return info.getCmLine() + line - info.getStart();
       } else {
-        return info.getCmLine()
-            + lineMapper.lineOnOther(side, line).getLine()
-            - info.getStart();
+        return info.getCmLine() + lineMapper.lineOnOther(side, line).getLine() - info.getStart();
       }
     }
     return line;
@@ -278,14 +271,13 @@ class UnifiedChunkManager extends ChunkManager {
 
   LineRegionInfo getLineRegionInfoFromCmLine(int cmLine) {
     int res =
-        Collections.binarySearch(chunks,
-            new UnifiedDiffChunkInfo(
-                DisplaySide.A, 0, 0, cmLine, false), // Dummy DiffChunkInfo
+        Collections.binarySearch(
+            chunks,
+            new UnifiedDiffChunkInfo(DisplaySide.A, 0, 0, cmLine, false), // Dummy DiffChunkInfo
             getDiffChunkComparatorCmLine());
-    if (res >= 0) {  // The line is right at the start of a diff chunk.
+    if (res >= 0) { // The line is right at the start of a diff chunk.
       UnifiedDiffChunkInfo info = chunks.get(res);
-      return new LineRegionInfo(
-          info.getStart(), displaySideToRegionType(info.getSide()));
+      return new LineRegionInfo(info.getStart(), displaySideToRegionType(info.getSide()));
     }
     // The line might be within or after a diff chunk.
     res = -res - 1;
@@ -297,14 +289,12 @@ class UnifiedChunkManager extends ChunkManager {
           // For the common region after a deletion chunk, associate the line
           // on side B with a common region.
           return new LineRegionInfo(
-              lineMapper.lineOnOther(DisplaySide.A, lineOnInfoSide)
-                  .getLine(), RegionType.COMMON);
+              lineMapper.lineOnOther(DisplaySide.A, lineOnInfoSide).getLine(), RegionType.COMMON);
         }
         return new LineRegionInfo(lineOnInfoSide, RegionType.COMMON);
       }
       // Within a diff chunk
-      return new LineRegionInfo(
-          lineOnInfoSide, displaySideToRegionType(info.getSide()));
+      return new LineRegionInfo(lineOnInfoSide, displaySideToRegionType(info.getSide()));
     }
     // The line is before any diff chunk, so it always equals cmLine and
     // belongs to a common region.
@@ -312,7 +302,9 @@ class UnifiedChunkManager extends ChunkManager {
   }
 
   enum RegionType {
-    INSERT, DELETE, COMMON,
+    INSERT,
+    DELETE,
+    COMMON,
   }
 
   private static RegionType displaySideToRegionType(DisplaySide side) {
@@ -320,13 +312,12 @@ class UnifiedChunkManager extends ChunkManager {
   }
 
   /**
-   * Helper class to associate a line in the original file with the type of the
-   * region it belongs to.
+   * Helper class to associate a line in the original file with the type of the region it belongs
+   * to.
    *
-   * @field line The 0-based line number in the original file. Note that this
-   *     might be different from the line number shown in CodeMirror.
-   * @field type The type of the region the line belongs to. Can be INSERT,
-   *     DELETE or COMMON.
+   * @field line The 0-based line number in the original file. Note that this might be different
+   *     from the line number shown in CodeMirror.
+   * @field type The type of the region the line belongs to. Can be INSERT, DELETE or COMMON.
    */
   static class LineRegionInfo {
     final int line;

@@ -20,7 +20,6 @@ import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.query.change.ChangeData;
 
 public interface ChangeIndex extends Index<Change.Id, ChangeData> {
-  public interface Factory extends
-      IndexDefinition.IndexFactory<Change.Id, ChangeData, ChangeIndex> {
-  }
+  public interface Factory
+      extends IndexDefinition.IndexFactory<Change.Id, ChangeData, ChangeIndex> {}
 }

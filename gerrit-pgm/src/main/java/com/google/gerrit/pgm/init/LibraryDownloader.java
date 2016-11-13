@@ -24,9 +24,6 @@ import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.util.HttpSupport;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +39,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.util.HttpSupport;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */
 class LibraryDownloader {
@@ -150,17 +148,14 @@ class LibraryDownloader {
     msg.append("\n");
     msg.append("Gerrit Code Review is not shipped with %s\n");
     if (neededBy != null) {
-      msg.append(String.format(
-          "** This library is required by %s. **\n",
-          neededBy.name));
+      msg.append(String.format("** This library is required by %s. **\n", neededBy.name));
     } else if (required) {
       msg.append("**  This library is required for your configuration. **\n");
     } else {
       msg.append("  If available, Gerrit can take advantage of features\n");
       msg.append("  in the library, but will also function without it.\n");
     }
-    msg.append(String.format(
-        "%s and install it now", download ? "Download" : "Copy"));
+    msg.append(String.format("%s and install it now", download ? "Download" : "Copy"));
     return ui.yesno(true, msg.toString(), name);
   }
 
@@ -223,15 +218,14 @@ class LibraryDownloader {
 
   private void removeStaleVersions() {
     if (!Strings.isNullOrEmpty(remove)) {
-      DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
-        @Override
-        public boolean accept(Path entry) {
-          return entry.getFileName().toString()
-              .matches("^" + remove + "$");
-        }
-      };
-      try (DirectoryStream<Path> paths =
-          Files.newDirectoryStream(lib_dir, filter)) {
+      DirectoryStream.Filter<Path> filter =
+          new DirectoryStream.Filter<Path>() {
+            @Override
+            public boolean accept(Path entry) {
+              return entry.getFileName().toString().matches("^" + remove + "$");
+            }
+          };
+      try (DirectoryStream<Path> paths = Files.newDirectoryStream(lib_dir, filter)) {
         for (Path p : paths) {
           String old = p.getFileName().toString();
           String bak = "." + old + ".backup";
@@ -252,10 +246,11 @@ class LibraryDownloader {
     System.err.print("Copying " + jarUrl + " ...");
     Path p = url2file(jarUrl);
     if (!Files.exists(p)) {
-      StringBuilder msg = new StringBuilder()
-          .append("\n")
-          .append("Can not find the %s at this location: %s\n")
-          .append("Please provide alternative URL");
+      StringBuilder msg =
+          new StringBuilder()
+              .append("\n")
+              .append("Can not find the %s at this location: %s\n")
+              .append("Please provide alternative URL");
       p = url2file(ui.readString(null, msg.toString(), name, jarUrl));
     }
     Files.copy(p, dst);
@@ -300,8 +295,8 @@ class LibraryDownloader {
         throw new FileNotFoundException(url.toString());
 
       default:
-        throw new IOException(url.toString() + ": " + HttpSupport.response(c)
-            + " " + c.getResponseMessage());
+        throw new IOException(
+            url.toString() + ": " + HttpSupport.response(c) + " " + c.getResponseMessage());
     }
   }
 
@@ -326,8 +321,9 @@ class LibraryDownloader {
       deleteDst();
       throw new Die(dst + " SHA-1 checksum does not match");
 
-    } else if (!ui.yesno(null /* force an answer */,
-        "error: SHA-1 checksum does not match\n" + "Use %s anyway",//
+    } else if (!ui.yesno(
+        null /* force an answer */,
+        "error: SHA-1 checksum does not match\n" + "Use %s anyway", //
         dst.getFileName())) {
       deleteDst();
       throw new Die("aborted by user");

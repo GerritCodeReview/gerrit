@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.inject.Inject;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -71,12 +70,15 @@ public abstract class MailReceiver implements LifecycleListener {
     } else {
       timer.cancel();
     }
-    timer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run() {
-        MailReceiver.this.handleEmails();
-      }
-    }, 0L, mailSettings.fetchInterval);
+    timer.scheduleAtFixedRate(
+        new TimerTask() {
+          @Override
+          public void run() {
+            MailReceiver.this.handleEmails();
+          }
+        },
+        0L,
+        mailSettings.fetchInterval);
   }
 
   @Override
@@ -87,9 +89,10 @@ public abstract class MailReceiver implements LifecycleListener {
   }
 
   /**
-   * requestDeletion will enqueue an email for deletion and delete it the
-   * next time we connect to the email server. This does not guarantee deletion
-   * as the Gerrit instance might fail before we connect to the email server.
+   * requestDeletion will enqueue an email for deletion and delete it the next time we connect to
+   * the email server. This does not guarantee deletion as the Gerrit instance might fail before we
+   * connect to the email server.
+   *
    * @param messageId
    */
   public void requestDeletion(String messageId) {
@@ -97,8 +100,8 @@ public abstract class MailReceiver implements LifecycleListener {
   }
 
   /**
-   * handleEmails will open a connection to the mail server, remove emails
-   * where deletion is pending, read new email and close the connection.
+   * handleEmails will open a connection to the mail server, remove emails where deletion is
+   * pending, read new email and close the connection.
    */
   @VisibleForTesting
   public abstract void handleEmails();

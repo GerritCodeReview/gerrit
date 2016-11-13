@@ -22,22 +22,28 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
-
 import java.util.List;
 
 @RpcImpl(version = Version.V2_0)
 public interface ProjectAdminService extends RemoteJsonService {
-  void projectAccess(Project.NameKey projectName,
-      AsyncCallback<ProjectAccess> callback);
+  void projectAccess(Project.NameKey projectName, AsyncCallback<ProjectAccess> callback);
 
   @Audit
   @SignInRequired
-  void changeProjectAccess(Project.NameKey projectName, String baseRevision,
-      String message, List<AccessSection> sections, Project.NameKey parentProjectName,
+  void changeProjectAccess(
+      Project.NameKey projectName,
+      String baseRevision,
+      String message,
+      List<AccessSection> sections,
+      Project.NameKey parentProjectName,
       AsyncCallback<ProjectAccess> callback);
 
   @SignInRequired
-  void reviewProjectAccess(Project.NameKey projectName, String baseRevision,
-      String message, List<AccessSection> sections, Project.NameKey parentProjectName,
+  void reviewProjectAccess(
+      Project.NameKey projectName,
+      String baseRevision,
+      String message,
+      List<AccessSection> sections,
+      Project.NameKey parentProjectName,
       AsyncCallback<Change.Id> callback);
 }

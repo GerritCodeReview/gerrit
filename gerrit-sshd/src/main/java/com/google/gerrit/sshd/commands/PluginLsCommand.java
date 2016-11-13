@@ -24,11 +24,9 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)
-@CommandMetaData(name = "ls", description = "List the installed plugins",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(name = "ls", description = "List the installed plugins", runsAt = MASTER_OR_SLAVE)
 final class PluginLsCommand extends SshCommand {
-  @Inject
-  private ListPlugins impl;
+  @Inject private ListPlugins impl;
 
   @Override
   public void run() throws Exception {

@@ -22,7 +22,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.nio.file.Path;
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.DailyRollingFileAppender;
@@ -35,13 +36,9 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
 @Singleton
 public class SystemLog {
-  private static final org.slf4j.Logger log =
-      LoggerFactory.getLogger(SystemLog.class);
+  private static final org.slf4j.Logger log = LoggerFactory.getLogger(SystemLog.class);
 
   public static final String LOG4J_CONFIGURATION = "log4j.configuration";
 
@@ -86,8 +83,8 @@ public class SystemLog {
       if (appender != null) {
         async.addAppender(appender);
       } else {
-        log.warn("No appender with the name: " + name + " was found. " + name
-            + " logging is disabled");
+        log.warn(
+            "No appender with the name: " + name + " was found. " + name + " logging is disabled");
       }
     }
     async.activateOptions();
@@ -104,8 +101,7 @@ public class SystemLog {
 
   private static final class DieErrorHandler implements ErrorHandler {
     @Override
-    public void error(String message, Exception e, int errorCode,
-        LoggingEvent event) {
+    public void error(String message, Exception e, int errorCode, LoggingEvent event) {
       error(e != null ? e.getMessage() : message);
     }
 
@@ -120,19 +116,15 @@ public class SystemLog {
     }
 
     @Override
-    public void activateOptions() {
-    }
+    public void activateOptions() {}
 
     @Override
-    public void setAppender(Appender appender) {
-    }
+    public void setAppender(Appender appender) {}
 
     @Override
-    public void setBackupAppender(Appender appender) {
-    }
+    public void setBackupAppender(Appender appender) {}
 
     @Override
-    public void setLogger(Logger logger) {
-    }
+    public void setLogger(Logger logger) {}
   }
 }

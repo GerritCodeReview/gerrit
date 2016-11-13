@@ -34,7 +34,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSignature;
@@ -44,22 +49,14 @@ import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * Checker for GPG public keys including Gerrit-specific checks.
- * <p>
- * For Gerrit, keys must contain a self-signed user ID certification matching a
- * trusted external ID in the database, or an email address thereof.
+ *
+ * <p>For Gerrit, keys must contain a self-signed user ID certification matching a trusted external
+ * ID in the database, or an email address thereof.
  */
 public class GerritPublicKeyChecker extends PublicKeyChecker {
-  private static final Logger log =
-      LoggerFactory.getLogger(GerritPublicKeyChecker.class);
+  private static final Logger log = LoggerFactory.getLogger(GerritPublicKeyChecker.class);
 
   @Singleton
   public static class Factory {
@@ -72,7 +69,8 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     private final ImmutableMap<Long, Fingerprint> trusted;
 
     @Inject
-    Factory(@GerritServerConfig Config cfg,
+    Factory(
+        @GerritServerConfig Config cfg,
         Provider<ReviewDb> db,
         AccountIndexCollection accountIndexes,
         Provider<InternalAccountQuery> accountQueryProvider,
@@ -87,8 +85,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
       String[] strs = cfg.getStringList("receive", null, "trustedKey");
       if (strs.length != 0) {
-        Map<Long, Fingerprint> fps =
-            Maps.newHashMapWithExpectedSize(strs.length);
+        Map<Long, Fingerprint> fps = Maps.newHashMapWithExpectedSize(strs.length);
         for (String str : strs) {
           str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
           Fingerprint fp = new Fingerprint(BaseEncoding.base16().decode(str));
@@ -104,8 +101,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       return new GerritPublicKeyChecker(this);
     }
 
-    public GerritPublicKeyChecker create(IdentifiedUser expectedUser,
-        PublicKeyStore store) {
+    public GerritPublicKeyChecker create(IdentifiedUser expectedUser, PublicKeyStore store) {
       GerritPublicKeyChecker checker = new GerritPublicKeyChecker(this);
       checker.setExpectedUser(expectedUser);
       checker.setStore(store);
@@ -132,14 +128,13 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     }
   }
 
-   /**
-    * Set the expected user for this checker.
-    * <p>
-    * If set, the top-level key passed to {@link #check(PGPPublicKey)} must
-    * belong to the given user. (Other keys checked in the course of verifying
-    * the web of trust are checked against the set of identities in the database
-    * belonging to the same user as the key.)
-    */
+  /**
+   * Set the expected user for this checker.
+   *
+   * <p>If set, the top-level key passed to {@link #check(PGPPublicKey)} must belong to the given
+   * user. (Other keys checked in the course of verifying the web of trust are checked against the
+   * set of identities in the database belonging to the same user as the key.)
+   */
   public GerritPublicKeyChecker setExpectedUser(IdentifiedUser expectedUser) {
     this.expectedUser = expectedUser;
     return this;
@@ -159,12 +154,11 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     }
   }
 
-  private CheckResult checkIdsForExpectedUser(PGPPublicKey key)
-      throws PGPException {
+  private CheckResult checkIdsForExpectedUser(PGPPublicKey key) throws PGPException {
     Set<String> allowedUserIds = getAllowedUserIds(expectedUser);
     if (allowedUserIds.isEmpty()) {
-      return CheckResult.bad("No identities found for user; check "
-          + webUrl + "#" + PageLinks.SETTINGS_WEBIDENT);
+      return CheckResult.bad(
+          "No identities found for user; check " + webUrl + "#" + PageLinks.SETTINGS_WEBIDENT);
     }
     if (hasAllowedUserId(key, allowedUserIds)) {
       return CheckResult.trusted();
@@ -172,8 +166,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return CheckResult.bad(missingUserIds(allowedUserIds));
   }
 
-  private CheckResult checkIdsForArbitraryUser(PGPPublicKey key)
-      throws PGPException, OrmException {
+  private CheckResult checkIdsForArbitraryUser(PGPPublicKey key) throws PGPException, OrmException {
     IdentifiedUser user;
     if (accountIndexes.getSearchIndex() != null) {
       List<AccountState> accountStates =
@@ -186,8 +179,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       }
       user = userFactory.create(accountStates.get(0));
     } else {
-      AccountExternalId extId = db.get().accountExternalIds().get(
-          toExtIdKey(key));
+      AccountExternalId extId = db.get().accountExternalIds().get(toExtIdKey(key));
       if (extId == null) {
         return CheckResult.bad("Key is not associated with any users");
       }
@@ -201,8 +193,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     if (hasAllowedUserId(key, allowedUserIds)) {
       return CheckResult.trusted();
     }
-    return CheckResult.bad(
-        "Key does not contain any valid certifications for user's identities");
+    return CheckResult.bad("Key does not contain any valid certifications for user's identities");
   }
 
   private boolean hasAllowedUserId(PGPPublicKey key, Set<String> allowedUserIds)
@@ -224,12 +215,9 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return false;
   }
 
-  private Iterator<PGPSignature> getSignaturesForId(PGPPublicKey key,
-      String userId) {
+  private Iterator<PGPSignature> getSignaturesForId(PGPPublicKey key, String userId) {
     Iterator<PGPSignature> result = key.getSignaturesForID(userId);
-    return result != null
-        ? result
-        : Collections.emptyIterator();
+    return result != null ? result : Collections.emptyIterator();
   }
 
   private Set<String> getAllowedUserIds(IdentifiedUser user) {
@@ -246,12 +234,11 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
   private static boolean isAllowed(String userId, Set<String> allowedUserIds) {
     return allowedUserIds.contains(userId)
-        || allowedUserIds.contains(
-            PushCertificateIdent.parse(userId).getEmailAddress());
+        || allowedUserIds.contains(PushCertificateIdent.parse(userId).getEmailAddress());
   }
 
-  private static boolean isValidCertification(PGPPublicKey key,
-      PGPSignature sig, String userId) throws PGPException {
+  private static boolean isValidCertification(PGPPublicKey key, PGPSignature sig, String userId)
+      throws PGPException {
     if (sig.getSignatureType() != PGPSignature.DEFAULT_CERTIFICATION
         && sig.getSignatureType() != PGPSignature.POSITIVE_CERTIFICATION) {
       return false;
@@ -269,8 +256,9 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   private static String missingUserIds(Set<String> allowedUserIds) {
-    StringBuilder sb = new StringBuilder("Key must contain a valid"
-        + " certification for one of the following identities:\n");
+    StringBuilder sb =
+        new StringBuilder(
+            "Key must contain a valid" + " certification for one of the following identities:\n");
     Iterator<String> sorted = allowedUserIds.stream().sorted().iterator();
     while (sorted.hasNext()) {
       sb.append("  ").append(sorted.next());
@@ -283,7 +271,6 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
   static AccountExternalId.Key toExtIdKey(PGPPublicKey key) {
     return new AccountExternalId.Key(
-        SCHEME_GPGKEY,
-        BaseEncoding.base16().encode(key.getFingerprint()));
+        SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint()));
   }
 }

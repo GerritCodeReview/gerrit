@@ -21,7 +21,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
-
 import javax.servlet.Filter;
 
 /** Configures Git access over HTTP with authentication. */
@@ -30,8 +29,7 @@ public class GitOverHttpModule extends ServletModule {
   private final DownloadConfig downloadConfig;
 
   @Inject
-  GitOverHttpModule(AuthConfig authConfig,
-      DownloadConfig downloadConfig) {
+  GitOverHttpModule(AuthConfig authConfig, DownloadConfig downloadConfig) {
     this.authConfig = authConfig;
     this.downloadConfig = downloadConfig;
   }

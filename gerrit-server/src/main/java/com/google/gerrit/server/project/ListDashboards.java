@@ -22,7 +22,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -34,10 +36,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 class ListDashboards implements RestReadView<ProjectResource> {
   private static final Logger log = LoggerFactory.getLogger(ListDashboards.class);
@@ -53,8 +51,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public List<?> apply(ProjectResource resource)
-      throws ResourceNotFoundException, IOException {
+  public List<?> apply(ProjectResource resource) throws ResourceNotFoundException, IOException {
     ProjectControl ctl = resource.getControl();
     String project = ctl.getProject().getName();
     if (!inherited) {
@@ -80,16 +77,15 @@ class ListDashboards implements RestReadView<ProjectResource> {
     return all;
   }
 
-  private List<DashboardInfo> scan(ProjectControl ctl, String project,
-      boolean setDefault) throws ResourceNotFoundException, IOException {
+  private List<DashboardInfo> scan(ProjectControl ctl, String project, boolean setDefault)
+      throws ResourceNotFoundException, IOException {
     Project.NameKey projectName = ctl.getProject().getNameKey();
     try (Repository git = gitManager.openRepository(projectName);
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
         if (ctl.controlForRef(ref.getName()).canRead()) {
-          all.addAll(scanDashboards(ctl.getProject(), git, rw, ref,
-              project, setDefault));
+          all.addAll(scanDashboards(ctl.getProject(), git, rw, ref, project, setDefault));
         }
       }
       return all;
@@ -98,8 +94,13 @@ class ListDashboards implements RestReadView<ProjectResource> {
     }
   }
 
-  private List<DashboardInfo> scanDashboards(Project definingProject,
-      Repository git, RevWalk rw, Ref ref, String project, boolean setDefault)
+  private List<DashboardInfo> scanDashboards(
+      Project definingProject,
+      Repository git,
+      RevWalk rw,
+      Ref ref,
+      String project,
+      boolean setDefault)
       throws IOException {
     List<DashboardInfo> list = new ArrayList<>();
     try (TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
@@ -108,18 +109,19 @@ class ListDashboards implements RestReadView<ProjectResource> {
       while (tw.next()) {
         if (tw.getFileMode(0) == FileMode.REGULAR_FILE) {
           try {
-            list.add(DashboardsCollection.parse(
-                definingProject,
-                ref.getName().substring(REFS_DASHBOARDS.length()),
-                tw.getPathString(),
-                new BlobBasedConfig(null, git, tw.getObjectId(0)),
-                project,
-                setDefault));
+            list.add(
+                DashboardsCollection.parse(
+                    definingProject,
+                    ref.getName().substring(REFS_DASHBOARDS.length()),
+                    tw.getPathString(),
+                    new BlobBasedConfig(null, git, tw.getObjectId(0)),
+                    project,
+                    setDefault));
           } catch (ConfigInvalidException e) {
-            log.warn(String.format(
-                "Cannot parse dashboard %s:%s:%s: %s",
-                definingProject.getName(), ref.getName(), tw.getPathString(),
-                e.getMessage()));
+            log.warn(
+                String.format(
+                    "Cannot parse dashboard %s:%s:%s: %s",
+                    definingProject.getName(), ref.getName(), tw.getPathString(), e.getMessage()));
           }
         }
       }

@@ -30,7 +30,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -43,11 +43,8 @@ import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 @Singleton
-public class DeleteBranches
-    implements RestModifyView<ProjectResource, DeleteBranchesInput> {
+public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBranchesInput> {
   private static final Logger log = LoggerFactory.getLogger(DeleteBranches.class);
 
   private final Provider<IdentifiedUser> identifiedUser;
@@ -57,7 +54,8 @@ public class DeleteBranches
   private final RefValidationHelper refDeletionValidator;
 
   @Inject
-  DeleteBranches(Provider<IdentifiedUser> identifiedUser,
+  DeleteBranches(
+      Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       GitReferenceUpdated referenceUpdated,
@@ -66,8 +64,7 @@ public class DeleteBranches
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
-    this.refDeletionValidator =
-        refHelperFactory.create(ReceiveCommand.Type.DELETE);
+    this.refDeletionValidator = refHelperFactory.create(ReceiveCommand.Type.DELETE);
   }
 
   @Override
@@ -104,23 +101,22 @@ public class DeleteBranches
     return Response.none();
   }
 
-  private ReceiveCommand createDeleteCommand(ProjectResource project,
-      Repository r, String branch)
-          throws OrmException, IOException, ResourceConflictException {
+  private ReceiveCommand createDeleteCommand(ProjectResource project, Repository r, String branch)
+      throws OrmException, IOException, ResourceConflictException {
     Ref ref = r.getRefDatabase().getRef(branch);
     ReceiveCommand command;
     if (ref == null) {
       command = new ReceiveCommand(ObjectId.zeroId(), ObjectId.zeroId(), branch);
-      command.setResult(Result.REJECTED_OTHER_REASON,
+      command.setResult(
+          Result.REJECTED_OTHER_REASON,
           "it doesn't exist or you do not have permission to delete it");
       return command;
     }
-    command =
-        new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
-    Branch.NameKey branchKey =
-        new Branch.NameKey(project.getNameKey(), ref.getName());
+    command = new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
+    Branch.NameKey branchKey = new Branch.NameKey(project.getNameKey(), ref.getName());
     if (!project.getControl().controlForRef(branchKey).canDelete()) {
-      command.setResult(Result.REJECTED_OTHER_REASON,
+      command.setResult(
+          Result.REJECTED_OTHER_REASON,
           "it doesn't exist or you do not have permission to delete it");
     }
     if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
@@ -128,18 +124,15 @@ public class DeleteBranches
     }
     RefUpdate u = r.updateRef(branch);
     u.setForceUpdate(true);
-    refDeletionValidator.validateRefOperation(
-        project.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(project.getName(), identifiedUser.get(), u);
     return command;
   }
 
-  private void appendAndLogErrorMessage(StringBuilder errorMessages,
-      ReceiveCommand cmd) {
+  private void appendAndLogErrorMessage(StringBuilder errorMessages, ReceiveCommand cmd) {
     String msg = null;
     switch (cmd.getResult()) {
       case REJECTED_CURRENT_BRANCH:
-        msg = format("Cannot delete %s: it is the current branch",
-            cmd.getRefName());
+        msg = format("Cannot delete %s: it is the current branch", cmd.getRefName());
         break;
       case REJECTED_OTHER_REASON:
         msg = format("Cannot delete %s: %s", cmd.getRefName(), cmd.getMessage());
@@ -161,7 +154,6 @@ public class DeleteBranches
   }
 
   private void postDeletion(ProjectResource project, ReceiveCommand cmd) {
-    referenceUpdated.fire(project.getNameKey(), cmd,
-        identifiedUser.get().getAccount());
+    referenceUpdated.fire(project.getNameKey(), cmd, identifiedUser.get().getAccount());
   }
 }

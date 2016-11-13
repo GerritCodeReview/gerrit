@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb.rebuild;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.Objects;
 
 class FinalUpdatesEvent extends Event {
@@ -25,8 +24,13 @@ class FinalUpdatesEvent extends Event {
   private final Change noteDbChange;
 
   FinalUpdatesEvent(Change change, Change noteDbChange) {
-    super(change.currentPatchSetId(), change.getOwner(), change.getOwner(),
-        change.getLastUpdatedOn(), change.getCreatedOn(), null);
+    super(
+        change.currentPatchSetId(),
+        change.getOwner(),
+        change.getOwner(),
+        change.getLastUpdatedOn(),
+        change.getCreatedOn(),
+        null);
     this.change = change;
     this.noteDbChange = noteDbChange;
   }
@@ -46,8 +50,7 @@ class FinalUpdatesEvent extends Event {
       // TODO(dborowitz): Stamp approximate approvals at this time.
       update.fixStatus(change.getStatus());
     }
-    if (change.getSubmissionId() != null
-        && noteDbChange.getSubmissionId() == null) {
+    if (change.getSubmissionId() != null && noteDbChange.getSubmissionId() == null) {
       update.setSubmissionId(change.getSubmissionId());
     }
     if (!Objects.equals(change.getAssignee(), noteDbChange.getAssignee())) {

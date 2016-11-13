@@ -18,90 +18,145 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface ChangeConstants extends Constants {
   String statusLongNew();
+
   String statusLongMerged();
+
   String statusLongAbandoned();
+
   String statusLongDraft();
+
   String submittable();
+
   String readyToSubmit();
+
   String mergeConflict();
+
   String notCurrent();
+
   String changeEdit();
 
   String myDashboardTitle();
+
   String unknownDashboardTitle();
+
   String incomingReviews();
+
   String outgoingReviews();
+
   String recentlyClosed();
 
   String changeTableColumnSubject();
+
   String changeTableColumnSize();
+
   String changeTableColumnStatus();
+
   String changeTableColumnOwner();
+
   String changeTableColumnAssignee();
+
   String changeTableColumnProject();
+
   String changeTableColumnBranch();
+
   String changeTableColumnLastUpdate();
+
   String changeTableColumnID();
+
   String changeTableNone();
+
   String changeTableNotMergeable();
 
   String changeItemHelp();
+
   String changeTableStar();
+
   String changeTablePagePrev();
+
   String changeTablePageNext();
+
   String upToChangeList();
+
   String keyReloadChange();
+
   String keyNextPatchSet();
+
   String keyPreviousPatchSet();
+
   String keyReloadSearch();
+
   String keyPublishComments();
+
   String keyEditTopic();
+
   String keyAddReviewers();
+
   String keyExpandAllMessages();
+
   String keyCollapseAllMessages();
 
   String patchTableColumnName();
+
   String patchTableColumnComments();
+
   String patchTableColumnSize();
+
   String commitMessage();
+
   String mergeList();
 
   String patchTablePrev();
+
   String patchTableNext();
+
   String patchTableOpenDiff();
 
   String approvalTableEditAssigneeHint();
 
   String approvalTableAddReviewerHint();
+
   String approvalTableAddManyReviewersConfirmationDialogTitle();
 
   String changeInfoBlockUploaded();
+
   String changeInfoBlockUpdated();
 
   String messageNoAuthor();
 
   String sideBySide();
+
   String unifiedDiff();
 
   String buttonRevertChangeSend();
+
   String headingRevertMessage();
+
   String revertChangeTitle();
 
   String buttonCherryPickChangeSend();
+
   String headingCherryPickBranch();
+
   String cherryPickCommitMessage();
+
   String cherryPickTitle();
 
   String buttonRebaseChangeSend();
+
   String rebaseConfirmMessage();
+
   String rebaseNotPossibleMessage();
+
   String rebasePlaceholderMessage();
+
   String rebaseTitle();
 
   String baseDiffItem();
+
   String autoMerge();
 
   String pagedChangeListPrev();
+
   String pagedChangeListNext();
 
   String submitFailed();
@@ -109,7 +164,10 @@ public interface ChangeConstants extends Constants {
   String votable();
 
   String pushCertMissing();
+
   String pushCertBad();
+
   String pushCertOk();
+
   String pushCertTrusted();
 }

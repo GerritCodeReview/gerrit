@@ -19,11 +19,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.restapi.RawInput;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.servlet.http.HttpServletRequest;
 
 @GwtIncompatible("Unemulated classes in java.io and javax.servlet")

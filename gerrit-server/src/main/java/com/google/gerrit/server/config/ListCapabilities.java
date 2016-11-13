@@ -22,12 +22,10 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Map;
 import java.util.TreeMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** List capabilities visible to the calling user. */
 @Singleton
@@ -51,8 +49,7 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
 
   private void collectCoreCapabilities(Map<String, CapabilityInfo> output)
       throws IllegalAccessException, NoSuchFieldException {
-    Class<? extends CapabilityConstants> bundleClass =
-        CapabilityConstants.get().getClass();
+    Class<? extends CapabilityConstants> bundleClass = CapabilityConstants.get().getClass();
     CapabilityConstants c = CapabilityConstants.get();
     for (String id : GlobalCapability.getAllNames()) {
       String name = (String) bundleClass.getField(id).get(c);
@@ -63,26 +60,23 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   private void collectPluginCapabilities(Map<String, CapabilityInfo> output) {
     for (String pluginName : pluginCapabilities.plugins()) {
       if (!isPluginNameSane(pluginName)) {
-        log.warn(String.format(
-            "Plugin name %s must match [A-Za-z0-9-]+ to use capabilities;"
-            + " rename the plugin",
-            pluginName));
+        log.warn(
+            String.format(
+                "Plugin name %s must match [A-Za-z0-9-]+ to use capabilities;"
+                    + " rename the plugin",
+                pluginName));
         continue;
       }
       for (Map.Entry<String, Provider<CapabilityDefinition>> entry :
           pluginCapabilities.byPlugin(pluginName).entrySet()) {
         String id = String.format("%s-%s", pluginName, entry.getKey());
-        output.put(id, new CapabilityInfo(
-            id,
-            entry.getValue().get().getDescription()));
+        output.put(id, new CapabilityInfo(id, entry.getValue().get().getDescription()));
       }
     }
   }
 
   private static boolean isPluginNameSane(String pluginName) {
-    return CharMatcher.javaLetterOrDigit()
-        .or(CharMatcher.is('-'))
-        .matchesAllOf(pluginName);
+    return CharMatcher.javaLetterOrDigit().or(CharMatcher.is('-')).matchesAllOf(pluginName);
   }
 
   public static class CapabilityInfo {

@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,11 +64,9 @@ class CommentJson {
     return new RobotCommentFormatter();
   }
 
-  private abstract class BaseCommentFormatter<F extends Comment,
-      T extends CommentInfo> {
+  private abstract class BaseCommentFormatter<F extends Comment, T extends CommentInfo> {
     public T format(F comment) throws OrmException {
-      AccountLoader loader =
-          fillAccounts ? accountLoaderFactory.create(true) : null;
+      AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
       T info = toInfo(comment, loader);
       if (loader != null) {
         loader.fill();
@@ -77,10 +74,8 @@ class CommentJson {
       return info;
     }
 
-    public Map<String, List<T>> format(Iterable<F> comments)
-        throws OrmException {
-      AccountLoader loader =
-          fillAccounts ? accountLoaderFactory.create(true) : null;
+    public Map<String, List<T>> format(Iterable<F> comments) throws OrmException {
+      AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
 
       Map<String, List<T>> out = new TreeMap<>();
 
@@ -106,12 +101,12 @@ class CommentJson {
     }
 
     public List<T> formatAsList(Iterable<F> comments) throws OrmException {
-      AccountLoader loader =
-          fillAccounts ? accountLoaderFactory.create(true) : null;
+      AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
 
-      List<T> out = FluentIterable.from(comments)
-          .transform(c -> toInfo(c, loader))
-          .toSortedList(COMMENT_INFO_ORDER);
+      List<T> out =
+          FluentIterable.from(comments)
+              .transform(c -> toInfo(c, loader))
+              .toSortedList(COMMENT_INFO_ORDER);
 
       if (loader != null) {
         loader.fill();
@@ -121,8 +116,7 @@ class CommentJson {
 
     protected abstract T toInfo(F comment, AccountLoader loader);
 
-    protected void fillCommentInfo(Comment c, CommentInfo r,
-        AccountLoader loader) {
+    protected void fillCommentInfo(Comment c, CommentInfo r, AccountLoader loader) {
       if (fillPatchSet) {
         r.patchSet = c.key.patchSetId;
       }
@@ -168,12 +162,10 @@ class CommentJson {
       return ci;
     }
 
-    private CommentFormatter() {
-    }
+    private CommentFormatter() {}
   }
 
-  class RobotCommentFormatter
-      extends BaseCommentFormatter<RobotComment, RobotCommentInfo> {
+  class RobotCommentFormatter extends BaseCommentFormatter<RobotComment, RobotCommentInfo> {
     @Override
     protected RobotCommentInfo toInfo(RobotComment c, AccountLoader loader) {
       RobotCommentInfo rci = new RobotCommentInfo();
@@ -185,7 +177,6 @@ class CommentJson {
       return rci;
     }
 
-    private RobotCommentFormatter() {
-    }
+    private RobotCommentFormatter() {}
   }
 }

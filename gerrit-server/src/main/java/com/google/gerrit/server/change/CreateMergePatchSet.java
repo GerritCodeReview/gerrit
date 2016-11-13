@@ -52,7 +52,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.EnumSet;
+import java.util.TimeZone;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -62,14 +65,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.EnumSet;
-import java.util.TimeZone;
-
 @Singleton
-public class CreateMergePatchSet implements
-    RestModifyView<ChangeResource, MergePatchSetInput> {
+public class CreateMergePatchSet implements RestModifyView<ChangeResource, MergePatchSetInput> {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
@@ -82,7 +79,8 @@ public class CreateMergePatchSet implements
   private final PatchSetInserter.Factory patchSetInserterFactory;
 
   @Inject
-  CreateMergePatchSet(Provider<ReviewDb> db,
+  CreateMergePatchSet(
+      Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> user,
@@ -104,8 +102,8 @@ public class CreateMergePatchSet implements
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource req, MergePatchSetInput in)
-      throws NoSuchChangeException, OrmException, IOException,
-      InvalidChangeOperationException, RestApiException, UpdateException {
+      throws NoSuchChangeException, OrmException, IOException, InvalidChangeOperationException,
+          RestApiException, UpdateException {
     if (in.merge == null) {
       throw new BadRequestException("merge field is required");
     }
@@ -117,8 +115,7 @@ public class CreateMergePatchSet implements
 
     ChangeControl ctl = req.getControl();
     if (!ctl.isVisible(db.get())) {
-      throw new InvalidChangeOperationException(
-          "Base change not found: " + req.getId());
+      throw new InvalidChangeOperationException("Base change not found: " + req.getId());
     }
     PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
     if (!ctl.canAddPatchSet(db.get())) {
@@ -133,50 +130,62 @@ public class CreateMergePatchSet implements
         ObjectInserter oi = git.newObjectInserter();
         RevWalk rw = new RevWalk(oi.newReader())) {
 
-      RevCommit sourceCommit =
-          MergeUtil.resolveCommit(git, rw, merge.source);
+      RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, merge.source);
       if (!projectControl.canReadCommit(db.get(), git, sourceCommit)) {
         throw new ResourceNotFoundException(
             "cannot find source commit: " + merge.source + " to merge.");
       }
 
-      RevCommit currentPsCommit =
-          rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+      RevCommit currentPsCommit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
 
       RevCommit newCommit =
-          createMergeCommit(in, projectControl, dest, git, oi, rw,
-              currentPsCommit, sourceCommit, author,
+          createMergeCommit(
+              in,
+              projectControl,
+              dest,
+              git,
+              oi,
+              rw,
+              currentPsCommit,
+              sourceCommit,
+              author,
               ObjectId.fromString(change.getKey().get().substring(1)));
 
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.getId());
-      PatchSetInserter psInserter =
-          patchSetInserterFactory.create(ctl, nextPsId, newCommit);
-      try (BatchUpdate bu = batchUpdateFactory
-          .create(db.get(), project, me, now)) {
+      PatchSetInserter psInserter = patchSetInserterFactory.create(ctl, nextPsId, newCommit);
+      try (BatchUpdate bu = batchUpdateFactory.create(db.get(), project, me, now)) {
         bu.setRepository(git, rw, oi);
-        bu.addOp(ctl.getId(), psInserter
-            .setMessage("Uploaded patch set " + nextPsId.get() + ".")
-            .setDraft(ps.isDraft())
-            .setNotify(NotifyHandling.NONE));
+        bu.addOp(
+            ctl.getId(),
+            psInserter
+                .setMessage("Uploaded patch set " + nextPsId.get() + ".")
+                .setDraft(ps.isDraft())
+                .setNotify(NotifyHandling.NONE));
         bu.execute();
       }
 
-      ChangeJson json =
-          jsonFactory.create(EnumSet.of(ListChangesOption.CURRENT_REVISION));
+      ChangeJson json = jsonFactory.create(EnumSet.of(ListChangesOption.CURRENT_REVISION));
       return Response.ok(json.format(psInserter.getChange()));
     }
   }
 
-  private RevCommit createMergeCommit(MergePatchSetInput in,
-      ProjectControl projectControl, Branch.NameKey dest, Repository git,
-      ObjectInserter oi, RevWalk rw, RevCommit currentPsCommit,
-      RevCommit sourceCommit, PersonIdent author, ObjectId changeId)
-      throws ResourceNotFoundException, MergeIdenticalTreeException,
-      MergeConflictException, IOException {
+  private RevCommit createMergeCommit(
+      MergePatchSetInput in,
+      ProjectControl projectControl,
+      Branch.NameKey dest,
+      Repository git,
+      ObjectInserter oi,
+      RevWalk rw,
+      RevCommit currentPsCommit,
+      RevCommit sourceCommit,
+      PersonIdent author,
+      ObjectId changeId)
+      throws ResourceNotFoundException, MergeIdenticalTreeException, MergeConflictException,
+          IOException {
 
     ObjectId parentCommit;
     if (in.inheritParent) {
@@ -201,12 +210,12 @@ public class CreateMergePatchSet implements
       commitMsg = currentPsCommit.getFullMessage();
     }
 
-    String mergeStrategy = MoreObjects.firstNonNull(
-        Strings.emptyToNull(in.merge.strategy),
-        mergeUtilFactory.create(projectControl.getProjectState())
-            .mergeStrategyName());
+    String mergeStrategy =
+        MoreObjects.firstNonNull(
+            Strings.emptyToNull(in.merge.strategy),
+            mergeUtilFactory.create(projectControl.getProjectState()).mergeStrategyName());
 
-    return MergeUtil.createMergeCommit(git, oi, mergeTip, sourceCommit,
-        mergeStrategy, author, commitMsg, rw);
+    return MergeUtil.createMergeCommit(
+        git, oi, mergeTip, sourceCommit, mergeStrategy, author, commitMsg, rw);
   }
 }

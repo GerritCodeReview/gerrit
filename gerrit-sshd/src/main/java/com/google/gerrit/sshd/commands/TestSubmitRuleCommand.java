@@ -24,8 +24,7 @@ import com.google.inject.Inject;
 /** Command that allows testing of prolog submit-rules in a live instance. */
 @CommandMetaData(name = "rule", description = "Test prolog submit rules")
 final class TestSubmitRuleCommand extends BaseTestPrologCommand {
-  @Inject
-  private TestSubmitRule view;
+  @Inject private TestSubmitRule view;
 
   @Override
   protected RestModifyView<RevisionResource, TestSubmitRuleInput> createView() {

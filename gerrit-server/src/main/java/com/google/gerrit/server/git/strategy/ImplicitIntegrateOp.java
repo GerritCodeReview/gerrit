@@ -17,11 +17,10 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.server.git.CodeReviewCommit;
 
 /**
- * Operation for a change that is implicitly integrated by integrating another
- * commit.
- * <p>
- * Updates the change status and message based on {@link
- * CodeReviewCommit#getStatusCode()}, but does not touch the repository.
+ * Operation for a change that is implicitly integrated by integrating another commit.
+ *
+ * <p>Updates the change status and message based on {@link CodeReviewCommit#getStatusCode()}, but
+ * does not touch the repository.
  */
 class ImplicitIntegrateOp extends SubmitStrategyOp {
   ImplicitIntegrateOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {

@@ -37,14 +37,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
 public class RelatedChanges extends TabPanel {
-  static final RelatedChangesResources R = GWT
-      .create(RelatedChangesResources.class);
+  static final RelatedChangesResources R = GWT.create(RelatedChangesResources.class);
 
   interface RelatedChangesResources extends ClientBundle {
     @Source("related_changes.css")
@@ -53,21 +51,30 @@ public class RelatedChanges extends TabPanel {
 
   interface RelatedChangesCss extends CssResource {
     String activeRow();
+
     String current();
+
     String gitweb();
+
     String indirect();
+
     String notCurrent();
+
     String pointer();
+
     String row();
+
     String subject();
+
     String strikedSubject();
+
     String submittable();
+
     String tabPanel();
   }
 
   enum Tab {
-    RELATED_CHANGES(Resources.C.relatedChanges(),
-        Resources.C.relatedChangesTooltip()) {
+    RELATED_CHANGES(Resources.C.relatedChanges(), Resources.C.relatedChangesTooltip()) {
       @Override
       String getTitle(int count) {
         return Resources.M.relatedChanges(count);
@@ -79,8 +86,7 @@ public class RelatedChanges extends TabPanel {
       }
     },
 
-    SUBMITTED_TOGETHER(Resources.C.submittedTogether(),
-        Resources.C.submittedTogether()) {
+    SUBMITTED_TOGETHER(Resources.C.submittedTogether(), Resources.C.submittedTogether()) {
       @Override
       String getTitle(int count) {
         return Resources.M.submittedTogether(count);
@@ -92,8 +98,7 @@ public class RelatedChanges extends TabPanel {
       }
     },
 
-    SAME_TOPIC(Resources.C.sameTopic(),
-        Resources.C.sameTopicTooltip()) {
+    SAME_TOPIC(Resources.C.sameTopic(), Resources.C.sameTopicTooltip()) {
       @Override
       String getTitle(int count) {
         return Resources.M.sameTopic(count);
@@ -105,8 +110,7 @@ public class RelatedChanges extends TabPanel {
       }
     },
 
-    CONFLICTING_CHANGES(Resources.C.conflictingChanges(),
-        Resources.C.conflictingChangesTooltip()) {
+    CONFLICTING_CHANGES(Resources.C.conflictingChanges(), Resources.C.conflictingChangesTooltip()) {
       @Override
       String getTitle(int count) {
         return Resources.M.conflictingChanges(count);
@@ -118,8 +122,7 @@ public class RelatedChanges extends TabPanel {
       }
     },
 
-    CHERRY_PICKS(Resources.C.cherryPicks(),
-        Resources.C.cherryPicksTooltip()) {
+    CHERRY_PICKS(Resources.C.cherryPicks(), Resources.C.cherryPicksTooltip()) {
       @Override
       String getTitle(int count) {
         return Resources.M.cherryPicks(count);
@@ -135,6 +138,7 @@ public class RelatedChanges extends TabPanel {
     final String tooltip;
 
     abstract String getTitle(int count);
+
     abstract String getTitle(String count);
 
     Tab(String defaultTitle, String tooltip) {
@@ -161,16 +165,17 @@ public class RelatedChanges extends TabPanel {
 
   private void initTabBar() {
     TabBar tabBar = getTabBar();
-    tabBar.addSelectionHandler(new SelectionHandler<Integer>() {
-      @Override
-      public void onSelection(SelectionEvent<Integer> event) {
-        if (selectedTab >= 0) {
-          tabs.get(selectedTab).registerKeys(false);
-        }
-        selectedTab = event.getSelectedItem();
-        tabs.get(selectedTab).registerKeys(true);
-      }
-    });
+    tabBar.addSelectionHandler(
+        new SelectionHandler<Integer>() {
+          @Override
+          public void onSelection(SelectionEvent<Integer> event) {
+            if (selectedTab >= 0) {
+              tabs.get(selectedTab).registerKeys(false);
+            }
+            selectedTab = event.getSelectedItem();
+            tabs.get(selectedTab).registerKeys(true);
+          }
+        });
 
     for (Tab tabInfo : Tab.values()) {
       RelatedChangesTab panel = new RelatedChangesTab(tabInfo);
@@ -198,8 +203,10 @@ public class RelatedChanges extends TabPanel {
       setForOpenChange(info, revision);
     }
 
-    ChangeApi.revision(info.legacyId().get(), revision).view("related")
-        .get(new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
+    ChangeApi.revision(info.legacyId().get(), revision)
+        .view("related")
+        .get(
+            new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
               @Override
               public JsArray<ChangeAndCommit> convert(RelatedInfo result) {
                 return result.changes();
@@ -211,26 +218,30 @@ public class RelatedChanges extends TabPanel {
     cherryPicksQuery.append(" ").append(op("change", info.changeId()));
     cherryPicksQuery.append(" ").append(op("-change", info.legacyId().get()));
     cherryPicksQuery.append(" -is:abandoned");
-    ChangeList.query(cherryPicksQuery.toString(),
+    ChangeList.query(
+        cherryPicksQuery.toString(),
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
     if (info.currentRevision().equals(revision)) {
-      ChangeApi.change(info.legacyId().get()).view("submitted_together")
-          .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
-              info.project(), revision));
+      ChangeApi.change(info.legacyId().get())
+          .view("submitted_together")
+          .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER, info.project(), revision));
     }
 
     if (!Gerrit.info().change().isSubmitWholeTopicEnabled()
-        && info.topic() != null && !"".equals(info.topic())) {
+        && info.topic() != null
+        && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
       topicQuery.append("status:open");
       topicQuery.append(" ").append(op("topic", info.topic()));
-      ChangeList.query(topicQuery.toString(),
-          EnumSet.of(ListChangesOption.CURRENT_REVISION,
-                     ListChangesOption.CURRENT_COMMIT,
-                     ListChangesOption.DETAILED_LABELS,
-                     ListChangesOption.LABELS),
+      ChangeList.query(
+          topicQuery.toString(),
+          EnumSet.of(
+              ListChangesOption.CURRENT_REVISION,
+              ListChangesOption.CURRENT_COMMIT,
+              ListChangesOption.DETAILED_LABELS,
+              ListChangesOption.LABELS),
           new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
     }
   }
@@ -241,7 +252,8 @@ public class RelatedChanges extends TabPanel {
       conflictsQuery.append("status:open");
       conflictsQuery.append(" is:mergeable");
       conflictsQuery.append(" ").append(op("conflicts", info.legacyId().get()));
-      ChangeList.query(conflictsQuery.toString(),
+      ChangeList.query(
+          conflictsQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
           new TabChangeListCallback(Tab.CONFLICTING_CHANGES, info.project(), revision));
     }
@@ -322,7 +334,7 @@ public class RelatedChanges extends TabPanel {
       setTabEnabled(tabInfo, enabled);
       outstandingCallbacks--;
       if (outstandingCallbacks == 0 || (enabled && tabInfo == Tab.RELATED_CHANGES)) {
-        outstandingCallbacks = 0;  // Only execute this block once
+        outstandingCallbacks = 0; // Only execute this block once
         for (int i = 0; i < getTabBar().getTabCount(); i++) {
           if (getTabBar().isTabEnabled(i)) {
             selectTab(i);
@@ -368,8 +380,8 @@ public class RelatedChanges extends TabPanel {
 
   public static class RelatedInfo extends JavaScriptObject {
     public final native JsArray<ChangeAndCommit> changes() /*-{ return this.changes }-*/;
-    protected RelatedInfo() {
-    }
+
+    protected RelatedInfo() {}
   }
 
   public static class ChangeAndCommit extends JavaScriptObject {
@@ -378,27 +390,29 @@ public class RelatedChanges extends TabPanel {
     }
 
     public final native String id() /*-{ return this.change_id }-*/;
+
     public final native CommitInfo commit() /*-{ return this.commit }-*/;
+
     final native String branch() /*-{ return this.branch }-*/;
+
     final native String project() /*-{ return this.project }-*/;
+
     final native boolean submittable() /*-{ return this._submittable ? true : false; }-*/;
+
     final Change.Status status() {
       String s = statusRaw();
       return s != null ? Change.Status.valueOf(s) : null;
     }
+
     private native String statusRaw() /*-{ return this.status; }-*/;
 
-    final native void setId(String i)
-    /*-{ if(i)this.change_id=i; }-*/;
+    final native void setId(String i)/*-{ if(i)this.change_id=i; }-*/ ;
 
-    final native void setCommit(CommitInfo c)
-    /*-{ if(c)this.commit=c; }-*/;
+    final native void setCommit(CommitInfo c)/*-{ if(c)this.commit=c; }-*/ ;
 
-    final native void setBranch(String b)
-    /*-{ if(b)this.branch=b; }-*/;
+    final native void setBranch(String b)/*-{ if(b)this.branch=b; }-*/ ;
 
-    final native void setProject(String b)
-    /*-{ if(b)this.project=b; }-*/;
+    final native void setProject(String b)/*-{ if(b)this.project=b; }-*/ ;
 
     public final Change.Id legacyId() {
       return hasChangeNumber() ? new Change.Id(_changeNumber()) : null;
@@ -411,39 +425,30 @@ public class RelatedChanges extends TabPanel {
     }
 
     public final native boolean hasChangeNumber()
-    /*-{ return this.hasOwnProperty('_change_number') }-*/;
+        /*-{ return this.hasOwnProperty('_change_number') }-*/ ;
 
     final native boolean hasRevisionNumber()
-    /*-{ return this.hasOwnProperty('_revision_number') }-*/;
+        /*-{ return this.hasOwnProperty('_revision_number') }-*/ ;
 
     final native boolean hasCurrentRevisionNumber()
-    /*-{ return this.hasOwnProperty('_current_revision_number') }-*/;
+        /*-{ return this.hasOwnProperty('_current_revision_number') }-*/ ;
 
-    final native int _changeNumber()
-    /*-{ return this._change_number }-*/;
+    final native int _changeNumber()/*-{ return this._change_number }-*/ ;
 
-    final native int _revisionNumber()
-    /*-{ return this._revision_number }-*/;
+    final native int _revisionNumber()/*-{ return this._revision_number }-*/ ;
 
-    final native int _currentRevisionNumber()
-    /*-{ return this._current_revision_number }-*/;
+    final native int _currentRevisionNumber()/*-{ return this._current_revision_number }-*/ ;
 
-    final native void setChangeNumber(int n)
-    /*-{ this._change_number=n; }-*/;
+    final native void setChangeNumber(int n)/*-{ this._change_number=n; }-*/ ;
 
-    final native void setRevisionNumber(int n)
-    /*-{ this._revision_number=n; }-*/;
+    final native void setRevisionNumber(int n)/*-{ this._revision_number=n; }-*/ ;
 
-    final native void setCurrentRevisionNumber(int n)
-    /*-{ this._current_revision_number=n; }-*/;
+    final native void setCurrentRevisionNumber(int n)/*-{ this._current_revision_number=n; }-*/ ;
 
-    final native void setSubmittable(boolean s)
-    /*-{ this._submittable=s; }-*/;
+    final native void setSubmittable(boolean s)/*-{ this._submittable=s; }-*/ ;
 
-    final native void setStatus(String s)
-    /*-{ if(s)this.status=s; }-*/;
+    final native void setStatus(String s)/*-{ if(s)this.status=s; }-*/ ;
 
-    protected ChangeAndCommit() {
-    }
+    protected ChangeAndCommit() {}
   }
 }

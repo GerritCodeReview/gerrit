@@ -25,20 +25,15 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-
 import org.junit.Ignore;
 
 @Ignore
 public class FakeChangeIndex implements ChangeIndex {
-  static Schema<ChangeData> V1 = new Schema<>(1,
-    ImmutableList.<FieldDef<ChangeData, ?>> of(
-      ChangeField.STATUS));
+  static Schema<ChangeData> V1 =
+      new Schema<>(1, ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.STATUS));
 
-  static Schema<ChangeData> V2 = new Schema<>(2,
-    ImmutableList.of(
-      ChangeField.STATUS,
-      ChangeField.PATH,
-      ChangeField.UPDATED));
+  static Schema<ChangeData> V2 =
+      new Schema<>(2, ImmutableList.of(ChangeField.STATUS, ChangeField.PATH, ChangeField.UPDATED));
 
   private static class Source implements ChangeDataSource {
     private final Predicate<ChangeData> p;
@@ -101,8 +96,7 @@ public class FakeChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void close() {
-  }
+  public void close() {}
 
   @Override
   public void markReady(boolean ready) {

@@ -33,9 +33,8 @@ public class MostSpecificComparatorTest {
   }
 
   /**
-   * Assuming two patterns have the same Levenshtein distance,
-   * the pattern which represents a finite language wins over a pattern
-   * which represents an infinite language.
+   * Assuming two patterns have the same Levenshtein distance, the pattern which represents a finite
+   * language wins over a pattern which represents an infinite language.
    */
   @Test
   public void finiteWinsOverInfinite() {
@@ -45,9 +44,8 @@ public class MostSpecificComparatorTest {
   }
 
   /**
-   * Assuming two patterns have the same Levenshtein distance
-   * and are both either finite or infinite the one with the higher
-   * number of state transitions (in an equivalent automaton) wins
+   * Assuming two patterns have the same Levenshtein distance and are both either finite or infinite
+   * the one with the higher number of state transitions (in an equivalent automaton) wins
    */
   @Test
   public void higherNumberOfTransitionsWins() {
@@ -65,8 +63,8 @@ public class MostSpecificComparatorTest {
   }
 
   /**
-   * Assuming the same Levenshtein distance, (in)finity and the number
-   * of transitions, the longer pattern wins
+   * Assuming the same Levenshtein distance, (in)finity and the number of transitions, the longer
+   * pattern wins
    */
   @Test
   public void longerPatternWins() {

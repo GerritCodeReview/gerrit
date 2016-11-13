@@ -113,13 +113,6 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.util.TemporaryBuffer;
-import org.eclipse.jgit.util.TemporaryBuffer.Heap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
@@ -146,19 +139,23 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 import java.util.zip.GZIPOutputStream;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.TemporaryBuffer;
+import org.eclipse.jgit.util.TemporaryBuffer.Heap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory
-      .getLogger(RestApiServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(RestApiServlet.class);
 
   /** MIME type used for a JSON response body. */
   private static final String JSON_TYPE = "application/json";
+
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
   // HTTP 422 Unprocessable Entity.
@@ -172,12 +169,11 @@ public class RestApiServlet extends HttpServlet {
 
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
-   * <p>
-   * This prefix is ")]}'\n" and is designed to prevent a web browser from
-   * executing the response body if the resource URI were to be referenced using
-   * a &lt;script src="...&gt; HTML tag from another web site. Clients using the
-   * HTTP interface will need to always strip the first line of response data to
-   * remove this magic header.
+   *
+   * <p>This prefix is ")]}'\n" and is designed to prevent a web browser from executing the response
+   * body if the resource URI were to be referenced using a &lt;script src="...&gt; HTML tag from
+   * another web site. Clients using the HTTP interface will need to always strip the first line of
+   * response data to remove this magic header.
    */
   public static final byte[] JSON_MAGIC;
 
@@ -194,7 +190,8 @@ public class RestApiServlet extends HttpServlet {
     final Pattern allowOrigin;
 
     @Inject
-    Globals(Provider<CurrentUser> currentUser,
+    Globals(
+        Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
         AuditService auditService,
@@ -220,12 +217,13 @@ public class RestApiServlet extends HttpServlet {
   private final Globals globals;
   private final Provider<RestCollection<RestResource, RestResource>> members;
 
-  public RestApiServlet(Globals globals,
-      RestCollection<? extends RestResource, ? extends RestResource> members) {
+  public RestApiServlet(
+      Globals globals, RestCollection<? extends RestResource, ? extends RestResource> members) {
     this(globals, Providers.of(members));
   }
 
-  public RestApiServlet(Globals globals,
+  public RestApiServlet(
+      Globals globals,
       Provider<? extends RestCollection<? extends RestResource, ? extends RestResource>> members) {
     @SuppressWarnings("unchecked")
     Provider<RestCollection<RestResource, RestResource>> n =
@@ -259,8 +257,7 @@ public class RestApiServlet extends HttpServlet {
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
-      CapabilityUtils.checkRequiresCapability(globals.currentUser,
-          null, rc.getClass());
+      CapabilityUtils.checkRequiresCapability(globals.currentUser, null, rc.getClass());
 
       viewData = new ViewData(null, null);
 
@@ -284,8 +281,7 @@ public class RestApiServlet extends HttpServlet {
         } catch (ResourceNotFoundException e) {
           if (rc instanceof AcceptsCreate
               && path.isEmpty()
-              && ("POST".equals(req.getMethod())
-                  || "PUT".equals(req.getMethod()))) {
+              && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
             viewData = new ViewData(null, ac.create(rsrc, id));
@@ -300,7 +296,7 @@ public class RestApiServlet extends HttpServlet {
       }
       checkRequiresCapability(viewData);
 
-      while (viewData.view instanceof RestCollection<?,?>) {
+      while (viewData.view instanceof RestCollection<?, ?>) {
         @SuppressWarnings("unchecked")
         RestCollection<RestResource, RestResource> c =
             (RestCollection<RestResource, RestResource>) viewData.view;
@@ -329,8 +325,7 @@ public class RestApiServlet extends HttpServlet {
         } catch (ResourceNotFoundException e) {
           if (c instanceof AcceptsCreate
               && path.isEmpty()
-              && ("POST".equals(req.getMethod())
-                  || "PUT".equals(req.getMethod()))) {
+              && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
             viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
@@ -388,7 +383,7 @@ public class RestApiServlet extends HttpServlet {
       } else if (result instanceof Response.Accepted) {
         CacheHeaders.setNotCacheable(res);
         res.setStatus(SC_ACCEPTED);
-        res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted)result).location());
+        res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
         return;
       } else {
         CacheHeaders.setNotCacheable(res);
@@ -404,45 +399,62 @@ public class RestApiServlet extends HttpServlet {
         }
       }
     } catch (MalformedJsonException e) {
-      responseBytes = replyError(req, res, status = SC_BAD_REQUEST,
-          "Invalid " + JSON_TYPE + " in request", e);
+      responseBytes =
+          replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
     } catch (JsonParseException e) {
-      responseBytes = replyError(req, res, status = SC_BAD_REQUEST,
-          "Invalid " + JSON_TYPE + " in request", e);
+      responseBytes =
+          replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
     } catch (BadRequestException e) {
-      responseBytes = replyError(req, res, status = SC_BAD_REQUEST,
-          messageOr(e, "Bad Request"), e.caching(), e);
+      responseBytes =
+          replyError(
+              req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
     } catch (AuthException e) {
-      responseBytes = replyError(req, res, status = SC_FORBIDDEN,
-          messageOr(e, "Forbidden"), e.caching(), e);
+      responseBytes =
+          replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
     } catch (AmbiguousViewException e) {
-      responseBytes = replyError(req, res, status = SC_NOT_FOUND,
-          messageOr(e, "Ambiguous"), e);
+      responseBytes = replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
     } catch (ResourceNotFoundException e) {
-      responseBytes = replyError(req, res, status = SC_NOT_FOUND,
-          messageOr(e, "Not Found"), e.caching(), e);
+      responseBytes =
+          replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
     } catch (MethodNotAllowedException e) {
-      responseBytes = replyError(req, res, status = SC_METHOD_NOT_ALLOWED,
-          messageOr(e, "Method Not Allowed"), e.caching(), e);
+      responseBytes =
+          replyError(
+              req,
+              res,
+              status = SC_METHOD_NOT_ALLOWED,
+              messageOr(e, "Method Not Allowed"),
+              e.caching(),
+              e);
     } catch (ResourceConflictException e) {
-      responseBytes = replyError(req, res, status = SC_CONFLICT,
-          messageOr(e, "Conflict"), e.caching(), e);
+      responseBytes =
+          replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
     } catch (PreconditionFailedException e) {
-      responseBytes = replyError(req, res, status = SC_PRECONDITION_FAILED,
-          messageOr(e, "Precondition Failed"), e.caching(), e);
+      responseBytes =
+          replyError(
+              req,
+              res,
+              status = SC_PRECONDITION_FAILED,
+              messageOr(e, "Precondition Failed"),
+              e.caching(),
+              e);
     } catch (UnprocessableEntityException e) {
-      responseBytes = replyError(req, res, status = SC_UNPROCESSABLE_ENTITY,
-          messageOr(e, "Unprocessable Entity"), e.caching(), e);
+      responseBytes =
+          replyError(
+              req,
+              res,
+              status = SC_UNPROCESSABLE_ENTITY,
+              messageOr(e, "Unprocessable Entity"),
+              e.caching(),
+              e);
     } catch (NotImplementedException e) {
-      responseBytes = replyError(req, res, status = SC_NOT_IMPLEMENTED,
-          messageOr(e, "Not Implemented"), e);
+      responseBytes =
+          replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
       responseBytes = handleException(e, req, res);
     } finally {
-      String metric = viewData != null && viewData.view != null
-          ? globals.metrics.view(viewData)
-          : "_unknown";
+      String metric =
+          viewData != null && viewData.view != null ? globals.metrics.view(viewData) : "_unknown";
       globals.metrics.count.increment(metric);
       if (status >= SC_BAD_REQUEST) {
         globals.metrics.errorCount.increment(metric, status);
@@ -451,21 +463,25 @@ public class RestApiServlet extends HttpServlet {
         globals.metrics.responseBytes.record(metric, responseBytes);
       }
       globals.metrics.serverLatency.record(
-          metric,
-          System.nanoTime() - startNanos,
-          TimeUnit.NANOSECONDS);
-      globals.auditService.dispatch(new ExtendedHttpAuditEvent(globals.webSession.get()
-          .getSessionId(), globals.currentUser.get(), req,
-          auditStartTs, params, inputRequestBody, status,
-          result, rsrc, viewData == null ? null : viewData.view));
+          metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+      globals.auditService.dispatch(
+          new ExtendedHttpAuditEvent(
+              globals.webSession.get().getSessionId(),
+              globals.currentUser.get(),
+              req,
+              auditStartTs,
+              params,
+              inputRequestBody,
+              status,
+              result,
+              rsrc,
+              viewData == null ? null : viewData.view));
     }
   }
 
   private void checkCors(HttpServletRequest req, HttpServletResponse res) {
     String origin = req.getHeader(ORIGIN);
-    if (isRead(req)
-        && !Strings.isNullOrEmpty(origin)
-        && isOriginAllowed(origin)) {
+    if (isRead(req) && !Strings.isNullOrEmpty(origin) && isOriginAllowed(origin)) {
       res.addHeader(VARY, ORIGIN);
       setCorsHeaders(res, origin);
     }
@@ -477,12 +493,11 @@ public class RestApiServlet extends HttpServlet {
         && !Strings.isNullOrEmpty(req.getHeader(ACCESS_CONTROL_REQUEST_METHOD));
   }
 
-  private void doCorsPreflight(HttpServletRequest req,
-      HttpServletResponse res) throws BadRequestException {
+  private void doCorsPreflight(HttpServletRequest req, HttpServletResponse res)
+      throws BadRequestException {
     CacheHeaders.setNotCacheable(res);
-    res.setHeader(VARY, Joiner.on(", ").join(ImmutableList.of(
-        ORIGIN,
-        ACCESS_CONTROL_REQUEST_METHOD)));
+    res.setHeader(
+        VARY, Joiner.on(", ").join(ImmutableList.of(ORIGIN, ACCESS_CONTROL_REQUEST_METHOD)));
 
     String origin = req.getHeader(ORIGIN);
     if (Strings.isNullOrEmpty(origin) || !isOriginAllowed(origin)) {
@@ -498,9 +513,7 @@ public class RestApiServlet extends HttpServlet {
     if (headers != null) {
       res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
       String badHeader =
-          StreamSupport.stream(
-                  Splitter.on(',').trimResults().split(headers).spliterator(),
-                  false)
+          StreamSupport.stream(Splitter.on(',').trimResults().split(headers).spliterator(), false)
               .filter(h -> !ALLOWED_CORS_REQUEST_HEADERS.contains(h))
               .findFirst()
               .orElse(null);
@@ -519,14 +532,11 @@ public class RestApiServlet extends HttpServlet {
     res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
     res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
     res.setHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET, OPTIONS");
-    res.setHeader(
-        ACCESS_CONTROL_ALLOW_HEADERS,
-        Joiner.on(", ").join(ALLOWED_CORS_REQUEST_HEADERS));
+    res.setHeader(ACCESS_CONTROL_ALLOW_HEADERS, Joiner.on(", ").join(ALLOWED_CORS_REQUEST_HEADERS));
   }
 
   private boolean isOriginAllowed(String origin) {
-    return globals.allowOrigin != null
-        && globals.allowOrigin.matcher(origin).matches();
+    return globals.allowOrigin != null && globals.allowOrigin.matcher(origin).matches();
   }
 
   private static String messageOr(Throwable t, String defaultMessage) {
@@ -537,8 +547,8 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  private static boolean notModified(HttpServletRequest req, RestResource rsrc,
-      RestView<RestResource> view) {
+  private static boolean notModified(
+      HttpServletRequest req, RestResource rsrc, RestView<RestResource> view) {
     if (!isRead(req)) {
       return false;
     }
@@ -568,8 +578,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static <R extends RestResource> void configureCaching(
-      HttpServletRequest req, HttpServletResponse res, R rsrc,
-      RestView<R> view, CacheControl c) {
+      HttpServletRequest req, HttpServletResponse res, R rsrc, RestView<R> view, CacheControl c) {
     if (isRead(req)) {
       switch (c.getType()) {
         case NONE:
@@ -578,15 +587,11 @@ public class RestApiServlet extends HttpServlet {
           break;
         case PRIVATE:
           addResourceStateHeaders(res, rsrc, view);
-          CacheHeaders.setCacheablePrivate(res,
-              c.getAge(), c.getUnit(),
-              c.isMustRevalidate());
+          CacheHeaders.setCacheablePrivate(res, c.getAge(), c.getUnit(), c.isMustRevalidate());
           break;
         case PUBLIC:
           addResourceStateHeaders(res, rsrc, view);
-          CacheHeaders.setCacheable(req, res,
-              c.getAge(), c.getUnit(),
-              c.isMustRevalidate());
+          CacheHeaders.setCacheable(req, res, c.getAge(), c.getUnit(), c.isMustRevalidate());
           break;
       }
     } else {
@@ -594,7 +599,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static  <R extends RestResource> void addResourceStateHeaders(
+  private static <R extends RestResource> void addResourceStateHeaders(
       HttpServletResponse res, R rsrc, RestView<R> view) {
     if (view instanceof ETagView) {
       res.setHeader(HttpHeaders.ETAG, ((ETagView<R>) view).getETag(rsrc));
@@ -608,8 +613,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private void checkPreconditions(HttpServletRequest req)
-      throws PreconditionFailedException {
+  private void checkPreconditions(HttpServletRequest req) throws PreconditionFailedException {
     if ("*".equals(req.getHeader(HttpHeaders.IF_NONE_MATCH))) {
       throw new PreconditionFailedException("Resource already exists");
     }
@@ -618,9 +622,10 @@ public class RestApiServlet extends HttpServlet {
   private static Type inputType(RestModifyView<RestResource, Object> m) {
     Type inputType = extractInputType(m.getClass());
     if (inputType == null) {
-      throw new IllegalStateException(String.format(
-          "View %s does not correctly implement %s",
-          m.getClass(), RestModifyView.class.getSimpleName()));
+      throw new IllegalStateException(
+          String.format(
+              "View %s does not correctly implement %s",
+              m.getClass(), RestModifyView.class.getSimpleName()));
     }
     return inputType;
   }
@@ -652,9 +657,9 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private Object parseRequest(HttpServletRequest req, Type type)
-      throws IOException, BadRequestException, SecurityException,
-      IllegalArgumentException, NoSuchMethodException, IllegalAccessException,
-      InstantiationException, InvocationTargetException, MethodNotAllowedException {
+      throws IOException, BadRequestException, SecurityException, IllegalArgumentException,
+          NoSuchMethodException, IllegalAccessException, InstantiationException,
+          InvocationTargetException, MethodNotAllowedException {
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
           JsonReader json = new JsonReader(br)) {
@@ -688,11 +693,8 @@ public class RestApiServlet extends HttpServlet {
         }
         return parseString(sb.toString(), type);
       }
-    } else if ("POST".equals(req.getMethod())
-        && isType(FORM_TYPE, req.getContentType())) {
-      return OutputFormat.JSON.newGson().fromJson(
-          ParameterParser.formToJson(req),
-          type);
+    } else if ("POST".equals(req.getMethod()) && isType(FORM_TYPE, req.getContentType())) {
+      return OutputFormat.JSON.newGson().fromJson(ParameterParser.formToJson(req), type);
     } else {
       throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
@@ -701,8 +703,7 @@ public class RestApiServlet extends HttpServlet {
   private static boolean hasNoBody(HttpServletRequest req) {
     int len = req.getContentLength();
     String type = req.getContentType();
-    return (len <= 0 && type == null)
-        || (len == 0 && isType(FORM_TYPE, type));
+    return (len <= 0 && type == null) || (len == 0 && isType(FORM_TYPE, type));
   }
 
   @SuppressWarnings("rawtypes")
@@ -718,9 +719,9 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private Object parseRawInput(final HttpServletRequest req, Type type)
-      throws SecurityException, NoSuchMethodException,
-      IllegalArgumentException, InstantiationException, IllegalAccessException,
-      InvocationTargetException, MethodNotAllowedException {
+      throws SecurityException, NoSuchMethodException, IllegalArgumentException,
+          InstantiationException, IllegalAccessException, InvocationTargetException,
+          MethodNotAllowedException {
     Object obj = createInstance(type);
     for (Field f : obj.getClass().getDeclaredFields()) {
       if (f.getType() == RawInput.class) {
@@ -734,8 +735,8 @@ public class RestApiServlet extends HttpServlet {
 
   private Object parseString(String value, Type type)
       throws BadRequestException, SecurityException, NoSuchMethodException,
-      IllegalArgumentException, IllegalAccessException, InstantiationException,
-      InvocationTargetException {
+          IllegalArgumentException, IllegalAccessException, InstantiationException,
+          InvocationTargetException {
     if (type == String.class) {
       return value;
     }
@@ -746,8 +747,7 @@ public class RestApiServlet extends HttpServlet {
       return obj;
     }
     for (Field f : fields) {
-      if (f.getAnnotation(DefaultInput.class) != null
-          && f.getType() == String.class) {
+      if (f.getAnnotation(DefaultInput.class) != null && f.getType() == String.class) {
         f.setAccessible(true);
         f.set(obj, value);
         return obj;
@@ -757,8 +757,8 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static Object createInstance(Type type)
-      throws NoSuchMethodException, InstantiationException,
-      IllegalAccessException, InvocationTargetException {
+      throws NoSuchMethodException, InstantiationException, IllegalAccessException,
+          InvocationTargetException {
     if (type instanceof Class) {
       @SuppressWarnings("unchecked")
       Class<Object> clazz = (Class<Object>) type;
@@ -769,7 +769,8 @@ public class RestApiServlet extends HttpServlet {
     throw new InstantiationException("Cannot make " + type);
   }
 
-  public static long replyJson(@Nullable HttpServletRequest req,
+  public static long replyJson(
+      @Nullable HttpServletRequest req,
       HttpServletResponse res,
       Multimap<String, String> config,
       Object result)
@@ -785,13 +786,11 @@ public class RestApiServlet extends HttpServlet {
     }
     w.write('\n');
     w.flush();
-    return replyBinaryResult(req, res, asBinaryResult(buf)
-      .setContentType(JSON_TYPE)
-      .setCharacterEncoding(UTF_8));
+    return replyBinaryResult(
+        req, res, asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
   }
 
-  private static Gson newGson(Multimap<String, String> config,
-      @Nullable HttpServletRequest req) {
+  private static Gson newGson(Multimap<String, String> config, @Nullable HttpServletRequest req) {
     GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder();
 
     enablePrettyPrint(gb, config, req);
@@ -800,9 +799,8 @@ public class RestApiServlet extends HttpServlet {
     return gb.create();
   }
 
-  private static void enablePrettyPrint(GsonBuilder gb,
-      Multimap<String, String> config,
-      @Nullable HttpServletRequest req) {
+  private static void enablePrettyPrint(
+      GsonBuilder gb, Multimap<String, String> config, @Nullable HttpServletRequest req) {
     String pp = Iterables.getFirst(config.get("pp"), null);
     if (pp == null) {
       pp = Iterables.getFirst(config.get("prettyPrint"), null);
@@ -815,55 +813,53 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static void enablePartialGetFields(GsonBuilder gb,
-      Multimap<String, String> config) {
+  private static void enablePartialGetFields(GsonBuilder gb, Multimap<String, String> config) {
     final Set<String> want = new HashSet<>();
     for (String p : config.get("fields")) {
       Iterables.addAll(want, OptionUtil.splitOptionValue(p));
     }
     if (!want.isEmpty()) {
-      gb.addSerializationExclusionStrategy(new ExclusionStrategy() {
-        private final Map<String, String> names = new HashMap<>();
+      gb.addSerializationExclusionStrategy(
+          new ExclusionStrategy() {
+            private final Map<String, String> names = new HashMap<>();
 
-        @Override
-        public boolean shouldSkipField(FieldAttributes field) {
-          String name = names.get(field.getName());
-          if (name == null) {
-            // Names are supplied by Gson in terms of Java source.
-            // Translate and cache the JSON lower_case_style used.
-            try {
-              name =
-                  FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES.translateName(//
-                      field.getDeclaringClass().getDeclaredField(field.getName()));
-              names.put(field.getName(), name);
-            } catch (SecurityException e) {
-              return true;
-            } catch (NoSuchFieldException e) {
-              return true;
+            @Override
+            public boolean shouldSkipField(FieldAttributes field) {
+              String name = names.get(field.getName());
+              if (name == null) {
+                // Names are supplied by Gson in terms of Java source.
+                // Translate and cache the JSON lower_case_style used.
+                try {
+                  name =
+                      FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES.translateName( //
+                          field.getDeclaringClass().getDeclaredField(field.getName()));
+                  names.put(field.getName(), name);
+                } catch (SecurityException e) {
+                  return true;
+                } catch (NoSuchFieldException e) {
+                  return true;
+                }
+              }
+              return !want.contains(name);
             }
-          }
-          return !want.contains(name);
-        }
 
-        @Override
-        public boolean shouldSkipClass(Class<?> clazz) {
-          return false;
-        }
-      });
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+              return false;
+            }
+          });
     }
   }
 
   @SuppressWarnings("resource")
   static long replyBinaryResult(
-      @Nullable HttpServletRequest req,
-      HttpServletResponse res,
-      BinaryResult bin) throws IOException {
+      @Nullable HttpServletRequest req, HttpServletResponse res, BinaryResult bin)
+      throws IOException {
     final BinaryResult appResult = bin;
     try {
       if (bin.getAttachmentName() != null) {
         res.setHeader(
-            "Content-Disposition",
-            "attachment; filename=\"" + bin.getAttachmentName() + "\"");
+            "Content-Disposition", "attachment; filename=\"" + bin.getAttachmentName() + "\"");
       }
       if (bin.isBase64()) {
         if (req != null && JSON_TYPE.equals(req.getHeader(HttpHeaders.ACCEPT))) {
@@ -885,8 +881,7 @@ public class RestApiServlet extends HttpServlet {
       }
 
       if (req == null || !"HEAD".equals(req.getMethod())) {
-        try (CountingOutputStream dst =
-            new CountingOutputStream(res.getOutputStream())) {
+        try (CountingOutputStream dst = new CountingOutputStream(res.getOutputStream())) {
           bin.writeTo(dst);
           return dst.getCount();
         }
@@ -897,8 +892,8 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static BinaryResult stackJsonString(HttpServletResponse res,
-      final BinaryResult src) throws IOException {
+  private static BinaryResult stackJsonString(HttpServletResponse res, final BinaryResult src)
+      throws IOException {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
     try (Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
@@ -910,41 +905,42 @@ public class RestApiServlet extends HttpServlet {
     }
     res.setHeader("X-FYI-Content-Encoding", "json");
     res.setHeader("X-FYI-Content-Type", src.getContentType());
-    return asBinaryResult(buf)
-      .setContentType(JSON_TYPE)
-      .setCharacterEncoding(UTF_8);
+    return asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8);
   }
 
-  private static BinaryResult stackBase64(HttpServletResponse res,
-      final BinaryResult src) throws IOException {
+  private static BinaryResult stackBase64(HttpServletResponse res, final BinaryResult src)
+      throws IOException {
     BinaryResult b64;
     long len = src.getContentLength();
     if (0 <= len && len <= (7 << 20)) {
       b64 = base64(src);
     } else {
-      b64 = new BinaryResult() {
-        @Override
-        public void writeTo(OutputStream out) throws IOException {
-          try (OutputStreamWriter w = new OutputStreamWriter(
-                new FilterOutputStream(out) {
-                  @Override
-                  public void close() {
-                    // Do not close out, but only w and e.
-                  }
-                }, ISO_8859_1);
-              OutputStream e = BaseEncoding.base64().encodingStream(w)) {
-            src.writeTo(e);
-          }
-        }
-      };
+      b64 =
+          new BinaryResult() {
+            @Override
+            public void writeTo(OutputStream out) throws IOException {
+              try (OutputStreamWriter w =
+                      new OutputStreamWriter(
+                          new FilterOutputStream(out) {
+                            @Override
+                            public void close() {
+                              // Do not close out, but only w and e.
+                            }
+                          },
+                          ISO_8859_1);
+                  OutputStream e = BaseEncoding.base64().encodingStream(w)) {
+                src.writeTo(e);
+              }
+            }
+          };
     }
     res.setHeader("X-FYI-Content-Encoding", "base64");
     res.setHeader("X-FYI-Content-Type", src.getContentType());
     return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1);
   }
 
-  private static BinaryResult stackGzip(HttpServletResponse res,
-      final BinaryResult src) throws IOException {
+  private static BinaryResult stackGzip(HttpServletResponse res, final BinaryResult src)
+      throws IOException {
     BinaryResult gz;
     long len = src.getContentLength();
     if (len < 256) {
@@ -955,15 +951,16 @@ public class RestApiServlet extends HttpServlet {
         return src;
       }
     } else {
-      gz = new BinaryResult() {
-        @Override
-        public void writeTo(OutputStream out) throws IOException {
-          GZIPOutputStream gz = new GZIPOutputStream(out);
-          src.writeTo(gz);
-          gz.finish();
-          gz.flush();
-        }
-      };
+      gz =
+          new BinaryResult() {
+            @Override
+            public void writeTo(OutputStream out) throws IOException {
+              GZIPOutputStream gz = new GZIPOutputStream(out);
+              src.writeTo(gz);
+              gz.finish();
+              gz.flush();
+            }
+          };
     }
     res.setHeader("Content-Encoding", "gzip");
     return gz.setContentType(src.getContentType());
@@ -972,12 +969,11 @@ public class RestApiServlet extends HttpServlet {
   private ViewData view(
       RestResource rsrc,
       RestCollection<RestResource, RestResource> rc,
-      String method, List<IdString> path) throws AmbiguousViewException,
-      RestApiException {
+      String method,
+      List<IdString> path)
+      throws AmbiguousViewException, RestApiException {
     DynamicMap<RestView<RestResource>> views = rc.views();
-    final IdString projection = path.isEmpty()
-        ? IdString.fromUrl("/")
-        : path.remove(0);
+    final IdString projection = path.isEmpty() ? IdString.fromUrl("/") : path.remove(0);
     if (!path.isEmpty()) {
       // If there are path components still remaining after this projection
       // is chosen, look for the projection based upon GET as the method as
@@ -993,8 +989,7 @@ public class RestApiServlet extends HttpServlet {
       if (Strings.isNullOrEmpty(viewname)) {
         viewname = "/";
       }
-      RestView<RestResource> view =
-          views.get(p.get(0), method + "." + viewname);
+      RestView<RestResource> view = views.get(p.get(0), method + "." + viewname);
       if (view != null) {
         return new ViewData(p.get(0), view);
       }
@@ -1030,8 +1025,7 @@ public class RestApiServlet extends HttpServlet {
     }
 
     if (r.size() == 1) {
-      Map.Entry<String, RestView<RestResource>> entry =
-          Iterables.getOnlyElement(r.entrySet());
+      Map.Entry<String, RestView<RestResource>> entry = Iterables.getOnlyElement(r.entrySet());
       return new ViewData(entry.getKey(), entry.getValue());
     } else if (r.isEmpty()) {
       throw new ResourceNotFoundException(projection);
@@ -1039,9 +1033,7 @@ public class RestApiServlet extends HttpServlet {
       throw new AmbiguousViewException(
           String.format(
               "Projection %s is ambiguous: %s",
-              name,
-              r.keySet().stream().map(in -> in + "~" + projection)
-                  .collect(joining(", "))));
+              name, r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
     }
   }
 
@@ -1066,16 +1058,16 @@ public class RestApiServlet extends HttpServlet {
     return p;
   }
 
-  private void checkUserSession(HttpServletRequest req)
-      throws AuthException {
+  private void checkUserSession(HttpServletRequest req) throws AuthException {
     CurrentUser user = globals.currentUser.get();
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {
-      throw new AuthException("Invalid authentication method. In order to authenticate, "
-          + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
+      throw new AuthException(
+          "Invalid authentication method. In order to authenticate, "
+              + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
     }
   }
 
@@ -1084,12 +1076,12 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private void checkRequiresCapability(ViewData viewData) throws AuthException {
-    CapabilityUtils.checkRequiresCapability(globals.currentUser,
-        viewData.pluginName, viewData.view.getClass());
+    CapabilityUtils.checkRequiresCapability(
+        globals.currentUser, viewData.pluginName, viewData.view.getClass());
   }
 
-  private static long handleException(Throwable err, HttpServletRequest req,
-      HttpServletResponse res) throws IOException {
+  private static long handleException(
+      Throwable err, HttpServletRequest req, HttpServletResponse res) throws IOException {
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
@@ -1103,14 +1095,24 @@ public class RestApiServlet extends HttpServlet {
     return 0;
   }
 
-  public static long replyError(HttpServletRequest req, HttpServletResponse res,
-      int statusCode, String msg, @Nullable Throwable err) throws IOException {
+  public static long replyError(
+      HttpServletRequest req,
+      HttpServletResponse res,
+      int statusCode,
+      String msg,
+      @Nullable Throwable err)
+      throws IOException {
     return replyError(req, res, statusCode, msg, CacheControl.NONE, err);
   }
 
-  public static long replyError(HttpServletRequest req,
-      HttpServletResponse res, int statusCode, String msg,
-      CacheControl c, @Nullable Throwable err) throws IOException {
+  public static long replyError(
+      HttpServletRequest req,
+      HttpServletResponse res,
+      int statusCode,
+      String msg,
+      CacheControl c,
+      @Nullable Throwable err)
+      throws IOException {
     if (err != null) {
       RequestUtil.setErrorTraceAttribute(req, err);
     }
@@ -1119,16 +1121,15 @@ public class RestApiServlet extends HttpServlet {
     return replyText(req, res, msg);
   }
 
-  static long replyText(@Nullable HttpServletRequest req,
-      HttpServletResponse res, String text) throws IOException {
+  static long replyText(@Nullable HttpServletRequest req, HttpServletResponse res, String text)
+      throws IOException {
     if ((req == null || isRead(req)) && isMaybeHTML(text)) {
       return replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
     }
     if (!text.endsWith("\n")) {
       text += "\n";
     }
-    return replyBinaryResult(req, res,
-        BinaryResult.create(text).setContentType("text/plain"));
+    return replyBinaryResult(req, res, BinaryResult.create(text).setContentType("text/plain"));
   }
 
   private static boolean isMaybeHTML(String text) {
@@ -1167,20 +1168,18 @@ public class RestApiServlet extends HttpServlet {
     return 4 * IntMath.divide((int) n, 3, CEILING);
   }
 
-  private static BinaryResult base64(BinaryResult bin)
-      throws IOException {
+  private static BinaryResult base64(BinaryResult bin) throws IOException {
     int maxSize = base64MaxSize(bin.getContentLength());
     int estSize = Math.min(base64MaxSize(HEAP_EST_SIZE), maxSize);
     TemporaryBuffer.Heap buf = heap(estSize, maxSize);
-    try (OutputStream encoded = BaseEncoding.base64().encodingStream(
-        new OutputStreamWriter(buf, ISO_8859_1))) {
+    try (OutputStream encoded =
+        BaseEncoding.base64().encodingStream(new OutputStreamWriter(buf, ISO_8859_1))) {
       bin.writeTo(encoded);
     }
     return asBinaryResult(buf);
   }
 
-  private static BinaryResult compress(BinaryResult bin)
-      throws IOException {
+  private static BinaryResult compress(BinaryResult bin) throws IOException {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, 20 << 20);
     try (GZIPOutputStream gz = new GZIPOutputStream(buf)) {
       bin.writeTo(gz);

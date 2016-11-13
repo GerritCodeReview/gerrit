@@ -21,11 +21,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
 import com.google.gwt.user.client.ui.ValueListBox;
-
 import java.io.IOException;
 
-abstract class RangeBox extends Composite implements
-    IsEditor<TakesValueEditor<Integer>> {
+abstract class RangeBox extends Composite implements IsEditor<TakesValueEditor<Integer>> {
   static final RangeRenderer rangeRenderer = new RangeRenderer();
 
   private static class RangeRenderer implements Renderer<Integer> {
@@ -38,8 +36,7 @@ abstract class RangeBox extends Composite implements
     }
 
     @Override
-    public void render(Integer object, Appendable appendable)
-        throws IOException {
+    public void render(Integer object, Appendable appendable) throws IOException {
       appendable.append(render(object));
     }
   }

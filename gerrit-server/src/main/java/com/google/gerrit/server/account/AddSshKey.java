@@ -35,13 +35,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.io.InputStream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 @Singleton
 public class AddSshKey implements RestModifyView<AccountResource, Input> {
@@ -57,7 +55,8 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
   private final AddKeySender.Factory addKeyFactory;
 
   @Inject
-  AddSshKey(Provider<CurrentUser> self,
+  AddSshKey(
+      Provider<CurrentUser> self,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
       AddKeySender.Factory addKeyFactory) {
@@ -69,18 +68,15 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<SshKeyInfo> apply(AccountResource rsrc, Input input)
-      throws AuthException, BadRequestException, OrmException, IOException,
-      ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to add SSH keys");
     }
     return apply(rsrc.getUser(), input);
   }
 
   public Response<SshKeyInfo> apply(IdentifiedUser user, Input input)
-      throws BadRequestException, IOException,
-      ConfigInvalidException {
+      throws BadRequestException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new Input();
     }
@@ -89,22 +85,22 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
     }
 
     final RawInput rawKey = input.raw;
-    String sshPublicKey = new ByteSource() {
-      @Override
-      public InputStream openStream() throws IOException {
-        return rawKey.getInputStream();
-      }
-    }.asCharSource(UTF_8).read();
+    String sshPublicKey =
+        new ByteSource() {
+          @Override
+          public InputStream openStream() throws IOException {
+            return rawKey.getInputStream();
+          }
+        }.asCharSource(UTF_8).read();
 
     try {
-      AccountSshKey sshKey =
-          authorizedKeys.addKey(user.getAccountId(), sshPublicKey);
+      AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey);
 
       try {
         addKeyFactory.create(user, sshKey).send();
       } catch (EmailException e) {
-        log.error("Cannot send SSH key added message to "
-            + user.getAccount().getPreferredEmail(), e);
+        log.error(
+            "Cannot send SSH key added message to " + user.getAccount().getPreferredEmail(), e);
       }
 
       sshKeyCache.evict(user.getUserName());

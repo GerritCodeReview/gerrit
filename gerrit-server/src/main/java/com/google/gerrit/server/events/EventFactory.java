@@ -63,14 +63,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -79,6 +71,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EventFactory {
@@ -96,7 +94,8 @@ public class EventFactory {
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
-  EventFactory(AccountCache accountCache,
+  EventFactory(
+      AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AccountByEmailCache byEmailCache,
       PatchListCache patchListCache,
@@ -119,8 +118,7 @@ public class EventFactory {
   }
 
   /**
-   * Create a ChangeAttribute for the given change suitable for serialization to
-   * JSON.
+   * Create a ChangeAttribute for the given change suitable for serialization to JSON.
    *
    * @param change
    * @return object suitable for serialization to JSON
@@ -135,8 +133,7 @@ public class EventFactory {
   }
 
   /**
-   * Create a ChangeAttribute for the given change suitable for serialization to
-   * JSON.
+   * Create a ChangeAttribute for the given change suitable for serialization to JSON.
    *
    * @param db Review database
    * @param change
@@ -153,8 +150,7 @@ public class EventFactory {
     try {
       a.commitMessage = changeDataFactory.create(db, change).commitMessage();
     } catch (Exception e) {
-      log.error("Error while getting full commit message for"
-          + " change " + a.number);
+      log.error("Error while getting full commit message for" + " change " + a.number);
     }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
@@ -164,16 +160,16 @@ public class EventFactory {
   }
 
   /**
-   * Create a RefUpdateAttribute for the given old ObjectId, new ObjectId, and
-   * branch that is suitable for serialization to JSON.
+   * Create a RefUpdateAttribute for the given old ObjectId, new ObjectId, and branch that is
+   * suitable for serialization to JSON.
    *
    * @param oldId
    * @param newId
    * @param refName
    * @return object suitable for serialization to JSON
    */
-  public RefUpdateAttribute asRefUpdateAttribute(ObjectId oldId, ObjectId newId,
-      Branch.NameKey refName) {
+  public RefUpdateAttribute asRefUpdateAttribute(
+      ObjectId oldId, ObjectId newId, Branch.NameKey refName) {
     RefUpdateAttribute ru = new RefUpdateAttribute();
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
@@ -202,8 +198,7 @@ public class EventFactory {
    */
   public void addAllReviewers(ReviewDb db, ChangeAttribute a, ChangeNotes notes)
       throws OrmException {
-    Collection<Account.Id> reviewers =
-        approvalsUtil.getReviewers(db, notes).all();
+    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(db, notes).all();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {
@@ -218,8 +213,7 @@ public class EventFactory {
    * @param ca
    * @param submitRecords
    */
-  public void addSubmitRecords(ChangeAttribute ca,
-      List<SubmitRecord> submitRecords) {
+  public void addSubmitRecords(ChangeAttribute ca, List<SubmitRecord> submitRecords) {
     ca.submitRecords = new ArrayList<>();
 
     for (SubmitRecord submitRecord : submitRecords) {
@@ -236,8 +230,7 @@ public class EventFactory {
     }
   }
 
-  private void addSubmitRecordLabels(SubmitRecord submitRecord,
-      SubmitRecordAttribute sa) {
+  private void addSubmitRecordLabels(SubmitRecord submitRecord, SubmitRecordAttribute sa) {
     if (submitRecord.labels != null && !submitRecord.labels.isEmpty()) {
       sa.labels = new ArrayList<>();
       for (SubmitRecord.Label lbl : submitRecord.labels) {
@@ -253,8 +246,7 @@ public class EventFactory {
     }
   }
 
-  public void addDependencies(RevWalk rw, ChangeAttribute ca, Change change,
-      PatchSet currentPs) {
+  public void addDependencies(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs) {
     if (change == null || currentPs == null) {
       return;
     }
@@ -275,10 +267,9 @@ public class EventFactory {
     }
   }
 
-  private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change,
-      PatchSet currentPs) throws OrmException, IOException {
-    RevCommit commit =
-        rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
+  private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
+      throws OrmException, IOException {
+    RevCommit commit = rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
     final List<String> parentNames = new ArrayList<>(commit.getParentCount());
     for (RevCommit p : commit.getParents()) {
       parentNames.add(p.name());
@@ -286,8 +277,7 @@ public class EventFactory {
 
     // Find changes in this project having a patch set matching any parent of
     // this patch set's revision.
-    for (ChangeData cd : queryProvider.get().byProjectCommits(
-        change.getProject(), parentNames)) {
+    for (ChangeData cd : queryProvider.get().byProjectCommits(change.getProject(), parentNames)) {
       for (PatchSet ps : cd.patchSets()) {
         for (String p : parentNames) {
           if (!ps.getRevision().get().equals(p)) {
@@ -319,11 +309,11 @@ public class EventFactory {
     String rev = currentPs.getRevision().get();
     // Find changes in the same related group as this patch set, having a patch
     // set whose parent matches this patch set's revision.
-    for (ChangeData cd : queryProvider.get().byProjectGroups(
-        change.getProject(), currentPs.getGroups())) {
-      patchSets: for (PatchSet ps : cd.patchSets()) {
-        RevCommit commit =
-            rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+    for (ChangeData cd :
+        queryProvider.get().byProjectGroups(change.getProject(), currentPs.getGroups())) {
+      patchSets:
+      for (PatchSet ps : cd.patchSets()) {
+        RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
         for (RevCommit p : commit.getParents()) {
           if (!p.name().equals(rev)) {
             continue;
@@ -372,17 +362,25 @@ public class EventFactory {
     a.commitMessage = commitMessage;
   }
 
-  public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
+  public void addPatchSets(
+      ReviewDb db,
+      RevWalk revWalk,
+      ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       LabelTypes labelTypes) {
     addPatchSets(db, revWalk, ca, ps, approvals, false, null, labelTypes);
   }
 
-  public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
+  public void addPatchSets(
+      ReviewDb db,
+      RevWalk revWalk,
+      ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
-      boolean includeFiles, Change change, LabelTypes labelTypes) {
+      boolean includeFiles,
+      Change change,
+      LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
@@ -398,11 +396,10 @@ public class EventFactory {
     }
   }
 
-  public void addPatchSetComments(PatchSetAttribute patchSetAttribute,
-      Collection<Comment> comments) {
+  public void addPatchSetComments(
+      PatchSetAttribute patchSetAttribute, Collection<Comment> comments) {
     for (Comment comment : comments) {
-      if (comment.key.patchSetId ==
-          Integer.parseInt(patchSetAttribute.number)) {
+      if (comment.key.patchSetId == Integer.parseInt(patchSetAttribute.number)) {
         if (patchSetAttribute.comments == null) {
           patchSetAttribute.comments = new ArrayList<>();
         }
@@ -411,8 +408,8 @@ public class EventFactory {
     }
   }
 
-  public void addPatchSetFileNames(PatchSetAttribute patchSetAttribute,
-      Change change, PatchSet patchSet) {
+  public void addPatchSetFileNames(
+      PatchSetAttribute patchSetAttribute, Change change, PatchSet patchSet) {
     try {
       PatchList patchList = patchListCache.get(change, patchSet);
       for (PatchListEntry patch : patchList.getPatches()) {
@@ -433,8 +430,7 @@ public class EventFactory {
     }
   }
 
-  public void addComments(ChangeAttribute ca,
-      Collection<ChangeMessage> messages) {
+  public void addComments(ChangeAttribute ca, Collection<ChangeMessage> messages) {
     if (!messages.isEmpty()) {
       ca.comments = new ArrayList<>();
       for (ChangeMessage message : messages) {
@@ -444,15 +440,13 @@ public class EventFactory {
   }
 
   /**
-   * Create a PatchSetAttribute for the given patchset suitable for
-   * serialization to JSON.
+   * Create a PatchSetAttribute for the given patchset suitable for serialization to JSON.
    *
    * @param revWalk
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
-  public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk,
-      Change change, PatchSet patchSet) {
+  public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk, Change change, PatchSet patchSet) {
     try (ReviewDb db = schema.open()) {
       return asPatchSetAttribute(db, revWalk, change, patchSet);
     } catch (OrmException e) {
@@ -462,15 +456,14 @@ public class EventFactory {
   }
 
   /**
-   * Create a PatchSetAttribute for the given patchset suitable for
-   * serialization to JSON.
+   * Create a PatchSetAttribute for the given patchset suitable for serialization to JSON.
    *
    * @param db Review database
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
-  public PatchSetAttribute asPatchSetAttribute(ReviewDb db, RevWalk revWalk,
-      Change change, PatchSet patchSet) {
+  public PatchSetAttribute asPatchSetAttribute(
+      ReviewDb db, RevWalk revWalk, Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = Integer.toString(patchSet.getPatchSetId());
@@ -496,8 +489,7 @@ public class EventFactory {
         p.author = asAccountAttribute(author.getAccount());
       }
 
-      List<Patch> list =
-          patchListCache.get(change, patchSet).toPatchList(pId);
+      List<Patch> list = patchListCache.get(change, patchSet).toPatchList(pId);
       for (Patch pe : list) {
         if (!Patch.isMagic(pe.getFileName())) {
           p.sizeDeletions -= pe.getDeletions();
@@ -533,7 +525,9 @@ public class EventFactory {
     return u;
   }
 
-  public void addApprovals(PatchSetAttribute p, PatchSet.Id id,
+  public void addApprovals(
+      PatchSetAttribute p,
+      PatchSet.Id id,
       Map<PatchSet.Id, Collection<PatchSetApproval>> all,
       LabelTypes labelTypes) {
     Collection<PatchSetApproval> list = all.get(id);
@@ -542,8 +536,8 @@ public class EventFactory {
     }
   }
 
-  public void addApprovals(PatchSetAttribute p,
-      Collection<PatchSetApproval> list, LabelTypes labelTypes) {
+  public void addApprovals(
+      PatchSetAttribute p, Collection<PatchSetApproval> list, LabelTypes labelTypes) {
     if (!list.isEmpty()) {
       p.approvals = new ArrayList<>(list.size());
       for (PatchSetApproval a : list) {
@@ -558,8 +552,7 @@ public class EventFactory {
   }
 
   /**
-   * Create an AuthorAttribute for the given account suitable for serialization
-   * to JSON.
+   * Create an AuthorAttribute for the given account suitable for serialization to JSON.
    *
    * @param id
    * @return object suitable for serialization to JSON
@@ -572,8 +565,7 @@ public class EventFactory {
   }
 
   /**
-   * Create an AuthorAttribute for the given account suitable for serialization
-   * to JSON.
+   * Create an AuthorAttribute for the given account suitable for serialization to JSON.
    *
    * @param account
    * @return object suitable for serialization to JSON
@@ -591,8 +583,7 @@ public class EventFactory {
   }
 
   /**
-   * Create an AuthorAttribute for the given person ident suitable for
-   * serialization to JSON.
+   * Create an AuthorAttribute for the given person ident suitable for serialization to JSON.
    *
    * @param ident
    * @return object suitable for serialization to JSON
@@ -605,15 +596,13 @@ public class EventFactory {
   }
 
   /**
-   * Create an ApprovalAttribute for the given approval suitable for
-   * serialization to JSON.
+   * Create an ApprovalAttribute for the given approval suitable for serialization to JSON.
    *
    * @param approval
    * @param labelTypes label types for the containing project
    * @return object suitable for serialization to JSON
    */
-  public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval,
-      LabelTypes labelTypes) {
+  public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval, LabelTypes labelTypes) {
     ApprovalAttribute a = new ApprovalAttribute();
     a.type = approval.getLabelId().get();
     a.value = Short.toString(approval.getValue());
@@ -632,7 +621,8 @@ public class EventFactory {
     MessageAttribute a = new MessageAttribute();
     a.timestamp = message.getWrittenOn().getTime() / 1000L;
     a.reviewer =
-        message.getAuthor() != null ? asAccountAttribute(message.getAuthor())
+        message.getAuthor() != null
+            ? asAccountAttribute(message.getAuthor())
             : asAccountAttribute(myIdent);
     a.message = message.getMessage();
     return a;

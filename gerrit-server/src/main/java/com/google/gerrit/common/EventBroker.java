@@ -48,10 +48,7 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  /**
-   * Listeners to receive changes as they happen (limited by visibility of
-   * user).
-   */
+  /** Listeners to receive changes as they happen (limited by visibility of user). */
   protected final DynamicSet<UserScopedEventListener> listeners;
 
   /** Listeners to receive all changes as they happen. */
@@ -64,7 +61,8 @@ public class EventBroker implements EventDispatcher {
   protected final Provider<ReviewDb> dbProvider;
 
   @Inject
-  public EventBroker(DynamicSet<UserScopedEventListener> listeners,
+  public EventBroker(
+      DynamicSet<UserScopedEventListener> listeners,
       DynamicSet<EventListener> unrestrictedListeners,
       ProjectCache projectCache,
       ChangeNotes.Factory notesFactory,
@@ -77,8 +75,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Change change, ChangeEvent event)
-      throws OrmException {
+  public void postEvent(Change change, ChangeEvent event) throws OrmException {
     fireEvent(change, event);
   }
 
@@ -103,8 +100,7 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  protected void fireEvent(Change change, ChangeEvent event)
-      throws OrmException {
+  protected void fireEvent(Change change, ChangeEvent event) throws OrmException {
     for (UserScopedEventListener listener : listeners) {
       if (isVisibleTo(change, listener.getUser())) {
         listener.onEvent(event);
@@ -148,8 +144,7 @@ public class EventBroker implements EventDispatcher {
     return pe.controlFor(user).isVisible();
   }
 
-  protected boolean isVisibleTo(Change change, CurrentUser user)
-      throws OrmException {
+  protected boolean isVisibleTo(Change change, CurrentUser user) throws OrmException {
     if (change == null) {
       return false;
     }
@@ -171,15 +166,14 @@ public class EventBroker implements EventDispatcher {
     return pc.controlForRef(branchName).isVisible();
   }
 
-  protected boolean isVisibleTo(Event event, CurrentUser user)
-      throws OrmException {
+  protected boolean isVisibleTo(Event event, CurrentUser user) throws OrmException {
     if (event instanceof RefEvent) {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();
       if (PatchSet.isChangeRef(ref)) {
         Change.Id cid = PatchSet.Id.fromRef(ref).getParentKey();
-        Change change = notesFactory.create(
-            dbProvider.get(), refEvent.getProjectNameKey(), cid).getChange();
+        Change change =
+            notesFactory.create(dbProvider.get(), refEvent.getProjectNameKey(), cid).getChange();
         return isVisibleTo(change, user);
       }
       return isVisibleTo(refEvent.getBranchNameKey(), user);

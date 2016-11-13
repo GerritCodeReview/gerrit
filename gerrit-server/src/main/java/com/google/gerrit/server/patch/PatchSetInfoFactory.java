@@ -28,7 +28,11 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -36,16 +40,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-
-/**
- * Factory class creating PatchSetInfo from meta-data found in Git repository.
- */
+/** Factory class creating PatchSetInfo from meta-data found in Git repository. */
 @Singleton
 public class PatchSetInfoFactory {
   private final GitRepositoryManager repoManager;
@@ -54,16 +49,13 @@ public class PatchSetInfoFactory {
 
   @Inject
   public PatchSetInfoFactory(
-      GitRepositoryManager repoManager,
-      PatchSetUtil psUtil,
-      AccountByEmailCache byEmailCache) {
+      GitRepositoryManager repoManager, PatchSetUtil psUtil, AccountByEmailCache byEmailCache) {
     this.repoManager = repoManager;
     this.psUtil = psUtil;
     this.byEmailCache = byEmailCache;
   }
 
-  public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi)
-      throws IOException {
+  public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi) throws IOException {
     rw.parseBody(src);
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
@@ -88,8 +80,7 @@ public class PatchSetInfoFactory {
       throws PatchSetInfoNotAvailableException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      final RevCommit src =
-          rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      final RevCommit src = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
       PatchSetInfo info = get(rw, src, patchSet.getId());
       info.setParents(toParentInfos(src.getParents(), rw));
       return info;
@@ -117,8 +108,8 @@ public class PatchSetInfoFactory {
     return u;
   }
 
-  private List<PatchSetInfo.ParentInfo> toParentInfos(final RevCommit[] parents,
-      final RevWalk walk) throws IOException, MissingObjectException {
+  private List<PatchSetInfo.ParentInfo> toParentInfos(final RevCommit[] parents, final RevWalk walk)
+      throws IOException, MissingObjectException {
     List<PatchSetInfo.ParentInfo> pInfos = new ArrayList<>(parents.length);
     for (RevCommit parent : parents) {
       walk.parseBody(parent);
@@ -128,5 +119,4 @@ public class PatchSetInfoFactory {
     }
     return pInfos;
   }
-
 }

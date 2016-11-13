@@ -20,12 +20,9 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.nio.file.Path;
-
+import org.eclipse.jgit.lib.Config;
 
 /** Sends static content from the site 's {@code static/} subdirectory. */
 @Singleton

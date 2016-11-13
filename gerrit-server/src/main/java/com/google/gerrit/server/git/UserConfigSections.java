@@ -35,6 +35,5 @@ public class UserConfigSections {
   /** The diff user preferences. */
   public static final String DIFF = "diff";
 
-  private UserConfigSections() {
-  }
+  private UserConfigSections() {}
 }

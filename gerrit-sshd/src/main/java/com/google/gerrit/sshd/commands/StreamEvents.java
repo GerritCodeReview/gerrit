@@ -37,24 +37,21 @@ import com.google.gerrit.sshd.StreamCommandExecutor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
-
-import org.apache.sshd.server.Environment;
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
 @CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time")
 final class StreamEvents extends BaseCommand {
-  private static final Logger log =
-      LoggerFactory.getLogger(StreamEvents.class);
+  private static final Logger log = LoggerFactory.getLogger(StreamEvents.class);
 
   /** Maximum number of events that may be queued up for each connection. */
   private static final int MAX_EVENTS = 128;
@@ -62,23 +59,22 @@ final class StreamEvents extends BaseCommand {
   /** Number of events to write before yielding off the thread. */
   private static final int BATCH_SIZE = 32;
 
-  @Option(name = "--subscribe", aliases = {"-s"}, metaVar = "SUBSCRIBE",
-      usage = "subscribe to specific stream-events")
+  @Option(
+    name = "--subscribe",
+    aliases = {"-s"},
+    metaVar = "SUBSCRIBE",
+    usage = "subscribe to specific stream-events"
+  )
   private List<String> subscribedToEvents = new ArrayList<>();
 
-  @Inject
-  private IdentifiedUser currentUser;
+  @Inject private IdentifiedUser currentUser;
 
-  @Inject
-  private DynamicSet<UserScopedEventListener> eventListeners;
+  @Inject private DynamicSet<UserScopedEventListener> eventListeners;
 
-  @Inject
-  @StreamCommandExecutor
-  private WorkQueue.Executor pool;
+  @Inject @StreamCommandExecutor private WorkQueue.Executor pool;
 
   /** Queue of events to stream to the connected user. */
-  private final LinkedBlockingQueue<Event> queue =
-      new LinkedBlockingQueue<>(MAX_EVENTS);
+  private final LinkedBlockingQueue<Event> queue = new LinkedBlockingQueue<>(MAX_EVENTS);
 
   private Gson gson;
 
@@ -87,6 +83,7 @@ final class StreamEvents extends BaseCommand {
   /** Special event to notify clients they missed other events. */
   private static final class DroppedOutputEvent extends Event {
     private static final String TYPE = "dropped-output";
+
     DroppedOutputEvent() {
       super(TYPE);
     }
@@ -96,22 +93,23 @@ final class StreamEvents extends BaseCommand {
     EventTypes.register(DroppedOutputEvent.TYPE, DroppedOutputEvent.class);
   }
 
-  private final CancelableRunnable writer = new CancelableRunnable() {
-    @Override
-    public void run() {
-      writeEvents();
-    }
+  private final CancelableRunnable writer =
+      new CancelableRunnable() {
+        @Override
+        public void run() {
+          writeEvents();
+        }
 
-    @Override
-    public void cancel() {
-      onExit(0);
-    }
+        @Override
+        public void cancel() {
+          onExit(0);
+        }
 
-    @Override
-    public String toString() {
-      return "Stream Events (" + currentUser.getAccount().getUserName() + ")";
-    }
-  };
+        @Override
+        public String toString() {
+          return "Stream Events (" + currentUser.getAccount().getUserName() + ")";
+        }
+      };
 
   /** True if {@link DroppedOutputEvent} needs to be sent. */
   private volatile boolean dropped;
@@ -124,10 +122,9 @@ final class StreamEvents extends BaseCommand {
 
   /**
    * Currently scheduled task to spin out {@link #queue}.
-   * <p>
-   * This field is usually {@code null}, unless there is at least one object
-   * present inside of {@link #queue} ready for delivery. Tasks are only started
-   * when there are events to be sent.
+   *
+   * <p>This field is usually {@code null}, unless there is at least one object present inside of
+   * {@link #queue} ready for delivery. Tasks are only started when there are events to be sent.
    */
   private Future<?> task;
 
@@ -150,26 +147,26 @@ final class StreamEvents extends BaseCommand {
 
     stdout = toPrintWriter(out);
     eventListenerRegistration =
-        eventListeners.add(new UserScopedEventListener() {
-          @Override
-          public void onEvent(final Event event) {
-            if (subscribedToEvents.isEmpty()
-                || subscribedToEvents.contains(event.getType())) {
-              offer(event);
-            }
-          }
+        eventListeners.add(
+            new UserScopedEventListener() {
+              @Override
+              public void onEvent(final Event event) {
+                if (subscribedToEvents.isEmpty() || subscribedToEvents.contains(event.getType())) {
+                  offer(event);
+                }
+              }
 
-          @Override
-          public CurrentUser getUser() {
-            return currentUser;
-          }
-        });
+              @Override
+              public CurrentUser getUser() {
+                return currentUser;
+              }
+            });
 
-    gson = new GsonBuilder()
-        .registerTypeAdapter(Supplier.class, new SupplierSerializer())
-        .registerTypeAdapter(
-            Project.NameKey.class, new ProjectNameKeySerializer())
-        .create();
+    gson =
+        new GsonBuilder()
+            .registerTypeAdapter(Supplier.class, new SupplierSerializer())
+            .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
+            .create();
   }
 
   @Override

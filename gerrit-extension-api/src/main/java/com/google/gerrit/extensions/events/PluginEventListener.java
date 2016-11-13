@@ -18,7 +18,9 @@ package com.google.gerrit.extensions.events;
 public interface PluginEventListener {
   interface Event extends GerritEvent {
     String pluginName();
+
     String getType();
+
     String getData();
   }
 

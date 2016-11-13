@@ -28,16 +28,17 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class Emails implements
-    ChildCollection<AccountResource, AccountResource.Email>,
-    AcceptsCreate<AccountResource> {
+public class Emails
+    implements ChildCollection<AccountResource, AccountResource.Email>,
+        AcceptsCreate<AccountResource> {
   private final DynamicMap<RestView<AccountResource.Email>> views;
   private final GetEmails list;
   private final Provider<CurrentUser> self;
   private final CreateEmail.Factory createEmailFactory;
 
   @Inject
-  Emails(DynamicMap<RestView<AccountResource.Email>> views,
+  Emails(
+      DynamicMap<RestView<AccountResource.Email>> views,
       GetEmails list,
       Provider<CurrentUser> self,
       CreateEmail.Factory createEmailFactory) {
@@ -55,8 +56,7 @@ public class Emails implements
   @Override
   public AccountResource.Email parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new ResourceNotFoundException();
     }
 

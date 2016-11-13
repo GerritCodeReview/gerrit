@@ -27,16 +27,21 @@ final class Plugin extends JavaScriptObject {
   }
 
   native String url() /*-{ return this._scriptUrl }-*/;
+
   native String name() /*-{ return this.name }-*/;
 
   native boolean loaded() /*-{ return this._success || this._failure != null }-*/;
+
   native Exception failure() /*-{ return this._failure }-*/;
+
   native void failure(Exception e) /*-{ this._failure = e }-*/;
+
   native boolean success() /*-{ return this._success || false }-*/;
+
   native void _initialized() /*-{ this._success = true }-*/;
 
   private static native Plugin create(JavaScriptObject T, String u, String n)
-  /*-{ return new T(u,n) }-*/;
+      /*-{ return new T(u,n) }-*/ ;
 
   private static native JavaScriptObject createType() /*-{
     function Plugin(u, n) {
@@ -90,6 +95,5 @@ final class Plugin extends JavaScriptObject {
     };
   }-*/;
 
-  protected Plugin() {
-  }
+  protected Plugin() {}
 }

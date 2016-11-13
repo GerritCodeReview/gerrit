@@ -21,16 +21,26 @@ public interface CommonConstants extends Constants {
   CommonConstants C = GWT.create(CommonConstants.class);
 
   String inTheFuture();
+
   String month();
+
   String months();
+
   String year();
+
   String years();
 
   String oneSecondAgo();
+
   String oneMinuteAgo();
+
   String oneHourAgo();
+
   String oneDayAgo();
+
   String oneWeekAgo();
+
   String oneMonthAgo();
+
   String oneYearAgo();
 }

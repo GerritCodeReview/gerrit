@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
@@ -26,5 +25,4 @@ import java.lang.annotation.Retention;
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface GerritPersonIdent {
-}
+public @interface GerritPersonIdent {}

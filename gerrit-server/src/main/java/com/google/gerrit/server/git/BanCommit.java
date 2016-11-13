@@ -26,7 +26,10 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -41,11 +44,6 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
 @Singleton
 public class BanCommit {
   /**
@@ -56,8 +54,7 @@ public class BanCommit {
    * @return NoteMap of commits to be rejected, null if there are none.
    * @throws IOException the map cannot be loaded.
    */
-  public static NoteMap loadRejectCommitsMap(Repository repo, RevWalk walk)
-      throws IOException {
+  public static NoteMap loadRejectCommitsMap(Repository repo, RevWalk walk) throws IOException {
     try {
       Ref ref = repo.getRefDatabase().exactRef(RefNames.REFS_REJECT_COMMITS);
       if (ref == null) {
@@ -67,8 +64,7 @@ public class BanCommit {
       RevCommit map = walk.parseCommit(ref.getObjectId());
       return NoteMap.read(walk.getObjectReader(), map);
     } catch (IOException badMap) {
-      throw new IOException("Cannot load " + RefNames.REFS_REJECT_COMMITS,
-          badMap);
+      throw new IOException("Cannot load " + RefNames.REFS_REJECT_COMMITS, badMap);
     }
   }
 
@@ -78,7 +74,8 @@ public class BanCommit {
   private NotesBranchUtil.Factory notesBranchUtilFactory;
 
   @Inject
-  BanCommit(final Provider<IdentifiedUser> currentUser,
+  BanCommit(
+      final Provider<IdentifiedUser> currentUser,
       final GitRepositoryManager repoManager,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final NotesBranchUtil.Factory notesBranchUtilFactory) {
@@ -88,13 +85,11 @@ public class BanCommit {
     this.tz = gerritIdent.getTimeZone();
   }
 
-  public BanCommitResult ban(final ProjectControl projectControl,
-      final List<ObjectId> commitsToBan, final String reason)
-      throws PermissionDeniedException, IOException,
-      ConcurrentRefUpdateException {
+  public BanCommitResult ban(
+      final ProjectControl projectControl, final List<ObjectId> commitsToBan, final String reason)
+      throws PermissionDeniedException, IOException, ConcurrentRefUpdateException {
     if (!projectControl.isOwner()) {
-      throw new PermissionDeniedException(
-          "Not project owner: not permitted to ban commits");
+      throw new PermissionDeniedException("Not project owner: not permitted to ban commits");
     }
 
     final BanCommitResult result = new BanCommitResult();
@@ -119,11 +114,13 @@ public class BanCommit {
         }
         banCommitNotes.set(commitToBan, noteId);
       }
-      NotesBranchUtil notesBranchUtil =
-          notesBranchUtilFactory.create(project, repo, inserter);
+      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(project, repo, inserter);
       NoteMap newlyCreated =
-          notesBranchUtil.commitNewNotes(banCommitNotes, REFS_REJECT_COMMITS,
-              createPersonIdent(), buildCommitMessage(commitsToBan, reason));
+          notesBranchUtil.commitNewNotes(
+              banCommitNotes,
+              REFS_REJECT_COMMITS,
+              createPersonIdent(),
+              buildCommitMessage(commitsToBan, reason));
 
       for (Note n : banCommitNotes) {
         if (newlyCreated.contains(n)) {
@@ -136,8 +133,7 @@ public class BanCommit {
     }
   }
 
-  private ObjectId createNoteContent(String reason, ObjectInserter inserter)
-      throws IOException {
+  private ObjectId createNoteContent(String reason, ObjectInserter inserter) throws IOException {
     String noteContent = reason != null ? reason : "";
     if (noteContent.length() > 0 && !noteContent.endsWith("\n")) {
       noteContent = noteContent + "\n";
@@ -150,8 +146,8 @@ public class BanCommit {
     return currentUser.get().newCommitterIdent(now, tz);
   }
 
-  private static String buildCommitMessage(final List<ObjectId> bannedCommits,
-      final String reason) {
+  private static String buildCommitMessage(
+      final List<ObjectId> bannedCommits, final String reason) {
     final StringBuilder commitMsg = new StringBuilder();
     commitMsg.append("Banning ");
     commitMsg.append(bannedCommits.size());

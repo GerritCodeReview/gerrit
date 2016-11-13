@@ -14,16 +14,17 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Metric;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Field;
-
-import com.codahale.metrics.Metric;
-
 import java.util.Map;
 
 /** Metric broken down into buckets by {@link Field} values. */
 interface BucketedMetric extends Metric {
-  @Nullable Metric getTotal();
+  @Nullable
+  Metric getTotal();
+
   Field<?>[] getFields();
+
   Map<?, Metric> getCells();
 }

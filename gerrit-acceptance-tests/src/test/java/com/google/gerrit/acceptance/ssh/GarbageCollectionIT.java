@@ -26,24 +26,19 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GarbageCollectionQueue;
 import com.google.inject.Inject;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Locale;
+import org.junit.Before;
+import org.junit.Test;
 
 @NoHttpd
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
-  @Inject
-  private GarbageCollection.Factory garbageCollectionFactory;
+  @Inject private GarbageCollection.Factory garbageCollectionFactory;
 
-  @Inject
-  private GarbageCollectionQueue gcQueue;
+  @Inject private GarbageCollectionQueue gcQueue;
 
-  @Inject
-  private GcAssert gcAssert;
+  @Inject private GcAssert gcAssert;
 
   private Project.NameKey project2;
   private Project.NameKey project3;
@@ -58,10 +53,11 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGc() throws Exception {
     String response =
-        adminSshSession.exec("gerrit gc \"" + project.get() + "\" \""
-            + project2.get() + "\"");
-    assert_().withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError()).isFalse();
+        adminSshSession.exec("gerrit gc \"" + project.get() + "\" \"" + project2.get() + "\"");
+    assert_()
+        .withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError())
+        .isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(project, project2);
     gcAssert.assertHasNoPackFile(allProjects, project3);
@@ -71,8 +67,10 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGcAll() throws Exception {
     String response = adminSshSession.exec("gerrit gc --all");
-    assert_().withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError()).isFalse();
+    assert_()
+        .withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError())
+        .isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(allProjects, project, project2, project3);
   }
@@ -83,21 +81,24 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     assertThat(userSshSession.hasError()).isTrue();
     String error = userSshSession.getError();
     assertThat(error).isNotNull();
-    assertError("One of the following capabilities is required to access this"
-        + " resource: [runGC, maintainServer]", error);
+    assertError(
+        "One of the following capabilities is required to access this"
+            + " resource: [runGC, maintainServer]",
+        error);
   }
 
   @Test
   @UseLocalDisk
   public void testGcAlreadyScheduled() throws Exception {
     gcQueue.addAll(Arrays.asList(project));
-    GarbageCollectionResult result = garbageCollectionFactory.create().run(
-        Arrays.asList(allProjects, project, project2, project3));
+    GarbageCollectionResult result =
+        garbageCollectionFactory
+            .create()
+            .run(Arrays.asList(allProjects, project, project2, project3));
     assertThat(result.hasErrors()).isTrue();
     assertThat(result.getErrors()).hasSize(1);
     GarbageCollectionResult.Error error = result.getErrors().get(0);
-    assertThat(error.getType()).isEqualTo(
-        GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED);
+    assertThat(error.getType()).isEqualTo(GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED);
     assertThat(error.getProjectName()).isEqualTo(project);
   }
 

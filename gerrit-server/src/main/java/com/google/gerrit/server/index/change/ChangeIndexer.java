@@ -42,10 +42,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,21 +50,22 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper for (re)indexing a change document.
- * <p>
- * Indexing is run in the background, as it may require substantial work to
- * compute some of the fields and/or update the index.
+ *
+ * <p>Indexing is run in the background, as it may require substantial work to compute some of the
+ * fields and/or update the index.
  */
 public class ChangeIndexer {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeIndexer.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeIndexer.class);
 
   public interface Factory {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
-    ChangeIndexer create(ListeningExecutorService executor,
-        ChangeIndexCollection indexes);
+
+    ChangeIndexer create(ListeningExecutorService executor, ChangeIndexCollection indexes);
   }
 
   public static CheckedFuture<?, IOException> allAsList(
@@ -82,18 +79,17 @@ public class ChangeIndexer {
 
   private static final Function<Exception, IOException> MAPPER =
       new Function<Exception, IOException>() {
-    @Override
-    public IOException apply(Exception in) {
-      if (in instanceof IOException) {
-        return (IOException) in;
-      } else if (in instanceof ExecutionException
-          && in.getCause() instanceof IOException) {
-        return (IOException) in.getCause();
-      } else {
-        return new IOException(in);
-      }
-    }
-  };
+        @Override
+        public IOException apply(Exception in) {
+          if (in instanceof IOException) {
+            return (IOException) in;
+          } else if (in instanceof ExecutionException && in.getCause() instanceof IOException) {
+            return (IOException) in.getCause();
+          } else {
+            return new IOException(in);
+          }
+        }
+      };
 
   private final ChangeIndexCollection indexes;
   private final ChangeIndex index;
@@ -106,7 +102,8 @@ public class ChangeIndexer {
   private final DynamicSet<ChangeIndexedListener> indexedListeners;
 
   @AssistedInject
-  ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+  ChangeIndexer(
+      SchemaFactory<ReviewDb> schemaFactory,
       NotesMigration notesMigration,
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
@@ -126,7 +123,8 @@ public class ChangeIndexer {
   }
 
   @AssistedInject
-  ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+  ChangeIndexer(
+      SchemaFactory<ReviewDb> schemaFactory,
       NotesMigration notesMigration,
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
@@ -151,11 +149,10 @@ public class ChangeIndexer {
    * @param id change to index.
    * @return future for the indexing task.
    */
-  public CheckedFuture<?, IOException> indexAsync(Project.NameKey project,
-      Change.Id id) {
+  public CheckedFuture<?, IOException> indexAsync(Project.NameKey project, Change.Id id) {
     return executor != null
         ? submit(new IndexTask(project, id))
-        : Futures.<Object, IOException> immediateCheckedFuture(null);
+        : Futures.<Object, IOException>immediateCheckedFuture(null);
   }
 
   /**
@@ -164,8 +161,8 @@ public class ChangeIndexer {
    * @param ids changes to index.
    * @return future for completing indexing of all changes.
    */
-  public CheckedFuture<?, IOException> indexAsync(Project.NameKey project,
-      Collection<Change.Id> ids) {
+  public CheckedFuture<?, IOException> indexAsync(
+      Project.NameKey project, Collection<Change.Id> ids) {
     List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       futures.add(indexAsync(project, id));
@@ -211,8 +208,7 @@ public class ChangeIndexer {
    * @param db review database.
    * @param change change to index.
    */
-  public void index(ReviewDb db, Change change)
-      throws IOException, OrmException {
+  public void index(ReviewDb db, Change change) throws IOException, OrmException {
     index(newChangeData(db, change));
   }
 
@@ -237,7 +233,7 @@ public class ChangeIndexer {
   public CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
     return executor != null
         ? submit(new DeleteTask(id))
-        : Futures.<Object, IOException> immediateCheckedFuture(null);
+        : Futures.<Object, IOException>immediateCheckedFuture(null);
   }
 
   /**
@@ -250,14 +246,11 @@ public class ChangeIndexer {
   }
 
   private Collection<ChangeIndex> getWriteIndexes() {
-    return indexes != null
-        ? indexes.getWriteIndexes()
-        : Collections.singleton(index);
+    return indexes != null ? indexes.getWriteIndexes() : Collections.singleton(index);
   }
 
   private CheckedFuture<?, IOException> submit(Callable<?> task) {
-    return Futures.makeChecked(
-        Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
+    return Futures.makeChecked(Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
   }
 
   private class IndexTask implements Callable<Void> {
@@ -272,38 +265,36 @@ public class ChangeIndexer {
     @Override
     public Void call() throws Exception {
       try {
-        final AtomicReference<Provider<ReviewDb>> dbRef =
-            Atomics.newReference();
-        RequestContext newCtx = new RequestContext() {
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            Provider<ReviewDb> db = dbRef.get();
-            if (db == null) {
-              try {
-                db = Providers.of(schemaFactory.open());
-              } catch (OrmException e) {
-                ProvisionException pe =
-                    new ProvisionException("error opening ReviewDb");
-                pe.initCause(e);
-                throw pe;
+        final AtomicReference<Provider<ReviewDb>> dbRef = Atomics.newReference();
+        RequestContext newCtx =
+            new RequestContext() {
+              @Override
+              public Provider<ReviewDb> getReviewDbProvider() {
+                Provider<ReviewDb> db = dbRef.get();
+                if (db == null) {
+                  try {
+                    db = Providers.of(schemaFactory.open());
+                  } catch (OrmException e) {
+                    ProvisionException pe = new ProvisionException("error opening ReviewDb");
+                    pe.initCause(e);
+                    throw pe;
+                  }
+                  dbRef.set(db);
+                }
+                return db;
               }
-              dbRef.set(db);
-            }
-            return db;
-          }
 
-          @Override
-          public CurrentUser getUser() {
-            throw new OutOfScopeException("No user during ChangeIndexer");
-          }
-        };
+              @Override
+              public CurrentUser getUser() {
+                throw new OutOfScopeException("No user during ChangeIndexer");
+              }
+            };
         RequestContext oldCtx = context.setContext(newCtx);
         try {
-          ChangeData cd = newChangeData(
-              newCtx.getReviewDbProvider().get(), project, id);
+          ChangeData cd = newChangeData(newCtx.getReviewDbProvider().get(), project, id);
           index(cd);
           return null;
-        } finally  {
+        } finally {
           context.setContext(oldCtx);
           Provider<ReviewDb> db = dbRef.get();
           if (db != null) {
@@ -347,24 +338,21 @@ public class ChangeIndexer {
   // increases contention on the meta ref from a background indexing thread
   // with little benefit. The next actual write to the entity may still incur a
   // less-contentious rebuild.
-  private ChangeData newChangeData(ReviewDb db, Change change)
-      throws OrmException {
+  private ChangeData newChangeData(ReviewDb db, Change change) throws OrmException {
     if (!notesMigration.readChanges()) {
-      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(
-          change, null);
+      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(change, null);
       return changeDataFactory.create(db, notes);
     }
     return changeDataFactory.create(db, change);
   }
 
-  private ChangeData newChangeData(ReviewDb db, Project.NameKey project,
-      Change.Id changeId) throws OrmException {
+  private ChangeData newChangeData(ReviewDb db, Project.NameKey project, Change.Id changeId)
+      throws OrmException {
     if (!notesMigration.readChanges()) {
-      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(
-          db, project, changeId);
+      ChangeNotes notes =
+          changeNotesFactory.createWithAutoRebuildingDisabled(db, project, changeId);
       return changeDataFactory.create(db, notes);
     }
     return changeDataFactory.create(db, project, changeId);
   }
-
 }

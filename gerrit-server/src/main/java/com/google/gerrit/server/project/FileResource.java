@@ -20,24 +20,21 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.TypeLiteral;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-import java.io.IOException;
-
 public class FileResource implements RestResource {
   public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
       new TypeLiteral<RestView<FileResource>>() {};
 
-  public static FileResource create(GitRepositoryManager repoManager,
-      ProjectControl project, ObjectId rev, String path)
-          throws ResourceNotFoundException, IOException {
-    try (Repository repo =
-            repoManager.openRepository(project.getProject().getNameKey());
+  public static FileResource create(
+      GitRepositoryManager repoManager, ProjectControl project, ObjectId rev, String path)
+      throws ResourceNotFoundException, IOException {
+    try (Repository repo = repoManager.openRepository(project.getProject().getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       RevTree tree = rw.parseTree(rev);
       if (TreeWalk.forPath(repo, path, tree) != null) {

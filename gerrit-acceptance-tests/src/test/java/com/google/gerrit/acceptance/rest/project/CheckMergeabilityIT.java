@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.reviewdb.client.Branch;
-
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
@@ -42,26 +41,41 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
     branch = new Branch.NameKey(project, "test");
     gApi.projects()
         .name(branch.getParentKey().get())
-        .branch(branch.get()).create(new BranchInput());
+        .branch(branch.get())
+        .create(new BranchInput());
   }
 
   @Test
   public void checkMergeableCommit() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("some change in a")
         .add("a.txt", "a contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
     testRepo.reset(initialHead);
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("some change in b")
         .add("b.txt", "b contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test"))
+        .call();
 
     assertMergeable("master", "test", "recursive");
   }
@@ -69,20 +83,34 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
   @Test
   public void checkUnMergeableCommit() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("some change in a")
         .add("a.txt", "a contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
     testRepo.reset(initialHead);
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("some change in a too")
         .add("a.txt", "a contents too")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test"))
+        .call();
 
     assertUnMergeable("master", "test", "recursive", "a.txt");
   }
@@ -90,51 +118,87 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
   @Test
   public void checkOursMergeStrategy() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("some change in a")
         .add("a.txt", "a contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
     testRepo.reset(initialHead);
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("some change in a too")
         .add("a.txt", "a contents too")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test"))
+        .call();
 
     assertMergeable("master", "test", "ours");
   }
 
   @Test
   public void checkAlreadyMergedCommit() throws Exception {
-    ObjectId c0 = testRepo.branch("HEAD").commit().insertChangeId()
-        .message("first commit")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    ObjectId c0 =
+        testRepo
+            .branch("HEAD")
+            .commit()
+            .insertChangeId()
+            .message("first commit")
+            .add("a.txt", "a contents ")
+            .create();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("second commit")
         .add("b.txt", "b contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
     assertCommitMerged("master", c0.getName(), "");
   }
 
   @Test
   public void checkContentMergedCommit() throws Exception {
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("first commit")
         .add("a.txt", "a contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
     // create a change, and cherrypick into master
     PushOneCommit.Result cId = createChange();
@@ -142,8 +206,7 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
     CherryPickInput cpi = new CherryPickInput();
     cpi.destination = "master";
     cpi.message = "cherry pick the commit";
-    ChangeApi orig = gApi.changes()
-        .id(cId.getChangeId());
+    ChangeApi orig = gApi.changes().id(cId.getChangeId());
     ChangeApi cherry = orig.current().cherryPick(cpi);
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
@@ -155,71 +218,87 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Test
   public void checkInvalidSource() throws Exception {
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("first commit")
         .add("a.txt", "a contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
-    assertBadRequest("master", "fdsafsdf", "recursive",
-        "Cannot resolve 'fdsafsdf' to a commit");
+    assertBadRequest("master", "fdsafsdf", "recursive", "Cannot resolve 'fdsafsdf' to a commit");
   }
 
   @Test
   public void checkInvalidStrategy() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("first commit")
         .add("a.txt", "a contents ")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
 
     testRepo.reset(initialHead);
-    testRepo.branch("HEAD").commit().insertChangeId()
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
         .message("some change in a too")
         .add("a.txt", "a contents too")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test"))
+        .call();
 
-    assertBadRequest("master", "test", "octopus",
-        "invalid merge strategy: octopus");
+    assertBadRequest("master", "test", "octopus", "invalid merge strategy: octopus");
   }
 
-  private void assertMergeable(String targetBranch, String source,
-      String strategy) throws Exception {
-    MergeableInfo
-        mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
+  private void assertMergeable(String targetBranch, String source, String strategy)
+      throws Exception {
+    MergeableInfo mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isTrue();
   }
 
-  private void assertUnMergeable(String targetBranch, String source,
-      String strategy, String... conflicts) throws Exception {
+  private void assertUnMergeable(
+      String targetBranch, String source, String strategy, String... conflicts) throws Exception {
     MergeableInfo mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isFalse();
     assertThat(mergeableInfo.conflicts).containsExactly((Object[]) conflicts);
   }
 
-  private void assertCommitMerged(String targetBranch, String source,
-      String strategy) throws Exception {
-    MergeableInfo
-        mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
+  private void assertCommitMerged(String targetBranch, String source, String strategy)
+      throws Exception {
+    MergeableInfo mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isTrue();
     assertThat(mergeableInfo.commitMerged).isTrue();
   }
 
-  private void assertContentMerged(String targetBranch, String source,
-      String strategy) throws Exception {
-    MergeableInfo
-        mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
+  private void assertContentMerged(String targetBranch, String source, String strategy)
+      throws Exception {
+    MergeableInfo mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isTrue();
     assertThat(mergeableInfo.contentMerged).isTrue();
   }
 
-  private void assertBadRequest(String targetBranch, String source,
-      String strategy, String errMsg) throws Exception {
+  private void assertBadRequest(String targetBranch, String source, String strategy, String errMsg)
+      throws Exception {
     String url = "/projects/" + project.get() + "/branches/" + targetBranch;
     url += "/mergeable?source=" + source;
     if (!Strings.isNullOrEmpty(strategy)) {
@@ -231,8 +310,8 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
     assertThat(r.getEntityContent()).isEqualTo(errMsg);
   }
 
-  private MergeableInfo getMergeableInfo(String targetBranch, String source,
-      String strategy) throws Exception {
+  private MergeableInfo getMergeableInfo(String targetBranch, String source, String strategy)
+      throws Exception {
     String url = "/projects/" + project.get() + "/branches/" + targetBranch;
     url += "/mergeable?source=" + source;
     if (!Strings.isNullOrEmpty(strategy)) {

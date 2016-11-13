@@ -24,6 +24,5 @@ class NoOpKeyCommand extends KeyCommand {
   }
 
   @Override
-  public void onKeyPress(KeyPressEvent event) {
-  }
+  public void onKeyPress(KeyPressEvent event) {}
 }

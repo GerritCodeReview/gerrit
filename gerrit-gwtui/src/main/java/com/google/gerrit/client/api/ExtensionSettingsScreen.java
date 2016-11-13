@@ -21,7 +21,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
-
 import java.util.Set;
 
 /** SettingsScreen contributed by a plugin. */
@@ -75,6 +74,7 @@ public class ExtensionSettingsScreen extends SettingsScreen {
 
   public static class Definition extends JavaScriptObject {
     static final JavaScriptObject TYPE = init();
+
     private static native JavaScriptObject init() /*-{
       function SettingsScreenDefinition(p, m, c) {
         this.path = p;
@@ -85,43 +85,39 @@ public class ExtensionSettingsScreen extends SettingsScreen {
     }-*/;
 
     public static native JsArray<Definition> get(String n)
-    /*-{ return $wnd.Gerrit.settingsScreens[n] || [] }-*/;
+        /*-{ return $wnd.Gerrit.settingsScreens[n] || [] }-*/ ;
 
     public static final Set<String> plugins() {
       return Natives.keys(settingsScreens());
     }
 
     private static native NativeMap<NativeString> settingsScreens()
-    /*-{ return $wnd.Gerrit.settingsScreens; }-*/;
+        /*-{ return $wnd.Gerrit.settingsScreens; }-*/ ;
 
     public final native String getPath() /*-{ return this.path; }-*/;
+
     public final native String getMenu() /*-{ return this.menu; }-*/;
 
-    final native boolean matches(String t)
-    /*-{ return this.path == t; }-*/;
+    final native boolean matches(String t)/*-{ return this.path == t; }-*/ ;
 
-    protected Definition() {
-    }
+    protected Definition() {}
   }
 
   static class Context extends JavaScriptObject {
-    static final Context create(
-        Definition def,
-        ExtensionSettingsScreen view) {
+    static final Context create(Definition def, ExtensionSettingsScreen view) {
       return create(TYPE, def, view, view.getBody().getElement());
     }
 
     final native void onLoad() /*-{ this._d.onLoad(this) }-*/;
+
     final native JsArray<JavaScriptObject> unload() /*-{ return this._u }-*/;
 
     private static native Context create(
-        JavaScriptObject T,
-        Definition d,
-        ExtensionSettingsScreen s,
-        Element e)
-    /*-{ return new T(d,s,e) }-*/;
+        JavaScriptObject T, Definition d, ExtensionSettingsScreen s, Element e)
+        /*-{ return new T(d,s,e) }-*/ ;
 
     private static final JavaScriptObject TYPE = init();
+
     private static native JavaScriptObject init() /*-{
       var T = function(d,s,e) {
         this._d = d;
@@ -138,7 +134,6 @@ public class ExtensionSettingsScreen extends SettingsScreen {
       return T;
     }-*/;
 
-    protected Context() {
-    }
+    protected Context() {}
   }
 }

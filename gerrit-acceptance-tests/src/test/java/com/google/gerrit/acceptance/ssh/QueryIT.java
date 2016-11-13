@@ -28,12 +28,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gson.Gson;
-
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.junit.Test;
 
 @NoHttpd
 public class QueryIT extends AbstractDaemonTest {
@@ -60,8 +58,7 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(1).project).isEqualTo(project.toString());
     assertThat(changes.get(1).id).isEqualTo(changeId1);
 
-    changes =
-        executeSuccessfulQuery("--start=1 " + changeId1 + " OR " + changeId2);
+    changes = executeSuccessfulQuery("--start=1 " + changeId1 + " OR " + changeId2);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).project).isEqualTo(project.toString());
     assertThat(changes.get(0).id).isEqualTo(changeId1);
@@ -102,8 +99,7 @@ public class QueryIT extends AbstractDaemonTest {
   @Test
   public void testCommitMessageOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
-    List<ChangeAttribute> changes =
-        executeSuccessfulQuery("--commit-message " + changeId);
+    List<ChangeAttribute> changes = executeSuccessfulQuery("--commit-message " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).commitMessage).isNotNull();
     assertThat(changes.get(0).commitMessage).contains(PushOneCommit.SUBJECT);
@@ -129,7 +125,6 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).currentPatchSet).isNotNull();
     assertThat(changes.get(0).currentPatchSet.approvals).isNotNull();
     assertThat(changes.get(0).currentPatchSet.approvals.size()).isEqualTo(1);
-
   }
 
   @Test
@@ -149,13 +144,11 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void shouldFailWithFilesWithoutPatchSetsOrCurrentPatchSetsOption()
-      throws Exception {
+  public void shouldFailWithFilesWithoutPatchSetsOrCurrentPatchSetsOption() throws Exception {
     String changeId = createChange().getChangeId();
     adminSshSession.exec("gerrit query --files " + changeId);
     assertThat(adminSshSession.hasError()).isTrue();
-    assertThat(adminSshSession.getError()).contains(
-        "needs --patch-sets or --current-patch-set");
+    assertThat(adminSshSession.getError()).contains("needs --patch-sets or --current-patch-set");
   }
 
   @Test
@@ -174,9 +167,7 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    changes =
-        executeSuccessfulQuery("--patch-sets --files --all-approvals "
-            + changeId);
+    changes = executeSuccessfulQuery("--patch-sets --files --all-approvals " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).patchSets.get(0).files).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
@@ -211,13 +202,11 @@ public class QueryIT extends AbstractDaemonTest {
     review.comments.put(comment.path, Lists.newArrayList(comment));
     gApi.changes().id(changeId).current().review(review);
 
-    List<ChangeAttribute> changes =
-        executeSuccessfulQuery("--current-patch-set " + changeId);
+    List<ChangeAttribute> changes = executeSuccessfulQuery("--current-patch-set " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).currentPatchSet.comments).isNull();
 
-    changes =
-        executeSuccessfulQuery("--current-patch-set --comments " + changeId);
+    changes = executeSuccessfulQuery("--current-patch-set --comments " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).currentPatchSet.comments).isNotNull();
     assertThat(changes.get(0).currentPatchSet.comments.size()).isEqualTo(1);
@@ -236,8 +225,7 @@ public class QueryIT extends AbstractDaemonTest {
     review.comments.put(comment.path, Lists.newArrayList(comment));
     gApi.changes().id(changeId).current().review(review);
 
-    List<ChangeAttribute> changes =
-        executeSuccessfulQuery("--patch-sets " + changeId);
+    List<ChangeAttribute> changes = executeSuccessfulQuery("--patch-sets " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNull();
 
@@ -246,8 +234,7 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).comments.size()).isEqualTo(1);
 
-    changes =
-        executeSuccessfulQuery("--patch-sets --comments --files " + changeId);
+    changes = executeSuccessfulQuery("--patch-sets --comments --files " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).comments.size()).isEqualTo(1);
@@ -255,9 +242,7 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    changes =
-        executeSuccessfulQuery("--patch-sets --comments --files --all-approvals "
-            + changeId);
+    changes = executeSuccessfulQuery("--patch-sets --comments --files --all-approvals " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).comments.size()).isEqualTo(1);
@@ -323,17 +308,14 @@ public class QueryIT extends AbstractDaemonTest {
     userSession.close();
   }
 
-  private List<ChangeAttribute> executeSuccessfulQuery(String params,
-      SshSession session) throws Exception {
-    String rawResponse =
-        session.exec("gerrit query --format=JSON " + params);
-    assert_().withFailureMessage(session.getError())
-        .that(session.hasError()).isFalse();
+  private List<ChangeAttribute> executeSuccessfulQuery(String params, SshSession session)
+      throws Exception {
+    String rawResponse = session.exec("gerrit query --format=JSON " + params);
+    assert_().withFailureMessage(session.getError()).that(session.hasError()).isFalse();
     return getChanges(rawResponse);
   }
 
-  private List<ChangeAttribute> executeSuccessfulQuery(String params)
-      throws Exception {
+  private List<ChangeAttribute> executeSuccessfulQuery(String params) throws Exception {
     return executeSuccessfulQuery(params, adminSshSession);
   }
 

@@ -24,11 +24,8 @@ public class OptionUtil {
       Splitter.on(CharMatcher.anyOf(", ")).omitEmptyStrings().trimResults();
 
   public static Iterable<String> splitOptionValue(String value) {
-    return Iterables.transform(
-        COMMA_OR_SPACE.split(value),
-        String::toLowerCase);
+    return Iterables.transform(COMMA_OR_SPACE.split(value), String::toLowerCase);
   }
 
-  private OptionUtil() {
-  }
+  private OptionUtil() {}
 }

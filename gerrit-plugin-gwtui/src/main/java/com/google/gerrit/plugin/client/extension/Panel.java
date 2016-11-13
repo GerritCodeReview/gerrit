@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 /**
  * Panel that extends a Gerrit core screen contributed by this plugin.
  *
- * Panel should be registered early at module load:
+ * <p>Panel should be registered early at module load:
  *
  * <pre>
  * &#064;Override
@@ -42,17 +42,16 @@ public class Panel extends SimplePanel {
   public interface EntryPoint {
     /**
      * Invoked when the panel has been created.
-     * <p>
-     * The implementation should create a single widget to define the content of
-     * this panel and add it to the passed panel instance.
-     * <p>
-     * To use multiple widgets, compose them in panels such as {@code FlowPanel}
-     * and add only the top level widget to the panel.
-     * <p>
-     * The panel is already attached to the browser DOM.
-     * Any widgets added to the screen will immediately receive {@code onLoad()}.
-     * GWT will fire {@code onUnload()} when the panel is removed from the UI,
-     * generally caused by the user navigating to another screen.
+     *
+     * <p>The implementation should create a single widget to define the content of this panel and
+     * add it to the passed panel instance.
+     *
+     * <p>To use multiple widgets, compose them in panels such as {@code FlowPanel} and add only the
+     * top level widget to the panel.
+     *
+     * <p>The panel is already attached to the browser DOM. Any widgets added to the screen will
+     * immediately receive {@code onLoad()}. GWT will fire {@code onUnload()} when the panel is
+     * removed from the UI, generally caused by the user navigating to another screen.
      *
      * @param panel panel that will contain the panel widget.
      */
@@ -63,15 +62,16 @@ public class Panel extends SimplePanel {
     native Element body() /*-{ return this.body }-*/;
 
     native String get(String k) /*-{ return this.p[k]; }-*/;
+
     native int getInt(String k, int d) /*-{
       return this.p.hasOwnProperty(k) ? this.p[k] : d
     }-*/;
+
     native int getBoolean(String k, boolean d) /*-{
       return this.p.hasOwnProperty(k) ? this.p[k] : d
     }-*/;
-    native JavaScriptObject getObject(String k)
-    /*-{ return this.p[k]; }-*/;
 
+    native JavaScriptObject getObject(String k)/*-{ return this.p[k]; }-*/ ;
 
     native void detach(Panel p) /*-{
       this.onUnload($entry(function(){
@@ -79,8 +79,7 @@ public class Panel extends SimplePanel {
       }));
     }-*/;
 
-    protected Context() {
-    }
+    protected Context() {}
   }
 
   private final Context ctx;

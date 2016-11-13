@@ -35,51 +35,54 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.Map;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
-import java.util.Map;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "ls-user-refs", description = "List refs visible to a specific user",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "ls-user-refs",
+  description = "List refs visible to a specific user",
+  runsAt = MASTER_OR_SLAVE
+)
 public class LsUserRefs extends SshCommand {
-  @Inject
-  private AccountResolver accountResolver;
+  @Inject private AccountResolver accountResolver;
 
-  @Inject
-  private IdentifiedUser.GenericFactory userFactory;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
 
-  @Inject
-  private ReviewDb db;
+  @Inject private ReviewDb db;
 
-  @Inject
-  private TagCache tagCache;
+  @Inject private TagCache tagCache;
 
-  @Inject
-  private ChangeNotes.Factory changeNotesFactory;
+  @Inject private ChangeNotes.Factory changeNotesFactory;
 
-  @Inject
-  @Nullable
-  private SearchingChangeCacheImpl changeCache;
+  @Inject @Nullable private SearchingChangeCacheImpl changeCache;
 
-  @Option(name = "--project", aliases = {"-p"}, metaVar = "PROJECT",
-      required = true, usage = "project for which the refs should be listed")
+  @Option(
+    name = "--project",
+    aliases = {"-p"},
+    metaVar = "PROJECT",
+    required = true,
+    usage = "project for which the refs should be listed"
+  )
   private ProjectControl projectControl;
 
-  @Option(name = "--user", aliases = {"-u"},  metaVar = "USER",
-      required = true, usage = "user for which the groups should be listed")
+  @Option(
+    name = "--user",
+    aliases = {"-u"},
+    metaVar = "USER",
+    required = true,
+    usage = "user for which the groups should be listed"
+  )
   private String userName;
 
   @Option(name = "--only-refs-heads", usage = "list only refs under refs/heads")
   private boolean onlyRefsHeads;
 
-  @Inject
-  private GitRepositoryManager repoManager;
+  @Inject private GitRepositoryManager repoManager;
 
   @Override
   protected void run() throws Failure {
@@ -98,13 +101,13 @@ public class LsUserRefs extends SshCommand {
 
     IdentifiedUser user = userFactory.create(userAccount.getId());
     ProjectControl userProjectControl = projectControl.forUser(user);
-    try (Repository repo = repoManager.openRepository(
-        userProjectControl.getProject().getNameKey())) {
+    try (Repository repo =
+        repoManager.openRepository(userProjectControl.getProject().getNameKey())) {
       try {
-        Map<String, Ref> refsMap = new VisibleRefFilter(
-                tagCache, changeNotesFactory, changeCache, repo,
-                userProjectControl, db, true)
-            .filter(repo.getRefDatabase().getRefs(ALL), false);
+        Map<String, Ref> refsMap =
+            new VisibleRefFilter(
+                    tagCache, changeNotesFactory, changeCache, repo, userProjectControl, db, true)
+                .filter(repo.getRefDatabase().getRefs(ALL), false);
 
         for (final String ref : refsMap.keySet()) {
           if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
@@ -112,12 +115,11 @@ public class LsUserRefs extends SshCommand {
           }
         }
       } catch (IOException e) {
-        throw new Failure(1, "fatal: Error reading refs: '"
-            + projectControl.getProject().getNameKey(), e);
+        throw new Failure(
+            1, "fatal: Error reading refs: '" + projectControl.getProject().getNameKey(), e);
       }
     } catch (RepositoryNotFoundException e) {
-      throw die("'" + projectControl.getProject().getNameKey()
-          + "': not a git archive");
+      throw die("'" + projectControl.getProject().getNameKey() + "': not a git archive");
     } catch (IOException e) {
       throw die("Error opening: '" + projectControl.getProject().getNameKey());
     }

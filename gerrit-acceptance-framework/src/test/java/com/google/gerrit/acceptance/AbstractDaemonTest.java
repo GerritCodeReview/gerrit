@@ -100,7 +100,21 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -132,118 +146,69 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
   private static GerritServer commonServer;
 
-  @ConfigSuite.Parameter
-  public Config baseConfig;
+  @ConfigSuite.Parameter public Config baseConfig;
 
-  @ConfigSuite.Name
-  private String configName;
+  @ConfigSuite.Name private String configName;
 
-  @Inject
-  protected AllProjectsName allProjects;
+  @Inject protected AllProjectsName allProjects;
 
-  @Inject
-  protected AccountCreator accounts;
+  @Inject protected AccountCreator accounts;
 
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
+  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
 
-  @Inject
-  protected GerritApi gApi;
+  @Inject protected GerritApi gApi;
 
-  @Inject
-  protected AcceptanceTestRequestScope atrScope;
+  @Inject protected AcceptanceTestRequestScope atrScope;
 
-  @Inject
-  protected AccountCache accountCache;
+  @Inject protected AccountCache accountCache;
 
-  @Inject
-  protected IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
 
-  @Inject
-  protected PushOneCommit.Factory pushFactory;
+  @Inject protected PushOneCommit.Factory pushFactory;
 
-  @Inject
-  protected MetaDataUpdate.Server metaDataUpdateFactory;
+  @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
 
-  @Inject
-  protected ProjectCache projectCache;
+  @Inject protected ProjectCache projectCache;
 
-  @Inject
-  protected GroupCache groupCache;
+  @Inject protected GroupCache groupCache;
 
-  @Inject
-  protected GitRepositoryManager repoManager;
+  @Inject protected GitRepositoryManager repoManager;
 
-  @Inject
-  protected ChangeIndexer indexer;
+  @Inject protected ChangeIndexer indexer;
 
-  @Inject
-  protected Provider<InternalChangeQuery> queryProvider;
+  @Inject protected Provider<InternalChangeQuery> queryProvider;
 
-  @Inject
-  @CanonicalWebUrl
-  protected Provider<String> canonicalWebUrl;
+  @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
 
-  @Inject
-  @GerritServerConfig
-  protected Config cfg;
+  @Inject @GerritServerConfig protected Config cfg;
 
-  @Inject
-  private InProcessProtocol inProcessProtocol;
+  @Inject private InProcessProtocol inProcessProtocol;
 
-  @Inject
-  private Provider<AnonymousUser> anonymousUser;
+  @Inject private Provider<AnonymousUser> anonymousUser;
 
-  @Inject
-  @GerritPersonIdent
-  protected Provider<PersonIdent> serverIdent;
+  @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
 
-  @Inject
-  protected ChangeData.Factory changeDataFactory;
+  @Inject protected ChangeData.Factory changeDataFactory;
 
-  @Inject
-  protected PatchSetUtil psUtil;
+  @Inject protected PatchSetUtil psUtil;
 
-  @Inject
-  protected ChangeFinder changeFinder;
+  @Inject protected ChangeFinder changeFinder;
 
-  @Inject
-  protected Revisions revisions;
+  @Inject protected Revisions revisions;
 
-  @Inject
-  protected FakeEmailSender sender;
+  @Inject protected FakeEmailSender sender;
 
-  @Inject
-  protected ChangeNoteUtil changeNoteUtil;
+  @Inject protected ChangeNoteUtil changeNoteUtil;
 
-  @Inject
-  protected ChangeResource.Factory changeResourceFactory;
+  @Inject protected ChangeResource.Factory changeResourceFactory;
 
-  @Inject
-  private EventRecorder.Factory eventRecorderFactory;
+  @Inject private EventRecorder.Factory eventRecorderFactory;
 
-  @Inject
-  private ChangeIndexCollection changeIndexes;
+  @Inject private ChangeIndexCollection changeIndexes;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -257,41 +222,37 @@ public abstract class AbstractDaemonTest {
   protected Project.NameKey project;
   protected EventRecorder eventRecorder;
 
-  @Inject
-  protected TestNotesMigration notesMigration;
+  @Inject protected TestNotesMigration notesMigration;
 
-  @Inject
-  protected ChangeNotes.Factory notesFactory;
+  @Inject protected ChangeNotes.Factory notesFactory;
 
-  @Inject
-  protected Abandon changeAbandoner;
+  @Inject protected Abandon changeAbandoner;
 
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
+  @Rule public ExpectedException exception = ExpectedException.none();
 
   private String resourcePrefix;
   private List<Repository> toClose;
 
   @Rule
-  public TestRule testRunner = new TestRule() {
-    @Override
-    public Statement apply(final Statement base, final Description description) {
-      return new Statement() {
+  public TestRule testRunner =
+      new TestRule() {
         @Override
-        public void evaluate() throws Throwable {
-          beforeTest(description);
-          try {
-            base.evaluate();
-          } finally {
-            afterTest();
-          }
+        public Statement apply(final Statement base, final Description description) {
+          return new Statement() {
+            @Override
+            public void evaluate() throws Throwable {
+              beforeTest(description);
+              try {
+                base.evaluate();
+              } finally {
+                afterTest();
+              }
+            }
+          };
         }
       };
-    }
-  };
 
-  @Rule
-  public TemporaryFolder tempSiteDir = new TemporaryFolder();
+  @Rule public TemporaryFolder tempSiteDir = new TemporaryFolder();
 
   @Before
   public void clearSender() {
@@ -346,15 +307,13 @@ public abstract class AbstractDaemonTest {
 
   protected void beforeTest(Description description) throws Exception {
     GerritServer.Description classDesc =
-      GerritServer.Description.forTestClass(description, configName);
+        GerritServer.Description.forTestClass(description, configName);
     GerritServer.Description methodDesc =
-      GerritServer.Description.forTestMethod(description, configName);
+        GerritServer.Description.forTestMethod(description, configName);
 
-    baseConfig.setString("gerrit", null, "tempSiteDir",
-        tempSiteDir.getRoot().getPath());
+    baseConfig.setString("gerrit", null, "tempSiteDir", tempSiteDir.getRoot().getPath());
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
-    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() &&
-        !methodDesc.sandboxed()) {
+    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
         commonServer = GerritServer.start(classDesc, baseConfig);
       }
@@ -386,9 +345,10 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     adminSshSession = ctx.getSession();
     adminSshSession.open();
-    resourcePrefix = UNSAFE_PROJECT_NAME.matcher(
-        description.getClassName() + "_"
-        + description.getMethodName() + "_").replaceAll("");
+    resourcePrefix =
+        UNSAFE_PROJECT_NAME
+            .matcher(description.getClassName() + "_" + description.getMethodName() + "_")
+            .replaceAll("");
 
     project = createProject(projectInput(description));
     testRepo = cloneProject(project, getCloneAsAccount(description));
@@ -419,8 +379,7 @@ public abstract class AbstractDaemonTest {
     return in;
   }
 
-  private static final Pattern UNSAFE_PROJECT_NAME =
-      Pattern.compile("[^a-zA-Z0-9._/-]+");
+  private static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
 
   protected Git git() {
     return testRepo.git();
@@ -432,10 +391,9 @@ public abstract class AbstractDaemonTest {
 
   /**
    * Return a resource name scoped to this test method.
-   * <p>
-   * Test methods in a single class by default share a running server. For any
-   * resource name you require to be unique to a test method, wrap it in a call
-   * to this method.
+   *
+   * <p>Test methods in a single class by default share a running server. For any resource name you
+   * require to be unique to a test method, wrap it in a call to this method.
    *
    * @param name resource name (group, project, topic, etc.)
    * @return name prefixed by a string unique to this test method.
@@ -444,31 +402,31 @@ public abstract class AbstractDaemonTest {
     return resourcePrefix + name;
   }
 
-  protected Project.NameKey createProject(String nameSuffix)
-      throws RestApiException {
+  protected Project.NameKey createProject(String nameSuffix) throws RestApiException {
     return createProject(nameSuffix, null);
   }
 
-  protected Project.NameKey createProject(String nameSuffix,
-      Project.NameKey parent) throws RestApiException {
+  protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
+      throws RestApiException {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, true, null);
   }
 
-  protected Project.NameKey createProject(String nameSuffix,
-      Project.NameKey parent, boolean createEmptyCommit) throws RestApiException {
+  protected Project.NameKey createProject(
+      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit)
+      throws RestApiException {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, createEmptyCommit, null);
   }
 
-  protected Project.NameKey createProject(String nameSuffix,
-      Project.NameKey parent, SubmitType submitType) throws RestApiException {
+  protected Project.NameKey createProject(
+      String nameSuffix, Project.NameKey parent, SubmitType submitType) throws RestApiException {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, true, submitType);
   }
 
-  protected Project.NameKey createProject(String nameSuffix,
-      Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
+  protected Project.NameKey createProject(
+      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
       throws RestApiException {
     ProjectInput in = new ProjectInput();
     in.name = name(nameSuffix);
@@ -478,8 +436,7 @@ public abstract class AbstractDaemonTest {
     return createProject(in);
   }
 
-  private Project.NameKey createProject(ProjectInput in)
-      throws RestApiException {
+  private Project.NameKey createProject(ProjectInput in) throws RestApiException {
     gApi.projects().create(in);
     return new Project.NameKey(in.name);
   }
@@ -493,19 +450,18 @@ public abstract class AbstractDaemonTest {
     // Default implementation does nothing.
   }
 
-  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p)
-      throws Exception {
+  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {
     return cloneProject(p, admin);
   }
 
-  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p,
-      TestAccount testAccount) throws Exception {
-    InProcessProtocol.Context ctx = new InProcessProtocol.Context(
-        reviewDbProvider, identifiedUserFactory, testAccount.getId(), p);
+  protected TestRepository<InMemoryRepository> cloneProject(
+      Project.NameKey p, TestAccount testAccount) throws Exception {
+    InProcessProtocol.Context ctx =
+        new InProcessProtocol.Context(
+            reviewDbProvider, identifiedUserFactory, testAccount.getId(), p);
     Repository repo = repoManager.openRepository(p);
     toClose.add(repo);
-    return GitUtil.cloneProject(
-        p, inProcessProtocol.register(ctx, repo).toString());
+    return GitUtil.cloneProject(p, inProcessProtocol.register(ctx, repo).toString());
   }
 
   private void afterTest() throws Exception {
@@ -550,28 +506,43 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
-  protected PushOneCommit.Result createMergeCommitChange(String ref)
-      throws Exception {
+  protected PushOneCommit.Result createMergeCommitChange(String ref) throws Exception {
     return createMergeCommitChange(ref, "foo");
   }
 
-  protected PushOneCommit.Result createMergeCommitChange(String ref, String file)
-      throws Exception {
+  protected PushOneCommit.Result createMergeCommitChange(String ref, String file) throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
-    PushOneCommit.Result p1 = pushFactory.create(db, admin.getIdent(),
-        testRepo, "parent 1", ImmutableMap.of(file, "foo-1", "bar", "bar-1"))
-        .to(ref);
+    PushOneCommit.Result p1 =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                testRepo,
+                "parent 1",
+                ImmutableMap.of(file, "foo-1", "bar", "bar-1"))
+            .to(ref);
 
     // reset HEAD in order to create a sibling of the first change
     testRepo.reset(initial);
 
-    PushOneCommit.Result p2 = pushFactory.create(db, admin.getIdent(),
-        testRepo, "parent 2", ImmutableMap.of(file, "foo-2", "bar", "bar-2"))
-        .to(ref);
+    PushOneCommit.Result p2 =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                testRepo,
+                "parent 2",
+                ImmutableMap.of(file, "foo-2", "bar", "bar-2"))
+            .to(ref);
 
-    PushOneCommit m = pushFactory.create(db, admin.getIdent(), testRepo, "merge",
-        ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
+    PushOneCommit m =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "merge",
+            ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
     m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
     PushOneCommit.Result result = m.to(ref);
     result.assertOkStatus();
@@ -582,26 +553,29 @@ public abstract class AbstractDaemonTest {
     return pushTo("refs/drafts/master");
   }
 
-  protected PushOneCommit.Result createChange(String subject,
-      String fileName, String content) throws Exception {
-    PushOneCommit push = pushFactory.create(
-        db, admin.getIdent(), testRepo, subject, fileName, content);
+  protected PushOneCommit.Result createChange(String subject, String fileName, String content)
+      throws Exception {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master");
   }
 
-  protected PushOneCommit.Result createChange(String subject,
-      String fileName, String content, String topic)
-          throws Exception {
-    PushOneCommit push = pushFactory.create(
-        db, admin.getIdent(), testRepo, subject, fileName, content);
+  protected PushOneCommit.Result createChange(
+      String subject, String fileName, String content, String topic) throws Exception {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master/" + name(topic));
   }
 
-  protected PushOneCommit.Result createChange(TestRepository<?> repo,
-      String branch, String subject, String fileName, String content,
-      String topic) throws Exception {
-    PushOneCommit push = pushFactory.create(
-        db, admin.getIdent(), repo, subject, fileName, content);
+  protected PushOneCommit.Result createChange(
+      TestRepository<?> repo,
+      String branch,
+      String subject,
+      String fileName,
+      String content,
+      String topic)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo, subject, fileName, content);
     return push.to("refs/for/" + branch + "/" + name(topic));
   }
 
@@ -612,35 +586,37 @@ public abstract class AbstractDaemonTest {
         .create(new BranchInput());
   }
 
-  protected BranchApi createBranchWithRevision(Branch.NameKey branch,
-      String revision) throws Exception {
+  protected BranchApi createBranchWithRevision(Branch.NameKey branch, String revision)
+      throws Exception {
     BranchInput in = new BranchInput();
     in.revision = revision;
-    return gApi.projects()
-        .name(branch.getParentKey().get())
-        .branch(branch.get())
-        .create(in);
+    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get()).create(in);
   }
 
   private static final List<Character> RANDOM =
-      Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
-  protected PushOneCommit.Result amendChange(String changeId)
-      throws Exception {
+      Chars.asList(new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'});
+
+  protected PushOneCommit.Result amendChange(String changeId) throws Exception {
     return amendChange(changeId, "refs/for/master");
   }
 
-  protected PushOneCommit.Result amendChange(String changeId, String ref)
-      throws Exception {
+  protected PushOneCommit.Result amendChange(String changeId, String ref) throws Exception {
     return amendChange(changeId, ref, admin, testRepo);
   }
 
-  protected PushOneCommit.Result amendChange(String changeId, String ref,
-      TestAccount testAccount, TestRepository<?> repo) throws Exception {
+  protected PushOneCommit.Result amendChange(
+      String changeId, String ref, TestAccount testAccount, TestRepository<?> repo)
+      throws Exception {
     Collections.shuffle(RANDOM);
     PushOneCommit push =
-        pushFactory.create(db, testAccount.getIdent(), repo,
-            PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME,
-            new String(Chars.toArray(RANDOM)), changeId);
+        pushFactory.create(
+            db,
+            testAccount.getIdent(),
+            repo,
+            PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME,
+            new String(Chars.toArray(RANDOM)),
+            changeId);
     return push.to(ref);
   }
 
@@ -649,30 +625,26 @@ public abstract class AbstractDaemonTest {
     revision(r).submit();
   }
 
-  protected PushOneCommit.Result amendChangeAsDraft(String changeId)
-      throws Exception {
+  protected PushOneCommit.Result amendChangeAsDraft(String changeId) throws Exception {
     return amendChange(changeId, "refs/drafts/master");
   }
 
-  protected ChangeInfo info(String id)
-      throws RestApiException {
+  protected ChangeInfo info(String id) throws RestApiException {
     return gApi.changes().id(id).info();
   }
 
-  protected ChangeInfo get(String id)
-      throws RestApiException {
+  protected ChangeInfo get(String id) throws RestApiException {
     return gApi.changes().id(id).get();
   }
 
-  protected EditInfo getEdit(String id)
-      throws RestApiException {
+  protected EditInfo getEdit(String id) throws RestApiException {
     return gApi.changes().id(id).getEdit();
   }
 
-  protected ChangeInfo get(String id, ListChangesOption... options)
-      throws RestApiException {
-    return gApi.changes().id(id).get(
-        Sets.newEnumSet(Arrays.asList(options), ListChangesOption.class));
+  protected ChangeInfo get(String id, ListChangesOption... options) throws RestApiException {
+    return gApi.changes()
+        .id(id)
+        .get(Sets.newEnumSet(Arrays.asList(options), ListChangesOption.class));
   }
 
   protected List<ChangeInfo> query(String q) throws RestApiException {
@@ -680,7 +652,9 @@ public abstract class AbstractDaemonTest {
   }
 
   private Context newRequestContext(TestAccount account) {
-    return atrScope.newContext(reviewDbProvider, new SshSession(server, account),
+    return atrScope.newContext(
+        reviewDbProvider,
+        new SshSession(server, account),
         identifiedUserFactory.create(account.getId()));
   }
 
@@ -689,8 +663,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Context setApiUserAnonymous() {
-    return atrScope.set(
-        atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
+    return atrScope.set(atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
   }
 
   protected Context disableDb() {
@@ -714,7 +687,7 @@ public abstract class AbstractDaemonTest {
   protected void enableChangeIndexWrites() {
     for (ChangeIndex i : changeIndexes.getWriteIndexes()) {
       if (i instanceof ReadOnlyChangeIndex) {
-        changeIndexes.addWriteIndex(((ReadOnlyChangeIndex)i).unwrap());
+        changeIndexes.addWriteIndex(((ReadOnlyChangeIndex) i).unwrap());
       }
     }
   }
@@ -724,25 +697,22 @@ public abstract class AbstractDaemonTest {
   }
 
   protected RevisionApi revision(PushOneCommit.Result r) throws Exception {
-    return gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    return gApi.changes().id(r.getChangeId()).current();
   }
 
-  protected void allow(String permission, AccountGroup.UUID id, String ref)
-      throws Exception {
+  protected void allow(String permission, AccountGroup.UUID id, String ref) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, permission, id, ref);
     saveProjectConfig(project, cfg);
   }
 
-  protected void allowGlobalCapabilities(AccountGroup.UUID id,
-      String... capabilityNames) throws Exception {
+  protected void allowGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
+      throws Exception {
     allowGlobalCapabilities(id, Arrays.asList(capabilityNames));
   }
 
-  protected void allowGlobalCapabilities(AccountGroup.UUID id,
-      Iterable<String> capabilityNames) throws Exception {
+  protected void allowGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
+      throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     for (String capabilityName : capabilityNames) {
       Util.allow(cfg, capabilityName, id);
@@ -750,13 +720,13 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(allProjects, cfg);
   }
 
-  protected void removeGlobalCapabilities(AccountGroup.UUID id,
-      String... capabilityNames) throws Exception {
+  protected void removeGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
+      throws Exception {
     removeGlobalCapabilities(id, Arrays.asList(capabilityNames));
   }
 
-  protected void removeGlobalCapabilities(AccountGroup.UUID id,
-      Iterable<String> capabilityNames) throws Exception {
+  protected void removeGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
+      throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     for (String capabilityName : capabilityNames) {
       Util.remove(cfg, capabilityName, id);
@@ -764,8 +734,7 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(allProjects, cfg);
   }
 
-  protected void setUseContributorAgreements(InheritableBoolean value)
-      throws Exception {
+  protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = ProjectConfig.read(md);
       config.getProject().setUseContributorAgreements(value);
@@ -774,8 +743,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void setUseSignedOffBy(InheritableBoolean value)
-      throws Exception {
+  protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = ProjectConfig.read(md);
       config.getProject().setUseSignedOffBy(value);
@@ -784,13 +752,12 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void deny(String permission, AccountGroup.UUID id, String ref)
-      throws Exception {
+  protected void deny(String permission, AccountGroup.UUID id, String ref) throws Exception {
     deny(project, permission, id, ref);
   }
 
-  protected void deny(Project.NameKey p, String permission,
-      AccountGroup.UUID id, String ref) throws Exception {
+  protected void deny(Project.NameKey p, String permission, AccountGroup.UUID id, String ref)
+      throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
     Util.deny(cfg, permission, id, ref);
     saveProjectConfig(p, cfg);
@@ -801,8 +768,8 @@ public abstract class AbstractDaemonTest {
     return block(permission, id, ref, project);
   }
 
-  protected PermissionRule block(String permission,
-      AccountGroup.UUID id, String ref, Project.NameKey project)
+  protected PermissionRule block(
+      String permission, AccountGroup.UUID id, String ref, Project.NameKey project)
       throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     PermissionRule rule = Util.block(cfg, permission, id, ref);
@@ -810,8 +777,7 @@ public abstract class AbstractDaemonTest {
     return rule;
   }
 
-  protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg)
-      throws Exception {
+  protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(p)) {
       md.setAuthor(identifiedUserFactory.create(admin.getId()));
       cfg.commit(md);
@@ -828,18 +794,19 @@ public abstract class AbstractDaemonTest {
     grant(permission, project, ref, false);
   }
 
-  protected void grant(String permission, Project.NameKey project, String ref,
-      boolean force) throws RepositoryNotFoundException, IOException,
-          ConfigInvalidException {
-    AccountGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators"));
+  protected void grant(String permission, Project.NameKey project, String ref, boolean force)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
     grant(permission, project, ref, force, adminGroup.getGroupUUID());
   }
 
-  protected void grant(String permission, Project.NameKey project, String ref,
-      boolean force, AccountGroup.UUID groupUUID)
-          throws RepositoryNotFoundException, IOException,
-          ConfigInvalidException {
+  protected void grant(
+      String permission,
+      Project.NameKey project,
+      String ref,
+      boolean force,
+      AccountGroup.UUID groupUUID)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Grant %s on %s", permission, ref));
       ProjectConfig config = ProjectConfig.read(md);
@@ -853,8 +820,8 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void removePermission(String permission, Project.NameKey project,
-      String ref) throws IOException, ConfigInvalidException {
+  protected void removePermission(String permission, Project.NameKey project, String ref)
+      throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Remove %s on %s", permission, ref));
       ProjectConfig config = ProjectConfig.read(md);
@@ -870,8 +837,7 @@ public abstract class AbstractDaemonTest {
     block(Permission.READ, REGISTERED_USERS, ref);
   }
 
-  protected void blockForgeCommitter(Project.NameKey project, String ref)
-      throws Exception {
+  protected void blockForgeCommitter(Project.NameKey project, String ref) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.block(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
     saveProjectConfig(project, cfg);
@@ -883,72 +849,54 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void approve(String id) throws Exception {
-    gApi.changes()
-      .id(id)
-      .revision("current")
-      .review(ReviewInput.approve());
+    gApi.changes().id(id).revision("current").review(ReviewInput.approve());
   }
 
   protected Map<String, ActionInfo> getActions(String id) throws Exception {
-    return gApi.changes()
-      .id(id)
-      .revision(1)
-      .actions();
+    return gApi.changes().id(id).revision(1).actions();
   }
 
   private static Iterable<String> changeIds(Iterable<ChangeInfo> changes) {
     return Iterables.transform(changes, i -> i.changeId);
   }
 
-  protected void assertSubmittedTogether(String chId, String... expected)
-      throws Exception {
+  protected void assertSubmittedTogether(String chId, String... expected) throws Exception {
     List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
     SubmittedTogetherInfo info =
-        gApi.changes()
-            .id(chId)
-            .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
+        gApi.changes().id(chId).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
 
     assertThat(info.nonVisibleChanges).isEqualTo(0);
     assertThat(actual).hasSize(expected.length);
-    assertThat(changeIds(actual))
-        .containsExactly((Object[])expected).inOrder();
-    assertThat(changeIds(info.changes))
-        .containsExactly((Object[])expected).inOrder();
+    assertThat(changeIds(actual)).containsExactly((Object[]) expected).inOrder();
+    assertThat(changeIds(info.changes)).containsExactly((Object[]) expected).inOrder();
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {
-    return changeDataFactory.create(db, project, psId.getParentKey())
-        .patchSet(psId);
+    return changeDataFactory.create(db, project, psId.getParentKey()).patchSet(psId);
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {
     return identifiedUserFactory.create(testAccount.getId());
   }
 
-  protected RevisionResource parseCurrentRevisionResource(String changeId)
-      throws Exception {
+  protected RevisionResource parseCurrentRevisionResource(String changeId) throws Exception {
     ChangeResource cr = parseChangeResource(changeId);
     int psId = cr.getChange().currentPatchSetId().get();
-    return revisions.parse(cr,
-        IdString.fromDecoded(Integer.toString(psId)));
+    return revisions.parse(cr, IdString.fromDecoded(Integer.toString(psId)));
   }
 
-  protected RevisionResource parseRevisionResource(String changeId, int n)
-      throws Exception {
-    return revisions.parse(parseChangeResource(changeId),
-        IdString.fromDecoded(Integer.toString(n)));
+  protected RevisionResource parseRevisionResource(String changeId, int n) throws Exception {
+    return revisions.parse(
+        parseChangeResource(changeId), IdString.fromDecoded(Integer.toString(n)));
   }
 
-  protected RevisionResource parseRevisionResource(PushOneCommit.Result r)
-      throws Exception {
+  protected RevisionResource parseRevisionResource(PushOneCommit.Result r) throws Exception {
     PatchSet.Id psId = r.getPatchSetId();
     return parseRevisionResource(psId.getParentKey().toString(), psId.get());
   }
 
-  protected ChangeResource parseChangeResource(String changeId)
-      throws Exception {
-    List<ChangeControl> ctls = changeFinder.find(
-        changeId, atrScope.get().getUser());
+  protected ChangeResource parseChangeResource(String changeId) throws Exception {
+    List<ChangeControl> ctls = changeFinder.find(changeId, atrScope.get().getUser());
     assertThat(ctls).hasSize(1);
     return changeResourceFactory.create(ctls.get(0));
   }
@@ -977,16 +925,13 @@ public abstract class AbstractDaemonTest {
     return getHead(repo, "HEAD");
   }
 
-  protected RevCommit getRemoteHead(Project.NameKey project, String branch)
-      throws Exception {
+  protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      return getHead(repo,
-          branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch);
+      return getHead(repo, branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch);
     }
   }
 
-  protected RevCommit getRemoteHead(String project, String branch)
-      throws Exception {
+  protected RevCommit getRemoteHead(String project, String branch) throws Exception {
     return getRemoteHead(new Project.NameKey(project), branch);
   }
 
@@ -994,23 +939,20 @@ public abstract class AbstractDaemonTest {
     return getRemoteHead(project, "master");
   }
 
-  protected void assertMailFrom(Message message, String email)
-      throws Exception {
+  protected void assertMailFrom(Message message, String email) throws Exception {
     assertThat(message.headers()).containsKey("Reply-To");
-    EmailHeader.String replyTo =
-        (EmailHeader.String)message.headers().get("Reply-To");
+    EmailHeader.String replyTo = (EmailHeader.String) message.headers().get("Reply-To");
     assertThat(replyTo.getString()).isEqualTo(email);
   }
 
-  protected ContributorAgreement configureContributorAgreement(
-      boolean autoVerify) throws Exception {
+  protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
+      throws Exception {
     ContributorAgreement ca;
     if (autoVerify) {
       String g = createGroup("cla-test-group");
       GroupApi groupApi = gApi.groups().id(g);
       groupApi.description("CLA test group");
-      AccountGroup caGroup = groupCache.get(
-          new AccountGroup.UUID(groupApi.detail().id));
+      AccountGroup caGroup = groupCache.get(new AccountGroup.UUID(groupApi.detail().id));
       GroupReference groupRef = GroupReference.forGroup(caGroup);
       PermissionRule rule = new PermissionRule(groupRef);
       rule.setAction(PermissionRule.Action.ALLOW);
@@ -1030,11 +972,10 @@ public abstract class AbstractDaemonTest {
   }
 
   /**
-   * Fetches each bundle into a newly cloned repository, then it applies
-   * the bundle, and returns the resulting tree id.
+   * Fetches each bundle into a newly cloned repository, then it applies the bundle, and returns the
+   * resulting tree id.
    */
-  protected Map<Branch.NameKey, RevTree>
-      fetchFromBundles(BinaryResult bundles) throws Exception {
+  protected Map<Branch.NameKey, RevTree> fetchFromBundles(BinaryResult bundles) throws Exception {
 
     assertThat(bundles.getContentType()).isEqualTo("application/x-zip");
 
@@ -1042,9 +983,8 @@ public abstract class AbstractDaemonTest {
     bundles.writeTo(new FileOutputStream(tempfile));
 
     Map<Branch.NameKey, RevTree> ret = new HashMap<>();
-    try (ZipFile readback = new ZipFile(tempfile);) {
-      for (ZipEntry entry : ImmutableList.copyOf(
-          Iterators.forEnumeration(readback.entries()))) {
+    try (ZipFile readback = new ZipFile(tempfile); ) {
+      for (ZipEntry entry : ImmutableList.copyOf(Iterators.forEnumeration(readback.entries()))) {
         String bundleName = entry.getName();
         InputStream bundleStream = readback.getInputStream(entry);
 
@@ -1054,11 +994,14 @@ public abstract class AbstractDaemonTest {
         Project.NameKey proj = new Project.NameKey(repoName);
         TestRepository<?> localRepo = cloneProject(proj);
 
-        try (TransportBundleStream tbs = new TransportBundleStream(
-            localRepo.getRepository(), new URIish(bundleName), bundleStream);) {
+        try (TransportBundleStream tbs =
+            new TransportBundleStream(
+                localRepo.getRepository(), new URIish(bundleName), bundleStream); ) {
 
-          FetchResult fr = tbs.fetch(NullProgressMonitor.INSTANCE,
-              Arrays.asList(new RefSpec("refs/*:refs/preview/*")));
+          FetchResult fr =
+              tbs.fetch(
+                  NullProgressMonitor.INSTANCE,
+                  Arrays.asList(new RefSpec("refs/*:refs/preview/*")));
           for (Ref r : fr.getAdvertisedRefs()) {
             String branchName = r.getName();
             Branch.NameKey n = new Branch.NameKey(proj, branchName);
@@ -1072,11 +1015,9 @@ public abstract class AbstractDaemonTest {
     return ret;
   }
 
-  /**
-   * Assert that the given branches have the given tree ids.
-   */
-  protected void assertRevTrees(Project.NameKey proj,
-      Map<Branch.NameKey, RevTree> trees) throws Exception {
+  /** Assert that the given branches have the given tree ids. */
+  protected void assertRevTrees(Project.NameKey proj, Map<Branch.NameKey, RevTree> trees)
+      throws Exception {
     TestRepository<?> localRepo = cloneProject(proj);
     GitUtil.fetch(localRepo, "refs/*:refs/*");
     Map<String, Ref> refs = localRepo.getRepository().getAllRefs();
@@ -1098,8 +1039,8 @@ public abstract class AbstractDaemonTest {
     assertThat(refValues.keySet()).containsAnyIn(trees.keySet());
   }
 
-  protected void assertDiffForNewFile(DiffInfo diff, RevCommit commit,
-      String path, String expectedContentSideB) throws Exception {
+  protected void assertDiffForNewFile(
+      DiffInfo diff, RevCommit commit, String path, String expectedContentSideB) throws Exception {
     List<String> expectedLines = new ArrayList<>();
     for (String line : expectedContentSideB.split("\n")) {
       expectedLines.add(line);
@@ -1129,8 +1070,7 @@ public abstract class AbstractDaemonTest {
 
     assertThat(diff.content).hasSize(1);
     DiffInfo.ContentEntry contentEntry = diff.content.get(0);
-    assertThat(contentEntry.b).containsExactlyElementsIn(expectedLines)
-        .inOrder();
+    assertThat(contentEntry.b).containsExactlyElementsIn(expectedLines).inOrder();
     assertThat(contentEntry.a).isNull();
     assertThat(contentEntry.ab).isNull();
     assertThat(contentEntry.common).isNull();

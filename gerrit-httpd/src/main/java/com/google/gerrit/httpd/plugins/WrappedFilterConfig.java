@@ -15,10 +15,8 @@
 package com.google.gerrit.httpd.plugins;
 
 import com.google.inject.servlet.GuiceFilter;
-
 import java.util.Collections;
 import java.util.Enumeration;
-
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 

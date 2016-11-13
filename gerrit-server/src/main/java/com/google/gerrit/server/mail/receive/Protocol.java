@@ -15,5 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 public enum Protocol {
-  NONE, POP3, IMAP
+  NONE,
+  POP3,
+  IMAP
 }

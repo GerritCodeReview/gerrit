@@ -26,7 +26,6 @@ import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AfterPredicate;
-
 import org.apache.lucene.search.BooleanQuery;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -35,8 +34,7 @@ import org.joda.time.DateTime;
 
 public class ElasticQueryBuilder {
 
-  protected <T> QueryBuilder toQueryBuilder(Predicate<T> p)
-      throws QueryParseException {
+  protected <T> QueryBuilder toQueryBuilder(Predicate<T> p) throws QueryParseException {
     if (p instanceof AndPredicate) {
       return and(p);
     } else if (p instanceof OrPredicate) {
@@ -50,8 +48,7 @@ public class ElasticQueryBuilder {
     }
   }
 
-  private <T> BoolQueryBuilder and(Predicate<T> p)
-      throws QueryParseException {
+  private <T> BoolQueryBuilder and(Predicate<T> p) throws QueryParseException {
     try {
       BoolQueryBuilder b = QueryBuilders.boolQuery();
       for (Predicate<T> c : p.getChildren()) {
@@ -63,8 +60,7 @@ public class ElasticQueryBuilder {
     }
   }
 
-  private <T> BoolQueryBuilder or(Predicate<T> p)
-      throws QueryParseException {
+  private <T> BoolQueryBuilder or(Predicate<T> p) throws QueryParseException {
     try {
       BoolQueryBuilder q = QueryBuilders.boolQuery();
       for (Predicate<T> c : p.getChildren()) {
@@ -76,8 +72,7 @@ public class ElasticQueryBuilder {
     }
   }
 
-  private <T> QueryBuilder not(Predicate<T> p)
-      throws QueryParseException {
+  private <T> QueryBuilder not(Predicate<T> p) throws QueryParseException {
     Predicate<T> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
       return notTimestamp((TimestampRangePredicate<T>) n);
@@ -90,10 +85,9 @@ public class ElasticQueryBuilder {
     return q;
   }
 
-  private <T> QueryBuilder fieldQuery(IndexPredicate<T> p)
-      throws QueryParseException {
+  private <T> QueryBuilder fieldQuery(IndexPredicate<T> p) throws QueryParseException {
     FieldType<?> type = p.getType();
-    FieldDef<?,?> field = p.getField();
+    FieldDef<?, ?> field = p.getField();
     String name = field.getName();
     String value = p.getValue();
 
@@ -117,8 +111,7 @@ public class ElasticQueryBuilder {
     }
   }
 
-  private <T> QueryBuilder intRangeQuery(IndexPredicate<T> p)
-      throws QueryParseException {
+  private <T> QueryBuilder intRangeQuery(IndexPredicate<T> p) throws QueryParseException {
     if (p instanceof IntegerRangePredicate) {
       IntegerRangePredicate<T> r = (IntegerRangePredicate<T>) p;
       int minimum = r.getMinimumValue();
@@ -127,15 +120,12 @@ public class ElasticQueryBuilder {
         // Just fall back to a standard integer query.
         return QueryBuilders.termQuery(p.getField().getName(), minimum);
       }
-      return QueryBuilders.rangeQuery(p.getField().getName())
-          .gte(minimum)
-          .lte(maximum);
+      return QueryBuilders.rangeQuery(p.getField().getName()).gte(minimum).lte(maximum);
     }
     throw new QueryParseException("not an integer range: " + p);
   }
 
-  private <T> QueryBuilder notTimestamp(TimestampRangePredicate<T> r)
-      throws QueryParseException {
+  private <T> QueryBuilder notTimestamp(TimestampRangePredicate<T> r) throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return QueryBuilders.rangeQuery(r.getField().getName())
           .gt(new DateTime(r.getMaxTimestamp().getTime()));
@@ -143,11 +133,9 @@ public class ElasticQueryBuilder {
     throw new QueryParseException("cannot negate: " + r);
   }
 
-  private <T> QueryBuilder timestampQuery(IndexPredicate<T> p)
-      throws QueryParseException {
+  private <T> QueryBuilder timestampQuery(IndexPredicate<T> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
-      TimestampRangePredicate<T> r =
-          (TimestampRangePredicate<T>) p;
+      TimestampRangePredicate<T> r = (TimestampRangePredicate<T>) p;
       if (p instanceof AfterPredicate) {
         return QueryBuilders.rangeQuery(r.getField().getName())
             .gte(new DateTime(r.getMinTimestamp().getTime()));
@@ -159,7 +147,7 @@ public class ElasticQueryBuilder {
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private <T> QueryBuilder exactQuery(IndexPredicate<T> p){
+  private <T> QueryBuilder exactQuery(IndexPredicate<T> p) {
     String name = p.getField().getName();
     String value = p.getValue();
 
@@ -169,8 +157,7 @@ public class ElasticQueryBuilder {
       if (value.startsWith("^")) {
         value = value.substring(1);
       }
-      if (value.endsWith("$") && !value.endsWith("\\$")
-          && !value.endsWith("\\\\$")) {
+      if (value.endsWith("$") && !value.endsWith("\\$") && !value.endsWith("\\\\$")) {
         value = value.substring(0, value.length() - 1);
       }
       return QueryBuilders.regexpQuery(name + ".key", value);

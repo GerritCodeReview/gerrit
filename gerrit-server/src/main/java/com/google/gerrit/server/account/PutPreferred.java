@@ -27,23 +27,19 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-public class PutPreferred implements
-    RestModifyView<AccountResource.Email, Input> {
-  static class Input {
-  }
+public class PutPreferred implements RestModifyView<AccountResource.Email, Input> {
+  static class Input {}
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache byIdCache;
 
   @Inject
-  PutPreferred(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider,
-      AccountCache byIdCache) {
+  PutPreferred(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.byIdCache = byIdCache;
@@ -51,10 +47,8 @@ public class PutPreferred implements
 
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException,
-      IOException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+      throws AuthException, ResourceNotFoundException, OrmException, IOException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to set preferred email address");
     }
     return apply(rsrc.getUser(), rsrc.getEmail());

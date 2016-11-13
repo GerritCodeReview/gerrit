@@ -25,7 +25,6 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,30 +34,21 @@ public class LdapModule extends CacheModule {
   static final String GROUP_EXIST_CACHE = "ldap_group_existence";
   static final String PARENT_GROUPS_CACHE = "ldap_groups_byinclude";
 
-
   @Override
   protected void configure() {
-    cache(GROUP_CACHE,
-        String.class,
-        new TypeLiteral<Set<AccountGroup.UUID>>() {})
-      .expireAfterWrite(1, HOURS)
-      .loader(LdapRealm.MemberLoader.class);
+    cache(GROUP_CACHE, String.class, new TypeLiteral<Set<AccountGroup.UUID>>() {})
+        .expireAfterWrite(1, HOURS)
+        .loader(LdapRealm.MemberLoader.class);
 
-    cache(USERNAME_CACHE,
-        String.class,
-        new TypeLiteral<Optional<Account.Id>>() {})
-      .loader(LdapRealm.UserLoader.class);
+    cache(USERNAME_CACHE, String.class, new TypeLiteral<Optional<Account.Id>>() {})
+        .loader(LdapRealm.UserLoader.class);
 
-    cache(GROUP_EXIST_CACHE,
-        String.class,
-        new TypeLiteral<Boolean>() {})
-      .expireAfterWrite(1, HOURS)
-      .loader(LdapRealm.ExistenceLoader.class);
+    cache(GROUP_EXIST_CACHE, String.class, new TypeLiteral<Boolean>() {})
+        .expireAfterWrite(1, HOURS)
+        .loader(LdapRealm.ExistenceLoader.class);
 
-    cache(PARENT_GROUPS_CACHE,
-        String.class,
-        new TypeLiteral<ImmutableSet<String>>() {})
-      .expireAfterWrite(1, HOURS);
+    cache(PARENT_GROUPS_CACHE, String.class, new TypeLiteral<ImmutableSet<String>>() {})
+        .expireAfterWrite(1, HOURS);
 
     bind(Helper.class);
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);

@@ -19,22 +19,19 @@ import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.mail.Encryption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.net.pop3.POP3Client;
 import org.apache.commons.net.pop3.POP3MessageInfo;
 import org.apache.commons.net.pop3.POP3SClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 @Singleton
 public class Pop3MailReceiver extends MailReceiver {
-  private static final Logger log =
-      LoggerFactory.getLogger(Pop3MailReceiver.class);
+  private static final Logger log = LoggerFactory.getLogger(Pop3MailReceiver.class);
 
   @Inject
   public Pop3MailReceiver(EmailSettings mailSettings) {
@@ -42,8 +39,8 @@ public class Pop3MailReceiver extends MailReceiver {
   }
 
   /**
-   * handleEmails will open a connection to the mail server, remove emails
-   * where deletion is pending, read new email and close the connection.
+   * handleEmails will open a connection to the mail server, remove emails where deletion is
+   * pending, read new email and close the connection.
    */
   @Override
   public synchronized void handleEmails() {
@@ -65,8 +62,7 @@ public class Pop3MailReceiver extends MailReceiver {
     try {
       try {
         if (!pop3.login(mailSettings.username, mailSettings.password)) {
-          log.error("Could not login to POP3 email server."
-              + " Check username and password");
+          log.error("Could not login to POP3 email server." + " Check username and password");
           return;
         }
         try {
@@ -83,12 +79,10 @@ public class Pop3MailReceiver extends MailReceiver {
               // Message was deleted
               continue;
             }
-            try (BufferedReader reader =
-                (BufferedReader) pop3.retrieveMessage(msginfo.number)) {
+            try (BufferedReader reader = (BufferedReader) pop3.retrieveMessage(msginfo.number)) {
               if (reader == null) {
                 log.error(
-                    "Could not retrieve POP3 message header for message {}",
-                    msginfo.identifier);
+                    "Could not retrieve POP3 message header for message {}", msginfo.identifier);
                 return;
               }
               int[] message = fetchMessage(reader);

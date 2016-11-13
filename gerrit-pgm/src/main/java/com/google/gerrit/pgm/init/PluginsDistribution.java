@@ -19,19 +19,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-/**
- * Represents the plugins packaged in the Gerrit distribution
- */
+/** Represents the plugins packaged in the Gerrit distribution */
 public interface PluginsDistribution {
 
   public interface Processor {
     /**
      * @param pluginName the name of the plugin (without the .jar extension)
-     * @param in the content of the plugin .jar file. Implementors don't have to
-     *        close this stream.
-     * @throws IOException implementations will typically propagate any
-     *         IOException caused by dealing with the InputStream back to the
-     *         caller
+     * @param in the content of the plugin .jar file. Implementors don't have to close this stream.
+     * @throws IOException implementations will typically propagate any IOException caused by
+     *     dealing with the InputStream back to the caller
      */
     void process(String pluginName, InputStream in) throws IOException;
   }
@@ -40,18 +36,16 @@ public interface PluginsDistribution {
    * Iterate over plugins package in the Gerrit distribution
    *
    * @param processor invoke for each plugin via its process method
-   * @throws FileNotFoundException if the location of the plugins couldn't be
-   *         determined
-   * @throws IOException in case of any other IO error caused by reading the
-   *         plugin input stream
+   * @throws FileNotFoundException if the location of the plugins couldn't be determined
+   * @throws IOException in case of any other IO error caused by reading the plugin input stream
    */
   void foreach(Processor processor) throws FileNotFoundException, IOException;
 
   /**
    * List plugins included in the Gerrit distribution
+   *
    * @return list of plugins names included in the Gerrit distribution
-   * @throws FileNotFoundException if the location of the plugins couldn't be
-   *         determined
+   * @throws FileNotFoundException if the location of the plugins couldn't be determined
    */
   List<String> listPluginNames() throws FileNotFoundException;
 }

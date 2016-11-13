@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +36,9 @@ public abstract class CreateChangeDialog extends TextAreaActionDialog {
   private TextBox topic;
 
   public CreateChangeDialog(Project.NameKey project) {
-    super(Util.C.dialogCreateChangeTitle(),
-        Util.C.dialogCreateChangeHeading());
-    ProjectApi.getBranches(project,
+    super(Util.C.dialogCreateChangeTitle(), Util.C.dialogCreateChangeHeading());
+    ProjectApi.getBranches(
+        project,
         new GerritCallback<JsArray<BranchInfo>>() {
           @Override
           public void onSuccess(JsArray<BranchInfo> result) {
@@ -56,18 +55,20 @@ public abstract class CreateChangeDialog extends TextAreaActionDialog {
     panel.insert(newTopicPanel, 0);
     panel.insert(new SmallHeading(Util.C.newChangeTopicSuggestion()), 0);
 
-    newChange = new SuggestBox(new HighlightSuggestOracle() {
-      @Override
-      protected void onRequestSuggestions(Request request, Callback done) {
-        List<BranchSuggestion> suggestions = new ArrayList<>();
-        for (BranchInfo b : branches) {
-          if (b.ref().contains(request.getQuery())) {
-            suggestions.add(new BranchSuggestion(b));
-          }
-        }
-        done.onSuggestionsReady(request, new Response(suggestions));
-      }
-    });
+    newChange =
+        new SuggestBox(
+            new HighlightSuggestOracle() {
+              @Override
+              protected void onRequestSuggestions(Request request, Callback done) {
+                List<BranchSuggestion> suggestions = new ArrayList<>();
+                for (BranchInfo b : branches) {
+                  if (b.ref().contains(request.getQuery())) {
+                    suggestions.add(new BranchSuggestion(b));
+                  }
+                }
+                done.onSuggestionsReady(request, new Response(suggestions));
+              }
+            });
 
     newChange.setWidth("100%");
     newChange.getElement().getStyle().setProperty("boxSizing", "border-box");

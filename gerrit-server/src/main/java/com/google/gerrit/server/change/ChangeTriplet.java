@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.util.Optional;
 
 @AutoValue
@@ -29,17 +28,14 @@ public abstract class ChangeTriplet {
   }
 
   private static String format(Branch.NameKey branch, Change.Key change) {
-    return branch.getParentKey().get()
-        + "~" + branch.getShortName()
-        + "~" + change.get();
+    return branch.getParentKey().get() + "~" + branch.getShortName() + "~" + change.get();
   }
 
   /**
    * Parse a triplet out of a string.
    *
    * @param triplet string of the form "project~branch~id".
-   * @return the triplet if the input string has the proper format, or absent if
-   *     not.
+   * @return the triplet if the input string has the proper format, or absent if not.
    */
   public static Optional<ChangeTriplet> parse(String triplet) {
     int t2 = triplet.lastIndexOf('~');
@@ -52,9 +48,9 @@ public abstract class ChangeTriplet {
     String branch = Url.decode(triplet.substring(t1 + 1, t2));
     String changeId = Url.decode(triplet.substring(t2 + 1));
 
-    ChangeTriplet result = new AutoValue_ChangeTriplet(
-        new Branch.NameKey(new Project.NameKey(project), branch),
-        new Change.Key(changeId));
+    ChangeTriplet result =
+        new AutoValue_ChangeTriplet(
+            new Branch.NameKey(new Project.NameKey(project), branch), new Change.Key(changeId));
     return Optional.of(result);
   }
 
@@ -63,6 +59,7 @@ public abstract class ChangeTriplet {
   }
 
   public abstract Branch.NameKey branch();
+
   public abstract Change.Key id();
 
   @Override

@@ -40,7 +40,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.EnumSet;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
@@ -49,16 +50,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.EnumSet;
-
 @Singleton
-public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
-    UiAction<RevisionResource> {
+public class Rebase
+    implements RestModifyView<RevisionResource, RebaseInput>, UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Rebase.class);
-  private static final EnumSet<ListChangesOption> OPTIONS = EnumSet.of(
-      ListChangesOption.CURRENT_REVISION,
-      ListChangesOption.CURRENT_COMMIT);
+  private static final EnumSet<ListChangesOption> OPTIONS =
+      EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
 
   private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
@@ -68,7 +65,8 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  public Rebase(BatchUpdate.Factory updateFactory,
+  public Rebase(
+      BatchUpdate.Factory updateFactory,
       GitRepositoryManager repoManager,
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
@@ -84,39 +82,40 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
   @Override
   public ChangeInfo apply(RevisionResource rsrc, RebaseInput input)
-      throws EmailException, OrmException, UpdateException, RestApiException,
-      IOException, NoSuchChangeException {
+      throws EmailException, OrmException, UpdateException, RestApiException, IOException,
+          NoSuchChangeException {
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter();
-        BatchUpdate bu = updateFactory.create(dbProvider.get(),
-          change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        BatchUpdate bu =
+            updateFactory.create(
+                dbProvider.get(), change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       if (!control.canRebase(dbProvider.get())) {
         throw new AuthException("rebase not permitted");
       } else if (!change.getStatus().isOpen()) {
-        throw new ResourceConflictException("change is "
-            + change.getStatus().name().toLowerCase());
+        throw new ResourceConflictException("change is " + change.getStatus().name().toLowerCase());
       } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");
       }
       bu.setRepository(repo, rw, oi);
-      bu.addOp(change.getId(), rebaseFactory.create(
-            control, rsrc.getPatchSet(),
-            findBaseRev(rw, rsrc, input))
-          .setForceContentMerge(true)
-          .setFireRevisionCreated(true)
-          .setValidatePolicy(CommitValidators.Policy.GERRIT));
+      bu.addOp(
+          change.getId(),
+          rebaseFactory
+              .create(control, rsrc.getPatchSet(), findBaseRev(rw, rsrc, input))
+              .setForceContentMerge(true)
+              .setFireRevisionCreated(true)
+              .setValidatePolicy(CommitValidators.Policy.GERRIT));
       bu.execute();
     }
     return json.create(OPTIONS).format(change.getProject(), change.getId());
   }
 
-  private String findBaseRev(RevWalk rw, RevisionResource rsrc,
-      RebaseInput input) throws AuthException, ResourceConflictException,
-      OrmException, IOException, NoSuchChangeException {
+  private String findBaseRev(RevWalk rw, RevisionResource rsrc, RebaseInput input)
+      throws AuthException, ResourceConflictException, OrmException, IOException,
+          NoSuchChangeException {
     if (input == null || input.base == null) {
       return null;
     }
@@ -149,18 +148,17 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       throw new ResourceConflictException(
           "base change is targeting wrong branch: " + baseChange.getDest());
     } else if (baseChange.getStatus() == Status.ABANDONED) {
-      throw new ResourceConflictException(
-          "base change is abandoned: " + baseChange.getKey());
+      throw new ResourceConflictException("base change is abandoned: " + baseChange.getKey());
     } else if (isMergedInto(rw, rsrc.getPatchSet(), base.patchSet())) {
       throw new ResourceConflictException(
-          "base change " + baseChange.getKey()
-          + " is a descendant of the current change - recursion not allowed");
+          "base change "
+              + baseChange.getKey()
+              + " is a descendant of the current change - recursion not allowed");
     }
     return base.patchSet().getRevision().get();
   }
 
-  private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip)
-      throws IOException {
+  private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip) throws IOException {
     ObjectId baseId = ObjectId.fromString(base.getRevision().get());
     ObjectId tipId = ObjectId.fromString(tip.getRevision().get());
     return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
@@ -182,9 +180,8 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     } catch (OrmException e) {
       log.error("Cannot check canRebase status. Assuming false.", e);
     }
-    boolean visible = resource.getChange().getStatus().isOpen()
-          && resource.isCurrent()
-          && canRebase;
+    boolean visible =
+        resource.getChange().getStatus().isOpen() && resource.isCurrent() && canRebase;
     boolean enabled = true;
 
     if (visible) {
@@ -193,21 +190,20 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
         visible = hasOneParent(rw, resource.getPatchSet());
         enabled = rebaseUtil.canRebase(patchSet, dest, repo, rw);
       } catch (IOException e) {
-        log.error("Failed to check if patch set can be rebased: "
-            + resource.getPatchSet(), e);
+        log.error("Failed to check if patch set can be rebased: " + resource.getPatchSet(), e);
         visible = false;
       }
     }
-    UiAction.Description descr = new UiAction.Description()
-      .setLabel("Rebase")
-      .setTitle("Rebase onto tip of branch or parent change")
-      .setVisible(visible)
-      .setEnabled(enabled);
+    UiAction.Description descr =
+        new UiAction.Description()
+            .setLabel("Rebase")
+            .setTitle("Rebase onto tip of branch or parent change")
+            .setVisible(visible)
+            .setEnabled(enabled);
     return descr;
   }
 
-  public static class CurrentRevision implements
-      RestModifyView<ChangeResource, RebaseInput> {
+  public static class CurrentRevision implements RestModifyView<ChangeResource, RebaseInput> {
     private final Rebase rebase;
 
     @Inject
@@ -217,11 +213,9 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
-        throws EmailException, OrmException, UpdateException, RestApiException,
-        IOException, NoSuchChangeException {
-      PatchSet ps =
-          rebase.dbProvider.get().patchSets()
-              .get(rsrc.getChange().currentPatchSetId());
+        throws EmailException, OrmException, UpdateException, RestApiException, IOException,
+            NoSuchChangeException {
+      PatchSet ps = rebase.dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
       } else if (!rsrc.getControl().isPatchVisible(ps, rebase.dbProvider.get())) {

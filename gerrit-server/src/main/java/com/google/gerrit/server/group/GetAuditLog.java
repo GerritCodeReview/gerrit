@@ -35,7 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,7 +49,8 @@ public class GetAuditLog implements RestReadView<GroupResource> {
   private final GroupBackend groupBackend;
 
   @Inject
-  public GetAuditLog(Provider<ReviewDb> db,
+  public GetAuditLog(
+      Provider<ReviewDb> db,
       AccountLoader.Factory accountLoaderFactory,
       GroupCache groupCache,
       GroupJson groupJson,
@@ -64,16 +64,14 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
   @Override
   public List<? extends GroupAuditEventInfo> apply(GroupResource rsrc)
-      throws AuthException, ResourceNotFoundException,
-      MethodNotAllowedException, OrmException {
+      throws AuthException, ResourceNotFoundException, MethodNotAllowedException, OrmException {
     if (rsrc.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     } else if (!rsrc.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 
-    AccountGroup group = db.get().accountGroups().get(
-        rsrc.toAccountGroup().getId());
+    AccountGroup group = db.get().accountGroups().get(rsrc.toAccountGroup().getId());
     if (group == null) {
       throw new ResourceNotFoundException();
     }
@@ -83,17 +81,19 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     List<GroupAuditEventInfo> auditEvents = new ArrayList<>();
 
     for (AccountGroupMemberAudit auditEvent :
-      db.get().accountGroupMembersAudit().byGroup(group.getId()).toList()) {
+        db.get().accountGroupMembersAudit().byGroup(group.getId()).toList()) {
       AccountInfo member = accountLoader.get(auditEvent.getKey().getParentKey());
 
-      auditEvents.add(GroupAuditEventInfo.createAddUserEvent(
-          accountLoader.get(auditEvent.getAddedBy()),
-          auditEvent.getKey().getAddedOn(), member));
+      auditEvents.add(
+          GroupAuditEventInfo.createAddUserEvent(
+              accountLoader.get(auditEvent.getAddedBy()),
+              auditEvent.getKey().getAddedOn(),
+              member));
 
       if (!auditEvent.isActive()) {
-        auditEvents.add(GroupAuditEventInfo.createRemoveUserEvent(
-            accountLoader.get(auditEvent.getRemovedBy()),
-            auditEvent.getRemovedOn(), member));
+        auditEvents.add(
+            GroupAuditEventInfo.createRemoveUserEvent(
+                accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
       }
     }
 
@@ -105,33 +105,36 @@ public class GetAuditLog implements RestReadView<GroupResource> {
       if (includedGroup != null) {
         member = groupJson.format(GroupDescriptions.forAccountGroup(includedGroup));
       } else {
-        GroupDescription.Basic groupDescription =
-            groupBackend.get(includedGroupUUID);
+        GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
         member = new GroupInfo();
         member.id = Url.encode(includedGroupUUID.get());
         member.name = groupDescription.getName();
       }
 
-      auditEvents.add(GroupAuditEventInfo.createAddGroupEvent(
-          accountLoader.get(auditEvent.getAddedBy()),
-          auditEvent.getKey().getAddedOn(), member));
+      auditEvents.add(
+          GroupAuditEventInfo.createAddGroupEvent(
+              accountLoader.get(auditEvent.getAddedBy()),
+              auditEvent.getKey().getAddedOn(),
+              member));
 
       if (!auditEvent.isActive()) {
-        auditEvents.add(GroupAuditEventInfo.createRemoveGroupEvent(
-            accountLoader.get(auditEvent.getRemovedBy()),
-            auditEvent.getRemovedOn(), member));
+        auditEvents.add(
+            GroupAuditEventInfo.createRemoveGroupEvent(
+                accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
       }
     }
 
     accountLoader.fill();
 
     // sort by date in reverse order so that the newest audit event comes first
-    Collections.sort(auditEvents, new Comparator<GroupAuditEventInfo>() {
-      @Override
-      public int compare(GroupAuditEventInfo e1, GroupAuditEventInfo e2) {
-        return e2.date.compareTo(e1.date);
-      }
-    });
+    Collections.sort(
+        auditEvents,
+        new Comparator<GroupAuditEventInfo>() {
+          @Override
+          public int compare(GroupAuditEventInfo e1, GroupAuditEventInfo e2) {
+            return e2.date.compareTo(e1.date);
+          }
+        });
 
     return auditEvents;
   }

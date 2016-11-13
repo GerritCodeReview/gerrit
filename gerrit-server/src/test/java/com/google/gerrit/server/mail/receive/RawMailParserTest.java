@@ -24,40 +24,39 @@ import com.google.gerrit.server.mail.receive.data.QuotedPrintableHeaderMessage;
 import com.google.gerrit.server.mail.receive.data.RawMailMessage;
 import com.google.gerrit.server.mail.receive.data.SimpleTextMessage;
 import com.google.gerrit.testutil.GerritBaseTests;
-
 import org.junit.Test;
 
 public class RawMailParserTest extends GerritBaseTests {
   @Test
   public void testParseEmail() throws Exception {
-    RawMailMessage[] messages = new RawMailMessage[] {
-        new SimpleTextMessage(),
-        new Base64HeaderMessage(),
-        new QuotedPrintableHeaderMessage(),
-        new HtmlMimeMessage(),
-        new AttachmentMessage(),
-        new NonUTF8Message(),
-    };
+    RawMailMessage[] messages =
+        new RawMailMessage[] {
+          new SimpleTextMessage(),
+          new Base64HeaderMessage(),
+          new QuotedPrintableHeaderMessage(),
+          new HtmlMimeMessage(),
+          new AttachmentMessage(),
+          new NonUTF8Message(),
+        };
     for (RawMailMessage rawMailMessage : messages) {
       if (rawMailMessage.rawChars() != null) {
         // Assert Character to Mail Parser
-        MailMessage parsedMailMessage =
-            RawMailParser.parse(rawMailMessage.rawChars());
+        MailMessage parsedMailMessage = RawMailParser.parse(rawMailMessage.rawChars());
         assertMail(parsedMailMessage, rawMailMessage.expectedMailMessage());
       }
       if (rawMailMessage.raw() != null) {
         // Assert String to Mail Parser
-        MailMessage parsedMailMessage = RawMailParser
-            .parse(rawMailMessage.raw());
+        MailMessage parsedMailMessage = RawMailParser.parse(rawMailMessage.raw());
         assertMail(parsedMailMessage, rawMailMessage.expectedMailMessage());
       }
     }
   }
 
   /**
-   *  This method makes it easier to debug failing tests by checking each
-   *  property individual instead of calling equals as it will immediately
-   *  reveal the property that diverges between the two objects.
+   * This method makes it easier to debug failing tests by checking each property individual instead
+   * of calling equals as it will immediately reveal the property that diverges between the two
+   * objects.
+   *
    * @param have MailMessage retrieved from the parser
    * @param want MailMessage that would be expected
    */
@@ -66,8 +65,7 @@ public class RawMailParserTest extends GerritBaseTests {
     assertThat(have.to()).isEqualTo(want.to());
     assertThat(have.from()).isEqualTo(want.from());
     assertThat(have.cc()).isEqualTo(want.cc());
-    assertThat(have.dateReceived().getMillis())
-        .isEqualTo(want.dateReceived().getMillis());
+    assertThat(have.dateReceived().getMillis()).isEqualTo(want.dateReceived().getMillis());
     assertThat(have.additionalHeaders()).isEqualTo(want.additionalHeaders());
     assertThat(have.subject()).isEqualTo(want.subject());
     assertThat(have.textContent()).isEqualTo(want.textContent());

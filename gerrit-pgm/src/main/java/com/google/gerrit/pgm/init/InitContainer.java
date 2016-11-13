@@ -25,15 +25,13 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.internal.storage.file.LockFile;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 
 /** Initialize the {@code container} configuration section. */
 @Singleton
@@ -43,8 +41,7 @@ class InitContainer implements InitStep {
   private final Section container;
 
   @Inject
-  InitContainer(final ConsoleUI ui, final SitePaths site,
-      final Section.Factory sections) {
+  InitContainer(final ConsoleUI ui, final SitePaths site, final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
     this.container = sections.get("container", null);
@@ -67,8 +64,9 @@ class InitContainer implements InitStep {
 
     String path = container.get("war");
     if (path != null) {
-      path = container.string("Gerrit runtime", "war",
-          myWar != null ? myWar.toAbsolutePath().toString() : null);
+      path =
+          container.string(
+              "Gerrit runtime", "war", myWar != null ? myWar.toAbsolutePath().toString() : null);
       if (path == null || path.isEmpty()) {
         throw die("container.war is required");
       }

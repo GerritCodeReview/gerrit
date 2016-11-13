@@ -26,12 +26,10 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.kohsuke.args4j.Option;
 
 class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;
@@ -102,8 +100,6 @@ class GetDashboard implements RestReadView<DashboardResource> {
     List<String> p = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     String ref = Url.encode(p.get(0));
     String path = Url.encode(p.get(1));
-    return dashboards.parse(
-        new ProjectResource(ctl),
-        IdString.fromUrl(ref + ':' + path));
+    return dashboards.parse(new ProjectResource(ctl), IdString.fromUrl(ref + ':' + path));
   }
 }

@@ -16,9 +16,9 @@ package com.google.gerrit.extensions.restapi;
 
 /**
  * Optional interface for {@link RestCollection}.
- * <p>
- * Collections that implement this interface can accept a {@code PUT} or
- * {@code POST} when the parse method throws {@link ResourceNotFoundException}.
+ *
+ * <p>Collections that implement this interface can accept a {@code PUT} or {@code POST} when the
+ * parse method throws {@link ResourceNotFoundException}.
  */
 public interface AcceptsCreate<P extends RestResource> {
   /**
@@ -26,8 +26,8 @@ public interface AcceptsCreate<P extends RestResource> {
    *
    * @param parent parent collection handle.
    * @param id id of the resource being created.
-   * @return a view to perform the creation. The create method must embed the id
-   *         into the newly returned view object, as it will not be passed.
+   * @return a view to perform the creation. The create method must embed the id into the newly
+   *     returned view object, as it will not be passed.
    * @throws RestApiException the view cannot be constructed.
    */
   <I> RestModifyView<P, I> create(P parent, IdString id) throws RestApiException;

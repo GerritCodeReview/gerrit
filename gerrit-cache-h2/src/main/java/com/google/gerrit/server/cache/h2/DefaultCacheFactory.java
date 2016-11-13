@@ -29,10 +29,8 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 public class DefaultCacheFactory implements MemoryCacheFactory {
   public static class Module extends LifecycleModule {
@@ -50,7 +48,8 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
   private final ForwardingRemovalListener.Factory forwardingRemovalListenerFactory;
 
   @Inject
-  public DefaultCacheFactory(@GerritServerConfig Config config,
+  public DefaultCacheFactory(
+      @GerritServerConfig Config config,
       ForwardingRemovalListener.Factory forwardingRemovalListenerFactory) {
     this.cfg = config;
     this.forwardingRemovalListenerFactory = forwardingRemovalListenerFactory;
@@ -62,33 +61,29 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
   }
 
   @Override
-  public <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader) {
+  public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> def, CacheLoader<K, V> loader) {
     return create(def, false).build(loader);
   }
 
   @SuppressWarnings("unchecked")
-  <K, V> CacheBuilder<K, V> create(
-      CacheBinding<K, V> def,
-      boolean unwrapValueHolder) {
-    CacheBuilder<K,V> builder = newCacheBuilder();
+  <K, V> CacheBuilder<K, V> create(CacheBinding<K, V> def, boolean unwrapValueHolder) {
+    CacheBuilder<K, V> builder = newCacheBuilder();
     builder.recordStats();
-    builder.maximumWeight(cfg.getLong(
-        "cache", def.name(), "memoryLimit",
-        def.maximumWeight()));
+    builder.maximumWeight(cfg.getLong("cache", def.name(), "memoryLimit", def.maximumWeight()));
 
     builder = builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
 
     Weigher<K, V> weigher = def.weigher();
     if (weigher != null && unwrapValueHolder) {
       final Weigher<K, V> impl = weigher;
-      weigher = (Weigher<K, V>) new Weigher<K, ValueHolder<V>> () {
-        @Override
-        public int weigh(K key, ValueHolder<V> value) {
-          return impl.weigh(key, value.value);
-        }
-      };
+      weigher =
+          (Weigher<K, V>)
+              new Weigher<K, ValueHolder<V>>() {
+                @Override
+                public int weigh(K key, ValueHolder<V> value) {
+                  return impl.weigh(key, value.value);
+                }
+              };
     } else if (weigher == null) {
       weigher = unitWeight();
     }
@@ -96,10 +91,10 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
 
     Long age = def.expireAfterWrite(TimeUnit.SECONDS);
     if (has(def.name(), "maxAge")) {
-      builder.expireAfterWrite(ConfigUtil.getTimeUnit(cfg,
-          "cache", def.name(), "maxAge",
-          age != null ? age : 0,
-          TimeUnit.SECONDS), TimeUnit.SECONDS);
+      builder.expireAfterWrite(
+          ConfigUtil.getTimeUnit(
+              cfg, "cache", def.name(), "maxAge", age != null ? age : 0, TimeUnit.SECONDS),
+          TimeUnit.SECONDS);
     } else if (age != null) {
       builder.expireAfterWrite(age, TimeUnit.SECONDS);
     }

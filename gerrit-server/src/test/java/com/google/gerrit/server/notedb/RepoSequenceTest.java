@@ -19,17 +19,19 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
+import com.github.rholder.retry.BlockStrategy;
+import com.github.rholder.retry.Retryer;
+import com.github.rholder.retry.RetryerBuilder;
+import com.github.rholder.retry.StopStrategies;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
-
-import com.github.rholder.retry.BlockStrategy;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
-import com.github.rholder.retry.StopStrategies;
-
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -42,22 +44,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class RepoSequenceTest {
   private static final Retryer<RefUpdate.Result> RETRYER =
-      RepoSequence.retryerBuilder().withBlockStrategy(new BlockStrategy() {
-        @Override
-        public void block(long sleepTime) {
-          // Don't sleep in tests.
-        }
-      }).build();
+      RepoSequence.retryerBuilder()
+          .withBlockStrategy(
+              new BlockStrategy() {
+                @Override
+                public void block(long sleepTime) {
+                  // Don't sleep in tests.
+                }
+              })
+          .build();
 
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
+  @Rule public ExpectedException exception = ExpectedException.none();
 
   private InMemoryRepositoryManager repoManager;
   private Project.NameKey project;
@@ -79,8 +78,7 @@ public class RepoSequenceTest {
         try {
           assertThat(s.next()).named("i=" + i + " for " + name).isEqualTo(i);
         } catch (OrmException e) {
-          throw new AssertionError(
-              "failed batchSize=" + batchSize + ", i=" + i, e);
+          throw new AssertionError("failed batchSize=" + batchSize + ", i=" + i, e);
         }
       }
       assertThat(s.acquireCount)
@@ -162,14 +160,15 @@ public class RepoSequenceTest {
     writeBlob("id", "1");
 
     final AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
-    Runnable bgUpdate = new Runnable() {
-      @Override
-      public void run() {
-        if (!doneBgUpdate.getAndSet(true)) {
-          writeBlob("id", "1234");
-        }
-      }
-    };
+    Runnable bgUpdate =
+        new Runnable() {
+          @Override
+          public void run() {
+            if (!doneBgUpdate.getAndSet(true)) {
+              writeBlob("id", "1234");
+            }
+          }
+        };
 
     RepoSequence s = newSequence("id", 1, 10, bgUpdate, RETRYER);
     assertThat(doneBgUpdate.get()).isFalse();
@@ -183,8 +182,7 @@ public class RepoSequenceTest {
   public void failOnInvalidValue() throws Exception {
     ObjectId id = writeBlob("id", "not a number");
     exception.expect(OrmException.class);
-    exception.expectMessage(
-        "invalid value in refs/sequences/id blob at " + id.name());
+    exception.expectMessage("invalid value in refs/sequences/id blob at " + id.name());
     newSequence("id", 1, 3).next();
   }
 
@@ -198,8 +196,7 @@ public class RepoSequenceTest {
         fail();
       } catch (OrmException e) {
         assertThat(e.getCause()).isInstanceOf(ExecutionException.class);
-        assertThat(e.getCause().getCause())
-            .isInstanceOf(IncorrectObjectTypeException.class);
+        assertThat(e.getCause().getCause()).isInstanceOf(IncorrectObjectTypeException.class);
       }
     }
   }
@@ -207,17 +204,22 @@ public class RepoSequenceTest {
   @Test
   public void failAfterRetryerGivesUp() throws Exception {
     final AtomicInteger bgCounter = new AtomicInteger(1234);
-    Runnable bgUpdate = new Runnable() {
-      @Override
-      public void run() {
-        writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000)));
-      }
-    };
-    RepoSequence s = newSequence(
-        "id", 1, 10, bgUpdate,
-        RetryerBuilder.<RefUpdate.Result> newBuilder()
-          .withStopStrategy(StopStrategies.stopAfterAttempt(3))
-          .build());
+    Runnable bgUpdate =
+        new Runnable() {
+          @Override
+          public void run() {
+            writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000)));
+          }
+        };
+    RepoSequence s =
+        newSequence(
+            "id",
+            1,
+            10,
+            bgUpdate,
+            RetryerBuilder.<RefUpdate.Result>newBuilder()
+                .withStopStrategy(StopStrategies.stopAfterAttempt(3))
+                .build());
     exception.expect(OrmException.class);
     exception.expectMessage("failed to update refs/sequences/id: LOCK_FAILURE");
     s.next();
@@ -270,12 +272,15 @@ public class RepoSequenceTest {
   }
 
   private RepoSequence newSequence(String name, int start, int batchSize) {
-    return newSequence(
-        name, start, batchSize, Runnables.doNothing(), RETRYER);
+    return newSequence(name, start, batchSize, Runnables.doNothing(), RETRYER);
   }
 
-  private RepoSequence newSequence(String name, final int start, int batchSize,
-      Runnable afterReadRef, Retryer<RefUpdate.Result> retryer) {
+  private RepoSequence newSequence(
+      String name,
+      final int start,
+      int batchSize,
+      Runnable afterReadRef,
+      Retryer<RefUpdate.Result> retryer) {
     return new RepoSequence(
         repoManager,
         project,
@@ -299,8 +304,7 @@ public class RepoSequenceTest {
       ins.flush();
       RefUpdate ru = repo.updateRef(refName);
       ru.setNewObjectId(newId);
-      assertThat(ru.forceUpdate())
-          .isAnyOf(RefUpdate.Result.NEW, RefUpdate.Result.FORCED);
+      assertThat(ru.forceUpdate()).isAnyOf(RefUpdate.Result.NEW, RefUpdate.Result.FORCED);
       return newId;
     } catch (IOException e) {
       throw new RuntimeException(e);

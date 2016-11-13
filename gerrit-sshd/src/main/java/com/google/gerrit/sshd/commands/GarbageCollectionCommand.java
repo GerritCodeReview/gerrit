@@ -28,17 +28,14 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** Runs the Git garbage collection. */
 @RequiresAnyCapability({RUN_GC, MAINTAIN_SERVER})
-@CommandMetaData(name = "gc", description = "Run Git garbage collection",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(name = "gc", description = "Run Git garbage collection", runsAt = MASTER_OR_SLAVE)
 public class GarbageCollectionCommand extends SshCommand {
 
   @Option(name = "--all", usage = "runs the Git garbage collection for all projects")
@@ -50,15 +47,18 @@ public class GarbageCollectionCommand extends SshCommand {
   @Option(name = "--aggressive", usage = "run aggressive garbage collection")
   private boolean aggressive;
 
-  @Argument(index = 0, required = false, multiValued = true, metaVar = "NAME",
-      usage = "projects for which the Git garbage collection should be run")
+  @Argument(
+    index = 0,
+    required = false,
+    multiValued = true,
+    metaVar = "NAME",
+    usage = "projects for which the Git garbage collection should be run"
+  )
   private List<ProjectControl> projects = new ArrayList<>();
 
-  @Inject
-  private ProjectCache projectCache;
+  @Inject private ProjectCache projectCache;
 
-  @Inject
-  private GarbageCollection.Factory garbageCollectionFactory;
+  @Inject private GarbageCollection.Factory garbageCollectionFactory;
 
   @Override
   public void run() throws Exception {
@@ -71,8 +71,7 @@ public class GarbageCollectionCommand extends SshCommand {
       throw die("needs projects as command arguments or --all option");
     }
     if (all && !projects.isEmpty()) {
-      throw die(
-          "either specify projects as command arguments or use --all option");
+      throw die("either specify projects as command arguments or use --all option");
     }
   }
 
@@ -88,8 +87,9 @@ public class GarbageCollectionCommand extends SshCommand {
     }
 
     GarbageCollectionResult result =
-        garbageCollectionFactory.create().run(projectNames, aggressive,
-            showProgress ? stdout : null);
+        garbageCollectionFactory
+            .create()
+            .run(projectNames, aggressive, showProgress ? stdout : null);
     if (result.hasErrors()) {
       for (GarbageCollectionResult.Error e : result.getErrors()) {
         String msg;
@@ -98,16 +98,20 @@ public class GarbageCollectionCommand extends SshCommand {
             msg = "error: project \"" + e.getProjectName() + "\" not found";
             break;
           case GC_ALREADY_SCHEDULED:
-            msg = "error: garbage collection for project \""
-                + e.getProjectName() + "\" was already scheduled";
+            msg =
+                "error: garbage collection for project \""
+                    + e.getProjectName()
+                    + "\" was already scheduled";
             break;
           case GC_FAILED:
-            msg = "error: garbage collection for project \"" + e.getProjectName()
-                + "\" failed";
+            msg = "error: garbage collection for project \"" + e.getProjectName() + "\" failed";
             break;
           default:
-            msg = "error: garbage collection for project \"" + e.getProjectName()
-                + "\" failed: " + e.getType();
+            msg =
+                "error: garbage collection for project \""
+                    + e.getProjectName()
+                    + "\" failed: "
+                    + e.getType();
         }
         stdout.print(msg + "\n");
       }

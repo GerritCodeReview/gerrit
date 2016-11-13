@@ -16,6 +16,10 @@ package com.google.gerrit.metrics.proc;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricRegistry;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.metrics.CallbackMetric0;
@@ -29,29 +33,19 @@ import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import com.codahale.metrics.Counter;
-import com.codahale.metrics.Gauge;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricRegistry;
-
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class ProcMetricModuleTest {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
+  @Rule public ExpectedException exception = ExpectedException.none();
 
-  @Inject
-  MetricMaker metrics;
+  @Inject MetricMaker metrics;
 
-  @Inject
-  MetricRegistry registry;
+  @Inject MetricRegistry registry;
 
   @Test
   public void testConstantBuildLabel() {
@@ -62,8 +56,8 @@ public class ProcMetricModuleTest {
   @Test
   public void testProcUptime() {
     Gauge<Long> birth = gauge("proc/birth_timestamp");
-    assertThat(birth.getValue()).isAtMost(
-        TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis()));
+    assertThat(birth.getValue())
+        .isAtMost(TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis()));
 
     Gauge<Long> uptime = gauge("proc/uptime");
     assertThat(uptime.getValue()).isAtLeast(1L);
@@ -71,10 +65,8 @@ public class ProcMetricModuleTest {
 
   @Test
   public void testCounter0() {
-    Counter0 cntr = metrics.newCounter(
-        "test/count",
-        new Description("simple test")
-          .setCumulative());
+    Counter0 cntr =
+        metrics.newCounter("test/count", new Description("simple test").setCumulative());
 
     Counter raw = get("test/count", Counter.class);
     assertThat(raw.getCount()).isEqualTo(0);
@@ -88,11 +80,9 @@ public class ProcMetricModuleTest {
 
   @Test
   public void testCounter1() {
-    Counter1<String> cntr = metrics.newCounter(
-        "test/count",
-        new Description("simple test")
-          .setCumulative(),
-        Field.ofString("action"));
+    Counter1<String> cntr =
+        metrics.newCounter(
+            "test/count", new Description("simple test").setCumulative(), Field.ofString("action"));
 
     Counter total = get("test/count_total", Counter.class);
     assertThat(total.getCount()).isEqualTo(0);
@@ -111,12 +101,13 @@ public class ProcMetricModuleTest {
 
   @Test
   public void testCounterPrefixFields() {
-    Counter1<String> cntr = metrics.newCounter(
-        "test/count",
-        new Description("simple test")
-          .setCumulative()
-          .setFieldOrdering(FieldOrdering.PREFIX_FIELDS_BASENAME),
-        Field.ofString("action"));
+    Counter1<String> cntr =
+        metrics.newCounter(
+            "test/count",
+            new Description("simple test")
+                .setCumulative()
+                .setFieldOrdering(FieldOrdering.PREFIX_FIELDS_BASENAME),
+            Field.ofString("action"));
 
     Counter total = get("test/count_total", Counter.class);
     assertThat(total.getCount()).isEqualTo(0);
@@ -135,20 +126,20 @@ public class ProcMetricModuleTest {
 
   @Test
   public void testCallbackMetric0() {
-    final CallbackMetric0<Long> cntr = metrics.newCallbackMetric(
-        "test/count",
-        Long.class,
-        new Description("simple test")
-          .setCumulative());
+    final CallbackMetric0<Long> cntr =
+        metrics.newCallbackMetric(
+            "test/count", Long.class, new Description("simple test").setCumulative());
 
     final AtomicInteger invocations = new AtomicInteger(0);
-    metrics.newTrigger(cntr, new Runnable() {
-      @Override
-      public void run() {
-        invocations.getAndIncrement();
-        cntr.set(42L);
-      }
-    });
+    metrics.newTrigger(
+        cntr,
+        new Runnable() {
+          @Override
+          public void run() {
+            invocations.getAndIncrement();
+            cntr.set(42L);
+          }
+        });
 
     // Triggers run immediately with DropWizard binding.
     assertThat(invocations.get()).isEqualTo(1);
@@ -189,8 +180,7 @@ public class ProcMetricModuleTest {
 
   @Before
   public void setup() {
-    Injector injector =
-        Guice.createInjector(new DropWizardMetricMaker.ApiModule());
+    Injector injector = Guice.createInjector(new DropWizardMetricMaker.ApiModule());
 
     LifecycleManager mgr = new LifecycleManager();
     mgr.add(injector);

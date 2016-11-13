@@ -27,15 +27,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwtexpui.progress.client.ProgressBar;
-
 import java.util.List;
 
 /** Loads JavaScript plugins with a progress meter visible. */
 public class PluginLoader extends DialogBox {
   private static PluginLoader self;
 
-  public static void load(List<String> plugins,
-      int loadTimeout, AsyncCallback<VoidResult> callback) {
+  public static void load(
+      List<String> plugins, int loadTimeout, AsyncCallback<VoidResult> callback) {
     if (plugins == null || plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
     } else {
@@ -59,7 +58,7 @@ public class PluginLoader extends DialogBox {
   private boolean visible;
 
   private PluginLoader(int loadTimeout, AsyncCallback<VoidResult> cb) {
-    super(/* auto hide */false, /* modal */true);
+    super(/* auto hide */ false, /* modal */ true);
     callback = cb;
     this.loadTimeout = loadTimeout;
     progress = new ProgressBar(Gerrit.C.loadingPlugins());
@@ -73,43 +72,46 @@ public class PluginLoader extends DialogBox {
       Plugin plugin = Plugin.create(url);
       plugins().put(url, plugin);
       ScriptInjector.fromUrl(url)
-        .setWindow(ScriptInjector.TOP_WINDOW)
-        .setCallback(new LoadCallback(plugin))
-        .inject();
+          .setWindow(ScriptInjector.TOP_WINDOW)
+          .setCallback(new LoadCallback(plugin))
+          .inject();
     }
   }
 
   private void startTimers() {
-    show = new Timer() {
-      @Override
-      public void run() {
-        setText(Window.getTitle());
-        setWidget(progress);
-        setGlassEnabled(true);
-        getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
-        hide(true);
-        center();
-        visible = true;
-      }
-    };
+    show =
+        new Timer() {
+          @Override
+          public void run() {
+            setText(Window.getTitle());
+            setWidget(progress);
+            setGlassEnabled(true);
+            getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
+            hide(true);
+            center();
+            visible = true;
+          }
+        };
     show.schedule(500);
 
-    update = new Timer() {
-      private int cycle;
+    update =
+        new Timer() {
+          private int cycle;
 
-      @Override
-      public void run() {
-        progress.setValue(100 * ++cycle * 250 / loadTimeout);
-      }
-    };
+          @Override
+          public void run() {
+            progress.setValue(100 * ++cycle * 250 / loadTimeout);
+          }
+        };
     update.scheduleRepeating(250);
 
-    timeout = new Timer() {
-      @Override
-      public void run() {
-        finish();
-      }
-    };
+    timeout =
+        new Timer() {
+          @Override
+          public void run() {
+            finish();
+          }
+        };
     timeout.schedule(loadTimeout);
   }
 
@@ -166,8 +168,7 @@ public class PluginLoader extends DialogBox {
     return failed;
   }
 
-  private static native NativeMap<Plugin> plugins()
-  /*-{ return $wnd.Gerrit.plugins }-*/;
+  private static native NativeMap<Plugin> plugins()/*-{ return $wnd.Gerrit.plugins }-*/ ;
 
   private class LoadCallback implements Callback<Void, Exception> {
     private final Plugin plugin;
@@ -177,8 +178,7 @@ public class PluginLoader extends DialogBox {
     }
 
     @Override
-    public void onSuccess(Void result) {
-    }
+    public void onSuccess(Void result) {}
 
     @Override
     public void onFailure(Exception reason) {

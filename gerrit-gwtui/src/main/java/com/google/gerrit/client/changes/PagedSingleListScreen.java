@@ -50,24 +50,26 @@ public abstract class PagedSingleListScreen extends Screen {
     next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
     next.setVisible(false);
 
-    table = new ChangeTable() {
-      {
-        keysNavigation.add(
-            new DoLinkCommand(0, 'p', Util.C.changeTablePagePrev(), prev),
-            new DoLinkCommand(0, 'n', Util.C.changeTablePageNext(), next));
+    table =
+        new ChangeTable() {
+          {
+            keysNavigation.add(
+                new DoLinkCommand(0, 'p', Util.C.changeTablePagePrev(), prev),
+                new DoLinkCommand(0, 'n', Util.C.changeTablePageNext(), next));
 
-        keysNavigation.add(
-            new DoLinkCommand(0, '[', Util.C.changeTablePagePrev(), prev),
-            new DoLinkCommand(0, ']', Util.C.changeTablePageNext(), next));
+            keysNavigation.add(
+                new DoLinkCommand(0, '[', Util.C.changeTablePagePrev(), prev),
+                new DoLinkCommand(0, ']', Util.C.changeTablePageNext(), next));
 
-        keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
-          @Override
-          public void onKeyPress(final KeyPressEvent event) {
-            Gerrit.display(getToken());
+            keysNavigation.add(
+                new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
+                  @Override
+                  public void onKeyPress(final KeyPressEvent event) {
+                    Gerrit.display(getToken());
+                  }
+                });
           }
-        });
-      }
-    };
+        };
     section = new ChangeTable.Section();
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);

@@ -15,7 +15,6 @@
 package com.google.gerrit.common;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -35,7 +34,8 @@ public class PluginData {
   public boolean equals(Object obj) {
     if (obj instanceof PluginData) {
       PluginData o = (PluginData) obj;
-      return Objects.equals(name, o.name) && Objects.equals(version, o.version)
+      return Objects.equals(name, o.name)
+          && Objects.equals(version, o.version)
           && Objects.equals(pluginPath, o.pluginPath);
     }
     return super.equals(obj);

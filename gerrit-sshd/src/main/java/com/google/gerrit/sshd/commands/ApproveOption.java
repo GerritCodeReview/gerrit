@@ -16,7 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -25,9 +26,6 @@ import org.kohsuke.args4j.spi.FieldSetter;
 import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 
 final class ApproveOption implements Option, Setter<Short> {
   private final String name;
@@ -124,15 +122,13 @@ final class ApproveOption implements Option, Setter<Short> {
     private final ApproveOption cmdOption;
 
     // CS IGNORE RedundantModifier FOR NEXT 1 LINES. REASON: needed by org.kohsuke.args4j.Option
-    public Handler(final CmdLineParser parser, final OptionDef option,
-        final Setter<Short> setter) {
+    public Handler(final CmdLineParser parser, final OptionDef option, final Setter<Short> setter) {
       super(parser, option, setter);
       this.cmdOption = (ApproveOption) setter;
     }
 
     @Override
-    protected Short parse(final String token) throws NumberFormatException,
-        CmdLineException {
+    protected Short parse(final String token) throws NumberFormatException, CmdLineException {
       String argument = token;
       if (argument.startsWith("+")) {
         argument = argument.substring(1);
@@ -145,8 +141,15 @@ final class ApproveOption implements Option, Setter<Short> {
       if (value < min.getValue() || value > max.getValue()) {
         final String name = cmdOption.name();
         final String e =
-            "\"" + token + "\" must be in range " + min.formatValue() + ".."
-                + max.formatValue() + " for \"" + name + "\"";
+            "\""
+                + token
+                + "\" must be in range "
+                + min.formatValue()
+                + ".."
+                + max.formatValue()
+                + " for \""
+                + name
+                + "\"";
         throw new CmdLineException(owner, e);
       }
       return value;

@@ -48,15 +48,13 @@ import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.eclipse.jgit.lib.Config;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
@@ -67,19 +65,14 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    bind(Config.class)
-      .annotatedWith(GerritServerConfig.class)
-      .toInstance(cfg);
+    bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
 
     // TODO(dborowitz): Use jimfs.
     Path p = Paths.get(cfg.getString("gerrit", null, "tempSiteDir"));
-    bind(Path.class)
-      .annotatedWith(SitePath.class)
-      .toInstance(p);
+    bind(Path.class).annotatedWith(SitePath.class).toInstance(p);
     makeSiteDirs(p);
 
-    bind(GitRepositoryManager.class)
-      .toInstance(new InMemoryRepositoryManager());
+    bind(GitRepositoryManager.class).toInstance(new InMemoryRepositoryManager());
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
@@ -88,17 +81,14 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(Key.get(schemaFactory, ReviewDbFactory.class))
-        .to(InMemoryDatabase.class);
+    bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
     bind(InMemoryDatabase.class).in(SINGLETON);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
 
     listener().to(CreateDatabase.class);
 
     bind(SitePaths.class);
-    bind(TrackingFooters.class)
-      .toProvider(TrackingFootersProvider.class)
-      .in(SINGLETON);
+    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
 
     install(new SchemaModule());
     bind(SchemaVersion.class).to(SchemaVersion.C);

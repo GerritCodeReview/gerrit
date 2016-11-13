@@ -50,12 +50,12 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import net.codemirror.lib.CodeMirror;
 
 /** An HtmlPanel for displaying and editing a draft */
 class DraftBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, DraftBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final int INITIAL_LINES = 5;
@@ -100,39 +100,44 @@ class DraftBox extends CommentBox {
     expandAll = expandAllComments;
     initWidget(uiBinder.createAndBindUi(this));
 
-    expandTimer = new Timer() {
-      @Override
-      public void run() {
-        expandText();
-      }
-    };
+    expandTimer =
+        new Timer() {
+          @Override
+          public void run() {
+            expandText();
+          }
+        };
     set(info);
 
-    header.addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        if (!isEdit()) {
-          if (autoClosed && !isOpen()) {
-            setOpen(true);
-            setEdit(true);
-          } else {
-            setOpen(!isOpen());
+    header.addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            if (!isEdit()) {
+              if (autoClosed && !isOpen()) {
+                setOpen(true);
+                setEdit(true);
+              } else {
+                setOpen(!isOpen());
+              }
+            }
           }
-        }
-      }
-    }, ClickEvent.getType());
+        },
+        ClickEvent.getType());
 
-    addDomHandler(new DoubleClickHandler() {
-      @Override
-      public void onDoubleClick(DoubleClickEvent event) {
-        if (isEdit()) {
-          editArea.setFocus(true);
-        } else {
-          setOpen(true);
-          setEdit(true);
-        }
-      }
-    }, DoubleClickEvent.getType());
+    addDomHandler(
+        new DoubleClickHandler() {
+          @Override
+          public void onDoubleClick(DoubleClickEvent event) {
+            if (isEdit()) {
+              editArea.setFocus(true);
+            } else {
+              setOpen(true);
+              setEdit(true);
+            }
+          }
+        },
+        DoubleClickEvent.getType());
 
     initResizeHandler();
   }
@@ -143,8 +148,7 @@ class DraftBox extends CommentBox {
     if (info.message() != null) {
       String msg = info.message().trim();
       summary.setInnerText(msg);
-      message.setHTML(linkProcessor.apply(
-          new SafeHtmlBuilder().append(msg).wikify()));
+      message.setHTML(linkProcessor.apply(new SafeHtmlBuilder().append(msg).wikify()));
     }
     comment = info;
   }
@@ -191,24 +195,24 @@ class DraftBox extends CommentBox {
 
     setRangeHighlight(edit);
     if (edit) {
-      String msg = comment.message() != null
-          ? comment.message()
-          : "";
+      String msg = comment.message() != null ? comment.message() : "";
       editArea.setValue(msg);
       cancel.setVisible(!isNew());
       expandText();
       editAreaHeight = editArea.getOffsetHeight();
 
       final int len = msg.length();
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        @Override
-        public void execute() {
-          editArea.setFocus(true);
-          if (len > 0) {
-            editArea.setCursorPos(len);
-          }
-        }
-      });
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
+                @Override
+                public void execute() {
+                  editArea.setFocus(true);
+                  if (len > 0) {
+                    editArea.setCursorPos(len);
+                  }
+                }
+              });
     } else {
       expandTimer.cancel();
       resizeTimer.cancel();
@@ -292,31 +296,32 @@ class DraftBox extends CommentBox {
 
     pendingGroup = group;
     final LocalComments lc = new LocalComments(psId);
-    GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
-      @Override
-      public void onSuccess(CommentInfo result) {
-        enableEdit(true);
-        pendingGroup = null;
-        set(result);
-        setEdit(false);
-        if (autoClosed) {
-          setOpen(false);
-        }
-        getCommentManager().setUnsaved(DraftBox.this, false);
-      }
+    GerritCallback<CommentInfo> cb =
+        new GerritCallback<CommentInfo>() {
+          @Override
+          public void onSuccess(CommentInfo result) {
+            enableEdit(true);
+            pendingGroup = null;
+            set(result);
+            setEdit(false);
+            if (autoClosed) {
+              setOpen(false);
+            }
+            getCommentManager().setUnsaved(DraftBox.this, false);
+          }
 
-      @Override
-      public void onFailure(Throwable e) {
-        enableEdit(true);
-        pendingGroup = null;
-        if (RestApi.isNotSignedIn(e)) {
-          CommentInfo saved = CommentInfo.copy(comment);
-          saved.message(editArea.getValue().trim());
-          lc.setInlineComment(saved);
-        }
-        super.onFailure(e);
-      }
-    };
+          @Override
+          public void onFailure(Throwable e) {
+            enableEdit(true);
+            pendingGroup = null;
+            if (RestApi.isNotSignedIn(e)) {
+              CommentInfo saved = CommentInfo.copy(comment);
+              saved.message(editArea.getValue().trim());
+              lc.setInlineComment(saved);
+            }
+            super.onFailure(e);
+          }
+        };
     if (input.id() == null) {
       CommentApi.createDraft(psId, input, group.add(cb));
     } else {
@@ -358,22 +363,24 @@ class DraftBox extends CommentBox {
     } else {
       setEdit(false);
       pendingGroup = new CallbackGroup();
-      CommentApi.deleteDraft(psId, comment.id(),
-          pendingGroup.addFinal(new GerritCallback<JavaScriptObject>() {
-        @Override
-        public void onSuccess(JavaScriptObject result) {
-          pendingGroup = null;
-          removeUI();
-        }
-      }));
+      CommentApi.deleteDraft(
+          psId,
+          comment.id(),
+          pendingGroup.addFinal(
+              new GerritCallback<JavaScriptObject>() {
+                @Override
+                public void onSuccess(JavaScriptObject result) {
+                  pendingGroup = null;
+                  removeUI();
+                }
+              }));
     }
   }
 
   @UiHandler("editArea")
   void onKeyDown(KeyDownEvent e) {
     resizeTimer.cancel();
-    if ((e.isControlKeyDown() || e.isMetaKeyDown())
-        && !e.isAltKeyDown() && !e.isShiftKeyDown()) {
+    if ((e.isControlKeyDown() || e.isMetaKeyDown()) && !e.isAltKeyDown() && !e.isShiftKeyDown()) {
       switch (e.getNativeKeyCode()) {
         case 's':
         case 'S':
@@ -405,32 +412,37 @@ class DraftBox extends CommentBox {
   }
 
   private void initResizeHandler() {
-    resizeTimer = new Timer() {
-      @Override
-      public void run() {
-        getCommentGroup().resize();
-      }
-    };
+    resizeTimer =
+        new Timer() {
+          @Override
+          public void run() {
+            getCommentGroup().resize();
+          }
+        };
 
-    addDomHandler(new MouseMoveHandler() {
-      @Override
-      public void onMouseMove(MouseMoveEvent event) {
-        int h = editArea.getOffsetHeight();
-        if (isEdit() && h != editAreaHeight) {
-          getCommentGroup().resize();
-          resizeTimer.scheduleRepeating(50);
-          editAreaHeight = h;
-        }
-      }
-    }, MouseMoveEvent.getType());
+    addDomHandler(
+        new MouseMoveHandler() {
+          @Override
+          public void onMouseMove(MouseMoveEvent event) {
+            int h = editArea.getOffsetHeight();
+            if (isEdit() && h != editAreaHeight) {
+              getCommentGroup().resize();
+              resizeTimer.scheduleRepeating(50);
+              editAreaHeight = h;
+            }
+          }
+        },
+        MouseMoveEvent.getType());
 
-    addDomHandler(new MouseUpHandler() {
-      @Override
-      public void onMouseUp(MouseUpEvent event) {
-        resizeTimer.cancel();
-        getCommentGroup().resize();
-      }
-    }, MouseUpEvent.getType());
+    addDomHandler(
+        new MouseUpHandler() {
+          @Override
+          public void onMouseUp(MouseUpEvent event) {
+            resizeTimer.cancel();
+            getCommentGroup().resize();
+          }
+        },
+        MouseUpEvent.getType());
   }
 
   private boolean isNew() {
@@ -442,8 +454,6 @@ class DraftBox extends CommentBox {
     if (isNew()) {
       return msg.length() > 0;
     }
-    return !msg.equals(comment.message() != null
-        ? comment.message().trim()
-        : "");
+    return !msg.equals(comment.message() != null ? comment.message().trim() : "");
   }
 }

@@ -16,6 +16,24 @@
       "revId": "a7b00cdb6d2ea59680ff5f50d39a987ff0baf3f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_36de16c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-13T20:52:17Z",
+      "side": 1,
+      "message": "Yes, this changed in the style guide not too long ago.\n\nhttps://google.github.io/styleguide/javaguide.html#s3.3.3-import-ordering-and-spacing",
+      "parentUuid": "0b70b387_77d24ae6",
+      "revId": "a7b00cdb6d2ea59680ff5f50d39a987ff0baf3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

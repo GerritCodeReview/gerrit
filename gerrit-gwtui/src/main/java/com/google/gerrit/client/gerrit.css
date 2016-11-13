@@ -36,6 +36,10 @@
   gwt-image: "greenCheck";
 }
 
+@sprite .redNotClass {
+  gwt-image: "redNot";
+}
+
 /** Override various GWT defaults */
 .gerritTopMenu {
   font-size: 9pt;

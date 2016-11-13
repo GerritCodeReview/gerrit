@@ -22,3 +22,21 @@ bower_component_bundle(
     '//lib/js:polymer',
     '//lib/js:promise-polyfill',
 ])
+
+
+genrule2(
+  name = 'fonts',
+  cmd = ' && '.join([
+    'mkdir -p $$TMP/fonts',
+    'cp $(SRCS) $$TMP/fonts/',
+    'cd $$TMP',
+    "find fonts/ -exec touch -t 198001010000 '{}' ';'",
+    'zip -qr $$ROOT/$@ fonts',
+  ]),
+  srcs = [
+    '//lib/fonts:sourcecodepro',
+  ],
+  outs = ['fonts.zip',],
+  visibility = ['//visibility:public'],
+  output_to_bindir = 1,
+)

@@ -16,6 +16,24 @@
       "revId": "0068cc07e78b5266af2e623927638f977d45a5b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_d7c6befe",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-13T23:53:32Z",
+      "side": 0,
+      "message": "Verified-Notedb wasn\u0027t used in the prolog rule. T reviewDb vs. NoteDb is achieved by setting env. variable and repeating the build on the CI side for the same label.",
+      "parentUuid": "eb6c3fba_56371211",
+      "revId": "0068cc07e78b5266af2e623927638f977d45a5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

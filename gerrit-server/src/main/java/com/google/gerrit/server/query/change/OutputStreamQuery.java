@@ -313,6 +313,7 @@ public class OutputStreamQuery {
       eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
     }
 
+    c.plugins = queryProcessor.create(d);
     return c;
   }
 

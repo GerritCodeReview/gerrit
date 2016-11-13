@@ -166,6 +166,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
@@ -378,6 +379,8 @@ public class GerritGlobalModule extends FactoryModule {
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
+    DynamicMap.mapOf(binder(), ChangeQueryProcessor.ChangeAttributeFactory.class);
+
     install(new GitwebConfig.LegacyModule(cfg));
 
     bind(AnonymousUser.class);

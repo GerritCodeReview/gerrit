@@ -228,8 +228,10 @@ limitations under the License.
       white-space: nowrap;
     }
 
-    .label_ok {color: #060;}
-    .label_reject {color: #d14836;}
+    .label_ok {color: forestgreen;}
+    .label_recommend {color: #060;}
+    .label_dislike {color: #d14836;}
+    .label_reject {color: #ff0000;}
     .label_need {color: #000;}
     .label_may {color: #777;}
 

@@ -97,6 +97,8 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     SubmitRecord.Status status;
     String errorMessage;
     Map<String, AccountInfo> ok;
+    Map<String, AccountInfo> recommend;
+    Map<String, AccountInfo> dislike;
     Map<String, AccountInfo> reject;
     Map<String, None> need;
     Map<String, AccountInfo> may;
@@ -122,6 +124,18 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
             ok = new LinkedHashMap<>();
           }
           ok.put(n.label, who);
+          break;
+        case RECOMMEND:
+          if (recommend == null) {
+            recommend = new LinkedHashMap<>();
+          }
+          recommend.put(n.label, who);
+          break;
+        case DISLIKE:
+          if (dislike == null) {
+            dislike = new LinkedHashMap<>();
+          }
+          dislike.put(n.label, who);
           break;
         case REJECT:
           if (reject == null) {

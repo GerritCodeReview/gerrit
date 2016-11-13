@@ -20,10 +20,9 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 public abstract class FactoryModule extends AbstractModule {
   /**
    * Register an assisted injection factory.
-   * <p>
-   * This function provides an automatic way to define a factory that creates a
-   * concrete type through assisted injection. For example to configure the
-   * following assisted injection case:
+   *
+   * <p>This function provides an automatic way to define a factory that creates a concrete type
+   * through assisted injection. For example to configure the following assisted injection case:
    *
    * <pre>
    * public class Foo {
@@ -35,8 +34,8 @@ public abstract class FactoryModule extends AbstractModule {
    * }
    * </pre>
    *
-   * Just pass {@code Foo.Factory.class} to this method. The factory will be
-   * generated to return its one return type as declared in the creation method.
+   * Just pass {@code Foo.Factory.class} to this method. The factory will be generated to return its
+   * one return type as declared in the creation method.
    *
    * @param factory interface which specifies the bean factory method.
    */

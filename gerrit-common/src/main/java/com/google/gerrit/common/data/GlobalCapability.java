@@ -26,11 +26,10 @@ public class GlobalCapability {
 
   /**
    * Denotes the server's administrators.
-   * <p>
-   * This is similar to UNIX root, or Windows SYSTEM account. Any user that
-   * has this capability can perform almost any other action, or can grant
-   * themselves the power to perform any other action on the site. Most of
-   * the other capabilities and permissions fall-back to the predicate
+   *
+   * <p>This is similar to UNIX root, or Windows SYSTEM account. Any user that has this capability
+   * can perform almost any other action, or can grant themselves the power to perform any other
+   * action on the site. Most of the other capabilities and permissions fall-back to the predicate
    * "OR user has capability ADMINISTRATE_SERVER".
    */
   public static final String ADMINISTRATE_SERVER = "administrateServer";
@@ -39,9 +38,8 @@ public class GlobalCapability {
   public static final String BATCH_CHANGES_LIMIT = "batchChangesLimit";
 
   /**
-   * Default maximum number of changes that may be pushed in a batch, 0 means no
-   * limit. This is just used as a suggestion for prepopulating the field in the
-   * access UI.
+   * Default maximum number of changes that may be pushed in a batch, 0 means no limit. This is just
+   * used as a suggestion for prepopulating the field in the access UI.
    */
   public static final int DEFAULT_MAX_BATCH_CHANGES_LIMIT = 0;
 
@@ -56,12 +54,11 @@ public class GlobalCapability {
 
   /**
    * Denotes who may email change reviewers and watchers.
-   * <p>
-   * This can be used to deny build bots from emailing reviewers and people who
-   * watch the change. Instead, only the authors of the change and those who
-   * starred it will be emailed. The allow rules are evaluated before deny
-   * rules, however the default is to allow emailing, if no explicit rule is
-   * matched.
+   *
+   * <p>This can be used to deny build bots from emailing reviewers and people who watch the change.
+   * Instead, only the authors of the change and those who starred it will be emailed. The allow
+   * rules are evaluated before deny rules, however the default is to allow emailing, if no explicit
+   * rule is matched.
    */
   public static final String EMAIL_REVIEWERS = "emailReviewers";
 
@@ -73,11 +70,10 @@ public class GlobalCapability {
 
   /**
    * Can perform limited server maintenance.
-   * <p>
-   * Includes tasks such as reindexing changes and flushing caches that may need
-   * to be performed regularly. Does <strong>not</strong> grant arbitrary
-   * read/write/ACL management permissions as does {@link
-   * #ADMINISTRATE_SERVER}.
+   *
+   * <p>Includes tasks such as reindexing changes and flushing caches that may need to be performed
+   * regularly. Does <strong>not</strong> grant arbitrary read/write/ACL management permissions as
+   * does {@link #ADMINISTRATE_SERVER}.
    */
   public static final String MAINTAIN_SERVER = "maintainServer";
 
@@ -162,23 +158,18 @@ public class GlobalCapability {
 
   /** @return true if the capability should have a range attached. */
   public static boolean hasRange(String varName) {
-    return QUERY_LIMIT.equalsIgnoreCase(varName)
-        || BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName);
+    return QUERY_LIMIT.equalsIgnoreCase(varName) || BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName);
   }
 
   /** @return the valid range for the capability if it has one, otherwise null. */
   public static PermissionRange.WithDefaults getRange(String varName) {
     if (QUERY_LIMIT.equalsIgnoreCase(varName)) {
       return new PermissionRange.WithDefaults(
-          varName,
-          0, Integer.MAX_VALUE,
-          0, DEFAULT_MAX_QUERY_LIMIT);
+          varName, 0, Integer.MAX_VALUE, 0, DEFAULT_MAX_QUERY_LIMIT);
     }
     if (BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName)) {
       return new PermissionRange.WithDefaults(
-          varName,
-          0, Integer.MAX_VALUE,
-          0, DEFAULT_MAX_BATCH_CHANGES_LIMIT);
+          varName, 0, Integer.MAX_VALUE, 0, DEFAULT_MAX_BATCH_CHANGES_LIMIT);
     }
     return null;
   }

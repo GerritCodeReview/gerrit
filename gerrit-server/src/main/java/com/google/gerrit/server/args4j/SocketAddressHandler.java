@@ -17,7 +17,7 @@ package com.google.gerrit.server.args4j;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
+import java.net.SocketAddress;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -25,19 +25,18 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
-import java.net.SocketAddress;
-
 public class SocketAddressHandler extends OptionHandler<SocketAddress> {
 
   @Inject
-  public SocketAddressHandler(@Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option, @Assisted final Setter<SocketAddress> setter) {
+  public SocketAddressHandler(
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
+      @Assisted final Setter<SocketAddress> setter) {
     super(parser, option, setter);
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     final String token = params.getParameter(0);
     try {
       setter.addValue(SocketUtil.parse(token, 0));

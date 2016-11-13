@@ -33,6 +33,7 @@ import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 abstract class ActionMessageBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, ActionMessageBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
@@ -64,14 +65,15 @@ abstract class ActionMessageBox extends Composite {
     final PopupPanel p = new PopupPanel(true);
     p.setStyleName(style.popup());
     p.addAutoHidePartner(activatingButton.getElement());
-    p.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        if (popup == p) {
-          popup = null;
-        }
-      }
-    });
+    p.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            if (popup == p) {
+              popup = null;
+            }
+          }
+        });
     p.add(this);
     p.showRelativeTo(activatingButton);
     GlobalKey.dialog(p);

@@ -22,18 +22,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Project dashboards from {@code /projects/<name>/dashboards/}. */
 public class DashboardList extends JsArray<DashboardInfo> {
-  public static void all(Project.NameKey project,
-      AsyncCallback<JsArray<DashboardList>> callback) {
+  public static void all(Project.NameKey project, AsyncCallback<JsArray<DashboardList>> callback) {
     base(project).addParameterTrue("inherited").get(callback);
   }
 
-  public static void getDefault(Project.NameKey project,
-      AsyncCallback<DashboardInfo> callback) {
+  public static void getDefault(Project.NameKey project, AsyncCallback<DashboardInfo> callback) {
     base(project).view("default").addParameterTrue("inherited").get(callback);
   }
 
-  public static void get(Project.NameKey project, String id,
-      AsyncCallback<DashboardInfo> callback) {
+  public static void get(
+      Project.NameKey project, String id, AsyncCallback<DashboardInfo> callback) {
     base(project).idRaw(encodeDashboardId(id)).get(callback);
   }
 
@@ -51,6 +49,5 @@ public class DashboardList extends JsArray<DashboardInfo> {
     return URL.encodeQueryString(id);
   }
 
-  protected DashboardList() {
-  }
+  protected DashboardList() {}
 }

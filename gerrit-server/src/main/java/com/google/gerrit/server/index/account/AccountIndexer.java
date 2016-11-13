@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-
 import java.io.IOException;
 
 public interface AccountIndexer {

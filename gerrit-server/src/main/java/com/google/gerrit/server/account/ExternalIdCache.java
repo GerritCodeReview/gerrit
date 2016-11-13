@@ -16,17 +16,19 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-
 import java.util.Collection;
 import java.util.Collections;
 
 /** Caches external ids of all accounts */
 public interface ExternalIdCache {
   void onCreate(Iterable<AccountExternalId> extId);
+
   void onRemove(Iterable<AccountExternalId> extId);
-  void onRemove(Account.Id accountId,
-      Iterable<AccountExternalId.Key> extIdKeys);
+
+  void onRemove(Account.Id accountId, Iterable<AccountExternalId.Key> extIdKeys);
+
   void onUpdate(AccountExternalId extId);
+
   Collection<AccountExternalId> byAccount(Account.Id accountId);
 
   default void onCreate(AccountExternalId extId) {

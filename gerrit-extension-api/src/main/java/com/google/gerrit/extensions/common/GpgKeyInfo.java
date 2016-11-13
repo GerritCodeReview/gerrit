@@ -19,23 +19,20 @@ import java.util.List;
 public class GpgKeyInfo {
   /**
    * Status of checking an object like a key or signature.
-   * <p>
-   * Order of values in this enum is significant: OK is "better" than BAD, etc.
+   *
+   * <p>Order of values in this enum is significant: OK is "better" than BAD, etc.
    */
   public enum Status {
     /** Something is wrong with this key. */
     BAD,
 
     /**
-     * Inspecting only this key found no problems, but the system does not fully
-     * trust the key's origin.
+     * Inspecting only this key found no problems, but the system does not fully trust the key's
+     * origin.
      */
     OK,
 
-    /**
-     * This key is valid, and the system knows enough about the key and its
-     * origin to trust it.
-     */
+    /** This key is valid, and the system knows enough about the key and its origin to trust it. */
     TRUSTED;
   }
 

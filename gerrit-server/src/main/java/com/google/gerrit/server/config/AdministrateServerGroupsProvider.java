@@ -24,7 +24,6 @@ import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,8 @@ public class AdministrateServerGroupsProvider implements Provider<ImmutableSet<G
   private final ImmutableSet<GroupReference> groups;
 
   @Inject
-  public AdministrateServerGroupsProvider(GroupBackend groupBackend,
+  public AdministrateServerGroupsProvider(
+      GroupBackend groupBackend,
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx) {

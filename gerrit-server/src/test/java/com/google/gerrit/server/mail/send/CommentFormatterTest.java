@@ -20,13 +20,12 @@ import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.PARA
 import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.PRE_FORMATTED;
 import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.QUOTE;
 
+import java.util.List;
 import org.junit.Test;
 
-import java.util.List;
-
 public class CommentFormatterTest {
-  private void assertBlock(List<CommentFormatter.Block> list, int index,
-      CommentFormatter.BlockType type, String text) {
+  private void assertBlock(
+      List<CommentFormatter.Block> list, int index, CommentFormatter.BlockType type, String text) {
     CommentFormatter.Block block = list.get(index);
     assertThat(block.type).isEqualTo(type);
     assertThat(block.text).isEqualTo(text);
@@ -34,8 +33,8 @@ public class CommentFormatterTest {
     assertThat(block.quotedBlocks).isNull();
   }
 
-  private void assertListBlock(List<CommentFormatter.Block> list, int index,
-      int itemIndex, String text) {
+  private void assertListBlock(
+      List<CommentFormatter.Block> list, int index, int itemIndex, String text) {
     CommentFormatter.Block block = list.get(index);
     assertThat(block.type).isEqualTo(LIST);
     assertThat(block.items.get(itemIndex)).isEqualTo(text);
@@ -43,8 +42,7 @@ public class CommentFormatterTest {
     assertThat(block.quotedBlocks).isNull();
   }
 
-  private void assertQuoteBlock(List<CommentFormatter.Block> list, int index,
-      int size) {
+  private void assertQuoteBlock(List<CommentFormatter.Block> list, int index, int size) {
     CommentFormatter.Block block = list.get(index);
     assertThat(block.type).isEqualTo(QUOTE);
     assertThat(block.items).isNull();
@@ -128,8 +126,8 @@ public class CommentFormatterTest {
 
     assertThat(result).hasSize(1);
     assertQuoteBlock(result, 0, 1);
-    assertBlock(result.get(0).quotedBlocks, 0, PARAGRAPH,
-        "Quote line 1\nQuote line 2\nQuote line 3\n");
+    assertBlock(
+        result.get(0).quotedBlocks, 0, PARAGRAPH, "Quote line 1\nQuote line 2\nQuote line 3\n");
   }
 
   @Test
@@ -204,26 +202,26 @@ public class CommentFormatterTest {
 
   @Test
   public void parseMixedBlockTypes() {
-    String comment = "Paragraph\nacross\na\nfew\nlines."
-        + "\n\n"
-        + "> Quote\n> across\n> not many lines."
-        + "\n\n"
-        + "Another paragraph"
-        + "\n\n"
-        + "* Series\n* of\n* list\n* items"
-        + "\n\n"
-        + "Yet another paragraph"
-        + "\n\n"
-        + "\tPreformatted text."
-        + "\n\n"
-        + "Parting words.";
+    String comment =
+        "Paragraph\nacross\na\nfew\nlines."
+            + "\n\n"
+            + "> Quote\n> across\n> not many lines."
+            + "\n\n"
+            + "Another paragraph"
+            + "\n\n"
+            + "* Series\n* of\n* list\n* items"
+            + "\n\n"
+            + "Yet another paragraph"
+            + "\n\n"
+            + "\tPreformatted text."
+            + "\n\n"
+            + "Parting words.";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(7);
     assertBlock(result, 0, PARAGRAPH, "Paragraph\nacross\na\nfew\nlines.");
     assertQuoteBlock(result, 1, 1);
-    assertBlock(result.get(1).quotedBlocks, 0, PARAGRAPH,
-        "Quote\nacross\nnot many lines.");
+    assertBlock(result.get(1).quotedBlocks, 0, PARAGRAPH, "Quote\nacross\nnot many lines.");
     assertBlock(result, 2, PARAGRAPH, "Another paragraph");
     assertListBlock(result, 3, 0, "Series");
     assertListBlock(result, 3, 1, "of");
@@ -270,9 +268,10 @@ public class CommentFormatterTest {
 
   @Test
   public void bulletList4() {
-    String comment = "To see this bug, you have to:\n" //
-        + "* Be on IMAP or EAS (not on POP)\n"//
-        + "* Be very unlucky\n";
+    String comment =
+        "To see this bug, you have to:\n" //
+            + "* Be on IMAP or EAS (not on POP)\n" //
+            + "* Be very unlucky\n";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
@@ -283,10 +282,11 @@ public class CommentFormatterTest {
 
   @Test
   public void bulletList5() {
-    String comment = "To see this bug,\n" //
-        + "you have to:\n" //
-        + "* Be on IMAP or EAS (not on POP)\n"//
-        + "* Be very unlucky\n";
+    String comment =
+        "To see this bug,\n" //
+            + "you have to:\n" //
+            + "* Be on IMAP or EAS (not on POP)\n" //
+            + "* Be very unlucky\n";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
@@ -378,8 +378,7 @@ public class CommentFormatterTest {
 
     assertThat(result).hasSize(2);
     assertQuoteBlock(result, 0, 1);
-    assertBlock(result.get(0).quotedBlocks, 0, PARAGRAPH,
-        "I'm happy\nwith quotes!");
+    assertBlock(result.get(0).quotedBlocks, 0, PARAGRAPH, "I'm happy\nwith quotes!");
     assertBlock(result, 1, PARAGRAPH, "See above.");
   }
 
@@ -391,8 +390,7 @@ public class CommentFormatterTest {
     assertThat(result).hasSize(3);
     assertBlock(result, 0, PARAGRAPH, "See this said:");
     assertQuoteBlock(result, 1, 1);
-    assertBlock(result.get(1).quotedBlocks, 0, PARAGRAPH,
-        "a quoted\nstring block");
+    assertBlock(result.get(1).quotedBlocks, 0, PARAGRAPH, "a quoted\nstring block");
     assertBlock(result, 2, PARAGRAPH, "OK?");
   }
 
@@ -404,41 +402,39 @@ public class CommentFormatterTest {
     assertThat(result).hasSize(1);
     assertQuoteBlock(result, 0, 2);
     assertQuoteBlock(result.get(0).quotedBlocks, 0, 1);
-    assertBlock(result.get(0).quotedBlocks.get(0).quotedBlocks, 0, PARAGRAPH,
-        "prior");
+    assertBlock(result.get(0).quotedBlocks.get(0).quotedBlocks, 0, PARAGRAPH, "prior");
     assertBlock(result.get(0).quotedBlocks, 1, PARAGRAPH, "next\n");
   }
 
   @Test
   public void largeMixedQuote() {
     String comment =
-        "> > Paragraph 1.\n" +
-        "> > \n" +
-        "> > > Paragraph 2.\n" +
-        "> > \n" +
-        "> > Paragraph 3.\n" +
-        "> > \n" +
-        "> >    pre line 1;\n" +
-        "> >    pre line 2;\n" +
-        "> > \n" +
-        "> > Paragraph 4.\n" +
-        "> > \n" +
-        "> > * List item 1.\n" +
-        "> > * List item 2.\n" +
-        "> > \n" +
-        "> > Paragraph 5.\n" +
-        "> \n" +
-        "> Paragraph 6.\n" +
-        "\n" +
-        "Paragraph 7.\n";
+        "> > Paragraph 1.\n"
+            + "> > \n"
+            + "> > > Paragraph 2.\n"
+            + "> > \n"
+            + "> > Paragraph 3.\n"
+            + "> > \n"
+            + "> >    pre line 1;\n"
+            + "> >    pre line 2;\n"
+            + "> > \n"
+            + "> > Paragraph 4.\n"
+            + "> > \n"
+            + "> > * List item 1.\n"
+            + "> > * List item 2.\n"
+            + "> > \n"
+            + "> > Paragraph 5.\n"
+            + "> \n"
+            + "> Paragraph 6.\n"
+            + "\n"
+            + "Paragraph 7.\n";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertQuoteBlock(result, 0, 2);
 
     assertQuoteBlock(result.get(0).quotedBlocks, 0, 7);
-    List<CommentFormatter.Block> bigQuote =
-        result.get(0).quotedBlocks.get(0).quotedBlocks;
+    List<CommentFormatter.Block> bigQuote = result.get(0).quotedBlocks.get(0).quotedBlocks;
     assertBlock(bigQuote, 0, PARAGRAPH, "Paragraph 1.");
     assertQuoteBlock(bigQuote, 1, 1);
     assertBlock(bigQuote.get(1).quotedBlocks, 0, PARAGRAPH, "Paragraph 2.");

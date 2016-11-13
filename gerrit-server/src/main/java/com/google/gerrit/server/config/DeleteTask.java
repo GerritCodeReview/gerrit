@@ -28,14 +28,14 @@ import com.google.inject.Singleton;
 @Singleton
 @RequiresAnyCapability({KILL_TASK, MAINTAIN_SERVER})
 public class DeleteTask implements RestModifyView<TaskResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   @Override
   public Response<?> apply(TaskResource rsrc, Input input) {
     Task<?> task = rsrc.getTask();
     boolean taskDeleted = task.cancel(true);
-    return taskDeleted ? Response.none() : Response.withStatusCode(
-        SC_INTERNAL_SERVER_ERROR, "Unable to kill task " + task);
+    return taskDeleted
+        ? Response.none()
+        : Response.withStatusCode(SC_INTERNAL_SERVER_ERROR, "Unable to kill task " + task);
   }
 }

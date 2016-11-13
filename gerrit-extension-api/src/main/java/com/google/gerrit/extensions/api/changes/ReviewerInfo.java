@@ -16,19 +16,14 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountInfo;
-
 import java.util.Map;
 
-/**
- * Account and approval details for an added reviewer.
- */
+/** Account and approval details for an added reviewer. */
 public class ReviewerInfo extends AccountInfo {
   /**
-   * {@link Map} of label name to initial value for each approval the reviewer
-   * is responsible for.
+   * {@link Map} of label name to initial value for each approval the reviewer is responsible for.
    */
-  @Nullable
-  public Map<String, String> approvals;
+  @Nullable public Map<String, String> approvals;
 
   public ReviewerInfo(Integer id) {
     super(id);

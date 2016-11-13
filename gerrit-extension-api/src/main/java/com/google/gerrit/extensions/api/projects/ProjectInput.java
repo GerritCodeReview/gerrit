@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
-
 import java.util.List;
 import java.util.Map;
 

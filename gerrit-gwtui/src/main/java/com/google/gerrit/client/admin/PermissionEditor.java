@@ -56,15 +56,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ValueLabel;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PermissionEditor extends Composite implements Editor<Permission>,
-    ValueAwareEditor<Permission> {
-  interface Binder extends UiBinder<HTMLPanel, PermissionEditor> {
-  }
+public class PermissionEditor extends Composite
+    implements Editor<Permission>, ValueAwareEditor<Permission> {
+  interface Binder extends UiBinder<HTMLPanel, PermissionEditor> {}
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -76,34 +74,22 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   @Path("name")
   ValueLabel<String> deletedName;
 
-  @UiField
-  CheckBox exclusiveGroup;
+  @UiField CheckBox exclusiveGroup;
 
-  @UiField
-  FlowPanel ruleContainer;
+  @UiField FlowPanel ruleContainer;
   ListEditor<PermissionRule, PermissionRuleEditor> rules;
 
-  @UiField
-  DivElement addContainer;
-  @UiField
-  DivElement addStage1;
-  @UiField
-  DivElement addStage2;
-  @UiField
-  Anchor beginAddRule;
-  @UiField
-  @Editor.Ignore
-  GroupReferenceBox groupToAdd;
-  @UiField
-  Button addRule;
+  @UiField DivElement addContainer;
+  @UiField DivElement addStage1;
+  @UiField DivElement addStage2;
+  @UiField Anchor beginAddRule;
+  @UiField @Editor.Ignore GroupReferenceBox groupToAdd;
+  @UiField Button addRule;
 
-  @UiField
-  Anchor deletePermission;
+  @UiField Anchor deletePermission;
 
-  @UiField
-  DivElement normal;
-  @UiField
-  DivElement deleted;
+  @UiField DivElement normal;
+  @UiField DivElement deleted;
 
   private final Project.NameKey projectName;
   private final Map<AccountGroup.UUID, GroupInfo> groupInfo;
@@ -114,10 +100,8 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   private PermissionRange.WithDefaults validRange;
   private boolean isDeleted;
 
-  public PermissionEditor(ProjectAccess projectAccess,
-      boolean readOnly,
-      AccessSection section,
-      LabelTypes labelTypes) {
+  public PermissionEditor(
+      ProjectAccess projectAccess, boolean readOnly, AccessSection section, LabelTypes labelTypes) {
     this.readOnly = readOnly;
     this.section = section;
     this.projectName = projectAccess.getProjectName();
@@ -134,8 +118,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     rules = ListEditor.of(new RuleEditorSource());
 
     exclusiveGroup.setEnabled(!readOnly);
-    exclusiveGroup.setVisible(RefConfigSection
-        .isValid(section.getName()));
+    exclusiveGroup.setVisible(RefConfigSection.isValid(section.getName()));
 
     if (readOnly) {
       addContainer.removeFromParent();
@@ -179,12 +162,14 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     addStage1.getStyle().setDisplay(Display.NONE);
     addStage2.getStyle().setDisplay(Display.BLOCK);
 
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        groupToAdd.setFocus(true);
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                groupToAdd.setFocus(true);
+              }
+            });
   }
 
   @UiHandler("addRule")
@@ -206,8 +191,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @UiHandler("groupToAdd")
-  void onAbortAddGroup(
-      @SuppressWarnings("unused") CloseEvent<GroupReferenceBox> event) {
+  void onAbortAddGroup(@SuppressWarnings("unused") CloseEvent<GroupReferenceBox> event) {
     hideAddGroup();
   }
 
@@ -244,19 +228,20 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
       //
       addRule.setEnabled(false);
       GroupMap.suggestAccountGroupForProject(
-          projectName.get(), ref.getName(), 1,
+          projectName.get(),
+          ref.getName(),
+          1,
           new GerritCallback<GroupMap>() {
             @Override
             public void onSuccess(GroupMap result) {
               addRule.setEnabled(true);
               if (result.values().length() == 1) {
-                addGroup(new GroupReference(
-                    result.values().get(0).getGroupUUID(),
-                    result.values().get(0).name()));
+                addGroup(
+                    new GroupReference(
+                        result.values().get(0).getGroupUUID(), result.values().get(0).name()));
               } else {
                 groupToAdd.setFocus(true);
-                new ErrorDialog(Gerrit.M.noSuchGroupMessage(ref.getName()))
-                    .center();
+                new ErrorDialog(Gerrit.M.noSuchGroupMessage(ref.getName())).center();
               }
             }
 
@@ -280,10 +265,13 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     if (Permission.hasRange(value.getName())) {
       LabelType lt = labelTypes.byLabel(value.getLabel());
       if (lt != null) {
-        validRange = new PermissionRange.WithDefaults(
-            value.getName(),
-            lt.getMin().getValue(), lt.getMax().getValue(),
-            lt.getMin().getValue(), lt.getMax().getValue());
+        validRange =
+            new PermissionRange.WithDefaults(
+                value.getName(),
+                lt.getMin().getValue(),
+                lt.getMax().getValue(),
+                lt.getMin().getValue(),
+                lt.getMax().getValue());
       }
     } else if (GlobalCapability.isCapability(value.getName())) {
       validRange = GlobalCapability.getRange(value.getName());
@@ -305,8 +293,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     List<PermissionRule> keep = new ArrayList<>(src.size());
 
     for (int i = 0; i < src.size(); i++) {
-      PermissionRuleEditor e =
-          (PermissionRuleEditor) ruleContainer.getWidget(i);
+      PermissionRuleEditor e = (PermissionRuleEditor) ruleContainer.getWidget(i);
       if (!e.isDeleted()) {
         keep.add(src.get(i));
       }
@@ -315,12 +302,10 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @Override
-  public void onPropertyChange(String... paths) {
-  }
+  public void onPropertyChange(String... paths) {}
 
   @Override
-  public void setDelegate(EditorDelegate<Permission> delegate) {
-  }
+  public void setDelegate(EditorDelegate<Permission> delegate) {}
 
   private class RuleEditorSource extends EditorSource<PermissionRuleEditor> {
     @Override

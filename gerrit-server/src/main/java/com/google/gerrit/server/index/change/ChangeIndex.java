@@ -22,9 +22,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
 
 public interface ChangeIndex extends Index<Change.Id, ChangeData> {
-  public interface Factory extends
-      IndexDefinition.IndexFactory<Change.Id, ChangeData, ChangeIndex> {
-  }
+  public interface Factory
+      extends IndexDefinition.IndexFactory<Change.Id, ChangeData, ChangeIndex> {}
 
   @Override
   default Predicate<ChangeData> keyPredicate(Change.Id id) {

@@ -20,11 +20,9 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.SortedMap;
 import java.util.SortedSet;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -33,7 +31,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /** OAuth web filter uses active OAuth session to perform OAuth requests */
 @Singleton
@@ -45,7 +42,8 @@ class OAuthWebFilterOverOpenID implements Filter {
   private OAuthServiceProvider ssoProvider;
 
   @Inject
-  OAuthWebFilterOverOpenID(DynamicMap<OAuthServiceProvider> oauthServiceProviders,
+  OAuthWebFilterOverOpenID(
+      DynamicMap<OAuthServiceProvider> oauthServiceProviders,
       Provider<OAuthSessionOverOpenID> oauthSessionProvider) {
     this.oauthServiceProviders = oauthServiceProviders;
     this.oauthSessionProvider = oauthSessionProvider;
@@ -57,26 +55,24 @@ class OAuthWebFilterOverOpenID implements Filter {
   }
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
     OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
-    OAuthServiceProvider service = ssoProvider == null
-        ? oauthSession.getServiceProvider()
-        : ssoProvider;
+    OAuthServiceProvider service =
+        ssoProvider == null ? oauthSession.getServiceProvider() : ssoProvider;
 
     if (isGerritLogin(httpRequest) || oauthSession.isOAuthFinal(httpRequest)) {
-        if (service == null) {
-          throw new IllegalStateException("service is unknown");
-        }
-        oauthSession.setServiceProvider(service);
-        oauthSession.login(httpRequest, httpResponse, service);
+      if (service == null) {
+        throw new IllegalStateException("service is unknown");
+      }
+      oauthSession.setServiceProvider(service);
+      oauthSession.login(httpRequest, httpResponse, service);
     } else {
       chain.doFilter(httpRequest, response);
     }

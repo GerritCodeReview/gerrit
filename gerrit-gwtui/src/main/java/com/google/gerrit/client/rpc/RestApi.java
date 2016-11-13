@@ -50,12 +50,11 @@ public class RestApi {
 
   /**
    * Expected JSON content body prefix that prevents XSSI.
-   * <p>
-   * The server always includes this line as the first line of the response
-   * content body when the response body is formatted as JSON. It gets inserted
-   * by the server to prevent the resource from being imported into another
-   * domain's page using a &lt;script&gt; tag. This line must be removed before
-   * the JSON can be parsed.
+   *
+   * <p>The server always includes this line as the first line of the response content body when the
+   * response body is formatted as JSON. It gets inserted by the server to prevent the resource from
+   * being imported into another domain's page using a &lt;script&gt; tag. This line must be removed
+   * before the JSON can be parsed.
    */
   private static final String JSON_MAGIC = ")]}'\n";
 
@@ -107,8 +106,7 @@ public class RestApi {
     }
   }
 
-  private static class HttpImpl<T extends JavaScriptObject>
-      implements RequestCallback {
+  private static class HttpImpl<T extends JavaScriptObject> implements RequestCallback {
     private final boolean background;
     private final HttpCallback<T> cb;
 
@@ -137,15 +135,15 @@ public class RestApi {
               data = NativeString.wrap(val.isString().stringValue()).cast();
               type = simpleType(res.getHeader("X-FYI-Content-Type"));
             } else {
-              data = RestApi.<T> cast(val);
+              data = RestApi.<T>cast(val);
               type = JSON_TYPE;
             }
           } catch (JSONException e) {
             if (!background) {
               RpcStatus.INSTANCE.onRpcComplete();
             }
-            cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,
-                "Invalid JSON: " + e.getMessage()));
+            cb.onFailure(
+                new StatusCodeException(SC_BAD_RESPONSE, "Invalid JSON: " + e.getMessage()));
             return;
           }
         } else if (isTextBody(res)) {
@@ -155,24 +153,31 @@ public class RestApi {
           if (!background) {
             RpcStatus.INSTANCE.onRpcComplete();
           }
-          cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE, "Expected "
-              + JSON_TYPE + " or " + TEXT_TYPE + "; received Content-Type: "
-              + res.getHeader("Content-Type")));
+          cb.onFailure(
+              new StatusCodeException(
+                  SC_BAD_RESPONSE,
+                  "Expected "
+                      + JSON_TYPE
+                      + " or "
+                      + TEXT_TYPE
+                      + "; received Content-Type: "
+                      + res.getHeader("Content-Type")));
           return;
         }
 
-        Scheduler.ScheduledCommand cmd = new Scheduler.ScheduledCommand() {
-          @Override
-          public void execute() {
-            try {
-              cb.onSuccess(new HttpResponse<>(res, type, data));
-            } finally {
-              if (!background) {
-                RpcStatus.INSTANCE.onRpcComplete();
+        Scheduler.ScheduledCommand cmd =
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                try {
+                  cb.onSuccess(new HttpResponse<>(res, type, data));
+                } finally {
+                  if (!background) {
+                    RpcStatus.INSTANCE.onRpcComplete();
+                  }
+                }
               }
-            }
-          }
-        };
+            };
 
         // Defer handling the response if the parse took a while.
         if ((System.currentTimeMillis() - start) > 75) {
@@ -213,9 +218,8 @@ public class RestApi {
         RpcStatus.INSTANCE.onRpcComplete();
       }
       if (err.getMessage().contains("XmlHttpRequest.status")) {
-        cb.onFailure(new StatusCodeException(
-            SC_UNAVAILABLE,
-            RpcConstants.C.errorServerUnavailable()));
+        cb.onFailure(
+            new StatusCodeException(SC_UNAVAILABLE, RpcConstants.C.errorServerUnavailable()));
       } else {
         cb.onFailure(new StatusCodeException(SC_BAD_TRANSPORT, err.getMessage()));
       }
@@ -229,12 +233,12 @@ public class RestApi {
 
   /**
    * Initialize a new API call.
-   * <p>
-   * By default the JSON format will be selected by including an HTTP Accept
-   * header in the request.
    *
-   * @param name URL of the REST resource to access, e.g. {@code "/projects/"}
-   *        to list accessible projects from the server.
+   * <p>By default the JSON format will be selected by including an HTTP Accept header in the
+   * request.
+   *
+   * @param name URL of the REST resource to access, e.g. {@code "/projects/"} to list accessible
+   *     projects from the server.
    */
   public RestApi(String name) {
     if (name.startsWith("/")) {
@@ -344,8 +348,7 @@ public class RestApi {
     send(DELETE, cb);
   }
 
-  private <T extends JavaScriptObject> void send(Method method,
-      HttpCallback<T> cb) {
+  private <T extends JavaScriptObject> void send(Method method, HttpCallback<T> cb) {
     HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
@@ -357,25 +360,19 @@ public class RestApi {
     }
   }
 
-  public <T extends JavaScriptObject> void post(
-      JavaScriptObject content,
-      AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void post(JavaScriptObject content, AsyncCallback<T> cb) {
     post(content, wrap(cb));
   }
 
-  public <T extends JavaScriptObject> void post(
-      JavaScriptObject content,
-      HttpCallback<T> cb) {
+  public <T extends JavaScriptObject> void post(JavaScriptObject content, HttpCallback<T> cb) {
     sendJSON(POST, content, cb);
   }
 
-  public <T extends JavaScriptObject> void post(String content,
-      AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void post(String content, AsyncCallback<T> cb) {
     post(content, wrap(cb));
   }
 
-  public <T extends JavaScriptObject> void post(String content,
-      HttpCallback<T> cb) {
+  public <T extends JavaScriptObject> void post(String content, HttpCallback<T> cb) {
     sendText(POST, content, cb);
   }
 
@@ -387,31 +384,24 @@ public class RestApi {
     send(PUT, cb);
   }
 
-  public <T extends JavaScriptObject> void put(String content,
-      AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(String content, AsyncCallback<T> cb) {
     put(content, wrap(cb));
   }
 
-  public <T extends JavaScriptObject> void put(String content,
-      HttpCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(String content, HttpCallback<T> cb) {
     sendText(PUT, content, cb);
   }
 
-  public <T extends JavaScriptObject> void put(
-      JavaScriptObject content,
-      AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(JavaScriptObject content, AsyncCallback<T> cb) {
     put(content, wrap(cb));
   }
 
-  public <T extends JavaScriptObject> void put(
-      JavaScriptObject content,
-      HttpCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(JavaScriptObject content, HttpCallback<T> cb) {
     sendJSON(PUT, content, cb);
   }
 
   private <T extends JavaScriptObject> void sendJSON(
-      Method method, JavaScriptObject content,
-      HttpCallback<T> cb) {
+      Method method, JavaScriptObject content, HttpCallback<T> cb) {
     HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
@@ -425,11 +415,10 @@ public class RestApi {
     }
   }
 
-  private static native String str(JavaScriptObject jso)
-  /*-{ return JSON.stringify(jso) }-*/;
+  private static native String str(JavaScriptObject jso)/*-{ return JSON.stringify(jso) }-*/ ;
 
-  private <T extends JavaScriptObject> void sendText(Method method, String body,
-      HttpCallback<T> cb) {
+  private <T extends JavaScriptObject> void sendText(
+      Method method, String body, HttpCallback<T> cb) {
     HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
@@ -480,8 +469,7 @@ public class RestApi {
     return type;
   }
 
-  private static JSONValue parseJson(Response res)
-      throws JSONException {
+  private static JSONValue parseJson(Response res) throws JSONException {
     String json = trimJsonMagic(res.getText());
     if (json.isEmpty()) {
       throw new JSONException("response was empty");
@@ -511,8 +499,7 @@ public class RestApi {
     }
   }
 
-  private static <T extends JavaScriptObject> HttpCallback<T> wrap(
-      final AsyncCallback<T> cb) {
+  private static <T extends JavaScriptObject> HttpCallback<T> wrap(final AsyncCallback<T> cb) {
     return new HttpCallback<T>() {
       @Override
       public void onSuccess(HttpResponse<T> r) {

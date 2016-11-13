@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.web.bindery.event.shared.Event;
 import com.google.web.bindery.event.shared.HandlerRegistration;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -66,8 +65,8 @@ public class StarredChanges {
   }
 
   /**
-   * Create a star icon for the given change, and current status. Returns null
-   * if the user is not signed in and cannot support starred changes.
+   * Create a star icon for the given change, and current status. Returns null if the user is not
+   * signed in and cannot support starred changes.
    */
   public static Icon createIcon(Change.Id source, boolean starred) {
     return Gerrit.isSignedIn() ? new Icon(source, starred) : null;
@@ -84,30 +83,23 @@ public class StarredChanges {
   }
 
   /** Add a handler to listen for starred status to change. */
-  public static HandlerRegistration addHandler(
-      Change.Id source,
-      ChangeStarHandler handler) {
+  public static HandlerRegistration addHandler(Change.Id source, ChangeStarHandler handler) {
     return Gerrit.EVENT_BUS.addHandlerToSource(TYPE, source, handler);
   }
 
   /**
-   * Broadcast the current starred value of a change to UI widgets. This does
-   * not RPC to the server and does not alter the starred status of a change.
+   * Broadcast the current starred value of a change to UI widgets. This does not RPC to the server
+   * and does not alter the starred status of a change.
    */
   public static void fireChangeStarEvent(Change.Id id, boolean starred) {
-    Gerrit.EVENT_BUS.fireEventFromSource(
-        new ChangeStarEvent(id, starred),
-        id);
+    Gerrit.EVENT_BUS.fireEventFromSource(new ChangeStarEvent(id, starred), id);
   }
 
   /**
-   * Set the starred status of a change. This method broadcasts to all
-   * interested UI widgets and sends an RPC to the server to record the
-   * updated status.
+   * Set the starred status of a change. This method broadcasts to all interested UI widgets and
+   * sends an RPC to the server to record the updated status.
    */
-  public static void toggleStar(
-      final Change.Id changeId,
-      final boolean newValue) {
+  public static void toggleStar(final Change.Id changeId, final boolean newValue) {
     pending.put(changeId, newValue);
     fireChangeStarEvent(changeId, newValue);
     if (!busy) {
@@ -116,8 +108,7 @@ public class StarredChanges {
   }
 
   private static boolean busy;
-  private static final Map<Change.Id, Boolean> pending =
-      new LinkedHashMap<>(4);
+  private static final Map<Change.Id, Boolean> pending = new LinkedHashMap<>(4);
 
   private static void startRequest() {
     busy = true;
@@ -125,31 +116,32 @@ public class StarredChanges {
     final Change.Id id = pending.keySet().iterator().next();
     final boolean starred = pending.remove(id);
     RestApi call = AccountApi.self().view("starred.changes").id(id.get());
-    AsyncCallback<JavaScriptObject> cb = new AsyncCallback<JavaScriptObject>() {
-      @Override
-      public void onSuccess(JavaScriptObject none) {
-        if (pending.isEmpty()) {
-          busy = false;
-        } else {
-          startRequest();
-        }
-      }
+    AsyncCallback<JavaScriptObject> cb =
+        new AsyncCallback<JavaScriptObject>() {
+          @Override
+          public void onSuccess(JavaScriptObject none) {
+            if (pending.isEmpty()) {
+              busy = false;
+            } else {
+              startRequest();
+            }
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        if (!starred && RestApi.isStatus(caught, 404)) {
-          onSuccess(null);
-          return;
-        }
+          @Override
+          public void onFailure(Throwable caught) {
+            if (!starred && RestApi.isStatus(caught, 404)) {
+              onSuccess(null);
+              return;
+            }
 
-        fireChangeStarEvent(id, !starred);
-        for (Map.Entry<Change.Id, Boolean> e : pending.entrySet()) {
-          fireChangeStarEvent(e.getKey(), !e.getValue());
-        }
-        pending.clear();
-        busy = false;
-      }
-    };
+            fireChangeStarEvent(id, !starred);
+            for (Map.Entry<Change.Id, Boolean> e : pending.entrySet()) {
+              fireChangeStarEvent(e.getKey(), !e.getValue());
+            }
+            pending.clear();
+            busy = false;
+          }
+        };
     if (starred) {
       call.put(cb);
     } else {
@@ -157,8 +149,7 @@ public class StarredChanges {
     }
   }
 
-  public static class Icon extends Image
-      implements ChangeStarHandler, ClickHandler {
+  public static class Icon extends Image implements ChangeStarHandler, ClickHandler {
     private final Change.Id changeId;
     private boolean starred;
     private HandlerRegistration handler;
@@ -171,9 +162,9 @@ public class StarredChanges {
     }
 
     /**
-     * Toggles the state of the star, as if the user clicked on the image. This
-     * will broadcast the new star status to all interested UI widgets, and RPC
-     * to the server to store the changed value.
+     * Toggles the state of the star, as if the user clicked on the image. This will broadcast the
+     * new star status to all interested UI widgets, and RPC to the server to store the changed
+     * value.
      */
     public void toggleStar() {
       StarredChanges.toggleStar(changeId, !starred);
@@ -206,6 +197,5 @@ public class StarredChanges {
     }
   }
 
-  private StarredChanges() {
-  }
+  private StarredChanges() {}
 }

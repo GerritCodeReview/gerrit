@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.Set;
 
 @Singleton
@@ -31,9 +30,7 @@ public class DefaultRealm extends AbstractRealm {
   private final AuthConfig authConfig;
 
   @Inject
-  DefaultRealm(EmailExpander emailExpander,
-      AccountByEmailCache byEmail,
-      AuthConfig authConfig) {
+  DefaultRealm(EmailExpander emailExpander, AccountByEmailCache byEmail, AuthConfig authConfig) {
     this.emailExpander = emailExpander;
     this.byEmail = byEmail;
     this.authConfig = authConfig;
@@ -66,7 +63,8 @@ public class DefaultRealm extends AbstractRealm {
 
   @Override
   public AuthRequest authenticate(final AuthRequest who) {
-    if (who.getEmailAddress() == null && who.getLocalUser() != null
+    if (who.getEmailAddress() == null
+        && who.getLocalUser() != null
         && emailExpander.canExpand(who.getLocalUser())) {
       who.setEmailAddress(emailExpander.expand(who.getLocalUser()));
     }
@@ -74,8 +72,7 @@ public class DefaultRealm extends AbstractRealm {
   }
 
   @Override
-  public void onCreateAccount(final AuthRequest who, final Account account) {
-  }
+  public void onCreateAccount(final AuthRequest who, final Account account) {}
 
   @Override
   public Account.Id lookup(final String accountName) {

@@ -24,7 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -32,17 +32,15 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-
 @Singleton
-public class CommitsCollection implements
-    ChildCollection<ProjectResource, CommitResource> {
+public class CommitsCollection implements ChildCollection<ProjectResource, CommitResource> {
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> db;
 
   @Inject
-  public CommitsCollection(DynamicMap<RestView<CommitResource>> views,
+  public CommitsCollection(
+      DynamicMap<RestView<CommitResource>> views,
       GitRepositoryManager repoManager,
       Provider<ReviewDb> db) {
     this.views = views;

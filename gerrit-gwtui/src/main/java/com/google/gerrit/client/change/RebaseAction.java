@@ -26,27 +26,36 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 class RebaseAction {
-  static void call(final Button b, final String project, final String branch,
-      final Change.Id id, final String revision, final boolean enabled) {
+  static void call(
+      final Button b,
+      final String project,
+      final String branch,
+      final Change.Id id,
+      final String revision,
+      final boolean enabled) {
     b.setEnabled(false);
 
     new RebaseDialog(project, branch, id, enabled) {
       @Override
       public void onSend() {
-        ChangeApi.rebase(id.get(), revision, getBase(), new GerritCallback<ChangeInfo>() {
-          @Override
-          public void onSuccess(ChangeInfo result) {
-            sent = true;
-            hide();
-            Gerrit.display(PageLinks.toChange(id));
-          }
+        ChangeApi.rebase(
+            id.get(),
+            revision,
+            getBase(),
+            new GerritCallback<ChangeInfo>() {
+              @Override
+              public void onSuccess(ChangeInfo result) {
+                sent = true;
+                hide();
+                Gerrit.display(PageLinks.toChange(id));
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            enableButtons(true);
-            super.onFailure(caught);
-          }
-        });
+              @Override
+              public void onFailure(Throwable caught) {
+                enableButtons(true);
+                super.onFailure(caught);
+              }
+            });
       }
 
       @Override

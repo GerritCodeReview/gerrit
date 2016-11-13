@@ -27,38 +27,35 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-
 public class ChangeRestored {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeRestored.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeRestored.class);
 
   private final DynamicSet<ChangeRestoredListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeRestored(DynamicSet<ChangeRestoredListener> listeners,
-      EventUtil util) {
+  ChangeRestored(DynamicSet<ChangeRestoredListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps, Account restorer, String reason,
-      Timestamp when) {
+  public void fire(Change change, PatchSet ps, Account restorer, String reason, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.revisionInfo(change.getProject(), ps),
-          util.accountInfo(restorer),
-          reason, when);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), ps),
+              util.accountInfo(restorer),
+              reason,
+              when);
       for (ChangeRestoredListener l : listeners) {
         try {
           l.onChangeRestored(event);
@@ -66,19 +63,21 @@ public class ChangeRestored {
           util.logEventListenerError(this, l, e);
         }
       }
-    } catch (PatchListNotAvailableException | GpgException | IOException
-        | OrmException e) {
+    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
       log.error("Couldn't fire event", e);
     }
   }
 
-  private static class Event extends AbstractRevisionEvent
-      implements ChangeRestoredListener.Event {
+  private static class Event extends AbstractRevisionEvent implements ChangeRestoredListener.Event {
 
     private String reason;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo restorer,
-        String reason, Timestamp when) {
+    Event(
+        ChangeInfo change,
+        RevisionInfo revision,
+        AccountInfo restorer,
+        String reason,
+        Timestamp when) {
       super(change, revision, restorer, when, NotifyHandling.ALL);
       this.reason = reason;
     }

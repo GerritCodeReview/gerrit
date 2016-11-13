@@ -26,12 +26,10 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class ChangeEditJson {
@@ -40,7 +38,8 @@ public class ChangeEditJson {
   private final Provider<CurrentUser> userProvider;
 
   @Inject
-  ChangeEditJson(DynamicMap<DownloadCommand> downloadCommand,
+  ChangeEditJson(
+      DynamicMap<DownloadCommand> downloadCommand,
       DynamicMap<DownloadScheme> downloadSchemes,
       Provider<CurrentUser> userProvider) {
     this.downloadCommands = downloadCommand;
@@ -62,8 +61,7 @@ public class ChangeEditJson {
     CommitInfo commit = new CommitInfo();
     commit.commit = editCommit.toObjectId().getName();
     commit.author = CommonConverters.toGitPerson(editCommit.getAuthorIdent());
-    commit.committer = CommonConverters.toGitPerson(
-        editCommit.getCommitterIdent());
+    commit.committer = CommonConverters.toGitPerson(editCommit.getCommitterIdent());
     commit.subject = editCommit.getShortMessage();
     commit.message = editCommit.getFullMessage();
 
@@ -83,8 +81,7 @@ public class ChangeEditJson {
       String schemeName = e.getExportName();
       DownloadScheme scheme = e.getProvider().get();
       if (!scheme.isEnabled()
-          || (scheme.isAuthRequired()
-              && !userProvider.get().isIdentifiedUser())) {
+          || (scheme.isAuthRequired() && !userProvider.get().isIdentifiedUser())) {
         continue;
       }
 
@@ -98,8 +95,7 @@ public class ChangeEditJson {
       FetchInfo fetchInfo = new FetchInfo(scheme.getUrl(projectName), refName);
       r.put(schemeName, fetchInfo);
 
-      ChangeJson.populateFetchMap(scheme, downloadCommands, projectName,
-          refName, fetchInfo);
+      ChangeJson.populateFetchMap(scheme, downloadCommands, projectName, refName, fetchInfo);
     }
 
     return r;

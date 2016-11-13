@@ -15,21 +15,20 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-
 import java.util.Date;
 import java.util.List;
 
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
   /**
-   * Name of the cookie in which the XSRF token is sent from the server to the
-   * client during host page bootstrapping.
+   * Name of the cookie in which the XSRF token is sent from the server to the client during host
+   * page bootstrapping.
    */
   public static final String XSRF_COOKIE_NAME = "XSRF_TOKEN";
 
   /**
-   * Name of the HTTP header in which the client must send the XSRF token to the
-   * server on each request.
+   * Name of the HTTP header in which the client must send the XSRF token to the server on each
+   * request.
    */
   public static final String XSRF_HEADER_NAME = "X-Gerrit-Auth";
 

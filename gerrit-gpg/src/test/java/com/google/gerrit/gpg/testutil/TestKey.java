@@ -16,6 +16,8 @@ package com.google.gerrit.gpg.testutil;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPrivateKey;
@@ -27,9 +29,6 @@ import org.bouncycastle.openpgp.operator.bc.BcKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.bc.BcPBESecretKeyDecryptorBuilder;
 import org.bouncycastle.openpgp.operator.bc.BcPGPDigestCalculatorProvider;
 import org.eclipse.jgit.lib.Constants;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 public class TestKey {
   private final String pubArmored;
@@ -82,15 +81,14 @@ public class TestKey {
   }
 
   public PGPPrivateKey getPrivateKey() throws PGPException {
-    return getSecretKey().extractPrivateKey(
-        new BcPBESecretKeyDecryptorBuilder(new BcPGPDigestCalculatorProvider())
-          // All test keys have no passphrase.
-          .build(new char[0]));
+    return getSecretKey()
+        .extractPrivateKey(
+            new BcPBESecretKeyDecryptorBuilder(new BcPGPDigestCalculatorProvider())
+                // All test keys have no passphrase.
+                .build(new char[0]));
   }
 
-  private static ArmoredInputStream newStream(String armored)
-      throws IOException {
-    return new ArmoredInputStream(
-        new ByteArrayInputStream(Constants.encode(armored)));
+  private static ArmoredInputStream newStream(String armored) throws IOException {
+    return new ArmoredInputStream(new ByteArrayInputStream(Constants.encode(armored)));
   }
 }

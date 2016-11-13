@@ -29,7 +29,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -68,8 +67,9 @@ public class CapabilityControl {
       if (user.getRealUser() != user) {
         canAdministrateServer = false;
       } else {
-        canAdministrateServer = user instanceof PeerDaemonUser
-            || matchAny(capabilities.administrateServer, ALLOWED_RULE);
+        canAdministrateServer =
+            user instanceof PeerDaemonUser
+                || matchAny(capabilities.administrateServer, ALLOWED_RULE);
       }
     }
     return canAdministrateServer;
@@ -77,20 +77,17 @@ public class CapabilityControl {
 
   /** @return true if the user can create an account for another user. */
   public boolean canCreateAccount() {
-    return canPerform(GlobalCapability.CREATE_ACCOUNT)
-      || canAdministrateServer();
+    return canPerform(GlobalCapability.CREATE_ACCOUNT) || canAdministrateServer();
   }
 
   /** @return true if the user can create a group. */
   public boolean canCreateGroup() {
-    return canPerform(GlobalCapability.CREATE_GROUP)
-      || canAdministrateServer();
+    return canPerform(GlobalCapability.CREATE_GROUP) || canAdministrateServer();
   }
 
   /** @return true if the user can create a project. */
   public boolean canCreateProject() {
-    return canPerform(GlobalCapability.CREATE_PROJECT)
-      || canAdministrateServer();
+    return canPerform(GlobalCapability.CREATE_PROJECT) || canAdministrateServer();
   }
 
   /** @return true if the user can email reviewers. */
@@ -98,64 +95,54 @@ public class CapabilityControl {
     if (canEmailReviewers == null) {
       canEmailReviewers =
           matchAny(capabilities.emailReviewers, ALLOWED_RULE)
-          || !matchAny(capabilities.emailReviewers, not(ALLOWED_RULE));
-
+              || !matchAny(capabilities.emailReviewers, not(ALLOWED_RULE));
     }
     return canEmailReviewers;
   }
 
   /** @return true if the user can kill any running task. */
   public boolean canKillTask() {
-    return canPerform(GlobalCapability.KILL_TASK)
-      || canMaintainServer();
+    return canPerform(GlobalCapability.KILL_TASK) || canMaintainServer();
   }
 
   /** @return true if the user can modify an account for another user. */
   public boolean canModifyAccount() {
-    return canPerform(GlobalCapability.MODIFY_ACCOUNT)
-      || canAdministrateServer();
+    return canPerform(GlobalCapability.MODIFY_ACCOUNT) || canAdministrateServer();
   }
 
   /** @return true if the user can view all accounts. */
   public boolean canViewAllAccounts() {
-    return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS)
-      || canAdministrateServer();
+    return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || canAdministrateServer();
   }
 
   /** @return true if the user can view the server caches. */
   public boolean canViewCaches() {
-    return canPerform(GlobalCapability.VIEW_CACHES)
-      || canMaintainServer();
+    return canPerform(GlobalCapability.VIEW_CACHES) || canMaintainServer();
   }
 
   /** @return true if the user can flush the server's caches. */
   public boolean canFlushCaches() {
-    return canPerform(GlobalCapability.FLUSH_CACHES)
-      || canMaintainServer();
+    return canPerform(GlobalCapability.FLUSH_CACHES) || canMaintainServer();
   }
 
   /** @return true if the user can perform basic server maintenance. */
   public boolean canMaintainServer() {
-    return canPerform(GlobalCapability.MAINTAIN_SERVER)
-      || canAdministrateServer();
+    return canPerform(GlobalCapability.MAINTAIN_SERVER) || canAdministrateServer();
   }
 
   /** @return true if the user can view open connections. */
   public boolean canViewConnections() {
-    return canPerform(GlobalCapability.VIEW_CONNECTIONS)
-        || canAdministrateServer();
+    return canPerform(GlobalCapability.VIEW_CONNECTIONS) || canAdministrateServer();
   }
 
   /** @return true if the user can view the installed plugins. */
   public boolean canViewPlugins() {
-    return canPerform(GlobalCapability.VIEW_PLUGINS)
-      || canAdministrateServer();
+    return canPerform(GlobalCapability.VIEW_PLUGINS) || canAdministrateServer();
   }
 
   /** @return true if the user can view the entire queue. */
   public boolean canViewQueue() {
-    return canPerform(GlobalCapability.VIEW_QUEUE)
-      || canMaintainServer();
+    return canPerform(GlobalCapability.VIEW_QUEUE) || canMaintainServer();
   }
 
   /** @return true if the user can access the database (with gsql). */
@@ -165,14 +152,12 @@ public class CapabilityControl {
 
   /** @return true if the user can stream Gerrit events. */
   public boolean canStreamEvents() {
-    return canPerform(GlobalCapability.STREAM_EVENTS)
-        || canAdministrateServer();
+    return canPerform(GlobalCapability.STREAM_EVENTS) || canAdministrateServer();
   }
 
   /** @return true if the user can run the Git garbage collection. */
   public boolean canRunGC() {
-    return canPerform(GlobalCapability.RUN_GC)
-        || canMaintainServer();
+    return canPerform(GlobalCapability.RUN_GC) || canMaintainServer();
   }
 
   /** @return true if the user can impersonate another user. */
@@ -235,13 +220,11 @@ public class CapabilityControl {
     return null;
   }
 
-  private static PermissionRange toRange(String permissionName,
-      List<PermissionRule> ruleList) {
+  private static PermissionRange toRange(String permissionName, List<PermissionRule> ruleList) {
     int min = 0;
     int max = 0;
     if (ruleList.isEmpty()) {
-      PermissionRange.WithDefaults defaultRange =
-          GlobalCapability.getRange(permissionName);
+      PermissionRange.WithDefaults defaultRange = GlobalCapability.getRange(permissionName);
       if (defaultRange != null) {
         min = defaultRange.getDefaultMin();
         max = defaultRange.getDefaultMax();
@@ -279,20 +262,15 @@ public class CapabilityControl {
     return mine;
   }
 
-  private static final Predicate<PermissionRule> ALLOWED_RULE =
-      r -> r.getAction() == Action.ALLOW;
+  private static final Predicate<PermissionRule> ALLOWED_RULE = r -> r.getAction() == Action.ALLOW;
 
-  private boolean matchAny(Collection<PermissionRule> rules,
-      Predicate<PermissionRule> predicate) {
+  private boolean matchAny(Collection<PermissionRule> rules, Predicate<PermissionRule> predicate) {
     return user.getEffectiveGroups()
         .containsAnyOf(
-            FluentIterable.from(rules)
-                .filter(predicate)
-                .transform(r -> r.getGroup().getUUID()));
+            FluentIterable.from(rules).filter(predicate).transform(r -> r.getGroup().getUUID()));
   }
 
-  private static boolean match(GroupMembership groups,
-      PermissionRule rule) {
+  private static boolean match(GroupMembership groups, PermissionRule rule) {
     return groups.contains(rule.getGroup().getUUID());
   }
 }

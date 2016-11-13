@@ -23,7 +23,6 @@ import com.google.gerrit.server.account.AccountJson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.Optional;
 
 @Singleton
@@ -37,8 +36,7 @@ public class GetAssignee implements RestReadView<ChangeResource> {
 
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc) throws OrmException {
-    Optional<Account.Id> assignee =
-        Optional.ofNullable(rsrc.getChange().getAssignee());
+    Optional<Account.Id> assignee = Optional.ofNullable(rsrc.getChange().getAssignee());
     if (assignee.isPresent()) {
       Account account = accountInfo.create().get(assignee.get());
       return Response.ok(AccountJson.toAccountInfo(account));

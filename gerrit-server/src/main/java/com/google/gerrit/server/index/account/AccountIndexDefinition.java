@@ -29,7 +29,10 @@ public class AccountIndexDefinition
       AccountIndexCollection indexCollection,
       AccountIndex.Factory indexFactory,
       @Nullable AllAccountsIndexer allAccountsIndexer) {
-    super(AccountSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
+    super(
+        AccountSchemaDefinitions.INSTANCE,
+        indexCollection,
+        indexFactory,
         Providers.of(allAccountsIndexer));
   }
 }

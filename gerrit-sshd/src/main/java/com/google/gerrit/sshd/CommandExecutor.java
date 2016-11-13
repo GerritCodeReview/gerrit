@@ -18,11 +18,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /** Marker on {@link Executor} used by SSH threads. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface CommandExecutor {
-}
+public @interface CommandExecutor {}

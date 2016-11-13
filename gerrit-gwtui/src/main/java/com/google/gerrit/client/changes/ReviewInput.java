@@ -20,11 +20,17 @@ import com.google.gwt.core.client.JsArray;
 
 public class ReviewInput extends JavaScriptObject {
   public enum NotifyHandling {
-    NONE, OWNER, OWNER_REVIEWERS, ALL
+    NONE,
+    OWNER,
+    OWNER_REVIEWERS,
+    ALL
   }
 
   public enum DraftHandling {
-    DELETE, PUBLISH, KEEP, PUBLISH_ALL_REVISIONS
+    DELETE,
+    PUBLISH,
+    KEEP,
+    PUBLISH_ALL_REVISIONS
   }
 
   public static ReviewInput create() {
@@ -35,18 +41,21 @@ public class ReviewInput extends JavaScriptObject {
   }
 
   public final native void message(String m) /*-{ if(m)this.message=m; }-*/;
+
   public final native void label(String n, short v) /*-{ this.labels[n]=v; }-*/;
-  public final native void comments(NativeMap<JsArray<CommentInfo>> m)
-  /*-{ this.comments=m }-*/;
+
+  public final native void comments(NativeMap<JsArray<CommentInfo>> m)/*-{ this.comments=m }-*/ ;
 
   public final void notify(NotifyHandling e) {
     _notify(e.name());
   }
+
   private native void _notify(String n) /*-{ this.notify=n; }-*/;
 
   public final void drafts(DraftHandling e) {
     _drafts(e.name());
   }
+
   private native void _drafts(String n) /*-{ this.drafts=n; }-*/;
 
   private native void init() /*-{
@@ -76,6 +85,5 @@ public class ReviewInput extends JavaScriptObject {
     }
   }-*/;
 
-  protected ReviewInput() {
-  }
+  protected ReviewInput() {}
 }

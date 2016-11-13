@@ -26,9 +26,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +41,8 @@ public class HttpLogoutServlet extends HttpServlet {
   private final AuditService audit;
 
   @Inject
-  protected HttpLogoutServlet(final AuthConfig authConfig,
+  protected HttpLogoutServlet(
+      final AuthConfig authConfig,
       final DynamicItem<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final AuditService audit) {
@@ -53,8 +52,8 @@ public class HttpLogoutServlet extends HttpServlet {
     this.audit = audit;
   }
 
-  protected void doLogout(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doLogout(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     webSession.get().logout();
     if (logoutUrl != null) {
       rsp.sendRedirect(logoutUrl);
@@ -74,8 +73,8 @@ public class HttpLogoutServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
 
     final String sid = webSession.get().getSessionId();
     final CurrentUser currentUser = webSession.get().getUser();
@@ -85,9 +84,7 @@ public class HttpLogoutServlet extends HttpServlet {
     try {
       doLogout(req, rsp);
     } finally {
-      audit.dispatch(new AuditEvent(sid, currentUser,
-          what, when, null, null));
+      audit.dispatch(new AuditEvent(sid, currentUser, what, when, null, null));
     }
   }
-
 }

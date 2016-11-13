@@ -33,7 +33,6 @@ public class GetRobotComment implements RestReadView<RobotCommentResource> {
 
   @Override
   public RobotCommentInfo apply(RobotCommentResource rsrc) throws OrmException {
-    return commentJson.get().newRobotCommentFormatter()
-        .format(rsrc.getComment());
+    return commentJson.get().newRobotCommentFormatter().format(rsrc.getComment());
   }
 }

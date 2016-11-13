@@ -17,23 +17,20 @@ package com.google.gerrit.server.mail.receive;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import com.google.gerrit.reviewdb.client.Comment;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/** TextParser provides parsing functionality for plaintext email.  */
+/** TextParser provides parsing functionality for plaintext email. */
 public class TextParser {
   /**
    * Parses comments from plaintext email.
    *
    * @param email MailMessage as received from the email service.
-   * @param comments Comments previously persisted on the change that caused the
-   *                 original notification email to be sent out. Ordering must
-   *                 be the same as in the outbound email
-   * @param changeUrl Canonical change url that points to the change on this
-   *                  Gerrit instance.
-   *                  Example: https://go-review.googlesource.com/#/c/91570
+   * @param comments Comments previously persisted on the change that caused the original
+   *     notification email to be sent out. Ordering must be the same as in the outbound email
+   * @param changeUrl Canonical change url that points to the change on this Gerrit instance.
+   *     Example: https://go-review.googlesource.com/#/c/91570
    * @return List of MailComments parsed from the plaintext part of the email.
    */
   public static List<MailComment> parse(
@@ -56,13 +53,11 @@ public class TextParser {
     // > A comment typed in the email directly
     String singleQuotePattern = "\n> ";
     String doubleQuotePattern = "\n>> ";
-    if (countOccurrences(body, doubleQuotePattern) >
-        countOccurrences(body, singleQuotePattern)) {
+    if (countOccurrences(body, doubleQuotePattern) > countOccurrences(body, singleQuotePattern)) {
       body = body.replace(doubleQuotePattern, singleQuotePattern);
     }
 
-    PeekingIterator<Comment> iter =
-        Iterators.peekingIterator(comments.iterator());
+    PeekingIterator<Comment> iter = Iterators.peekingIterator(comments.iterator());
 
     String[] lines = body.split("\n");
     MailComment currentComment = null;
@@ -83,9 +78,8 @@ public class TextParser {
         }
         Comment perspectiveComment = iter.peek();
         if (line.equals(ParserUtil.filePath(changeUrl, perspectiveComment))) {
-          if (lastEncounteredFileName == null ||
-              !lastEncounteredFileName
-                  .equals(perspectiveComment.key.filename)) {
+          if (lastEncounteredFileName == null
+              || !lastEncounteredFileName.equals(perspectiveComment.key.filename)) {
             // This is the annotation of a file
             lastEncounteredFileName = perspectiveComment.key.filename;
             lastEncounteredComment = null;
@@ -94,8 +88,7 @@ public class TextParser {
             lastEncounteredComment = perspectiveComment;
             iter.next();
           }
-        } else if (ParserUtil.isCommentUrl(line, changeUrl,
-            perspectiveComment)) {
+        } else if (ParserUtil.isCommentUrl(line, changeUrl, perspectiveComment)) {
           lastEncounteredComment = perspectiveComment;
           iter.next();
         }

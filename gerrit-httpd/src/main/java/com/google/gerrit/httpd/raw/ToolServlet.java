@@ -29,16 +29,13 @@ import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.io.IOException;
 import java.io.OutputStream;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /** Sends the client side tools we keep within our software. */
 @Singleton
@@ -52,8 +49,7 @@ public class ToolServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     Entry ent = toc.get(req.getPathInfo());
     if (ent == null) {
       rsp.sendError(SC_NOT_FOUND);
@@ -88,8 +84,8 @@ public class ToolServlet extends HttpServlet {
     }
   }
 
-  private void doGetDirectory(Entry ent, HttpServletRequest req,
-      HttpServletResponse rsp) throws IOException {
+  private void doGetDirectory(Entry ent, HttpServletRequest req, HttpServletResponse rsp)
+      throws IOException {
     String path = "/tools/" + ent.getPath();
     Document page = newDocument();
 
@@ -130,8 +126,7 @@ public class ToolServlet extends HttpServlet {
 
     Element footer = page.createElement("p");
     footer.setAttribute("style", "text-align: right; font-style: italic");
-    footer.setTextContent("Powered by Gerrit Code Review "
-        + Version.getVersion());
+    footer.setTextContent("Powered by Gerrit Code Review " + Version.getVersion());
     body.appendChild(footer);
 
     byte[] tosend = toUTF8(page);

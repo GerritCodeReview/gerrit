@@ -24,12 +24,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 @Singleton
 public class GetDiffPreferences implements RestReadView<ConfigResource> {
@@ -38,30 +36,32 @@ public class GetDiffPreferences implements RestReadView<ConfigResource> {
   private final GitRepositoryManager gitManager;
 
   @Inject
-  GetDiffPreferences(GitRepositoryManager gitManager,
-      AllUsersName allUsersName) {
+  GetDiffPreferences(GitRepositoryManager gitManager, AllUsersName allUsersName) {
     this.allUsersName = allUsersName;
     this.gitManager = gitManager;
   }
 
   @Override
   public DiffPreferencesInfo apply(ConfigResource configResource)
-      throws BadRequestException, ResourceConflictException, IOException,
-      ConfigInvalidException {
+      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     return readFromGit(gitManager, allUsersName, null);
   }
 
-  static DiffPreferencesInfo readFromGit(GitRepositoryManager gitMgr,
-             AllUsersName allUsersName, DiffPreferencesInfo in)
+  static DiffPreferencesInfo readFromGit(
+      GitRepositoryManager gitMgr, AllUsersName allUsersName, DiffPreferencesInfo in)
       throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
       // Load all users prefs.
-      VersionedAccountPreferences dp =
-          VersionedAccountPreferences.forDefault();
+      VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
       dp.load(git);
       DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
-      loadSection(dp.getConfig(), UserConfigSections.DIFF, null, allUserPrefs,
-          DiffPreferencesInfo.defaults(), in);
+      loadSection(
+          dp.getConfig(),
+          UserConfigSections.DIFF,
+          null,
+          allUserPrefs,
+          DiffPreferencesInfo.defaults(),
+          in);
       return allUserPrefs;
     }
   }

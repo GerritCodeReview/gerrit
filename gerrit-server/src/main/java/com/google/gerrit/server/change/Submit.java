@@ -60,7 +60,13 @@ import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -70,38 +76,26 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 @Singleton
-public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
-    UiAction<RevisionResource> {
+public class Submit
+    implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Submit.class);
 
-  private static final String DEFAULT_TOOLTIP =
-      "Submit patch set ${patchSet} into ${branch}";
+  private static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
   private static final String DEFAULT_TOOLTIP_ANCESTORS =
-      "Submit patch set ${patchSet} and ancestors (${submitSize} changes " +
-      "altogether) into ${branch}";
+      "Submit patch set ${patchSet} and ancestors (${submitSize} changes "
+          + "altogether) into ${branch}";
   private static final String DEFAULT_TOPIC_TOOLTIP =
-      "Submit all ${topicSize} changes of the same topic " +
-      "(${submitSize} changes including ancestors and other " +
-      "changes related by topic)";
+      "Submit all ${topicSize} changes of the same topic "
+          + "(${submitSize} changes including ancestors and other "
+          + "changes related by topic)";
   private static final String BLOCKED_SUBMIT_TOOLTIP =
       "This change depends on other changes which are not ready";
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
       "This change depends on other hidden changes which are not ready";
-  private static final String CLICK_FAILURE_TOOLTIP =
-      "Clicking the button would fail";
-  private static final String CHANGE_UNMERGEABLE =
-      "Problems with integrating this change";
-  private static final String CHANGES_NOT_MERGEABLE =
-      "Problems with change(s): ";
+  private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
+  private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
+  private static final String CHANGES_NOT_MERGEABLE = "Problems with change(s): ";
 
   public static class Output {
     transient Change change;
@@ -112,8 +106,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   /**
-   * Subclass of {@link SubmitInput} with special bits that may be flipped for
-   * testing purposes only.
+   * Subclass of {@link SubmitInput} with special bits that may be flipped for testing purposes
+   * only.
    */
   @VisibleForTesting
   public static class TestSubmitInput extends SubmitInput {
@@ -146,7 +140,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final PatchSetUtil psUtil;
 
   @Inject
-  Submit(Provider<ReviewDb> dbProvider,
+  Submit(
+      Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
@@ -167,35 +162,38 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
     this.changes = changes;
-    this.label = MoreObjects.firstNonNull(
-        Strings.emptyToNull(cfg.getString("change", null, "submitLabel")),
-        "Submit");
-    this.labelWithParents = MoreObjects.firstNonNull(
-        Strings.emptyToNull(
-            cfg.getString("change", null, "submitLabelWithParents")),
-        "Submit including parents");
-    this.titlePattern = new ParameterizedString(MoreObjects.firstNonNull(
-        cfg.getString("change", null, "submitTooltip"),
-        DEFAULT_TOOLTIP));
-    this.titlePatternWithAncestors = new ParameterizedString(
+    this.label =
         MoreObjects.firstNonNull(
-            cfg.getString("change", null, "submitTooltipAncestors"),
-            DEFAULT_TOOLTIP_ANCESTORS));
+            Strings.emptyToNull(cfg.getString("change", null, "submitLabel")), "Submit");
+    this.labelWithParents =
+        MoreObjects.firstNonNull(
+            Strings.emptyToNull(cfg.getString("change", null, "submitLabelWithParents")),
+            "Submit including parents");
+    this.titlePattern =
+        new ParameterizedString(
+            MoreObjects.firstNonNull(
+                cfg.getString("change", null, "submitTooltip"), DEFAULT_TOOLTIP));
+    this.titlePatternWithAncestors =
+        new ParameterizedString(
+            MoreObjects.firstNonNull(
+                cfg.getString("change", null, "submitTooltipAncestors"),
+                DEFAULT_TOOLTIP_ANCESTORS));
     submitWholeTopic = wholeTopicEnabled(cfg);
-    this.submitTopicLabel = MoreObjects.firstNonNull(
-        Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
-        "Submit whole topic");
-    this.submitTopicTooltip = new ParameterizedString(MoreObjects.firstNonNull(
-        cfg.getString("change", null, "submitTopicTooltip"),
-        DEFAULT_TOPIC_TOOLTIP));
+    this.submitTopicLabel =
+        MoreObjects.firstNonNull(
+            Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
+            "Submit whole topic");
+    this.submitTopicTooltip =
+        new ParameterizedString(
+            MoreObjects.firstNonNull(
+                cfg.getString("change", null, "submitTopicTooltip"), DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
   }
 
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
-      throws RestApiException, RepositoryNotFoundException, IOException,
-      OrmException {
+      throws RestApiException, RepositoryNotFoundException, IOException, OrmException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     if (input.onBehalfOf != null) {
       rsrc = onBehalfOf(rsrc, input);
@@ -208,22 +206,21 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     } else if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + status(change));
     } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
-      throw new ResourceConflictException(String.format(
-          "destination branch \"%s\" not found.",
-          change.getDest().get()));
+      throw new ResourceConflictException(
+          String.format("destination branch \"%s\" not found.", change.getDest().get()));
     } else if (!rsrc.getPatchSet().getId().equals(change.currentPatchSetId())) {
       // TODO Allow submitting non-current revision by changing the current.
-      throw new ResourceConflictException(String.format(
-          "revision %s is not current revision",
-          rsrc.getPatchSet().getRevision().get()));
+      throw new ResourceConflictException(
+          String.format(
+              "revision %s is not current revision", rsrc.getPatchSet().getRevision().get()));
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
       op.merge(db, change, caller, true, input, false);
       try {
-        change = changeNotesFactory
-            .createChecked(db, change.getProject(), change.getId()).getChange();
+        change =
+            changeNotesFactory.createChecked(db, change.getProject(), change.getId()).getChange();
       } catch (NoSuchChangeException e) {
         throw new ResourceConflictException("change is deleted");
       }
@@ -251,8 +248,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    * @param user the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs,
-      CurrentUser user) {
+  private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
     try {
       @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
@@ -280,10 +276,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
             return CHANGE_UNMERGEABLE;
           }
         }
-        return CHANGES_NOT_MERGEABLE +
-            unmergeable.stream()
-                .map(c -> c.getId().toString())
-                .collect(joining(", "));
+        return CHANGES_NOT_MERGEABLE
+            + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
@@ -298,10 +292,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();
     String topic = resource.getChange().getTopic();
-    boolean visible = !resource.getPatchSet().isDraft()
-        && resource.getChange().getStatus().isOpen()
-        && resource.getPatchSet().getId().equals(current)
-        && resource.getControl().canSubmit();
+    boolean visible =
+        !resource.getPatchSet().isDraft()
+            && resource.getChange().getStatus().isOpen()
+            && resource.getPatchSet().getId().equals(current)
+            && resource.getControl().canSubmit();
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
 
@@ -315,31 +310,24 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
 
     if (!visible) {
-      return new UiAction.Description()
-        .setLabel("")
-        .setTitle("")
-        .setVisible(false);
+      return new UiAction.Description().setLabel("").setTitle("").setVisible(false);
     }
 
     ChangeSet cs;
     try {
-      cs = mergeSuperSet.get().completeChangeSet(
-          db, cd.change(), resource.getControl().getUser());
+      cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getControl().getUser());
     } catch (OrmException | IOException e) {
-      throw new OrmRuntimeException("Could not determine complete set of " +
-          "changes to be submitted", e);
+      throw new OrmRuntimeException(
+          "Could not determine complete set of " + "changes to be submitted", e);
     }
 
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
       topicSize = getChangesByTopic(topic).size();
     }
-    boolean treatWithTopic = submitWholeTopic
-        && !Strings.isNullOrEmpty(topic)
-        && topicSize > 1;
+    boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
-    String submitProblems =
-        problemsForSubmittingChangeset(cd, cs, resource.getUser());
+    String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
 
     Boolean enabled;
     try {
@@ -358,50 +346,45 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     if (submitProblems != null) {
       return new UiAction.Description()
-        .setLabel(treatWithTopic
-            ? submitTopicLabel : (cs.size() > 1)
-                ? labelWithParents : label)
-        .setTitle(submitProblems)
-        .setVisible(true)
-        .setEnabled(false);
+          .setLabel(treatWithTopic ? submitTopicLabel : (cs.size() > 1) ? labelWithParents : label)
+          .setTitle(submitProblems)
+          .setVisible(true)
+          .setEnabled(false);
     }
 
     if (treatWithTopic) {
-      Map<String, String> params = ImmutableMap.of(
-          "topicSize", String.valueOf(topicSize),
-          "submitSize", String.valueOf(cs.size()));
+      Map<String, String> params =
+          ImmutableMap.of(
+              "topicSize", String.valueOf(topicSize),
+              "submitSize", String.valueOf(cs.size()));
       return new UiAction.Description()
           .setLabel(submitTopicLabel)
-          .setTitle(Strings.emptyToNull(
-              submitTopicTooltip.replace(params)))
+          .setTitle(Strings.emptyToNull(submitTopicTooltip.replace(params)))
           .setVisible(true)
           .setEnabled(Boolean.TRUE.equals(enabled));
     }
     RevId revId = resource.getPatchSet().getRevision();
-    Map<String, String> params = ImmutableMap.of(
-        "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
-        "branch", resource.getChange().getDest().getShortName(),
-        "commit", ObjectId.fromString(revId.get()).abbreviate(7).name(),
-        "submitSize", String.valueOf(cs.size()));
-    ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors :
-        titlePattern;
+    Map<String, String> params =
+        ImmutableMap.of(
+            "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
+            "branch", resource.getChange().getDest().getShortName(),
+            "commit", ObjectId.fromString(revId.get()).abbreviate(7).name(),
+            "submitSize", String.valueOf(cs.size()));
+    ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors : titlePattern;
     return new UiAction.Description()
-      .setLabel(cs.size() > 1 ? labelWithParents : label)
-      .setTitle(Strings.emptyToNull(tp.replace(params)))
-      .setVisible(true)
-      .setEnabled(Boolean.TRUE.equals(enabled));
+        .setLabel(cs.size() > 1 ? labelWithParents : label)
+        .setTitle(Strings.emptyToNull(tp.replace(params)))
+        .setVisible(true)
+        .setEnabled(Boolean.TRUE.equals(enabled));
   }
 
   /**
-   * If the merge was attempted and it failed the system usually writes a
-   * comment as a ChangeMessage and sets status to NEW. Find the relevant
-   * message and return it.
+   * If the merge was attempted and it failed the system usually writes a comment as a ChangeMessage
+   * and sets status to NEW. Find the relevant message and return it.
    */
-  public ChangeMessage getConflictMessage(RevisionResource rsrc)
-      throws OrmException {
+  public ChangeMessage getConflictMessage(RevisionResource rsrc) throws OrmException {
     return FluentIterable.from(
-            cmUtil.byPatchSet(
-                dbProvider.get(), rsrc.getNotes(), rsrc.getPatchSet().getId()))
+            cmUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(), rsrc.getPatchSet().getId()))
         .filter(cm -> cm.getAuthor() == null)
         .last()
         .orNull();
@@ -411,8 +394,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
-  public Collection<ChangeData> unmergeableChanges(ChangeSet cs)
-      throws OrmException, IOException {
+  public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws OrmException, IOException {
     Set<ChangeData> mergeabilityMap = new HashSet<>();
     for (ChangeData change : cs.changes()) {
       mergeabilityMap.add(change);
@@ -421,8 +403,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
     for (Branch.NameKey branch : cbb.keySet()) {
       Collection<ChangeData> targetBranch = cbb.get(branch);
-      HashMap<Change.Id, RevCommit> commits =
-          findCommits(targetBranch, branch.getParentKey());
+      HashMap<Change.Id, RevCommit> commits = findCommits(targetBranch, branch.getParentKey());
 
       Set<ObjectId> allParents = Sets.newHashSetWithExpectedSize(cs.size());
       for (RevCommit commit : commits.values()) {
@@ -462,14 +443,15 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   private HashMap<Change.Id, RevCommit> findCommits(
-      Collection<ChangeData> changes, Project.NameKey project)
-          throws IOException, OrmException {
+      Collection<ChangeData> changes, Project.NameKey project) throws IOException, OrmException {
     HashMap<Change.Id, RevCommit> commits = new HashMap<>();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
       for (ChangeData change : changes) {
-        RevCommit commit = walk.parseCommit(ObjectId.fromString(
-            psUtil.current(dbProvider.get(), change.notes()).getRevision().get()));
+        RevCommit commit =
+            walk.parseCommit(
+                ObjectId.fromString(
+                    psUtil.current(dbProvider.get(), change.notes()).getRevision().get()));
         commits.put(change.getId(), commit);
       }
     }
@@ -485,18 +467,19 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     if (!caller.canSubmitAs()) {
       throw new AuthException("submit on behalf of not permitted");
     }
-    ChangeControl target = caller.forUser(
-        accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
+    ChangeControl target =
+        caller.forUser(accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
     if (!target.getRefControl().isVisible()) {
-      throw new UnprocessableEntityException(String.format(
-          "on_behalf_of account %s cannot see destination ref",
-          target.getUser().getAccountId()));
+      throw new UnprocessableEntityException(
+          String.format(
+              "on_behalf_of account %s cannot see destination ref",
+              target.getUser().getAccountId()));
     }
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 
   public static boolean wholeTopicEnabled(Config config) {
-    return config.getBoolean("change", null, "submitWholeTopic" , false);
+    return config.getBoolean("change", null, "submitWholeTopic", false);
   }
 
   private List<ChangeData> getChangesByTopic(String topic) {
@@ -507,15 +490,15 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  public static class CurrentRevision implements
-      RestModifyView<ChangeResource, SubmitInput> {
+  public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {
     private final Provider<ReviewDb> dbProvider;
     private final Submit submit;
     private final ChangeJson.Factory json;
     private final PatchSetUtil psUtil;
 
     @Inject
-    CurrentRevision(Provider<ReviewDb> dbProvider,
+    CurrentRevision(
+        Provider<ReviewDb> dbProvider,
         Submit submit,
         ChangeJson.Factory json,
         PatchSetUtil psUtil) {
@@ -527,8 +510,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
-        throws RestApiException, RepositoryNotFoundException, IOException,
-        OrmException {
+        throws RestApiException, RepositoryNotFoundException, IOException, OrmException {
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

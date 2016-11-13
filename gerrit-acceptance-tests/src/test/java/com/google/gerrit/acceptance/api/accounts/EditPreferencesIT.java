@@ -21,16 +21,13 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
-
 import org.junit.Test;
 
 @NoHttpd
 public class EditPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getSetEditPreferences() throws Exception {
-    EditPreferencesInfo out = gApi.accounts()
-        .id(admin.getId().toString())
-        .getEditPreferences();
+    EditPreferencesInfo out = gApi.accounts().id(admin.getId().toString()).getEditPreferences();
 
     assertThat(out.lineLength).isEqualTo(100);
     assertThat(out.indentUnit).isEqualTo(2);
@@ -65,9 +62,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.theme = Theme.TWILIGHT;
     out.keyMapType = KeyMapType.EMACS;
 
-    EditPreferencesInfo info = gApi.accounts()
-        .id(admin.getId().toString())
-        .setEditPreferences(out);
+    EditPreferencesInfo info = gApi.accounts().id(admin.getId().toString()).setEditPreferences(out);
 
     assertEditPreferences(info, out);
 
@@ -75,16 +70,14 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     EditPreferencesInfo in = new EditPreferencesInfo();
     in.tabSize = 42;
 
-    info = gApi.accounts()
-        .id(admin.getId().toString())
-        .setEditPreferences(in);
+    info = gApi.accounts().id(admin.getId().toString()).setEditPreferences(in);
 
     out.tabSize = in.tabSize;
     assertEditPreferences(info, out);
   }
 
-  private void assertEditPreferences(EditPreferencesInfo out,
-      EditPreferencesInfo in) throws Exception {
+  private void assertEditPreferences(EditPreferencesInfo out, EditPreferencesInfo in)
+      throws Exception {
     assertThat(out.lineLength).isEqualTo(in.lineLength);
     assertThat(out.indentUnit).isEqualTo(in.indentUnit);
     assertThat(out.tabSize).isEqualTo(in.tabSize);

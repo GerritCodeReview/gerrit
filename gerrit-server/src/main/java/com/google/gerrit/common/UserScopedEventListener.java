@@ -17,8 +17,8 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.CurrentUser;
 
 /**
- * Allows to listen to events visible to the specified user. To listen to events
- * without user visibility restrictions, use {@link EventListener}.
+ * Allows to listen to events visible to the specified user. To listen to events without user
+ * visibility restrictions, use {@link EventListener}.
  */
 @ExtensionPoint
 public interface UserScopedEventListener extends EventListener {

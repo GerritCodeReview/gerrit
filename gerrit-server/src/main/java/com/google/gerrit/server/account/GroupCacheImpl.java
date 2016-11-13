@@ -31,20 +31,17 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton
 public class GroupCacheImpl implements GroupCache {
-  private static final Logger log = LoggerFactory
-      .getLogger(GroupCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(GroupCacheImpl.class);
 
   private static final String BYID_NAME = "groups";
   private static final String BYNAME_NAME = "groups_byname";
@@ -54,20 +51,14 @@ public class GroupCacheImpl implements GroupCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYID_NAME,
-            AccountGroup.Id.class,
-            new TypeLiteral<Optional<AccountGroup>>() {})
-          .loader(ByIdLoader.class);
+        cache(BYID_NAME, AccountGroup.Id.class, new TypeLiteral<Optional<AccountGroup>>() {})
+            .loader(ByIdLoader.class);
 
-        cache(BYNAME_NAME,
-            String.class,
-            new TypeLiteral<Optional<AccountGroup>>() {})
-          .loader(ByNameLoader.class);
+        cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
+            .loader(ByNameLoader.class);
 
-        cache(BYUUID_NAME,
-            String.class,
-            new TypeLiteral<Optional<AccountGroup>>() {})
-          .loader(ByUUIDLoader.class);
+        cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
+            .loader(ByUUIDLoader.class);
 
         bind(GroupCacheImpl.class);
         bind(GroupCache.class).to(GroupCacheImpl.class);
@@ -121,8 +112,8 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void evictAfterRename(final AccountGroup.NameKey oldName,
-      final AccountGroup.NameKey newName) throws IOException {
+  public void evictAfterRename(
+      final AccountGroup.NameKey oldName, final AccountGroup.NameKey newName) throws IOException {
     if (oldName != null) {
       byName.invalidate(oldName.get());
     }
@@ -169,8 +160,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void onCreateGroup(AccountGroup.NameKey newGroupName)
-      throws IOException {
+  public void onCreateGroup(AccountGroup.NameKey newGroupName) throws IOException {
     byName.invalidate(newGroupName.get());
     indexer.get().index(get(newGroupName).getGroupUUID());
   }
@@ -180,8 +170,7 @@ public class GroupCacheImpl implements GroupCache {
     return new AccountGroup(name, key, null);
   }
 
-  static class ByIdLoader extends
-      CacheLoader<AccountGroup.Id, Optional<AccountGroup>> {
+  static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<AccountGroup>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -190,8 +179,7 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public Optional<AccountGroup> load(final AccountGroup.Id key)
-        throws Exception {
+    public Optional<AccountGroup> load(final AccountGroup.Id key) throws Exception {
       try (ReviewDb db = schema.open()) {
         return Optional.ofNullable(db.accountGroups().get(key));
       }
@@ -207,8 +195,7 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public Optional<AccountGroup> load(String name)
-        throws Exception {
+    public Optional<AccountGroup> load(String name) throws Exception {
       try (ReviewDb db = schema.open()) {
         AccountGroup.NameKey key = new AccountGroup.NameKey(name);
         AccountGroupName r = db.accountGroupNames().get(key);
@@ -229,8 +216,7 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public Optional<AccountGroup> load(String uuid)
-        throws Exception {
+    public Optional<AccountGroup> load(String uuid) throws Exception {
       try (ReviewDb db = schema.open()) {
         List<AccountGroup> r;
 

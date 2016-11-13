@@ -22,15 +22,13 @@ import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
@@ -66,8 +64,7 @@ public class AuthConfig {
   private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
-  AuthConfig(@GerritServerConfig final Config cfg)
-      throws XsrfException {
+  AuthConfig(@GerritServerConfig final Config cfg) throws XsrfException {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");
@@ -93,17 +90,21 @@ public class AuthConfig {
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
     gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
     gitBasicAuthPolicy = getBasicAuthPolicy(cfg);
-    useContributorAgreements =
-        cfg.getBoolean("auth", "contributoragreements", false);
+    useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
-      int age = (int) ConfigUtil.getTimeUnit(cfg,
-          "auth", null, "maxRegisterEmailTokenAge",
-          TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
-          TimeUnit.SECONDS);
+      int age =
+          (int)
+              ConfigUtil.getTimeUnit(
+                  cfg,
+                  "auth",
+                  null,
+                  "maxRegisterEmailTokenAge",
+                  TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
+                  TimeUnit.SECONDS);
       emailReg = new SignedToken(age, key);
     } else {
       emailReg = null;
@@ -314,8 +315,7 @@ public class AuthConfig {
   }
 
   public boolean isLdapAuthType() {
-    return authType == AuthType.LDAP ||
-        authType == AuthType.LDAP_BIND;
+    return authType == AuthType.LDAP || authType == AuthType.LDAP_BIND;
   }
 
   public boolean isAllowRegisterNewEmail() {

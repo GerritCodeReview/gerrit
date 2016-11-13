@@ -43,28 +43,24 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
 import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ElasticGroupIndex
-    extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup>
+public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup>
     implements GroupIndex {
   static class GroupMapping {
     MappingProperties groups;
@@ -77,8 +73,7 @@ public class ElasticGroupIndex
   static final String GROUPS = "groups";
   static final String GROUPS_PREFIX = GROUPS + "_";
 
-  private static final Logger log =
-      LoggerFactory.getLogger(ElasticGroupIndex.class);
+  private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
 
   private final Gson gson;
   private final GroupMapping mapping;
@@ -96,29 +91,30 @@ public class ElasticGroupIndex
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
     this.queryBuilder = new ElasticQueryBuilder();
-    this.gson = new GsonBuilder()
-        .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+    this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
   }
 
   @Override
   public void replace(AccountGroup group) throws IOException {
-    Bulk bulk = new Bulk.Builder()
-        .defaultIndex(indexName)
-        .defaultType(GROUPS)
-        .addAction(insert(GROUPS, group))
-        .refresh(refresh)
-        .build();
+    Bulk bulk =
+        new Bulk.Builder()
+            .defaultIndex(indexName)
+            .defaultType(GROUPS)
+            .addAction(insert(GROUPS, group))
+            .refresh(refresh)
+            .build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {
       throw new IOException(
-          String.format("Failed to replace group %s in index %s: %s",
+          String.format(
+              "Failed to replace group %s in index %s: %s",
               group.getGroupUUID().get(), indexName, result.getErrorMessage()));
     }
   }
 
   @Override
-  public DataSource<AccountGroup> getSource(Predicate<AccountGroup> p,
-      QueryOptions opts) throws QueryParseException {
+  public DataSource<AccountGroup> getSource(Predicate<AccountGroup> p, QueryOptions opts)
+      throws QueryParseException {
     return new QuerySource(p, opts);
   }
 
@@ -129,8 +125,7 @@ public class ElasticGroupIndex
 
   @Override
   protected String getMappings() {
-    ImmutableMap<String, GroupMapping> mappings =
-        ImmutableMap.of("mappings", mapping);
+    ImmutableMap<String, GroupMapping> mappings = ImmutableMap.of("mappings", mapping);
     return gson.toJson(mappings);
   }
 
@@ -143,24 +138,25 @@ public class ElasticGroupIndex
     private final Search search;
     private final Set<String> fields;
 
-    QuerySource(Predicate<AccountGroup> p, QueryOptions opts)
-        throws QueryParseException {
+    QuerySource(Predicate<AccountGroup> p, QueryOptions opts) throws QueryParseException {
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.groupFields(opts);
-      SearchSourceBuilder searchSource = new SearchSourceBuilder()
-          .query(qb)
-          .from(opts.start())
-          .size(opts.limit())
-          .fields(Lists.newArrayList(fields));
+      SearchSourceBuilder searchSource =
+          new SearchSourceBuilder()
+              .query(qb)
+              .from(opts.start())
+              .size(opts.limit())
+              .fields(Lists.newArrayList(fields));
 
       Sort sort = new Sort(GroupField.UUID.getName(), Sorting.ASC);
       sort.setIgnoreUnmapped();
 
-      search = new Search.Builder(searchSource.toString())
-          .addType(GROUPS)
-          .addIndex(indexName)
-          .addSort(ImmutableList.of(sort))
-          .build();
+      search =
+          new Search.Builder(searchSource.toString())
+              .addType(GROUPS)
+              .addIndex(indexName)
+              .addSort(ImmutableList.of(sort))
+              .build();
     }
 
     @Override
@@ -218,8 +214,9 @@ public class ElasticGroupIndex
         source = json.getAsJsonObject().get("fields");
       }
 
-      AccountGroup.UUID uuid = new AccountGroup.UUID(
-          source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
+      AccountGroup.UUID uuid =
+          new AccountGroup.UUID(
+              source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
       // Use the GroupCache rather than depending on any stored fields in the
       // document (of which there shouldn't be any).
       return groupCache.get().get(uuid);

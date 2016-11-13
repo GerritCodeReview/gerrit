@@ -16,7 +16,6 @@ package org.eclipse.jgit.diff;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.impl.JsonSerializer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class Edit_JsonSerializer extends JsonSerializer<Edit> {
     }
 
     List<Edit> l = new ArrayList<>((cnt / 4) - 1);
-    for (int i = 4; i < cnt;) {
+    for (int i = 4; i < cnt; ) {
       int as = get(o, i++);
       int ae = get(o, i++);
       int bs = get(o, i++);
@@ -69,9 +68,7 @@ public class Edit_JsonSerializer extends JsonSerializer<Edit> {
     sb.append(o.getEndB());
   }
 
-  private static native int length(JavaScriptObject jso)
-  /*-{ return jso.length; }-*/;
+  private static native int length(JavaScriptObject jso)/*-{ return jso.length; }-*/ ;
 
-  private static native int get(JavaScriptObject jso, int idx)
-  /*-{ return jso[idx]; }-*/;
+  private static native int get(JavaScriptObject jso, int idx)/*-{ return jso[idx]; }-*/ ;
 }

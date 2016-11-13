@@ -18,8 +18,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class CapabilityInfo extends JavaScriptObject {
   public final native String id() /*-{ return this.id; }-*/;
+
   public final native String name() /*-{ return this.name; }-*/;
 
-  protected CapabilityInfo() {
-  }
+  protected CapabilityInfo() {}
 }

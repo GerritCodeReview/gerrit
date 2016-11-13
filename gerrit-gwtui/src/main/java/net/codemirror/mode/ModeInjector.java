@@ -16,13 +16,11 @@ package net.codemirror.mode;
 
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import net.codemirror.lib.Loader;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.codemirror.lib.Loader;
 
 public class ModeInjector {
   private static boolean canLoad(String mode) {
@@ -30,13 +28,13 @@ public class ModeInjector {
   }
 
   private static native boolean isModeLoaded(String n)
-  /*-{ return $wnd.CodeMirror.modes.hasOwnProperty(n); }-*/;
+      /*-{ return $wnd.CodeMirror.modes.hasOwnProperty(n); }-*/ ;
 
   private static native boolean isMimeLoaded(String n)
-  /*-{ return $wnd.CodeMirror.mimeModes.hasOwnProperty(n); }-*/;
+      /*-{ return $wnd.CodeMirror.mimeModes.hasOwnProperty(n); }-*/ ;
 
   private static native JsArrayString getDependencies(String n)
-  /*-{ return $wnd.CodeMirror.modes[n].dependencies || []; }-*/;
+      /*-{ return $wnd.CodeMirror.modes[n].dependencies || []; }-*/ ;
 
   private final Set<String> loading = new HashSet<>(4);
   private int pending;
@@ -53,9 +51,8 @@ public class ModeInjector {
     }
 
     if (!canLoad(name)) {
-      Logger.getLogger("net.codemirror").log(
-        Level.WARNING,
-        "CodeMirror mode " + name + " not configured.");
+      Logger.getLogger("net.codemirror")
+          .log(Level.WARNING, "CodeMirror mode " + name + " not configured.");
       return this;
     }
 
@@ -76,24 +73,24 @@ public class ModeInjector {
   private void beginLoading(final String mode) {
     pending++;
     Loader.injectScript(
-      ModeInfo.getModeScriptUri(mode),
-      new AsyncCallback<Void>() {
-        @Override
-        public void onSuccess(Void result) {
-          pending--;
-          ensureDependenciesAreLoaded(mode);
-          if (pending == 0) {
-            appCallback.onSuccess(null);
+        ModeInfo.getModeScriptUri(mode),
+        new AsyncCallback<Void>() {
+          @Override
+          public void onSuccess(Void result) {
+            pending--;
+            ensureDependenciesAreLoaded(mode);
+            if (pending == 0) {
+              appCallback.onSuccess(null);
+            }
           }
-        }
 
-        @Override
-        public void onFailure(Throwable caught) {
-          if (--pending == 0) {
-            appCallback.onFailure(caught);
+          @Override
+          public void onFailure(Throwable caught) {
+            if (--pending == 0) {
+              appCallback.onFailure(caught);
+            }
           }
-        }
-      });
+        });
   }
 
   private void ensureDependenciesAreLoaded(String mode) {
@@ -105,9 +102,8 @@ public class ModeInjector {
       }
 
       if (!canLoad(d)) {
-        Logger.getLogger("net.codemirror").log(
-          Level.SEVERE,
-          "CodeMirror mode " + d + " needs " + d);
+        Logger.getLogger("net.codemirror")
+            .log(Level.SEVERE, "CodeMirror mode " + d + " needs " + d);
         continue;
       }
 

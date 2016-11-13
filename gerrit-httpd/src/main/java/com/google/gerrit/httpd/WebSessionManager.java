@@ -35,11 +35,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -47,6 +42,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebSessionManager {
   private static final Logger log = LoggerFactory.getLogger(WebSessionManager.class);
@@ -57,19 +55,24 @@ public class WebSessionManager {
   private final Cache<String, Val> self;
 
   @Inject
-  WebSessionManager(@GerritServerConfig Config cfg,
-      @Assisted final Cache<String, Val> cache) {
+  WebSessionManager(@GerritServerConfig Config cfg, @Assisted final Cache<String, Val> cache) {
     prng = new SecureRandom();
     self = cache;
 
-    sessionMaxAgeMillis = SECONDS.toMillis(ConfigUtil.getTimeUnit(cfg,
-        "cache", CACHE_NAME, "maxAge",
-        SECONDS.convert(MAX_AGE_MINUTES, MINUTES), SECONDS));
+    sessionMaxAgeMillis =
+        SECONDS.toMillis(
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "cache",
+                CACHE_NAME,
+                "maxAge",
+                SECONDS.convert(MAX_AGE_MINUTES, MINUTES),
+                SECONDS));
     if (sessionMaxAgeMillis < MINUTES.toMillis(5)) {
-      log.warn(String.format(
-          "cache.%s.maxAge is set to %d milliseconds;" +
-          " it should be at least 5 minutes.",
-          CACHE_NAME, sessionMaxAgeMillis));
+      log.warn(
+          String.format(
+              "cache.%s.maxAge is set to %d milliseconds;" + " it should be at least 5 minutes.",
+              CACHE_NAME, sessionMaxAgeMillis));
     }
   }
 
@@ -102,8 +105,13 @@ public class WebSessionManager {
     return createVal(key, who, remember, lastLogin, val.sessionId, val.auth);
   }
 
-  Val createVal(final Key key, final Account.Id who, final boolean remember,
-      final AccountExternalId.Key lastLogin, String sid, String auth) {
+  Val createVal(
+      final Key key,
+      final Account.Id who,
+      final boolean remember,
+      final AccountExternalId.Key lastLogin,
+      String sid,
+      String auth) {
     // Refresh the cookie every hour or when it is half-expired.
     // This reduces the odds that the user session will be kicked
     // early but also avoids us needing to refresh the cookie on
@@ -155,7 +163,7 @@ public class WebSessionManager {
     self.invalidate(key.token);
   }
 
-  static final class Key  {
+  static final class Key {
     private transient String token;
 
     Key(final String t) {
@@ -188,9 +196,14 @@ public class WebSessionManager {
     private transient String sessionId;
     private transient String auth;
 
-    Val(final Account.Id accountId, final long refreshCookieAt,
-        final boolean persistentCookie, final AccountExternalId.Key externalId,
-        final long expiresAt, final String sessionId, final String auth) {
+    Val(
+        final Account.Id accountId,
+        final long refreshCookieAt,
+        final boolean persistentCookie,
+        final AccountExternalId.Key externalId,
+        final long expiresAt,
+        final String sessionId,
+        final String auth) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
@@ -260,7 +273,8 @@ public class WebSessionManager {
     }
 
     private void readObject(final ObjectInputStream in) throws IOException {
-      PARSE: for (;;) {
+      PARSE:
+      for (; ; ) {
         final int tag = readVarInt32(in);
         switch (tag) {
           case 0:

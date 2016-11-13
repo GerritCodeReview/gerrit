@@ -39,11 +39,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.util.io.NullOutputStream;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,13 +48,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.io.NullOutputStream;
+import org.kohsuke.args4j.Option;
 
 public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
-  @Option(name = "--changes-schema-version",
-      usage = "Schema version to reindex, for changes; default is most recent version")
+  @Option(
+    name = "--changes-schema-version",
+    usage = "Schema version to reindex, for changes; default is most recent version"
+  )
   private Integer changesVersion;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
@@ -75,15 +75,13 @@ public class Reindex extends SiteProgram {
   private Injector sysInjector;
   private Config globalConfig;
 
-  @Inject
-  private Collection<IndexDefinition<?, ?, ?>> indexDefs;
+  @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
 
   @Override
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
-    globalConfig =
-        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
     checkNotSlaveMode();
     disableLuceneAutomaticCommit();
@@ -133,15 +131,14 @@ public class Reindex extends SiteProgram {
     }
 
     checkNotNull(indexDefs, "Called this method before injectMembers?");
-    Set<String> valid = indexDefs.stream()
-        .map(IndexDefinition::getName).sorted().collect(toSet());
+    Set<String> valid = indexDefs.stream().map(IndexDefinition::getName).sorted().collect(toSet());
     Set<String> invalid = Sets.difference(Sets.newHashSet(indices), valid);
     if (invalid.isEmpty()) {
       return;
     }
 
-    throw die("invalid index name(s): " + new TreeSet<>(invalid)
-        + " available indices are: " + valid);
+    throw die(
+        "invalid index name(s): " + new TreeSet<>(invalid) + " available indices are: " + valid);
   }
 
   private void checkNotSlaveMode() throws Die {
@@ -159,24 +156,23 @@ public class Reindex extends SiteProgram {
     Module indexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(
-            versions, threads);
+        indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads);
         break;
       case ELASTICSEARCH:
-        indexModule = ElasticIndexModule
-            .singleVersionWithExplicitVersions(versions, threads);
+        indexModule = ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");
     }
     modules.add(indexModule);
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
-    modules.add(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(ChangeResource.Factory.class);
-      }
-    });
+    modules.add(
+        new FactoryModule() {
+          @Override
+          protected void configure() {
+            factory(ChangeResource.Factory.class);
+          }
+        });
 
     return dbInjector.createChildInjector(modules);
   }
@@ -192,11 +188,10 @@ public class Reindex extends SiteProgram {
     globalConfig.setLong("cache", "changes", "maximumWeight", 0);
   }
 
-  private <K, V, I extends Index<K, V>> boolean reindex(
-      IndexDefinition<K, V, I> def) throws IOException {
+  private <K, V, I extends Index<K, V>> boolean reindex(IndexDefinition<K, V, I> def)
+      throws IOException {
     I index = def.getIndexCollection().getSearchIndex();
-    checkNotNull(index,
-        "no active search index configured for %s", def.getName());
+    checkNotNull(index, "no active search index configured for %s", def.getName());
     index.markReady(false);
     index.deleteAll();
 
@@ -206,8 +201,8 @@ public class Reindex extends SiteProgram {
     SiteIndexer.Result result = siteIndexer.indexAll(index);
     int n = result.doneCount() + result.failedCount();
     double t = result.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    System.out.format("Reindexed %d documents in %s index in %.01fs (%.01f/s)\n",
-        n, def.getName(), t, n / t);
+    System.out.format(
+        "Reindexed %d documents in %s index in %.01fs (%.01f/s)\n", n, def.getName(), t, n / t);
     if (result.success()) {
       index.markReady(true);
     }

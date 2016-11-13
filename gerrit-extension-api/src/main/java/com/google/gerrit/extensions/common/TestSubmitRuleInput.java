@@ -18,10 +18,10 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 
 public class TestSubmitRuleInput {
   public enum Filters {
-    RUN, SKIP
+    RUN,
+    SKIP
   }
 
-  @DefaultInput
-  public String rule;
+  @DefaultInput public String rule;
   public Filters filters;
 }

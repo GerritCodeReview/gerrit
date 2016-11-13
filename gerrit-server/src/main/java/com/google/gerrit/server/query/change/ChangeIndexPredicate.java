@@ -24,8 +24,7 @@ public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
     super(def, value);
   }
 
-  protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String name,
-      String value) {
+  protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
     super(def, name, value);
   }
 }

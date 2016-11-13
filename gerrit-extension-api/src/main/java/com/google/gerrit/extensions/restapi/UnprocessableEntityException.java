@@ -18,7 +18,7 @@ package com.google.gerrit.extensions.restapi;
 public class UnprocessableEntityException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
-  public UnprocessableEntityException(String msg)  {
+  public UnprocessableEntityException(String msg) {
     super(msg);
   }
 }

@@ -19,7 +19,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +27,7 @@ import java.util.Set;
 /** Helper to edit a section of the configuration files. */
 public class Section {
   public interface Factory {
-    Section get(@Assisted("section") String section,
-        @Assisted("subsection") String subsection);
+    Section get(@Assisted("section") String section, @Assisted("subsection") String subsection);
   }
 
   private final InitFlags flags;
@@ -40,8 +38,11 @@ public class Section {
   private final SecureStore secureStore;
 
   @Inject
-  public Section(final InitFlags flags, final SitePaths site,
-      final SecureStore secureStore, final ConsoleUI ui,
+  public Section(
+      final InitFlags flags,
+      final SitePaths site,
+      final SecureStore secureStore,
+      final ConsoleUI ui,
       @Assisted("section") final String section,
       @Assisted("subsection") @Nullable final String subsection) {
     this.flags = flags;
@@ -92,8 +93,8 @@ public class Section {
     return string(title, name, dv, false);
   }
 
-  public String string(final String title, final String name, final String dv,
-      final boolean nullIfDefault) {
+  public String string(
+      final String title, final String name, final String dv, final boolean nullIfDefault) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, "%s", title);
     if (nullIfDefault && nv.equals(dv)) {
@@ -109,13 +110,12 @@ public class Section {
     return site.resolve(string(title, name, defValue));
   }
 
-  public <T extends Enum<?>> T select(final String title, final String name,
-      final T defValue) {
+  public <T extends Enum<?>> T select(final String title, final String name, final T defValue) {
     return select(title, name, defValue, false);
   }
 
-  public <T extends Enum<?>> T select(final String title, final String name,
-      final T defValue, final boolean nullIfDefault) {
+  public <T extends Enum<?>> T select(
+      final String title, final String name, final T defValue, final boolean nullIfDefault) {
     final boolean set = get(name) != null;
     T oldValue = flags.cfg.getEnum(section, subsection, name, defValue);
     T newValue = ui.readEnum(oldValue, "%s", title);
@@ -132,8 +132,8 @@ public class Section {
     return newValue;
   }
 
-  public String select(final String title, final String name, final String dv,
-      Set<String> allowedValues) {
+  public String select(
+      final String title, final String name, final String dv, Set<String> allowedValues) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, allowedValues, "%s", title);
     if (!eq(ov, nv)) {

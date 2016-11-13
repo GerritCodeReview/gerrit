@@ -20,28 +20,27 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 public class RenameGroupOp extends DefaultQueueOp {
   public interface Factory {
-    RenameGroupOp create(@Assisted("author") PersonIdent author,
-        @Assisted AccountGroup.UUID uuid, @Assisted("oldName") String oldName,
+    RenameGroupOp create(
+        @Assisted("author") PersonIdent author,
+        @Assisted AccountGroup.UUID uuid,
+        @Assisted("oldName") String oldName,
         @Assisted("newName") String newName);
   }
 
   private static final int MAX_TRIES = 10;
-  private static final Logger log =
-      LoggerFactory.getLogger(RenameGroupOp.class);
+  private static final Logger log = LoggerFactory.getLogger(RenameGroupOp.class);
 
   private final ProjectCache projectCache;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
@@ -55,11 +54,14 @@ public class RenameGroupOp extends DefaultQueueOp {
   private boolean tryingAgain;
 
   @Inject
-  public RenameGroupOp(WorkQueue workQueue, ProjectCache projectCache,
+  public RenameGroupOp(
+      WorkQueue workQueue,
+      ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,
-
-      @Assisted("author") PersonIdent author, @Assisted AccountGroup.UUID uuid,
-      @Assisted("oldName") String oldName, @Assisted("newName") String newName) {
+      @Assisted("author") PersonIdent author,
+      @Assisted AccountGroup.UUID uuid,
+      @Assisted("oldName") String oldName,
+      @Assisted("newName") String newName) {
     super(workQueue);
     this.projectCache = projectCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -73,9 +75,7 @@ public class RenameGroupOp extends DefaultQueueOp {
 
   @Override
   public void run() {
-    Iterable<Project.NameKey> names = tryingAgain
-        ? retryOn
-        : projectCache.all();
+    Iterable<Project.NameKey> names = tryingAgain ? retryOn : projectCache.all();
     for (Project.NameKey projectName : names) {
       ProjectConfig config = projectCache.get(projectName).getConfig();
       GroupReference ref = config.getGroup(uuid);
@@ -100,8 +100,7 @@ public class RenameGroupOp extends DefaultQueueOp {
     }
   }
 
-  private void rename(MetaDataUpdate md) throws IOException,
-      ConfigInvalidException {
+  private void rename(MetaDataUpdate md) throws IOException, ConfigInvalidException {
     boolean success = false;
     for (int attempts = 0; !success && attempts < MAX_TRIES; attempts++) {
       ProjectConfig config = ProjectConfig.read(md);
@@ -122,8 +121,14 @@ public class RenameGroupOp extends DefaultQueueOp {
         projectCache.evict(config.getProject());
         success = true;
       } catch (IOException e) {
-        log.error("Could not commit rename of group " + oldName + " to "
-            + newName + " in " + md.getProjectName().get(), e);
+        log.error(
+            "Could not commit rename of group "
+                + oldName
+                + " to "
+                + newName
+                + " in "
+                + md.getProjectName().get(),
+            e);
         try {
           Thread.sleep(25 /* milliseconds */);
         } catch (InterruptedException wakeUp) {
@@ -134,8 +139,13 @@ public class RenameGroupOp extends DefaultQueueOp {
 
     if (!success) {
       if (tryingAgain) {
-        log.warn("Could not rename group " + oldName + " to " + newName
-            + " in " + md.getProjectName().get());
+        log.warn(
+            "Could not rename group "
+                + oldName
+                + " to "
+                + newName
+                + " in "
+                + md.getProjectName().get());
       } else {
         retryOn.add(md.getProjectName());
       }

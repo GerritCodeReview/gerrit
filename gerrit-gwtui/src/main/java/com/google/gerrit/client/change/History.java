@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,8 +38,7 @@ class History extends FlowPanel {
 
   private final Map<Integer, List<CommentInfo>> byAuthor = new HashMap<>();
 
-  void set(CommentLinkProcessor clp, ReplyAction ra,
-      Change.Id id, ChangeInfo info) {
+  void set(CommentLinkProcessor clp, ReplyAction ra, Change.Id id, ChangeInfo info) {
     this.clp = clp;
     this.replyAction = ra;
     this.changeId = id;

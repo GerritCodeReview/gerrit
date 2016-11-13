@@ -19,31 +19,31 @@ import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
-
 import java.util.Collection;
 import java.util.List;
 
-public class AndChangeSource extends AndSource<ChangeData>
-    implements ChangeDataSource {
+public class AndChangeSource extends AndSource<ChangeData> implements ChangeDataSource {
 
   public AndChangeSource(Collection<Predicate<ChangeData>> that) {
     super(that);
   }
 
-  public AndChangeSource(Predicate<ChangeData> that,
-      IsVisibleToPredicate<ChangeData> isVisibleToPredicate, int start) {
+  public AndChangeSource(
+      Predicate<ChangeData> that,
+      IsVisibleToPredicate<ChangeData> isVisibleToPredicate,
+      int start) {
     super(that, isVisibleToPredicate, start);
   }
 
   @Override
   public boolean hasChange() {
-    return source != null && source instanceof ChangeDataSource
+    return source != null
+        && source instanceof ChangeDataSource
         && ((ChangeDataSource) source).hasChange();
   }
 
   @Override
-  protected List<ChangeData> transformBuffer(List<ChangeData> buffer)
-      throws OrmRuntimeException {
+  protected List<ChangeData> transformBuffer(List<ChangeData> buffer) throws OrmRuntimeException {
     if (!hasChange()) {
       try {
         ChangeData.ensureChangeLoaded(buffer);
@@ -57,8 +57,7 @@ public class AndChangeSource extends AndSource<ChangeData>
   @Override
   public int compare(Predicate<ChangeData> a, Predicate<ChangeData> b) {
     int cmp = super.compare(a, b);
-    if (cmp == 0 && a instanceof ChangeDataSource
-        && b instanceof ChangeDataSource) {
+    if (cmp == 0 && a instanceof ChangeDataSource && b instanceof ChangeDataSource) {
       ChangeDataSource as = (ChangeDataSource) a;
       ChangeDataSource bs = (ChangeDataSource) b;
       cmp = (as.hasChange() ? 0 : 1) - (bs.hasChange() ? 0 : 1);

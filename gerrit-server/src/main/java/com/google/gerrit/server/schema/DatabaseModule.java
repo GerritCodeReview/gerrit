@@ -31,13 +31,10 @@ public class DatabaseModule extends FactoryModule {
   protected void configure() {
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
-    TypeLiteral<Database<ReviewDb>> database =
-        new TypeLiteral<Database<ReviewDb>>() {};
+    TypeLiteral<Database<ReviewDb>> database = new TypeLiteral<Database<ReviewDb>>() {};
 
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(Key.get(schemaFactory, ReviewDbFactory.class))
-        .to(database)
-        .in(SINGLETON);
+    bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(database).in(SINGLETON);
     bind(database).toProvider(ReviewDbDatabaseProvider.class);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
   }

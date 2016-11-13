@@ -17,12 +17,10 @@ package com.google.gerrit.gwtdebug;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gwt.dev.codeserver.CodeServer;
 import com.google.gwt.dev.codeserver.Options;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class GerritGwtDebugLauncher {
   private static final Logger log = LoggerFactory.getLogger(GerritGwtDebugLauncher.class);
@@ -55,8 +53,7 @@ class GerritGwtDebugLauncher {
     }
 
     Options options = new Options();
-    if (!options.parseArgs(sdmLauncherOptions.toArray(
-        new String[sdmLauncherOptions.size()]))) {
+    if (!options.parseArgs(sdmLauncherOptions.toArray(new String[sdmLauncherOptions.size()]))) {
       log.error("Failed to parse codeserver arguments");
       return 1;
     }
@@ -64,8 +61,9 @@ class GerritGwtDebugLauncher {
     CodeServer.main(options);
 
     try {
-      int r = new Daemon().main(daemonLauncherOptions.toArray(
-          new String[daemonLauncherOptions.size()]));
+      int r =
+          new Daemon()
+              .main(daemonLauncherOptions.toArray(new String[daemonLauncherOptions.size()]));
       if (r != 0) {
         log.error("Daemon exited with return code: " + r);
         return 1;

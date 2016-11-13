@@ -39,14 +39,16 @@ public class AutoCenterDialogBox extends DialogBox {
   @Override
   public void show() {
     if (recenter == null) {
-      recenter = Window.addResizeHandler(new ResizeHandler() {
-        @Override
-        public void onResize(final ResizeEvent event) {
-          final int w = event.getWidth();
-          final int h = event.getHeight();
-          AutoCenterDialogBox.this.onResize(w, h);
-        }
-      });
+      recenter =
+          Window.addResizeHandler(
+              new ResizeHandler() {
+                @Override
+                public void onResize(final ResizeEvent event) {
+                  final int w = event.getWidth();
+                  final int h = event.getHeight();
+                  AutoCenterDialogBox.this.onResize(w, h);
+                }
+              });
     }
     super.show();
   }
@@ -62,9 +64,9 @@ public class AutoCenterDialogBox extends DialogBox {
 
   /**
    * Invoked when the outer browser window resizes.
-   * <p>
-   * Subclasses may override (but should ensure they still call super.onResize)
-   * to implement custom logic when a window resize occurs.
+   *
+   * <p>Subclasses may override (but should ensure they still call super.onResize) to implement
+   * custom logic when a window resize occurs.
    *
    * @param width new browser window width
    * @param height new browser window height

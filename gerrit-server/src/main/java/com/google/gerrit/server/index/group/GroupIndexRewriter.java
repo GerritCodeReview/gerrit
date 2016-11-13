@@ -34,8 +34,8 @@ public class GroupIndexRewriter implements IndexRewriter<AccountGroup> {
   }
 
   @Override
-  public Predicate<AccountGroup> rewrite(Predicate<AccountGroup> in,
-      QueryOptions opts) throws QueryParseException {
+  public Predicate<AccountGroup> rewrite(Predicate<AccountGroup> in, QueryOptions opts)
+      throws QueryParseException {
     GroupIndex index = indexes.getSearchIndex();
     checkNotNull(index, "no active search index configured for groups");
     return new IndexedGroupQuery(index, in, opts);

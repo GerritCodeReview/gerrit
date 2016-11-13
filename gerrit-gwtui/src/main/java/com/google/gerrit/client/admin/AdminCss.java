@@ -18,9 +18,11 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface AdminCss extends CssResource {
   String deleteIcon();
+
   String undoIcon();
 
   String deleted();
+
   String deletedBorder();
 
   String deleteSectionHover();

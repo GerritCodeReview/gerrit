@@ -20,5 +20,6 @@ import java.util.Map;
 public class PublishChangeEditInput {
   /** Who to send email notifications to after the change edit is published. */
   public NotifyHandling notify = NotifyHandling.ALL;
+
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

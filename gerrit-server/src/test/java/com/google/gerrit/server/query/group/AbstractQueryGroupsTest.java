@@ -49,7 +49,11 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
@@ -57,12 +61,6 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 
 @Ignore
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
@@ -73,44 +71,31 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     return cfg;
   }
 
-  @Rule
-  public final TestName testName = new TestName();
+  @Rule public final TestName testName = new TestName();
 
-  @Inject
-  protected AccountCache accountCache;
+  @Inject protected AccountCache accountCache;
 
-  @Inject
-  protected AccountManager accountManager;
+  @Inject protected AccountManager accountManager;
 
-  @Inject
-  protected GerritApi gApi;
+  @Inject protected GerritApi gApi;
 
-  @Inject
-  protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected IdentifiedUser.GenericFactory userFactory;
 
-  @Inject
-  private Provider<AnonymousUser> anonymousUser;
+  @Inject private Provider<AnonymousUser> anonymousUser;
 
-  @Inject
-  protected InMemoryDatabase schemaFactory;
+  @Inject protected InMemoryDatabase schemaFactory;
 
-  @Inject
-  protected SchemaCreator schemaCreator;
+  @Inject protected SchemaCreator schemaCreator;
 
-  @Inject
-  protected ThreadLocalRequestContext requestContext;
+  @Inject protected ThreadLocalRequestContext requestContext;
 
-  @Inject
-  protected OneOffRequestContext oneOffRequestContext;
+  @Inject protected OneOffRequestContext oneOffRequestContext;
 
-  @Inject
-  protected InternalAccountQuery internalAccountQuery;
+  @Inject protected InternalAccountQuery internalAccountQuery;
 
-  @Inject
-  protected AllProjectsName allProjects;
+  @Inject protected AllProjectsName allProjects;
 
-  @Inject
-  protected GroupCache groupCache;
+  @Inject protected GroupCache groupCache;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
@@ -137,8 +122,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
-    final CurrentUser requestUser =
-        userFactory.create(requestUserId);
+    final CurrentUser requestUser = userFactory.create(requestUserId);
     return new RequestContext() {
       @Override
       public CurrentUser getUser() {
@@ -153,17 +137,18 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   protected void setAnonymous() {
-    requestContext.setContext(new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return anonymousUser.get();
-      }
+    requestContext.setContext(
+        new RequestContext() {
+          @Override
+          public CurrentUser getUser() {
+            return anonymousUser.get();
+          }
 
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
-    });
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return Providers.of(db);
+          }
+        });
   }
 
   @After
@@ -211,18 +196,14 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     GroupInfo group2 = createGroup("group-" + namePart + "-2");
     GroupInfo group3 = createGroup("group-" + namePart + "3");
     assertQuery("inname:" + namePart, group1, group2, group3);
-    assertQuery("inname:" + namePart.toUpperCase(Locale.US), group1, group2,
-        group3);
-    assertQuery("inname:" + namePart.toLowerCase(Locale.US), group1, group2,
-        group3);
+    assertQuery("inname:" + namePart.toUpperCase(Locale.US), group1, group2, group3);
+    assertQuery("inname:" + namePart.toLowerCase(Locale.US), group1, group2, group3);
   }
 
   @Test
   public void byDescription() throws Exception {
-    GroupInfo group1 =
-        createGroupWithDescription(name("group1"), "This is a test group.");
-    GroupInfo group2 =
-        createGroupWithDescription(name("group2"), "ANOTHER TEST GROUP.");
+    GroupInfo group1 = createGroupWithDescription(name("group1"), "This is a test group.");
+    GroupInfo group2 = createGroupWithDescription(name("group2"), "ANOTHER TEST GROUP.");
     createGroupWithDescription(name("group3"), "Maintainers of project foo.");
     assertQuery("description:test", group1, group2);
 
@@ -260,8 +241,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   public void byDefaultField() throws Exception {
     GroupInfo group1 = createGroup(name("foo-group"));
     GroupInfo group2 = createGroup(name("group2"));
-    GroupInfo group3 = createGroupWithDescription(name("group3"),
-        "decription that contains foo and the UUID of group2: " + group2.id);
+    GroupInfo group3 =
+        createGroupWithDescription(
+            name("group3"), "decription that contains foo and the UUID of group2: " + group2.id);
 
     assertQuery("non-existing");
     assertQuery("foo", group1, group3);
@@ -274,8 +256,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     GroupInfo group2 = createGroup(name("group2"));
     GroupInfo group3 = createGroup(name("group3"));
 
-    String query =
-        "uuid:" + group1.id + " OR uuid:" + group2.id + " OR uuid:" + group3.id;
+    String query = "uuid:" + group1.id + " OR uuid:" + group2.id + " OR uuid:" + group3.id;
     List<GroupInfo> result = assertQuery(query, group1, group2, group3);
     assertThat(result.get(result.size() - 1)._moreGroups).isNull();
 
@@ -289,8 +270,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     GroupInfo group2 = createGroup(name("group2"));
     GroupInfo group3 = createGroup(name("group3"));
 
-    String query =
-        "uuid:" + group1.id + " OR uuid:" + group2.id + " OR uuid:" + group3.id;
+    String query = "uuid:" + group1.id + " OR uuid:" + group2.id + " OR uuid:" + group3.id;
     List<GroupInfo> result = assertQuery(query, group1, group2, group3);
 
     assertQuery(newQuery(query).withStart(1), result.subList(1, 3));
@@ -311,8 +291,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     // update group in the database so that group index is stale
     String newDescription = "barY";
-    AccountGroup group =
-        db.accountGroups().get(new AccountGroup.Id(group1.groupId));
+    AccountGroup group = db.accountGroups().get(new AccountGroup.Id(group1.groupId));
     group.setDescription(newDescription);
     db.accountGroups().update(Collections.singleton(group));
 
@@ -324,11 +303,10 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     assertQuery("description:" + newDescription, group1);
   }
 
-  private Account.Id createAccount(String username, String fullName,
-      String email, boolean active) throws Exception {
+  private Account.Id createAccount(String username, String fullName, String email, boolean active)
+      throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      Account.Id id =
-          accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
@@ -342,31 +320,28 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     }
   }
 
-  protected GroupInfo createGroup(String name, AccountInfo... members)
-      throws Exception {
+  protected GroupInfo createGroup(String name, AccountInfo... members) throws Exception {
     return createGroupWithDescription(name, null, members);
   }
 
-  protected GroupInfo createGroupWithDescription(String name,
-      String description, AccountInfo... members) throws Exception {
+  protected GroupInfo createGroupWithDescription(
+      String name, String description, AccountInfo... members) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
     in.description = description;
-    in.members = Arrays.asList(members).stream()
-        .map(a -> String.valueOf(a._accountId)).collect(toList());
+    in.members =
+        Arrays.asList(members).stream().map(a -> String.valueOf(a._accountId)).collect(toList());
     return gApi.groups().create(in).get();
   }
 
-  protected GroupInfo createGroupWithOwner(String name, GroupInfo ownerGroup)
-      throws Exception {
+  protected GroupInfo createGroupWithOwner(String name, GroupInfo ownerGroup) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
     in.ownerId = ownerGroup.id;
     return gApi.groups().create(in).get();
   }
 
-  protected GroupInfo createGroupThatIsVisibleToAll(String name)
-      throws Exception {
+  protected GroupInfo createGroupThatIsVisibleToAll(String name) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
     in.visibleToAll = true;
@@ -377,22 +352,19 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     return gApi.groups().id(uuid.get()).get();
   }
 
-  protected List<GroupInfo> assertQuery(Object query, GroupInfo... groups)
-      throws Exception {
+  protected List<GroupInfo> assertQuery(Object query, GroupInfo... groups) throws Exception {
     return assertQuery(newQuery(query), groups);
   }
 
-  protected List<GroupInfo> assertQuery(QueryRequest query,
-      GroupInfo... groups) throws Exception {
+  protected List<GroupInfo> assertQuery(QueryRequest query, GroupInfo... groups) throws Exception {
     return assertQuery(query, Arrays.asList(groups));
   }
 
-  protected List<GroupInfo> assertQuery(QueryRequest query,
-      List<GroupInfo> groups) throws Exception {
+  protected List<GroupInfo> assertQuery(QueryRequest query, List<GroupInfo> groups)
+      throws Exception {
     List<GroupInfo> result = query.get();
     Iterable<String> uuids = uuids(result);
-    assertThat(uuids).named(format(query, result, groups))
-        .containsExactlyElementsIn(uuids(groups));
+    assertThat(uuids).named(format(query, result, groups)).containsExactlyElementsIn(uuids(groups));
     return result;
   }
 
@@ -400,11 +372,10 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     return gApi.groups().query(query.toString());
   }
 
-  protected String format(QueryRequest query, List<GroupInfo> actualGroups,
-      List<GroupInfo> expectedGroups) {
+  protected String format(
+      QueryRequest query, List<GroupInfo> actualGroups, List<GroupInfo> expectedGroups) {
     StringBuilder b = new StringBuilder();
-    b.append("query '").append(query.getQuery())
-        .append("' with expected groups ");
+    b.append("query '").append(query.getQuery()).append("' with expected groups ");
     b.append(format(expectedGroups));
     b.append(" and result ");
     b.append(format(actualGroups));
@@ -417,13 +388,30 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     Iterator<GroupInfo> it = groups.iterator();
     while (it.hasNext()) {
       GroupInfo g = it.next();
-      b.append("{").append(g.id).append(", ").append("name=").append(g.name)
-          .append(", ").append("groupId=").append(g.groupId).append(", ")
-          .append("url=").append(g.url).append(", ").append("ownerId=")
-          .append(g.ownerId).append(", ").append("owner=").append(g.owner)
-          .append(", ").append("description=").append(g.description)
-          .append(", ").append("visibleToAll=")
-          .append(toBoolean(g.options.visibleToAll)).append("}");
+      b.append("{")
+          .append(g.id)
+          .append(", ")
+          .append("name=")
+          .append(g.name)
+          .append(", ")
+          .append("groupId=")
+          .append(g.groupId)
+          .append(", ")
+          .append("url=")
+          .append(g.url)
+          .append(", ")
+          .append("ownerId=")
+          .append(g.ownerId)
+          .append(", ")
+          .append("owner=")
+          .append(g.owner)
+          .append(", ")
+          .append("description=")
+          .append(g.description)
+          .append(", ")
+          .append("visibleToAll=")
+          .append(toBoolean(g.options.visibleToAll))
+          .append("}");
       if (it.hasNext()) {
         b.append(", ");
       }

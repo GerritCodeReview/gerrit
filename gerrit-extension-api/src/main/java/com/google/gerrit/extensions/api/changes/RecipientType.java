@@ -15,5 +15,7 @@
 package com.google.gerrit.extensions.api.changes;
 
 public enum RecipientType {
-  TO, CC, BCC
+  TO,
+  CC,
+  BCC
 }

@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.AccountInfo;
-
 import java.util.List;
 
 /** Notified whenever one or more Reviewers are added to a change. */

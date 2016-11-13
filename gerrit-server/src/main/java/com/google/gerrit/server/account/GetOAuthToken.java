@@ -25,12 +25,11 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
 @Singleton
-class GetOAuthToken implements RestReadView<AccountResource>{
+class GetOAuthToken implements RestReadView<AccountResource> {
 
   private static final String BEARER_TYPE = "bearer";
 
@@ -39,7 +38,8 @@ class GetOAuthToken implements RestReadView<AccountResource>{
   private final String hostName;
 
   @Inject
-  GetOAuthToken(Provider<CurrentUser> self,
+  GetOAuthToken(
+      Provider<CurrentUser> self,
       OAuthTokenCache tokenCache,
       @CanonicalWebUrl Provider<String> urlProvider) {
     this.self = self;
@@ -48,8 +48,8 @@ class GetOAuthToken implements RestReadView<AccountResource>{
   }
 
   @Override
-  public OAuthTokenInfo apply(AccountResource rsrc) throws AuthException,
-      ResourceNotFoundException {
+  public OAuthTokenInfo apply(AccountResource rsrc)
+      throws AuthException, ResourceNotFoundException {
     if (self.get() != rsrc.getUser()) {
       throw new AuthException("not allowed to get access token");
     }
@@ -84,5 +84,4 @@ class GetOAuthToken implements RestReadView<AccountResource>{
     public String expiresAt;
     public String type;
   }
-
 }

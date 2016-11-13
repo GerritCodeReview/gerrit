@@ -40,12 +40,12 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.UIObject;
-
 import net.codemirror.theme.ThemeLoader;
 
 /** Displays current edit preferences. */
 public class EditPreferencesBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, EditPreferencesBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   public interface Style extends CssResource {
@@ -237,19 +237,20 @@ public class EditPreferencesBox extends Composite {
     final Theme newTheme = Theme.valueOf(theme.getValue(theme.getSelectedIndex()));
     prefs.theme(newTheme);
     if (view != null) {
-      ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
-        @Override
-        public void onSuccess(Void result) {
-          view.setTheme(newTheme);
-        }
-      });
+      ThemeLoader.loadTheme(
+          newTheme,
+          new GerritCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+              view.setTheme(newTheme);
+            }
+          });
     }
   }
 
   @UiHandler("keyMap")
   void onKeyMap(@SuppressWarnings("unused") ChangeEvent e) {
-    KeyMapType keyMapType = KeyMapType.valueOf(
-        keyMap.getValue(keyMap.getSelectedIndex()));
+    KeyMapType keyMapType = KeyMapType.valueOf(keyMap.getValue(keyMap.getSelectedIndex()));
     prefs.keyMapType(keyMapType);
     if (view != null) {
       view.setOption("keyMap", keyMapType.name().toLowerCase());
@@ -263,7 +264,8 @@ public class EditPreferencesBox extends Composite {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    AccountApi.putEditPreferences(prefs,
+    AccountApi.putEditPreferences(
+        prefs,
         new GerritCallback<EditPreferences>() {
           @Override
           public void onSuccess(EditPreferences p) {

@@ -21,21 +21,16 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSch;
-
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 class SystemInfoServiceImpl implements SystemInfoService {
-  private static final Logger log =
-      LoggerFactory.getLogger(SystemInfoServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(SystemInfoServiceImpl.class);
 
   private static final JSch JSCH = new JSch();
 
@@ -43,8 +38,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private final Provider<HttpServletRequest> httpRequest;
 
   @Inject
-  SystemInfoServiceImpl(SshInfo daemon,
-      Provider<HttpServletRequest> hsr) {
+  SystemInfoServiceImpl(SshInfo daemon, Provider<HttpServletRequest> hsr) {
     hostKeys = daemon.getHostKeys();
     httpRequest = hsr;
   }

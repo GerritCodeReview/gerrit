@@ -44,18 +44,17 @@ public class EventTypes {
    *
    * @param eventType The event type to register.
    * @param eventClass The event class to register.
-   **/
-  public static void register(String eventType,
-      Class<? extends Event> eventClass) {
+   */
+  public static void register(String eventType, Class<? extends Event> eventClass) {
     typesByString.put(eventType, eventClass);
   }
 
-  /** Get the class for an event type.
+  /**
+   * Get the class for an event type.
    *
    * @param type The type.
-   * @return The event class, or null if no class is registered with the
-   * given type
-   **/
+   * @return The event class, or null if no class is registered with the given type
+   */
   public static Class<?> getClass(String type) {
     return typesByString.get(type);
   }

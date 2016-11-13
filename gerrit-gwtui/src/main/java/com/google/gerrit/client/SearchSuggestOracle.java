@@ -19,49 +19,62 @@ import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 
 public class SearchSuggestOracle extends HighlightSuggestOracle {
-  private static final List<ParamSuggester> paramSuggester = Arrays.asList(
-      new ParamSuggester(Arrays.asList("project:", "p:", "parentproject:"),
-          new ProjectNameSuggestOracle()),
-      new ParamSuggester(Arrays.asList(
-          "owner:", "o:", "reviewer:", "r:", "commentby:", "reviewedby:",
-          "author:", "committer:", "from:", "assignee:"),
-          new AccountSuggestOracle() {
-            @Override
-            public void onRequestSuggestions(final Request request, final Callback done) {
-              super.onRequestSuggestions(request, new Callback() {
+  private static final List<ParamSuggester> paramSuggester =
+      Arrays.asList(
+          new ParamSuggester(
+              Arrays.asList("project:", "p:", "parentproject:"), new ProjectNameSuggestOracle()),
+          new ParamSuggester(
+              Arrays.asList(
+                  "owner:",
+                  "o:",
+                  "reviewer:",
+                  "r:",
+                  "commentby:",
+                  "reviewedby:",
+                  "author:",
+                  "committer:",
+                  "from:",
+                  "assignee:"),
+              new AccountSuggestOracle() {
                 @Override
-                public void onSuggestionsReady(final Request request,
-                    final Response response) {
-                  if ("self".startsWith(request.getQuery())) {
-                    final ArrayList<SuggestOracle.Suggestion> r =
-                        new ArrayList<>(response.getSuggestions().size() + 1);
-                    r.addAll(response.getSuggestions());
-                    r.add(new SuggestOracle.Suggestion() {
-                      @Override
-                      public String getDisplayString() {
-                        return getReplacementString();
-                      }
-                      @Override
-                      public String getReplacementString() {
-                        return "self";
-                      }
-                    });
-                    response.setSuggestions(r);
-                  }
-                  done.onSuggestionsReady(request, response);
+                public void onRequestSuggestions(final Request request, final Callback done) {
+                  super.onRequestSuggestions(
+                      request,
+                      new Callback() {
+                        @Override
+                        public void onSuggestionsReady(
+                            final Request request, final Response response) {
+                          if ("self".startsWith(request.getQuery())) {
+                            final ArrayList<SuggestOracle.Suggestion> r =
+                                new ArrayList<>(response.getSuggestions().size() + 1);
+                            r.addAll(response.getSuggestions());
+                            r.add(
+                                new SuggestOracle.Suggestion() {
+                                  @Override
+                                  public String getDisplayString() {
+                                    return getReplacementString();
+                                  }
+
+                                  @Override
+                                  public String getReplacementString() {
+                                    return "self";
+                                  }
+                                });
+                            response.setSuggestions(r);
+                          }
+                          done.onSuggestionsReady(request, response);
+                        }
+                      });
                 }
-              });
-            }
-          }),
-      new ParamSuggester(Arrays.asList("ownerin:", "reviewerin:"),
-          new AccountGroupSuggestOracle()));
+              }),
+          new ParamSuggester(
+              Arrays.asList("ownerin:", "reviewerin:"), new AccountGroupSuggestOracle()));
 
   private static final TreeSet<String> suggestions = new TreeSet<>();
 
@@ -216,12 +229,14 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   private static class SearchSuggestion implements SuggestOracle.Suggestion {
     private final String suggestion;
     private final String fullQuery;
+
     SearchSuggestion(String suggestion, String fullQuery) {
       this.suggestion = suggestion;
       // Add a space to the query if it is a complete operation (e.g.
       // "status:open") so the user can keep on typing.
       this.fullQuery = fullQuery.endsWith(":") ? fullQuery : fullQuery + " ";
     }
+
     @Override
     public String getDisplayString() {
       return suggestion;
@@ -237,8 +252,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     private final List<String> operators;
     private final SuggestOracle parameterSuggestionOracle;
 
-    ParamSuggester(final List<String> operators,
-        final SuggestOracle parameterSuggestionOracle) {
+    ParamSuggester(final List<String> operators, final SuggestOracle parameterSuggestionOracle) {
       this.operators = operators;
       this.parameterSuggestionOracle = parameterSuggestionOracle;
     }
@@ -248,8 +262,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       return operator != null && query.length() > operator.length();
     }
 
-    private String getApplicableOperator(final String lastWord,
-        final List<String> operators) {
+    private String getApplicableOperator(final String lastWord, final List<String> operators) {
       for (final String operator : operators) {
         if (lastWord.startsWith(operator)) {
           return operator;
@@ -264,16 +277,17 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
           new Request(lastWord.substring(operator.length()), request.getLimit()),
           new Callback() {
             @Override
-            public void onSuggestionsReady(final Request req,
-                final Response response) {
+            public void onSuggestionsReady(final Request req, final Response response) {
               final String query = request.getQuery();
               final List<SearchSuggestOracle.Suggestion> r =
                   new ArrayList<>(response.getSuggestions().size());
-              for (final SearchSuggestOracle.Suggestion s : response
-                  .getSuggestions()) {
-                r.add(new SearchSuggestion(s.getDisplayString(),
-                    query.substring(0, query.length() - lastWord.length()) +
-                    operator + quoteIfNeeded(s.getReplacementString())));
+              for (final SearchSuggestOracle.Suggestion s : response.getSuggestions()) {
+                r.add(
+                    new SearchSuggestion(
+                        s.getDisplayString(),
+                        query.substring(0, query.length() - lastWord.length())
+                            + operator
+                            + quoteIfNeeded(s.getReplacementString())));
               }
               done.onSuggestionsReady(request, new Response(r));
             }

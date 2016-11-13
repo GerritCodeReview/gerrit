@@ -25,5 +25,5 @@ public class FancyFlexTableImpl {
   }
 
   protected static native Element getBodyElement(HTMLTable myTable)
-  /*-{ return myTable.@com.google.gwt.user.client.ui.HTMLTable::bodyElem; }-*/;
+      /*-{ return myTable.@com.google.gwt.user.client.ui.HTMLTable::bodyElem; }-*/ ;
 }

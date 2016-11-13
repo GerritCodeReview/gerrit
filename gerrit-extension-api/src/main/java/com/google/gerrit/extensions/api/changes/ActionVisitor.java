@@ -21,45 +21,42 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 
 /**
  * Extension point called during population of {@link ActionInfo} maps.
- * <p>
- * Each visitor may mutate the input {@link ActionInfo}, or filter it out of the
- * map entirely. When multiple extensions are registered, the order in which
- * they are executed is undefined.
+ *
+ * <p>Each visitor may mutate the input {@link ActionInfo}, or filter it out of the map entirely.
+ * When multiple extensions are registered, the order in which they are executed is undefined.
  */
 @ExtensionPoint
 public interface ActionVisitor {
   /**
    * Visit a change-level action.
-   * <p>
-   * Callers may mutate the input {@link ActionInfo}, or return false to omit
-   * the action from the map entirely. Inputs other than the {@link ActionInfo}
-   * should be considered immutable.
    *
-   * @param name name of the action, as a key into the {@link ActionInfo} map
-   *     returned by the REST API.
+   * <p>Callers may mutate the input {@link ActionInfo}, or return false to omit the action from the
+   * map entirely. Inputs other than the {@link ActionInfo} should be considered immutable.
+   *
+   * @param name name of the action, as a key into the {@link ActionInfo} map returned by the REST
+   *     API.
    * @param actionInfo action being visited; caller may mutate.
-   * @param changeInfo information about the change to which this action
-   *     belongs; caller should treat as immutable.
+   * @param changeInfo information about the change to which this action belongs; caller should
+   *     treat as immutable.
    * @return true if the action should remain in the map, or false to omit it.
    */
   boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo);
 
   /**
    * Visit a revision-level action.
-   * <p>
-   * Callers may mutate the input {@link ActionInfo}, or return false to omit
-   * the action from the map entirely. Inputs other than the {@link ActionInfo}
-   * should be considered immutable.
    *
-   * @param name name of the action, as a key into the {@link ActionInfo} map
-   *     returned by the REST API.
+   * <p>Callers may mutate the input {@link ActionInfo}, or return false to omit the action from the
+   * map entirely. Inputs other than the {@link ActionInfo} should be considered immutable.
+   *
+   * @param name name of the action, as a key into the {@link ActionInfo} map returned by the REST
+   *     API.
    * @param actionInfo action being visited; caller may mutate.
-   * @param changeInfo information about the change to which this action
-   *     belongs; caller should treat as immutable.
-   * @param revisionInfo information about the revision to which this action
-   *     belongs; caller should treat as immutable.
+   * @param changeInfo information about the change to which this action belongs; caller should
+   *     treat as immutable.
+   * @param revisionInfo information about the revision to which this action belongs; caller should
+   *     treat as immutable.
    * @return true if the action should remain in the map, or false to omit it.
    */
-  boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo,
-      RevisionInfo revisionInfo);
+  boolean visit(
+      String name, ActionInfo actionInfo, ChangeInfo changeInfo, RevisionInfo revisionInfo);
 }

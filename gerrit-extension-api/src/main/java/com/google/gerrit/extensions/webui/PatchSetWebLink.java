@@ -21,18 +21,19 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 public interface PatchSetWebLink extends WebLink {
 
   /**
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo}
-   * describing a link from a patch set to an external service.
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a patch set to
+   * an external service.
    *
-   * <p>In order for the web link to be visible
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo#url}
-   * and {@link com.google.gerrit.extensions.common.WebLinkInfo#name}
-   * must be set.<p>
+   * <p>In order for the web link to be visible {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#url} and {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#name} must be set.
+   *
+   * <p>
    *
    * @param projectName Name of the project
    * @param commit Commit of the patch set
-   * @return WebLinkInfo that links to patch set in external service,
-   * null if there should be no link.
+   * @return WebLinkInfo that links to patch set in external service, null if there should be no
+   *     link.
    */
   WebLinkInfo getPatchSetWebLink(final String projectName, final String commit);
 }

@@ -22,7 +22,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.Index;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,6 +29,7 @@ import java.util.Collections;
 public class AccountIndexerImpl implements AccountIndexer {
   public interface Factory {
     AccountIndexerImpl create(AccountIndexCollection indexes);
+
     AccountIndexerImpl create(@Nullable AccountIndex index);
   }
 
@@ -38,16 +38,14 @@ public class AccountIndexerImpl implements AccountIndexer {
   private final AccountIndex index;
 
   @AssistedInject
-  AccountIndexerImpl(AccountCache byIdCache,
-      @Assisted AccountIndexCollection indexes) {
+  AccountIndexerImpl(AccountCache byIdCache, @Assisted AccountIndexCollection indexes) {
     this.byIdCache = byIdCache;
     this.indexes = indexes;
     this.index = null;
   }
 
   @AssistedInject
-  AccountIndexerImpl(AccountCache byIdCache,
-      @Assisted AccountIndex index) {
+  AccountIndexerImpl(AccountCache byIdCache, @Assisted AccountIndex index) {
     this.byIdCache = byIdCache;
     this.indexes = null;
     this.index = index;
@@ -65,8 +63,6 @@ public class AccountIndexerImpl implements AccountIndexer {
       return indexes.getWriteIndexes();
     }
 
-    return index != null
-        ? Collections.singleton(index)
-        : ImmutableSet.<AccountIndex> of();
+    return index != null ? Collections.singleton(index) : ImmutableSet.<AccountIndex>of();
   }
 }

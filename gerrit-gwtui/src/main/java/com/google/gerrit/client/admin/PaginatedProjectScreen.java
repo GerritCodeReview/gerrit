@@ -40,8 +40,7 @@ abstract class PaginatedProjectScreen extends ProjectScreen {
         match = URL.decodeQueryString(kv[1]);
       }
 
-      if ("skip".equals(kv[0])
-          && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
+      if ("skip".equals(kv[0]) && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
         start = Integer.parseInt(URL.decodeQueryString(kv[1]));
       }
     }

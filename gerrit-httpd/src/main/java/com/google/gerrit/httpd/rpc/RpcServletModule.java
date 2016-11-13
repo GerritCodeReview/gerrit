@@ -39,10 +39,8 @@ public abstract class RpcServletModule extends ServletModule {
   }
 
   protected void rpc(final String name, Class<? extends RemoteJsonService> clazz) {
-    final Key<GerritJsonServlet> srv =
-        Key.get(GerritJsonServlet.class, UniqueAnnotations.create());
-    final GerritJsonServletProvider provider =
-        new GerritJsonServletProvider(clazz);
+    final Key<GerritJsonServlet> srv = Key.get(GerritJsonServlet.class, UniqueAnnotations.create());
+    final GerritJsonServletProvider provider = new GerritJsonServletProvider(clazz);
     bind(clazz);
     serve(prefix + name).with(srv);
     bind(srv).toProvider(provider).in(Scopes.SINGLETON);

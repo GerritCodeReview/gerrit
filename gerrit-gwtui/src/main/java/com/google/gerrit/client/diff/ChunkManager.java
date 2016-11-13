@@ -18,20 +18,17 @@ import static com.google.gerrit.client.diff.DisplaySide.A;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Pos;
 import net.codemirror.lib.TextMarker;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 /** Colors modified regions for {@link SideBySide} and {@link Unified}. */
 abstract class ChunkManager {
-  static final native void onClick(Element e, JavaScriptObject f)
-  /*-{ e.onclick = f }-*/;
+  static final native void onClick(Element e, JavaScriptObject f)/*-{ e.onclick = f }-*/ ;
 
   final Scrollbar scrollbar;
   final LineMapper lineMapper;
@@ -71,27 +68,32 @@ abstract class ChunkManager {
     colorLines(cm, LineClassWhere.WRAP, color, line, line + cnt);
   }
 
-  void colorLines(final CodeMirror cm, final LineClassWhere where,
-      final String className, final int start, final int end) {
+  void colorLines(
+      final CodeMirror cm,
+      final LineClassWhere where,
+      final String className,
+      final int start,
+      final int end) {
     if (start < end) {
       for (int line = start; line < end; line++) {
         cm.addLineClass(line, where, className);
       }
-      undo.add(new Runnable() {
-        @Override
-        public void run() {
-          for (int line = start; line < end; line++) {
-            cm.removeLineClass(line, where, className);
-          }
-        }
-      });
+      undo.add(
+          new Runnable() {
+            @Override
+            public void run() {
+              for (int line = start; line < end; line++) {
+                cm.removeLineClass(line, where, className);
+              }
+            }
+          });
     }
   }
 
   abstract Runnable diffChunkNav(final CodeMirror cm, final Direction dir);
 
-  void diffChunkNavHelper(List<? extends DiffChunkInfo> chunks,
-      DiffScreen host, int res, Direction dir) {
+  void diffChunkNavHelper(
+      List<? extends DiffChunkInfo> chunks, DiffScreen host, int res, Direction dir) {
     if (res < 0) {
       res = -res - (dir == Direction.PREV ? 1 : 2);
     }
@@ -115,8 +117,7 @@ abstract class ChunkManager {
     targetCm.setCursor(Pos.create(cmLine));
     targetCm.focus();
     targetCm.scrollToY(
-        targetCm.heightAtLine(cmLine, "local")
-        - 0.5 * targetCm.scrollbarV().getClientHeight());
+        targetCm.heightAtLine(cmLine, "local") - 0.5 * targetCm.scrollbarV().getClientHeight());
   }
 
   Comparator<DiffChunkInfo> getDiffChunkComparator() {
@@ -130,12 +131,10 @@ abstract class ChunkManager {
         if (a.getSide() == b.getSide()) {
           return a.getStart() - b.getStart();
         } else if (a.getSide() == A) {
-          int comp = lineMapper.lineOnOther(a.getSide(), a.getStart())
-              .getLine() - b.getStart();
+          int comp = lineMapper.lineOnOther(a.getSide(), a.getStart()).getLine() - b.getStart();
           return comp == 0 ? -1 : comp;
         } else {
-          int comp = a.getStart() -
-              lineMapper.lineOnOther(b.getSide(), b.getStart()).getLine();
+          int comp = a.getStart() - lineMapper.lineOnOther(b.getSide(), b.getStart()).getLine();
           return comp == 0 ? 1 : comp;
         }
       }

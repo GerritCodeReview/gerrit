@@ -25,7 +25,6 @@ import com.google.gwt.core.ext.linker.PublicResource;
 import com.google.gwt.core.ext.linker.impl.StandardLinkerContext;
 import com.google.gwt.core.ext.linker.impl.StandardStylesheetReference;
 import com.google.gwt.dev.util.Util;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,19 +38,19 @@ public class CssLinker extends AbstractLinker {
   }
 
   @Override
-  public ArtifactSet link(final TreeLogger logger, final LinkerContext context,
-      final ArtifactSet artifacts) throws UnableToCompleteException {
+  public ArtifactSet link(
+      final TreeLogger logger, final LinkerContext context, final ArtifactSet artifacts)
+      throws UnableToCompleteException {
     final ArtifactSet returnTo = new ArtifactSet();
     int index = 0;
 
     final HashMap<String, PublicResource> css = new HashMap<>();
 
-    for (final StandardStylesheetReference ssr : artifacts
-        .<StandardStylesheetReference> find(StandardStylesheetReference.class)) {
+    for (final StandardStylesheetReference ssr :
+        artifacts.<StandardStylesheetReference>find(StandardStylesheetReference.class)) {
       css.put(ssr.getSrc(), null);
     }
-    for (final PublicResource pr : artifacts
-        .<PublicResource> find(PublicResource.class)) {
+    for (final PublicResource pr : artifacts.<PublicResource>find(PublicResource.class)) {
       if (css.containsKey(pr.getPartialPath())) {
         css.put(pr.getPartialPath(), new CssPubRsrc(name(logger, pr), pr));
       }
@@ -112,8 +111,7 @@ public class CssLinker extends AbstractLinker {
     }
 
     @Override
-    public InputStream getContents(final TreeLogger logger)
-        throws UnableToCompleteException {
+    public InputStream getContents(final TreeLogger logger) throws UnableToCompleteException {
       return src.getContents(logger);
     }
 

@@ -43,14 +43,12 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-import org.junit.Test;
-
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Test;
 
 public class DraftChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -58,8 +56,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     return allowDraftsDisabledConfig();
   }
 
-  @Inject
-  private BatchUpdate.Factory updateFactory;
+  @Inject private BatchUpdate.Factory updateFactory;
 
   @Test
   public void deleteDraftChange() throws Exception {
@@ -86,31 +83,24 @@ public class DraftChangeIT extends AbstractDaemonTest {
     Change.Id id = changeResult.getChange().getId();
 
     // The user needs to be able to see the draft change (which reviewers can).
-    gApi.changes()
-        .id(changeId)
-        .addReviewer(user.fullName);
+    gApi.changes().id(changeId).addReviewer(user.fullName);
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage(String.format(
-        "Deleting change %s is not permitted", id));
-    gApi.changes()
-        .id(changeId)
-        .delete();
+    exception.expectMessage(String.format("Deleting change %s is not permitted", id));
+    gApi.changes().id(changeId).delete();
   }
 
   @Test
   @TestProjectInput(cloneAs = "user")
-  public void deleteDraftChangeWhenDraftsNotAllowedAsNormalUser()
-      throws Exception {
+  public void deleteDraftChangeWhenDraftsNotAllowedAsNormalUser() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
 
     setApiUser(user);
     // We can't create a draft change while the draft workflow is disabled.
     // For this reason, we create a normal change and modify the database.
     PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo)
-            .to("refs/for/master");
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     Change.Id id = changeResult.getChange().getId();
     markChangeAsDraft(id);
     setDraftStatusOfPatchSetsOfChange(id, true);
@@ -118,9 +108,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     String changeId = changeResult.getChangeId();
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("Draft workflow is disabled");
-    gApi.changes()
-        .id(changeId)
-        .delete();
+    gApi.changes().id(changeId).delete();
   }
 
   @Test
@@ -132,8 +120,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     // We can't create a draft change while the draft workflow is disabled.
     // For this reason, we create a normal change and modify the database.
     PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo)
-        .to("refs/for/master");
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     Change.Id id = changeResult.getChange().getId();
     markChangeAsDraft(id);
     setDraftStatusOfPatchSetsOfChange(id, true);
@@ -146,9 +133,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
     try {
       setApiUser(admin);
-      gApi.changes()
-          .id(changeId)
-          .delete();
+      gApi.changes().id(changeId).delete();
     } finally {
       removePermission(Permission.DELETE_DRAFTS, project, "refs/*");
       removePermission(Permission.VIEW_DRAFTS, project, "refs/*");
@@ -168,11 +153,9 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
     String changeId = changeResult.getChangeId();
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format(
-        "Cannot delete draft change %s: patch set 1 is not a draft", id));
-    gApi.changes()
-        .id(changeId)
-        .delete();
+    exception.expectMessage(
+        String.format("Cannot delete draft change %s: patch set 1 is not a draft", id));
+    gApi.changes().id(changeId).delete();
   }
 
   @Test
@@ -243,8 +226,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(label.all.get(0).value).isEqualTo(1);
   }
 
-  private static RestResponse deleteChange(String changeId,
-      RestSession s) throws Exception {
+  private static RestResponse deleteChange(String changeId, RestSession s) throws Exception {
     return s.delete("/changes/" + changeId);
   }
 
@@ -253,59 +235,52 @@ public class DraftChangeIT extends AbstractDaemonTest {
   }
 
   private RestResponse publishPatchSet(String changeId) throws Exception {
-    PatchSet patchSet = Iterables.getOnlyElement(
-        queryProvider.get().byKeyPrefix(changeId)).currentPatchSet();
-    return adminRestSession.post("/changes/"
-        + changeId
-        + "/revisions/"
-        + patchSet.getRevision().get()
-        + "/publish");
+    PatchSet patchSet =
+        Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).currentPatchSet();
+    return adminRestSession.post(
+        "/changes/" + changeId + "/revisions/" + patchSet.getRevision().get() + "/publish");
   }
 
   private void markChangeAsDraft(Change.Id id) throws Exception {
-    try (BatchUpdate batchUpdate = updateFactory
-        .create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate batchUpdate =
+        updateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
       batchUpdate.addOp(id, new MarkChangeAsDraftUpdateOp());
       batchUpdate.execute();
     }
 
-    ChangeStatus changeStatus = gApi.changes()
-        .id(id.get())
-        .get()
-        .status;
+    ChangeStatus changeStatus = gApi.changes().id(id.get()).get().status;
     assertThat(changeStatus).isEqualTo(ChangeStatus.DRAFT);
   }
 
-  private void setDraftStatusOfPatchSetsOfChange(Change.Id id,
-      boolean draftStatus) throws Exception {
-    try (BatchUpdate batchUpdate = updateFactory
-        .create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+  private void setDraftStatusOfPatchSetsOfChange(Change.Id id, boolean draftStatus)
+      throws Exception {
+    try (BatchUpdate batchUpdate =
+        updateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
       batchUpdate.addOp(id, new DraftStatusOfPatchSetsUpdateOp(draftStatus));
       batchUpdate.execute();
     }
 
     Boolean expectedDraftStatus = draftStatus ? Boolean.TRUE : null;
     List<Boolean> patchSetDraftStatuses = getPatchSetDraftStatuses(id);
-    patchSetDraftStatuses.forEach(status ->
-        assertThat(status).isEqualTo(expectedDraftStatus));
+    patchSetDraftStatuses.forEach(status -> assertThat(status).isEqualTo(expectedDraftStatus));
   }
 
-  private List<Boolean> getPatchSetDraftStatuses(Change.Id id)
-      throws Exception {
-    Collection<RevisionInfo> revisionInfos = gApi.changes()
-        .id(id.get())
-        .get(EnumSet.of(ListChangesOption.ALL_REVISIONS))
-        .revisions
-        .values();
-    return revisionInfos.stream()
+  private List<Boolean> getPatchSetDraftStatuses(Change.Id id) throws Exception {
+    Collection<RevisionInfo> revisionInfos =
+        gApi.changes()
+            .id(id.get())
+            .get(EnumSet.of(ListChangesOption.ALL_REVISIONS))
+            .revisions
+            .values();
+    return revisionInfos
+        .stream()
         .map(revisionInfo -> revisionInfo.draft)
         .collect(Collectors.toList());
   }
 
   private class MarkChangeAsDraftUpdateOp extends BatchUpdate.Op {
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx)
-        throws Exception {
+    public boolean updateChange(BatchUpdate.ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();
 
       // Change status in database.
@@ -327,8 +302,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     }
 
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx)
-        throws Exception {
+    public boolean updateChange(BatchUpdate.ChangeContext ctx) throws Exception {
       Collection<PatchSet> patchSets = psUtil.byChange(db, ctx.getNotes());
 
       // Change status in database.
@@ -336,13 +310,12 @@ public class DraftChangeIT extends AbstractDaemonTest {
       db.patchSets().update(patchSets);
 
       // Change status in NoteDb.
-      PatchSetState patchSetState = draftStatus ? PatchSetState.DRAFT
-          : PatchSetState.PUBLISHED;
-      patchSets.stream()
+      PatchSetState patchSetState = draftStatus ? PatchSetState.DRAFT : PatchSetState.PUBLISHED;
+      patchSets
+          .stream()
           .map(PatchSet::getId)
           .map(ctx::getUpdate)
-          .forEach(changeUpdate ->
-              changeUpdate.setPatchSetState(patchSetState));
+          .forEach(changeUpdate -> changeUpdate.setPatchSetState(patchSetState));
 
       return true;
     }

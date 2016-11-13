@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +32,7 @@ public class AuthInfo extends JavaScriptObject {
   public final boolean isLdap() {
     return authType() == AuthType.LDAP || authType() == AuthType.LDAP_BIND;
   }
+
   public final boolean isOpenId() {
     return authType() == AuthType.OPENID;
   }
@@ -74,9 +74,7 @@ public class AuthInfo extends JavaScriptObject {
   }
 
   public final boolean siteHasUsernames() {
-    if (isCustomExtension()
-        && httpPasswordUrl() != null
-        && !canEdit(AccountFieldName.USER_NAME)) {
+    if (isCustomExtension() && httpPasswordUrl() != null && !canEdit(AccountFieldName.USER_NAME)) {
       return false;
     }
     return true;
@@ -94,23 +92,33 @@ public class AuthInfo extends JavaScriptObject {
   }
 
   public final native boolean useContributorAgreements()
-  /*-{ return this.use_contributor_agreements || false; }-*/;
-  public final native String loginUrl() /*-{ return this.login_url; }-*/;
-  public final native String loginText() /*-{ return this.login_text; }-*/;
-  public final native String switchAccountUrl() /*-{ return this.switch_account_url; }-*/;
-  public final native String registerUrl() /*-{ return this.register_url; }-*/;
-  public final native String registerText() /*-{ return this.register_text; }-*/;
-  public final native String editFullNameUrl() /*-{ return this.edit_full_name_url; }-*/;
-  public final native String httpPasswordUrl() /*-{ return this.http_password_url; }-*/;
-  public final native boolean isGitBasicAuth() /*-{ return this.is_git_basic_auth || false; }-*/;
-  private native String gitBasicAuthPolicyRaw()
-  /*-{ return this.git_basic_auth_policy; }-*/;
-  private native String authTypeRaw() /*-{ return this.auth_type; }-*/;
-  private native JsArrayString _editableAccountFields()
-  /*-{ return this.editable_account_fields; }-*/;
-  private native JsArray<AgreementInfo> _contributorAgreements()
-  /*-{ return this.contributor_agreements; }-*/;
+      /*-{ return this.use_contributor_agreements || false; }-*/ ;
 
-  protected AuthInfo() {
-  }
+  public final native String loginUrl() /*-{ return this.login_url; }-*/;
+
+  public final native String loginText() /*-{ return this.login_text; }-*/;
+
+  public final native String switchAccountUrl() /*-{ return this.switch_account_url; }-*/;
+
+  public final native String registerUrl() /*-{ return this.register_url; }-*/;
+
+  public final native String registerText() /*-{ return this.register_text; }-*/;
+
+  public final native String editFullNameUrl() /*-{ return this.edit_full_name_url; }-*/;
+
+  public final native String httpPasswordUrl() /*-{ return this.http_password_url; }-*/;
+
+  public final native boolean isGitBasicAuth() /*-{ return this.is_git_basic_auth || false; }-*/;
+
+  private native String gitBasicAuthPolicyRaw()/*-{ return this.git_basic_auth_policy; }-*/ ;
+
+  private native String authTypeRaw() /*-{ return this.auth_type; }-*/;
+
+  private native JsArrayString _editableAccountFields()
+      /*-{ return this.editable_account_fields; }-*/ ;
+
+  private native JsArray<AgreementInfo> _contributorAgreements()
+      /*-{ return this.contributor_agreements; }-*/ ;
+
+  protected AuthInfo() {}
 }

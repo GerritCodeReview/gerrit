@@ -24,7 +24,6 @@ import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +47,8 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   private final Set<AccountExternalId.Key> keys;
 
   @Inject
-  DeleteExternalIds(ReviewDb db,
+  DeleteExternalIds(
+      ReviewDb db,
       IdentifiedUser user,
       ExternalIdDetailFactory detailFactory,
       AccountByEmailCache byEmailCache,
@@ -88,8 +88,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
     return toKeySet(toDelete);
   }
 
-  private Map<AccountExternalId.Key, AccountExternalId> have()
-      throws OrmException {
+  private Map<AccountExternalId.Key, AccountExternalId> have() throws OrmException {
     Map<AccountExternalId.Key, AccountExternalId> r;
 
     r = new HashMap<>();

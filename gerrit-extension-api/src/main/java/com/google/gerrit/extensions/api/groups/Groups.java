@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,15 +28,13 @@ import java.util.Map;
 public interface Groups {
   /**
    * Look up a group by ID.
-   * <p>
-   * <strong>Note:</strong> This method eagerly reads the group. Methods that
-   * mutate the group do not necessarily re-read the group. Therefore, calling a
-   * getter method on an instance after calling a mutation method on that same
-   * instance is not guaranteed to reflect the mutation. It is not recommended
-   * to store references to {@code groupApi} instances.
    *
-   * @param id any identifier supported by the REST API, including group name or
-   *     UUID.
+   * <p><strong>Note:</strong> This method eagerly reads the group. Methods that mutate the group do
+   * not necessarily re-read the group. Therefore, calling a getter method on an instance after
+   * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
+   * is not recommended to store references to {@code groupApi} instances.
+   *
+   * @param id any identifier supported by the REST API, including group name or UUID.
    * @return API for accessing the group.
    * @throws RestApiException if an error occurred.
    */
@@ -54,9 +51,8 @@ public interface Groups {
 
   /**
    * Query groups.
-   * <p>
-   * Example code:
-   * {@code query().withQuery("inname:test").withLimit(10).get()}
+   *
+   * <p>Example code: {@code query().withQuery("inname:test").withLimit(10).get()}
    *
    * @return API for setting parameters and getting result.
    */
@@ -64,16 +60,15 @@ public interface Groups {
 
   /**
    * Query groups.
-   * <p>
-   * Shortcut API for {@code query().withQuery(String)}.
+   *
+   * <p>Shortcut API for {@code query().withQuery(String)}.
    *
    * @see #query()
    */
   QueryRequest query(String query);
 
   abstract class ListRequest {
-    private final EnumSet<ListGroupsOption> options =
-        EnumSet.noneOf(ListGroupsOption.class);
+    private final EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
     private final List<String> projects = new ArrayList<>();
     private final List<String> groups = new ArrayList<>();
 
@@ -201,8 +196,7 @@ public interface Groups {
   }
 
   /**
-   * API for setting parameters and getting result.
-   * Used for {@code query()}.
+   * API for setting parameters and getting result. Used for {@code query()}.
    *
    * @see #query()
    */
@@ -210,12 +204,9 @@ public interface Groups {
     private String query;
     private int limit;
     private int start;
-    private EnumSet<ListGroupsOption> options =
-        EnumSet.noneOf(ListGroupsOption.class);
+    private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
 
-    /**
-     * Execute query and returns the matched groups as list.
-     */
+    /** Execute query and returns the matched groups as list. */
     public abstract List<GroupInfo> get() throws RestApiException;
 
     /**
@@ -229,18 +220,14 @@ public interface Groups {
     }
 
     /**
-     * Set limit for returned list of groups.
-     * Optional; server-default is used when not provided.
+     * Set limit for returned list of groups. Optional; server-default is used when not provided.
      */
     public QueryRequest withLimit(int limit) {
       this.limit = limit;
       return this;
     }
 
-    /**
-     * Set number of groups to skip.
-     * Optional; no groups are skipped when not provided.
-     */
+    /** Set number of groups to skip. Optional; no groups are skipped when not provided. */
     public QueryRequest withStart(int start) {
       this.start = start;
       return this;
@@ -279,9 +266,9 @@ public interface Groups {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements Groups {
     @Override
     public GroupApi id(String id) {

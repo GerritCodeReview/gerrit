@@ -17,27 +17,25 @@ package com.google.gerrit.extensions.annotations;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
  * Annotation applied to auto-registered, exported types.
- * <p>
- * Plugins or extensions using auto-registration should apply this annotation to
- * any non-abstract class they want exported for access.
- * <p>
- * For SSH commands the {@literal @Export} annotation names the subcommand:
+ *
+ * <p>Plugins or extensions using auto-registration should apply this annotation to any non-abstract
+ * class they want exported for access.
+ *
+ * <p>For SSH commands the {@literal @Export} annotation names the subcommand:
  *
  * <pre>
  *   {@literal @Export("print")}
  *   class MyCommand extends SshCommand {
  * </pre>
  *
- * For HTTP servlets, the {@literal @Export} annotation names the URL the
- * servlet is bound to, relative to the plugin or extension's namespace within
- * the Gerrit container.
+ * For HTTP servlets, the {@literal @Export} annotation names the URL the servlet is bound to,
+ * relative to the plugin or extension's namespace within the Gerrit container.
  *
  * <pre>
  *  {@literal @Export("/index.html")}

@@ -44,11 +44,10 @@ import com.google.gwtexpui.user.client.UserAgent;
 
 /**
  * Label which permits the user to easily copy the complete content.
- * <p>
- * If the Flash plugin is available a "movie" is embedded that provides
- * one-click copying of the content onto the system clipboard. The label (if
- * visible) can also be clicked, switching from a label to an input box,
- * allowing the user to copy the text with a keyboard shortcut.
+ *
+ * <p>If the Flash plugin is available a "movie" is embedded that provides one-click copying of the
+ * content onto the system clipboard. The label (if visible) can also be clicked, switching from a
+ * label to an input box, allowing the user to copy the text with a keyboard shortcut.
  */
 public class CopyableLabel extends Composite implements HasText {
   private static final int SWF_WIDTH = 110;
@@ -96,8 +95,8 @@ public class CopyableLabel extends Composite implements HasText {
    * Create a new label
    *
    * @param str initial content
-   * @param showLabel if true, the content is shown, if false it is hidden from
-   *        view and only the copy icon is displayed.
+   * @param showLabel if true, the content is shown, if false it is hidden from view and only the
+   *     copy icon is displayed.
    */
   public CopyableLabel(final String str, final boolean showLabel) {
     content = new FlowPanel();
@@ -109,37 +108,42 @@ public class CopyableLabel extends Composite implements HasText {
     if (showLabel) {
       textLabel = new InlineLabel(getText());
       textLabel.setStyleName(ClippyResources.I.css().label());
-      textLabel.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          showTextBox();
-        }
-      });
+      textLabel.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+              showTextBox();
+            }
+          });
       content.add(textLabel);
     }
 
     if (UserAgent.hasJavaScriptClipboard()) {
-      copier = new Button(new SafeHtmlBuilder()
-          .openElement("img")
-          .setAttribute("src", ClippyResources.I.clipboard().getSafeUri().asString())
-          .setWidth(14)
-          .setHeight(14)
-          .closeSelf());
+      copier =
+          new Button(
+              new SafeHtmlBuilder()
+                  .openElement("img")
+                  .setAttribute("src", ClippyResources.I.clipboard().getSafeUri().asString())
+                  .setWidth(14)
+                  .setHeight(14)
+                  .closeSelf());
       copier.setStyleName(ClippyResources.I.css().copier());
       Tooltip.addStyle(copier);
       Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());
-      copier.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          copy();
-        }
-      });
-      copier.addMouseOutHandler(new MouseOutHandler() {
-        @Override
-        public void onMouseOut(MouseOutEvent event) {
-          Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());
-        }
-      });
+      copier.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              copy();
+            }
+          });
+      copier.addMouseOutHandler(
+          new MouseOutHandler() {
+            @Override
+            public void onMouseOut(MouseOutEvent event) {
+              Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());
+            }
+          });
 
       FlowPanel p = new FlowPanel();
       p.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
@@ -153,8 +157,8 @@ public class CopyableLabel extends Composite implements HasText {
   /**
    * Change the text which is displayed in the clickable label.
    *
-   * @param text the new preview text, should be shorter than the original text
-   *        which would be copied to the clipboard.
+   * @param text the new preview text, should be shorter than the original text which would be
+   *     copied to the clipboard.
    */
   public void setPreviewText(final String text) {
     if (textLabel != null) {
@@ -163,8 +167,7 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   private void embedMovie() {
-    if (copier == null && flashEnabled && !text.isEmpty()
-        && UserAgent.Flash.isInstalled()) {
+    if (copier == null && flashEnabled && !text.isEmpty() && UserAgent.Flash.isInstalled()) {
       final String flashVars = "text=" + URL.encodeQueryString(getText());
       final SafeHtmlBuilder h = new SafeHtmlBuilder();
 
@@ -223,47 +226,54 @@ public class CopyableLabel extends Composite implements HasText {
       textBox.setText(getText());
       textBox.setVisibleLength(visibleLen);
       textBox.setReadOnly(true);
-      textBox.addKeyPressHandler(new KeyPressHandler() {
-        @Override
-        public void onKeyPress(final KeyPressEvent event) {
-          if (event.isControlKeyDown() || event.isMetaKeyDown()) {
-            switch (event.getCharCode()) {
-              case 'c':
-              case 'x':
-                textBox.addKeyUpHandler(new KeyUpHandler() {
-                  @Override
-                  public void onKeyUp(final KeyUpEvent event) {
-                    Scheduler.get().scheduleDeferred(new Command() {
-                      @Override
-                      public void execute() {
-                        hideTextBox();
-                      }
-                    });
-                  }
-                });
-                break;
+      textBox.addKeyPressHandler(
+          new KeyPressHandler() {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+              if (event.isControlKeyDown() || event.isMetaKeyDown()) {
+                switch (event.getCharCode()) {
+                  case 'c':
+                  case 'x':
+                    textBox.addKeyUpHandler(
+                        new KeyUpHandler() {
+                          @Override
+                          public void onKeyUp(final KeyUpEvent event) {
+                            Scheduler.get()
+                                .scheduleDeferred(
+                                    new Command() {
+                                      @Override
+                                      public void execute() {
+                                        hideTextBox();
+                                      }
+                                    });
+                          }
+                        });
+                    break;
+                }
+              }
             }
-          }
-        }
-      });
-      textBox.addBlurHandler(new BlurHandler() {
-        @Override
-        public void onBlur(final BlurEvent event) {
-          hideTextBox();
-        }
-      });
+          });
+      textBox.addBlurHandler(
+          new BlurHandler() {
+            @Override
+            public void onBlur(final BlurEvent event) {
+              hideTextBox();
+            }
+          });
       content.insert(textBox, 1);
     }
 
     textLabel.setVisible(false);
     textBox.setVisible(true);
-    Scheduler.get().scheduleDeferred(new Command() {
-      @Override
-      public void execute() {
-        textBox.selectAll();
-        textBox.setFocus(true);
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new Command() {
+              @Override
+              public void execute() {
+                textBox.selectAll();
+                textBox.setFocus(true);
+              }
+            });
   }
 
   private void hideTextBox() {
@@ -283,9 +293,7 @@ public class CopyableLabel extends Composite implements HasText {
       t.selectAll();
 
       boolean ok = execCommand("copy");
-      Tooltip.setLabel(copier, ok
-          ? CopyableLabelText.I.copied()
-          : CopyableLabelText.I.failed());
+      Tooltip.setLabel(copier, ok ? CopyableLabelText.I.copied() : CopyableLabelText.I.failed());
       if (!ok) {
         // Disable JavaScript clipboard and try flash movie in another instance.
         UserAgent.disableJavaScriptClipboard();
@@ -303,6 +311,5 @@ public class CopyableLabel extends Composite implements HasText {
     }
   }
 
-  private static native boolean nativeExec(String c)
-  /*-{ return !! $doc.execCommand(c) }-*/;
+  private static native boolean nativeExec(String c)/*-{ return !! $doc.execCommand(c) }-*/ ;
 }

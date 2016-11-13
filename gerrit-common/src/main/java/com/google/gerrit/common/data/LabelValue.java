@@ -33,8 +33,7 @@ public class LabelValue {
     this.text = text;
   }
 
-  protected LabelValue() {
-  }
+  protected LabelValue() {}
 
   public short getValue() {
     return value;

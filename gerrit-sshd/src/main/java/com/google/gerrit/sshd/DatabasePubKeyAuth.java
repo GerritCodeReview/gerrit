@@ -25,17 +25,6 @@ import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.sshd.common.SshException;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
-import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
-import org.apache.sshd.server.session.ServerSession;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,13 +37,19 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
+import org.apache.sshd.server.session.ServerSession;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Authenticates by public key through {@link AccountSshKey} entities.
- */
+/** Authenticates by public key through {@link AccountSshKey} entities. */
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
-  private static final Logger log =
-      LoggerFactory.getLogger(DatabasePubKeyAuth.class);
+  private static final Logger log = LoggerFactory.getLogger(DatabasePubKeyAuth.class);
 
   private final SshKeyCacheImpl sshKeyCache;
   private final SshLog sshLog;
@@ -66,10 +61,15 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private volatile PeerKeyCache peerKeyCache;
 
   @Inject
-  DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
-      final IdentifiedUser.GenericFactory uf, final PeerDaemonUser.Factory pf,
-      final SitePaths site, final KeyPairProvider hostKeyProvider,
-      @GerritServerConfig final Config cfg, final SshScope s) {
+  DatabasePubKeyAuth(
+      final SshKeyCacheImpl skc,
+      final SshLog l,
+      final IdentifiedUser.GenericFactory uf,
+      final PeerDaemonUser.Factory pf,
+      final SitePaths site,
+      final KeyPairProvider hostKeyProvider,
+      @GerritServerConfig final Config cfg,
+      final SshScope s) {
     sshKeyCache = skc;
     sshLog = l;
     userFactory = uf;
@@ -87,8 +87,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return keys;
   }
 
-  private static void addPublicKey(final Collection<PublicKey> out,
-      final KeyPairProvider p, final String type) {
+  private static void addPublicKey(
+      final Collection<PublicKey> out, final KeyPairProvider p, final String type) {
     final KeyPair pair = p.loadKey(type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
@@ -96,16 +96,13 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   }
 
   @Override
-  public boolean authenticate(String username, PublicKey suppliedKey,
-      ServerSession session) {
+  public boolean authenticate(String username, PublicKey suppliedKey, ServerSession session) {
     SshSession sd = session.getAttribute(SshSession.KEY);
     Preconditions.checkState(sd.getUser() == null);
     if (PeerDaemonUser.USER_NAME.equals(username)) {
-      if (myHostKeys.contains(suppliedKey)
-          || getPeerKeys().contains(suppliedKey)) {
+      if (myHostKeys.contains(suppliedKey) || getPeerKeys().contains(suppliedKey)) {
         PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
         return SshUtil.success(username, session, sshScope, sshLog, sd, user);
-
       }
       sd.authenticationError(username, "no-matching-key");
       return false;
@@ -161,8 +158,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return p.keys;
   }
 
-  private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList,
-      final PublicKey suppliedKey) {
+  private SshKeyCacheEntry find(
+      final Iterable<SshKeyCacheEntry> keyList, final PublicKey suppliedKey) {
     for (final SshKeyCacheEntry k : keyList) {
       if (k.match(suppliedKey)) {
         return k;

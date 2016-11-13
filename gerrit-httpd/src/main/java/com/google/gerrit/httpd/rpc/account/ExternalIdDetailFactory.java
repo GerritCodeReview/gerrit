@@ -25,7 +25,6 @@ import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +40,8 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
   private final ExternalIdCache externalIdCache;
 
   @Inject
-  ExternalIdDetailFactory(IdentifiedUser user,
+  ExternalIdDetailFactory(
+      IdentifiedUser user,
       AuthConfig authConfig,
       DynamicItem<WebSession> session,
       ExternalIdCache externalIdCache) {
@@ -54,8 +54,7 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
   @Override
   public List<AccountExternalId> call() throws OrmException {
     AccountExternalId.Key last = session.get().getLastLoginExternalId();
-    List<AccountExternalId> ids =
-        new ArrayList<>(externalIdCache.byAccount(user.getAccountId()));
+    List<AccountExternalId> ids = new ArrayList<>(externalIdCache.byAccount(user.getAccountId()));
 
     for (final AccountExternalId e : ids) {
       e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));

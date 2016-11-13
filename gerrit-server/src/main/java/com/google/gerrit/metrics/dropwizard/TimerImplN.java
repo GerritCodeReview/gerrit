@@ -21,13 +21,11 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
-
 import java.util.concurrent.TimeUnit;
 
 /** Generalized implementation of N-dimensional timer metrics. */
 class TimerImplN extends BucketedTimer implements BucketedMetric {
-  TimerImplN(DropWizardMetricMaker metrics, String name,
-      Description desc, Field<?>... fields) {
+  TimerImplN(DropWizardMetricMaker metrics, String name, Description desc, Field<?>... fields) {
     super(metrics, name, desc, fields);
   }
 
@@ -49,8 +47,7 @@ class TimerImplN extends BucketedTimer implements BucketedMetric {
   <F1, F2, F3> Timer3<F1, F2, F3> timer3() {
     return new Timer3<F1, F2, F3>() {
       @Override
-      public void record(F1 field1, F2 field2, F3 field3,
-          long value, TimeUnit unit) {
+      public void record(F1 field1, F2 field2, F3 field3, long value, TimeUnit unit) {
         total.record(value, unit);
         forceCreate(field1, field2, field3).record(value, unit);
       }
@@ -68,8 +65,7 @@ class TimerImplN extends BucketedTimer implements BucketedMetric {
     ImmutableList<Object> keyList = (ImmutableList<Object>) key;
     String[] parts = new String[fields.length];
     for (int i = 0; i < fields.length; i++) {
-      Function<Object, String> fmt =
-          (Function<Object, String>) fields[i].formatter();
+      Function<Object, String> fmt = (Function<Object, String>) fields[i].formatter();
 
       parts[i] = fmt.apply(keyList.get(i)).replace('/', '-');
     }

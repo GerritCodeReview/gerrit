@@ -21,15 +21,13 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class GetCommit implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
@@ -52,8 +50,9 @@ public class GetCommit implements RestReadView<RevisionResource> {
       String rev = rsrc.getPatchSet().getRevision().get();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
-      CommitInfo info = json.create(ChangeJson.NO_OPTIONS)
-          .toCommit(rsrc.getControl(), rw, commit, addLinks, true);
+      CommitInfo info =
+          json.create(ChangeJson.NO_OPTIONS)
+              .toCommit(rsrc.getControl(), rw, commit, addLinks, true);
       Response<CommitInfo> r = Response.ok(info);
       if (rsrc.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));

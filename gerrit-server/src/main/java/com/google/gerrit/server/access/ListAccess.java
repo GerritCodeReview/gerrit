@@ -22,19 +22,21 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.GetAccess;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.kohsuke.args4j.Option;
 
 public class ListAccess implements RestReadView<TopLevelResource> {
 
-  @Option(name = "--project", aliases = {"-p"}, metaVar = "PROJECT",
-      usage = "projects for which the access rights should be returned")
+  @Option(
+    name = "--project",
+    aliases = {"-p"},
+    metaVar = "PROJECT",
+    usage = "projects for which the access rights should be returned"
+  )
   private List<String> projects = new ArrayList<>();
 
   private final GetAccess getAccess;
@@ -54,5 +56,4 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     }
     return access;
   }
-
 }

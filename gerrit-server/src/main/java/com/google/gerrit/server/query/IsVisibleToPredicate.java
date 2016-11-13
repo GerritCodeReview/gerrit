@@ -17,8 +17,7 @@ package com.google.gerrit.server.query;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 
-public abstract class IsVisibleToPredicate<T> extends OperatorPredicate<T>
-    implements Matchable<T> {
+public abstract class IsVisibleToPredicate<T> extends OperatorPredicate<T> implements Matchable<T> {
   public IsVisibleToPredicate(String name, String value) {
     super(name, value);
   }
@@ -28,8 +27,7 @@ public abstract class IsVisibleToPredicate<T> extends OperatorPredicate<T>
       return user.getAccountId().toString();
     }
     if (user instanceof SingleGroupUser) {
-      return "group:" + user.getEffectiveGroups()
-          .getKnownGroups().iterator().next().toString();
+      return "group:" + user.getEffectiveGroups().getKnownGroups().iterator().next().toString();
     }
     return user.toString();
   }

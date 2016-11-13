@@ -17,15 +17,13 @@ package com.google.gerrit.server.config;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
  * Marker on a {@link java.io.File} pointing to the site path.
- * <p>
- * The site path is where Gerrit Code Review stores most of its configuration.
+ *
+ * <p>The site path is where Gerrit Code Review stores most of its configuration.
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface SitePath {
-}
+public @interface SitePath {}

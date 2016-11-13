@@ -26,54 +26,50 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtexpui.safehtml.client.FindReplace;
 import com.google.gwtexpui.safehtml.client.LinkFindReplace;
 import com.google.gwtexpui.safehtml.client.RawFindReplace;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigInfo extends JavaScriptObject {
 
-  public final native String description()
-  /*-{ return this.description }-*/;
+  public final native String description()/*-{ return this.description }-*/ ;
 
   public final native InheritedBooleanInfo requireChangeId()
-  /*-{ return this.require_change_id; }-*/;
+      /*-{ return this.require_change_id; }-*/ ;
 
   public final native InheritedBooleanInfo useContentMerge()
-  /*-{ return this.use_content_merge; }-*/;
+      /*-{ return this.use_content_merge; }-*/ ;
 
   public final native InheritedBooleanInfo useContributorAgreements()
-  /*-{ return this.use_contributor_agreements; }-*/;
+      /*-{ return this.use_contributor_agreements; }-*/ ;
 
   public final native InheritedBooleanInfo createNewChangeForAllNotInTarget()
-  /*-{ return this.create_new_change_for_all_not_in_target; }-*/;
+      /*-{ return this.create_new_change_for_all_not_in_target; }-*/ ;
 
   public final native InheritedBooleanInfo useSignedOffBy()
-  /*-{ return this.use_signed_off_by; }-*/;
+      /*-{ return this.use_signed_off_by; }-*/ ;
 
   public final native InheritedBooleanInfo enableSignedPush()
-  /*-{ return this.enable_signed_push; }-*/;
+      /*-{ return this.enable_signed_push; }-*/ ;
 
   public final native InheritedBooleanInfo requireSignedPush()
-  /*-{ return this.require_signed_push; }-*/;
+      /*-{ return this.require_signed_push; }-*/ ;
 
   public final native InheritedBooleanInfo rejectImplicitMerges()
-  /*-{ return this.reject_implicit_merges; }-*/;
+      /*-{ return this.reject_implicit_merges; }-*/ ;
 
   public final SubmitType submitType() {
     return SubmitType.valueOf(submitTypeRaw());
   }
 
   public final native NativeMap<NativeMap<ConfigParameterInfo>> pluginConfig()
-  /*-{ return this.plugin_config || {}; }-*/;
+      /*-{ return this.plugin_config || {}; }-*/ ;
 
   public final native NativeMap<ConfigParameterInfo> pluginConfig(String p)
-  /*-{ return this.plugin_config[p]; }-*/;
+      /*-{ return this.plugin_config[p]; }-*/ ;
 
-  public final native NativeMap<ActionInfo> actions()
-  /*-{ return this.actions; }-*/;
+  public final native NativeMap<ActionInfo> actions()/*-{ return this.actions; }-*/ ;
 
-  private native String submitTypeRaw()
-  /*-{ return this.submit_type }-*/;
+  private native String submitTypeRaw()/*-{ return this.submit_type }-*/ ;
 
   public final ProjectState state() {
     if (stateRaw() == null) {
@@ -81,14 +77,14 @@ public class ConfigInfo extends JavaScriptObject {
     }
     return ProjectState.valueOf(stateRaw());
   }
-  private native String stateRaw()
-  /*-{ return this.state }-*/;
+
+  private native String stateRaw()/*-{ return this.state }-*/ ;
 
   public final native MaxObjectSizeLimitInfo maxObjectSizeLimit()
-  /*-{ return this.max_object_size_limit; }-*/;
+      /*-{ return this.max_object_size_limit; }-*/ ;
 
-  private native NativeMap<CommentLinkInfo> commentlinks0()
-  /*-{ return this.commentlinks; }-*/;
+  private native NativeMap<CommentLinkInfo> commentlinks0()/*-{ return this.commentlinks; }-*/ ;
+
   final List<FindReplace> commentlinks() {
     JsArray<CommentLinkInfo> cls = commentlinks0().values();
     List<FindReplace> commentLinks = new ArrayList<>(cls.length());
@@ -105,10 +101,10 @@ public class ConfigInfo extends JavaScriptObject {
           commentLinks.add(fr);
         } catch (RuntimeException e) {
           int index = e.getMessage().indexOf("at Object");
-          new ErrorDialog("Invalid commentlink configuration: "
-              + (index == -1
-              ? e.getMessage()
-              : e.getMessage().substring(0, index))).center();
+          new ErrorDialog(
+                  "Invalid commentlink configuration: "
+                      + (index == -1 ? e.getMessage() : e.getMessage().substring(0, index)))
+              .center();
         }
       }
     }
@@ -117,19 +113,20 @@ public class ConfigInfo extends JavaScriptObject {
 
   final native ThemeInfo theme() /*-{ return this.theme; }-*/;
 
-  protected ConfigInfo() {
-  }
+  protected ConfigInfo() {}
 
   static class CommentLinkInfo extends JavaScriptObject {
     final native String match() /*-{ return this.match; }-*/;
+
     final native String link() /*-{ return this.link; }-*/;
+
     final native String html() /*-{ return this.html; }-*/;
+
     final native boolean enabled() /*-{
       return !this.hasOwnProperty('enabled') || this.enabled;
     }-*/;
 
-    protected CommentLinkInfo() {
-    }
+    protected CommentLinkInfo() {}
   }
 
   public static class InheritedBooleanInfo extends JavaScriptObject {
@@ -137,59 +134,72 @@ public class ConfigInfo extends JavaScriptObject {
       return (InheritedBooleanInfo) createObject();
     }
 
-    public final native boolean value()
-    /*-{ return this.value ? true : false; }-*/;
+    public final native boolean value()/*-{ return this.value ? true : false; }-*/ ;
 
     public final native boolean inheritedValue()
-    /*-{ return this.inherited_value ? true : false; }-*/;
+        /*-{ return this.inherited_value ? true : false; }-*/ ;
 
     public final InheritableBoolean configuredValue() {
       return InheritableBoolean.valueOf(configuredValueRaw());
     }
-    private native String configuredValueRaw()
-    /*-{ return this.configured_value }-*/;
+
+    private native String configuredValueRaw()/*-{ return this.configured_value }-*/ ;
 
     public final void setConfiguredValue(InheritableBoolean v) {
       setConfiguredValueRaw(v.name());
     }
-    public final native void setConfiguredValueRaw(String v)
-    /*-{ if(v)this.configured_value=v; }-*/;
 
-    protected InheritedBooleanInfo() {
-    }
+    public final native void setConfiguredValueRaw(String v)
+        /*-{ if(v)this.configured_value=v; }-*/ ;
+
+    protected InheritedBooleanInfo() {}
   }
 
   public static class MaxObjectSizeLimitInfo extends JavaScriptObject {
     public final native String value() /*-{ return this.value; }-*/;
+
     public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;
+
     public final native String configuredValue() /*-{ return this.configured_value }-*/;
 
-    protected MaxObjectSizeLimitInfo() {
-    }
+    protected MaxObjectSizeLimitInfo() {}
   }
 
   public static class ConfigParameterInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
-    public final native String displayName() /*-{ return this.display_name; }-*/;
-    public final native String description() /*-{ return this.description; }-*/;
-    public final native String warning() /*-{ return this.warning; }-*/;
-    public final native String type() /*-{ return this.type; }-*/;
-    public final native String value() /*-{ return this.value; }-*/;
-    public final native boolean editable() /*-{ return this.editable ? true : false; }-*/;
-    public final native boolean inheritable() /*-{ return this.inheritable ? true : false; }-*/;
-    public final native String configuredValue() /*-{ return this.configured_value; }-*/;
-    public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;
-    public final native JsArrayString permittedValues()  /*-{ return this.permitted_values; }-*/;
-    public final native JsArrayString values()  /*-{ return this.values; }-*/;
 
-    protected ConfigParameterInfo() {
-    }
+    public final native String displayName() /*-{ return this.display_name; }-*/;
+
+    public final native String description() /*-{ return this.description; }-*/;
+
+    public final native String warning() /*-{ return this.warning; }-*/;
+
+    public final native String type() /*-{ return this.type; }-*/;
+
+    public final native String value() /*-{ return this.value; }-*/;
+
+    public final native boolean editable() /*-{ return this.editable ? true : false; }-*/;
+
+    public final native boolean inheritable() /*-{ return this.inheritable ? true : false; }-*/;
+
+    public final native String configuredValue() /*-{ return this.configured_value; }-*/;
+
+    public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;
+
+    public final native JsArrayString permittedValues() /*-{ return this.permitted_values; }-*/;
+
+    public final native JsArrayString values() /*-{ return this.values; }-*/;
+
+    protected ConfigParameterInfo() {}
   }
 
   public static class ConfigParameterValue extends JavaScriptObject {
     final native void init() /*-{ this.values = []; }-*/;
+
     final native void addValue(String v) /*-{ this.values.push(v); }-*/;
+
     final native void setValue(String v) /*-{ if(v)this.value = v; }-*/;
+
     public static ConfigParameterValue create() {
       ConfigParameterValue v = createObject().cast();
       return v;
@@ -208,7 +218,6 @@ public class ConfigInfo extends JavaScriptObject {
       return this;
     }
 
-    protected ConfigParameterValue() {
-    }
+    protected ConfigParameterValue() {}
   }
 }

@@ -31,7 +31,18 @@ import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Stream;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
@@ -58,19 +69,6 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.stream.Stream;
-
 public class PatchListLoader implements Callable<PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
 
@@ -89,7 +87,8 @@ public class PatchListLoader implements Callable<PatchList> {
   private final boolean save;
 
   @AssistedInject
-  PatchListLoader(GitRepositoryManager mgr,
+  PatchListLoader(
+      GitRepositoryManager mgr,
       PatchListCache plc,
       @GerritServerConfig Config cfg,
       @DiffExecutor ExecutorService de,
@@ -104,15 +103,18 @@ public class PatchListLoader implements Callable<PatchList> {
     key = k;
     project = p;
     timeoutMillis =
-        ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.FILE_NAME,
-            "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
+        ConfigUtil.getTimeUnit(
+            cfg,
+            "cache",
+            PatchListCacheImpl.FILE_NAME,
+            "timeout",
+            TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
     save = AutoMerger.cacheAutomerge(cfg);
   }
 
   @Override
-  public PatchList call() throws IOException,
-      PatchListNotAvailableException {
+  public PatchList call() throws IOException, PatchListNotAvailableException {
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = newInserter(repo);
         ObjectReader reader = ins.newReader();
@@ -139,13 +141,11 @@ public class PatchListLoader implements Callable<PatchList> {
   }
 
   private ObjectInserter newInserter(Repository repo) {
-    return save
-        ? repo.newObjectInserter()
-        : new InMemoryInserter(repo);
+    return save ? repo.newObjectInserter() : new InMemoryInserter(repo);
   }
 
-  public PatchList readPatchList(Repository repo, RevWalk rw,
-      ObjectInserter ins) throws IOException, PatchListNotAvailableException {
+  public PatchList readPatchList(Repository repo, RevWalk rw, ObjectInserter ins)
+      throws IOException, PatchListNotAvailableException {
     ObjectReader reader = rw.getObjectReader();
     checkArgument(reader.getCreatedFromInserter() == ins);
     RawTextComparator cmp = comparatorFor(key.getWhitespace());
@@ -180,42 +180,43 @@ public class PatchListLoader implements Callable<PatchList> {
 
       Set<String> paths = null;
       if (key.getOldId() != null && b.getParentCount() == 1) {
-        PatchListKey newKey = PatchListKey.againstDefaultBase(
-            key.getNewId(), key.getWhitespace());
-        PatchListKey oldKey = PatchListKey.againstDefaultBase(
-            key.getOldId(), key.getWhitespace());
-        paths = Stream.concat(
-                patchListCache.get(newKey, project).getPatches().stream(),
-                patchListCache.get(oldKey, project).getPatches().stream())
-            .map(PatchListEntry::getNewName)
-            .collect(toSet());
+        PatchListKey newKey = PatchListKey.againstDefaultBase(key.getNewId(), key.getWhitespace());
+        PatchListKey oldKey = PatchListKey.againstDefaultBase(key.getOldId(), key.getWhitespace());
+        paths =
+            Stream.concat(
+                    patchListCache.get(newKey, project).getPatches().stream(),
+                    patchListCache.get(oldKey, project).getPatches().stream())
+                .map(PatchListEntry::getNewName)
+                .collect(toSet());
       }
 
       int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
-      entries.add(newCommitMessage(cmp, reader,
-          comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit, b));
+      entries.add(
+          newCommitMessage(
+              cmp, reader, comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit, b));
       boolean isMerge = b.getParentCount() > 1;
       if (isMerge) {
-        entries.add(newMergeList(cmp, reader,
-            comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit, b,
-            comparisonType));
+        entries.add(
+            newMergeList(
+                cmp,
+                reader,
+                comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit,
+                b,
+                comparisonType));
       }
       for (int i = 0; i < cnt; i++) {
         DiffEntry e = diffEntries.get(i);
-        if (paths == null || paths.contains(e.getNewPath())
-            || paths.contains(e.getOldPath())) {
+        if (paths == null || paths.contains(e.getNewPath()) || paths.contains(e.getOldPath())) {
 
           FileHeader fh = toFileHeader(key, df, e);
-          long oldSize =
-              getFileSize(reader, e.getOldMode(), e.getOldPath(), aTree);
-          long newSize =
-              getFileSize(reader, e.getNewMode(), e.getNewPath(), bTree);
+          long oldSize = getFileSize(reader, e.getOldMode(), e.getOldPath(), aTree);
+          long newSize = getFileSize(reader, e.getNewMode(), e.getNewPath(), bTree);
           entries.add(newEntry(aTree, fh, newSize, newSize - oldSize));
         }
       }
-      return new PatchList(a, b, isMerge, comparisonType,
-          entries.toArray(new PatchListEntry[entries.size()]));
+      return new PatchList(
+          a, b, isMerge, comparisonType, entries.toArray(new PatchListEntry[entries.size()]));
     }
   }
 
@@ -233,15 +234,13 @@ public class PatchListLoader implements Callable<PatchList> {
     return ComparisonType.againstOtherPatchSet();
   }
 
-  private static long getFileSize(ObjectReader reader,
-      FileMode mode, String path, RevTree t) throws IOException {
+  private static long getFileSize(ObjectReader reader, FileMode mode, String path, RevTree t)
+      throws IOException {
     if (!isBlob(mode)) {
       return 0;
     }
     try (TreeWalk tw = TreeWalk.forPath(reader, path, t)) {
-      return tw != null
-          ? reader.open(tw.getObjectId(0), OBJ_BLOB).getSize()
-          : 0;
+      return tw != null ? reader.open(tw.getObjectId(0), OBJ_BLOB).getSize() : 0;
     }
   }
 
@@ -250,28 +249,37 @@ public class PatchListLoader implements Callable<PatchList> {
     return t == FileMode.TYPE_FILE || t == FileMode.TYPE_SYMLINK;
   }
 
-  private FileHeader toFileHeader(PatchListKey key,
-      final DiffFormatter diffFormatter, final DiffEntry diffEntry)
+  private FileHeader toFileHeader(
+      PatchListKey key, final DiffFormatter diffFormatter, final DiffEntry diffEntry)
       throws IOException {
 
-    Future<FileHeader> result = diffExecutor.submit(new Callable<FileHeader>() {
-      @Override
-      public FileHeader call() throws IOException {
-        synchronized (diffEntry) {
-          return diffFormatter.toFileHeader(diffEntry);
-        }
-      }
-    });
+    Future<FileHeader> result =
+        diffExecutor.submit(
+            new Callable<FileHeader>() {
+              @Override
+              public FileHeader call() throws IOException {
+                synchronized (diffEntry) {
+                  return diffFormatter.toFileHeader(diffEntry);
+                }
+              }
+            });
 
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
-      log.warn(timeoutMillis + " ms timeout reached for Diff loader"
-                      + " in project " + project
-                      + " on commit " + key.getNewId().name()
-                      + " on path " + diffEntry.getNewPath()
-                      + " comparing " + diffEntry.getOldId().name()
-                      + ".." + diffEntry.getNewId().name());
+      log.warn(
+          timeoutMillis
+              + " ms timeout reached for Diff loader"
+              + " in project "
+              + project
+              + " on commit "
+              + key.getNewId().name()
+              + " on path "
+              + diffEntry.getNewPath()
+              + " comparing "
+              + diffEntry.getOldId().name()
+              + ".."
+              + diffEntry.getNewId().name());
       result.cancel(true);
       synchronized (diffEntry) {
         return toFileHeaderWithoutMyersDiff(diffFormatter, diffEntry);
@@ -284,37 +292,36 @@ public class PatchListLoader implements Callable<PatchList> {
     }
   }
 
-  private FileHeader toFileHeaderWithoutMyersDiff(DiffFormatter diffFormatter,
-      DiffEntry diffEntry) throws IOException {
+  private FileHeader toFileHeaderWithoutMyersDiff(DiffFormatter diffFormatter, DiffEntry diffEntry)
+      throws IOException {
     HistogramDiff histogramDiff = new HistogramDiff();
     histogramDiff.setFallbackAlgorithm(null);
     diffFormatter.setDiffAlgorithm(histogramDiff);
     return diffFormatter.toFileHeader(diffEntry);
   }
 
-  private PatchListEntry newCommitMessage(RawTextComparator cmp,
-      ObjectReader reader, RevCommit aCommit, RevCommit bCommit)
-          throws IOException {
-    Text aText = aCommit != null
-        ? Text.forCommit(reader, aCommit)
-        : Text.EMPTY;
+  private PatchListEntry newCommitMessage(
+      RawTextComparator cmp, ObjectReader reader, RevCommit aCommit, RevCommit bCommit)
+      throws IOException {
+    Text aText = aCommit != null ? Text.forCommit(reader, aCommit) : Text.EMPTY;
     Text bText = Text.forCommit(reader, bCommit);
     return createPatchListEntry(cmp, aCommit, aText, bText, Patch.COMMIT_MSG);
   }
 
-  private PatchListEntry newMergeList(RawTextComparator cmp,
-      ObjectReader reader, RevCommit aCommit, RevCommit bCommit,
-      ComparisonType comparisonType) throws IOException {
-    Text aText = aCommit != null
-        ? Text.forMergeList(comparisonType, reader, aCommit)
-        : Text.EMPTY;
-    Text bText =
-        Text.forMergeList(comparisonType, reader, bCommit);
+  private PatchListEntry newMergeList(
+      RawTextComparator cmp,
+      ObjectReader reader,
+      RevCommit aCommit,
+      RevCommit bCommit,
+      ComparisonType comparisonType)
+      throws IOException {
+    Text aText = aCommit != null ? Text.forMergeList(comparisonType, reader, aCommit) : Text.EMPTY;
+    Text bText = Text.forMergeList(comparisonType, reader, bCommit);
     return createPatchListEntry(cmp, aCommit, aText, bText, Patch.MERGE_LIST);
   }
 
-  private static PatchListEntry createPatchListEntry(RawTextComparator cmp,
-      RevCommit aCommit, Text aText, Text bText, String fileName) {
+  private static PatchListEntry createPatchListEntry(
+      RawTextComparator cmp, RevCommit aCommit, Text aText, Text bText, String fileName) {
     byte[] rawHdr = getRawHeader(aCommit != null, fileName);
     byte[] aContent = aText.getContent();
     byte[] bContent = bText.getContent();
@@ -347,25 +354,22 @@ public class PatchListLoader implements Callable<PatchList> {
     return hdr.toString().getBytes(UTF_8);
   }
 
-  private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader,
-      long size, long sizeDelta) {
+  private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader, long size, long sizeDelta) {
     if (aTree == null // want combined diff
         || fileHeader.getPatchType() != PatchType.UNIFIED
         || fileHeader.getHunks().isEmpty()) {
-      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
-          size, sizeDelta);
+      return new PatchListEntry(fileHeader, Collections.<Edit>emptyList(), size, sizeDelta);
     }
 
     List<Edit> edits = fileHeader.toEditList();
     if (edits.isEmpty()) {
-      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
-          size, sizeDelta);
+      return new PatchListEntry(fileHeader, Collections.<Edit>emptyList(), size, sizeDelta);
     }
     return new PatchListEntry(fileHeader, edits, size, sizeDelta);
   }
 
-  private RevObject aFor(PatchListKey key,
-      Repository repo, RevWalk rw, ObjectInserter ins, RevCommit b)
+  private RevObject aFor(
+      PatchListKey key, Repository repo, RevWalk rw, ObjectInserter ins, RevCommit b)
       throws IOException {
     if (key.getOldId() != null) {
       return rw.parseAny(key.getOldId());
@@ -374,11 +378,12 @@ public class PatchListLoader implements Callable<PatchList> {
     switch (b.getParentCount()) {
       case 0:
         return rw.parseAny(emptyTree(ins));
-      case 1: {
-        RevCommit r = b.getParent(0);
-        rw.parseBody(r);
-        return r;
-      }
+      case 1:
+        {
+          RevCommit r = b.getParent(0);
+          rw.parseBody(r);
+          return r;
+        }
       case 2:
         if (key.getParentNum() != null) {
           RevCommit r = b.getParent(key.getParentNum() - 1);

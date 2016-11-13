@@ -18,17 +18,15 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-
-import org.apache.sshd.common.keyprovider.AbstractFileKeyPairProvider;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.sshd.common.keyprovider.AbstractFileKeyPairProvider;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 class HostKeyProvider implements Provider<KeyPairProvider> {
   private final SitePaths site;
@@ -57,21 +55,22 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
         SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
         p.setPath(objKey.toAbsolutePath());
         return p;
-
       }
       // Both formats of host key exist, we don't know which format
       // should be authoritative. Complain and abort.
       //
       stdKeys.add(objKey.toAbsolutePath().toFile());
       throw new ProvisionException("Multiple host keys exist: " + stdKeys);
-
     }
     if (stdKeys.isEmpty()) {
       throw new ProvisionException("No SSH keys under " + site.etc_dir);
     }
     if (!SecurityUtils.isBouncyCastleRegistered()) {
-      throw new ProvisionException("Bouncy Castle Crypto not installed;"
-          + " needed to read server host keys: " + stdKeys + "");
+      throw new ProvisionException(
+          "Bouncy Castle Crypto not installed;"
+              + " needed to read server host keys: "
+              + stdKeys
+              + "");
     }
     AbstractFileKeyPairProvider kp = SecurityUtils.createFileKeyPairProvider();
     kp.setFiles(stdKeys);

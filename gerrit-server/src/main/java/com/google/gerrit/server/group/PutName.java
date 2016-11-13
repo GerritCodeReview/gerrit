@@ -35,7 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
@@ -45,8 +44,7 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class PutName implements RestModifyView<GroupResource, Input> {
   public static class Input {
-    @DefaultInput
-    public String name;
+    @DefaultInput public String name;
   }
 
   private final Provider<ReviewDb> db;
@@ -56,7 +54,8 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   private final Provider<IdentifiedUser> currentUser;
 
   @Inject
-  PutName(Provider<ReviewDb> db,
+  PutName(
+      Provider<ReviewDb> db,
       GroupCache groupCache,
       GroupDetailFactory.Factory groupDetailFactory,
       RenameGroupOp.Factory renameGroupOpFactory,
@@ -71,8 +70,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   @Override
   public String apply(GroupResource rsrc, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-      ResourceConflictException, OrmException, NoSuchGroupException,
-      IOException {
+          ResourceConflictException, OrmException, NoSuchGroupException, IOException {
     if (rsrc.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     } else if (!rsrc.getControl().isOwner()) {
@@ -93,8 +91,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   }
 
   private GroupDetail renameGroup(AccountGroup group, String newName)
-      throws ResourceConflictException, OrmException,
-      NoSuchGroupException, IOException {
+      throws ResourceConflictException, OrmException, NoSuchGroupException, IOException {
     AccountGroup.Id groupId = group.getId();
     AccountGroup.NameKey old = group.getNameKey();
     AccountGroup.NameKey key = new AccountGroup.NameKey(newName);
@@ -113,8 +110,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
 
         // Otherwise, someone else has this identity.
         //
-        throw new ResourceConflictException("group with name " + newName
-            + "already exists");
+        throw new ResourceConflictException("group with name " + newName + "already exists");
       }
       throw e;
     }
@@ -129,10 +125,13 @@ public class PutName implements RestModifyView<GroupResource, Input> {
 
     groupCache.evict(group);
     groupCache.evictAfterRename(old, key);
-    renameGroupOpFactory.create(
-        currentUser.get().newCommitterIdent(new Date(), TimeZone.getDefault()),
-        group.getGroupUUID(),
-        old.get(), newName).start(0, TimeUnit.MILLISECONDS);
+    renameGroupOpFactory
+        .create(
+            currentUser.get().newCommitterIdent(new Date(), TimeZone.getDefault()),
+            group.getGroupUUID(),
+            old.get(),
+            newName)
+        .start(0, TimeUnit.MILLISECONDS);
 
     return groupDetailFactory.create(groupId).call();
   }

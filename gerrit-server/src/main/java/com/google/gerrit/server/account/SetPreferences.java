@@ -39,19 +39,16 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class SetPreferences implements
-    RestModifyView<AccountResource, GeneralPreferencesInfo> {
+public class SetPreferences implements RestModifyView<AccountResource, GeneralPreferencesInfo> {
   private final Provider<CurrentUser> self;
   private final AccountCache cache;
   private final GeneralPreferencesLoader loader;
@@ -60,7 +57,8 @@ public class SetPreferences implements
   private final DynamicMap<DownloadScheme> downloadSchemes;
 
   @Inject
-  SetPreferences(Provider<CurrentUser> self,
+  SetPreferences(
+      Provider<CurrentUser> self,
       AccountCache cache,
       GeneralPreferencesLoader loader,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
@@ -75,12 +73,9 @@ public class SetPreferences implements
   }
 
   @Override
-  public GeneralPreferencesInfo apply(AccountResource rsrc,
-      GeneralPreferencesInfo i)
-          throws AuthException, BadRequestException, IOException,
-          ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+  public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo i)
+      throws AuthException, BadRequestException, IOException, ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 
@@ -104,7 +99,11 @@ public class SetPreferences implements
       prefs = VersionedAccountPreferences.forUser(id);
       prefs.load(md);
 
-      storeSection(prefs.getConfig(), UserConfigSections.GENERAL, null, i,
+      storeSection(
+          prefs.getConfig(),
+          UserConfigSections.GENERAL,
+          null,
+          i,
           GeneralPreferencesInfo.defaults());
 
       storeMyChangeTableColumns(prefs, i.changeTable);
@@ -115,8 +114,7 @@ public class SetPreferences implements
     }
   }
 
-  public static void storeMyMenus(VersionedAccountPreferences prefs,
-      List<MenuItem> my) {
+  public static void storeMyMenus(VersionedAccountPreferences prefs, List<MenuItem> my) {
     Config cfg = prefs.getConfig();
     if (my != null) {
       unsetSection(cfg, UserConfigSections.MY);
@@ -128,13 +126,12 @@ public class SetPreferences implements
     }
   }
 
-  public static void storeMyChangeTableColumns(VersionedAccountPreferences
-      prefs, List<String> changeTable) {
+  public static void storeMyChangeTableColumns(
+      VersionedAccountPreferences prefs, List<String> changeTable) {
     Config cfg = prefs.getConfig();
     if (changeTable != null) {
       unsetSection(cfg, UserConfigSections.CHANGE_TABLE);
-      cfg.setStringList(UserConfigSections.CHANGE_TABLE, null,
-          CHANGE_TABLE_COLUMN, changeTable);
+      cfg.setStringList(UserConfigSections.CHANGE_TABLE, null, CHANGE_TABLE_COLUMN, changeTable);
     }
   }
 
@@ -148,13 +145,13 @@ public class SetPreferences implements
 
   private static void unsetSection(Config cfg, String section) {
     cfg.unsetSection(section, null);
-    for (String subsection: cfg.getSubsections(section)) {
+    for (String subsection : cfg.getSubsections(section)) {
       cfg.unsetSection(section, subsection);
     }
   }
 
-  public static void storeUrlAliases(VersionedAccountPreferences prefs,
-      Map<String, String> urlAliases) {
+  public static void storeUrlAliases(
+      VersionedAccountPreferences prefs, Map<String, String> urlAliases) {
     if (urlAliases != null) {
       Config cfg = prefs.getConfig();
       for (String subsection : cfg.getSubsections(URL_ALIAS)) {
@@ -170,19 +167,16 @@ public class SetPreferences implements
     }
   }
 
-  private void checkDownloadScheme(String downloadScheme)
-      throws BadRequestException {
+  private void checkDownloadScheme(String downloadScheme) throws BadRequestException {
     if (Strings.isNullOrEmpty(downloadScheme)) {
       return;
     }
 
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
-      if (e.getExportName().equals(downloadScheme)
-          && e.getProvider().get().isEnabled()) {
+      if (e.getExportName().equals(downloadScheme) && e.getProvider().get().isEnabled()) {
         return;
       }
     }
-    throw new BadRequestException(
-        "Unsupported download scheme: " + downloadScheme);
+    throw new BadRequestException("Unsupported download scheme: " + downloadScheme);
   }
 }

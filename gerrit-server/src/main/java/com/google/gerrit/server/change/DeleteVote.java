@@ -51,17 +51,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class DeleteVote
-    implements RestModifyView<VoteResource, DeleteVoteInput> {
+public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput> {
   private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
 
   private final Provider<ReviewDb> db;
@@ -75,7 +72,8 @@ public class DeleteVote
   private final NotifyUtil notifyUtil;
 
   @Inject
-  DeleteVote(Provider<ReviewDb> db,
+  DeleteVote(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory batchUpdateFactory,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
@@ -110,16 +108,14 @@ public class DeleteVote
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
 
-    if (r.getRevisionResource() != null
-        && !r.getRevisionResource().isCurrent()) {
-      throw new MethodNotAllowedException(
-          "Cannot delete vote on non-current patch set");
+    if (r.getRevisionResource() != null && !r.getRevisionResource().isCurrent()) {
+      throw new MethodNotAllowedException("Cannot delete vote on non-current patch set");
     }
 
-    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-          change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
-      bu.addOp(change.getId(),
-          new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel(), input));
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db.get(), change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
+      bu.addOp(change.getId(), new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel(), input));
       bu.execute();
     }
 
@@ -153,8 +149,7 @@ public class DeleteVote
       boolean found = false;
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
 
-      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-          ctx.getDb(), ctl, psId, accountId)) {
+      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(), ctl, psId, accountId)) {
         if (labelTypes.byLabel(a.getLabelId()) == null) {
           continue; // Ignore undefined labels.
         } else if (!a.getLabel().equals(label)) {
@@ -177,19 +172,15 @@ public class DeleteVote
       }
 
       ctx.getUpdate(psId).removeApprovalFor(accountId, label);
-      ctx.getDb().patchSetApprovals().upsert(
-          Collections.singleton(deletedApproval(ctx)));
+      ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
       LabelVote.appendTo(msg, label, checkNotNull(oldApprovals.get(label)));
-      msg.append(" by ")
-          .append(userFactory.create(accountId).getNameEmail())
-          .append("\n");
-      changeMessage = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
-          ChangeMessagesUtil.TAG_DELETE_VOTE);
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
-          changeMessage);
+      msg.append(" by ").append(userFactory.create(accountId).getNameEmail()).append("\n");
+      changeMessage =
+          ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
+      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
 
       return true;
     }
@@ -199,10 +190,7 @@ public class DeleteVote
       // set the real user; this preserves the calling user as the NoteDb
       // committer.
       return new PatchSetApproval(
-          new PatchSetApproval.Key(
-              ps.getId(),
-              accountId,
-              new LabelId(label)),
+          new PatchSetApproval.Key(ps.getId(), accountId, new LabelId(label)),
           (short) 0,
           ctx.getWhen());
     }
@@ -216,22 +204,26 @@ public class DeleteVote
       IdentifiedUser user = ctx.getIdentifiedUser();
       if (NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
         try {
-          ReplyToChangeSender cm = deleteVoteSenderFactory.create(
-              ctx.getProject(), change.getId());
+          ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
           cm.setNotify(input.notify);
-          cm.setAccountsToNotify(
-              notifyUtil.resolveAccounts(input.notifyDetails));
+          cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
           cm.send();
         } catch (Exception e) {
           log.error("Cannot email update for change " + change.getId(), e);
         }
       }
 
-      voteDeleted.fire(change, ps,
-          newApprovals, oldApprovals, input.notify, changeMessage.getMessage(),
-          user.getAccount(), ctx.getWhen());
+      voteDeleted.fire(
+          change,
+          ps,
+          newApprovals,
+          oldApprovals,
+          input.notify,
+          changeMessage.getMessage(),
+          user.getAccount(),
+          ctx.getWhen());
     }
   }
 }

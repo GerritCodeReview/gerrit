@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -40,42 +39,37 @@ public class GetExternalIds implements RestReadView<AccountResource> {
   private final AuthConfig authConfig;
 
   @Inject
-  GetExternalIds(ExternalIdCache externalIdCache,
-      Provider<CurrentUser> self,
-      AuthConfig authConfig) {
+  GetExternalIds(
+      ExternalIdCache externalIdCache, Provider<CurrentUser> self, AuthConfig authConfig) {
     this.externalIdCache = externalIdCache;
     this.self = self;
     this.authConfig = authConfig;
   }
 
   @Override
-  public List<AccountExternalIdInfo> apply(AccountResource resource)
-      throws RestApiException {
+  public List<AccountExternalIdInfo> apply(AccountResource resource) throws RestApiException {
     if (self.get() != resource.getUser()) {
       throw new AuthException("not allowed to get external IDs");
     }
 
-    Collection<AccountExternalId> ids = externalIdCache.byAccount(
-        resource.getUser().getAccountId());
+    Collection<AccountExternalId> ids =
+        externalIdCache.byAccount(resource.getUser().getAccountId());
     if (ids.isEmpty()) {
       return ImmutableList.of();
     }
-    List<AccountExternalIdInfo> result =
-        Lists.newArrayListWithCapacity(ids.size());
+    List<AccountExternalIdInfo> result = Lists.newArrayListWithCapacity(ids.size());
     for (AccountExternalId id : ids) {
       AccountExternalIdInfo info = new AccountExternalIdInfo();
       info.identity = id.getExternalId();
       info.emailAddress = id.getEmailAddress();
-      info.trusted = authConfig.isIdentityTrustable(
-          Collections.singleton(id));
+      info.trusted = authConfig.isIdentityTrustable(Collections.singleton(id));
       // The identity can be deleted only if its not the one used to
       // establish this web session, and if only if an identity was
       // actually used to establish this web session.
       if (id.isScheme(SCHEME_USERNAME)) {
         info.canDelete = false;
       } else {
-        CurrentUser.PropertyKey<AccountExternalId.Key> k =
-            CurrentUser.PropertyKey.create();
+        CurrentUser.PropertyKey<AccountExternalId.Key> k = CurrentUser.PropertyKey.create();
         AccountExternalId.Key last = resource.getUser().get(k);
         info.canDelete = (last != null) && (!last.get().equals(info.identity));
       }
@@ -84,4 +78,3 @@ public class GetExternalIds implements RestReadView<AccountResource> {
     return result;
   }
 }
-

@@ -28,13 +28,13 @@ public class ElasticIndexModuleOnInit extends AbstractModule {
   protected void configure() {
     install(
         new FactoryModuleBuilder()
-        .implement(AccountIndex.class, ElasticAccountIndex.class)
-        .build(AccountIndex.Factory.class));
+            .implement(AccountIndex.class, ElasticAccountIndex.class)
+            .build(AccountIndex.Factory.class));
 
     install(
         new FactoryModuleBuilder()
-        .implement(GroupIndex.class, ElasticGroupIndex.class)
-        .build(GroupIndex.Factory.class));
+            .implement(GroupIndex.class, ElasticGroupIndex.class)
+            .build(GroupIndex.Factory.class));
 
     install(new IndexModuleOnInit());
   }

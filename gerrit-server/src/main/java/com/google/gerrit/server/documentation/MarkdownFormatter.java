@@ -20,7 +20,13 @@ import static org.pegdown.Extensions.HARDWRAPS;
 import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -34,17 +40,8 @@ import org.pegdown.ast.TextNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class MarkdownFormatter {
-  private static final Logger log =
-      LoggerFactory.getLogger(MarkdownFormatter.class);
+  private static final Logger log = LoggerFactory.getLogger(MarkdownFormatter.class);
 
   private static final String defaultCss;
 
@@ -85,8 +82,7 @@ public class MarkdownFormatter {
     return this;
   }
 
-  public byte[] markdownToDocHtml(String md, String charEnc)
-      throws UnsupportedEncodingException {
+  public byte[] markdownToDocHtml(String md, String charEnc) throws UnsupportedEncodingException {
     RootNode root = parseMarkdown(md);
     String title = findTitle(root);
 
@@ -118,9 +114,7 @@ public class MarkdownFormatter {
   private String findTitle(Node root) {
     if (root instanceof HeaderNode) {
       HeaderNode h = (HeaderNode) root;
-      if (h.getLevel() == 1
-          && h.getChildren() != null
-          && !h.getChildren().isEmpty()) {
+      if (h.getLevel() == 1 && h.getChildren() != null && !h.getChildren().isEmpty()) {
         StringBuilder b = new StringBuilder();
         for (Node n : root.getChildren()) {
           if (n instanceof TextNode) {
@@ -145,12 +139,10 @@ public class MarkdownFormatter {
     if (suppressHtml) {
       options |= SUPPRESS_ALL_HTML;
     }
-    return new PegDownProcessor(options)
-        .parseMarkdown(md.toCharArray());
+    return new PegDownProcessor(options).parseMarkdown(md.toCharArray());
   }
 
-  private static String readPegdownCss(AtomicBoolean file)
-      throws IOException {
+  private static String readPegdownCss(AtomicBoolean file) throws IOException {
     String name = "pegdown.css";
     URL url = MarkdownFormatter.class.getResource(name);
     if (url == null) {

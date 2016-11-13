@@ -36,8 +36,7 @@ public class PluginEvent {
     }
   }
 
-  private static class Event extends AbstractNoNotifyEvent
-      implements PluginEventListener.Event {
+  private static class Event extends AbstractNoNotifyEvent implements PluginEventListener.Event {
     private final String pluginName;
     private final String type;
     private final String data;

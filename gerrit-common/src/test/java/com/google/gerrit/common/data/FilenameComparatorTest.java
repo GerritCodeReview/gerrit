@@ -23,43 +23,30 @@ public class FilenameComparatorTest {
 
   @Test
   public void basicPaths() {
-    assertThat(comparator.compare(
-        "abc/xyz/FileOne.java", "xyz/abc/FileTwo.java")).isLessThan(0);
-    assertThat(comparator.compare(
-        "abc/xyz/FileOne.java", "abc/xyz/FileOne.java")).isEqualTo(0);
-    assertThat(comparator.compare(
-        "zzz/yyy/FileOne.java", "abc/xyz/FileOne.java")).isGreaterThan(0);
+    assertThat(comparator.compare("abc/xyz/FileOne.java", "xyz/abc/FileTwo.java")).isLessThan(0);
+    assertThat(comparator.compare("abc/xyz/FileOne.java", "abc/xyz/FileOne.java")).isEqualTo(0);
+    assertThat(comparator.compare("zzz/yyy/FileOne.java", "abc/xyz/FileOne.java")).isGreaterThan(0);
   }
 
   @Test
   public void specialPaths() {
-    assertThat(comparator.compare(
-        "ABC/xyz/FileOne.java", "/COMMIT_MSG")).isGreaterThan(0);
-    assertThat(comparator.compare(
-        "/COMMIT_MSG", "ABC/xyz/FileOne.java")).isLessThan(0);
+    assertThat(comparator.compare("ABC/xyz/FileOne.java", "/COMMIT_MSG")).isGreaterThan(0);
+    assertThat(comparator.compare("/COMMIT_MSG", "ABC/xyz/FileOne.java")).isLessThan(0);
 
-    assertThat(comparator.compare(
-        "ABC/xyz/FileOne.java", "/MERGE_LIST")).isGreaterThan(0);
-    assertThat(comparator.compare(
-        "/MERGE_LIST", "ABC/xyz/FileOne.java")).isLessThan(0);
+    assertThat(comparator.compare("ABC/xyz/FileOne.java", "/MERGE_LIST")).isGreaterThan(0);
+    assertThat(comparator.compare("/MERGE_LIST", "ABC/xyz/FileOne.java")).isLessThan(0);
 
-    assertThat(comparator.compare(
-        "/COMMIT_MSG", "/MERGE_LIST")).isLessThan(0);
-    assertThat(comparator.compare(
-        "/MERGE_LIST", "/COMMIT_MSG")).isGreaterThan(0);
+    assertThat(comparator.compare("/COMMIT_MSG", "/MERGE_LIST")).isLessThan(0);
+    assertThat(comparator.compare("/MERGE_LIST", "/COMMIT_MSG")).isGreaterThan(0);
 
-    assertThat(comparator.compare(
-        "/COMMIT_MSG", "/COMMIT_MSG")).isEqualTo(0);
-    assertThat(comparator.compare(
-        "/MERGE_LIST", "/MERGE_LIST")).isEqualTo(0);
+    assertThat(comparator.compare("/COMMIT_MSG", "/COMMIT_MSG")).isEqualTo(0);
+    assertThat(comparator.compare("/MERGE_LIST", "/MERGE_LIST")).isEqualTo(0);
   }
 
   @Test
   public void cppExtensions() {
     assertThat(comparator.compare("abc/file.h", "abc/file.cc")).isLessThan(0);
-    assertThat(comparator.compare("abc/file.c", "abc/file.hpp"))
-        .isGreaterThan(0);
-    assertThat(comparator.compare("abc..xyz.file.h", "abc.xyz.file.cc"))
-        .isLessThan(0);
+    assertThat(comparator.compare("abc/file.c", "abc/file.hpp")).isGreaterThan(0);
+    assertThat(comparator.compare("abc..xyz.file.h", "abc.xyz.file.cc")).isLessThan(0);
   }
 }

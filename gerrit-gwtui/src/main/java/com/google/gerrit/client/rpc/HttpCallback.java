@@ -17,5 +17,6 @@ package com.google.gerrit.client.rpc;
 /** AsyncCallback supplied with HTTP response headers. */
 public interface HttpCallback<T> {
   void onSuccess(HttpResponse<T> result);
+
   void onFailure(Throwable caught);
 }

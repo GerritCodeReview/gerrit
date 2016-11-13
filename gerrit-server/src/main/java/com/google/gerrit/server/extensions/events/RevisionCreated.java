@@ -27,38 +27,36 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-
 public class RevisionCreated {
-  private static final Logger log =
-      LoggerFactory.getLogger(RevisionCreated.class);
+  private static final Logger log = LoggerFactory.getLogger(RevisionCreated.class);
 
   private final DynamicSet<RevisionCreatedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  RevisionCreated(DynamicSet<RevisionCreatedListener> listeners,
-      EventUtil util) {
+  RevisionCreated(DynamicSet<RevisionCreatedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet patchSet, Account uploader,
-      Timestamp when, NotifyHandling notify) {
+  public void fire(
+      Change change, PatchSet patchSet, Account uploader, Timestamp when, NotifyHandling notify) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.revisionInfo(change.getProject(), patchSet),
-          util.accountInfo(uploader),
-          when, notify);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), patchSet),
+              util.accountInfo(uploader),
+              when,
+              notify);
       for (RevisionCreatedListener l : listeners) {
         try {
           l.onRevisionCreated(event);
@@ -66,8 +64,7 @@ public class RevisionCreated {
           util.logEventListenerError(this, l, e);
         }
       }
-    } catch ( PatchListNotAvailableException | GpgException | IOException
-        | OrmException e) {
+    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
       log.error("Couldn't fire event", e);
     }
   }
@@ -75,8 +72,12 @@ public class RevisionCreated {
   private static class Event extends AbstractRevisionEvent
       implements RevisionCreatedListener.Event {
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo uploader,
-        Timestamp when, NotifyHandling notify) {
+    Event(
+        ChangeInfo change,
+        RevisionInfo revision,
+        AccountInfo uploader,
+        Timestamp when,
+        NotifyHandling notify) {
       super(change, revision, uploader, when, notify);
     }
   }

@@ -22,14 +22,12 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
 @Singleton

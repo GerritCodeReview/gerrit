@@ -44,46 +44,36 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ValueListBox;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AccessSectionEditor extends Composite implements
-    Editor<AccessSection>, ValueAwareEditor<AccessSection> {
-  interface Binder extends UiBinder<HTMLPanel, AccessSectionEditor> {
-  }
+public class AccessSectionEditor extends Composite
+    implements Editor<AccessSection>, ValueAwareEditor<AccessSection> {
+  interface Binder extends UiBinder<HTMLPanel, AccessSectionEditor> {}
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField
-  ValueEditor<String> name;
+  @UiField ValueEditor<String> name;
 
-  @UiField
-  FlowPanel permissionContainer;
+  @UiField FlowPanel permissionContainer;
   ListEditor<Permission, PermissionEditor> permissions;
 
-  @UiField
-  DivElement addContainer;
+  @UiField DivElement addContainer;
+
   @UiField(provided = true)
   @Editor.Ignore
   ValueListBox<String> permissionSelector;
 
-  @UiField
-  SpanElement deletedName;
+  @UiField SpanElement deletedName;
 
-  @UiField
-  Anchor deleteSection;
+  @UiField Anchor deleteSection;
 
-  @UiField
-  DivElement normal;
-  @UiField
-  DivElement deleted;
+  @UiField DivElement normal;
+  @UiField DivElement deleted;
 
-  @UiField
-  SpanElement sectionType;
-  @UiField
-  SpanElement sectionName;
+  @UiField SpanElement sectionType;
+  @UiField SpanElement sectionName;
 
   private final ProjectAccess projectAccess;
   private AccessSection value;
@@ -93,16 +83,16 @@ public class AccessSectionEditor extends Composite implements
 
   public AccessSectionEditor(ProjectAccess access) {
     projectAccess = access;
-    permissionSelector = new ValueListBox<>(
-        new PermissionNameRenderer(access.getCapabilities()));
-    permissionSelector.addValueChangeHandler(new ValueChangeHandler<String>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        if (!Util.C.addPermission().equals(event.getValue())) {
-          onAddPermission(event.getValue());
-        }
-      }
-    });
+    permissionSelector = new ValueListBox<>(new PermissionNameRenderer(access.getCapabilities()));
+    permissionSelector.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            if (!Util.C.addPermission().equals(event.getValue())) {
+              onAddPermission(event.getValue());
+            }
+          }
+        });
 
     initWidget(uiBinder.createAndBindUi(this));
     permissions = ListEditor.of(new PermissionEditorSource());
@@ -122,8 +112,7 @@ public class AccessSectionEditor extends Composite implements
   void onDeleteSection(@SuppressWarnings("unused") ClickEvent event) {
     isDeleted = true;
 
-    if (name.isVisible()
-        && RefConfigSection.isValid(name.getValue())) {
+    if (name.isVisible() && RefConfigSection.isValid(name.getValue())) {
       deletedName.setInnerText(Util.M.deletedReference(name.getValue()));
 
     } else {
@@ -159,12 +148,14 @@ public class AccessSectionEditor extends Composite implements
 
   void editRefPattern() {
     name.edit();
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        name.setFocus(true);
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                name.setFocus(true);
+              }
+            });
   }
 
   void enableEditing() {
@@ -246,8 +237,7 @@ public class AccessSectionEditor extends Composite implements
     }
   }
 
-  private void addPermission(final String permissionName,
-      final List<String> permissionList) {
+  private void addPermission(final String permissionName, final List<String> permissionList) {
     if (value.getPermission(permissionName) != null) {
       return;
     }
@@ -273,19 +263,16 @@ public class AccessSectionEditor extends Composite implements
   }
 
   @Override
-  public void onPropertyChange(String... paths) {
-  }
+  public void onPropertyChange(String... paths) {}
 
   @Override
-  public void setDelegate(EditorDelegate<AccessSection> delegate) {
-  }
+  public void setDelegate(EditorDelegate<AccessSection> delegate) {}
 
   private class PermissionEditorSource extends EditorSource<PermissionEditor> {
     @Override
     public PermissionEditor create(int index) {
       PermissionEditor subEditor =
-          new PermissionEditor(projectAccess, readOnly, value,
-              projectAccess.getLabelTypes());
+          new PermissionEditor(projectAccess, readOnly, value, projectAccess.getLabelTypes());
       permissionContainer.insert(subEditor, index);
       return subEditor;
     }

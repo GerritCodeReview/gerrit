@@ -28,30 +28,31 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
-
-import org.kohsuke.args4j.Argument;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import org.kohsuke.args4j.Argument;
 
 public class Passwd extends SiteProgram {
   private String section;
   private String key;
 
-  @Argument(metaVar = "SECTION.KEY", index = 0, required = true,
-      usage = "Section and key separated by a dot of the password to set")
+  @Argument(
+    metaVar = "SECTION.KEY",
+    index = 0,
+    required = true,
+    usage = "Section and key separated by a dot of the password to set"
+  )
   private String sectionAndKey;
 
-  @Argument(metaVar = "PASSWORD", index = 1, required = false,
-      usage = "Password to set")
+  @Argument(metaVar = "PASSWORD", index = 1, required = false, usage = "Password to set")
   private String password;
 
   private void init() {
     String[] varParts = sectionAndKey.split("\\.");
     if (varParts.length != 2) {
-      throw new IllegalArgumentException("Invalid name '" + sectionAndKey
-          + "': expected section.key format");
+      throw new IllegalArgumentException(
+          "Invalid name '" + sectionAndKey + "': expected section.key format");
     }
     section = varParts[0];
     key = varParts[1];
@@ -67,22 +68,22 @@ public class Passwd extends SiteProgram {
 
   private Injector getSysInjector() {
     List<Module> modules = new ArrayList<>();
-    modules.add(new FactoryModule() {
-      @Override
-      protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class)
-            .toInstance(getSitePath());
-        bind(ConsoleUI.class).toInstance(
-            ConsoleUI.getInstance(password != null));
-        factory(Section.Factory.class);
-        bind(Boolean.class).annotatedWith(InstallAllPlugins.class).toInstance(
-            Boolean.FALSE);
-        bind(new TypeLiteral<List<String>>() {}).annotatedWith(
-            InstallPlugins.class).toInstance(new ArrayList<String>());
-        bind(String.class).annotatedWith(SecureStoreClassName.class)
-            .toProvider(Providers.of(getConfiguredSecureStoreClass()));
-      }
-    });
+    modules.add(
+        new FactoryModule() {
+          @Override
+          protected void configure() {
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
+            bind(ConsoleUI.class).toInstance(ConsoleUI.getInstance(password != null));
+            factory(Section.Factory.class);
+            bind(Boolean.class).annotatedWith(InstallAllPlugins.class).toInstance(Boolean.FALSE);
+            bind(new TypeLiteral<List<String>>() {})
+                .annotatedWith(InstallPlugins.class)
+                .toInstance(new ArrayList<String>());
+            bind(String.class)
+                .annotatedWith(SecureStoreClassName.class)
+                .toProvider(Providers.of(getConfiguredSecureStoreClass()));
+          }
+        });
     modules.add(new GerritServerConfigModule());
     return Guice.createInjector(modules);
   }

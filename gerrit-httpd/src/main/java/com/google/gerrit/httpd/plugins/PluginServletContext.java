@@ -17,10 +17,6 @@ package com.google.gerrit.httpd.plugins;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.server.plugins.Plugin;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.InputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -30,24 +26,24 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class PluginServletContext {
-  private static final Logger log =
-      LoggerFactory.getLogger(PluginServletContext.class);
+  private static final Logger log = LoggerFactory.getLogger(PluginServletContext.class);
 
   static ServletContext create(Plugin plugin, String contextPath) {
-    return (ServletContext) Proxy.newProxyInstance(
-        PluginServletContext.class.getClassLoader(),
-        new Class[] {ServletContext.class, API.class},
-        new Handler(plugin, contextPath));
+    return (ServletContext)
+        Proxy.newProxyInstance(
+            PluginServletContext.class.getClassLoader(),
+            new Class[] {ServletContext.class, API.class},
+            new Handler(plugin, contextPath));
   }
 
-  private PluginServletContext() {
-  }
+  private PluginServletContext() {}
 
   private static class Handler implements InvocationHandler, API {
     private final Plugin plugin;
@@ -61,18 +57,14 @@ class PluginServletContext {
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args)
-        throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
       Method handler;
       try {
-        handler = API.class.getDeclaredMethod(
-            method.getName(),
-            method.getParameterTypes());
+        handler = API.class.getDeclaredMethod(method.getName(), method.getParameterTypes());
       } catch (NoSuchMethodException e) {
-        throw new NoSuchMethodError(String.format(
-            "%s does not implement %s",
-            PluginServletContext.class,
-            method.toGenericString()));
+        throw new NoSuchMethodError(
+            String.format(
+                "%s does not implement %s", PluginServletContext.class, method.toGenericString()));
       }
       return handler.invoke(this, args);
     }
@@ -210,33 +202,57 @@ class PluginServletContext {
 
   interface API {
     String getContextPath();
+
     String getInitParameter(String name);
+
     @SuppressWarnings("rawtypes")
     Enumeration getInitParameterNames();
+
     ServletContext getContext(String name);
+
     RequestDispatcher getNamedDispatcher(String name);
+
     RequestDispatcher getRequestDispatcher(String name);
+
     URL getResource(String name);
+
     InputStream getResourceAsStream(String name);
+
     @SuppressWarnings("rawtypes")
     Set getResourcePaths(String name);
+
     Servlet getServlet(String name);
+
     String getRealPath(String name);
+
     String getServletContextName();
+
     @SuppressWarnings("rawtypes")
     Enumeration getServletNames();
+
     @SuppressWarnings("rawtypes")
     Enumeration getServlets();
+
     void log(Exception reason, String msg);
+
     void log(String msg);
+
     void log(String msg, Throwable reason);
+
     Object getAttribute(String name);
+
     Enumeration<String> getAttributeNames();
+
     void setAttribute(String name, Object value);
+
     void removeAttribute(String name);
+
     String getMimeType(String file);
+
     int getMajorVersion();
+
     int getMinorVersion();
+
     String getServerInfo();
   }
 }

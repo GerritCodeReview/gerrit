@@ -37,23 +37,22 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
+import java.io.File;
+import java.nio.file.Path;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.action.admin.cluster.node.info.NodesInfoRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
 final class ElasticTestUtils {
-  static final Gson gson = new GsonBuilder()
-      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-      .create();
+  static final Gson gson =
+      new GsonBuilder()
+          .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+          .create();
 
   static class ElasticNodeInfo {
     final Node node;
@@ -75,41 +74,33 @@ final class ElasticTestUtils {
     config.setBoolean("index", "elasticsearch", "test", true);
   }
 
-  static ElasticNodeInfo startElasticsearchNode()
-      throws InterruptedException, ExecutionException {
+  static ElasticNodeInfo startElasticsearchNode() throws InterruptedException, ExecutionException {
     File elasticDir = Files.createTempDir();
     Path elasticDirPath = elasticDir.toPath();
-    Settings settings = Settings.settingsBuilder()
-        .put("cluster.name", "gerrit")
-        .put("node.name", "Gerrit Elasticsearch Test Node")
-        .put("node.local", true)
-        .put("discovery.zen.ping.multicast.enabled", false)
-        .put("index.store.fs.memory.enabled", true)
-        .put("index.gateway.type", "none")
-        .put("index.max_result_window", Integer.MAX_VALUE)
-        .put("gateway.type", "default")
-        .put("http.port", 0)
-        .put("discovery.zen.ping.unicast.hosts", "[\"localhost\"]")
-        .put("path.home", elasticDirPath.toAbsolutePath())
-        .put("path.data", elasticDirPath.resolve("data").toAbsolutePath())
-        .put("path.work", elasticDirPath.resolve("work").toAbsolutePath())
-        .put("path.logs", elasticDirPath.resolve("logs").toAbsolutePath())
-        .put("transport.tcp.connect_timeout", "60s")
-        .build();
+    Settings settings =
+        Settings.settingsBuilder()
+            .put("cluster.name", "gerrit")
+            .put("node.name", "Gerrit Elasticsearch Test Node")
+            .put("node.local", true)
+            .put("discovery.zen.ping.multicast.enabled", false)
+            .put("index.store.fs.memory.enabled", true)
+            .put("index.gateway.type", "none")
+            .put("index.max_result_window", Integer.MAX_VALUE)
+            .put("gateway.type", "default")
+            .put("http.port", 0)
+            .put("discovery.zen.ping.unicast.hosts", "[\"localhost\"]")
+            .put("path.home", elasticDirPath.toAbsolutePath())
+            .put("path.data", elasticDirPath.resolve("data").toAbsolutePath())
+            .put("path.work", elasticDirPath.resolve("work").toAbsolutePath())
+            .put("path.logs", elasticDirPath.resolve("logs").toAbsolutePath())
+            .put("transport.tcp.connect_timeout", "60s")
+            .build();
 
     // Start the node
-    Node node = NodeBuilder.nodeBuilder()
-        .settings(settings)
-        .node();
+    Node node = NodeBuilder.nodeBuilder().settings(settings).node();
 
     // Wait for it to be ready
-    node.client()
-        .admin()
-        .cluster()
-        .prepareHealth()
-        .setWaitForYellowStatus()
-        .execute()
-        .actionGet();
+    node.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 
     assertThat(node.isClosed()).isFalse();
     return new ElasticNodeInfo(node, elasticDir, getHttpPort(node));
@@ -128,76 +119,67 @@ final class ElasticTestUtils {
   }
 
   static void createAllIndexes(ElasticNodeInfo nodeInfo) {
-    Schema<ChangeData> changeSchema =
-        ChangeSchemaDefinitions.INSTANCE.getLatest();
+    Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
     ChangeMapping openChangesMapping = new ChangeMapping(changeSchema);
     ChangeMapping closedChangesMapping = new ChangeMapping(changeSchema);
     openChangesMapping.closedChanges = null;
     closedChangesMapping.openChanges = null;
-    nodeInfo.node
+    nodeInfo
+        .node
         .client()
         .admin()
         .indices()
-        .prepareCreate(
-            String.format("%s%04d", CHANGES_PREFIX, changeSchema.getVersion()))
+        .prepareCreate(String.format("%s%04d", CHANGES_PREFIX, changeSchema.getVersion()))
         .addMapping(OPEN_CHANGES, gson.toJson(openChangesMapping))
         .addMapping(CLOSED_CHANGES, gson.toJson(closedChangesMapping))
         .execute()
         .actionGet();
 
-    Schema<AccountState> accountSchema =
-        AccountSchemaDefinitions.INSTANCE.getLatest();
+    Schema<AccountState> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
     AccountMapping accountMapping = new AccountMapping(accountSchema);
-    nodeInfo.node
+    nodeInfo
+        .node
         .client()
         .admin()
         .indices()
-        .prepareCreate(
-            String.format(
-                "%s%04d", ACCOUNTS_PREFIX, accountSchema.getVersion()))
+        .prepareCreate(String.format("%s%04d", ACCOUNTS_PREFIX, accountSchema.getVersion()))
         .addMapping(ElasticAccountIndex.ACCOUNTS, gson.toJson(accountMapping))
         .execute()
         .actionGet();
 
-    Schema<AccountGroup> groupSchema =
-        GroupSchemaDefinitions.INSTANCE.getLatest();
+    Schema<AccountGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
     GroupMapping groupMapping = new GroupMapping(groupSchema);
-    nodeInfo.node
+    nodeInfo
+        .node
         .client()
         .admin()
         .indices()
-        .prepareCreate(
-            String.format(
-                "%s%04d", GROUPS_PREFIX, groupSchema.getVersion()))
+        .prepareCreate(String.format("%s%04d", GROUPS_PREFIX, groupSchema.getVersion()))
         .addMapping(ElasticGroupIndex.GROUPS, gson.toJson(groupMapping))
         .execute()
         .actionGet();
   }
 
-  private static String getHttpPort(Node node)
-      throws InterruptedException, ExecutionException {
-    String nodes = node.client().admin().cluster()
-        .nodesInfo(new NodesInfoRequest("*")).get().toString();
-    Gson gson = new GsonBuilder()
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        .create();
+  private static String getHttpPort(Node node) throws InterruptedException, ExecutionException {
+    String nodes =
+        node.client().admin().cluster().nodesInfo(new NodesInfoRequest("*")).get().toString();
+    Gson gson =
+        new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create();
     Info info = gson.fromJson(nodes, Info.class);
     if (info.nodes == null || info.nodes.size() != 1) {
-      throw new RuntimeException(
-          "Cannot extract local Elasticsearch http port");
+      throw new RuntimeException("Cannot extract local Elasticsearch http port");
     }
     Iterator<NodeInfo> values = info.nodes.values().iterator();
     String httpAddress = values.next().httpAddress;
     if (Strings.isNullOrEmpty(httpAddress)) {
-      throw new RuntimeException(
-          "Cannot extract local Elasticsearch http port");
+      throw new RuntimeException("Cannot extract local Elasticsearch http port");
     }
     if (httpAddress.indexOf(':') < 0) {
-      throw new RuntimeException(
-          "Seems that port is not included in Elasticsearch http_address");
+      throw new RuntimeException("Seems that port is not included in Elasticsearch http_address");
     }
-    return httpAddress.substring(httpAddress.indexOf(':') + 1,
-        httpAddress.length());
+    return httpAddress.substring(httpAddress.indexOf(':') + 1, httpAddress.length());
   }
 
   private ElasticTestUtils() {

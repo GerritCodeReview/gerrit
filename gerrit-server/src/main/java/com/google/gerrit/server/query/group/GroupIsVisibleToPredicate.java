@@ -22,13 +22,11 @@ import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
-public class GroupIsVisibleToPredicate
-    extends IsVisibleToPredicate<AccountGroup> {
+public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<AccountGroup> {
   private final GroupControl.GenericFactory groupControlFactory;
   private final CurrentUser user;
 
-  GroupIsVisibleToPredicate(GroupControl.GenericFactory groupControlFactory,
-      CurrentUser user) {
+  GroupIsVisibleToPredicate(GroupControl.GenericFactory groupControlFactory, CurrentUser user) {
     super(AccountQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.groupControlFactory = groupControlFactory;
     this.user = user;
@@ -37,8 +35,7 @@ public class GroupIsVisibleToPredicate
   @Override
   public boolean match(AccountGroup group) throws OrmException {
     try {
-      return groupControlFactory.controlFor(user, group.getGroupUUID())
-          .isVisible();
+      return groupControlFactory.controlFor(user, group.getGroupUUID()).isVisible();
     } catch (NoSuchGroupException e) {
       // Ignored
       return false;

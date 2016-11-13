@@ -59,24 +59,26 @@ class UsernameField extends Composite {
       userNameTxt.addKeyPressHandler(new UserNameValidator());
       userNameTxt.addStyleName(Gerrit.RESOURCES.css().accountUsername());
       userNameTxt.setVisibleLength(16);
-      userNameTxt.addKeyPressHandler(new KeyPressHandler() {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-            confirmSetUserName();
-          }
-        }
-      });
+      userNameTxt.addKeyPressHandler(
+          new KeyPressHandler() {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+              if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                confirmSetUserName();
+              }
+            }
+          });
 
       setUserName = new Button(Util.C.buttonSetUserName());
       setUserName.setVisible(canEditUserName());
       setUserName.setEnabled(false);
-      setUserName.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          confirmSetUserName();
-        }
-      });
+      setUserName.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+              confirmSetUserName();
+            }
+          });
       new OnEditEnabler(setUserName, userNameTxt);
 
       userNameLbl.setVisible(false);
@@ -92,14 +94,15 @@ class UsernameField extends Composite {
 
   private void confirmSetUserName() {
     new ConfirmationDialog(
-        Util.C.confirmSetUserNameTitle(),
-        new SafeHtmlBuilder().append(Util.C.confirmSetUserName()),
-        new ConfirmationCallback() {
-          @Override
-          public void onOk() {
-            doSetUserName();
-          }
-        }).center();
+            Util.C.confirmSetUserNameTitle(),
+            new SafeHtmlBuilder().append(Util.C.confirmSetUserName()),
+            new ConfirmationCallback() {
+              @Override
+              public void onOk() {
+                doSetUserName();
+              }
+            })
+        .center();
   }
 
   private void doSetUserName() {
@@ -115,27 +118,29 @@ class UsernameField extends Composite {
     }
     final String newUserName = newName;
 
-    AccountApi.setUsername("self", newUserName,
+    AccountApi.setUsername(
+        "self",
+        newUserName,
         new GerritCallback<NativeString>() {
-      @Override
-      public void onSuccess(NativeString result) {
-        Gerrit.getUserAccount().username(newUserName);
-        userNameLbl.setText(newUserName);
-        userNameLbl.setVisible(true);
-        userNameTxt.setVisible(false);
-        setUserName.setVisible(false);
-      }
+          @Override
+          public void onSuccess(NativeString result) {
+            Gerrit.getUserAccount().username(newUserName);
+            userNameLbl.setText(newUserName);
+            userNameLbl.setVisible(true);
+            userNameTxt.setVisible(false);
+            setUserName.setVisible(false);
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        enableUI(true);
-        if (RestApi.isExpected(422 /* Unprocessable Entity */)) {
-          new ErrorDialog(Util.C.invalidUserName()).center();
-        } else {
-          super.onFailure(caught);
-        }
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            enableUI(true);
+            if (RestApi.isExpected(422 /* Unprocessable Entity */)) {
+              new ErrorDialog(Util.C.invalidUserName()).center();
+            } else {
+              super.onFailure(caught);
+            }
+          }
+        });
   }
 
   private void enableUI(final boolean on) {

@@ -16,9 +16,8 @@ package com.google.gerrit.server;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import org.junit.Test;
-
 import java.util.regex.Pattern;
+import org.junit.Test;
 
 public class ChangeUtilTest {
   @Test

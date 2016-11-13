@@ -25,10 +25,12 @@ import com.google.inject.TypeLiteral;
 
 /**
  * Represents change edit resource, that is actualy two kinds of resources:
+ *
  * <ul>
- * <li>the change edit itself</li>
- * <li>a path within the edit</li>
+ *   <li>the change edit itself
+ *   <li>a path within the edit
  * </ul>
+ *
  * distinguished by whether path is null or not.
  */
 public class ChangeEditResource implements RestResource {
@@ -39,8 +41,7 @@ public class ChangeEditResource implements RestResource {
   private final ChangeEdit edit;
   private final String path;
 
-  public ChangeEditResource(ChangeResource change, ChangeEdit edit,
-      String path) {
+  public ChangeEditResource(ChangeResource change, ChangeEdit edit, String path) {
     this.change = change;
     this.edit = edit;
     this.path = path;

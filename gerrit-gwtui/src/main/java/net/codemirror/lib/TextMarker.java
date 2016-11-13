@@ -20,13 +20,15 @@ import com.google.gwt.core.client.JavaScriptObject;
 /** Object that represents a text marker within CodeMirror */
 public class TextMarker extends JavaScriptObject {
   public final native void clear() /*-{ this.clear(); }-*/;
-  public final native void changed() /*-{ this.changed(); }-*/;
-  public final native FromTo find() /*-{ return this.find(); }-*/;
-  public final native void on(String event, Runnable thunk)
-  /*-{ this.on(event, function(){$entry(thunk.@java.lang.Runnable::run()())}) }-*/;
 
-  protected TextMarker() {
-  }
+  public final native void changed() /*-{ this.changed(); }-*/;
+
+  public final native FromTo find() /*-{ return this.find(); }-*/;
+
+  public final native void on(String event, Runnable thunk)
+      /*-{ this.on(event, function(){$entry(thunk.@java.lang.Runnable::run()())}) }-*/ ;
+
+  protected TextMarker() {}
 
   public static class FromTo extends JavaScriptObject {
     public static final native FromTo create(Pos f, Pos t) /*-{
@@ -40,12 +42,13 @@ public class TextMarker extends JavaScriptObject {
     }
 
     public final native Pos from() /*-{ return this.from }-*/;
+
     public final native Pos to() /*-{ return this.to }-*/;
 
     public final native void from(Pos f) /*-{ this.from = f }-*/;
+
     public final native void to(Pos t) /*-{ this.to = t }-*/;
 
-    protected FromTo() {
-    }
+    protected FromTo() {}
   }
 }

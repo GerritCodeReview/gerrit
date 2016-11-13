@@ -20,21 +20,16 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
-
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 public class GetTaskIT extends AbstractDaemonTest {
 
   @Test
   public void getTask() throws Exception {
-    RestResponse r =
-        adminRestSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
+    RestResponse r = adminRestSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
     r.assertOK();
-    TaskInfo info =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<TaskInfo>() {}.getType());
+    TaskInfo info = newGson().fromJson(r.getReader(), new TypeToken<TaskInfo>() {}.getType());
     assertThat(info.id).isNotNull();
     Long.parseLong(info.id, 16);
     assertThat(info.command).isEqualTo("Log File Compressor");
@@ -43,16 +38,13 @@ public class GetTaskIT extends AbstractDaemonTest {
 
   @Test
   public void getTask_NotFound() throws Exception {
-    userRestSession
-        .get("/config/server/tasks/" + getLogFileCompressorTaskId())
-        .assertNotFound();
+    userRestSession.get("/config/server/tasks/" + getLogFileCompressorTaskId()).assertNotFound();
   }
 
   private String getLogFileCompressorTaskId() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/tasks/");
     List<TaskInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<TaskInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(), new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
     for (TaskInfo info : result) {
       if ("Log File Compressor".equals(info.command)) {

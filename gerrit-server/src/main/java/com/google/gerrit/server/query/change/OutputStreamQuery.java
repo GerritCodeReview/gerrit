@@ -36,15 +36,6 @@ import com.google.gerrit.server.query.QueryResult;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -57,20 +48,23 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Change query implementation that outputs to a stream in the style of an SSH
- * command.
- */
+/** Change query implementation that outputs to a stream in the style of an SSH command. */
 public class OutputStreamQuery {
-  private static final Logger log =
-      LoggerFactory.getLogger(OutputStreamQuery.class);
+  private static final Logger log = LoggerFactory.getLogger(OutputStreamQuery.class);
 
-  private static final DateTimeFormatter dtf =
-      DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss zzz");
+  private static final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss zzz");
 
   public enum OutputFormat {
-    TEXT, JSON
+    TEXT,
+    JSON
   }
 
   private final ReviewDb db;
@@ -179,9 +173,10 @@ public class OutputStreamQuery {
   }
 
   public void query(String queryString) throws IOException {
-    out = new PrintWriter( //
-        new BufferedWriter( //
-            new OutputStreamWriter(outputStream, UTF_8)));
+    out =
+        new PrintWriter( //
+            new BufferedWriter( //
+                new OutputStreamWriter(outputStream, UTF_8)));
     try {
       if (queryProcessor.isDisabled()) {
         ErrorMessage m = new ErrorMessage();
@@ -196,8 +191,7 @@ public class OutputStreamQuery {
 
         Map<Project.NameKey, Repository> repos = new HashMap<>();
         Map<Project.NameKey, RevWalk> revWalks = new HashMap<>();
-        QueryResult<ChangeData> results =
-            queryProcessor.query(queryBuilder.parse(queryString));
+        QueryResult<ChangeData> results = queryProcessor.query(queryBuilder.parse(queryString));
         try {
           for (ChangeData d : results.entities()) {
             show(buildChangeAttribute(d, repos, revWalks));
@@ -208,8 +202,7 @@ public class OutputStreamQuery {
 
         stats.rowCount = results.entities().size();
         stats.moreChanges = results.more();
-        stats.runTimeMilliseconds =
-            TimeUtil.nowMs() - stats.runTimeMilliseconds;
+        stats.runTimeMilliseconds = TimeUtil.nowMs() - stats.runTimeMilliseconds;
         show(stats);
       } catch (OrmException err) {
         log.error("Cannot execute query: " + queryString, err);
@@ -232,9 +225,8 @@ public class OutputStreamQuery {
     }
   }
 
-  private ChangeAttribute buildChangeAttribute(ChangeData d,
-      Map<Project.NameKey, Repository> repos,
-      Map<Project.NameKey, RevWalk> revWalks)
+  private ChangeAttribute buildChangeAttribute(
+      ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
       throws OrmException, IOException {
     ChangeControl cc = d.changeControl().forUser(user);
 
@@ -243,8 +235,7 @@ public class OutputStreamQuery {
     eventFactory.extend(c, d.change());
 
     if (!trackingFooters.isEmpty()) {
-      eventFactory.addTrackingIds(c,
-          trackingFooters.extract(d.commitFooters()));
+      eventFactory.addTrackingIds(c, trackingFooters.extract(d.commitFooters()));
     }
 
     if (includeAllReviewers) {
@@ -252,10 +243,8 @@ public class OutputStreamQuery {
     }
 
     if (includeSubmitRecords) {
-      eventFactory.addSubmitRecords(c, new SubmitRuleEvaluator(d)
-          .setAllowClosed(true)
-          .setAllowDraft(true)
-          .evaluate());
+      eventFactory.addSubmitRecords(
+          c, new SubmitRuleEvaluator(d).setAllowClosed(true).setAllowDraft(true).evaluate());
     }
 
     if (includeCommitMessage) {
@@ -276,26 +265,28 @@ public class OutputStreamQuery {
     }
 
     if (includePatchSets) {
-      eventFactory.addPatchSets(db, rw, c, d.visiblePatchSets(),
+      eventFactory.addPatchSets(
+          db,
+          rw,
+          c,
+          d.visiblePatchSets(),
           includeApprovals ? d.approvals().asMap() : null,
-          includeFiles, d.change(), labelTypes);
+          includeFiles,
+          d.change(),
+          labelTypes);
     }
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
       if (current != null && cc.isPatchVisible(current, d.db())) {
-        c.currentPatchSet =
-            eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
-        eventFactory.addApprovals(c.currentPatchSet,
-            d.currentApprovals(), labelTypes);
+        c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
+        eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
 
         if (includeFiles) {
-          eventFactory.addPatchSetFileNames(c.currentPatchSet,
-              d.change(), d.currentPatchSet());
+          eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
         }
         if (includeComments) {
-          eventFactory.addPatchSetComments(c.currentPatchSet,
-              d.publishedComments());
+          eventFactory.addPatchSetComments(c.currentPatchSet, d.publishedComments());
         }
       }
     }
@@ -303,9 +294,15 @@ public class OutputStreamQuery {
     if (includeComments) {
       eventFactory.addComments(c, d.messages());
       if (includePatchSets) {
-        eventFactory.addPatchSets(db, rw, c, d.visiblePatchSets(),
+        eventFactory.addPatchSets(
+            db,
+            rw,
+            c,
+            d.visiblePatchSets(),
             includeApprovals ? d.approvals().asMap() : null,
-            includeFiles, d.change(), labelTypes);
+            includeFiles,
+            d.change(),
+            labelTypes);
         for (PatchSetAttribute attribute : c.patchSets) {
           eventFactory.addPatchSetComments(attribute, d.publishedComments());
         }
@@ -319,8 +316,7 @@ public class OutputStreamQuery {
     return c;
   }
 
-  private static void closeAll(Iterable<RevWalk> revWalks,
-      Iterable<Repository> repos) {
+  private static void closeAll(Iterable<RevWalk> revWalks, Iterable<Repository> repos) {
     if (repos != null) {
       for (Repository repo : repos) {
         repo.close();

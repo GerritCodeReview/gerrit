@@ -23,9 +23,7 @@ import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.inject.Inject;
 
-/**
- * Parses a query string meant to be applied to group objects.
- */
+/** Parses a query string meant to be applied to group objects. */
 public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   public static final String FIELD_UUID = "uuid";
   public static final String FIELD_DESCRIPTION = "description";
@@ -48,8 +46,7 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> description(String description)
-      throws QueryParseException {
+  public Predicate<AccountGroup> description(String description) throws QueryParseException {
     if (Strings.isNullOrEmpty(description)) {
       throw error("description operator requires a value");
     }
@@ -89,13 +86,11 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> limit(String query)
-      throws QueryParseException {
+  public Predicate<AccountGroup> limit(String query) throws QueryParseException {
     Integer limit = Ints.tryParse(query);
     if (limit == null) {
       throw error("Invalid limit: " + query);
     }
     return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
-
 }

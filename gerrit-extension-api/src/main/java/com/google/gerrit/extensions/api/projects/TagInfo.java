@@ -26,8 +26,7 @@ public class TagInfo extends RefInfo {
     this.revision = revision;
   }
 
-  public TagInfo(String ref, String revision, String object,
-      String message, GitPerson tagger) {
+  public TagInfo(String ref, String revision, String object, String message, GitPerson tagger) {
     this(ref, revision);
     this.object = object;
     this.message = message;

@@ -18,7 +18,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -55,10 +54,10 @@ class PluginCleanerTask implements Runnable {
 
       if (0 < left) {
         long waiting = TimeUtil.nowMs() - start;
-        PluginLoader.log.warn(String.format(
-            "%d plugins still waiting to be reclaimed after %d minutes",
-            pending,
-            TimeUnit.MILLISECONDS.toMinutes(waiting)));
+        PluginLoader.log.warn(
+            String.format(
+                "%d plugins still waiting to be reclaimed after %d minutes",
+                pending, TimeUnit.MILLISECONDS.toMinutes(waiting)));
         attempts = Math.min(attempts + 1, 15);
         ensureScheduled();
       } else {
@@ -87,15 +86,9 @@ class PluginCleanerTask implements Runnable {
   private void ensureScheduled() {
     if (self == null && 0 < pending) {
       if (attempts == 1) {
-        self = workQueue.getDefaultQueue().schedule(
-            this,
-            30,
-            TimeUnit.SECONDS);
+        self = workQueue.getDefaultQueue().schedule(this, 30, TimeUnit.SECONDS);
       } else {
-        self = workQueue.getDefaultQueue().schedule(
-            this,
-            attempts + 1,
-            TimeUnit.MINUTES);
+        self = workQueue.getDefaultQueue().schedule(this, attempts + 1, TimeUnit.MINUTES);
       }
     }
   }

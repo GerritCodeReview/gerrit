@@ -22,8 +22,7 @@ import com.google.inject.Provider;
 
 /** Creates {@link GerritJsonServlet} with a {@link RemoteJsonService}. */
 class GerritJsonServletProvider implements Provider<GerritJsonServlet> {
-  @Inject
-  private Injector injector;
+  @Inject private Injector injector;
 
   private final Class<? extends RemoteJsonService> serviceClass;
 
@@ -35,11 +34,14 @@ class GerritJsonServletProvider implements Provider<GerritJsonServlet> {
   @Override
   public GerritJsonServlet get() {
     final RemoteJsonService srv = injector.getInstance(serviceClass);
-    return injector.createChildInjector(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(RemoteJsonService.class).toInstance(srv);
-      }
-    }).getInstance(GerritJsonServlet.class);
+    return injector
+        .createChildInjector(
+            new AbstractModule() {
+              @Override
+              protected void configure() {
+                bind(RemoteJsonService.class).toInstance(srv);
+              }
+            })
+        .getInstance(GerritJsonServlet.class);
   }
 }

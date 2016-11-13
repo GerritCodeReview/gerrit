@@ -29,14 +29,12 @@ import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
-
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.junit.Test;
 
 @NoHttpd
 @Sandboxed
@@ -55,19 +53,23 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     cfg.putNotifyConfig("watch", nc);
     saveProjectConfig(project, cfg);
 
-    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo,
-          "original subject", "a", "a1")
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "original subject", "a", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
-    r = pushFactory.create(db, admin.getIdent(), testRepo,
-          "super sekret subject", "a", "a2", r.getChangeId())
-        .to("refs/for/master");
+    r =
+        pushFactory
+            .create(
+                db, admin.getIdent(), testRepo, "super sekret subject", "a", "a2", r.getChangeId())
+            .to("refs/for/master");
     r.assertOkStatus();
 
-    r = pushFactory.create(db, admin.getIdent(), testRepo,
-          "back to original subject", "a", "a3")
-        .to("refs/for/master");
+    r =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "back to original subject", "a", "a3")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     List<Message> messages = sender.getMessages();
@@ -89,9 +91,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(admin);
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
-    PushOneCommit.Result r = pushFactory
-        .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // push a change to non-watched project -> should not trigger email
@@ -99,8 +102,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     String notWatchedProject = createProject("otherProject").get();
     TestRepository<InMemoryRepository> notWatchedRepo =
         cloneProject(new Project.NameKey(notWatchedProject), admin);
-    r = pushFactory.create(db, admin.getIdent(), notWatchedRepo,
-        "DONT_TRIGGER", "a", "a1").to("refs/for/master");
+    r =
+        pushFactory
+            .create(db, admin.getIdent(), notWatchedRepo, "DONT_TRIGGER", "a", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
@@ -129,9 +134,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(admin);
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
-    PushOneCommit.Result r = pushFactory
-        .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a.txt", "a1")
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a.txt", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification for user
@@ -150,8 +156,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to non-watched file -> should not trigger email
     // notification for user, only for user2
-    r = pushFactory.create(db, admin.getIdent(), watchedRepo,
-        "TRIGGER_USER2", "b.txt", "b1").to("refs/for/master");
+    r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "TRIGGER_USER2", "b.txt", "b1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
@@ -175,10 +183,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(admin);
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
-    PushOneCommit.Result r = pushFactory
-        .create(db, admin.getIdent(), watchedRepo,
-            "Document multimaster setup", "a.txt", "a1")
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "Document multimaster setup", "a.txt", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification for user
@@ -186,14 +194,16 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body())
-        .contains("Change subject: Document multimaster setup\n");
+    assertThat(m.body()).contains("Change subject: Document multimaster setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
 
     // push a change without keyword -> should not trigger email notification
-    r = pushFactory.create(db, admin.getIdent(), watchedRepo,
-        "Cleanup cache implementation", "b.txt", "b1").to("refs/for/master");
+    r =
+        pushFactory
+            .create(
+                db, admin.getIdent(), watchedRepo, "Cleanup cache implementation", "b.txt", "b1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
@@ -212,9 +222,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(admin);
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
-    PushOneCommit.Result r = pushFactory
-        .create(db, admin.getIdent(), anyRepo, "TRIGGER", "a", "a1")
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), anyRepo, "TRIGGER", "a", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
@@ -240,9 +251,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(admin);
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
-    PushOneCommit.Result r = pushFactory
-        .create(db, admin.getIdent(), anyRepo, "TRIGGER", "a.txt", "a1")
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), anyRepo, "TRIGGER", "a.txt", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification for user
@@ -261,8 +273,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to non-watched file in any project -> should not trigger
     // email notification for user, only for user2
-    r = pushFactory.create(db, admin.getIdent(), anyRepo,
-        "TRIGGER_USER2", "b.txt", "b1").to("refs/for/master");
+    r =
+        pushFactory
+            .create(db, admin.getIdent(), anyRepo, "TRIGGER_USER2", "b.txt", "b1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
@@ -287,10 +301,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(admin);
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
-    PushOneCommit.Result r = pushFactory
-        .create(db, admin.getIdent(), anyRepo,
-            "Document multimaster setup", "a.txt", "a1")
-        .to("refs/for/master");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), anyRepo, "Document multimaster setup", "a.txt", "a1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification for user
@@ -298,23 +312,23 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body())
-        .contains("Change subject: Document multimaster setup\n");
+    assertThat(m.body()).contains("Change subject: Document multimaster setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
 
     // push a change without keyword to any project -> should not trigger email
     // notification
-    r = pushFactory.create(db, admin.getIdent(), anyRepo,
-        "Cleanup cache implementation", "b.txt", "b1").to("refs/for/master");
+    r =
+        pushFactory
+            .create(db, admin.getIdent(), anyRepo, "Cleanup cache implementation", "b.txt", "b1")
+            .to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
     assertThat(sender.getMessages()).hasSize(0);
   }
 
-  private void watch(String project, String filter)
-      throws RestApiException {
+  private void watch(String project, String filter) throws RestApiException {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = project;

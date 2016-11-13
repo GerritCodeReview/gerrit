@@ -34,12 +34,10 @@ public class NoSshKeyCache implements SshKeyCache, SshKeyCreator {
   }
 
   @Override
-  public void evict(String username) {
-  }
+  public void evict(String username) {}
 
   @Override
-  public AccountSshKey create(AccountSshKey.Id id, String encoded)
-      throws InvalidSshKeyException {
+  public AccountSshKey create(AccountSshKey.Id id, String encoded) throws InvalidSshKeyException {
     throw new InvalidSshKeyException();
   }
 }

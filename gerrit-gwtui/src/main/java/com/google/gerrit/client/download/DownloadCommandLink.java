@@ -27,8 +27,7 @@ public class DownloadCommandLink extends Anchor implements ClickHandler {
   private final CopyableLabel copyLabel;
   private final String command;
 
-  public DownloadCommandLink(CopyableLabel copyLabel,
-      DownloadCommandInfo commandInfo) {
+  public DownloadCommandLink(CopyableLabel copyLabel, DownloadCommandInfo commandInfo) {
     super(commandInfo.name());
     this.copyLabel = copyLabel;
     this.command = commandInfo.command();

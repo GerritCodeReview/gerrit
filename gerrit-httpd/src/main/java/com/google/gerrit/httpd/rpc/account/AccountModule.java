@@ -25,13 +25,14 @@ public class AccountModule extends RpcServletModule {
 
   @Override
   protected void configureServlets() {
-    install(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(DeleteExternalIds.Factory.class);
-        factory(ExternalIdDetailFactory.Factory.class);
-      }
-    });
+    install(
+        new FactoryModule() {
+          @Override
+          protected void configure() {
+            factory(DeleteExternalIds.Factory.class);
+            factory(ExternalIdDetailFactory.Factory.class);
+          }
+        });
     rpc(AccountSecurityImpl.class);
   }
 }

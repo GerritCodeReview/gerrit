@@ -28,7 +28,6 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,11 +37,9 @@ import java.util.regex.Pattern;
 
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {
-  public static final String USERNAME_CANNOT_BE_CHANGED =
-      "Username cannot be changed.";
+  public static final String USERNAME_CANNOT_BE_CHANGED = "Username cannot be changed.";
 
-  private static final Pattern USER_NAME_PATTERN =
-      Pattern.compile(Account.USER_NAME_PATTERN);
+  private static final Pattern USER_NAME_PATTERN = Pattern.compile(Account.USER_NAME_PATTERN);
 
   /** Generic factory to change any user's username. */
   public interface Factory {
@@ -58,7 +55,8 @@ public class ChangeUserName implements Callable<VoidResult> {
   private final String newUsername;
 
   @Inject
-  ChangeUserName(AccountCache accountCache,
+  ChangeUserName(
+      AccountCache accountCache,
       SshKeyCache sshKeyCache,
       ExternalIdCache externalIdCache,
       @Assisted ReviewDb db,
@@ -74,8 +72,8 @@ public class ChangeUserName implements Callable<VoidResult> {
   }
 
   @Override
-  public VoidResult call() throws OrmException, NameAlreadyUsedException,
-      InvalidUserNameException, IOException {
+  public VoidResult call()
+      throws OrmException, NameAlreadyUsedException, InvalidUserNameException, IOException {
     final Collection<AccountExternalId> old = old();
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
@@ -86,11 +84,9 @@ public class ChangeUserName implements Callable<VoidResult> {
         throw new InvalidUserNameException();
       }
 
-      final AccountExternalId.Key key =
-          new AccountExternalId.Key(SCHEME_USERNAME, newUsername);
+      final AccountExternalId.Key key = new AccountExternalId.Key(SCHEME_USERNAME, newUsername);
       try {
-        final AccountExternalId id =
-            new AccountExternalId(user.getAccountId(), key);
+        final AccountExternalId id = new AccountExternalId(user.getAccountId(), key);
 
         for (AccountExternalId i : old) {
           if (i.getPassword() != null) {
@@ -131,8 +127,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private Collection<AccountExternalId> old() {
     final Collection<AccountExternalId> r = new ArrayList<>(1);
-    for (AccountExternalId i : externalIdCache.byAccount(
-        user.getAccountId())) {
+    for (AccountExternalId i : externalIdCache.byAccount(user.getAccountId())) {
       if (i.isScheme(SCHEME_USERNAME)) {
         r.add(i);
       }

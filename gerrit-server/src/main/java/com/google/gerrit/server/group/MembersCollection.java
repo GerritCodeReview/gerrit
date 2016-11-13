@@ -34,9 +34,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class MembersCollection implements
-    ChildCollection<GroupResource, MemberResource>,
-    AcceptsCreate<GroupResource> {
+public class MembersCollection
+    implements ChildCollection<GroupResource, MemberResource>, AcceptsCreate<GroupResource> {
   private final DynamicMap<RestView<MemberResource>> views;
   private final Provider<ListMembers> list;
   private final AccountsCollection accounts;
@@ -44,7 +43,8 @@ public class MembersCollection implements
   private final AddMembers put;
 
   @Inject
-  MembersCollection(DynamicMap<RestView<MemberResource>> views,
+  MembersCollection(
+      DynamicMap<RestView<MemberResource>> views,
       Provider<ListMembers> list,
       AccountsCollection accounts,
       Provider<ReviewDb> db,
@@ -57,15 +57,13 @@ public class MembersCollection implements
   }
 
   @Override
-  public RestView<GroupResource> list() throws ResourceNotFoundException,
-      AuthException {
+  public RestView<GroupResource> list() throws ResourceNotFoundException, AuthException {
     return list.get();
   }
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws MethodNotAllowedException, AuthException,
-      ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException {
     if (parent.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     }

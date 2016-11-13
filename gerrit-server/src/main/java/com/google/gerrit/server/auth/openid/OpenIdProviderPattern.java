@@ -27,8 +27,7 @@ public class OpenIdProviderPattern {
   protected boolean regex;
   protected String pattern;
 
-  protected OpenIdProviderPattern() {
-  }
+  protected OpenIdProviderPattern() {}
 
   public boolean matches(String id) {
     return regex ? id.matches(pattern) : id.startsWith(pattern);

@@ -35,16 +35,14 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-import java.util.Set;
 
 @NoHttpd
 public class MergeListIT extends AbstractDaemonTest {
@@ -56,45 +54,68 @@ public class MergeListIT extends AbstractDaemonTest {
   private RevCommit parent2;
   private RevCommit grandParent2;
 
-  @Inject
-  private ChangeEditModifier modifier;
+  @Inject private ChangeEditModifier modifier;
 
-  @Inject
-  private ChangeEditUtil editUtil;
+  @Inject private ChangeEditUtil editUtil;
 
   @Before
   public void setup() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
-    PushOneCommit.Result gp1 = pushFactory
-        .create(db, admin.getIdent(), testRepo, "grand parent 1",
-            ImmutableMap.of("foo", "foo-1.1", "bar", "bar-1.1"))
-        .to("refs/for/master");
+    PushOneCommit.Result gp1 =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                testRepo,
+                "grand parent 1",
+                ImmutableMap.of("foo", "foo-1.1", "bar", "bar-1.1"))
+            .to("refs/for/master");
     grandParent1 = gp1.getCommit();
 
-    PushOneCommit.Result p1 = pushFactory
-        .create(db, admin.getIdent(), testRepo, "parent 1",
-            ImmutableMap.of("foo", "foo-1.2", "bar", "bar-1.2"))
-        .to("refs/for/master");
+    PushOneCommit.Result p1 =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                testRepo,
+                "parent 1",
+                ImmutableMap.of("foo", "foo-1.2", "bar", "bar-1.2"))
+            .to("refs/for/master");
     parent1 = p1.getCommit();
 
     // reset HEAD in order to create a sibling of the first change
     testRepo.reset(initial);
 
-    PushOneCommit.Result gp2 = pushFactory
-        .create(db, admin.getIdent(), testRepo, "grand parent 2",
-            ImmutableMap.of("foo", "foo-2.1", "bar", "bar-2.1"))
-        .to("refs/for/master");
+    PushOneCommit.Result gp2 =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                testRepo,
+                "grand parent 2",
+                ImmutableMap.of("foo", "foo-2.1", "bar", "bar-2.1"))
+            .to("refs/for/master");
     grandParent2 = gp2.getCommit();
 
-    PushOneCommit.Result p2 = pushFactory
-        .create(db, admin.getIdent(), testRepo, "parent 2",
-            ImmutableMap.of("foo", "foo-2.2", "bar", "bar-2.2"))
-        .to("refs/for/master");
+    PushOneCommit.Result p2 =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                testRepo,
+                "parent 2",
+                ImmutableMap.of("foo", "foo-2.2", "bar", "bar-2.2"))
+            .to("refs/for/master");
     parent2 = p2.getCommit();
 
-    PushOneCommit m = pushFactory.create(db, admin.getIdent(), testRepo,
-        "merge", ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
+    PushOneCommit m =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "merge",
+            ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
     m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
     PushOneCommit.Result result = m.to("refs/for/master");
     result.assertOkStatus();
@@ -109,8 +130,7 @@ public class MergeListIT extends AbstractDaemonTest {
     assertThat(mergeList.get(0).commit).isEqualTo(parent2.name());
     assertThat(mergeList.get(1).commit).isEqualTo(grandParent2.name());
 
-    mergeList = current(changeId).getMergeList()
-        .withUninterestingParent(2).get();
+    mergeList = current(changeId).getMergeList().withUninterestingParent(2).get();
     assertThat(mergeList).hasSize(2);
     assertThat(mergeList.get(0).commit).isEqualTo(parent1.name());
     assertThat(mergeList.get(1).commit).isEqualTo(grandParent1.name());
@@ -122,8 +142,7 @@ public class MergeListIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String content = new String(os.toByteArray(), UTF_8);
-    assertThat(content).isEqualTo(
-        getMergeListContent(parent2, grandParent2));
+    assertThat(content).isEqualTo(getMergeListContent(parent2, grandParent2));
   }
 
   @Test
@@ -132,23 +151,19 @@ public class MergeListIT extends AbstractDaemonTest {
     assertThat(getFiles(changeId, 1)).contains(MERGE_LIST);
     assertThat(getFiles(changeId, 2)).contains(MERGE_LIST);
 
-    assertThat(getFiles(createChange().getChangeId()))
-        .doesNotContain(MERGE_LIST);
+    assertThat(getFiles(createChange().getChangeId())).doesNotContain(MERGE_LIST);
   }
 
   @Test
   public void getDiffForMergeList() throws Exception {
     DiffInfo diff = getMergeListDiff(changeId);
-    assertDiffForNewFile(diff, merge, MERGE_LIST,
-        getMergeListContent(parent2, grandParent2));
+    assertDiffForNewFile(diff, merge, MERGE_LIST, getMergeListContent(parent2, grandParent2));
 
     diff = getMergeListDiff(changeId, 1);
-    assertDiffForNewFile(diff, merge, MERGE_LIST,
-        getMergeListContent(parent2, grandParent2));
+    assertDiffForNewFile(diff, merge, MERGE_LIST, getMergeListContent(parent2, grandParent2));
 
     diff = getMergeListDiff(changeId, 2);
-    assertDiffForNewFile(diff, merge, MERGE_LIST,
-        getMergeListContent(parent1, grandParent1));
+    assertDiffForNewFile(diff, merge, MERGE_LIST, getMergeListContent(parent1, grandParent1));
   }
 
   @Test
@@ -158,8 +173,8 @@ public class MergeListIT extends AbstractDaemonTest {
 
     exception.expect(InvalidPathException.class);
     exception.expectMessage("Invalid path: " + MERGE_LIST);
-    modifier.modifyFile(editUtil.byChange(cd.change()).get(), MERGE_LIST,
-        RawInputUtil.create("new content"));
+    modifier.modifyFile(
+        editUtil.byChange(cd.change()).get(), MERGE_LIST, RawInputUtil.create("new content"));
   }
 
   @Test
@@ -175,7 +190,8 @@ public class MergeListIT extends AbstractDaemonTest {
   private String getMergeListContent(RevCommit... commits) {
     StringBuilder mergeList = new StringBuilder("Merge List:\n\n");
     for (RevCommit c : commits) {
-      mergeList.append("* ")
+      mergeList
+          .append("* ")
           .append(c.abbreviate(8).name())
           .append(" ")
           .append(c.getShortMessage())
@@ -196,14 +212,11 @@ public class MergeListIT extends AbstractDaemonTest {
     return current(changeId).file(MERGE_LIST).diff();
   }
 
-  private DiffInfo getMergeListDiff(String changeId, int parent)
-      throws Exception {
+  private DiffInfo getMergeListDiff(String changeId, int parent) throws Exception {
     return current(changeId).file(MERGE_LIST).diff(parent);
   }
 
   private RevisionApi current(String changeId) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .current();
+    return gApi.changes().id(changeId).current();
   }
 }

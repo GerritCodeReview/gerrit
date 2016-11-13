@@ -33,7 +33,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -49,8 +48,10 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   private final AuditService auditService;
 
   @Inject
-  DeleteMembers(AccountsCollection accounts,
-      AccountCache accountCache, Provider<ReviewDb> db,
+  DeleteMembers(
+      AccountsCollection accounts,
+      AccountCache accountCache,
+      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       AuditService auditService) {
     this.accounts = accounts;
@@ -62,8 +63,8 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Response<?> apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException,
-      UnprocessableEntityException, OrmException, IOException {
+      throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
+          IOException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -101,11 +102,10 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     auditService.dispatchDeleteAccountsFromGroup(me, toRemove);
   }
 
-  private Map<Account.Id, AccountGroupMember> getMembers(
-      final AccountGroup.Id groupId) throws OrmException {
+  private Map<Account.Id, AccountGroupMember> getMembers(final AccountGroup.Id groupId)
+      throws OrmException {
     final Map<Account.Id, AccountGroupMember> members = new HashMap<>();
-    for (final AccountGroupMember m : db.get().accountGroupMembers()
-        .byGroup(groupId)) {
+    for (final AccountGroupMember m : db.get().accountGroupMembers().byGroup(groupId)) {
       members.put(m.getAccountId(), m);
     }
     return members;
@@ -113,8 +113,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
   @Singleton
   static class DeleteMember implements RestModifyView<MemberResource, DeleteMember.Input> {
-    static class Input {
-    }
+    static class Input {}
 
     private final Provider<DeleteMembers> delete;
 
@@ -125,8 +124,8 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Response<?> apply(MemberResource resource, Input input)
-        throws AuthException, MethodNotAllowedException,
-        UnprocessableEntityException, OrmException, IOException {
+        throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
+            IOException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = resource.getMember().getAccountId().toString();
       return delete.get().apply(resource, in);

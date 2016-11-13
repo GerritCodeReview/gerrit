@@ -14,36 +14,32 @@
 
 package com.google.gerrit.lucene;
 
+import java.io.Reader;
+import java.util.Map;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.AnalyzerWrapper;
 import org.apache.lucene.analysis.charfilter.MappingCharFilter;
 import org.apache.lucene.analysis.charfilter.NormalizeCharMap;
-
-import java.io.Reader;
-import java.util.Map;
 
 /**
  * This analyzer can be used to provide custom char mappings.
  *
  * <p>Example usage:
  *
- * <pre class="prettyprint">
- * {@code
+ * <pre class="prettyprint">{@code
  * Map<String,String> customMapping = new HashMap<>();
  * customMapping.put("_", " ");
  * customMapping.put(".", " ");
  *
  * CustomMappingAnalyzer analyzer =
  *   new CustomMappingAnalyzer(new StandardAnalyzer(version), customMapping);
- * }
- * </pre>
+ * }</pre>
  */
 public class CustomMappingAnalyzer extends AnalyzerWrapper {
   private Analyzer delegate;
   private Map<String, String> customMappings;
 
-  public CustomMappingAnalyzer(Analyzer delegate,
-      Map<String, String> customMappings) {
+  public CustomMappingAnalyzer(Analyzer delegate, Map<String, String> customMappings) {
     super(delegate.getReuseStrategy());
     this.delegate = delegate;
     this.customMappings = customMappings;

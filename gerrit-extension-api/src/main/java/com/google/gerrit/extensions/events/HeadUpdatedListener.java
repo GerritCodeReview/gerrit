@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 public interface HeadUpdatedListener {
   interface Event extends ProjectEvent {
     String getOldHeadName();
+
     String getNewHeadName();
   }
 

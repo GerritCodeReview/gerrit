@@ -22,18 +22,26 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.server.git.ProjectConfig;
 
 public class AclUtil {
-  public static void grant(ProjectConfig config, AccessSection section,
-      String permission, GroupReference... groupList) {
+  public static void grant(
+      ProjectConfig config, AccessSection section, String permission, GroupReference... groupList) {
     grant(config, section, permission, false, groupList);
   }
 
-  public static void grant(ProjectConfig config, AccessSection section,
-      String permission, boolean force, GroupReference... groupList) {
+  public static void grant(
+      ProjectConfig config,
+      AccessSection section,
+      String permission,
+      boolean force,
+      GroupReference... groupList) {
     grant(config, section, permission, force, null, groupList);
   }
 
-  public static void grant(ProjectConfig config, AccessSection section,
-      String permission, boolean force, Boolean exclusive,
+  public static void grant(
+      ProjectConfig config,
+      AccessSection section,
+      String permission,
+      boolean force,
+      Boolean exclusive,
       GroupReference... groupList) {
     Permission p = section.getPermission(permission, true);
     if (exclusive != null) {
@@ -48,9 +56,13 @@ public class AclUtil {
     }
   }
 
-  public static void grant(ProjectConfig config,
-      AccessSection section, LabelType type,
-      int min, int max, GroupReference... groupList) {
+  public static void grant(
+      ProjectConfig config,
+      AccessSection section,
+      LabelType type,
+      int min,
+      int max,
+      GroupReference... groupList) {
     String name = Permission.LABEL + type.getName();
     Permission p = section.getPermission(name, true);
     for (GroupReference group : groupList) {

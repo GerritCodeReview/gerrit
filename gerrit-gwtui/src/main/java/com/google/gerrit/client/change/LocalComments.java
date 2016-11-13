@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Cookies;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -47,9 +46,10 @@ public class LocalComments {
     private final Storage storageBackend;
 
     StorageBackend() {
-      storageBackend = (Storage.isLocalStorageSupported())
-          ? Storage.getLocalStorageIfSupported()
-          : Storage.getSessionStorageIfSupported();
+      storageBackend =
+          (Storage.isLocalStorageSupported())
+              ? Storage.getLocalStorageIfSupported()
+              : Storage.getSessionStorageIfSupported();
     }
 
     String getItem(String key) {
@@ -129,7 +129,9 @@ public class LocalComments {
       if (isInlineComment(cookie)) {
         InlineComment input = getInlineComment(cookie);
         if (input.commentInfo.id() == null) {
-          CommentApi.createDraft(input.psId, input.commentInfo,
+          CommentApi.createDraft(
+              input.psId,
+              input.commentInfo,
               new GerritCallback<CommentInfo>() {
                 @Override
                 public void onSuccess(CommentInfo result) {
@@ -137,8 +139,11 @@ public class LocalComments {
                 }
               });
         } else {
-          CommentApi.updateDraft(input.psId, input.commentInfo.id(),
-              input.commentInfo, new GerritCallback<CommentInfo>() {
+          CommentApi.updateDraft(
+              input.psId,
+              input.commentInfo.id(),
+              input.commentInfo,
+              new GerritCallback<CommentInfo>() {
                 @Override
                 public void onSuccess(CommentInfo result) {
                   storage.removeItem(cookie);
@@ -179,7 +184,8 @@ public class LocalComments {
   }
 
   private static boolean isInlineComment(String key) {
-    return key.startsWith("patchCommentEdit-") || key.startsWith("patchReply-")
+    return key.startsWith("patchCommentEdit-")
+        || key.startsWith("patchReply-")
         || key.startsWith("patchComment-");
   }
 
@@ -196,11 +202,9 @@ public class LocalComments {
       offset = 2;
     }
     Change.Id changeId = new Change.Id(Integer.parseInt(elements[offset + 0]));
-    PatchSet.Id psId =
-        new PatchSet.Id(changeId, Integer.parseInt(elements[offset + 1]));
+    PatchSet.Id psId = new PatchSet.Id(changeId, Integer.parseInt(elements[offset + 1]));
     path = atob(elements[offset + 2]);
-    side = (Side.PARENT.toString().equals(elements[offset + 3])) ? Side.PARENT
-        : Side.REVISION;
+    side = (Side.PARENT.toString().equals(elements[offset + 3])) ? Side.PARENT : Side.REVISION;
     range = null;
     if (elements[offset + 4].startsWith("R")) {
       String rangeStart = elements[offset + 4].substring(1);
@@ -237,12 +241,18 @@ public class LocalComments {
     } else if (comment.inReplyTo() != null) {
       result = "patchReply-" + comment.inReplyTo() + "-";
     }
-    result += changeId + "-" + psId.getId() + "-" + btoa(comment.path()) + "-"
-        + comment.side() + "-";
+    result +=
+        changeId + "-" + psId.getId() + "-" + btoa(comment.path()) + "-" + comment.side() + "-";
     if (comment.hasRange()) {
-      result += "R" + comment.range().startLine() + ","
-          + comment.range().startCharacter() + "-" + comment.range().endLine()
-          + "," + comment.range().endCharacter();
+      result +=
+          "R"
+              + comment.range().startLine()
+              + ","
+              + comment.range().startCharacter()
+              + "-"
+              + comment.range().endLine()
+              + ","
+              + comment.range().endCharacter();
     } else {
       result += comment.line();
     }

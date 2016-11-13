@@ -36,24 +36,22 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 public class Schema_125 extends SchemaVersion {
   private static final String COMMIT_MSG =
-      "Assign default permissions on user branches\n" +
-      "\n" +
-      "By default each user should be able to read and update the own user\n" +
-      "branch. Also the user should be able to approve and submit changes for\n" +
-      "the own user branch. Assign default permissions for this and remove the\n" +
-      "old exclusive read protection from the user branches.\n";
+      "Assign default permissions on user branches\n"
+          + "\n"
+          + "By default each user should be able to read and update the own user\n"
+          + "branch. Also the user should be able to approve and submit changes for\n"
+          + "the own user branch. Assign default permissions for this and remove the\n"
+          + "old exclusive read protection from the user branches.\n";
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -61,7 +59,8 @@ public class Schema_125 extends SchemaVersion {
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_125(Provider<Schema_124> prior,
+  Schema_125(
+      Provider<Schema_124> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       AllProjectsName allProjectsName,
@@ -76,24 +75,23 @@ public class Schema_125 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allUsersName);
-        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-            allUsersName, git)) {
+        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
       ProjectConfig config = ProjectConfig.read(md);
 
-      config.getAccessSection(RefNames.REFS_USERS + "*", true)
+      config
+          .getAccessSection(RefNames.REFS_USERS + "*", true)
           .remove(new Permission(Permission.READ));
       GroupReference registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
-      AccessSection users = config.getAccessSection(
-          RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
+      AccessSection users =
+          config.getAccessSection(
+              RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
       grant(config, users, Permission.READ, true, registered);
       grant(config, users, Permission.PUSH, true, registered);
       grant(config, users, Permission.SUBMIT, true, registered);
 
       for (LabelType lt : getLabelTypes(config)) {
-        if ("Code-Review".equals(lt.getName())
-            || "Verified".equals(lt.getName())) {
-          grant(config, users, lt, lt.getMin().getValue(),
-              lt.getMax().getValue(), registered);
+        if ("Code-Review".equals(lt.getName()) || "Verified".equals(lt.getName())) {
+          grant(config, users, lt, lt.getMin().getValue(), lt.getMax().getValue(), registered);
         }
       }
 
@@ -108,13 +106,11 @@ public class Schema_125 extends SchemaVersion {
 
   private Collection<LabelType> getLabelTypes(ProjectConfig config)
       throws IOException, ConfigInvalidException {
-    Map<String, LabelType> labelTypes =
-        new HashMap<>(config.getLabelSections());
+    Map<String, LabelType> labelTypes = new HashMap<>(config.getLabelSections());
     Project.NameKey parent = config.getProject().getParent(allProjectsName);
     while (parent != null) {
       try (Repository git = repoManager.openRepository(parent);
-          MetaDataUpdate md =
-              new MetaDataUpdate(GitReferenceUpdated.DISABLED, parent, git)) {
+          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, parent, git)) {
         ProjectConfig parentConfig = ProjectConfig.read(md);
         for (LabelType lt : parentConfig.getLabelSections().values()) {
           if (!labelTypes.containsKey(lt.getName())) {

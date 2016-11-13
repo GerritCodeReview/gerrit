@@ -16,13 +16,11 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
-
+import java.io.IOException;
+import java.net.URI;
 import org.apache.http.HttpHost;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
-
-import java.io.IOException;
-import java.net.URI;
 
 public class HttpSession {
   protected TestAccount account;
@@ -35,9 +33,8 @@ public class HttpSession {
     this.executor = Executor.newInstance();
     this.account = account;
     if (account != null) {
-        executor.auth(
-            new HttpHost(uri.getHost(), uri.getPort()),
-            account.username, account.httpPassword);
+      executor.auth(
+          new HttpHost(uri.getHost(), uri.getPort()), account.username, account.httpPassword);
     }
   }
 

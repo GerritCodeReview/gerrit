@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
 import java.io.IOException;
 
 /** Tracks group objects in memory for efficient access. */
@@ -27,9 +26,8 @@ public interface GroupCache {
   AccountGroup get(AccountGroup.NameKey name);
 
   /**
-   * Lookup a group definition by its UUID. The returned definition may be null
-   * if the group has been deleted and the UUID reference is stale, or was
-   * copied from another server.
+   * Lookup a group definition by its UUID. The returned definition may be null if the group has
+   * been deleted and the UUID reference is stale, or was copied from another server.
    */
   @Nullable
   AccountGroup get(AccountGroup.UUID uuid);
@@ -42,6 +40,6 @@ public interface GroupCache {
 
   void evict(AccountGroup group) throws IOException;
 
-  void evictAfterRename(AccountGroup.NameKey oldName,
-      AccountGroup.NameKey newName) throws IOException;
+  void evictAfterRename(AccountGroup.NameKey oldName, AccountGroup.NameKey newName)
+      throws IOException;
 }

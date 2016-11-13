@@ -15,17 +15,15 @@ package com.google.gerrit.rules;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import com.googlecode.prolog_cafe.lang.Predicate;
 
 /**
- * Provides additional packages that contain Prolog predicates that should be
- * made available in the Prolog environment. The predicates can e.g. be used in
- * the project submit rules.
+ * Provides additional packages that contain Prolog predicates that should be made available in the
+ * Prolog environment. The predicates can e.g. be used in the project submit rules.
  *
- * Each Java class defining a Prolog predicate must be in one of the provided
- * packages and its name must apply to the 'PRED_[functor]_[arity]' format. In
- * addition it must extend {@link Predicate}.
+ * <p>Each Java class defining a Prolog predicate must be in one of the provided packages and its
+ * name must apply to the 'PRED_[functor]_[arity]' format. In addition it must extend {@link
+ * Predicate}.
  */
 @ExtensionPoint
 public interface PredicateProvider {

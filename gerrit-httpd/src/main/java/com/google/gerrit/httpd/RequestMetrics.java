@@ -28,17 +28,15 @@ public class RequestMetrics {
 
   @Inject
   public RequestMetrics(MetricMaker metricMaker) {
-    errors = metricMaker.newCounter(
-        "http/server/error_count",
-        new Description("Rate of REST API error responses")
-          .setRate()
-          .setUnit("errors"),
-        Field.ofInteger("status", "HTTP status code"));
-    successes = metricMaker.newCounter(
-        "http/server/success_count",
-        new Description("Rate of REST API success responses")
-          .setRate()
-          .setUnit("successes"),
-        Field.ofInteger("status", "HTTP status code"));
+    errors =
+        metricMaker.newCounter(
+            "http/server/error_count",
+            new Description("Rate of REST API error responses").setRate().setUnit("errors"),
+            Field.ofInteger("status", "HTTP status code"));
+    successes =
+        metricMaker.newCounter(
+            "http/server/success_count",
+            new Description("Rate of REST API success responses").setRate().setUnit("successes"),
+            Field.ofInteger("status", "HTTP status code"));
   }
 }

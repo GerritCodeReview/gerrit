@@ -16,8 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.common.collect.ComparisonChain;
 
-public class AccountExternalIdInfo
-    implements Comparable<AccountExternalIdInfo> {
+public class AccountExternalIdInfo implements Comparable<AccountExternalIdInfo> {
   public String identity;
   public String emailAddress;
   public Boolean trusted;

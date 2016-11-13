@@ -36,8 +36,8 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
   }
 
   @Override
-  public Predicate<AccountState> rewrite(Predicate<AccountState> in,
-      QueryOptions opts) throws QueryParseException {
+  public Predicate<AccountState> rewrite(Predicate<AccountState> in, QueryOptions opts)
+      throws QueryParseException {
     if (!AccountPredicates.hasActive(in)) {
       in = Predicate.and(in, AccountPredicates.isActive());
     }

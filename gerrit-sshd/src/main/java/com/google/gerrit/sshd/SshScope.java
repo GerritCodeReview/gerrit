@@ -30,14 +30,12 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 import com.google.inject.util.Providers;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /** Guice scopes for state during an SSH connection. */
 public class SshScope {
-  private static final Key<RequestCleanup> RC_KEY =
-      Key.get(RequestCleanup.class);
+  private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
 
   private static final Key<RequestScopedReviewDbProvider> DB_KEY =
       Key.get(RequestScopedReviewDbProvider.class);
@@ -53,16 +51,13 @@ public class SshScope {
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, final SshSession s,
-        final String c, final long at) {
+    private Context(SchemaFactory<ReviewDb> sf, final SshSession s, final String c, final long at) {
       schemaFactory = sf;
       session = s;
       commandLine = c;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
-      map.put(DB_KEY, new RequestScopedReviewDbProvider(
-          schemaFactory,
-          Providers.of(cleanup)));
+      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
     }
 
     private Context(Context p, SshSession s, String c) {
@@ -130,7 +125,9 @@ public class SshScope {
     private final SshScope sshScope;
 
     @Inject
-    Propagator(SshScope sshScope, ThreadLocalRequestContext local,
+    Propagator(
+        SshScope sshScope,
+        ThreadLocalRequestContext local,
         Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
       super(REQUEST, current, local, dbProviderProvider);
       this.sshScope = sshScope;
@@ -158,8 +155,7 @@ public class SshScope {
   private final IdentifiedUser.RequestFactory userFactory;
 
   @Inject
-  SshScope(ThreadLocalRequestContext local,
-      IdentifiedUser.RequestFactory userFactory) {
+  SshScope(ThreadLocalRequestContext local, IdentifiedUser.RequestFactory userFactory) {
     this.local = local;
     this.userFactory = userFactory;
   }
@@ -180,25 +176,26 @@ public class SshScope {
   }
 
   /** Returns exactly one instance per command executed. */
-  public static final Scope REQUEST = new Scope() {
-    @Override
-    public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
-      return new Provider<T>() {
+  public static final Scope REQUEST =
+      new Scope() {
         @Override
-        public T get() {
-          return requireContext().get(key, creator);
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+          return new Provider<T>() {
+            @Override
+            public T get() {
+              return requireContext().get(key, creator);
+            }
+
+            @Override
+            public String toString() {
+              return String.format("%s[%s]", creator, REQUEST);
+            }
+          };
         }
 
         @Override
         public String toString() {
-          return String.format("%s[%s]", creator, REQUEST);
+          return "SshScopes.REQUEST";
         }
       };
-    }
-
-    @Override
-    public String toString() {
-      return "SshScopes.REQUEST";
-    }
-  };
 }

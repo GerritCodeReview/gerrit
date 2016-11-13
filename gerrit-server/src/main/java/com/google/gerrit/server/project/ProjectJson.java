@@ -23,7 +23,6 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.List;
 
 @Singleton
@@ -33,8 +32,7 @@ public class ProjectJson {
   private final WebLinks webLinks;
 
   @Inject
-  ProjectJson(AllProjectsName allProjectsName,
-      WebLinks webLinks) {
+  ProjectJson(AllProjectsName allProjectsName, WebLinks webLinks) {
     this.allProjects = allProjectsName;
     this.webLinks = webLinks;
   }
@@ -51,8 +49,7 @@ public class ProjectJson {
     info.description = Strings.emptyToNull(p.getDescription());
     info.state = p.getState();
     info.id = Url.encode(info.name);
-    List<WebLinkInfo> links =
-        webLinks.getProjectLinks(p.getName());
+    List<WebLinkInfo> links = webLinks.getProjectLinks(p.getName());
     info.webLinks = links.isEmpty() ? null : links;
     return info;
   }

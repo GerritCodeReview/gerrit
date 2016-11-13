@@ -42,22 +42,27 @@ public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
   }
 
   @Inject
-  protected GroupQueryProcessor(Provider<CurrentUser> userProvider,
+  protected GroupQueryProcessor(
+      Provider<CurrentUser> userProvider,
       Metrics metrics,
       IndexConfig indexConfig,
       GroupIndexCollection indexes,
       GroupIndexRewriter rewriter,
       GroupControl.GenericFactory groupControlFactory) {
-    super(userProvider, metrics, GroupSchemaDefinitions.INSTANCE, indexConfig,
-        indexes, rewriter, FIELD_LIMIT);
+    super(
+        userProvider,
+        metrics,
+        GroupSchemaDefinitions.INSTANCE,
+        indexConfig,
+        indexes,
+        rewriter,
+        FIELD_LIMIT);
     this.groupControlFactory = groupControlFactory;
   }
 
   @Override
-  protected Predicate<AccountGroup> enforceVisibility(
-      Predicate<AccountGroup> pred) {
-    return new AndSource<>(pred,
-        new GroupIsVisibleToPredicate(groupControlFactory, userProvider.get()),
-        start);
+  protected Predicate<AccountGroup> enforceVisibility(Predicate<AccountGroup> pred) {
+    return new AndSource<>(
+        pred, new GroupIsVisibleToPredicate(groupControlFactory, userProvider.get()), start);
   }
 }

@@ -23,12 +23,9 @@ import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.nio.file.Path;
-
 import javax.sql.DataSource;
+import org.eclipse.jgit.lib.Config;
 
 /** Loads the site library if not yet loaded. */
 @Singleton
@@ -37,7 +34,8 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
   private boolean init;
 
   @Inject
-  SiteLibraryBasedDataSourceProvider(SitePaths site,
+  SiteLibraryBasedDataSourceProvider(
+      SitePaths site,
       @GerritServerConfig Config cfg,
       MetricMaker metrics,
       ThreadSettingsConfig tsc,

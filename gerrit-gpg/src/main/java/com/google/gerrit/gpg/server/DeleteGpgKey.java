@@ -30,19 +30,16 @@ import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.util.Collections;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 
-import java.io.IOException;
-import java.util.Collections;
-
 public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<PersonIdent> serverIdent;
   private final Provider<ReviewDb> db;
@@ -51,7 +48,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   private final ExternalIdCache externalIdCache;
 
   @Inject
-  DeleteGpgKey(@GerritPersonIdent Provider<PersonIdent> serverIdent,
+  DeleteGpgKey(
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
       AccountCache accountCache,
@@ -65,12 +63,11 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
   @Override
   public Response<?> apply(GpgKey rsrc, Input input)
-      throws ResourceConflictException, PGPException, OrmException,
-      IOException {
+      throws ResourceConflictException, PGPException, OrmException, IOException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
-    AccountExternalId.Key extIdKey = new AccountExternalId.Key(
-        AccountExternalId.SCHEME_GPGKEY,
-        BaseEncoding.base16().encode(key.getFingerprint()));
+    AccountExternalId.Key extIdKey =
+        new AccountExternalId.Key(
+            AccountExternalId.SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint()));
     db.get().accountExternalIds().deleteKeys(Collections.singleton(extIdKey));
     externalIdCache.onRemove(rsrc.getUser().getAccountId(), extIdKey);
     accountCache.evict(rsrc.getUser().getAccountId());
@@ -80,8 +77,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
       CommitBuilder cb = new CommitBuilder();
       PersonIdent committer = serverIdent.get();
-      cb.setAuthor(rsrc.getUser().newCommitterIdent(
-          committer.getWhen(), committer.getTimeZone()));
+      cb.setAuthor(rsrc.getUser().newCommitterIdent(committer.getWhen(), committer.getTimeZone()));
       cb.setCommitter(committer);
       cb.setMessage("Delete public key " + keyIdToString(key.getKeyID()));
 
@@ -99,8 +95,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
         case REJECTED_CURRENT_BRANCH:
         case RENAMED:
         default:
-          throw new ResourceConflictException(
-              "Failed to delete public key: " + saveResult);
+          throw new ResourceConflictException("Failed to delete public key: " + saveResult);
       }
     }
     return Response.none();

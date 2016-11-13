@@ -18,12 +18,20 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface KeyCss extends CssResource {
   String helpPopup();
+
   String helpHeader();
+
   String helpHeaderGlue();
+
   String helpTable();
+
   String helpTableGlue();
+
   String helpGroup();
+
   String helpKeyStroke();
+
   String helpSeparator();
+
   String helpKey();
 }

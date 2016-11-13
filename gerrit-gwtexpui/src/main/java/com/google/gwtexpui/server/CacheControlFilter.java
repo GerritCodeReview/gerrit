@@ -16,7 +16,6 @@ package com.google.gwtexpui.server;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -28,14 +27,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Forces GWT resources to cache for a very long time.
- * <p>
- * GWT compiled JavaScript and ImageBundles can be cached indefinitely by a
- * browser and/or an edge proxy, as they never contain user-specific data and
- * are named by a unique checksum. If their content is ever modified then the
- * URL changes, so user agents would request a different resource. We force
- * these resources to have very long expiration times.
- * <p>
- * To use, add the following block to your {@code web.xml}:
+ *
+ * <p>GWT compiled JavaScript and ImageBundles can be cached indefinitely by a browser and/or an
+ * edge proxy, as they never contain user-specific data and are named by a unique checksum. If their
+ * content is ever modified then the URL changes, so user agents would request a different resource.
+ * We force these resources to have very long expiration times.
+ *
+ * <p>To use, add the following block to your {@code web.xml}:
  *
  * <pre>
  * &lt;filter&gt;
@@ -50,16 +48,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CacheControlFilter implements Filter {
   @Override
-  public void init(final FilterConfig config) {
-  }
+  public void init(final FilterConfig config) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(final ServletRequest sreq, final ServletResponse srsp,
-      final FilterChain chain) throws IOException, ServletException {
+  public void doFilter(
+      final ServletRequest sreq, final ServletResponse srsp, final FilterChain chain)
+      throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) sreq;
     final HttpServletResponse rsp = (HttpServletResponse) srsp;
     final String pathInfo = pathInfo(req);
@@ -73,8 +70,7 @@ public class CacheControlFilter implements Filter {
     chain.doFilter(req, rsp);
   }
 
-  private static boolean cacheForever(final String pathInfo,
-      final HttpServletRequest req) {
+  private static boolean cacheForever(final String pathInfo, final HttpServletRequest req) {
     if (pathInfo.endsWith(".cache.html")
         || pathInfo.endsWith(".cache.gif")
         || pathInfo.endsWith(".cache.png")

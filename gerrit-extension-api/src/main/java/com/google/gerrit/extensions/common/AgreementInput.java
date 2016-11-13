@@ -19,6 +19,5 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 /** This entity contains information for registering a new contributor agreement. */
 public class AgreementInput {
   /* The agreement name. */
-  @DefaultInput
-  public String name;
+  @DefaultInput public String name;
 }

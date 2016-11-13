@@ -14,10 +14,9 @@
 
 package com.google.gerrit.sshd;
 
-import org.apache.sshd.server.Environment;
-
 import java.io.IOException;
 import java.io.PrintWriter;
+import org.apache.sshd.server.Environment;
 
 public abstract class SshCommand extends BaseCommand {
   protected PrintWriter stdout;
@@ -25,20 +24,21 @@ public abstract class SshCommand extends BaseCommand {
 
   @Override
   public void start(Environment env) throws IOException {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        stdout = toPrintWriter(out);
-        stderr = toPrintWriter(err);
-        try {
-          SshCommand.this.run();
-        } finally {
-          stdout.flush();
-          stderr.flush();
-        }
-      }
-    });
+    startThread(
+        new CommandRunnable() {
+          @Override
+          public void run() throws Exception {
+            parseCommandLine();
+            stdout = toPrintWriter(out);
+            stderr = toPrintWriter(err);
+            try {
+              SshCommand.this.run();
+            } finally {
+              stdout.flush();
+              stderr.flush();
+            }
+          }
+        });
   }
 
   protected abstract void run() throws UnloggedFailure, Failure, Exception;

@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.git.ProjectConfig;
-
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -61,8 +60,7 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
     PushOneCommit.Result m = push("refs/heads/master", "1", "f", "1");
     PushOneCommit.Result c = push("refs/for/stable", "2", "f", "2");
 
-    assertThat(c.getMessage().toLowerCase()).doesNotContain(
-        implicitMergeOf(m.getCommit()));
+    assertThat(c.getMessage().toLowerCase()).doesNotContain(implicitMergeOf(m.getCommit()));
   }
 
   @Test
@@ -75,8 +73,7 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
     PushOneCommit.Result m = push("refs/heads/master", "1", "f", "1");
     PushOneCommit.Result c = push("refs/for/master", "2", "f", "2");
 
-    assertThat(c.getMessage().toLowerCase()).doesNotContain(
-        implicitMergeOf(m.getCommit()));
+    assertThat(c.getMessage().toLowerCase()).doesNotContain(implicitMergeOf(m.getCommit()));
   }
 
   private static String implicitMergeOf(ObjectId commit) {
@@ -89,10 +86,10 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
-  private PushOneCommit.Result push(String ref, String subject,
-      String fileName, String content) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        subject, fileName, content);
+  private PushOneCommit.Result push(String ref, String subject, String fileName, String content)
+      throws Exception {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to(ref);
   }
 }

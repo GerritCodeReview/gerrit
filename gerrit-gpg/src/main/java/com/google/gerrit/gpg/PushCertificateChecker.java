@@ -22,7 +22,10 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 
 import com.google.common.base.Joiner;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPObjectFactory;
@@ -38,15 +41,9 @@ import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 /** Checker for push certificates. */
 public abstract class PushCertificateChecker {
-  private static final Logger log =
-      LoggerFactory.getLogger(PushCertificateChecker.class);
+  private static final Logger log = LoggerFactory.getLogger(PushCertificateChecker.class);
 
   public static class Result {
     private final PGPPublicKey key;
@@ -149,8 +146,8 @@ public abstract class PushCertificateChecker {
 
   /**
    * Get the repository that this checker should operate on.
-   * <p>
-   * This method is called once per call to {@link #check(PushCertificate)}.
+   *
+   * <p>This method is called once per call to {@link #check(PushCertificate)}.
    *
    * @return the repository.
    * @throws IOException if an error occurred reading the repository.
@@ -159,16 +156,15 @@ public abstract class PushCertificateChecker {
 
   /**
    * @param repo a repository previously returned by {@link #getRepository()}.
-   * @return whether this repository should be closed before returning from
-   *     {@link #check(PushCertificate)}.
+   * @return whether this repository should be closed before returning from {@link
+   *     #check(PushCertificate)}.
    */
   protected abstract boolean shouldClose(Repository repo);
 
   /**
    * Perform custom checks.
-   * <p>
-   * Default implementation reports no problems, but may be overridden by
-   * subclasses.
+   *
+   * <p>Default implementation reports no problems, but may be overridden by subclasses.
    *
    * @param repo a repository previously returned by {@link #getRepository()}.
    * @return the result of the custom check.
@@ -178,8 +174,8 @@ public abstract class PushCertificateChecker {
   }
 
   private PGPSignature readSignature(PushCertificate cert) throws IOException {
-    ArmoredInputStream in = new ArmoredInputStream(
-        new ByteArrayInputStream(Constants.encode(cert.getSignature())));
+    ArmoredInputStream in =
+        new ArmoredInputStream(new ByteArrayInputStream(Constants.encode(cert.getSignature())));
     PGPObjectFactory factory = new BcPGPObjectFactory(in);
     Object obj;
     while ((obj = factory.nextObject()) != null) {
@@ -193,32 +189,28 @@ public abstract class PushCertificateChecker {
     return null;
   }
 
-  private Result checkSignature(PGPSignature sig, PushCertificate cert,
-      PublicKeyStore store) throws PGPException, IOException {
+  private Result checkSignature(PGPSignature sig, PushCertificate cert, PublicKeyStore store)
+      throws PGPException, IOException {
     PGPPublicKeyRingCollection keys = store.get(sig.getKeyID());
     if (!keys.getKeyRings().hasNext()) {
-      return new Result(null,
-          CheckResult.bad("No public keys found for key ID "
-              + keyIdToString(sig.getKeyID())));
-    }
-    PGPPublicKey signer =
-        PublicKeyStore.getSigner(keys, sig, Constants.encode(cert.toText()));
-    if (signer == null) {
-      return new Result(null,
-          CheckResult.bad("Signature by " + keyIdToString(sig.getKeyID())
-              + " is not valid"));
-    }
-    CheckResult result = publicKeyChecker
-        .setStore(store)
-        .setEffectiveTime(sig.getCreationTime())
-        .check(signer);
-    if (!result.getProblems().isEmpty()) {
-      StringBuilder err = new StringBuilder("Invalid public key ")
-          .append(keyToString(signer))
-          .append(":\n  ")
-          .append(Joiner.on("\n  ").join(result.getProblems()));
       return new Result(
-          signer, CheckResult.create(result.getStatus(), err.toString()));
+          null,
+          CheckResult.bad("No public keys found for key ID " + keyIdToString(sig.getKeyID())));
+    }
+    PGPPublicKey signer = PublicKeyStore.getSigner(keys, sig, Constants.encode(cert.toText()));
+    if (signer == null) {
+      return new Result(
+          null, CheckResult.bad("Signature by " + keyIdToString(sig.getKeyID()) + " is not valid"));
+    }
+    CheckResult result =
+        publicKeyChecker.setStore(store).setEffectiveTime(sig.getCreationTime()).check(signer);
+    if (!result.getProblems().isEmpty()) {
+      StringBuilder err =
+          new StringBuilder("Invalid public key ")
+              .append(keyToString(signer))
+              .append(":\n  ")
+              .append(Joiner.on("\n  ").join(result.getProblems()));
+      return new Result(signer, CheckResult.create(result.getStatus(), err.toString()));
     }
     return new Result(signer, result);
   }

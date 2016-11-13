@@ -39,7 +39,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.util.Providers;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -48,9 +47,8 @@ public class IndexModuleOnInit extends AbstractModule {
   static final String INDEX_MANAGER = "IndexModuleOnInit/IndexManager";
 
   private static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
-      ImmutableList.<SchemaDefinitions<?>> of(
-          AccountSchemaDefinitions.INSTANCE,
-          GroupSchemaDefinitions.INSTANCE);
+      ImmutableList.<SchemaDefinitions<?>>of(
+          AccountSchemaDefinitions.INSTANCE, GroupSchemaDefinitions.INSTANCE);
 
   @Override
   protected void configure() {
@@ -81,30 +79,23 @@ public class IndexModuleOnInit extends AbstractModule {
 
     bind(new TypeLiteral<Map<String, Integer>>() {})
         .annotatedWith(Names.named(SingleVersionModule.SINGLE_VERSIONS))
-        .toInstance(ImmutableMap.<String, Integer> of());
-    bind(LifecycleListener.class).annotatedWith(Names.named(INDEX_MANAGER))
+        .toInstance(ImmutableMap.<String, Integer>of());
+    bind(LifecycleListener.class)
+        .annotatedWith(Names.named(INDEX_MANAGER))
         .to(SingleVersionListener.class);
   }
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
-      AccountIndexDefinition accounts,
-      GroupIndexDefinition groups) {
+      AccountIndexDefinition accounts, GroupIndexDefinition groups) {
     Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>> of(
-            accounts,
-            groups);
+        ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups);
     Set<String> expected =
-        FluentIterable.from(ALL_SCHEMA_DEFS)
-        .transform(SchemaDefinitions::getName)
-        .toSet();
-    Set<String> actual = FluentIterable.from(result)
-        .transform(IndexDefinition::getName)
-        .toSet();
+        FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();
+    Set<String> actual = FluentIterable.from(result).transform(IndexDefinition::getName).toSet();
     if (!expected.equals(actual)) {
       throw new ProvisionException(
-          "need index definitions for all schemas: "
-          + expected + " != " + actual);
+          "need index definitions for all schemas: " + expected + " != " + actual);
     }
     return result;
   }

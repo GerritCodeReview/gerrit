@@ -32,8 +32,7 @@ public class Address {
       if (name.endsWith("\"")) {
         nameEnd--;
       }
-      return new Address(name.length() > 0 ?
-          name.substring(nameStart, nameEnd): null, email);
+      return new Address(name.length() > 0 ? name.substring(nameStart, nameEnd) : null, email);
     }
 
     if (lt < 0 && gt < 0 && 0 < at && at < in.length() - 1) {

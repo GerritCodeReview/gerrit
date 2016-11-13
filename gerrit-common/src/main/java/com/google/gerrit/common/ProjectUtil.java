@@ -28,6 +28,5 @@ public class ProjectUtil {
     return name;
   }
 
-  private ProjectUtil() {
-  }
+  private ProjectUtil() {}
 }

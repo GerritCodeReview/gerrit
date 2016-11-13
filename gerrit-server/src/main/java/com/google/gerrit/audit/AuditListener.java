@@ -20,5 +20,4 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 public interface AuditListener {
 
   void onAuditableAction(AuditEvent action);
-
 }

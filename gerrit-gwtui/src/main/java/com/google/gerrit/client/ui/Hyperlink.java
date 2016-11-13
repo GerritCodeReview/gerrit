@@ -26,15 +26,14 @@ public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
   public static final HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
 
   /** Initialize a default hyperlink with no target and no text. */
-  public Hyperlink() {
-  }
+  public Hyperlink() {}
 
   /**
    * Creates a hyperlink with its text and target history token specified.
    *
    * @param text the hyperlink's text
-   * @param token the history token to which it will link, which may not be null
-   *        (use {@link Anchor} instead if you don't need history processing)
+   * @param token the history token to which it will link, which may not be null (use {@link Anchor}
+   *     instead if you don't need history processing)
    */
   public Hyperlink(final String text, final String token) {
     super(text, token);

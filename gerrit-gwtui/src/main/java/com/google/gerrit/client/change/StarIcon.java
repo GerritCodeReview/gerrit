@@ -20,8 +20,6 @@ import com.google.gwt.user.client.ui.ToggleButton;
 
 class StarIcon extends ToggleButton {
   StarIcon() {
-    super(
-      new Image(Gerrit.RESOURCES.starOpen()),
-      new Image(Gerrit.RESOURCES.starFilled()));
+    super(new Image(Gerrit.RESOURCES.starOpen()), new Image(Gerrit.RESOURCES.starFilled()));
   }
 }

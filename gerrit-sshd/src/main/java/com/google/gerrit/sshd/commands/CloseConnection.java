@@ -24,7 +24,9 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
@@ -34,28 +36,30 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 /** Close specified SSH connections */
 @AdminHighPriorityCommand
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "close-connection",
-  description = "Close the specified SSH connection", runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "close-connection",
+  description = "Close the specified SSH connection",
+  runsAt = MASTER_OR_SLAVE
+)
 final class CloseConnection extends SshCommand {
 
   private static final Logger log = LoggerFactory.getLogger(CloseConnection.class);
 
-  @Inject
-  private SshDaemon sshDaemon;
+  @Inject private SshDaemon sshDaemon;
 
-  @Argument(index = 0, multiValued = true, required = true,
-      metaVar = "SESSION_ID", usage = "List of SSH session IDs to be closed")
+  @Argument(
+    index = 0,
+    multiValued = true,
+    required = true,
+    metaVar = "SESSION_ID",
+    usage = "List of SSH session IDs to be closed"
+  )
   private final List<String> sessionIds = new ArrayList<>();
 
-  @Option(name = "--wait",
-      usage = "wait for connection to close before exiting")
+  @Option(name = "--wait", usage = "wait for connection to close before exiting")
   private boolean wait;
 
   @Override
@@ -70,9 +74,7 @@ final class CloseConnection extends SshCommand {
       for (IoSession io : acceptor.getManagedSessions().values()) {
         AbstractSession serverSession = AbstractSession.getSession(io, true);
         SshSession sshSession =
-            serverSession != null
-                ? serverSession.getAttribute(SshSession.KEY)
-                : null;
+            serverSession != null ? serverSession.getAttribute(SshSession.KEY) : null;
         if (sshSession != null && sshSession.getSessionId() == id) {
           connectionFound = true;
           stdout.println("closing connection " + sessionId + "...");
@@ -82,8 +84,7 @@ final class CloseConnection extends SshCommand {
               future.await();
               stdout.println("closed connection " + sessionId);
             } catch (IOException e) {
-              log.warn("Wait for connection to close interrupted: "
-                  + e.getMessage());
+              log.warn("Wait for connection to close interrupted: " + e.getMessage());
             }
           }
           break;

@@ -18,9 +18,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -40,16 +38,13 @@ class RequireIdentifiedUserFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) {
-  }
+  public void init(FilterConfig filterConfig) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(ServletRequest request,
-      ServletResponse response, FilterChain chain)
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     if (user.get().isIdentifiedUser()) {
       chain.doFilter(request, response);

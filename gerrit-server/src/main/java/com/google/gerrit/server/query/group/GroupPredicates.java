@@ -21,7 +21,6 @@ import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.query.Predicate;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -40,28 +39,26 @@ public class GroupPredicates {
   }
 
   public static Predicate<AccountGroup> uuid(AccountGroup.UUID uuid) {
-    return new GroupPredicate(GroupField.UUID,
-        GroupQueryBuilder.FIELD_UUID, uuid.get());
+    return new GroupPredicate(GroupField.UUID, GroupQueryBuilder.FIELD_UUID, uuid.get());
   }
 
   public static Predicate<AccountGroup> description(String description) {
-    return new GroupPredicate(GroupField.DESCRIPTION,
-        GroupQueryBuilder.FIELD_DESCRIPTION, description);
+    return new GroupPredicate(
+        GroupField.DESCRIPTION, GroupQueryBuilder.FIELD_DESCRIPTION, description);
   }
 
   public static Predicate<AccountGroup> inname(String name) {
-    return new GroupPredicate(GroupField.NAME_PART,
-        GroupQueryBuilder.FIELD_INNAME, name.toLowerCase(Locale.US));
+    return new GroupPredicate(
+        GroupField.NAME_PART, GroupQueryBuilder.FIELD_INNAME, name.toLowerCase(Locale.US));
   }
 
   public static Predicate<AccountGroup> name(String name) {
-    return new GroupPredicate(GroupField.NAME,
-        GroupQueryBuilder.FIELD_NAME, name.toLowerCase(Locale.US));
+    return new GroupPredicate(
+        GroupField.NAME, GroupQueryBuilder.FIELD_NAME, name.toLowerCase(Locale.US));
   }
 
   public static Predicate<AccountGroup> owner(String owner) {
-    return new GroupPredicate(GroupField.OWNER_UUID,
-        GroupQueryBuilder.FIELD_OWNER, owner);
+    return new GroupPredicate(GroupField.OWNER_UUID, GroupQueryBuilder.FIELD_OWNER, owner);
   }
 
   public static Predicate<AccountGroup> isVisibleToAll() {
@@ -78,6 +75,5 @@ public class GroupPredicates {
     }
   }
 
-  private GroupPredicates() {
-  }
+  private GroupPredicates() {}
 }

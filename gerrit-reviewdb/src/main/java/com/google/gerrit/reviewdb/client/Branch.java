@@ -66,8 +66,7 @@ public final class Branch {
   protected RevId revision;
   protected boolean canDelete;
 
-  protected Branch() {
-  }
+  protected Branch() {}
 
   public Branch(final Branch.NameKey newName) {
     name = newName;

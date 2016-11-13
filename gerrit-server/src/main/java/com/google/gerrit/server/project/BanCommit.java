@@ -24,13 +24,11 @@ import com.google.gerrit.server.git.BanCommitResult;
 import com.google.gerrit.server.project.BanCommit.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class BanCommit implements RestModifyView<ProjectResource, Input> {
@@ -58,8 +56,7 @@ public class BanCommit implements RestModifyView<ProjectResource, Input> {
 
   @Override
   public BanResultInfo apply(ProjectResource rsrc, Input input)
-      throws UnprocessableEntityException, AuthException,
-      ResourceConflictException, IOException {
+      throws UnprocessableEntityException, AuthException, ResourceConflictException, IOException {
     BanResultInfo r = new BanResultInfo();
     if (input != null && input.commits != null && !input.commits.isEmpty()) {
       List<ObjectId> commitsToBan = new ArrayList<>(input.commits.size());
@@ -72,8 +69,7 @@ public class BanCommit implements RestModifyView<ProjectResource, Input> {
       }
 
       try {
-        BanCommitResult result =
-            banCommit.ban(rsrc.getControl(), commitsToBan, input.reason);
+        BanCommitResult result = banCommit.ban(rsrc.getControl(), commitsToBan, input.reason);
         r.newlyBanned = transformCommits(result.getNewlyBannedCommits());
         r.alreadyBanned = transformCommits(result.getAlreadyBannedCommits());
         r.ignored = transformCommits(result.getIgnoredObjectIds());

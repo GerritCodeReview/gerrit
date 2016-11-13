@@ -21,7 +21,6 @@ import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand.Type;
 
@@ -34,14 +33,14 @@ public class RefValidationHelper {
   private final Type operationType;
 
   @Inject
-  RefValidationHelper(RefOperationValidators.Factory refValidatorsFactory,
-      @Assisted Type operationType) {
+  RefValidationHelper(
+      RefOperationValidators.Factory refValidatorsFactory, @Assisted Type operationType) {
     this.refValidatorsFactory = refValidatorsFactory;
     this.operationType = operationType;
   }
 
-  public void validateRefOperation(String projectName, IdentifiedUser user,
-      RefUpdate update) throws ResourceConflictException {
+  public void validateRefOperation(String projectName, IdentifiedUser user, RefUpdate update)
+      throws ResourceConflictException {
     RefOperationValidators refValidators =
         refValidatorsFactory.create(
             new Project(new Project.NameKey(projectName)),

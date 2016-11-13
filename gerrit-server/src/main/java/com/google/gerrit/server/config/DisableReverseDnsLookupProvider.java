@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import org.eclipse.jgit.lib.Config;
 
 public class DisableReverseDnsLookupProvider implements Provider<Boolean> {
@@ -24,8 +23,7 @@ public class DisableReverseDnsLookupProvider implements Provider<Boolean> {
 
   @Inject
   DisableReverseDnsLookupProvider(@GerritServerConfig Config config) {
-    disableReverseDnsLookup =
-        config.getBoolean("gerrit", null, "disableReverseDnsLookup", false);
+    disableReverseDnsLookup = config.getBoolean("gerrit", null, "disableReverseDnsLookup", false);
   }
 
   @Override

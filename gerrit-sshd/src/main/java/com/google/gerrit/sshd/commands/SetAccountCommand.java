@@ -46,12 +46,6 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,13 +53,22 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
-/** Set a user's account settings. **/
+/** Set a user's account settings. * */
 @CommandMetaData(name = "set-account", description = "Change an account's settings")
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 final class SetAccountCommand extends SshCommand {
 
-  @Argument(index = 0, required = true, metaVar = "USER", usage = "full name, email-address, ssh username or account id")
+  @Argument(
+    index = 0,
+    required = true,
+    metaVar = "USER",
+    usage = "full name, email-address, ssh username or account id"
+  )
   private Account.Id id;
 
   @Option(name = "--full-name", metaVar = "NAME", usage = "display name of the account")
@@ -80,59 +83,63 @@ final class SetAccountCommand extends SshCommand {
   @Option(name = "--add-email", metaVar = "EMAIL", usage = "email addresses to add to the account")
   private List<String> addEmails = new ArrayList<>();
 
-  @Option(name = "--delete-email", metaVar = "EMAIL", usage = "email addresses to delete from the account")
+  @Option(
+    name = "--delete-email",
+    metaVar = "EMAIL",
+    usage = "email addresses to delete from the account"
+  )
   private List<String> deleteEmails = new ArrayList<>();
 
-  @Option(name = "--preferred-email", metaVar = "EMAIL", usage = "a registered email address from the account")
+  @Option(
+    name = "--preferred-email",
+    metaVar = "EMAIL",
+    usage = "a registered email address from the account"
+  )
   private String preferredEmail;
 
   @Option(name = "--add-ssh-key", metaVar = "-|KEY", usage = "public keys to add to the account")
   private List<String> addSshKeys = new ArrayList<>();
 
-  @Option(name = "--delete-ssh-key", metaVar = "-|KEY", usage = "public keys to delete from the account")
+  @Option(
+    name = "--delete-ssh-key",
+    metaVar = "-|KEY",
+    usage = "public keys to delete from the account"
+  )
   private List<String> deleteSshKeys = new ArrayList<>();
 
-  @Option(name = "--http-password", metaVar = "PASSWORD", usage = "password for HTTP authentication for the account")
+  @Option(
+    name = "--http-password",
+    metaVar = "PASSWORD",
+    usage = "password for HTTP authentication for the account"
+  )
   private String httpPassword;
 
   @Option(name = "--clear-http-password", usage = "clear HTTP password for the account")
   private boolean clearHttpPassword;
 
-  @Inject
-  private IdentifiedUser.GenericFactory genericUserFactory;
+  @Inject private IdentifiedUser.GenericFactory genericUserFactory;
 
-  @Inject
-  private CreateEmail.Factory createEmailFactory;
+  @Inject private CreateEmail.Factory createEmailFactory;
 
-  @Inject
-  private GetEmails getEmails;
+  @Inject private GetEmails getEmails;
 
-  @Inject
-  private DeleteEmail deleteEmail;
+  @Inject private DeleteEmail deleteEmail;
 
-  @Inject
-  private PutPreferred putPreferred;
+  @Inject private PutPreferred putPreferred;
 
-  @Inject
-  private PutName putName;
+  @Inject private PutName putName;
 
-  @Inject
-  private PutHttpPassword putHttpPassword;
+  @Inject private PutHttpPassword putHttpPassword;
 
-  @Inject
-  private PutActive putActive;
+  @Inject private PutActive putActive;
 
-  @Inject
-  private DeleteActive deleteActive;
+  @Inject private DeleteActive deleteActive;
 
-  @Inject
-  private AddSshKey addSshKey;
+  @Inject private AddSshKey addSshKey;
 
-  @Inject
-  private GetSshKeys getSshKeys;
+  @Inject private GetSshKeys getSshKeys;
 
-  @Inject
-  private DeleteSshKey deleteSshKey;
+  @Inject private DeleteSshKey deleteSshKey;
 
   private IdentifiedUser user;
   private AccountResource rsrc;
@@ -148,8 +155,7 @@ final class SetAccountCommand extends SshCommand {
       throw die("--active and --inactive options are mutually exclusive.");
     }
     if (clearHttpPassword && !Strings.isNullOrEmpty(httpPassword)) {
-      throw die("--http-password and --clear-http-password options are "
-          + "mutually exclusive.");
+      throw die("--http-password and --clear-http-password options are " + "mutually exclusive.");
     }
     if (addSshKeys.contains("-") && deleteSshKeys.contains("-")) {
       throw die("Only one option may use the stdin");
@@ -161,13 +167,14 @@ final class SetAccountCommand extends SshCommand {
       deleteEmails = Collections.singletonList("ALL");
     }
     if (deleteEmails.contains(preferredEmail)) {
-      throw die("--preferred-email and --delete-email options are mutually " +
-          "exclusive for the same email address.");
+      throw die(
+          "--preferred-email and --delete-email options are mutually "
+              + "exclusive for the same email address.");
     }
   }
 
-  private void setAccount() throws OrmException, IOException, UnloggedFailure,
-      ConfigInvalidException {
+  private void setAccount()
+      throws OrmException, IOException, UnloggedFailure, ConfigInvalidException {
     user = genericUserFactory.create(id);
     rsrc = new AccountResource(user);
     try {
@@ -219,8 +226,8 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void addSshKeys(List<String> sshKeys) throws RestApiException,
-      OrmException, IOException, ConfigInvalidException {
+  private void addSshKeys(List<String> sshKeys)
+      throws RestApiException, OrmException, IOException, ConfigInvalidException {
     for (final String sshKey : sshKeys) {
       AddSshKey.Input in = new AddSshKey.Input();
       in.raw = RawInputUtil.create(sshKey.getBytes(), "plain/text");
@@ -229,8 +236,8 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void deleteSshKeys(List<String> sshKeys)
-      throws RestApiException, OrmException, RepositoryNotFoundException,
-      IOException, ConfigInvalidException {
+      throws RestApiException, OrmException, RepositoryNotFoundException, IOException,
+          ConfigInvalidException {
     List<SshKeyInfo> infos = getSshKeys.apply(rsrc);
     if (sshKeys.contains("ALL")) {
       for (SshKeyInfo i : infos) {
@@ -239,8 +246,7 @@ final class SetAccountCommand extends SshCommand {
     } else {
       for (String sshKey : sshKeys) {
         for (SshKeyInfo i : infos) {
-          if (sshKey.trim().equals(i.sshPublicKey)
-              || sshKey.trim().equals(i.comment)) {
+          if (sshKey.trim().equals(i.sshPublicKey) || sshKey.trim().equals(i.comment)) {
             deleteSshKey(i);
           }
         }
@@ -248,12 +254,12 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteSshKey(SshKeyInfo i) throws AuthException, OrmException,
-      RepositoryNotFoundException, IOException, ConfigInvalidException {
-    AccountSshKey sshKey = new AccountSshKey(
-        new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
-    deleteSshKey.apply(
-        new AccountResource.SshKey(user, sshKey), null);
+  private void deleteSshKey(SshKeyInfo i)
+      throws AuthException, OrmException, RepositoryNotFoundException, IOException,
+          ConfigInvalidException {
+    AccountSshKey sshKey =
+        new AccountSshKey(new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
+    deleteSshKey.apply(new AccountResource.SshKey(user, sshKey), null);
   }
 
   private void addEmail(String email)
@@ -268,22 +274,18 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteEmail(String email)
-      throws RestApiException, OrmException, IOException {
+  private void deleteEmail(String email) throws RestApiException, OrmException, IOException {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {
-        deleteEmail.apply(new AccountResource.Email(user, e.email),
-            new DeleteEmail.Input());
+        deleteEmail.apply(new AccountResource.Email(user, e.email), new DeleteEmail.Input());
       }
     } else {
-      deleteEmail.apply(new AccountResource.Email(user, email),
-          new DeleteEmail.Input());
+      deleteEmail.apply(new AccountResource.Email(user, email), new DeleteEmail.Input());
     }
   }
 
-  private void putPreferred(String email)
-      throws RestApiException, OrmException, IOException {
+  private void putPreferred(String email) throws RestApiException, OrmException, IOException {
     for (EmailInfo e : getEmails.apply(rsrc)) {
       if (e.email.equals(email)) {
         putPreferred.apply(new AccountResource.Email(user, email), null);
@@ -299,12 +301,10 @@ final class SetAccountCommand extends SshCommand {
       int idx = sshKeys.indexOf("-");
       if (idx >= 0) {
         StringBuilder sshKey = new StringBuilder();
-        BufferedReader br =
-            new BufferedReader(new InputStreamReader(in, UTF_8));
+        BufferedReader br = new BufferedReader(new InputStreamReader(in, UTF_8));
         String line;
         while ((line = br.readLine()) != null) {
-          sshKey.append(line)
-            .append("\n");
+          sshKey.append(line).append("\n");
         }
         sshKeys.set(idx, sshKey.toString());
       }

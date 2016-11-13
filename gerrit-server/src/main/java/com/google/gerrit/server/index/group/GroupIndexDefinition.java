@@ -24,10 +24,14 @@ public class GroupIndexDefinition
     extends IndexDefinition<AccountGroup.UUID, AccountGroup, GroupIndex> {
 
   @Inject
-  GroupIndexDefinition(GroupIndexCollection indexCollection,
+  GroupIndexDefinition(
+      GroupIndexCollection indexCollection,
       GroupIndex.Factory indexFactory,
       @Nullable AllGroupsIndexer allGroupsIndexer) {
-    super(GroupSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
+    super(
+        GroupSchemaDefinitions.INSTANCE,
+        indexCollection,
+        indexFactory,
         Providers.of(allGroupsIndexer));
   }
 }

@@ -25,20 +25,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class Index implements RestModifyView<ChangeResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
 
   @Inject
-  Index(Provider<ReviewDb> db,
-      ChangeIndexer indexer) {
+  Index(Provider<ReviewDb> db, ChangeIndexer indexer) {
     this.db = db;
     this.indexer = indexer;
   }
@@ -47,10 +44,8 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   public Response<?> apply(ChangeResource rsrc, Input input)
       throws IOException, AuthException, OrmException {
     ChangeControl ctl = rsrc.getControl();
-    if (!ctl.isOwner()
-        && !ctl.getUser().getCapabilities().canMaintainServer()) {
-      throw new AuthException(
-          "Only change owner or server maintainer can reindex");
+    if (!ctl.isOwner() && !ctl.getUser().getCapabilities().canMaintainServer()) {
+      throw new AuthException("Only change owner or server maintainer can reindex");
     }
     indexer.index(db.get(), rsrc.getChange());
     return Response.none();

@@ -29,20 +29,17 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ExternalIdCacheImpl implements ExternalIdCache {
-  private static final Logger log =
-      LoggerFactory.getLogger(ExternalIdCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(ExternalIdCacheImpl.class);
 
   private static final String CACHE_NAME = "external_ids_map";
 
@@ -50,9 +47,12 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, AllKey.class,
-            new TypeLiteral<ImmutableSetMultimap<Account.Id, AccountExternalId>>() {})
-                .maximumWeight(1).loader(Loader.class);
+        cache(
+                CACHE_NAME,
+                AllKey.class,
+                new TypeLiteral<ImmutableSetMultimap<Account.Id, AccountExternalId>>() {})
+            .maximumWeight(1)
+            .loader(Loader.class);
 
         bind(ExternalIdCacheImpl.class);
         bind(ExternalIdCache.class).to(ExternalIdCacheImpl.class);
@@ -60,14 +60,15 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
     };
   }
 
-  private final LoadingCache<AllKey,
-      ImmutableSetMultimap<Account.Id, AccountExternalId>> extIdsByAccount;
+  private final LoadingCache<AllKey, ImmutableSetMultimap<Account.Id, AccountExternalId>>
+      extIdsByAccount;
   private final Lock lock;
 
   @Inject
   ExternalIdCacheImpl(
-      @Named(CACHE_NAME) LoadingCache<AllKey,
-          ImmutableSetMultimap<Account.Id, AccountExternalId>> extIdsByAccount) {
+      @Named(CACHE_NAME)
+          LoadingCache<AllKey, ImmutableSetMultimap<Account.Id, AccountExternalId>>
+              extIdsByAccount) {
     this.extIdsByAccount = extIdsByAccount;
     this.lock = new ReentrantLock(true /* fair */);
   }
@@ -76,8 +77,8 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   public void onCreate(Iterable<AccountExternalId> extIds) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
-          .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
+      Multimap<Account.Id, AccountExternalId> n =
+          MultimapBuilder.hashKeys().arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : extIds) {
         n.put(extId.getAccountId(), extId);
       }
@@ -93,8 +94,8 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   public void onRemove(Iterable<AccountExternalId> extIds) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
-          .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
+      Multimap<Account.Id, AccountExternalId> n =
+          MultimapBuilder.hashKeys().arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : extIds) {
         n.remove(extId.getAccountId(), extId);
       }
@@ -107,12 +108,11 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onRemove(Account.Id accountId,
-      Iterable<AccountExternalId.Key> extIdKeys) {
+  public void onRemove(Account.Id accountId, Iterable<AccountExternalId.Key> extIdKeys) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
-          .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
+      Multimap<Account.Id, AccountExternalId> n =
+          MultimapBuilder.hashKeys().arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : byAccount(accountId)) {
         for (AccountExternalId.Key extIdKey : extIdKeys) {
           if (extIdKey.equals(extId.getKey())) {
@@ -133,8 +133,8 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   public void onUpdate(AccountExternalId updatedExtId) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
-          .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
+      Multimap<Account.Id, AccountExternalId> n =
+          MultimapBuilder.hashKeys().arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : byAccount(updatedExtId.getAccountId())) {
         if (updatedExtId.getKey().equals(extId.getKey())) {
           n.remove(updatedExtId.getAccountId(), extId);
@@ -163,13 +163,11 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   static class AllKey {
     static final AllKey ALL = new AllKey();
 
-    private AllKey() {
-    }
+    private AllKey() {}
   }
 
   static class Loader
-      extends CacheLoader<AllKey,
-          ImmutableSetMultimap<Account.Id, AccountExternalId>> {
+      extends CacheLoader<AllKey, ImmutableSetMultimap<Account.Id, AccountExternalId>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -178,8 +176,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
     }
 
     @Override
-    public ImmutableSetMultimap<Account.Id, AccountExternalId> load(AllKey key)
-        throws Exception {
+    public ImmutableSetMultimap<Account.Id, AccountExternalId> load(AllKey key) throws Exception {
       try (ReviewDb db = schema.open()) {
         Multimap<Account.Id, AccountExternalId> extIdsByAccount =
             MultimapBuilder.hashKeys().arrayListValues().build();

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.extensions.client;
 
-
 import static com.google.gerrit.extensions.client.RangeSubject.assertThat;
 
 import org.junit.Test;
@@ -75,8 +74,8 @@ public class RangeTest {
     assertThat(range).isInvalid();
   }
 
-  private Comment.Range createRange(int startLine, int startCharacter,
-      int endLine, int endCharacter) {
+  private Comment.Range createRange(
+      int startLine, int startCharacter, int endLine, int endCharacter) {
     Comment.Range range = new Comment.Range();
     range.startLine = startLine;
     range.startCharacter = startCharacter;

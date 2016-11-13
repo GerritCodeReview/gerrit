@@ -27,8 +27,8 @@ class BuckUtils extends BuildSystem {
 
   @Override
   protected ProcessBuilder newBuildProcess(Label label) throws IOException {
-    Properties properties = loadBuildProperties(
-        sourceRoot.resolve("buck-out/gen/tools/buck/buck.properties"));
+    Properties properties =
+        loadBuildProperties(sourceRoot.resolve("buck-out/gen/tools/buck/buck.properties"));
     String buck = firstNonNull(properties.getProperty("buck"), "buck");
     ProcessBuilder proc = new ProcessBuilder(buck, "build", label.fullName());
     if (properties.containsKey("PATH")) {
@@ -39,8 +39,7 @@ class BuckUtils extends BuildSystem {
 
   @Override
   public Path targetPath(Label label) {
-    return sourceRoot.resolve("buck-out")
-        .resolve("gen").resolve(label.artifact);
+    return sourceRoot.resolve("buck-out").resolve("gen").resolve(label.artifact);
   }
 
   @Override
@@ -56,15 +55,16 @@ class BuckUtils extends BuildSystem {
     // $ buck targets --show_output //gerrit-gwtui:ui_safari \
     //    | awk '{print $2}'
     String t = "ui_" + agent;
-    return new BuildSystem.Label("gerrit-gwtui", t,
-        String.format("gerrit-gwtui/__gwt_binary_%s__/%s.zip", t, t));
+    return new BuildSystem.Label(
+        "gerrit-gwtui", t, String.format("gerrit-gwtui/__gwt_binary_%s__/%s.zip", t, t));
   }
 
   @Override
   public Label polygerritComponents() {
-    return new Label("polygerrit-ui", "polygerrit_components",
-        "polygerrit-ui/polygerrit_components/" +
-        "polygerrit_components.bower_components.zip");
+    return new Label(
+        "polygerrit-ui",
+        "polygerrit_components",
+        "polygerrit-ui/polygerrit_components/" + "polygerrit_components.bower_components.zip");
   }
 
   @Override

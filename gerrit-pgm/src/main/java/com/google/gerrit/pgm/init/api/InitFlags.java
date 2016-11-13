@@ -19,13 +19,11 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-
-import java.io.IOException;
-import java.util.List;
 
 /** Global variables used by the 'init' command. */
 @Singleton
@@ -52,11 +50,12 @@ public class InitFlags {
 
   @VisibleForTesting
   @Inject
-  public InitFlags(final SitePaths site,
+  public InitFlags(
+      final SitePaths site,
       final SecureStore secureStore,
       @InstallPlugins final List<String> installPlugins,
-      @InstallAllPlugins final Boolean installAllPlugins) throws IOException,
-          ConfigInvalidException {
+      @InstallAllPlugins final Boolean installAllPlugins)
+      throws IOException, ConfigInvalidException {
     sec = secureStore;
     this.installPlugins = installPlugins;
     this.installAllPlugins = installAllPlugins;

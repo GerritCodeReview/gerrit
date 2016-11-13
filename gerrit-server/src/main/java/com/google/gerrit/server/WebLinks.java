@@ -33,11 +33,9 @@ import com.google.gerrit.extensions.webui.WebLink;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 @Singleton
 public class WebLinks {
@@ -47,10 +45,8 @@ public class WebLinks {
       link -> {
         if (link == null) {
           return false;
-        } else if (Strings.isNullOrEmpty(link.name)
-            || Strings.isNullOrEmpty(link.url)) {
-          log.warn(String.format("%s is missing name and/or url",
-              link.getClass().getName()));
+        } else if (Strings.isNullOrEmpty(link.name) || Strings.isNullOrEmpty(link.url)) {
+          log.warn(String.format("%s is missing name and/or url", link.getClass().getName()));
           return false;
         }
         return true;
@@ -60,10 +56,8 @@ public class WebLinks {
       link -> {
         if (link == null) {
           return false;
-        } else if (Strings.isNullOrEmpty(link.name)
-            || Strings.isNullOrEmpty(link.url)) {
-          log.warn(String.format("%s is missing name and/or url", link
-              .getClass().getName()));
+        } else if (Strings.isNullOrEmpty(link.name) || Strings.isNullOrEmpty(link.url)) {
+          log.warn(String.format("%s is missing name and/or url", link.getClass().getName()));
           return false;
         }
         return true;
@@ -78,7 +72,8 @@ public class WebLinks {
   private final DynamicSet<BranchWebLink> branchLinks;
 
   @Inject
-  public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
+  public WebLinks(
+      DynamicSet<PatchSetWebLink> patchSetLinks,
       DynamicSet<ParentWebLink> parentLinks,
       DynamicSet<FileWebLink> fileLinks,
       DynamicSet<FileHistoryWebLink> fileLogLinks,
@@ -95,60 +90,44 @@ public class WebLinks {
   }
 
   /**
-   *
    * @param project Project name.
    * @param commit SHA1 of commit.
    * @return Links for patch sets.
    */
-  public List<WebLinkInfo> getPatchSetLinks(Project.NameKey project,
-      String commit) {
-    return filterLinks(
-        patchSetLinks,
-        webLink -> webLink.getPatchSetWebLink(project.get(), commit));
+  public List<WebLinkInfo> getPatchSetLinks(Project.NameKey project, String commit) {
+    return filterLinks(patchSetLinks, webLink -> webLink.getPatchSetWebLink(project.get(), commit));
   }
 
   /**
-   *
    * @param project Project name.
    * @param revision SHA1 of the parent revision.
    * @return Links for patch sets.
    */
-  public List<WebLinkInfo> getParentLinks(Project.NameKey project,
-      String revision) {
-    return filterLinks(
-        parentLinks,
-        webLink -> webLink.getParentWebLink(project.get(), revision));
+  public List<WebLinkInfo> getParentLinks(Project.NameKey project, String revision) {
+    return filterLinks(parentLinks, webLink -> webLink.getParentWebLink(project.get(), revision));
   }
 
   /**
-   *
    * @param project Project name.
    * @param revision SHA1 of revision.
    * @param file File name.
    * @return Links for files.
    */
-  public List<WebLinkInfo> getFileLinks(String project,
-      String revision, String file) {
-    return filterLinks(
-        fileLinks,
-        webLink -> webLink.getFileWebLink(project, revision, file));
+  public List<WebLinkInfo> getFileLinks(String project, String revision, String file) {
+    return filterLinks(fileLinks, webLink -> webLink.getFileWebLink(project, revision, file));
   }
 
   /**
-   *
    * @param project Project name.
    * @param revision SHA1 of revision.
    * @param file File name.
    * @return Links for file history
    */
-  public List<WebLinkInfoCommon> getFileHistoryLinks(
-      String project, String revision, String file) {
-    return FluentIterable
-        .from(fileHistoryLinks)
+  public List<WebLinkInfoCommon> getFileHistoryLinks(String project, String revision, String file) {
+    return FluentIterable.from(fileHistoryLinks)
         .transform(
             webLink -> {
-              WebLinkInfo info =
-                  webLink.getFileHistoryWebLink(project, revision, file);
+              WebLinkInfo info = webLink.getFileHistoryWebLink(project, revision, file);
               if (info == null) {
                 return null;
               }
@@ -164,10 +143,8 @@ public class WebLinks {
   }
 
   /**
-   *
    * @param project Project name.
-   * @param patchSetIdA Patch set ID of side A, <code>null</code> if no base
-   *        patch set was selected.
+   * @param patchSetIdA Patch set ID of side A, <code>null</code> if no base patch set was selected.
    * @param revisionA SHA1 of revision of side A.
    * @param fileA File name of side A.
    * @param patchSetIdB Patch set ID of side B.
@@ -175,48 +152,50 @@ public class WebLinks {
    * @param fileB File name of side B.
    * @return Links for file diffs.
    */
-  public List<DiffWebLinkInfo> getDiffLinks(final String project, final int changeId,
-      final Integer patchSetIdA, final String revisionA, final String fileA,
-      final int patchSetIdB, final String revisionB, final String fileB) {
-   return FluentIterable
-       .from(diffLinks)
-       .transform(webLink ->
-            webLink.getDiffLink(project, changeId,
-                patchSetIdA, revisionA, fileA,
-                patchSetIdB, revisionB, fileB))
-       .filter(INVALID_WEBLINK)
-       .toList();
- }
+  public List<DiffWebLinkInfo> getDiffLinks(
+      final String project,
+      final int changeId,
+      final Integer patchSetIdA,
+      final String revisionA,
+      final String fileA,
+      final int patchSetIdB,
+      final String revisionB,
+      final String fileB) {
+    return FluentIterable.from(diffLinks)
+        .transform(
+            webLink ->
+                webLink.getDiffLink(
+                    project,
+                    changeId,
+                    patchSetIdA,
+                    revisionA,
+                    fileA,
+                    patchSetIdB,
+                    revisionB,
+                    fileB))
+        .filter(INVALID_WEBLINK)
+        .toList();
+  }
 
   /**
-   *
    * @param project Project name.
    * @return Links for projects.
    */
   public List<WebLinkInfo> getProjectLinks(final String project) {
-    return filterLinks(
-        projectLinks,
-        webLink -> webLink.getProjectWeblink(project));
+    return filterLinks(projectLinks, webLink -> webLink.getProjectWeblink(project));
   }
 
   /**
-   *
    * @param project Project name
    * @param branch Branch name
    * @return Links for branches.
    */
   public List<WebLinkInfo> getBranchLinks(final String project, final String branch) {
-    return filterLinks(
-        branchLinks,
-        webLink -> webLink.getBranchWebLink(project, branch));
+    return filterLinks(branchLinks, webLink -> webLink.getBranchWebLink(project, branch));
   }
 
-  private <T extends WebLink> List<WebLinkInfo> filterLinks(DynamicSet<T> links,
-      Function<T, WebLinkInfo> transformer) {
-    return FluentIterable
-        .from(links)
-        .transform(transformer)
-        .filter(INVALID_WEBLINK)
-        .toList();
+  private <T extends WebLink> List<WebLinkInfo> filterLinks(
+      DynamicSet<T> links, Function<T, WebLinkInfo> transformer) {
+    return FluentIterable.from(links).transform(transformer).filter(INVALID_WEBLINK).toList();
   }
 }

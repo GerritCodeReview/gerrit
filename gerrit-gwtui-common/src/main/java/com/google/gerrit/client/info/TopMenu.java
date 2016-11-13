@@ -19,8 +19,7 @@ import com.google.gwt.core.client.JsArray;
 
 public class TopMenu extends JavaScriptObject {
 
-  protected TopMenu() {
-  }
+  protected TopMenu() {}
 
   public final native String getName() /*-{ return this.name; }-*/;
 

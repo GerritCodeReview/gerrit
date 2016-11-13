@@ -22,15 +22,13 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 @Singleton
 public class SiteHeaderFooter {
@@ -119,9 +117,7 @@ public class SiteHeaderFooter {
     }
 
     void load() throws IOException {
-      css = HtmlDomUtil.readFile(
-          cssFile.path.getParent(),
-          cssFile.path.getFileName().toString());
+      css = HtmlDomUtil.readFile(cssFile.path.getParent(), cssFile.path.getFileName().toString());
       header = readXml(headerFile);
       footer = readXml(footerFile);
     }

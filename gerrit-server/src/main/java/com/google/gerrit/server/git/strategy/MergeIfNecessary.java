@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,18 +26,16 @@ public class MergeIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  public List<SubmitStrategyOp> buildOps(
-      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    List<CodeReviewCommit> sorted =
-        args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+  public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
+      throws IntegrationException {
+    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
 
-    if (args.mergeTip.getInitialTip() == null || !args.submoduleOp
-        .hasSubscription(args.destBranch)) {
-      CodeReviewCommit firstFastForward = args.mergeUtil.getFirstFastForward(
-          args.mergeTip.getInitialTip(), args.rw, sorted);
-      if (firstFastForward != null &&
-          !firstFastForward.equals(args.mergeTip.getInitialTip())) {
+    if (args.mergeTip.getInitialTip() == null
+        || !args.submoduleOp.hasSubscription(args.destBranch)) {
+      CodeReviewCommit firstFastForward =
+          args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
+      if (firstFastForward != null && !firstFastForward.equals(args.mergeTip.getInitialTip())) {
         ops.add(new FastForwardOp(args, firstFastForward));
       }
     }
@@ -51,12 +48,10 @@ public class MergeIfNecessary extends SubmitStrategy {
     return ops;
   }
 
-  static boolean dryRun(SubmitDryRun.Arguments args,
-      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+  static boolean dryRun(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
-    return args.mergeUtil.canFastForward(
-          args.mergeSorter, mergeTip, args.rw, toMerge)
-        || args.mergeUtil.canMerge(
-          args.mergeSorter, args.repo, mergeTip, toMerge);
+    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge)
+        || args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
   }
 }

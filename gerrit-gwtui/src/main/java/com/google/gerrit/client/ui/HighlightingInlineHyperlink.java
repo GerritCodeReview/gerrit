@@ -14,13 +14,12 @@
 
 package com.google.gerrit.client.ui;
 
-
 public class HighlightingInlineHyperlink extends InlineHyperlink {
 
   private String toHighlight;
 
-  public HighlightingInlineHyperlink(final String text, final String token,
-      final String toHighlight) {
+  public HighlightingInlineHyperlink(
+      final String text, final String token, final String toHighlight) {
     super(text, token);
     this.toHighlight = toHighlight;
     highlight(text, toHighlight);

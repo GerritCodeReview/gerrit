@@ -19,10 +19,8 @@ import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.ThreadFactory;
+import org.eclipse.jgit.lib.Config;
 
 public class CommandExecutorQueueProvider implements QueueProvider {
 
@@ -37,34 +35,33 @@ public class CommandExecutorQueueProvider implements QueueProvider {
       ThreadSettingsConfig threadsSettingsConfig,
       WorkQueue queues) {
     poolSize = threadsSettingsConfig.getSshdThreads();
-    batchThreads = config.getInt("sshd", "batchThreads",
-        threadsSettingsConfig.getSshdBatchTreads());
+    batchThreads =
+        config.getInt("sshd", "batchThreads", threadsSettingsConfig.getSshdBatchTreads());
     if (batchThreads > poolSize) {
       poolSize += batchThreads;
     }
     int interactiveThreads = Math.max(1, poolSize - batchThreads);
-    interactiveExecutor = queues.createQueue(interactiveThreads,
-        "SSH-Interactive-Worker");
-    if (batchThreads !=  0) {
+    interactiveExecutor = queues.createQueue(interactiveThreads, "SSH-Interactive-Worker");
+    if (batchThreads != 0) {
       batchExecutor = queues.createQueue(batchThreads, "SSH-Batch-Worker");
       setThreadFactory(batchExecutor);
     } else {
       batchExecutor = interactiveExecutor;
     }
     setThreadFactory(interactiveExecutor);
-
   }
 
   private void setThreadFactory(WorkQueue.Executor executor) {
     final ThreadFactory parent = executor.getThreadFactory();
-    executor.setThreadFactory(new ThreadFactory() {
-      @Override
-      public Thread newThread(final Runnable task) {
-        final Thread t = parent.newThread(task);
-        t.setPriority(Thread.MIN_PRIORITY);
-        return t;
-      }
-    });
+    executor.setThreadFactory(
+        new ThreadFactory() {
+          @Override
+          public Thread newThread(final Runnable task) {
+            final Thread t = parent.newThread(task);
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+          }
+        });
   }
 
   @Override

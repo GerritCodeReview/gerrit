@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.data;
 
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.reviewdb.client.Change;
 
 import java.util.List;
@@ -43,4 +44,5 @@ public class ChangeAttribute {
     public List<DependencyAttribute> neededBy;
     public List<SubmitRecordAttribute> submitRecords;
     public List<AccountAttribute> allReviewers;
+    public List<PluginDefinedInfo> plugins;
 }

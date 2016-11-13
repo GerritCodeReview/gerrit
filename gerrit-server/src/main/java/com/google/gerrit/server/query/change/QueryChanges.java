@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
@@ -35,7 +36,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class QueryChanges implements RestReadView<TopLevelResource> {
+public class QueryChanges implements RestReadView<TopLevelResource>,
+    DynamicOptions.BeanReceiver {
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
   private final ChangeQueryProcessor imp;
@@ -73,6 +75,12 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     this.imp = qp;
 
     options = EnumSet.noneOf(ListChangesOption.class);
+  }
+
+  @Override
+  public void setDynamicBean(String plugin,
+      DynamicOptions.DynamicBean dynamicBean) {
+    imp.setDynamicBean(plugin, dynamicBean);
   }
 
   public void addQuery(String query) {
@@ -121,8 +129,9 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
-    List<List<ChangeInfo>> res = json.create(options)
-        .formatQueryResults(results);
+    ChangeJson cjson = json.create(options);
+    cjson.setPluginDefinedAttributesFactory(this.imp);
+    List<List<ChangeInfo>> res = cjson.formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more()) {

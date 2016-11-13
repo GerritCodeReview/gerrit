@@ -214,6 +214,8 @@ public class ChangeInfo extends JavaScriptObject {
           continue;
 
         case OK: // Label already applied.
+        case RECOMMEND:
+        case DISLIKE:
         case MAY: // Label is not required.
           continue;
 
@@ -232,6 +234,10 @@ public class ChangeInfo extends JavaScriptObject {
     public final SubmitRecord.Label.Status status() {
       if (approved() != null) {
         return SubmitRecord.Label.Status.OK;
+      } else if (recommended() != null) {
+        return SubmitRecord.Label.Status.RECOMMEND;
+      } else if (disliked() != null) {
+        return SubmitRecord.Label.Status.DISLIKE;
       } else if (rejected() != null) {
         return SubmitRecord.Label.Status.REJECT;
       } else if (optional()) {

@@ -20,12 +20,13 @@ public class MyContactInformationScreen extends SettingsScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    panel = new ContactPanelShort() {
-      @Override
-      void display() {
-        MyContactInformationScreen.this.display();
-      }
-    };
+    panel =
+        new ContactPanelShort() {
+          @Override
+          void display() {
+            MyContactInformationScreen.this.display();
+          }
+        };
     add(panel);
   }
 }

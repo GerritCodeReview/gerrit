@@ -32,15 +32,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,15 +40,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A single delta to apply atomically to a change.
- * <p>
- * This delta contains only draft comments on a single patch set of a change by
- * a single author. This delta will become a single commit in the All-Users
- * repository.
- * <p>
- * This class is not thread safe.
+ *
+ * <p>This delta contains only draft comments on a single patch set of a change by a single author.
+ * This delta will become a single commit in the All-Users repository.
+ *
+ * <p>This class is not thread safe.
  */
 public class ChangeDraftUpdate extends AbstractChangeUpdate {
   public interface Factory {
@@ -79,6 +76,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   @AutoValue
   abstract static class Key {
     abstract String revId();
+
     abstract Comment.Key key();
   }
 
@@ -103,8 +101,17 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
-        accountId, realAccountId, authorIdent, when);
+    super(
+        migration,
+        noteUtil,
+        serverIdent,
+        anonymousCowardName,
+        notes,
+        null,
+        accountId,
+        realAccountId,
+        authorIdent,
+        when);
     this.draftsProject = allUsers;
   }
 
@@ -120,8 +127,17 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, realAccountId, authorIdent, when);
+    super(
+        migration,
+        noteUtil,
+        serverIdent,
+        anonymousCowardName,
+        null,
+        change,
+        accountId,
+        realAccountId,
+        authorIdent,
+        when);
     this.draftsProject = allUsers;
   }
 
@@ -139,12 +155,11 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
   }
 
-  private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,
-      ObjectId curr, CommitBuilder cb)
+  private CommitBuilder storeCommentsInNotes(
+      RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, OrmException, IOException {
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
-    Set<RevId> updatedRevs =
-        Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
+    Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (Comment c : put) {
@@ -193,21 +208,18 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     return cb;
   }
 
-  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw,
-      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
+  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
+      throws ConfigInvalidException, OrmException, IOException {
     if (migration.readChanges()) {
       // If reading from changes is enabled, then the old DraftCommentNotes
       // already parsed the revision notes. We can reuse them as long as the ref
       // hasn't advanced.
       ChangeNotes changeNotes = getNotes();
       if (changeNotes != null) {
-        DraftCommentNotes draftNotes =
-            changeNotes.load().getDraftCommentNotes();
+        DraftCommentNotes draftNotes = changeNotes.load().getDraftCommentNotes();
         if (draftNotes != null) {
-          ObjectId idFromNotes =
-              firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
-          RevisionNoteMap<ChangeRevisionNote> rnm =
-              draftNotes.getRevisionNoteMap();
+          ObjectId idFromNotes = firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
+          RevisionNoteMap<ChangeRevisionNote> rnm = draftNotes.getRevisionNoteMap();
           if (idFromNotes.equals(curr) && rnm != null) {
             return rnm;
           }
@@ -223,15 +235,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil, getId(),
-        rw.getObjectReader(),
-        noteMap,
-        PatchLineComment.Status.DRAFT);
+        noteUtil, getId(), rw.getObjectReader(), noteMap, PatchLineComment.Status.DRAFT);
   }
 
   @Override
-  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
-      ObjectId curr) throws OrmException, IOException {
+  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
+      throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage("Update draft comments");
     try {
@@ -253,7 +262,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   public boolean isEmpty() {
-    return delete.isEmpty()
-        && put.isEmpty();
+    return delete.isEmpty() && put.isEmpty();
   }
 }

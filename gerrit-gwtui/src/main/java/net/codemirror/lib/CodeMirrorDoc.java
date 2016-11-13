@@ -19,8 +19,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 /** The Doc object representing the content in a CodeMirror */
 public class CodeMirrorDoc extends JavaScriptObject {
 
-  public final native void replaceRange(String replacement,
-      Pos from, Pos to) /*-{
+  public final native void replaceRange(String replacement, Pos from, Pos to) /*-{
     this.replaceRange(replacement, from, to);
   }-*/;
 
@@ -28,6 +27,5 @@ public class CodeMirrorDoc extends JavaScriptObject {
     this.replaceRange(insertion, at);
   }-*/;
 
-  protected CodeMirrorDoc() {
-  }
+  protected CodeMirrorDoc() {}
 }

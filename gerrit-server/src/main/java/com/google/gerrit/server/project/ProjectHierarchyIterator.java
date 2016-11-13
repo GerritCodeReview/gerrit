@@ -19,19 +19,17 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Iterates from a project up through its parents to All-Projects.
- * <p>
- * If a cycle is detected the cycle is broken and All-Projects is visited.
+ *
+ * <p>If a cycle is detected the cycle is broken and All-Projects is visited.
  */
 class ProjectHierarchyIterator implements Iterator<ProjectState> {
   private static final Logger log = LoggerFactory.getLogger(ProjectHierarchyIterator.class);
@@ -41,9 +39,7 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
   private final Set<Project.NameKey> seen;
   private ProjectState next;
 
-  ProjectHierarchyIterator(ProjectCache c,
-      AllProjectsName all,
-      ProjectState firstResult) {
+  ProjectHierarchyIterator(ProjectCache c, AllProjectsName all, ProjectState firstResult) {
     cache = c;
     allProjectsName = all;
 
@@ -95,8 +91,8 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
     }
     int idx = order.lastIndexOf(parentName.get());
     order.add(parentName.get());
-    log.warn("Cycle detected in projects: "
-        + Joiner.on(" -> ").join(order.subList(idx, order.size())));
+    log.warn(
+        "Cycle detected in projects: " + Joiner.on(" -> ").join(order.subList(idx, order.size())));
     return false;
   }
 

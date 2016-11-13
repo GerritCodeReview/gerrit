@@ -30,8 +30,7 @@ public class Util {
 
     int pos = 0;
     int endPos = 0;
-    while ((pos = text.toLowerCase().indexOf(
-        toHighlight.toLowerCase(), pos)) > -1) {
+    while ((pos = text.toLowerCase().indexOf(toHighlight.toLowerCase(), pos)) > -1) {
       if (pos > endPos) {
         b.append(text.substring(endPos, pos));
       }

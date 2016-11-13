@@ -35,8 +35,7 @@ public enum SshMode {
     }
     value = value.toUpperCase();
     SshMode mode = Enums.getIfPresent(SshMode.class, value).orNull();
-    checkArgument(mode != null,
-        "Invalid value for %s: %s", VAR, System.getenv(VAR));
+    checkArgument(mode != null, "Invalid value for %s: %s", VAR, System.getenv(VAR));
     return mode;
   }
 

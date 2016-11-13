@@ -34,11 +34,9 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 
 public class GroupTable extends NavigationTable<GroupInfo> {
   private static final int NUM_COLS = 3;
@@ -54,16 +52,18 @@ public class GroupTable extends NavigationTable<GroupInfo> {
     table.setText(0, 1, C.columnGroupName());
     table.setText(0, 2, C.columnGroupDescription());
     table.setText(0, 3, C.columnGroupVisibleToAll());
-    table.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        final Cell cell = table.getCellForEvent(event);
-        if (cell != null && cell.getCellIndex() != 1
-            && getRowItem(cell.getRowIndex()) != null) {
-          movePointerTo(cell.getRowIndex());
-        }
-      }
-    });
+    table.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            final Cell cell = table.getCellForEvent(event);
+            if (cell != null
+                && cell.getCellIndex() != 1
+                && getRowItem(cell.getRowIndex()) != null) {
+              movePointerTo(cell.getRowIndex());
+            }
+          }
+        });
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     for (int i = 1; i <= NUM_COLS; i++) {
@@ -107,12 +107,14 @@ public class GroupTable extends NavigationTable<GroupInfo> {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    Collections.sort(list, new Comparator<GroupInfo>() {
-      @Override
-      public int compare(GroupInfo a, GroupInfo b) {
-        return a.name().compareTo(b.name());
-      }
-    });
+    Collections.sort(
+        list,
+        new Comparator<GroupInfo>() {
+          @Override
+          public int compare(GroupInfo a, GroupInfo b) {
+            return a.name().compareTo(b.name());
+          }
+        });
     for (GroupInfo group : list.subList(fromIndex, toIndex)) {
       final int row = table.getRowCount();
       table.insertRow(row);
@@ -124,8 +126,11 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   void populate(final int row, final GroupInfo k, final String toHighlight) {
     if (k.url() != null) {
       if (isInteralGroup(k)) {
-        table.setWidget(row, 1, new HighlightingInlineHyperlink(k.name(),
-            Dispatcher.toGroup(k.getGroupId()), toHighlight));
+        table.setWidget(
+            row,
+            1,
+            new HighlightingInlineHyperlink(
+                k.name(), Dispatcher.toGroup(k.getGroupId()), toHighlight));
       } else {
         Anchor link = new Anchor();
         link.setHTML(Util.highlight(k.name(), toHighlight));
@@ -150,7 +155,6 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   private boolean isInteralGroup(final GroupInfo groupInfo) {
-    return groupInfo != null
-        && groupInfo.url().startsWith("#" + PageLinks.ADMIN_GROUPS);
+    return groupInfo != null && groupInfo.url().startsWith("#" + PageLinks.ADMIN_GROUPS);
   }
 }

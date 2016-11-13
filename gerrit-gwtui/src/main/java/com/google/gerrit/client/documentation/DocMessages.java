@@ -18,5 +18,6 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface DocMessages extends Messages {
   String docQueryWindowTitle(String query);
+
   String docQueryPageTitle(String query);
 }

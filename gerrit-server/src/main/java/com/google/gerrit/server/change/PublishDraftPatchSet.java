@@ -53,25 +53,21 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-
 @Singleton
-public class PublishDraftPatchSet implements RestModifyView<RevisionResource, Input>,
-    UiAction<RevisionResource> {
-  private static final Logger log =
-      LoggerFactory.getLogger(PublishDraftPatchSet.class);
+public class PublishDraftPatchSet
+    implements RestModifyView<RevisionResource, Input>, UiAction<RevisionResource> {
+  private static final Logger log = LoggerFactory.getLogger(PublishDraftPatchSet.class);
 
-  public static class Input {
-  }
+  public static class Input {}
 
   private final AccountResolver accountResolver;
   private final ApprovalsUtil approvalsUtil;
@@ -108,14 +104,13 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    return apply(rsrc.getUser(), rsrc.getChange(), rsrc.getPatchSet().getId(),
-        rsrc.getPatchSet());
+    return apply(rsrc.getUser(), rsrc.getChange(), rsrc.getPatchSet().getId(), rsrc.getPatchSet());
   }
 
-  private Response<?> apply(CurrentUser u, Change c, PatchSet.Id psId,
-      PatchSet ps) throws RestApiException, UpdateException {
-    try (BatchUpdate bu = updateFactory.create(
-        dbProvider.get(), c.getProject(), u, TimeUtil.nowTs())) {
+  private Response<?> apply(CurrentUser u, Change c, PatchSet.Id psId, PatchSet ps)
+      throws RestApiException, UpdateException {
+    try (BatchUpdate bu =
+        updateFactory.create(dbProvider.get(), c.getProject(), u, TimeUtil.nowTs())) {
       bu.addOp(c.getId(), new Op(psId, ps));
       bu.execute();
     }
@@ -126,18 +121,16 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
   public UiAction.Description getDescription(RevisionResource rsrc) {
     try {
       return new UiAction.Description()
-        .setLabel("Publish")
-        .setTitle(String.format("Publish revision %d",
-            rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
-            && rsrc.getControl().canPublish(dbProvider.get()));
+          .setLabel("Publish")
+          .setTitle(String.format("Publish revision %d", rsrc.getPatchSet().getPatchSetId()))
+          .setVisible(
+              rsrc.getPatchSet().isDraft() && rsrc.getControl().canPublish(dbProvider.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }
   }
 
-  public static class CurrentRevision implements
-      RestModifyView<ChangeResource, Input> {
+  public static class CurrentRevision implements RestModifyView<ChangeResource, Input> {
     private final PublishDraftPatchSet publish;
 
     @Inject
@@ -148,8 +141,11 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     @Override
     public Response<?> apply(ChangeResource rsrc, Input input)
         throws RestApiException, UpdateException {
-      return publish.apply(rsrc.getControl().getUser(), rsrc.getChange(),
-          rsrc.getChange().currentPatchSetId(), null);
+      return publish.apply(
+          rsrc.getControl().getUser(),
+          rsrc.getChange(),
+          rsrc.getChange().currentPatchSetId(),
+          null);
     }
   }
 
@@ -195,36 +191,39 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       }
     }
 
-    private void savePatchSet(ChangeContext ctx)
-        throws RestApiException, OrmException {
+    private void savePatchSet(ChangeContext ctx) throws RestApiException, OrmException {
       if (!patchSet.isDraft()) {
         throw new ResourceConflictException("Patch set is not a draft");
       }
       psUtil.publish(ctx.getDb(), ctx.getUpdate(psId), patchSet);
     }
 
-    private void addReviewers(ChangeContext ctx)
-        throws OrmException, IOException {
+    private void addReviewers(ChangeContext ctx) throws OrmException, IOException {
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
-      Collection<Account.Id> oldReviewers = approvalsUtil.getReviewers(
-          ctx.getDb(), ctx.getNotes()).all();
-      RevCommit commit = ctx.getRevWalk().parseCommit(
-          ObjectId.fromString(patchSet.getRevision().get()));
+      Collection<Account.Id> oldReviewers =
+          approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all();
+      RevCommit commit =
+          ctx.getRevWalk().parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
       patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
 
       List<FooterLine> footerLines = commit.getFooterLines();
-      recipients = getRecipientsFromFooters(
-          ctx.getDb(), accountResolver, patchSet.isDraft(), footerLines);
+      recipients =
+          getRecipientsFromFooters(ctx.getDb(), accountResolver, patchSet.isDraft(), footerLines);
       recipients.remove(ctx.getAccountId());
-      approvalsUtil.addReviewers(ctx.getDb(), ctx.getUpdate(psId), labelTypes,
-          change, patchSet, patchSetInfo, recipients.getReviewers(),
+      approvalsUtil.addReviewers(
+          ctx.getDb(),
+          ctx.getUpdate(psId),
+          labelTypes,
+          change,
+          patchSet,
+          patchSetInfo,
+          recipients.getReviewers(),
           oldReviewers);
     }
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      draftPublished.fire(change, patchSet, ctx.getAccount(),
-          ctx.getWhen());
+      draftPublished.fire(change, patchSet, ctx.getAccount(), ctx.getWhen());
       if (patchSet.isDraft() && change.getStatus() == Change.Status.DRAFT) {
         // Skip emails if the patch set is still a draft.
         return;
@@ -241,8 +240,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     }
 
     private void sendCreateChange(Context ctx) throws EmailException {
-      CreateChangeSender cm =
-          createChangeSenderFactory.create(ctx.getProject(), change.getId());
+      CreateChangeSender cm = createChangeSenderFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(ctx.getAccountId());
       cm.setPatchSet(patchSet, patchSetInfo);
       cm.addReviewers(recipients.getReviewers());
@@ -250,14 +248,16 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       cm.send();
     }
 
-    private void sendReplacePatchSet(Context ctx)
-        throws EmailException, OrmException {
-      ChangeMessage msg = ChangeMessagesUtil.newMessage(
-          ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(),
-          "Uploaded patch set " + psId.get() + ".",
-          ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
-      ReplacePatchSetSender cm =
-          replacePatchSetFactory.create(ctx.getProject(), change.getId());
+    private void sendReplacePatchSet(Context ctx) throws EmailException, OrmException {
+      ChangeMessage msg =
+          ChangeMessagesUtil.newMessage(
+              ctx.getDb(),
+              psId,
+              ctx.getUser(),
+              ctx.getWhen(),
+              "Uploaded patch set " + psId.get() + ".",
+              ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+      ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(ctx.getAccountId());
       cm.setPatchSet(patchSet, patchSetInfo);
       cm.setChangeMessage(msg.getMessage(), ctx.getWhen());

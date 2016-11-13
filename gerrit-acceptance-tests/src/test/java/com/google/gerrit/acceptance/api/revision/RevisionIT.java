@@ -72,14 +72,6 @@ import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.RefSpec;
-import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -93,11 +85,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.RefSpec;
+import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
 
-  @Inject
-  private GetRevisionActions getRevisionActions;
+  @Inject private GetRevisionActions getRevisionActions;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -111,51 +108,32 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void reviewCurrent() throws Exception {
     PushOneCommit.Result r = createChange();
-    gApi.changes()
-        .id(r.getChangeId())
-        .current()
-        .review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
   }
 
   @Test
   public void reviewNumber() throws Exception {
     PushOneCommit.Result r = createChange();
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(1)
-        .review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(1).review(ReviewInput.approve());
 
     r = updateChange(r, "new content");
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(2)
-        .review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(2).review(ReviewInput.approve());
   }
 
   @Test
   public void submit() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.approve());
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit();
-    assertThat(gApi.changes().id(changeId).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().submit();
+    assertThat(gApi.changes().id(changeId).get().status).isEqualTo(ChangeStatus.MERGED);
   }
 
   @Test
   public void postSubmitApproval() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.recommend());
+    gApi.changes().id(changeId).current().review(ReviewInput.recommend());
 
     String label = "Code-Review";
     ApprovalInfo approval = getApproval(changeId, label);
@@ -163,66 +141,46 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(approval.postSubmit).isNull();
 
     // Submit by direct push.
-    git().push()
-        .setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master"))
-        .call();
-    assertThat(gApi.changes().id(changeId).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
+    git().push().setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master")).call();
+    assertThat(gApi.changes().id(changeId).get().status).isEqualTo(ChangeStatus.MERGED);
 
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
     assertPermitted(
-        gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)),
-        "Code-Review", 1, 2);
+        gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)), "Code-Review", 1, 2);
 
     // Repeating the current label is allowed. Does not flip the postSubmit bit
     // due to deduplication codepath.
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.recommend());
+    gApi.changes().id(changeId).current().review(ReviewInput.recommend());
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
 
     // Reducing vote is not allowed.
     try {
-      gApi.changes()
-          .id(changeId)
-          .current()
-          .review(ReviewInput.dislike());
+      gApi.changes().id(changeId).current().review(ReviewInput.dislike());
       fail("expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(
-          "Cannot reduce vote on labels for closed change: Code-Review");
+      assertThat(e).hasMessage("Cannot reduce vote on labels for closed change: Code-Review");
     }
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
 
     // Increasing vote is allowed.
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(2);
     assertThat(approval.postSubmit).isTrue();
-    assertPermitted(
-        gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)),
-        "Code-Review", 2);
+    assertPermitted(gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)), "Code-Review", 2);
 
     // Decreasing to previous post-submit vote is still not allowed.
     try {
-      gApi.changes()
-          .id(changeId)
-          .current()
-          .review(ReviewInput.dislike());
+      gApi.changes().id(changeId).current().review(ReviewInput.dislike());
       fail("expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(
-          "Cannot reduce vote on labels for closed change: Code-Review");
+      assertThat(e).hasMessage("Cannot reduce vote on labels for closed change: Code-Review");
     }
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(2);
@@ -241,13 +199,15 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).review(ReviewInput.recommend());
 
     setApiUser(admin);
-    gApi.changes()
-        .id(changeId)
-        .reviewer(user.username)
-        .deleteVote("Code-Review");
-    Optional<ApprovalInfo> crUser = get(changeId, DETAILED_LABELS)
-        .labels.get("Code-Review").all.stream()
-        .filter(a -> a._accountId == user.id.get()).findFirst();
+    gApi.changes().id(changeId).reviewer(user.username).deleteVote("Code-Review");
+    Optional<ApprovalInfo> crUser =
+        get(changeId, DETAILED_LABELS)
+            .labels
+            .get("Code-Review")
+            .all
+            .stream()
+            .filter(a -> a._accountId == user.id.get())
+            .findFirst();
     assertThat(crUser.isPresent()).isTrue();
     assertThat(crUser.get().value).isEqualTo(0);
 
@@ -271,8 +231,7 @@ public class RevisionIT extends AbstractDaemonTest {
     in.label("Code-Review", 0);
 
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Cannot reduce vote on labels for closed change: Code-Review");
+    exception.expectMessage("Cannot reduce vote on labels for closed change: Code-Review");
     revision(r).review(in);
   }
 
@@ -281,20 +240,14 @@ public class RevisionIT extends AbstractDaemonTest {
   public void approvalCopiedDuringSubmitIsNotPostSubmit() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();
-    gApi.changes()
-        .id(id.get())
-        .current()
-        .review(ReviewInput.approve());
-    gApi.changes()
-        .id(id.get())
-        .current()
-        .submit();
+    gApi.changes().id(id.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(id.get()).current().submit();
 
     ChangeData cd = r.getChange();
     assertThat(cd.patchSets()).hasSize(2);
-    PatchSetApproval psa = Iterators.getOnlyElement(
-        cd.currentApprovals().stream()
-            .filter(a -> !a.isLegacySubmit()).iterator());
+    PatchSetApproval psa =
+        Iterators.getOnlyElement(
+            cd.currentApprovals().stream().filter(a -> !a.isLegacySubmit()).iterator());
     assertThat(psa.getPatchSetId().get()).isEqualTo(2);
     assertThat(psa.getLabel()).isEqualTo("Code-Review");
     assertThat(psa.getValue()).isEqualTo(2);
@@ -313,10 +266,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void deleteDraft() throws Exception {
     PushOneCommit.Result r = createDraft();
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .delete();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).delete();
   }
 
   @Test
@@ -325,27 +275,22 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects()
-        .name(project.get())
-        .branch(in.destination)
-        .create(new BranchInput());
-    ChangeApi orig = gApi.changes()
-        .id(project.get() + "~master~" + r.getChangeId());
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     assertThat(orig.get().messages).hasSize(1);
-    ChangeApi cherry = orig.revision(r.getCommit().name())
-        .cherryPick(in);
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
 
-    Collection<ChangeMessageInfo> messages = gApi.changes()
-        .id(project.get() + "~master~" + r.getChangeId())
-        .get().messages;
+    Collection<ChangeMessageInfo> messages =
+        gApi.changes().id(project.get() + "~master~" + r.getChangeId()).get().messages;
     assertThat(messages).hasSize(2);
 
     String cherryPickedRevision = cherry.get().currentRevision;
-    String expectedMessage = String.format(
-        "Patch Set 1: Cherry Picked\n\n" +
-        "This patchset was cherry picked to branch %s as commit %s",
-        in.destination, cherryPickedRevision);
+    String expectedMessage =
+        String.format(
+            "Patch Set 1: Cherry Picked\n\n"
+                + "This patchset was cherry picked to branch %s as commit %s",
+            in.destination, cherryPickedRevision);
 
     Iterator<ChangeMessageInfo> origIt = messages.iterator();
     origIt.next();
@@ -368,15 +313,10 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects()
-        .name(project.get())
-        .branch(in.destination)
-        .create(new BranchInput());
-    ChangeApi orig = gApi.changes()
-        .id(project.get() + "~master~" + r.getChangeId());
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
-    ChangeApi cherry = orig.revision(r.getCommit().name())
-        .cherryPick(in);
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
     assertThat(cherry.get().topic).isNull();
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
@@ -388,11 +328,12 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
     in.message = "it generates a new patch set\n\nChange-Id: " + r.getChangeId();
-    ChangeInfo cherryInfo = gApi.changes()
-        .id(project.get() + "~master~" + r.getChangeId())
-        .revision(r.getCommit().name())
-        .cherryPick(in)
-        .get();
+    ChangeInfo cherryInfo =
+        gApi.changes()
+            .id(project.get() + "~master~" + r.getChangeId())
+            .revision(r.getCommit().name())
+            .cherryPick(in)
+            .get();
     assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
@@ -412,16 +353,14 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
 
     // Push another new change (change 2)
-    String subject = "Test change\n\n" +
-        "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    String subject = "Test change\n\n" + "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject,
-            "another_file.txt", "another content");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, subject, "another_file.txt", "another content");
     PushOneCommit.Result r2 = push.to("refs/for/master");
 
     // Change 2's parent should be change 1
-    assertThat(r2.getCommit().getParents()[0].name())
-      .isEqualTo(r1.getCommit().name());
+    assertThat(r2.getCommit().getParents()[0].name()).isEqualTo(r1.getCommit().name());
 
     // Cherry pick change 2 onto the same branch
     triplet = project.get() + "~master~" + r2.getChangeId();
@@ -438,8 +377,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Parent of change 2 should now be the change that was merged, i.e.
     // change 2 is rebased onto the head of the master branch.
-    String newParent = cherryInfo.revisions.get(cherryInfo.currentRevision)
-        .commit.parents.get(0).commit;
+    String newParent =
+        cherryInfo.revisions.get(cherryInfo.currentRevision).commit.parents.get(0).commit;
     assertThat(newParent).isEqualTo(baseChange.getCommit().name());
   }
 
@@ -449,20 +388,14 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects()
-        .name(project.get())
-        .branch(in.destination)
-        .create(new BranchInput());
-    ChangeApi orig = gApi.changes()
-        .id(project.get() + "~master~" + r.getChangeId());
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     assertThat(orig.get().messages).hasSize(1);
-    ChangeApi cherry = orig.revision(r.getCommit().name())
-        .cherryPick(in);
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
 
-    Collection<ChangeMessageInfo> messages = gApi.changes()
-        .id(project.get() + "~master~" + r.getChangeId())
-        .get().messages;
+    Collection<ChangeMessageInfo> messages =
+        gApi.changes().id(project.get() + "~master~" + r.getChangeId()).get().messages;
     assertThat(messages).hasSize(2);
 
     assertThat(cherry.get().subject).contains(in.message);
@@ -480,14 +413,16 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects()
-        .name(project.get())
-        .branch(in.destination)
-        .create(new BranchInput());
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME, "another content");
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME,
+            "another content");
     push.to("refs/heads/foo");
 
     String triplet = project.get() + "~master~" + r.getChangeId();
@@ -501,22 +436,20 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToExistingChange() throws Exception {
-    PushOneCommit.Result r1 = pushFactory.create(
-          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "a")
-        .to("refs/for/master");
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
     String t1 = project.get() + "~master~" + r1.getChangeId();
 
     BranchInput bin = new BranchInput();
     bin.revision = r1.getCommit().getParent(0).name();
-    gApi.projects()
-        .name(project.get())
-        .branch("foo")
-        .create(bin);
+    gApi.projects().name(project.get()).branch("foo").create(bin);
 
-    PushOneCommit.Result r2 = pushFactory.create(
-          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "b",
-          r1.getChangeId())
-        .to("refs/for/foo");
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "b", r1.getChangeId())
+            .to("refs/for/foo");
     String t2 = project.get() + "~foo~" + r2.getChangeId();
     gApi.changes().id(t2).abandon();
 
@@ -527,17 +460,17 @@ public class RevisionIT extends AbstractDaemonTest {
       gApi.changes().id(t1).current().cherryPick(in);
       fail();
     } catch (ResourceConflictException e) {
-      assertThat(e.getMessage()).isEqualTo(
-          "Cannot create new patch set of change " + info(t2)._number
-          + " because it is abandoned");
+      assertThat(e.getMessage())
+          .isEqualTo(
+              "Cannot create new patch set of change "
+                  + info(t2)._number
+                  + " because it is abandoned");
     }
 
     gApi.changes().id(t2).restore();
     gApi.changes().id(t1).current().cherryPick(in);
     assertThat(get(t2).revisions).hasSize(2);
-    assertThat(
-          gApi.changes().id(t2).current().file(FILE_NAME).content().asString())
-        .isEqualTo("a");
+    assertThat(gApi.changes().id(t2).current().file(FILE_NAME).content().asString()).isEqualTo("a");
   }
 
   @Test
@@ -554,16 +487,15 @@ public class RevisionIT extends AbstractDaemonTest {
     cherryPickInput.destination = cherryPickBranchName;
     cherryPickInput.message = "Cherry-pick a merge commit to another branch";
 
-    ChangeInfo cherryPickedChangeInfo = gApi.changes()
-        .id(mergeChangeResult.getChangeId())
-        .current()
-        .cherryPick(cherryPickInput)
-        .get();
+    ChangeInfo cherryPickedChangeInfo =
+        gApi.changes()
+            .id(mergeChangeResult.getChangeId())
+            .current()
+            .cherryPick(cherryPickInput)
+            .get();
 
     Map<String, FileInfo> cherryPickedFilesByName =
-        cherryPickedChangeInfo.revisions
-            .get(cherryPickedChangeInfo.currentRevision)
-            .files;
+        cherryPickedChangeInfo.revisions.get(cherryPickedChangeInfo.currentRevision).files;
     assertThat(cherryPickedFilesByName).containsKey(parent2FileName);
     assertThat(cherryPickedFilesByName).doesNotContainKey(parent1FileName);
   }
@@ -583,16 +515,15 @@ public class RevisionIT extends AbstractDaemonTest {
     cherryPickInput.message = "Cherry-pick a merge commit to another branch";
     cherryPickInput.parent = 2;
 
-    ChangeInfo cherryPickedChangeInfo = gApi.changes()
-        .id(mergeChangeResult.getChangeId())
-        .current()
-        .cherryPick(cherryPickInput)
-        .get();
+    ChangeInfo cherryPickedChangeInfo =
+        gApi.changes()
+            .id(mergeChangeResult.getChangeId())
+            .current()
+            .cherryPick(cherryPickInput)
+            .get();
 
     Map<String, FileInfo> cherryPickedFilesByName =
-        cherryPickedChangeInfo.revisions
-            .get(cherryPickedChangeInfo.currentRevision)
-            .files;
+        cherryPickedChangeInfo.revisions.get(cherryPickedChangeInfo.currentRevision).files;
     assertThat(cherryPickedFilesByName).containsKey(parent1FileName);
     assertThat(cherryPickedFilesByName).doesNotContainKey(parent2FileName);
   }
@@ -613,12 +544,9 @@ public class RevisionIT extends AbstractDaemonTest {
     cherryPickInput.parent = 0;
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage("Cherry Pick: Parent 0 does not exist. Please"
-        + " specify a parent in range [1, 2].");
-    gApi.changes()
-        .id(mergeChangeResult.getChangeId())
-        .current()
-        .cherryPick(cherryPickInput);
+    exception.expectMessage(
+        "Cherry Pick: Parent 0 does not exist. Please" + " specify a parent in range [1, 2].");
+    gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
   }
 
   @Test
@@ -637,12 +565,9 @@ public class RevisionIT extends AbstractDaemonTest {
     cherryPickInput.parent = 3;
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage("Cherry Pick: Parent 3 does not exist. Please"
-        + " specify a parent in range [1, 2].");
-    gApi.changes()
-        .id(mergeChangeResult.getChangeId())
-        .current()
-        .cherryPick(cherryPickInput);
+    exception.expectMessage(
+        "Cherry Pick: Parent 3 does not exist. Please" + " specify a parent in range [1, 2].");
+    gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
   }
 
   @Test
@@ -653,10 +578,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
     push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r2 = push.to("refs/for/master");
-    boolean canRebase = gApi.changes()
-        .id(r2.getChangeId())
-        .revision(r2.getCommit().name())
-        .canRebase();
+    boolean canRebase =
+        gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).canRebase();
     assertThat(canRebase).isFalse();
     merge(r2);
 
@@ -664,10 +587,7 @@ public class RevisionIT extends AbstractDaemonTest {
     push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r3 = push.to("refs/for/master");
 
-    canRebase = gApi.changes()
-        .id(r3.getChangeId())
-        .revision(r3.getCommit().name())
-        .canRebase();
+    canRebase = gApi.changes().id(r3.getChangeId()).revision(r3.getCommit().name()).canRebase();
     assertThat(canRebase).isTrue();
   }
 
@@ -676,24 +596,14 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
 
-    gApi.changes()
-        .id(r.getChangeId())
-        .current()
-        .setReviewed(PushOneCommit.FILE_NAME, true);
+    gApi.changes().id(r.getChangeId()).current().setReviewed(PushOneCommit.FILE_NAME, true);
 
-    assertThat(Iterables.getOnlyElement(
-            gApi.changes()
-                .id(r.getChangeId())
-                .current()
-                .reviewed())).isEqualTo(PushOneCommit.FILE_NAME);
+    assertThat(Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).current().reviewed()))
+        .isEqualTo(PushOneCommit.FILE_NAME);
 
-    gApi.changes()
-        .id(r.getChangeId())
-        .current()
-        .setReviewed(PushOneCommit.FILE_NAME, false);
+    gApi.changes().id(r.getChangeId()).current().setReviewed(PushOneCommit.FILE_NAME, false);
 
-    assertThat(gApi.changes().id(r.getChangeId()).current().reviewed())
-        .isEmpty();
+    assertThat(gApi.changes().id(r.getChangeId()).current().reviewed()).isEmpty();
   }
 
   @Test
@@ -701,8 +611,13 @@ public class RevisionIT extends AbstractDaemonTest {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
     PushOneCommit push1 =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME, "push 1 content");
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME,
+            "push 1 content");
 
     PushOneCommit.Result r1 = push1.to("refs/for/master");
     assertMergeable(r1.getChangeId(), true);
@@ -714,8 +629,13 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 
     PushOneCommit push2 =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME, "push 2 content");
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME,
+            "push 2 content");
     PushOneCommit.Result r2 = push2.to("refs/for/master");
     assertMergeable(r2.getChangeId(), false);
     // TODO(dborowitz): Test for other-branches.
@@ -724,14 +644,10 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void files() throws Exception {
     PushOneCommit.Result r = createChange();
-    Map<String, FileInfo> files = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .files();
+    Map<String, FileInfo> files =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files();
     assertThat(files).hasSize(2);
-    assertThat(
-            Iterables.all(
-                files.keySet(), f -> f.matches(FILE_NAME + '|' + COMMIT_MSG)))
+    assertThat(Iterables.all(files.keySet(), f -> f.matches(FILE_NAME + '|' + COMMIT_MSG)))
         .isTrue();
   }
 
@@ -740,28 +656,16 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
 
     // list files against auto-merge
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .files()
-        .keySet()
-      ).containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "bar");
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files().keySet())
+        .containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "bar");
 
     // list files against parent 1
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .files(1)
-        .keySet()
-      ).containsExactly(COMMIT_MSG, MERGE_LIST, "bar");
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(1).keySet())
+        .containsExactly(COMMIT_MSG, MERGE_LIST, "bar");
 
     // list files against parent 2
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .files(2)
-        .keySet()
-      ).containsExactly(COMMIT_MSG, MERGE_LIST, "foo");
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(2).keySet())
+        .containsExactly(COMMIT_MSG, MERGE_LIST, "foo");
   }
 
   @Test
@@ -773,16 +677,11 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void diffDeletedFile() throws Exception {
-    pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/heads/master");
+    pushFactory.create(db, admin.getIdent(), testRepo).to("refs/heads/master");
     PushOneCommit.Result r =
-        pushFactory.create(db, admin.getIdent(), testRepo)
-        .rm("refs/for/master");
-    DiffInfo diff = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file(FILE_NAME)
-        .diff();
+        pushFactory.create(db, admin.getIdent(), testRepo).rm("refs/for/master");
+    DiffInfo diff =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file(FILE_NAME).diff();
     assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB).isNull();
   }
@@ -794,37 +693,21 @@ public class RevisionIT extends AbstractDaemonTest {
     DiffInfo diff;
 
     // automerge
-    diff = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file("foo")
-        .diff();
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff();
     assertThat(diff.metaA.lines).isEqualTo(5);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
-    diff = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file("bar")
-        .diff();
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff();
     assertThat(diff.metaA.lines).isEqualTo(5);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
     // parent 1
-    diff = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file("bar")
-        .diff(1);
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff(1);
     assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
     // parent 2
-    diff = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file("foo")
-        .diff(2);
+    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff(2);
     assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB.lines).isEqualTo(1);
   }
@@ -832,26 +715,14 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void description() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .description()).isEqualTo("");
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .description("test");
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .description()).isEqualTo("test");
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .description("");
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .description()).isEqualTo("");
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description())
+        .isEqualTo("");
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description())
+        .isEqualTo("test");
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("");
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description())
+        .isEqualTo("");
   }
 
   @Test
@@ -865,10 +736,14 @@ public class RevisionIT extends AbstractDaemonTest {
   public void contentType() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    String endPoint = "/changes/" + r.getChangeId()
-      + "/revisions/" + r.getCommit().name()
-      + "/files/" + FILE_NAME
-      + "/content";
+    String endPoint =
+        "/changes/"
+            + r.getChangeId()
+            + "/revisions/"
+            + r.getCommit().name()
+            + "/files/"
+            + FILE_NAME
+            + "/content";
     RestResponse response = adminRestSession.head(endPoint);
     response.assertOK();
     assertThat(response.getContentType()).startsWith("text/plain");
@@ -892,51 +767,43 @@ public class RevisionIT extends AbstractDaemonTest {
     in.message = "nit: trailing whitespace";
     in.path = FILE_NAME;
 
-    DraftApi draftApi = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .createDraft(in);
-    assertThat(draftApi
-        .get()
-        .message)
-      .isEqualTo(in.message);
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .draft(draftApi.get().id)
-        .get()
-        .message)
-      .isEqualTo(in.message);
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .drafts())
-      .hasSize(1);
+    DraftApi draftApi =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).createDraft(in);
+    assertThat(draftApi.get().message).isEqualTo(in.message);
+    assertThat(
+            gApi.changes()
+                .id(r.getChangeId())
+                .revision(r.getCommit().name())
+                .draft(draftApi.get().id)
+                .get()
+                .message)
+        .isEqualTo(in.message);
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).drafts())
+        .hasSize(1);
 
     in.message = "good catch!";
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .draft(draftApi.get().id)
-        .update(in)
-        .message)
-      .isEqualTo(in.message);
+    assertThat(
+            gApi.changes()
+                .id(r.getChangeId())
+                .revision(r.getCommit().name())
+                .draft(draftApi.get().id)
+                .update(in)
+                .message)
+        .isEqualTo(in.message);
 
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .draft(draftApi.get().id)
-        .get()
-        .author
-        .email)
-      .isEqualTo(admin.email);
+    assertThat(
+            gApi.changes()
+                .id(r.getChangeId())
+                .revision(r.getCommit().name())
+                .draft(draftApi.get().id)
+                .get()
+                .author
+                .email)
+        .isEqualTo(admin.email);
 
     draftApi.delete();
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .drafts())
-      .isEmpty();
+    assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).drafts())
+        .isEmpty();
   }
 
   @Test
@@ -951,25 +818,18 @@ public class RevisionIT extends AbstractDaemonTest {
     comments.put(FILE_NAME, Collections.singletonList(in));
     reviewInput.comments = comments;
     reviewInput.message = "comment test";
-    gApi.changes()
-       .id(r.getChangeId())
-       .current()
-       .review(reviewInput);
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
 
-    Map<String, List<CommentInfo>> out = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .comments();
+    Map<String, List<CommentInfo>> out =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).comments();
     assertThat(out).hasSize(1);
     CommentInfo comment = Iterables.getOnlyElement(out.get(FILE_NAME));
     assertThat(comment.message).isEqualTo(in.message);
     assertThat(comment.author.email).isEqualTo(admin.email);
     assertThat(comment.path).isNull();
 
-    List<CommentInfo> list = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .commentsAsList();
+    List<CommentInfo> list =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).commentsAsList();
     assertThat(list).hasSize(1);
 
     CommentInfo comment2 = list.get(0);
@@ -978,44 +838,36 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(comment2.message).isEqualTo(comment.message);
     assertThat(comment2.author.email).isEqualTo(comment.author.email);
 
-    assertThat(gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .comment(comment.id)
-        .get()
-        .message)
-      .isEqualTo(in.message);
+    assertThat(
+            gApi.changes()
+                .id(r.getChangeId())
+                .revision(r.getCommit().name())
+                .comment(comment.id)
+                .get()
+                .message)
+        .isEqualTo(in.message);
   }
 
   @Test
   public void patch() throws Exception {
     PushOneCommit.Result r = createChange();
-    ChangeApi changeApi = gApi.changes()
-        .id(r.getChangeId());
-    BinaryResult bin = changeApi
-        .revision(r.getCommit().name())
-        .patch();
+    ChangeApi changeApi = gApi.changes().id(r.getChangeId());
+    BinaryResult bin = changeApi.revision(r.getCommit().name()).patch();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String res = new String(os.toByteArray(), UTF_8);
     ChangeInfo change = changeApi.get();
     RevisionInfo rev = change.revisions.get(change.currentRevision);
-    DateFormat df = new SimpleDateFormat(
-        "EEE, dd MMM yyyy HH:mm:ss Z",
-        Locale.US);
+    DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
     String date = df.format(rev.commit.author.date);
-    assertThat(res).isEqualTo(
-        String.format(PATCH, r.getCommit().name(), date, r.getChangeId()));
+    assertThat(res).isEqualTo(String.format(PATCH, r.getCommit().name(), date, r.getChangeId()));
   }
 
   @Test
   public void patchWithPath() throws Exception {
     PushOneCommit.Result r = createChange();
-    ChangeApi changeApi = gApi.changes()
-        .id(r.getChangeId());
-    BinaryResult bin = changeApi
-        .revision(r.getCommit().name())
-        .patch(FILE_NAME);
+    ChangeApi changeApi = gApi.changes().id(r.getChangeId());
+    BinaryResult bin = changeApi.revision(r.getCommit().name()).patch(FILE_NAME);
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String res = new String(os.toByteArray(), UTF_8);
@@ -1037,8 +889,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .containsExactly("submit", "cherrypick", "description", "rebase");
 
     current(r).submit();
-    assertThat(current(r).actions().keySet())
-        .containsExactly("cherrypick");
+    assertThat(current(r).actions().keySet()).containsExactly("cherrypick");
   }
 
   @Test
@@ -1061,10 +912,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void deleteVoteOnNonCurrentPatchSet() throws Exception {
     PushOneCommit.Result r = createChange(); // patch set 1
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
     // patch set 2
     amendChange(r.getChangeId());
@@ -1087,10 +935,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void deleteVoteOnCurrentPatchSet() throws Exception {
     PushOneCommit.Result r = createChange(); // patch set 1
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
     // patch set 2
     amendChange(r.getChangeId());
@@ -1106,27 +951,24 @@ public class RevisionIT extends AbstractDaemonTest {
         .reviewer(user.getId().toString())
         .deleteVote("Code-Review");
 
-    Map<String, Short> m = gApi.changes()
-        .id(r.getChangeId())
-        .current()
-        .reviewer(user.getId().toString())
-        .votes();
+    Map<String, Short> m =
+        gApi.changes().id(r.getChangeId()).current().reviewer(user.getId().toString()).votes();
 
-    assertThat(m).containsExactly("Code-Review", Short.valueOf((short)0));
+    assertThat(m).containsExactly("Code-Review", Short.valueOf((short) 0));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     ChangeMessageInfo message = Iterables.getLast(c.messages);
     assertThat(message.author._accountId).isEqualTo(admin.getId().get());
-    assertThat(message.message).isEqualTo(
-        "Removed Code-Review+1 by User <user@example.com>\n");
+    assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 
-  private PushOneCommit.Result updateChange(PushOneCommit.Result r,
-      String content) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        "test commit", "a.txt", content, r.getChangeId());
+  private PushOneCommit.Result updateChange(PushOneCommit.Result r, String content)
+      throws Exception {
+    PushOneCommit push =
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, "test commit", "a.txt", content, r.getChangeId());
     return push.to("refs/for/master");
   }
 
@@ -1139,59 +981,55 @@ public class RevisionIT extends AbstractDaemonTest {
     return gApi.changes().id(r.getChangeId()).current();
   }
 
-  private String checkETag(ETagView<RevisionResource> view,
-      PushOneCommit.Result r, String oldETag) throws Exception {
+  private String checkETag(ETagView<RevisionResource> view, PushOneCommit.Result r, String oldETag)
+      throws Exception {
     String eTag = view.getETag(parseRevisionResource(r));
     assertThat(eTag).isNotEqualTo(oldETag);
     return eTag;
   }
 
-  private void assertContent(PushOneCommit.Result pushResult, String path,
-      String expectedContent) throws Exception {
-    BinaryResult bin = gApi.changes()
-        .id(pushResult.getChangeId())
-        .revision(pushResult.getCommit().name())
-        .file(path)
-        .content();
+  private void assertContent(PushOneCommit.Result pushResult, String path, String expectedContent)
+      throws Exception {
+    BinaryResult bin =
+        gApi.changes()
+            .id(pushResult.getChangeId())
+            .revision(pushResult.getCommit().name())
+            .file(path)
+            .content();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String res = new String(os.toByteArray(), UTF_8);
     assertThat(res).isEqualTo(expectedContent);
   }
 
-  private void assertDiffForNewFile(PushOneCommit.Result pushResult, String path,
-      String expectedContentSideB) throws Exception {
-    DiffInfo diff = gApi.changes()
-        .id(pushResult.getChangeId())
-        .revision(pushResult.getCommit().name())
-        .file(path)
-        .diff();
+  private void assertDiffForNewFile(
+      PushOneCommit.Result pushResult, String path, String expectedContentSideB) throws Exception {
+    DiffInfo diff =
+        gApi.changes()
+            .id(pushResult.getChangeId())
+            .revision(pushResult.getCommit().name())
+            .file(path)
+            .diff();
 
     List<String> headers = new ArrayList<>();
     if (path.equals(COMMIT_MSG)) {
       RevCommit c = pushResult.getCommit();
 
       RevCommit parentCommit = c.getParents()[0];
-      String parentCommitId = testRepo.getRevWalk().getObjectReader()
-          .abbreviate(parentCommit.getId(), 8).name();
-      headers.add("Parent:     " + parentCommitId + " ("
-          + parentCommit.getShortMessage() + ")");
+      String parentCommitId =
+          testRepo.getRevWalk().getObjectReader().abbreviate(parentCommit.getId(), 8).name();
+      headers.add("Parent:     " + parentCommitId + " (" + parentCommit.getShortMessage() + ")");
 
-      SimpleDateFormat dtfmt =
-          new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);
+      SimpleDateFormat dtfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);
       PersonIdent author = c.getAuthorIdent();
       dtfmt.setTimeZone(author.getTimeZone());
-      headers.add("Author:     " + author.getName() + " <"
-          + author.getEmailAddress() + ">");
-      headers.add("AuthorDate: "
-          + dtfmt.format(Long.valueOf(author.getWhen().getTime())));
+      headers.add("Author:     " + author.getName() + " <" + author.getEmailAddress() + ">");
+      headers.add("AuthorDate: " + dtfmt.format(Long.valueOf(author.getWhen().getTime())));
 
       PersonIdent committer = c.getCommitterIdent();
       dtfmt.setTimeZone(committer.getTimeZone());
-      headers.add("Commit:     " + committer.getName() + " <"
-          + committer.getEmailAddress() + ">");
-      headers.add("CommitDate: "
-          + dtfmt.format(Long.valueOf(committer.getWhen().getTime())));
+      headers.add("Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">");
+      headers.add("CommitDate: " + dtfmt.format(Long.valueOf(committer.getWhen().getTime())));
       headers.add("");
     }
 
@@ -1200,12 +1038,11 @@ public class RevisionIT extends AbstractDaemonTest {
       expectedContentSideB = header + "\n" + expectedContentSideB;
     }
 
-    assertDiffForNewFile(diff, pushResult.getCommit(), path,
-        expectedContentSideB);
+    assertDiffForNewFile(diff, pushResult.getCommit(), path, expectedContentSideB);
   }
 
-  private PushOneCommit.Result createCherryPickableMerge(String parent1FileName,
-      String parent2FileName) throws Exception {
+  private PushOneCommit.Result createCherryPickableMerge(
+      String parent1FileName, String parent2FileName) throws Exception {
     RevCommit initialCommit = getHead(repo());
 
     String branchAName = "branchA";
@@ -1213,44 +1050,40 @@ public class RevisionIT extends AbstractDaemonTest {
     String branchBName = "branchB";
     createBranch(new Branch.NameKey(project, branchBName));
 
-    PushOneCommit.Result changeAResult = pushFactory
-        .create(db, admin.getIdent(), testRepo, "change a",
-            parent1FileName, "Content of a")
-        .to("refs/for/" + branchAName);
+    PushOneCommit.Result changeAResult =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "change a", parent1FileName, "Content of a")
+            .to("refs/for/" + branchAName);
 
     testRepo.reset(initialCommit);
-    PushOneCommit.Result changeBResult = pushFactory
-        .create(db, admin.getIdent(), testRepo, "change b",
-            parent2FileName, "Content of b")
-        .to("refs/for/" + branchBName);
+    PushOneCommit.Result changeBResult =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "change b", parent2FileName, "Content of b")
+            .to("refs/for/" + branchBName);
 
-    PushOneCommit pushableMergeCommit = pushFactory.create(db, admin.getIdent(),
-        testRepo, "merge", ImmutableMap.of(parent1FileName, "Content of a",
-            parent2FileName, "Content of b"));
-    pushableMergeCommit.setParents(ImmutableList.of(changeAResult.getCommit(),
-        changeBResult.getCommit()));
-    PushOneCommit.Result mergeChangeResult =
-        pushableMergeCommit.to("refs/for/" + branchAName);
+    PushOneCommit pushableMergeCommit =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "merge",
+            ImmutableMap.of(parent1FileName, "Content of a", parent2FileName, "Content of b"));
+    pushableMergeCommit.setParents(
+        ImmutableList.of(changeAResult.getCommit(), changeBResult.getCommit()));
+    PushOneCommit.Result mergeChangeResult = pushableMergeCommit.to("refs/for/" + branchAName);
     mergeChangeResult.assertOkStatus();
     return mergeChangeResult;
   }
 
-  private ApprovalInfo getApproval(String changeId, String label)
-      throws Exception {
-    ChangeInfo info = gApi.changes()
-        .id(changeId)
-        .get(EnumSet.of(DETAILED_LABELS));
+  private ApprovalInfo getApproval(String changeId, String label) throws Exception {
+    ChangeInfo info = gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS));
     LabelInfo li = info.labels.get(label);
     assertThat(li).isNotNull();
     int accountId = atrScope.get().getUser().getAccountId().get();
-    return li.all.stream()
-        .filter(a -> a._accountId == accountId)
-        .findFirst()
-        .get();
+    return li.all.stream().filter(a -> a._accountId == accountId).findFirst().get();
   }
 
-  private static Iterable<Account.Id> getReviewers(
-      Collection<AccountInfo> r) {
+  private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> new Account.Id(a._accountId));
   }
 }

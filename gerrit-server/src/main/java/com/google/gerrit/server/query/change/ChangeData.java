@@ -71,18 +71,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.FooterLine;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -96,12 +84,21 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterLine;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ChangeData {
   private static final int BATCH_SIZE = 50;
 
-  public static List<Change> asChanges(List<ChangeData> changeDatas)
-      throws OrmException {
+  public static List<Change> asChanges(List<ChangeData> changeDatas) throws OrmException {
     List<Change> result = new ArrayList<>(changeDatas.size());
     for (ChangeData cd : changeDatas) {
       result.add(cd.change());
@@ -110,12 +107,10 @@ public class ChangeData {
   }
 
   public static Map<Change.Id, ChangeData> asMap(List<ChangeData> changes) {
-    return changes.stream().collect(
-        Collectors.toMap(ChangeData::getId, cd -> cd));
+    return changes.stream().collect(Collectors.toMap(ChangeData::getId, cd -> cd));
   }
 
-  public static void ensureChangeLoaded(Iterable<ChangeData> changes)
-      throws OrmException {
+  public static void ensureChangeLoaded(Iterable<ChangeData> changes) throws OrmException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -135,14 +130,12 @@ public class ChangeData {
     if (missing.isEmpty()) {
       return;
     }
-    for (ChangeNotes notes : first.notesFactory.create(
-        first.db, missing.keySet())) {
+    for (ChangeNotes notes : first.notesFactory.create(first.db, missing.keySet())) {
       missing.get(notes.getChangeId()).change = notes.getChange();
     }
   }
 
-  public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes)
-      throws OrmException {
+  public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes) throws OrmException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -172,8 +165,7 @@ public class ChangeData {
     }
   }
 
-  public static void ensureCurrentPatchSetLoaded(Iterable<ChangeData> changes)
-      throws OrmException {
+  public static void ensureCurrentPatchSetLoaded(Iterable<ChangeData> changes) throws OrmException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -230,8 +222,7 @@ public class ChangeData {
     }
   }
 
-  public static void ensureMessagesLoaded(Iterable<ChangeData> changes)
-      throws OrmException {
+  public static void ensureMessagesLoaded(Iterable<ChangeData> changes) throws OrmException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -262,8 +253,8 @@ public class ChangeData {
     }
   }
 
-  public static void ensureReviewedByLoadedForOpenChanges(
-      Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureReviewedByLoadedForOpenChanges(Iterable<ChangeData> changes)
+      throws OrmException {
     List<ChangeData> pending = new ArrayList<>();
     for (ChangeData cd : changes) {
       if (cd.reviewedBy == null && cd.change().getStatus().isOpen()) {
@@ -282,8 +273,11 @@ public class ChangeData {
 
   public interface Factory {
     ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id);
+
     ChangeData create(ReviewDb db, Change c);
+
     ChangeData create(ReviewDb db, ChangeNotes cn);
+
     ChangeData create(ReviewDb db, ChangeControl c);
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
@@ -292,17 +286,19 @@ public class ChangeData {
 
   /**
    * Create an instance for testing only.
-   * <p>
-   * Attempting to lazy load data will fail with NPEs. Callers may consider
-   * manually setting fields that can be set.
+   *
+   * <p>Attempting to lazy load data will fail with NPEs. Callers may consider manually setting
+   * fields that can be set.
    *
    * @param id change ID
    * @return instance for testing.
    */
-  public static ChangeData createForTest(Project.NameKey project, Change.Id id,
-      int currentPatchSetId) {
-    ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null, project, id);
+  public static ChangeData createForTest(
+      Project.NameKey project, Change.Id id, int currentPatchSetId) {
+    ChangeData cd =
+        new ChangeData(
+            null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+            null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -324,8 +320,8 @@ public class ChangeData {
   private final MergeabilityCache mergeabilityCache;
   private final StarredChangesUtil starredChangesUtil;
   private final Change.Id legacyId;
-  private final Map<SubmitRuleOptions, List<SubmitRecord>>
-      submitRecords = Maps.newLinkedHashMapWithExpectedSize(1);
+  private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
+      Maps.newLinkedHashMapWithExpectedSize(1);
 
   private Project.NameKey project;
   private Change change;
@@ -350,8 +346,7 @@ public class ChangeData {
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
   private Map<Account.Id, Ref> draftsByUser;
-  @Deprecated
-  private Set<Account.Id> starredByUser;
+  @Deprecated private Set<Account.Id> starredByUser;
   private ImmutableMultimap<Account.Id, String> stars;
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
@@ -535,7 +530,8 @@ public class ChangeData {
       @Nullable StarredChangesUtil starredChangesUtil,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
-    checkState(!notesMigration.readChanges(),
+    checkState(
+        !notesMigration.readChanges(),
         "do not call createOnlyWhenNoteDbDisabled when NoteDb is enabled");
     this.db = db;
     this.repoManager = repoManager;
@@ -657,8 +653,7 @@ public class ChangeData {
     if (ps == null) {
       return Optional.empty();
     }
-    return getPatchList(c, ps).map(
-        p -> new ChangedLines(p.getInsertions(), p.getDeletions()));
+    return getPatchList(c, ps).map(p -> new ChangedLines(p.getInsertions(), p.getDeletions()));
   }
 
   public Optional<ChangedLines> changedLines() throws OrmException {
@@ -685,8 +680,9 @@ public class ChangeData {
 
   public Project.NameKey project() throws OrmException {
     if (project == null) {
-      checkState(!notesMigration.readChanges(), "should not have created "
-          + " ChangeData without a project when NoteDb is enabled");
+      checkState(
+          !notesMigration.readChanges(),
+          "should not have created " + " ChangeData without a project when NoteDb is enabled");
       project = change().getProject();
     }
     return project;
@@ -704,8 +700,7 @@ public class ChangeData {
     if (changeControl == null) {
       Change c = change();
       try {
-        changeControl = changeControlFactory.controlFor(
-            db, c, userFactory.create(c.getOwner()));
+        changeControl = changeControlFactory.controlFor(db, c, userFactory.create(c.getOwner()));
       } catch (NoSuchChangeException e) {
         throw new OrmException(e);
       }
@@ -719,15 +714,13 @@ public class ChangeData {
       if (sameUser(user, oldUser)) {
         return changeControl;
       }
-      throw new IllegalStateException(
-          "user already specified: " + changeControl.getUser());
+      throw new IllegalStateException("user already specified: " + changeControl.getUser());
     }
     try {
       if (change != null) {
         changeControl = changeControlFactory.controlFor(db, change, user);
       } else {
-        changeControl =
-            changeControlFactory.controlFor(db, project(), legacyId, user);
+        changeControl = changeControlFactory.controlFor(db, project(), legacyId, user);
       }
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);
@@ -801,8 +794,7 @@ public class ChangeData {
     return currentPatchSet;
   }
 
-  public List<PatchSetApproval> currentApprovals()
-      throws OrmException {
+  public List<PatchSetApproval> currentApprovals() throws OrmException {
     if (currentApprovals == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -812,8 +804,9 @@ public class ChangeData {
         currentApprovals = Collections.emptyList();
       } else {
         try {
-          currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
-              db, changeControl(), c.currentPatchSetId()));
+          currentApprovals =
+              ImmutableList.copyOf(
+                  approvalsUtil.byPatchSet(db, changeControl(), c.currentPatchSetId()));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();
@@ -866,9 +859,9 @@ public class ChangeData {
     return committer;
   }
 
-  private boolean loadCommitData() throws OrmException,
-      RepositoryNotFoundException, IOException, MissingObjectException,
-      IncorrectObjectTypeException {
+  private boolean loadCommitData()
+      throws OrmException, RepositoryNotFoundException, IOException, MissingObjectException,
+          IncorrectObjectTypeException {
     PatchSet ps = currentPatchSet();
     if (ps == null) {
       return false;
@@ -901,13 +894,14 @@ public class ChangeData {
    * @throws OrmException an error occurred reading the database.
    */
   public Collection<PatchSet> visiblePatchSets() throws OrmException {
-    Predicate<? super PatchSet> predicate = ps -> {
-      try {
-        return changeControl().isPatchVisible(ps, db);
-      } catch (OrmException e) {
-        return false;
-      }
-    };
+    Predicate<? super PatchSet> predicate =
+        ps -> {
+          try {
+            return changeControl().isPatchVisible(ps, db);
+          } catch (OrmException e) {
+            return false;
+          }
+        };
     return patchSets().stream().filter(predicate).collect(toList());
   }
 
@@ -933,12 +927,11 @@ public class ChangeData {
   }
 
   /**
-   * @return all patch set approvals for the change, keyed by ID, ordered by
-   *     timestamp within each patch set.
+   * @return all patch set approvals for the change, keyed by ID, ordered by timestamp within each
+   *     patch set.
    * @throws OrmException an error occurred reading the database.
    */
-  public ListMultimap<PatchSet.Id, PatchSetApproval> approvals()
-      throws OrmException {
+  public ListMultimap<PatchSet.Id, PatchSetApproval> approvals() throws OrmException {
     if (allApprovals == null) {
       if (!lazyLoad) {
         return ImmutableListMultimap.of();
@@ -952,11 +945,8 @@ public class ChangeData {
    * @return The submit ('SUBM') approval label
    * @throws OrmException an error occurred reading the database.
    */
-  public Optional<PatchSetApproval> getSubmitApproval()
-      throws OrmException {
-    return currentApprovals().stream()
-        .filter(PatchSetApproval::isLegacySubmit)
-        .findFirst();
+  public Optional<PatchSetApproval> getSubmitApproval() throws OrmException {
+    return currentApprovals().stream().filter(PatchSetApproval::isLegacySubmit).findFirst();
   }
 
   public ReviewerSet reviewers() throws OrmException {
@@ -995,8 +985,7 @@ public class ChangeData {
     return reviewerUpdates;
   }
 
-  public Collection<Comment> publishedComments()
-      throws OrmException {
+  public Collection<Comment> publishedComments() throws OrmException {
     if (publishedComments == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -1006,8 +995,7 @@ public class ChangeData {
     return publishedComments;
   }
 
-  public List<ChangeMessage> messages()
-      throws OrmException {
+  public List<ChangeMessage> messages() throws OrmException {
     if (messages == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -1017,29 +1005,24 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(
-      SubmitRuleOptions options) throws OrmException {
+  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) throws OrmException {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = new SubmitRuleEvaluator(this)
-          .setOptions(options)
-          .evaluate();
+      records = new SubmitRuleEvaluator(this).setOptions(options).evaluate();
       submitRecords.put(options, records);
     }
     return records;
   }
 
   @Nullable
-  public List<SubmitRecord> getSubmitRecords(
-      SubmitRuleOptions options) {
+  public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
     return submitRecords.get(options);
   }
 
-  public void setSubmitRecords(SubmitRuleOptions options,
-      List<SubmitRecord> records) {
+  public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {
     submitRecords.put(options, records);
   }
 
@@ -1086,12 +1069,16 @@ public class ChangeData {
             // No need to log, as SubmitRuleEvaluator already did it for us.
             return false;
           }
-          String mergeStrategy = mergeUtilFactory
-              .create(projectCache.get(project()))
-              .mergeStrategyName();
-          mergeable = mergeabilityCache.get(
-              ObjectId.fromString(ps.getRevision().get()),
-              ref, str.type, mergeStrategy, c.getDest(), repo);
+          String mergeStrategy =
+              mergeUtilFactory.create(projectCache.get(project())).mergeStrategyName();
+          mergeable =
+              mergeabilityCache.get(
+                  ObjectId.fromString(ps.getRevision().get()),
+                  ref,
+                  str.type,
+                  mergeStrategy,
+                  c.getDest(),
+                  repo);
         } catch (IOException e) {
           throw new OrmException(e);
         }
@@ -1116,8 +1103,8 @@ public class ChangeData {
       editsByUser = new HashMap<>();
       Change.Id id = checkNotNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
-        for (Map.Entry<String, Ref> e
-            : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
+        for (Map.Entry<String, Ref> e :
+            repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
           if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
             editsByUser.put(Account.Id.fromRefPart(e.getKey()), e.getValue());
           }
@@ -1212,8 +1199,8 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptySet();
       }
-      starredByUser = checkNotNull(starredChangesUtil).byChange(
-          legacyId, StarredChangesUtil.DEFAULT_LABEL);
+      starredByUser =
+          checkNotNull(starredChangesUtil).byChange(legacyId, StarredChangesUtil.DEFAULT_LABEL);
     }
     return starredByUser;
   }
@@ -1228,8 +1215,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return ImmutableMultimap.of();
       }
-      ImmutableMultimap.Builder<Account.Id, String> b =
-          ImmutableMultimap.builder();
+      ImmutableMultimap.Builder<Account.Id, String> b = ImmutableMultimap.builder();
       for (Map.Entry<Account.Id, StarRef> e : starRefs().entrySet()) {
         b.putAll(e.getKey(), e.getValue().labels());
       }
@@ -1255,11 +1241,11 @@ public class ChangeData {
   @AutoValue
   abstract static class ReviewedByEvent {
     private static ReviewedByEvent create(ChangeMessage msg) {
-      return new AutoValue_ChangeData_ReviewedByEvent(
-          msg.getAuthor(), msg.getWrittenOn());
+      return new AutoValue_ChangeData_ReviewedByEvent(msg.getAuthor(), msg.getWrittenOn());
     }
 
     public abstract Account.Id author();
+
     public abstract Timestamp ts();
   }
 

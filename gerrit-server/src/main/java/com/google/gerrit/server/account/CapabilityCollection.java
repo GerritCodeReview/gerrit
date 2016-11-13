@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -96,8 +95,8 @@ public class CapabilityCollection {
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
   }
 
-  private static List<PermissionRule> mergeAdmin(Set<GroupReference> admins,
-      List<PermissionRule> rules) {
+  private static List<PermissionRule> mergeAdmin(
+      Set<GroupReference> admins, List<PermissionRule> rules) {
     if (admins.isEmpty()) {
       return rules;
     }
@@ -116,19 +115,22 @@ public class CapabilityCollection {
 
   public ImmutableList<PermissionRule> getPermission(String permissionName) {
     ImmutableList<PermissionRule> r = permissions.get(permissionName);
-    return r != null ? r : ImmutableList.<PermissionRule> of();
+    return r != null ? r : ImmutableList.<PermissionRule>of();
   }
 
-  private static final GroupReference anonymous = SystemGroupBackend
-      .getGroup(SystemGroupBackend.ANONYMOUS_USERS);
+  private static final GroupReference anonymous =
+      SystemGroupBackend.getGroup(SystemGroupBackend.ANONYMOUS_USERS);
 
-  private static void configureDefaults(Map<String, List<PermissionRule>> out,
-      AccessSection section) {
+  private static void configureDefaults(
+      Map<String, List<PermissionRule>> out, AccessSection section) {
     configureDefault(out, section, GlobalCapability.QUERY_LIMIT, anonymous);
   }
 
-  private static void configureDefault(Map<String, List<PermissionRule>> out,
-      AccessSection section, String capName, GroupReference group) {
+  private static void configureDefault(
+      Map<String, List<PermissionRule>> out,
+      AccessSection section,
+      String capName,
+      GroupReference group) {
     if (doesNotDeclare(section, capName)) {
       PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
       if (range != null) {

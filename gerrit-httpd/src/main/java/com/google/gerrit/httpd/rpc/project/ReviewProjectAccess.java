@@ -49,14 +49,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
-import java.util.List;
 
 public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   interface Factory {
@@ -77,9 +75,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final BatchUpdate.Factory updateFactory;
 
   @Inject
-  ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
+  ReviewProjectAccess(
+      final ProjectControl.Factory projectControlFactory,
       GroupBackend groupBackend,
-      MetaDataUpdate.User metaDataUpdateFactory, ReviewDb db,
+      MetaDataUpdate.User metaDataUpdateFactory,
+      ReviewDb db,
       Provider<PostReviewers> reviewersProvider,
       ProjectCache projectCache,
       AllProjectsName allProjects,
@@ -88,15 +88,23 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       BatchUpdate.Factory updateFactory,
       Provider<SetParent> setParent,
       Sequences seq,
-
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
       @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
       @Nullable @Assisted String message) {
-    super(projectControlFactory, groupBackend, metaDataUpdateFactory,
-        allProjects, setParent, projectName, base, sectionList,
-        parentProjectName, message, false);
+    super(
+        projectControlFactory,
+        groupBackend,
+        metaDataUpdateFactory,
+        allProjects,
+        setParent,
+        projectName,
+        base,
+        sectionList,
+        parentProjectName,
+        message,
+        false);
     this.db = db;
     this.seq = seq;
     this.reviewersProvider = reviewersProvider;
@@ -107,25 +115,25 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   @Override
-  protected Change.Id updateProjectConfig(ProjectControl projectControl,
-      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
-          throws IOException, OrmException, PermissionDeniedException {
-    RefControl refsMetaConfigControl =
-        projectControl.controlForRef(RefNames.REFS_CONFIG);
+  protected Change.Id updateProjectConfig(
+      ProjectControl projectControl,
+      ProjectConfig config,
+      MetaDataUpdate md,
+      boolean parentProjectUpdate)
+      throws IOException, OrmException, PermissionDeniedException {
+    RefControl refsMetaConfigControl = projectControl.controlForRef(RefNames.REFS_CONFIG);
     if (!refsMetaConfigControl.isVisible()) {
-      throw new PermissionDeniedException(
-          RefNames.REFS_CONFIG + " not visible");
+      throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
     if (!projectControl.isOwner() && !refsMetaConfigControl.canUpload()) {
-      throw new PermissionDeniedException(
-          "cannot upload to " + RefNames.REFS_CONFIG);
+      throw new PermissionDeniedException("cannot upload to " + RefNames.REFS_CONFIG);
     }
 
     md.setInsertChangeId(true);
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     RevCommit commit =
-        config.commitToNewRef(md, new PatchSet.Id(changeId,
-            Change.INITIAL_PATCH_SET_ID).toRefName());
+        config.commitToNewRef(
+            md, new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
     if (commit.getId().equals(base)) {
       return null;
     }
@@ -133,11 +141,12 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     try (RevWalk rw = new RevWalk(md.getRepository());
         ObjectInserter objInserter = md.getRepository().newObjectInserter();
         BatchUpdate bu =
-            updateFactory.create(db, config.getProject().getNameKey(),
-                projectControl.getUser(), TimeUtil.nowTs())) {
+            updateFactory.create(
+                db, config.getProject().getNameKey(), projectControl.getUser(), TimeUtil.nowTs())) {
       bu.setRepository(md.getRepository(), rw, objInserter);
       bu.insertChange(
-          changeInserterFactory.create(changeId, commit, RefNames.REFS_CONFIG)
+          changeInserterFactory
+              .create(changeId, commit, RefNames.REFS_CONFIG)
               .setValidatePolicy(CommitValidators.Policy.NONE)
               .setUpdateRef(false)); // Created by commitToNewRef.
       bu.execute();
@@ -159,14 +168,12 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   private void addProjectOwnersAsReviewers(ChangeResource rsrc) {
-    final String projectOwners =
-        groupBackend.get(SystemGroupBackend.PROJECT_OWNERS).getName();
+    final String projectOwners = groupBackend.get(SystemGroupBackend.PROJECT_OWNERS).getName();
     try {
       AddReviewerInput input = new AddReviewerInput();
       input.reviewer = projectOwners;
       reviewersProvider.get().apply(rsrc, input);
-    } catch (IOException | OrmException |
-        RestApiException | UpdateException e) {
+    } catch (IOException | OrmException | RestApiException | UpdateException e) {
       // one of the owner groups is not visible to the user and this it why it
       // can't be added as reviewer
     }
@@ -174,16 +181,18 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
 
   private void addAdministratorsAsReviewers(ChangeResource rsrc) {
     List<PermissionRule> adminRules =
-        projectCache.getAllProjects().getConfig()
+        projectCache
+            .getAllProjects()
+            .getConfig()
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
-            .getPermission(GlobalCapability.ADMINISTRATE_SERVER).getRules();
+            .getPermission(GlobalCapability.ADMINISTRATE_SERVER)
+            .getRules();
     for (PermissionRule r : adminRules) {
       try {
         AddReviewerInput input = new AddReviewerInput();
         input.reviewer = r.getGroup().getUUID().get();
         reviewersProvider.get().apply(rsrc, input);
-      } catch (IOException | OrmException |
-          RestApiException | UpdateException e) {
+      } catch (IOException | OrmException | RestApiException | UpdateException e) {
         // ignore
       }
     }

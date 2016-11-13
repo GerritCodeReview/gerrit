@@ -19,9 +19,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 /**
  * Glue around the Vim emulation for {@link CodeMirror}.
  *
- * As an instance {@code this} is actually the {@link CodeMirror} object. Class
- * Vim is providing a new namespace for Vim related methods that are associated
- * with an editor.
+ * <p>As an instance {@code this} is actually the {@link CodeMirror} object. Class Vim is providing
+ * a new namespace for Vim related methods that are associated with an editor.
  */
 public class Vim extends JavaScriptObject {
   static void initKeyMap() {
@@ -30,9 +29,10 @@ public class Vim extends JavaScriptObject {
       km.propagate(key);
       km.propagate("'" + key.toLowerCase() + "'");
     }
-    for (String key : new String[] {
-      "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S",
-      "Ctrl-F", "Ctrl-B", "Ctrl-R",}) {
+    for (String key :
+        new String[] {
+          "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S", "Ctrl-F", "Ctrl-B", "Ctrl-R",
+        }) {
       km.propagate(key);
     }
     for (int i = 0; i <= 9; i++) {
@@ -66,6 +66,5 @@ public class Vim extends JavaScriptObject {
     return v && v.searchState_ && !!v.searchState_.getOverlay();
   }-*/;
 
-  protected Vim() {
-  }
+  protected Vim() {}
 }

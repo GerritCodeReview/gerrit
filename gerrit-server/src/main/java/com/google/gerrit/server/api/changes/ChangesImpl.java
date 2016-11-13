@@ -39,7 +39,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -51,7 +50,8 @@ class ChangesImpl implements Changes {
   private final Provider<QueryChanges> queryProvider;
 
   @Inject
-  ChangesImpl(ChangesCollection changes,
+  ChangesImpl(
+      ChangesCollection changes,
       ChangeApiImpl.Factory api,
       CreateChange createChange,
       Provider<QueryChanges> queryProvider) {
@@ -67,20 +67,16 @@ class ChangesImpl implements Changes {
   }
 
   @Override
-  public ChangeApi id(String project, String branch, String id)
-      throws RestApiException {
-    return id(Joiner.on('~').join(ImmutableList.of(
-        Url.encode(project),
-        Url.encode(branch),
-        Url.encode(id))));
+  public ChangeApi id(String project, String branch, String id) throws RestApiException {
+    return id(
+        Joiner.on('~')
+            .join(ImmutableList.of(Url.encode(project), Url.encode(branch), Url.encode(id))));
   }
 
   @Override
   public ChangeApi id(String id) throws RestApiException {
     try {
-      return api.create(changes.parse(
-          TopLevelResource.INSTANCE,
-          IdString.fromUrl(id)));
+      return api.create(changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse change", e);
     }
@@ -89,11 +85,9 @@ class ChangesImpl implements Changes {
   @Override
   public ChangeApi create(ChangeInput in) throws RestApiException {
     try {
-      ChangeInfo out = createChange.apply(
-          TopLevelResource.INSTANCE, in).value();
+      ChangeInfo out = createChange.apply(TopLevelResource.INSTANCE, in).value();
       return api.create(changes.parse(new Change.Id(out._number)));
-    } catch (OrmException | IOException | InvalidChangeOperationException
-        | UpdateException e) {
+    } catch (OrmException | IOException | InvalidChangeOperationException | UpdateException e) {
       throw new RestApiException("Cannot create change", e);
     }
   }

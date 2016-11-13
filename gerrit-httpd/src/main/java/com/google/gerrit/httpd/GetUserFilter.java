@@ -21,22 +21,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import org.eclipse.jgit.lib.Config;
 
-/**
- * Stores user as a request attribute, so servlets can access it outside of the
- * request scope.
- */
+/** Stores user as a request attribute, so servlets can access it outside of the request scope. */
 @Singleton
 public class GetUserFilter implements Filter {
 
@@ -67,8 +61,7 @@ public class GetUserFilter implements Filter {
   }
 
   @Override
-  public void doFilter(
-      ServletRequest req, ServletResponse resp, FilterChain chain)
+  public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
       throws IOException, ServletException {
     CurrentUser user = userProvider.get();
     if (user != null && user.isIdentifiedUser()) {
@@ -83,10 +76,8 @@ public class GetUserFilter implements Filter {
   }
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void init(FilterConfig arg0) {
-  }
+  public void init(FilterConfig arg0) {}
 }

@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Composite;
-
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.Pos;
@@ -36,15 +35,23 @@ abstract class CommentBox extends Composite {
 
   interface Style extends CssResource {
     String commentWidgets();
+
     String commentBox();
+
     String contents();
+
     String message();
+
     String header();
+
     String summary();
+
     String date();
 
     String goPrev();
+
     String goNext();
+
     String goUp();
   }
 
@@ -58,33 +65,40 @@ abstract class CommentBox extends Composite {
     this.group = group;
     if (range != null) {
       DiffScreen screen = group.getManager().host;
-      int startCmLine =
-          screen.getCmLine(range.startLine() - 1, group.getSide());
+      int startCmLine = screen.getCmLine(range.startLine() - 1, group.getSide());
       int endCmLine = screen.getCmLine(range.endLine() - 1, group.getSide());
-      fromTo = FromTo.create(
-          Pos.create(startCmLine, range.startCharacter()),
-          Pos.create(endCmLine, range.endCharacter()));
-      rangeMarker = group.getCm().markText(
-          fromTo.from(),
-          fromTo.to(),
-          Configuration.create()
-              .set("className", Resources.I.diffTableStyle().range()));
+      fromTo =
+          FromTo.create(
+              Pos.create(startCmLine, range.startCharacter()),
+              Pos.create(endCmLine, range.endCharacter()));
+      rangeMarker =
+          group
+              .getCm()
+              .markText(
+                  fromTo.from(),
+                  fromTo.to(),
+                  Configuration.create().set("className", Resources.I.diffTableStyle().range()));
     }
-    addDomHandler(new MouseOverHandler() {
-      @Override
-      public void onMouseOver(MouseOverEvent event) {
-        setRangeHighlight(true);
-      }
-    }, MouseOverEvent.getType());
-    addDomHandler(new MouseOutHandler() {
-      @Override
-      public void onMouseOut(MouseOutEvent event) {
-        setRangeHighlight(isOpen());
-      }
-    }, MouseOutEvent.getType());
+    addDomHandler(
+        new MouseOverHandler() {
+          @Override
+          public void onMouseOver(MouseOverEvent event) {
+            setRangeHighlight(true);
+          }
+        },
+        MouseOverEvent.getType());
+    addDomHandler(
+        new MouseOutHandler() {
+          @Override
+          public void onMouseOut(MouseOutEvent event) {
+            setRangeHighlight(isOpen());
+          }
+        },
+        MouseOutEvent.getType());
   }
 
   abstract CommentInfo getCommentInfo();
+
   abstract boolean isOpen();
 
   void setOpen(boolean open) {
@@ -112,11 +126,14 @@ abstract class CommentBox extends Composite {
   void setRangeHighlight(boolean highlight) {
     if (fromTo != null) {
       if (highlight && rangeHighlightMarker == null) {
-        rangeHighlightMarker = group.getCm().markText(
-            fromTo.from(),
-            fromTo.to(),
-            Configuration.create()
-                .set("className", Resources.I.diffTableStyle().rangeHighlight()));
+        rangeHighlightMarker =
+            group
+                .getCm()
+                .markText(
+                    fromTo.from(),
+                    fromTo.to(),
+                    Configuration.create()
+                        .set("className", Resources.I.diffTableStyle().rangeHighlight()));
       } else if (!highlight && rangeHighlightMarker != null) {
         rangeHighlightMarker.clear();
         rangeHighlightMarker = null;

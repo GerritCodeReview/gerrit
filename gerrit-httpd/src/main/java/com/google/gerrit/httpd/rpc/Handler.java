@@ -21,14 +21,13 @@ import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.concurrent.Callable;
 
 /**
  * Base class for RPC service implementations.
- * <p>
- * Typically an RPC service implementation will extend this class and use Guice
- * injection to manage its state. For example:
+ *
+ * <p>Typically an RPC service implementation will extend this class and use Guice injection to
+ * manage its state. For example:
  *
  * <pre>
  *   class Foo extends Handler&lt;Result&gt; {
@@ -41,8 +40,8 @@ import java.util.concurrent.Callable;
  *   }
  * </pre>
  *
- * @param <T> type of result for {@link AsyncCallback#onSuccess(Object)} if the
- *        operation completed successfully.
+ * @param <T> type of result for {@link AsyncCallback#onSuccess(Object)} if the operation completed
+ *     successfully.
  */
 public abstract class Handler<T> implements Callable<T> {
   public static <T> Handler<T> wrap(final Callable<T> r) {
@@ -65,8 +64,7 @@ public abstract class Handler<T> implements Callable<T> {
       if (r != null) {
         callback.onSuccess(r);
       }
-    } catch (NoSuchProjectException | NoSuchChangeException
-        | NoSuchRefException e) {
+    } catch (NoSuchProjectException | NoSuchChangeException | NoSuchRefException e) {
       callback.onFailure(new NoSuchEntityException());
 
     } catch (OrmException e) {
@@ -89,10 +87,10 @@ public abstract class Handler<T> implements Callable<T> {
   /**
    * Compute the operation result.
    *
-   * @return the result of the operation. Return {@link VoidResult#INSTANCE} if
-   *         there is no meaningful return value for the operation.
-   * @throws Exception the operation failed. The caller will log the exception
-   *         and the stack trace, if it is worth logging on the server side.
+   * @return the result of the operation. Return {@link VoidResult#INSTANCE} if there is no
+   *     meaningful return value for the operation.
+   * @throws Exception the operation failed. The caller will log the exception and the stack trace,
+   *     if it is worth logging on the server side.
    */
   @Override
   public abstract T call() throws Exception;

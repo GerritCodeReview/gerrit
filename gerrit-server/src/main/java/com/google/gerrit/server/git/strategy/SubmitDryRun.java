@@ -26,7 +26,10 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -38,11 +41,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 /** Dry run of a submit strategy. */
 public class SubmitDryRun {
   private static final Logger log = LoggerFactory.getLogger(SubmitDryRun.class);
@@ -53,10 +51,7 @@ public class SubmitDryRun {
     final MergeUtil mergeUtil;
     final MergeSorter mergeSorter;
 
-    Arguments(Repository repo,
-        CodeReviewRevWalk rw,
-        MergeUtil mergeUtil,
-        MergeSorter mergeSorter) {
+    Arguments(Repository repo, CodeReviewRevWalk rw, MergeUtil mergeUtil, MergeSorter mergeSorter) {
       this.repo = repo;
       this.rw = rw;
       this.mergeUtil = mergeUtil;
@@ -64,23 +59,20 @@ public class SubmitDryRun {
     }
   }
 
-  public static Iterable<ObjectId> getAlreadyAccepted(Repository repo)
-      throws IOException {
-    return FluentIterable
-        .from(repo.getRefDatabase().getRefs(Constants.R_HEADS).values())
+  public static Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
+    return FluentIterable.from(repo.getRefDatabase().getRefs(Constants.R_HEADS).values())
         .append(repo.getRefDatabase().getRefs(Constants.R_TAGS).values())
         .transform(Ref::getObjectId);
   }
 
-  public static Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw)
-      throws IOException {
+  public static Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) throws IOException {
     Set<RevCommit> accepted = new HashSet<>();
     addCommits(getAlreadyAccepted(repo), rw, accepted);
     return accepted;
   }
 
-  public static void addCommits(Iterable<ObjectId> ids, RevWalk rw,
-      Collection<RevCommit> out) throws IOException {
+  public static void addCommits(Iterable<ObjectId> ids, RevWalk rw, Collection<RevCommit> out)
+      throws IOException {
     for (ObjectId id : ids) {
       RevObject obj = rw.parseAny(id);
       if (obj instanceof RevCommit) {
@@ -93,23 +85,30 @@ public class SubmitDryRun {
   private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
-  SubmitDryRun(ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory) {
+  SubmitDryRun(ProjectCache projectCache, MergeUtil.Factory mergeUtilFactory) {
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
   }
 
-  public boolean run(SubmitType submitType, Repository repo,
-      CodeReviewRevWalk rw, Branch.NameKey destBranch, ObjectId tip,
-      ObjectId toMerge, Set<RevCommit> alreadyAccepted)
+  public boolean run(
+      SubmitType submitType,
+      Repository repo,
+      CodeReviewRevWalk rw,
+      Branch.NameKey destBranch,
+      ObjectId tip,
+      ObjectId toMerge,
+      Set<RevCommit> alreadyAccepted)
       throws IntegrationException, NoSuchProjectException, IOException {
     CodeReviewCommit tipCommit = rw.parseCommit(tip);
     CodeReviewCommit toMergeCommit = rw.parseCommit(toMerge);
     RevFlag canMerge = rw.newFlag("CAN_MERGE");
     toMergeCommit.add(canMerge);
-    Arguments args = new Arguments(repo, rw,
-        mergeUtilFactory.create(getProject(destBranch)),
-        new MergeSorter(rw, alreadyAccepted, canMerge));
+    Arguments args =
+        new Arguments(
+            repo,
+            rw,
+            mergeUtilFactory.create(getProject(destBranch)),
+            new MergeSorter(rw, alreadyAccepted, canMerge));
 
     switch (submitType) {
       case CHERRY_PICK:
@@ -131,8 +130,7 @@ public class SubmitDryRun {
     }
   }
 
-  private ProjectState getProject(Branch.NameKey branch)
-      throws NoSuchProjectException {
+  private ProjectState getProject(Branch.NameKey branch) throws NoSuchProjectException {
     ProjectState p = projectCache.get(branch.getParentKey());
     if (p == null) {
       throw new NoSuchProjectException(branch.getParentKey());

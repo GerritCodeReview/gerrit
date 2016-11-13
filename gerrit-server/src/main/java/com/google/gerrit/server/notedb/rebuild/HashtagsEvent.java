@@ -18,16 +18,24 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
-
 import java.sql.Timestamp;
 import java.util.Set;
 
 class HashtagsEvent extends Event {
   private final Set<String> hashtags;
 
-  HashtagsEvent(PatchSet.Id psId, Account.Id who, Timestamp when,
-      Set<String> hashtags, Timestamp changeCreatdOn) {
-    super(psId, who, who, when, changeCreatdOn,
+  HashtagsEvent(
+      PatchSet.Id psId,
+      Account.Id who,
+      Timestamp when,
+      Set<String> hashtags,
+      Timestamp changeCreatdOn) {
+    super(
+        psId,
+        who,
+        who,
+        when,
+        changeCreatdOn,
         // Somewhat confusingly, hashtags do not use the setTag method on
         // AbstractChangeUpdate, so pass null as the tag.
         null);

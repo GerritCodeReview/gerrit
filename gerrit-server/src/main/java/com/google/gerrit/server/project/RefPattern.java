@@ -21,28 +21,26 @@ import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
-
 import dk.brics.automaton.RegExp;
-
-import org.eclipse.jgit.lib.Repository;
-
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.eclipse.jgit.lib.Repository;
 
 public class RefPattern {
   public static final String USERID_SHARDED = "shardeduserid";
   public static final String USERNAME = "username";
 
-  private static final LoadingCache<String, String> exampleCache = CacheBuilder
-      .newBuilder()
-      .maximumSize(4000)
-      .build(new CacheLoader<String, String>() {
-        @Override
-        public String load(String refPattern) {
-          return example(refPattern);
-        }
-      });
+  private static final LoadingCache<String, String> exampleCache =
+      CacheBuilder.newBuilder()
+          .maximumSize(4000)
+          .build(
+              new CacheLoader<String, String>() {
+                @Override
+                public String load(String refPattern) {
+                  return example(refPattern);
+                }
+              });
 
   public static String shortestExample(String refPattern) {
     if (isRE(refPattern)) {
@@ -65,8 +63,7 @@ public class RefPattern {
     // Repository.isValidRefName() if not combined with star [*].
     // To get around this, we substitute the \0 with an arbitrary
     // accepted character.
-    return toRegExp(refPattern).toAutomaton().getShortestExample(true)
-        .replace('\0', '-');
+    return toRegExp(refPattern).toAutomaton().getShortestExample(true).replace('\0', '-');
   }
 
   public static boolean isRE(String refPattern) {
@@ -80,8 +77,7 @@ public class RefPattern {
     return new RegExp(refPattern, RegExp.NONE);
   }
 
-  public static void validate(String refPattern)
-      throws InvalidNameException {
+  public static void validate(String refPattern) throws InvalidNameException {
     if (refPattern.startsWith(RefConfigSection.REGEX_PREFIX)) {
       if (!Repository.isValidRefName(shortestExample(refPattern))) {
         throw new InvalidNameException(refPattern);
@@ -99,8 +95,7 @@ public class RefPattern {
     validateRegExp(refPattern);
   }
 
-  public static void validateRegExp(String refPattern)
-      throws InvalidNameException {
+  public static void validateRegExp(String refPattern) throws InvalidNameException {
     try {
       refPattern = refPattern.replace("${" + USERID_SHARDED + "}", "");
       refPattern = refPattern.replace("${" + USERNAME + "}", "");

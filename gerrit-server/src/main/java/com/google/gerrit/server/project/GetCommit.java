@@ -18,10 +18,8 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-
 import java.util.ArrayList;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class GetCommit implements RestReadView<CommitResource> {

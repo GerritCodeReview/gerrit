@@ -26,23 +26,22 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Constants;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.lib.Constants;
 
 @Singleton
-public class BranchesCollection implements
-    ChildCollection<ProjectResource, BranchResource>,
-    AcceptsCreate<ProjectResource> {
+public class BranchesCollection
+    implements ChildCollection<ProjectResource, BranchResource>, AcceptsCreate<ProjectResource> {
   private final DynamicMap<RestView<BranchResource>> views;
   private final Provider<ListBranches> list;
   private final CreateBranch.Factory createBranchFactory;
 
   @Inject
-  BranchesCollection(DynamicMap<RestView<BranchResource>> views,
-      Provider<ListBranches> list, CreateBranch.Factory createBranchFactory) {
+  BranchesCollection(
+      DynamicMap<RestView<BranchResource>> views,
+      Provider<ListBranches> list,
+      CreateBranch.Factory createBranchFactory) {
     this.views = views;
     this.list = list;
     this.createBranchFactory = createBranchFactory;

@@ -21,12 +21,11 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.Inject;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/** Basic implementation of {@link Realm}.  */
+/** Basic implementation of {@link Realm}. */
 public abstract class AbstractRealm implements Realm {
   private EmailSender emailSender;
 
@@ -37,7 +36,7 @@ public abstract class AbstractRealm implements Realm {
 
   @Override
   public Set<AccountFieldName> getEditableFields() {
-    Set<AccountFieldName> fields = new  HashSet<>();
+    Set<AccountFieldName> fields = new HashSet<>();
     for (AccountFieldName n : AccountFieldName.values()) {
       if (allowsEdit(n)) {
         if (n == AccountFieldName.REGISTER_NEW_EMAIL) {

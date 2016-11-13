@@ -22,9 +22,7 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-
-public interface AccountGroupNameAccess extends
-    Access<AccountGroupName, AccountGroup.NameKey> {
+public interface AccountGroupNameAccess extends Access<AccountGroupName, AccountGroup.NameKey> {
   @Override
   @PrimaryKey("name")
   AccountGroupName get(AccountGroup.NameKey name) throws OrmException;
@@ -33,6 +31,6 @@ public interface AccountGroupNameAccess extends
   ResultSet<AccountGroupName> all() throws OrmException;
 
   @Query("WHERE name.name >= ? AND name.name <= ? ORDER BY name LIMIT ?")
-  ResultSet<AccountGroupName> suggestByName(String nameA, String nameB,
-      int limit) throws OrmException;
+  ResultSet<AccountGroupName> suggestByName(String nameA, String nameB, int limit)
+      throws OrmException;
 }

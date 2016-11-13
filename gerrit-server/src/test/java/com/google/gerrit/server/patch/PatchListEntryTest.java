@@ -20,7 +20,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Patch;
-
 import org.junit.Test;
 
 public class PatchListEntryTest {

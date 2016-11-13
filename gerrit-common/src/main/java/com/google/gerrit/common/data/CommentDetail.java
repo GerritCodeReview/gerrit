@@ -17,7 +17,6 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,8 +40,7 @@ public class CommentDetail {
     this.idB = idB;
   }
 
-  protected CommentDetail() {
-  }
+  protected CommentDetail() {}
 
   public boolean include(Change.Id changeId, Comment p) {
     PatchSet.Id psId = new PatchSet.Id(changeId, p.key.patchSetId);
@@ -105,13 +103,13 @@ public class CommentDetail {
 
   private static List<Comment> get(Map<Integer, List<Comment>> m, int i) {
     List<Comment> r = m.get(i);
-    return r != null ? orderComments(r) : Collections.<Comment> emptyList();
+    return r != null ? orderComments(r) : Collections.<Comment>emptyList();
   }
 
   /**
-   * Order the comments based on their parent_uuid parent.  It is possible to do this by
-   * iterating over the list only once but it's probably overkill since the number of comments
-   * on a given line will be small most of the time.
+   * Order the comments based on their parent_uuid parent. It is possible to do this by iterating
+   * over the list only once but it's probably overkill since the number of comments on a given line
+   * will be small most of the time.
    *
    * @param comments The list of comments for a given line.
    * @return The comments sorted as they should appear in the UI
@@ -149,11 +147,9 @@ public class CommentDetail {
     return result;
   }
 
-  /**
-   * Add the comments to {@code outResult}, depth first
-   */
-  private static void addChildren(Map<String, List<Comment>> parentMap,
-      List<Comment> children, List<Comment> outResult) {
+  /** Add the comments to {@code outResult}, depth first */
+  private static void addChildren(
+      Map<String, List<Comment>> parentMap, List<Comment> children, List<Comment> outResult) {
     if (children != null) {
       for (Comment c : children) {
         outResult.add(c);

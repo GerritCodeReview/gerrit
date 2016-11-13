@@ -58,7 +58,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -75,61 +82,41 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-
 public class RebuildNoteDb extends SiteProgram {
-  private static final Logger log =
-      LoggerFactory.getLogger(RebuildNoteDb.class);
+  private static final Logger log = LoggerFactory.getLogger(RebuildNoteDb.class);
 
-  @Option(name = "--threads",
-      usage = "Number of threads to use for rebuilding NoteDb")
+  @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
   private int threads = Runtime.getRuntime().availableProcessors();
 
-  @Option(name = "--project",
-      usage = "Projects to rebuild; recommended for debugging only")
+  @Option(name = "--project", usage = "Projects to rebuild; recommended for debugging only")
   private List<String> projects = new ArrayList<>();
 
-  @Option(name = "--change",
-      usage = "Individual change numbers to rebuild; recommended for debugging only")
+  @Option(
+    name = "--change",
+    usage = "Individual change numbers to rebuild; recommended for debugging only"
+  )
   private List<Integer> changes = new ArrayList<>();
 
   private Injector dbInjector;
   private Injector sysInjector;
 
-  @Inject
-  private AllUsersName allUsersName;
+  @Inject private AllUsersName allUsersName;
 
-  @Inject
-  private ChangeRebuilder rebuilder;
+  @Inject private ChangeRebuilder rebuilder;
 
-  @Inject
-  @GerritServerConfig
-  private Config cfg;
+  @Inject @GerritServerConfig private Config cfg;
 
-  @Inject
-  private GitRepositoryManager repoManager;
+  @Inject private GitRepositoryManager repoManager;
 
-  @Inject
-  private NoteDbUpdateManager.Factory updateManagerFactory;
+  @Inject private NoteDbUpdateManager.Factory updateManagerFactory;
 
-  @Inject
-  private NotesMigration notesMigration;
+  @Inject private NotesMigration notesMigration;
 
-  @Inject
-  private SchemaFactory<ReviewDb> schemaFactory;
+  @Inject private SchemaFactory<ReviewDb> schemaFactory;
 
-  @Inject
-  private WorkQueue workQueue;
+  @Inject private WorkQueue workQueue;
 
-  @Inject
-  private ChangeBundleReader bundleReader;
+  @Inject private ChangeBundleReader bundleReader;
 
   @Override
   public int run() throws Exception {
@@ -153,36 +140,34 @@ public class RebuildNoteDb extends SiteProgram {
     ListeningExecutorService executor = newExecutor();
     System.out.println("Rebuilding the NoteDb");
 
-    final ImmutableMultimap<Project.NameKey, Change.Id> changesByProject =
-        getChangesByProject();
+    final ImmutableMultimap<Project.NameKey, Change.Id> changesByProject = getChangesByProject();
     boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       deleteRefs(RefNames.REFS_DRAFT_COMMENTS, allUsersRepo);
 
       List<ListenableFuture<Boolean>> futures = new ArrayList<>();
-      List<Project.NameKey> projectNames = Ordering.usingToString()
-          .sortedCopy(changesByProject.keySet());
+      List<Project.NameKey> projectNames =
+          Ordering.usingToString().sortedCopy(changesByProject.keySet());
       for (final Project.NameKey project : projectNames) {
-        ListenableFuture<Boolean> future = executor.submit(
-            new Callable<Boolean>() {
-              @Override
-              public Boolean call() {
-                try (ReviewDb db = unwrapDb(schemaFactory.open())) {
-                  return rebuildProject(
-                      db, changesByProject, project, allUsersRepo);
-                } catch (Exception e) {
-                  log.error("Error rebuilding project " + project, e);
-                  return false;
-                }
-              }
-            });
+        ListenableFuture<Boolean> future =
+            executor.submit(
+                new Callable<Boolean>() {
+                  @Override
+                  public Boolean call() {
+                    try (ReviewDb db = unwrapDb(schemaFactory.open())) {
+                      return rebuildProject(db, changesByProject, project, allUsersRepo);
+                    } catch (Exception e) {
+                      log.error("Error rebuilding project " + project, e);
+                      return false;
+                    }
+                  }
+                });
         futures.add(future);
       }
 
       try {
-        ok = Iterables.all(
-            Futures.allAsList(futures).get(), Predicates.equalTo(true));
+        ok = Iterables.all(Futures.allAsList(futures).get(), Predicates.equalTo(true));
       } catch (InterruptedException | ExecutionException e) {
         log.error("Error rebuilding projects", e);
         ok = false;
@@ -190,67 +175,65 @@ public class RebuildNoteDb extends SiteProgram {
     }
 
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    System.out.format("Rebuild %d changes in %.01fs (%.01f/s)\n",
+    System.out.format(
+        "Rebuild %d changes in %.01fs (%.01f/s)\n",
         changesByProject.size(), t, changesByProject.size() / t);
     return ok ? 0 : 1;
   }
 
-  private static void execute(BatchRefUpdate bru, Repository repo)
-      throws IOException {
+  private static void execute(BatchRefUpdate bru, Repository repo) throws IOException {
     try (RevWalk rw = new RevWalk(repo)) {
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     }
     for (ReceiveCommand command : bru.getCommands()) {
       if (command.getResult() != ReceiveCommand.Result.OK) {
-        throw new IOException(String.format("Command %s failed: %s",
-            command.toString(), command.getResult()));
+        throw new IOException(
+            String.format("Command %s failed: %s", command.toString(), command.getResult()));
       }
     }
   }
 
-  private void deleteRefs(String prefix, Repository allUsersRepo)
-      throws IOException {
+  private void deleteRefs(String prefix, Repository allUsersRepo) throws IOException {
     RefDatabase refDb = allUsersRepo.getRefDatabase();
     Map<String, Ref> allRefs = refDb.getRefs(prefix);
     BatchRefUpdate bru = refDb.newBatchUpdate();
     for (Map.Entry<String, Ref> ref : allRefs.entrySet()) {
-      bru.addCommand(new ReceiveCommand(ref.getValue().getObjectId(),
-          ObjectId.zeroId(), prefix + ref.getKey()));
+      bru.addCommand(
+          new ReceiveCommand(
+              ref.getValue().getObjectId(), ObjectId.zeroId(), prefix + ref.getKey()));
     }
     execute(bru, allUsersRepo);
   }
 
   private Injector createSysInjector() {
-    return dbInjector.createChildInjector(new FactoryModule() {
-      @Override
-      public void configure() {
-        install(dbInjector.getInstance(BatchProgramModule.class));
-        DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(
-            ReindexAfterUpdate.class);
-        install(new DummyIndexModule());
-        factory(ChangeResource.Factory.class);
-      }
-    });
+    return dbInjector.createChildInjector(
+        new FactoryModule() {
+          @Override
+          public void configure() {
+            install(dbInjector.getInstance(BatchProgramModule.class));
+            DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+                .to(ReindexAfterUpdate.class);
+            install(new DummyIndexModule());
+            factory(ChangeResource.Factory.class);
+          }
+        });
   }
 
   private ListeningExecutorService newExecutor() {
     if (threads > 0) {
-      return MoreExecutors.listeningDecorator(
-          workQueue.createQueue(threads, "RebuildChange"));
+      return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"));
     }
     return MoreExecutors.newDirectExecutorService();
   }
 
-  private ImmutableMultimap<Project.NameKey, Change.Id> getChangesByProject()
-      throws OrmException {
+  private ImmutableMultimap<Project.NameKey, Change.Id> getChangesByProject() throws OrmException {
     // Memorize all changes so we can close the db connection and allow
     // rebuilder threads to use the full connection pool.
-    Multimap<Project.NameKey, Change.Id> changesByProject =
-        ArrayListMultimap.create();
+    Multimap<Project.NameKey, Change.Id> changesByProject = ArrayListMultimap.create();
     try (ReviewDb db = schemaFactory.open()) {
       if (projects.isEmpty() && !changes.isEmpty()) {
-        Iterable<Change> todo = unwrapDb(db).changes()
-            .get(Iterables.transform(changes, Change.Id::new));
+        Iterable<Change> todo =
+            unwrapDb(db).changes().get(Iterables.transform(changes, Change.Id::new));
         for (Change c : todo) {
           changesByProject.put(c.getProject(), c.getId());
         }
@@ -259,8 +242,7 @@ public class RebuildNoteDb extends SiteProgram {
           boolean include = false;
           if (projects.isEmpty() && changes.isEmpty()) {
             include = true;
-          } else if (!projects.isEmpty()
-              && projects.contains(c.getProject().get())) {
+          } else if (!projects.isEmpty() && projects.contains(c.getProject().get())) {
             include = true;
           } else if (!changes.isEmpty() && changes.contains(c.getId().get())) {
             include = true;
@@ -274,24 +256,24 @@ public class RebuildNoteDb extends SiteProgram {
     }
   }
 
-  private boolean rebuildProject(ReviewDb db,
+  private boolean rebuildProject(
+      ReviewDb db,
       ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project, Repository allUsersRepo)
+      Project.NameKey project,
+      Repository allUsersRepo)
       throws IOException, OrmException {
     checkArgument(allChanges.containsKey(project));
     boolean ok = true;
     ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
-    pm.beginTask(
-        FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
+    pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
         ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
         RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
-      manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,
-          new ChainedReceiveCommands(allUsersRepo));
+      manager.setAllUsersRepo(
+          allUsersRepo, allUsersRw, allUsersInserter, new ChainedReceiveCommands(allUsersRepo));
       for (Change.Id changeId : allChanges.get(project)) {
         try {
-          rebuilder.buildUpdates(
-              manager, bundleReader.fromReviewDb(db, changeId));
+          rebuilder.buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
         } catch (NoPatchSetsException e) {
           log.warn(e.getMessage());
         } catch (Throwable t) {

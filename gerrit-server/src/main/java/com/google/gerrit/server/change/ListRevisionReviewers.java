@@ -24,7 +24,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +36,8 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
   private final ReviewerResource.Factory resourceFactory;
 
   @Inject
-  ListRevisionReviewers(Provider<ReviewDb> dbProvider,
+  ListRevisionReviewers(
+      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       ReviewerResource.Factory resourceFactory,
       ReviewerJson json) {
@@ -48,17 +48,15 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public List<ReviewerInfo> apply(RevisionResource rsrc) throws OrmException,
-      MethodNotAllowedException {
+  public List<ReviewerInfo> apply(RevisionResource rsrc)
+      throws OrmException, MethodNotAllowedException {
     if (!rsrc.isCurrent()) {
-      throw new MethodNotAllowedException(
-          "Cannot list reviewers on non-current patch set");
+      throw new MethodNotAllowedException("Cannot list reviewers on non-current patch set");
     }
 
     Map<Account.Id, ReviewerResource> reviewers = new LinkedHashMap<>();
     ReviewDb db = dbProvider.get();
-    for (Account.Id accountId
-        : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
+    for (Account.Id accountId : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId)) {
         reviewers.put(accountId, resourceFactory.create(rsrc, accountId));
       }

@@ -22,15 +22,14 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Module to bind a single {@link ReviewDb} instance per thread.
- * <p>
- * New instances are opened on demand, but are closed only at shutdown.
+ *
+ * <p>New instances are opened on demand, but are closed only at shutdown.
  */
 class PerThreadReviewDbModule extends LifecycleModule {
   private final SchemaFactory<ReviewDb> schema;
@@ -42,38 +41,41 @@ class PerThreadReviewDbModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    final List<ReviewDb> dbs = Collections.synchronizedList(
-        new ArrayList<ReviewDb>());
+    final List<ReviewDb> dbs = Collections.synchronizedList(new ArrayList<ReviewDb>());
     final ThreadLocal<ReviewDb> localDb = new ThreadLocal<>();
 
-    bind(ReviewDb.class).toProvider(new Provider<ReviewDb>() {
-      @Override
-      public ReviewDb get() {
-        ReviewDb db = localDb.get();
-        if (db == null) {
-          try {
-            db = schema.open();
-            dbs.add(db);
-            localDb.set(db);
-          } catch (OrmException e) {
-            throw new ProvisionException("unable to open ReviewDb", e);
-          }
-        }
-        return db;
-      }
-    });
-    listener().toInstance(new LifecycleListener() {
-      @Override
-      public void start() {
-        // Do nothing.
-      }
+    bind(ReviewDb.class)
+        .toProvider(
+            new Provider<ReviewDb>() {
+              @Override
+              public ReviewDb get() {
+                ReviewDb db = localDb.get();
+                if (db == null) {
+                  try {
+                    db = schema.open();
+                    dbs.add(db);
+                    localDb.set(db);
+                  } catch (OrmException e) {
+                    throw new ProvisionException("unable to open ReviewDb", e);
+                  }
+                }
+                return db;
+              }
+            });
+    listener()
+        .toInstance(
+            new LifecycleListener() {
+              @Override
+              public void start() {
+                // Do nothing.
+              }
 
-      @Override
-      public void stop() {
-        for (ReviewDb db : dbs) {
-          db.close();
-        }
-      }
-    });
+              @Override
+              public void stop() {
+                for (ReviewDb db : dbs) {
+                  db.close();
+                }
+              }
+            });
   }
 }

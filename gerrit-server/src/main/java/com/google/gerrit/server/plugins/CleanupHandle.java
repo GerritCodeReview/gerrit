@@ -38,8 +38,11 @@ class CleanupHandle {
       Files.deleteIfExists(tmp);
       PluginLoader.log.info("Cleaned plugin " + tmp.getFileName());
     } catch (IOException e) {
-      PluginLoader.log.warn("Cannot delete " + tmp.toAbsolutePath()
-          + ", retrying to delete it on termination of the virtual machine", e);
+      PluginLoader.log.warn(
+          "Cannot delete "
+              + tmp.toAbsolutePath()
+              + ", retrying to delete it on termination of the virtual machine",
+          e);
       tmp.toFile().deleteOnExit();
     }
   }

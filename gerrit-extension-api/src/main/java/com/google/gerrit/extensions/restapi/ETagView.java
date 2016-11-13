@@ -14,9 +14,7 @@
 
 package com.google.gerrit.extensions.restapi;
 
-/**
- * A view which may change, although the underlying resource did not change
- */
+/** A view which may change, although the underlying resource did not change */
 public interface ETagView<R extends RestResource> extends RestReadView<R> {
   String getETag(R rsrc);
 }

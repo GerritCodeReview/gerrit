@@ -17,7 +17,6 @@ package gerrit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.rules.StoredValues;
-
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -27,18 +26,17 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
-
 import java.util.List;
 
 /**
  * Obtain a list of label types from the server configuration.
- * <p>
- * Unifies to a Prolog list of: {@code label_type(Label, Fun, Min, Max)}
- * where:
+ *
+ * <p>Unifies to a Prolog list of: {@code label_type(Label, Fun, Min, Max)} where:
+ *
  * <ul>
- * <li>{@code Label} - the newer style label name</li>
- * <li>{@code Fun} - legacy function name</li>
- * <li>{@code Min, Max} - the smallest and largest configured values.</li>
+ *   <li>{@code Label} - the newer style label name
+ *   <li>{@code Fun} - legacy function name
+ *   <li>{@code Min, Max} - the smallest and largest configured values.
  * </ul>
  */
 class PRED_get_legacy_label_types_1 extends Predicate.P1 {
@@ -53,8 +51,7 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
   public Operation exec(Prolog engine) throws PrologException {
     engine.setB0();
     Term a1 = arg1.dereference();
-    List<LabelType> list =
-        StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes().getLabelTypes();
+    List<LabelType> list = StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes().getLabelTypes();
     Term head = Prolog.Nil;
     for (int idx = list.size() - 1; 0 <= idx; idx--) {
       head = new ListTerm(export(list.get(idx)), head);
@@ -66,13 +63,13 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
     return cont;
   }
 
-  static final SymbolTerm symLabelType = SymbolTerm.intern(
-      "label_type", 4);
+  static final SymbolTerm symLabelType = SymbolTerm.intern("label_type", 4);
 
   static Term export(LabelType type) {
     LabelValue min = type.getMin();
     LabelValue max = type.getMax();
-    return new StructureTerm(symLabelType,
+    return new StructureTerm(
+        symLabelType,
         SymbolTerm.intern(type.getName()),
         SymbolTerm.intern(type.getFunctionName()),
         min != null ? new IntegerTerm(min.getValue()) : NONE,

@@ -24,19 +24,16 @@ import com.google.common.truth.Truth;
 
 public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
 
-  private static final SubjectFactory<RangeSubject, Comment.Range>
-      RANGE_SUBJECT_FACTORY =
+  private static final SubjectFactory<RangeSubject, Comment.Range> RANGE_SUBJECT_FACTORY =
       new SubjectFactory<RangeSubject, Comment.Range>() {
         @Override
-        public RangeSubject getSubject(FailureStrategy failureStrategy,
-            Comment.Range range) {
+        public RangeSubject getSubject(FailureStrategy failureStrategy, Comment.Range range) {
           return new RangeSubject(failureStrategy, range);
         }
       };
 
   public static RangeSubject assertThat(Comment.Range range) {
-    return assertAbout(RANGE_SUBJECT_FACTORY)
-        .that(range);
+    return assertAbout(RANGE_SUBJECT_FACTORY).that(range);
   }
 
   private RangeSubject(FailureStrategy failureStrategy, Comment.Range range) {

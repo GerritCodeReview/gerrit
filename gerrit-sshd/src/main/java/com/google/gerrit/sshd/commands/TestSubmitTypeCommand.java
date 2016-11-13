@@ -24,8 +24,7 @@ import com.google.inject.Inject;
 
 @CommandMetaData(name = "type", description = "Test prolog submit type")
 final class TestSubmitTypeCommand extends BaseTestPrologCommand {
-  @Inject
-  private TestSubmitType view;
+  @Inject private TestSubmitType view;
 
   @Override
   protected RestModifyView<RevisionResource, TestSubmitRuleInput> createView() {

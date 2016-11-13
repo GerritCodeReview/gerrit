@@ -19,14 +19,12 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
-
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.Environment;
 
 /** Command that executes some other command. */
 public class AliasCommand extends BaseCommand {
@@ -35,8 +33,10 @@ public class AliasCommand extends BaseCommand {
   private final CommandName command;
   private final AtomicReference<Command> atomicCmd;
 
-  AliasCommand(@CommandName(Commands.ROOT) DispatchCommandProvider root,
-      CurrentUser currentUser, CommandName command) {
+  AliasCommand(
+      @CommandName(Commands.ROOT) DispatchCommandProvider root,
+      CurrentUser currentUser,
+      CommandName command) {
     this.root = root;
     this.currentUser = currentUser;
     this.command = command;
@@ -81,7 +81,7 @@ public class AliasCommand extends BaseCommand {
     Command cmd = p.getProvider().get();
     checkRequiresCapability(cmd);
     if (cmd instanceof BaseCommand) {
-      BaseCommand bc = (BaseCommand)cmd;
+      BaseCommand bc = (BaseCommand) cmd;
       bc.setName(getName());
       bc.setArguments(getArguments());
     }
@@ -108,9 +108,10 @@ public class AliasCommand extends BaseCommand {
     if (rc != null) {
       CapabilityControl ctl = currentUser.getCapabilities();
       if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
-        String msg = String.format(
-            "fatal: %s does not have \"%s\" capability.",
-            currentUser.getUserName(), rc.value());
+        String msg =
+            String.format(
+                "fatal: %s does not have \"%s\" capability.",
+                currentUser.getUserName(), rc.value());
         throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
       }
     }

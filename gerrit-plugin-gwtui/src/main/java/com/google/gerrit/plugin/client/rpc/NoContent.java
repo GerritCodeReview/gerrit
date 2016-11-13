@@ -17,6 +17,5 @@ package com.google.gerrit.plugin.client.rpc;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class NoContent extends JavaScriptObject {
-  protected NoContent() {
-  }
+  protected NoContent() {}
 }

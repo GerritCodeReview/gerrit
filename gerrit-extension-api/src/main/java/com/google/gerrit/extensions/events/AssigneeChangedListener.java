@@ -22,7 +22,8 @@ import com.google.gerrit.extensions.common.AccountInfo;
 @ExtensionPoint
 public interface AssigneeChangedListener {
   interface Event extends ChangeEvent {
-    @Nullable AccountInfo getOldAssignee();
+    @Nullable
+    AccountInfo getOldAssignee();
   }
 
   void onAssigneeChanged(Event event);

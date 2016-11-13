@@ -18,9 +18,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 
-/**
- * Gerrit's own replacement for the javax.annotations.Nullable
- */
+/** Gerrit's own replacement for the javax.annotations.Nullable */
 @Retention(RUNTIME)
-public @interface Nullable {
-}
+public @interface Nullable {}

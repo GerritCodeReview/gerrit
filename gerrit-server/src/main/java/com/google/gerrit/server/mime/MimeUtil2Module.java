@@ -18,15 +18,13 @@ import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-
 import eu.medsea.mimeutil.MimeUtil2;
 import eu.medsea.mimeutil.detector.ExtensionMimeDetector;
 import eu.medsea.mimeutil.detector.MagicMimeMimeDetector;
 
 public class MimeUtil2Module extends AbstractModule {
   @Override
-  protected void configure() {
-  }
+  protected void configure() {}
 
   @Provides
   @Singleton

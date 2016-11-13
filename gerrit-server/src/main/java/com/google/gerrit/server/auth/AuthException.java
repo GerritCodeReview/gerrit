@@ -14,14 +14,11 @@
 
 package com.google.gerrit.server.auth;
 
-/**
- * Base type for authentication exceptions.
- */
+/** Base type for authentication exceptions. */
 public class AuthException extends Exception {
   private static final long serialVersionUID = -8946302676525580372L;
 
-  public AuthException() {
-  }
+  public AuthException() {}
 
   public AuthException(String msg) {
     super(msg);

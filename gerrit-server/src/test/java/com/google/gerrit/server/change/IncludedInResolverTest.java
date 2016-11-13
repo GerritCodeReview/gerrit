@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -26,11 +30,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class IncludedInResolverTest extends RepositoryTestCase {
 
@@ -68,21 +67,21 @@ public class IncludedInResolverTest extends RepositoryTestCase {
 
     /*- The following graph will be created.
 
-      o   tag 2.5, 2.5_annotated, 2.5_annotated_twice
-      |\
-      | o tag 2.0.1
-      | o tag 2.0
-      o | tag 1.3
-      |/
-      o   c3
+     o   tag 2.5, 2.5_annotated, 2.5_annotated_twice
+     |\
+     | o tag 2.0.1
+     | o tag 2.0
+     o | tag 1.3
+     |/
+     o   c3
 
-      | o tag 1.0.1
-      |/
-      o   tag 1.0
-      o   c2
-      o   c1
+     | o tag 1.0.1
+     |/
+     o   tag 1.0
+     o   c2
+     o   c1
 
-     */
+    */
 
     // TODO(dborowitz): Use try/finally when this doesn't double-close the repo.
     @SuppressWarnings("resource")
@@ -96,8 +95,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
     RevCommit c3 = git.commit().setMessage("c3").call();
     // Version 1.01
     createAndCheckoutBranch(commit_v1_0, BRANCH_1_0);
-    RevCommit commit_v1_0_1 =
-        git.commit().setMessage("verREFS_HEADS_RELsion 1.0.1").call();
+    RevCommit commit_v1_0_1 = git.commit().setMessage("verREFS_HEADS_RELsion 1.0.1").call();
     git.tag().setName(TAG_1_0_1).setObjectId(commit_v1_0_1).call();
     // Version 1.3
     createAndCheckoutBranch(c3, BRANCH_1_3);
@@ -112,18 +110,21 @@ public class IncludedInResolverTest extends RepositoryTestCase {
 
     // Version 2.5
     createAndCheckoutBranch(commit_v1_3, BRANCH_2_5);
-    git.merge().include(commit_v2_0_1).setCommit(false)
-        .setFastForward(FastForwardMode.NO_FF).call();
-    commit_v2_5 = git.commit().setMessage("version 2.5").call();
-    git.tag().setName(TAG_2_5).setObjectId(commit_v2_5).setAnnotated(false)
+    git.merge()
+        .include(commit_v2_0_1)
+        .setCommit(false)
+        .setFastForward(FastForwardMode.NO_FF)
         .call();
+    commit_v2_5 = git.commit().setMessage("version 2.5").call();
+    git.tag().setName(TAG_2_5).setObjectId(commit_v2_5).setAnnotated(false).call();
     Ref ref_tag_2_5_annotated =
-        git.tag().setName(TAG_2_5_ANNOTATED).setObjectId(commit_v2_5)
-            .setAnnotated(true).call();
-    RevTag tag_2_5_annotated =
-        revWalk.parseTag(ref_tag_2_5_annotated.getObjectId());
-    git.tag().setName(TAG_2_5_ANNOTATED_TWICE).setObjectId(tag_2_5_annotated)
-        .setAnnotated(true).call();
+        git.tag().setName(TAG_2_5_ANNOTATED).setObjectId(commit_v2_5).setAnnotated(true).call();
+    RevTag tag_2_5_annotated = revWalk.parseTag(ref_tag_2_5_annotated.getObjectId());
+    git.tag()
+        .setName(TAG_2_5_ANNOTATED_TWICE)
+        .setObjectId(tag_2_5_annotated)
+        .setAnnotated(true)
+        .call();
   }
 
   @Override
@@ -198,8 +199,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
     Assert.assertEquals(list1, list2);
   }
 
-  private void createAndCheckoutBranch(ObjectId objectId, String branchName)
-      throws IOException {
+  private void createAndCheckoutBranch(ObjectId objectId, String branchName) throws IOException {
     String fullBranchName = "refs/heads/" + branchName;
     super.createBranch(objectId, fullBranchName);
     super.checkoutBranch(fullBranchName);

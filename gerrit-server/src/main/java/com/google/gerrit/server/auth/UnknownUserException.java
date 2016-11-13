@@ -15,14 +15,12 @@
 package com.google.gerrit.server.auth;
 
 /**
- * An authentication exception that is thrown when credentials are presented for
- * an unknown user.
+ * An authentication exception that is thrown when credentials are presented for an unknown user.
  */
 public class UnknownUserException extends AuthException {
   private static final long serialVersionUID = 1626186166924670754L;
 
-  public UnknownUserException() {
-  }
+  public UnknownUserException() {}
 
   public UnknownUserException(String msg) {
     super(msg);

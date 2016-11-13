@@ -14,30 +14,27 @@
 
 package com.google.gerrit.server.git;
 
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Simple short-lived cache of individual refs read from a repo.
- * <p>
- * Within a single request that is known to read a small bounded number of refs,
- * this class can be used to ensure a consistent view of one ref, and avoid
- * multiple system calls to read refs multiple times.
- * <p>
- * <strong>Note:</strong> Implementations of this class are only appropriate
- * for short-term caching, and do not support invalidation. It is also not
- * threadsafe.
+ *
+ * <p>Within a single request that is known to read a small bounded number of refs, this class can
+ * be used to ensure a consistent view of one ref, and avoid multiple system calls to read refs
+ * multiple times.
+ *
+ * <p><strong>Note:</strong> Implementations of this class are only appropriate for short-term
+ * caching, and do not support invalidation. It is also not threadsafe.
  */
 public interface RefCache {
   /**
    * Get the possibly-cached value of a ref.
    *
    * @param refName name of the ref.
-   * @return value of the ref; absent if the ref does not exist in the repo.
-   *     Never null, and never present with a value of {@link
-   *     ObjectId#zeroId()}.
+   * @return value of the ref; absent if the ref does not exist in the repo. Never null, and never
+   *     present with a value of {@link ObjectId#zeroId()}.
    */
   Optional<ObjectId> get(String refName) throws IOException;
 }

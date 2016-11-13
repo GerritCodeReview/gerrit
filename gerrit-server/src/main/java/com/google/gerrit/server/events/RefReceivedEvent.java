@@ -15,7 +15,6 @@ package com.google.gerrit.server.events;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
-
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class RefReceivedEvent extends RefEvent {

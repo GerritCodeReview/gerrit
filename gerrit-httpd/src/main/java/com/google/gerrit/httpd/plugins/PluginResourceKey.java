@@ -25,6 +25,7 @@ abstract class PluginResourceKey implements ResourceKey {
   }
 
   public abstract Plugin.CacheKey plugin();
+
   public abstract String resource();
 
   @Override

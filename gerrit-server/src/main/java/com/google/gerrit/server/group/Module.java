@@ -68,8 +68,6 @@ public class Module extends RestApiModule {
 
     factory(CreateGroup.Factory.class);
 
-    DynamicSet.bind(binder(), GroupMemberAuditListener.class).to(
-        DbGroupMemberAuditListener.class);
-
+    DynamicSet.bind(binder(), GroupMemberAuditListener.class).to(DbGroupMemberAuditListener.class);
   }
 }

@@ -15,33 +15,32 @@
 package com.google.gerrit.server.data;
 
 import com.google.gerrit.reviewdb.client.Change;
-
 import java.util.List;
 
 public class ChangeAttribute {
-    public String project;
-    public String branch;
-    public String topic;
-    public String id;
-    public String number;
-    public String subject;
-    public AccountAttribute owner;
-    public AccountAttribute assignee;
-    public String url;
-    public String commitMessage;
+  public String project;
+  public String branch;
+  public String topic;
+  public String id;
+  public String number;
+  public String subject;
+  public AccountAttribute owner;
+  public AccountAttribute assignee;
+  public String url;
+  public String commitMessage;
 
-    public Long createdOn;
-    public Long lastUpdated;
-    public Boolean open;
-    public Change.Status status;
-    public List<MessageAttribute> comments;
+  public Long createdOn;
+  public Long lastUpdated;
+  public Boolean open;
+  public Change.Status status;
+  public List<MessageAttribute> comments;
 
-    public List<TrackingIdAttribute> trackingIds;
-    public PatchSetAttribute currentPatchSet;
-    public List<PatchSetAttribute> patchSets;
+  public List<TrackingIdAttribute> trackingIds;
+  public PatchSetAttribute currentPatchSet;
+  public List<PatchSetAttribute> patchSets;
 
-    public List<DependencyAttribute> dependsOn;
-    public List<DependencyAttribute> neededBy;
-    public List<SubmitRecordAttribute> submitRecords;
-    public List<AccountAttribute> allReviewers;
+  public List<DependencyAttribute> dependsOn;
+  public List<DependencyAttribute> neededBy;
+  public List<SubmitRecordAttribute> submitRecords;
+  public List<AccountAttribute> allReviewers;
 }

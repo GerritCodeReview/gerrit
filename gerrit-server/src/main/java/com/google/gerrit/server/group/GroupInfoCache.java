@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Inject;
-
 import java.util.HashMap;
 import java.util.Map;
 

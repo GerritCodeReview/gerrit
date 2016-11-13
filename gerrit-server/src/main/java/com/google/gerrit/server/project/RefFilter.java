@@ -19,10 +19,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.api.projects.RefInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
-
 import java.util.List;
 import java.util.Locale;
 

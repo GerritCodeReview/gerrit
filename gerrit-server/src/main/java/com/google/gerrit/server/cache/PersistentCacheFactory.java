@@ -22,9 +22,7 @@ import com.google.gerrit.server.plugins.Plugin;
 public interface PersistentCacheFactory {
   <K, V> Cache<K, V> build(CacheBinding<K, V> def);
 
-  <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader);
+  <K, V> LoadingCache<K, V> build(CacheBinding<K, V> def, CacheLoader<K, V> loader);
 
   void onStop(Plugin plugin);
 }

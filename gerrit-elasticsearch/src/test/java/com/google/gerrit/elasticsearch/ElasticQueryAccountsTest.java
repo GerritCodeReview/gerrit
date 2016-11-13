@@ -19,20 +19,17 @@ import com.google.gerrit.server.query.account.AbstractQueryAccountsTest;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import java.util.concurrent.ExecutionException;
-
 public class ElasticQueryAccountsTest extends AbstractQueryAccountsTest {
   private static ElasticNodeInfo nodeInfo;
 
   @BeforeClass
-  public static void startIndexService()
-      throws InterruptedException, ExecutionException {
+  public static void startIndexService() throws InterruptedException, ExecutionException {
     if (nodeInfo != null) {
       // do not start Elasticsearch twice
       return;
@@ -63,7 +60,6 @@ public class ElasticQueryAccountsTest extends AbstractQueryAccountsTest {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port);
-    return Guice.createInjector(
-        new InMemoryModule(elasticsearchConfig, notesMigration));
+    return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 }

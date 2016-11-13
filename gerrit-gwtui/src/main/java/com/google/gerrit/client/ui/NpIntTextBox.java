@@ -31,21 +31,23 @@ public class NpIntTextBox extends NpTextBox {
   }
 
   private void init() {
-    addKeyDownHandler(new KeyDownHandler() {
-      @Override
-      public void onKeyDown(KeyDownEvent event) {
-        int code = event.getNativeKeyCode();
-        onKey(event, code, code);
-      }
-    });
-    addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        int charCode = event.getCharCode();
-        int keyCode = event.getNativeEvent().getKeyCode();
-        onKey(event, charCode, keyCode);
-      }
-    });
+    addKeyDownHandler(
+        new KeyDownHandler() {
+          @Override
+          public void onKeyDown(KeyDownEvent event) {
+            int code = event.getNativeKeyCode();
+            onKey(event, code, code);
+          }
+        });
+    addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            int charCode = event.getCharCode();
+            int keyCode = event.getNativeEvent().getKeyCode();
+            onKey(event, charCode, keyCode);
+          }
+        });
   }
 
   private void onKey(KeyEvent<?> event, int charCode, int keyCode) {
@@ -67,9 +69,7 @@ public class NpIntTextBox extends NpTextBox {
         default:
           // Allow copy and paste using ctl-c/ctrl-v,
           // or whatever the platform's convention is.
-          if (!(event.isControlKeyDown()
-              || event.isMetaKeyDown()
-              || event.isAltKeyDown())) {
+          if (!(event.isControlKeyDown() || event.isMetaKeyDown() || event.isAltKeyDown())) {
             event.preventDefault();
           }
           break;

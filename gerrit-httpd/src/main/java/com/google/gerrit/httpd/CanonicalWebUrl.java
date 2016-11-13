@@ -17,7 +17,6 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class CanonicalWebUrl {
@@ -25,9 +24,7 @@ public class CanonicalWebUrl {
 
   @Inject
   CanonicalWebUrl(
-      @com.google.gerrit.server.config.CanonicalWebUrl
-      @Nullable
-      Provider<String> provider) {
+      @com.google.gerrit.server.config.CanonicalWebUrl @Nullable Provider<String> provider) {
     configured = provider;
   }
 

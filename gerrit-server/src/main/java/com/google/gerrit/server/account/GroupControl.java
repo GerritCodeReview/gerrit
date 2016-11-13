@@ -36,8 +36,7 @@ public class GroupControl {
       groupBackend = gb;
     }
 
-    public GroupControl controlFor(final CurrentUser who,
-        final AccountGroup.UUID groupId)
+    public GroupControl controlFor(final CurrentUser who, final AccountGroup.UUID groupId)
         throws NoSuchGroupException {
       final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
@@ -53,15 +52,13 @@ public class GroupControl {
     private final GroupBackend groupBackend;
 
     @Inject
-    Factory(final GroupCache gc, final Provider<CurrentUser> cu,
-        final GroupBackend gb) {
+    Factory(final GroupCache gc, final Provider<CurrentUser> cu, final GroupBackend gb) {
       groupCache = gc;
       user = cu;
       groupBackend = gb;
     }
 
-    public GroupControl controlFor(final AccountGroup.Id groupId)
-        throws NoSuchGroupException {
+    public GroupControl controlFor(final AccountGroup.Id groupId) throws NoSuchGroupException {
       final AccountGroup group = groupCache.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
@@ -69,8 +66,7 @@ public class GroupControl {
       return controlFor(GroupDescriptions.forAccountGroup(group));
     }
 
-    public GroupControl controlFor(final AccountGroup.UUID groupId)
-        throws NoSuchGroupException {
+    public GroupControl controlFor(final AccountGroup.UUID groupId) throws NoSuchGroupException {
       final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
@@ -86,8 +82,7 @@ public class GroupControl {
       return new GroupControl(user.get(), group, groupBackend);
     }
 
-    public GroupControl validateFor(final AccountGroup.Id groupId)
-        throws NoSuchGroupException {
+    public GroupControl validateFor(final AccountGroup.Id groupId) throws NoSuchGroupException {
       final GroupControl c = controlFor(groupId);
       if (!c.isVisible()) {
         throw new NoSuchGroupException(groupId);
@@ -95,8 +90,7 @@ public class GroupControl {
       return c;
     }
 
-    public GroupControl validateFor(final AccountGroup.UUID groupUUID)
-        throws NoSuchGroupException {
+    public GroupControl validateFor(final AccountGroup.UUID groupUUID) throws NoSuchGroupException {
       final GroupControl c = controlFor(groupUUID);
       if (!c.isVisible()) {
         throw new NoSuchGroupException(groupUUID);
@@ -112,7 +106,7 @@ public class GroupControl {
 
   GroupControl(CurrentUser who, GroupDescription.Basic gd, GroupBackend gb) {
     user = who;
-    group =  gd;
+    group = gd;
     groupBackend = gb;
   }
 
@@ -131,10 +125,10 @@ public class GroupControl {
      * server administrators.
      */
     return user.isInternalUser()
-      || groupBackend.isVisibleToAll(group.getGroupUUID())
-      || user.getEffectiveGroups().contains(group.getGroupUUID())
-      || user.getCapabilities().canAdministrateServer()
-      || isOwner();
+        || groupBackend.isVisibleToAll(group.getGroupUUID())
+        || user.getEffectiveGroups().contains(group.getGroupUUID())
+        || user.getCapabilities().canAdministrateServer()
+        || isOwner();
   }
 
   public boolean isOwner() {
@@ -143,8 +137,9 @@ public class GroupControl {
       isOwner = false;
     } else if (isOwner == null) {
       AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
-      isOwner = getUser().getEffectiveGroups().contains(ownerUUID)
-             || getUser().getCapabilities().canAdministrateServer();
+      isOwner =
+          getUser().getEffectiveGroups().contains(ownerUUID)
+              || getUser().getCapabilities().canAdministrateServer();
     }
     return isOwner;
   }
@@ -178,7 +173,6 @@ public class GroupControl {
 
   private boolean canSeeMembers() {
     AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
-    return (accountGroup != null && accountGroup.isVisibleToAll())
-        || isOwner();
+    return (accountGroup != null && accountGroup.isVisibleToAll()) || isOwner();
   }
 }

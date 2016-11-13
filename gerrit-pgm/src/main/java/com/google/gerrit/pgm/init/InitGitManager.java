@@ -22,7 +22,6 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.nio.file.Path;
 
 /** Initialize the GitRepositoryManager configuration section. */

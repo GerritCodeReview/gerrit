@@ -30,11 +30,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import org.kohsuke.args4j.Option;
 
-public class TestSubmitType
-    implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
+public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
@@ -43,9 +41,7 @@ public class TestSubmitType
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(Provider<ReviewDb> db,
-      ChangeData.Factory changeDataFactory,
-      RulesCache rules) {
+  TestSubmitType(Provider<ReviewDb> db, ChangeData.Factory changeDataFactory, RulesCache rules) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
@@ -61,18 +57,19 @@ public class TestSubmitType
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-    SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-          changeDataFactory.create(db.get(), rsrc.getControl()));
+    SubmitRuleEvaluator evaluator =
+        new SubmitRuleEvaluator(changeDataFactory.create(db.get(), rsrc.getControl()));
 
-    SubmitTypeRecord rec = evaluator.setPatchSet(rsrc.getPatchSet())
-        .setLogErrors(false)
-        .setSkipSubmitFilters(input.filters == Filters.SKIP)
-        .setRule(input.rule)
-        .getSubmitType();
+    SubmitTypeRecord rec =
+        evaluator
+            .setPatchSet(rsrc.getPatchSet())
+            .setLogErrors(false)
+            .setSkipSubmitFilters(input.filters == Filters.SKIP)
+            .setRule(input.rule)
+            .getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
-      throw new BadRequestException(String.format(
-          "rule %s produced invalid result: %s",
-          evaluator.getSubmitRuleName(), rec));
+      throw new BadRequestException(
+          String.format("rule %s produced invalid result: %s", evaluator.getSubmitRuleName(), rec));
     }
 
     return rec.type;

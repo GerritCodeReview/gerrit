@@ -22,12 +22,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 public class Reviewed {
-  public static class Input {
-  }
+  public static class Input {}
 
   @Singleton
-  public static class PutReviewed
-      implements RestModifyView<FileResource, Input> {
+  public static class PutReviewed implements RestModifyView<FileResource, Input> {
     private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
@@ -36,11 +34,13 @@ public class Reviewed {
     }
 
     @Override
-    public Response<String> apply(FileResource resource, Input input)
-        throws OrmException {
-      if (accountPatchReviewStore.get().markReviewed(
-          resource.getPatchKey().getParentKey(), resource.getAccountId(),
-          resource.getPatchKey().getFileName())) {
+    public Response<String> apply(FileResource resource, Input input) throws OrmException {
+      if (accountPatchReviewStore
+          .get()
+          .markReviewed(
+              resource.getPatchKey().getParentKey(),
+              resource.getAccountId(),
+              resource.getPatchKey().getFileName())) {
         return Response.created("");
       }
       return Response.ok("");
@@ -48,26 +48,25 @@ public class Reviewed {
   }
 
   @Singleton
-  public static class DeleteReviewed
-      implements RestModifyView<FileResource, Input> {
+  public static class DeleteReviewed implements RestModifyView<FileResource, Input> {
     private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
-    DeleteReviewed(
-        DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+    DeleteReviewed(DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
       this.accountPatchReviewStore = accountPatchReviewStore;
     }
 
     @Override
-    public Response<?> apply(FileResource resource, Input input)
-        throws OrmException {
-      accountPatchReviewStore.get().clearReviewed(
-          resource.getPatchKey().getParentKey(), resource.getAccountId(),
-          resource.getPatchKey().getFileName());
+    public Response<?> apply(FileResource resource, Input input) throws OrmException {
+      accountPatchReviewStore
+          .get()
+          .clearReviewed(
+              resource.getPatchKey().getParentKey(),
+              resource.getAccountId(),
+              resource.getPatchKey().getFileName());
       return Response.none();
     }
   }
 
-  private Reviewed() {
-  }
+  private Reviewed() {}
 }

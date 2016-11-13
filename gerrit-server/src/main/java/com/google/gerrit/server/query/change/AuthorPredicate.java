@@ -27,8 +27,7 @@ public class AuthorPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    return ChangeField.getAuthorParts(object).contains(
-        getValue().toLowerCase());
+    return ChangeField.getAuthorParts(object).contains(getValue().toLowerCase());
   }
 
   @Override

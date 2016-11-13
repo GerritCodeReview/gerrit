@@ -19,17 +19,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
-
 import java.util.Set;
 
 @AutoValue
 public abstract class QueryOptions {
-  public static QueryOptions create(IndexConfig config, int start, int limit,
-      Set<String> fields) {
+  public static QueryOptions create(IndexConfig config, int start, int limit, Set<String> fields) {
     checkArgument(start >= 0, "start must be nonnegative: %s", start);
     checkArgument(limit > 0, "limit must be positive: %s", limit);
-    return new AutoValue_QueryOptions(config, start, limit,
-        ImmutableSet.copyOf(fields));
+    return new AutoValue_QueryOptions(config, start, limit, ImmutableSet.copyOf(fields));
   }
 
   public QueryOptions convertForBackend() {
@@ -42,8 +39,11 @@ public abstract class QueryOptions {
   }
 
   public abstract IndexConfig config();
+
   public abstract int start();
+
   public abstract int limit();
+
   public abstract ImmutableSet<String> fields();
 
   public QueryOptions withLimit(int newLimit) {

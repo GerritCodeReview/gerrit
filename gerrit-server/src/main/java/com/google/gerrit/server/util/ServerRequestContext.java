@@ -40,8 +40,7 @@ public class ServerRequestContext implements RequestContext {
     return new Provider<ReviewDb>() {
       @Override
       public ReviewDb get() {
-        throw new ProvisionException(
-            "Automatic ReviewDb only available in request scope");
+        throw new ProvisionException("Automatic ReviewDb only available in request scope");
       }
     };
   }

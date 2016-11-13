@@ -19,11 +19,6 @@ import static com.google.gerrit.server.plugins.PluginLoader.asTemp;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -38,6 +33,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JarPluginProvider implements ServerPluginProvider {
   static final String PLUGIN_TMP_PREFIX = "plugin_";
@@ -54,31 +52,28 @@ public class JarPluginProvider implements ServerPluginProvider {
   @Override
   public boolean handles(Path srcPath) {
     String fileName = srcPath.getFileName().toString();
-    return fileName.endsWith(JAR_EXTENSION)
-        || fileName.endsWith(JAR_EXTENSION + ".disabled");
+    return fileName.endsWith(JAR_EXTENSION) || fileName.endsWith(JAR_EXTENSION + ".disabled");
   }
 
   @Override
   public String getPluginName(Path srcPath) {
     try {
-      return MoreObjects.firstNonNull(getJarPluginName(srcPath),
-          PluginLoader.nameOf(srcPath));
+      return MoreObjects.firstNonNull(getJarPluginName(srcPath), PluginLoader.nameOf(srcPath));
     } catch (IOException e) {
-      throw new IllegalArgumentException("Invalid plugin file " + srcPath
-          + ": cannot get plugin name", e);
+      throw new IllegalArgumentException(
+          "Invalid plugin file " + srcPath + ": cannot get plugin name", e);
     }
   }
 
   public static String getJarPluginName(Path srcPath) throws IOException {
     try (JarFile jarFile = new JarFile(srcPath.toFile())) {
-      return jarFile.getManifest().getMainAttributes()
-          .getValue("Gerrit-PluginName");
+      return jarFile.getManifest().getMainAttributes().getValue("Gerrit-PluginName");
     }
   }
 
   @Override
-  public ServerPlugin get(Path srcPath, FileSnapshot snapshot,
-      PluginDescription description) throws InvalidPluginException {
+  public ServerPlugin get(Path srcPath, FileSnapshot snapshot, PluginDescription description)
+      throws InvalidPluginException {
     try {
       String name = getPluginName(srcPath);
       String extension = getExtension(srcPath);
@@ -110,16 +105,16 @@ public class JarPluginProvider implements ServerPluginProvider {
     return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
   }
 
-  public static Path storeInTemp(String pluginName, InputStream in,
-      SitePaths sitePaths) throws IOException {
+  public static Path storeInTemp(String pluginName, InputStream in, SitePaths sitePaths)
+      throws IOException {
     if (!Files.exists(sitePaths.tmp_dir)) {
       Files.createDirectories(sitePaths.tmp_dir);
     }
     return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
   }
 
-  private ServerPlugin loadJarPlugin(String name, Path srcJar,
-      FileSnapshot snapshot, Path tmp, PluginDescription description)
+  private ServerPlugin loadJarPlugin(
+      String name, Path srcJar, FileSnapshot snapshot, Path tmp, PluginDescription description)
       throws IOException, InvalidPluginException, MalformedURLException {
     JarFile jarFile = new JarFile(tmp.toFile());
     boolean keep = false;
@@ -139,13 +134,19 @@ public class JarPluginProvider implements ServerPluginProvider {
       urls.add(tmp.toUri().toURL());
 
       ClassLoader pluginLoader =
-          new URLClassLoader(urls.toArray(new URL[urls.size()]),
-              PluginLoader.parentFor(type));
+          new URLClassLoader(urls.toArray(new URL[urls.size()]), PluginLoader.parentFor(type));
 
       JarScanner jarScanner = createJarScanner(tmp);
-      ServerPlugin plugin = new ServerPlugin(name, description.canonicalUrl,
-          description.user, srcJar, snapshot, jarScanner,
-          description.dataDir, pluginLoader);
+      ServerPlugin plugin =
+          new ServerPlugin(
+              name,
+              description.canonicalUrl,
+              description.user,
+              srcJar,
+              snapshot,
+              jarScanner,
+              description.dataDir,
+              pluginLoader);
       plugin.setCleanupHandle(new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;
@@ -156,8 +157,7 @@ public class JarPluginProvider implements ServerPluginProvider {
     }
   }
 
-  private JarScanner createJarScanner(Path srcJar)
-      throws InvalidPluginException {
+  private JarScanner createJarScanner(Path srcJar) throws InvalidPluginException {
     try {
       return new JarScanner(srcJar);
     } catch (IOException e) {

@@ -22,9 +22,7 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -49,7 +47,8 @@ public class RequestContextFilter implements Filter {
   private final ThreadLocalRequestContext local;
 
   @Inject
-  RequestContextFilter(final Provider<RequestCleanup> r,
+  RequestContextFilter(
+      final Provider<RequestCleanup> r,
       final Provider<HttpRequestContext> c,
       final ThreadLocalRequestContext l) {
     cleanup = r;
@@ -58,16 +57,14 @@ public class RequestContextFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) {
-  }
+  public void init(FilterConfig filterConfig) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(final ServletRequest request,
-      final ServletResponse response, final FilterChain chain)
+  public void doFilter(
+      final ServletRequest request, final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
     RequestContext old = local.setContext(requestContext.get());
     try {

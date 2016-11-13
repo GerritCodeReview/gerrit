@@ -42,12 +42,13 @@ public class PluginListScreen extends PluginScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    PluginMap.all(new ScreenLoadCallback<PluginMap>(this) {
-      @Override
-      protected void preDisplay(final PluginMap result) {
-        pluginTable.display(result);
-      }
-    });
+    PluginMap.all(
+        new ScreenLoadCallback<PluginMap>(this) {
+          @Override
+          protected void preDisplay(final PluginMap result) {
+            pluginTable.display(result);
+          }
+        });
   }
 
   private void initPluginList() {
@@ -91,8 +92,8 @@ public class PluginListScreen extends PluginScreen {
       if (plugin.disabled() || plugin.indexUrl() == null) {
         table.setText(row, 1, plugin.name());
       } else {
-        table.setWidget(row, 1, new Anchor(plugin.name(),
-            Gerrit.selfRedirect(plugin.indexUrl()), "_blank"));
+        table.setWidget(
+            row, 1, new Anchor(plugin.name(), Gerrit.selfRedirect(plugin.indexUrl()), "_blank"));
 
         if (new ExtensionScreen(plugin.name() + "/settings").isFound()) {
           InlineHyperlink adminScreenLink = new InlineHyperlink();
@@ -104,9 +105,7 @@ public class PluginListScreen extends PluginScreen {
       }
 
       table.setText(row, 3, plugin.version());
-      table.setText(row, 4, plugin.disabled()
-          ? Util.C.pluginDisabled()
-          : Util.C.pluginEnabled());
+      table.setText(row, 4, plugin.disabled() ? Util.C.pluginDisabled() : Util.C.pluginEnabled());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());

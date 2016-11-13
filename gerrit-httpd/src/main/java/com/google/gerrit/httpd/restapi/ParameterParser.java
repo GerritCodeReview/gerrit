@@ -34,22 +34,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.CmdLineException;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.kohsuke.args4j.CmdLineException;
 
 class ParameterParser {
-  private static final ImmutableSet<String> RESERVED_KEYS = ImmutableSet.of(
-      "pp", "prettyPrint", "strict", "callback", "alt", "fields");
+  private static final ImmutableSet<String> RESERVED_KEYS =
+      ImmutableSet.of("pp", "prettyPrint", "strict", "callback", "alt", "fields");
 
   private final CmdLineParser.Factory parserFactory;
 
@@ -58,10 +55,8 @@ class ParameterParser {
     this.parserFactory = pf;
   }
 
-  <T> boolean parse(T param,
-      Multimap<String, String> in,
-      HttpServletRequest req,
-      HttpServletResponse res)
+  <T> boolean parse(
+      T param, Multimap<String, String> in, HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
     try {
@@ -81,17 +76,15 @@ class ParameterParser {
       clp.printUsage(msg, null);
       msg.write('\n');
       CacheHeaders.setNotCacheable(res);
-      replyBinaryResult(req, res,
-          BinaryResult.create(msg.toString()).setContentType("text/plain"));
+      replyBinaryResult(req, res, BinaryResult.create(msg.toString()).setContentType("text/plain"));
       return false;
     }
 
     return true;
   }
 
-  static void splitQueryString(String queryString,
-      Multimap<String, String> config,
-      Multimap<String, String> params) {
+  static void splitQueryString(
+      String queryString, Multimap<String, String> config, Multimap<String, String> params) {
     if (!Strings.isNullOrEmpty(queryString)) {
       for (String kvPair : Splitter.on('&').split(queryString)) {
         Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
@@ -110,9 +103,7 @@ class ParameterParser {
     Set<String> params = new HashSet<>();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       for (String kvPair : Splitter.on('&').split(req.getQueryString())) {
-        params.add(Iterables.getFirst(
-            Splitter.on('=').limit(2).split(kvPair),
-            null));
+        params.add(Iterables.getFirst(Splitter.on('=').limit(2).split(kvPair), null));
       }
     }
     return params;
@@ -120,8 +111,8 @@ class ParameterParser {
 
   /**
    * Convert a standard URL encoded form input into a parsed JSON tree.
-   * <p>
-   * Given an input such as:
+   *
+   * <p>Given an input such as:
    *
    * <pre>
    * message=Does+not+compile.&labels.Verified=-1
@@ -144,23 +135,21 @@ class ParameterParser {
    * }
    * </pre>
    *
-   * This input can then be further processed into the Java input type expected
-   * by a view using Gson. Here we rely on Gson to perform implicit conversion
-   * of a string {@code "-1"} to a number type when the Java input type expects
-   * a number.
-   * <p>
-   * Conversion assumes any field name that does not contain {@code "."} will be
-   * a property of the top level input object. Any field with a dot will use the
-   * first segment as the top level property name naming an object, and the rest
-   * of the field name as a property in the nested object.
+   * This input can then be further processed into the Java input type expected by a view using
+   * Gson. Here we rely on Gson to perform implicit conversion of a string {@code "-1"} to a number
+   * type when the Java input type expects a number.
+   *
+   * <p>Conversion assumes any field name that does not contain {@code "."} will be a property of
+   * the top level input object. Any field with a dot will use the first segment as the top level
+   * property name naming an object, and the rest of the field name as a property in the nested
+   * object.
    *
    * @param req request to parse form input from and create JSON tree.
    * @return the converted JSON object tree.
-   * @throws BadRequestException the request cannot be cast, as there are
-   *         conflicting definitions for a nested object.
+   * @throws BadRequestException the request cannot be cast, as there are conflicting definitions
+   *     for a nested object.
    */
-  static JsonObject formToJson(HttpServletRequest req)
-      throws BadRequestException {
+  static JsonObject formToJson(HttpServletRequest req) throws BadRequestException {
     Map<String, String[]> map = req.getParameterMap();
     return formToJson(map, query(req));
   }
@@ -190,9 +179,7 @@ class ParameterParser {
         } else if (e.isJsonObject()) {
           obj = e.getAsJsonObject();
         } else {
-          throw new BadRequestException(String.format(
-              "key %s conflicts with %s",
-              key, property));
+          throw new BadRequestException(String.format("key %s conflicts with %s", key, property));
         }
         key = key.substring(dot + 1);
       }

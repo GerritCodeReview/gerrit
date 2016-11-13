@@ -25,15 +25,13 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-
+import java.util.Map;
 import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
-import java.util.Map;
-
 public class LuceneIndexModule extends LifecycleModule {
   public static LuceneIndexModule singleVersionAllLatest(int threads) {
-    return new LuceneIndexModule(ImmutableMap.<String, Integer> of(), threads);
+    return new LuceneIndexModule(ImmutableMap.<String, Integer>of(), threads);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
@@ -79,8 +77,8 @@ public class LuceneIndexModule extends LifecycleModule {
   @Provides
   @Singleton
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
-    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
-        BooleanQuery.getMaxClauseCount()));
+    BooleanQuery.setMaxClauseCount(
+        cfg.getInt("index", "maxTerms", BooleanQuery.getMaxClauseCount()));
     return IndexConfig.fromConfig(cfg);
   }
 

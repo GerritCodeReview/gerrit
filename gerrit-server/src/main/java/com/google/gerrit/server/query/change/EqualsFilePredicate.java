@@ -21,8 +21,7 @@ import com.google.gwtorm.server.OrmException;
 
 class EqualsFilePredicate extends ChangeIndexPredicate {
   static Predicate<ChangeData> create(Arguments args, String value) {
-    Predicate<ChangeData> eqPath =
-        new EqualsPathPredicate(ChangeQueryBuilder.FIELD_FILE, value);
+    Predicate<ChangeData> eqPath = new EqualsPathPredicate(ChangeQueryBuilder.FIELD_FILE, value);
     if (!args.getSchema().hasField(ChangeField.FILE_PART)) {
       return eqPath;
     }

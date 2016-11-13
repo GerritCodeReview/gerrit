@@ -16,16 +16,14 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
-import org.eclipse.jgit.revwalk.FooterLine;
-
 import java.util.List;
 import java.util.regex.Matcher;
+import org.eclipse.jgit.revwalk.FooterLine;
 
 public class TrackingFooters {
   protected List<TrackingFooter> trackingFooters;
 
-  public TrackingFooters (final List<TrackingFooter> trFooters) {
+  public TrackingFooters(final List<TrackingFooter> trFooters) {
     trackingFooters = trFooters;
   }
 
@@ -48,9 +46,7 @@ public class TrackingFooters {
         if (footer.matches(config.footerKey())) {
           Matcher m = config.match().matcher(footer.getValue());
           while (m.find()) {
-            String id = m.groupCount() > 0
-                ? m.group(1)
-                : m.group();
+            String id = m.groupCount() > 0 ? m.group(1) : m.group();
             if (!id.isEmpty()) {
               r.put(config.system(), id);
             }

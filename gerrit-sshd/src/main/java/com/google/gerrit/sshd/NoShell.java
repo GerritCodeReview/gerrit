@@ -23,7 +23,11 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.apache.sshd.common.Factory;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
@@ -33,18 +37,11 @@ import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.SystemReader;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
  * Dummy shell which prints a message and terminates.
- * <p>
- * This implementation is used to ensure clients who try to SSH directly to this
- * server without supplying a command will get a reasonable error message, but
- * cannot continue further.
+ *
+ * <p>This implementation is used to ensure clients who try to SSH directly to this server without
+ * supplying a command will get a reasonable error message, but cannot continue further.
  */
 class NoShell implements Factory<Command> {
   private final Provider<SendMessage> shell;
@@ -71,8 +68,8 @@ class NoShell implements Factory<Command> {
     private Context context;
 
     @Inject
-    SendMessage(Provider<MessageFactory> messageFactory,
-        SchemaFactory<ReviewDb> sf, SshScope sshScope) {
+    SendMessage(
+        Provider<MessageFactory> messageFactory, SchemaFactory<ReviewDb> sf, SshScope sshScope) {
       this.messageFactory = messageFactory;
       this.schemaFactory = sf;
       this.sshScope = sshScope;
@@ -123,8 +120,7 @@ class NoShell implements Factory<Command> {
     }
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
   }
 
   static class MessageFactory {
@@ -133,8 +129,8 @@ class NoShell implements Factory<Command> {
     private final Provider<String> urlProvider;
 
     @Inject
-    MessageFactory(IdentifiedUser user, SshInfo sshInfo,
-        @CanonicalWebUrl Provider<String> urlProvider) {
+    MessageFactory(
+        IdentifiedUser user, SshInfo sshInfo, @CanonicalWebUrl Provider<String> urlProvider) {
       this.user = user;
       this.sshInfo = sshInfo;
       this.urlProvider = urlProvider;

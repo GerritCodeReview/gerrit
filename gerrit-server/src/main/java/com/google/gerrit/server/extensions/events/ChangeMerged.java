@@ -27,38 +27,36 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-
 public class ChangeMerged {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeMerged.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeMerged.class);
 
   private final DynamicSet<ChangeMergedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeMerged(DynamicSet<ChangeMergedListener> listeners,
-      EventUtil util) {
+  ChangeMerged(DynamicSet<ChangeMergedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps, Account merger,
-      String newRevisionId, Timestamp when) {
+  public void fire(
+      Change change, PatchSet ps, Account merger, String newRevisionId, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.revisionInfo(change.getProject(), ps),
-          util.accountInfo(merger),
-          newRevisionId, when);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), ps),
+              util.accountInfo(merger),
+              newRevisionId,
+              when);
       for (ChangeMergedListener l : listeners) {
         try {
           l.onChangeMerged(event);
@@ -66,18 +64,20 @@ public class ChangeMerged {
           util.logEventListenerError(this, l, e);
         }
       }
-    } catch (PatchListNotAvailableException | GpgException | IOException
-        | OrmException e) {
+    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
       log.error("Couldn't fire event", e);
     }
   }
 
-  private static class Event extends AbstractRevisionEvent
-      implements ChangeMergedListener.Event {
+  private static class Event extends AbstractRevisionEvent implements ChangeMergedListener.Event {
     private final String newRevisionId;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo merger,
-        String newRevisionId, Timestamp when) {
+    Event(
+        ChangeInfo change,
+        RevisionInfo revision,
+        AccountInfo merger,
+        String newRevisionId,
+        Timestamp when) {
       super(change, revision, merger, when, NotifyHandling.ALL);
       this.newRevisionId = newRevisionId;
     }

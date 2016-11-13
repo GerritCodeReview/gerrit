@@ -18,9 +18,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 
-/**
- * Listener to provide validation of assignees.
- */
+/** Listener to provide validation of assignees. */
 @ExtensionPoint
 public interface AssigneeValidationListener {
   /**

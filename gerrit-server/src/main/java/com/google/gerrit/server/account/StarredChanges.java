@@ -38,16 +38,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 @Singleton
-public class StarredChanges implements
-    ChildCollection<AccountResource, AccountResource.StarredChange>,
-    AcceptsCreate<AccountResource> {
+public class StarredChanges
+    implements ChildCollection<AccountResource, AccountResource.StarredChange>,
+        AcceptsCreate<AccountResource> {
   private static final Logger log = LoggerFactory.getLogger(StarredChanges.class);
 
   private final ChangesCollection changes;
@@ -56,7 +54,8 @@ public class StarredChanges implements
   private final StarredChangesUtil starredChangesUtil;
 
   @Inject
-  StarredChanges(ChangesCollection changes,
+  StarredChanges(
+      ChangesCollection changes,
       DynamicMap<RestView<AccountResource.StarredChange>> views,
       Provider<Create> createProvider,
       StarredChangesUtil starredChangesUtil) {
@@ -71,7 +70,8 @@ public class StarredChanges implements
       throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-    if (starredChangesUtil.getLabels(user.getAccountId(), change.getId())
+    if (starredChangesUtil
+        .getLabels(user.getAccountId(), change.getId())
         .contains(StarredChangesUtil.DEFAULT_LABEL)) {
       return new AccountResource.StarredChange(user, change);
     }
@@ -87,8 +87,8 @@ public class StarredChanges implements
   public RestView<AccountResource> list() throws ResourceNotFoundException {
     return new RestReadView<AccountResource>() {
       @Override
-      public Object apply(AccountResource self) throws BadRequestException,
-          AuthException, OrmException {
+      public Object apply(AccountResource self)
+          throws BadRequestException, AuthException, OrmException {
         QueryChanges query = changes.list();
         query.addQuery("starredby:" + self.getUser().getAccountId().get());
         return query.apply(TopLevelResource.INSTANCE);
@@ -98,11 +98,10 @@ public class StarredChanges implements
 
   @SuppressWarnings("unchecked")
   @Override
-  public RestModifyView<AccountResource, EmptyInput> create(
-      AccountResource parent, IdString id) throws UnprocessableEntityException {
+  public RestModifyView<AccountResource, EmptyInput> create(AccountResource parent, IdString id)
+      throws UnprocessableEntityException {
     try {
-      return createProvider.get()
-          .setChange(changes.parse(TopLevelResource.INSTANCE, id));
+      return createProvider.get().setChange(changes.parse(TopLevelResource.INSTANCE, id));
     } catch (ResourceNotFoundException e) {
       throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
     } catch (OrmException e) {
@@ -135,8 +134,12 @@ public class StarredChanges implements
         throw new AuthException("not allowed to add starred change");
       }
       try {
-        starredChangesUtil.star(self.get().getAccountId(), change.getProject(),
-            change.getId(), StarredChangesUtil.DEFAULT_LABELS, null);
+        starredChangesUtil.star(
+            self.get().getAccountId(),
+            change.getProject(),
+            change.getId(),
+            StarredChangesUtil.DEFAULT_LABELS,
+            null);
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }
@@ -145,8 +148,7 @@ public class StarredChanges implements
   }
 
   @Singleton
-  static class Put implements
-      RestModifyView<AccountResource.StarredChange, EmptyInput> {
+  static class Put implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
 
     @Inject
@@ -165,8 +167,7 @@ public class StarredChanges implements
   }
 
   @Singleton
-  public static class Delete implements
-      RestModifyView<AccountResource.StarredChange, EmptyInput> {
+  public static class Delete implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
 
@@ -177,18 +178,20 @@ public class StarredChanges implements
     }
 
     @Override
-    public Response<?> apply(AccountResource.StarredChange rsrc,
-        EmptyInput in) throws AuthException, OrmException, IOException {
+    public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
+        throws AuthException, OrmException, IOException {
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed remove starred change");
       }
-      starredChangesUtil.star(self.get().getAccountId(),
-          rsrc.getChange().getProject(), rsrc.getChange().getId(), null,
+      starredChangesUtil.star(
+          self.get().getAccountId(),
+          rsrc.getChange().getProject(),
+          rsrc.getChange().getId(),
+          null,
           StarredChangesUtil.DEFAULT_LABELS);
       return Response.none();
     }
   }
 
-  public static class EmptyInput {
-  }
+  public static class EmptyInput {}
 }

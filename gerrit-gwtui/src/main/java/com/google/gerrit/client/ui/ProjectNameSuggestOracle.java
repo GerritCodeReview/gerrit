@@ -22,7 +22,9 @@ import com.google.gerrit.client.rpc.Natives;
 public class ProjectNameSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   public void _onRequestSuggestions(final Request req, final Callback callback) {
-    ProjectMap.suggest(req.getQuery(), req.getLimit(),
+    ProjectMap.suggest(
+        req.getQuery(),
+        req.getLimit(),
         new GerritCallback<ProjectMap>() {
           @Override
           public void onSuccess(ProjectMap map) {

@@ -37,7 +37,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,8 +45,7 @@ import java.util.Map;
 @Singleton
 public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   public static class Input {
-    @DefaultInput
-    String _oneGroup;
+    @DefaultInput String _oneGroup;
 
     public List<String> groups;
 
@@ -78,9 +76,12 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   private final AuditService auditService;
 
   @Inject
-  public AddIncludedGroups(GroupsCollection groupsCollection,
-      GroupIncludeCache groupIncludeCache, Provider<ReviewDb> db,
-      GroupJson json, AuditService auditService) {
+  public AddIncludedGroups(
+      GroupsCollection groupsCollection,
+      GroupIncludeCache groupIncludeCache,
+      Provider<ReviewDb> db,
+      GroupJson json,
+      AuditService auditService) {
     this.groupsCollection = groupsCollection;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
@@ -90,8 +91,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException,
-      UnprocessableEntityException, OrmException {
+      throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -106,14 +106,11 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     for (String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);
       if (!control.canAddGroup()) {
-        throw new AuthException(String.format("Cannot add group: %s",
-            d.getName()));
+        throw new AuthException(String.format("Cannot add group: %s", d.getName()));
       }
 
       if (!newIncludedGroups.containsKey(d.getGroupUUID())) {
-        AccountGroupById.Key agiKey =
-            new AccountGroupById.Key(group.getId(),
-                d.getGroupUUID());
+        AccountGroupById.Key agiKey = new AccountGroupById.Key(group.getId(), d.getGroupUUID());
         AccountGroupById agi = db.get().accountGroupById().get(agiKey);
         if (agi == null) {
           agi = new AccountGroupById(agiKey);
@@ -136,8 +133,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   }
 
   static class PutIncludedGroup implements RestModifyView<GroupResource, PutIncludedGroup.Input> {
-    static class Input {
-    }
+    static class Input {}
 
     private final AddIncludedGroups put;
     private final String id;
@@ -149,8 +145,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
-        throws AuthException, MethodNotAllowedException,
-        ResourceNotFoundException, OrmException {
+        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(id);
       try {
@@ -166,7 +161,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class UpdateIncludedGroup implements RestModifyView<IncludedGroupResource, PutIncludedGroup.Input> {
+  static class UpdateIncludedGroup
+      implements RestModifyView<IncludedGroupResource, PutIncludedGroup.Input> {
     private final Provider<GetIncludedGroup> get;
 
     @Inject
@@ -175,8 +171,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public GroupInfo apply(IncludedGroupResource resource,
-        PutIncludedGroup.Input input) throws OrmException {
+    public GroupInfo apply(IncludedGroupResource resource, PutIncludedGroup.Input input)
+        throws OrmException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

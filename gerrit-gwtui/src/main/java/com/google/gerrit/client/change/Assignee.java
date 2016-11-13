@@ -45,12 +45,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 
-/**
- * Edit assignee using auto-completion.
- */
+/** Edit assignee using auto-completion. */
 public class Assignee extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, Assignee> {
-  }
+  interface Binder extends UiBinder<HTMLPanel, Assignee> {}
 
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -59,6 +56,7 @@ public class Assignee extends Composite {
   @UiField Image editAssigneeIcon;
   @UiField Element form;
   @UiField Element error;
+
   @UiField(provided = true)
   RemoteSuggestBox suggestBox;
 
@@ -72,26 +70,30 @@ public class Assignee extends Composite {
     suggestBox = new RemoteSuggestBox(assigneeSuggestOracle);
     suggestBox.setVisibleLength(55);
     suggestBox.setHintText(Util.C.approvalTableEditAssigneeHint());
-    suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
-      @Override
-      public void onClose(CloseEvent<RemoteSuggestBox> event) {
-        Assignee.this.onCancel(null);
-      }
-    });
-    suggestBox.addSelectionHandler(new SelectionHandler<String>() {
-      @Override
-      public void onSelection(SelectionEvent<String> event) {
-        editAssignee(event.getSelectedItem());
-      }
-    });
+    suggestBox.addCloseHandler(
+        new CloseHandler<RemoteSuggestBox>() {
+          @Override
+          public void onClose(CloseEvent<RemoteSuggestBox> event) {
+            Assignee.this.onCancel(null);
+          }
+        });
+    suggestBox.addSelectionHandler(
+        new SelectionHandler<String>() {
+          @Override
+          public void onSelection(SelectionEvent<String> event) {
+            editAssignee(event.getSelectedItem());
+          }
+        });
 
     initWidget(uiBinder.createAndBindUi(this));
-    editAssigneeIcon.addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        onOpenForm();
-      }
-    }, ClickEvent.getType());
+    editAssigneeIcon.addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            onOpenForm();
+          }
+        },
+        ClickEvent.getType());
   }
 
   void set(ChangeInfo info) {
@@ -140,7 +142,8 @@ public class Assignee extends Composite {
 
   private void editAssignee(final String assignee) {
     if (assignee.trim().isEmpty()) {
-      ChangeApi.deleteAssignee(changeId.get(),
+      ChangeApi.deleteAssignee(
+          changeId.get(),
           new GerritCallback<AccountInfo>() {
             @Override
             public void onSuccess(AccountInfo result) {
@@ -154,14 +157,17 @@ public class Assignee extends Composite {
                 new NotSignedInDialog().center();
               } else {
                 UIObject.setVisible(error, true);
-                error.setInnerText(err instanceof StatusCodeException
-                    ? ((StatusCodeException) err).getEncodedResponse()
-                    : err.getMessage());
+                error.setInnerText(
+                    err instanceof StatusCodeException
+                        ? ((StatusCodeException) err).getEncodedResponse()
+                        : err.getMessage());
               }
             }
           });
     } else {
-      ChangeApi.setAssignee(changeId.get(), assignee,
+      ChangeApi.setAssignee(
+          changeId.get(),
+          assignee,
           new GerritCallback<AccountInfo>() {
             @Override
             public void onSuccess(AccountInfo result) {
@@ -179,9 +185,10 @@ public class Assignee extends Composite {
                 new NotSignedInDialog().center();
               } else {
                 UIObject.setVisible(error, true);
-                error.setInnerText(err instanceof StatusCodeException
-                    ? ((StatusCodeException) err).getEncodedResponse()
-                    : err.getMessage());
+                error.setInnerText(
+                    err instanceof StatusCodeException
+                        ? ((StatusCodeException) err).getEncodedResponse()
+                        : err.getMessage());
               }
             }
           });
@@ -191,25 +198,27 @@ public class Assignee extends Composite {
   private void setAssignee(AccountInfo assignee) {
     currentAssignee = assignee;
     assigneeLink.setText(assignee != null ? getName(assignee) : null);
-    assigneeLink.setTargetHistoryToken(assignee != null
-        ? PageLinks.toAssigneeQuery(assignee.name() != null
-            ? assignee.name()
-            : assignee.email() != null
-                ? assignee.email()
-                : String.valueOf(assignee._accountId()))
-        : "");
+    assigneeLink.setTargetHistoryToken(
+        assignee != null
+            ? PageLinks.toAssigneeQuery(
+                assignee.name() != null
+                    ? assignee.name()
+                    : assignee.email() != null
+                        ? assignee.email()
+                        : String.valueOf(assignee._accountId()))
+            : "");
   }
 
   private Reviewers getReviewers() {
-      Element e = DOM.getParent(getElement());
-      for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
-        EventListener l = DOM.getEventListener(e);
-        if (l instanceof ChangeScreen) {
-          ChangeScreen screen =  (ChangeScreen) l;
-          return screen.reviewers;
-        }
+    Element e = DOM.getParent(getElement());
+    for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
+      EventListener l = DOM.getEventListener(e);
+      if (l instanceof ChangeScreen) {
+        ChangeScreen screen = (ChangeScreen) l;
+        return screen.reviewers;
       }
-      return null;
+    }
+    return null;
   }
 
   private String getName(AccountInfo info) {

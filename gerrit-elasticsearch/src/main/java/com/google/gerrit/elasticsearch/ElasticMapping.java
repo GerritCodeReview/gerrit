@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.Schema;
-
 import java.util.Map;
 
 class ElasticMapping {
@@ -40,8 +39,7 @@ class ElasticMapping {
           || fieldType == FieldType.STORED_ONLY) {
         mapping.addString(name);
       } else {
-        throw new IllegalStateException(
-            "Unsupported field type: " + fieldType.getName());
+        throw new IllegalStateException("Unsupported field type: " + fieldType.getName());
       }
     }
     return mapping.build();

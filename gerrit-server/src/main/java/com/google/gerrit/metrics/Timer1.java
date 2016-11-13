@@ -17,13 +17,12 @@ package com.google.gerrit.metrics;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-
 import java.util.concurrent.TimeUnit;
 
 /**
  * Records elapsed time for an operation or span.
- * <p>
- * Typical usage in a try-with-resources block:
+ *
+ * <p>Typical usage in a try-with-resources block:
  *
  * <pre>
  * try (Timer1.Context ctx = timer.start(field)) {

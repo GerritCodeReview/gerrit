@@ -21,18 +21,19 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 public interface ParentWebLink extends WebLink {
 
   /**
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo}
-   * describing a link from a parent revision to an external service.
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a parent
+   * revision to an external service.
    *
-   * <p>In order for the web link to be visible
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo#url}
-   * and {@link com.google.gerrit.extensions.common.WebLinkInfo#name}
-   * must be set.<p>
+   * <p>In order for the web link to be visible {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#url} and {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#name} must be set.
+   *
+   * <p>
    *
    * @param projectName Name of the project
    * @param commit Commit sha1 of the parent revision
-   * @return WebLinkInfo that links to parent commit in external service,
-   * null if there should be no link.
+   * @return WebLinkInfo that links to parent commit in external service, null if there should be no
+   *     link.
    */
   WebLinkInfo getParentWebLink(String projectName, String commit);
 }

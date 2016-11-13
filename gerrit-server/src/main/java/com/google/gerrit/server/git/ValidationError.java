@@ -47,10 +47,10 @@ public class ValidationError {
 
   public static Sink createLoggerSink(final String message, final Logger log) {
     return new ValidationError.Sink() {
-          @Override
-          public void error(ValidationError error) {
-            log.error(message + error.getMessage());
-          }
-        };
+      @Override
+      public void error(ValidationError error) {
+        log.error(message + error.getMessage());
+      }
+    };
   }
 }

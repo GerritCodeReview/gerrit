@@ -87,6 +87,5 @@ public class LinkMenuBar extends Composite implements ScreenLoadHandler {
   }
 
   @Override
-  public void onScreenLoad(ScreenLoadEvent event) {
-  }
+  public void onScreenLoad(ScreenLoadEvent event) {}
 }

@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
-
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -31,8 +30,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @Inject
-  private AllUsersName allUsers;
+  @Inject private AllUsersName allUsers;
 
   @After
   public void cleanUp() throws Exception {
@@ -48,8 +46,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void getGeneralPreferences() throws Exception {
-    GeneralPreferencesInfo result =
-        gApi.config().server().getDefaultPreferences();
+    GeneralPreferencesInfo result = gApi.config().server().getDefaultPreferences();
     assertPrefs(result, GeneralPreferencesInfo.defaults(), "my");
   }
 
@@ -58,8 +55,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     boolean newSignedOffBy = !GeneralPreferencesInfo.defaults().signedOffBy;
     GeneralPreferencesInfo update = new GeneralPreferencesInfo();
     update.signedOffBy = newSignedOffBy;
-    GeneralPreferencesInfo result =
-        gApi.config().server().setDefaultPreferences(update);
+    GeneralPreferencesInfo result = gApi.config().server().setDefaultPreferences(update);
     assertThat(result.signedOffBy).named("signedOffBy").isEqualTo(newSignedOffBy);
 
     result = gApi.config().server().getDefaultPreferences();

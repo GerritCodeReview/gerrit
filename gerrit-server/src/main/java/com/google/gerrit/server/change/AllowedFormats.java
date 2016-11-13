@@ -21,7 +21,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -44,8 +43,9 @@ public class AllowedFormats {
 
     // Zip is not supported because it may be interpreted by a Java plugin as a
     // valid JAR file, whose code would have access to cookies on the domain.
-    allowed = Sets.immutableEnumSet(
-        Iterables.filter(cfg.getArchiveFormats(), f -> f != ArchiveFormat.ZIP));
+    allowed =
+        Sets.immutableEnumSet(
+            Iterables.filter(cfg.getArchiveFormats(), f -> f != ArchiveFormat.ZIP));
   }
 
   public Set<ArchiveFormat> getAllowed() {

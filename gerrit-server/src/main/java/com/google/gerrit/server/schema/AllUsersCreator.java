@@ -33,13 +33,11 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.inject.Inject;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 /** Creates the {@code All-Users} repository. */
 public class AllUsersCreator {
@@ -79,12 +77,8 @@ public class AllUsersCreator {
     }
   }
 
-  private void initAllUsers(Repository git)
-      throws IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = new MetaDataUpdate(
-          GitReferenceUpdated.DISABLED,
-          allUsersName,
-          git)) {
+  private void initAllUsers(Repository git) throws IOException, ConfigInvalidException {
+    try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
@@ -93,8 +87,9 @@ public class AllUsersCreator {
       Project project = config.getProject();
       project.setDescription("Individual user settings and preferences.");
 
-      AccessSection users = config.getAccessSection(
-          RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
+      AccessSection users =
+          config.getAccessSection(
+              RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
       LabelType cr = AllProjectsCreator.initCodeReviewLabel(config);
       grant(config, users, Permission.READ, false, true, registered);
       grant(config, users, Permission.PUSH, false, true, registered);

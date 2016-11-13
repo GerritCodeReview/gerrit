@@ -21,7 +21,6 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
-
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +31,6 @@ public interface AccountSecurity extends RemoteJsonService {
 
   @Audit
   @SignInRequired
-  void deleteExternalIds(Set<AccountExternalId.Key> keys,
-      AsyncCallback<Set<AccountExternalId.Key>> callback);
+  void deleteExternalIds(
+      Set<AccountExternalId.Key> keys, AsyncCallback<Set<AccountExternalId.Key>> callback);
 }

@@ -27,8 +27,7 @@ public class AllUsersNameOnInitProvider implements Provider<String> {
   @Inject
   AllUsersNameOnInitProvider(Section.Factory sections) {
     String n = sections.get("gerrit", null).get("allUsers");
-    name = MoreObjects.firstNonNull(
-        Strings.emptyToNull(n), AllUsersNameProvider.DEFAULT);
+    name = MoreObjects.firstNonNull(Strings.emptyToNull(n), AllUsersNameProvider.DEFAULT);
   }
 
   @Override

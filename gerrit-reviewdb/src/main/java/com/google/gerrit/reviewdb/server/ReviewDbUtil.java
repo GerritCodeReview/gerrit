@@ -20,24 +20,20 @@ import com.google.gwtorm.client.IntKey;
 /** Static utilities for ReviewDb types. */
 public class ReviewDbUtil {
   private static final Ordering<? extends IntKey<?>> INT_KEY_ORDERING =
-      Ordering.natural()
-          .nullsFirst()
-          .<IntKey<?>>onResultOf(IntKey::get)
-          .nullsFirst();
+      Ordering.natural().nullsFirst().<IntKey<?>>onResultOf(IntKey::get).nullsFirst();
 
   /**
    * Null-safe ordering over arbitrary subclass of {@code IntKey}.
-   * <p>
-   * In some cases, {@code Comparator.comparing(Change.Id::get)} may be shorter
-   * and cleaner. However, this method may be preferable in some cases:
+   *
+   * <p>In some cases, {@code Comparator.comparing(Change.Id::get)} may be shorter and cleaner.
+   * However, this method may be preferable in some cases:
+   *
    * <ul>
-   * <li>This ordering is null-safe over both input and the result of {@link
-   *   IntKey#get()}; {@code comparing} is only a good idea if all inputs are
-   *   obviously non-null.</li>
-   * <li>{@code intKeyOrdering().sortedCopy(iterable)} is shorter than the
-   *   stream equivalent.</li>
-   * <li>Creating derived comparators may be more readable with {@link Ordering}
-   *   method chaining rather than static {@code Comparator} methods.
+   *   <li>This ordering is null-safe over both input and the result of {@link IntKey#get()}; {@code
+   *       comparing} is only a good idea if all inputs are obviously non-null.
+   *   <li>{@code intKeyOrdering().sortedCopy(iterable)} is shorter than the stream equivalent.
+   *   <li>Creating derived comparators may be more readable with {@link Ordering} method chaining
+   *       rather than static {@code Comparator} methods.
    * </ul>
    */
   @SuppressWarnings("unchecked")
@@ -52,6 +48,5 @@ public class ReviewDbUtil {
     return db;
   }
 
-  private ReviewDbUtil() {
-  }
+  private ReviewDbUtil() {}
 }

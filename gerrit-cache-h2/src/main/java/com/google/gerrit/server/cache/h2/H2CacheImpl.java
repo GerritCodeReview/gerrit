@@ -28,11 +28,6 @@ import com.google.common.hash.PrimitiveSink;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.TypeLiteral;
-
-import org.h2.jdbc.JdbcSQLException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectOutputStream;
@@ -54,44 +49,44 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import org.h2.jdbc.JdbcSQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Hybrid in-memory and database backed cache built on H2.
- * <p>
- * This cache can be used as either a recall cache, or a loading cache if a
- * CacheLoader was supplied to its constructor at build time. Before creating an
- * entry the in-memory cache is checked for the item, then the database is
- * checked, and finally the CacheLoader is used to construct the item. This is
- * mostly useful for CacheLoaders that are computationally intensive, such as
- * the PatchListCache.
- * <p>
- * Cache stores and invalidations are performed on a background thread, hiding
- * the latency associated with serializing the key and value pairs and writing
- * them to the database log.
- * <p>
- * A BloomFilter is used around the database to reduce the number of SELECTs
- * issued against the database for new cache items that have not been seen
- * before, a common operation for the PatchListCache. The BloomFilter is sized
- * when the cache starts to be 64,000 entries or double the number of items
- * currently in the database table.
- * <p>
- * This cache does not export its items as a ConcurrentMap.
+ *
+ * <p>This cache can be used as either a recall cache, or a loading cache if a CacheLoader was
+ * supplied to its constructor at build time. Before creating an entry the in-memory cache is
+ * checked for the item, then the database is checked, and finally the CacheLoader is used to
+ * construct the item. This is mostly useful for CacheLoaders that are computationally intensive,
+ * such as the PatchListCache.
+ *
+ * <p>Cache stores and invalidations are performed on a background thread, hiding the latency
+ * associated with serializing the key and value pairs and writing them to the database log.
+ *
+ * <p>A BloomFilter is used around the database to reduce the number of SELECTs issued against the
+ * database for new cache items that have not been seen before, a common operation for the
+ * PatchListCache. The BloomFilter is sized when the cache starts to be 64,000 entries or double the
+ * number of items currently in the database table.
+ *
+ * <p>This cache does not export its items as a ConcurrentMap.
  *
  * @see H2CacheFactory
  */
-public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
-    PersistentCache {
+public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements PersistentCache {
   private static final Logger log = LoggerFactory.getLogger(H2CacheImpl.class);
 
-  private static final ImmutableSet<String> OLD_CLASS_NAMES = ImmutableSet.of(
-      "com.google.gerrit.server.change.ChangeKind");
+  private static final ImmutableSet<String> OLD_CLASS_NAMES =
+      ImmutableSet.of("com.google.gerrit.server.change.ChangeKind");
 
   private final Executor executor;
   private final SqlStore<K, V> store;
   private final TypeLiteral<K> keyType;
   private final Cache<K, ValueHolder<V>> mem;
 
-  H2CacheImpl(Executor executor,
+  H2CacheImpl(
+      Executor executor,
       SqlStore<K, V> store,
       TypeLiteral<K> keyType,
       Cache<K, ValueHolder<V>> mem) {
@@ -134,8 +129,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
   }
 
   @Override
-  public V get(K key, Callable<? extends V> valueLoader)
-      throws ExecutionException {
+  public V get(K key, Callable<? extends V> valueLoader) throws ExecutionException {
     return mem.get(key, new LoadingCallable(key, valueLoader)).value;
   }
 
@@ -287,8 +281,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
 
         @Override
         public void funnel(K from, PrimitiveSink into) {
-          try (ObjectOutputStream ser =
-              new ObjectOutputStream(new SinkOutputStream(into))) {
+          try (ObjectOutputStream ser = new ObjectOutputStream(new SinkOutputStream(into))) {
             ser.writeObject(from);
             ser.flush();
           } catch (IOException err) {
@@ -307,30 +300,30 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     }
 
     static final KeyType<?> OTHER = new KeyType<>();
-    static final KeyType<String> STRING = new KeyType<String>() {
-      @Override
-      String columnType() {
-        return "VARCHAR(4096)";
-      }
+    static final KeyType<String> STRING =
+        new KeyType<String>() {
+          @Override
+          String columnType() {
+            return "VARCHAR(4096)";
+          }
 
-      @Override
-      String get(ResultSet rs, int col) throws SQLException {
-        return rs.getString(col);
-      }
+          @Override
+          String get(ResultSet rs, int col) throws SQLException {
+            return rs.getString(col);
+          }
 
-      @Override
-      void set(PreparedStatement ps, int col, String value)
-          throws SQLException {
-        ps.setString(col, value);
-      }
+          @Override
+          void set(PreparedStatement ps, int col, String value) throws SQLException {
+            ps.setString(col, value);
+          }
 
-      @SuppressWarnings("unchecked")
-      @Override
-      Funnel<String> funnel() {
-        Funnel<?> s = Funnels.unencodedCharsFunnel();
-        return (Funnel<String>) s;
-      }
-    };
+          @SuppressWarnings("unchecked")
+          @Override
+          Funnel<String> funnel() {
+            Funnel<?> s = Funnels.unencodedCharsFunnel();
+            return (Funnel<String>) s;
+          }
+        };
   }
 
   static class SqlStore<K, V> {
@@ -344,8 +337,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
 
-    SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize,
-        long expireAfterWrite) {
+    SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
       this.url = jdbcUrl;
       this.keyType = KeyType.create(keyType);
       this.maxSize = maxSize;
@@ -401,9 +393,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
             }
           } catch (JdbcSQLException e) {
             if (e.getCause() instanceof InvalidClassException) {
-              log.warn("Entries cached for " + url
-                  + " have an incompatible class and can't be deserialized. "
-                  + "Cache is flushed.");
+              log.warn(
+                  "Entries cached for "
+                      + url
+                      + " have an incompatible class and can't be deserialized. "
+                      + "Cache is flushed.");
               invalidateAll();
             } else {
               throw e;
@@ -464,8 +458,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
 
     private static boolean isOldClassNameError(Throwable t) {
       for (Throwable c : Throwables.getCausalChain(t)) {
-        if (c instanceof ClassNotFoundException
-            && OLD_CLASS_NAMES.contains(c.getMessage())) {
+        if (c instanceof ClassNotFoundException && OLD_CLASS_NAMES.contains(c.getMessage())) {
           return true;
         }
       }
@@ -575,21 +568,22 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
         c = acquire();
         try (Statement s = c.conn.createStatement()) {
           long used = 0;
-          try (ResultSet r = s.executeQuery("SELECT"
-              + " SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))"
-              + " FROM data")) {
+          try (ResultSet r =
+              s.executeQuery("SELECT" + " SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))" + " FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
           }
           if (used <= maxSize) {
             return;
           }
 
-          try (ResultSet r = s.executeQuery("SELECT"
-              + " k"
-              + ",OCTET_LENGTH(k) + OCTET_LENGTH(v)"
-              + ",created"
-              + " FROM data"
-              + " ORDER BY accessed")) {
+          try (ResultSet r =
+              s.executeQuery(
+                  "SELECT"
+                      + " k"
+                      + ",OCTET_LENGTH(k) + OCTET_LENGTH(v)"
+                      + ",created"
+                      + " FROM data"
+                      + " ORDER BY accessed")) {
             while (maxSize < used && r.next()) {
               K key = keyType.get(r, 1);
               Timestamp created = r.getTimestamp(3);
@@ -617,10 +611,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       try {
         c = acquire();
         try (Statement s = c.conn.createStatement();
-            ResultSet r = s.executeQuery("SELECT"
-                + " COUNT(*)"
-                + ",SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))"
-                + " FROM data")) {
+            ResultSet r =
+                s.executeQuery(
+                    "SELECT"
+                        + " COUNT(*)"
+                        + ",SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))"
+                        + " FROM data")) {
           if (r.next()) {
             size = r.getLong(1);
             space = r.getLong(2);
@@ -671,12 +667,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       this.url = url;
       this.conn = org.h2.Driver.load().connect(url, null);
       try (Statement stmt = conn.createStatement()) {
-        stmt.execute("CREATE TABLE IF NOT EXISTS data"
-          + "(k " + type.columnType() + " NOT NULL PRIMARY KEY HASH"
-          + ",v OTHER NOT NULL"
-          + ",created TIMESTAMP NOT NULL"
-          + ",accessed TIMESTAMP NOT NULL"
-          + ")");
+        stmt.execute(
+            "CREATE TABLE IF NOT EXISTS data"
+                + "(k "
+                + type.columnType()
+                + " NOT NULL PRIMARY KEY HASH"
+                + ",v OTHER NOT NULL"
+                + ",created TIMESTAMP NOT NULL"
+                + ",accessed TIMESTAMP NOT NULL"
+                + ")");
       }
     }
 
@@ -718,7 +717,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
 
     @Override
     public void write(int b) {
-      sink.putByte((byte)b);
+      sink.putByte((byte) b);
     }
 
     @Override

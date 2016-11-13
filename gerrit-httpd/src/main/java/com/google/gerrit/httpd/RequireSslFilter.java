@@ -20,9 +20,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -59,16 +57,14 @@ public class RequireSslFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) {
-  }
+  public void init(FilterConfig filterConfig) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(final ServletRequest request,
-      final ServletResponse response, final FilterChain chain)
+  public void doFilter(
+      final ServletRequest request, final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) request;
     final HttpServletResponse rsp = (HttpServletResponse) response;
@@ -100,7 +96,6 @@ public class RequireSslFilter implements Filter {
   }
 
   private static boolean isLocalHost(final HttpServletRequest req) {
-    return "localhost".equals(req.getServerName())
-        || "127.0.0.1".equals(req.getServerName());
+    return "localhost".equals(req.getServerName()) || "127.0.0.1".equals(req.getServerName());
   }
 }

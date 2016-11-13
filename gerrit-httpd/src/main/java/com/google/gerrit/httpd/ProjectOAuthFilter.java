@@ -34,18 +34,11 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.apache.commons.codec.binary.Base64;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.NoSuchElementException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -56,6 +49,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import org.apache.commons.codec.binary.Base64;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Authenticates the current user with an OAuth2 server.
@@ -65,8 +62,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 @Singleton
 class ProjectOAuthFilter implements Filter {
 
-  private static final Logger log = LoggerFactory
-      .getLogger(ProjectOAuthFilter.class);
+  private static final Logger log = LoggerFactory.getLogger(ProjectOAuthFilter.class);
 
   private static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
@@ -84,7 +80,8 @@ class ProjectOAuthFilter implements Filter {
   private String defaultAuthProvider;
 
   @Inject
-  ProjectOAuthFilter(DynamicItem<WebSession> session,
+  ProjectOAuthFilter(
+      DynamicItem<WebSession> session,
       DynamicMap<OAuthLoginProvider> pluginsProvider,
       AccountCache accountCache,
       AccountManager accountManager,
@@ -93,10 +90,8 @@ class ProjectOAuthFilter implements Filter {
     this.loginProviders = pluginsProvider;
     this.accountCache = accountCache;
     this.accountManager = accountManager;
-    this.gitOAuthProvider =
-        gerritConfig.getString("auth", null, "gitOAuthProvider");
-    this.userNameToLowerCase =
-        gerritConfig.getBoolean("auth", null, "userNameToLowerCase", false);
+    this.gitOAuthProvider = gerritConfig.getString("auth", null, "gitOAuthProvider");
+    this.userNameToLowerCase = gerritConfig.getBoolean("auth", null, "userNameToLowerCase", false);
   }
 
   @Override
@@ -109,12 +104,11 @@ class ProjectOAuthFilter implements Filter {
   }
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
     Response rsp = new Response((HttpServletResponse) response);
     if (verify(req, rsp)) {
@@ -122,8 +116,7 @@ class ProjectOAuthFilter implements Filter {
     }
   }
 
-  private boolean verify(HttpServletRequest req, Response rsp)
-      throws IOException {
+  private boolean verify(HttpServletRequest req, Response rsp) throws IOException {
     AuthInfo authInfo = null;
 
     // first check if there is a BASIC authentication header
@@ -159,14 +152,15 @@ class ProjectOAuthFilter implements Filter {
 
     AccountState who = accountCache.getByUsername(authInfo.username);
     if (who == null || !who.getAccount().isActive()) {
-      log.warn("Authentication failed for " + authInfo.username
-          + ": account inactive or not provisioned in Gerrit");
+      log.warn(
+          "Authentication failed for "
+              + authInfo.username
+              + ": account inactive or not provisioned in Gerrit");
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
 
-    AuthRequest authRequest = AuthRequest.forExternalUser(
-        authInfo.username);
+    AuthRequest authRequest = AuthRequest.forExternalUser(authInfo.username);
     authRequest.setEmailAddress(who.getAccount().getPreferredEmail());
     authRequest.setDisplayName(who.getAccount().getFullName());
     authRequest.setPassword(authInfo.tokenOrSecret);
@@ -188,17 +182,14 @@ class ProjectOAuthFilter implements Filter {
   }
 
   /**
-   * Picks the only installed OAuth provider. If there is a multiude
-   * of providers available, the actual provider must be determined
-   * from the authentication request.
+   * Picks the only installed OAuth provider. If there is a multiude of providers available, the
+   * actual provider must be determined from the authentication request.
    *
-   * @throws ServletException if there is no {@code OAuthLoginProvider}
-   * installed at all.
+   * @throws ServletException if there is no {@code OAuthLoginProvider} installed at all.
    */
   private void pickOnlyProvider() throws ServletException {
     try {
-      Entry<OAuthLoginProvider> loginProvider =
-          Iterables.getOnlyElement(loginProviders);
+      Entry<OAuthLoginProvider> loginProvider = Iterables.getOnlyElement(loginProviders);
       defaultAuthPlugin = loginProvider.getPluginName();
       defaultAuthProvider = loginProvider.getExportName();
     } catch (NoSuchElementException e) {
@@ -209,8 +200,7 @@ class ProjectOAuthFilter implements Filter {
   }
 
   /**
-   * Picks the {@code OAuthLoginProvider} configured with
-   * <tt>auth.gitOAuthProvider</tt>.
+   * Picks the {@code OAuthLoginProvider} configured with <tt>auth.gitOAuthProvider</tt>.
    *
    * @throws ServletException if the configured provider was not found.
    */
@@ -218,16 +208,16 @@ class ProjectOAuthFilter implements Filter {
     int splitPos = gitOAuthProvider.lastIndexOf(':');
     if (splitPos < 1 || splitPos == gitOAuthProvider.length() - 1) {
       // no colon at all or leading/trailing colon: malformed providerId
-      throw new ServletException("OAuth login provider configuration is"
-          + " invalid: Must be of the form pluginName:providerName");
+      throw new ServletException(
+          "OAuth login provider configuration is"
+              + " invalid: Must be of the form pluginName:providerName");
     }
     defaultAuthPlugin = gitOAuthProvider.substring(0, splitPos);
     defaultAuthProvider = gitOAuthProvider.substring(splitPos + 1);
-    OAuthLoginProvider provider = loginProviders.get(defaultAuthPlugin,
-        defaultAuthProvider);
+    OAuthLoginProvider provider = loginProviders.get(defaultAuthPlugin, defaultAuthProvider);
     if (provider == null) {
-      throw new ServletException("Configured OAuth login provider "
-          + gitOAuthProvider + " wasn't installed");
+      throw new ServletException(
+          "Configured OAuth login provider " + gitOAuthProvider + " wasn't installed");
     }
   }
 
@@ -239,23 +229,23 @@ class ProjectOAuthFilter implements Filter {
     if (splitPos < 1 || splitPos == usernamePassword.length() - 1) {
       return null;
     }
-    return new AuthInfo(usernamePassword.substring(0, splitPos),
-        usernamePassword.substring(splitPos + 1), defaultAuthPlugin,
+    return new AuthInfo(
+        usernamePassword.substring(0, splitPos),
+        usernamePassword.substring(splitPos + 1),
+        defaultAuthPlugin,
         defaultAuthProvider);
   }
 
-  private AuthInfo extractAuthInfo(Cookie cookie)
-      throws UnsupportedEncodingException {
-    String username = URLDecoder.decode(cookie.getName()
-        .substring(GIT_COOKIE_PREFIX.length()), UTF_8.name());
+  private AuthInfo extractAuthInfo(Cookie cookie) throws UnsupportedEncodingException {
+    String username =
+        URLDecoder.decode(cookie.getName().substring(GIT_COOKIE_PREFIX.length()), UTF_8.name());
     String value = cookie.getValue();
     int splitPos = value.lastIndexOf('@');
     if (splitPos < 1 || splitPos == value.length() - 1) {
       // no providerId in the cookie value => assume default provider
       // note: a leading/trailing at sign is considered to belong to
       // the access token rather than being a separator
-      return new AuthInfo(username, cookie.getValue(),
-          defaultAuthPlugin, defaultAuthProvider);
+      return new AuthInfo(username, cookie.getValue(), defaultAuthPlugin, defaultAuthProvider);
     }
     String token = value.substring(0, splitPos);
     String providerId = value.substring(splitPos + 1);
@@ -295,11 +285,8 @@ class ProjectOAuthFilter implements Filter {
     private final String pluginName;
     private final String exportName;
 
-    private AuthInfo(String username, String tokenOrSecret,
-        String pluginName, String exportName) {
-      this.username = userNameToLowerCase
-          ? username.toLowerCase(Locale.US)
-          : username;
+    private AuthInfo(String username, String tokenOrSecret, String pluginName, String exportName) {
+      this.username = userNameToLowerCase ? username.toLowerCase(Locale.US) : username;
       this.tokenOrSecret = tokenOrSecret;
       this.pluginName = pluginName;
       this.exportName = exportName;

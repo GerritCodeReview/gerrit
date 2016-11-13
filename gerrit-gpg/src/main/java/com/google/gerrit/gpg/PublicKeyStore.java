@@ -17,6 +17,18 @@ package com.google.gerrit.gpg;
 import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
@@ -40,34 +52,19 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.NB;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * Store of GPG public keys in git notes.
- * <p>
- * Keys are stored in filenames based on their hex key ID, padded out to 40
- * characters to match the length of a SHA-1. (This is to easily reuse existing
- * fanout code in {@link NoteMap}, and may be changed later after an appropriate
- * transition.)
- * <p>
- * The contents of each file is an ASCII armored stream containing one or more
- * public key rings matching the ID. Multiple keys are supported because forging
- * a key ID is possible, but such a key cannot be used to verify signatures
- * produced with the correct key.
- * <p>
- * No additional checks are performed on the key after reading; callers should
- * only trust keys after checking with a {@link PublicKeyChecker}.
+ *
+ * <p>Keys are stored in filenames based on their hex key ID, padded out to 40 characters to match
+ * the length of a SHA-1. (This is to easily reuse existing fanout code in {@link NoteMap}, and may
+ * be changed later after an appropriate transition.)
+ *
+ * <p>The contents of each file is an ASCII armored stream containing one or more public key rings
+ * matching the ID. Multiple keys are supported because forging a key ID is possible, but such a key
+ * cannot be used to verify signatures produced with the correct key.
+ *
+ * <p>No additional checks are performed on the key after reading; callers should only trust keys
+ * after checking with a {@link PublicKeyChecker}.
  */
 public class PublicKeyStore implements AutoCloseable {
   private static final ObjectId EMPTY_TREE =
@@ -78,16 +75,18 @@ public class PublicKeyStore implements AutoCloseable {
 
   /**
    * Choose the public key that produced a signature.
+   *
    * <p>
+   *
    * @param keyRings candidate keys.
    * @param sig signature object.
    * @param data signed payload.
-   * @return the key chosen from {@code keyRings} that was able to verify the
-   *     signature, or {@code null} if none was found.
+   * @return the key chosen from {@code keyRings} that was able to verify the signature, or {@code
+   *     null} if none was found.
    * @throws PGPException if an error occurred verifying the signature.
    */
-  public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
-      PGPSignature sig, byte[] data) throws PGPException {
+  public static PGPPublicKey getSigner(
+      Iterable<PGPPublicKeyRing> keyRings, PGPSignature sig, byte[] data) throws PGPException {
     for (PGPPublicKeyRing kr : keyRings) {
       PGPPublicKey k = kr.getPublicKey();
       sig.init(new BcPGPContentVerifierBuilderProvider(), k);
@@ -101,17 +100,20 @@ public class PublicKeyStore implements AutoCloseable {
 
   /**
    * Choose the public key that produced a certification.
+   *
    * <p>
+   *
    * @param keyRings candidate keys.
    * @param sig signature object.
    * @param userId user ID being certified.
    * @param key key being certified.
-   * @return the key chosen from {@code keyRings} that was able to verify the
-   *     certification, or {@code null} if none was found.
+   * @return the key chosen from {@code keyRings} that was able to verify the certification, or
+   *     {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the certification.
    */
-  public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
-      PGPSignature sig, String userId, PGPPublicKey key) throws PGPException {
+  public static PGPPublicKey getSigner(
+      Iterable<PGPPublicKeyRing> keyRings, PGPSignature sig, String userId, PGPPublicKey key)
+      throws PGPException {
     for (PGPPublicKeyRing kr : keyRings) {
       PGPPublicKey k = kr.getPublicKey();
       sig.init(new BcPGPContentVerifierBuilderProvider(), k);
@@ -165,39 +167,36 @@ public class PublicKeyStore implements AutoCloseable {
 
   /**
    * Read public keys with the given key ID.
-   * <p>
-   * Keys should not be trusted unless checked with {@link PublicKeyChecker}.
-   * <p>
-   * Multiple calls to this method use the same state of the key ref; to reread
-   * the ref, call {@link #close()} first.
+   *
+   * <p>Keys should not be trusted unless checked with {@link PublicKeyChecker}.
+   *
+   * <p>Multiple calls to this method use the same state of the key ref; to reread the ref, call
+   * {@link #close()} first.
    *
    * @param keyId key ID.
    * @return any keys found that could be successfully parsed.
    * @throws PGPException if an error occurred parsing the key data.
    * @throws IOException if an error occurred reading the repository data.
    */
-  public PGPPublicKeyRingCollection get(long keyId)
-      throws PGPException, IOException {
+  public PGPPublicKeyRingCollection get(long keyId) throws PGPException, IOException {
     return new PGPPublicKeyRingCollection(get(keyId, null));
   }
 
   /**
    * Read public key with the given fingerprint.
-   * <p>
-   * Keys should not be trusted unless checked with {@link PublicKeyChecker}.
-   * <p>
-   * Multiple calls to this method use the same state of the key ref; to reread
-   * the ref, call {@link #close()} first.
+   *
+   * <p>Keys should not be trusted unless checked with {@link PublicKeyChecker}.
+   *
+   * <p>Multiple calls to this method use the same state of the key ref; to reread the ref, call
+   * {@link #close()} first.
    *
    * @param fingerprint key fingerprint.
    * @return the key if found, or {@code null}.
    * @throws PGPException if an error occurred parsing the key data.
    * @throws IOException if an error occurred reading the repository data.
    */
-  public PGPPublicKeyRing get(byte[] fingerprint)
-      throws PGPException, IOException {
-    List<PGPPublicKeyRing> keyRings =
-        get(Fingerprint.getId(fingerprint), fingerprint);
+  public PGPPublicKeyRing get(byte[] fingerprint) throws PGPException, IOException {
+    List<PGPPublicKeyRing> keyRings = get(Fingerprint.getId(fingerprint), fingerprint);
     return !keyRings.isEmpty() ? keyRings.get(0) : null;
   }
 
@@ -217,21 +216,18 @@ public class PublicKeyStore implements AutoCloseable {
     try (InputStream in = reader.open(note.getData(), OBJ_BLOB).openStream()) {
       while (true) {
         @SuppressWarnings("unchecked")
-        Iterator<Object> it =
-            new BcPGPObjectFactory(new ArmoredInputStream(in)).iterator();
+        Iterator<Object> it = new BcPGPObjectFactory(new ArmoredInputStream(in)).iterator();
         if (!it.hasNext()) {
           break;
         }
         Object obj = it.next();
         if (obj instanceof PGPPublicKeyRing) {
           PGPPublicKeyRing kr = (PGPPublicKeyRing) obj;
-          if (fp == null
-              || Arrays.equals(fp, kr.getPublicKey().getFingerprint())) {
+          if (fp == null || Arrays.equals(fp, kr.getPublicKey().getFingerprint())) {
             keys.add(kr);
           }
         }
-        checkState(!it.hasNext(),
-            "expected one PGP object per ArmoredInputStream");
+        checkState(!it.hasNext(), "expected one PGP object per ArmoredInputStream");
       }
       return keys;
     }
@@ -239,9 +235,9 @@ public class PublicKeyStore implements AutoCloseable {
 
   /**
    * Add a public key to the store.
-   * <p>
-   * Multiple calls may be made to buffer keys in memory, and they are not saved
-   * until {@link #save(CommitBuilder)} is called.
+   *
+   * <p>Multiple calls may be made to buffer keys in memory, and they are not saved until {@link
+   * #save(CommitBuilder)} is called.
    *
    * @param keyRing a key ring containing exactly one public master key.
    */
@@ -256,8 +252,7 @@ public class PublicKeyStore implements AutoCloseable {
     // this master key, but that requires doing actual signature verification
     // here. The alternative is insane but harmless.
     if (numMaster != 1) {
-      throw new IllegalArgumentException(
-          "Exactly 1 master key is required, found " + numMaster);
+      throw new IllegalArgumentException("Exactly 1 master key is required, found " + numMaster);
     }
     Fingerprint fp = new Fingerprint(keyRing.getPublicKey().getFingerprint());
     toAdd.put(fp, keyRing);
@@ -266,9 +261,9 @@ public class PublicKeyStore implements AutoCloseable {
 
   /**
    * Remove a public key from the store.
-   * <p>
-   * Multiple calls may be made to buffer deletes in memory, and they are not
-   * saved until {@link #save(CommitBuilder)} is called.
+   *
+   * <p>Multiple calls may be made to buffer deletes in memory, and they are not saved until {@link
+   * #save(CommitBuilder)} is called.
    *
    * @param fingerprint the fingerprint of the key to remove.
    */
@@ -280,17 +275,15 @@ public class PublicKeyStore implements AutoCloseable {
 
   /**
    * Save pending keys to the store.
-   * <p>
-   * One commit is created and the ref updated. The pending list is cleared if
-   * and only if the ref update succeeds, which allows for easy retries in case
-   * of lock failure.
    *
-   * @param cb commit builder with at least author and identity populated; tree
-   *     and parent are ignored.
+   * <p>One commit is created and the ref updated. The pending list is cleared if and only if the
+   * ref update succeeds, which allows for easy retries in case of lock failure.
+   *
+   * @param cb commit builder with at least author and identity populated; tree and parent are
+   *     ignored.
    * @return result of the ref update.
    */
-  public RefUpdate.Result save(CommitBuilder cb)
-      throws PGPException, IOException {
+  public RefUpdate.Result save(CommitBuilder cb) throws PGPException, IOException {
     if (toAdd.isEmpty() && toRemove.isEmpty()) {
       return RefUpdate.Result.NO_CHANGE;
     }
@@ -309,8 +302,7 @@ public class PublicKeyStore implements AutoCloseable {
         deleteFromNotes(ins, fp);
       }
       cb.setTreeId(notes.writeTree(ins));
-      if (cb.getTreeId().equals(
-          tip != null ? tip.getTree() : EMPTY_TREE)) {
+      if (cb.getTreeId().equals(tip != null ? tip.getTree() : EMPTY_TREE)) {
         return RefUpdate.Result.NO_CHANGE;
       }
 
@@ -319,8 +311,7 @@ public class PublicKeyStore implements AutoCloseable {
       }
       if (cb.getMessage() == null) {
         int n = toAdd.size() + toRemove.size();
-        cb.setMessage(
-            String.format("Update %d public key%s", n, n != 1 ? "s" : ""));
+        cb.setMessage(String.format("Update %d public key%s", n, n != 1 ? "s" : ""));
       }
       newTip = ins.insert(cb);
       ins.flush();
@@ -370,8 +361,7 @@ public class PublicKeyStore implements AutoCloseable {
     if (!replaced) {
       toWrite.add(keyRing);
     }
-    notes.set(keyObjectId(keyId),
-        ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+    notes.set(keyObjectId(keyId), ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
   }
 
   private void deleteFromNotes(ObjectInserter ins, Fingerprint fp)
@@ -387,20 +377,17 @@ public class PublicKeyStore implements AutoCloseable {
     if (toWrite.size() == existing.size()) {
       return;
     } else if (!toWrite.isEmpty()) {
-      notes.set(keyObjectId(keyId),
-          ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+      notes.set(keyObjectId(keyId), ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
     } else {
       notes.remove(keyObjectId(keyId));
     }
   }
 
   private static boolean sameKey(PGPPublicKeyRing kr1, PGPPublicKeyRing kr2) {
-    return Arrays.equals(kr1.getPublicKey().getFingerprint(),
-        kr2.getPublicKey().getFingerprint());
+    return Arrays.equals(kr1.getPublicKey().getFingerprint(), kr2.getPublicKey().getFingerprint());
   }
 
-  private static byte[] keysToArmored(List<PGPPublicKeyRing> keys)
-      throws IOException {
+  private static byte[] keysToArmored(List<PGPPublicKeyRing> keys) throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream(4096 * keys.size());
     for (PGPPublicKeyRing kr : keys) {
       try (ArmoredOutputStream aout = new ArmoredOutputStream(out)) {

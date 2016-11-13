@@ -16,15 +16,19 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-
 import java.sql.Timestamp;
 
 class ApprovalEvent extends Event {
   private PatchSetApproval psa;
 
   ApprovalEvent(PatchSetApproval psa, Timestamp changeCreatedOn) {
-    super(psa.getPatchSetId(), psa.getAccountId(), psa.getRealAccountId(),
-        psa.getGranted(), changeCreatedOn, psa.getTag());
+    super(
+        psa.getPatchSetId(),
+        psa.getAccountId(),
+        psa.getRealAccountId(),
+        psa.getGranted(),
+        changeCreatedOn,
+        psa.getTag());
     this.psa = psa;
   }
 

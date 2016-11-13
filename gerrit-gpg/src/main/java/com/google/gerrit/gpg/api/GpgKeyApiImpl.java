@@ -23,10 +23,8 @@ import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.bouncycastle.openpgp.PGPException;
-
 import java.io.IOException;
+import org.bouncycastle.openpgp.PGPException;
 
 public class GpgKeyApiImpl implements GpgKeyApi {
   public interface Factory {
@@ -38,10 +36,7 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   private final GpgKey rsrc;
 
   @AssistedInject
-  GpgKeyApiImpl(
-      GpgKeys.Get get,
-      DeleteGpgKey delete,
-      @Assisted GpgKey rsrc) {
+  GpgKeyApiImpl(GpgKeys.Get get, DeleteGpgKey delete, @Assisted GpgKey rsrc) {
     this.get = get;
     this.delete = delete;
     this.rsrc = rsrc;

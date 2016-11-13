@@ -30,4 +30,3 @@ public class GpgException extends Exception {
     super(message, cause);
   }
 }
-

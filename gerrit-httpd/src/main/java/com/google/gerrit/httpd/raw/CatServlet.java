@@ -30,22 +30,19 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * Exports a single version of a patch as a normal file download.
- * <p>
- * This can be relatively unsafe with Microsoft Internet Explorer 6.0 as the
- * browser will (rather incorrectly) treat an HTML or JavaScript file its
- * supposed to download as though it was served by this site, and will execute
- * it with the site's own protection domain. This opens a massive security hole
- * so we package the content into a zip file.
+ *
+ * <p>This can be relatively unsafe with Microsoft Internet Explorer 6.0 as the browser will (rather
+ * incorrectly) treat an HTML or JavaScript file its supposed to download as though it was served by
+ * this site, and will execute it with the site's own protection domain. This opens a massive
+ * security hole so we package the content into a zip file.
  */
 @SuppressWarnings("serial")
 @Singleton
@@ -57,7 +54,8 @@ public class CatServlet extends HttpServlet {
   private final PatchSetUtil psUtil;
 
   @Inject
-  CatServlet(Provider<ReviewDb> sf,
+  CatServlet(
+      Provider<ReviewDb> sf,
       ChangeControl.GenericFactory ccf,
       Provider<CurrentUser> usrprv,
       ChangeEditUtil ceu,
@@ -70,8 +68,8 @@ public class CatServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     String keyStr = req.getPathInfo();
 
     // We shouldn't have to do this extra decode pass, but somehow we
@@ -122,8 +120,7 @@ public class CatServlet extends HttpServlet {
     String revision;
     try {
       final ReviewDb db = requestDb.get();
-      final ChangeControl control = changeControl.validateFor(db, changeId,
-          userProvider.get());
+      final ChangeControl control = changeControl.validateFor(db, changeId, userProvider.get());
       if (patchKey.getParentKey().get() == 0) {
         // change edit
         try {
@@ -139,8 +136,7 @@ public class CatServlet extends HttpServlet {
           return;
         }
       } else {
-        PatchSet patchSet =
-            psUtil.get(db, control.getNotes(), patchKey.getParentKey());
+        PatchSet patchSet = psUtil.get(db, control.getNotes(), patchKey.getParentKey());
         if (patchSet == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
@@ -157,8 +153,10 @@ public class CatServlet extends HttpServlet {
     }
 
     String path = patchKey.getFileName();
-    String restUrl = String.format("%s/changes/%d/revisions/%s/files/%s/download?parent=%d",
-        req.getContextPath(), changeId.get(), revision, Url.encode(path), side);
+    String restUrl =
+        String.format(
+            "%s/changes/%d/revisions/%s/files/%s/download?parent=%d",
+            req.getContextPath(), changeId.get(), revision, Url.encode(path), side);
     rsp.sendRedirect(restUrl);
   }
 }

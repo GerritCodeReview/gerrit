@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.util.Collection;
 
 public class DownloadUrlPanel extends FlowPanel {
@@ -56,7 +55,7 @@ public class DownloadUrlPanel extends FlowPanel {
   }
 
   public void add(Collection<DownloadUrlLink> links) {
-    for (Widget link: links) {
+    for (Widget link : links) {
       add(link);
     }
   }

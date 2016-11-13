@@ -21,6 +21,7 @@ interface EditConstants extends Constants {
   EditConstants I = GWT.create(EditConstants.class);
 
   String closeUnsavedChanges();
+
   String cancelUnsavedChanges();
 
   String gotoLineNumber();

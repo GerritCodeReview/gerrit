@@ -23,7 +23,7 @@ public class ChangeRestoredEvent extends PatchSetEvent {
   public Supplier<AccountAttribute> restorer;
   public String reason;
 
-  public ChangeRestoredEvent (Change change) {
+  public ChangeRestoredEvent(Change change) {
     super(TYPE, change);
   }
 }

@@ -21,73 +21,75 @@ import com.google.gwt.text.shared.Parser;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.user.client.ui.ValueBox;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-
 import java.io.IOException;
 import java.text.ParseException;
 
 public class RefPatternBox extends ValueBox<String> {
-  private static final Renderer<String> RENDERER = new Renderer<String>() {
-    @Override
-    public String render(String ref) {
-      return ref;
-    }
-
-    @Override
-    public void render(String ref, Appendable dst) throws IOException {
-      dst.append(render(ref));
-    }
-  };
-
-  private static final Parser<String> PARSER = new Parser<String>() {
-    @Override
-    public String parse(CharSequence text) throws ParseException {
-      String ref = text.toString();
-
-      if (ref.isEmpty()) {
-        throw new ParseException(Util.C.refErrorEmpty(), 0);
-      }
-
-      if (ref.charAt(0) == '/') {
-        throw new ParseException(Util.C.refErrorBeginSlash(), 0);
-      }
-
-      if (ref.charAt(0) == '^') {
-        if (!ref.startsWith("^refs/")) {
-          ref = "^refs/heads/" + ref.substring(1);
-        }
-      } else if (!ref.startsWith("refs/")) {
-        ref = "refs/heads/" + ref;
-      }
-
-      for (int i = 0; i < ref.length(); i++) {
-        final char c = ref.charAt(i);
-
-        if (c == '/' && 0 < i && ref.charAt(i - 1) == '/') {
-          throw new ParseException(Util.C.refErrorDoubleSlash(), i);
+  private static final Renderer<String> RENDERER =
+      new Renderer<String>() {
+        @Override
+        public String render(String ref) {
+          return ref;
         }
 
-        if (c == ' ') {
-          throw new ParseException(Util.C.refErrorNoSpace(), i);
+        @Override
+        public void render(String ref, Appendable dst) throws IOException {
+          dst.append(render(ref));
         }
+      };
 
-        if (c < ' ') {
-          throw new ParseException(Util.C.refErrorPrintable(), i);
+  private static final Parser<String> PARSER =
+      new Parser<String>() {
+        @Override
+        public String parse(CharSequence text) throws ParseException {
+          String ref = text.toString();
+
+          if (ref.isEmpty()) {
+            throw new ParseException(Util.C.refErrorEmpty(), 0);
+          }
+
+          if (ref.charAt(0) == '/') {
+            throw new ParseException(Util.C.refErrorBeginSlash(), 0);
+          }
+
+          if (ref.charAt(0) == '^') {
+            if (!ref.startsWith("^refs/")) {
+              ref = "^refs/heads/" + ref.substring(1);
+            }
+          } else if (!ref.startsWith("refs/")) {
+            ref = "refs/heads/" + ref;
+          }
+
+          for (int i = 0; i < ref.length(); i++) {
+            final char c = ref.charAt(i);
+
+            if (c == '/' && 0 < i && ref.charAt(i - 1) == '/') {
+              throw new ParseException(Util.C.refErrorDoubleSlash(), i);
+            }
+
+            if (c == ' ') {
+              throw new ParseException(Util.C.refErrorNoSpace(), i);
+            }
+
+            if (c < ' ') {
+              throw new ParseException(Util.C.refErrorPrintable(), i);
+            }
+          }
+          return ref;
         }
-      }
-      return ref;
-    }
-  };
+      };
 
   public RefPatternBox() {
     super(Document.get().createTextInputElement(), RENDERER, PARSER);
     addKeyPressHandler(GlobalKey.STOP_PROPAGATION);
-    addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getCharCode() == ' ') {
-          event.preventDefault();
-        }
-      }
-    });
+    addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (event.getCharCode() == ' ') {
+              event.preventDefault();
+            }
+          }
+        });
   }
 }

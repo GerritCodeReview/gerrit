@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,7 +44,10 @@ class InitHttpd implements InitStep {
   private final Section gerrit;
 
   @Inject
-  InitHttpd(final ConsoleUI ui, final SitePaths site, final InitFlags flags,
+  InitHttpd(
+      final ConsoleUI ui,
+      final SitePaths site,
+      final InitFlags flags,
       final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
@@ -129,8 +131,7 @@ class InitHttpd implements InitStep {
     generateSslCertificate();
   }
 
-  private void generateSslCertificate() throws IOException,
-      InterruptedException {
+  private void generateSslCertificate() throws IOException, InterruptedException {
     final String listenUrl = httpd.get("listenUrl");
 
     if (!listenUrl.startsWith("https://")) {
@@ -152,8 +153,7 @@ class InitHttpd implements InitStep {
     }
 
     Path store = site.ssl_keystore;
-    if (!ui.yesno(!Files.exists(store),
-        "Create new self-signed SSL certificate")) {
+    if (!ui.yesno(!Files.exists(store), "Create new self-signed SSL certificate")) {
       return;
     }
 
@@ -164,11 +164,9 @@ class InitHttpd implements InitStep {
     }
 
     hostname = ui.readString(hostname, "Certificate server name");
-    final String validity =
-        ui.readString("365", "Certificate expires in (days)");
+    final String validity = ui.readString("365", "Certificate expires in (days)");
 
-    final String dname =
-        "CN=" + hostname + ",OU=Gerrit Code Review,O=" + domainOf(hostname);
+    final String dname = "CN=" + hostname + ",OU=Gerrit Code Review,O=" + domainOf(hostname);
 
     Path tmpdir = site.etc_dir.resolve("tmp.sslcertgen");
     try {
@@ -179,16 +177,27 @@ class InitHttpd implements InitStep {
     chmod(0600, tmpdir);
 
     Path tmpstore = tmpdir.resolve("keystore");
-    Runtime.getRuntime().exec(new String[] {"keytool", //
-        "-keystore", tmpstore.toAbsolutePath().toString(), //
-        "-storepass", ssl_pass, //
-        "-genkeypair", //
-        "-alias", hostname, //
-        "-keyalg", "RSA", //
-        "-validity", validity, //
-        "-dname", dname, //
-        "-keypass", ssl_pass, //
-    }).waitFor();
+    Runtime.getRuntime()
+        .exec(
+            new String[] {
+              "keytool", //
+              "-keystore",
+              tmpstore.toAbsolutePath().toString(), //
+              "-storepass",
+              ssl_pass, //
+              "-genkeypair", //
+              "-alias",
+              hostname, //
+              "-keyalg",
+              "RSA", //
+              "-validity",
+              validity, //
+              "-dname",
+              dname, //
+              "-keypass",
+              ssl_pass, //
+            })
+        .waitFor();
     chmod(0600, tmpstore);
 
     try {

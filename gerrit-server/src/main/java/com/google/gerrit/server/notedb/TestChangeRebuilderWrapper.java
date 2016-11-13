@@ -24,7 +24,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -36,8 +35,7 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   private final AtomicBoolean stealNextUpdate;
 
   @Inject
-  TestChangeRebuilderWrapper(SchemaFactory<ReviewDb> schemaFactory,
-      ChangeRebuilderImpl rebuilder) {
+  TestChangeRebuilderWrapper(SchemaFactory<ReviewDb> schemaFactory, ChangeRebuilderImpl rebuilder) {
     super(schemaFactory);
     this.delegate = rebuilder;
     this.failNextUpdate = new AtomicBoolean();
@@ -53,8 +51,7 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public Result rebuild(ReviewDb db, Change.Id changeId)
-      throws IOException, OrmException {
+  public Result rebuild(ReviewDb db, Change.Id changeId) throws IOException, OrmException {
     if (failNextUpdate.getAndSet(false)) {
       throw new IOException("Update failed");
     }
@@ -66,8 +63,8 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public Result rebuild(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws IOException, OrmException {
+  public Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle)
+      throws IOException, OrmException {
     // stealNextUpdate doesn't really apply in this case because the IOException
     // would normally come from the manager.execute() method, which isn't called
     // here.
@@ -82,8 +79,8 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws OrmException, IOException {
+  public Result execute(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
+      throws OrmException, IOException {
     if (failNextUpdate.getAndSet(false)) {
       throw new IOException("Update failed");
     }

@@ -19,8 +19,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 /** Notified whenever a Change Revision is created. */
 @ExtensionPoint
 public interface RevisionCreatedListener {
-  interface Event extends RevisionEvent {
-  }
+  interface Event extends RevisionEvent {}
 
   void onRevisionCreated(Event event);
 }

@@ -14,13 +14,12 @@
 
 package com.google.gerrit.extensions.restapi;
 
-
 /**
  * Nested collection of {@link RestResource}s below a parent.
  *
- * @param <P> type of the parent resource.
+ * @param
+ *     <p>type of the parent resource.
  * @param <C> type of resource operated on by each view.
  */
 public interface ChildCollection<P extends RestResource, C extends RestResource>
-    extends RestView<P>, RestCollection<P, C> {
-}
+    extends RestView<P>, RestCollection<P, C> {}

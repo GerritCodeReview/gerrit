@@ -18,12 +18,10 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.DefaultInput;
-
 import java.util.Map;
 
 public class AddReviewerInput {
-  @DefaultInput
-  public String reviewer;
+  @DefaultInput public String reviewer;
   public Boolean confirmed;
   public ReviewerState state;
   public NotifyHandling notify;

@@ -21,6 +21,7 @@ import java.util.HashMap;
 class AttMap {
   private static final Tag ANY = new AnyTag();
   private static final HashMap<String, Tag> TAGS;
+
   static {
     final Tag src = new SrcTag();
     TAGS = new HashMap<>();
@@ -108,8 +109,7 @@ class AttMap {
 
   private static class AnyTag implements Tag {
     @Override
-    public void assertSafe(String name, String value) {
-    }
+    public void assertSafe(String name, String value) {}
   }
 
   private static class AnchorTag implements Tag {

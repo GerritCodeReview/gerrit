@@ -18,14 +18,12 @@ import com.google.common.base.Supplier;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
 import java.lang.reflect.Type;
 
 public class SupplierSerializer implements JsonSerializer<Supplier<?>> {
 
   @Override
-  public JsonElement serialize(Supplier<?> src, Type typeOfSrc,
-      JsonSerializationContext context) {
+  public JsonElement serialize(Supplier<?> src, Type typeOfSrc, JsonSerializationContext context) {
     return context.serialize(src.get());
   }
 }

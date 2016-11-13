@@ -22,17 +22,16 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.util.List;
 import java.util.Set;
 
-class AccountSecurityImpl extends BaseServiceImplementation implements
-    AccountSecurity {
+class AccountSecurityImpl extends BaseServiceImplementation implements AccountSecurity {
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
 
   @Inject
-  AccountSecurityImpl(final Provider<ReviewDb> schema,
+  AccountSecurityImpl(
+      final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory) {
@@ -47,7 +46,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void deleteExternalIds(final Set<AccountExternalId.Key> keys,
+  public void deleteExternalIds(
+      final Set<AccountExternalId.Key> keys,
       final AsyncCallback<Set<AccountExternalId.Key>> callback) {
     deleteExternalIdsFactory.create(keys).to(callback);
   }

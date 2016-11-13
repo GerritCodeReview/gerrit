@@ -18,12 +18,10 @@ import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.VersionedMetaData;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
-
-import java.io.IOException;
 
 /** Preferences for user accounts. */
 public class VersionedAccountPreferences extends VersionedMetaData {
@@ -63,8 +61,7 @@ public class VersionedAccountPreferences extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     if (Strings.isNullOrEmpty(commit.getMessage())) {
       commit.setMessage("Updated preferences\n");
     }

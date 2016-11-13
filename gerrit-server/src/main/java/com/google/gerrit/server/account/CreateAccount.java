@@ -45,19 +45,16 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
-public class CreateAccount
-    implements RestModifyView<TopLevelResource, AccountInput> {
+public class CreateAccount implements RestModifyView<TopLevelResource, AccountInput> {
   public interface Factory {
     CreateAccount create(String username);
   }
@@ -76,7 +73,8 @@ public class CreateAccount
   private final String username;
 
   @Inject
-  CreateAccount(ReviewDb db,
+  CreateAccount(
+      ReviewDb db,
       Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
@@ -104,9 +102,8 @@ public class CreateAccount
 
   @Override
   public Response<AccountInfo> apply(TopLevelResource rsrc, AccountInput input)
-      throws BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, OrmException, IOException,
-      ConfigInvalidException {
+      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
+          OrmException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new AccountInput();
     }
@@ -115,8 +112,8 @@ public class CreateAccount
     }
 
     if (!username.matches(Account.USER_NAME_PATTERN)) {
-      throw new BadRequestException("Username '" + username + "'"
-          + " must contain only letters, numbers, _, - or .");
+      throw new BadRequestException(
+          "Username '" + username + "'" + " must contain only letters, numbers, _, - or .");
     }
 
     Set<AccountGroup.Id> groups = parseGroups(input.groups);
@@ -124,21 +121,19 @@ public class CreateAccount
     Account.Id id = new Account.Id(db.nextAccountId());
 
     AccountExternalId extUser =
-        new AccountExternalId(id, new AccountExternalId.Key(
-            AccountExternalId.SCHEME_USERNAME, username));
+        new AccountExternalId(
+            id, new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username));
 
     if (input.httpPassword != null) {
       extUser.setPassword(input.httpPassword);
     }
 
     if (db.accountExternalIds().get(extUser.getKey()) != null) {
-      throw new ResourceConflictException(
-          "username '" + username + "' already exists");
+      throw new ResourceConflictException("username '" + username + "' already exists");
     }
     if (input.email != null) {
       if (db.accountExternalIds().get(getEmailKey(input.email)) != null) {
-        throw new UnprocessableEntityException(
-            "email '" + input.email + "' already exists");
+        throw new UnprocessableEntityException("email '" + input.email + "' already exists");
       }
       if (!OutgoingEmailValidator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
@@ -154,13 +149,11 @@ public class CreateAccount
     try {
       db.accountExternalIds().insert(externalIds);
     } catch (OrmDuplicateKeyException duplicateKey) {
-      throw new ResourceConflictException(
-          "username '" + username + "' already exists");
+      throw new ResourceConflictException("username '" + username + "' already exists");
     }
 
     if (input.email != null) {
-      AccountExternalId extMailto =
-          new AccountExternalId(id, getEmailKey(input.email));
+      AccountExternalId extMailto = new AccountExternalId(id, getEmailKey(input.email));
       extMailto.setEmailAddress(input.email);
       try {
         db.accountExternalIds().insert(Collections.singleton(extMailto));
@@ -170,8 +163,7 @@ public class CreateAccount
         } catch (OrmException cleanupError) {
           // Ignored
         }
-        throw new UnprocessableEntityException(
-            "email '" + input.email + "' already exists");
+        throw new UnprocessableEntityException("email '" + input.email + "' already exists");
       }
     }
 
@@ -181,10 +173,9 @@ public class CreateAccount
     db.accounts().insert(Collections.singleton(a));
 
     for (AccountGroup.Id groupId : groups) {
-      AccountGroupMember m =
-          new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
-      auditService.dispatchAddAccountsToGroup(currentUser.get().getAccountId(),
-          Collections.singleton(m));
+      AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
+      auditService.dispatchAddAccountsToGroup(
+          currentUser.get().getAccountId(), Collections.singleton(m));
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
@@ -212,8 +203,7 @@ public class CreateAccount
     Set<AccountGroup.Id> groupIds = new HashSet<>();
     if (groups != null) {
       for (String g : groups) {
-        groupIds.add(GroupDescriptions.toAccountGroup(
-            groupsCollection.parseInternal(g)).getId());
+        groupIds.add(GroupDescriptions.toAccountGroup(groupsCollection.parseInternal(g)).getId());
       }
     }
     return groupIds;

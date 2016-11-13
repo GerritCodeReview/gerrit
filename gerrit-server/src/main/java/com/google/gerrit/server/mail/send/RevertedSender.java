@@ -29,9 +29,8 @@ public class RevertedSender extends ReplyToChangeSender {
   }
 
   @Inject
-  public RevertedSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public RevertedSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "revert", ChangeEmail.newChangeData(ea, project, id));
   }

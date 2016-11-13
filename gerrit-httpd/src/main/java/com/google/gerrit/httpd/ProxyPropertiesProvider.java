@@ -19,11 +19,9 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 class ProxyPropertiesProvider implements Provider<ProxyProperties> {
@@ -33,8 +31,7 @@ class ProxyPropertiesProvider implements Provider<ProxyProperties> {
   private String proxyPassword;
 
   @Inject
-  ProxyPropertiesProvider(@GerritServerConfig Config config)
-      throws MalformedURLException {
+  ProxyPropertiesProvider(@GerritServerConfig Config config) throws MalformedURLException {
     String proxyUrlStr = config.getString("http", null, "proxy");
     if (!Strings.isNullOrEmpty(proxyUrlStr)) {
       proxyUrl = new URL(proxyUrlStr);
@@ -60,10 +57,12 @@ class ProxyPropertiesProvider implements Provider<ProxyProperties> {
       public URL getProxyUrl() {
         return proxyUrl;
       }
+
       @Override
       public String getUsername() {
         return proxyUser;
       }
+
       @Override
       public String getPassword() {
         return proxyPassword;

@@ -73,6 +73,7 @@ public class ExtensionScreen extends Screen {
 
   static class Definition extends JavaScriptObject {
     static final JavaScriptObject TYPE = init();
+
     private static native JavaScriptObject init() /*-{
       function ScreenDefinition(r, c) {
         this.pattern = r;
@@ -82,7 +83,7 @@ public class ExtensionScreen extends Screen {
     }-*/;
 
     static native JsArray<Definition> get(String n)
-    /*-{ return $wnd.Gerrit.screens[n] || [] }-*/;
+    /*-{ return $wnd.Gerrit.screens[n] || [] }-*/ ;
 
     final native JsArrayString match(String t)
     /*-{
@@ -92,32 +93,26 @@ public class ExtensionScreen extends Screen {
         return m && m[0] == t ? m : null;
       }
       return p == t ? [t] : null;
-    }-*/;
+    }-*/ ;
 
-    protected Definition() {
-    }
+    protected Definition() {}
   }
 
   static class Context extends JavaScriptObject {
-    static final Context create(
-        Definition def,
-        ExtensionScreen view,
-        JsArrayString match) {
+    static final Context create(Definition def, ExtensionScreen view, JsArrayString match) {
       return create(TYPE, def, view, view.getBody().getElement(), match);
     }
 
     final native void onLoad() /*-{ this._d.onLoad(this) }-*/;
+
     final native JsArray<JavaScriptObject> unload() /*-{ return this._u }-*/;
 
     private static native Context create(
-        JavaScriptObject T,
-        Definition d,
-        ExtensionScreen s,
-        Element e,
-        JsArrayString m)
-    /*-{ return new T(d,s,e,m) }-*/;
+        JavaScriptObject T, Definition d, ExtensionScreen s, Element e, JsArrayString m)
+    /*-{ return new T(d,s,e,m) }-*/ ;
 
     private static final JavaScriptObject TYPE = init();
+
     private static native JavaScriptObject init() /*-{
       var T = function(d,s,e,m) {
         this._d = d;
@@ -136,7 +131,6 @@ public class ExtensionScreen extends Screen {
       return T;
     }-*/;
 
-    protected Context() {
-    }
+    protected Context() {}
   }
 }

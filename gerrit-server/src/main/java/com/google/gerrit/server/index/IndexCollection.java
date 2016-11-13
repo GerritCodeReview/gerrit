@@ -16,15 +16,13 @@ package com.google.gerrit.server.index;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
-public abstract class IndexCollection<K, V, I extends Index<K, V>>
-    implements LifecycleListener {
+public abstract class IndexCollection<K, V, I extends Index<K, V>> implements LifecycleListener {
   private final CopyOnWriteArrayList<I> writeIndexes;
   private final AtomicReference<I> searchIndex;
 
@@ -87,8 +85,7 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>>
   }
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
   public void stop() {

@@ -15,10 +15,6 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.launcher.GerritLauncher;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +24,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JythonShell {
   private static final Logger log = LoggerFactory.getLogger(JythonShell.class);
@@ -38,7 +36,7 @@ public class JythonShell {
   private Class<?> pyObject;
   private Class<?> pySystemState;
   private Object shell;
-  private ArrayList <String> injectedVariables;
+  private ArrayList<String> injectedVariables;
 
   public JythonShell() {
     Properties env = new Properties();
@@ -72,10 +70,12 @@ public class JythonShell {
     pyObject = findClass("org.python.core.PyObject");
     pySystemState = findClass("org.python.core.PySystemState");
 
-    runMethod(pySystemState, pySystemState, "initialize",
-      new Class[]  { Properties.class, Properties.class },
-      new Object[] { null, env }
-    );
+    runMethod(
+        pySystemState,
+        pySystemState,
+        "initialize",
+        new Class[] {Properties.class, Properties.class},
+        new Object[] {null, env});
 
     try {
       shell = console.newInstance();
@@ -87,21 +87,23 @@ public class JythonShell {
     set("Shell", this);
   }
 
-  protected Object runMethod0(Class<?> klazz, Object instance,
-    String name, Class<?>[] sig, Object[] args)
+  protected Object runMethod0(
+      Class<?> klazz, Object instance, String name, Class<?>[] sig, Object[] args)
       throws InvocationTargetException {
     try {
       Method m;
       m = klazz.getMethod(name, sig);
       return m.invoke(instance, args);
-    } catch (NoSuchMethodException | IllegalAccessException
-        | IllegalArgumentException | SecurityException e) {
+    } catch (NoSuchMethodException
+        | IllegalAccessException
+        | IllegalArgumentException
+        | SecurityException e) {
       throw cannotStart(e);
     }
   }
 
-  protected Object runMethod(Class<?> klazz, Object instance,
-    String name, Class<?>[] sig, Object[] args) {
+  protected Object runMethod(
+      Class<?> klazz, Object instance, String name, Class<?>[] sig, Object[] args) {
     try {
       return runMethod0(klazz, instance, name, sig, args);
     } catch (InvocationTargetException e) {
@@ -114,15 +116,14 @@ public class JythonShell {
   }
 
   protected String getDefaultBanner() {
-    return (String)runInterpreter("getDefaultBanner",
-                  new Class[] { }, new Object[] { });
+    return (String) runInterpreter("getDefaultBanner", new Class[] {}, new Object[] {});
   }
 
   protected void printInjectedVariable(String id) {
-    runInterpreter("exec",
-      new Class[]  { String.class },
-      new Object[] { "print '\"%s\" is \"%s\"' % (\"" + id + "\", " + id + ")" }
-    );
+    runInterpreter(
+        "exec",
+        new Class[] {String.class},
+        new Object[] {"print '\"%s\" is \"%s\"' % (\"" + id + "\", " + id + ")"});
   }
 
   public void run() {
@@ -130,18 +131,19 @@ public class JythonShell {
       printInjectedVariable(key);
     }
     reload();
-    runInterpreter("interact",
-      new Class[]  { String.class, pyObject },
-      new Object[] { getDefaultBanner() +
-        " running for Gerrit " + com.google.gerrit.common.Version.getVersion(),
-        null, });
+    runInterpreter(
+        "interact",
+        new Class[] {String.class, pyObject},
+        new Object[] {
+          getDefaultBanner()
+              + " running for Gerrit "
+              + com.google.gerrit.common.Version.getVersion(),
+          null,
+        });
   }
 
   public void set(String key, Object content) {
-    runInterpreter("set",
-      new Class[]  { String.class, Object.class },
-      new Object[] { key, content }
-    );
+    runInterpreter("set", new Class[] {String.class, Object.class}, new Object[] {key, content});
     injectedVariables.add(key);
   }
 
@@ -174,14 +176,17 @@ public class JythonShell {
     try {
       File script = new File(parent, p);
       if (script.canExecute()) {
-        runMethod0(console, shell, "execfile",
-          new Class[] { String.class },
-          new Object[] { script.getAbsolutePath() }
-        );
+        runMethod0(
+            console,
+            shell,
+            "execfile",
+            new Class[] {String.class},
+            new Object[] {script.getAbsolutePath()});
       } else {
-        log.info("User initialization file "
-          + script.getAbsolutePath()
-          + " is not found or not executable");
+        log.info(
+            "User initialization file "
+                + script.getAbsolutePath()
+                + " is not found or not executable");
       }
     } catch (InvocationTargetException e) {
       log.error("Exception occurred while loading file " + p + " : ", e);
@@ -192,10 +197,12 @@ public class JythonShell {
 
   protected void execStream(final InputStream in, final String p) {
     try {
-      runMethod0(console, shell, "execfile",
-        new Class[] { InputStream.class, String.class },
-        new Object[] { in, p }
-      );
+      runMethod0(
+          console,
+          shell,
+          "execfile",
+          new Class[] {InputStream.class, String.class},
+          new Object[] {in, p});
     } catch (InvocationTargetException e) {
       log.error("Exception occurred while loading " + p + " : ", e);
     }

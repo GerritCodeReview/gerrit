@@ -15,12 +15,10 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.resources.client.CssResource;
-
-import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.Pos;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.Pos;
 
 /** Displays overview of all edits and comments in this file. */
 class Scrollbar {
@@ -30,9 +28,13 @@ class Scrollbar {
 
   interface Style extends CssResource {
     String comment();
+
     String draft();
+
     String insert();
+
     String delete();
+
     String edit();
   }
 

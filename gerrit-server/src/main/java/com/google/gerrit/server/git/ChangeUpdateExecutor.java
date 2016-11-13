@@ -18,14 +18,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
- * Marker on the global {@link ListeningExecutorService} used by
- * {@link ReceiveCommits} to create or replace changes.
+ * Marker on the global {@link ListeningExecutorService} used by {@link ReceiveCommits} to create or
+ * replace changes.
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface ChangeUpdateExecutor {
-}
+public @interface ChangeUpdateExecutor {}

@@ -29,12 +29,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collection;
 
 @Singleton
-public class Reviewers implements
-    ChildCollection<ChangeResource, ReviewerResource> {
+public class Reviewers implements ChildCollection<ChangeResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
@@ -43,7 +41,8 @@ public class Reviewers implements
   private final ListReviewers list;
 
   @Inject
-  Reviewers(Provider<ReviewDb> dbProvider,
+  Reviewers(
+      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       AccountsCollection accounts,
       ReviewerResource.Factory resourceFactory,
@@ -70,8 +69,7 @@ public class Reviewers implements
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
       throws OrmException, ResourceNotFoundException, AuthException {
-    Account.Id accountId =
-        accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
+    Account.Id accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
 
     // See if the id exists as a reviewer for this change
     if (fetchAccountIds(rsrc).contains(accountId)) {
@@ -80,9 +78,7 @@ public class Reviewers implements
     throw new ResourceNotFoundException(id);
   }
 
-  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc)
-      throws OrmException {
-    return approvalsUtil.getReviewers(
-        dbProvider.get(), rsrc.getNotes()).all();
+  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc) throws OrmException {
+    return approvalsUtil.getReviewers(dbProvider.get(), rsrc.getNotes()).all();
   }
 }

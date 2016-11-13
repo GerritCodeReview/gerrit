@@ -22,23 +22,33 @@ public interface ChangeMessages extends Messages {
   String revertChangeDefaultMessage(String commitMsg, String commitId);
 
   String cherryPickedChangeDefaultMessage(String commitMsg, String commitId);
+
   String changeScreenTitleId(String changeId);
+
   String loadingPatchSet(int id);
 
   String patchTableSize_Modify(int insertions, int deletions);
-  String patchTableSize_ModifyBinaryFiles(String bytesInserted,
-      String bytesDeleted);
-  String patchTableSize_ModifyBinaryFilesWithPercentages(String bytesInserted,
-      String percentageInserted, String bytesDeleted, String percentageDeleted);
+
+  String patchTableSize_ModifyBinaryFiles(String bytesInserted, String bytesDeleted);
+
+  String patchTableSize_ModifyBinaryFilesWithPercentages(
+      String bytesInserted,
+      String percentageInserted,
+      String bytesDeleted,
+      String percentageDeleted);
+
   String patchTableSize_LongModify(int insertions, int deletions);
 
   String removeReviewer(String fullName);
+
   String removeVote(String label);
 
   String blockedOn(String labelName);
+
   String needs(String labelName);
 
   String changeQueryWindowTitle(String query);
+
   String changeQueryPageTitle(String query);
 
   String insertionsAndDeletions(int insertions, int deletions);

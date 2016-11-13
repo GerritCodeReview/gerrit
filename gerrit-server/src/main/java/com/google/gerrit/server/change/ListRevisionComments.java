@@ -26,9 +26,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class ListRevisionComments extends ListRevisionDrafts {
   @Inject
-  ListRevisionComments(Provider<ReviewDb> db,
-      Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+  ListRevisionComments(
+      Provider<ReviewDb> db, Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
     super(db, commentJson, commentsUtil);
   }
 
@@ -38,10 +37,8 @@ public class ListRevisionComments extends ListRevisionDrafts {
   }
 
   @Override
-  protected Iterable<Comment> listComments(RevisionResource rsrc)
-      throws OrmException {
+  protected Iterable<Comment> listComments(RevisionResource rsrc) throws OrmException {
     ChangeNotes notes = rsrc.getNotes();
-    return commentsUtil.publishedByPatchSet(db.get(), notes,
-        rsrc.getPatchSet().getId());
+    return commentsUtil.publishedByPatchSet(db.get(), notes, rsrc.getPatchSet().getId());
   }
 }

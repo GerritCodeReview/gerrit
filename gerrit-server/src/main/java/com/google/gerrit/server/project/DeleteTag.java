@@ -21,15 +21,13 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class DeleteTag implements RestModifyView<TagResource, DeleteTag.Input> {
   private final DeleteRef.Factory deleteRefFactory;
 
-  public static class Input {
-  }
+  public static class Input {}
 
   @Inject
   DeleteTag(DeleteRef.Factory deleteRefFactory) {

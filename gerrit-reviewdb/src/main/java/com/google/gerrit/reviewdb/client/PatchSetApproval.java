@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
-
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
@@ -41,8 +40,7 @@ public final class PatchSetApproval {
       categoryId = new LabelId();
     }
 
-    public Key(final PatchSet.Id ps, final Account.Id a,
-        final LabelId c) {
+    public Key(final PatchSet.Id ps, final Account.Id a, final LabelId c) {
       this.patchSetId = ps;
       this.accountId = a;
       this.categoryId = c;
@@ -72,17 +70,19 @@ public final class PatchSetApproval {
 
   /**
    * Value assigned by the user.
-   * <p>
-   * The precise meaning of "value" is up to each category.
-   * <p>
-   * In general:
+   *
+   * <p>The precise meaning of "value" is up to each category.
+   *
+   * <p>In general:
+   *
    * <ul>
-   * <li><b>&lt; 0:</b> The approval is rejected/revoked.</li>
-   * <li><b>= 0:</b> No indication either way is provided.</li>
-   * <li><b>&gt; 0:</b> The approval is approved/positive.</li>
+   *   <li><b>&lt; 0:</b> The approval is rejected/revoked.
+   *   <li><b>= 0:</b> No indication either way is provided.
+   *   <li><b>&gt; 0:</b> The approval is approved/positive.
    * </ul>
-   * and in the negative and positive direction a magnitude can be assumed.The
-   * further from 0 the more assertive the approval.
+   *
+   * and in the negative and positive direction a magnitude can be assumed.The further from 0 the
+   * more assertive the approval.
    */
   @Column(id = 2)
   protected short value;
@@ -93,10 +93,7 @@ public final class PatchSetApproval {
   @Column(id = 6, notNull = false)
   protected String tag;
 
-  /**
-   * Real user that made this approval on behalf of the user recorded in {@link
-   * Key#accountId}.
-   */
+  /** Real user that made this approval on behalf of the user recorded in {@link Key#accountId}. */
   @Column(id = 7, notNull = false)
   protected Account.Id realAccountId;
 
@@ -106,8 +103,7 @@ public final class PatchSetApproval {
   // DELETED: id = 4 (changeOpen)
   // DELETED: id = 5 (changeSortKey)
 
-  protected PatchSetApproval() {
-  }
+  protected PatchSetApproval() {}
 
   public PatchSetApproval(PatchSetApproval.Key k, short v, Date ts) {
     key = k;
@@ -116,8 +112,7 @@ public final class PatchSetApproval {
   }
 
   public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
-    key =
-        new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
+    key = new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
     value = src.getValue();
     granted = src.granted;
     realAccountId = src.realAccountId;
@@ -200,10 +195,15 @@ public final class PatchSetApproval {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("[")
-        .append(key).append(": ").append(value)
-        .append(",tag:").append(tag)
-        .append(",realAccountId:").append(realAccountId);
+    StringBuilder sb =
+        new StringBuilder("[")
+            .append(key)
+            .append(": ")
+            .append(value)
+            .append(",tag:")
+            .append(tag)
+            .append(",realAccountId:")
+            .append(realAccountId);
     if (postSubmit) {
       sb.append(",postSubmit");
     }

@@ -18,7 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.client.Patch;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -31,8 +31,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
-
-import java.io.IOException;
 
 /** State supporting processing of a single {@link Patch} instance. */
 public class PatchFile {
@@ -59,9 +57,7 @@ public class PatchFile {
         } else {
           // For the initial commit, we have an empty tree on Side A
           RevObject object = rw.parseAny(patchList.getOldId());
-          a = object instanceof RevCommit
-              ? Text.forCommit(reader, object)
-              : Text.EMPTY;
+          a = object instanceof RevCommit ? Text.forCommit(reader, object) : Text.EMPTY;
         }
         b = Text.forCommit(reader, bCommit);
 
@@ -70,9 +66,10 @@ public class PatchFile {
       } else if (Patch.MERGE_LIST.equals(fileName)) {
         // For the initial commit, we have an empty tree on Side A
         RevObject object = rw.parseAny(patchList.getOldId());
-        a = object instanceof RevCommit
-            ? Text.forMergeList(patchList.getComparisonType(), reader, object)
-            : Text.EMPTY;
+        a =
+            object instanceof RevCommit
+                ? Text.forMergeList(patchList.getComparisonType(), reader, object)
+                : Text.EMPTY;
         b = Text.forMergeList(patchList.getComparisonType(), reader, bCommit);
 
         aTree = null;
@@ -99,8 +96,7 @@ public class PatchFile {
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException
    */
-  public String getLine(final int file, final int line)
-      throws IOException, NoSuchEntityException {
+  public String getLine(final int file, final int line) throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {
@@ -127,8 +123,7 @@ public class PatchFile {
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException the file is not exist.
    */
-  public int getLineCount(final int file)
-      throws IOException, NoSuchEntityException {
+  public int getLineCount(final int file) throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {
@@ -148,8 +143,8 @@ public class PatchFile {
   }
 
   private Text load(final ObjectId tree, final String path)
-      throws MissingObjectException, IncorrectObjectTypeException,
-      CorruptObjectException, IOException {
+      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+          IOException {
     if (path == null) {
       return Text.EMPTY;
     }

@@ -34,7 +34,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,9 +48,12 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   private final AuditService auditService;
 
   @Inject
-  DeleteIncludedGroups(GroupsCollection groupsCollection,
-      GroupIncludeCache groupIncludeCache, Provider<ReviewDb> db,
-      Provider<CurrentUser> self, AuditService auditService) {
+  DeleteIncludedGroups(
+      GroupsCollection groupsCollection,
+      GroupIncludeCache groupIncludeCache,
+      Provider<ReviewDb> db,
+      Provider<CurrentUser> self,
+      AuditService auditService) {
     this.groupsCollection = groupsCollection;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
@@ -61,8 +63,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
 
   @Override
   public Response<?> apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException,
-      UnprocessableEntityException, OrmException {
+      throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -70,14 +71,14 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     input = Input.init(input);
 
     final GroupControl control = resource.getControl();
-    final Map<AccountGroup.UUID, AccountGroupById> includedGroups = getIncludedGroups(internalGroup.getId());
+    final Map<AccountGroup.UUID, AccountGroupById> includedGroups =
+        getIncludedGroups(internalGroup.getId());
     final List<AccountGroupById> toRemove = new LinkedList<>();
 
     for (final String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);
       if (!control.canRemoveGroup()) {
-        throw new AuthException(String.format("Cannot delete group: %s",
-            d.getName()));
+        throw new AuthException(String.format("Cannot delete group: %s", d.getName()));
       }
 
       AccountGroupById g = includedGroups.remove(d.getGroupUUID());
@@ -98,8 +99,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     return Response.none();
   }
 
-  private Map<AccountGroup.UUID, AccountGroupById> getIncludedGroups(
-      final AccountGroup.Id groupId) throws OrmException {
+  private Map<AccountGroup.UUID, AccountGroupById> getIncludedGroups(final AccountGroup.Id groupId)
+      throws OrmException {
     final Map<AccountGroup.UUID, AccountGroupById> groups = new HashMap<>();
     for (AccountGroupById g : db.get().accountGroupById().byGroup(groupId)) {
       groups.put(g.getIncludeUUID(), g);
@@ -113,10 +114,9 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   }
 
   @Singleton
-  static class DeleteIncludedGroup implements
-      RestModifyView<IncludedGroupResource, DeleteIncludedGroup.Input> {
-    static class Input {
-    }
+  static class DeleteIncludedGroup
+      implements RestModifyView<IncludedGroupResource, DeleteIncludedGroup.Input> {
+    static class Input {}
 
     private final Provider<DeleteIncludedGroups> delete;
 
@@ -127,8 +127,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
 
     @Override
     public Response<?> apply(IncludedGroupResource resource, Input input)
-        throws AuthException, MethodNotAllowedException,
-        UnprocessableEntityException, OrmException {
+        throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
+            OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);

@@ -16,22 +16,17 @@ package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-
 import java.util.List;
 
 public interface AccountExternalIdCreator {
 
   /**
-   * Returns additional external identifiers to assign to a given
-   * user when creating an account.
+   * Returns additional external identifiers to assign to a given user when creating an account.
    *
    * @param id the identifier of the account.
    * @param username the name of the user.
-   * @param email an optional email address to assign to the external
-   * identifiers, or {@code null}.
-   *
+   * @param email an optional email address to assign to the external identifiers, or {@code null}.
    * @return a list of external identifiers, or an empty list.
    */
-  List<AccountExternalId> create(Account.Id id, String username,
-      String email);
+  List<AccountExternalId> create(Account.Id id, String username, String email);
 }

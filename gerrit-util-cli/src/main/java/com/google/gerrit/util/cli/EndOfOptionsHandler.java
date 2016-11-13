@@ -23,8 +23,8 @@ import org.kohsuke.args4j.spi.Setter;
 
 /** Typically used with {@code @Option(name="--")} to signal end of options. */
 public class EndOfOptionsHandler extends OptionHandler<Boolean> {
-  public EndOfOptionsHandler(CmdLineParser parser, OptionDef option,
-      Setter<? super Boolean> setter) {
+  public EndOfOptionsHandler(
+      CmdLineParser parser, OptionDef option, Setter<? super Boolean> setter) {
     super(parser, option, setter);
   }
 

@@ -18,9 +18,9 @@ import com.google.gerrit.server.validators.ValidationException;
 
 /**
  * Exception that occurs during a validation step before merging changes.
- * <p>
- * Used by {@link MergeValidationListener}s provided by plugins. Messages should
- * be considered human-readable.
+ *
+ * <p>Used by {@link MergeValidationListener}s provided by plugins. Messages should be considered
+ * human-readable.
  */
 public class MergeValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;

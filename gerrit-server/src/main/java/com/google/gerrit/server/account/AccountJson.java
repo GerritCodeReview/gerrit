@@ -29,5 +29,4 @@ public class AccountJson {
     accountInfo.username = account.getUserName();
     return accountInfo;
   }
-
 }

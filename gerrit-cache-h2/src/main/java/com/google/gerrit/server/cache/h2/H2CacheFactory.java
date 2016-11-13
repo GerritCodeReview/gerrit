@@ -31,11 +31,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,11 +41,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(H2CacheFactory.class);
+  private static final Logger log = LoggerFactory.getLogger(H2CacheFactory.class);
 
   private final DefaultCacheFactory defaultFactory;
   private final Config config;
@@ -77,17 +74,16 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     this.cacheMap = cacheMap;
 
     if (cacheDir != null) {
-      executor = Executors.newFixedThreadPool(
-          1,
-          new ThreadFactoryBuilder()
-            .setNameFormat("DiskCache-Store-%d")
-            .build());
-      cleanup = Executors.newScheduledThreadPool(
-          1,
-          new ThreadFactoryBuilder()
-            .setNameFormat("DiskCache-Prune-%d")
-            .setDaemon(true)
-            .build());
+      executor =
+          Executors.newFixedThreadPool(
+              1, new ThreadFactoryBuilder().setNameFormat("DiskCache-Store-%d").build());
+      cleanup =
+          Executors.newScheduledThreadPool(
+              1,
+              new ThreadFactoryBuilder()
+                  .setNameFormat("DiskCache-Prune-%d")
+                  .setDaemon(true)
+                  .build());
     } else {
       executor = null;
       cleanup = null;
@@ -162,11 +158,14 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       return defaultFactory.build(def);
     }
 
-    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
-        def.expireAfterWrite(TimeUnit.SECONDS));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<>(
-        executor, store, def.keyType(),
-        (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
+    SqlStore<K, V> store =
+        newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
+    H2CacheImpl<K, V> cache =
+        new H2CacheImpl<>(
+            executor,
+            store,
+            def.keyType(),
+            (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
     synchronized (caches) {
       caches.add(cache);
     }
@@ -175,23 +174,21 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader) {
+  public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> def, CacheLoader<K, V> loader) {
     long limit = config.getLong("cache", def.name(), "diskLimit", def.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
       return defaultFactory.build(def, loader);
     }
 
-    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
-        def.expireAfterWrite(TimeUnit.SECONDS));
-    Cache<K, ValueHolder<V>> mem = (Cache<K, ValueHolder<V>>)
-        defaultFactory.create(def, true)
-        .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(
-              executor, store, loader));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<>(
-        executor, store, def.keyType(), mem);
+    SqlStore<K, V> store =
+        newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
+    Cache<K, ValueHolder<V>> mem =
+        (Cache<K, ValueHolder<V>>)
+            defaultFactory
+                .create(def, true)
+                .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
+    H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
     caches.add(cache);
     return cache;
   }
@@ -210,10 +207,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   }
 
   private <V, K> SqlStore<K, V> newSqlStore(
-      String name,
-      TypeLiteral<K> keyType,
-      long maxSize,
-      Long expireAfterWrite) {
+      String name, TypeLiteral<K> keyType, long maxSize, Long expireAfterWrite) {
     StringBuilder url = new StringBuilder();
     url.append("jdbc:h2:").append(cacheDir.resolve(name).toUri());
     if (h2CacheSize >= 0) {
@@ -224,7 +218,10 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (h2AutoServer) {
       url.append(";AUTO_SERVER=TRUE");
     }
-    return new SqlStore<>(url.toString(), keyType, maxSize,
+    return new SqlStore<>(
+        url.toString(),
+        keyType,
+        maxSize,
         expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
   }
 }

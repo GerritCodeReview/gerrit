@@ -24,16 +24,14 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change being restored by its owner. */
 public class RestoredSender extends ReplyToChangeSender {
-  public interface Factory extends
-      ReplyToChangeSender.Factory<RestoredSender> {
+  public interface Factory extends ReplyToChangeSender.Factory<RestoredSender> {
     @Override
     RestoredSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
-  public RestoredSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public RestoredSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "restore", ChangeEmail.newChangeData(ea, project, id));
   }

@@ -20,15 +20,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 class IsReviewedPredicate extends ChangeIndexPredicate {
-  private static final Account.Id NOT_REVIEWED =
-      new Account.Id(ChangeField.NOT_REVIEWED);
+  private static final Account.Id NOT_REVIEWED = new Account.Id(ChangeField.NOT_REVIEWED);
 
   static Predicate<ChangeData> create() {
     return Predicate.not(new IsReviewedPredicate(NOT_REVIEWED));

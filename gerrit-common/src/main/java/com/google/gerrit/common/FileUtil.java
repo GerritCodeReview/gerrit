@@ -15,17 +15,15 @@
 package com.google.gerrit.common;
 
 import com.google.common.annotations.GwtIncompatible;
-
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.IO;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.IO;
 
 @GwtIncompatible("Unemulated classes in java.io, java.nio and JGit")
 public class FileUtil {
@@ -73,10 +71,10 @@ public class FileUtil {
 
   /**
    * Get the last modified time of a path.
-   * <p>
-   * Equivalent to {@code File#lastModified()}, returning 0 on errors, including
-   * file not found. Callers that prefer exceptions can use {@link
-   * Files#getLastModifiedTime(Path, java.nio.file.LinkOption...)}.
+   *
+   * <p>Equivalent to {@code File#lastModified()}, returning 0 on errors, including file not found.
+   * Callers that prefer exceptions can use {@link Files#getLastModifiedTime(Path,
+   * java.nio.file.LinkOption...)}.
    *
    * @param p path.
    * @return last modified time, in milliseconds since epoch.
@@ -100,6 +98,5 @@ public class FileUtil {
     }
   }
 
-  private FileUtil() {
-  }
+  private FileUtil() {}
 }

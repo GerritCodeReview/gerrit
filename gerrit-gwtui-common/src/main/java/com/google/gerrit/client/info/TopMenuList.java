@@ -18,6 +18,5 @@ import com.google.gwt.core.client.JsArray;
 
 public class TopMenuList extends JsArray<TopMenu> {
 
-  protected TopMenuList() {
-  }
+  protected TopMenuList() {}
 }

@@ -20,7 +20,6 @@ import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
 import com.google.gwtjsonrpc.common.VoidResult;
-
 import java.util.List;
 
 @RpcImpl(version = Version.V2_0)

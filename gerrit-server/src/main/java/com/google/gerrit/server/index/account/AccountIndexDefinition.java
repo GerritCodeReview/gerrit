@@ -27,7 +27,6 @@ public class AccountIndexDefinition
       AccountIndexCollection indexCollection,
       AccountIndex.Factory indexFactory,
       AllAccountsIndexer allAccountsIndexer) {
-    super(AccountSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
-        allAccountsIndexer);
+    super(AccountSchemaDefinitions.INSTANCE, indexCollection, indexFactory, allAccountsIndexer);
   }
 }

@@ -42,21 +42,27 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   }
 
   @Inject
-  protected AccountQueryProcessor(Provider<CurrentUser> userProvider,
+  protected AccountQueryProcessor(
+      Provider<CurrentUser> userProvider,
       Metrics metrics,
       IndexConfig indexConfig,
       AccountIndexCollection indexes,
       AccountIndexRewriter rewriter,
       AccountControl.Factory accountControlFactory) {
-    super(userProvider, metrics, AccountSchemaDefinitions.INSTANCE, indexConfig,
-        indexes, rewriter, FIELD_LIMIT);
+    super(
+        userProvider,
+        metrics,
+        AccountSchemaDefinitions.INSTANCE,
+        indexConfig,
+        indexes,
+        rewriter,
+        FIELD_LIMIT);
     this.accountControlFactory = accountControlFactory;
   }
 
   @Override
-  protected Predicate<AccountState> enforceVisibility(
-      Predicate<AccountState> pred) {
-    return new AndSource<>(pred,
-        new AccountIsVisibleToPredicate(accountControlFactory.get()), start);
+  protected Predicate<AccountState> enforceVisibility(Predicate<AccountState> pred) {
+    return new AndSource<>(
+        pred, new AccountIsVisibleToPredicate(accountControlFactory.get()), start);
   }
 }

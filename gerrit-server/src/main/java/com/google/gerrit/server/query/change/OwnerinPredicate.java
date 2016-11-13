@@ -23,8 +23,7 @@ class OwnerinPredicate extends ChangeOperatorPredicate {
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountGroup.UUID uuid;
 
-  OwnerinPredicate(IdentifiedUser.GenericFactory userFactory,
-    AccountGroup.UUID uuid) {
+  OwnerinPredicate(IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
     super(ChangeQueryBuilder.FIELD_OWNERIN, uuid.toString());
     this.userFactory = userFactory;
     this.uuid = uuid;

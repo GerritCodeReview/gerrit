@@ -60,8 +60,7 @@ public final class AccountGroupById {
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  protected AccountGroupById() {
-  }
+  protected AccountGroupById() {}
 
   public AccountGroupById(final AccountGroupById.Key k) {
     key = k;

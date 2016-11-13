@@ -23,12 +23,11 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.junit.Test;
 
 public class BasicSerializationTest {
   @Test
@@ -60,20 +59,17 @@ public class BasicSerializationTest {
     assertEquals(0L, readFixInt64(r(b(0, 0, 0, 0, 0, 0, 0, 0))));
     assertEquals(3L, readFixInt64(r(b(0, 0, 0, 0, 0, 0, 0, 3))));
 
-    assertEquals(0xdeadbeefL, readFixInt64(r(b(0, 0, 0, 0, 0xde, 0xad, 0xbe,
-        0xef))));
+    assertEquals(0xdeadbeefL, readFixInt64(r(b(0, 0, 0, 0, 0xde, 0xad, 0xbe, 0xef))));
 
-    assertEquals(0x0310adefL, readFixInt64(r(b(0, 0, 0, 0, 0x03, 0x10, 0xad,
-        0xef))));
+    assertEquals(0x0310adefL, readFixInt64(r(b(0, 0, 0, 0, 0x03, 0x10, 0xad, 0xef))));
 
-    assertEquals(0xc0ffee78deadbeefL, readFixInt64(r(b(0xc0, 0xff, 0xee, 0x78,
-        0xde, 0xad, 0xbe, 0xef))));
+    assertEquals(
+        0xc0ffee78deadbeefL, readFixInt64(r(b(0xc0, 0xff, 0xee, 0x78, 0xde, 0xad, 0xbe, 0xef))));
 
-    assertEquals(0x00000000ffffffffL, readFixInt64(r(b(0, 0, 0, 0, 0xff, 0xff,
-        0xff, 0xff))));
+    assertEquals(0x00000000ffffffffL, readFixInt64(r(b(0, 0, 0, 0, 0xff, 0xff, 0xff, 0xff))));
 
-    assertEquals(0xffffffffffffffffL, readFixInt64(r(b(0xff, 0xff, 0xff, 0xff,
-        0xff, 0xff, 0xff, 0xff))));
+    assertEquals(
+        0xffffffffffffffffL, readFixInt64(r(b(0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff))));
   }
 
   @Test
@@ -109,8 +105,7 @@ public class BasicSerializationTest {
   public void testReadString() throws IOException {
     assertNull(readString(r(b(0))));
     assertEquals("a", readString(r(b(1, 'a'))));
-    assertEquals("coffee4",
-        readString(r(b(7, 'c', 'o', 'f', 'f', 'e', 'e', '4'))));
+    assertEquals("coffee4", readString(r(b(7, 'c', 'o', 'f', 'f', 'e', 'e', '4'))));
   }
 
   @Test
@@ -134,8 +129,7 @@ public class BasicSerializationTest {
     assertOutput(b(7, 'c', 'o', 'f', 'f', 'e', 'e', '4'), out);
   }
 
-  private static void assertOutput(final byte[] expect,
-      final ByteArrayOutputStream out) {
+  private static void assertOutput(final byte[] expect, final ByteArrayOutputStream out) {
     final byte[] buf = out.toByteArray();
     for (int i = 0; i < expect.length; i++) {
       assertEquals(expect[i], buf[i]);
@@ -155,7 +149,9 @@ public class BasicSerializationTest {
   }
 
   private static byte[] b(int a, int b, int c, int d, int e, int f, int g, int h) {
-    return new byte[] {(byte) a, (byte) b, (byte) c, (byte) d, //
-        (byte) e, (byte) f, (byte) g, (byte) h,};
+    return new byte[] {
+      (byte) a, (byte) b, (byte) c, (byte) d, //
+      (byte) e, (byte) f, (byte) g, (byte) h,
+    };
   }
 }

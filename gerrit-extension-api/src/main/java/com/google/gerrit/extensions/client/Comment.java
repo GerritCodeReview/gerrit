@@ -20,8 +20,8 @@ import java.util.Objects;
 public abstract class Comment {
   /**
    * Patch set number containing this commit.
-   * <p>
-   * Only set in contexts where comments may come from multiple patch sets.
+   *
+   * <p>Only set in contexts where comments may come from multiple patch sets.
    */
   public Integer patchSet;
 
@@ -70,12 +70,16 @@ public abstract class Comment {
 
     @Override
     public String toString() {
-      return "Range{" +
-          "startLine=" + startLine +
-          ", startCharacter=" + startCharacter +
-          ", endLine=" + endLine +
-          ", endCharacter=" + endCharacter +
-          '}';
+      return "Range{"
+          + "startLine="
+          + startLine
+          + ", startCharacter="
+          + startCharacter
+          + ", endLine="
+          + endLine
+          + ", endCharacter="
+          + endCharacter
+          + '}';
     }
   }
 
@@ -110,7 +114,6 @@ public abstract class Comment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(patchSet, id, path, side, parent, line, range,
-        inReplyTo, updated, message);
+    return Objects.hash(patchSet, id, path, side, parent, line, range, inReplyTo, updated, message);
   }
 }

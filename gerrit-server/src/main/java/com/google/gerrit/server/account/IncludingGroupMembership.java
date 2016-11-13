@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +29,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Group membership checker for the internal group system.
- * <p>
- * Groups the user is directly a member of are pulled from the in-memory
- * AccountCache by way of the IdentifiedUser. Transitive group memberhips are
- * resolved on demand starting from the requested group and looking for a path
- * to a group the user is a member of. Other group backends are supported by
- * recursively invoking the universal GroupMembership.
+ *
+ * <p>Groups the user is directly a member of are pulled from the in-memory AccountCache by way of
+ * the IdentifiedUser. Transitive group memberhips are resolved on demand starting from the
+ * requested group and looking for a path to a group the user is a member of. Other group backends
+ * are supported by recursively invoking the universal GroupMembership.
  */
 public class IncludingGroupMembership implements GroupMembership {
   public interface Factory {
@@ -48,8 +46,7 @@ public class IncludingGroupMembership implements GroupMembership {
   private Set<AccountGroup.UUID> knownGroups;
 
   @Inject
-  IncludingGroupMembership(GroupIncludeCache includeCache,
-      @Assisted IdentifiedUser user) {
+  IncludingGroupMembership(GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
     this.includeCache = includeCache;
     this.user = user;
 
@@ -123,8 +120,7 @@ public class IncludingGroupMembership implements GroupMembership {
     r.remove(null);
 
     List<AccountGroup.UUID> q = Lists.newArrayList(r);
-    for (AccountGroup.UUID g : membership.intersection(
-        includeCache.allExternalMembers())) {
+    for (AccountGroup.UUID g : membership.intersection(includeCache.allExternalMembers())) {
       if (g != null && r.add(g)) {
         q.add(g);
       }

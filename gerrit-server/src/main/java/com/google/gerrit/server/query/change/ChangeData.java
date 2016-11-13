@@ -1056,7 +1056,7 @@ public class ChangeData {
         return Collections.emptySet();
       }
       draftsByUser = new HashSet<>();
-      for (PatchLineComment sc : plcUtil.draftByChange(db, notes)) {
+      for (PatchLineComment sc : plcUtil.draftByChange(db, notes())) {
         draftsByUser.add(sc.getAuthor());
       }
     }

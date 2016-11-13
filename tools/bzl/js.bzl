@@ -311,13 +311,22 @@ def _vulcanize_impl(ctx):
     "cd %s" % destdir,
     hermetic_npm_binary,
   ])
+
+  # Node/NPM is not (yet) hermeticized, so we have to get the binary
+  # from the environment, and it may be under $HOME, so we can't run
+  # in the sandbox.
+  node_tweaks = dict(
+    use_default_shell_env = True,
+    execution_requirements = {"local": "1"},
+  )
   ctx.action(
     mnemonic = "Vulcanize",
     inputs = [ctx.file._run_npm, ctx.file.app,
               ctx.file._vulcanize_archive
     ] + list(zips) + ctx.files.srcs,
     outputs = [vulcanized],
-    command = cmd)
+    command = cmd,
+    **node_tweaks)
 
   hermetic_npm_command = "export PATH && " + " ".join([
     'python',
@@ -333,7 +342,9 @@ def _vulcanize_impl(ctx):
     inputs = [ctx.file._run_npm, ctx.file.app,
               ctx.file._crisper_archive, vulcanized],
     outputs = [ctx.outputs.js, ctx.outputs.html],
-    command = hermetic_npm_command)
+    command = hermetic_npm_command,
+    **node_tweaks)
+
 
 
 _vulcanize_rule = rule(

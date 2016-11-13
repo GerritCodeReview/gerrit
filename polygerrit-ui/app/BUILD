@@ -87,9 +87,10 @@ genrule2(
   outs = [ "pg_code.zip", ],
   srcs = [ ":pg_code" ],
   cmd = " && ".join([
-    ("tar -cf- --mtime=1980-01-01\\ 00:00 $(locations :pg_code) |"
+    ("tar -hcf- $(locations :pg_code) |"
      + " tar --strip-components=2 -C $$TMP/ -xf-"),
     "cd $$TMP",
+    "find . -exec touch -t 198001010000 '{}' ';'",
     "zip -rq $$ROOT/$@ *"])
 )
 

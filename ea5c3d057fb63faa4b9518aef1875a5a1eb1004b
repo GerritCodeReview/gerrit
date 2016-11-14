@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_c2ef823e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-14T23:55:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_24df92f8",
+      "revId": "ea5c3d057fb63faa4b9518aef1875a5a1eb1004b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_c4d31eef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 492,
         "endChar": 46
       },
+      "revId": "ea5c3d057fb63faa4b9518aef1875a5a1eb1004b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_84e9a63a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-14T23:55:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_c4d31eef",
       "revId": "ea5c3d057fb63faa4b9518aef1875a5a1eb1004b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

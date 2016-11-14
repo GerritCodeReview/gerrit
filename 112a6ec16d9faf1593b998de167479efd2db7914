@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_57e9ce3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T18:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b70b387_f79d7aef",
+      "revId": "112a6ec16d9faf1593b998de167479efd2db7914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b70b387_1793d6e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-11-14T15:04:49Z",
       "side": 1,
       "message": "nit: missing space after \u0027if\u0027\n\nnit: if-statements should always have braces.",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "112a6ec16d9faf1593b998de167479efd2db7914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_f72ada94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T18:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b70b387_1793d6e4",
       "range": {
         "startLine": 65,
         "startChar": 8,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_96b7ea2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T18:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b70b387_578d4ebc",
+      "revId": "112a6ec16d9faf1593b998de167479efd2db7914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b70b387_3790d2d5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
         "patchSetId": 1
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_b6bce611",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T18:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b70b387_3790d2d5",
+      "revId": "112a6ec16d9faf1593b998de167479efd2db7914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_96444a6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
         "patchSetId": 1
@@ -87,6 +165,24 @@
       "writtenOn": "2016-11-14T15:04:49Z",
       "side": 1,
       "message": "long line",
+      "revId": "112a6ec16d9faf1593b998de167479efd2db7914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_d6c16290",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T18:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6c3fba_96444a6a",
       "revId": "112a6ec16d9faf1593b998de167479efd2db7914",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

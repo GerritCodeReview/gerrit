@@ -22,6 +22,7 @@ limitations under the License.
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-list-item.html">
 
 <test-fixture id="basic">
@@ -45,7 +46,7 @@ limitations under the License.
     test('change status', function() {
       var getStatusForChange = function(change) {
         element.change = change;
-        return element.$$('.cell.status').textContent;
+        return element.$$('.cell.status').textContent.trim();
       };
 
       assert.equal(getStatusForChange({mergeable: true}), '');
@@ -135,6 +136,76 @@ limitations under the License.
       assert.equal(element.changeURL, '/c/42/');
       element.change = {_number: 43};
       assert.equal(element.changeURL, '/c/43/');
+    });
+
+    test('no hidden columns', function() {
+      element.visibleChangeTableColumns = [
+        'Subject',
+        'Status',
+        'Owner',
+        'Project',
+        'Branch',
+        'Updated',
+        'Size',
+      ];
+
+      flushAsynchronousOperations();
+
+      element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+        var elementClass = '.' + column.toLowerCase();
+        assert.isFalse(element.$$(elementClass).hidden);
+      });
+    });
+
+    test('no hidden columns', function() {
+      element.visibleChangeTableColumns = [
+        'Subject',
+        'Status',
+        'Owner',
+        'Project',
+        'Branch',
+        'Updated',
+        'Size',
+      ];
+
+      flushAsynchronousOperations();
+
+      element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+        var elementClass = '.' + column.toLowerCase();
+        assert.isFalse(element.$$(elementClass).hidden);
+      });
+    });
+
+    test('project column hidden', function() {
+      element.visibleChangeTableColumns = [
+        'Subject',
+        'Status',
+        'Owner',
+        'Branch',
+        'Updated',
+        'Size',
+      ];
+
+      flushAsynchronousOperations();
+
+      element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+        var elementClass = '.' + column.toLowerCase();
+        if (column === 'Project') {
+          assert.isTrue(element.$$(elementClass).hidden);
+        } else {
+          assert.isFalse(element.$$(elementClass).hidden);
+        }
+      });
+    });
+
+    test('random column does not exist', function() {
+      element.visibleChangeTableColumns = [
+        'Bad',
+      ];
+
+      flushAsynchronousOperations();
+      var elementClass = '.bad';
+      assert.isNotOk(element.$$(elementClass));
     });
 
   });

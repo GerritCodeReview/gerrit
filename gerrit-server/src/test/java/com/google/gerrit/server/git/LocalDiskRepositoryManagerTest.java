@@ -197,28 +197,6 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
         .containsExactly(projectA, projectB, projectC);
   }
 
-  @Test
-  public void testGetSetProjectDescription() throws Exception {
-    Project.NameKey projectA = new Project.NameKey("projectA");
-    try (Repository repo = repoManager.createRepository(projectA)) {
-      assertThat(repo).isNotNull();
-    }
-
-    assertThat(repoManager.getProjectDescription(projectA)).isNull();
-    repoManager.setProjectDescription(projectA, "projectA description");
-    assertThat(repoManager.getProjectDescription(projectA)).isEqualTo(
-        "projectA description");
-
-    repoManager.setProjectDescription(projectA, "");
-    assertThat(repoManager.getProjectDescription(projectA)).isNull();
-  }
-
-  @Test(expected = RepositoryNotFoundException.class)
-  public void testGetProjectDescriptionFromUnexistingRepository()
-      throws Exception {
-    repoManager.getProjectDescription(new Project.NameKey("projectA"));
-  }
-
   private void createRepository(Path directory, String projectName)
       throws IOException {
     String n = projectName + Constants.DOT_GIT_EXT;

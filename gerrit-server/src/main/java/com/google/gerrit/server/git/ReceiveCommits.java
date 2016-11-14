@@ -288,7 +288,6 @@ public class ReceiveCommits {
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
-  private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
   private final CommitValidators.Factory commitValidatorsFactory;
@@ -356,7 +355,6 @@ public class ReceiveCommits {
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
-      GitRepositoryManager repoManager,
       TagCache tagCache,
       AccountCache accountCache,
       @Nullable SearchingChangeCacheImpl changeCache,
@@ -395,7 +393,6 @@ public class ReceiveCommits {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
-    this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
@@ -649,8 +646,11 @@ public class ReceiveCommits {
           logDebug("Reloading project in cache");
           projectCache.evict(project);
           ProjectState ps = projectCache.get(project.getNameKey());
-          repoManager.setProjectDescription(project.getNameKey(), //
-              ps.getProject().getDescription());
+          try {
+            repo.setGitwebDescription(ps.getProject().getDescription());
+          } catch (IOException e) {
+            log.warn("cannot update description " + project.getName(), e);
+          }
         }
 
         if (!MagicBranch.isMagicBranch(refName)

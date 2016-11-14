@@ -37,12 +37,10 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
 
   public static class Description extends DfsRepositoryDescription {
     private final Project.NameKey name;
-    private String desc;
 
     private Description(Project.NameKey name) {
       super(name.get());
       this.name = name;
-      desc = "In-memory repository " + name.get();
     }
 
     public Project.NameKey getProject() {
@@ -95,22 +93,6 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
       names.add(new Project.NameKey(repo.getDescription().getRepositoryName()));
     }
     return ImmutableSortedSet.copyOf(names);
-  }
-
-  @Override
-  public synchronized String getProjectDescription(Project.NameKey name)
-      throws RepositoryNotFoundException {
-    return get(name).getDescription().desc;
-  }
-
-  @Override
-  public synchronized void setProjectDescription(Project.NameKey name,
-      String description) {
-    try {
-      get(name).getDescription().desc = description;
-    } catch (RepositoryNotFoundException e) {
-      // Ignore.
-    }
   }
 
   public synchronized void deleteRepository(Project.NameKey name) {

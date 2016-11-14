@@ -16,7 +16,6 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
-import static com.google.gerrit.lucene.LuceneVersionManager.CHANGES_PREFIX;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
@@ -112,6 +111,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
   static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
 
+  private static final String CHANGES_PREFIX = "changes_";
   private static final String CHANGES_OPEN = "open";
   private static final String CHANGES_CLOSED = "closed";
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();

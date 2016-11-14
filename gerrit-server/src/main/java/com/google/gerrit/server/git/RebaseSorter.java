@@ -32,13 +32,13 @@ import java.util.Set;
 public class RebaseSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
-  private final Set<RevCommit> accepted;
+  private final RevCommit initialTip;
 
-  public RebaseSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted,
+  public RebaseSorter(CodeReviewRevWalk rw, RevCommit initialTip,
       RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
-    this.accepted = alreadyAccepted;
+    this.initialTip = initialTip;
   }
 
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
@@ -50,11 +50,8 @@ public class RebaseSorter {
 
       rw.resetRetain(canMergeFlag);
       rw.markStart(n);
-      for (RevCommit c : accepted) {
-        // n also tip of directly pushed branch => n remains 'interesting' here
-        if (!c.equals(n)) {
-          rw.markUninteresting(c);
-        }
+      if (initialTip != null) {
+        rw.markUninteresting(initialTip);
       }
 
       CodeReviewCommit c;

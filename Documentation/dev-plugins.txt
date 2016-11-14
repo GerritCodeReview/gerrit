@@ -1462,6 +1462,52 @@ Gerrit.install(function(self) {
 });
 ----
 
+
+[[action-visitor]]
+=== Action Visitors
+
+In addition to providing new actions, plugins can have fine-grained control
+over the link:rest-api-changes.html#action-info[ActionInfo] map, modifying or
+removing existing actions, including those contributed by core.
+
+Visitors are provided the link:rest-api-changes.html#action-info[ActionInfo],
+which is mutable, along with copies of the
+link:rest-api-changes.html#change-info[ChangeInfo] and
+link:rest-api-changes.html#revision-info[RevisionInfo]. They can modify the
+action, or return `false` to exclude it from the resulting map.
+
+These operations only affect the action buttons that are displayed in the UI;
+the underlying REST API endpoints are not affected. Multiple plugins may
+implement the visitor interface, but the order in which they are run is
+undefined.
+
+For example, to exclude "Cherry-Pick" only from certain projects, and rename
+"Abandon":
+
+[source,java]
+----
+public class MyActionVisitor implements ActionVisitor {
+  @Override
+  public boolean visit(String name, ActionInfo actionInfo,
+      ChangeInfo changeInfo) {
+    if (name.equals("abandon")) {
+      actionInfo.label = "Drop";
+    }
+    return true;
+  }
+
+  @Override
+  public boolean visit(String name, ActionInfo actionInfo,
+      ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+    if (project.startsWith("some-team/") && name.equals("cherrypick")) {
+      return false;
+    }
+    return true;
+  }
+}
+----
+
+
 [[top-menu-extensions]]
 == Top Menu Extensions
 
@@ -1598,6 +1644,7 @@ public class MyTopMenuExtension implements TopMenu {
   }
 }
 ----
+
 
 [[gwt_ui_extension]]
 == GWT UI Extension
@@ -2253,6 +2300,7 @@ public class MultiMasterAccountPatchReviewStore
   ...
 }
 ----
+
 
 [[documentation]]
 == Documentation

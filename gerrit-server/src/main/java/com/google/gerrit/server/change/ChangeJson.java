@@ -538,8 +538,10 @@ public class ChangeJson {
     }
     finish(out);
 
+    // This block must come after the ChangeInfo is mostly populated, since
+    // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
-      out.revisions = revisions(ctl, cd, src);
+      out.revisions = revisions(ctl, cd, src, out);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -996,15 +998,17 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(ChangeControl ctl, ChangeData cd,
-      Map<PatchSet.Id, PatchSet> map) throws PatchListNotAvailableException,
-      GpgException, OrmException, IOException {
+      Map<PatchSet.Id, PatchSet> map, ChangeInfo changeInfo)
+      throws PatchListNotAvailableException, GpgException, OrmException,
+      IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
     try (Repository repo = openRepoIfNecessary(ctl)) {
       for (PatchSet in : map.values()) {
         if ((has(ALL_REVISIONS)
             || in.getId().equals(ctl.getChange().currentPatchSetId()))
             && ctl.isPatchVisible(in, db.get())) {
-          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, false));
+          res.put(in.getRevision().get(),
+              toRevisionInfo(ctl, cd, in, repo, false, changeInfo));
         }
       }
       return res;
@@ -1045,16 +1049,16 @@ public class ChangeJson {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(ctl)) {
       RevisionInfo rev = toRevisionInfo(
-          ctl, changeDataFactory.create(db.get(), ctl), in, repo, true);
+          ctl, changeDataFactory.create(db.get(), ctl), in, repo, true, null);
       accountLoader.fill();
       return rev;
     }
   }
 
   private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd,
-      PatchSet in, @Nullable Repository repo, boolean fillCommit)
-      throws PatchListNotAvailableException, GpgException, OrmException,
-      IOException {
+      PatchSet in, @Nullable Repository repo, boolean fillCommit,
+      @Nullable ChangeInfo changeInfo) throws PatchListNotAvailableException,
+      GpgException, OrmException, IOException {
     Change c = ctl.getChange();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
@@ -1097,7 +1101,7 @@ public class ChangeJson {
         && has(CURRENT_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
 
-      actionJson.addRevisionActions(out,
+      actionJson.addRevisionActions(changeInfo, out,
           new RevisionResource(changeResourceFactory.create(ctl), in));
     }
 

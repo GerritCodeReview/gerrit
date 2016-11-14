@@ -473,7 +473,11 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public Map<String, ActionInfo> actions() throws RestApiException {
-    return revisionActions.apply(revision).value();
+    try {
+      return revisionActions.apply(revision).value();
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get actions", e);
+    }
   }
 
   @Override

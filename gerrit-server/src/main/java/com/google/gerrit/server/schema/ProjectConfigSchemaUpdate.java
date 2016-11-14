@@ -103,4 +103,8 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
       throw new OrmException(e);
     }
   }
+
+  public boolean isUpdated() {
+    return updated;
+  }
 }

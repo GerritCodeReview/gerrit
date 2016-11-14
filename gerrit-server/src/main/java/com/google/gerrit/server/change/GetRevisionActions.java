@@ -59,7 +59,8 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   }
 
   @Override
-  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) {
+  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc)
+      throws OrmException {
     return Response.withMustRevalidate(delegate.format(rsrc));
   }
 

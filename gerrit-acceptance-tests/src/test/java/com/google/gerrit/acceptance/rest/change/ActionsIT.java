@@ -15,14 +15,23 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
@@ -30,9 +39,14 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ActionsIT extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -42,6 +56,23 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Inject
   private GetRevisionActions getRevisionActions;
+
+  @Inject
+  private DynamicSet<ActionVisitor> actionVisitors;
+
+  private RegistrationHandle visitorHandle;
+
+  @Before
+  public void setUp() {
+    visitorHandle = null;
+  }
+
+  @After
+  public void tearDown() {
+    if (visitorHandle != null) {
+      visitorHandle.remove();
+    }
+  }
 
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
@@ -275,6 +306,116 @@ public class ActionsIT extends AbstractDaemonTest {
           "Submit patch set 1 and ancestors (%d changes " +
           "altogether) into master", nrChanges));
     }
+  }
+
+  @Test
+  public void changeActionVisitor() throws Exception {
+    String id = createChange().getChangeId();
+    ChangeInfo origChange =
+        gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+
+    class Visitor implements ActionVisitor {
+      @Override
+      public boolean visit(String name, ActionInfo actionInfo,
+          ChangeInfo changeInfo) {
+        assertThat(changeInfo).isNotNull();
+        assertThat(changeInfo._number).isEqualTo(origChange._number);
+        if (name.equals("followup")) {
+          return false;
+        }
+        if (name.equals("abandon")) {
+          actionInfo.label = "Abandon All Hope";
+        }
+        return true;
+      }
+
+      @Override
+      public boolean visit(String name, ActionInfo actionInfo,
+          ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+        throw new UnsupportedOperationException();
+      }
+    }
+
+    Map<String, ActionInfo> origActions = origChange.actions;
+    assertThat(origActions.keySet()).containsAllOf("followup", "abandon");
+    assertThat(origActions.get("abandon").label).isEqualTo("Abandon");
+
+    Visitor v = new Visitor();
+    visitorHandle = actionVisitors.add(v);
+
+    Map<String, ActionInfo> newActions = gApi.changes()
+        .id(id)
+        .get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS))
+        .actions;
+
+    Set<String> expectedNames = new TreeSet<>(origActions.keySet());
+    expectedNames.remove("followup");
+    assertThat(newActions.keySet()).isEqualTo(expectedNames);
+
+    ActionInfo abandon = newActions.get("abandon");
+    assertThat(abandon).isNotNull();
+    assertThat(abandon.label).isEqualTo("Abandon All Hope");
+  }
+
+  @Test
+  public void revisionActionVisitor() throws Exception {
+    String id = createChange().getChangeId();
+    ChangeInfo origChange =
+        gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+
+    class Visitor implements ActionVisitor {
+      @Override
+      public boolean visit(String name, ActionInfo actionInfo,
+          ChangeInfo changeInfo) {
+        return true; // Do nothing; implicitly called for CURRENT_ACTIONS.
+      }
+
+      @Override
+      public boolean visit(String name, ActionInfo actionInfo,
+          ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+        assertThat(changeInfo).isNotNull();
+        assertThat(changeInfo._number).isEqualTo(origChange._number);
+        assertThat(revisionInfo).isNotNull();
+        assertThat(revisionInfo._number).isEqualTo(1);
+        if (name.equals("cherrypick")) {
+          return false;
+        }
+        if (name.equals("rebase")) {
+          actionInfo.label = "All Your Base";
+        }
+        return true;
+      }
+    }
+
+    Map<String, ActionInfo> origActions =
+        gApi.changes().id(id).current().actions();
+    assertThat(origActions.keySet()).containsAllOf("cherrypick", "rebase");
+    assertThat(origActions.get("rebase").label).isEqualTo("Rebase");
+
+    Visitor v = new Visitor();
+    visitorHandle = actionVisitors.add(v);
+
+    visitedRevisionActionsAssertions(
+        origActions, gApi.changes().id(id).current().actions());
+    ChangeInfo changeInfo = gApi.changes().id(id)
+        .get(EnumSet.of(CURRENT_ACTIONS, CURRENT_REVISION));
+    RevisionInfo revisionInfo =
+        Iterables.getOnlyElement(changeInfo.revisions.values());
+    visitedRevisionActionsAssertions(
+        origActions,
+        revisionInfo.actions);
+  }
+
+  private void visitedRevisionActionsAssertions(
+      Map<String, ActionInfo> origActions, Map<String, ActionInfo> newActions) {
+    assertThat(newActions).isNotNull();
+    Set<String> expectedNames = new TreeSet<>(origActions.keySet());
+    expectedNames.remove("cherrypick");
+    assertThat(newActions.keySet()).isEqualTo(expectedNames);
+
+    ActionInfo abandon = newActions.get("rebase");
+    assertThat(abandon).isNotNull();
+    assertThat(abandon.label).isEqualTo("All Your Base");
   }
 
   private void commonActionsAssertions(Map<String, ActionInfo> actions) {

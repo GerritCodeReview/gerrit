@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3026c8ad_b62c080a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-14T10:24:48Z",
+      "side": 1,
+      "message": "OK, I see. However, this issue is *not* reproducible by using any syntactically wrong id but only those containing comma.\n\nThis will not reproduce NPE:\n\n  $ ssh -p29418 admin@localhost gerrit index changes 765.1\n  fatal: For input string: \"765.1\"\n  $ ssh -p29418 admin@localhost gerrit index changes 765@1\n  fatal: For input string: \"765@1\"\n\nand now reproduce the NPE:\n\n  $ ssh -p29418 admin@localhost gerrit index changes 765,1\n  fatal: internal server error\n\nThe reason is that Change.Id.parse() has a logic of splitting the id on comma [1] and trying to get a parent key which is null for an IntKey. Therefore, I think that the commit message should more precisely describe the issue (based on this comment). Further, we should understand the idea behind the IntKey having a parent-key before removing this logic.\n\n[1] https://gerrit.googlesource.com/gwtorm/+/refs/heads/master/src/main/java/com/google/gwtorm/client/KeyUtil.java#86",
+      "parentUuid": "d0748cbf_93b6dcb9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4bfb44_52bc949b",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 2

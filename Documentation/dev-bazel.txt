@@ -42,7 +42,7 @@ to run,
 
 ----
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/release.war daemon -d ../gerrit_testsite
+     -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite
 ----
 
 === Headless Mode

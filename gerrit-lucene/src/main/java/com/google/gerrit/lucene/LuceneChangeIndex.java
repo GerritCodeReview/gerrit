@@ -112,10 +112,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
 
-  static final String UPDATED_SORT_FIELD =
-      sortFieldName(ChangeField.UPDATED);
-  static final String ID_SORT_FIELD =
-      sortFieldName(ChangeField.LEGACY_ID);
+  static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
+  static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
 
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();

@@ -1,0 +1,50 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<script>
+(function(window) {
+  'use strict';
+
+  /** @polymerBehavior Gerrit.ChangeTableBehavior */
+  var ChangeTableBehavior = {
+    CHANGE_TABLE_COLUMNS: [
+      'Subject',
+      'Status',
+      'Owner',
+      'Project',
+      'Branch',
+      'Updated',
+      'Size',
+    ],
+
+    /**
+     * Returns the complement to the given column array
+     * @param {Array} columns
+     */
+    getComplementColumns: function(columns) {
+      return this.CHANGE_TABLE_COLUMNS.filter(function(column) {
+        return columns.indexOf(column) === -1;
+      });
+    },
+
+    isColumnHidden: function(columnToCheck, columnsToDisplay) {
+      return columnsToDisplay.indexOf(columnToCheck) === -1;
+    },
+  };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.ChangeTableBehavior = ChangeTableBehavior;
+})(window);
+</script>

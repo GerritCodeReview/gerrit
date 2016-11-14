@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
@@ -28,42 +29,60 @@ limitations under the License.
         display: flex;
         flex-direction: column;
       }
+      #changeList {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .cell {
+        flex-shrink: 0;
+        padding: .3em .5em;
+      }
+      th {
+        text-align: left;
+      }
     </style>
     <style include="gr-change-list-styles"></style>
-    <div class="headerRow">
-      <span class="topHeader keyboard"></span> <!-- keyboard position indicator -->
-      <span class="topHeader star" hidden$="[[!showStar]]" hidden></span>
-      <span class="topHeader number" hidden$="[[!showNumber]]" hidden>#</span>
-      <span class="topHeader subject">Subject</span>
-      <span class="topHeader status">Status</span>
-      <span class="topHeader owner">Owner</span>
-      <span class="topHeader project">Project</span>
-      <span class="topHeader branch">Branch</span>
-      <span class="topHeader updated">Updated</span>
-      <span class="topHeader size">Size</span>
-      <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-        <span class="topHeader label" title$="[[labelName]]">
-          [[_computeLabelShortcut(labelName)]]
-        </span>
+    <table id="changeList">
+      <tr class="headerRow">
+        <th class="topHeader keyboard"></th>
+        <th class="topHeader star" hidden$="[[!showStar]]" hidden></th>
+        <th class="topHeader number" hidden$="[[!showNumber]]" hidden>#</th>
+        <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
+          <th class$="[[_lowerCase(item)]] topHeader"
+              hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
+            [[item]]
+          </th>
+        </template>
+        <template is="dom-repeat" items="[[labelNames]]" as="labelName">
+          <th class="topHeader label" title$="[[labelName]]">
+            [[_computeLabelShortcut(labelName)]]
+          </th>
+        </template>
+      </tr>
+      <template is="dom-repeat" items="[[groups]]" as="changeGroup"
+          index-as="groupIndex">
+        <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
+          <tr class="groupHeader">
+            <td class="cell">[[_groupTitle(groupIndex)]]</td>
+          </tr>
+        </template>
+        <template is="dom-if" if="[[!changeGroup.length]]">
+          <tr class="noChanges"><td class="cell">No changes</td></tr>
+        </template>
+        <template is="dom-repeat" items="[[changeGroup]]" as="change">
+          <tr>
+            <gr-change-list-item
+                selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
+                needs-review="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
+                change="[[change]]"
+                visible-change-table-columns="[[visibleChangeTableColumns]]"
+                show-number="[[showNumber]]"
+                show-star="[[showStar]]"
+                label-names="[[labelNames]]"></gr-change-list-item>
+          </tr>
+        </template>
       </template>
-    </div>
-    <template is="dom-repeat" items="{{groups}}" as="changeGroup" index-as="groupIndex">
-      <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
-        <div class="groupHeader">[[_groupTitle(groupIndex)]]</div>
-      </template>
-      <template is="dom-if" if="[[!changeGroup.length]]">
-        <div class="noChanges">No changes</div>
-      </template>
-      <template is="dom-repeat" items="[[changeGroup]]" as="change">
-        <gr-change-list-item
-            selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
-            needs-review="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
-            change="[[change]]"
-            show-number="[[showNumber]]"
-            show-star="[[showStar]]"
-            label-names="[[labelNames]]"></gr-change-list-item>
-      </template>
-    </template>
+    </table>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-list.js"></script>

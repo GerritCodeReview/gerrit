@@ -70,9 +70,10 @@ limitations under the License.
 
     suite('test show change number preference enabled', function() {
       setup(function(done) {
-        return stubRestAPI(
-          {legacycid_in_change_table: true, time_format: 'HHMM_12'}
-        ).then(function() {
+        return stubRestAPI({legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [],
+          }).then(function() {
           element = fixture('basic');
           element._loadPreferences().then(function() { done(); });
         });
@@ -86,9 +87,8 @@ limitations under the License.
     suite('test show change number preference disabled', function() {
       setup(function(done) {
         // legacycid_in_change_table is not set when false.
-        return stubRestAPI(
-          {time_format: 'HHMM_12'}
-        ).then(function() {
+        return stubRestAPI({time_format: 'HHMM_12', change_table: []}).then(
+            function() {
           element = fixture('basic');
           element._loadPreferences().then(function() { done(); });
         });
@@ -235,6 +235,120 @@ limitations under the License.
           '.noChanges');
       assert.equal(noChangesMsg.length, 2);
     });
+
+    suite('empty column preference', function() {
+      var element;
+
+      setup(function(done) {
+        return stubRestAPI({
+          legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [],
+          }
+        ).then(function() {
+          element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
+        });
+      });
+
+      test('show number enabled', function() {
+        assert.isTrue(element.showNumber);
+      });
+
+      test('all columns visible', function() {
+        element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+          var elementClass = '.' + element.lowerCase(column);
+          assert.isFalse(element.$$(elementClass).hidden);
+        });
+      });
+    });
+
+    suite('full column preference', function() {
+      var element;
+
+      setup(function(done) {
+        return stubRestAPI({
+            legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [
+              'Subject',
+              'Status',
+              'Owner',
+              'Project',
+              'Branch',
+              'Updated',
+              'Size',
+            ],
+          }).then(function() {
+          element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
+        });
+      });
+
+      test('all columns visible', function() {
+        element.changeTableColumns.forEach(function(column) {
+          var elementClass = '.' + element.lowerCase(column);
+          assert.isFalse(element.$$(elementClass).hidden);
+        });
+      });
+    });
+
+    suite('partial column preference', function() {
+      var element;
+
+      setup(function(done) {
+        return stubRestAPI({
+            legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [
+              'Subject',
+              'Status',
+              'Owner',
+              'Branch',
+              'Updated',
+              'Size',
+            ],
+          }).then(function() {
+          element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
+        });
+      });
+
+      test('all columns except project visible', function() {
+        element.changeTableColumns.forEach(function(column) {
+          var elementClass = '.' + column.toLowerCase();
+          if (column === 'Project') {
+            assert.isTrue(element.$$(elementClass).hidden);
+          } else {
+            assert.isFalse(element.$$(elementClass).hidden);
+          }
+        });
+      });
+    });
+
+    suite('random column does not exist', function() {
+      var element;
+
+      /* This would only exist if somebody manually updated the config
+      file. */
+      setup(function(done) {
+        return stubRestAPI({
+            legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [
+              'Bad',
+            ],
+          }).then(function() {
+          element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
+        });
+      });
+
+      test('bad column does not exist', function() {
+        var elementClass = '.bad';
+        assert.isNotOk(element.$$(elementClass));
+      });
+    });
   });
 
   suite('gr-change-list groups', function() {
@@ -294,6 +408,5 @@ limitations under the License.
           'Should navigate to /c/4/');
       showStub.restore();
     });
-
   });
 </script>

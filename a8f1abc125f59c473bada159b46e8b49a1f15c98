@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_57d62e52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-14T19:57:56Z",
+      "side": 1,
+      "message": "It\u0027s because in the gr-button is specifically excluded from these behaviors: https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html#67  when shouldSuppressKeyboardShortcut is called, as it is most places, including gr-app.js, where the shortcut for opening the dialog is: https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/gr-app.js#198",
+      "parentUuid": "0b70b387_1759164a",
+      "revId": "a8f1abc125f59c473bada159b46e8b49a1f15c98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_76ac0ed5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 12,
         "endChar": 36
       },
+      "revId": "a8f1abc125f59c473bada159b46e8b49a1f15c98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_97a0c6e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-14T19:57:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6c3fba_76ac0ed5",
       "revId": "a8f1abc125f59c473bada159b46e8b49a1f15c98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

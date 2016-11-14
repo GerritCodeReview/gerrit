@@ -29,6 +29,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class Schema_130 extends SchemaVersion {
   private static final String COMMIT_MSG =
@@ -51,16 +54,27 @@ public class Schema_130 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    for (Project.NameKey projectName : repoManager.list()) {
+    SortedSet<Project.NameKey> repoList = repoManager.list();
+    SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
+    ui.message("\tMigrating " + repoList.size() + " repositories ...");
+    for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
               projectName, git)) {
         ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
         cfg.removeForceFromPermission("pushTag");
+        if (cfg.isUpdated()) {
+          repoUpgraded.add(projectName);
+        }
         cfg.save(serverUser, COMMIT_MSG);
       } catch (ConfigInvalidException | IOException ex) {
         throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }
+    ui.message("\tMigration completed:  " + repoUpgraded.size()
+        + " repositories updated:");
+    ui.message("\t"
+        + repoUpgraded.stream().map(n -> n.get())
+            .collect(Collectors.joining(" ")));
   }
 }

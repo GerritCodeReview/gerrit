@@ -43,6 +43,10 @@
         type: Object,
         value: function() { return {}; },
       },
+      _localChangeTableColumns: {
+        type: Array,
+        value: function() { return []; },
+      },
       _localMenu: {
         type: Array,
         value: function() { return []; },
@@ -50,6 +54,10 @@
       _loading: {
         type: Boolean,
         value: true,
+      },
+      _changeTableChanged: {
+        type: Boolean,
+        value: false,
       },
       _prefsChanged: {
         type: Boolean,
@@ -89,10 +97,15 @@
       _loadingPromise: Object,
     },
 
+    behaviors: [
+      Gerrit.ChangeTableBehavior,
+    ],
+
     observers: [
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
+      '_handleChangeTableChanged(_localChangeTableColumns.splices)',
     ],
 
     attached: function() {
@@ -110,6 +123,7 @@
         this.prefs = prefs;
         this._copyPrefs('_localPrefs', 'prefs');
         this._cloneMenu();
+        this._cloneChangeTableColumns();
       }.bind(this)));
 
       promises.push(this.$.restAPI.getDiffPreferences().then(function(prefs) {
@@ -179,6 +193,34 @@
       this._localMenu = menu;
     },
 
+    _cloneChangeTableColumns: function() {
+      var columns = this.prefs.change_table;
+
+      if (columns.length === 0) {
+        columns = this.CHANGE_TABLE_COLUMNS;
+        this._changeTableColumnsNotDisplayed = [];
+      } else {
+        this._changeTableColumnsNotDisplayed = this.getColumnsNotDisplayed(
+          this.prefs.change_table);
+      }
+      this._localChangeTableColumns = columns;
+    },
+
+    _formatChangeTableColumns: function(changeTableArray) {
+      var columns = [];
+      changeTableArray.forEach(function(item) {
+        columns.push({
+          column: item,
+        });
+      });
+      return columns;
+    },
+
+    _handleChangeTableChanged: function() {
+      if (this._isLoading()) { return; }
+      this._changeTableChanged = true;
+    },
+
     _handlePrefsChanged: function(prefs) {
       if (this._isLoading()) { return; }
       this._prefsChanged = true;
@@ -222,6 +264,14 @@
     _handleSyntaxHighlightingChanged: function() {
       this.set('_diffPrefs.syntax_highlighting',
           this.$.syntaxHighlighting.checked);
+    },
+
+    _handleSaveChangeTable: function() {
+      this.set('prefs.change_table', this._localChangeTableColumns);
+      this._cloneChangeTableColumns();
+      return this.$.restAPI.savePreferences(this.prefs).then(function() {
+        this._changeTableChanged = false;
+      }.bind(this));
     },
 
     _handleSaveDiffPreferences: function() {

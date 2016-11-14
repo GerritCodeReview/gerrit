@@ -189,7 +189,7 @@ limitations under the License.
       assert.equal(result[1].type, 'quote');
       assert.lengthOf(result[1].blocks, 1);
       assertBlock(result[1].blocks, 0, 'paragraph',
-          'Quote\nacross\nnot many lines.')
+          'Quote\nacross\nnot many lines.');
 
       assertBlock(result, 2, 'paragraph', 'Another paragraph');
       assertListBlock(result, 3, 0, 'Series');

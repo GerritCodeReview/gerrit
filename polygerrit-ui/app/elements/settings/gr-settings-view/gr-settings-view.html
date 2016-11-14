@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../gr-email-editor/gr-email-editor.html">
 <link rel="import" href="../gr-group-list/gr-group-list.html">
 <link rel="import" href="../gr-http-password/gr-http-password.html">
+<link rel="import" href="../gr-change-table-editor/gr-change-table-editor.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
 <link rel="import" href="../gr-ssh-editor/gr-ssh-editor.html">
 <link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
@@ -294,6 +295,19 @@ limitations under the License.
               id="saveMenu"
               on-tap="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save Changes</gr-button>
+        </fieldset>
+        <h2 class$="[[_computeHeaderClass(_changeTableChanged)]]">
+          Change Table Columns
+        </h2>
+        <fieldset id="changeTableColumns">
+          <gr-change-table-editor
+              change-table-items="{{_localChangeTableColumns}}"
+              change-table-not-displayed="{{_changeTableColumnsNotDisplayed}}">
+          </gr-change-table-editor>
+          <gr-button
+              id="saveChangeTable"
+              on-tap="_handleSaveChangeTable"
+              disabled="[[!_changeTableChanged]]">Save Changes</gr-button>
         </fieldset>
         <h2
             id="Notifications"

@@ -72,24 +72,42 @@ limitations under the License.
     <span class="cell star" hidden$="[[!showStar]]" hidden>
       <gr-change-star change="{{change}}"></gr-change-star>
     </span>
-    <a class="cell number" href$="[[changeURL]]" hidden$="[[!showNumber]]" hidden>
-      [[change._number]]
-    </a>
-    <a class="cell subject" href$="[[changeURL]]">[[change.subject]]</a>
-    <span class="cell status">[[changeStatusString(change)]]</span>
-    <span class="cell owner">
+    <a class="cell number" href$="[[changeURL]]"
+        hidden$="[[!showNumber]]" hidden>
+      [[change._number]]</a>
+    <a class="cell subject"
+        href$="[[changeURL]]"
+        hidden$="[[!displayColumn('Subject', changeTableColumnsToShow)]]">
+      [[change.subject]]</a>
+    <span class="cell status"
+        hidden$="[[!displayColumn('Status', changeTableColumnsToShow)]]">
+      [[changeStatusString(change)]]
+    </span>
+    <span class="cell owner"
+        hidden$="[[!displayColumn('Owner', changeTableColumnsToShow)]]">
       <gr-account-link account="[[change.owner]]"></gr-account-link>
     </span>
-    <a class="cell project" href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
-    <a class="cell branch" href$="[[_computeProjectBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
-    <gr-date-formatter class="cell updated" date-str="[[change.updated]]"></gr-date-formatter>
-    <span class="cell size u-monospace">
+    <a class="cell project" href$="[[_computeProjectURL(change.project)]]"
+        hidden$="[[!displayColumn('Project', changeTableColumnsToShow)]]">
+      [[change.project]]</a>
+    <a class="cell branch"
+        href$="[[_computeProjectBranchURL(change.project, change.branch)]]"
+        hidden$="[[!displayColumn('Branch', changeTableColumnsToShow)]]">
+      [[change.branch]]
+    </a>
+    <gr-date-formatter class="cell updated" date-str="[[change.updated]]"
+        hidden$="[[!displayColumn('Updated', changeTableColumnsToShow)]]">
+    </gr-date-formatter>
+    <span class="cell size u-monospace"
+        hidden$="[[!displayColumn('Size', changeTableColumnsToShow)]]">
       <span class="u-green"><span>+</span>[[change.insertions]]</span>,
       <span class="u-red"><span>-</span>[[change.deletions]]</span>
     </span>
     <template is="dom-repeat" items="[[labelNames]]" as="labelName">
       <span title$="[[_computeLabelTitle(change, labelName)]]"
-          class$="[[_computeLabelClass(change, labelName)]]">[[_computeLabelValue(change, labelName)]]</span>
+          class$="[[_computeLabelClass(change, labelName)]]">
+        [[_computeLabelValue(change, labelName)]]
+      </span>
     </template>
   </template>
   <script src="gr-change-list-item.js"></script>

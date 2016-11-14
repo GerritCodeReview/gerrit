@@ -374,6 +374,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), UploadValidationListener.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
+    DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
     install(new GitwebConfig.LegacyModule(cfg));
 
     bind(AnonymousUser.class);

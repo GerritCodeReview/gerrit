@@ -191,12 +191,12 @@ To run a specific test group, e.g. the rest-account test group:
 
 == Dependencies
 
-Dependency JARs are normally downloaded automatically, but Buck can inspect
-its graph and download any missing JAR files.  This is useful to enable
+Dependency JARs are normally downloaded as needed, but you can
+download everything upfront.  This is useful to enable
 subsequent builds to run without network access:
 
 ----
-  tools/download_all.py
+  bazel fetch //...
 ----
 
 When downloading from behind a proxy (which is common in some corporate

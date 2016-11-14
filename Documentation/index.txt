@@ -63,6 +63,7 @@
 .. link:dev-readme.html[Developer Setup]
 .. link:dev-eclipse.html[Eclipse Setup]
 .. link:dev-buck.html[Building with Buck]
+.. link:dev-bazel.html[Building with Bazel] (Experimental)
 .. link:dev-contributing.html[Contributing to Gerrit]
 . Plugin Development
 .. link:dev-plugins.html[Developing Plugins]

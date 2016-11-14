@@ -26,27 +26,27 @@ import org.kohsuke.args4j.Option;
 import java.util.List;
 
 @CommandMetaData(name = "query", description = "Query the change database")
-class Query extends SshCommand {
+public class Query extends SshCommand {
   @Inject
   private OutputStreamQuery processor;
 
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
-  void setFormat(OutputFormat format) {
+  public void setFormat(OutputFormat format) {
     processor.setOutput(out, format);
   }
 
   @Option(name = "--current-patch-set", usage = "Include information about current patch set")
-  void setCurrentPatchSet(boolean on) {
+  public void setCurrentPatchSet(boolean on) {
     processor.setIncludeCurrentPatchSet(on);
   }
 
   @Option(name = "--patch-sets", usage = "Include information about all patch sets")
-  void setPatchSets(boolean on) {
+  public void setPatchSets(boolean on) {
     processor.setIncludePatchSets(on);
   }
 
   @Option(name = "--all-approvals", usage = "Include information about all patch sets and approvals")
-  void setApprovals(boolean on) {
+  public void setApprovals(boolean on) {
     if (on) {
       processor.setIncludePatchSets(on);
     }
@@ -54,42 +54,42 @@ class Query extends SshCommand {
   }
 
   @Option(name = "--comments", usage = "Include patch set and inline comments")
-  void setComments(boolean on) {
+  public void setComments(boolean on) {
     processor.setIncludeComments(on);
   }
 
   @Option(name = "--files", usage = "Include file list on patch sets")
-  void setFiles(boolean on) {
+  public void setFiles(boolean on) {
     processor.setIncludeFiles(on);
   }
 
   @Option(name = "--commit-message", usage = "Include the full commit message for a change")
-  void setCommitMessage(boolean on) {
+  public void setCommitMessage(boolean on) {
     processor.setIncludeCommitMessage(on);
   }
 
   @Option(name = "--dependencies", usage = "Include depends-on and needed-by information")
-  void setDependencies(boolean on) {
+  public void setDependencies(boolean on) {
     processor.setIncludeDependencies(on);
   }
 
   @Option(name = "--all-reviewers", usage = "Include all reviewers")
-  void setAllReviewers(boolean on) {
+  public void setAllReviewers(boolean on) {
     processor.setIncludeAllReviewers(on);
   }
 
   @Option(name = "--submit-records", usage = "Include submit and label status")
-  void setSubmitRecords(boolean on) {
+  public void setSubmitRecords(boolean on) {
     processor.setIncludeSubmitRecords(on);
   }
 
   @Option(name = "--start", aliases = {"-S"}, usage = "Number of changes to skip")
-  void setStart(int start) {
+  public void setStart(int start) {
     processor.setStart(start);
   }
 
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
-  private List<String> query;
+  public  List<String> query;
 
   @Override
   protected void run() throws Exception {

@@ -7,5 +7,6 @@ acceptance_tests(
     deps = [
         "//lib/greenmail",
         "//lib/mail",
+        "//lib/joda:joda-time",
     ],
 )

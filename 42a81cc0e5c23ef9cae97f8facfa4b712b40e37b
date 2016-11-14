@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_961b6a86",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T13:23:22Z",
+      "side": 1,
+      "message": "The previous version of the code did not work at all: you cannot rely on Lucene index to find a change to index, isn\u0027t it?\nEven querying Lucene index for a change like 1234,1 you wouldn\u0027t find anything anyway. It was then just a broken feature.\n\nCan we expect something different than a number?\nPotentially we could implement a different logic, BUT the reindex of that individual change would then take a *very long* time to execute, making the delta indexing mostly useless.\n\nI would keep it simple for now with the support of numeric change id only.",
+      "parentUuid": "0b70b387_57db8ed0",
+      "range": {
+        "startLine": 120,
+        "startChar": 27,
+        "endLine": 120,
+        "endChar": 62
+      },
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4bfb44_32af1065",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 2

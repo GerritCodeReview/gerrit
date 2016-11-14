@@ -21,8 +21,10 @@
  * that will be appended to emails related to a user submitting comments on
  * changes.
  * @param commentFiles
+ * @param commentTimestamp
  */
 {template .CommentFooter autoescape="strict" kind="text"}
+  Gerrit-Comment-Date: {$commentTimestamp}
   {if length($commentFiles) > 0}
     Gerrit-HasComments: Yes
   {else}

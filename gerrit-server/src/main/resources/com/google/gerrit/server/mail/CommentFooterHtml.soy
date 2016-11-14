@@ -18,6 +18,7 @@
 
 /**
  * @param commentFiles
+ * @param commentTimestamp
  */
 {template .CommentFooterHtml autoescape="strict" kind="html"}
   {let $footerStyle kind="css"}
@@ -25,6 +26,7 @@
   {/let}
 
   <p style="{$footerStyle}">
+    Gerrit-Comment-Date: {$commentTimestamp}
     {if length($commentFiles) > 0}
       Gerrit-HasComments: Yes
     {else}

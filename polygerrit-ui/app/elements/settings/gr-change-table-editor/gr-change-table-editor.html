@@ -1,0 +1,95 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<link rel="import" href="../../../behaviors/gr-change-table-behavior.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
+
+<dom-module id="gr-change-table-editor">
+  <template>
+    <style>
+      th.nameHeader {
+        width: 11em;
+      }
+      tbody tr:first-of-type td .move-up-button,
+      tbody tr:last-of-type td .move-down-button {
+        display: none;
+      }
+      .newTitleInput {
+        width: 10em;
+      }
+      .newUrlInput {
+        width: 23em;
+      }
+      .addOptions {
+        margin-top: 1em;
+      }
+    </style>
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
+        <thead>
+          <tr>
+            <th class="nameHeader">Column</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="[[changeTableItems]]">
+            <tr>
+              <td>[[item]]</td>
+              <td>
+                <gr-button
+                    data-index="[[index]]"
+                    on-tap="_handleDeleteButton"
+                    class="remove-button">Delete</gr-button>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+
+      <template is="dom-if" if="[[changeTableNotDisplayed.length]]">
+        <table class=addOptions>
+          <thead>
+            <tr>
+              <th class="nameHeader">Hidden</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="[[changeTableNotDisplayed]]">
+              <tr>
+                <td>[[item]]</td>
+                <td>
+                  <gr-button
+                      on-tap="_handleAddButton"
+                      class="add-button"
+                      data-index="[[index]]">
+                    Add
+                  </gr-button>
+                </td>
+              </tr>
+            </template>
+          <tbody>
+        </table>
+      </template>
+    </div>
+  </template>
+  <script src="gr-change-table-editor.js"></script>
+</dom-module>

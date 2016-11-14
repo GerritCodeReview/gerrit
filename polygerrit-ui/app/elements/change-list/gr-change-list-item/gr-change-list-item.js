@@ -18,6 +18,7 @@
     is: 'gr-change-list-item',
 
     properties: {
+      visibleChangeTableColumns: Array,
       selected: {
         type: Boolean,
         value: false,
@@ -45,6 +46,7 @@
     behaviors: [
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
+      Gerrit.ChangeTableBehavior,
     ],
 
     _computeChangeURL: function(changeNum) {

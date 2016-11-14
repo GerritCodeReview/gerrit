@@ -76,6 +76,7 @@
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
+      Gerrit.ChangeTableBehavior,
     ],
 
     keyBindings: {
@@ -88,15 +89,24 @@
       this._loadPreferences();
     },
 
+    lowerCase: function(column) {
+      return column.toLowerCase();
+    },
+
     _loadPreferences: function() {
       return this._getLoggedIn().then(function(loggedIn) {
+        this.changeTableColumns = this.CHANGE_TABLE_COLUMNS;
+
         if (!loggedIn) {
           this.showNumber = false;
+          this.visibleChangeTableColumns = this.CHANGE_TABLE_COLUMNS;
           return;
         }
         return this._getPreferences().then(function(preferences) {
           this.showNumber = !!(preferences &&
               preferences.legacycid_in_change_table);
+          this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
+              preferences.change_table : this.CHANGE_TABLE_COLUMNS;
         }.bind(this));
       }.bind(this));
     },

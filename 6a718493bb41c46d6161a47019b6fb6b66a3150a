@@ -22,6 +22,24 @@
       "revId": "6a718493bb41c46d6161a47019b6fb6b66a3150a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_84c0c6e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-14T22:01:20Z",
+      "side": 1,
+      "message": "That would cause collisions with the CSS rules applied by transparentBackground, so I don\u0027t think so.",
+      "parentUuid": "b031d818_42925239",
+      "revId": "6a718493bb41c46d6161a47019b6fb6b66a3150a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

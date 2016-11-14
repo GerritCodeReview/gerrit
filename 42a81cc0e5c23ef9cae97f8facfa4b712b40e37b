@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0748cbf_93b6dcb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-11-14T09:00:53Z",
+      "side": 1,
+      "message": "Use a syntacial invalid id , e.g. \"1234,1\"",
+      "parentUuid": "cb4bfb44_12b20ccc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4bfb44_52bc949b",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 2

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_24df92f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-14T21:09:37Z",
+      "side": 1,
+      "message": "\"description of\" or \"description for\"",
+      "range": {
+        "startLine": 652,
+        "startChar": 36,
+        "endLine": 652,
+        "endChar": 47
+      },
+      "revId": "ea5c3d057fb63faa4b9518aef1875a5a1eb1004b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_c4d31eef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-14T21:09:37Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 492,
+        "startChar": 35,
+        "endLine": 492,
+        "endChar": 46
+      },
+      "revId": "ea5c3d057fb63faa4b9518aef1875a5a1eb1004b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_b6f786dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-14T19:18:51Z",
+      "side": 1,
+      "message": "It\u0027s okay to set the revision explicitly, but if it\u0027s not set Gerrit is automatically choosing HEAD as revision, so I wouldn\u0027t say it\u0027s unclear.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "1d55a32535ee022db2bef36946f88ea174c5c3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_36e45627",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-14T19:18:51Z",
+      "side": 1,
+      "message": "Do we have this problem only on the stable branch or also in master? If it\u0027s also in master I would prefer to find out why these tests interfere before executing them all in a sandbox.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 61
+      },
+      "revId": "1d55a32535ee022db2bef36946f88ea174c5c3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

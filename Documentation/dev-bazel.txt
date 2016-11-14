@@ -56,7 +56,7 @@ To build Gerrit in headless mode, i.e. without the GWT Web UI:
 The output executable WAR will be placed in:
 
 ----
-  bazel-bin/headless/headless.war
+  bazel-bin/headless.war
 ----
 
 === Extension and Plugin API JAR Files

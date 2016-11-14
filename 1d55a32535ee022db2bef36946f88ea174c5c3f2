@@ -93,6 +93,30 @@
       "revId": "1d55a32535ee022db2bef36946f88ea174c5c3f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_76dece50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-14T19:27:16Z",
+      "side": 1,
+      "message": "If we don\u0027t need the Sandboxed annotation on master then I\u0027m fine with adding it here.",
+      "parentUuid": "0b70b387_b79b02bd",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 61
+      },
+      "revId": "1d55a32535ee022db2bef36946f88ea174c5c3f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

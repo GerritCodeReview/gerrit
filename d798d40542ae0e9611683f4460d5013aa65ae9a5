@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_96fa8a05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "This is not accurate.\n\nThis change is not only bazel related and it\u0027s not fixing build in development mode for GWT UI, Bazel build. And for PolyGerrit we don\u0027t need any builds during development, only optionally during initialization of FontServlet and BowerComponentServlet servlets.\n\nMay be:\n\n  PolyGerrit: build bower components and fonts on dev servlets init",
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_760dee53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "If you mention, removal of fonts, mention the removal of bower_components as well:\n\n  rm -rf bazel-bin/polygerrit-ui/polygerrit_components.bower_components.zip",
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_f7849aa7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "Nit: unusual indentation. Should be:\n\n  public BazelBuild(Path sourceRoot) {\n    super(sourceRoot);\n  }",
+      "range": {
+        "startLine": 21,
+        "startChar": 37,
+        "endLine": 21,
+        "endChar": 59
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_16ef5a45",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BazelBuild.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "@Override annotation is missing and Eclipse warning is issued.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 76
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_36ec564e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsDevServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "Unused now, as the code that was using it was removed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_76e6ce6f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "Here the indentation for the same code is correct.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_56e9d23c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "@Override annotation is missing and Eclipse warning is issued.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 76
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_d6f4021b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "Nit: wrong indentation, 2 chars.",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 6
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_977526f1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuildSystem.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "We havn\u0027t fixed it during previous review, but I still strongly prefer to dump the build system name here. Instead of:\n\n  [2016-11-14 04:50:37,519] [main] INFO  com.google.gerrit.httpd.raw.BuildSystem : building //polygerrit-ui:polygerrit_components.bower_components.zip\n\nit should be:\n\n  [...] building [bazel] //polygerrit-ui:polygerrit_components.bower_components.zip\n\nand\n\n  building [buck] //polygerrit-ui:polygerrit_components",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 45
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_b6ff86f4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuildSystem.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "One way to implement the dump build system name suggested above is to add\n\n  abstract String name();\n\nmethod here and override in the different build system implementations: [1].\n\n* [1] http://paste.openstack.org/show/589118",
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_f6f9fe0f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/FontsDevServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b70b387_176af60c",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T13:15:52Z",
+      "side": 1,
+      "message": "How it worked before this change? BazelBuild exposes this method:\n\n  @Override\n  public Label fontZipLabel() {\n    return new Label(\"polygerrit-ui\", \"fonts.zip\");\n  }\n\nSo i assumed, that this was already implemented?\n\n  bazel build //polygerrit-ui:fonts.zip\n\nBut, in fact, without this change i\u0027m getting this error:\n\n  ERROR: (11-14 05:14:15.974) no such target \u0027//polygerrit-ui:fonts.zip\u0027: target \u0027fonts.zip\u0027 not declared in package \u0027polygerrit-ui\u0027 defined by /home/davido/projects/gerrit/polygerrit-ui/BUILD.",
+      "revId": "d798d40542ae0e9611683f4460d5013aa65ae9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

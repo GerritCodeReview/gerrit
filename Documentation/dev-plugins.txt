@@ -684,6 +684,45 @@ public class SampleOperator
 }
 ----
 
+[[search_operands]
+Search Operands
+---------------
+
+Plugins can define new search operands to extend change searching
+<<quic_only,*QuIC>>.
+Plugin methods implementing search operands (returning a
+`Predicate<ChangeData>`), must be defined on a class implementing
+one of the `ChangeQueryBuilder.ChangeOperandsFactory` interfaces
+(.e.g., ChangeQueryBuilder.ChangeHasOperandFactory).  The specific
+`ChangeOperandFactory` class must also be bound to the `DynamicSet` from
+a module's `configure()` method in the plugin.
+
+The new operand, when used in a search would appear as:
+  operatorName:operandName_pluginName
+
+A sample `ChangeHasOperandFactory` class implementing, and registering, a
+new `has:sample_pluginName` operand is shown below:
+
+====
+  @Singleton
+  public class SampleHasOperand implements ChangeHasOperandFactory {
+    public static class Module extends AbstractModule {
+      @Override
+      protected void configure() {
+        DynamicSet.bind(ChangeHasOperandFactory.class)
+            .annotatedWith(Exports.names("sample")
+            .to(SampleHasOperand.class);
+      }
+    }
+
+    @Override
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder)
+        throws QueryParseException {
+      return new HasSamplePredicate();
+    }
+====
+
+
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`
 

@@ -28,6 +28,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -98,6 +99,27 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       extends OperatorFactory<ChangeData, ChangeQueryBuilder> {
   }
 
+  /**
+   * Converts a operand (operator value) passed to an operator into a
+   *  {@link Predicate}.
+   *
+   * Register a ChangeOperandFactory in a config Module like this (note, for
+   * an example we are using the has predicate, when other predicate plugin
+   * operands are created they can be registered in a similar manner):
+   *
+   *   bind(ChangeHasOperandFactory.class)
+   *      .annotatedWith(Exports.named("your has operand"))
+   *      .to(YourClass.class);
+   *
+   */
+  private interface ChangeOperandFactory {
+    Predicate<ChangeData> create(ChangeQueryBuilder builder)
+        throws QueryParseException;
+  }
+
+  public interface ChangeHasOperandFactory extends ChangeOperandFactory {
+  }
+
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
   private static final Pattern DEF_CHANGE = Pattern.compile(
@@ -166,6 +188,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<InternalChangeQuery> queryProvider;
     final ChangeIndexRewriter rewriter;
     final DynamicMap<ChangeOperatorFactory> opFactories;
+    final DynamicMap<ChangeHasOperandFactory> hasOperands;
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
@@ -199,6 +222,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
+        DynamicMap<ChangeHasOperandFactory> hasOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
@@ -224,11 +248,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         @GerritServerConfig Config cfg) {
-      this(db, queryProvider, rewriter, opFactories, userFactory, self,
-          capabilityControlFactory, changeControlGenericFactory, notesFactory,
-          changeDataFactory, fillArgs, commentsUtil, accountResolver, groupBackend,
-          allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, submitDryRun, conflictsCache,
+      this(db, queryProvider, rewriter, opFactories, hasOperands, userFactory,
+          self, capabilityControlFactory, changeControlGenericFactory, notesFactory, changeDataFactory, fillArgs, commentsUtil,
+          accountResolver, groupBackend, allProjectsName, allUsersName, patchListCache, repoManager, projectCache, listChildProjects, submitDryRun, conflictsCache,
           trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
           indexConfig, listMembers, starredChangesUtil, accountCache,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
@@ -239,6 +261,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
+        DynamicMap<ChangeHasOperandFactory> hasOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
@@ -293,15 +316,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.starredChangesUtil = starredChangesUtil;
      this.accountCache = accountCache;
      this.allowsDrafts = allowsDrafts;
+     this.hasOperands = hasOperands;
     }
 
     Arguments asUser(CurrentUser otherUser) {
-      return new Arguments(db, queryProvider, rewriter, opFactories, userFactory,
-          Providers.of(otherUser),
+      return new Arguments(db, queryProvider, rewriter, opFactories,
+          hasOperands, userFactory, Providers.of(otherUser),
           capabilityControlFactory, changeControlGenericFactory, notesFactory,
-          changeDataFactory, fillArgs, commentsUtil, accountResolver, groupBackend,
-          allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, submitDryRun,
+          changeDataFactory, fillArgs, commentsUtil, accountResolver,
+          groupBackend, allProjectsName, allUsersName, patchListCache,
+          repoManager, projectCache, listChildProjects, submitDryRun,
           conflictsCache, trackingFooters, index, indexConfig, listMembers,
           starredChangesUtil, accountCache, allowsDrafts);
     }
@@ -453,6 +477,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if ("edit".equalsIgnoreCase(value)) {
       return new EditByPredicate(self());
     }
+
+    // for plugins the value will be operandName_pluginName
+    String[] names = value.split("_");
+    if (names.length == 2) {
+      ChangeHasOperandFactory op = args.hasOperands.get(names[1], names[0]);
+      if (op != null) {
+        return op.create(this);
+      }
+    }
+
     throw new IllegalArgumentException();
   }
 

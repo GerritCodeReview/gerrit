@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b70b387_979e06ed",
+        "filename": "tools/bzl/classpath.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-14T14:52:14Z",
+      "side": 1,
+      "message": "I tested this on top of this change: [1], where top level classpath dependecies are defined with this rule:\n\n  classpath_collector(\n      name \u003d \"classpath_collect\",\n      deps \u003d [\":classpath\"],\n      testonly \u003d 1,\n  )\n\nand getting this warnins: [2]. But the result is generated: [3].\n\n* [1] https://gerrit-review.googlesource.com/91440\n* [2] http://paste.openstack.org/show/589132\n* [3] http://paste.openstack.org/show/589133",
+      "revId": "90e5b02ed6fc605705e3aa06a4fcb6331feb86dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

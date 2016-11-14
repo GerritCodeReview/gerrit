@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-settings-view</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-change-table-editor.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-table-editor></gr-change-table-editor>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-settings-view tests', function() {
+    var element;
+    var columns;
+
+    // Click the up/down button (according to direction) for the index'th row.
+    // The index of the first row is 0, corresponding to the array.
+    function move(element, index, direction) {
+      var selector =
+          'tr:nth-child(' + (index + 1) + ') .move-' + direction + '-button';
+      var button = element.$$('tbody').querySelector(selector);
+      MockInteractions.tap(button);
+      flushAsynchronousOperations();
+    }
+
+    setup(function() {
+      element = fixture('basic');
+      columns = [
+        'Subject',
+        'Status',
+        'Owner',
+        'Project',
+        'Branch',
+        'Updated',
+      ];
+
+      columnsNotDisplayed = ['Size'];
+
+      element.set('changeTableItems', columns);
+      element.set('changeTableNotDisplayed', columnsNotDisplayed);
+      flushAsynchronousOperations();
+    });
+
+    test('renders', function() {
+      var rows = element.$$('tbody').querySelectorAll('tr');
+      var tds;
+
+      assert.equal(rows.length, columns.length);
+      for (var i = 0; i < columns.length; i++) {
+        tds = rows[i].querySelectorAll('td');
+        assert.equal(tds[0].textContent, columns[i]);
+      }
+    });
+
+    test('add hidden item', function() {
+      var originalNumberColumns = element.changeTableItems.length;
+      var originalNumberHiddenColumns = element.changeTableNotDisplayed.length;
+
+      var addBtn = element.$$('.addOptions gr-button');
+      var columnName = element.$$('.addOptions tr td').innerHTML;
+
+      assert.equal(element.$$('.addOptions').style.display, '');
+
+      MockInteractions.tap(addBtn);
+      flushAsynchronousOperations();
+
+      assert.equal(element.changeTableItems.length, originalNumberColumns + 1);
+      assert.equal(element.changeTableNotDisplayed.length,
+            originalNumberHiddenColumns - 1);
+
+      assert.equal(
+          element.changeTableItems[element.changeTableItems.length - 1],
+          columnName);
+
+      assert.equal(element.$$('.addOptions').style.display, 'none');
+    });
+
+    test('remove item', function() {
+      var columns = element.changeTableItems.length;
+      assert.deepEqual(element.changeTableItems,
+          ['Subject',
+            'Status',
+            'Owner',
+            'Project',
+            'Branch',
+            'Updated',
+          ]);
+
+      // Tap the delete button for the second item.
+      MockInteractions.tap(
+          element.$$('tbody').querySelector('tr:nth-child(2) .remove-button'));
+
+      assert.deepEqual(element.changeTableItems,
+          ['Subject',
+            'Owner',
+            'Project',
+            'Branch',
+            'Updated',
+          ]);
+      assert.deepEqual(element.changeTableNotDisplayed,
+          ['Status',
+            'Size',
+          ]);
+
+      // Delete remaining items.
+      for (var i = 0; i < columns - 1; i++) {
+        MockInteractions.tap(
+            element.$$('tbody').querySelector('tr:first-child .remove-button'));
+      }
+      assert.deepEqual(element.changeTableItems, []);
+      assert.deepEqual(element.changeTableNotDisplayed, ['Subject',
+            'Status',
+            'Owner',
+            'Project',
+            'Branch',
+            'Updated',
+            'Size',
+          ]);
+    });
+
+    test('add item', function() {
+
+      element.set('changeTableItems', [
+          'Status',
+          'Owner',
+          'Project',
+          'Branch',
+          'Updated',
+        ]);
+
+      element.set('changeTableNotDisplayed', ['Subject', 'Size']);
+
+      var columns = element.changeTableItems.length;
+      flushAsynchronousOperations();
+
+      // Tap the add button for the second item.
+      MockInteractions.tap(
+          element.$$('.addOptions').querySelector(
+              'tr:nth-child(2) .add-button'));
+
+      flushAsynchronousOperations();
+      assert.deepEqual(element.changeTableItems,
+          ['Status',
+            'Owner',
+            'Project',
+            'Branch',
+            'Updated',
+            'Size',
+          ]);
+      assert.deepEqual(element.changeTableNotDisplayed, ['Subject']);
+
+      // Add remaining item.
+      MockInteractions.tap(
+            element.$$('.addOptions').querySelector('.add-button'));
+      flushAsynchronousOperations();
+
+      assert.deepEqual(element.changeTableNotDisplayed, []);
+      assert.deepEqual(element.changeTableItems, [
+          'Subject',
+          'Status',
+          'Owner',
+          'Project',
+          'Branch',
+          'Updated',
+          'Size'
+        ]);
+    });
+  });
+</script>

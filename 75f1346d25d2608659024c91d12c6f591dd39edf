@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0748cbf_f3a9505a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-14T09:06:50Z",
+      "side": 1,
+      "message": "Missing .isTrue() at the end.\n\nAlso at the lines 204 and 213",
+      "revId": "75f1346d25d2608659024c91d12c6f591dd39edf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -61,7 +62,8 @@ public class GerritServer {
       return new AutoValue_GerritServer_Description(
           configName,
           true, // @UseLocalDisk is only valid on methods.
-          !hasNoHttpd(testDesc.getTestClass()),
+          !has(NoHttpd.class, testDesc.getTestClass()),
+          has(Sandboxed.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
           null); // @GerritConfigs is only valid on methods.
 
@@ -73,14 +75,17 @@ public class GerritServer {
           configName,
           testDesc.getAnnotation(UseLocalDisk.class) == null,
           testDesc.getAnnotation(NoHttpd.class) == null
-            && !hasNoHttpd(testDesc.getTestClass()),
+            && !has(NoHttpd.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(Sandboxed.class) != null ||
+              has(Sandboxed.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class));
     }
 
-    private static boolean hasNoHttpd(Class<?> clazz) {
+    private static boolean has(
+        Class<? extends Annotation> annotation, Class<?> clazz) {
       for (; clazz != null; clazz = clazz.getSuperclass()) {
-        if (clazz.getAnnotation(NoHttpd.class) != null) {
+        if (clazz.getAnnotation(annotation) != null) {
           return true;
         }
       }
@@ -90,6 +95,7 @@ public class GerritServer {
     @Nullable abstract String configName();
     abstract boolean memory();
     abstract boolean httpd();
+    abstract boolean sandboxed();
     @Nullable abstract GerritConfig config();
     @Nullable abstract GerritConfigs configs();
 

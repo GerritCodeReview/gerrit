@@ -29,6 +29,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -322,7 +323,8 @@ public abstract class AbstractDaemonTest {
     baseConfig.setString("gerrit", null, "tempSiteDir",
         tempSiteDir.getRoot().getPath());
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
-    if (classDesc.equals(methodDesc)) {
+    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() &&
+        !methodDesc.sandboxed()) {
       if (commonServer == null) {
         commonServer = GerritServer.start(classDesc, baseConfig);
       }
@@ -939,5 +941,14 @@ public abstract class AbstractDaemonTest {
     EmailHeader.String replyTo =
         (EmailHeader.String)message.headers().get("Reply-To");
     assertThat(replyTo.getString()).isEqualTo(email);
+  }
+
+  protected TestRepository<?> createProjectWithPush(String name,
+      @Nullable Project.NameKey parent,
+      SubmitType submitType) throws Exception {
+    Project.NameKey project = createProject(name, parent, true, submitType);
+    grant(Permission.PUSH, project, "refs/heads/*");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
+    return cloneProject(project);
   }
 }

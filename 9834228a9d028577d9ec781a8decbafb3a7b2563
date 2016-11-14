@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_64e58ac0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-14T21:07:04Z",
+      "side": 1,
+      "message": "Each of these steps is on a new screen so I think it\u0027s implicit.",
+      "parentUuid": "eb6c3fba_b6a5c6f1",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 10
+      },
+      "revId": "9834228a9d028577d9ec781a8decbafb3a7b2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_02896a0c",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-14T21:07:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6c3fba_56d63252",
+      "range": {
+        "startLine": 138,
+        "startChar": 15,
+        "endLine": 138,
+        "endChar": 27
+      },
+      "revId": "9834228a9d028577d9ec781a8decbafb3a7b2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_b60ea615",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-11-14T18:59:09Z",
       "side": 1,
       "message": "nit: line too long",
+      "range": {
+        "startLine": 140,
+        "startChar": 80,
+        "endLine": 140,
+        "endChar": 91
+      },
+      "revId": "9834228a9d028577d9ec781a8decbafb3a7b2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_a4b382c8",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-14T21:07:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6c3fba_b60ea615",
       "range": {
         "startLine": 140,
         "startChar": 80,

@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.UserScopedEventListener;
+import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
@@ -369,6 +370,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), WebUiPlugin.class);
     DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
     DynamicSet.setOf(binder(), AssigneeValidationListener.class);
+    DynamicSet.setOf(binder(), ActionVisitor.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

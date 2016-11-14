@@ -4,4 +4,5 @@ acceptance_tests(
   group = 'api_account',
   srcs = glob(['*IT.java']),
   labels = ['api'],
+  shard_count = 2,
 )

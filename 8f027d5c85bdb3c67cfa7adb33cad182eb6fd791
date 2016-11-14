@@ -23,6 +23,30 @@
       "revId": "8f027d5c85bdb3c67cfa7adb33cad182eb6fd791",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_e28566f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-14T21:00:51Z",
+      "side": 1,
+      "message": "Yeah, probably would have caught that if there were tests, which I\u0027ll write once we determine this is an ok approach.",
+      "parentUuid": "f0a51083_04c37629",
+      "range": {
+        "startLine": 98,
+        "startChar": 69,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "8f027d5c85bdb3c67cfa7adb33cad182eb6fd791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

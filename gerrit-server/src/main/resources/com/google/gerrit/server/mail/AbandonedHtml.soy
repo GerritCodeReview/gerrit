@@ -17,14 +17,13 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param change
  * @param coverLetter
  * @param email
  * @param fromName
  */
 {template .AbandonedHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} abandoned <strong>{$change.subject}</strong>.
+    {$fromName} <strong>abandoned</strong> this change.
   </p>
 
   {if $email.changeUrl}
@@ -34,6 +33,6 @@
   {/if}
 
   {if $coverLetter}
-    {call .Pre}{param content: $coverLetter /}{/call}
+    <div style="white-space:pre-wrap">{$coverLetter}</div>
   {/if}
 {/template}

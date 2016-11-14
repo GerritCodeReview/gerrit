@@ -17,13 +17,12 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param change
  * @param email
  * @param fromName
  */
 {template .MergedHtml autoescape="strict" kind="html"}
   <p>
-    {$fromName} merged <strong>{$change.subject}</strong>.
+    {$fromName} <strong>merged</strong> this change.
   </p>
 
   {if $email.changeUrl}
@@ -32,9 +31,9 @@
     </p>
   {/if}
 
-  {call .Pre}{param content: $email.changeDetail /}{/call}
+  <div style="white-space:pre-wrap">{$email.approvals}</div>
 
-  {call .Pre}{param content: $email.approvals /}{/call}
+  {call .Pre}{param content: $email.changeDetail /}{/call}
 
   {if $email.includeDiff}
     {call .Pre}{param content: $email.unifiedDiff /}{/call}

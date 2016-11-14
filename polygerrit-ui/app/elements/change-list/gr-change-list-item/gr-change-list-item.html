@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
+<link rel="import" href="../../../behaviors/gr-change-table-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
@@ -66,30 +66,45 @@ limitations under the License.
       }
     </style>
     <style include="gr-change-list-styles"></style>
-    <span class="cell keyboard">
-      <span class="positionIndicator">&#x25b6;</span>
-    </span>
-    <span class="cell star" hidden$="[[!showStar]]" hidden>
-      <gr-change-star change="{{change}}"></gr-change-star>
-    </span>
-    <a class="cell number" href$="[[changeURL]]" hidden$="[[!showNumber]]" hidden>
-      [[change._number]]
-    </a>
-    <a class="cell subject" href$="[[changeURL]]">[[change.subject]]</a>
-    <span class="cell status">[[changeStatusString(change)]]</span>
-    <span class="cell owner">
-      <gr-account-link account="[[change.owner]]"></gr-account-link>
-    </span>
-    <a class="cell project" href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
-    <a class="cell branch" href$="[[_computeProjectBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
-    <gr-date-formatter class="cell updated" date-str="[[change.updated]]"></gr-date-formatter>
-    <span class="cell size u-monospace">
-      <span class="u-green"><span>+</span>[[change.insertions]]</span>,
-      <span class="u-red"><span>-</span>[[change.deletions]]</span>
-    </span>
+    <td class="cell keyboard">
+      <span class="positionIndicator">&#x25b6;</span></td>
+    <td class="cell star" hidden$="[[!showStar]]" hidden>
+    <gr-change-star change="{{change}}"></gr-change-star></td>
+    <td class="cell number"
+        hidden$="[[!showNumber]]" hidden>
+    <a href$="[[changeURL]]">
+        [[change._number]]</a></td>
+    <td class="cell subject"
+        hidden$="[[!displayColumn('Subject', visibleChangeTableColumns)]]">
+      <a href$="[[changeURL]]">
+        [[change.subject]]</a></td>
+    <td class="cell status"
+        hidden$="[[!displayColumn('Status', visibleChangeTableColumns)]]">
+    [[changeStatusString(change)]]</td>
+    <td class="cell owner"
+        hidden$="[[!displayColumn('Owner', visibleChangeTableColumns)]]">
+    <gr-account-link account="[[change.owner]]"></gr-account-link></td>
+    <td class="cell project"
+        hidden$="[[!displayColumn('Project', visibleChangeTableColumns)]]">
+    <a href$="[[_computeProjectURL(change.project)]]">
+        [[change.project]]</a></td>
+    <td class="cell branch"
+        hidden$="[[!displayColumn('Branch', visibleChangeTableColumns)]]">
+    <a href$="[[_computeProjectBranchURL(change.project, change.branch)]]">
+        [[change.branch]]
+      </a></td>
+    <td class="cell updated"
+        hidden$="[[!displayColumn('Updated', visibleChangeTableColumns)]]">
+    <gr-date-formatter date-str="[[change.updated]]">
+      </gr-date-formatter></td>
+    <td class="cell size u-monospace"
+        hidden$="[[!displayColumn('Size', visibleChangeTableColumns)]]">
+    <span class="u-green"><span>+</span>[[change.insertions]]</span>,
+      <span class="u-red"><span>-</span>[[change.deletions]]</span></td>
     <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-      <span title$="[[_computeLabelTitle(change, labelName)]]"
-          class$="[[_computeLabelClass(change, labelName)]]">[[_computeLabelValue(change, labelName)]]</span>
+      <td title$="[[_computeLabelTitle(change, labelName)]]"
+          class$="[[_computeLabelClass(change, labelName)]]">
+    [[_computeLabelValue(change, labelName)]]</td>
     </template>
   </template>
   <script src="gr-change-list-item.js"></script>

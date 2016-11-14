@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -30,6 +31,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.SortedSet;
 
 public class Schema_131 extends SchemaVersion {
   private static final String COMMIT_MSG =
@@ -49,7 +51,10 @@ public class Schema_131 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    for (Project.NameKey projectName : repoManager.list()) {
+    int updatedCount = 0;
+    SortedSet<NameKey> repoList = repoManager.list();
+    ui.message("\tMigrating " + repoList.size() + " repositories ...");
+    for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
               projectName, git)) {
@@ -59,10 +64,12 @@ public class Schema_131 extends SchemaVersion {
           md.getCommitBuilder().setCommitter(serverUser);
           md.setMessage(COMMIT_MSG);
           config.commit(md);
+          updatedCount++;
         }
       } catch (ConfigInvalidException | IOException ex) {
         throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }
+    ui.message("\tMigration completed:  " + updatedCount + " repositories updated.");
   }
 }

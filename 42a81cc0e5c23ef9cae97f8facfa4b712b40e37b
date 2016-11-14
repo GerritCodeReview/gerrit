@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "eb6c3fba_3603762e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T12:35:49Z",
+      "side": 1,
+      "message": "The parsing was based on the fact that the ID could identify an individual patch-set. However, here we target a change and not a patch. Therefore, just parsing from Int is the right solution.",
+      "parentUuid": "3026c8ad_b62c080a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4bfb44_52bc949b",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "0b70b387_57db8ed0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T12:35:49Z",
+      "side": 1,
+      "message": "Do we expect anything other than a change numeric id here? If yes, it wasn\u0027t documented and wasn\u0027t working either.",
+      "parentUuid": "cb4bfb44_52bc949b",
+      "range": {
+        "startLine": 120,
+        "startChar": 27,
+        "endLine": 120,
+        "endChar": 62
+      },
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb4bfb44_32af1065",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 2
@@ -107,6 +155,24 @@
       "writtenOn": "2016-11-11T16:42:30Z",
       "side": 1,
       "message": "Why do we need to log this as an error when a user makes a typo in his SSH command?",
+      "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_5610f26c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-14T12:35:49Z",
+      "side": 1,
+      "message": "I am not awareof a way to provide a different output to the REST API collection results. But possibly I could try to throw an exception and then catch at SSH command level. Let me try that out ...",
+      "parentUuid": "cb4bfb44_32af1065",
       "revId": "42a81cc0e5c23ef9cae97f8facfa4b712b40e37b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3026c8ad_76f67072",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-14T13:47:45Z",
+      "side": 1,
+      "message": "nit: use tab for indentation like in the rest of this file\n\nsame for the line 45",
+      "revId": "b0df4bb3cf1dccea8a129a415b536e8dd44f4ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

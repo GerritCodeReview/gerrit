@@ -34,7 +34,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
@@ -60,7 +59,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final boolean serverEnableSignedPush;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final ProjectCache projectCache;
-  private final GitRepositoryManager gitMgr;
   private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -73,7 +71,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   PutConfig(@EnableSignedPush boolean serverEnableSignedPush,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
-      GitRepositoryManager gitMgr,
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -84,7 +81,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
-    this.gitMgr = gitMgr;
     this.projectStateFactory = projectStateFactory;
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
@@ -170,7 +166,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       try {
         projectConfig.commit(md);
         projectCache.evict(projectConfig.getProject());
-        gitMgr.setProjectDescription(projectName, p.getDescription());
+        md.getRepository().setGitwebDescription(p.getDescription());
       } catch (IOException e) {
         if (e.getCause() instanceof ConfigInvalidException) {
           throw new ResourceConflictException("Cannot update " + projectName

@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
@@ -39,15 +38,12 @@ import java.io.IOException;
 public class PutDescription implements RestModifyView<ProjectResource, DescriptionInput> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
-  private final GitRepositoryManager gitMgr;
 
   @Inject
   PutDescription(ProjectCache cache,
-      MetaDataUpdate.Server updateFactory,
-      GitRepositoryManager gitMgr) {
+      MetaDataUpdate.Server updateFactory) {
     this.cache = cache;
     this.updateFactory = updateFactory;
-    this.gitMgr = gitMgr;
   }
 
   @Override
@@ -79,9 +75,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       md.setMessage(msg);
       config.commit(md);
       cache.evict(ctl.getProject());
-      gitMgr.setProjectDescription(
-          resource.getNameKey(),
-          project.getDescription());
+      md.getRepository().setGitwebDescription(project.getDescription());
 
       return Strings.isNullOrEmpty(project.getDescription())
           ? Response.<String>none()

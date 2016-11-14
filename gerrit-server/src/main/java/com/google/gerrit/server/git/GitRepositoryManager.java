@@ -61,30 +61,4 @@ public interface GitRepositoryManager {
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();
-
-  /**
-   * Read the {@code GIT_DIR/description} file for gitweb.
-   * <p>
-   * NB: This code should really be in JGit, as a member of the Repository
-   * object. Until it moves there, its here.
-   *
-   * @param name the repository name, relative to the base directory.
-   * @return description text; null if no description has been configured.
-   * @throws RepositoryNotFoundException the named repository does not exist.
-   * @throws IOException the description file exists, but is not readable by
-   *         this process.
-   */
-  String getProjectDescription(Project.NameKey name)
-      throws RepositoryNotFoundException, IOException;
-
-  /**
-   * Set the {@code GIT_DIR/description} file for gitweb.
-   * <p>
-   * NB: This code should really be in JGit, as a member of the Repository
-   * object. Until it moves there, its here.
-   *
-   * @param name the repository name, relative to the base directory.
-   * @param description new description text for the repository.
-   */
-  void setProjectDescription(Project.NameKey name, String description);
 }

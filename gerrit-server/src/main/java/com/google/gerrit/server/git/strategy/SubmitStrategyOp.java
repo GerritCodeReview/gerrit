@@ -56,6 +56,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -485,8 +486,11 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       if (RefNames.REFS_CONFIG.equals(getDest().get())) {
         args.projectCache.evict(getProject());
         ProjectState p = args.projectCache.get(getProject());
-        args.repoManager.setProjectDescription(
-            p.getProject().getNameKey(), p.getProject().getDescription());
+        try (Repository git = args.repoManager.openRepository(getProject())) {
+          git.setGitwebDescription(p.getProject().getDescription());
+        } catch (IOException e) {
+          log.error("cannot update description of " + p.getProject().getName(), e);
+        }
       }
     }
 

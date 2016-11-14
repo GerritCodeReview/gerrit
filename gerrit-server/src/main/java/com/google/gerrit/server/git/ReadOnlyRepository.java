@@ -101,6 +101,11 @@ class ReadOnlyRepository extends Repository {
     return delegate.getReflogReader(refName);
   }
 
+  @Override
+  public String getGitwebDescription() throws IOException {
+    return delegate.getGitwebDescription();
+  }
+
   private static class RefDb extends RefDatabase {
     private final RefDatabase delegate;
 

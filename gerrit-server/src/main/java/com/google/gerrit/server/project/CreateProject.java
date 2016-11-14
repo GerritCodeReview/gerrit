@@ -307,10 +307,9 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
       md.setMessage("Created project\n");
       config.commit(md);
+      md.getRepository().setGitwebDescription(args.projectDescription);
     }
     projectCache.onCreateProject(args.getProject());
-    repoManager.setProjectDescription(args.getProject(),
-        args.projectDescription);
   }
 
   private List<String> normalizeBranchNames(List<String> branches)

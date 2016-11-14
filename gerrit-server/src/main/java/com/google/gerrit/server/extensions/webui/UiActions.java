@@ -27,6 +27,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,14 +43,16 @@ public class UiActions {
   public static <R extends RestResource> Iterable<UiAction.Description> from(
       RestCollection<?, R> collection,
       R resource,
-      Provider<CurrentUser> userProvider) {
-    return from(collection.views(), resource, userProvider);
+      Provider<CurrentUser> userProvider,
+      Config config) {
+    return from(collection.views(), resource, userProvider, config);
   }
 
   public static <R extends RestResource> Iterable<UiAction.Description> from(
       DynamicMap<RestView<R>> views,
-      final R resource,
-      final Provider<CurrentUser> userProvider) {
+      R resource,
+      Provider<CurrentUser> userProvider,
+      Config cfg) {
     return FluentIterable.from(views)
         .transform((DynamicMap.Entry<RestView<R>> e) -> {
               int d = e.getExportName().indexOf('.');
@@ -88,11 +91,11 @@ public class UiActions {
               PrivateInternals_UiActionDescription.setMethod(
                   dsc,
                   e.getExportName().substring(0, d));
-              PrivateInternals_UiActionDescription.setId(
-                  dsc,
-                  "gerrit".equals(e.getPluginName())
-                    ? name
-                    : e.getPluginName() + '~' + name);
+              String id = "gerrit".equals(e.getPluginName())
+                  ? name
+                  : e.getPluginName() + '~' + name;
+              PrivateInternals_UiActionDescription.setId(dsc, id);
+              dsc.setEnabled(cfg.getBoolean("action", id, "enabled", false));
               return dsc;
             })
         .filter(Objects::nonNull);

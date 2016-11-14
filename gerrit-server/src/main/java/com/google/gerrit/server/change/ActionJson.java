@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
@@ -29,20 +30,25 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Singleton
 public class ActionJson {
+  private final Config cfg;
   private final Revisions revisions;
   private final ChangeResource.Factory changeResourceFactory;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
 
   @Inject
   ActionJson(
+      @GerritServerConfig Config cfg,
       Revisions revisions,
       ChangeResource.Factory changeResourceFactory,
       DynamicMap<RestView<ChangeResource>> changeViews) {
+    this.cfg = cfg;
     this.revisions = revisions;
     this.changeResourceFactory = changeResourceFactory;
     this.changeViews = changeViews;
@@ -73,7 +79,8 @@ public class ActionJson {
     for (UiAction.Description d : UiActions.from(
         changeViews,
         changeResourceFactory.create(ctl),
-        userProvider)) {
+        userProvider,
+        cfg)) {
       out.put(d.getId(), new ActionInfo(d));
     }
 
@@ -97,7 +104,7 @@ public class ActionJson {
       Provider<CurrentUser> userProvider = Providers.of(
           rsrc.getControl().getUser());
       for (UiAction.Description d : UiActions.from(
-          revisions, rsrc, userProvider)) {
+          revisions, rsrc, userProvider, cfg)) {
         out.put(d.getId(), new ActionInfo(d));
       }
     }

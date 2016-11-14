@@ -429,6 +429,78 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitWholeTopicMultipleBranchesMultipleProjects() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    String topic = "test-topic";
+
+    // Create test projects
+    String projectA = "project-a";
+    TestRepository<?> repoA = createProjectWithPush(
+        projectA, null, true, getSubmitType());
+    String projectB = "project-b";
+    TestRepository<?> repoB = createProjectWithPush(
+        projectB, null, true, getSubmitType());
+
+    RevCommit initialHeadA =
+        getRemoteHead(new Project.NameKey(name(projectA)), "master");
+    RevCommit initialHeadB =
+        getRemoteHead(new Project.NameKey(name(projectB)), "master");
+
+    // Create the dev branch on test projects
+    BranchInput in = new BranchInput();
+    in.revision = initialHeadA.name();
+    gApi.projects().name(name(projectA)).branch("dev").create(in);
+    in.revision = initialHeadB.name();
+    gApi.projects().name(name(projectB)).branch("dev").create(in);
+
+    // Create changes on master for project A
+    PushOneCommit.Result change1 =
+        createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 =
+        createChange(repoA, "master", "Change 2", "b.txt", "content", topic);
+
+    // Create changes on dev for project A
+    repoA.reset(initialHeadA);
+    PushOneCommit.Result change3 =
+        createChange(repoA, "dev", "Change 3", "a.txt", "content", topic);
+    PushOneCommit.Result change4 =
+        createChange(repoA, "dev", "Change 4", "b.txt", "content", topic);
+
+    // Create changes on master for project B
+    PushOneCommit.Result change5 =
+        createChange(repoB, "master", "Change 5", "a.txt", "content", topic);
+    PushOneCommit.Result change6 =
+        createChange(repoB, "master", "Change 6", "b.txt", "content", topic);
+
+    // Create changes on dev for project B
+    repoB.reset(initialHeadB);
+    PushOneCommit.Result change7 =
+        createChange(repoB, "dev", "Change 7", "a.txt", "content", topic);
+    PushOneCommit.Result change8 =
+        createChange(repoB, "dev", "Change 8", "b.txt", "content", topic);
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
+    approve(change4.getChangeId());
+    approve(change5.getChangeId());
+    approve(change6.getChangeId());
+    approve(change7.getChangeId());
+    approve(change8.getChangeId());
+    submit(change8.getChangeId());
+
+    String expectedTopic = name(topic);
+    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change3.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change4.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change5.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change6.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change7.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change8.assertChange(Change.Status.MERGED, expectedTopic, admin);
+  }
+
+  @Test
   public void submitWholeTopic() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     String topic = "test-topic";

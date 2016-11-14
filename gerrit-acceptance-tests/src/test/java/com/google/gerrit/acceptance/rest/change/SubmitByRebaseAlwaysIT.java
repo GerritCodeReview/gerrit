@@ -19,7 +19,10 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -49,5 +52,29 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
+  }
+
+  @Test
+  public void alwaysAddFooters() throws Exception {
+    String reviewedBy = "Reviewed-by: Administrator <admin@example.com>";
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    assertThat(getCommitMessage(change1)).doesNotContain(reviewedBy);
+    assertThat(getCommitMessage(change2)).doesNotContain(reviewedBy);
+
+    // change1 is a fast-forward, but should be rebased in cherry pick style
+    // anyway, making change2 not a fast-forward, requiring a rebase.
+    approve(change1);
+    submit(change2);
+    // ... but both changes should get reviewed-by footers.
+    assertThat(getCommitMessage(change1)).contains(reviewedBy);
+    assertThat(getCommitMessage(change2)).contains(reviewedBy); // FIXME.
+  }
+
+  private String getCommitMessage(PushOneCommit.Result change)
+      throws RestApiException {
+    ChangeInfo info = get(change.getChangeId(),
+        ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    return info.revisions.get(info.currentRevision).commit.message;
   }
 }

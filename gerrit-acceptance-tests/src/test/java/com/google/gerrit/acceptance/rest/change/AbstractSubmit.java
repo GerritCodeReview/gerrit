@@ -433,6 +433,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
+  protected void submit(PushOneCommit.Result change) throws Exception {
+    submit(change.getChangeId(), new SubmitInput(), null, null);
+  }
+
   protected void submit(String changeId) throws Exception {
     submit(changeId, new SubmitInput(), null, null);
   }

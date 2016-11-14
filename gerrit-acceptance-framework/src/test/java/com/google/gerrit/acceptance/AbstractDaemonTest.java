@@ -882,6 +882,13 @@ public abstract class AbstractDaemonTest {
     return push.to(ref);
   }
 
+  protected void approve(PushOneCommit.Result change) throws Exception {
+    gApi.changes()
+      .id(change.getChangeId())
+      .revision("current")
+      .review(ReviewInput.approve());
+  }
+
   protected void approve(String id) throws Exception {
     gApi.changes()
       .id(id)

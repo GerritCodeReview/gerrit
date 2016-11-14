@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -40,6 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -133,6 +136,10 @@ public class CommentSender extends ReplyToChangeSender {
       bccStarredBy();
       includeWatchers(NotifyType.ALL_COMMENTS);
     }
+
+    // Add header that enables identifying comments on parsed email.
+    // Grouping is currently done by timestamp.
+    setHeader("X-Gerrit-Comment-Date", timestamp);
   }
 
   @Override
@@ -531,6 +538,7 @@ public class CommentSender extends ReplyToChangeSender {
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContext.put("commentFiles", getCommentGroupsTemplateData());
+    soyContext.put("commentTimestamp", getCommentTimestamp());
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {
@@ -551,6 +559,12 @@ public class CommentSender extends ReplyToChangeSender {
       log.warn(String.format("Side %d of file didn't exist", side), err);
       return "";
     }
+  }
+
+  private String getCommentTimestamp() {
+    // Grouping is currently done by timestamp.
+    return MailUtil.rfcDateformatter.format(
+        ZonedDateTime.ofInstant(timestamp.toInstant(), ZoneId.of("UTC")));
   }
 
   @Override

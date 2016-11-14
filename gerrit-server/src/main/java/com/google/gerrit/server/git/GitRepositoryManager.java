@@ -86,6 +86,5 @@ public interface GitRepositoryManager {
    * @param name the repository name, relative to the base directory.
    * @param description new description text for the repository.
    */
-  void setProjectDescription(Project.NameKey name,
-      final String description);
+  void setProjectDescription(Project.NameKey name, String description);
 }

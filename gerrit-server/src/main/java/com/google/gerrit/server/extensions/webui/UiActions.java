@@ -39,17 +39,19 @@ public class UiActions {
     return UiAction.Description::isEnabled;
   }
 
-  public static <R extends RestResource> Iterable<UiAction.Description> from(
-      RestCollection<?, R> collection,
-      R resource,
-      Provider<CurrentUser> userProvider) {
+  public static <R extends RestResource> FluentIterable<UiAction.Description>
+      from(
+          RestCollection<?, R> collection,
+          R resource,
+          Provider<CurrentUser> userProvider) {
     return from(collection.views(), resource, userProvider);
   }
 
-  public static <R extends RestResource> Iterable<UiAction.Description> from(
-      DynamicMap<RestView<R>> views,
-      final R resource,
-      final Provider<CurrentUser> userProvider) {
+  public static <R extends RestResource> FluentIterable<UiAction.Description>
+      from(
+          DynamicMap<RestView<R>> views,
+          final R resource,
+          final Provider<CurrentUser> userProvider) {
     return FluentIterable.from(views)
         .transform((DynamicMap.Entry<RestView<R>> e) -> {
               int d = e.getExportName().indexOf('.');

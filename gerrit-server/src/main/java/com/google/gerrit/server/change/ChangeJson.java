@@ -1097,7 +1097,7 @@ public class ChangeJson {
         && has(CURRENT_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
 
-      actionJson.addRevisionActions(out,
+      actionJson.addRevisionActions(null, out,
           new RevisionResource(changeResourceFactory.create(ctl), in));
     }
 

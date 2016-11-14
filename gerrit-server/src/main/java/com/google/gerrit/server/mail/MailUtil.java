@@ -28,6 +28,7 @@ import com.google.gwtorm.server.OrmException;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +36,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class MailUtil {
+  public static DateTimeFormatter rfcDateformatter =
+      DateTimeFormatter.ofPattern("E, dd MMM yyyy HH:mm:ss Z");
+
   public static MailRecipients getRecipientsFromFooters(
       ReviewDb db, AccountResolver accountResolver, boolean draftPatchSet,
       List<FooterLine> footerLines) throws OrmException {

@@ -32,6 +32,7 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
@@ -85,6 +86,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+@Sandboxed
 public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
@@ -186,13 +188,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test project
+    String projectName = "project-a";
     TestRepository<?> repoA = createProjectWithPush(
-        "project-a", null, getSubmitType());
+        projectName, null, getSubmitType());
+
+    RevCommit initialHead =
+        getRemoteHead(new Project.NameKey(name(projectName)), "master");
 
     // Create the dev branch on the test project
     BranchInput in = new BranchInput();
-    gApi.projects().name(name("project-a")).branch("dev").create(in);
-    RevCommit initialHead = getRemoteHead(project, "master");
+    in.revision = initialHead.name();
+    gApi.projects().name(name(projectName)).branch("dev").create(in);
 
     // Create changes on master
     PushOneCommit.Result change1 =

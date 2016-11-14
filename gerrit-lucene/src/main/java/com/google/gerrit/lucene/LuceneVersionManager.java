@@ -52,8 +52,6 @@ public class LuceneVersionManager implements LifecycleListener {
   private static final Logger log = LoggerFactory
       .getLogger(LuceneVersionManager.class);
 
-  static final String CHANGES_PREFIX = "changes_";
-
   private static class Version<V> {
     private final Schema<V> schema;
     private final int version;

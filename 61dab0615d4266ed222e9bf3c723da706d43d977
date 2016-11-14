@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_e229e6f8",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-14T21:43:11Z",
+      "side": 1,
+      "message": "This can be simplified to:\n\n  approve(change.getChangeId());",
+      "range": {
+        "startLine": 886,
+        "startChar": 4,
+        "endLine": 889,
+        "endChar": 37
+      },
+      "revId": "61dab0615d4266ed222e9bf3c723da706d43d977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_42f6d271",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-14T21:43:11Z",
+      "side": 1,
+      "message": "Simplify to:\n\n submit(change.getChangeId());",
+      "range": {
+        "startLine": 437,
+        "startChar": 4,
+        "endLine": 437,
+        "endChar": 64
+      },
+      "revId": "61dab0615d4266ed222e9bf3c723da706d43d977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_22fbce59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-14T21:43:11Z",
+      "side": 1,
+      "message": "If this is changed to:\n\n  change1.getChangeId()\n\nthen it\u0027s not necessary to make the additional changes in AbstractDaemonTest.\n\n(and it would also be consistent with the rest of the tests which explicitly call getChangeId())",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "61dab0615d4266ed222e9bf3c723da706d43d977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_c450fe7d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-14T21:43:11Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 68,
+        "startChar": 11,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "61dab0615d4266ed222e9bf3c723da706d43d977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

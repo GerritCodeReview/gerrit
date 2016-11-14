@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "b05ab866_1a70bd49",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-14T22:47:51Z",
+      "side": 1,
+      "message": "i thought it\u0027s easier to read submit(change1) and just as informational. I don\u0027t mind changing the code everywhere. But it could be just my preference.",
+      "parentUuid": "b031d818_22fbce59",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "61dab0615d4266ed222e9bf3c723da706d43d977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_c450fe7d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
         "patchSetId": 1

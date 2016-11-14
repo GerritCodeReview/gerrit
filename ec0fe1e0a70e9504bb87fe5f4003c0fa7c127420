@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6c3fba_366536cc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-14T19:47:13Z",
+      "side": 1,
+      "message": "REST API\n\nto be consistent with other documentation",
+      "range": {
+        "startLine": 683,
+        "startChar": 0,
+        "endLine": 683,
+        "endChar": 7
+      },
+      "revId": "ec0fe1e0a70e9504bb87fe5f4003c0fa7c127420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_96252a7b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-14T19:47:13Z",
+      "side": 1,
+      "message": "I still don\u0027t understand how this example is supposed to work. Ok, the plugin adds a --sort option the the query SSH command, but the query SSH command is using OutputStreamQuery to print out the changes, how can the plugin change the order in which the results are printed when --sort is specified?",
+      "range": {
+        "startLine": 686,
+        "startChar": 43,
+        "endLine": 687,
+        "endChar": 73
+      },
+      "revId": "ec0fe1e0a70e9504bb87fe5f4003c0fa7c127420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

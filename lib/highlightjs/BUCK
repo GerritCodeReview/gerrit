@@ -1,5 +1,0 @@
-export_file(
-  name = 'highlightjs',
-  src = 'highlight.min.js',
-  visibility = ['PUBLIC'],
-)

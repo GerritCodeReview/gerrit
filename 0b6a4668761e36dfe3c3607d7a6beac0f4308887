@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f0a51083_674cacba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-15T19:24:36Z",
+      "side": 1,
+      "message": "Just to paint the bikeshed...\n\nWe already have gerrit.secureStoreClass[1] and the gerrit section contains a number of things that are server globals. Can we do instead:\n\n  [gerrit]\n    installModule \u003d com.googelsource.gerrit.libmodule.MyModule\n\nand document installModule as a repeatable list, e.g.:\n\n  [gerrit]\n    installModule \u003d com.googlesource.gerrit.libmodule.MyModule\n    installModule \u003d com.example.abc.OurSpecialSauceModule\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gerrit.secureStoreClass",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_05d854d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
         "patchSetId": 2
@@ -64,6 +87,52 @@
         "startChar": 18,
         "endLine": 42,
         "endChar": 70
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_6556804b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-15T19:24:36Z",
+      "side": 1,
+      "message": "This is very confusing especially with the Injector supplied into the constructor of the LibModuleLoader.\n\nIf we use this on cfgInjector, LibModuleLoader will be implicitly bound inside cfgInjector and its injector field will be cfgInjector. If we then use sysInjector, the modules will still be getting created with cfgInjector as sysInjector will reuse the implicit binding inside cfgInjector.\n\nI\u0027d prefer we be a lot more explicit about WTF we are doing here because there is a very good chance we\u0027ll be looking at this in 3 months when someone reports their module can\u0027t get an object they expected in their constructor.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_4547fc96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-15T19:24:36Z",
+      "side": 1,
+      "message": "I think we can do this simpler:\n\n    try {\n      Class\u003ccom.google.inject.Module\u003e clazz \u003d\n          (Class\u003ccom.google.inject.Module\u003e) Class.forName(className);\n      Module module \u003d injector.getInstance(moduleClass);\n      log.info(\"Installed {}\", module.getClass().getName());\n      return module;\n    } catch (ClassNotFoundException e) {\n      log.error(\"Unable to load module \" + className, e);\n      throw new RuntimeException(e);\n    }",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 3
       },
       "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

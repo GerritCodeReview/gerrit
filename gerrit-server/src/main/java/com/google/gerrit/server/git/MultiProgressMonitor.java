@@ -81,7 +81,7 @@ public class MultiProgressMonitor {
     @Override
     public void update(final int completed) {
       boolean w = false;
-      synchronized (this) {
+      synchronized (MultiProgressMonitor.this) {
         count += completed;
         if (total != UNKNOWN) {
           int percent = count * 100 / total;
@@ -124,8 +124,10 @@ public class MultiProgressMonitor {
       return false;
     }
 
-    public synchronized int getCount() {
-      return count;
+    public int getCount() {
+      synchronized(MultiProgressMonitor.this) {
+        return count;
+      }
     }
   }
 

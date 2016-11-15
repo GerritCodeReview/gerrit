@@ -199,14 +199,15 @@ public class AllChangesIndexer
     // trust the results. This is not an exact percentage since we bump the same
     // failure counter if a project can't be read, but close enough.
     int nFailed = failedTask.getCount();
-    int nTotal = nFailed + doneTask.getCount();
+    int nDone = doneTask.getCount();
+    int nTotal = nFailed + nDone;
     double pctFailed = ((double) nFailed) / nTotal * 100;
     if (pctFailed > 10) {
       log.error("Failed {}/{} changes ({}%); not marking new index as ready",
           nFailed, nTotal, Math.round(pctFailed));
       ok.set(false);
     }
-    return new Result(sw, ok.get(), doneTask.getCount(), failedTask.getCount());
+    return new Result(sw, ok.get(), nDone, nFailed);
   }
 
   private Callable<Void> reindexProject(final ChangeIndexer indexer,

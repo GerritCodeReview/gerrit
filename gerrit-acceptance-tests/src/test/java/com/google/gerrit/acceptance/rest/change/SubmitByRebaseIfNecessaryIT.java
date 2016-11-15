@@ -130,6 +130,20 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertThat(headGrandparent2.getId()).isEqualTo(change1.getCommit().getId());
   }
 
+  @Test
+  public void submitMergeOfNonChangeBranchTip() throws Exception {
+    RevCommit master = getRemoteHead(project, "master");
+    PushOneCommit stableTip = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Tip of branch stable", "stable.txt", "");
+    PushOneCommit.Result stable = stableTip.to("refs/heads/stable");
+    PushOneCommit mergeCommit = pushFactory.create(db, admin.getIdent(),
+        testRepo, "The merge commit", "merge.txt", "");
+    mergeCommit.setParents(ImmutableList.of(master, stable.getCommit()));
+    PushOneCommit.Result mergeReview = mergeCommit.to("refs/for/master");
+    approve(mergeReview.getChangeId());
+    submit(mergeReview.getChangeId());
+  }
+
   private RevCommit parse(ObjectId id) throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {

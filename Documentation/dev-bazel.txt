@@ -306,6 +306,9 @@ Note that the root `buck-cache` folder should not be deleted as it also contains
 the `downloaded-artifacts` directory, which holds the artifacts that got
 downloaded (not built locally).
 
+[NOTE] When building with Bazel the artifacts are still cached in
+`~/.gerritcodereview/buck-cache/`. This allows Bazel to make use of
+libraries that were previously downloaded by Buck.
 
 == Known issues and bugs
 

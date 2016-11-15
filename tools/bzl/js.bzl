@@ -2,13 +2,13 @@ NPMJS = "NPMJS"
 GERRIT = "GERRIT:"
 
 NPM_VERSIONS = {
-  "bower":   '1.7.9',
+  "bower":   '1.8.0',
   'crisper': '2.0.2',
   'vulcanize': '1.14.8',
 }
 
 NPM_SHA1S = {
-  "bower":  'b7296c2393e0d75edaa6ca39648132dd255812b0',
+  "bower":  '55dbebef0ad9155382d9e9d3e497c1372345b44a',
   "crisper": '7183c58cea33632fb036c91cefd1b43e390d22a2',
   'vulcanize': '679107f251c19ab7539529b1e3fdd40829e6fc63',
 }

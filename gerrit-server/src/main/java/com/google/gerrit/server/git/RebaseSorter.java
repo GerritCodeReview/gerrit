@@ -32,12 +32,14 @@ public class RebaseSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final RevCommit initialTip;
+  private final Set<RevCommit> alreadyAccepted;
 
   public RebaseSorter(CodeReviewRevWalk rw, RevCommit initialTip,
-      RevFlag canMergeFlag) {
+      Set<RevCommit> alreadyAccepted, RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
+    this.alreadyAccepted = alreadyAccepted;
   }
 
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
@@ -57,6 +59,10 @@ public class RebaseSorter {
       final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
+          if (isAlreadyMerged(c)) {
+            rw.markUninteresting(c);
+            break;
+          }
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //
@@ -80,6 +86,21 @@ public class RebaseSorter {
       sorted.addAll(contents);
     }
     return sorted;
+  }
+
+  private boolean isAlreadyMerged(CodeReviewCommit commit) throws IOException {
+    try (CodeReviewRevWalk mirw =
+        CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
+      mirw.reset();
+      mirw.markStart(commit);
+      for (RevCommit accepted : alreadyAccepted) {
+        if (mirw.isMergedInto(mirw.parseCommit(accepted),
+            mirw.parseCommit(commit))) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static <T> T removeOne(final Collection<T> c) {

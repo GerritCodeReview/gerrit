@@ -16,7 +16,6 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -24,6 +23,7 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

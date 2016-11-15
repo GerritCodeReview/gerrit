@@ -20,11 +20,11 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.index.IndexUtils;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.Schema.Values;
 import com.google.inject.Inject;

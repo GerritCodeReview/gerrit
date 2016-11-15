@@ -135,6 +135,7 @@ maven_jar(
   sha1 = '4e953ecb2ed6d9ec2f90caee9de7c6a74df5c9b8',
   src_sha1 = '35712f083d19bbef07fca2271fc9278cc76ad28a',
   repository = GERRIT,
+  unsign = True,
 )
 
 maven_jar(
@@ -142,6 +143,7 @@ maven_jar(
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + JGIT_VERS,
   sha1 = 'af904b4ac10682b80486bddb86efc2f1a409ec78',
   repository = GERRIT,
+  unsign = True,
 )
 
 maven_jar(
@@ -163,6 +165,7 @@ maven_jar(
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + JGIT_VERS,
   sha1 = '35d1fcd4cbbf1332ac5aee89e370b65cbe82c390',
   repository = GERRIT,
+  unsign = True,
 )
 
 maven_jar(

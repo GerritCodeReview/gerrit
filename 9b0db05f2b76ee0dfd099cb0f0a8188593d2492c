@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_24f312ef",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T02:10:09Z",
+      "side": 1,
+      "message": "This should stay Maven.",
+      "revId": "9b0db05f2b76ee0dfd099cb0f0a8188593d2492c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

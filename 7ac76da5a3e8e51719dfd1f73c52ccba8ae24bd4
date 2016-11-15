@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_623036b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T02:28:50Z",
+      "side": 1,
+      "message": "Too verbose? Just:\n\n  @ImplementedBy(LocalDiskRepositoryManager.class)",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 55
+      },
+      "revId": "7ac76da5a3e8e51719dfd1f73c52ccba8ae24bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

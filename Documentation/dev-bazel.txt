@@ -129,7 +129,7 @@ The JAR files will also be packaged in:
 To build a specific plugin:
 
 ----
-  bazel build plugins/<name>:<name>_deploy.jar
+  bazel build plugins/<name>
 ----
 
 The output JAR file will be be placed in:

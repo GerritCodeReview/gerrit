@@ -16,6 +16,7 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES_PREFIX;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
 
@@ -51,6 +52,9 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
       .create();
+  private static final String INDEX_NAME =
+      String.format("%s_%04d", CHANGES_PREFIX,
+          ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion());
   private static Node node;
   private static String port;
   private static File elasticDir;
@@ -112,7 +116,9 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
 
   @After
   public void cleanupIndex() {
-    node.client().admin().indices().prepareDelete("gerrit").execute();
+    node.client().admin().indices()
+        .prepareDelete(INDEX_NAME)
+        .execute();
     createIndexes();
   }
 
@@ -135,7 +141,6 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     elasticsearchConfig.setString("index", null, "protocol", "http");
     elasticsearchConfig.setString("index", null, "hostname", "localhost");
     elasticsearchConfig.setString("index", null, "port", port);
-    elasticsearchConfig.setString("index", null, "name", "gerrit");
     elasticsearchConfig.setBoolean("index", "elasticsearch", "test", true);
     return Guice.createInjector(
         new InMemoryModule(elasticsearchConfig, notesMigration));
@@ -151,7 +156,7 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     node.client()
         .admin()
         .indices()
-        .prepareCreate("gerrit")
+        .prepareCreate(INDEX_NAME)
         .addMapping(OPEN_CHANGES, gson.toJson(openChangesMapping))
         .addMapping(CLOSED_CHANGES, gson.toJson(closedChangesMapping))
         .execute()

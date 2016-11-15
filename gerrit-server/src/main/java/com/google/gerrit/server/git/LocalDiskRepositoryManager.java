@@ -24,7 +24,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -35,13 +34,10 @@ import org.eclipse.jgit.lib.RepositoryCacheConfig;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
@@ -62,9 +58,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     LifecycleListener {
   private static final Logger log =
       LoggerFactory.getLogger(LocalDiskRepositoryManager.class);
-
-  private static final String UNNAMED =
-      "Unnamed repository; edit this file to name it for gitweb.";
 
   public static class Module extends LifecycleModule {
     @Override
@@ -271,66 +264,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
       names = Collections.unmodifiableSortedSet(n);
     } finally {
       namesUpdateLock.unlock();
-    }
-  }
-
-  @Override
-  public String getProjectDescription(final Project.NameKey name)
-      throws RepositoryNotFoundException, IOException {
-    try (Repository e = openRepository(name)) {
-      return getProjectDescription(e);
-    }
-  }
-
-  private String getProjectDescription(final Repository e) throws IOException {
-    final File d = new File(e.getDirectory(), "description");
-
-    String description;
-    try {
-      description = RawParseUtils.decode(IO.readFully(d));
-    } catch (FileNotFoundException err) {
-      return null;
-    }
-
-    if (description != null) {
-      description = description.trim();
-      if (description.isEmpty()) {
-        description = null;
-      }
-      if (UNNAMED.equals(description)) {
-        description = null;
-      }
-    }
-    return description;
-  }
-
-  @Override
-  public void setProjectDescription(Project.NameKey name, String description) {
-    // Update git's description file, in case gitweb is being used
-    //
-    try (Repository e = openRepository(name)) {
-      String old = getProjectDescription(e);
-      if ((old == null && description == null)
-          || (old != null && old.equals(description))) {
-        return;
-      }
-
-      LockFile f = new LockFile(new File(e.getDirectory(), "description"));
-      if (f.lock()) {
-        String d = description;
-        if (d != null) {
-          d = d.trim();
-          if (d.length() > 0) {
-            d += "\n";
-          }
-        } else {
-          d = "";
-        }
-        f.write(Constants.encode(d));
-        f.commit();
-      }
-    } catch (IOException e) {
-      log.error("Cannot update description for " + name, e);
     }
   }
 

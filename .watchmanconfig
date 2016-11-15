@@ -1,9 +1,0 @@
-{
-  "ignore_dirs": [
-    "buck-out",
-    "eclipse-out"
-  ],
-  "ignore_vcs": [
-    ".git"
-  ]
-}

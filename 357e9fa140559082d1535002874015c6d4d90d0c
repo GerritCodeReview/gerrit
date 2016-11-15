@@ -16,6 +16,24 @@
       "revId": "357e9fa140559082d1535002874015c6d4d90d0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_4221b264",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T02:20:10Z",
+      "side": 1,
+      "message": "It\u0027s correct this way, even if it\u0027s a bit non-consistent. The reason for it is, we are passing the GERRIT: from WORKSPACE, and there we are re-using a constant defined in mavn_jar Skylark rule, defined in maven_jar.bzl. where it\u0027s defined with trailing colon. I shouldn\u0027t probably do it in this change. i you prefer I could remove it here ans let it as constant in WORKPACE: \"GERRIT\".",
+      "parentUuid": "b031d818_6279566d",
+      "revId": "357e9fa140559082d1535002874015c6d4d90d0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

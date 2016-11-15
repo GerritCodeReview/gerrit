@@ -596,7 +596,7 @@ The project-specific download commands must be configured in the
 +
 ----
   [plugin "project-download-commands"]
-    Build = git fetch ${url} ${ref} && git checkout FETCH_HEAD && buck build ${project}
+    Build = git fetch ${url} ${ref} && git checkout FETCH_HEAD && bazel build ${project}
     Update = git fetch ${url} ${ref} && git checkout FETCH_HEAD && git submodule update
 ----
 +

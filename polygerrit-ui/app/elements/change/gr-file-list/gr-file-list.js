@@ -83,6 +83,10 @@
         type: Boolean,
         computed: '_shouldHideChangeTotals(_patchChange)',
       },
+      _hideBinaryChangeTotals: {
+        type: Boolean,
+        computed: '_shouldHideBinaryChangeTotals(_patchChange)',
+      },
       _shownFiles: {
         type: Array,
         computed: '_computeFilesShown(_numFilesShown, _files.*)',
@@ -174,12 +178,19 @@
       return filesNoCommitMsg.reduce(function(acc, obj) {
         var inserted = obj.lines_inserted ? obj.lines_inserted : 0;
         var deleted = obj.lines_deleted ? obj.lines_deleted : 0;
+        var total_size = (obj.size && obj.binary) ? obj.size : 0;
+        var size_delta_inserted = obj.size_delta > 0 ? obj.size_delta : 0;
+        var size_delta_deleted = obj.size_delta < 0 ? obj.size_delta : 0;
 
         return {
           inserted: acc.inserted + inserted,
           deleted: acc.deleted + deleted,
+          size_delta_inserted: acc.size_delta_inserted + size_delta_inserted,
+          size_delta_deleted: acc.size_delta_deleted + size_delta_deleted,
+          total_size: acc.total_size + total_size,
         };
-      }, {inserted: 0, deleted: 0});
+      }, {inserted: 0, deleted: 0, size_delta_inserted: 0,
+        size_delta_deleted: 0, total_size: 0});
     },
 
     _getDiffPreferences: function() {
@@ -486,7 +497,12 @@
     },
 
     _shouldHideChangeTotals: function(_patchChange) {
-      return (_patchChange.inserted === 0 && _patchChange.deleted === 0);
+      return _patchChange.inserted === 0 && _patchChange.deleted === 0;
+    },
+
+    _shouldHideBinaryChangeTotals: function(_patchChange) {
+      return _patchChange.size_delta_inserted === 0 &&
+          _patchChange.size_delta_deleted === 0;
     },
 
     _computeFileSelected: function(index, selectedIndex) {
@@ -510,6 +526,31 @@
 
     _computeFileDisplayName: function(path) {
       return path === COMMIT_MESSAGE_PATH ? 'Commit message' : path;
+    },
+
+    _formatBytes: function(bytes) {
+      if (bytes == 0) return '+/-0 B';
+      var bits = 1024;
+      var decimals = 1;
+      var sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+      var exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
+      var prepend = bytes > 0 ? '+' : '';
+      return prepend + parseFloat((bytes / Math.pow(bits, exponent))
+          .toFixed(decimals)) + ' ' + sizes[exponent];
+    },
+
+    _formatPercentage: function(size, delta) {
+      var oldSize = size - delta;
+
+      if (oldSize === 0) { return ''; }
+      
+      var percentage = Math.round(Math.abs(delta * 100 / oldSize));
+      return '(' + (delta > 0 ? '+' : '-') + percentage + '%)';
+    },
+
+    _computeBinaryClass: function(delta) {
+      if (delta === 0) { return; }
+      return delta >= 0 ? 'added' : 'removed';
     },
 
     _computeClass: function(baseClass, path) {

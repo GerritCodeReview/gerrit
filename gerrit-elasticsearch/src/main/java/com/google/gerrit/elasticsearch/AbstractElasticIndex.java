@@ -27,8 +27,6 @@ import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.Schema.Values;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -60,11 +58,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final JestHttpClient client;
 
 
-  @Inject
   AbstractElasticIndex(@GerritServerConfig Config cfg,
       FillArgs fillArgs,
       SitePaths sitePaths,
-      @Assisted Schema<V> schema) {
+      Schema<V> schema) {
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.schema = schema;

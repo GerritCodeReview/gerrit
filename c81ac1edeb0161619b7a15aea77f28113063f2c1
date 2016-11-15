@@ -289,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_e5bf30ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-15T23:44:21Z",
+      "side": 1,
+      "message": "You may also choose to move this chunk into a PatchSetUtil method similar to setGroups. Not really an issue if we expect this to be the only place that modifies this field (outside of when the patch set is created).",
+      "parentUuid": "f0a51083_27dd542e",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_e51bb034",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 1

@@ -60,7 +60,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   @Override
   public List<SubmitStrategyOp> buildOps(
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    List<CodeReviewCommit> sorted = sort(toMerge);
+    List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
 

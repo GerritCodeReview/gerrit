@@ -48,6 +48,19 @@ GWT_COMPILER_ARGS_RELEASE_MODE = GWT_COMPILER_ARGS + [
   '-XdisableCastChecking',
 ]
 
+PLUGIN_DEPS_NEVERLINK = [
+  '//gerrit-plugin-api:lib-neverlink',
+]
+
+GWT_PLUGIN_DEPS_NEVERLINK = [
+  '//gerrit-plugin-gwtui:gwtui-api-lib-neverlink',
+  '//lib/gwt:user-neverlink',
+]
+
+GWT_PLUGIN_DEPS = [
+  '//gerrit-plugin-gwtui:gwtui-api-lib',
+]
+
 GWT_TRANSITIVE_DEPS = [
   '//lib/gwt:ant',
   '//lib/gwt:colt',
@@ -126,7 +139,7 @@ def _gwt_user_agent_module(ctx):
   )
 
 def _gwt_binary_impl(ctx):
-  module = MODULE
+  module = ctx.attr.module[0]
   output_zip = ctx.outputs.output
   output_dir = output_zip.path + '.gwt_output'
   deploy_dir = output_zip.path + '.gwt_deploy'
@@ -195,6 +208,7 @@ gwt_binary = rule(
     "style": attr.string(default = "OBF"),
     "optimize": attr.string(default = "9"),
     "deps": attr.label_list(allow_files=jar_filetype),
+    "module": attr.string_list(default = [MODULE]),
     "module_deps": attr.label_list(allow_files=jar_filetype),
     "compiler_args": attr.string_list(),
     "jvm_args": attr.string_list(),
@@ -237,6 +251,7 @@ def gwt_genrule(suffix = ""):
 
   gwt_binary(
     name = opt,
+    module = [MODULE],
     module_deps = [module_dep],
     deps = DEPS,
     compiler_args = args,
@@ -279,6 +294,7 @@ def gwt_user_agent_permutations():
       user_agent = ua,
       style = 'PRETTY',
       optimize = "0",
+      module = [MODULE],
       module_deps = [':ui_module'],
       deps = DEPS,
       compiler_args = GWT_COMPILER_ARGS,

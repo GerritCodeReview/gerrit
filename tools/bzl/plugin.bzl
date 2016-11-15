@@ -1,9 +1,14 @@
 load('//tools/bzl:genrule2.bzl', 'genrule2')
+load('//tools/bzl:gwt.bzl', 'GWT_PLUGIN_DEPS',
+     'GWT_PLUGIN_DEPS_NEVERLINK', 'GWT_TRANSITIVE_DEPS',
+     'GWT_COMPILER_ARGS', 'PLUGIN_DEPS_NEVERLINK',
+     'GWT_JVM_ARGS', 'gwt_binary')
 
 def gerrit_plugin(
     name,
     deps = [],
     srcs = [],
+    gwt_module = [],
     resources = [],
     manifest_entries = [],
     **kwargs):
@@ -11,9 +16,13 @@ def gerrit_plugin(
     name = name + '__plugin',
     srcs = srcs,
     resources = resources,
-    deps = deps + ['//gerrit-plugin-api:lib-neverlink'],
+    deps = deps + GWT_PLUGIN_DEPS_NEVERLINK + PLUGIN_DEPS_NEVERLINK,
     visibility = ['//visibility:public'],
   )
+
+  static_jars = []
+  if gwt_module:
+    static_jars = [':%s-static' % name]
 
   native.java_binary(
     name = '%s__non_stamped' % name,
@@ -24,10 +33,37 @@ def gerrit_plugin(
     main_class = 'Dummy',
     runtime_deps = [
       ':%s__plugin' % name,
-    ],
+    ] + static_jars,
     visibility = ['//visibility:public'],
     **kwargs
   )
+
+  if gwt_module:
+    native.java_library(
+      name = name + '__gwt_module',
+      resources = list(set(srcs + resources)),
+      runtime_deps = deps + GWT_PLUGIN_DEPS,
+      visibility = ['//visibility:public'],
+    )
+    genrule2(
+      name = '%s-static' % name,
+      cmd = ' && '.join([
+        'mkdir -p $$TMP/static',
+        'unzip -qd $$TMP/static $(location %s)' %
+          ':%s__gwt_application' % name,
+        'cd $$TMP',
+        'zip -qr $$ROOT/$@ .']),
+      tools = [':%s__gwt_application' % name],
+      outs = ['%s-static.jar' % name],
+    )
+    gwt_binary(
+      name = name + '__gwt_application',
+      module = [gwt_module],
+      deps = GWT_PLUGIN_DEPS + GWT_TRANSITIVE_DEPS + ['//lib/gwt:dev'],
+      module_deps = [':%s__gwt_module' % name],
+      compiler_args = GWT_COMPILER_ARGS,
+      jvm_args = GWT_JVM_ARGS,
+    )
 
   # TODO(davido): Remove manual merge of manifest file when this feature
   # request is implemented: https://github.com/bazelbuild/bazel/issues/2009

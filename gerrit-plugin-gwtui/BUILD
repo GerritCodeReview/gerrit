@@ -2,7 +2,7 @@ package(default_visibility = ['//visibility:public'])
 load('//tools/bzl:java.bzl', 'java_library2')
 
 SRCS = glob(['src/main/java/com/google/gerrit/**/*.java'])
-DEPS = ['//lib/gwt:user']
+DEPS = ['//lib/gwt:user-neverlink']
 
 java_binary(
   name = 'gwtui-api',
@@ -18,7 +18,16 @@ java_library2(
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
   exported_deps = ['//gerrit-gwtui-common:client-lib'],
-  deps = DEPS + ['//lib/gwt:dev'], # we want this to be exported deps
+  deps = DEPS + ['//lib/gwt:dev'],
+)
+
+java_library2(
+  name = 'gwtui-api-lib-neverlink',
+  srcs = SRCS,
+  resources = glob(['src/main/**/*']),
+  exported_deps = ['//gerrit-gwtui-common:client-lib'],
+  neverlink = 1, # we want this to be exported deps
+  deps = DEPS + ['//lib/gwt:dev'],
 )
 
 java_binary(

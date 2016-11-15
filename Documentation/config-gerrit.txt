@@ -1997,6 +1997,23 @@ By default unset, as the HTTP daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
+[[gerrit.installModule]]gerrit.installModule::
++
+Repeatable list of class name of additional Guice modules to load at
+Gerrit startup and init phases.
+Classes are resolved using the primary Gerrit class loader, hence the
+class needs to be either declared in Gerrit or an additional JAR
+located under the `/lib` directory.
++
+By default unset.
++
+Example:
+----
+[gerrit]
+  installModule = com.googlesource.gerrit.libmodule.MyModule
+  installModule = com.example.abc.OurSpecialSauceModule
+----
+
 [[gerrit.reportBugUrl]]gerrit.reportBugUrl::
 +
 URL to direct users to when they need to report a bug.

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -47,7 +46,6 @@ import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
-  private static final String DEFAULT_INDEX_NAME = "gerrit";
 
   private final Schema<V> schema;
   private final FillArgs fillArgs;
@@ -61,7 +59,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   AbstractElasticIndex(@GerritServerConfig Config cfg,
       FillArgs fillArgs,
       SitePaths sitePaths,
-      Schema<V> schema) {
+      Schema<V> schema,
+      String indexName) {
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -69,8 +68,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     String hostname = getRequiredConfigOption(cfg, "hostname");
     String port = getRequiredConfigOption(cfg, "port");
 
-    this.indexName =
-        firstNonNull(cfg.getString("index", null, "name"), DEFAULT_INDEX_NAME);
+    this.indexName = String.format("%s%s%04d",
+        Strings.nullToEmpty(cfg.getString("index", null, "prefix")),
+        indexName,
+        schema.getVersion());
 
     // By default Elasticsearch has a 1s delay before changes are available in
     // the index.  Setting refresh(true) on calls to the index makes the index

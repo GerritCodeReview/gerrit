@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_c5b66c8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:37:05Z",
+      "side": 1,
+      "message": "Should this be \u0027EEE\u0027? At least this is what we use in other places.",
+      "range": {
+        "startLine": 40,
+        "startChar": 35,
+        "endLine": 40,
+        "endChar": 36
+      },
+      "revId": "e105617676054486bd1c625004a64cca62b00a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_a5b3689a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MetadataName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:37:05Z",
+      "side": 1,
+      "message": "What does \u0027withDel\u0027 mean?",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "e105617676054486bd1c625004a64cca62b00a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_27c9d40f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMetadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:37:05Z",
+      "side": 1,
+      "message": "[optional] Would it make sense to use AutoValue for this class?",
+      "revId": "e105617676054486bd1c625004a64cca62b00a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_a7bdc467",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMetadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:37:05Z",
+      "side": 1,
+      "message": "messageType is not required?",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "e105617676054486bd1c625004a64cca62b00a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_47cad008",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMetadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:37:05Z",
+      "side": 1,
+      "message": "better:\n\n  return MoreObjects.toStringHelper(this)\n      .addValue(\"Change-Id\", changeId)\n      .addValue(\"PatchSet\", patchSet)\n      ...\n      .toString();",
+      "revId": "e105617676054486bd1c625004a64cca62b00a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_c7dd60ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MetadataParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:37:05Z",
+      "side": 1,
+      "message": "nit: missing space after \"\u003d\"",
+      "range": {
+        "startLine": 39,
+        "startChar": 26,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "e105617676054486bd1c625004a64cca62b00a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_25cf5818",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MetadataParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:37:05Z",
+      "side": 1,
+      "message": "[optional] Have a readHeaderValue(String header, String metadataName) for this?",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 78
+      },
+      "revId": "e105617676054486bd1c625004a64cca62b00a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

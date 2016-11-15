@@ -106,7 +106,13 @@ limitations under the License.
         {__path: 'file_added_in_rev2.txt', lines_inserted: 1, lines_deleted: 1},
         {__path: 'myfile.txt', lines_inserted: 1, lines_deleted: 1},
       ];
-      assert.deepEqual(element._patchChange, {inserted: 2, deleted: 2});
+      assert.deepEqual(element._patchChange, {
+        inserted: 2,
+        deleted: 2,
+        size_delta_inserted: 0,
+        size_delta_deleted: 0,
+        total_size: 0,
+      });
 
       // Test with a commit message that isn't the first file.
       element._files = [
@@ -114,21 +120,127 @@ limitations under the License.
         {__path: '/COMMIT_MSG', lines_inserted: 9},
         {__path: 'myfile.txt', lines_inserted: 1, lines_deleted: 1},
       ];
-      assert.deepEqual(element._patchChange, {inserted: 2, deleted: 2});
+      assert.deepEqual(element._patchChange, {
+        inserted: 2,
+        deleted: 2,
+        size_delta_inserted: 0,
+        size_delta_deleted: 0,
+        total_size: 0,
+      });
 
       // Test with no commit message.
       element._files = [
         {__path: 'file_added_in_rev2.txt', lines_inserted: 1, lines_deleted: 1},
         {__path: 'myfile.txt', lines_inserted: 1, lines_deleted: 1},
       ];
-      assert.deepEqual(element._patchChange, {inserted: 2, deleted: 2});
+      assert.deepEqual(element._patchChange, {
+        inserted: 2,
+        deleted: 2,
+        size_delta_inserted: 0,
+        size_delta_deleted: 0,
+        total_size: 0,
+      });
 
       // Test with files missing either lines_inserted or lines_deleted.
       element._files = [
         {__path: 'file_added_in_rev2.txt', lines_inserted: 1},
         {__path: 'myfile.txt', lines_deleted: 1},
       ];
-      assert.deepEqual(element._patchChange, {inserted: 1, deleted: 1});
+      assert.deepEqual(element._patchChange, {
+        inserted: 1,
+        deleted: 1,
+        size_delta_inserted: 0,
+        size_delta_deleted: 0,
+        total_size: 0,
+      });
+    });
+
+    test('binary only files', function() {
+      element._files = [
+        {__path: '/COMMIT_MSG', lines_inserted: 9},
+        {__path: 'file_binary', binary: true, size_delta: 10, size: 100},
+        {__path: 'file_binary', binary: true, size_delta: -5, size: 120},
+      ];
+      assert.deepEqual(element._patchChange, {
+        inserted: 0,
+        deleted: 0,
+        size_delta_inserted: 10,
+        size_delta_deleted: -5,
+        total_size: 220,
+      });
+    });
+
+    test('binary and regular files', function() {
+      element._files = [
+        {__path: '/COMMIT_MSG', lines_inserted: 9},
+        {__path: 'file_binary', binary: true, size_delta: 10, size: 100},
+        {__path: 'file_binary', binary: true, size_delta: -5, size: 120},
+        {__path: 'myfile.txt', lines_deleted: 5},
+        {__path: 'myfile2.txt', lines_inserted: 10},
+      ];
+      assert.deepEqual(element._patchChange, {
+        inserted: 10,
+        deleted: 5,
+        size_delta_inserted: 10,
+        size_delta_deleted: -5,
+        total_size: 220,
+      });
+    });
+
+    test('_formatBytes function', function(){
+      var table = {
+        64: '+64 B',
+        1023: '+1023 B',
+        1024: '+1 KiB',
+        4096: '+4 KiB',
+        1073741824: '+1 GiB',
+        '-64': '-64 B',
+        '-1023': '-1023 B',
+        '-1024': '-1 KiB',
+        '-4096': '-4 KiB',
+        '-1073741824': '-1 GiB',
+        0: '+/-0 B',
+      }
+
+      for (var bytes in table) {
+        if (table.hasOwnProperty(bytes)) {
+          assert.equal(element._formatBytes(bytes), table[bytes]);
+        }
+      }
+    });
+
+    test('_formatPercentage function', function(){
+      var table = [
+        { size: 100,
+          delta: 100,
+          display: '',
+        },
+        { size: 195060,
+          delta: 64,
+          display: '(+0%)',
+        },
+        { size: 195060,
+          delta: -64,
+          display: '(-0%)',
+        },
+        { size: 394892,
+          delta: -7128,
+          display: '(-2%)',
+        },
+        { size: 90,
+          delta: -10,
+          display: '(-10%)',
+        },
+        { size: 110,
+          delta: 10,
+          display: '(+10%)',
+        },
+      ]
+
+      table.forEach(function(item) {
+        assert.equal(element._formatPercentage(
+            item.size, item.delta), item.display);
+      });
     });
 
     suite('keyboard shortcuts', function() {
@@ -164,7 +276,7 @@ limitations under the License.
         flushAsynchronousOperations();
         var elementItems = Polymer.dom(element.root).querySelectorAll(
             '.row:not(.header)');
-        assert.equal(elementItems.length, 4);
+        assert.equal(elementItems.length, 5);
         assert.isTrue(elementItems[0].hasAttribute('selected'));
         assert.isFalse(elementItems[1].hasAttribute('selected'));
         assert.isFalse(elementItems[2].hasAttribute('selected'));

@@ -233,8 +233,17 @@ limitations under the License.
           [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
         </div>
         <div class$="[[_computeClass('stats', file.__path)]]">
-          <span class="added">+[[file.lines_inserted]]</span>
-          <span class="removed">-[[file.lines_deleted]]</span>
+          <span class="added" hidden$=[[file.binary]]>
+            +[[file.lines_inserted]]
+          </span>
+          <span class="removed" hidden$=[[file.binary]]>
+            -[[file.lines_deleted]]
+          </span>
+          <span class$="[[_computeBinaryClass(file.size_delta)]]"
+              hidden$=[[!file.binary]]>
+            [[_formatBytes(file.size_delta)]]
+            [[_formatPercentage(file.size, file.size_delta)]]
+          </span>
         </div>
         <div class="show-hide">
           <label class="show-hide">
@@ -261,6 +270,20 @@ limitations under the License.
       <div class="total-stats" hidden$="[[_hideChangeTotals]]">
         <span class="added">+[[_patchChange.inserted]]</span>
         <span class="removed">-[[_patchChange.deleted]]</span>
+      </div>
+    </div>
+    <div class="row totalChanges">
+      <div class="total-stats" hidden$="[[_hideBinaryChangeTotals]]">
+        <span class="added">
+          [[_formatBytes(_patchChange.size_delta_inserted)]]
+          [[_formatPercentage(_patchChange.total_size,
+              _patchChange.size_delta_inserted)]]
+        </span>
+        <span class="removed">
+          [[_formatBytes(_patchChange.size_delta_deleted)]]
+          [[_formatPercentage(_patchChange.total_size,
+              _patchChange.size_delta_deleted)]]
+        </span>
       </div>
     </div>
     <gr-button

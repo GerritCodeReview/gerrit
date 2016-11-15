@@ -46,6 +46,24 @@
       "revId": "c754d93bfab68fa80d71dc03e7fdafa90cab97c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_e7389c91",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-15T23:29:47Z",
+      "side": 1,
+      "message": "They\u0027re not immutable. You can mutate them; the mutation just has no effect on the result. I\u0027m still open to other suggestions for wording, but I don\u0027t really want to have to explain it with a paragraph.",
+      "parentUuid": "f0a51083_a71b8435",
+      "revId": "c754d93bfab68fa80d71dc03e7fdafa90cab97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -107,6 +107,12 @@ public class CodeReviewCommit extends RevCommit {
     }
   }
 
+  public boolean isMerged() {
+    return statusCode == CommitMergeStatus.CLEAN_MERGE
+        || statusCode == CommitMergeStatus.CLEAN_PICK
+        || statusCode == CommitMergeStatus.CLEAN_REBASE;
+  }
+
   /**
    * Unique key of the PatchSet entity from the code review system.
    * <p>

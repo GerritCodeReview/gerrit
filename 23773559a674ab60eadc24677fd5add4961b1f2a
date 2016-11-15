@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_22b10edf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T07:38:53Z",
+      "side": 1,
+      "message": "Before this change, gerrit query returns results with timestamps like this:\n\n createdOn: 2016-08-22 18:00:24 PDT\n lastUpdated: 2016-08-22 18:30:58 PDT\n\nIf I use withZone(ZoneId.of(\"UTC\")) here, the results are different:\n\n createdOn: 2016-08-23 01:00:24 UTC\n lastUpdated: 2016-08-23 01:30:58 UTC\n\nTo make the output the same as before, it\u0027s necessary to use the systemDefault().",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 40
+      },
+      "revId": "23773559a674ab60eadc24677fd5add4961b1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

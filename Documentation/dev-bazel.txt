@@ -26,7 +26,8 @@ https://www.bazel.io/versions/master/docs/install.html
 
 === Gerrit Development WAR File
 
-To build the Gerrit web application that includes GWT UI and PolyGerrit UI:
+To build the Gerrit web application that includes the GWT UI and the
+PolyGerrit UI:
 
 ----
   bazel build gerrit
@@ -48,6 +49,21 @@ To run a Gerrit site execute:
 [NOTE] You must use the same Java version that Bazel used for the build.
 This Java version is available at
 `$(bazel info output_base)/external/local_jdk/bin/java`.
+
+=== Gerrit Release WAR File
+
+To build the Gerrit web application that includes the GWT UI, the
+PolyGerrit UI and documentation:
+
+----
+  bazel build release
+----
+
+The output executable WAR will be placed in:
+
+----
+  bazel-bin/release.war
+----
 
 === Headless Mode
 

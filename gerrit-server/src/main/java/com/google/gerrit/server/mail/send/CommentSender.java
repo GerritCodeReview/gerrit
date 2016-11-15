@@ -425,6 +425,10 @@ public class CommentSender extends ReplyToChangeSender {
    */
   private List<String> getLinesOfComment(Comment comment, PatchFile fileData) {
     List<String> lines = new ArrayList<>();
+    if (comment.lineNbr == 0) {
+      // file level comment has no line
+      return lines;
+    }
     if (comment.range == null) {
       lines.add(getLine(fileData, comment.side, comment.lineNbr));
     } else {

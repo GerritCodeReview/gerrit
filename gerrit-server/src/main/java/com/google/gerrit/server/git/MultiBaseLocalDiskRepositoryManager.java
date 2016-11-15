@@ -35,8 +35,6 @@ public class MultiBaseLocalDiskRepositoryManager extends
     protected void configure() {
       bind(GitRepositoryManager.class).to(
           MultiBaseLocalDiskRepositoryManager.class);
-      bind(LocalDiskRepositoryManager.class).to(
-          MultiBaseLocalDiskRepositoryManager.class);
       listener().to(MultiBaseLocalDiskRepositoryManager.Lifecycle.class);
     }
   }

@@ -46,6 +46,52 @@
       "revId": "2cb0f974c3a8cd880a4bd63011afb07991f1d805",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_a54d28e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-15T17:40:01Z",
+      "side": 1,
+      "message": "Why timestamp rather than GUID or other unique identifier?",
+      "range": {
+        "startLine": 141,
+        "startChar": 7,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "2cb0f974c3a8cd880a4bd63011afb07991f1d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_055b34a0",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentFooterHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-15T17:40:01Z",
+      "side": 1,
+      "message": "Might as well put both in the same P element.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "2cb0f974c3a8cd880a4bd63011afb07991f1d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

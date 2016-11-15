@@ -68,7 +68,7 @@ public class NoteDbChangeState {
 
     private final char code;
 
-    private PrimaryStorage(char code) {
+    PrimaryStorage(char code) {
       this.code = code;
     }
 

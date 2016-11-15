@@ -17,6 +17,7 @@
 
 from __future__ import print_function
 from optparse import OptionParser
+from os import makedirs
 from os import path
 from subprocess import Popen, PIPE, CalledProcessError, check_call
 from xml.dom import minidom

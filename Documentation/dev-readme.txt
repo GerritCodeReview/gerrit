@@ -1,6 +1,6 @@
 = Gerrit Code Review - Developer Setup
 
-Facebook Buck is needed to compile the code, and an SQL database to
+Google Bazel is needed to compile the code, and an SQL database to
 house the review metadata.  H2 is recommended for development
 databases, as it requires no external server process.
 
@@ -21,8 +21,8 @@ cloned.
 
 == Compiling
 
-For details on how to build the source code with Buck, refer to:
-link:dev-buck.html#build[Building on the command line with Buck].
+For details on how to build the source code with Bazel, refer to:
+link:dev-bazel.html#build[Building on the command line with Bazel].
 
 
 == Switching between branches
@@ -46,8 +46,8 @@ revisions for the new branch with the commands:
 To use the Eclipse IDE for development, please see
 link:dev-eclipse.html[Eclipse Setup].
 
-For details on how to configure the Eclipse workspace with Buck,
-refer to: link:dev-buck.html#eclipse[Eclipse integration with Buck].
+For details on how to configure the Eclipse workspace with Bazel,
+refer to: link:dev-bazel.html#eclipse[Eclipse integration with Bazel].
 
 
 == Configuring IntelliJ IDEA
@@ -56,7 +56,7 @@ To use IntelliJ IDEA for development, the easiest way is to follow
 Eclipse integration and then open it as Eclipse project in IDEA.
 You need the Eclipse plugin activated in IntelliJ IDEA.
 
-Once you start compiling using both buck and your Gerrit project in
+Once you start compiling using both bazel and your Gerrit project in
 IDEA, you will likely need to mark the below directories as generated
 sources roots. You can do so using the IDEA "Project" view. In the
 context menu of each one of these, use "Mark Directory As" to mark
@@ -87,7 +87,7 @@ After compiling (above), run Gerrit's 'init' command to create a
 testing site for development use:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war init -d ../gerrit_testsite
+  java -jar bazel-bin/gerrit.war init -d ../gerrit_testsite
 ----
 
 During initialization, make two changes to the default settings:
@@ -146,9 +146,9 @@ A new review site is created for each test and the Gerrit daemon is
 started on that site. When the test has finished the Gerrit daemon is
 shutdown.
 
-For instructions on running the integration tests with Buck,
+For instructions on running the integration tests with Bazel,
 please refer to:
-link:dev-buck.html#tests[Running integration tests with Buck].
+link:dev-bazel.html#tests[Running Unit Tests].
 
 
 === Running the Daemon
@@ -157,7 +157,7 @@ The daemon can be directly launched from the build area, without
 copying to the test site:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite
+  java -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite
 ----
 
 === Running the Daemon with Gerrit Inspector
@@ -176,7 +176,7 @@ Gerrit Inspect can be started by adding '-s' option to the
 command used to launch the daemon:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite -s
+  java -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite -s
 ----
 
 Gerrit Inspector examines Java libraries first, then loads
@@ -203,7 +203,7 @@ The embedded H2 database can be queried and updated from the
 command line.  If the daemon is not currently running:
 
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war gsql -d ../gerrit_testsite
+  java -jar bazel-bin/gerrit.war gsql -d ../gerrit_testsite
 ----
 
 Or, if it is running and the database is in use, connect over SSH

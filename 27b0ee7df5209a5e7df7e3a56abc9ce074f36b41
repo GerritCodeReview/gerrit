@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_a76384ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T20:32:34Z",
+      "side": 1,
+      "message": "Unrelated to this change, but should this be \"setHashtags\" to match the constant name?",
+      "range": {
+        "startLine": 68,
+        "startChar": 28,
+        "endLine": 68,
+        "endChar": 38
+      },
+      "revId": "27b0ee7df5209a5e7df7e3a56abc9ce074f36b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_256e38df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T20:32:34Z",
+      "side": 1,
+      "message": "This one also doesn\u0027t match the constant name.",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 39
+      },
+      "revId": "27b0ee7df5209a5e7df7e3a56abc9ce074f36b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

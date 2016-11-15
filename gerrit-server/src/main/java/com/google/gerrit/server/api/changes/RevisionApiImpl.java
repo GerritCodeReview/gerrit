@@ -57,6 +57,7 @@ import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.PreviewSubmit;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
+import com.google.gerrit.server.change.PutDescription;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.Reviewed;
@@ -118,6 +119,7 @@ class RevisionApiImpl implements RevisionApi {
   private final TestSubmitType testSubmitType;
   private final TestSubmitType.Get getSubmitType;
   private final Provider<GetMergeList> getMergeList;
+  private final PutDescription putDescription;
 
   @Inject
   RevisionApiImpl(GitRepositoryManager repoManager,
@@ -151,6 +153,7 @@ class RevisionApiImpl implements RevisionApi {
       TestSubmitType testSubmitType,
       TestSubmitType.Get getSubmitType,
       Provider<GetMergeList> getMergeList,
+      PutDescription putDescription,
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
     this.changes = changes;
@@ -183,6 +186,7 @@ class RevisionApiImpl implements RevisionApi {
     this.testSubmitType = testSubmitType;
     this.getSubmitType = getSubmitType;
     this.getMergeList = getMergeList;
+    this.putDescription = putDescription;
     this.revision = r;
   }
 
@@ -510,5 +514,16 @@ class RevisionApiImpl implements RevisionApi {
         }
       }
     };
+  }
+
+  @Override
+  public void putDescription(String description) throws RestApiException {
+    PutDescription.Input in = new PutDescription.Input();
+    in.description = description;
+    try {
+      putDescription.apply(revision, in);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot set description", e);
+    }
   }
 }

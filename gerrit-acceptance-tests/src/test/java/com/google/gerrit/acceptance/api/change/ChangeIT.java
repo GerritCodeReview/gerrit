@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
@@ -50,6 +52,7 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -88,6 +91,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -535,6 +539,48 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(changeId)
         .revision(commit)
         .rebase(ri);
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void changeNoParentToOneParent() throws Exception {
+    // create initial commit with no parent and push it as change, so that patch
+    // set 1 has no parent
+    RevCommit c =
+        testRepo.commit().message("Initial commit").insertChangeId().create();
+    String id = GitUtil.getChangeId(testRepo, c).get();
+    testRepo.reset(c);
+
+    PushResult pr = pushHead(testRepo, "refs/for/master", false);
+    assertPushOk(pr, "refs/for/master");
+
+    ChangeInfo change = gApi.changes().id(id).get();
+    assertThat(change.revisions.get(change.currentRevision).commit.parents)
+        .isEmpty();
+
+    // create another initial commit with no parent and push it directly into
+    // the remote repository
+    c = testRepo.amend(c.getId()).message("Initial Empty Commit").create();
+    testRepo.reset(c);
+    pr = pushHead(testRepo, "refs/heads/master", false);
+    assertPushOk(pr, "refs/heads/master");
+
+    // create a successor commit and push it as second patch set to the change,
+    // so that patch set 2 has 1 parent
+    RevCommit c2 = testRepo.commit().message("Initial commit").parent(c)
+        .insertChangeId(id.substring(1)).create();
+    testRepo.reset(c2);
+
+    pr = pushHead(testRepo, "refs/for/master", false);
+    assertPushOk(pr, "refs/for/master");
+
+    change = gApi.changes().id(id).get();
+    RevisionInfo rev = change.revisions.get(change.currentRevision);
+    assertThat(rev.commit.parents).hasSize(1);
+    assertThat(rev.commit.parents.get(0).commit).isEqualTo(c.name());
+
+    // check that change kind is correctly detected as REWORK
+    assertThat(rev.kind).isEqualTo(ChangeKind.REWORK);
   }
 
   @Test

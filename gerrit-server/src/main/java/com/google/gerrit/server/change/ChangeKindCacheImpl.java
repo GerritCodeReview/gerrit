@@ -222,7 +222,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
 
         if ((prior.getParentCount() != 1 || next.getParentCount() != 1)
-            && !onlyFirstParentChanged(prior, next)) {
+            && (!onlyFirstParentChanged(prior, next)
+                || prior.getParentCount() == 0)) {
           // Trivial rebases done by machine only work well on 1 parent.
           return ChangeKind.REWORK;
         }

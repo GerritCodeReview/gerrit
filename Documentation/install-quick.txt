@@ -33,7 +33,7 @@ Most distributions come with Java today. Do you already have Java installed?
 
 If Java isn't installed, get it:
 
-* JDK, minimum version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+* JRE, minimum version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
 
 
 [[user]]

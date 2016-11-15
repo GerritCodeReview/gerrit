@@ -45,6 +45,46 @@
       "revId": "7b03f1c01b17475437a4c82cd6e57dc8b7cfddbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_e7ee5cd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-15T23:41:25Z",
+      "side": 1,
+      "message": "Declare this in the same line its set:\n\n  Module libModule \u003d configInjector.getInstance(moduleClass);",
+      "revId": "7b03f1c01b17475437a4c82cd6e57dc8b7cfddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_05ecd4d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-15T23:41:25Z",
+      "side": 1,
+      "message": "Import Module.",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 36
+      },
+      "revId": "7b03f1c01b17475437a4c82cd6e57dc8b7cfddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

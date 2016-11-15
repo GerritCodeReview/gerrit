@@ -13,11 +13,11 @@ brew install node
 All other platforms: [download from
 nodejs.org](https://nodejs.org/en/download/).
 
-## Installing [Buck](https://buckbuild.com/)
+## Installing [Bazel](https://bazel.build/)
 
 Follow the instructions
-[here](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_installation)
-to get and install Buck.
+[here](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_installation)
+to get and install Bazel.
 
 ## Local UI, Production Data
 
@@ -59,7 +59,7 @@ Then visit http://localhost:8081
 
 One-time setup:
 
-1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_gerrit_development_war_file)
+1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
 2. Set up a local test site. Docs
    [here](https://gerrit-review.googlesource.com/Documentation/install-quick.html) and
    [here](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
@@ -68,8 +68,8 @@ When your project is set up and works using the classic UI, run a test server
 that serves PolyGerrit:
 
 ```sh
-buck build polygerrit && \
-java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev \
+bazel build polygerrit && \
+java -jar bazel-out/polygerrit.war daemon --polygerrit-dev \
 -d ../gerrit_testsite --console-log --show-stack-trace
 ```
 
@@ -91,16 +91,13 @@ sudo npm install -g web-component-tester
 Run all web tests:
 
 ```sh
-buck test --no-results-cache --include web
+./polygerrit-ui/app/run_test.sh
 ```
-
-The `--no-results-cache` flag prevents flaky test failures from being
-cached.
 
 If you need to pass additional arguments to `wct`:
 
 ```sh
-WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
+WCT_ARGS='-p --some-flag="foo bar"' ./polygerrit-ui/app/run_test.sh
 ```
 
 For interactively working on a single test file, do the following:
@@ -110,14 +107,6 @@ For interactively working on a single test file, do the following:
 ```
 
 Then visit http://localhost:8081/elements/foo/bar_test.html
-
-## Running tests (bazel)
-
-Run
-
-```sh
-WCT_ARGS='--some-flag' sh polygerrit-ui/app/run_test.sh
-```
 
 ## Style guide
 

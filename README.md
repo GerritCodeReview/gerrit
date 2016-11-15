@@ -50,10 +50,10 @@ Gerrit is provided under the Apache License 2.0.
 
 ## Build
 
-Install [Buck](http://facebook.github.io/buck/setup/install.html) and run the following:
+Install [Bazel](https://bazel.build/versions/master/docs/install.html) and run the following:
 
         git clone --recursive https://gerrit.googlesource.com/gerrit
-        cd gerrit && buck build release
+        cd gerrit && bazel build release
 
 ## Install binary packages (Deb/Rpm)
 

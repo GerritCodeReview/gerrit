@@ -25,6 +25,7 @@ from util import hash_file, resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')
+# TODO(davido): Rename in bazel-cache
 CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache', 'downloaded-artifacts')
 LOCAL_PROPERTIES = 'local.properties'
 
@@ -86,7 +87,7 @@ args, _ = opts.parse_args()
 root_dir = args.o
 while root_dir and root_dir != "/":
   root_dir, n = path.split(root_dir)
-  if n == 'buck-out':
+  if n == 'WORKSPACE':
     break
 
 redirects = download_properties(root_dir)

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1479245120 -0800\nnonce AG58fQppH8lxh+Vz2c3Avy28hXsMvddL59nWzGwa2ssPVFX1+MLBpKwEJhSItRCSv4Rfs1KXvYqv\n\n0000000000000000000000000000000000000000 c037fa58d38401eec917122cc8c1a21c37610d03 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJYK31AAAoJEF/XxZqaEoiMUgEQAL8qVdS5rvCmNF6zGcQ+bcbp\n5G8fjY/LFX2Wclwg5/rYI2pMUbUZBLfTgF/FNzRPQX6ZlSg4shUG+ZspX7ejO4IE\nlxp/ujtkluY8L6emXJTJGU4vDjPt2d2Lyjdik6IioH0zpsPkfSkETOU+nuRkmuOB\nOIWRrDj81XMMs7MDttruzqnKg0s25ZrRneBX5mOB9y92Jsc2Yh1+xxgPAryfpu04\nkulSxTjFA9Z/dplyan2JJYTt+/MRgiHrKGh1qrdVg2A3bV5qwIUBHrX+mZUdANKo\nEXrLcaPnpNqIy8HNRu6T3cB8Q70pX6BXELtL6c3I4PFwqBBz67RJA0infaLHo/QS\nvuECgBKD26/XbzXYrOxrrc0eg4RfpnX4VFGn9jYLNuESQ82zxDyE7ZDOkvBVfblj\nZp9I9BLtjO9OfDBiUiqOFr1otVtAAA4+OkuG5UlYwLRbH+zT4+a4O7CNoA4VK9TN\nqGtWIGx8FgdYi+hK2mjOcHJqCKJANG/v0sT8Tj9HNnMZBbpCrwBFfGEEENljXWNG\nnMvR94SjUNWFYGUiu8ZW3q3rYWGi1hHZX11BghiMXZNNBPQgH10eey1ilNRgtEXj\nwERvHVFd+tC29Ya/U4RBV7mBQxIC3Gg7NRiTmTCWIcr+CuSUzhes2iFhoL4Ztg5m\nwMFPnnbFY6vS9lMLT1Zv\n\u003dLGY5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_e7fdfcc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T22:33:37Z",
+      "side": 1,
+      "message": "Is this copying unneeded since we copy it again below (l. 110)",
+      "range": {
+        "startLine": 104,
+        "startChar": 21,
+        "endLine": 104,
+        "endChar": 47
+      },
+      "revId": "c037fa58d38401eec917122cc8c1a21c37610d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

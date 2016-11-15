@@ -1,8 +1,0 @@
-include_defs('//gerrit-acceptance-tests/tests.defs')
-
-acceptance_tests(
-  group = 'rest_group',
-  srcs = glob(['*IT.java']),
-  labels = ['rest']
-)
-

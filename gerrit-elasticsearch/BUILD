@@ -8,7 +8,6 @@ java_library(
     '//gerrit-reviewdb:client',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
-    '//gerrit-index:index',
     '//lib:gson',
     '//lib:guava',
     '//lib:gwtorm',

@@ -27,7 +27,6 @@ java_library(
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
-    '//gerrit-index:index',
     '//lib:guava',
     '//lib:gwtorm',
     '//lib/guice:guice',

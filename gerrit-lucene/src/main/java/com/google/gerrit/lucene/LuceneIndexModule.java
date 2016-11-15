@@ -15,11 +15,11 @@
 package com.google.gerrit.lucene;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.index.SingleVersionModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.SingleVersionModule;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.inject.Provides;

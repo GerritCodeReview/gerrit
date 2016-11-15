@@ -1,5 +1,5 @@
 NPMJS = "NPMJS"
-GERRIT = "GERRIT"
+GERRIT = "GERRIT:"
 
 NPM_VERSIONS = {
   "bower":   '1.7.9',

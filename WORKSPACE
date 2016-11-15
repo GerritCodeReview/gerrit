@@ -1,5 +1,5 @@
 workspace(name="gerrit")
-load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 
 ANTLR_VERS = '3.5.2'
 
@@ -132,14 +132,16 @@ load('//lib/jgit:jgit.bzl', 'JGIT_VERS')
 maven_jar(
   name = 'jgit',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit:' + JGIT_VERS,
-  sha1 = '3e3d0b73dcf4ad649f37758ea8502d92f3d299de',
-  src_sha1 = 'fc352952db91a4046e4b832145eb2dc8afce8db1',
+  sha1 = '4e953ecb2ed6d9ec2f90caee9de7c6a74df5c9b8',
+  src_sha1 = '35712f083d19bbef07fca2271fc9278cc76ad28a',
+  repository = GERRIT,
 )
 
 maven_jar(
   name = 'jgit_servlet',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + JGIT_VERS,
-  sha1 = '6e36638888918d9941dddec7e2abe1f162cc74d9',
+  sha1 = 'af904b4ac10682b80486bddb86efc2f1a409ec78',
+  repository = GERRIT,
 )
 
 maven_jar(
@@ -147,18 +149,21 @@ maven_jar(
   artifact = 'com.googlecode.javaewah:JavaEWAH:0.7.9',
   sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
   attach_source = False,
+  repository = GERRIT,
 )
 
 maven_jar(
   name = 'jgit_archive',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + JGIT_VERS,
-  sha1 = '2db2e7666672a31fa41b7e1dadcba51df6d30954',
+  sha1 = 'c29ed2cf20c1b7492d6baf7ce7f8355b3adb9f82',
+  repository = GERRIT,
 )
 
 maven_jar(
   name = 'jgit_junit',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + JGIT_VERS,
-  sha1 = 'e8fb1d81f588c3174a9730bdecdbde9faa04140a',
+  sha1 = '35d1fcd4cbbf1332ac5aee89e370b65cbe82c390',
+  repository = GERRIT,
 )
 
 maven_jar(
@@ -525,7 +530,7 @@ PROLOG_VERS = '1.4.2'
 
 maven_jar(
   name = 'prolog_runtime',
-  repository = 'http://gerrit-maven.storage.googleapis.com',
+  repository = GERRIT,
   artifact = 'com.googlecode.prolog-cafe:prolog-runtime:' + PROLOG_VERS,
   sha1 = '4421b4806b6e3a318680f6ab1d57569e857169c6',
   attach_source = False,
@@ -533,7 +538,7 @@ maven_jar(
 
 maven_jar(
   name = 'prolog_compiler',
-  repository = 'http://gerrit-maven.storage.googleapis.com',
+  repository = GERRIT,
   artifact = 'com.googlecode.prolog-cafe:prolog-compiler:' + PROLOG_VERS,
   sha1 = '7e5a7ca5efe7db7f69e015cf492f8f04665244d8',
   attach_source = False,
@@ -541,7 +546,7 @@ maven_jar(
 
 maven_jar(
   name = 'prolog_io',
-  repository = 'http://gerrit-maven.storage.googleapis.com',
+  repository = GERRIT,
   artifact = 'com.googlecode.prolog-cafe:prolog-io:' + PROLOG_VERS,
   sha1 = 'd177f6211d1013e0f31a507127f5c87a7f6941f3',
   attach_source = False,
@@ -549,7 +554,7 @@ maven_jar(
 
 maven_jar(
   name = 'cafeteria',
-  repository = 'http://gerrit-maven.storage.googleapis.com',
+  repository = GERRIT,
   artifact = 'com.googlecode.prolog-cafe:prolog-cafeteria:' + PROLOG_VERS,
   sha1 = '11f396cb2588b65e6a78070488aaa58d12bf000e',
   attach_source = False,
@@ -569,7 +574,7 @@ maven_jar(
 
 maven_jar(
   name = 'blame_cache',
-  repository = 'http://gerrit-maven.storage.googleapis.com',
+  repository = GERRIT,
   artifact = 'com/google/gitiles:blame-cache:0.1-9',
   sha1 = '51d35e6f8bbc2412265066cea9653dd758c95826',
   attach_source = False,
@@ -979,12 +984,12 @@ npm_binary(
 
 npm_binary(
   name = "vulcanize",
-  repository = "GERRIT",
+  repository = GERRIT,
 )
 
 npm_binary(
   name = "crisper",
-  repository = "GERRIT",
+  repository = GERRIT,
 )
 
 # bower_archive() seed components.

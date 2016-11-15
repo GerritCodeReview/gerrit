@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_c75a406d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-15T19:22:48Z",
+      "side": 1,
+      "message": "Missing spaces following the colons.",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 24
+      },
+      "revId": "bb65f7620d524d9e20f8b3780242fd5bf175c55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

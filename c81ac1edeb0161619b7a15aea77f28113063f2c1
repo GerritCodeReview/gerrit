@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_4521bc64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:08:23Z",
+      "side": 1,
+      "message": "I think the problem lies in these two lines. Calling ps.setDescription does not cause ReviewDB to actually set the value in the db.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

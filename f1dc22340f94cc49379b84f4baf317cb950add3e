@@ -23,6 +23,24 @@
       "revId": "f1dc22340f94cc49379b84f4baf317cb950add3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_67958c8e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ActionVisitor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-15T20:35:11Z",
+      "side": 1,
+      "message": "You\u0027re talking about making all fields in ChangeInfo and ActionInfo final, which would be a pretty invasive change to all the REST API result generation code.\n\nI don\u0027t like POJOs with public mutable fields, but that\u0027s the world we live in.",
+      "parentUuid": "b031d818_05505420",
+      "revId": "f1dc22340f94cc49379b84f4baf317cb950add3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

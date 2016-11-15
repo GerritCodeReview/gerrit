@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_84dc4678",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-11-15T01:20:58Z",
+      "side": 0,
+      "message": "This is the part which is broken?",
+      "range": {
+        "startLine": 591,
+        "startChar": 3,
+        "endLine": 595,
+        "endChar": 45
+      },
+      "revId": "57c561028c41951848ef520112eb81c09819662a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

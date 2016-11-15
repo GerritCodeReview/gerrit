@@ -708,8 +708,7 @@ public final class GerritLauncher {
 
     // Pop up to the top-level source folder by looking for .buckconfig.
     Path dir = Paths.get(u.getPath());
-    while (!Files.isRegularFile(dir.resolve(".buckconfig"))
-        && !Files.isRegularFile(dir.resolve("WORKSPACE"))) {
+    while (!Files.isRegularFile(dir.resolve("WORKSPACE"))) {
       Path parent = dir.getParent();
       if (parent == null) {
         throw new FileNotFoundException("Cannot find source root from " + u);

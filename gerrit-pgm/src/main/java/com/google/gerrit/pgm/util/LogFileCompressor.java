@@ -24,8 +24,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +33,8 @@ import java.io.OutputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.zip.GZIPOutputStream;
 
 /** Compresses the old error logs. */
@@ -64,12 +64,12 @@ public class LogFileCompressor implements Runnable {
     public void start() {
       //compress log once and then schedule compression every day at 11:00pm
       queue.getDefaultQueue().execute(compressor);
-      DateTime now = DateTime.now();
-      long milliSecondsUntil11am =
-          new Duration(now, now.withTimeAtStartOfDay().plusHours(23))
-              .getMillis();
+      ZoneId zone = ZoneId.systemDefault();
+      LocalDate now = LocalDate.now(zone);
+      long milliSecondsUntil11pm = now.atStartOfDay(zone)
+          .plusHours(23).toInstant().toEpochMilli();
       queue.getDefaultQueue().scheduleAtFixedRate(compressor,
-          milliSecondsUntil11am, HOURS.toMillis(24), MILLISECONDS);
+          milliSecondsUntil11pm, HOURS.toMillis(24), MILLISECONDS);
     }
 
     @Override

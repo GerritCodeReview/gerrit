@@ -1,7 +1,0 @@
-include_defs('//gerrit-acceptance-tests/tests.defs')
-
-acceptance_tests(
-  group = 'api_account',
-  srcs = glob(['*IT.java']),
-  labels = ['api'],
-)

@@ -1,6 +1,6 @@
 = Gerrit Code Review - Developer Setup
 
-Bazel or Facebook Buck is needed to compile the code, and an SQL database to
+Google Bazel is needed to compile the code, and an SQL database to
 house the review metadata.  H2 is recommended for development
 databases, as it requires no external server process.
 
@@ -21,9 +21,7 @@ cloned.
 [[compile_project]]
 == Compiling
 
-Please refer to either <<dev-buck#,Building with Buck>> or
-<<dev-bazel#,Building with Bazel>>.
-
+Please refer to <<dev-bazel#,Building with Bazel>>.
 
 == Switching between branches
 
@@ -50,8 +48,8 @@ screw up your project.
 To use the Eclipse IDE for development, please see
 link:dev-eclipse.html[Eclipse Setup].
 
-For details on how to configure the Eclipse workspace with Buck,
-refer to: link:dev-buck.html#eclipse[Eclipse integration with Buck].
+For details on how to configure the Eclipse workspace with Bazel,
+refer to: link:dev-bazel.html#eclipse[Eclipse integration with Bazel].
 
 
 == Configuring IntelliJ IDEA
@@ -62,7 +60,7 @@ To use IntelliJ IDEA for development, the easiest way is to follow
 Eclipse integration and then open it as Eclipse project in IDEA.
 You need the Eclipse plugin activated in IntelliJ IDEA.
 
-Once you start compiling using both buck and your Gerrit project in
+Once you start compiling using both bazel and your Gerrit project in
 IDEA, you will likely need to mark the below directories as generated
 sources roots. You can do so using the IDEA "Project" view. In the
 context menu of each one of these, use "Mark Directory As" to mark
@@ -99,7 +97,7 @@ create a testing site for development use:
 
 .Build based on Buck
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war init -d ../gerrit_testsite
+  java -jar bazel-bin/gerrit.war init -d ../gerrit_testsite
 ----
 
 .Build based on Bazel
@@ -169,10 +167,8 @@ A new review site is created for each test and the Gerrit daemon is
 started on that site. When the test has finished the Gerrit daemon is
 shutdown.
 
-For instructions on running the integration tests with Buck,
-please refer to:
-link:dev-buck.html#tests[Running integration tests with Buck].
-For Bazel, please refer to <<dev-bazel#tests,Running Unit Tests with Bazel>>.
+For instructions on running the integration tests with Bazel,
+please refer to:  <<dev-bazel#tests,Running Unit Tests with Bazel>>.
 
 [[run_daemon]]
 === Running the Daemon
@@ -182,7 +178,7 @@ copying to the test site:
 
 .Build based on Buck
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite
+  java -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite
 ----
 
 .Build based on Bazel
@@ -212,7 +208,7 @@ command used to launch the daemon:
 
 .Build based on Buck
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite -s
+  java -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite -s
 ----
 
 .Build based on Bazel
@@ -249,7 +245,7 @@ command line.  If the daemon is not currently running:
 
 .Build based on Buck
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war gsql -d ../gerrit_testsite
+  java -jar bazel-bin/gerrit.war gsql -d ../gerrit_testsite
 ----
 
 .Build based on Bazel

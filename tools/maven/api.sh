@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if [[ "$#" != "2" ]] ; then
+if [[ "$#" != "1" ]] ; then
   cat <<EOF
-Usage: run "$0 COMMAND BUILD-TOOL" from the top of your workspace,
+Usage: run "$0 COMMAND" from the top of your workspace,
 where COMMAND is one of
 
   install
@@ -24,10 +24,6 @@ where COMMAND is one of
   war_install
   war_deploy
 
-and BUILD-TOOL is one of
-
-  buck
-  bazel
 Set VERBOSE in the environment to get more information.
 
 EOF
@@ -37,7 +33,6 @@ fi
 
 set -o errexit
 set -o nounset
-
 
 case "$1" in
 install)
@@ -58,33 +53,11 @@ war_deploy)
     ;;
 esac
 
-case "$2" in
-bazel)
-    buildProc=bazel
-    ;;
-buck)
-    buildProc=buck
-    ;;
-*)
-    echo "unknown build-tool $2. Should be buck or bazel."
-    exit 1
-    ;;
-esac
-
 if [[ "${VERBOSE:-x}" != "x" ]]; then
   set -o xtrace
 fi
 
-$buildProc build //tools/maven:gen_${command} || \
-  { echo "$buildProc failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
+bazel build //tools/maven:gen_${command} || \
+  { echo "bazel failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 
-if [[ "$buildProc" = "bazel" ]]; then
-  script="./bazel-genfiles/tools/maven/${command}.sh"
-  ${script}
-else
-  script="./buck-out/gen/tools/maven/gen_${command}/${command}.sh"
-  # The PEX wrapper does some funky exit handling, so even if the script
-  # does "exit(0)", the return status is '1'. So we can't tell if the
-  # following invocation was successful.
-  ${script}
-fi
+./bazel-genfiles/tools/maven/${command}.sh

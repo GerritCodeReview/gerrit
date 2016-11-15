@@ -17,6 +17,29 @@
       "revId": "51f7fa18a30db3cae02b9ee5dfb5e56079bc101d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_27df94f8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ActionFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T14:51:07Z",
+      "side": 1,
+      "message": "Can we come up with a better name for this?  Also it would be good to have some Javadoc explaining what the return values mean.",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "51f7fa18a30db3cae02b9ee5dfb5e56079bc101d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -38,10 +38,10 @@ import javax.mail.internet.MimeMessage;
 @NoHttpd
 @RunWith(ConfigSuite.class)
 public class MailIT extends AbstractDaemonTest {
-  private final static String RECEIVEEMAIL = "receiveemail";
-  private final static String HOST = "localhost";
-  private final static String USERNAME = "user@domain.com";
-  private final static String PASSWORD = "password";
+  private static final String RECEIVEEMAIL = "receiveemail";
+  private static final String HOST = "localhost";
+  private static final String USERNAME = "user@domain.com";
+  private static final String PASSWORD = "password";
 
   @Inject
   private MailReceiver mailReceiver;

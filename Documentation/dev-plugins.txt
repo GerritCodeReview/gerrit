@@ -643,7 +643,7 @@ $ ssh -p 29418 review.example.com sh ps
 ----
 
 [[search_operators]]
-=== Search Operators ===
+== Search Operators
 
 Plugins can define new search operators to extend change searching by
 implementing the `ChangeQueryBuilder.ChangeOperatorFactory` interface

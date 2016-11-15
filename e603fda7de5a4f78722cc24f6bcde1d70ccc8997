@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b05ab866_baac316c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-15T22:57:45Z",
+      "side": 1,
+      "message": "at this point, c.getStatusCode() returns null for some reason in my tests, and so does c.getPatchSet(). I don\u0027t know why, but maybe that can be fixed?",
+      "revId": "e603fda7de5a4f78722cc24f6bcde1d70ccc8997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "905f7458_79c3c728",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 1

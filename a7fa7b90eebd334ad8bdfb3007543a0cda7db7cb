@@ -16,6 +16,24 @@
       "revId": "a7fa7b90eebd334ad8bdfb3007543a0cda7db7cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_07513851",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T19:20:42Z",
+      "side": 0,
+      "message": "Ah, it\u0027s because of code added in PS1 and then manually reverted in PS2. Done.",
+      "parentUuid": "b031d818_65804093",
+      "revId": "a7fa7b90eebd334ad8bdfb3007543a0cda7db7cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

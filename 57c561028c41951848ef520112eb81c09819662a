@@ -22,6 +22,30 @@
       "revId": "57c561028c41951848ef520112eb81c09819662a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_420d321e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T01:25:41Z",
+      "side": 0,
+      "message": "I suspect so.  I haven\u0027t debugged it deeply; I\u0027ve just replaced this with the same method that is used in the other tests that work.\n\nI notice that this one has an atomic counter though, so maybe my fix is losing some functionality?",
+      "parentUuid": "f0a51083_84dc4678",
+      "range": {
+        "startLine": 591,
+        "startChar": 3,
+        "endLine": 595,
+        "endChar": 45
+      },
+      "revId": "57c561028c41951848ef520112eb81c09819662a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

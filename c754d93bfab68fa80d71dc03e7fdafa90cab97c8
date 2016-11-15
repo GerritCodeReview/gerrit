@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1479251406 -0800\nnonce AG58fQqXFyYvEHFJWQdxf2cDzrpSbycQFuQ0/ElQINMdSvPufyAYYAyz1BY4fORN/q5Z52ENtnO+\n\n0000000000000000000000000000000000000000 c754d93bfab68fa80d71dc03e7fdafa90cab97c8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJYK5XPAAoJEF/XxZqaEoiMPUsQAIhjZrFLpbuGr7gduDhlAdVc\nNou1pfcZlgfwCoJx4T9TQUseVus7miHI1z9unVh3p75cpNRk5G1Og3OH5W07gnCA\nsg6icDWrmGTGcxg1LBXhBHoqyb4wQpxPAGCnJpfrFnSAJerhUlidJpL7ISBNx6R6\nldARU468kYJTCld8y9CEl1XNIqdyArIx390S8i/ZqiHhF4RppJf4cdNKhyik0RV+\nzcR/d9Bxk3DQGQqgIVIJ6zhr3hwND//rABlQQlaA5zAaLQ7cKZVwJUf2cBuCtzTL\nOQlTFkRR+UrmXlN4MKOgbDEQhETdY+lLNWUuKlZsHF+rcwDV4xV80+M5uZLCOpR/\nCLJaXc4+Yx40pGCL2ivhlZlIb9ME15hb8icSwtp1oSA8+zfw0pCcbsHPpR4OF4Tu\npHBozSlwRr4BPdE5rB42ICNxMbQt7bageeZSBxwptZqT0OUvmbG1V1aoKjhSkPZO\ngyNXJWnjWwJxY83s/0nm9ayqLC4wnBkddKvsfkMuhrLWsEpLAsQ6Mpnx/JW5KSh3\ngPHtvAbGfVhGf0klw2mY/V/r9EFJBZgiGEjxhkOniewz17o3Wjk7tfEInsZPWciC\neJHj1QwHTzoZCJRblyRDUPMCWHd3EtXkrs8W0M7bI0dXDwtANa8TIZvY4HJvSrol\n/e7FkF4ysNxUUpri5r1r\n\u003diU+A\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_871e8826",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T23:26:04Z",
+      "side": 1,
+      "message": "\"of the\"",
+      "range": {
+        "startLine": 1474,
+        "startChar": 36,
+        "endLine": 1474,
+        "endChar": 47
+      },
+      "revId": "c754d93bfab68fa80d71dc03e7fdafa90cab97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_a71b8435",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T23:26:04Z",
+      "side": 1,
+      "message": "immutable copies",
+      "range": {
+        "startLine": 1474,
+        "startChar": 29,
+        "endLine": 1474,
+        "endChar": 35
+      },
+      "revId": "c754d93bfab68fa80d71dc03e7fdafa90cab97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

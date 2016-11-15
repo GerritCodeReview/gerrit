@@ -119,6 +119,23 @@
     },
     {
       "key": {
+        "uuid": "b031d818_65d4c001",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-15T23:42:46Z",
+      "side": 1,
+      "message": "Just pass in the PatchSet.Id. Then, inside updateChange, read the patch set back with psUtil.get(ctx.getDb(), ctx.getNotes(), psId). This ensures that you have the latest value inside the transaction, in case it\u0027s been changed since the PatchSet was read during REST API setup.",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_c714800a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 1
@@ -248,6 +265,24 @@
       "side": 1,
       "message": "When gerrit.config is set up to read from/write to NoteDB, this code works. When NoteDB is not configured, the change succeeds and I get an OK response, but the new value does not persist when I check the DB.",
       "parentUuid": "b031d818_a511a818",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_27dd542e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-15T23:42:46Z",
+      "side": 1,
+      "message": "Ah. So NoteDb works but ReviewDb doesn\u0027t.\n\nYou are missing ctx.getDb().patchSets().update(Collections.singleton(ps)) to write it back to ReviewDb.",
+      "parentUuid": "f0a51083_e7073cc8",
       "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

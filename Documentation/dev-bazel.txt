@@ -33,6 +33,10 @@ PolyGerrit UI:
   bazel build gerrit
 ----
 
+[NOTE]
+PolyGerrit UI may require additional tools (such as npm). Please read
+the polygerrit-ui/README.md for more info.
+
 The output executable WAR will be placed in:
 
 ----

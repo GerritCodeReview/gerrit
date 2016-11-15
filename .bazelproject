@@ -11,10 +11,6 @@ directories:
   -./.metadata
   -./.settings
   -./.apt_generated
-  # BUCK excludes; Remove after we have entirely switched to Bazel
-  -./.buckd
-  -bucklets
-  -buck-out
 
 targets:
   //...:all

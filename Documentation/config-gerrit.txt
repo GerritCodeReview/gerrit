@@ -2628,12 +2628,13 @@ Elasticsearch server port.
 +
 Defauls to `9200`.
 
-[[index.name]]index.name::
+[[index.prefix]]index.prefix::
 +
-This setting can be used to index changes from multiple Gerrit
-instances in a single Elasticsearch cluster.
+This setting can be used to prefix index names to allow multiple Gerrit
+instances in a single Elasticsearch cluster. Prefix 'gerrit1_' would result in a
+change index named 'gerrit1_changes_0001'.
 +
-Defaults to 'gerrit'.
+Not set by default.
 
 [[ldap]]
 === Section ldap

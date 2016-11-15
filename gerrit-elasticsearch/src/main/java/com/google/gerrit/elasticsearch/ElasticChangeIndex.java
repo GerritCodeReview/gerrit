@@ -121,6 +121,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
   }
 
+  static final String CHANGES_PREFIX = "changes_";
   static final String OPEN_CHANGES = "open_changes";
   static final String CLOSED_CHANGES = "closed_changes";
 
@@ -138,7 +139,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       FillArgs fillArgs,
       SitePaths sitePaths,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, fillArgs, sitePaths, schema);
+    super(cfg, fillArgs, sitePaths, schema, CHANGES_PREFIX);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     mapping = new ChangeMapping(schema);

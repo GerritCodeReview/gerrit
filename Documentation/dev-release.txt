@@ -111,8 +111,8 @@ the subproject.
 * link:dev-release-subproject.html#prepare-release[Prepare the Release]
 * link:dev-release-subproject.html#publish-release[Publish the Release]
 
-* Update the `id`, `bin_sha1`, and `src_sha1` values in the `maven_jar`
-for the Subproject in `/lib/BUCK` to the released version.
+* Update the `artifact`, `sha1`, and `src_sha1` values in the `maven_jar`
+for the Subproject in `WORKSPACE` to the released version.
 
 [[update-versions]]
 === Update Versions and Create Release Tag
@@ -147,9 +147,8 @@ Tag the plugins:
 * Build the Gerrit WAR, API JARs and documentation
 +
 ----
-  buck clean
-  buck build --no-cache release docs
-  ./tools/maven/api.sh install <buck|bazel>
+  bazel build release Documentation:searchfree
+  ./tools/maven/api.sh install
 ----
 
 * Sanity check WAR
@@ -157,11 +156,10 @@ Tag the plugins:
 
 * Verify plugin versions
 +
-Sometimes `buck` doesn't rebuild plugins after they are tagged, and the
-versions don't reflect the tag. Verify the versions:
+Verify the versions:
 +
 ----
-  java -jar ./buck-out/gen/release/release.war init --list-plugins
+  java -jar bazel-bin/release.war init --list-plugins
 ----
 
 [[publish-gerrit]]
@@ -174,30 +172,24 @@ versions don't reflect the tag. Verify the versions:
 link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
 configuration] for deploying to Maven Central
 
-* Make sure that the version is updated in the `VERSION` file and in
+* Make sure that the version is updated in the `version.bzl` file and in
 the `pom.xml` files as described in the link:#update-versions[Update
 Versions and Create Release Tag] section.
 
 * Push the WAR to Maven Central:
 +
 ----
-  ./tools/maven/api.sh war_deploy <buck|bazel>
+  ./tools/maven/api.sh war_deploy
 ----
 
 * Push the plugin artifacts to Maven Central:
 +
 ----
-  ./tools/maven/api.sh deploy <buck|bazel>
-----
-+
-If no artifacts are uploaded, clean the `buck-out` folder and retry:
-+
-----
-  buck clean ; rm -rf buck-out
+  ./tools/maven/api.sh deploy
 ----
 
 * To where the artifacts are uploaded depends on the `GERRIT_VERSION` in
-the `VERSION` file:
+the `version.bzl` file:
 
 ** SNAPSHOT versions are directly uploaded into the Sonatype snapshots
 repository and no further action is needed:
@@ -318,7 +310,7 @@ Push the new Release Tag on the plugins:
 ==== Upload the Documentation
 
 * Extract the documentation files from the zip file generated from
-`buck build docs`: `buck-out/gen/Documentation/searchfree/searchfree.zip`.
+`bazel build searchfree`: `bazel-bin/Documentation/searchfree.zip`.
 
 * Upload the files manually via web browser to the appropriate folder
 in the
@@ -368,7 +360,7 @@ including some or all of the following in the email:
 +
 The SHA1 and MD5 can be taken from the artifact page on Sonatype. The
 SHA256 can be generated with
-`openssl sha -sha256 buck-out/gen/release/release.war` or an equivalent
+`openssl sha -sha256 bazel-bin/release.war` or an equivalent
 command.
 
 * Update the new discussion group announcement to be sticky
@@ -388,8 +380,7 @@ All new development that is done in the `master` branch will be included in the
 next Gerrit release. The Gerrit version should be set to the snapshot version
 for the next release.
 
-Use the `version` tool to set the version in the `VERSION` file:
-:
+Use the `version` tool to set the version in the `version.bzl` file:
 
 ----
  ./tools/version.py 2.11-SNAPSHOT

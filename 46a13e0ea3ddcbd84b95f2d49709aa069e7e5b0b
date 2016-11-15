@@ -22,6 +22,30 @@
       "revId": "46a13e0ea3ddcbd84b95f2d49709aa069e7e5b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_e7573c42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T19:27:52Z",
+      "side": 1,
+      "message": "It has started to fail for the rebase strategies after fixes made in rebase-if-necessary on stable-2.12  which are now coming to master by merge (see the merge commit earlier).\n\nIt looks like either:\n\n- We broke something with those rebase-if-necessary changes\n\n- Something was already broken, and is only now exposed by the fixed rebase-if-necessary.",
+      "parentUuid": "b031d818_c5ddccce",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "46a13e0ea3ddcbd84b95f2d49709aa069e7e5b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_65804093",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-15T18:47:59Z",
+      "side": 0,
+      "message": "To me, the ternary version is easier to read. Why this edit?",
+      "revId": "a7fa7b90eebd334ad8bdfb3007543a0cda7db7cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

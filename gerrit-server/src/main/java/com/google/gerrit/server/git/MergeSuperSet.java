@@ -275,7 +275,7 @@ public class MergeSuperSet {
           walkChangesByHashes(visibleCommits, emptySet, or, b);
 
       List<ChangeData> cds =
-          byCommitsOnBranchNotMerged(or, db, user, b, visibleHashes);
+          byCommitsOnBranch(or, db, user, b, visibleHashes);
       for (ChangeData chd : cds) {
         chd.changeControl(user);
         visibleChanges.add(chd);
@@ -284,7 +284,7 @@ public class MergeSuperSet {
       Set<String> nonVisibleHashes =
           walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
       Iterables.addAll(nonVisibleChanges,
-          byCommitsOnBranchNotMerged(or, db, user, b, nonVisibleHashes));
+          byCommitsOnBranch(or, db, user, b, nonVisibleHashes));
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);
@@ -319,7 +319,7 @@ public class MergeSuperSet {
     }
   }
 
-  private List<ChangeData> byCommitsOnBranchNotMerged(OpenRepo or, ReviewDb db,
+  private List<ChangeData> byCommitsOnBranch(OpenRepo or, ReviewDb db,
       CurrentUser user, Branch.NameKey branch, Set<String> hashes)
       throws OrmException, IOException {
     if (hashes.isEmpty()) {
@@ -333,7 +333,7 @@ public class MergeSuperSet {
 
     List<ChangeData> result = new ArrayList<>();
     Iterable<ChangeData> destChanges = query()
-        .byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
+        .byCommitsOnBranch(or.repo, db, branch, hashes);
     for (ChangeData chd : destChanges) {
       chd.changeControl(user);
       result.add(chd);

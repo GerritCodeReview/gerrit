@@ -157,25 +157,25 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
         status(Change.Status.NEW)));
   }
 
-  public Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo,
+  public Iterable<ChangeData> byCommitsOnBranch(Repository repo,
       ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
       throws OrmException, IOException {
-    return byCommitsOnBranchNotMerged(repo, db, branch, hashes,
+    return byCommitsOnBranch(repo, db, branch, hashes,
         // Account for all commit predicates plus ref, project, status.
         indexConfig.maxTerms() - 3);
   }
 
   @VisibleForTesting
-  Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo, ReviewDb db,
+  Iterable<ChangeData> byCommitsOnBranch(Repository repo, ReviewDb db,
       Branch.NameKey branch, Collection<String> hashes, int indexLimit)
       throws OrmException, IOException {
     if (hashes.size() > indexLimit) {
-      return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
+      return byCommitsOnBranchFromDatabase(repo, db, branch, hashes);
     }
-    return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
+    return byCommitsOnBranchFromIndex(branch, hashes);
   }
 
-  private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
+  private Iterable<ChangeData> byCommitsOnBranchFromDatabase(
       Repository repo, final ReviewDb db, final Branch.NameKey branch,
       Collection<String> hashes) throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
@@ -200,18 +200,16 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
         db, branch.getParentKey(), changeIds,
         cn -> {
             Change c = cn.getChange();
-            return c.getDest().equals(branch)
-                && c.getStatus() != Change.Status.MERGED;
+            return c.getDest().equals(branch);
         });
     return Lists.transform(notes, n -> changeDataFactory.create(db, n));
   }
 
-  private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
+  private Iterable<ChangeData> byCommitsOnBranchFromIndex(
       Branch.NameKey branch, Collection<String> hashes) throws OrmException {
     return query(and(
         ref(branch),
         project(branch.getParentKey()),
-        not(status(Change.Status.MERGED)),
         or(commits(hashes))));
   }
 

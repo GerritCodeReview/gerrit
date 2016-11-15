@@ -1510,7 +1510,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
 
     for (int i = 1; i <= 11; i++) {
-      Iterable<ChangeData> cds = internalChangeQuery.byCommitsOnBranchNotMerged(
+      Iterable<ChangeData> cds = internalChangeQuery.byCommitsOnBranch(
           repo.getRepository(), db, dest, shas, i);
       Iterable<Integer> ids = FluentIterable.from(cds)
           .transform(in -> in.getId().get());

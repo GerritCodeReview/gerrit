@@ -200,7 +200,7 @@ Debugging tests:
 To run a specific test group, e.g. the rest-account test group:
 
 ----
-  bazel test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest-account
+  bazel test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest_account
 ----
 
 == Dependencies

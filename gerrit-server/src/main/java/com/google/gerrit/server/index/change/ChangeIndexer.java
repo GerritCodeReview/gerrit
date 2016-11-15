@@ -153,9 +153,7 @@ public class ChangeIndexer {
    */
   public CheckedFuture<?, IOException> indexAsync(Project.NameKey project,
       Change.Id id) {
-    return executor != null
-        ? submit(new IndexTask(project, id))
-        : Futures.<Object, IOException> immediateCheckedFuture(null);
+    return submit(new IndexTask(project, id));
   }
 
   /**
@@ -235,9 +233,7 @@ public class ChangeIndexer {
    * @return future for the deleting task.
    */
   public CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
-    return executor != null
-        ? submit(new DeleteTask(id))
-        : Futures.<Object, IOException> immediateCheckedFuture(null);
+    return submit(new DeleteTask(id));
   }
 
   /**

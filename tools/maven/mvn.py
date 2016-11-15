@@ -33,7 +33,7 @@ if not args.v:
   exit(1)
 
 root = path.abspath(__file__)
-while not path.exists(path.join(root, '.buckconfig')):
+while not path.exists(path.join(root, 'WORKSPACE')):
   root = path.dirname(root)
 
 if 'install' == args.a:

@@ -1,8 +1,0 @@
-include_defs('//lib/prolog/prolog.defs')
-
-prolog_cafe_library(
-  name = 'common',
-  srcs = ['gerrit_common.pl'],
-  deps = ['//gerrit-server:server'],
-  visibility = ['PUBLIC'],
-)

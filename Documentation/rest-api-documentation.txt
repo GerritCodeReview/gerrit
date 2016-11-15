@@ -6,9 +6,9 @@ link:rest-api.html[REST API].
 
 Please note that this feature is only usable with documentation built-in.
 You'll need to
-`buck build withdocs`
+`bazel build withdocs`
 or
-`buck build release`
+`bazel build release`
 to test this feature.
 
 [[documentation-endpoints]]

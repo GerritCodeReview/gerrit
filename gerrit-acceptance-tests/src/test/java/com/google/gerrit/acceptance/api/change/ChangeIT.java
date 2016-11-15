@@ -36,6 +36,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -59,6 +60,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -115,6 +117,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1146,6 +1149,31 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId)
         .isEqualTo(user.getId().get());
     assertThat(c.reviewers).doesNotContainKey(CC);
+  }
+
+  @Test
+  public void emailNotificationForFileLevelComment() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(changeId)
+        .addReviewer(in);
+    sender.clear();
+
+    ReviewInput review = new ReviewInput();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.path = PushOneCommit.FILE_NAME;
+    comment.side = Side.REVISION;
+    comment.message = "comment 1";
+    review.comments = new HashMap<>();
+    review.comments.put(comment.path, Lists.newArrayList(comment));
+    gApi.changes().id(changeId).current().review(review);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    Message m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
   }
 
   @Test

@@ -31,7 +31,8 @@ import org.apache.lucene.search.BooleanQuery;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.joda.time.DateTime;
+
+import java.time.Instant;
 
 public class ElasticQueryBuilder {
 
@@ -138,7 +139,7 @@ public class ElasticQueryBuilder {
       throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return QueryBuilders.rangeQuery(r.getField().getName())
-          .gt(new DateTime(r.getMaxTimestamp().getTime()));
+          .gt(Instant.ofEpochMilli(r.getMaxTimestamp().getTime()));
     }
     throw new QueryParseException("cannot negate: " + r);
   }
@@ -150,11 +151,11 @@ public class ElasticQueryBuilder {
           (TimestampRangePredicate<T>) p;
       if (p instanceof AfterPredicate) {
         return QueryBuilders.rangeQuery(r.getField().getName())
-            .gte(new DateTime(r.getMinTimestamp().getTime()));
+            .gte(Instant.ofEpochMilli(r.getMinTimestamp().getTime()));
       }
       return QueryBuilders.rangeQuery(r.getField().getName())
-          .gte(new DateTime(r.getMinTimestamp().getTime()))
-          .lte(new DateTime(r.getMaxTimestamp().getTime()));
+          .gte(Instant.ofEpochMilli(r.getMinTimestamp().getTime()))
+          .lte(Instant.ofEpochMilli(r.getMaxTimestamp().getTime()));
     }
     throw new QueryParseException("not a timestamp: " + p);
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b031d818_45441cba",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T18:08:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_0504d47a",
+      "range": {
+        "startLine": 175,
+        "startChar": 55,
+        "endLine": 179,
+        "endChar": 4
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_2562b851",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-15T17:19:45Z",
       "side": 1,
       "message": "Move this in to the catch block so we don\u0027t have an empty catch block?",
+      "range": {
+        "startLine": 652,
+        "startChar": 4,
+        "endLine": 653,
+        "endChar": 17
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_853e241e",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T18:08:42Z",
+      "side": 1,
+      "message": "It cannot be moved, because of:\n\n  This method must return a result of type boolean",
+      "parentUuid": "b031d818_2562b851",
       "range": {
         "startLine": 652,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_474410ba",
+        "filename": "tools/bzl/classpath.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T18:08:42Z",
+      "side": 1,
+      "message": "That\u0027s correct. However, I followed the wrong code style in this file. Note, though, we are going to reformat all Bazel build files including *.bzl with 4 spaces indent and replaceing \u0027 with \" by using Buildifier tool.",
+      "parentUuid": "b031d818_85674460",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 12
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_656cc044",
         "filename": "tools/eclipse/project_bzl.py",
         "patchSetId": 13
@@ -87,6 +159,53 @@
         "startChar": 0,
         "endLine": 46,
         "endChar": 51
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_073e1820",
+        "filename": "tools/eclipse/project_bzl.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T18:08:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_656cc044",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_a534083c",
+        "filename": "tools/eclipse/project_bzl.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-15T18:08:42Z",
+      "side": 1,
+      "message": "This is not used too.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 45
       },
       "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_0267aafd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/HostPlatform.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T00:36:41Z",
+      "side": 1,
+      "message": "Add Javadoc for consistency with isWin32?",
+      "revId": "f2058d6176a9f6e7659cd692cecfb24e2604d7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

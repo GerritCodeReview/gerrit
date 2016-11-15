@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_e7617c29",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:53:24Z",
+      "side": 1,
+      "message": "Should entry.getKey() be included in this message?",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 59
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_a561a82a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:53:24Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 59
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_876e8818",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T18:53:24Z",
+      "side": 1,
+      "message": "Should this be EEE like in other places?",
+      "range": {
+        "startLine": 40,
+        "startChar": 35,
+        "endLine": 40,
+        "endChar": 36
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -441,6 +441,18 @@ public class ChangeControl {
     return getRefControl().canForceEditTopicName();
   }
 
+  /** Can this user edit the description? */
+  public boolean canEditDescription() {
+    if (getChange().getStatus().isOpen()) {
+      return isOwner() // owner (aka creator) of the change can edit desc
+          || getRefControl().isOwner() // branch owner can edit desc
+          || getProjectControl().isOwner() // project owner can edit desc
+          || getUser().getCapabilities().canAdministrateServer() // site administers are god
+      ;
+    }
+    return false;
+  }
+
   public boolean canEditAssignee() {
     return isOwner()
         || getProjectControl().isOwner()

@@ -2792,6 +2792,64 @@ describes the revision.
 Adding query parameter `links` (for example `/changes/.../commit?links`)
 returns a link:#commit-info[CommitInfo] with the additional field `web_links`.
 
+[[get-description]]
+=== Get Description
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/description'
+--
+
+Retrieves the description of a patch set.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/description HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Added Documentation"
+----
+
+If the patch set does not have a description an empty string is returned.
+
+[[set-description]]
+=== Set Description
+--
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/description'
+--
+
+Sets the description of a patch set.
+
+The new description must be provided in the request body inside a
+link:#description-input[DescriptionInput] entity.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/description HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "description": "Added Documentation"
+  }
+----
+
+As response the new description is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Added Documentation"
+----
+
 [[get-merge-list]]
 === Get Merge List
 --
@@ -5096,6 +5154,16 @@ after the vote is deleted. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |=======================
+
+[[description-input]]
+=== DescriptionInput
+The `DescriptionInput` entity contains information for setting a description.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name     |Description
+|`description`  |The description text.
+|===========================
 
 [[diff-content]]
 === DiffContent

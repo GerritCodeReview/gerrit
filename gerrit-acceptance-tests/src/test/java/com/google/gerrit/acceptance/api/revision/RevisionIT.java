@@ -771,6 +771,31 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void description() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description()).isEqualTo("");
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description("test");
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description()).isEqualTo("test");
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description("");
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description()).isEqualTo("");
+  }
+
+  @Test
   public void content() throws Exception {
     PushOneCommit.Result r = createChange();
     assertContent(r, FILE_NAME, FILE_CONTENT);
@@ -946,11 +971,11 @@ public class RevisionIT extends AbstractDaemonTest {
   public void actions() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(current(r).actions().keySet())
-        .containsExactly("cherrypick", "rebase");
+        .containsExactly("cherrypick", "description", "rebase");
 
     current(r).review(ReviewInput.approve());
     assertThat(current(r).actions().keySet())
-        .containsExactly("submit", "cherrypick", "rebase");
+        .containsExactly("submit", "cherrypick", "description", "rebase");
 
     current(r).submit();
     assertThat(current(r).actions().keySet())

@@ -25,6 +25,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -303,6 +304,33 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     approve(change1.getChangeId());
     submit(change1.getChangeId());
+  }
+
+  @Test
+  public void submitMergeOfNonChangeBranchTip() throws Exception {
+    // Merge a branch with commits that have note been submitted as
+    // changes.
+    //
+    // M  -- mergeCommit (pushed for review and submitted)
+    // | \
+    // |  S -- stable (pushed directly to refs/heads/stable)
+    // | /
+    // I   -- master
+    //
+    RevCommit master = getRemoteHead(project, "master");
+    PushOneCommit stableTip = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Tip of branch stable", "stable.txt", "");
+    PushOneCommit.Result stable = stableTip.to("refs/heads/stable");
+    PushOneCommit mergeCommit = pushFactory.create(db, admin.getIdent(),
+        testRepo, "The merge commit", "merge.txt", "");
+    mergeCommit.setParents(ImmutableList.of(master, stable.getCommit()));
+    PushOneCommit.Result mergeReview = mergeCommit.to("refs/for/master");
+    approve(mergeReview.getChangeId());
+    submit(mergeReview.getChangeId());
+
+    List<RevCommit> log = getRemoteLog();
+    assertThat(log).contains(stable.getCommit());
+    assertThat(log).contains(mergeReview.getCommit());
   }
 
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {

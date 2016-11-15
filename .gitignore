@@ -12,16 +12,11 @@
 *.eml
 *.sublime-*
 /gerrit-package-plugins
-/.buckconfig.local
-/.buckjavaargs
-/.buckd
 /bazel-bin
 /bazel-genfiles
 /bazel-gerrit
 /bazel-out
 /bazel-testlogs
-/buck-cache
-/buck-out
 /eclipse-out
 /extras
 /local.properties

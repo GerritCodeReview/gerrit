@@ -4,15 +4,15 @@
 From build process perspective there are three types of plugins:
 
 * Maven driven
-* Buck in tree driven
-* Buck standalone driven
+* Bazel tree driven
+* Bazel standalone
 
 These types can be combined: if both files in plugin's root directory exist:
 
-* `BUCK`
+* `BUILD`
 * `pom.xml`
 
-the plugin can be built with both Buck and Maven.
+the plugin can be built with both Bazel and Maven.
 
 
 == Maven driven build
@@ -52,35 +52,35 @@ mvn install
 Repeat step 1. above.
 
 
-== Buck in tree driven
+== Bazel in tree driven
 
 
-The fact that plugin contains `BUCK` file doesn't mean that building this
+The fact that plugin contains `BUILD` file doesn't mean that building this
 plugin from the plugin directory works. For now it doesn't. Buck in tree driven
 means it can only be built from within Gerrit tree. Clone or link the plugin
 into gerrit/plugins directory:
 
 ----
 cd gerrit
-buck build plugins/<plugin-name>:<plugin-name>
+bazel build plugins/<plugin-name>:<plugin-name>
 ----
 
 The output can be normally found in the following directory:
 
 ----
-buck-out/gen/plugins/<plugin-name>/<plugin-name>.jar
+bazel-genfiles/plugins/<plugin-name>/<plugin-name>.jar
 ----
 
 Some plugins describe their build process in `src/main/resources/Documentation/build.md`
 file. It may worth checking.
 
-== Buck standalone driven
+== Bazel standalone driven
 
 Only few plugins support that mode for now:
 
 ----
 cd reviewers
-buck build plugin
+bazel build reviewers
 ----
 
 GERRIT

@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_e5bd7067",
+        "filename": "tools/eclipse/project_bzl.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-15T18:29:04Z",
+      "side": 1,
+      "message": "ok.",
+      "parentUuid": "f0a51083_07adb838",
+      "revId": "b97f5564a0b08c6a72bb7afebb7ef00e4cdff101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_023ccaf1",
         "filename": "tools/eclipse/project_bzl.py",
         "patchSetId": 3

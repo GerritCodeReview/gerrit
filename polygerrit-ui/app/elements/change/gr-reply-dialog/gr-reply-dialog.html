@@ -209,12 +209,6 @@ limitations under the License.
         </iron-autogrow-textarea>
       </section>
       <section class="labelsContainer">
-        <template is="dom-if" if="[[_isClosed(change)]]" id="labelDisabled">
-          <div class="labelDisabledMessage">
-            Setting labels are disabled for this change because it has been
-            closed.
-          </div>
-        </template>
         <template is="dom-repeat"
             items="[[_labels]]" as="label">
           <div class="labelContainer">

@@ -19,7 +19,9 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -586,37 +588,46 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
   @Test
   public void testTwoProjectsMultipleBranchesWholeTopic() throws Exception {
-    TestRepository<?> repoA = createProjectWithPush("project-a");
-    TestRepository<?> repoB = createProjectWithPush("project-b");
-    // bootstrap the dev branch
-    pushChangeTo(repoA, "dev");
+    String topic = "test-topic";
+    String projectA = "project-a";
+    String projectB = "project-b";
+    TestRepository<?> repoA = createProjectWithPush(projectA);
+    TestRepository<?> repoB = createProjectWithPush(projectB);
 
-    // bootstrap the dev branch
-    ObjectId b0 = pushChangeTo(repoB, "dev");
+    RevCommit initialHeadA =
+        getRemoteHead(new Project.NameKey(name(projectA)), "master");
+    RevCommit initialHeadB =
+        getRemoteHead(new Project.NameKey(name(projectB)), "master");
 
-    allowMatchingSubmoduleSubscription("project-b",
-        "refs/heads/master", "project-a", "refs/heads/master");
-    allowMatchingSubmoduleSubscription("project-b", "refs/heads/dev",
-        "project-a", "refs/heads/dev");
+    // Create the dev branch on test projects
+    BranchInput in = new BranchInput();
+    in.revision = initialHeadA.name();
+    gApi.projects().name(name(projectA)).branch("dev").create(in);
+    in.revision = initialHeadB.name();
+    gApi.projects().name(name(projectB)).branch("dev").create(in);
 
-    createSubmoduleSubscription(repoA, "master", "project-b", "master");
-    createSubmoduleSubscription(repoA, "dev", "project-b", "dev");
+    allowMatchingSubmoduleSubscription(projectB,
+        "refs/heads/master", projectA, "refs/heads/master");
+    allowMatchingSubmoduleSubscription(projectB, "refs/heads/dev",
+        projectA, "refs/heads/dev");
 
+    createSubmoduleSubscription(repoA, "master", projectB, "master");
+    createSubmoduleSubscription(repoA, "dev", projectB, "dev");
 
-    // create a change for master branch in repo b
-    ObjectId bHead =
-        pushChangeTo(repoB, "refs/for/master", "master.txt", "content master B",
-            "some message in b master.txt", "same-topic");
+    // Create change on master for project B
+    PushOneCommit.Result change1 =
+        createChange(repoB, "master", "some message in b master.txt",
+            "master.txt", "content master B", topic);
 
-    // create a change for dev branch in repo b
-    repoB.reset(b0);
-    ObjectId bDevHead =
-        pushChangeTo(repoB, "refs/for/dev", "dev.txt", "content dev B",
-            "some message in b dev.txt", "same-topic");
+    // Create a change on dev branch for project B
+    repoB.reset(initialHeadB);
+    PushOneCommit.Result change2 =
+        createChange(repoB, "dev", "some message in b dev.txt",
+            "dev.txt", "content dev B", topic);
 
-    approve(getChangeId(repoB, bHead).get());
-    approve(getChangeId(repoB, bDevHead).get());
-    gApi.changes().id(getChangeId(repoB, bHead).get()).current().submit();
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    gApi.changes().id(change2.getChangeId()).current().submit();
 
     expectToHaveSubmoduleState(repoA, "master", "project-b", repoB, "master");
     expectToHaveSubmoduleState(repoA, "dev", "project-b", repoB, "dev");

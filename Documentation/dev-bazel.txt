@@ -310,8 +310,6 @@ downloaded (not built locally).
 `~/.gerritcodereview/buck-cache/`. This allows Bazel to make use of
 libraries that were previously downloaded by Buck.
 
-== Known issues and bugs
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

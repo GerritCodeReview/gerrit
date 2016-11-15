@@ -42,6 +42,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.config.GitwebConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -49,6 +50,7 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -100,7 +102,7 @@ class GitwebServlet extends HttpServlet {
   private final EnvList _env;
 
   @Inject
-  GitwebServlet(LocalDiskRepositoryManager repoManager,
+  GitwebServlet(GitRepositoryManager repoManager,
       ProjectControl.Factory projectControl,
       Provider<AnonymousUser> anonymousUserProvider,
       Provider<CurrentUser> userProvider,
@@ -110,7 +112,11 @@ class GitwebServlet extends HttpServlet {
       GitwebConfig gitwebConfig,
       GitwebCgiConfig gitwebCgiConfig)
       throws IOException {
-    this.repoManager = repoManager;
+    if (!(repoManager instanceof LocalDiskRepositoryManager)) {
+      throw new ProvisionException(
+          "Gitweb can only be used with LocalDiskRepositoryManager");
+    }
+    this.repoManager = (LocalDiskRepositoryManager)repoManager;
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;

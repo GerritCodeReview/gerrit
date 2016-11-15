@@ -60,6 +60,9 @@ public class RebaseSorter {
       CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = rw.next()) != null) {
+        if (c.isMerged()) {
+          break;
+        }
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.

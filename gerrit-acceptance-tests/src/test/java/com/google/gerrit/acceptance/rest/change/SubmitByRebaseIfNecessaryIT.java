@@ -82,4 +82,15 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
         change2.getChangeId(), headAfterSecondSubmit.name(),
         change3.getChangeId(), headAfterThirdSubmit.name());
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOne() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    submit(change1.getChangeId());
+    // Fails with depends on change that was not submitted.
+    submit(change2.getChangeId());
+    // FAIL.
+  }
 }

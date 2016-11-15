@@ -50,4 +50,28 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOne() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    submit(change1.getChangeId());
+    // Fails with depends on change that was not submitted.
+    submit(change2.getChangeId());
+    // FAIL.
+  }
+
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOneManualRebase() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    submit(change1.getChangeId());
+    // Do manual rebase first.
+    gApi.changes().id(change2.getChangeId()).current().rebase();
+    submit(change2.getChangeId());
+    // OK!
+  }
 }

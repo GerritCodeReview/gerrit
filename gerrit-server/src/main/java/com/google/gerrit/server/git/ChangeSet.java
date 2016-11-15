@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -40,6 +39,7 @@ import java.util.Map;
  */
 public class ChangeSet {
   private final ImmutableMap<Change.Id, ChangeData> changeData;
+  private final ImmutableMap<Change.Id, ChangeData> mergedChanges;
 
   /**
    * Additional changes not included in changeData because their
@@ -65,8 +65,14 @@ public class ChangeSet {
 
   public ChangeSet(
       Iterable<ChangeData> changes, Iterable<ChangeData> hiddenChanges) {
+    this(changes, hiddenChanges, ImmutableList.<ChangeData>of());
+  }
+
+  public ChangeSet(
+      Iterable<ChangeData> changes, Iterable<ChangeData> hiddenChanges, Iterable<ChangeData> mergedChanges) {
     changeData = index(changes, ImmutableList.<Change.Id>of());
     nonVisibleChanges = index(hiddenChanges, changeData.keySet());
+    this.mergedChanges = index(mergedChanges, ImmutableList.<Change.Id>of());
   }
 
   public ChangeSet(ChangeData change, boolean visible) {

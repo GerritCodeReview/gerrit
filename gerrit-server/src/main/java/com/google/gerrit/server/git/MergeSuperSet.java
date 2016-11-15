@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -212,6 +213,7 @@ public class MergeSuperSet {
       ChangeSet changes, CurrentUser user) throws IOException, OrmException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
+    Collection<ChangeData> mergedChanges = new ArrayList<>();
 
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.
@@ -278,7 +280,11 @@ public class MergeSuperSet {
           byCommitsOnBranch(or, db, user, b, visibleHashes);
       for (ChangeData chd : cds) {
         chd.changeControl(user);
-        visibleChanges.add(chd);
+        if (chd.change().getStatus() == Status.MERGED) {
+          mergedChanges.add(chd);
+        } else {
+          visibleChanges.add(chd);
+        }
       }
 
       Set<String> nonVisibleHashes =
@@ -287,7 +293,7 @@ public class MergeSuperSet {
           byCommitsOnBranch(or, db, user, b, nonVisibleHashes));
     }
 
-    return new ChangeSet(visibleChanges, nonVisibleChanges);
+    return new ChangeSet(visibleChanges, nonVisibleChanges, mergedChanges);
   }
 
   private OpenRepo getRepo(Project.NameKey project) throws IOException {

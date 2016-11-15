@@ -61,7 +61,6 @@
 == Developer
 . Getting Started
 .. link:dev-readme.html[Developer Setup]
-.. link:dev-buck.html[Building with Buck]
 .. link:dev-bazel.html[Building with Bazel]
 .. link:dev-eclipse.html[Eclipse Setup]
 .. link:dev-intellij.html[IntelliJ Setup]

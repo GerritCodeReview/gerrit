@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_c58b0cae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-15T19:06:38Z",
+      "side": 1,
+      "message": "I see. Using the timestamp seems reasonable for most cases. Naturally, it may not work when two reviewers post comments at the same time -- or, more precisely, (and, in fact, more likely), the emails for those comments are generated at the same time.\n\nI expect the most robust approach would be to generate a unique UUID for posted groups of comments. (Along with the slightly-uglier plain-text emails.) I don\u0027t know what kind of impact that would have on storing comments though.\n\nSuch a UUID may also provide benefits to the UI message list, where we somewhat heuristically group comments together by timestamp. Occasionally, it groups them wrong when the timestamps are unlucky.",
+      "parentUuid": "f0a51083_67490cd1",
+      "revId": "2cb0f974c3a8cd880a4bd63011afb07991f1d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_055b34a0",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentFooterHtml.soy",
         "patchSetId": 2

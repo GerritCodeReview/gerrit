@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_e5de1056",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-15T23:00:20Z",
+      "side": 1,
+      "message": "don\u0027t nest % formatting.",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "2b8548331fa82fd4afe44b9a99ee401f72ed7c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

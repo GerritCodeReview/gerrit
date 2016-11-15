@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_e538d0ff",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T19:47:27Z",
+      "side": 1,
+      "message": "put this on the previous line:\n\n from os import path, makedirs",
+      "revId": "a21a00aa9942363b946914512bd9a3bf0fdc8de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -61,7 +61,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
-      bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
       listener().to(LocalDiskRepositoryManager.Lifecycle.class);
     }
   }

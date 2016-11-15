@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -30,6 +31,7 @@ import java.util.SortedSet;
  * registered in Guice so they are globally available within the server
  * environment.
  */
+@ImplementedBy(value = LocalDiskRepositoryManager.class)
 public interface GitRepositoryManager {
   /**
    * Get (or open) a repository by name.

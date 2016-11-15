@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_27ceb4c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T21:23:09Z",
+      "side": 1,
+      "message": "This is no longed used.",
+      "range": {
+        "startLine": 269,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 3
+      },
+      "revId": "3315f28f1844e724918d70e2598b144ce9060cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1479241349 -0800\nnonce AG58fQr31metuwNgjln+0cRy1o2DYhnJI50SYhdq+YtNB10Q1Nsp9WmOFsuq3nAbodQJ0TCRs9j/\n\n0000000000000000000000000000000000000000 f1dc22340f94cc49379b84f4baf317cb950add3e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJYK26RAAoJEF/XxZqaEoiMuyQQANN6gGi3EqyHBW2+O6RqGCZl\nckUHhDpxv4arHSnsSOpbEhgWXarIhLA/lEG0OYHtCxtsCHs9ac5cCAhvLrOx1c/Y\nr59QBnTWk+ujiysWjZOKcScPsyxpdmOzCGvR96sW5EWfbCNXJcx+JYo07tyhhvEW\nOQXqQUSQH0hskzr3UyMm7mxfYm6cyVSRQQJHUwJggdOSY0RAWQGSrmkDO6mVv++H\nrPZrrCUSsVOQYjYQYXjG0AKC3TA7KP+rGK3C+gcezc05F/82T8TNCP2+7ZJ475IS\nZkagfzmoch50vbBVTNR8mFA7R8emEFvn3UNPDje3ElDMx+m//GQ6s7JerA23dfVK\nvqglP50iYwFZIF1bBiFeEUNxN6EHSvRHCI0dEivigWcbn9YNxH0PgY9VaIpzmr6l\n3EjShyNii7ZJelOZg0p+1EgD2L06u6dMtY1+09pFFU4kdM+1saM3yHQq0GNb37s7\nlOEasgqFSf2GxDmhKOzKuQ3+OkM2g/tP6+XR4r06FhI1dAfrEUg5ss6f/Is4L/wt\nwr2HvFM0KWvhapYUfnjthew9GGZCBB75Jo3IrCmHSjVITtHOdPw+v+wHh5QfUOXE\nXCkUgQHfdzsdoUx8nx+s8/mOVQjAfQG1vQEXHjUX+xwPEaU+0BBVO2Z1vomdzShW\nor7wY05WnAxfoGg85wh4\n\u003drjKc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_05505420",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ActionVisitor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T20:31:07Z",
+      "side": 1,
+      "message": "Is there any way to enforce immutability?  I.e. can we use the \u0027final\u0027 modifier, or use some annotation?",
+      "range": {
+        "startLine": 35,
+        "startChar": 39,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "f1dc22340f94cc49379b84f4baf317cb950add3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

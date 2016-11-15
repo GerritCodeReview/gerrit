@@ -31,6 +31,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.util.LogFileCompressor;
+import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -339,6 +340,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     });
     modules.add(new GarbageCollectionModule());
     modules.add(new ChangeCleanupRunner.Module());
+    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
     return cfgInjector.createChildInjector(modules);
   }
 

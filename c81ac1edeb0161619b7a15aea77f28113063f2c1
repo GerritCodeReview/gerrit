@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_850104ba",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "Okay, will impl that",
+      "parentUuid": "b031d818_653040b1",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_072b7846",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 68,
         "endChar": 52
       },
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_254d983e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_072b7846",
       "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_6547a01c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_c514ac0a",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_c714800a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 1
@@ -76,6 +130,24 @@
       "writtenOn": "2016-11-15T23:21:01Z",
       "side": 1,
       "message": "Should newDescription be quoted or set off with a : or something?",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_2747941d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_c714800a",
       "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +171,24 @@
         "endLine": 114,
         "endChar": 44
       },
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_c73b208c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "Most of this is copied from PutTopic brainlessly :D",
+      "parentUuid": "b031d818_051fb424",
       "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_e7073cc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "When gerrit.config is set up to read from/write to NoteDB, this code works. When NoteDB is not configured, the change succeeds and I get an OK response, but the new value does not persist when I check the DB.",
+      "parentUuid": "b031d818_a511a818",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_e51bb034",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 1
@@ -169,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_c53b0c8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_e51bb034",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_45489c2e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -180,6 +306,24 @@
       "writtenOn": "2016-11-15T23:21:01Z",
       "side": 1,
       "message": "Nit: long line",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_e53290ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-15T23:36:10Z",
+      "side": 1,
+      "message": "Most of the lines in this file are long, too. Stylistically I actually think this ought to stay for smoother visual flow.\n\nI actually had a question about this method... I tried to include everything I felt was relevant, do you think I\u0027m missing anything?",
+      "parentUuid": "b031d818_45489c2e",
       "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

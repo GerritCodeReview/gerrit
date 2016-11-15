@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b031d818_65ab206d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-15T23:55:07Z",
+      "side": 1,
+      "message": "Install is the verb, I typically don\u0027t use verbs in class names but rather in methods :-(\n\nCan we end up with a better name that isn\u0027t a verb? :-)",
+      "parentUuid": "f0a51083_47de502f",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "7b03f1c01b17475437a4c82cd6e57dc8b7cfddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_c70a40d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-15T23:38:04Z",
       "side": 1,
       "message": "one argument per line",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 76
+      },
+      "revId": "7b03f1c01b17475437a4c82cd6e57dc8b7cfddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_67b10cde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-15T23:55:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_c70a40d3",
       "range": {
         "startLine": 43,
         "startChar": 18,

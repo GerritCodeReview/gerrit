@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_67490cd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-15T17:52:27Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s a very good question actually. We currently have no UUID on a set of comments and just identify/group them by timestamp when we show them in the UI. We\u0027ve thought about changing that now on the fly to e.g. the commit SHA1 from NoteDb, but that might change as we rewrite history.\n\nI\u0027ve also considered taking the UUID from one of the comments, but then again behind the scenes we would do the same kind of magic with timestamps + UUIDs are a little ugly to the users given that we have this visible in the text version of the email. Sending/Parsing an RFC822 timestamp seemed to be the best choice between those in the end.",
+      "parentUuid": "b031d818_a54d28e4",
+      "range": {
+        "startLine": 141,
+        "startChar": 7,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "2cb0f974c3a8cd880a4bd63011afb07991f1d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_055b34a0",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentFooterHtml.soy",
         "patchSetId": 2
@@ -83,6 +107,30 @@
       "writtenOn": "2016-11-15T17:40:01Z",
       "side": 1,
       "message": "Might as well put both in the same P element.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "2cb0f974c3a8cd880a4bd63011afb07991f1d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_0532144e",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentFooterHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-15T17:52:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_055b34a0",
       "range": {
         "startLine": 30,
         "startChar": 2,

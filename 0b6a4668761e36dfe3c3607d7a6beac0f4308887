@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b031d818_45425c5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-15T21:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_674cacba",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_05d854d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_e7597c48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-15T21:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_05d854d9",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 62
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_e5d450a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-11-15T18:43:14Z",
       "side": 1,
       "message": "make those private?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_4569bcd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-15T21:40:11Z",
+      "side": 1,
+      "message": "Just removed, they were overkill.",
+      "parentUuid": "b031d818_e5d450a7",
       "range": {
         "startLine": 35,
         "startChar": 2,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "b031d818_853c64d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-15T21:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_6556804b",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_4547fc96",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
         "patchSetId": 2
@@ -128,6 +224,30 @@
       "writtenOn": "2016-11-15T19:24:36Z",
       "side": 1,
       "message": "I think we can do this simpler:\n\n    try {\n      Class\u003ccom.google.inject.Module\u003e clazz \u003d\n          (Class\u003ccom.google.inject.Module\u003e) Class.forName(className);\n      Module module \u003d injector.getInstance(moduleClass);\n      log.info(\"Installed {}\", module.getClass().getName());\n      return module;\n    } catch (ClassNotFoundException e) {\n      log.error(\"Unable to load module \" + className, e);\n      throw new RuntimeException(e);\n    }",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 3
+      },
+      "revId": "0b6a4668761e36dfe3c3607d7a6beac0f4308887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_e54c508e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-15T21:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_4547fc96",
       "range": {
         "startLine": 64,
         "startChar": 0,

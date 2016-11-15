@@ -29,8 +29,8 @@ public class BazelBuild extends BuildSystem {
   protected ProcessBuilder newBuildProcess(Label label) throws IOException {
     Properties properties = loadBuildProperties(
         sourceRoot.resolve(".primary_build_tool"));
-    String buck = firstNonNull(properties.getProperty("bazel"), "bazel");
-    ProcessBuilder proc = new ProcessBuilder(buck, "build", label.fullName());
+    String bazel = firstNonNull(properties.getProperty("bazel"), "bazel");
+    ProcessBuilder proc = new ProcessBuilder(bazel, "build", label.fullName());
     if (properties.containsKey("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
     }

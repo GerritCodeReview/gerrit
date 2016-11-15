@@ -156,7 +156,7 @@ file:
 </manifestEntries>
 ----
 
-For Buck driven plugins, the following line must be included in the BUCK
+For Bazel driven plugins, the following line must be included in the BUILD
 configuration file:
 
 [source,python]
@@ -1363,7 +1363,7 @@ plugins:
 </manifestEntries>
 ----
 
-or in the `BUCK` configuration file for Buck driven plugins:
+or in the `BUILD` configuration file for Bazel driven plugins:
 
 [source,python]
 ----
@@ -1428,7 +1428,7 @@ driven plugins:
 </manifestEntries>
 ----
 
-or in the `BUCK` configuration file for Buck driven plugins
+or in the `BUILD` configuration file for Bazel driven plugins
 
 [source,python]
 ----

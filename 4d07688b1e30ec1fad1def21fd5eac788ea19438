@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_c7b800cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-15T23:50:48Z",
+      "side": 1,
+      "message": "How does this work with the lowercase names when H2AccountPatchReviewStore.createTableIfNotExists(url) above creates the table with UPPERCASE names?",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 50,
+        "endChar": 36
+      },
+      "revId": "4d07688b1e30ec1fad1def21fd5eac788ea19438",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

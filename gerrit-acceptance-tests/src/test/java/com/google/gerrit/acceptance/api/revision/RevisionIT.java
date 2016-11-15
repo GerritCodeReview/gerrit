@@ -771,6 +771,31 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void description() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description()).isEqualTo("");
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description("test");
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description()).isEqualTo("test");
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description("");
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .description()).isEqualTo("");
+  }
+
+  @Test
   public void content() throws Exception {
     PushOneCommit.Result r = createChange();
     assertContent(r, FILE_NAME, FILE_CONTENT);

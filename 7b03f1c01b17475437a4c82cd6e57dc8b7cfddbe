@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_47de502f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-11-15T23:38:04Z",
+      "side": 1,
+      "message": "Should this be called InstallModuleLoader to try to not have to many names for the same thing?",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "7b03f1c01b17475437a4c82cd6e57dc8b7cfddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_c70a40d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/LibModuleLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-11-15T23:38:04Z",
+      "side": 1,
+      "message": "one argument per line",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 76
+      },
+      "revId": "7b03f1c01b17475437a4c82cd6e57dc8b7cfddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

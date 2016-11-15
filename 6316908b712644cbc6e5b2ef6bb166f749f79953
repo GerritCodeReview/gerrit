@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_0504d47a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T17:19:45Z",
+      "side": 1,
+      "message": "I think we can just say \"by running `project_bzl.py` again\".",
+      "range": {
+        "startLine": 175,
+        "startChar": 55,
+        "endLine": 179,
+        "endChar": 4
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_2562b851",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T17:19:45Z",
+      "side": 1,
+      "message": "Move this in to the catch block so we don\u0027t have an empty catch block?",
+      "range": {
+        "startLine": 652,
+        "startChar": 4,
+        "endLine": 653,
+        "endChar": 17
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_85674460",
+        "filename": "tools/bzl/classpath.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T17:19:45Z",
+      "side": 1,
+      "message": "What coding style do we follow for .bzl files?  Shouldn\u0027t we have 2 column indent like with python?",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 12
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_656cc044",
+        "filename": "tools/eclipse/project_bzl.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-15T17:19:45Z",
+      "side": 1,
+      "message": "We don\u0027t need this.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "6316908b712644cbc6e5b2ef6bb166f749f79953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

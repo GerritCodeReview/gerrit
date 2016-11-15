@@ -22,7 +22,7 @@ from __future__ import print_function
 # optparse.OptionParser
 from optparse import OptionParser
 from os import environ, path, makedirs
-from subprocess import Popen, PIPE, CalledProcessError, check_call, check_output
+from subprocess import CalledProcessError, check_call, check_output
 from xml.dom import minidom
 import re
 import sys
@@ -67,7 +67,7 @@ def _query_classpath(target):
   t = cp_targets[target]
   try:
     check_call(['bazel', 'build', t])
-  except CalledProcessError as err:
+  except CalledProcessError:
     exit(1)
   name = 'bazel-bin/tools/eclipse/' + t.split(':')[1] + '.runtime_classpath'
   deps = [line.rstrip('\n') for line in open(name)]
@@ -266,7 +266,7 @@ try:
 
   try:
     check_call(['bazel', 'build', MAIN, GWT])
-  except CalledProcessError as err:
+  except CalledProcessError:
     exit(1)
 except KeyboardInterrupt:
   print('Interrupted by user', file=sys.stderr)

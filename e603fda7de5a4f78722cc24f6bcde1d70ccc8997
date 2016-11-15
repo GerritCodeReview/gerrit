@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905f7458_79c3c728",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-15T22:33:24Z",
+      "side": 1,
+      "message": "for my test with RebaseAlways [1], this is still false.\n\n[1] https://gerrit-review.googlesource.com/c/91133/7/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java#56",
+      "revId": "e603fda7de5a4f78722cc24f6bcde1d70ccc8997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

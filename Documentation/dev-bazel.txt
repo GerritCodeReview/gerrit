@@ -50,6 +50,7 @@ To run a Gerrit site execute:
 This Java version is available at
 `$(bazel info output_base)/external/local_jdk/bin/java`.
 
+[[release]]
 === Gerrit Release WAR File
 
 To build the Gerrit web application that includes the GWT UI, the
@@ -181,13 +182,6 @@ The WAR file will be placed in:
 
 ----
   bazel-bin/withdocs.war
-----
-
-[[release]]
-=== Gerrit Release WAR File
-
-----
-  bazel build release
 ----
 
 [[tests]]

@@ -40,6 +40,24 @@
       "revId": "51f7fa18a30db3cae02b9ee5dfb5e56079bc101d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_053974ea",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ActionFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-15T20:23:56Z",
+      "side": 1,
+      "message": "Per our discussion, this is a reasonable name: really what a plugin is doing is visiting each ActionInfo in sequence.",
+      "parentUuid": "f0a51083_27df94f8",
+      "revId": "51f7fa18a30db3cae02b9ee5dfb5e56079bc101d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,8 +19,7 @@ cp $TEST_SRCDIR/gerrit/polygerrit-ui/app/test/index.html $t/test/
 
 # Sauce tests are disabled by default in order to run local tests
 # only.  Run it with (saucelabs.com account required; free for open
-# source): WCT_ARGS='--plugin sauce' buck test --no-results-cache
-# --include web
+# source): WCT_ARGS='--plugin sauce' ./polygerrit-ui/app/run_test.sh
 
 cat <<EOF > $t/wct.conf.js
 module.exports = {

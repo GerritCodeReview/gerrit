@@ -15,22 +15,22 @@
 
 set -eu
 
-while [[ ! -f .buckconfig && "$PWD" != / ]]; do
+while [[ ! -f WORKSPACE && "$PWD" != / ]]; do
   cd ..
 done
-if [[ ! -f .buckconfig ]]; then
+if [[ ! -f WORKSPACE ]]; then
   echo "$(basename "$0"): must be run from a gerrit checkout" 1>&2
   exit 1
 fi
 
-buck build \
-  //polygerrit-ui/app:test_components \
-  //polygerrit-ui:fonts
+bazel build \
+  polygerrit-ui:polygerrit_components.bower_components.zip \
+  //polygerrit-ui:fonts.zip
 
 cd polygerrit-ui/app
 rm -rf bower_components
-unzip -q ../../buck-out/gen/polygerrit-ui/app/test_components/test_components.bower_components.zip
+unzip -q ../../bazel-bin/polygerrit-ui/polygerrit_components.bower_components.zip
 rm -rf fonts
-unzip -q ../../buck-out/gen/polygerrit-ui/fonts/fonts.zip -d fonts
+unzip -q ../../bazel-bin/polygerrit-ui/fonts.zip -d fonts
 cd ..
 exec go run server.go "$@"

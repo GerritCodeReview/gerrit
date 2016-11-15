@@ -68,6 +68,29 @@
       "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_056fb416",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-15T19:06:38Z",
+      "side": 1,
+      "message": "It looks like this is not strictly specific to comment emails, and it may also be nice to include in other message types.\n\nWhat if this was included at the ChangeEmail.java or NotificationEmail.java level?",
+      "range": {
+        "startLine": 564,
+        "startChar": 17,
+        "endLine": 564,
+        "endChar": 36
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

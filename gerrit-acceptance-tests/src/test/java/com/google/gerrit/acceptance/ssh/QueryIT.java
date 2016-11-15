@@ -17,7 +17,11 @@ package com.google.gerrit.acceptance.ssh;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static com.google.gerrit.server.query.change.OutputStreamQuery.TIMESTAMP_FORMAT;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -27,8 +31,13 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gson.Gson;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -39,6 +48,20 @@ import java.util.List;
 public class QueryIT extends AbstractDaemonTest {
 
   private static Gson gson = new Gson();
+
+  private String systemTimeZone;
+
+  @Before
+  public void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
+    System.setProperty("user.timezone", systemTimeZone);
+  }
 
   @Test
   public void testBasicQueryJSON() throws Exception {
@@ -321,6 +344,45 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).patchSets).hasSize(1);
     assertThat(changes.get(0).currentPatchSet).isNull();
     userSession.close();
+  }
+
+  @Test
+  public void testTimestampInTextQuery() throws Exception {
+    DateTimeFormatter dtf = DateTimeFormat.forPattern(TIMESTAMP_FORMAT);
+    String createdOnKey = "createdOn:";
+    PushOneCommit.Result result = createChange();
+    String textResult = executeSuccessfulTextQuery(result.getChangeId());
+    assertThat(textResult).isNotNull();
+    assertThat(textResult).contains(createdOnKey);
+    String value = getValueFromText(textResult, createdOnKey);
+    assertThat(value).isNotNull();
+    assertThat(value).isEqualTo("2009-09-30 14:00:02 PDT");
+    long expectedCreatedOn = result.getChange().change().getCreatedOn().getTime();
+    assertThat(dtf.parseMillis(value)).isEqualTo(expectedCreatedOn);
+  }
+
+  private String getValueFromText(String text, String key) {
+    Splitter s = Splitter.on(CharMatcher.is('\n')).trimResults().omitEmptyStrings();
+    for (String line : s.splitToList(text)) {
+      if (line.startsWith(key)) {
+        return line.substring(key.length()).trim();
+      }
+    }
+    return null;
+  }
+
+  private String executeSuccessfulTextQuery(String params, SshSession session)
+      throws Exception {
+    String rawResponse =
+        session.exec("gerrit query --format=TEXT " + params);
+    assert_().withFailureMessage(session.getError())
+        .that(session.hasError()).isFalse();
+    return rawResponse;
+  }
+
+  private String executeSuccessfulTextQuery(String params)
+      throws Exception {
+    return executeSuccessfulTextQuery(params, adminSshSession);
   }
 
   private List<ChangeAttribute> executeSuccessfulQuery(String params,

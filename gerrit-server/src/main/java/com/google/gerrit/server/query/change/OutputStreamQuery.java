@@ -63,11 +63,13 @@ import java.util.Map;
  * command.
  */
 public class OutputStreamQuery {
+  public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss zzz";
+
   private static final Logger log =
       LoggerFactory.getLogger(OutputStreamQuery.class);
 
   private static final DateTimeFormatter dtf =
-      DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss zzz");
+      DateTimeFormat.forPattern(TIMESTAMP_FORMAT);
 
   public enum OutputFormat {
     TEXT, JSON

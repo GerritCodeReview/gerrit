@@ -118,7 +118,7 @@ Install gerrit.war to the local maven repository:
 The output JAR files for individual plugins will be placed in:
 
 ----
-  bazel-bin/plugins/<name>/<name>_deploy.jar
+  bazel-genfiles/plugins/<name>/<name>.jar
 ----
 
 The JAR files will also be packaged in:

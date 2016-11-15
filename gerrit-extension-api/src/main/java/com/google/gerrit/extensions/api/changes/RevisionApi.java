@@ -33,6 +33,9 @@ import java.util.Set;
 public interface RevisionApi {
   void delete() throws RestApiException;
 
+  String description() throws RestApiException;
+  void description(String description) throws RestApiException;
+
   void review(ReviewInput in) throws RestApiException;
 
   void submit() throws RestApiException;
@@ -281,6 +284,16 @@ public interface RevisionApi {
 
     @Override
     public MergeListRequest getMergeList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void description(String description) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String description() throws RestApiException {
       throw new NotImplementedException();
     }
   }

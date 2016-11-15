@@ -86,7 +86,8 @@ public class ActionsIT extends AbstractDaemonTest {
     Map<String, ActionInfo> actions = getActions(changeId);
     assertThat(actions).containsKey("cherrypick");
     assertThat(actions).containsKey("rebase");
-    assertThat(actions).hasSize(2);
+    assertThat(actions).containsKey("description");
+    assertThat(actions).hasSize(3);
   }
 
   @Test
@@ -436,9 +437,10 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private void commonActionsAssertions(Map<String, ActionInfo> actions) {
-    assertThat(actions).hasSize(3);
+    assertThat(actions).hasSize(4);
     assertThat(actions).containsKey("cherrypick");
     assertThat(actions).containsKey("submit");
+    assertThat(actions).containsKey("description");
     assertThat(actions).containsKey("rebase");
   }
 

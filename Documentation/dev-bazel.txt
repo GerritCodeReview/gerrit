@@ -130,13 +130,13 @@ The JAR files will also be packaged in:
 To build a specific plugin:
 
 ----
-  bazel build plugins/<name>:<name>_deploy.jar
+  bazel build plugins/<name>
 ----
 
 The output JAR file will be be placed in:
 
 ----
-  bazel-bin/plugins/<name>/<name>_deploy.jar
+  bazel-genfiles/plugins/<name>/<name>.jar
 ----
 
 Note that when building an individual plugin, the `core.zip` package

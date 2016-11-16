@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -86,6 +87,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 public class RevisionIT extends AbstractDaemonTest {
 
@@ -220,6 +222,53 @@ public class RevisionIT extends AbstractDaemonTest {
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(2);
     assertThat(approval.postSubmit).isTrue();
+  }
+
+  @Test
+  public void postSubmitApprovalAfterVoteRemoved() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = project.get() + "~master~" + r.getChangeId();
+
+    setApiUser(admin);
+    revision(r).review(ReviewInput.approve());
+
+    setApiUser(user);
+    revision(r).review(ReviewInput.recommend());
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(changeId)
+        .reviewer(user.username)
+        .deleteVote("Code-Review");
+    Optional<ApprovalInfo> crUser = get(changeId, DETAILED_LABELS)
+        .labels.get("Code-Review").all.stream()
+        .filter(a -> a._accountId == user.id.get()).findFirst();
+    assertThat(crUser.isPresent()).isTrue();
+    assertThat(crUser.get().value).isEqualTo(0);
+
+    revision(r).submit();
+
+    setApiUser(user);
+    ReviewInput in = new ReviewInput();
+    in.label("Code-Review", 0);
+    in.message = "Still LGTM";
+    revision(r).review(in);
+  }
+
+  @Test
+  public void postSubmitDeleteApprovalNotAllowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    revision(r).review(ReviewInput.approve());
+    revision(r).submit();
+
+    ReviewInput in = new ReviewInput();
+    in.label("Code-Review", 0);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        "Cannot reduce vote on labels for closed change: Code-Review");
+    revision(r).review(in);
   }
 
   @TestProjectInput(submitType = SubmitType.CHERRY_PICK)

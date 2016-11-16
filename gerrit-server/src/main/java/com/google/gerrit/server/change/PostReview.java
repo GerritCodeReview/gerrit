@@ -902,7 +902,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchSetApproval> reduced = new ArrayList<>(ups.size() + del.size());
       List<String> disallowed =
           new ArrayList<>(labelTypes.getLabelTypes().size());
-      reduced.addAll(del);
+
+      for (PatchSetApproval psa : del) {
+        LabelType lt = checkNotNull(labelTypes.byLabel(psa.getLabel()));
+        String normName = lt.getName();
+        if (!lt.allowPostSubmit()) {
+          disallowed.add(normName);
+        }
+        Short prev = previous.get(normName);
+        if (prev != null && prev != 0) {
+          reduced.add(psa);
+        }
+      }
+
       for (PatchSetApproval psa : ups) {
         LabelType lt = checkNotNull(labelTypes.byLabel(psa.getLabel()));
         String normName = lt.getName();

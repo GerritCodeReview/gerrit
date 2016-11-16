@@ -1129,7 +1129,7 @@ public class ChangeData {
         return Collections.emptySet();
       }
       draftsByUser = new HashSet<>();
-      for (Comment sc : commentsUtil.draftByChange(db, notes)) {
+      for (Comment sc : commentsUtil.draftByChange(db, notes())) {
         draftsByUser.add(sc.author.getId());
       }
     }

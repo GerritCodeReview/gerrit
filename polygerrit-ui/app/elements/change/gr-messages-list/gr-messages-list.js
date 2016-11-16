@@ -113,17 +113,11 @@
       for (var i = 0; i < messageEls.length; i++) {
         messageEls[i].expanded = this._expanded;
       }
-      if (e && e.target) {
-        e.target.blur();
-      }
     },
 
     _handleAutomatedMessageToggleTap: function(e) {
       e.preventDefault();
       this._hideAutomated = !this._hideAutomated;
-      if (e && e.target) {
-        e.target.blur();
-      }
     },
 
     _handleScrollTo: function(e) {

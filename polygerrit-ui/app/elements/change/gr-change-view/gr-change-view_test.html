@@ -53,27 +53,27 @@ limitations under the License.
     suite('keyboard shortcuts', function() {
       test('U should navigate to / if no backPage set', function() {
         var showStub = sandbox.stub(page, 'show');
-        MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
+        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
         assert(showStub.lastCall.calledWithExactly('/'));
       });
 
       test('U should navigate to backPage if set', function() {
         element.backPage = '/dashboard/self';
         var showStub = sandbox.stub(page, 'show');
-        MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
+        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
         assert(showStub.lastCall.calledWithExactly('/dashboard/self'));
       });
 
       test('A should toggle overlay', function() {
-        MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
+        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
         var overlayEl = element.$.replyOverlay;
         assert.isFalse(overlayEl.opened);
         element._loggedIn = true;
 
-        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
+        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
         assert.isFalse(overlayEl.opened);
 
-        MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
+        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
         assert.isTrue(overlayEl.opened);
         overlayEl.close();
         assert.isFalse(overlayEl.opened);
@@ -117,13 +117,12 @@ limitations under the License.
           done();
         });
 
-        // 'shift + R'
-        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift');
+        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
       });
 
       test('d should open download overlay', function() {
         var stub = sandbox.stub(element.$.downloadOverlay, 'open');
-        MockInteractions.pressAndReleaseKeyOn(element, 68); // 'd'
+        MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
         assert.isTrue(stub.called);
       });
     });

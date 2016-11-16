@@ -280,10 +280,10 @@ limitations under the License.
         }];
       element.comments = comments;
       var expandCollapseStub = sinon.stub(element, '_expandCollapseComments');
-      MockInteractions.pressAndReleaseKeyOn(element, 69);  // 'e'
+      MockInteractions.pressAndReleaseKeyOn(element, 69, null, 'e');
       assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
 
-      MockInteractions.pressAndReleaseKeyOn(element, 69, 'shift');  // 'e'
+      MockInteractions.pressAndReleaseKeyOn(element, 69, 'shift', 'e');
       assert.isTrue(expandCollapseStub.lastCall.calledWith(true));
       expandCollapseStub.restore();
     });

@@ -140,6 +140,10 @@
       this.$.input.focus();
     },
 
+    selectAll: function() {
+      this.$.input.setSelectionRange(0, this.$.input.value.length);
+    },
+
     clear: function() {
       this.text = '';
     },

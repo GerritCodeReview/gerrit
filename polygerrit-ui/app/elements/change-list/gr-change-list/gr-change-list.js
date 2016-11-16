@@ -78,6 +78,12 @@
       Gerrit.RESTClientBehavior,
     ],
 
+    keyBindings: {
+      'j': '_handleJKey',
+      'k': '_handleKKey',
+      'o enter': '_handleEnterKey',
+    },
+
     attached: function() {
       this._loadPreferences();
     },
@@ -149,31 +155,37 @@
           account._account_id != change.owner._account_id;
     },
 
-    _handleKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
-      if (this.groups == null) { return; }
+    _getAggregateGroupsLen: function(groups) {
+      groups = groups || [];
       var len = 0;
       this.groups.forEach(function(group) {
         len += group.length;
       });
-      switch (e.keyCode) {
-        case 74:  // 'j'
-          e.preventDefault();
-          if (this.selectedIndex == len - 1) { return; }
-          this.selectedIndex += 1;
-          break;
-        case 75:  // 'k'
-          e.preventDefault();
-          if (this.selectedIndex == 0) { return; }
-          this.selectedIndex -= 1;
-          break;
-        case 79:  // 'o'
-        case 13:  // 'enter'
-          e.preventDefault();
-          page.show(this._changeURLForIndex(this.selectedIndex));
-          break;
-      }
+      return len;
+    },
+
+    _handleJKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      var len = this._getAggregateGroupsLen(this.groups);
+      if (this.selectedIndex === len - 1) { return; }
+      this.selectedIndex += 1;
+    },
+
+    _handleKKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      if (this.selectedIndex === 0) { return; }
+      this.selectedIndex -= 1;
+    },
+
+    _handleEnterKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      page.show(this._changeURLForIndex(this.selectedIndex));
     },
 
     _changeURLForIndex: function(index) {

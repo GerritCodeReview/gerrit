@@ -24,26 +24,11 @@
       Polymer.IronOverlayBehavior,
     ],
 
-    detached: function() {
-      Gerrit.KeyboardShortcutBehavior.enable(this._id());
-    },
-
     open: function() {
       return new Promise(function(resolve) {
-        Gerrit.KeyboardShortcutBehavior.disable(this._id());
         Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
         this._awaitOpen(resolve);
       }.bind(this));
-    },
-
-    close: function() {
-      Gerrit.KeyboardShortcutBehavior.enable(this._id());
-      Polymer.IronOverlayBehaviorImpl.close.apply(this, arguments);
-    },
-
-    cancel: function() {
-      Gerrit.KeyboardShortcutBehavior.enable(this._id());
-      Polymer.IronOverlayBehaviorImpl.cancel.apply(this, arguments);
     },
 
     /**

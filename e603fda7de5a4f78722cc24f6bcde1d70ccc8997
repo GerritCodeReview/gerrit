@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "905f7458_994dfbe4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-16T15:27:34Z",
+      "side": 1,
+      "message": "From the top of my head:\n\n    for (PatchSet patchSet : db.patchSets().byRevision(new RevId(myRevCommit.getName()))) {\n            Change.Id changeId \u003d patchSet.getId().getParentKey();\n            Change change \u003d db.changes().get(changeId);\n    }",
+      "parentUuid": "905f7458_f9035772",
+      "revId": "e603fda7de5a4f78722cc24f6bcde1d70ccc8997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "905f7458_79c3c728",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 1

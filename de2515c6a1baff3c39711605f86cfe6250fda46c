@@ -22,6 +22,30 @@
       "revId": "de2515c6a1baff3c39711605f86cfe6250fda46c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b05ab866_1afb9d59",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-16T12:16:32Z",
+      "side": 1,
+      "message": "Yes, in webkit (chrome) it will show a grey border if you doint set the src in the img tag.",
+      "parentUuid": "b05ab866_7a19f9f1",
+      "range": {
+        "startLine": 203,
+        "startChar": 33,
+        "endLine": 203,
+        "endChar": 113
+      },
+      "revId": "de2515c6a1baff3c39711605f86cfe6250fda46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,12 +49,12 @@ limitations under the License.
     });
 
     test('ignores regular keys', function() {
-      MockInteractions.pressAndReleaseKeyOn(document.body, 27); // 'esc'
+      MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
       assert.isFalse(element.fire.called);
     });
 
     test('reacts to hotkey', function() {
-      MockInteractions.pressAndReleaseKeyOn(document.body, 67); // 'c'
+      MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
       assert.isTrue(element.fire.called);
     });
 
@@ -68,7 +68,7 @@ limitations under the License.
       };
       element.side = 'left';
       element.range = range;
-      MockInteractions.pressAndReleaseKeyOn(document.body, 67); // 'c'
+      MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
       assert(element.fire.calledWithExactly(
           'create-comment',
           {

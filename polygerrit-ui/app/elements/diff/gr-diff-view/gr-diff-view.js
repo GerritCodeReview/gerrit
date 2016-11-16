@@ -100,6 +100,22 @@
       '_getFiles(_changeNum, _patchRange.*)',
     ],
 
+    keyBindings: {
+      'esc': '_handleEscKey',
+      'shift+left': '_handleShiftLeftKey',
+      'shift+right': '_handleShiftRightKey',
+      'up k': '_handleUpKey',
+      'down j': '_handleDownKey',
+      'c': '_handleCKey',
+      '[': '_handleLeftBracketKey',
+      ']': '_handleRightBracketKey',
+      'n shift+n': '_handleNKey',
+      'p shift+p': '_handlePKey',
+      'a shift+a': '_handleAKey',
+      'u': '_handleUKey',
+      ',': '_handleCommaKey',
+    },
+
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
@@ -185,101 +201,127 @@
           this._patchRange.patchNum, this._path, reviewed);
     },
 
-    _checkForModifiers: function(e) {
-      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || false;
-    },
-
-    _handleKey: function(e) {
+    _handleEscKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
-      switch (e.keyCode) {
-        case 27: // escape
-          e.preventDefault();
-          this.$.diff.displayLine = false;
-          break;
-        case 37: // left
-          if (e.shiftKey) {
-            e.preventDefault();
-            this.$.cursor.moveLeft();
-          }
-          break;
-        case 39: // right
-          if (e.shiftKey) {
-            e.preventDefault();
-            this.$.cursor.moveRight();
-          }
-          break;
-        case 40: // down
-        case 74: // 'j'
-          e.preventDefault();
-          this.$.diff.displayLine = true;
-          this.$.cursor.moveDown();
-          break;
-        case 38: // up
-        case 75: // 'k'
-          e.preventDefault();
-          this.$.diff.displayLine = true;
-          this.$.cursor.moveUp();
-          break;
-        case 67: // 'c'
-          if (this._checkForModifiers(e)) { return; }
-          if (!this.$.diff.isRangeSelected()) {
-            e.preventDefault();
-            var line = this.$.cursor.getTargetLineElement();
-            if (line) {
-              this.$.diff.addDraftAtLine(line);
-            }
-          }
-          break;
-        case 219:  // '['
-          e.preventDefault();
-          this._navToFile(this._path, this._fileList, -1);
-          break;
-        case 221:  // ']'
-          e.preventDefault();
-          this._navToFile(this._path, this._fileList, 1);
-          break;
-        case 78:  // 'n'
-          e.preventDefault();
-          if (e.shiftKey) {
-            this.$.cursor.moveToNextCommentThread();
-          } else {
-            this.$.cursor.moveToNextChunk();
-          }
-          break;
-        case 80:  // 'p'
-          e.preventDefault();
-          if (e.shiftKey) {
-            this.$.cursor.moveToPreviousCommentThread();
-          } else {
-            this.$.cursor.moveToPreviousChunk();
-          }
-          break;
-        case 65:  // 'a'
-          if (e.shiftKey) { // Hide left diff.
-            e.preventDefault();
-            this.$.diff.toggleLeftDiff();
-            break;
-          }
+      e.preventDefault();
+      this.$.diff.displayLine = false;
+    },
 
-          if (!this._loggedIn) { break; }
+    _handleShiftLeftKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
-          this.set('changeViewState.showReplyDialog', true);
-          /* falls through */ // required by JSHint
-        case 85:  // 'u'
-          if (this._changeNum && this._patchRange.patchNum) {
-            e.preventDefault();
-            page.show(this._getChangePath(
-                this._changeNum,
-                this._patchRange,
-                this._change && this._change.revisions));
-          }
-          break;
-        case 188:  // ','
-          e.preventDefault();
-          this._openPrefs();
-          break;
+      e.preventDefault();
+      this.$.cursor.moveLeft();
+    },
+
+    _handleShiftRightKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.$.cursor.moveRight();
+    },
+
+    _handleUpKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.$.diff.displayLine = true;
+      this.$.cursor.moveUp();
+    },
+
+    _handleDownKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.$.diff.displayLine = true;
+      this.$.cursor.moveDown();
+    },
+
+    _handleCKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.$.diff.isRangeSelected()) { return; }
+
+      e.preventDefault();
+      var line = this.$.cursor.getTargetLineElement();
+      if (line) {
+        this.$.diff.addDraftAtLine(line);
       }
+    },
+
+    _handleLeftBracketKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._navToFile(this._path, this._fileList, -1);
+    },
+
+    _handleRightBracketKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._navToFile(this._path, this._fileList, 1);
+    },
+
+    _handleNKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      if (e.detail.keyboardEvent.shiftKey) {
+        this.$.cursor.moveToNextCommentThread();
+      } else {
+        this.$.cursor.moveToNextChunk();
+      }
+    },
+
+    _handlePKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      if (e.detail.keyboardEvent.shiftKey) {
+        this.$.cursor.moveToPreviousCommentThread();
+      } else {
+        this.$.cursor.moveToPreviousChunk();
+      }
+    },
+
+    _handleAKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      if (e.detail.keyboardEvent.shiftKey) { // Hide left diff.
+        e.preventDefault();
+        this.$.diff.toggleLeftDiff();
+        return;
+      }
+
+      if (!this._loggedIn) { return; }
+
+      this.set('changeViewState.showReplyDialog', true);
+      e.preventDefault();
+      this._navToChangeView();
+    },
+
+    _handleUKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._navToChangeView();
+    },
+
+    _handleCommaKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._openPrefs();
+    },
+
+    _navToChangeView: function() {
+      if (!this._changeNum || !this._patchRange.patchNum) { return; }
+
+      page.show(this._getChangePath(
+          this._changeNum,
+          this._patchRange,
+          this._change && this._change.revisions));
     },
 
     _navToFile: function(path, fileList, direction) {

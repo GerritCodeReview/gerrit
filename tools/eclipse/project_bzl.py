@@ -169,7 +169,6 @@ def gen_classpath(ext):
       # Exception: we need source here for GWT SDM mode to work
       if p.endswith('libEdit.jar'):
         p = p[:-4] + '-src.jar'
-        assert path.exists(p), p
         lib.add(p)
       
   for s in sorted(src):
@@ -265,7 +264,8 @@ try:
     makedirs(path.join(ROOT, gwt_working_dir))
 
   try:
-    check_call(['bazel', 'build', MAIN, GWT])
+    check_call(['bazel', 'build', MAIN, GWT] +
+               ['//gerrit-patch-jgit:libEdit-src.jar'])
   except CalledProcessError:
     exit(1)
 except KeyboardInterrupt:

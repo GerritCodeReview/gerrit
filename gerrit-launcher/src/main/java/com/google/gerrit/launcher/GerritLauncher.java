@@ -638,6 +638,9 @@ public final class GerritLauncher {
     Path p = null;
     try {
       p = resolveInSourceRoot("eclipse-out");
+      if (!Files.exists(p)) {
+        p = resolveInSourceRoot("bazel-out");
+      }
       Path path = p.getParent().resolve(PRIMARY_BUILD_TOOL);
       if (Files.exists(path)) {
         String content = new String(Files.readAllBytes(path));

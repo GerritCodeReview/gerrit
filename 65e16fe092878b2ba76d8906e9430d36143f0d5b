@@ -40,6 +40,24 @@
       "revId": "65e16fe092878b2ba76d8906e9430d36143f0d5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_2b70c949",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-16T18:34:54Z",
+      "side": 1,
+      "message": "I think that warrants a comment, then.",
+      "parentUuid": "b031d818_28b1efde",
+      "revId": "65e16fe092878b2ba76d8906e9430d36143f0d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

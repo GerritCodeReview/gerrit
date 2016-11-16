@@ -70,13 +70,15 @@ limitations under the License.
         done();
       });
       element.value = 'test';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
     });
 
     test('search query should be double-escaped', function() {
       var showStub = sinon.stub(page, 'show');
       element.$.searchInput.text = 'fate/stay';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
       assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
       showStub.restore();
     });
@@ -85,7 +87,8 @@ limitations under the License.
       var showStub = sinon.stub(page, 'show');
       var blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
       element.$.searchInput.text = 'fate/stay';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
       assert.isTrue(blurSpy.called);
       showStub.restore();
       blurSpy.restore();
@@ -94,8 +97,17 @@ limitations under the License.
     test('empty search query does not trigger nav', function() {
       var showSpy = sinon.spy(page, 'show');
       element.value = '';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
       assert.isFalse(showSpy.called);
+    });
+
+    test('keyboard shortcuts', function() {
+      var focusSpy = sinon.spy(element.$.searchInput, 'focus');
+      var selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
+      MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
+      assert.isTrue(focusSpy.called);
+      assert.isTrue(selectAllSpy.called);
     });
 
     suite('_getSearchSuggestions',

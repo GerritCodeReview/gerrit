@@ -48,6 +48,7 @@ limitations under the License.
 
     var existingReviewer1;
     var existingReviewer2;
+    var sandbox;
     var element;
 
     function getChips() {
@@ -55,6 +56,7 @@ limitations under the License.
     }
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       existingReviewer1 = makeAccount();
       existingReviewer2 = makeAccount();
 
@@ -63,6 +65,10 @@ limitations under the License.
       });
       element = fixture('basic');
       element.accounts = [existingReviewer1, existingReviewer2];
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('account entry only appears when editable', function() {
@@ -230,52 +236,42 @@ limitations under the License.
     });
 
     suite('keyboard interactions', function() {
-      var sandbox;
-      setup(function() {
-        sandbox = sinon.sandbox.create();
-      });
 
-      teardown(function() {
-        sandbox.restore();
-      });
-
-      test('backspace from input removes account iff cursor is in start pos',
-          function(done) {
+      test('backspace at text input start removes last account', function() {
         var input = element.$.entry.$.input;
         sandbox.stub(element.$.entry, '_getReviewerSuggestions');
         sandbox.stub(input, '_updateSuggestions');
+        // Next line is a workaround for Firefix not moving cursor
+        // on input field update
+        assert.equal(input.$.input.selectionStart, 0);
         input.text = 'test';
         MockInteractions.focus(input.$.input);
-        flush(function() {
-          assert.equal(element.accounts.length, 2);
-          MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
-          assert.equal(element.accounts.length, 2);
-          input.text = '';
-          MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
-          assert.equal(element.accounts.length, 1);
-          done();
-        });
+        flushAsynchronousOperations();
+        assert.equal(element.accounts.length, 2);
+        MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
+        assert.equal(element.accounts.length, 2);
+        input.text = '';
+        MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
+        assert.equal(element.accounts.length, 1);
       });
 
-      test('arrow key navigation', function(done) {
+      test('arrow key navigation', function() {
         var input = element.$.entry.$.input;
         input.text = '';
         element.accounts = [makeAccount(), makeAccount()];
         MockInteractions.focus(input.$.input);
-        flush(function() {
-          var chips = element.accountChips;
-          var chipsOneSpy = sandbox.spy(chips[1], 'focus');
-          MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
-          assert.isTrue(chipsOneSpy.called);
-          var chipsZeroSpy = sandbox.spy(chips[0], 'focus');
-          MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
-          assert.isTrue(chipsZeroSpy.called);
-          MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
-          assert.isTrue(chipsZeroSpy.calledOnce);
-          MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
-          assert.isTrue(chipsOneSpy.calledTwice);
-          done();
-        });
+        flushAsynchronousOperations();
+        var chips = element.accountChips;
+        var chipsOneSpy = sandbox.spy(chips[1], 'focus');
+        MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+        assert.isTrue(chipsOneSpy.called);
+        var chipsZeroSpy = sandbox.spy(chips[0], 'focus');
+        MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
+        assert.isTrue(chipsZeroSpy.called);
+        MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
+        assert.isTrue(chipsZeroSpy.calledOnce);
+        MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
+        assert.isTrue(chipsOneSpy.calledTwice);
       });
 
       test('delete', function(done) {

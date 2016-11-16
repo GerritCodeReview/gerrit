@@ -22,6 +22,24 @@
       "revId": "65e16fe092878b2ba76d8906e9430d36143f0d5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_28b1efde",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-16T17:58:59Z",
+      "side": 1,
+      "message": "\u003e Currently, the Chrome implementation requires the addition of a \"crossorigin\" attribute when preloading fonts from same-origin, or the preloaded resource doesn\u0027t match the one requested later on, resulting in a double download.\n\nhttps://github.com/w3c/preload/issues/32",
+      "parentUuid": "f0a51083_ca50077e",
+      "revId": "65e16fe092878b2ba76d8906e9430d36143f0d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

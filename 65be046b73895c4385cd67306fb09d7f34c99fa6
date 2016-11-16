@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_6747cc6e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-16T02:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_62c9560f",
+      "range": {
+        "startLine": 687,
+        "startChar": 17,
+        "endLine": 687,
+        "endChar": 18
+      },
+      "revId": "65be046b73895c4385cd67306fb09d7f34c99fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_026faa16",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-14T22:37:39Z",
       "side": 1,
       "message": "This should be\n\n\u003d\u003d Search Operands\n\nto be consistent with the rest of this document.",
+      "range": {
+        "startLine": 688,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 15
+      },
+      "revId": "65be046b73895c4385cd67306fb09d7f34c99fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_652a0092",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-16T02:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_026faa16",
       "range": {
         "startLine": 688,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_073cd8d5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-16T02:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_a2da3ed2",
+      "range": {
+        "startLine": 692,
+        "startChar": 0,
+        "endLine": 692,
+        "endChar": 19
+      },
+      "revId": "65be046b73895c4385cd67306fb09d7f34c99fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_e2bd6667",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-11-14T22:24:45Z",
       "side": 1,
       "message": "Remove this?\n\nIt\u0027s a DynamicMap and not a DynamicSet, isn\u0027t it?",
+      "range": {
+        "startLine": 712,
+        "startChar": 8,
+        "endLine": 712,
+        "endChar": 19
+      },
+      "revId": "65be046b73895c4385cd67306fb09d7f34c99fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_e752dc2a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-16T02:24:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_e2bd6667",
       "range": {
         "startLine": 712,
         "startChar": 8,

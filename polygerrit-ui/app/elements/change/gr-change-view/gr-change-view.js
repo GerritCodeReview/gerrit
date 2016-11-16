@@ -110,6 +110,13 @@
       '_paramsAndChangeChanged(params, _change)',
     ],
 
+    keyBindings: {
+      'a': '_handleAKey',
+      'd': '_handleDKey',
+      'shift+r': '_handleCapitalRKey',
+      'u': '_handleUKey',
+    },
+
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
@@ -579,30 +586,29 @@
       }.bind(this));
     },
 
-    _handleKey: function(e) {
+    _handleAKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      switch (e.keyCode) {
-        case 65:  // 'a'
-          if (this._loggedIn && !e.shiftKey) {
-            e.preventDefault();
-            this._openReplyDialog();
-          }
-          break;
-        case 68: // 'd'
-          e.preventDefault();
-          this.$.downloadOverlay.open();
-          break;
-        case 82: // 'r'
-          if (e.shiftKey) {
-            e.preventDefault();
-            this._switchToMostRecentPatchNum();
-          }
-          break;
-        case 85:  // 'u'
-          e.preventDefault();
-          this._determinePageBack();
-          break;
-      }
+      if (!this._loggedIn || e.detail.keyboardEvent.shiftKey) { return; }
+      e.preventDefault();
+      this._openReplyDialog();
+    },
+
+    _handleDKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      e.preventDefault();
+      this.$.downloadOverlay.open();
+    },
+
+    _handleCapitalRKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      e.preventDefault();
+      this._switchToMostRecentPatchNum();
+    },
+
+    _handleUKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      e.preventDefault();
+      this._determinePageBack();
     },
 
     _determinePageBack: function() {

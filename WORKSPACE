@@ -396,6 +396,12 @@ maven_jar(
   sha1 = '6720c93d14225c3e12c4a69768a0370c80e376a3',
 )
 
+maven_jar(
+  name = 'jsoup',
+  artifact = 'org.jsoup:jsoup:1.9.2',
+  sha1 = '5e3bda828a80c7a21dfbe2308d1755759c2fd7b4',
+)
+
 OW2_VERS = '5.1'
 
 maven_jar(

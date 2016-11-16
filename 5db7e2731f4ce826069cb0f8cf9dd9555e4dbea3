@@ -23,6 +23,24 @@
       "revId": "5db7e2731f4ce826069cb0f8cf9dd9555e4dbea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_6ac473a1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-16T02:31:12Z",
+      "side": 1,
+      "message": "Looks like we need an extension package:\n\nhttps://github.com/google/truth/blob/d34a020f1137679bf667053d6648a2345a3ef22f/extensions/java8/src/main/java/com/google/common/truth/OptionalSubject.java\n\nhttp://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.truth.extensions%22\n\nWill look into this later maybe. There are other places that could benefit, from back when I converted the rest of Gerrit to java.util.Optional.",
+      "parentUuid": "f0a51083_0a3cdfd5",
+      "revId": "5db7e2731f4ce826069cb0f8cf9dd9555e4dbea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

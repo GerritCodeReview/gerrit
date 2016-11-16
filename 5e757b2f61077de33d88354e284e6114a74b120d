@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_6ae553c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-16T00:49:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_e7617c29",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 59
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_a561a82a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-15T18:53:24Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 59
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_0ada9f07",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-16T00:49:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_a561a82a",
       "range": {
         "startLine": 138,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b031d818_28e56fc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-16T00:49:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_876e8818",
+      "range": {
+        "startLine": 40,
+        "startChar": 35,
+        "endLine": 40,
+        "endChar": 36
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_056fb416",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2016-11-15T19:06:38Z",
       "side": 1,
       "message": "It looks like this is not strictly specific to comment emails, and it may also be nice to include in other message types.\n\nWhat if this was included at the ChangeEmail.java or NotificationEmail.java level?",
+      "range": {
+        "startLine": 564,
+        "startChar": 17,
+        "endLine": 564,
+        "endChar": 36
+      },
+      "revId": "5e757b2f61077de33d88354e284e6114a74b120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_e561f017",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-16T00:49:01Z",
+      "side": 1,
+      "message": "We could do that although I am not sure if there is enough utility. The timestamp is already included as \u0027Date\u0027 in the email header and email clients usually display that.\n\nThe reason we need to do some extra work for comments is that I need the timestamp when parsing back the email and \u0027Date\u0027 will then refer to the time when the user sent the email. Having it in a different header will preserve the info.",
+      "parentUuid": "b031d818_056fb416",
       "range": {
         "startLine": 564,
         "startChar": 17,

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905f7458_395dcf99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-16T14:08:49Z",
+      "side": 1,
+      "message": "nit: split long line.",
+      "revId": "7a48f25f6ea634685e9948f26b56d3a43108d8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b05ab866_9a068d84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-16T14:08:49Z",
+      "side": 1,
+      "message": "so i guess the only missing thing is checking against (c \u003d revWalk.next()) against this dict allowing for c to point to earlier patchsets of mergedChanges.",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "7a48f25f6ea634685e9948f26b56d3a43108d8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -120,7 +120,7 @@ the same file has also been changed on the other side of the merge.
 [[rebase_always]]
 * Rebase Always
 +
-Basically, the same as Rebase If Necesary, but it creates a new patchset even if
+Basically, the same as Rebase If Necessary, but it creates a new patchset even if
 fast forward is possible. In this regard, it's similar to Cherry Pick, but with
 the important distinction that Rebase Always does not ignore dependencies.
 

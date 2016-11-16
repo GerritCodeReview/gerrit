@@ -1539,7 +1539,7 @@ Connect using a JDBC driver class name and URL.
 +
 * `MAXDB`
 +
-Connect to an SAP MaxDb database server.
+Connect to an SAP MaxDB database server.
 +
 * `MYSQL`
 +

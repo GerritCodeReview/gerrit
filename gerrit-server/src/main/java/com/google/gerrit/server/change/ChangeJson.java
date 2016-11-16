@@ -36,6 +36,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPD
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
+
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -89,6 +90,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
@@ -192,6 +194,7 @@ public class ChangeJson {
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
+  private final ApprovalsUtil approvalsUtil;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -221,6 +224,7 @@ public class ChangeJson {
       ChangeResource.Factory changeResourceFactory,
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
+      ApprovalsUtil approvalsUtil,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -244,6 +248,7 @@ public class ChangeJson {
     this.changeResourceFactory = changeResourceFactory;
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
+    this.approvalsUtil = approvalsUtil;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -891,10 +896,12 @@ public class ChangeJson {
 
   private Map<String, Collection<String>> permittedLabels(ChangeControl ctl, ChangeData cd)
       throws OrmException {
-    if (ctl == null) {
+    if (ctl == null || !ctl.getUser().isIdentifiedUser()) {
       return null;
     }
 
+    Map<String, Short> labels = currentLabels(ctl);
+    boolean isMerged = ctl.getChange().getStatus() == Change.Status.MERGED;
     LabelTypes labelTypes = ctl.getLabelTypes();
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
@@ -903,16 +910,17 @@ public class ChangeJson {
       }
       for (SubmitRecord.Label r : rec.labels) {
         LabelType type = labelTypes.byLabel(r.label);
-        if (type == null) {
-          continue;
-        }
-        if (ctl.getChange().getStatus() == Change.Status.MERGED
-            && !type.allowPostSubmit()) {
+        if (type == null || (isMerged && !type.allowPostSubmit())) {
           continue;
         }
         PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
         for (LabelValue v : type.getValues()) {
-          if (range.contains(v.getValue())) {
+          boolean ok = range.contains(v.getValue());
+          if (isMerged) {
+            short prev = labels.getOrDefault(type.getName(), (short) 0);
+            ok &= v.getValue() >= prev;
+          }
+          if (ok) {
             permitted.put(r.label, v.formatValue());
           }
         }
@@ -930,6 +938,17 @@ public class ChangeJson {
       permitted.removeAll(label);
     }
     return permitted.asMap();
+  }
+
+  private Map<String, Short> currentLabels(ChangeControl ctl)
+      throws OrmException {
+    Map<String, Short> result = new HashMap<>();
+    for (PatchSetApproval psa : approvalsUtil.byPatchSetUser(
+        db.get(), ctl, ctl.getChange().currentPatchSetId(),
+        ctl.getUser().getAccountId())) {
+      result.put(psa.getLabel(), psa.getValue());
+    }
+    return result;
   }
 
   private Collection<ChangeMessageInfo> messages(ChangeControl ctl, ChangeData cd,

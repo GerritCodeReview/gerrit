@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
 import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.MetadataName;

@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server.mail.receive;
 
-import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
 import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
+import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
 
 import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
-
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.MetadataName;
 

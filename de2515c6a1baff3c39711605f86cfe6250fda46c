@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b05ab866_7a19f9f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-11-16T11:35:59Z",
+      "side": 1,
+      "message": "is this really necessary to embed images in Java? have you tried using background css property?",
+      "range": {
+        "startLine": 203,
+        "startChar": 33,
+        "endLine": 203,
+        "endChar": 113
+      },
+      "revId": "de2515c6a1baff3c39711605f86cfe6250fda46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

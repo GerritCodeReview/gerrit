@@ -23,8 +23,6 @@ DEPS = [
   '//gerrit-main:main_lib',
   '//gerrit-plugin-gwtui:gwtui-api-lib',
   '//gerrit-server:server',
-  # TODO(davido): figure out why it's not reached through test dependencies
-  '//lib:jimfs',
   '//lib/asciidoctor:asciidoc_lib',
   '//lib/asciidoctor:doc_indexer_lib',
   '//lib/auto:auto-value',
@@ -50,7 +48,7 @@ java_library(
 
 classpath_collector(
   name = 'main_classpath_collect',
-  deps = LIBS + PGMLIBS + DEPS + PROVIDED_DEPS,
+  deps = LIBS + PGMLIBS + DEPS + TEST_DEPS + PROVIDED_DEPS,
   testonly = 1,
   # TODO(davido): Handle plugins
   #scan_plugins(),

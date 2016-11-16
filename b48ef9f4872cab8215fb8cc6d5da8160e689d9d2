@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_ad85a5f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-16T16:26:46Z",
+      "side": 1,
+      "message": "This should be moved to the footer.  I.e. add a blank line above, and remove the blank line below.",
+      "revId": "b48ef9f4872cab8215fb8cc6d5da8160e689d9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_e81b8734",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 2
@@ -36,6 +53,30 @@
       "writtenOn": "2016-11-16T16:14:13Z",
       "side": 1,
       "message": "if you expect the exception, you have to fail after the assertQuery call, eg.\n\n fail(\"no exception found\")\n\nalso: nitpick: add space after \u0027}\u0027",
+      "range": {
+        "startLine": 395,
+        "startChar": 5,
+        "endLine": 395,
+        "endChar": 10
+      },
+      "revId": "b48ef9f4872cab8215fb8cc6d5da8160e689d9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_4d92f139",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-16T16:26:46Z",
+      "side": 1,
+      "message": "It would be better to make a separate utility method to test these failing cases.  assertQuery is intended to test successful cases.\n\nAlso it\u0027s better to use ExpectedException than the try..fail..catch..expected pattern.",
+      "parentUuid": "b031d818_e81b8734",
       "range": {
         "startLine": 395,
         "startChar": 5,

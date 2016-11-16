@@ -326,18 +326,18 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           continue;
         }
       }
-      if (!isAdmin) {
-        GroupControl c = groupControlFactory.controlFor(group);
-        if (!c.isVisible()) {
-          continue;
-        }
-      }
       if (visibleToAll && !group.isVisibleToAll()) {
         continue;
       }
       if (!groupsToInspect.isEmpty()
           && !groupsToInspect.contains(group.getGroupUUID())) {
         continue;
+      }
+      if (!isAdmin) {
+        GroupControl c = groupControlFactory.controlFor(group);
+        if (!c.isVisible()) {
+          continue;
+        }
       }
       filteredGroups.add(group);
     }

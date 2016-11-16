@@ -279,34 +279,34 @@
     },
 
     _handleReply: function(e) {
-      this._preventDefaultAndBlur(e);
+      e.preventDefault();
       this.fire('reply', this._getEventPayload(), {bubbles: false});
     },
 
     _handleQuote: function(e) {
-      this._preventDefaultAndBlur(e);
+      e.preventDefault();
       this.fire(
           'reply', this._getEventPayload({quote: true}), {bubbles: false});
     },
 
     _handleDone: function(e) {
-      this._preventDefaultAndBlur(e);
+      e.preventDefault();
       this.fire('done', this._getEventPayload(), {bubbles: false});
     },
 
     _handleEdit: function(e) {
-      this._preventDefaultAndBlur(e);
+      e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
     },
 
     _handleSave: function(e) {
-      this._preventDefaultAndBlur(e);
+      e.preventDefault();
       this.save();
     },
 
     _handleCancel: function(e) {
-      this._preventDefaultAndBlur(e);
+      e.preventDefault();
       if (this.comment.message == null || this.comment.message.length == 0) {
         this._fireDiscard();
         return;
@@ -321,7 +321,7 @@
     },
 
     _handleDiscard: function(e) {
-      this._preventDefaultAndBlur(e);
+      e.preventDefault();
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
@@ -343,11 +343,6 @@
             this.disabled = false;
             throw err;
           }.bind(this));
-    },
-
-    _preventDefaultAndBlur: function(e) {
-      e.preventDefault();
-      Polymer.dom(e).rootTarget.blur();
     },
 
     _saveDraft: function(draft) {

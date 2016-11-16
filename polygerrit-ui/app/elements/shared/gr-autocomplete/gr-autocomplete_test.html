@@ -94,7 +94,7 @@ limitations under the License.
         var cancelHandler = sinon.spy();
         element.addEventListener('cancel', cancelHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 27); // Esc
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
         assert.isTrue(cancelHandler.called);
         assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
 
@@ -128,19 +128,22 @@ limitations under the License.
 
         assert.equal(element.$.cursor.index, 0);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40); // Down
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
+            'down');
 
         assert.equal(element.$.cursor.index, 1);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40); // Down
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
+            'down');
 
         assert.equal(element.$.cursor.index, 2);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 38); // Up
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 38, null, 'up');
 
         assert.equal(element.$.cursor.index, 1);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.equal(element.value, 1);
         assert.isTrue(commitHandler.called);
@@ -163,7 +166,8 @@ limitations under the License.
         var commitHandler = sinon.spy();
         element.addEventListener('commit', commitHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.isTrue(commitHandler.called);
         assert.equal(element.text, 'suggestion');
@@ -184,7 +188,8 @@ limitations under the License.
         var commitHandler = sinon.spy();
         element.addEventListener('commit', commitHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.isTrue(commitHandler.called);
         assert.equal(element.text, '');
@@ -234,7 +239,8 @@ limitations under the License.
         var commitHandler = sinon.spy();
         element.addEventListener('commit', commitHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.isTrue(commitHandler.called);
         assert.equal(element.text, 'blah 0');
@@ -245,10 +251,10 @@ limitations under the License.
     test('tab key completes only when suggestions exist', function() {
       var commitStub = sinon.stub(element, '_commit');
       element._suggestions = [];
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isFalse(commitStub.called);
       element._suggestions = ['tunnel snakes rule!'];
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isTrue(commitStub.called);
       commitStub.restore();
     });
@@ -258,11 +264,11 @@ limitations under the License.
       element.addEventListener('commit', commitHandler);
       element._suggestions = ['tunnel snakes rule!'];
       element.tabCompleteWithoutCommit = true;
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isFalse(commitHandler.called);
       element.tabCompleteWithoutCommit = false;
       element._suggestions = ['tunnel snakes rule!'];
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isTrue(commitHandler.called);
     });
 
@@ -301,7 +307,7 @@ limitations under the License.
     test('input-keydown event fired', function() {
       var listener = sinon.spy();
       element.addEventListener('input-keydown', listener);
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       flushAsynchronousOperations();
       assert.isTrue(listener.called);
     });

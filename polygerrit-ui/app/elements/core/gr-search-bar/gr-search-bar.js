@@ -94,6 +94,10 @@
       'searchButton.tap': '_preventDefaultAndNavigateToInputVal',
     },
 
+    keyBindings: {
+      '/': '_handleForwardSlashKey',
+    },
+
     properties: {
       value: {
         type: String,
@@ -292,18 +296,12 @@
           });
     },
 
-    _handleKey: function(e) {
+    _handleForwardSlashKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      switch (e.keyCode) {
-        case 191:  // '/' or '?' with shift key.
-          // TODO(andybons): Localization using e.key/keypress event.
-          if (e.shiftKey) { break; }
-          e.preventDefault();
-          var s = this.$.searchInput;
-          s.focus();
-          s.setSelectionRange(0, s.value.length);
-          break;
-      }
+
+      e.preventDefault();
+      this.$.searchInput.focus();
+      this.$.searchInput.selectAll();
     },
   });
 })();

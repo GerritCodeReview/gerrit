@@ -377,6 +377,33 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byOwnerExtend() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+    Account.Id user2 = accountManager.authenticate(
+        AuthRequest.forUser("anotheruser")).getAccountId();
+    Change change2 = insert(repo, newChange(repo), user2);
+
+    assertQuery("owner:" + userId.get(), change1);
+    assertQuery("owner:" + user2, change2);
+
+    String nameEmail = user.asIdentifiedUser().getNameEmail();
+    assertQuery("owner: \"" + nameEmail + "\"", change1);
+
+    try {
+      assertQuery("\\");
+    }catch (BadRequestException e) {
+      // expected, no exception is OK
+    }
+
+    try {
+      assertQuery("owner: \"" + nameEmail + "\"\\");
+    }catch (BadRequestException e) {
+      // expected, no exception is OK
+    }
+  }
+
+  @Test
   public void byAuthor() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);

@@ -40,6 +40,8 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,15 +51,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -65,15 +63,11 @@ import java.util.Map;
  * command.
  */
 public class OutputStreamQuery {
-  public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss zzz";
-
   private static final Logger log =
       LoggerFactory.getLogger(OutputStreamQuery.class);
 
-  private static final DateTimeFormatter dtf = DateTimeFormatter
-      .ofPattern(TIMESTAMP_FORMAT)
-      .withLocale(Locale.US)
-      .withZone(ZoneId.systemDefault());
+  private static final DateTimeFormatter dtf =
+      DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss zzz");
 
   public enum OutputFormat {
     TEXT, JSON
@@ -401,7 +395,7 @@ public class OutputStreamQuery {
       out.print('\n');
     } else if (value instanceof Long && isDateField(field)) {
       out.print(' ');
-      out.print(dtf.format(Instant.ofEpochMilli(((Long) value) * 1000L)));
+      out.print(dtf.print(((Long) value) * 1000L));
       out.print('\n');
     } else if (isPrimitive(value)) {
       out.print(' ');

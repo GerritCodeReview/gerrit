@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -43,9 +42,6 @@ import com.google.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 @NoHttpd
 public class CustomLabelIT extends AbstractDaemonTest {
@@ -193,8 +189,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     revision(r).submit();
 
     ChangeInfo info = get(r.getChangeId(), ListChangesOption.DETAILED_LABELS);
-    // TODO(dborowitz): Don't claim reducing vote is allowed.
-    assertPermitted(info, "Code-Review", -2, -1, 0, 1, 2);
+    assertPermitted(info, "Code-Review", 2);
     assertPermitted(info, P.getName(), 0, 1);
     assertPermitted(info, label.getName());
 
@@ -208,20 +203,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
     exception.expectMessage(
         "Voting on labels disallowed after submit: " + label.getName());
     revision(r).review(in);
-  }
-
-  private void assertPermitted(ChangeInfo info, String label,
-      Integer... expected) {
-    assertThat(info.permittedLabels).isNotNull();
-    Collection<String> strs = info.permittedLabels.get(label);
-    if (expected.length == 0) {
-      assertThat(strs).isNull();
-    } else {
-      assertThat(
-              strs.stream().map(s -> Integer.valueOf(s.trim()))
-                  .collect(toList()))
-          .containsExactlyElementsIn(Arrays.asList(expected));
-    }
   }
 
   private void saveLabelConfig() throws Exception {

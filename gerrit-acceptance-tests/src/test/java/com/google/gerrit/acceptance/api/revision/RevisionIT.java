@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -44,7 +45,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -166,6 +166,9 @@ public class RevisionIT extends AbstractDaemonTest {
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
+    assertPermitted(
+        gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)),
+        "Code-Review", 1, 2);
 
     // Repeating the current label is allowed. Does not flip the postSubmit bit
     // due to deduplication codepath.
@@ -200,6 +203,9 @@ public class RevisionIT extends AbstractDaemonTest {
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(2);
     assertThat(approval.postSubmit).isTrue();
+    assertPermitted(
+        gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)),
+        "Code-Review", 2);
 
     // Decreasing to previous post-submit vote is still not allowed.
     try {
@@ -1090,7 +1096,7 @@ public class RevisionIT extends AbstractDaemonTest {
       throws Exception {
     ChangeInfo info = gApi.changes()
         .id(changeId)
-        .get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+        .get(EnumSet.of(DETAILED_LABELS));
     LabelInfo li = info.labels.get(label);
     assertThat(li).isNotNull();
     int accountId = atrScope.get().getUser().getAccountId().get();

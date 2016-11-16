@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_2870cf49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-16T00:07:30Z",
+      "side": 1,
+      "message": "Can be final. Also this would imply it\u0027s grouped with the other private final field, i.e. remove the extra line.",
+      "revId": "eedda09e65a62e235ff7027ff935a8b0b2bd3b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "905f7458_f9035772",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-16T13:41:16Z",
+      "side": 1,
+      "message": "the CodeReviewCommitWalker simply doesn\u0027t populate those fields. It merely finds a RevCommit object and that\u0027s it. In general, I don\u0027t even know how to find a ChangeId given a RevCommit object. It\u0027s a bit easier if CHange-Id footer exists, but it\u0027s not true in general. maybe there is some kind of internal map from Commit hash to a ChangeId?",
+      "parentUuid": "b05ab866_7ada9908",
+      "revId": "e603fda7de5a4f78722cc24f6bcde1d70ccc8997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "905f7458_79c3c728",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 1

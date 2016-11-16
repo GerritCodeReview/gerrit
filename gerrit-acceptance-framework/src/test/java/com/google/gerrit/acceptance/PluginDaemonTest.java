@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.config.SitePaths;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -40,7 +41,9 @@ import java.util.regex.Pattern;
 public abstract class PluginDaemonTest extends AbstractDaemonTest {
 
   private static final String BUCKLC = "buck";
+  private static final String BAZELLC = "bazel";
   private static final String BUCKOUT = "buck-out";
+  private static final String BAZELOUT = "bazel-out";
   private static final String ECLIPSE = "eclipse-out";
 
   private Path gen;
@@ -49,6 +52,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   private Path pluginSubPath;
   private Path pluginSource;
   private boolean standalone;
+  private boolean bazel;
+  private Path basePath;
 
   protected String pluginName;
   protected Path testSite;
@@ -87,10 +92,10 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     return cfg;
   }
 
-  private void locatePaths() {
+  private void locatePaths() throws IOException {
     URL pluginClassesUrl =
         getClass().getProtectionDomain().getCodeSource().getLocation();
-    Path basePath = Paths.get(pluginClassesUrl.getPath()).getParent();
+    basePath = Paths.get(pluginClassesUrl.getPath()).getParent();
 
     int idx = 0;
     int buckOutIdx = 0;
@@ -99,14 +104,25 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       if (subPath.endsWith("plugins")) {
         pluginsIdx = idx;
       }
+      if (subPath.endsWith(BAZELOUT)) {
+        bazel = true;
+        buckOutIdx = idx;
+      }
+      // TODO(davido): Fix Bazel plugin test from Eclipse
       if (subPath.endsWith(BUCKOUT) || subPath.endsWith(ECLIPSE)) {
         buckOutIdx = idx;
       }
       idx++;
     }
     standalone = checkStandalone(basePath);
-    pluginRoot = basePath.getRoot().resolve(basePath.subpath(0, buckOutIdx));
-    gen = pluginRoot.resolve(BUCKOUT).resolve("gen");
+
+    if (bazel) {
+      pluginRoot = GerritLauncher.resolveInSourceRoot(".");
+      gen = pluginRoot.resolve("bazel-out/local-fastbuild/genfiles");
+    } else {
+      pluginRoot = basePath.getRoot().resolve(basePath.subpath(0, buckOutIdx));
+      gen = pluginRoot.resolve(BUCKOUT).resolve("gen");
+    }
 
     if (standalone) {
       pluginSource = pluginRoot;
@@ -117,6 +133,10 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   }
 
   private boolean checkStandalone(Path basePath) {
+    // TODO(davido): Fix Bazel standalone mode
+    if (bazel) {
+      return false;
+    }
     String pathCharStringOrNone = "[a-zA-Z0-9._-]*?";
     Pattern pattern = Pattern.compile(pathCharStringOrNone + "gerrit" +
         pathCharStringOrNone);
@@ -139,8 +159,19 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   }
 
   private void retrievePluginName() throws IOException {
-    Path buckFile = pluginSource.resolve("BUCK");
-    byte[] bytes = Files.readAllBytes(buckFile);
+    if (bazel) {
+      pluginName = basePath.getFileName().toString();
+      return;
+    }
+    Path buildfile = pluginSource.resolve("BUCK");
+    if (!Files.exists(buildfile)) {
+      buildfile = pluginSource.resolve("BUILD");
+    }
+    if (!Files.exists(buildfile)) {
+      throw new IllegalStateException("Cannot find build file in: "
+          + pluginSource);
+    }
+    byte[] bytes = Files.readAllBytes(buildfile);
     String buckContent =
         new String(bytes, UTF_8).replaceAll("\\s+", "");
     Matcher matcher =
@@ -158,9 +189,19 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   }
 
   private void buildPluginJar() throws IOException, InterruptedException {
-    Properties properties = loadBuckProperties();
-    String buck =
-        MoreObjects.firstNonNull(properties.getProperty(BUCKLC), BUCKLC);
+    Path dir = pluginRoot;
+    String build;
+    if (bazel) {
+      dir = GerritLauncher.resolveInSourceRoot(".");
+      Properties properties = loadBuildProperties(
+          dir.resolve(".primary_build_tool"));
+      build = MoreObjects.firstNonNull(
+          properties.getProperty(BAZELLC), BAZELLC);
+    } else {
+      Properties properties = loadBuildProperties(
+          gen.resolve(Paths.get("tools/buck/buck.properties")));
+      build = MoreObjects.firstNonNull(properties.getProperty(BUCKLC), BUCKLC);
+    }
     String target;
     if (standalone) {
       target = "//:" + pluginName;
@@ -169,16 +210,16 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     }
 
     ProcessBuilder processBuilder =
-        new ProcessBuilder(buck, "build", target).directory(pluginRoot.toFile())
+        new ProcessBuilder(build, "build", target).directory(dir.toFile())
             .redirectErrorStream(true);
     // otherwise plugin jar creation fails:
-    processBuilder.environment().put("NO_BUCKD", "1");
-
     Path forceJar = pluginSource.resolve("src/main/java/ForceJarIfMissing.java");
-    // if exists after cancelled test:
-    Files.deleteIfExists(forceJar);
-
-    Files.createFile(forceJar);
+    if (!bazel) {
+      processBuilder.environment().put("NO_BUCKD", "1");
+      // if exists after cancelled test:
+      Files.deleteIfExists(forceJar);
+      Files.createFile(forceJar);
+    }
     testSite = tempSiteDir.getRoot().toPath();
 
     // otherwise process often hangs:
@@ -189,15 +230,14 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     try {
       processBuilder.start().waitFor();
     } finally {
-      Files.delete(forceJar);
+      Files.deleteIfExists(forceJar);
       // otherwise jar not made next time if missing again:
       processBuilder.start().waitFor();
     }
   }
 
-  private Properties loadBuckProperties() throws IOException {
+  private Properties loadBuildProperties(Path propertiesPath) throws IOException {
     Properties properties = new Properties();
-    Path propertiesPath = gen.resolve(Paths.get("tools/buck/buck.properties"));
     if (Files.exists(propertiesPath)) {
       try (InputStream in = Files.newInputStream(propertiesPath)) {
         properties.load(in);

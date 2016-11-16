@@ -341,6 +341,12 @@ To create test coverage report:
 
 The HTML report is created in `buck-out/gen/jacoco/code-coverage/index.html`.
 
+To run the tests agains NoteDb backend:
+
+----
+  GERRIT_NOTEDB=READ_WRITE buck test
+----
+
 == Dependencies
 
 Dependency JARs are normally downloaded automatically, but Buck can inspect

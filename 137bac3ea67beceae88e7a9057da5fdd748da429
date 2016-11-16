@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1479258439 -0800\nnonce AG58fQprQpelkUD8NbvDSG99Tku5UNSWncJ5/fUb1IaeldvYvjthJAhfHnx/SnYroJiKHz0/H8ZG\n\n0000000000000000000000000000000000000000 137bac3ea67beceae88e7a9057da5fdd748da429 refs/for/master%r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJYK7FJAAoJEF/XxZqaEoiMCxoQALO5rHJ/kkzLffdhr8Oxjbky\ngHcwxHY0y8tS/A0kG+8iUZrNZps/s4vvFqOGaaoKlgXLxF3w7rauMtb5tyi8H4eU\npxbcTVcAbKZETUC3hoottV/V47S6clmAhXZigrkvzuN6N6M4qeshlUPTFm5nadic\nX8a/oDZCx2fDltrGOnhS/HlLCwdM1Xts2ihoTKPZaYYD/VPyWEu+LlA/RB6BfWPf\n7VkaXNkqPkKG3BFHAG3W3w9UYHJ5oP4xnbCr4nDuuqT19aUOo4p0tVz1l06K83Zc\nZiVs53e65WJqJMNDrngfnIMYonf4T+dq5DbaCt8Q/hqDUewFPzvyRWsPnOwYQMyT\nOEYyMqZTdWKp7Lh2LHEMn2iFr5YYOBhSyRRec+lSQAOmmYQIuj4biLudL2Rijbm0\nHHoJMxGnNcafZq1cek/Sn1zumZHieqtUWwbm/9LKuaZDYzmXH16rU8xiCB8QMnkn\nXquo6NJdRbMwAJ2c6IlCVyKIniQkyUIbcix7wZ7MkEQyNY6swTxS2Fdf7ovhEVEU\nTLnkdZ25559FkBV1VdZynhnMrFj4kiNUv+Vz3Boqpun+0AFneqRioe0eqp1ccxLk\nrAvZDWKKCyILEiTo+HW9LDV6TpYFT4cubWxcY6lTE0FSSB8gCrclJ/VKQwj1LaSx\nz2b7MmMhp7JMKGJ9eEMO\n\u003dvFUI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_aa382bfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-16T01:51:26Z",
+      "side": 1,
+      "message": "Document the new option in config-labels.txt.",
+      "range": {
+        "startLine": 806,
+        "startChar": 6,
+        "endLine": 808,
+        "endChar": 48
+      },
+      "revId": "137bac3ea67beceae88e7a9057da5fdd748da429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

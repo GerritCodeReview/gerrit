@@ -136,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_48b9d3af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-16T00:17:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_65d4c001",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_c714800a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 1
@@ -224,6 +242,24 @@
       "side": 1,
       "message": "My only slightly brainful concern is that descriptions might be longer than topics, so this might be more distracting. I\u0027ll defer to PG folks though.",
       "parentUuid": "f0a51083_c73b208c",
+      "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_4a92d739",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-16T00:17:00Z",
+      "side": 1,
+      "message": "I totally get what you\u0027re saying. From a UI perspective, I think the message length is the least of our worries. I\u0027ll figure all of this stuff out when I\u0027m not borrowing your time, though.\n\nhttp://i.imgur.com/jiyfykM.png",
+      "parentUuid": "b031d818_88759b3c",
       "revId": "c81ac1edeb0161619b7a15aea77f28113063f2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

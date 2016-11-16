@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "905f7458_99d05be4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-16T08:54:29Z",
+      "side": 1,
+      "message": "Could you start an issue in the bug-tracker and link it here?",
+      "revId": "e603fda7de5a4f78722cc24f6bcde1d70ccc8997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b05ab866_baac316c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2016-11-15T22:57:45Z",
       "side": 1,
       "message": "at this point, c.getStatusCode() returns null for some reason in my tests, and so does c.getPatchSet(). I don\u0027t know why, but maybe that can be fixed?",
+      "revId": "e603fda7de5a4f78722cc24f6bcde1d70ccc8997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b05ab866_7ada9908",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-16T08:54:29Z",
+      "side": 1,
+      "message": "Couldn\u0027t it be that the commit has never been a ps of a change? Then it will have no statusCode and no patch set.\nYou can\u0027t assume that every commit in the repo was submitted as a change.\nMy solution to a different bug on stable-2.12 will most likely solve this bug as well. [1]\n\n[1] https://gerrit-review.googlesource.com/#/c/91610",
+      "parentUuid": "b05ab866_baac316c",
       "revId": "e603fda7de5a4f78722cc24f6bcde1d70ccc8997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

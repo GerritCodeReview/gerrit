@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1479261717 -0800\nnonce AG58fQqzq5zrHDymWURC/sjXifsePupVLUWCuHKaTngOOkQeVAIKn+ivEwma8Zb8YI0TjBlnMAbm\n\n0000000000000000000000000000000000000000 5db7e2731f4ce826069cb0f8cf9dd9555e4dbea3 refs/for/master%r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJYK74WAAoJEF/XxZqaEoiM1rkP/2r9sx31wjcZ4Tzsu/jOUgtA\n4V+SSwZfc0fK2pCRBQQSEXx/y5Zfl6tYeYYNC0ZBReTf/YZLIeIMg7wXM7t64YDO\nJs7U6DoIktJcyICu8kT5PJLBwh1xbfV0ApAT9EeyXRORAW9aJPIfqTZS/C/gqiNE\nERYOEp+kn3Uz5bVGLuRvU0T4y5DUMwMQJ8zY/Kid1i6wT7aZrJcpVXeaqrrO1D0v\nloEbhzJ6B85bfWy6LRAOIiz2HtIEJnw42G8zc9iMUDGNK9ApR2LKRCvO0bMhj6KJ\n7Gf+NZnw4xXfYrlyx4/Fe5sjHzejQw2jl+b269jrJ3XDqTcX7sxhFJWbMx6lAEWG\nd6iPJkdpPjFp9vcz0F6X3soExkdskI0mn8dxA7SPmRz3TxxSwUIFa7L4zH5bkMG0\nuGfNK4IUrShfhpAJAIv6Z6K5KsHAOUb9J3FbzcJ8u1otwjjwRKv8Ee+C1iRzrq4/\ntyNcvGZnZ/zyXJXo16NMhfl0aLp7LVswVzUOUDRnd4Yneym1yjPeCuG5SvF4Z7xw\nDL5DvLGcDQPjKfJf3LLYGvf4ltwqsyBMiD98agNUiVsFnxFPB/VasRDHbIG0Sda+\nIlXWDfKCwr+xzJJmlGq8cEOmc5nF/xyXmNRyQMM66Io5CX9zb9GeKOHrPW5j5i97\nbotL6vG0VVgdxwRhvMDc\n\u003dKQBt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_0a3cdfd5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-16T02:15:06Z",
+      "side": 1,
+      "message": "Truth doesn\u0027t have support for Optional? I.e.\n\n  assertThat(crUser).isPresent()\n\n?",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 44
+      },
+      "revId": "5db7e2731f4ce826069cb0f8cf9dd9555e4dbea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

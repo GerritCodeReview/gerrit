@@ -39,10 +39,6 @@ public enum NoteDbMode {
   private static final String VAR = "GERRIT_NOTEDB";
 
   public static NoteDbMode get() {
-    if (isEnvVarTrue("GERRIT_ENABLE_NOTEDB")) {
-      // TODO(dborowitz): Remove once GerritForge CI is migrated.
-      return READ_WRITE;
-    }
     String value = System.getenv(VAR);
     if (Strings.isNullOrEmpty(value)) {
       return OFF;

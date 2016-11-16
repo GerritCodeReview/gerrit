@@ -233,6 +233,12 @@ To run a specific test group, e.g. the rest-account test group:
   bazel test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest_account
 ----
 
+To run the tests against NoteDb backend:
+
+----
+  bazel test --test_env=GERRIT_NOTEDB=READ_WRITE //...
+----
+
 == Dependencies
 
 Dependency JARs are normally downloaded as needed, but you can

@@ -208,7 +208,7 @@ these views you can add inline comments by double clicking on the line
 can add file comment by double clicking anywhere (not just on the
 "Patch Set" words) in the table header or single clicking on the icon
 in the line-number column header. Once published these comments are
-viewable to all, allowing discussion of the change to take place.
+visible to all, allowing discussion of the change to take place.
 
 .Side By Side Patch View
 image::images/intro-quick-review-line-comment.jpg[Adding a Comment]

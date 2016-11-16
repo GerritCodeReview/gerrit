@@ -330,7 +330,7 @@ way a four-eyes principle for the reviews can be enforced.
 
 A Prolog submit rule has access to link:prolog-change-facts.html[
 information] about the change for which it is testing the
-submittability. Amongst others the list of the modified files can be
+submittability. Among others the list of the modified files can be
 accessed, which allows special logic if certain files are touched. For
 example, a common practice is to require a vote on an additional label,
 like `Library-Compliance`, if the dependencies of the project are

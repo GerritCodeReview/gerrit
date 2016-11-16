@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0b638e5_baa9b15b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-16T19:58:45Z",
+      "side": 1,
+      "message": "Please use the standard revert commit message style. I.e. subject should be \"revert\" followed by the original commit\u0027s subject, and the body should include \"this reverts commit $sha1\".\n\nAlso the message should say why the revert is being done.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "e20948a9136b95cbed7c22906f5a31b940f8f266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

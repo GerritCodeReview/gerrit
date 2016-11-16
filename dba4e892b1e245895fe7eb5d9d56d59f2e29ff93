@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_c814c30a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-16T16:05:33Z",
+      "side": 1,
+      "message": "This broke master: [1]. The better questin is: why GerritFoge voted +1?\n\n* [1] http://paste.openstack.org/show/589468/",
+      "revId": "dba4e892b1e245895fe7eb5d9d56d59f2e29ff93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

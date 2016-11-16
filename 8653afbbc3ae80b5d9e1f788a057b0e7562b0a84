@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a51083_caf1e7b4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-16T09:02:45Z",
+      "side": 1,
+      "message": "not",
+      "range": {
+        "startLine": 311,
+        "startChar": 45,
+        "endLine": 311,
+        "endChar": 49
+      },
+      "revId": "8653afbbc3ae80b5d9e1f788a057b0e7562b0a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

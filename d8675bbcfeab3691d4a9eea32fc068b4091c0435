@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_0a1fff88",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-16T01:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_a8885fb2",
+      "revId": "d8675bbcfeab3691d4a9eea32fc068b4091c0435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_0886aba4",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2016-11-16T01:45:15Z",
       "side": 1,
       "message": "This was changed in the example below.",
+      "range": {
+        "startLine": 695,
+        "startChar": 27,
+        "endLine": 695,
+        "endChar": 44
+      },
+      "revId": "d8675bbcfeab3691d4a9eea32fc068b4091c0435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_6a1a339a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2016-11-16T01:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_0886aba4",
       "range": {
         "startLine": 695,
         "startChar": 27,

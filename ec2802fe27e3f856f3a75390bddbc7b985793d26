@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f0a51083_ea52a32a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-11-16T02:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_4a42d75f",
+      "range": {
+        "startLine": 71,
+        "startChar": 36,
+        "endLine": 71,
+        "endChar": 40
+      },
+      "revId": "ec2802fe27e3f856f3a75390bddbc7b985793d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_6a47936e",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "writtenOn": "2016-11-16T02:13:06Z",
       "side": 1,
       "message": "optional: wrap this to the next line so that all the format parameters are on their own line.",
+      "range": {
+        "startLine": 72,
+        "startChar": 69,
+        "endLine": 72,
+        "endChar": 78
+      },
+      "revId": "ec2802fe27e3f856f3a75390bddbc7b985793d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_48155367",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-11-16T02:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_6a47936e",
       "range": {
         "startLine": 72,
         "startChar": 69,

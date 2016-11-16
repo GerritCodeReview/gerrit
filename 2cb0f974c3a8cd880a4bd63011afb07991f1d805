@@ -114,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_2533d828",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-16T00:49:01Z",
+      "side": 1,
+      "message": "You are right, if people send comments in the exact same second then we would have a larger list of comments (comments from both reviewers) when parsing the timestamp back and getting the comments from the Db. Although that will almost certainly not impact the parser as the list of candidate comments is just slightly larger and those won\u0027t match in the email.\n\nThe timestamp should reflect the time when a comment was posted and not when it was sent out though as it comes from ChangeSender::setChangeMessage\n\nI agree that in the long run we should move to a more unique ID. Let\u0027s plan to refactor this when we change how we identify grouped comments in the UI.",
+      "parentUuid": "b031d818_c58b0cae",
+      "revId": "2cb0f974c3a8cd880a4bd63011afb07991f1d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_055b34a0",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentFooterHtml.soy",
         "patchSetId": 2

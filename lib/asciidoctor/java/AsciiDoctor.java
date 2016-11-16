@@ -108,10 +108,6 @@ public class AsciiDoctor {
         .eruby(ERUBY)
         .safe(SafeMode.UNSAFE)
         .baseDir(base)
-        // XXX(fishywang): ideally we should just output to a string and add the
-        // content into zip. But asciidoctor will actually ignore all attributes
-        // if not output to a file. So we *have* to output to a file then read
-        // the content of the file into zip.
         .toFile(outputFile);
 
     AttributesBuilder attributesBuilder = AttributesBuilder.attributes();

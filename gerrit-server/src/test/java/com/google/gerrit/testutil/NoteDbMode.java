@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 
 public enum NoteDbMode {
   /** NoteDb is disabled. */
@@ -39,10 +38,6 @@ public enum NoteDbMode {
   private static final String VAR = "GERRIT_NOTEDB";
 
   public static NoteDbMode get() {
-    if (isEnvVarTrue("GERRIT_ENABLE_NOTEDB")) {
-      // TODO(dborowitz): Remove once GerritForge CI is migrated.
-      return READ_WRITE;
-    }
     String value = System.getenv(VAR);
     if (Strings.isNullOrEmpty(value)) {
       return OFF;
@@ -56,10 +51,5 @@ public enum NoteDbMode {
 
   public static boolean readWrite() {
     return get() == READ_WRITE;
-  }
-
-  private static boolean isEnvVarTrue(String name) {
-    String value = Strings.nullToEmpty(System.getenv(name)).toLowerCase();
-    return ImmutableList.of("yes", "y", "true", "1").contains(value);
   }
 }

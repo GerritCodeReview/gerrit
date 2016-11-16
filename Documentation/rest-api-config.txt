@@ -407,7 +407,7 @@ It is possible to get different output formats by specifying the
 +
 Returns the cache names as JSON list.
 +
-The cache names are alphabetically sorted.
+The cache names are lexicographically sorted.
 +
 .Request
 ----

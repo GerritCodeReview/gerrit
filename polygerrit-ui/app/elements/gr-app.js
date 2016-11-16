@@ -62,6 +62,10 @@
       Gerrit.KeyboardShortcutBehavior,
     ],
 
+    keyBindings: {
+      '?': '_showKeyboardShortcuts',
+    },
+
     attached: function() {
       this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
@@ -194,12 +198,9 @@
       }
     },
 
-    _handleKey: function(e) {
+    _showKeyboardShortcuts(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
-      if (e.keyCode === 191 && e.shiftKey) {  // '/' or '?' with shift key.
-        this.$.keyboardShortcuts.open();
-      }
+      this.$.keyboardShortcuts.open();
     },
 
     _handleKeyboardShortcutDialogClose: function() {

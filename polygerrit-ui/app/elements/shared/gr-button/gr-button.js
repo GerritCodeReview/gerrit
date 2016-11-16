@@ -39,6 +39,10 @@
       tabindex: '0',
     },
 
+    keyBindings: {
+      'space enter': '_handleCommitKey',
+    },
+
     _disabledChanged: function(disabled) {
       if (disabled) {
         this._enabledTabindex = this.getAttribute('tabindex');
@@ -46,13 +50,9 @@
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
     },
 
-    _handleKey: function(e) {
-      switch (e.keyCode) {
-        case 32:  // 'spacebar'
-        case 13:  // 'enter'
-          e.preventDefault();
-          this.click();
-      }
+    _handleCommitKey: function(e) {
+      e.preventDefault();
+      this.click();
     },
   });
 })();

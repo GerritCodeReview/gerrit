@@ -30,49 +30,76 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="within-overlay">
+  <template>
+    <gr-overlay>
+      <test-element></test-element>
+    </gr-overlay>
+  </template>
+</test-fixture>
+
 <script>
   suite('keyboard-shortcut-behavior tests', function() {
     var element;
+    var overlay;
 
     suiteSetup(function() {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
         behaviors: [Gerrit.KeyboardShortcutBehavior],
-        properties: {
-          keyEventTarget: {
-            value: function() { return document.body; },
-          },
-          log: {
-            value: function() { return []; },
-          },
+        keyBindings: {
+          'k': '_handleKey'
         },
-
-        _handleKey: function(e) {
-          if (!this.shouldSuppressKeyboardShortcut(e)) {
-            this.log.push(e.keyCode);
-          }
-        },
+        _handleKey: function() {},
       });
     });
 
     setup(function() {
       element = fixture('basic');
+      overlay = fixture('within-overlay');
     });
 
-    test('blocks keydown events iff one or more disablers', function() {
-      MockInteractions.pressAndReleaseKeyOn(document.body, 97);  // 'a'
-      Gerrit.KeyboardShortcutBehavior.enable('x');  // should have no effect
-      MockInteractions.pressAndReleaseKeyOn(document.body, 98);  // 'b'
-      Gerrit.KeyboardShortcutBehavior.disable('x');  // blocking starts here
-      MockInteractions.pressAndReleaseKeyOn(document.body, 99);  // 'c'
-      Gerrit.KeyboardShortcutBehavior.disable('y');
-      MockInteractions.pressAndReleaseKeyOn(document.body, 100);  // 'd'
-      Gerrit.KeyboardShortcutBehavior.enable('x');
-      MockInteractions.pressAndReleaseKeyOn(document.body, 101);  // 'e'
-      Gerrit.KeyboardShortcutBehavior.enable('y');  // blocking ends here
-      MockInteractions.pressAndReleaseKeyOn(document.body, 102);  // 'f'
-      assert.deepEqual(element.log, [97, 98, 102]);
+    test('doesn’t block kb shortcuts for non-whitelisted els', function(done) {
+      var divEl = document.createElement('div');
+      element.appendChild(divEl);
+      element._handleKey = function(e) {
+        assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
+        done();
+      };
+      MockInteractions.keyDownOn(divEl, 75, null, 'k');
     });
+
+    test('blocks kb shortcuts for input els', function(done) {
+      var inputEl = document.createElement('input');
+      element.appendChild(inputEl);
+      element._handleKey = function(e) {
+        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+        done();
+      };
+      MockInteractions.keyDownOn(inputEl, 75, null, 'k');
+    });
+
+    test('blocks kb shortcuts for textarea els', function(done) {
+      var textareaEl = document.createElement('textarea');
+      element.appendChild(textareaEl);
+      element._handleKey = function(e) {
+        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+        done();
+      };
+      MockInteractions.keyDownOn(textareaEl, 75, null, 'k');
+    });
+
+    test('blocks kb shortcuts for anything in a gr-overlay', function(done) {
+      var divEl = document.createElement('div');
+      var element = overlay.querySelector('test-element');
+      element.appendChild(divEl);
+      element._handleKey = function(e) {
+        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+        done();
+      };
+      MockInteractions.keyDownOn(divEl, 75, null, 'k');
+    });
+
   });
 </script>

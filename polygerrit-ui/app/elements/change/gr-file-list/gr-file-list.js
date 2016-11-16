@@ -106,6 +106,22 @@
       Gerrit.URLEncodingBehavior,
     ],
 
+    keyBindings: {
+      'shift+left': '_handleShiftLeftKey',
+      'shift+right': '_handleShiftRightKey',
+      'i': '_handleIKey',
+      'shift+i': '_handleCapitalIKey',
+      'down j': '_handleDownKey',
+      'up k': '_handleUpKey',
+      'c': '_handleCKey',
+      '[': '_handleLeftBracketKey',
+      ']': '_handleRightBracketKey',
+      'o enter': '_handleEnterKey',
+      'n': '_handleNKey',
+      'p': '_handlePKey',
+      'shift+a': '_handleCapitalAKey',
+    },
+
     reload: function() {
       if (!this.changeNum || !this.patchRange.patchNum) {
         return Promise.resolve();
@@ -298,111 +314,135 @@
           });
     },
 
-    _handleKey: function(e) {
+    _handleShiftLeftKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      switch (e.keyCode) {
-        case 37: // left
-          if (e.shiftKey && this._showInlineDiffs) {
-            e.preventDefault();
-            this.$.cursor.moveLeft();
-          }
-          break;
-        case 39: // right
-          if (e.shiftKey && this._showInlineDiffs) {
-            e.preventDefault();
-            this.$.cursor.moveRight();
-          }
-          break;
-        case 73:  // 'i'
-          if (e.shiftKey) {
-            e.preventDefault();
-            this._toggleInlineDiffs();
-          } else if (this.selectedIndex !== undefined) {
-            e.preventDefault();
-            var expanded = this._files[this.selectedIndex].__expanded;
-            // Until Polymer 2.0, manual management of reflection between _files
-            // and _shownFiles is necessary.
-            this.set(['_shownFiles', this.selectedIndex, '__expanded'],
-                !expanded);
-            this.set(['_files', this.selectedIndex, '__expanded'], !expanded);
-          }
-          break;
-        case 40:  // down
-        case 74:  // 'j'
-          e.preventDefault();
-          if (this._showInlineDiffs) {
-            this.$.cursor.moveDown();
-          } else {
-            this.selectedIndex =
-                Math.min(this._numFilesShown, this.selectedIndex + 1);
-            this._scrollToSelectedFile();
-          }
-          break;
-        case 38:  // up
-        case 75:  // 'k'
-          e.preventDefault();
-          if (this._showInlineDiffs) {
-            this.$.cursor.moveUp();
-          } else {
-            this.selectedIndex = Math.max(0, this.selectedIndex - 1);
-            this._scrollToSelectedFile();
-          }
-          break;
-        case 67: // 'c'
-          var isRangeSelected = this.diffs.some(function(diff) {
-            return diff.isRangeSelected();
-          }, this);
-          if (this._showInlineDiffs && !isRangeSelected) {
-            e.preventDefault();
-            this._addDraftAtTarget();
-          }
-          break;
-        case 219:  // '['
-          e.preventDefault();
-          this._openSelectedFile(this._files.length - 1);
-          break;
-        case 221:  // ']'
-          e.preventDefault();
-          this._openSelectedFile(0);
-          break;
-        case 13:  // <enter>
-        case 79:  // 'o'
-          e.preventDefault();
-          if (this._showInlineDiffs) {
-            this._openCursorFile();
-          } else {
-            this._openSelectedFile();
-          }
-          break;
-        case 78:  // 'n'
-          if (this._showInlineDiffs) {
-            e.preventDefault();
-            if (e.shiftKey) {
-              this.$.cursor.moveToNextCommentThread();
-            } else {
-              this.$.cursor.moveToNextChunk();
-            }
-          }
-          break;
-        case 80:  // 'p'
-          if (this._showInlineDiffs) {
-            e.preventDefault();
-            if (e.shiftKey) {
-              this.$.cursor.moveToPreviousCommentThread();
-            } else {
-              this.$.cursor.moveToPreviousChunk();
-            }
-          }
-          break;
-        case 65:  // 'a'
-          if (e.shiftKey) { // Hide left diff.
-            e.preventDefault();
-            this._forEachDiff(function(diff) {
-              diff.toggleLeftDiff();
-            });
-          }
-          break;
+      if (!this._showInlineDiffs) { return; }
+
+      e.preventDefault();
+      this.$.cursor.moveLeft();
+    },
+
+    _handleShiftRightKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (!this._showInlineDiffs) { return; }
+
+      e.preventDefault();
+      this.$.cursor.moveRight();
+    },
+
+    _handleIKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.selectedIndex === undefined) { return; }
+
+      e.preventDefault();
+      var expanded = this._files[this.selectedIndex].__expanded;
+      // Until Polymer 2.0, manual management of reflection between _files
+      // and _shownFiles is necessary.
+      this.set(['_shownFiles', this.selectedIndex, '__expanded'],
+          !expanded);
+      this.set(['_files', this.selectedIndex, '__expanded'], !expanded);
+    },
+
+    _handleCapitalIKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._toggleInlineDiffs();
+    },
+
+    _handleDownKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      if (this._showInlineDiffs) {
+        this.$.cursor.moveDown();
+      } else {
+        this.selectedIndex =
+            Math.min(this._numFilesShown, this.selectedIndex + 1);
+        this._scrollToSelectedFile();
       }
+    },
+
+    _handleUpKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      if (this._showInlineDiffs) {
+        this.$.cursor.moveUp();
+      } else {
+        this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+        this._scrollToSelectedFile();
+      }
+    },
+
+    _handleCKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      var isRangeSelected = this.diffs.some(function(diff) {
+        return diff.isRangeSelected();
+      }, this);
+      if (this._showInlineDiffs && !isRangeSelected) {
+        e.preventDefault();
+        this._addDraftAtTarget();
+      }
+    },
+
+    _handleLeftBracketKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._openSelectedFile(this._files.length - 1);
+    },
+
+    _handleRightBracketKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._openSelectedFile(0);
+    },
+
+    _handleEnterKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      if (this._showInlineDiffs) {
+        this._openCursorFile();
+      } else {
+        this._openSelectedFile();
+      }
+    },
+
+    _handleNKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (!this._showInlineDiffs) { return; }
+
+      e.preventDefault();
+      if (e.shiftKey) {
+        this.$.cursor.moveToNextCommentThread();
+      } else {
+        this.$.cursor.moveToNextChunk();
+      }
+    },
+
+    _handlePKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (!this._showInlineDiffs) { return; }
+
+      e.preventDefault();
+      if (e.shiftKey) {
+        this.$.cursor.moveToPreviousCommentThread();
+      } else {
+        this.$.cursor.moveToPreviousChunk();
+      }
+    },
+
+    _handleCapitalAKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this._forEachDiff(function(diff) {
+        diff.toggleLeftDiff();
+      });
     },
 
     _toggleInlineDiffs: function() {

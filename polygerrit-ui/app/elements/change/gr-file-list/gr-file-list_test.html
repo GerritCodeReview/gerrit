@@ -155,7 +155,7 @@ limitations under the License.
             return [{toggleLeftDiff: toggleLeftDiffStub}];
           },
         });
-        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
+        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
         assert.isTrue(toggleLeftDiffStub.calledOnce);
         diffsStub.restore();
       });
@@ -168,25 +168,25 @@ limitations under the License.
         assert.isTrue(elementItems[0].hasAttribute('selected'));
         assert.isFalse(elementItems[1].hasAttribute('selected'));
         assert.isFalse(elementItems[2].hasAttribute('selected'));
-        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
+        MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
+        MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
         var showStub = sandbox.stub(page, 'show');
         assert.equal(element.selectedIndex, 2);
-        MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'ENTER'
+        MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
         assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
             'Should navigate to /c/42/2/myfile.txt');
 
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'O'
+        MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
         assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
             'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 0);
 
         showStub.restore();
@@ -194,23 +194,23 @@ limitations under the License.
 
       test('i key shows/hides selected inline diff', function() {
         element.selectedIndex = 0;
-        MockInteractions.pressAndReleaseKeyOn(element, 73);  // 'I'
+        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.isFalse(element.diffs[0].hasAttribute('hidden'));
-        MockInteractions.pressAndReleaseKeyOn(element, 73);  // 'I'
+        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.isTrue(element.diffs[0].hasAttribute('hidden'));
         element.selectedIndex = 1;
-        MockInteractions.pressAndReleaseKeyOn(element, 73);  // 'I'
+        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.isFalse(element.diffs[1].hasAttribute('hidden'));
 
-        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift');  // 'I'
+        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         for (var index in element.diffs) {
           assert.isFalse(element.diffs[index].hasAttribute('hidden'));
         }
-        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift');  // 'I'
+        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         for (var index in element.diffs) {
           assert.isTrue(element.diffs[index].hasAttribute('hidden'));

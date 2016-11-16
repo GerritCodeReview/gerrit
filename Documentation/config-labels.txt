@@ -230,6 +230,19 @@ accounts could lock the same change.
 Allowed range of values are 0 (Patch Set Unlocked) to 1 (Patch Set
 Locked).
 
+[[label_allowPostSubmit]]
+=== `label.Label-Name.allowPostSubmit`
+
+If true, the label may be voted on for changes that have already been
+submitted. If false, the label will not appear in the UI and will not
+be accepted when reviewing a closed change.
+
+In either case, voting on a label after submission is only permitted if
+the new vote is at least as high as the old vote by that user. This
+avoids creating the false impression that a post-submit vote can change
+the past and affect submission somehow.
+
+Defaults to true.
 
 [[label_copyMinScore]]
 === `label.Label-Name.copyMinScore`

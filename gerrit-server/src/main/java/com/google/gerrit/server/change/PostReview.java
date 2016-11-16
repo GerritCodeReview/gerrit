@@ -900,10 +900,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // make it possible to take a merged change and make it no longer
       // submittable.
       List<PatchSetApproval> reduced = new ArrayList<>(ups.size() + del.size());
+      List<String> disallowed =
+          new ArrayList<>(labelTypes.getLabelTypes().size());
       reduced.addAll(del);
       for (PatchSetApproval psa : ups) {
         LabelType lt = checkNotNull(labelTypes.byLabel(psa.getLabel()));
         String normName = lt.getName();
+        if (!lt.allowPostSubmit()) {
+          disallowed.add(normName);
+        }
         Short prev = previous.get(normName);
         if (prev == null) {
           continue;
@@ -918,6 +923,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
+      if (!disallowed.isEmpty()) {
+        throw new ResourceConflictException(
+            "Voting on labels disallowed after submit: "
+                + disallowed.stream().distinct().sorted()
+                    .collect(joining(", ")));
+      }
       if (!reduced.isEmpty()) {
         throw new ResourceConflictException(
             "Cannot reduce vote on labels for closed change: "

@@ -144,6 +144,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_DEFAULT_VALUE = "defaultValue";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
+  private static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   private static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE = "copyAllScoresOnMergeFirstParentUpdate";
   private static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
@@ -802,6 +803,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               KEY_DEFAULT_VALUE, dv, name)));
         }
       }
+      label.setAllowPostSubmit(
+          rc.getBoolean(LABEL, name, KEY_ALLOW_POST_SUBMIT,
+              LabelType.DEF_ALLOW_POST_SUBMIT));
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE,
               LabelType.DEF_COPY_MIN_SCORE));
@@ -1197,6 +1201,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       rc.setString(LABEL, name, KEY_FUNCTION, label.getFunctionName());
       rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
 
+      setBooleanConfigKey(rc, name, KEY_ALLOW_POST_SUBMIT, label.allowPostSubmit(),
+          LabelType.DEF_ALLOW_POST_SUBMIT);
       setBooleanConfigKey(rc, name, KEY_COPY_MIN_SCORE, label.isCopyMinScore(),
           LabelType.DEF_COPY_MIN_SCORE);
       setBooleanConfigKey(rc, name, KEY_COPY_MAX_SCORE, label.isCopyMaxScore(),

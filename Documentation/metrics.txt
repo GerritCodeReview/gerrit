@@ -86,6 +86,17 @@ of the process.
 * `notedb/auto_rebuild_failure_count`: NoteDb auto-rebuilding attempts that
 failed by table.
 
+=== Reviewer Suggestion
+
+* `reviewer_suggestion/query_accounts`: Latency for querying accounts for
+reviewer suggestion.
+* `reviewer_suggestion/recommend_accounts`: Latency for recommending accounts
+for reviewer suggestion.
+* `reviewer_suggestion/load_accounts`: Latency for loading accounts for
+reviewer suggestion.
+* `reviewer_suggestion/query_groups`: Latency for querying groups for reviewer
+suggestion.
+
 === Replication Plugin
 
 * `plugins/replication/replication_latency`: Time spent pushing to remote

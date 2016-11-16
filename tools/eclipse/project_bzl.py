@@ -158,6 +158,10 @@ def gen_classpath(ext):
          p.endswith('prolog/libcommon.jar'):
         lib.add(p)
     else:
+      # Don't mess up with Bazel internal test runner dependencies.
+      # When we use Eclipse we rely on it for running the tests
+      if p.endswith("external/bazel_tools/tools/jdk/TestRunner_deploy.jar"):
+        continue
       if p.startswith("external"):
         p = path.join(ext, p)
       lib.add(p)

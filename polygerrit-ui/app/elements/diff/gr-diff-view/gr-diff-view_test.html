@@ -62,7 +62,7 @@ limitations under the License.
 
     test('toggle left diff with a hotkey', function() {
       var toggleLeftDiffStub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
-      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
 
@@ -82,29 +82,29 @@ limitations under the License.
       element.changeViewState.selectedFileIndex = 1;
 
       var showStub = sandbox.stub(page, 'show');
-      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(showStub.lastCall.calledWithExactly('/c/42/'),
           'Should navigate to /c/42/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(showStub.lastCall.calledWithExactly('/c/42/10/wheatley.md'),
           'Should navigate to /c/42/10/wheatley.md');
       element._path = 'wheatley.md';
       assert.equal(element.changeViewState.selectedFileIndex, 2);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/10/glados.txt'),
           'Should navigate to /c/42/10/glados.txt');
       element._path = 'glados.txt';
       assert.equal(element.changeViewState.selectedFileIndex, 1);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/10/chell.go'),
           'Should navigate to /c/42/10/chell.go');
       element._path = 'chell.go';
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/'),
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
@@ -112,33 +112,33 @@ limitations under the License.
       var showPrefsStub = sandbox.stub(element.$.prefsOverlay, 'open',
           function() { return Promise.resolve({}); });
 
-      MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
+      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
 
       var scrollStub = sandbox.stub(element.$.cursor, 'moveToNextChunk');
-      MockInteractions.pressAndReleaseKeyOn(element, 78);  // 'n'
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
       assert(scrollStub.calledOnce);
 
       scrollStub = sandbox.stub(element.$.cursor, 'moveToPreviousChunk');
-      MockInteractions.pressAndReleaseKeyOn(element, 80);  // 'p'
+      MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
       assert(scrollStub.calledOnce);
 
       scrollStub = sandbox.stub(element.$.cursor, 'moveToNextCommentThread');
-      MockInteractions.pressAndReleaseKeyOn(element, 78, ['shift']);  // 'N'
+      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
       assert(scrollStub.calledOnce);
 
       scrollStub = sandbox.stub(element.$.cursor,
           'moveToPreviousCommentThread');
-      MockInteractions.pressAndReleaseKeyOn(element, 80, ['shift']);  // 'P'
+      MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
       assert(scrollStub.calledOnce);
 
       var computeContainerClassStub = sandbox.stub(element.$.diff,
           '_computeContainerClass');
-      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
           false, 'SIDE_BY_SIDE', true));
 
-      MockInteractions.pressAndReleaseKeyOn(element, 27);  // 'escape'
+      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
           false, 'SIDE_BY_SIDE', false));
     });
@@ -175,39 +175,39 @@ limitations under the License.
 
       var showStub = sandbox.stub(page, 'show');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
           'only work when the user is logged in.');
       assert.isNull(window.sessionStorage.getItem(
           'changeView.showReplyDialog'));
 
       element._loggedIn = true;
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(element.changeViewState.showReplyDialog);
 
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
           'Should navigate to /c/42/5..10');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
           'Should navigate to /c/42/5..10');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10/wheatley.md'),
           'Should navigate to /c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10/glados.txt'),
           'Should navigate to /c/42/5..10/glados.txt');
       element._path = 'glados.txt';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10/chell.go'),
           'Should navigate to /c/42/5..10/chell.go');
       element._path = 'chell.go';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
           'Should navigate to /c/42/5..10');
     });
@@ -229,39 +229,39 @@ limitations under the License.
 
       var showStub = sandbox.stub(page, 'show');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
           'only work when the user is logged in.');
       assert.isNull(window.sessionStorage.getItem(
           'changeView.showReplyDialog'));
 
       element._loggedIn = true;
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(element.changeViewState.showReplyDialog);
 
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
           'Should navigate to /c/42/1/wheatley.md');
       element._path = 'wheatley.md';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
           'Should navigate to /c/42/1/glados.txt');
       element._path = 'glados.txt';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
           'Should navigate to /c/42/1/chell.go');
       element._path = 'chell.go';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
     });
@@ -278,39 +278,39 @@ limitations under the License.
 
       var showStub = sandbox.stub(page, 'show');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
           'only work when the user is logged in.');
       assert.isNull(window.sessionStorage.getItem(
           'changeView.showReplyDialog'));
 
       element._loggedIn = true;
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(element.changeViewState.showReplyDialog);
 
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
+      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
           'Should navigate to /c/42/1/wheatley.md');
       element._path = 'wheatley.md';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
           'Should navigate to /c/42/1/glados.txt');
       element._path = 'glados.txt';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
           'Should navigate to /c/42/1/chell.go');
       element._path = 'chell.go';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(showStub.lastCall.calledWithExactly('/c/42/1'),
           'Should navigate to /c/42/1');
     });
@@ -457,7 +457,6 @@ limitations under the License.
     test('diff mode selector correctly toggles the diff', function() {
       var select = element.$.modeSelect;
       var diffDisplay = element.$.diff;
-      var blurSpy = sandbox.spy(select, 'blur');
       element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
 
       // The mode selected in the view state reflects the selected option.
@@ -477,7 +476,6 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), newMode);
       assert.equal(element._getDiffViewMode(), select.value);
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
-      assert(blurSpy.called, 'select should be blurred after selection');
     });
 
     test('diff mode selector initializes from preferences', function() {
@@ -555,14 +553,6 @@ limitations under the License.
       element._loadHash('a123');
       assert.equal(element.$.cursor.initialLineNumber, 123);
       assert.equal(element.$.cursor.side, 'left');
-    });
-
-    test('_checkForModifiers', function() {
-      assert.isTrue(element._checkForModifiers({altKey: true}));
-      assert.isTrue(element._checkForModifiers({ctrlKey: true}));
-      assert.isTrue(element._checkForModifiers({metaKey: true}));
-      assert.isTrue(element._checkForModifiers({shiftKey: true}));
-      assert.isFalse(element._checkForModifiers({}));
     });
 
     test('_shortenPath with long path should add ellipsis', function() {

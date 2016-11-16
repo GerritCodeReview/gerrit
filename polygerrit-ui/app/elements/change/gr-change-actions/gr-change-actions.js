@@ -74,6 +74,8 @@
         },
       },
       changeNum: String,
+      changeStatus: String,
+      commitNum: String,
       patchNum: String,
       commitMessage: {
         type: String,

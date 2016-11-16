@@ -98,7 +98,9 @@ limitations under the License.
           hidden></gr-confirm-rebase-dialog>
       <gr-confirm-cherrypick-dialog id="confirmCherrypick"
           class="confirmDialog"
-          message="[[commitMessage]]"
+          change-status="[[changeStatus]]"
+          commit-message="[[commitMessage]]"
+          commit-num="[[commitNum]]"
           on-confirm="_handleCherrypickConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-cherrypick-dialog>

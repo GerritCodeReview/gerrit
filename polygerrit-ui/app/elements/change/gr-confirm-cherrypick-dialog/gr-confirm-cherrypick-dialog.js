@@ -31,7 +31,22 @@
 
     properties: {
       branch: String,
-      message: String,
+      changeStatus: String,
+      commitMessage: String,
+      commitNum: String,
+      _message: {
+        type: String,
+        computed: '_computeMessage(changeStatus, commitNum, commitMessage)',
+      },
+    },
+
+    _computeMessage: function(changeStatus, commitNum, commitMessage) {
+      var newMessage = commitMessage;
+
+      if (changeStatus === 'MERGED') {
+        newMessage += '(cherry picked from commit ' + commitNum + ')';
+      }
+      return newMessage;
     },
 
     _handleConfirmTap: function(e) {

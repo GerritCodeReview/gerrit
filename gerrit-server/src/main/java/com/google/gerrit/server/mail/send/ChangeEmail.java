@@ -156,12 +156,15 @@ public abstract class ChangeEmail extends NotificationEmail {
       }
     }
 
-    if (patchSet != null && patchSetInfo == null) {
-      try {
-        patchSetInfo = args.patchSetInfoFactory.get(
-            args.db.get(), changeData.notes(), patchSet.getId());
-      } catch (PatchSetInfoNotAvailableException | OrmException err) {
-        patchSetInfo = null;
+    if (patchSet != null) {
+      setHeader("X-Gerrit-PatchSet", patchSet.getPatchSetId() + "");
+      if (patchSetInfo == null) {
+        try {
+          patchSetInfo = args.patchSetInfoFactory.get(
+              args.db.get(), changeData.notes(), patchSet.getId());
+        } catch (PatchSetInfoNotAvailableException | OrmException err) {
+          patchSetInfo = null;
+        }
       }
     }
     authors = getAuthors();

@@ -16,6 +16,24 @@
       "revId": "d61a3a18b5d317e0dac442e8946a3d21578465e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0847825_8a7e4b1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-17T22:42:07Z",
+      "side": 1,
+      "message": "Fixed by:\n\n  https://gerrit-review.googlesource.com/91792",
+      "parentUuid": "70a120aa_3014e8ba",
+      "revId": "d61a3a18b5d317e0dac442e8946a3d21578465e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

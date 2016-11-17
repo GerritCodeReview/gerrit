@@ -270,7 +270,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       throws IntegrationException {
     try {
       return new RebaseSorter(
-          args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
+          args.rw, args.alreadyAccepted, args.canMergeFlag, args.internalChangeQuery).sort(toSort);
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);
     }

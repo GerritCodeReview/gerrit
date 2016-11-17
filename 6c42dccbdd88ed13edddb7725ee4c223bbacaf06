@@ -147,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_d52c7c0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-17T19:24:31Z",
+      "side": 1,
+      "message": "Agreed with Kasper, this sounds like YAGNI. The only advantage of having it in the extension API is if you would want to pass a PutDescriptionInput to an extension API method. But as with topic, I don\u0027t see this class acquiring any fields beyond the String.",
+      "parentUuid": "10c70467_b5a9c05b",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_cd64a13c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 5

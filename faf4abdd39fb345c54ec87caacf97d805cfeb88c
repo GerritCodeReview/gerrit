@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_35977029",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-17T18:05:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a120aa_3070684a",
+      "revId": "faf4abdd39fb345c54ec87caacf97d805cfeb88c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b05ab866_dabda567",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2016-11-17T17:34:40Z",
       "side": 1,
       "message": "The current labels are only needed if the change is merged. Maybe we should not request them for open changes?",
+      "revId": "faf4abdd39fb345c54ec87caacf97d805cfeb88c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_f585f8ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-17T18:05:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b05ab866_dabda567",
       "revId": "faf4abdd39fb345c54ec87caacf97d805cfeb88c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

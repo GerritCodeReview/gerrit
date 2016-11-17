@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -24,7 +25,10 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.testutil.FakeEmailSender;
+import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -38,6 +42,20 @@ import java.util.Map;
 
 /** Tests the presence of required metadata in email headers, text and html. */
 public class MailMetadataIT extends AbstractDaemonTest {
+  private String systemTimeZone;
+
+  @Before
+  public void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
+    System.setProperty("user.timezone", systemTimeZone);
+  }
+
   @Test
   public void metadataOnNewChange() throws Exception {
     PushOneCommit.Result newChange = createChange();

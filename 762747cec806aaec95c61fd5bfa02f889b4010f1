@@ -22,6 +22,30 @@
       "revId": "762747cec806aaec95c61fd5bfa02f889b4010f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_4bca6d08",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-17T16:19:35Z",
+      "side": 1,
+      "message": "It works for me in Eclipse.  I tested by adding an @Override annotated method with the same name in LuceneQueryChangesTest that calls this and then explicitly executing that test.\n\nLater today I\u0027ll also try running it as part of the full test suite.",
+      "parentUuid": "b05ab866_da2e45e8",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 4
+      },
+      "revId": "762747cec806aaec95c61fd5bfa02f889b4010f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

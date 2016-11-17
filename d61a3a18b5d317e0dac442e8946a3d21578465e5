@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_3014e8ba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-17T19:44:52Z",
+      "side": 1,
+      "message": "Just got this when running the tests with NoteDb. I also could reproduce when running the test again.\n\nFAILURE com.google.gerrit.acceptance.server.mail.MailMetadataIT metadataOnNewComment: Not true that \u003c{X-Gerrit-PatchSet\u003dString{1}, Date\u003dDate{Thu Nov 17 11:38:23 PST 2016}, From\u003dAddressList{[\"Administrator (Code Review)\" \u003cekempin@dhcp-100-99-171-203.mtv.corp.google.com\u003e]}, To\u003dAddressList{[]}, CC\u003dAddressList{[User \u003cuser@example.com\u003e]}, Message-ID\u003dString{}, Reply-To\u003dString{admin@example.com}, X-Gerrit-MessageType\u003dString{comment}, List-Id\u003dString{\u003cgerrit-com.google.gerrit.acceptance.server.mail.MailMetadataIT_metadataOnNewComment_project.localhost\u003e}, List-Unsubscribe\u003dString{\u003chttp://localhost:57685/settings\u003e}, Subject\u003dString{Change in com.google.gerrit.acceptance.server.mail.MailMetadataIT_metadataOnNewComment_project[master]: test commit}, X-Gerrit-Change-Id\u003dString{I6fed98fed9a9a4da25d2b806842c82c5ac83c10f}, X-Gerrit-ChangeURL\u003dString{\u003chttp://localhost:57685/2\u003e}, X-Gerrit-Commit\u003dString{87c9a56c5887d6156fab75dfbd8290b6db160383}, In-Reply-To\u003dString{\u003cgerrit.1479411502000.I6fed98fed9a9a4da25d2b806842c82c5ac83c10f@localhost\u003e}, References\u003dString{\u003cgerrit.1479411502000.I6fed98fed9a9a4da25d2b806842c82c5ac83c10f@localhost\u003e}, X-Gerrit-Comment-Date\u003dDate{2016-11-17 11:38:23.108}}\u003e contains entry \u003cX-Gerrit-Comment-Date\u003dDate{2016-11-17 11:38:23.0}\u003e. However, it has a mapping from \u003cX-Gerrit-Comment-Date\u003e to \u003cDate{2016-11-17 11:38:23.108}\u003e",
+      "revId": "d61a3a18b5d317e0dac442e8946a3d21578465e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

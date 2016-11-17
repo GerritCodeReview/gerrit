@@ -71,6 +71,8 @@ public interface RevisionApi {
   CommentApi comment(String id) throws RestApiException;
   RobotCommentApi robotComment(String id) throws RestApiException;
 
+  String etag()  throws RestApiException;
+
   /**
    * Returns patch of revision.
    */
@@ -294,6 +296,11 @@ public interface RevisionApi {
 
     @Override
     public String description() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String etag() throws RestApiException {
       throw new NotImplementedException();
     }
   }

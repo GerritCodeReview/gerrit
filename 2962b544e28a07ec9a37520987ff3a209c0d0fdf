@@ -16,6 +16,24 @@
       "revId": "2962b544e28a07ec9a37520987ff3a209c0d0fdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_b5062084",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T20:37:38Z",
+      "side": 1,
+      "message": "Yup, I think in this case I can get rid of it.",
+      "parentUuid": "b031d818_2b972929",
+      "revId": "2962b544e28a07ec9a37520987ff3a209c0d0fdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

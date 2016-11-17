@@ -22,6 +22,24 @@
       "revId": "7959720c7936e3aa71c28dbe856e1020c3d8a093",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d091ec62_6b7a012c",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-17T19:02:43Z",
+      "side": 0,
+      "message": "It was only used by gr-overlay, which is covered in this change as well, so I removed it.",
+      "parentUuid": "70a120aa_707af02b",
+      "revId": "7959720c7936e3aa71c28dbe856e1020c3d8a093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

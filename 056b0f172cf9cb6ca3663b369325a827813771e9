@@ -49,6 +49,23 @@
       "parentUuid": "70a120aa_10f60471",
       "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "10c70467_b54d40e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Nov 17, 2016 12:33:57 PM",
+      "side": 1,
+      "message": "No, that will only populate incoming commits, not the commit under it i.e. commits from the walk. \n\nWe only will reach there when this is missing dependency of the commit we are trying to submit. \n\nTo make sure it be called once, I should change the following code to fail fast. (if we found one missing dependency, why we need continue to walk down the tree and find all missing dependencies.)",
+      "parentUuid": "10c70467_756c8844",
+      "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

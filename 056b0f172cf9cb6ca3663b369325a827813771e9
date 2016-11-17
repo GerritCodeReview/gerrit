@@ -66,6 +66,23 @@
       "parentUuid": "10c70467_756c8844",
       "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "10c70467_b534603c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Nov 17, 2016 1:27:39 PM",
+      "side": 1,
+      "message": "Alternatively, we can get rid of RebaseSorter, and change MergeSuperSet.byCommitsOnBranchNotMerged to MergeSuperSet.byCommitsOnBranch. That is the place cause parent merged commits in RebaseSubmitStrategy not showed up in incoming commits.",
+      "parentUuid": "10c70467_b54d40e4",
+      "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

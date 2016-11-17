@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -111,12 +112,18 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchFile() throws Exception {
-    // watch file in project
     String watchedProject = createProject("watchedProject").get();
+    String otherWatchedProject = createProject("otherWatchedProject").get();
     setApiUser(user);
+
+    // watch file in project as user
     watch(watchedProject, "file:a.txt");
 
-    // push a change to watched file -> should trigger email notification
+    // watch other project as user
+    watch(otherWatchedProject, null);
+
+    // push a change to watched file -> should trigger email notification for
+    // user
     setApiUser(admin);
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
@@ -125,18 +132,32 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         .to("refs/for/master");
     r.assertOkStatus();
 
-    // push a change to non-watched file -> should not trigger email
-    // notification
-    r = pushFactory.create(db, admin.getIdent(), testRepo,
-        "DONT_TRIGGER", "b.txt", "b1").to("refs/for/master");
-    r.assertOkStatus();
-
-    // assert email notification
+    // assert email notification for user
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
+
+    // watch project as user2
+    TestAccount user2 = accounts.create("user2", "user2@test.com", "User2");
+    setApiUser(user2);
+    watch(watchedProject, null);
+
+    // push a change to non-watched file -> should not trigger email
+    // notification for user, only for user2
+    r = pushFactory.create(db, admin.getIdent(), watchedRepo,
+        "TRIGGER_USER2", "b.txt", "b1").to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification
+    messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user2.emailAddress);
+    assertThat(m.body()).contains("Change subject: TRIGGER_USER2\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
 

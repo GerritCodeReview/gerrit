@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.reviewdb.client.Comment;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TextParserTest extends AbstractParserTest {
@@ -34,8 +33,6 @@ public class TextParserTest extends AbstractParserTest {
       "> Gerrit-Branch: master\n" +
       "> Gerrit-Owner: Foo Bar <foo@bar.com>\n" +
       "> Gerrit-HasComments: Yes";
-  private static final String changeURL =
-      "https://gerrit-review.googlesource.com/#/changes/123";
 
   @Test
   public void simpleChangeMessage() {
@@ -217,14 +214,5 @@ public class TextParserTest extends AbstractParserTest {
         "> PS1, Line 3: E\n" +
         "> Should this be EEE like in other places?\n" +
         (c3 == null ? "" : c3 + "\n");
-  }
-
-  private List<Comment> defaultComments() {
-    List<Comment> comments = new ArrayList<>();
-    comments.add(newComment("c1", "gerrit-server/test.txt", "comment", 0));
-    comments.add(newComment("c2", "gerrit-server/test.txt", "comment", 2));
-    comments.add(newComment("c3", "gerrit-server/test.txt", "comment", 3));
-    comments.add(newComment("c4", "gerrit-server/readme.txt", "comment", 3));
-    return comments;
   }
 }

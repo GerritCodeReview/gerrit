@@ -347,9 +347,11 @@ public abstract class VersionedMetaData {
           case FORCED:
             update.fireGitRefUpdatedEvent(ru);
             return;
+          case LOCK_FAILURE:
+            throw new LockFailureException("Cannot delete " + ru.getName()
+                + " in " + db.getDirectory() + ": " + ru.getResult());
           case FAST_FORWARD:
           case IO_FAILURE:
-          case LOCK_FAILURE:
           case NEW:
           case NOT_ATTEMPTED:
           case NO_CHANGE:
@@ -424,9 +426,11 @@ public abstract class VersionedMetaData {
             revision = rw.parseCommit(ru.getNewObjectId());
             update.fireGitRefUpdatedEvent(ru);
             return revision;
+          case LOCK_FAILURE:
+            throw new LockFailureException("Cannot update " + ru.getName()
+                + " in " + db.getDirectory() + ": " + ru.getResult());
           case FORCED:
           case IO_FAILURE:
-          case LOCK_FAILURE:
           case NOT_ATTEMPTED:
           case NO_CHANGE:
           case REJECTED:

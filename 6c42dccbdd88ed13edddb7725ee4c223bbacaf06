@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_95acc46c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T18:49:10Z",
+      "side": 1,
+      "message": "Most of this file is boilerplate repurposed from PutTopic.java, and this is the approach taken in that file.\n\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java#29\n\nShould I instead be referencing it as PutDescription.Input?",
+      "parentUuid": "f0a51083_0d7b99e0",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_2d80d591",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 5
@@ -105,6 +123,24 @@
         "endLine": 54,
         "endChar": 3
       },
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_b5a9c05b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T18:49:10Z",
+      "side": 1,
+      "message": "Why is that? This Input class is only referenced within this file.",
+      "parentUuid": "f0a51083_2d80d591",
       "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

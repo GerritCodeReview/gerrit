@@ -15,6 +15,23 @@
       "message": "I would *strongly* prefer you do not make arbitrary many index calls in a tight loop like this.",
       "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_10f60471",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Nov 17, 2016 12:19:49 PM",
+      "side": 1,
+      "message": "More to the point, isn\u0027t MergeOp supposed to prepopulate the change info? That\u0027s the whole point of using CodeReviewCommit here.",
+      "parentUuid": "10c70467_35621052",
+      "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

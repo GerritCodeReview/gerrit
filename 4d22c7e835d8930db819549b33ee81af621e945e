@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_9564c43b",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-17T23:51:41Z",
+      "side": 1,
+      "message": "A behavior can be an array of behaviors. That\u0027s very cool.",
+      "range": {
+        "startLine": 38,
+        "startChar": 43,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "4d22c7e835d8930db819549b33ee81af621e945e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

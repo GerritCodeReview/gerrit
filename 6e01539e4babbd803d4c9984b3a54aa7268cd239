@@ -47,6 +47,30 @@
       "revId": "6e01539e4babbd803d4c9984b3a54aa7268cd239",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bfd0bf_94a5a488",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-17T23:02:56Z",
+      "side": 1,
+      "message": "Looking at this a bit more closely, we don\u0027t use it in the same way consistently everywhere, so it might not be as easy as I thought to factor it out.",
+      "parentUuid": "b0847825_ea8507f0",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "6e01539e4babbd803d4c9984b3a54aa7268cd239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,13 +96,21 @@ public class ChangeArgumentParser {
   }
 
   private List<ChangeControl> changeFromNotesFactory(String id, CurrentUser currentUser)
-      throws OrmException {
-    return changeNotesFactory.create(db, Arrays.asList(Change.Id.parse(id)))
+      throws OrmException, UnloggedFailure {
+    return changeNotesFactory.create(db, parseId(id))
         .stream()
         .map(changeNote -> controlForChange(changeNote, currentUser))
         .filter(changeControl -> changeControl.isPresent())
         .map(changeControl -> changeControl.get())
         .collect(toList());
+  }
+
+  private List<Change.Id> parseId(String id) throws UnloggedFailure {
+    try {
+    return Arrays.asList(new Change.Id(Integer.parseInt(id)));
+    } catch (NumberFormatException e) {
+      throw new UnloggedFailure(2, "Invalid change ID " + id, e);
+    }
   }
 
   private Optional<ChangeControl> controlForChange(ChangeNotes change, CurrentUser user) {

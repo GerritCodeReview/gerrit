@@ -57,6 +57,10 @@
       '_commentsChanged(comments.splices)',
     ],
 
+    keyBindings: {
+      'e shift+e': '_handleEKey',
+    },
+
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._showActions = loggedIn;
@@ -88,12 +92,12 @@
       this._orderedComments = this._sortedComments(this.comments);
     },
 
-    _handleKey: function(e) {
+    _handleEKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (e.keyCode === 69) { // 'e'
-        e.preventDefault();
-        this._expandCollapseComments(e.shiftKey);
-      }
+
+      // Don’t preventDefault in this case because it will render the event
+      // useless for other handlers (other gr-diff-comment-thread elements).
+      this._expandCollapseComments(e.detail.keyboardEvent.shiftKey);
     },
 
     _expandCollapseComments: function(actionIsCollapse) {

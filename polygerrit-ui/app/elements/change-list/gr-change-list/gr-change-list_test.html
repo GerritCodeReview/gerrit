@@ -131,25 +131,25 @@ limitations under the License.
 
       flush(function() {
         assert.isTrue(elementItems[0].selected);
-        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+        MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+        MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
         var showStub = sinon.stub(page, 'show');
         assert.equal(element.selectedIndex, 2);
-        MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+        MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
         assert(showStub.lastCall.calledWithExactly('/c/2/'),
             'Should navigate to /c/2/');
 
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+        MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
         assert(showStub.lastCall.calledWithExactly('/c/1/'),
             'Should navigate to /c/1/');
 
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+        MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 0);
 
         showStub.restore();

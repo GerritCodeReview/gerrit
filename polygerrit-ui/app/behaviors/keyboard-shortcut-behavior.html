@@ -14,69 +14,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+
 <script>
 (function(window) {
   'use strict';
 
-  /** @polymerBehavior Gerrit.KeyboardShortcutBehavior */
-  var KeyboardShortcutBehavior = {
-    // Set of identifiers currently blocking keyboard shortcuts. Stored as
-    // a map of string to the value of true.
-    _disablers: {},
-
-    properties: {
-      keyEventTarget: {
-        type: Object,
-        value: function() { return this; },
-      },
-
-      _boundKeyHandler: {
-        type: Function,
-        readonly: true,
-        value: function() { return this._handleKey.bind(this); },
-      },
-    },
-
-    attached: function() {
-      this.keyEventTarget.addEventListener('keydown', this._boundKeyHandler);
-    },
-
-    detached: function() {
-      this.keyEventTarget.removeEventListener('keydown', this._boundKeyHandler);
-    },
-
+  var KeyboardShortcutBehaviorImpl = {
     shouldSuppressKeyboardShortcut: function(e) {
-      for (var c in KeyboardShortcutBehavior._disablers) {
-        if (KeyboardShortcutBehavior._disablers[c] === true) {
-          return true;
-        }
+      e = Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
+      if (e.path[0].tagName === 'INPUT' || e.path[0].tagName === 'TEXTAREA') {
+        return true;
       }
-      var getModifierState = e.getModifierState ?
-          e.getModifierState.bind(e) :
-          function() { return false; };
-      var target = e.detail ? e.detail.keyboardEvent : e.target;
-      return getModifierState('Control') ||
-             getModifierState('Alt') ||
-             getModifierState('Meta') ||
-             getModifierState('Fn') ||
-             target.tagName == 'INPUT' ||
-             target.tagName == 'TEXTAREA' ||
-             target.tagName == 'SELECT' ||
-             target.tagName == 'BUTTON' ||
-             target.tagName == 'A' ||
-             target.tagName == 'GR-BUTTON';
-    },
-
-    disable: function(id) {
-      KeyboardShortcutBehavior._disablers[id] = true;
-    },
-
-    enable: function(id) {
-      delete KeyboardShortcutBehavior._disablers[id];
+      for (var i = 0; i < e.path.length; i++) {
+        if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
+      }
+      return false;
     },
   };
 
   window.Gerrit = window.Gerrit || {};
-  window.Gerrit.KeyboardShortcutBehavior = KeyboardShortcutBehavior;
+  /** @polymerBehavior Gerrit.KeyboardShortcutBehavior */
+  window.Gerrit.KeyboardShortcutBehavior = [
+    Polymer.IronA11yKeysBehavior,
+    KeyboardShortcutBehaviorImpl,
+  ];
 })(window);
 </script>

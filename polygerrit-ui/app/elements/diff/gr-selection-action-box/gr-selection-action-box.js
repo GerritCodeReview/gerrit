@@ -51,6 +51,10 @@
       'mousedown': '_handleMouseDown', // See https://crbug.com/gerrit/4767
     },
 
+    keyBindings: {
+      'c': '_handleCKey',
+    },
+
     placeAbove: function(el) {
       var rect = this._getTargetBoundingRect(el);
       var boxRect = this.getBoundingClientRect();
@@ -74,17 +78,11 @@
       return rect;
     },
 
-    _checkForModifiers: function(e) {
-      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || false;
-    },
-
-    _handleKey: function(e) {
+    _handleCKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (e.keyCode === 67) { // 'c'
-        if (this._checkForModifiers(e)) { return; }
-        e.preventDefault();
-        this._fireCreateComment();
-      }
+
+      e.preventDefault();
+      this._fireCreateComment();
     },
 
     _handleMouseDown: function(e) {

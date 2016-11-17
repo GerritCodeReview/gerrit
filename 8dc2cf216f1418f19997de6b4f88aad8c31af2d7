@@ -16,6 +16,24 @@
       "revId": "8dc2cf216f1418f19997de6b4f88aad8c31af2d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_eb2ee1e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T04:28:22Z",
+      "side": 0,
+      "message": "No, there is one.\nIt had two line breaks previously, right now the file ends with single \\n",
+      "parentUuid": "b031d818_4b442dba",
+      "revId": "8dc2cf216f1418f19997de6b4f88aad8c31af2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

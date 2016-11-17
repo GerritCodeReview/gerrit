@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_cb379d3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T04:28:22Z",
+      "side": 1,
+      "message": "Nope.\nFor initial load, gr-change-view does $.actions.reload() only if it\u0027s not the current patchset, ie /c/n/m\nIn which case this is WAI since actions for a revision potentially can differ from most recent revision.",
+      "parentUuid": "b031d818_8b3e351e",
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_0b5b45a0",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 687,
         "endChar": 18
       },
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_ab34d93b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T04:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_0b5b45a0",
       "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "b031d818_0b32254e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T04:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_eb570170",
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_2b49e9d1",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -88,6 +142,24 @@
         "endLine": 394,
         "endChar": 42
       },
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a51083_2dc9b50f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T04:28:22Z",
+      "side": 1,
+      "message": "But wait, there\u0027s more!\n(sorted alphabetically)",
+      "parentUuid": "b031d818_2b49e9d1",
       "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

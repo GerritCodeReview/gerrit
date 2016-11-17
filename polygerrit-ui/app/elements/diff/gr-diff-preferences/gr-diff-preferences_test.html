@@ -45,6 +45,7 @@ limitations under the License.
         line_length: 100,
         show_tabs: true,
         tab_size: 8,
+        show_whitespace_errors: true,
         syntax_highlighting: true,
       };
       assert.deepEqual(element.prefs, element._newPrefs);
@@ -55,6 +56,7 @@ limitations under the License.
       element.$.fontSizeInput.bindValue = 10;
       element.$.tabSizeInput.bindValue = 4;
       MockInteractions.tap(element.$.showTabsInput);
+      MockInteractions.tap(element.$.showTrailingWhitespaceInput);
       MockInteractions.tap(element.$.syntaxHighlightInput);
       MockInteractions.tap(element.$.lineWrappingInput);
 
@@ -63,6 +65,7 @@ limitations under the License.
       assert.equal(element._newPrefs.line_length, 80);
       assert.equal(element._newPrefs.tab_size, 4);
       assert.isFalse(element._newPrefs.show_tabs);
+      assert.isFalse(element._newPrefs.show_whitespace_errors);
       assert.isTrue(element._newPrefs.line_wrapping);
       assert.isFalse(element._newPrefs.syntax_highlighting);
     });

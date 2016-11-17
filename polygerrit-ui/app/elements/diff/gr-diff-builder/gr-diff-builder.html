@@ -62,6 +62,8 @@ limitations under the License.
       // syntax highlighting for the entire file.
       var SYNTAX_MAX_LINE_LENGTH = 500;
 
+      var TRAILING_WHITESPACE_PATTERN = /\s+$/;
+
       Polymer({
         is: 'gr-diff-builder',
 
@@ -101,6 +103,7 @@ limitations under the License.
         attached: function() {
           // Setup annotation layers.
           this._layers = [
+            this._createTrailingWhitespaceLayer(),
             this.$.syntaxLayer,
             this._createIntralineLayer(),
             this._createTabIndicatorLayer(),
@@ -115,6 +118,7 @@ limitations under the License.
         render: function(comments, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
           this._showTabs = !!prefs.show_tabs;
+          this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
 
           // Stop the processor (if it's running).
           this.$.processor.cancel();
@@ -323,8 +327,6 @@ limitations under the License.
 
         _createIntralineLayer: function() {
           return {
-            addListener: function() {},
-
             // Take a DIV.contentText element and a line object with intraline
             // differences to highlight and apply them to the element as
             // annotations.
@@ -351,9 +353,8 @@ limitations under the License.
         },
 
         _createTabIndicatorLayer: function() {
-          var show = (function() { return this._showTabs; }).bind(this);
+          var show = function() { return this._showTabs; }.bind(this);
           return {
-            addListener: function() {},
             annotate: function(el, line) {
               // If visible tabs are disabled, do nothing.
               if (!show()) { return; }
@@ -370,6 +371,29 @@ limitations under the License.
 
                 // Skip forward by one tab character.
                 pos++;
+              }
+            },
+          };
+        },
+
+        _createTrailingWhitespaceLayer: function() {
+          var show = function() {
+            return this._showTrailingWhitespace;
+          }.bind(this);
+
+          return {
+            annotate: function(el, line) {
+              if (!show()) { return; }
+
+              var match = line.text.match(TRAILING_WHITESPACE_PATTERN);
+              if (match) {
+                // Normalize string positions in case there is unicode before or
+                // within the match.
+                var index = GrAnnotation.getStringLength(
+                    line.text.substr(0, match.index));
+                var length = GrAnnotation.getStringLength(match[0]);
+                GrAnnotation.annotateElement(el, index, length,
+                    'style-scope gr-diff trailing-whitespace');
               }
             },
           };

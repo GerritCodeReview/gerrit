@@ -558,6 +558,100 @@ limitations under the License.
       });
     });
 
+    suite('trailing whitespace', function() {
+      var sandbox;
+      var element;
+      var layer;
+
+      setup(function() {
+        sandbox = sinon.sandbox.create();
+        element = fixture('basic');
+        element._showTrailingWhitespace = true;
+        layer = element._createTrailingWhitespaceLayer();
+      });
+
+      teardown(function() {
+        sandbox.restore();
+      });
+
+      test('does nothing with empty line', function() {
+        var line = {text: ''};
+        var el = document.createElement('div');
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        layer.annotate(el, line);
+        assert.isFalse(annotateElementStub.called);
+      });
+
+      test('does nothing with no trailing whitespace', function() {
+        var str = 'lorem ipsum blah blah';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        layer.annotate(el, line);
+        assert.isFalse(annotateElementStub.called);
+      });
+
+      test('annotates trailing spaces', function() {
+        var str = 'lorem ipsum   ';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        layer.annotate(el, line);
+        assert.isTrue(annotateElementStub.called);
+        assert.equal(annotateElementStub.lastCall.args[1], 11);
+        assert.equal(annotateElementStub.lastCall.args[2], 3);
+      });
+
+      test('annotates trailing tabs', function() {
+        var str = 'lorem ipsum\t\t\t';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        layer.annotate(el, line);
+        assert.isTrue(annotateElementStub.called);
+        assert.equal(annotateElementStub.lastCall.args[1], 11);
+        assert.equal(annotateElementStub.lastCall.args[2], 3);
+      });
+
+      test('annotates mixed trailing whitespace', function() {
+        var str = 'lorem ipsum\t \t';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        layer.annotate(el, line);
+        assert.isTrue(annotateElementStub.called);
+        assert.equal(annotateElementStub.lastCall.args[1], 11);
+        assert.equal(annotateElementStub.lastCall.args[2], 3);
+      });
+
+      test('unicode preceding trailing whitespace', function() {
+        var str = '💢\t';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        layer.annotate(el, line);
+        assert.isTrue(annotateElementStub.called);
+        assert.equal(annotateElementStub.lastCall.args[1], 1);
+        assert.equal(annotateElementStub.lastCall.args[2], 1);
+      });
+
+      test('does not annotate when disabled', function() {
+        element._showTrailingWhitespace = false;
+        var str = 'lorem upsum\t \t ';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        layer.annotate(el, line);
+        assert.isFalse(annotateElementStub.called);
+      });
+    });
+
     suite('rendering', function() {
       var content;
       var outputEl;

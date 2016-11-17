@@ -29,7 +29,9 @@
     this.layers = layers || [];
 
     this.layers.forEach(function(layer) {
-      layer.addListener(this._handleLayerUpdate.bind(this));
+      if (layer.addListener) {
+        layer.addListener(this._handleLayerUpdate.bind(this));
+      }
     }.bind(this));
   }
 

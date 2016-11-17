@@ -198,6 +198,8 @@ limitations under the License.
           .firstElementChild.bindValue, diffPreferences.font_size);
       assert.equal(valueOf('Show Tabs', 'diffPreferences')
           .firstElementChild.checked, diffPreferences.show_tabs);
+      assert.equal(valueOf('Show Trailing Whitespace', 'diffPreferences')
+          .firstElementChild.checked, diffPreferences.show_whitespace_errors);
       assert.equal(valueOf('Fit to Screen', 'diffPreferences')
           .firstElementChild.checked, diffPreferences.line_wrapping);
 

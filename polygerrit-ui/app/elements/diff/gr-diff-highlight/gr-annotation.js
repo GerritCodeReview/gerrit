@@ -32,7 +32,11 @@
      * @return {Number} The length of the text.
      */
     getLength: function(node) {
-      return node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length;
+      return this.getStringLength(node.textContent);
+    },
+
+    getStringLength: function(str) {
+      return str.replace(REGEX_ASTRAL_SYMBOL, '_').length;
     },
 
     /**

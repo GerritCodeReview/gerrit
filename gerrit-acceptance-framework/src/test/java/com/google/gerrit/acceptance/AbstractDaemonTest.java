@@ -97,6 +97,8 @@ import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gerrit.testutil.TestNotesMigration;
+import com.google.gerrit.testutil.TestTime;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -160,6 +162,9 @@ public abstract class AbstractDaemonTest {
 
   @ConfigSuite.Name
   private String configName;
+
+  private TestTime testTime;
+  private String systemTimeZone;
 
   @Inject
   protected AllProjectsName allProjects;
@@ -353,6 +358,14 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
       GerritServer.Description.forTestMethod(description, configName);
 
+    testTime = classDesc.testtime();
+    if (testTime != null) {
+      systemTimeZone = System.setProperty("user.timezone", testTime.tz());
+      if (testTime.step() != 0) {
+        TestTimeUtil.resetWithClockStep(testTime.step(), testTime.unit());
+      }
+    }
+
     baseConfig.setString("gerrit", null, "tempSiteDir",
         tempSiteDir.getRoot().getPath());
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
@@ -521,6 +534,11 @@ public abstract class AbstractDaemonTest {
     userSshSession.close();
     if (server != commonServer) {
       server.stop();
+    }
+
+    if (testTime != null) {
+      TestTimeUtil.useSystemTime();
+      System.setProperty("user.timezone", systemTimeZone);
     }
   }
 

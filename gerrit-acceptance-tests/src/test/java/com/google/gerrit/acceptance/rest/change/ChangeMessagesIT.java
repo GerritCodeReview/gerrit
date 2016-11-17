@@ -15,38 +15,22 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.TestTime;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Iterator;
 
 @RunWith(ConfigSuite.class)
+@TestTime(step=1)
 public class ChangeMessagesIT extends AbstractDaemonTest {
-  private String systemTimeZone;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
-
   @Test
   public void messagesNotReturnedByDefault() throws Exception {
     String changeId = createChange().getChangeId();

@@ -23,7 +23,6 @@ import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -57,7 +56,7 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.TestTime;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -66,9 +65,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -79,6 +76,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@TestTime(step=1)
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
     // TODO(dborowitz): TEST.
@@ -87,16 +85,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private String sshUrl;
   private LabelType patchSetLock;
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
-  }
 
   @Before
   public void setUp() throws Exception {

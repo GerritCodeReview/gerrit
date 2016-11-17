@@ -23,7 +23,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
@@ -61,7 +60,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.TestTime;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -76,7 +75,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -86,6 +84,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @NoHttpd
+@TestTime(step=1)
 public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
@@ -97,20 +96,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
   private Submit submitHandler;
-
-  private String systemTimeZone;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
 
   @After
   public void cleanup() {

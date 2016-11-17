@@ -31,6 +31,7 @@ import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TempFileUtil;
+import com.google.gerrit.testutil.TestTime;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -66,8 +67,8 @@ public class GerritServer {
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
-          null); // @GerritConfigs is only valid on methods.
-
+          null, // @GerritConfigs is only valid on methods.
+          (TestTime)getAnnotation(TestTime.class, testDesc.getTestClass()));
     }
 
     static Description forTestMethod(org.junit.runner.Description testDesc,
@@ -80,17 +81,24 @@ public class GerritServer {
           testDesc.getAnnotation(Sandboxed.class) != null ||
               has(Sandboxed.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
-          testDesc.getAnnotation(GerritConfigs.class));
+          testDesc.getAnnotation(GerritConfigs.class),
+          null); // @TestTime is only valid on classes (for now)
     }
 
     private static boolean has(
         Class<? extends Annotation> annotation, Class<?> clazz) {
+      return getAnnotation(annotation, clazz) != null;
+    }
+
+    private static Annotation getAnnotation(
+        Class<? extends Annotation> annotation, Class<?> clazz) {
       for (; clazz != null; clazz = clazz.getSuperclass()) {
-        if (clazz.getAnnotation(annotation) != null) {
-          return true;
+        Annotation a = clazz.getAnnotation(annotation);
+        if (a != null) {
+          return a;
         }
       }
-      return false;
+      return null;
     }
 
     @Nullable abstract String configName();
@@ -99,6 +107,7 @@ public class GerritServer {
     abstract boolean sandboxed();
     @Nullable abstract GerritConfig config();
     @Nullable abstract GerritConfigs configs();
+    @Nullable abstract TestTime testtime();
 
     private Config buildConfig(Config baseConfig) {
       if (configs() != null && config() != null) {

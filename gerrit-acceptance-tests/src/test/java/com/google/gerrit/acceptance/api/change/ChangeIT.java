@@ -2401,7 +2401,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.labels.keySet())
         .containsExactly("Code-Review", "Verified");
     assertPermitted(change, "Code-Review", 2);
-    assertPermitted(change, "Verified", 1);
+    assertPermitted(change, "Verified");
 
     // remove label and assert that it's no longer returned for existing
     // changes, even if there is an approval for it

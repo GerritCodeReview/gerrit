@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LabelType {
+  public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
@@ -104,6 +105,7 @@ public class LabelType {
   protected boolean copyAllScoresOnTrivialRebase;
   protected boolean copyAllScoresIfNoCodeChange;
   protected boolean copyAllScoresIfNoChange;
+  protected boolean allowPostSubmit;
   protected short defaultValue;
 
   protected List<LabelValue> values;
@@ -144,6 +146,7 @@ public class LabelType {
         DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
+    setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
   }
 
   public String getName() {
@@ -172,6 +175,14 @@ public class LabelType {
 
   public void setCanOverride(boolean canOverride) {
     this.canOverride = canOverride;
+  }
+
+  public boolean allowPostSubmit() {
+    return allowPostSubmit;
+  }
+
+  public void setAllowPostSubmit(boolean allowPostSubmit) {
+    this.allowPostSubmit = allowPostSubmit;
   }
 
   public void setRefPatterns(List<String> refPatterns) {

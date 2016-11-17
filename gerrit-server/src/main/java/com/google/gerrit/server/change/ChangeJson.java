@@ -906,6 +906,10 @@ public class ChangeJson {
         if (type == null) {
           continue;
         }
+        if (ctl.getChange().getStatus() == Change.Status.MERGED
+            && !type.allowPostSubmit()) {
+          continue;
+        }
         PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
         for (LabelValue v : type.getValues()) {
           if (range.contains(v.getValue())) {

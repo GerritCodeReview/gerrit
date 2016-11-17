@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_d588fc0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-17T17:54:18Z",
+      "side": 1,
+      "message": "This may be easier to read if the values are aligned. OTOH, we generally avoid aligning JS code, so I don\u0027t feel strongly.",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 38
+      },
+      "revId": "0ce351ceb154faa06845bb73bd0f56e663557101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

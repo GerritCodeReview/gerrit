@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_95092499",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-17T19:35:40Z",
+      "side": 1,
+      "message": "What\u0027s the point of putting it in an extension package if extensions can\u0027t use it for anything? Or if you want to use it, why have both a description(String) and description(DescriptionInput) if they will only ever do the same thing? I understand the consistency argument, but only insofar as it makes us build good APIs.\n\n\u003e The topic one is one that got missed.\n\nI don\u0027t know about that, seems more like a conscious decision to me.\n\n\u003e Compare for example to RevertInput.\n\nI can see the argument that RevertInput will grow more fields in the future more than I can for topic or description.",
+      "parentUuid": "90893441_096b4960",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_cd64a13c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 5

@@ -28,4 +28,14 @@ public class MailComment {
   Comment inReplyTo;
   String fileName;
   String message;
+
+  public MailComment() { }
+
+  public MailComment(String message, String fileName, Comment inReplyTo,
+      CommentType type) {
+    this.message = message;
+    this.fileName = fileName;
+    this.inReplyTo = inReplyTo;
+    this.type = type;
+  }
 }

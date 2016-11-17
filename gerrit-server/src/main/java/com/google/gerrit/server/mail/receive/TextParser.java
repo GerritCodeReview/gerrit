@@ -82,7 +82,7 @@ public class TextParser {
           continue;
         }
         Comment perspectiveComment = iter.peek();
-        if (line.equals(filePath(changeUrl, perspectiveComment))) {
+        if (line.equals(ParserUtil.filePath(changeUrl, perspectiveComment))) {
           if (lastEncounteredFileName == null ||
               !lastEncounteredFileName
                   .equals(perspectiveComment.key.filename)) {
@@ -94,7 +94,8 @@ public class TextParser {
             lastEncounteredComment = perspectiveComment;
             iter.next();
           }
-        } else if (isCommentUrl(line, changeUrl, perspectiveComment)) {
+        } else if (ParserUtil.isCommentUrl(line, changeUrl,
+            perspectiveComment)) {
           lastEncounteredComment = perspectiveComment;
           iter.next();
         }
@@ -136,18 +137,5 @@ public class TextParser {
   /** Counts the occurrences of pattern in s */
   private static int countOccurrences(String s, String pattern) {
     return (s.length() - s.replace(pattern, "").length()) / pattern.length();
-  }
-
-  /** Check if string is an inline comment url on a patch set or the base */
-  private static boolean isCommentUrl(String str, String changeUrl,
-      Comment comment) {
-    return str.equals(filePath(changeUrl, comment) + "@" + comment.lineNbr) ||
-        str.equals(filePath(changeUrl, comment) + "@a" + comment.lineNbr);
-  }
-
-  /** Generate the fully qualified filepath */
-  private static String filePath(String changeUrl, Comment comment) {
-    return changeUrl + "/" + comment.key.patchSetId + "/" +
-        comment.key.filename;
   }
 }

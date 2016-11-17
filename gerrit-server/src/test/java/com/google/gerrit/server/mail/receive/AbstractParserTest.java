@@ -17,6 +17,8 @@ package com.google.gerrit.server.mail.receive;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.mail.Address;
+import java.util.ArrayList;
+import java.util.List;
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
@@ -26,6 +28,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 @Ignore
 public class AbstractParserTest {
+  protected static final String changeURL =
+      "https://gerrit-review.googlesource.com/#/changes/123";
+
   protected static void assertChangeMessage(String message,
       MailComment comment) {
     assertThat(comment.fileName).isNull();
@@ -66,5 +71,15 @@ public class AbstractParserTest {
     b.dateReceived(new DateTime());
     b.subject("");
     return b;
+  }
+
+  /** Returns a List of default comments for testing. */
+  protected static List<Comment> defaultComments() {
+    List<Comment> comments = new ArrayList<>();
+    comments.add(newComment("c1", "gerrit-server/test.txt", "comment", 0));
+    comments.add(newComment("c2", "gerrit-server/test.txt", "comment", 2));
+    comments.add(newComment("c3", "gerrit-server/test.txt", "comment", 3));
+    comments.add(newComment("c4", "gerrit-server/readme.txt", "comment", 3));
+    return comments;
   }
 }

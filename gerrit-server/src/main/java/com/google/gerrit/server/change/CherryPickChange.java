@@ -172,7 +172,7 @@ public class CherryPickChange {
         cherryPickCommit = mergeUtilFactory.create(projectState)
             .createCherryPickFromCommit(git, oi, mergeTip,
                 commitToCherryPick, committerIdent, commitMessage, revWalk,
-                parent - 1);
+                parent - 1, false);
 
         Change.Key changeKey;
         final List<String> idList = cherryPickCommit.getFooterLines(

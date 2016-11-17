@@ -110,7 +110,7 @@ public class CherryPick extends SubmitStrategy {
       try {
         newCommit = args.mergeUtil.createCherryPickFromCommit(
             args.repo, args.inserter, args.mergeTip.getCurrentTip(), toMerge,
-            committer, cherryPickCmtMsg, args.rw, 0);
+            committer, cherryPickCmtMsg, args.rw, 0, false);
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to
         // cherry-pick as many commits as possible.

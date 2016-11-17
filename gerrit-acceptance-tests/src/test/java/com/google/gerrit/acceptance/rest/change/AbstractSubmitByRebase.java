@@ -350,4 +350,38 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertChangeMergedEvents(change.getChangeId(), newHead.name(),
         change2.getChangeId(), newHead.name());
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitFastForwardIdenticalTree() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "a");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "a");
+
+    assertThat(change1.getCommit().getTree())
+        .isEqualTo(change2.getCommit().getTree());
+
+    // for rebase if necessary, otherwise, the manual rebase of change2 will
+    // fail since change1 would be merged as fast forward
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change0 = createChange("Change 0", "b.txt", "b");
+    submit(change0.getChangeId());
+    RevCommit headAfterChange0 = getRemoteHead();
+    assertThat(headAfterChange0.getShortMessage()).isEqualTo("Change 0");
+
+    submit(change1.getChangeId());
+    RevCommit headAfterChange1 = getRemoteHead();
+    assertThat(headAfterChange1.getShortMessage()).isEqualTo("Change 1");
+    assertThat(headAfterChange0).isEqualTo(headAfterChange1.getParent(0));
+
+    // Do manual rebase first.
+    gApi.changes().id(change2.getChangeId()).current().rebase();
+    submit(change2.getChangeId());
+    RevCommit headAfterChange2 = getRemoteHead();
+    assertThat(headAfterChange2.getShortMessage()).isEqualTo("Change 2");
+    assertThat(headAfterChange1).isEqualTo(headAfterChange2.getParent(0));
+
+    ChangeInfo info2 = get(change2.getChangeId());
+    assertThat(info2.status).isEqualTo(ChangeStatus.MERGED);
+  }
 }

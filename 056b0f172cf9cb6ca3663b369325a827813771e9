@@ -32,6 +32,23 @@
       "parentUuid": "10c70467_35621052",
       "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "10c70467_756c8844",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Nov 17, 2016 12:22:55 PM",
+      "side": 1,
+      "message": "Specifically MergeOp.java:672",
+      "parentUuid": "70a120aa_10f60471",
+      "revId": "056b0f172cf9cb6ca3663b369325a827813771e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

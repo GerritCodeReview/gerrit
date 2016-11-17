@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -62,7 +61,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   @Override
   public List<SubmitStrategyOp> buildOps(
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    List<CodeReviewCommit> sorted = sort(toMerge, args.mergeTip.getCurrentTip());
+    List<CodeReviewCommit> sorted = sort(toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
 
@@ -262,10 +261,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             args.inserter, args.destBranch, mergeTip.getCurrentTip(), toMerge);
         mergeTip.moveTipTo(amendGitlink(newTip), toMerge);
       }
-      RevCommit initialTip = mergeTip.getInitialTip();
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          mergeTip.getCurrentTip(), initialTip == null ?
-              ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
+          mergeTip.getCurrentTip(), args.alreadyAccepted);
       acceptMergeTip(mergeTip);
     }
   }
@@ -274,11 +271,12 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     args.alreadyAccepted.add(mergeTip.getCurrentTip());
   }
 
-  private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort,
-      RevCommit initialTip) throws IntegrationException {
+  private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
+      throws IntegrationException {
     try {
-      return new RebaseSorter(args.rw, initialTip, args.alreadyAccepted,
-          args.canMergeFlag).sort(toSort);
+      return new RebaseSorter(
+          args.rw, args.mergeTip.getInitialTip(), args.alreadyAccepted, args.canMergeFlag,
+          args.internalChangeQuery, args.changeKindCache, args.repo).sort(toSort);
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);
     }

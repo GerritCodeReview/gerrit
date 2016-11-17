@@ -31,6 +31,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -121,6 +123,8 @@ public abstract class SubmitStrategy {
     final RebaseChangeOp.Factory rebaseFactory;
     final OnSubmitValidators.Factory onSubmitValidatorsFactory;
     final TagCache tagCache;
+    final InternalChangeQuery internalChangeQuery;
+    final ChangeKindCache changeKindCache;
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -162,6 +166,8 @@ public abstract class SubmitStrategy {
         RebaseChangeOp.Factory rebaseFactory,
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
+        InternalChangeQuery internalChangeQuery,
+        ChangeKindCache changeKindCache,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commits,
         @Assisted CodeReviewRevWalk rw,
@@ -192,6 +198,8 @@ public abstract class SubmitStrategy {
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
+      this.internalChangeQuery = internalChangeQuery;
+      this.changeKindCache = changeKindCache;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;

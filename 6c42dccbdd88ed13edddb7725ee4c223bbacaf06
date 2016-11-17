@@ -219,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "90893441_697a052c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-17T19:44:24Z",
+      "side": 1,
+      "message": "Fair enough.  Let\u0027s leave it like this.",
+      "parentUuid": "10c70467_95092499",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_cd64a13c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 5

@@ -1,0 +1,42 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0847825_4a753339",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "Nov 17, 2016 11:15:16 AM",
+      "side": 1,
+      "message": "i think this should go above comment, not below.",
+      "range": {
+        "startLine": 71,
+        "startChar": 14,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "e405be3be273a22ec62edb2a6351579c46c7651a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "d091ec62_8b7e4d1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "Nov 17, 2016 11:15:16 AM",
+      "side": 1,
+      "message": "shouldn\u0027t we check that the change which contains such commit has been merged into the same ref?",
+      "revId": "e405be3be273a22ec62edb2a6351579c46c7651a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

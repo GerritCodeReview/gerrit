@@ -47,6 +47,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -115,6 +116,8 @@ public abstract class SubmitStrategy {
     final PersonIdent serverIdent;
     final RebaseChangeOp.Factory rebaseFactory;
     final TagCache tagCache;
+    final InternalChangeQuery internalChangeQuery;
+
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -154,6 +157,7 @@ public abstract class SubmitStrategy {
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
         TagCache tagCache,
+        InternalChangeQuery internalChangeQuery,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commits,
         @Assisted CodeReviewRevWalk rw,
@@ -183,6 +187,7 @@ public abstract class SubmitStrategy {
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
+      this.internalChangeQuery = internalChangeQuery;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;

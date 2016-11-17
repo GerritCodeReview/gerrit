@@ -70,7 +70,9 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
       throws ResourceConflictException, IntegrationException {
     for (SubmitStrategy strategy : strategies) {
       if (strategy instanceof CherryPick) {
-        // Might have picked a subset of changes, can't do this sanity check.
+        // Can't do this sanity check for CherryPick since:
+        // * CherryPick might have picked a subset of changes
+        // * CherryPick might have status SKIPPED_IDENTICAL_TREE
         continue;
       }
       SubmitStrategy.Arguments args = strategy.args;

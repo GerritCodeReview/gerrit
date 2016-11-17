@@ -23,6 +23,30 @@
       "revId": "6e01539e4babbd803d4c9984b3a54aa7268cd239",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0847825_ea8507f0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailMetadataIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-17T22:45:36Z",
+      "side": 1,
+      "message": "When writing this I was thinking the same. Maybe this could be an annotation on the class or test method?",
+      "parentUuid": "90893441_498c6119",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "6e01539e4babbd803d4c9984b3a54aa7268cd239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

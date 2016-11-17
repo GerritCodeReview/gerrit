@@ -96,6 +96,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.TestTime;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 
@@ -107,8 +108,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -123,22 +122,10 @@ import java.util.List;
 import java.util.Map;
 
 @NoHttpd
+@TestTime
 public class ChangeIT extends AbstractDaemonTest {
-  private String systemTimeZone;
-
   @Inject
   private BatchUpdate.Factory updateFactory;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
 
   @Test
   public void get() throws Exception {

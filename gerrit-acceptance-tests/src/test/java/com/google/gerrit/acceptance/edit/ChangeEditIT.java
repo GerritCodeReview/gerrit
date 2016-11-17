@@ -18,7 +18,6 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -59,7 +58,7 @@ import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.TestTime;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
@@ -75,9 +74,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -88,6 +85,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@TestTime(step=1)
 public class ChangeEditIT extends AbstractDaemonTest {
 
   private static final String FILE_NAME = "foo";
@@ -116,16 +114,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private String changeId2;
   private PatchSet ps;
   private PatchSet ps2;
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
-  }
 
   @Before
   public void setUp() throws Exception {

@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
@@ -42,7 +41,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.TestTime;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -51,24 +50,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+@TestTime(step=1)
 public class CreateChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config allowDraftsDisabled() {
     return allowDraftsDisabledConfig();
-  }
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
   }
 
   @Test

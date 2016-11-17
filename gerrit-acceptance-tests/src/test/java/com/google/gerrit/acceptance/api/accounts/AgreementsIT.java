@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -36,16 +35,15 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.TestTime;
 
 import org.eclipse.jgit.lib.Config;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
 
+@TestTime(step=1)
 public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement caAutoVerify;
   private ContributorAgreement caNoAutoVerify;
@@ -55,16 +53,6 @@ public class AgreementsIT extends AbstractDaemonTest {
     Config cfg = new Config();
     cfg.setBoolean("auth", null, "contributorAgreements", true);
     return cfg;
-  }
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
   }
 
   @Before

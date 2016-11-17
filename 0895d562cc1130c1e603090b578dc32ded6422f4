@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_8b3e351e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-17T02:25:55Z",
+      "side": 1,
+      "message": "reload still gets called in gr-change-view on initial load, right? won\u0027t that cause a superfluous request?",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 47
+      },
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_0b5b45a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-17T02:25:55Z",
+      "side": 1,
+      "message": "Four-space indent",
+      "range": {
+        "startLine": 687,
+        "startChar": 16,
+        "endLine": 687,
+        "endChar": 18
+      },
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_eb570170",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-17T02:25:55Z",
+      "side": 1,
+      "message": "space before",
+      "range": {
+        "startLine": 105,
+        "startChar": 40,
+        "endLine": 105,
+        "endChar": 42
+      },
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b031d818_2b49e9d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-17T02:25:55Z",
+      "side": 1,
+      "message": "Nice",
+      "range": {
+        "startLine": 391,
+        "startChar": 10,
+        "endLine": 394,
+        "endChar": 42
+      },
+      "revId": "0895d562cc1130c1e603090b578dc32ded6422f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

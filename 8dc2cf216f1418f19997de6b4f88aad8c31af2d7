@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031d818_4b442dba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-17T02:25:55Z",
+      "side": 0,
+      "message": "does this mean there\u0027s no blank line at the end of the file?",
+      "revId": "8dc2cf216f1418f19997de6b4f88aad8c31af2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

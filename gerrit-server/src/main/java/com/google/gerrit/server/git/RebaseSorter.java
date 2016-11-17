@@ -14,8 +14,13 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -32,15 +37,15 @@ import java.util.Set;
 public class RebaseSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
-  private final RevCommit initialTip;
-  private final Set<RevCommit> alreadyAccepted;
+  private final Set<RevCommit> accepted;
+  private final InternalChangeQuery internalChangeQuery;
 
-  public RebaseSorter(CodeReviewRevWalk rw, RevCommit initialTip,
-      Set<RevCommit> alreadyAccepted, RevFlag canMergeFlag) {
+  public RebaseSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted,
+      RevFlag canMergeFlag, InternalChangeQuery internalChangeQuery) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
-    this.initialTip = initialTip;
-    this.alreadyAccepted = alreadyAccepted;
+    this.accepted = alreadyAccepted;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
@@ -52,15 +57,19 @@ public class RebaseSorter {
 
       rw.resetRetain(canMergeFlag);
       rw.markStart(n);
-      if (initialTip != null) {
-        rw.markUninteresting(initialTip);
+      for (RevCommit c : accepted) {
+        // n also tip of directly pushed branch => n remains 'interesting' here
+        if (!c.equals(n)) {
+          rw.markUninteresting(c);
+        }
       }
 
       CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
-          if (isAlreadyMerged(c)) {
+          // If c is merged, stop the rev walk
+          if (isMerged(c, n.change().getDest())) {
             rw.markUninteresting(c);
             break;
           }
@@ -89,25 +98,25 @@ public class RebaseSorter {
     return sorted;
   }
 
-  private boolean isAlreadyMerged(CodeReviewCommit commit) throws IOException {
-    try (CodeReviewRevWalk mirw =
-        CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
-      mirw.reset();
-      mirw.markStart(commit);
-      for (RevCommit accepted : alreadyAccepted) {
-        if (mirw.isMergedInto(mirw.parseCommit(accepted),
-            mirw.parseCommit(commit))) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   private static <T> T removeOne(final Collection<T> c) {
     final Iterator<T> i = c.iterator();
     final T r = i.next();
     i.remove();
     return r;
+  }
+
+  private boolean isMerged(RevCommit c, Branch.NameKey dest) {
+    try {
+      List<ChangeData> changes = internalChangeQuery.byCommit(c);
+      for (ChangeData change : changes) {
+        if (change.change().getStatus() == Status.MERGED
+            && change.change().getDest().equals(dest)) {
+          return true;
+        }
+      }
+      return false;
+    } catch (OrmException e) {
+      return false;
+    }
   }
 }

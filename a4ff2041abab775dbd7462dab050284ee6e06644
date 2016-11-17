@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_95dda4cf",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-17T22:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c70467_55c4ecf7",
+      "revId": "a4ff2041abab775dbd7462dab050284ee6e06644",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70a120aa_b034583c",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-17T22:50:18Z",
       "side": 1,
       "message": "While you are here, wrap this line?",
+      "revId": "a4ff2041abab775dbd7462dab050284ee6e06644",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_f02ee0e7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-17T22:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a120aa_b034583c",
       "revId": "a4ff2041abab775dbd7462dab050284ee6e06644",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

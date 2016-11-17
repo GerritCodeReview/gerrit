@@ -56,7 +56,6 @@ class CommitBox extends Composite {
     String collapsed();
     String expanded();
     String clippy();
-    String parentWebLink();
   }
 
   @UiField Style style;
@@ -67,7 +66,6 @@ class CommitBox extends Composite {
   @UiField FlowPanel webLinkPanel;
   @UiField TableRowElement firstParent;
   @UiField FlowPanel parentCommits;
-  @UiField FlowPanel parentWebLinks;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField InlineHyperlink committerNameEmail;

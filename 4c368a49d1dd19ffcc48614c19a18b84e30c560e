@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1479421712 -0800\nnonce AG58fQr+40vqLicsgXpwPiaPZ6APNHAIEpD534XZd9olOoofIDN83k5OJ2ECgeRJzXJPNu247JZR\n\n0000000000000000000000000000000000000000 4c368a49d1dd19ffcc48614c19a18b84e30c560e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYLi8QAAoJEHFVO370GiZWDRkH/Ao2UjS1CFkn6stJaJw0g3++\nsYdA34VnhVt3NMEGZTgDrTIa6QFOXX0Y5rTmaH/3FYmkx2U1xDK7hgv2LBBkwpxm\ne3EY6z4RdMm2Uhg7Eg8FfgCiEWV+73BoV4keb6pRQckClApD4POO1rdiy6Rp2elg\nC1jIhrtiDVk7YGXGQCuJNYNhhGl+jU/7YkgtBwyJ3VgIctQx2WMBGaqdEmutJbbq\njwb1WNTV4GeViigZkoTPab9VxjnfiTBmnnEv3/pD9BoANxte8yZ5c30JYdDWmwqh\nr7XRbJL4TVJPlyK8dWdmhyUomWAQ931HFtwYWyypmWPtT+v9f5Lk2auoYZUXADc\u003d\n\u003dwY9c\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bfd0bf_548cec18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-17T22:41:01Z",
+      "side": 1,
+      "message": "nit: subject is too long",
+      "revId": "4c368a49d1dd19ffcc48614c19a18b84e30c560e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

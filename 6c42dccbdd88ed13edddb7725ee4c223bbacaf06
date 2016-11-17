@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "f0bfd0bf_5475cc38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-17T19:25:01Z",
+      "side": 1,
+      "message": "Seems to only be needed (for compilation) because of the usage on line 44. Changing that to explicit PutDescription.Input makes it work, and this import is then marked as unused.\n\nI would prefer though that we move this to DescriptionInput in the extension package as mentioned below.",
+      "parentUuid": "10c70467_95acc46c",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0a51083_2d80d591",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 5
@@ -158,6 +176,24 @@
       "writtenOn": "2016-11-17T19:24:31Z",
       "side": 1,
       "message": "Agreed with Kasper, this sounds like YAGNI. The only advantage of having it in the extension API is if you would want to pass a PutDescriptionInput to an extension API method. But as with topic, I don\u0027t see this class acquiring any fields beyond the String.",
+      "parentUuid": "10c70467_b5a9c05b",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90893441_096b4960",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-17T19:25:01Z",
+      "side": 1,
+      "message": "It\u0027s also referenced from RevisionApiImpl.\n\nWe try to put all the Input and Info classes in the extension packages.  The topic one is one that got missed.  Compare for example to RevertInput.",
       "parentUuid": "10c70467_b5a9c05b",
       "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

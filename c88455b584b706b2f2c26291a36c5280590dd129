@@ -18,6 +18,23 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_f0ca602f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Nov 17, 2016 12:12:29 PM",
+      "side": 1,
+      "message": "Done, move tests to AbstractSubmitByRebase",
+      "parentUuid": "d091ec62_cb88550b",
+      "revId": "c88455b584b706b2f2c26291a36c5280590dd129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
         "uuid": "b0847825_6a7af72b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
         "patchSetId": 2
@@ -29,6 +46,23 @@
       "writtenOn": "Nov 17, 2016 11:26:13 AM",
       "side": 1,
       "message": "nit: split line",
+      "revId": "c88455b584b706b2f2c26291a36c5280590dd129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_100fe4a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseSubmitStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Nov 17, 2016 12:12:29 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0847825_6a7af72b",
       "revId": "c88455b584b706b2f2c26291a36c5280590dd129",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,17 +28,21 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
 
 public class RebaseSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
+  private final InternalChangeQuery internalChangeQuery;
 
   public RebaseSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted,
-      RevFlag canMergeFlag) {
+      RevFlag canMergeFlag, InternalChangeQuery internalChangeQuery) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
@@ -64,6 +68,9 @@ public class RebaseSorter {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //
+          if (isMerged(c)) {
+            break;
+          }
           if (n.missing == null) {
             n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
             n.missing = new ArrayList<>();
@@ -91,5 +98,14 @@ public class RebaseSorter {
     final T r = i.next();
     i.remove();
     return r;
+  }
+
+  private boolean isMerged(RevCommit c) {
+    try {
+      List<ChangeData> changes = internalChangeQuery.byCommit(c);
+      return changes.size() > 0 && changes.get(0).change().getStatus() == Status.MERGED;
+    } catch (OrmException e) {
+      return false;
+    }
   }
 }

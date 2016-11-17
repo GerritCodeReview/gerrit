@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_553eac20",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T22:58:04Z",
+      "side": 1,
+      "message": "I looked at the code again and seems I can simplify it even further.\nNo big deal though, let me know if you feel strongly about using verbose code.",
+      "parentUuid": "0b70b387_543d4c7e",
+      "revId": "5c836fa448a16ea76bd6f6627028b22f1af800a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b70b387_3440d0ff",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_354930d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T22:58:04Z",
+      "side": 1,
+      "message": "Changed to .slice(-1)[0], since it\u0027s a bit shorter.\nAs for the approach - I\u0027m not sure if more of verbose code is cleaner than the less of one using functional approach.\nNo big deal though, let me know if you feel strongly.",
+      "parentUuid": "0b70b387_3440d0ff",
+      "revId": "5c836fa448a16ea76bd6f6627028b22f1af800a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b70b387_743a4889",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 505,
         "endChar": 11
       },
+      "revId": "5c836fa448a16ea76bd6f6627028b22f1af800a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_157194ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-17T22:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b70b387_743a4889",
       "revId": "5c836fa448a16ea76bd6f6627028b22f1af800a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

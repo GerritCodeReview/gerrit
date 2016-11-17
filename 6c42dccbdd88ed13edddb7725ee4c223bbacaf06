@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_f000a068",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T21:28:41Z",
+      "side": 1,
+      "message": "Agreed. Fixed.",
+      "parentUuid": "f0a51083_6d76cdf9",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_4ba38d4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDescription.java",
         "patchSetId": 5
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_7543a8af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T21:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_4ba38d4e",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_2ba8c928",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 5
@@ -59,6 +95,24 @@
       "writtenOn": "2016-11-17T07:02:11Z",
       "side": 1,
       "message": "Why isn\u0027t there an entry for GetDescription?",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_105d2499",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T21:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_2ba8c928",
       "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -118,6 +172,24 @@
       "side": 1,
       "message": "Seems to only be needed (for compilation) because of the usage on line 44. Changing that to explicit PutDescription.Input makes it work, and this import is then marked as unused.\n\nI would prefer though that we move this to DescriptionInput in the extension package as mentioned below.",
       "parentUuid": "10c70467_95acc46c",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_95376440",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T21:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bfd0bf_5475cc38",
       "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -254,6 +326,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_30622852",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T21:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a51083_cd64a13c",
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b031d818_8bad953b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
         "patchSetId": 5
@@ -271,6 +361,24 @@
         "endLine": 129,
         "endChar": 54
       },
+      "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_5067ac60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-17T21:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b031d818_8bad953b",
       "revId": "6c42dccbdd88ed13edddb7725ee4c223bbacaf06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

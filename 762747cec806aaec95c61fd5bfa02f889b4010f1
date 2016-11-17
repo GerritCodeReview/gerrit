@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b05ab866_da2e45e8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-11-17T15:54:09Z",
+      "side": 1,
+      "message": "I have ever tried to use \u0027exception.expect\u0027 like this, but it can not get expected exception. I can\u0027t pass the test with your implementation from my side. Can you?",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 4
+      },
+      "revId": "762747cec806aaec95c61fd5bfa02f889b4010f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

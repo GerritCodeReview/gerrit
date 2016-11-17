@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.base.Strings;
@@ -139,6 +140,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -1147,5 +1149,19 @@ public abstract class AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/heads/*");
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
     return cloneProject(project);
+  }
+
+  protected void assertPermitted(ChangeInfo info, String label,
+      Integer... expected) {
+    assertThat(info.permittedLabels).isNotNull();
+    Collection<String> strs = info.permittedLabels.get(label);
+    if (expected.length == 0) {
+      assertThat(strs).isNull();
+    } else {
+      assertThat(
+              strs.stream().map(s -> Integer.valueOf(s.trim()))
+                  .collect(toList()))
+          .containsExactlyElementsIn(Arrays.asList(expected));
+    }
   }
 }

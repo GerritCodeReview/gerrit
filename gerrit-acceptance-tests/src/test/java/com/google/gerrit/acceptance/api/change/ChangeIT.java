@@ -2304,6 +2304,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly("Code-Review", "Verified");
     assertThat(change.permittedLabels.keySet())
         .containsExactly("Code-Review", "Verified");
+    assertPermitted(change, "Code-Review", -2, -1, 0, 1, 2);
+    assertPermitted(change, "Verified", -1, 0, 1);
 
     // add an approval on the new label
     gApi.changes()
@@ -2344,6 +2346,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
     assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+    assertPermitted(change, "Code-Review", 2);
 
     // add new label and assert that it's returned for existing changes
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
@@ -2363,6 +2366,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly("Code-Review", "Verified");
     assertThat(change.permittedLabels.keySet())
         .containsExactly("Code-Review", "Verified");
+    assertPermitted(change, "Code-Review", 2);
+    assertPermitted(change, "Verified", 0, 1);
 
     // ignore the new label by Prolog submit rule and assert that the label is
     // no longer returned
@@ -2378,8 +2383,8 @@ public class ChangeIT extends AbstractDaemonTest {
     change = gApi.changes()
         .id(r.getChangeId())
         .get();
-    assertThat(change.labels.keySet()).containsExactly("Code-Review");
-    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+    assertPermitted(change, "Code-Review", 2);
+    assertPermitted(change, "Verified");
 
     // add an approval on the new label and assert that the label is now
     // returned although it is ignored by the Prolog submit rule and hence not
@@ -2395,7 +2400,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .get();
     assertThat(change.labels.keySet())
         .containsExactly("Code-Review", "Verified");
-    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+    assertPermitted(change, "Code-Review", 2);
+    assertPermitted(change, "Verified");
 
     // remove label and assert that it's no longer returned for existing
     // changes, even if there is an approval for it
@@ -2410,6 +2416,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .get();
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
     assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+    assertPermitted(change, "Code-Review", 2);
   }
 
   @Test
@@ -2425,7 +2432,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .get();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
-    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+    assertPermitted(change, "Code-Review", 0, 1, 2);
   }
 
   @Test

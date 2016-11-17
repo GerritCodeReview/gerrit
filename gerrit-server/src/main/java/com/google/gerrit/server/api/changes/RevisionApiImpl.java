@@ -539,4 +539,9 @@ class RevisionApiImpl implements RevisionApi {
   public String description() throws RestApiException {
     return getDescription.apply(revision);
   }
+
+  @Override
+  public String etag() throws RestApiException {
+    return revisionActions.getETag(revision);
+  }
 }

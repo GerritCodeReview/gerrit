@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
@@ -56,9 +55,6 @@ public class ActionsIT extends AbstractDaemonTest {
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
-
-  @Inject
-  private GetRevisionActions getRevisionActions;
 
   @Inject
   private ChangeJson.Factory changeJsonFactory;
@@ -129,16 +125,16 @@ public class ActionsIT extends AbstractDaemonTest {
     String parent = createChange().getChangeId();
     String change = createChangeWithTopic().getChangeId();
     approve(change);
-    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag1 = getETag(change);
 
     approve(parent);
-    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag2 = getETag(change);
 
     String changeWithSameTopic = createChangeWithTopic().getChangeId();
-    String etag3 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag3 = getETag(change);
 
     approve(changeWithSameTopic);
-    String etag4 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag4 = getETag(change);
 
     if (isSubmitWholeTopicEnabled()) {
       assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
@@ -155,14 +151,14 @@ public class ActionsIT extends AbstractDaemonTest {
     approve(change);
 
     setApiUser(user);
-    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag1 = getETag(change);
 
     setApiUser(admin);
     String draft = createDraftWithTopic().getChangeId();
     approve(draft);
 
     setApiUser(user);
-    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag2 = getETag(change);
 
     if (isSubmitWholeTopicEnabled()) {
       assertThat(etag2).isNotEqualTo(etag1);
@@ -178,25 +174,25 @@ public class ActionsIT extends AbstractDaemonTest {
     approve(change);
 
     setApiUserAnonymous();
-    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag1 = getETag(change);
 
     setApiUser(admin);
     approve(parent);
 
     setApiUserAnonymous();
-    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag2 = getETag(change);
 
     setApiUser(admin);
     String changeWithSameTopic = createChangeWithTopic().getChangeId();
 
     setApiUserAnonymous();
-    String etag3 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag3 = getETag(change);
 
     setApiUser(admin);
     approve(changeWithSameTopic);
 
     setApiUserAnonymous();
-    String etag4 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag4 = getETag(change);
 
     if (isSubmitWholeTopicEnabled()) {
       assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
@@ -215,13 +211,13 @@ public class ActionsIT extends AbstractDaemonTest {
     approve(change);
 
     setApiUserAnonymous();
-    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag1 = getETag(change);
 
     setApiUser(admin);
     approve(parent);
 
     setApiUserAnonymous();
-    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    String etag2 = getETag(change);
     assertThat(etag2).isEqualTo(etag1);
   }
 

@@ -19,15 +19,7 @@
 /**
  * The .ChangeFooter template will determine the contents of the footer text
  * that will be appended to ALL emails related to changes.
- * @param branch
- * @param ccEmails
- * @param change
- * @param changeId
  * @param email
- * @param messageClass
- * @param patchSet
- * @param projectName
- * @param reviewerEmails
  */
 {template .ChangeFooter autoescape="strict" kind="text"}
   --{sp}
@@ -44,18 +36,4 @@
   {if $email.changeUrl or $email.settingsUrl}
     {\n}
   {/if}
-
-  Gerrit-MessageType: {$messageClass}{\n}
-  Gerrit-Change-Id: {$changeId}{\n}
-  Gerrit-Change-Number: {$change.changeNumber}{\n}
-  Gerrit-PatchSet: {$patchSet.patchSetId}{\n}
-  Gerrit-Project: {$projectName}{\n}
-  Gerrit-Branch: {$branch.shortName}{\n}
-  Gerrit-Owner: {$change.ownerEmail}{\n}
-  {foreach $reviewer in $reviewerEmails}
-    Gerrit-Reviewer: {$reviewer}{\n}
-  {/foreach}
-  {foreach $reviewer in $ccEmails}
-    Gerrit-CC: {$reviewer}{\n}
-  {/foreach}
 {/template}

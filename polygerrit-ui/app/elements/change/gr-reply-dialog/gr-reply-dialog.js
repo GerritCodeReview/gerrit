@@ -73,6 +73,7 @@
       },
       permittedLabels: Object,
       serverConfig: Object,
+      projectConfig: Object,
 
       _account: Object,
       _ccs: Array,

@@ -689,9 +689,14 @@
                 if (!change.reviewer_updates) {
                   change.reviewer_updates = null;
                 }
-                var currentRevision = change.revisions &&
-                    change.revisions[change.current_revision];
-                this._latestCommitMessage = currentRevision.commit.message;
+                var currentRevision =
+                    change.revisions[this._getLatestRevision(change)];
+                if (currentRevision.commit && currentRevision.commit.message) {
+                  this._latestCommitMessage = currentRevision.commit.message;
+                } else {
+                  this._latestCommitMessage = null;
+                }
+
                 this._change = change;
                 if (!this._patchRange || !this._patchRange.patchNum ||
                     this._patchRange.patchNum === currentRevision._number) {
@@ -715,6 +720,25 @@
               function(commitInfo) {
                 this._latestCommitMessage = commitInfo.message;
               }.bind(this));
+    },
+
+    _getLatestRevision: function(change) {
+      if (change.current_revision) {
+        return change.current_revision;
+      }
+      // current_revision may not be present in the case where the latest rev is
+      // a draft and the user doesn’t have permission to view that rev.
+      var latestRev = null;
+      var latestPatchNum = -1;
+      for (var rev in change.revisions) {
+        if (!change.revisions.hasOwnProperty(rev)) { continue; }
+
+        if (change.revisions[rev]._number > latestPatchNum) {
+          latestRev = rev;
+          latestPatchNum = change.revisions[rev]._number;
+        }
+      }
+      return latestRev;
     },
 
     _getCommitInfo: function() {
@@ -760,6 +784,9 @@
         // The patch number is reliant on the change detail request.
         return detailCompletes.then(function() {
           this.$.fileList.reload();
+          if (!this._latestCommitMessage) {
+            this._getLatestCommitMessage();
+          }
         }.bind(this));
       }
     },

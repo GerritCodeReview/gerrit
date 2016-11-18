@@ -37,6 +37,7 @@ public class CreateProjectArgs {
   public InheritableBoolean changeIdRequired;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
+  public String homePageLink;
 
   public CreateProjectArgs() {
     contributorAgreements = InheritableBoolean.INHERIT;

@@ -58,6 +58,7 @@ public interface AdminConstants extends Constants {
   String headingGroupUUID();
   String headingOwner();
   String headingDescription();
+  String headingHomePage();
   String headingProjectOptions();
   String headingProjectCommands();
   String headingCommands();
@@ -158,4 +159,9 @@ public interface AdminConstants extends Constants {
   String buttonEditConfig();
   String buttonEditConfigDescription();
   String editConfigMessage();
+
+  String noDescClose();
+  String noDescHeader();
+  String noDescContent();
+  String noDescNotice();
 }

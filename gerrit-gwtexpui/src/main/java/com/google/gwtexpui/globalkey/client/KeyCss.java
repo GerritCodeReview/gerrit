@@ -26,4 +26,9 @@ public interface KeyCss extends CssResource {
   String helpKeyStroke();
   String helpSeparator();
   String helpKey();
+  String Operator();
+  String OperatorHeader();
+  String OperatorTab();
+  String OperatorDesPopup();
+  String OperatorDes();
 }

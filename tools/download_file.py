@@ -103,7 +103,7 @@ if not path.exists(cache_ent):
 
   print('Download %s' % src_url, file=stderr)
   try:
-    check_call(['curl', '--proxy-anyauth', '-ksfo', cache_ent, src_url])
+    check_call(['curl', '--proxy-anyauth', '-ksSfo', cache_ent, src_url])
   except OSError as err:
     print('could not invoke curl: %s\nis curl installed?' % err, file=stderr)
     exit(1)

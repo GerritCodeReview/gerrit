@@ -127,6 +127,58 @@ limitations under the License.
       });
     });
 
+    test('_computeDescriptionReadOnly', function() {
+      assert.equal(element._computeDescriptionReadOnly(false,
+          {owner: {_account_id: 1}}, {_account_id: 1}), true);
+      assert.equal(element._computeDescriptionReadOnly(true,
+          {owner: {_account_id: 0}}, {_account_id: 1}), true);
+      assert.equal(element._computeDescriptionReadOnly(true,
+          {owner: {_account_id: 1}}, {_account_id: 1}), false);
+    });
+
+    test('_computeDescriptionPlaceholder', function() {
+      assert.equal(element._computeDescriptionPlaceholder(true),
+          'No patch set description');
+      assert.equal(element._computeDescriptionPlaceholder(false),
+          'Add a patch set description');
+    });
+
+    test('_handleDescriptionChanged', function() {
+      var putDescStub = sandbox.stub(element.$.restAPI, 'putDescription')
+          .returns(Promise.resolve({ok: true}));
+      sandbox.stub(element, '_computeDescriptionReadOnly');
+
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._selectedPatchNum = '1';
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1, description: 'test', commit: {commit: 'rev1'}},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        actions: {},
+        owner: {_account_id: 1},
+      };
+      element._account = {_account_id: 1};
+      element._loggedIn = true;
+
+      flushAsynchronousOperations();
+      var label = element.$.descriptionLabel;
+      assert.equal(label.value, 'test');
+      label.editing = true;
+      label._inputText = 'test2';
+      label._save();
+      flushAsynchronousOperations();
+      assert.isTrue(putDescStub.called);
+      assert.equal(putDescStub.args[0][2], 'test2');
+    });
+
     test('_reload is called when an approved label is removed', function() {
       var vote = {_account_id: 1, name: 'bojack', value: 1};
       element._changeNum = '42';
@@ -531,12 +583,12 @@ limitations under the License.
     });
 
     test('class is applied to file list on old patch set', function() {
-      var allPatcheSets = [1, 2, 4];
-      assert.equal(element._computePatchInfoClass('1', allPatcheSets),
+      var allPatchSets = [{num: 1}, {num: 2}, {num: 4}];
+      assert.equal(element._computePatchInfoClass('1', allPatchSets),
           'patchInfo--oldPatchSet');
-      assert.equal(element._computePatchInfoClass('2', allPatcheSets),
+      assert.equal(element._computePatchInfoClass('2', allPatchSets),
           'patchInfo--oldPatchSet');
-      assert.equal(element._computePatchInfoClass('4', allPatcheSets), '');
+      assert.equal(element._computePatchInfoClass('4', allPatchSets), '');
     });
 
     test('getUrlParameter functionality', function() {

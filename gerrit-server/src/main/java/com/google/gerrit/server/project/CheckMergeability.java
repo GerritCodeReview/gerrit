@@ -24,6 +24,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -40,7 +42,8 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 
 /**
- * Check the mergeability at current branch for a git object references expression.
+ * Check the mergeability at current branch for a git object references
+ * expression.
  */
 public class CheckMergeability implements RestReadView<BranchResource> {
 
@@ -48,6 +51,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   private String strategy;
   private SubmitType submitType;
   private final Provider<ReviewDb> db;
+  private final InternalChangeQuery internalChangeQuery;
 
   @Option(name = "--source", metaVar = "COMMIT",
       usage = "the source reference to merge, which could be any git object "
@@ -70,19 +74,22 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   @Inject
   CheckMergeability(GitRepositoryManager gitManager,
       @GerritServerConfig Config cfg,
-      Provider<ReviewDb> db) {
+      Provider<ReviewDb> db,
+      InternalChangeQuery internalChangeQuery) {
     this.gitManager = gitManager;
     this.strategy = MergeUtil.getMergeStrategy(cfg).getName();
     this.submitType = cfg.getEnum("project", null, "submitType",
         SubmitType.MERGE_IF_NECESSARY);
     this.db = db;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
   @Override
   public MergeableInfo apply(BranchResource resource)
-      throws IOException, BadRequestException, ResourceNotFoundException {
+      throws OrmException, IOException, BadRequestException,
+      ResourceNotFoundException {
     if (!(submitType.equals(SubmitType.MERGE_ALWAYS) ||
-          submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
+        submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
       throw new BadRequestException(
           "Submit type: " + submitType + " is not supported");
     }
@@ -91,8 +98,8 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     result.submitType = submitType;
     result.strategy = strategy;
     try (Repository git = gitManager.openRepository(resource.getNameKey());
-         RevWalk rw = new RevWalk(git);
-         ObjectInserter inserter = new InMemoryInserter(git)) {
+        RevWalk rw = new RevWalk(git);
+        ObjectInserter inserter = new InMemoryInserter(git)) {
       Merger m = MergeUtil.newMerger(git, inserter, strategy);
 
       Ref destRef = git.getRefDatabase().exactRef(resource.getRef());
@@ -103,7 +110,9 @@ public class CheckMergeability implements RestReadView<BranchResource> {
       RevCommit targetCommit = rw.parseCommit(destRef.getObjectId());
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, source);
 
-      if (!resource.getControl().canReadCommit(db.get(), git, sourceCommit)) {
+      if (!MergeUtil
+          .canReadCommit(resource.getControl(), db.get(), git, sourceCommit,
+              internalChangeQuery)) {
         throw new BadRequestException(
             "do not have read permission for: " + source);
       }
@@ -118,7 +127,8 @@ public class CheckMergeability implements RestReadView<BranchResource> {
       if (m.merge(false, targetCommit, sourceCommit)) {
         result.mergeable = true;
         result.commitMerged = false;
-        result.contentMerged = m.getResultTreeId().equals(targetCommit.getTree());
+        result.contentMerged = m.getResultTreeId()
+            .equals(targetCommit.getTree());
       } else {
         result.mergeable = false;
         if (m instanceof ResolveMerger) {

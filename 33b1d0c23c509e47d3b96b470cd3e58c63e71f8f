@@ -85,6 +85,24 @@
       "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_b559c049",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-18T21:59:02Z",
+      "side": 1,
+      "message": "Its handled in SiteProgram, not Daemon, as multiple command line tools need access to the repositories (e.g. reindex and NoteDb conversion).",
+      "parentUuid": "70a120aa_b02b7891",
+      "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

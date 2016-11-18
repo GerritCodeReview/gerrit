@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_35013021",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-18T19:12:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure? Isn\u0027t it usually the outer element that gets the display:flex? This is an inner element of the flexbox.",
+      "parentUuid": "70a120aa_b0053833",
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_152ef4bf",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
         "patchSetId": 3

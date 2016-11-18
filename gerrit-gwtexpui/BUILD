@@ -16,7 +16,7 @@ gwt_module(
   deps = [
     ':SafeHtml',
     ':UserAgent',
-    '//lib/gwt:user',
+    '//lib/gwt:user-neverlink',
   ],
   visibility = ['//visibility:public'],
   data = [

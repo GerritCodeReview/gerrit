@@ -51,3 +51,40 @@
 .deleteSectionHover {
   background-color: selectionColor !important;
 }
+
+.descWarning {
+  background: #ffffcf none repeat scroll 0 50%;
+  color: #000000;
+  font-family: arial,sans-serif;
+  overflow: hidden;
+  text-align: left;
+
+  width: 40%;
+  z-index: 1002;
+  opacity: 0.85;
+  border-radius: 10px;
+ }
+ 
+.descWarningHeader{
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.descWarningGlue {
+  width: 100%;
+}
+
+.descWarningContent {
+  width: 100%;
+  text-align: left;
+}
+
+.descWarningContentGlue{
+  width: 77%;
+}
+
+.descWarningNotice {
+  font-weight: bold;
+}
+
+

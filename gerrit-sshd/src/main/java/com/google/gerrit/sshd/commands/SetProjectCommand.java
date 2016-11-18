@@ -49,6 +49,9 @@ final class SetProjectCommand extends SshCommand {
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
   private String projectDescription;
 
+  @Option(name = "--home-page-link", aliases = {"-h"}, metaVar = "HOME_PAGE_LINK", usage = "homepage of project")
+  private String homePageLink;
+
   @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
       + "(default: MERGE_IF_NECESSARY)")
   private SubmitType submitType;
@@ -145,6 +148,9 @@ final class SetProjectCommand extends SshCommand {
       }
       if (projectDescription != null) {
         project.setDescription(projectDescription);
+      }
+      if (homePageLink != null) {
+        project.setHomePageLink(homePageLink);
       }
       if (state != null) {
         project.setState(state);

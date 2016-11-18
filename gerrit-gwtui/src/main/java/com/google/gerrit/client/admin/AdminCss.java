@@ -24,4 +24,11 @@ public interface AdminCss extends CssResource {
   String deletedBorder();
 
   String deleteSectionHover();
+
+  String descWarning();
+  String descWarningHeader();
+  String descWarningGlue();
+  String descWarningContent();
+  String descWarningNotice();
+  String descWarningContentGlue();
 }

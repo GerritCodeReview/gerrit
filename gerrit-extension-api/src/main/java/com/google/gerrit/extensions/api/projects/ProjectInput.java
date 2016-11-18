@@ -24,6 +24,7 @@ public class ProjectInput {
   public String name;
   public String parent;
   public String description;
+  public String homePageLink;
   public boolean permissionsOnly;
   public boolean createEmptyCommit;
   public SubmitType submitType;

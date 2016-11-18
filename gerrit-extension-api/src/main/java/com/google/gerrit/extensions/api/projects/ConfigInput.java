@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class ConfigInput {
   public String description;
+  public String homePageLink;
   public InheritableBoolean useContributorAgreements;
   public InheritableBoolean useContentMerge;
   public InheritableBoolean useSignedOffBy;

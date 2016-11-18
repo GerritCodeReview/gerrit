@@ -167,6 +167,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);
+    args.homePageLink = Strings.emptyToNull(input.homePageLink);
     args.submitType = input.submitType;
     args.branch = normalizeBranchNames(input.branches);
     if (input.owners == null || input.owners.isEmpty()) {
@@ -278,6 +279,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
       Project newProject = config.getProject();
       newProject.setDescription(args.projectDescription);
+      newProject.setHomePageLink(args.homePageLink);
       newProject.setSubmitType(MoreObjects.firstNonNull(args.submitType,
           repositoryCfg.getDefaultSubmitType(args.getProject())));
       newProject

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_55f6ac1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T19:15:35Z",
+      "side": 1,
+      "message": "What kind of comments are these? Do they include comments on old patch sets and the base or auto-merge base? What\u0027s the order then, since in the UI you only have an order per patch set?\n\nIs replying to comments other than comments on the current patch set handled by this parser?\nWill it confuse the parser if the mail includes comments on old patch sets?",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "16c86e043d6adaf4ddfb7ad5f8c8fddd56d4e6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_b5054033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T19:15:35Z",
+      "side": 1,
+      "message": "What if an email client doesn\u0027t enquote inline comments by the user, but the mail still has several levels of quoting? E.g.:\n\n  \u003e\u003e Old Quoted Text\n  \u003e Quoted Text\n  A comment typed in the email directly",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "16c86e043d6adaf4ddfb7ad5f8c8fddd56d4e6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_10fc4400",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T19:15:35Z",
+      "side": 1,
+      "message": "Is replying to a file level comment not possible then?",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 66
+      },
+      "revId": "16c86e043d6adaf4ddfb7ad5f8c8fddd56d4e6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

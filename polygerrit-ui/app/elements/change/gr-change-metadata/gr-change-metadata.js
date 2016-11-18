@@ -172,5 +172,14 @@
       }
       return output;
     },
+
+    _computeTopicHref: function(topic) {
+      return '/q/topic:' + encodeURIComponent(topic) +
+          '+(status:open OR status:merged)';
+    },
+
+    _handleTopicRemoved: function() {
+      this.set(['change', 'topic'], '');
+    },
   });
 })();

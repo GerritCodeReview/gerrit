@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
+<link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
 
@@ -145,11 +146,20 @@ limitations under the License.
     <section>
       <span class="title">Topic</span>
       <span class="value">
-        <gr-editable-label
-            value="{{change.topic}}"
-            placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
-            read-only="[[_topicReadOnly]]"
-            on-changed="_handleTopicChanged"></gr-editable-label>
+        <template is="dom-if" if="[[change.topic]]">
+          <gr-linked-chip
+              text="[[change.topic]]"
+              href="[[_computeTopicHref(change.topic)]]"
+              removable
+              on-remove="_handleTopicRemoved"></gr-linked-chip>
+        </template>
+        <template is="dom-if" if="[[!change.topic]]">
+          <gr-editable-label
+              value="{{change.topic}}"
+              placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
+              read-only="[[_topicReadOnly]]"
+              on-changed="_handleTopicChanged"></gr-editable-label>
+        </template>
       </span>
     </section>
     <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>

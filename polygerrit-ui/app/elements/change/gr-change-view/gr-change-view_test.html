@@ -452,6 +452,23 @@ limitations under the License.
       assert.equal(status, ' (Draft)');
     });
 
+    test('get latest revision', function() {
+      var change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+      };
+      assert.equal(element._getLatestRevisionSHA(change), 'rev3');
+      change = {
+        revisions: {
+          rev1: {_number: 1},
+        },
+      };
+      assert.equal(element._getLatestRevisionSHA(change), 'rev1');
+    });
+
     test('show commit message edit button', function() {
       var _change = {
         status: element.ChangeStatus.MERGED,

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_955a046c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T18:06:17Z",
+      "side": 1,
+      "message": "s/I\u0027ve updated/update/",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_b5570043",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T18:06:17Z",
+      "side": 1,
+      "message": "These two are out of order.",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_d5647c2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T18:06:17Z",
+      "side": 1,
+      "message": "Move to the end of the previous line.",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 7
+      },
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_f5617817",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T18:06:17Z",
+      "side": 1,
+      "message": "Space before open curly.",
+      "range": {
+        "startLine": 92,
+        "startChar": 28,
+        "endLine": 92,
+        "endChar": 29
+      },
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_55286cb0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T18:06:17Z",
+      "side": 1,
+      "message": "`unset` is only supported on the latest builds of IE. [1] Would `block` work here?\n\n[1] https://developer.mozilla.org/en-US/docs/Web/CSS/unset#Browser_compatibility",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 93,
+        "endChar": 22
+      },
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_152ef4bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T18:06:17Z",
+      "side": 1,
+      "message": "Convert to `em`s.",
+      "range": {
+        "startLine": 109,
+        "startChar": 22,
+        "endLine": 109,
+        "endChar": 25
+      },
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_d5b39c30",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T23:48:27Z",
+      "side": 1,
+      "message": "Consider adding disabled check here also?\n\nI see that it isn\u0027t strictly needed, but I think it would be cleaner.",
+      "revId": "1e07860b8dc9a8fdbb73de83f595e85f5b862ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_b0cff8b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T23:48:27Z",
+      "side": 1,
+      "message": "Document which keys these are.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 12
+      },
+      "revId": "1e07860b8dc9a8fdbb73de83f595e85f5b862ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

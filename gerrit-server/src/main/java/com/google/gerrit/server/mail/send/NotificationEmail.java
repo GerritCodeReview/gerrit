@@ -123,5 +123,8 @@ public abstract class NotificationEmail extends OutgoingEmail {
     Map<String, String> branchData = new HashMap<>();
     branchData.put("shortName", branch.getShortName());
     soyContext.put("branch", branchData);
+
+    footers.add("Gerrit-Project: " + branch.getParentKey().get());
+    footers.add("Gerrit-Branch: " + branch.getShortName());
   }
 }

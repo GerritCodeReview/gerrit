@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_b0053833",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T19:02:49Z",
+      "side": 1,
+      "message": "Would setting it to `display: flex` be more consistent?",
+      "parentUuid": "70a120aa_702d90bf",
+      "revId": "c12fdacacc3dec92e647af357494154ec67293f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_152ef4bf",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
         "patchSetId": 3

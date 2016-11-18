@@ -118,6 +118,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
       p.setDescription(Strings.emptyToNull(input.description));
 
+      p.setHomePageLink(input.homePageLink);
+
       if (input.useContributorAgreements != null) {
         p.setUseContributorAgreements(input.useContributorAgreements);
       }

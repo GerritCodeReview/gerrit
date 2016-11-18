@@ -24,10 +24,12 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -73,6 +75,27 @@ class SearchPanel extends Composite {
     searchBox.setStyleName("searchTextBox");
     searchBox.setVisibleLength(70);
     searchBox.setHintText(Gerrit.C.searchHint());
+
+    final Button helpButton = new Button(Gerrit.C.helpButton());
+    helpButton.setStyleName("helpButton");
+    final OperatorHelpPopup operatorPopup = new OperatorHelpPopup();
+    helpButton.addClickHandler(new ClickHandler(){
+
+      @Override
+      public void onClick(ClickEvent event) {
+        // TODO Auto-generated method stub
+        operatorPopup.setPopupPositionAndShow(new PositionCallback() {
+          @Override
+          public void setPosition(final int pWidth, final int pHeight) {
+            final int left = (Window.getClientWidth() - pWidth) >> 1;
+            final int wLeft = Window.getScrollLeft();
+            final int wTop = Window.getScrollTop();
+            operatorPopup.setPopupPosition(wLeft + left, wTop + 50);
+          }
+        });
+      }
+    });
+    body.add(helpButton);
 
     final Button searchButton = new Button(Gerrit.C.searchButton());
     searchButton.setStyleName("searchButton");

@@ -45,6 +45,7 @@ import java.util.List;
 public class ProjectConfigEntry {
   private final String displayName;
   private final String description;
+  private final String homepagelink;
   private final boolean inheritable;
   private final String defaultValue;
   private final ProjectConfigEntryType type;
@@ -56,13 +57,13 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, String defaultValue,
       boolean inheritable) {
-    this(displayName, defaultValue, inheritable, null);
+    this(displayName, defaultValue, inheritable, null, null);
   }
 
   public ProjectConfigEntry(String displayName, String defaultValue,
-      boolean inheritable, String description) {
+      boolean inheritable, String description, String homepagelink) {
     this(displayName, defaultValue, ProjectConfigEntryType.STRING, null,
-        inheritable, description);
+        inheritable, description, homepagelink);
   }
 
   public ProjectConfigEntry(String displayName, int defaultValue) {
@@ -71,13 +72,13 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, int defaultValue,
       boolean inheritable) {
-    this(displayName, defaultValue, inheritable, null);
+    this(displayName, defaultValue, inheritable, null, null);
   }
 
   public ProjectConfigEntry(String displayName, int defaultValue,
-      boolean inheritable, String description) {
+      boolean inheritable, String description, String homepagelink) {
     this(displayName, Integer.toString(defaultValue),
-        ProjectConfigEntryType.INT, null, inheritable, description);
+        ProjectConfigEntryType.INT, null, inheritable, description, homepagelink);
   }
 
   public ProjectConfigEntry(String displayName, long defaultValue) {
@@ -86,25 +87,25 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, long defaultValue,
       boolean inheritable) {
-    this(displayName, defaultValue, inheritable, null);
+    this(displayName, defaultValue, inheritable, null, null);
   }
 
   public ProjectConfigEntry(String displayName, long defaultValue,
-      boolean inheritable, String description) {
+      boolean inheritable, String description, String homepagelink) {
     this(displayName, Long.toString(defaultValue),
-        ProjectConfigEntryType.LONG, null, inheritable, description);
+        ProjectConfigEntryType.LONG, null, inheritable, description, homepagelink);
   }
 
   // For inheritable boolean use 'LIST' type with InheritableBoolean
   public ProjectConfigEntry(String displayName, boolean defaultValue) {
-    this(displayName, defaultValue, null);
+    this(displayName, defaultValue, null, null);
   }
 
   //For inheritable boolean use 'LIST' type with InheritableBoolean
   public ProjectConfigEntry(String displayName, boolean defaultValue,
-      String description) {
+      String description, String homepagelink) {
     this(displayName, Boolean.toString(defaultValue),
-        ProjectConfigEntryType.BOOLEAN, null, false, description);
+        ProjectConfigEntryType.BOOLEAN, null, false, description, homepagelink);
   }
 
   public ProjectConfigEntry(String displayName, String defaultValue,
@@ -114,13 +115,13 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, String defaultValue,
       List<String> permittedValues, boolean inheritable) {
-    this(displayName, defaultValue, permittedValues, inheritable, null);
+    this(displayName, defaultValue, permittedValues, inheritable, null, null);
   }
 
   public ProjectConfigEntry(String displayName, String defaultValue,
-      List<String> permittedValues, boolean inheritable, String description) {
+      List<String> permittedValues, boolean inheritable, String description, String homepagelink) {
     this(displayName, defaultValue, ProjectConfigEntryType.LIST,
-        permittedValues, inheritable, description);
+        permittedValues, inheritable, description, homepagelink);
   }
 
   public <T extends Enum<?>> ProjectConfigEntry(String displayName,
@@ -130,12 +131,12 @@ public class ProjectConfigEntry {
 
   public <T extends Enum<?>> ProjectConfigEntry(String displayName,
       T defaultValue, Class<T> permittedValues, boolean inheritable) {
-    this(displayName, defaultValue, permittedValues, inheritable, null);
+    this(displayName, defaultValue, permittedValues, inheritable, null, null);
   }
 
   public <T extends Enum<?>> ProjectConfigEntry(String displayName,
       T defaultValue, Class<T> permittedValues, boolean inheritable,
-      String description) {
+      String description, String homepagelink) {
     this(displayName, defaultValue.name(), ProjectConfigEntryType.LIST,
         Lists.transform(
             Arrays.asList(permittedValues.getEnumConstants()),
@@ -144,18 +145,19 @@ public class ProjectConfigEntry {
               public String apply(Enum<?> e) {
                 return e.name();
               }
-            }), inheritable, description);
+            }), inheritable, description, homepagelink);
   }
 
   public ProjectConfigEntry(String displayName, String defaultValue,
       ProjectConfigEntryType type, List<String> permittedValues,
-      boolean inheritable, String description) {
+      boolean inheritable, String description, String homepagelink) {
     this.displayName = displayName;
     this.defaultValue = defaultValue;
     this.type = type;
     this.permittedValues = permittedValues;
     this.inheritable = inheritable;
     this.description = description;
+    this.homepagelink = homepagelink;
     if (type == ProjectConfigEntryType.ARRAY && inheritable) {
       throw new ProvisionException(
           "ARRAY doesn't support inheritable values");
@@ -169,6 +171,11 @@ public class ProjectConfigEntry {
   public String getDescription() {
     return description;
   }
+
+  public String getHomePageLink() {
+    return homepagelink;
+  }
+
 
   public boolean isInheritable() {
     return inheritable;

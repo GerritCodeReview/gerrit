@@ -35,6 +35,9 @@ public class ConfigInfo extends JavaScriptObject {
   public final native String description()
   /*-{ return this.description }-*/;
 
+  public final native String homePageLink()
+  /*-{ return this.home_page_link }-*/;
+
   public final native InheritedBooleanInfo requireChangeId()
   /*-{ return this.require_change_id; }-*/;
 
@@ -169,6 +172,7 @@ public class ConfigInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native String displayName() /*-{ return this.display_name; }-*/;
     public final native String description() /*-{ return this.description; }-*/;
+    public final native String homePageLink() /*-{ return this.home_page_link; }-*/;
     public final native String warning() /*-{ return this.warning; }-*/;
     public final native String type() /*-{ return this.type; }-*/;
     public final native String value() /*-{ return this.value; }-*/;

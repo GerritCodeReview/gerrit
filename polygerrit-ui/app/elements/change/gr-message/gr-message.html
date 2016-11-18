@@ -39,9 +39,10 @@ limitations under the License.
         left: var(--default-horizontal-margin);
       }
       .collapsed .contentContainer {
+        align-items: baseline;
+        display: flex;
         color: #777;
-        height: 4.5em;
-        overflow: hidden;
+        white-space: nowrap;
       }
       .showAvatar.expanded .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 2.5em);
@@ -49,10 +50,6 @@ limitations under the License.
       }
       .showAvatar.collapsed .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 1.75em);
-      }
-      .showAvatar.collapsed .contentContainer,
-      .hideAvatar.collapsed .contentContainer {
-        margin-right: calc(var(--default-horizontal-margin) + 2.25em);
       }
       .hideAvatar.collapsed .contentContainer,
       .hideAvatar.expanded .contentContainer {
@@ -86,11 +83,30 @@ limitations under the License.
         display: inline;
       }
       .collapsed gr-comment-list,
-      .collapsed .replyContainer {
+      .collapsed .replyContainer,
+      .collapsed .hideOnCollapsed,
+      .hideOnOpen
+      {
         display: none;
+      }
+      .collapsed .hideOnOpen{
+        display: unset;
+      }
+      .hideOnOpen {
+        display: none;
+      }
+      .collapsed .content {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .collapsed .date {
+        position: static;
       }
       .collapsed .name {
         color: var(--default-text-color);
+        margin-right: 5px;
       }
       .expanded .name {
         cursor: pointer;
@@ -111,8 +127,9 @@ limitations under the License.
         <div class="name" on-tap="_handleNameTap">[[author.name]]</div>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
+            <div class="message hideOnOpen">[[message.message]]</div>
             <gr-formatted-text
-                class="message"
+                class="message hideOnCollapsed"
                 content="[[message.message]]"
                 config="[[projectConfig.commentlinks]]"></gr-formatted-text>
             <gr-comment-list
@@ -126,10 +143,12 @@ limitations under the License.
           </a>
         </template>
         <template is="dom-if" if="[[message.reviewer]]">
-          set reviewer status for
-          <gr-account-chip account="[[message.reviewer]]">
-          </gr-account-chip>
-          to [[message.state]].
+          <div class="content">
+            set reviewer status for
+            <gr-account-chip account="[[message.reviewer]]">
+            </gr-account-chip>
+            to [[message.state]].
+          </div>
           <gr-date-formatter class="date" date-str="[[message.updated]]">
           </gr-date-formatter>
         </template>

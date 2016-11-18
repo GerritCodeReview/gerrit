@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_30c4e8a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-18T23:17:38Z",
+      "side": 1,
+      "message": "Yup, replicating the behavior found in legacy UI.",
+      "parentUuid": "70a120aa_d07d5c88",
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70a120aa_f07a608d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_75a568e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-18T23:17:38Z",
+      "side": 1,
+      "message": "I much prefer array notation for \u003e1 level of nesting objects actually.",
+      "parentUuid": "70a120aa_f07a608d",
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_15a6f4f6",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2016-11-18T23:13:06Z",
       "side": 1,
       "message": "Can we migrate GR-ACCOUNT-CHIP to use this? Is the only difference the avatar?",
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_95b92417",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-18T23:17:38Z",
+      "side": 1,
+      "message": "Yes and no. This is a very trimmed down account-chip. The remove event is more generic and there is no avatar.\n\nMigrating gr-account-chip to this would take a bit more work. I\u0027m open to it, but I think it\u0027s OOS of the feature request in the initial issue.",
+      "parentUuid": "10c70467_15a6f4f6",
       "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

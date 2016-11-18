@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_d5e9dc39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-11-18T19:24:20Z",
+      "side": 1,
+      "message": "would it make sense to remove deprecated here?",
+      "revId": "f4629cedd8b5f3ec91dd296f61a0a57360b7591f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

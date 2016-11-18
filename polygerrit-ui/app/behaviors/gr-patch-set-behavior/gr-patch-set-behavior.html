@@ -27,7 +27,7 @@ limitations under the License.
      * @param {number|string} patchNum
      * @return {Object}
      */
-    getRevisionNumber: function(revisions, patchNum) {
+    getRevisionByPatchNum: function(revisions, patchNum) {
       patchNum = parseInt(patchNum, 10);
       for (var rev in revisions) {
         if (revisions.hasOwnProperty(rev) &&

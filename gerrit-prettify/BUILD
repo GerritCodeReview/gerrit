@@ -8,7 +8,7 @@ gwt_module(
     SRC + 'common/**/*.java',
   ]),
   gwt_xml = SRC + 'PrettyFormatter.gwt.xml',
-  deps = ['//lib/gwt:user'],
+  deps = ['//lib/gwt:user-neverlink'],
   exported_deps = [
     '//gerrit-extension-api:client',
     '//gerrit-gwtexpui:SafeHtml',

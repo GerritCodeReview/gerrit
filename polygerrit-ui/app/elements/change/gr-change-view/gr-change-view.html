@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-content/gr-editable-content.html">
+<link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
@@ -161,7 +162,10 @@ limitations under the License.
         display: none;
       }
       .patchSetSelect {
-        max-width: 25em;
+        max-width: 8em;
+      }
+      gr-editable-label.descriptionLabel {
+        max-width: 15em;
       }
       @media screen and (max-width: 50em) {
         .header {
@@ -296,15 +300,25 @@ limitations under the License.
                 class="patchSetSelect"
                 on-change="_handlePatchChange">
               <template is="dom-repeat" items="[[_allPatchSets]]"
-                  as="patchNumber">
-                <option value$="[[patchNumber]]">
-                  [[patchNumber]]
+                  as="patchNum">
+                <option value$="[[patchNum.num]]" label>
+                  [[patchNum.num]]
                   /
                   [[_computeLatestPatchNum(_allPatchSets)]]
-                  [[_computePatchSetDescription(_change, patchNumber)]]
+                  [[patchNum.desc]]
                 </option>
               </template>
             </select>
+            <span class="descriptionContainer">
+              /
+              <gr-editable-label
+                  id="descriptionLabel"
+                  class="descriptionLabel"
+                  value="[[_computePatchSetDescription(_change, _selectedPatchSet)]]"
+                  placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
+                  read-only="[[_descriptionReadOnly]]"
+                  on-changed="_handleDescriptionChanged"></gr-editable-label>
+            </span>
             <span class="downloadContainer">
               /
               <gr-button link

@@ -23,6 +23,14 @@ java_library(
 )
 
 java_library(
+  name = 'dev-neverlink',
+  exports = ['@dev//jar'],
+  visibility = ['//visibility:public'],
+  neverlink = 1,
+  data = ['//lib:LICENSE-Apache2.0'],
+)
+
+java_library(
   name = 'javax-validation_src',
   exports = ['@javax_validation//src'],
   visibility = ['//visibility:public'],

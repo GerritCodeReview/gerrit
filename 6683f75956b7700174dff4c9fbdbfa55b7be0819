@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_352050b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T19:42:52Z",
+      "side": 1,
+      "message": "Specifically this gives the SHA of the latest revision, not the revision object. I\u0027d like this given in the method name or in a JSDoc.",
+      "range": {
+        "startLine": 723,
+        "startChar": 4,
+        "endLine": 723,
+        "endChar": 22
+      },
+      "revId": "6683f75956b7700174dff4c9fbdbfa55b7be0819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

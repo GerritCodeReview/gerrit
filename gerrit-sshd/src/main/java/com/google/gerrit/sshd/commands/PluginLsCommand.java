@@ -18,25 +18,43 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.plugins.ListPlugins;
+import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
+
+import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)
 @CommandMetaData(name = "ls", description = "List the installed plugins",
   runsAt = MASTER_OR_SLAVE)
 final class PluginLsCommand extends SshCommand {
   @Inject
-  private ListPlugins impl;
+  private MyListPlugins impl;
 
   @Override
   public void run() throws Exception {
-    impl.display(stdout);
+    if (impl.format.isJson()) {
+      impl.displayJson(stdout);
+    } else {
+      impl.displayText(stdout);
+    }
   }
 
   @Override
   protected void parseCommandLine() throws UnloggedFailure {
     parseCommandLine(impl);
+  }
+
+  private static class MyListPlugins extends ListPlugins {
+    @Option(name = "--format", usage = "output format")
+    private OutputFormat format = OutputFormat.TEXT;
+
+    @Inject
+    MyListPlugins(PluginLoader pluginLoader) {
+      super(pluginLoader);
+    }
   }
 }

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_902e74a2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2002,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T20:19:16Z",
+      "side": 1,
+      "message": "Guice modules",
+      "range": {
+        "startLine": 2002,
+        "startChar": 44,
+        "endLine": 2002,
+        "endChar": 56
+      },
+      "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_d538fce8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2006,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T20:19:16Z",
+      "side": 1,
+      "message": "under the `/lib` directory",
+      "range": {
+        "startLine": 2005,
+        "startChar": 67,
+        "endLine": 2006,
+        "endChar": 14
+      },
+      "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_f535f8ed",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2014,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T20:19:16Z",
+      "side": 1,
+      "message": "Should be:\n\n----\n[gerrit]\n  installModule \u003d com.googlesource.gerrit.libmodule.MyModule\n  installModule \u003d com.example.abc.OurSpecialSauceModule\n----",
+      "range": {
+        "startLine": 2012,
+        "startChar": 0,
+        "endLine": 2014,
+        "endChar": 55
+      },
+      "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_b02b7891",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T20:19:16Z",
+      "side": 1,
+      "message": "Don\u0027t we need to do a corresponding change in the Daemon class?",
+      "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

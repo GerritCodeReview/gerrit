@@ -20,6 +20,10 @@
  * The .Footer template will determine the contents of the footer text
  * appended to the end of all outgoing emails after the ChangeFooter and
  * CommentFooter.
+ * @param footers
  */
-{template .Footer}
+{template .Footer autoescape="strict" kind="text"}
+  {foreach $footer in $footers}
+    {$footer}{\n}
+  {/foreach}
 {/template}

@@ -544,10 +544,15 @@ public class CommentSender extends ReplyToChangeSender {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
+    boolean hasComments = false;
     try (Repository repo = getRepository()) {
-      soyContext.put("commentFiles", getCommentGroupsTemplateData(repo));
+      List<Map<String, Object>> files = getCommentGroupsTemplateData(repo);
+      soyContext.put("commentFiles", files);
+      hasComments = !files.isEmpty();
     }
-    soyContext.put("commentTimestamp", getCommentTimestamp());
+
+    footers.add("Gerrit-Comment-Date: " + getCommentTimestamp());
+    footers.add("Gerrit-HasComments: " + (hasComments ? "Yes" : "No"));
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

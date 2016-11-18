@@ -16,5 +16,14 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
+/**
+ * @param footers
+ */
 {template .FooterHtml autoescape="strict" kind="html"}
+  {\n}
+  {\n}
+  {foreach $footer in $footers}
+    <div style="display:none">{sp}{$footer}{sp}</div>{\n}
+  {/foreach}
+  {\n}
 {/template}

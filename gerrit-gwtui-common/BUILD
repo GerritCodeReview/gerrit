@@ -10,7 +10,7 @@ EXPORTED_DEPS = [
   '//gerrit-gwtexpui:SafeHtml',
   '//gerrit-gwtexpui:UserAgent',
 ]
-DEPS = ['//lib/gwt:user']
+DEPS = ['//lib/gwt:user-neverlink']
 SRC = 'src/main/java/com/google/gerrit/'
 
 gwt_module(

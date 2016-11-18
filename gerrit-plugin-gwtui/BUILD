@@ -18,7 +18,21 @@ java_library2(
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
   exported_deps = ['//gerrit-gwtui-common:client-lib'],
-  deps = DEPS + ['//lib/gwt:dev'],
+  deps = DEPS + [
+    '//gerrit-common:libclient-src.jar',
+    '//gerrit-extension-api:libclient-src.jar',
+    '//gerrit-gwtexpui:libClippy-src.jar',
+    '//gerrit-gwtexpui:libGlobalKey-src.jar',
+    '//gerrit-gwtexpui:libProgress-src.jar',
+    '//gerrit-gwtexpui:libSafeHtml-src.jar',
+    '//gerrit-gwtexpui:libUserAgent-src.jar',
+    '//gerrit-gwtui-common:libclient-src.jar',
+    '//gerrit-patch-jgit:libclient-src.jar',
+    '//gerrit-patch-jgit:libEdit-src.jar',
+    '//gerrit-prettify:libclient-src.jar',
+    '//gerrit-reviewdb:libclient-src.jar',
+    '//lib/gwt:dev-neverlink',
+  ],
 )
 
 java_library2(

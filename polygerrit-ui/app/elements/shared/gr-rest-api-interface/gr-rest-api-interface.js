@@ -68,7 +68,7 @@
     REVIEWER_UPDATES: 19,
 
     // Set the submittable boolean.
-    SUBMITTABLE: 20
+    SUBMITTABLE: 20,
   };
 
   Polymer({

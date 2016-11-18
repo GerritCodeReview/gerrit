@@ -173,6 +173,14 @@ limitations under the License.
         element._handleTopicChanged({}, 'the new topic');
         assert.isTrue(topicStub.calledWith('the id', 'the new topic'));
       });
+
+      test('clicking x on topic chip removes topic', function() {
+        sandbox.stub(element, '_handleTopicChanged');
+        flushAsynchronousOperations();
+        var remove = element.$$('gr-linked-chip').$.remove;
+        MockInteractions.tap(remove);
+        assert.equal(element.change.topic, '');
+      });
     });
   });
 </script>

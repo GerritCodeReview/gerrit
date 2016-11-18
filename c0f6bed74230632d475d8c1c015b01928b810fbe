@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_f0e6e066",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4707,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T19:52:58Z",
+      "side": 1,
+      "message": "Sorry to come up with this only now, but would it be better if we return the permitted range here, instead of only the permitted max value? If I read ChangeJson correctly this shouldn\u0027t make the request any more expensive since we anyway already have the full permitted range loaded, but it would allow UI\u0027s to show the complete permitted range if they want.",
+      "range": {
+        "startLine": 4704,
+        "startChar": 0,
+        "endLine": 4707,
+        "endChar": 48
+      },
+      "revId": "c0f6bed74230632d475d8c1c015b01928b810fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

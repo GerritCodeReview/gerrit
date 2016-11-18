@@ -42,6 +42,8 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -153,6 +155,7 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
   @Nullable private final SearchingChangeCacheImpl changeCache;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -168,6 +171,7 @@ public class ProjectControl {
       ChangeNotes.Factory changeNotesFactory,
       ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
+      Provider<InternalChangeQuery> queryProvider,
       @Nullable SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
@@ -181,6 +185,7 @@ public class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
+    this.queryProvider = queryProvider;
     user = who;
     state = ps;
   }
@@ -513,7 +518,27 @@ public class ProjectControl {
     return false;
   }
 
+  /** @return whether a commit is visible to user */
   public boolean canReadCommit(ReviewDb db, Repository repo, RevCommit commit) {
+    // look for changes associate with the commit.
+    try {
+      List<ChangeData> changes = queryProvider.get()
+          .byProjectCommit(getProject().getNameKey(), commit);
+      for (ChangeData change : changes) {
+        if (controlFor(db, change.change()).isVisible(db)) {
+          return true;
+        }
+      }
+    } catch (OrmException e) {
+      log.error("Cannot look up change for commit " + commit.name() + " in "
+          + getProject().getName(), e);
+    }
+    // scan all visible refs.
+    return canReadCommitFromVisibleRef(db, repo, commit);
+  }
+
+  private boolean canReadCommitFromVisibleRef(ReviewDb db, Repository repo,
+      RevCommit commit) {
     try (RevWalk rw = new RevWalk(repo)) {
       return isMergedIntoVisibleRef(repo, db, rw, commit,
           repo.getAllRefs().values());

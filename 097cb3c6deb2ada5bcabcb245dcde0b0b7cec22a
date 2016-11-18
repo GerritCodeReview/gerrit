@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_d07d5c88",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T23:13:06Z",
+      "side": 1,
+      "message": "What is this excluding? Abandoned?",
+      "range": {
+        "startLine": 178,
+        "startChar": 13,
+        "endLine": 178,
+        "endChar": 41
+      },
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_f07a608d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T23:13:06Z",
+      "side": 1,
+      "message": "This can be just\n\n  this.set(\u0027change.topic\u0027, \u0027\u0027);",
+      "range": {
+        "startLine": 182,
+        "startChar": 15,
+        "endLine": 182,
+        "endChar": 34
+      },
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_15a6f4f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-18T23:13:06Z",
+      "side": 1,
+      "message": "Can we migrate GR-ACCOUNT-CHIP to use this? Is the only difference the avatar?",
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

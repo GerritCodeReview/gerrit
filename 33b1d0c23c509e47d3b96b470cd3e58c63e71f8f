@@ -103,6 +103,24 @@
       "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_1069a4d6",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-18T22:05:23Z",
+      "side": 1,
+      "message": "Okay, thanks.",
+      "parentUuid": "10c70467_b559c049",
+      "revId": "33b1d0c23c509e47d3b96b470cd3e58c63e71f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

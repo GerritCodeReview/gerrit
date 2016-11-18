@@ -19,6 +19,9 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -38,17 +41,20 @@ import java.io.IOException;
 public class GetHead implements RestReadView<ProjectResource> {
   private GitRepositoryManager repoManager;
   private Provider<ReviewDb> db;
+  private final InternalChangeQuery internalChangeQuery;
 
   @Inject
   GetHead(GitRepositoryManager repoManager,
-      Provider<ReviewDb> db) {
+      Provider<ReviewDb> db,
+      InternalChangeQuery internalChangeQuery) {
     this.repoManager = repoManager;
     this.db = db;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
   @Override
   public String apply(ProjectResource rsrc) throws AuthException,
-      ResourceNotFoundException, IOException {
+      ResourceNotFoundException, IOException, OrmException {
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);
       if (head == null) {
@@ -62,7 +68,8 @@ public class GetHead implements RestReadView<ProjectResource> {
       } else if (head.getObjectId() != null) {
         try (RevWalk rw = new RevWalk(repo)) {
           RevCommit commit = rw.parseCommit(head.getObjectId());
-          if (rsrc.getControl().canReadCommit(db.get(), repo, commit)) {
+          if (MergeUtil.canReadCommit(rsrc.getControl(), db.get(), repo, commit,
+              internalChangeQuery)) {
             return head.getObjectId().name();
           }
           throw new AuthException("not allowed to see HEAD");

@@ -42,7 +42,10 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -761,5 +764,28 @@ public class MergeUtil {
     } catch (MissingObjectException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }
+  }
+
+  /**
+   * Determine if the current user that read the commit
+   * First, check if the commit associate with any changes.
+   * If any of the changes is visible to user, return true.
+   * If all changes are not visible to user, return false.
+   * If there is no associate changes, check if the commit is visible from any
+   * of visible ref which is very slow for big repo.
+   *
+   * @return true if the commit is visible to user, otherwise, false
+   * @throws OrmException
+   */
+  public static boolean canReadCommit(ProjectControl control, ReviewDb db,
+      Repository repo, RevCommit commit,
+      InternalChangeQuery internalChangeQuery) throws OrmException {
+    List<ChangeData> changes =  internalChangeQuery.byCommit(commit);
+    for (ChangeData change : changes) {
+      if (change.changeControl(control.getUser()).isVisible(db)) {
+        return true;
+      }
+    }
+    return changes.isEmpty() && control.canReadCommit(db, repo, commit);
   }
 }

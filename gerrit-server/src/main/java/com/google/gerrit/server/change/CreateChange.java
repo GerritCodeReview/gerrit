@@ -62,6 +62,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -106,6 +107,7 @@ public class CreateChange implements
   private final boolean allowDrafts;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
+  private final InternalChangeQuery internalChangeQuery;
 
   @Inject
   CreateChange(@AnonymousCowardName String anonymousCowardName,
@@ -122,7 +124,8 @@ public class CreateChange implements
       BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
-      MergeUtil.Factory mergeUtilFactory) {
+      MergeUtil.Factory mergeUtilFactory,
+      InternalChangeQuery internalChangeQuery) {
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
@@ -140,6 +143,7 @@ public class CreateChange implements
     this.submitType = config
         .getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
   @Override
@@ -301,13 +305,14 @@ public class CreateChange implements
   private RevCommit newMergeCommit(Repository repo, ObjectInserter oi,
       RevWalk rw, ProjectControl projectControl, RevCommit mergeTip,
       MergeInput merge, PersonIdent authorIdent, String commitMessage)
-      throws RestApiException, IOException {
+      throws RestApiException, IOException, OrmException {
     if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
     }
 
     RevCommit sourceCommit = MergeUtil.resolveCommit(repo, rw, merge.source);
-    if (!projectControl.canReadCommit(db.get(), repo, sourceCommit)) {
+    if (!MergeUtil.canReadCommit(projectControl, db.get(), repo, sourceCommit,
+        internalChangeQuery)) {
       throw new BadRequestException(
           "do not have read permission for: " + merge.source);
     }

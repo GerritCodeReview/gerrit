@@ -48,6 +48,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -80,6 +81,7 @@ public class CreateMergePatchSet implements
   private final MergeUtil.Factory mergeUtilFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final InternalChangeQuery internalChangeQuery;
 
   @Inject
   CreateMergePatchSet(Provider<ReviewDb> db,
@@ -90,7 +92,8 @@ public class CreateMergePatchSet implements
       PatchSetUtil psUtil,
       MergeUtil.Factory mergeUtilFactory,
       BatchUpdate.Factory batchUpdateFactory,
-      PatchSetInserter.Factory patchSetInserterFactory) {
+      PatchSetInserter.Factory patchSetInserterFactory,
+      InternalChangeQuery internalChangeQuery) {
     this.db = db;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -100,6 +103,7 @@ public class CreateMergePatchSet implements
     this.mergeUtilFactory = mergeUtilFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
   @Override
@@ -135,7 +139,8 @@ public class CreateMergePatchSet implements
 
       RevCommit sourceCommit =
           MergeUtil.resolveCommit(git, rw, merge.source);
-      if (!projectControl.canReadCommit(db.get(), git, sourceCommit)) {
+      if (!MergeUtil.canReadCommit(projectControl, db.get(), git, sourceCommit,
+          internalChangeQuery)) {
         throw new ResourceNotFoundException(
             "cannot find source commit: " + merge.source + " to merge.");
       }

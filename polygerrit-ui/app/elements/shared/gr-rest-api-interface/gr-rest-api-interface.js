@@ -905,5 +905,10 @@
       return this.send('DELETE', '/changes/' + changeID +
           '/reviewers/' + account + '/votes/' + encodeURIComponent(label));
     },
+
+    putDescription: function(changeNum, patchNum, desc) {
+      return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
+          '/revisions/' + patchNum + '/description', {description: desc});
+    }
   });
 })();

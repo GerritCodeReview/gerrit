@@ -49,6 +49,10 @@
         value: function() { return document.body; },
       },
 
+      _account: {
+        type: Object,
+        value: {},
+      },
       _comments: Object,
       _change: {
         type: Object,
@@ -81,7 +85,7 @@
       _currentRevisionActions: Object,
       _allPatchSets: {
         type: Array,
-        computed: '_computeAllPatchSets(_change)',
+        computed: '_computeAllPatchSets(_change, _change.revisions.*)',
       },
       _loggedIn: {
         type: Boolean,
@@ -98,6 +102,10 @@
       _initialLoadComplete: {
         type: Boolean,
         value: false,
+      },
+      _descriptionReadOnly: {
+        type: Boolean,
+        computed: '_computeDescriptionReadOnly(_loggedIn, _change, _account)',
       },
     },
 
@@ -122,6 +130,11 @@
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(function(acct) {
+            this._account = acct;
+          }.bind(this));
+        }
       }.bind(this));
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
@@ -505,7 +518,7 @@
     _computeChangeStatus: function(change, patchNum) {
       var statusString;
       if (change.status === this.ChangeStatus.NEW) {
-        var rev = this.getRevisionNumber(change.revisions, patchNum);
+        var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
         if (rev && rev.draft === true) {
           statusString = 'Draft';
         }
@@ -516,7 +529,7 @@
     },
 
     _computeLatestPatchNum: function(allPatchSets) {
-      return allPatchSets[allPatchSets.length - 1];
+      return allPatchSets[allPatchSets.length - 1].num;
     },
 
     _computePatchInfoClass: function(patchNum, allPatchSets) {
@@ -529,12 +542,13 @@
 
     _computeAllPatchSets: function(change) {
       var patchNums = [];
-      for (var rev in change.revisions) {
-        patchNums.push(change.revisions[rev]._number);
+      for (var commit in change.revisions) {
+        patchNums.push({
+          num: change.revisions[commit]._number,
+          desc: change.revisions[commit].description,
+        });
       }
-      return patchNums.sort(function(a, b) {
-        return a - b;
-      });
+      return patchNums.sort(function(a, b) { return a.num - b.num; });
     },
 
     _computeLabelNames: function(labels) {
@@ -581,7 +595,7 @@
 
     _switchToMostRecentPatchNum: function() {
       this._getChangeDetail().then(function() {
-        var patchNum = this._allPatchSets[this._allPatchSets.length - 1];
+        var patchNum = this._computeLatestPatchNum(this._allPatchSets);
         if (patchNum !== this._patchRange.patchNum) {
           this._changePatchNum(patchNum);
         }
@@ -811,8 +825,45 @@
     },
 
     _computePatchSetDescription: function(change, patchNum) {
-      var rev = this.getRevisionNumber(change.revisions, patchNum);
+      var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       return (rev && rev.description) ? rev.description : '';
+    },
+
+    _computeDescriptionPlaceholder: function(readOnly) {
+      return (readOnly ? 'No' : 'Add a') + ' patch set description';
+    },
+
+    _handleDescriptionChanged: function(e) {
+      var desc = e.detail.trim();
+      var rev = this.getRevisionByPatchNum(this._change.revisions,
+          this._selectedPatchSet);
+      var sha = this._getPatchsetHash(this._change.revisions, rev);
+      this.$.restAPI.setDescription(this._changeNum,
+          this._selectedPatchSet, desc)
+          .then(function(res) {
+            if (res.ok) {
+              this.set(['_change', 'revisions', sha, 'description'], desc);
+            }
+        }.bind(this));
+    },
+
+
+    /**
+     * @param {Object} revisions - The revisions object keyed by revision hashes
+     * @param {Object} patchSet - A revision already fetched from {revisions}
+     * @return {string} the SHA hash corresponding to the revision.
+     */
+    _getPatchsetHash: function(revisions, patchSet) {
+      for (var rev in revisions) {
+        if (revisions.hasOwnProperty(rev) &&
+            revisions[rev] === patchSet) {
+          return rev;
+        }
+      }
+    },
+
+    _computeDescriptionReadOnly: function(loggedIn, change, account) {
+      return !(loggedIn && (account._account_id === change.owner._account_id));
     },
   });
 })();

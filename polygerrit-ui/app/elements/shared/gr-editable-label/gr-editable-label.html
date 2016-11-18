@@ -19,10 +19,12 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: inline-block;
+        align-items: center;
+        display: inline-flex;
       }
       input,
-      label {
+      label,
+      .container {
         width: 100%;
       }
       input {
@@ -43,16 +45,16 @@ limitations under the License.
         text-decoration: underline;
       }
     </style>
-    <input
-        is="iron-input"
-        id="input"
-        hidden$="[[!editing]]"
-        on-keydown="_handleInputKeydown"
-        bind-value="{{_inputText}}">
-    <label
-        hidden$="[[editing]]"
-        class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
-        on-tap="_open">[[_computeLabel(value, placeholder)]]</label>
+      <input
+          is="iron-input"
+          id="input"
+          hidden$="[[!editing]]"
+          on-keydown="_handleInputKeydown"
+          bind-value="{{_inputText}}">
+      <label
+          hidden$="[[editing]]"
+          class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+          on-tap="_open">[[_computeLabel(value, placeholder)]]</label>
   </template>
   <script src="gr-editable-label.js"></script>
 </dom-module>

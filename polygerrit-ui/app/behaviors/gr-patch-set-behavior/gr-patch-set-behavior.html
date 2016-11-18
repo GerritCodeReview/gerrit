@@ -23,11 +23,11 @@ limitations under the License.
      * Given an object of revisions, get a particular revision based on patch
      * num.
      *
-     * @param {Object} revisions
-     * @param {number|string} patchNum
-     * @return {Object}
+     * @param {Object} revisions - the object of revisions given by the API
+     * @param {number|string} patchNum - the number index of the revision
+     * @return {Object} - the correspondent revision obj from {revisions}
      */
-    getRevisionNumber: function(revisions, patchNum) {
+    getRevisionByPatchNum: function(revisions, patchNum) {
       patchNum = parseInt(patchNum, 10);
       for (var rev in revisions) {
         if (revisions.hasOwnProperty(rev) &&

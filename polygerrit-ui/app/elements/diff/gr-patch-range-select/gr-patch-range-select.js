@@ -72,7 +72,7 @@
     },
 
     _computePatchSetDescription: function(revisions, patchNum) {
-      var rev = this.getRevisionNumber(revisions, patchNum);
+      var rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ? rev.description : '';
     },
   });

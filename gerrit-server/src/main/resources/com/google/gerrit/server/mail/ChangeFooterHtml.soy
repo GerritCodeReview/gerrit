@@ -28,10 +28,6 @@
  * @param reviewerEmails
  */
 {template .ChangeFooterHtml autoescape="strict" kind="html"}
-  {let $footerStyle kind="css"}
-    display: none;
-  {/let}
-
   {if $email.changeUrl or $email.settingsUrl}
     <p>
       {if $email.changeUrl}
@@ -44,21 +40,25 @@
     </p>
   {/if}
 
-  <p style="{$footerStyle}">
-    Gerrit-MessageType: {$messageClass}<br/>
-    Gerrit-Change-Id: {$changeId}<br/>
-    Gerrit-Change-Number: {$change.changeNumber}<br/>
-    Gerrit-PatchSet: {$patchSet.patchSetId}<br/>
-    Gerrit-Project: {$projectName}<br/>
-    Gerrit-Branch: {$branch.shortName}<br/>
-    Gerrit-Owner: {$change.ownerEmail}
-    {foreach $reviewer in $reviewerEmails}
-      Gerrit-Reviewer: {$reviewer}</br>
-    {/foreach}
-    {foreach $reviewer in $ccEmails}
-      Gerrit-CC: {$reviewer}</br>
-    {/foreach}
-  </p>
+  {call .HiddenFooter}{param footerLines: [
+    'Gerrit-MessageType: ' + $messageClass,
+    'Gerrit-Change-Id: ' + $changeId,
+    'Gerrit-Change-Number: ' + $change.changeNumber,
+    'Gerrit-PatchSet: ' + $patchSet.patchSetId,
+    'Gerrit-Project: ' + $projectName,
+    'Gerrit-Branch: ' + $branch.shortName,
+    'Gerrit-Owner: ' + $change.ownerEmail
+  ]/}{/call}
+  {foreach $reviewer in $reviewerEmails}
+    {call .HiddenFooter}
+      {param footerLines: ['Gerrit-Reviewer: ' + $reviewer]/}
+    {/call}
+  {/foreach}
+  {foreach $reviewer in $ccEmails}
+    {call .HiddenFooter}
+      {param footerLines: ['Gerrit-CC: ' + $reviewer]/}
+    {/call}
+  {/foreach}
 
   {if $email.changeUrl}
     <div itemscope itemtype="http://schema.org/EmailMessage">

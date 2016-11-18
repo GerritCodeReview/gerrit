@@ -21,6 +21,18 @@
  */
 
 /**
+ * Include hidden text for email search and filters. Note that hiding each line
+ * individually results in better Gmail quoting when footers change bwtween
+ * messages in the same thread. {@see Issue 4936}
+ * @param footerLines
+ */
+{template .HiddenFooter private="true" autoescape="strict" kind="html"}
+  {foreach $line in $footerLines}
+    <div style="display:none">{$line}</div>
+  {/foreach}
+{/template}
+
+/**
  * Private template to generate "View Change" buttons.
  * @param email
  */

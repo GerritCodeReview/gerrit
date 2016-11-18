@@ -22,7 +22,8 @@ limitations under the License.
         display: inline-block;
       }
       input,
-      label {
+      label,
+      .container {
         width: 100%;
       }
       input {
@@ -42,17 +43,23 @@ limitations under the License.
         color: #00f;
         text-decoration: underline;
       }
+      .container {
+        align-items: center;
+        display: flex;
+      }
     </style>
-    <input
-        is="iron-input"
-        id="input"
-        hidden$="[[!editing]]"
-        on-keydown="_handleInputKeydown"
-        bind-value="{{_inputText}}">
-    <label
-        hidden$="[[editing]]"
-        class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
-        on-tap="_open">[[_computeLabel(value, placeholder)]]</label>
+    <div class="container">
+      <input
+          is="iron-input"
+          id="input"
+          hidden$="[[!editing]]"
+          on-keydown="_handleInputKeydown"
+          bind-value="{{_inputText}}">
+      <label
+          hidden$="[[editing]]"
+          class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+          on-tap="_open">[[_computeLabel(value, placeholder)]]</label>
+    </div>
   </template>
   <script src="gr-editable-label.js"></script>
 </dom-module>

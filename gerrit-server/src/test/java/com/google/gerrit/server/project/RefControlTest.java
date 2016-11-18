@@ -57,6 +57,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -241,6 +242,7 @@ public class RefControlTest {
   @Inject private SchemaCreator schemaCreator;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
+  @Inject private Provider<InternalChangeQuery> queryProvider;
 
   @Before
   public void setUp() throws Exception {
@@ -927,7 +929,7 @@ public class RefControlTest {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, null, changeControlFactory, null, null,
+        sectionSorter, null, changeControlFactory, null, queryProvider, null,
         canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
   }
 

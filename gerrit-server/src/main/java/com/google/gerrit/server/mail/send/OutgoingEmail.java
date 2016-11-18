@@ -48,11 +48,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -74,6 +76,7 @@ public abstract class OutgoingEmail {
   protected VelocityContext velocityContext;
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
+  protected List<String> footers;
   protected final EmailArguments args;
   protected Account.Id fromId;
   protected NotifyHandling notify = NotifyHandling.ALL;
@@ -462,8 +465,10 @@ public abstract class OutgoingEmail {
 
   protected void setupSoyContext() {
     soyContext = new HashMap<>();
+    footers = new ArrayList<>();
 
     soyContext.put("messageClass", messageClass);
+    soyContext.put("footers", footers);
 
     soyContextEmailData = new HashMap<>();
     soyContextEmailData.put("settingsUrl", getSettingsUrl());

@@ -17,21 +17,9 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param branch
- * @param ccEmails
- * @param change
- * @param changeId
  * @param email
- * @param messageClass
- * @param patchSet
- * @param projectName
- * @param reviewerEmails
  */
 {template .ChangeFooterHtml autoescape="strict" kind="html"}
-  {let $footerStyle kind="css"}
-    display: none;
-  {/let}
-
   {if $email.changeUrl or $email.settingsUrl}
     <p>
       {if $email.changeUrl}
@@ -43,22 +31,6 @@
       {/if}
     </p>
   {/if}
-
-  <p style="{$footerStyle}">
-    Gerrit-MessageType: {$messageClass}<br/>
-    Gerrit-Change-Id: {$changeId}<br/>
-    Gerrit-Change-Number: {$change.changeNumber}<br/>
-    Gerrit-PatchSet: {$patchSet.patchSetId}<br/>
-    Gerrit-Project: {$projectName}<br/>
-    Gerrit-Branch: {$branch.shortName}<br/>
-    Gerrit-Owner: {$change.ownerEmail}
-    {foreach $reviewer in $reviewerEmails}
-      Gerrit-Reviewer: {$reviewer}</br>
-    {/foreach}
-    {foreach $reviewer in $ccEmails}
-      Gerrit-CC: {$reviewer}</br>
-    {/foreach}
-  </p>
 
   {if $email.changeUrl}
     <div itemscope itemtype="http://schema.org/EmailMessage">

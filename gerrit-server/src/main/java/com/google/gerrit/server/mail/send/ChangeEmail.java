@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -467,12 +467,20 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetData.put("refName", patchSet.getRefName());
     soyContext.put("patchSet", patchSetData);
 
-    soyContext.put("reviewerEmails",
-        getEmailsByState(ReviewerStateInternal.REVIEWER));
-    soyContext.put("ccEmails",
-        getEmailsByState(ReviewerStateInternal.CC));
-
     // TODO(wyatta): patchSetInfo
+
+    footers.add("Gerrit-MessageType: " + messageClass);
+    footers.add("Gerrit-Change-Id: " + change.getKey().get());
+    footers.add("Gerrit-Change-Number: " +
+        Integer.toString(change.getChangeId()));
+    footers.add("Gerrit-PatchSet: " + patchSet.getPatchSetId());
+    footers.add("Gerrit-Owner: " + getNameEmailFor(change.getOwner()));
+    for (String reviewer : getEmailsByState(ReviewerStateInternal.REVIEWER)) {
+      footers.add("Gerrit-Reviewer: " + reviewer);
+    }
+    for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
+      footers.add("Gerrit-CC: " + reviewer);
+    }
   }
 
   private Set<String> getEmailsByState(ReviewerStateInternal state) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -551,11 +552,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
       Account.Id accountId = u.getAccountId();
       if (!expectedState.areDraftsUpToDate(
           allUsersRepo.cmds.getRepoRefCache(), accountId)) {
+        ObjectId expectedDraftId = firstNonNull(
+            expectedState.getDraftIds().get(accountId), ObjectId.zeroId());
         throw new OrmConcurrencyException(String.format(
             "cannot apply NoteDb updates for change %s;"
             + " draft ref for account %s does not match %s",
-            u.getId(), accountId,
-            expectedState.getChangeMetaId().name()));
+            u.getId(), accountId, expectedDraftId.name()));
       }
     }
   }

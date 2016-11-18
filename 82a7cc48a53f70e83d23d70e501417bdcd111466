@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_553cecd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-18T20:37:21Z",
+      "side": 1,
+      "message": "InternalChangeQuery is not a singleton, inject a Provider.\n\n(Yes, ProjectControl is also not a singleton, so this approach will end up with multiple InternalChangeQuery instances. But ICQ is also not reusable, and it\u0027s possible to make multiple canReadCommit calls from a single ProjectControl instance.)",
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bfd0bf_54c30c28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-18T20:37:21Z",
+      "side": 1,
+      "message": "Also limit this to the current project. It\u0027s theoretically possible for a commit that is present in changes across multiple projects to be visible in some but not others. (For example a fork of a project used for reviewing security fixes.)",
+      "range": {
+        "startLine": 534,
+        "startChar": 52,
+        "endLine": 534,
+        "endChar": 60
+      },
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_f03500ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-18T20:37:21Z",
+      "side": 1,
+      "message": "Spacing",
+      "range": {
+        "startLine": 534,
+        "startChar": 30,
+        "endLine": 534,
+        "endChar": 32
+      },
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bfd0bf_74c80844",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-18T20:37:21Z",
+      "side": 1,
+      "message": "It\u0027ll be more efficient to do controlFor(db, change) to avoid recreating a ProjectControl and various RefControls each time; you already have a ProjectControl available (i.e. this). This suggestion only works when the search results are limited to this project like I suggested above.\n\n(If you didn\u0027t have a ProjectControl already available, I would recomment using internalChangeQuery.enforceVisibility(true) to have the query system take care of this. But in this case I suspect reusing the ProjectControl \u0026 RefControls is a win.)",
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90893441_c99f713a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-18T20:37:21Z",
+      "side": 1,
+      "message": "Does this need to be public?",
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

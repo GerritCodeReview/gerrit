@@ -462,7 +462,8 @@ public class ChangeScreen extends Screen {
   }
 
   private void gotoSibling(int offset) {
-    if (offset > 0 && changeInfo.currentRevision().equals(revision)) {
+    if (offset > 0 && changeInfo.currentRevision() != null
+        && changeInfo.currentRevision().equals(revision)) {
       return;
     }
 

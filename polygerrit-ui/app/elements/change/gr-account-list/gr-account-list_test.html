@@ -80,7 +80,7 @@ limitations under the License.
 
     test('addition and removal of account/group chips', function() {
       flushAsynchronousOperations();
-
+      sandbox.stub(element, '_computeRemovable').returns(true);
       // Existing accounts are listed.
       var chips = getChips();
       assert.equal(chips.length, 2);
@@ -235,12 +235,21 @@ limitations under the License.
       ]);
     });
 
+    test('removeAccount fails if account is not removable', function() {
+      element.readonly = true;
+      var acct = makeAccount();
+      element.accounts = [acct];
+      element._removeAccount(acct);
+      assert.equal(element.accounts.length, 1);
+    });
+
     suite('keyboard interactions', function() {
 
       test('backspace at text input start removes last account', function() {
         var input = element.$.entry.$.input;
         sandbox.stub(element.$.entry, '_getReviewerSuggestions');
         sandbox.stub(input, '_updateSuggestions');
+        sandbox.stub(element, '_computeRemovable').returns(true);
         // Next line is a workaround for Firefix not moving cursor
         // on input field update
         assert.equal(input.$.input.selectionStart, 0);

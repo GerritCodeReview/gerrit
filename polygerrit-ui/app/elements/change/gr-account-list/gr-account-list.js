@@ -94,6 +94,7 @@
     },
 
     _removeAccount: function(toRemove) {
+      if (!toRemove || !this._computeRemovable(toRemove)) { return; }
       for (var i = 0; i < this.accounts.length; i++) {
         var matches;
         var account = this.accounts[i];
@@ -119,7 +120,7 @@
       }
       switch (e.detail.keyCode) {
         case 8: // Backspace
-          this.splice('accounts', this.accounts.length - 1, 1);
+          this._removeAccount(this.accounts[this.accounts.length - 1]);
           break;
         case 37: // Left arrow
           var chips = this.accountChips;

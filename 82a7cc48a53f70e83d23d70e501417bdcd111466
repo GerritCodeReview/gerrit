@@ -226,6 +226,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_d00abc00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-11-19T01:04:54Z",
+      "side": 1,
+      "message": "Removed that.\nIt\u0027s better to be correct than wrong.\nSo the optimization will not have any effect when user do not have read permission.",
+      "parentUuid": "10c70467_150d141f",
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90893441_c99f713a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 3

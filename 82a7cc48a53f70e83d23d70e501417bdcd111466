@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_30ab08c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-11-19T00:08:42Z",
+      "side": 1,
+      "message": "yes, I realized that even the old solution of looking through visible refs is within a single project scope.",
+      "parentUuid": "10c70467_955cc43a",
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0bfd0bf_74c80844",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 3
@@ -184,6 +202,24 @@
       "side": 1,
       "message": "Regardless of how you choose to do the visibility check, you need to fall back anyway.\n\nA commit could be *both*:\n\n* A patch set of a change that is not visible to the user\n* Reachable from a branch that is visible to the user",
       "parentUuid": "10c70467_55730cc6",
+      "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_150d141f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-11-19T00:08:42Z",
+      "side": 1,
+      "message": "Yes, that\u0027s possible. I was making an assumption that the possibility of such situation is extremely low, and added change.isEmpty() \u0026\u0026 check before falling back the the refs check. Do you think I better remove that?",
+      "parentUuid": "70a120aa_b0529829",
       "revId": "82a7cc48a53f70e83d23d70e501417bdcd111466",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

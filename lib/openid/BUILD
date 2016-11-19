@@ -1,26 +1,26 @@
 java_library(
-  name = 'consumer',
-  exports = ['@openid_consumer//jar'],
-  runtime_deps = [
-    ':nekohtml',
-    ':xerces',
-    '//lib/httpcomponents:httpclient',
-    '//lib/log:jcl-over-slf4j',
-    '//lib/guice:guice',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "consumer",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@openid_consumer//jar"],
+    runtime_deps = [
+        ":nekohtml",
+        ":xerces",
+        "//lib/guice",
+        "//lib/httpcomponents:httpclient",
+        "//lib/log:jcl-over-slf4j",
+    ],
 )
 
 java_library(
-  name = 'nekohtml',
-  exports = ['@nekohtml//jar'],
-  runtime_deps = [':xerces'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "nekohtml",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@nekohtml//jar"],
+    runtime_deps = [":xerces"],
 )
 
 java_library(
-  name = 'xerces',
-  exports = ['@xerces//jar'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "xerces",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@xerces//jar"],
 )

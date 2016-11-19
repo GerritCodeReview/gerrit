@@ -1,25 +1,24 @@
 java_library(
-  name = 'easymock',
-  exports = ['@easymock//jar'],
-  runtime_deps = [
-    ':cglib-3_2',
-    ':objenesis',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "easymock",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = ["@easymock//jar"],
+    runtime_deps = [
+        ":cglib-3_2",
+        ":objenesis",
+    ],
 )
 
 java_library(
-  name = 'cglib-3_2',
-  exports = ['@cglib_3_2//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "cglib-3_2",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = ["@cglib_3_2//jar"],
 )
 
 java_library(
-  name = 'objenesis',
-  exports = ['@objenesis//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "objenesis",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = ["@objenesis//jar"],
 )
-

@@ -14,18 +14,18 @@
 
 # War packaging.
 
-jar_filetype = FileType(['.jar'])
+jar_filetype = FileType([".jar"])
 
 LIBS = [
-  '//gerrit-war:init',
-  '//gerrit-war:log4j-config',
-  '//gerrit-war:version',
-  '//lib:postgresql',
-  '//lib/log:impl_log4j',
+    "//gerrit-war:init",
+    "//gerrit-war:log4j-config",
+    "//gerrit-war:version",
+    "//lib:postgresql",
+    "//lib/log:impl_log4j",
 ]
 
 PGMLIBS = [
-  '//gerrit-pgm:pgm'
+    "//gerrit-pgm:pgm",
 ]
 
 def _add_context(in_file, output):
@@ -122,13 +122,13 @@ def _war_impl(ctx):
 # libs: go to the WEB-INF/lib directory
 # pgmlibs: go to the WEB-INF/pgm-lib directory
 _pkg_war = rule(
-  attrs = {
-    'context': attr.label_list(allow_files = True),
-    'libs': attr.label_list(allow_files = jar_filetype),
-    'pgmlibs': attr.label_list(allow_files = False),
-  },
-  implementation = _war_impl,
-  outputs = {'war' : '%{name}.war'},
+    attrs = {
+        "context": attr.label_list(allow_files = True),
+        "libs": attr.label_list(allow_files = jar_filetype),
+        "pgmlibs": attr.label_list(allow_files = False),
+    },
+    outputs = {"war": "%{name}.war"},
+    implementation = _war_impl,
 )
 
 def pkg_war(name, ui = 'ui_optdbg', context = [], doc = False, **kwargs):

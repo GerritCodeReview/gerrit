@@ -1,4 +1,3 @@
-
 exports_files([
-  'highlight.min.js',
+    "highlight.min.js",
 ])

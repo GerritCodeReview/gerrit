@@ -1,28 +1,28 @@
-load('//gerrit-acceptance-tests:tests.bzl', 'acceptance_tests')
+load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-  group = 'git',
-  srcs = glob(['*IT.java']),
-  deps = [
-    ':submodule_util',
-    ':push_for_review',
-  ],
-  labels = ['git'],
+    srcs = glob(["*IT.java"]),
+    group = "git",
+    labels = ["git"],
+    deps = [
+        ":push_for_review",
+        ":submodule_util",
+    ],
 )
 
 java_library(
-  name = 'push_for_review',
-  srcs = ['AbstractPushForReview.java'],
-  deps = [
-    '//gerrit-acceptance-tests:lib',
-    '//lib/joda:joda-time',
-  ],
-  testonly = 1,
+    name = "push_for_review",
+    testonly = 1,
+    srcs = ["AbstractPushForReview.java"],
+    deps = [
+        "//gerrit-acceptance-tests:lib",
+        "//lib/joda:joda-time",
+    ],
 )
 
 java_library(
-  name = 'submodule_util',
-  srcs = ['AbstractSubmoduleSubscription.java'],
-  deps = ['//gerrit-acceptance-tests:lib'],
-  testonly = 1,
+    name = "submodule_util",
+    testonly = 1,
+    srcs = ["AbstractSubmoduleSubscription.java"],
+    deps = ["//gerrit-acceptance-tests:lib"],
 )

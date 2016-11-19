@@ -1,7 +1,10 @@
-load('//gerrit-acceptance-tests:tests.bzl', 'acceptance_tests')
+load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-  group = 'server_notedb',
-  srcs = glob(['*IT.java']),
-  labels = ['notedb', 'server'],
+    srcs = glob(["*IT.java"]),
+    group = "server_notedb",
+    labels = [
+        "notedb",
+        "server",
+    ],
 )

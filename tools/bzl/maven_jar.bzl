@@ -1,7 +1,10 @@
-GERRIT = 'GERRIT:'
-GERRIT_API = 'GERRIT_API:'
-MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
-MAVEN_LOCAL = 'MAVEN_LOCAL:'
+GERRIT = "GERRIT:"
+
+GERRIT_API = "GERRIT_API:"
+
+MAVEN_CENTRAL = "MAVEN_CENTRAL:"
+
+MAVEN_LOCAL = "MAVEN_LOCAL:"
 
 def _maven_release(ctx, parts):
   """induce jar and url name from maven coordinates."""
@@ -111,16 +114,17 @@ def _maven_jar_impl(ctx):
       fail("failed %s: %s" % (args, out.stderr))
     _generate_build_file(ctx, "src", srcjar)
 
-maven_jar=repository_rule(
-  implementation=_maven_jar_impl,
-  local=True,
-  attrs={
-    "artifact": attr.string(mandatory=True),
-    "sha1": attr.string(mandatory=True),
-    "src_sha1": attr.string(),
-    "_download_script": attr.label(default=Label("//tools:download_file.py")),
-    "repository": attr.string(default=MAVEN_CENTRAL),
-    "attach_source": attr.bool(default=True),
-    "unsign": attr.bool(default=False),
-    "exclude": attr.string_list(),
-  })
+maven_jar = repository_rule(
+    attrs = {
+        "artifact": attr.string(mandatory = True),
+        "sha1": attr.string(mandatory = True),
+        "src_sha1": attr.string(),
+        "_download_script": attr.label(default = Label("//tools:download_file.py")),
+        "repository": attr.string(default = MAVEN_CENTRAL),
+        "attach_source": attr.bool(default = True),
+        "unsign": attr.bool(default = False),
+        "exclude": attr.string_list(),
+    },
+    local = True,
+    implementation = _maven_jar_impl,
+)

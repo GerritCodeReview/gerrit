@@ -48,11 +48,13 @@ limitations under the License.
             on-tap="_handleExpandCollapseTap">
           [[_computeExpandCollapseMessage(_expanded)]]
         </gr-button>
-        <gr-button id="automatedMessageToggle" link
-            on-tap="_handleAutomatedMessageToggleTap"
-            hidden$="[[!_hasAutomatedMessages(messages)]]">
-          [[_computeAutomatedToggleText(_hideAutomated)]]
-        </gr-button>
+        <div hidden$="[[!_hasAutomatedMessages(messages)]]">
+          /
+          <gr-button id="automatedMessageToggle" link
+              on-tap="_handleAutomatedMessageToggleTap">
+            [[_computeAutomatedToggleText(_hideAutomated)]]
+          </gr-button>
+        </div>
       </div>
     </div>
     <template

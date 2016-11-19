@@ -59,18 +59,20 @@ def _impl(ctx):
 
 java_doc = rule(
     attrs = {
-      "libs": attr.label_list(allow_files = False),
-      "pkgs": attr.string_list(),
-      "title": attr.string(),
-      "external_docs": attr.string_list(),
-      "_javadoc": attr.label(
-        default = Label("@local_jdk//:bin/javadoc"),
-        single_file = True,
-        allow_files = True),
-      "_jdk": attr.label(
-        default = Label("@local_jdk//:jdk-default"),
-        allow_files = True),
+        "libs": attr.label_list(allow_files = False),
+        "pkgs": attr.string_list(),
+        "title": attr.string(),
+        "external_docs": attr.string_list(),
+        "_javadoc": attr.label(
+            default = Label("@local_jdk//:bin/javadoc"),
+            single_file = True,
+            allow_files = True,
+        ),
+        "_jdk": attr.label(
+            default = Label("@local_jdk//:jdk-default"),
+            allow_files = True,
+        ),
     },
+    outputs = {"zip": "%{name}.zip"},
     implementation = _impl,
-    outputs = {"zip" : "%{name}.zip"},
 )

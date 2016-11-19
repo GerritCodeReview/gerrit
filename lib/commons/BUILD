@@ -1,71 +1,71 @@
-package(default_visibility = ['//visibility:public'])
+package(default_visibility = ["//visibility:public"])
 
 java_library(
-  name = 'codec',
-  exports = ['@commons_codec//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "codec",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_codec//jar"],
 )
 
 java_library(
-  name = 'collections',
-  exports = ['@commons_collections//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "collections",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_collections//jar"],
 )
 
 java_library(
-  name = 'compress',
-  exports = ['@commons_compress//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "compress",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_compress//jar"],
 )
 
 java_library(
-  name = 'lang',
-  exports = ['@commons_lang//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "lang",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_lang//jar"],
 )
 
 java_library(
-  name = 'lang3',
-  exports = [ '@commons_lang3//jar'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "lang3",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@commons_lang3//jar"],
 )
 
 java_library(
-  name = 'net',
-  exports = ['@commons_net//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "net",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_net//jar"],
 )
 
 java_library(
-  name = 'dbcp',
-  exports = ['@commons_dbcp//jar'],
-  runtime_deps = [':pool'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "dbcp",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_dbcp//jar"],
+    runtime_deps = [":pool"],
 )
 
 java_library(
-  name = 'pool',
-  exports = ['@commons_pool//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "pool",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_pool//jar"],
 )
 
 java_library(
-  name = 'oro',
-  exports = ['@commons_oro//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache1.1'],
+    name = "oro",
+    data = ["//lib:LICENSE-Apache1.1"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_oro//jar"],
 )
 
 java_library(
-  name = 'validator',
-  exports = ['@commons_validator//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "validator",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons_validator//jar"],
 )

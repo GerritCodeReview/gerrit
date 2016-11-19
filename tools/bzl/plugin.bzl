@@ -1,8 +1,14 @@
-load('//tools/bzl:genrule2.bzl', 'genrule2')
-load('//tools/bzl:gwt.bzl', 'GWT_PLUGIN_DEPS',
-     'GWT_PLUGIN_DEPS_NEVERLINK', 'GWT_TRANSITIVE_DEPS',
-     'GWT_COMPILER_ARGS', 'PLUGIN_DEPS_NEVERLINK',
-     'GWT_JVM_ARGS', 'gwt_binary')
+load("//tools/bzl:genrule2.bzl", "genrule2")
+load(
+    "//tools/bzl:gwt.bzl",
+    "GWT_PLUGIN_DEPS",
+    "GWT_PLUGIN_DEPS_NEVERLINK",
+    "GWT_TRANSITIVE_DEPS",
+    "GWT_COMPILER_ARGS",
+    "PLUGIN_DEPS_NEVERLINK",
+    "GWT_JVM_ARGS",
+    "gwt_binary",
+)
 
 def gerrit_plugin(
     name,

@@ -1,14 +1,14 @@
 java_library(
-  name = 'jgit',
-  exports = ['@jgit//jar'],
-  runtime_deps = [':javaewah'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-jgit'],
+    name = "jgit",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//jar"],
+    runtime_deps = [":javaewah"],
 )
 
 java_library(
-  name = 'javaewah',
-  exports = ['@javaewah//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "javaewah",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@javaewah//jar"],
 )

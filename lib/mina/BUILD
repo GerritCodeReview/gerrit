@@ -1,14 +1,14 @@
 java_library(
-  name = 'sshd',
-  exports = ['@sshd//jar'],
-  visibility = ['//visibility:public'],
-  runtime_deps = [':core'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "sshd",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@sshd//jar"],
+    runtime_deps = [":core"],
 )
 
 java_library(
-  name = 'core',
-  exports = ['@mina_core//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "core",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@mina_core//jar"],
 )

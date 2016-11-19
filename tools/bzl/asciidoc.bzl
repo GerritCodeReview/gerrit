@@ -17,7 +17,6 @@ def documentation_attributes():
     "revnumber=%s",
   ]
 
-
 def release_notes_attributes():
   return [
     'toc',
@@ -32,7 +31,6 @@ def release_notes_attributes():
     'stylesheet=DEFAULT',
     'linkcss=true',
   ]
-
 
 def _replace_macros_impl(ctx):
   cmd = [
@@ -53,22 +51,21 @@ def _replace_macros_impl(ctx):
   )
 
 _replace_macros = rule(
-  implementation = _replace_macros_impl,
-  attrs = {
-    "_exe": attr.label(
-      default = Label("//Documentation:replace_macros.py"),
-      allow_single_file = True,
-    ),
-    "src": attr.label(
-      mandatory = True,
-      allow_single_file = [".txt"],
-    ),
-    "suffix": attr.string(mandatory = True),
-    "searchbox": attr.bool(default = True),
-    "out": attr.output(mandatory = True),
-  },
+    attrs = {
+        "_exe": attr.label(
+            default = Label("//Documentation:replace_macros.py"),
+            allow_single_file = True,
+        ),
+        "src": attr.label(
+            mandatory = True,
+            allow_single_file = [".txt"],
+        ),
+        "suffix": attr.string(mandatory = True),
+        "searchbox": attr.bool(default = True),
+        "out": attr.output(mandatory = True),
+    },
+    implementation = _replace_macros_impl,
 )
-
 
 def _generate_asciidoc_args(ctx):
   args = []
@@ -88,7 +85,6 @@ def _generate_asciidoc_args(ctx):
     args.append(src.path)
   return args
 
-
 def _invoke_replace_macros(name, src, suffix, searchbox):
   fn = src
   if fn.startswith(":"):
@@ -103,7 +99,6 @@ def _invoke_replace_macros(name, src, suffix, searchbox):
   )
 
   return ":" + fn + suffix, fn.replace(".txt", ".html")
-
 
 def _asciidoc_impl(ctx):
   args = [
@@ -121,29 +116,31 @@ def _asciidoc_impl(ctx):
   )
 
 _asciidoc_attrs = {
-  "_exe": attr.label(
-    default = Label("//lib/asciidoctor:asciidoc"),
-    cfg = "host",
-    allow_files = True,
-    executable = True,
-  ),
-  "srcs": attr.label_list(mandatory = True, allow_files = True),
-  "version": attr.label(
-    default = Label("//:version.txt"),
-    allow_single_file = True,
-  ),
-  "suffix": attr.string(mandatory = True),
-  "backend": attr.string(),
-  "attributes": attr.string_list(),
+    "_exe": attr.label(
+        default = Label("//lib/asciidoctor:asciidoc"),
+        cfg = "host",
+        allow_files = True,
+        executable = True,
+    ),
+    "srcs": attr.label_list(
+        mandatory = True,
+        allow_files = True,
+    ),
+    "version": attr.label(
+        default = Label("//:version.txt"),
+        allow_single_file = True,
+    ),
+    "suffix": attr.string(mandatory = True),
+    "backend": attr.string(),
+    "attributes": attr.string_list(),
 }
 
 _asciidoc = rule(
-  implementation = _asciidoc_impl,
-  attrs = _asciidoc_attrs + {
-    "outs": attr.output_list(mandatory = True),
-  },
+    attrs = _asciidoc_attrs + {
+        "outs": attr.output_list(mandatory = True),
+    },
+    implementation = _asciidoc_impl,
 )
-
 
 def _genasciidoc_htmlonly(
     name,
@@ -176,7 +173,6 @@ def _genasciidoc_htmlonly(
     **kwargs
   )
 
-
 def genasciidoc(
     name,
     srcs = [],
@@ -207,7 +203,6 @@ def genasciidoc(
       **kwargs
     )
 
-
 def _asciidoc_html_zip_impl(ctx):
   args = [
     "--mktmp",
@@ -225,13 +220,12 @@ def _asciidoc_html_zip_impl(ctx):
   )
 
 _asciidoc_html_zip = rule(
-  implementation = _asciidoc_html_zip_impl,
-  attrs = _asciidoc_attrs,
-  outputs = {
-    "out": "%{name}.zip",
-  }
+    attrs = _asciidoc_attrs,
+    outputs = {
+        "out": "%{name}.zip",
+    },
+    implementation = _asciidoc_html_zip_impl,
 )
-
 
 def _genasciidoc_htmlonly_zip(
     name,
@@ -254,7 +248,6 @@ def _genasciidoc_htmlonly_zip(
     backend = backend,
     attributes = attributes,
   )
-
 
 def _asciidoc_zip_impl(ctx):
   tmpdir = ctx.outputs.out.path + "_tmpdir"
@@ -284,20 +277,22 @@ def _asciidoc_zip_impl(ctx):
   )
 
 _asciidoc_zip = rule(
-  implementation = _asciidoc_zip_impl,
-  attrs = {
-    "src": attr.label(
-      mandatory = True,
-      allow_single_file = [".zip"],
-    ),
-    "resources": attr.label_list(mandatory = True, allow_files = True),
-    "directory": attr.string(mandatory = True),
-  },
-  outputs = {
-    "out": "%{name}.zip",
-  }
+    attrs = {
+        "src": attr.label(
+            mandatory = True,
+            allow_single_file = [".zip"],
+        ),
+        "resources": attr.label_list(
+            mandatory = True,
+            allow_files = True,
+        ),
+        "directory": attr.string(mandatory = True),
+    },
+    outputs = {
+        "out": "%{name}.zip",
+    },
+    implementation = _asciidoc_zip_impl,
 )
-
 
 def genasciidoc_zip(
     name,

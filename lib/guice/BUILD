@@ -1,54 +1,54 @@
 java_library(
-  name = 'guice',
-  exports = [
-    ':guice_library',
-    ':javax-inject',
-    ':multibindings',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "guice",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":guice_library",
+        ":javax-inject",
+        ":multibindings",
+    ],
 )
 
 java_library(
-  name = 'guice_library',
-  exports = ['@guice_library//jar'],
-  runtime_deps = ['aopalliance'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "guice_library",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@guice_library//jar"],
+    runtime_deps = ["aopalliance"],
 )
 
 java_library(
-  name = 'guice-assistedinject',
-  exports = ['@guice_assistedinject//jar'],
-  runtime_deps = [':guice'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "guice-assistedinject",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@guice_assistedinject//jar"],
+    runtime_deps = [":guice"],
 )
 
 java_library(
-  name = 'guice-servlet',
-  exports = ['@guice_servlet//jar'],
-  runtime_deps = [':guice'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "guice-servlet",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@guice_servlet//jar"],
+    runtime_deps = [":guice"],
 )
 
 java_library(
-  name = 'aopalliance',
-  exports = ['@aopalliance//jar'],
-  data = ['//lib:LICENSE-PublicDomain'],
+    name = "aopalliance",
+    data = ["//lib:LICENSE-PublicDomain"],
+    exports = ["@aopalliance//jar"],
 )
 
 java_library(
-  name = 'javax-inject',
-  exports = ['@javax_inject//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "javax-inject",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@javax_inject//jar"],
 )
 
 java_library(
-  name = 'multibindings',
-  exports = [ '@multibindings//jar' ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "multibindings",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@multibindings//jar"],
 )

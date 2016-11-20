@@ -102,6 +102,7 @@ sh_test(
     ":test_components.zip",
     "test/index.html",
   ],
+  size = "large",
   # Should not run sandboxed.
   tags = ["local", "manual"],
 )

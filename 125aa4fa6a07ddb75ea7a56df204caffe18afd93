@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_50eecc06",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-20T18:50:28Z",
+      "side": 1,
+      "message": "Not blocking but worth noting that we rarely use rgb() functions for color.",
+      "range": {
+        "startLine": 170,
+        "startChar": 26,
+        "endLine": 170,
+        "endChar": 44
+      },
+      "revId": "125aa4fa6a07ddb75ea7a56df204caffe18afd93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

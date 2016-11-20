@@ -263,6 +263,16 @@ limitations under the License.
             </span>
           </section>
           <section>
+            <span class="title">Show Trailing Whitespace</span>
+            <span class="value">
+              <input
+                  id="showTrailingWhitespace"
+                  type="checkbox"
+                  checked$="[[_diffPrefs.show_whitespace_errors]]"
+                  on-change="_handleShowTrailingWhitespaceChanged">
+            </span>
+          </section>
+          <section>
             <span class="title">Syntax Highlighting</span>
             <span class="value">
               <input

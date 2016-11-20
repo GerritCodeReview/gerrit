@@ -214,6 +214,11 @@
       this.set('_diffPrefs.show_tabs', this.$.showTabs.checked);
     },
 
+    _handleShowTrailingWhitespaceChanged: function() {
+      this.set('_diffPrefs.show_whitespace_errors',
+          this.$.showTrailingWhitespace.checked);
+    },
+
     _handleSyntaxHighlightingChanged: function() {
       this.set('_diffPrefs.syntax_highlighting',
           this.$.syntaxHighlighting.checked);

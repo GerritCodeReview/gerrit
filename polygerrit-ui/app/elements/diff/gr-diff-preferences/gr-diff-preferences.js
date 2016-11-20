@@ -72,6 +72,7 @@
       this._newPrefs = Object.assign({}, prefs);
       this.$.contextSelect.value = prefs.context;
       this.$.showTabsInput.checked = prefs.show_tabs;
+      this.$.showTrailingWhitespaceInput.checked = prefs.show_whitespace_errors;
       this.$.lineWrappingInput.checked = prefs.line_wrapping;
       this.$.syntaxHighlightInput.checked = prefs.syntax_highlighting;
     },
@@ -89,6 +90,11 @@
 
     _handleShowTabsTap: function(e) {
       this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
+    },
+
+    _handleShowTrailingWhitespaceTap: function(e) {
+      this.set('_newPrefs.show_whitespace_errors',
+          Polymer.dom(e).rootTarget.checked);
     },
 
     _handleSyntaxHighlightTap: function(e) {

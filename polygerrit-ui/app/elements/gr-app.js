@@ -198,7 +198,7 @@
       }
     },
 
-    _showKeyboardShortcuts(e) {
+    _showKeyboardShortcuts: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this.$.keyboardShortcuts.open();
     },

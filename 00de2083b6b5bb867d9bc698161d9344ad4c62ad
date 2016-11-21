@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_50a6cca5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-21T22:55:05Z",
+      "side": 1,
+      "message": "Ok, then to reiterate, let\u0027s use my proposal from the root comment in this thread.",
+      "parentUuid": "10c70467_75aba86c",
+      "revId": "00de2083b6b5bb867d9bc698161d9344ad4c62ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c3fba_d3c7b431",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 1

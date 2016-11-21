@@ -174,6 +174,9 @@ public final class PatchLineComment {
   @Column(id = 11, notNull = false)
   protected Account.Id realAuthor;
 
+  @Column(id = 12)
+  protected boolean resolved;
+
   /**
    * The RevId for the commit to which this comment is referring.
    *

@@ -86,6 +86,16 @@ public final class ChangeMessage {
   @Column(id = 7, notNull = false)
   protected Account.Id realAuthor;
 
+  /**
+   * The parent of this comment, or null if this is the first comment in the
+   * thread
+   */
+  @Column(id = 8, length = 40, notNull = false)
+  protected String parentUuid;
+
+  @Column(id = 9)
+  protected boolean resolved;
+
   protected ChangeMessage() {
   }
 

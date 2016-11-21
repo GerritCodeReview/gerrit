@@ -189,8 +189,9 @@
       var text = document.createElement('gr-linked-text');
       text.config = this.config;
       text.content = content;
+      text.pre = true;
       if (isPre) {
-        text.pre = true;
+        text.classList.add('pre');
       }
       return text;
     },

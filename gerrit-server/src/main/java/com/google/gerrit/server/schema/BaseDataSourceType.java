@@ -21,6 +21,7 @@ import java.io.InputStream;
 
 public abstract class BaseDataSourceType implements DataSourceType {
 
+  private static final String DEFAULT_VALIDATION_QUERY = "select 1";
   private final String driver;
 
   protected BaseDataSourceType(String driver) {
@@ -35,6 +36,11 @@ public abstract class BaseDataSourceType implements DataSourceType {
   @Override
   public boolean usePool() {
     return true;
+  }
+
+  @Override
+  public String getValidationQuery() {
+    return DEFAULT_VALIDATION_QUERY;
   }
 
   @Override

@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "90893441_69df65f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-21T16:06:06Z",
+      "side": 1,
+      "message": "The problem with documenting it only in documentation (other than the fact that our documentation is in general not very discoverable) is that it makes it harder to interactively construct filters. You can\u0027t drill down into a particular email to see why it was/wasn\u0027t caught by a filter like you wanted. (I guess you can if you want to look at the HTML source, but that\u0027s not exactly fun to read what with the stripped whitespace and all.)\n\nFor example, the first version of my filter might say \"Gerrit-Reviewer: Dave Borowitz\", but then there was some email that I expected to match this filter, so I go back and open that email, and oh, it actually says \"Gerrit-CC: Dave Borowitz\", so that means I should OR that into my filter as well.\n\nLet me turn the question around: what is the downside of including the footers in the email? The only downside I can see is that it\u0027s visual noise; but is that not something we can address with appropriate styling? Or doesn\u0027t Gmail have a feature like where anything after \"\\n--\\n\" it treats  it as a signature that\u0027s collapsed by default?",
+      "parentUuid": "70a120aa_3095c88f",
+      "revId": "25f2aadf5a118a8ebed356d5d2f8696d2c4a190f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_55c94cb7",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
         "patchSetId": 1

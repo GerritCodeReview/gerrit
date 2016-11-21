@@ -41,4 +41,9 @@ class Derby extends BaseDataSourceType {
     }
     return "jdbc:derby:" + site.resolve(database).toString() + ";create=true";
   }
+
+  @Override
+  public String getValidationQuery() {
+    return "values 1";
+  }
 }

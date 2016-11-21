@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_903bd48c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T21:59:31Z",
+      "side": 1,
+      "message": "IMO, this sentence is not needed.",
+      "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_55422c0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T21:59:31Z",
+      "side": 1,
+      "message": "Avoid \"we\" in commit messages. How about ...\n\n  Note: unlike the the GWT UI, which uses integer division to calculate percentages, this change uses rounding. This may cause some percentages to appear off by one compared to GWT.\n\n... ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 68
+      },
+      "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_d5355c97",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T21:59:31Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 535,
+        "startChar": 52,
+        "endLine": 535,
+        "endChar": 78
+      },
+      "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_30fce897",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T21:59:31Z",
+      "side": 1,
+      "message": "Return an empty string in this case, and on l.555.\n\nAlso consider just making this one line.\n\n    if (oldSize \u003d\u003d\u003d 0) { return \u0027\u0027; }",
+      "range": {
+        "startLine": 546,
+        "startChar": 8,
+        "endLine": 546,
+        "endChar": 15
+      },
+      "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

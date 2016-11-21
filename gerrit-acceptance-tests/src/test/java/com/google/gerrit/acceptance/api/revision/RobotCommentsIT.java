@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -34,66 +35,81 @@ import java.util.List;
 import java.util.Map;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
+  private String changeId;
+
+  @Before
+  public void setUp() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    changeId = changeResult.getChangeId();
+  }
+
   @Test
-  public void comments() throws Exception {
+  public void testAddAndRetrieveRobotComments() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
-    PushOneCommit.Result r = createChange();
     RobotCommentInput in = createRobotCommentInput();
-    ReviewInput reviewInput = new ReviewInput();
-    Map<String, List<RobotCommentInput>> robotComments = new HashMap<>();
-    robotComments.put(in.path, Collections.singletonList(in));
-    reviewInput.robotComments = robotComments;
-    reviewInput.message = "comment test";
-    gApi.changes()
-       .id(r.getChangeId())
-       .current()
-       .review(reviewInput);
+    addRobotComment(changeId, in);
 
     Map<String, List<RobotCommentInfo>> out = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
+        .id(changeId)
+        .current()
         .robotComments();
+
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
     assertRobotComment(comment, in, false);
-
-    List<RobotCommentInfo> list = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .robotCommentsAsList();
-    assertThat(list).hasSize(1);
-
-    RobotCommentInfo comment2 = list.get(0);
-    assertRobotComment(comment2, in);
-
-    RobotCommentInfo comment3 = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .robotComment(comment.id)
-        .get();
-    assertRobotComment(comment3, in);
   }
 
   @Test
-  public void noOptionalFields() throws Exception {
+  public void testRetrieveRobotCommentsAsList() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
-    PushOneCommit.Result r = createChange();
+    RobotCommentInput robotCommentInput = createRobotCommentInput();
+    addRobotComment(changeId, robotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = gApi.changes()
+        .id(changeId)
+        .current()
+        .robotCommentsAsList();
+
+    assertThat(robotCommentInfos).hasSize(1);
+    RobotCommentInfo robotCommentInfo =
+        Iterables.getOnlyElement(robotCommentInfos);
+    assertRobotComment(robotCommentInfo, robotCommentInput);
+  }
+
+  @Test
+  public void testRetrieveSpecificRobotComment() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    RobotCommentInput robotCommentInput = createRobotCommentInput();
+    addRobotComment(changeId, robotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = gApi.changes()
+        .id(changeId)
+        .current()
+        .robotCommentsAsList();
+    RobotCommentInfo robotCommentInfo =
+        Iterables.getOnlyElement(robotCommentInfos);
+
+    RobotCommentInfo specificRobotCommentInfo = gApi.changes()
+        .id(changeId)
+        .current()
+        .robotComment(robotCommentInfo.id)
+        .get();
+    assertRobotComment(specificRobotCommentInfo, robotCommentInput);
+  }
+
+  @Test
+  public void testAddRobotCommentWithoutOptionalFields() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
     RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
-    ReviewInput reviewInput = new ReviewInput();
-    Map<String, List<RobotCommentInput>> robotComments = new HashMap<>();
-    robotComments.put(in.path, Collections.singletonList(in));
-    reviewInput.robotComments = robotComments;
-    reviewInput.message = "comment test";
-    gApi.changes()
-       .id(r.getChangeId())
-       .current()
-       .review(reviewInput);
+    addRobotComment(changeId, in);
 
     Map<String, List<RobotCommentInfo>> out = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
+        .id(changeId)
+        .current()
         .robotComments();
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
@@ -101,10 +117,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void robotCommentsNotSupported() throws Exception {
+  public void testRobotCommentsNotSupportedWithoutNoteDb() throws Exception {
     assume().that(notesMigration.enabled()).isFalse();
 
-    PushOneCommit.Result r = createChange();
     RobotCommentInput in = createRobotCommentInput();
     ReviewInput reviewInput = new ReviewInput();
     Map<String, List<RobotCommentInput>> robotComments = new HashMap<>();
@@ -115,7 +130,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("robot comments not supported");
     gApi.changes()
-       .id(r.getChangeId())
+       .id(changeId)
        .current()
        .review(reviewInput);
   }
@@ -137,6 +152,18 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     in.properties.put("key1", "value1");
     in.properties.put("key2", "value2");
     return in;
+  }
+
+  private void addRobotComment(String targetChangeId,
+      RobotCommentInput robotCommentInput) throws Exception {
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.robotComments = Collections.singletonMap(robotCommentInput.path,
+        Collections.singletonList(robotCommentInput));
+    reviewInput.message = "robot comment test";
+    gApi.changes()
+        .id(targetChangeId)
+        .current()
+        .review(reviewInput);
   }
 
   private void assertRobotComment(RobotCommentInfo c,

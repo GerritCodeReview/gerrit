@@ -346,13 +346,12 @@
 
     _handleDownKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
       e.preventDefault();
       if (this._showInlineDiffs) {
         this.$.cursor.moveDown();
       } else {
-        this.selectedIndex =
-            Math.min(this._numFilesShown, this.selectedIndex + 1);
+        this.selectedIndex = Math.min(this.selectedIndex + 1,
+          Math.min(this._numFilesShown, this._files.length - 1));
         this._scrollToSelectedFile();
       }
     },

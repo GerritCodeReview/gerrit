@@ -40,6 +40,24 @@
       "revId": "e07e18aab2c490075d62a28b15cb1890db8bb8cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_909f544d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T23:33:53Z",
+      "side": 1,
+      "message": "\u003e What exactly is the point of a cursor manager? [...] Looks like it refers to an object that manages scroll specifically for diffs.\n\nAha! Yeah, it\u0027s intentionally kind of abstract. To be clear, I\u0027m talking about gr-cursor-manager. OTOH, gr-diff-cursor is like a specialized cursor manager for diffs. There\u0027s a gr-cursor-manager inside it.\n\nThe cursor manager is for keeping track of a \"current\" DOM element among any arbitrary set of DOM elements, and moving forward or backward among them. For example, there\u0027s a gr-cursor-manager inside gr-autocomplete for cycling through the options.\n\nThe scroll behavior part of it is just an option. (Off by default I think.)\n\nWe originally borrowed it from the cr-cursor-manager in PolyReitveld [1]. That one\u0027s written for Polymer 0.5 IIRC.\n\n\u003e In other words, I can see how what you\u0027re proposing would work, but I\u0027m not entirely sure why we should do it.\n\nI concede that it probably doesn\u0027t need to hold up this change, but I think it\u0027s something worth upgrading this code at some point. Definitely a tool that\u0027s worth being aware of too.\n\nIf we don\u0027t use a cursor manager here, add a test for the bookending. (gr-cursor-manager already has tests for this.)\n\n* [1] https://chromium.googlesource.com/infra/infra/+/master/appengine/chromium_rietveld/new_static/common/cr-cursor-manager.html",
+      "parentUuid": "70a120aa_d0c2bc3f",
+      "revId": "e07e18aab2c490075d62a28b15cb1890db8bb8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

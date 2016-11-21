@@ -246,7 +246,24 @@ public class MergeUtil {
     return sb.toString();
   }
 
-  public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
+  /**
+   * Adds footers to existing commit message based on the state of the change.
+   *
+   * This adds the following footers if they are missing:
+   *
+   * <ul>
+   *   <li> Reviewed-on: <i>url</i></li>
+   *   <li> Reviewed-by | Tested-by | <i>Other-Label-Name</i>: <i>reviewer</i>
+   *   </li>
+   *   <li> Change-Id </li>
+   * </ul>
+   *
+   * @param n
+   * @param ctl
+   * @param psId
+   * @return new message
+   */
+  public String createDetailedCommitMessage(RevCommit n, ChangeControl ctl,
       PatchSet.Id psId) {
     Change c = ctl.getChange();
     final List<FooterLine> footers = n.getFooterLines();
@@ -354,8 +371,8 @@ public class MergeUtil {
     return msgbuf.toString();
   }
 
-  public String createCherryPickCommitMessage(final CodeReviewCommit n) {
-    return createCherryPickCommitMessage(n, n.getControl(), n.getPatchsetId());
+  public String createDetailedCommitMessage(final CodeReviewCommit n) {
+    return createDetailedCommitMessage(n, n.getControl(), n.getPatchsetId());
   }
 
   private static boolean isCodeReview(LabelId id) {

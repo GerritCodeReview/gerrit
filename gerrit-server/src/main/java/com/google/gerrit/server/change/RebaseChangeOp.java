@@ -68,6 +68,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private CommitValidators.Policy validate;
   private boolean forceContentMerge;
   private boolean copyApprovals = true;
+  private boolean detailedCommitMessage = false;
   private boolean postMessage = true;
 
   private RevCommit rebasedCommit;
@@ -118,6 +119,12 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     return this;
   }
 
+  public RebaseChangeOp setDetailedCommitMessage(
+      boolean detailedCommitMessage) {
+    this.detailedCommitMessage = detailedCommitMessage;
+    return this;
+  }
+
   public RebaseChangeOp setPostMessage(boolean postMessage) {
     this.postMessage = postMessage;
     return this;
@@ -134,6 +141,15 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     RevWalk rw = ctx.getRevWalk();
     RevCommit original = rw.parseCommit(ObjectId.fromString(oldRev.get()));
     rw.parseBody(original);
+
+    String newCommitMessage;
+    if (detailedCommitMessage) {
+      newCommitMessage = newMergeUtil().createDetailedCommitMessage(original,
+          ctl, originalPatchSet.getId());
+    } else {
+      newCommitMessage = original.getFullMessage();
+    }
+
     RevCommit baseCommit;
     if (baseCommitish != null) {
        baseCommit = rw.parseCommit(ctx.getRepository().resolve(baseCommitish));
@@ -143,7 +159,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
            ctx.getRepository(), ctx.getRevWalk()));
     }
 
-    rebasedCommit = rebaseCommit(ctx, original, baseCommit);
+    rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage);
 
     RevId baseRevId = new RevId((baseCommitish != null) ? baseCommitish
         : ObjectId.toString(baseCommit.getId()));
@@ -223,8 +239,8 @@ public class RebaseChangeOp extends BatchUpdate.Op {
    * @throws IOException the merge failed for another reason.
    */
   private RevCommit rebaseCommit(RepoContext ctx, RevCommit original,
-      ObjectId base) throws ResourceConflictException, MergeConflictException,
-      IOException {
+      ObjectId base, String commitMessage)
+      throws ResourceConflictException, MergeConflictException, IOException {
     RevCommit parentCommit = original.getParent(0);
 
     if (base.equals(parentCommit)) {
@@ -245,7 +261,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     cb.setTreeId(merger.getResultTreeId());
     cb.setParentId(base);
     cb.setAuthor(original.getAuthorIdent());
-    cb.setMessage(original.getFullMessage());
+    cb.setMessage(commitMessage);
     if (committerIdent != null) {
       cb.setCommitter(committerIdent);
     } else {

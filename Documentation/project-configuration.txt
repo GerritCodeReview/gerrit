@@ -103,7 +103,8 @@ submit type unless
 link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
 is enabled and depending changes share the same topic. So generally
 submitters must remember to submit changes in the right order when using this
-submit type.
+submit type. If all you want is extra information in commit message,
+consider using Rebase Always submit strategy.
 
 [[rebase_if_necessary]]
 * Rebase If Necessary
@@ -120,8 +121,12 @@ the same file has also been changed on the other side of the merge.
 [[rebase_always]]
 * Rebase Always
 +
-Basically, the same as Rebase If Necessary, but it creates a new patchset even if
-fast forward is possible. In this regard, it's similar to Cherry Pick, but with
+Basically, the same as Rebase If Necessary, but it creates a new patchset even
+if fast forward is possible AND like Cherry Pick it ensures footers such as
+Change-Id, Reviewed-On, and others are present in resulting commit that is
+merged.
+
+Thus, Rebase-Always can be considered similar to Cherry Pick, but with
 the important distinction that Rebase Always does not ignore dependencies.
 
 [[content_merge]]

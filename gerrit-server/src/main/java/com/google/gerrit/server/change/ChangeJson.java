@@ -1112,7 +1112,7 @@ public class ChangeJson {
         if (addFooters) {
           out.commitWithFooters = mergeUtilFactory
               .create(projectCache.get(project))
-              .createCherryPickCommitMessage(commit, ctl, in.getId());
+              .createDetailedCommitMessage(commit, ctl, in.getId());
         }
       }
     }

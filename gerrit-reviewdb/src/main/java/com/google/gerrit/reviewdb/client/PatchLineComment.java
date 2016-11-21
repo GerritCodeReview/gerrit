@@ -174,6 +174,10 @@ public final class PatchLineComment {
   @Column(id = 11, notNull = false)
   protected Account.Id realAuthor;
 
+  /** Whether this comment requires addressing by the change owner. */
+  @Column(id = 12)
+  protected boolean unresolved;
+
   /**
    * The RevId for the commit to which this comment is referring.
    *

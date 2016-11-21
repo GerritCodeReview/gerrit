@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
+import static com.google.gerrit.extensions.client.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CODE_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.REWORK;
 import static com.google.gerrit.extensions.client.ChangeKind.TRIVIAL_REBASE;
@@ -72,10 +73,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             value(0, "No score"),
             value(-1, "I would prefer that you didn't submit this"),
             value(-2, "Do not submit"));
+    codeReview.setCopyAllScoresIfNoChange(false);
     cfg.getLabelSections().put(codeReview.getName(), codeReview);
 
     LabelType verified = category("Verified", value(1, "Passes"),
         value(0, "No score"), value(-1, "Failed"));
+    verified.setCopyAllScoresIfNoChange(false);
     cfg.getLabelSections().put(verified.getName(), verified);
 
     AccountGroup.UUID registeredUsers =
@@ -91,7 +94,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void notSticky() throws Exception {
     assertNotSticky(EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE,
-        MERGE_FIRST_PARENT_UPDATE));
+        MERGE_FIRST_PARENT_UPDATE, NO_CHANGE));
   }
 
   @Test
@@ -101,7 +104,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
 
     for (ChangeKind changeKind : EnumSet.of(REWORK, TRIVIAL_REBASE,
-        NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE)) {
+        NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
       testRepo.reset(getRemoteHead());
 
       String changeId = createChange(changeKind);
@@ -122,7 +125,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
 
     for (ChangeKind changeKind : EnumSet.of(REWORK, TRIVIAL_REBASE,
-        NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE)) {
+        NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
       testRepo.reset(getRemoteHead());
 
       String changeId = createChange(changeKind);
@@ -147,8 +150,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
 
-    updateChange(changeId, TRIVIAL_REBASE);
+    updateChange(changeId, NO_CHANGE);
     ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, NO_CHANGE);
+    assertVotes(c, user, -2, 0, NO_CHANGE);
+
+    updateChange(changeId, TRIVIAL_REBASE);
+    c = detailedChange(changeId);
     assertVotes(c, admin, 2, 0, TRIVIAL_REBASE);
     assertVotes(c, user, -2, 0, TRIVIAL_REBASE);
 
@@ -189,8 +197,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
 
-    updateChange(changeId, NO_CODE_CHANGE);
+    updateChange(changeId, NO_CHANGE);
     ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 0, 1, NO_CHANGE);
+    assertVotes(c, user, 0, -1, NO_CHANGE);
+
+    updateChange(changeId, NO_CODE_CHANGE);
+    c = detailedChange(changeId);
     assertVotes(c, admin, 0, 1, NO_CODE_CHANGE);
     assertVotes(c, user, 0, -1, NO_CODE_CHANGE);
 
@@ -209,8 +222,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
 
-    updateChange(changeId, MERGE_FIRST_PARENT_UPDATE);
+    updateChange(changeId, NO_CHANGE);
     ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, NO_CHANGE);
+    assertVotes(c, user, -2, 0, NO_CHANGE);
+
+    updateChange(changeId, MERGE_FIRST_PARENT_UPDATE);
+    c = detailedChange(changeId);
     assertVotes(c, admin, 2, 0, MERGE_FIRST_PARENT_UPDATE);
     assertVotes(c, user, -2, 0, MERGE_FIRST_PARENT_UPDATE);
 
@@ -226,7 +244,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
 
     for (ChangeKind changeKind : EnumSet.of(REWORK, TRIVIAL_REBASE,
-        NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE)) {
+        NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
       testRepo.reset(getRemoteHead());
 
       String changeId = createChange(changeKind);
@@ -319,7 +337,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .setCopyMaxScore(true);
     saveProjectConfig(project, cfg);
 
-
     // Vote max score on PS1
     String changeId = createChange(REWORK);
     vote(admin, changeId, label, 2);
@@ -384,6 +401,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         updateFirstParent(changeId);
         return;
       case NO_CHANGE:
+        noChange(changeId);
+        return;
       default:
         fail("unexpected change kind: " + changeKind);
     }
@@ -398,6 +417,21 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     commitBuilder.create();
     GitUtil.pushHead(testRepo, "refs/for/master", false);
     assertThat(getChangeKind(changeId)).isEqualTo(NO_CODE_CHANGE);
+  }
+
+  private void noChange(String changeId) throws Exception {
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    String commitMessage =
+        change.revisions.get(change.currentRevision).commit.message;
+
+    TestRepository<?>.CommitBuilder commitBuilder =
+        testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
+    commitBuilder.message(commitMessage)
+        .author(admin.getIdent())
+        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
+    commitBuilder.create();
+    GitUtil.pushHead(testRepo, "refs/for/master", false);
+    assertThat(getChangeKind(changeId)).isEqualTo(NO_CHANGE);
   }
 
   private void rework(String changeId) throws Exception {

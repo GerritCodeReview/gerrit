@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_30ca285f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T22:29:09Z",
+      "side": 1,
+      "message": "When the inline diffs are shown, this isn\u0027t an issue because preventing overflow is a feature built into the cursor manager. But that manager is only in effect when the diffs are not open, and it only curses through the lines of the diffs.\n\nAn alternative approach to solve this issue would be to create an additional cursor manager for when the diffs are closed. That way we don\u0027t have to duplicate logic already found in the cursor manager.\n\n* Rename this.$.cursor to this.$.diffLineCursor or similar.\n* Create a new cursor manager named this.$.fileCursor.\n* Send the user actions to the appropriate cursor based on the result of this._showInlineDiffs().\n\nWhat do you think?",
+      "range": {
+        "startLine": 353,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 65
+      },
+      "revId": "e07e18aab2c490075d62a28b15cb1890db8bb8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

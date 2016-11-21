@@ -128,46 +128,49 @@ limitations under the License.
 
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
+      // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
       flush(function() {
-        for (var label in element.permittedLabels) {
-          assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
-              label);
-        }
-        element.draft = 'I wholeheartedly disapprove';
-        MockInteractions.tap(element.$$(
-            'iron-selector[data-label="Code-Review"] > ' +
-            'gr-button[data-value="-1"]'));
-        MockInteractions.tap(element.$$(
-            'iron-selector[data-label="Verified"] > ' +
-            'gr-button[data-value="-1"]'));
-
-        var saveReviewStub = sinon.stub(element, '_saveReview',
-            function(review) {
-          assert.deepEqual(review, {
-            drafts: 'PUBLISH_ALL_REVISIONS',
-            labels: {
-              'Code-Review': -1,
-              'Verified': -1,
-            },
-            message: 'I wholeheartedly disapprove',
-            reviewers: [],
-          });
-          return Promise.resolve({ok: true});
-        });
-
-        element.addEventListener('send', function() {
-          assert.isFalse(element.disabled,
-              'Element should be enabled when done sending reply.');
-          assert.equal(element.draft.length, 0);
-          saveReviewStub.restore();
-          done();
-        });
-
-        // This is needed on non-Blink engines most likely due to the ways in
-        // which the dom-repeat elements are stamped.
         flush(function() {
-          MockInteractions.tap(element.$$('.send'));
-          assert.isTrue(element.disabled);
+          for (var label in element.permittedLabels) {
+            assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
+                label);
+          }
+          element.draft = 'I wholeheartedly disapprove';
+          MockInteractions.tap(element.$$(
+              'iron-selector[data-label="Code-Review"] > ' +
+              'gr-button[data-value="-1"]'));
+          MockInteractions.tap(element.$$(
+              'iron-selector[data-label="Verified"] > ' +
+              'gr-button[data-value="-1"]'));
+
+          var saveReviewStub = sinon.stub(element, '_saveReview',
+              function(review) {
+            assert.deepEqual(review, {
+              drafts: 'PUBLISH_ALL_REVISIONS',
+              labels: {
+                'Code-Review': -1,
+                'Verified': -1,
+              },
+              message: 'I wholeheartedly disapprove',
+              reviewers: [],
+            });
+            return Promise.resolve({ok: true});
+          });
+
+          element.addEventListener('send', function() {
+            assert.isFalse(element.disabled,
+                'Element should be enabled when done sending reply.');
+            assert.equal(element.draft.length, 0);
+            saveReviewStub.restore();
+            done();
+          });
+
+          // This is needed on non-Blink engines most likely due to the ways in
+          // which the dom-repeat elements are stamped.
+          flush(function() {
+            MockInteractions.tap(element.$$('.send'));
+            assert.isTrue(element.disabled);
+          });
         });
       });
     });

@@ -79,6 +79,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_1021a465",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T20:10:17Z",
+      "side": 1,
+      "message": "That said, [1] re-introduces visible footers, which I\u0027ll accept if it gets voted in. 😀\n\n* [1] https://gerrit-review.googlesource.com/c/91764/",
+      "parentUuid": "d091ec62_ab8869b2",
+      "revId": "25f2aadf5a118a8ebed356d5d2f8696d2c4a190f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_55c94cb7",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
         "patchSetId": 1

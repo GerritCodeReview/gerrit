@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -114,6 +115,13 @@ public class CommentsUtil {
   public static PatchSet.Id getCommentPsId(Change.Id changeId,
       Comment comment) {
     return new PatchSet.Id(changeId, comment.key.patchSetId);
+  }
+
+  public static String extractMessageId(@Nullable String tag) {
+    if (tag == null || !tag.startsWith("mailMessageId=")) {
+      return null;
+    }
+    return tag.substring("mailMessageId=".length());
   }
 
   private static final Ordering<Comparable<?>> NULLS_FIRST =

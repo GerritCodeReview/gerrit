@@ -6,6 +6,7 @@ acceptance_tests(
     labels = ["server"],
     deps = [
         "//lib/greenmail",
+        "//lib/joda:joda-time",
         "//lib/mail",
     ],
 )

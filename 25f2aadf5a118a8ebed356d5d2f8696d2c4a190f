@@ -97,6 +97,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_753008b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-21T20:43:33Z",
+      "side": 1,
+      "message": "\u003e Constructing filters will be an infrequent task for any user, whereas displaying footers in every message inflicts the visual noise every time -- including for users who have no interest in writing filters.\n\nGood point. You may have convinced me we should avoid the noise, provided we can mitigate the discoverability issue.\n\n\u003e As I understand it (as related to me by Shawn) the footers were originally only included in the body because Gmail did-not / does-not support searching by arbitrary mail headers. By rights,\n\nI see your point, but that decision was made like 7 years ago, and revisiting those design decisions every few years is not out of the question.\n\n\u003e Discoverability of docs sounds to me like an additional problem.\n\nYes, this is something we need to address independently of this change, obviously.\n\n\u003e  For help writing filters, or to unsubscribe, visit [settings].\n\n+1 to this idea, except we need the documentation on the settings page.\n\n\u003e Can certainly force Soy to preserve whitespace in the HTML footer as well.\n\nYes please.",
+      "parentUuid": "d091ec62_ab8869b2",
+      "revId": "25f2aadf5a118a8ebed356d5d2f8696d2c4a190f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_55c94cb7",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
         "patchSetId": 1

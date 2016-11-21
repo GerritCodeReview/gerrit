@@ -43,4 +43,9 @@ public class DB2 extends BaseDataSourceType {
     b.append(dbc.required("database"));
     return b.toString();
   }
+
+  @Override
+  public String getValidationQuery() {
+    return "SELECT 1 FROM SYSIBM.SYSDUMMY1";
+  }
 }

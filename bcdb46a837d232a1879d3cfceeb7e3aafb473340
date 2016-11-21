@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_157a7465",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-11-21T17:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bfd0bf_f4b338c7",
+      "revId": "bcdb46a837d232a1879d3cfceeb7e3aafb473340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0bfd0bf_14e0b4b0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
       "writtenOn": "2016-11-21T15:36:08Z",
       "side": 1,
       "message": "Include project name?",
+      "revId": "bcdb46a837d232a1879d3cfceeb7e3aafb473340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_f56df8ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-11-21T17:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bfd0bf_14e0b4b0",
       "revId": "bcdb46a837d232a1879d3cfceeb7e3aafb473340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

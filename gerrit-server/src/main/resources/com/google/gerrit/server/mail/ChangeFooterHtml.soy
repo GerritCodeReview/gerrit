@@ -29,7 +29,7 @@
  */
 {template .ChangeFooterHtml autoescape="strict" kind="html"}
   {let $footerStyle kind="css"}
-    display: none;
+    color: #222;
   {/let}
 
   {if $email.changeUrl or $email.settingsUrl}
@@ -44,21 +44,24 @@
     </p>
   {/if}
 
-  <p style="{$footerStyle}">
-    Gerrit-MessageType: {$messageClass}<br/>
-    Gerrit-Change-Id: {$changeId}<br/>
-    Gerrit-Change-Number: {$change.changeNumber}<br/>
-    Gerrit-PatchSet: {$patchSet.patchSetId}<br/>
-    Gerrit-Project: {$projectName}<br/>
-    Gerrit-Branch: {$branch.shortName}<br/>
-    Gerrit-Owner: {$change.ownerEmail}
+  --{sp}<br/>
+
+  <div style="{$footerStyle}">
+    {\n}
+    Gerrit-MessageType: {$messageClass}<br/>{\n}
+    Gerrit-Change-Id: {$changeId}<br/>{\n}
+    Gerrit-Change-Number: {$change.changeNumber}<br/>{\n}
+    Gerrit-PatchSet: {$patchSet.patchSetId}<br/>{\n}
+    Gerrit-Project: {$projectName}<br/>{\n}
+    Gerrit-Branch: {$branch.shortName}<br/>{\n}
+    Gerrit-Owner: {$change.ownerEmail}<br/>{\n}
     {foreach $reviewer in $reviewerEmails}
-      Gerrit-Reviewer: {$reviewer}</br>
+      Gerrit-Reviewer: {$reviewer}<br/>{\n}
     {/foreach}
     {foreach $reviewer in $ccEmails}
-      Gerrit-CC: {$reviewer}</br>
+      Gerrit-CC: {$reviewer}<br/>{\n}
     {/foreach}
-  </p>
+  </div>
 
   {if $email.changeUrl}
     <div itemscope itemtype="http://schema.org/EmailMessage">

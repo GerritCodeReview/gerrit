@@ -22,15 +22,15 @@
  */
 {template .CommentFooterHtml autoescape="strict" kind="html"}
   {let $footerStyle kind="css"}
-    display: none;
+    color: #222;
   {/let}
 
-  <p style="{$footerStyle}">
-    Gerrit-Comment-Date: {$commentTimestamp}
+  <div style="{$footerStyle}">
+    Gerrit-Comment-Date: {$commentTimestamp}<br/>{\n}
     {if length($commentFiles) > 0}
       Gerrit-HasComments: Yes
     {else}
       Gerrit-HasComments: No
-    {/if}
-  </p>
+    {/if}<br/>{\n}
+  </div>
 {/template}

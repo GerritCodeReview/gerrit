@@ -22,6 +22,24 @@
       "revId": "e07e18aab2c490075d62a28b15cb1890db8bb8cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_d0c2bc3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-21T22:36:18Z",
+      "side": 1,
+      "message": "Hmm. What exactly is the point of a cursor manager? I\u0027m unfamiliar with the concept. Looks like it refers to an object that manages scroll specifically for diffs.\n\nI\u0027m not entirely sure what the purpose of changing this code would be. This seems like the shortest path to getting where we need, since we have to keep track of selectedIndex anyway for other hotkeys that perform actions on that selected file.\n\nIn other words, I can see how what you\u0027re proposing would work, but I\u0027m not entirely sure why we should do it.",
+      "parentUuid": "70a120aa_30ca285f",
+      "revId": "e07e18aab2c490075d62a28b15cb1890db8bb8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

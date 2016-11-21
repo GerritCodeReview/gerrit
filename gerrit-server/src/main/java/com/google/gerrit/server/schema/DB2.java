@@ -43,4 +43,9 @@ public class DB2 extends BaseDataSourceType {
     b.append(dbc.required("database"));
     return b.toString();
   }
+
+  @Override
+  public String getValidationQuery() {
+    return "select 1 from dual";
+  }
 }

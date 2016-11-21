@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10c70467_d5147cf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-21T22:12:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a120aa_903bd48c",
+      "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_55422c0d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 13,
         "endChar": 68
       },
+      "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_900af4d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-21T22:12:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c70467_55422c0d",
       "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,24 @@
         "endLine": 546,
         "endChar": 15
       },
+      "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_f5117805",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-21T22:12:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a120aa_30fce897",
       "revId": "b7f98471f61911f832235ff4f0395fbc4ec923db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

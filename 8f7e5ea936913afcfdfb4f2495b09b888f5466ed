@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a120aa_b09c5859",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-11-21T23:40:51Z",
+      "side": 1,
+      "message": "This test (and the next one) would be a lot easier to edit if it were simpler. There\u0027s no need to assign to bytes, and you could even just make it table driven.\n\n    var table \u003d {\n      64: \u0027+64 B\u0027,\n      1024: \u0027+1 KiB\u0027,\n      // etc.\n    }\n    for (var bytes in table) {\n      if (table.hasOwnProperty(bytes)) {\n        assert.equal(element._formatBytes(bytes), table[bytes]);\n      }\n    }\n\nI\u0027d also like to see more confirmation of edge cases, e.g. not just powers of 2, but values one less than a power of 2, like 1023. Oh, and don\u0027t forget 0.",
+      "revId": "8f7e5ea936913afcfdfb4f2495b09b888f5466ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_b5ee20d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T22:22:23Z",
+      "side": 1,
+      "message": "Same thing here.",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 554,
+        "endChar": 7
+      },
+      "revId": "5aa9d337ddbeebd08bc01b0ddc3dda1274c2c7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_f5e898c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T22:22:23Z",
+      "side": 1,
+      "message": "This open curly should go on the previous line. Same in a few places below.",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 11
+      },
+      "revId": "5aa9d337ddbeebd08bc01b0ddc3dda1274c2c7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_b0ee18d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T22:22:23Z",
+      "side": 1,
+      "message": "Nit: Being that the continuations here are object literals, they don\u0027t need to be indented so far.\n\n    foo.bar(baz, {\n      x: y,\n      z, w,\n    });",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 130,
+        "endChar": 13
+      },
+      "revId": "5aa9d337ddbeebd08bc01b0ddc3dda1274c2c7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

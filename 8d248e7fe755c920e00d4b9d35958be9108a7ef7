@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_30e308ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-21T22:20:00Z",
+      "side": 1,
+      "message": "no, android changes window size when the keyboard is up, but iOS doesn\u0027t.",
+      "parentUuid": "10c70467_15f7d4b5",
+      "revId": "8d248e7fe755c920e00d4b9d35958be9108a7ef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_55014cb6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -88,6 +106,24 @@
         "endLine": 11,
         "endChar": 22
       },
+      "revId": "8d248e7fe755c920e00d4b9d35958be9108a7ef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_50d88c3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-21T22:20:00Z",
+      "side": 1,
+      "message": "there is also the cancel button",
+      "parentUuid": "10c70467_750648d1",
       "revId": "8d248e7fe755c920e00d4b9d35958be9108a7ef7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +193,24 @@
         "endLine": 217,
         "endChar": 34
       },
+      "revId": "8d248e7fe755c920e00d4b9d35958be9108a7ef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_70dd902d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-21T22:20:00Z",
+      "side": 1,
+      "message": "this needs to be added to the overlay itself, not the gr-reply-dialog.",
+      "parentUuid": "10c70467_55d86c3e",
       "revId": "8d248e7fe755c920e00d4b9d35958be9108a7ef7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

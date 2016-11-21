@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bfd0bf_f4b338c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-21T15:36:08Z",
+      "side": 1,
+      "message": "These are implementation details that are not really of interest to callers of this public API method, and probably would be better as a comment within the method body.\n\nThis whole Javadoc could then be shortened to:\n\n /** @return whether a commit is visible to the user. */\n\nAlthough at that point the method signature is fairly self-explanatory, which I think is why there wasn\u0027t Javadoc before.",
+      "range": {
+        "startLine": 523,
+        "startChar": 5,
+        "endLine": 526,
+        "endChar": 28
+      },
+      "revId": "bcdb46a837d232a1879d3cfceeb7e3aafb473340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bfd0bf_14e0b4b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-21T15:36:08Z",
+      "side": 1,
+      "message": "Include project name?",
+      "revId": "bcdb46a837d232a1879d3cfceeb7e3aafb473340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90893441_29e56dc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-21T10:10:53Z",
+      "side": 1,
+      "message": "Can you mention what tool/script you\u0027ve used to do this reformatting?\n\nAnd if there\u0027s a style guide for BUILD files it might be worth adding to the documentation.",
+      "revId": "5443f27489199436e7a43d0155c7544ffb1c922f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

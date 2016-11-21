@@ -190,19 +190,21 @@ public class Comment {
   public String tag;
   public String revId;
   public String serverId;
+  public boolean unresolved;
 
   public Comment(Comment c) {
     this(new Key(c.key), c.author.getId(), new Timestamp(c.writtenOn.getTime()),
-        c.side, c.message, c.serverId);
+        c.side, c.message, c.serverId, c.unresolved);
     this.lineNbr = c.lineNbr;
     this.realAuthor = c.realAuthor;
     this.range = c.range != null ? new Range(c.range) : null;
     this.tag = c.tag;
     this.revId = c.revId;
+    this.unresolved = c.unresolved;
   }
 
   public Comment(Key key, Account.Id author, Timestamp writtenOn,
-      short side, String message, String serverId) {
+      short side, String message, String serverId, boolean unresolved) {
     this.key = key;
     this.author = new Comment.Identity(author);
     this.realAuthor = this.author;
@@ -210,6 +212,7 @@ public class Comment {
     this.side = side;
     this.message = message;
     this.serverId = serverId;
+    this.unresolved = unresolved;
   }
 
   public void setLineNbrAndRange(Integer lineNbr,
@@ -271,8 +274,9 @@ public class Comment {
         .append("parentUuid=")
             .append(Objects.toString(parentUuid, "")).append(',')
         .append("range=").append(Objects.toString(range, "")).append(',')
-        .append("revId=").append(revId != null ? revId : "")
-        .append("tag=").append(Objects.toString(tag, ""))
+        .append("revId=").append(revId != null ? revId : "").append(',')
+        .append("tag=").append(Objects.toString(tag, "")).append(',')
+        .append("unresolved=").append(unresolved)
         .append('}')
         .toString();
   }

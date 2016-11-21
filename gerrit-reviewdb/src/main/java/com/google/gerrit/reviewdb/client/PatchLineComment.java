@@ -174,6 +174,10 @@ public final class PatchLineComment {
   @Column(id = 11, notNull = false)
   protected Account.Id realAuthor;
 
+  /** True if this comment requires further action. */
+  @Column(id = 12)
+  protected boolean unresolved;
+
   /**
    * The RevId for the commit to which this comment is referring.
    *
@@ -321,7 +325,7 @@ public final class PatchLineComment {
 
   public Comment asComment(String serverId) {
     Comment c = new Comment(key.asCommentKey(), author, writtenOn, side,
-        message, serverId);
+        message, serverId, unresolved);
     c.setRevId(revId);
     c.setRange(range);
     c.lineNbr = lineNbr;
@@ -373,8 +377,10 @@ public final class PatchLineComment {
       .append(',');
     builder.append("range=").append(Objects.toString(range, ""))
       .append(',');
-    builder.append("revId=").append(revId != null ? revId.get() : "");
-    builder.append("tag=").append(Objects.toString(tag, ""));
+    builder.append("revId=").append(revId != null ? revId.get() : "")
+      .append(',');
+    builder.append("tag=").append(Objects.toString(tag, "")).append(',');
+    builder.append("unresolved=").append(unresolved);
     builder.append('}');
     return builder.toString();
   }

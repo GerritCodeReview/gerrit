@@ -147,7 +147,8 @@ public class CommentsUtil {
       short side, String message) throws OrmException {
     Comment c = new Comment(
         new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
-        ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId);
+        ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
+        true);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }

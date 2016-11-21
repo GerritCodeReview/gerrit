@@ -232,7 +232,7 @@ public class ChangeBundle {
     checkColumns(PatchSetApproval.Key.class, 1, 2, 3);
     checkColumns(PatchSetApproval.class, 1, 2, 3, 6, 7, 8);
     checkColumns(PatchLineComment.Key.class, 1, 2);
-    checkColumns(PatchLineComment.class, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+    checkColumns(PatchLineComment.class, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
   }
 
   private final Change change;

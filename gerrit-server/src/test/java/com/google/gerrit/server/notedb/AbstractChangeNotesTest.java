@@ -258,7 +258,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         t,
         side,
         message,
-        serverId);
+        serverId,
+        false);
     c.lineNbr = line;
     c.parentUuid = parentUUID;
     c.revId = commitSHA1;

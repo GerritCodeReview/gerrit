@@ -94,6 +94,7 @@ public class ChangeNoteUtil {
   private static final String REAL_AUTHOR = "Real-author";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
+  private static final String UNRESOLVED = "Unresolved";
   private static final String TAG = FOOTER_TAG.getName();
 
   public static String formatTime(PersonIdent ident, Timestamp t) {
@@ -275,7 +276,8 @@ public class ChangeNoteUtil {
             ? (short) (parentNumber == null ? 0 : -parentNumber)
             : (short) 1,
         message,
-        serverId);
+        serverId,
+        false);
     c.lineNbr = range.getEndLine();
     c.parentUuid = parentUUID;
     c.tag = tag;

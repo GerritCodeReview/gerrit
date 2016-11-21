@@ -35,10 +35,6 @@
       drafts: Object,
       revisions: Object,
       projectConfig: Object,
-      selectedIndex: {
-        type: Number,
-        notify: true,
-      },
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },
@@ -253,7 +249,7 @@
         this.set(['_shownFiles', i, '__expanded'], false);
         this.set(['_files', i, '__expanded'], false);
       }
-      this.$.cursor.handleDiffUpdate();
+      this.$.diffCursor.handleDiffUpdate();
     },
 
     _computeCommentsString: function(comments, patchNum, path) {
@@ -326,7 +322,7 @@
       if (!this._showInlineDiffs) { return; }
 
       e.preventDefault();
-      this.$.cursor.moveLeft();
+      this.$.diffCursor.moveLeft();
     },
 
     _handleShiftRightKey: function(e) {
@@ -334,20 +330,20 @@
       if (!this._showInlineDiffs) { return; }
 
       e.preventDefault();
-      this.$.cursor.moveRight();
+      this.$.diffCursor.moveRight();
     },
 
     _handleIKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (this.selectedIndex === undefined) { return; }
+      if (this.$.fileCursor.index === -1) { return; }
 
       e.preventDefault();
-      var expanded = this._files[this.selectedIndex].__expanded;
+      var expanded = this._files[this.$.fileCursor.index].__expanded;
       // Until Polymer 2.0, manual management of reflection between _files
       // and _shownFiles is necessary.
-      this.set(['_shownFiles', this.selectedIndex, '__expanded'],
+      this.set(['_shownFiles', this.$.fileCursor.index, '__expanded'],
           !expanded);
-      this.set(['_files', this.selectedIndex, '__expanded'], !expanded);
+      this.set(['_files', this.$.fileCursor.index, '__expanded'], !expanded);
     },
 
     _handleCapitalIKey: function(e) {
@@ -359,14 +355,11 @@
 
     _handleDownKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
       e.preventDefault();
       if (this._showInlineDiffs) {
-        this.$.cursor.moveDown();
+        this.$.diffCursor.moveDown();
       } else {
-        this.selectedIndex =
-            Math.min(this._numFilesShown, this.selectedIndex + 1);
-        this._scrollToSelectedFile();
+        this.$.fileCursor.next();
       }
     },
 
@@ -375,10 +368,9 @@
 
       e.preventDefault();
       if (this._showInlineDiffs) {
-        this.$.cursor.moveUp();
+        this.$.diffCursor.moveUp();
       } else {
-        this.selectedIndex = Math.max(0, this.selectedIndex - 1);
-        this._scrollToSelectedFile();
+        this.$.fileCursor.previous();
       }
     },
 
@@ -425,9 +417,9 @@
 
       e.preventDefault();
       if (e.shiftKey) {
-        this.$.cursor.moveToNextCommentThread();
+        this.$.diffCursor.moveToNextCommentThread();
       } else {
-        this.$.cursor.moveToNextChunk();
+        this.$.diffCursor.moveToNextChunk();
       }
     },
 
@@ -437,9 +429,9 @@
 
       e.preventDefault();
       if (e.shiftKey) {
-        this.$.cursor.moveToPreviousCommentThread();
+        this.$.diffCursor.moveToPreviousCommentThread();
       } else {
-        this.$.cursor.moveToPreviousChunk();
+        this.$.diffCursor.moveToPreviousChunk();
       }
     },
 
@@ -461,41 +453,25 @@
     },
 
     _openCursorFile: function() {
-      var diff = this.$.cursor.getTargetDiffElement();
+      var diff = this.$.diffCursor.getTargetDiffElement();
       page.show(this._computeDiffURL(diff.changeNum, diff.patchRange,
           diff.path));
     },
 
     _openSelectedFile: function(opt_index) {
       if (opt_index != null) {
-        this.selectedIndex = opt_index;
+        this.$.fileCursor.setCursorAtIndex(opt_index);
       }
       page.show(this._computeDiffURL(this.changeNum, this.patchRange,
-          this._files[this.selectedIndex].__path));
+          this._files[this.$.fileCursor.index].__path));
     },
 
     _addDraftAtTarget: function() {
-      var diff = this.$.cursor.getTargetDiffElement();
-      var target = this.$.cursor.getTargetLineElement();
+      var diff = this.$.diffCursor.getTargetDiffElement();
+      var target = this.$.diffCursor.getTargetLineElement();
       if (diff && target) {
         diff.addDraftAtLine(target);
       }
-    },
-
-    _scrollToSelectedFile: function() {
-      var el = this.$$('.row[selected]');
-      var top = 0;
-      for (var node = el; node; node = node.offsetParent) {
-        top += node.offsetTop;
-      }
-
-      // Don't scroll if it's already in view.
-      if (top > window.pageYOffset &&
-          top < window.pageYOffset + window.innerHeight - el.clientHeight) {
-        return;
-      }
-
-      window.scrollTo(0, top - document.body.clientHeight / 2);
     },
 
     _shouldHideChangeTotals: function(_patchChange) {
@@ -576,8 +552,12 @@
         var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
 
         // Overwrite the cursor's list of diffs:
-        this.$.cursor.splice.apply(this.$.cursor,
-            ['diffs', 0, this.$.cursor.diffs.length].concat(diffElements));
+        this.$.diffCursor.splice.apply(this.$.diffCursor,
+            ['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
+
+        var files = Polymer.dom(this.root).querySelectorAll('.file-row');
+        this.$.fileCursor.stops = files;
+        if (this.$.fileCursor.index === -1) { this.$.fileCursor.moveToStart(); }
       }.bind(this), 1);
     },
 

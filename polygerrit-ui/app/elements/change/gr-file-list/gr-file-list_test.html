@@ -279,7 +279,7 @@ limitations under the License.
           basePatchNum: 'PARENT',
           patchNum: '2',
         };
-        element.selectedIndex = 0;
+        element.$.fileCursor.setCursorAtIndex(0);
       });
 
       test('toggle left diff via shortcut', function() {
@@ -298,24 +298,26 @@ limitations under the License.
 
       test('keyboard shortcuts', function() {
         flushAsynchronousOperations();
-        var elementItems = Polymer.dom(element.root).querySelectorAll(
-            '.row:not(.header)');
-        assert.equal(elementItems.length, 5);
-        assert.isTrue(elementItems[0].hasAttribute('selected'));
-        assert.isFalse(elementItems[1].hasAttribute('selected'));
-        assert.isFalse(elementItems[2].hasAttribute('selected'));
+
+        var items = Polymer.dom(element.root).querySelectorAll('.file-row');
+        element.$.fileCursor.stops = items;
+        element.$.fileCursor.setCursorAtIndex(0);
+        assert.equal(items.length, 3);
+        assert.isTrue(items[0].classList.contains('selected'));
+        assert.isFalse(items[1].classList.contains('selected'));
+        assert.isFalse(items[2].classList.contains('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-        assert.equal(element.selectedIndex, 1);
+        assert.equal(element.$.fileCursor.index, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
         var showStub = sandbox.stub(page, 'show');
-        assert.equal(element.selectedIndex, 2);
+        assert.equal(element.$.fileCursor.index, 2);
         MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
         assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
             'Should navigate to /c/42/2/myfile.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        assert.equal(element.selectedIndex, 1);
+        assert.equal(element.$.fileCursor.index, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
         assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
             'Should navigate to /c/42/2/file_added_in_rev2.txt');
@@ -323,20 +325,20 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        assert.equal(element.selectedIndex, 0);
-
-        showStub.restore();
+        assert.equal(element.$.fileCursor.index, 0);
       });
 
       test('i key shows/hides selected inline diff', function() {
-        element.selectedIndex = 0;
+        flushAsynchronousOperations();
+        element.$.fileCursor.stops = element.diffs;
+        element.$.fileCursor.setCursorAtIndex(0);
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.isFalse(element.diffs[0].hasAttribute('hidden'));
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.isTrue(element.diffs[0].hasAttribute('hidden'));
-        element.selectedIndex = 1;
+        element.$.fileCursor.setCursorAtIndex(1);
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.isFalse(element.diffs[1].hasAttribute('hidden'));
@@ -416,7 +418,7 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      element.selectedIndex = 0;
+      element.$.fileCursor.setCursorAtIndex(0);
 
       flushAsynchronousOperations();
       var fileRows =
@@ -499,7 +501,7 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      element.selectedIndex = 0;
+      element.$.fileCursor.setCursorAtIndex(0);
       flushAsynchronousOperations();
       var fileRows =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
@@ -537,7 +539,7 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      element.selectedIndex = 0;
+      element.$.fileCursor.setCursorAtIndex(0);
       flushAsynchronousOperations();
       var diffDisplay = element.diffs[0];
       element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
@@ -580,7 +582,7 @@ limitations under the License.
         patchNum: '2',
       };
       var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
-      element.selectedIndex = 0;
+      element.$.fileCursor.setCursorAtIndex(0);
       element._numFilesShown = 1;
       flush(function() {
         assert.isTrue(computeSpy.lastCall.returnValue);

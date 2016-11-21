@@ -59,7 +59,7 @@
        * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
        * the viewport.
        */
-      scroll: {
+      scrollBehavior: {
         type: String,
         value: ScrollBehavior.NEVER,
       },
@@ -106,6 +106,10 @@
       if (this.stops.length) {
         this.setCursor(this.stops[0]);
       }
+    },
+
+    setCursorAtIndex: function(index) {
+      this.setCursor(this.stops[index]);
     },
 
     /**
@@ -194,7 +198,7 @@
     },
 
     _scrollToTarget: function() {
-      if (!this.target || this.scroll === ScrollBehavior.NEVER) { return; }
+      if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) { return; }
 
       // Calculate where the element is relative to the window.
       var top = this.target.offsetTop;
@@ -204,7 +208,7 @@
         top += offsetParent.offsetTop;
       }
 
-      if (this.scroll === ScrollBehavior.KEEP_VISIBLE &&
+      if (this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
           top > window.pageYOffset &&
           top < window.pageYOffset + window.innerHeight) { return; }
 

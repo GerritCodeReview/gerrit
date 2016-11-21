@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../diff/gr-diff/gr-diff.html">
 <link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -64,7 +65,7 @@ limitations under the License.
       .row:not(.header):hover {
         background-color: #f5fafd;
       }
-      .row[selected] {
+      .row.selected {
         background-color: #ebf5fb;
       }
       .path {
@@ -145,7 +146,7 @@ limitations under the License.
         max-width: 25em;
       }
       @media screen and (max-width: 50em) {
-        .row[selected] {
+        .row.selected {
           background-color: transparent;
         }
         .stats {
@@ -207,7 +208,7 @@ limitations under the License.
         items="[[_shownFiles]]"
         as="file"
         initial-count="[[_fileListIncrement]]">
-      <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
+      <div class="file-row row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
           <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
               data-path$="[[file.__path]]" on-change="_handleReviewedChange"
@@ -279,7 +280,11 @@ limitations under the License.
     </gr-button>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
-    <gr-diff-cursor id="cursor"></gr-diff-cursor>
+    <gr-diff-cursor id="diffCursor"></gr-diff-cursor>
+    <gr-cursor-manager
+        id="fileCursor"
+        scroll-behavior="keep-visible"
+        cursor-target-class="selected"></gr-cursor-manager>
   </template>
   <script src="gr-file-list.js"></script>
 </dom-module>

@@ -14,6 +14,7 @@ _ssh_ -p <port> <host> _gerrit review_
   [--submit | -s]
   [--abandon | --restore]
   [--rebase]
+  [--move <BRANCH>]
   [--publish]
   [--json | -j]
   [--delete]
@@ -66,7 +67,7 @@ branch.
 	link:rest-api-changes.html#review-input[ReviewInput] entity for the
 	format.
 	(option is mutually exclusive with --submit, --restore, --publish, --delete,
-	--abandon, --message and --rebase)
+	--abandon, --message, --rebase and --move)
 
 --notify::
 -n::
@@ -97,6 +98,10 @@ branch.
 --rebase::
 	Rebase the specified change(s).
 	(option is mutually exclusive with --abandon, --submit, --delete and --json)
+
+--move::
+	Move the specified change(s).
+	(option is mutually exclusive with --json)
 
 --submit::
 -s::

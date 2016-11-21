@@ -289,7 +289,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
     AccountInfo user3 = newAccountWithFullName("user3", "Mr Selfish");
 
-    assertThat(internalAccountQuery.byWatchedProject(p).isEmpty());
+    assertThat(internalAccountQuery.byWatchedProject(p)).isEmpty();
 
     watch(user1, p, null);
     assertAccounts(internalAccountQuery.byWatchedProject(p), user1);

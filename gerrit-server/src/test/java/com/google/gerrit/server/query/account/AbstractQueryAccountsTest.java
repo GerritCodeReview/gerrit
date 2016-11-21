@@ -23,18 +23,22 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
 import com.google.gerrit.extensions.client.ListAccountsOption;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -56,6 +60,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -98,6 +103,12 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject
   protected OneOffRequestContext oneOffRequestContext;
+
+  @Inject
+  protected InternalAccountQuery internalAccountQuery;
+
+  @Inject
+  protected AllProjectsName allProjects;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
@@ -271,6 +282,29 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void byWatchedProject() throws Exception {
+    Project.NameKey p = createProject(name("p"));
+    Project.NameKey p2 = createProject(name("p2"));
+    AccountInfo user1 = newAccountWithFullName("jdoe", "John Doe");
+    AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
+    AccountInfo user3 = newAccountWithFullName("user3", "Mr Selfish");
+
+    assertThat(internalAccountQuery.byWatchedProject(p).isEmpty());
+
+    watch(user1, p, null);
+    assertAccounts(internalAccountQuery.byWatchedProject(p), user1);
+
+    watch(user2, p, "keyword");
+    assertAccounts(internalAccountQuery.byWatchedProject(p), user1, user2);
+
+    watch(user3, p2, "keyword");
+    watch(user3, allProjects, "keyword");
+    assertAccounts(internalAccountQuery.byWatchedProject(p), user1, user2);
+    assertAccounts(internalAccountQuery.byWatchedProject(p2), user3);
+    assertAccounts(internalAccountQuery.byWatchedProject(allProjects), user3);
+  }
+
+  @Test
   public void withLimit() throws Exception {
     String domain = name("test.com");
     AccountInfo user1 = newAccountWithEmail("user1", "user1@" + domain);
@@ -390,6 +424,24 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return gApi.accounts().id(id.get()).get();
   }
 
+  protected Project.NameKey createProject(String name) throws RestApiException {
+    gApi.projects().create(name);
+    return new Project.NameKey(name);
+  }
+
+  protected void watch(AccountInfo account, Project.NameKey project,
+      String filter) throws RestApiException {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = project.get();
+    pwi.filter = filter;
+    pwi.notifyAbandonedChanges = true;
+    pwi.notifyNewChanges = true;
+    pwi.notifyAllComments = true;
+    projectsToWatch.add(pwi);
+    gApi.accounts().id(account._accountId).setWatchedProjects(projectsToWatch);
+  }
+
   protected String quote(String s) {
     return "\"" + s + "\"";
   }
@@ -454,6 +506,14 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(ids).named(format(query, result, accounts))
         .containsExactlyElementsIn(ids(accounts)).inOrder();
     return result;
+  }
+
+  protected void assertAccounts(List<AccountState> accounts,
+      AccountInfo... expectedAccounts) {
+    assertThat(accounts.stream().map(a -> a.getAccount().getId().get())
+        .collect(toList()))
+            .containsExactlyElementsIn(Arrays.asList(expectedAccounts).stream()
+                .map(a -> a._accountId).collect(toList()));
   }
 
   private String format(QueryRequest query, List<AccountInfo> actualIds,

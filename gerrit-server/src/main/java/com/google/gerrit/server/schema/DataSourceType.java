@@ -24,6 +24,8 @@ public interface DataSourceType {
 
   public String getUrl();
 
+  public String getValidationQuery();
+
   public boolean usePool();
 
   /**

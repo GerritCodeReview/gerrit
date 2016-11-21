@@ -71,6 +71,9 @@ limitations under the License.
 
       assert.equal(element._computeShowEmail(
           false, undefined), false);
+
+      assert.equal(element._computeEmailStr({name: 'test', email: 'test'}), '(test)');
+      assert.equal(element._computeEmailStr({email: 'test'}, ''), 'test');
     });
 
   });

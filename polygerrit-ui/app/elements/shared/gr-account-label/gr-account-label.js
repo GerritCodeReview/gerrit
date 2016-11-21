@@ -44,5 +44,12 @@
     _computeShowEmail: function(showEmail, account) {
       return !!(showEmail && account && account.email);
     },
+
+    _computeEmailStr: function(account) {
+      if (account.name) {
+        return '(' + account.email + ')';
+      }
+      return account.email;
+    },
   });
 })();

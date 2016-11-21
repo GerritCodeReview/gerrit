@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "104624f2_9dd98315",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-21T15:00:43Z",
+      "side": 1,
+      "message": "Use parseCommit so that you do not need to cast to RevCommit",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 17
+      },
+      "revId": "cf189ee21f441a8b7e56f2db76ea5b9b9b20627b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_bddebff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-21T15:00:43Z",
+      "side": 1,
+      "message": "nit: long line, please wrap at 80 chars",
+      "revId": "cf189ee21f441a8b7e56f2db76ea5b9b9b20627b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d091ec62_abda29d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-21T15:00:43Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "cf189ee21f441a8b7e56f2db76ea5b9b9b20627b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

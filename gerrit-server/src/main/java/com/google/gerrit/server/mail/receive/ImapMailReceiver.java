@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.mail.Encryption;
 import com.google.inject.Inject;
@@ -35,16 +36,18 @@ public class ImapMailReceiver extends MailReceiver {
   private static final String INBOX_FOLDER = "INBOX";
 
   @Inject
-  public ImapMailReceiver(EmailSettings mailSettings) {
-    super(mailSettings);
+  ImapMailReceiver(EmailSettings mailSettings, MailProcessor mailProcessor,
+      WorkQueue workQueue) {
+    super(mailSettings, mailProcessor, workQueue);
   }
 
   /**
    * handleEmails will open a connection to the mail server, remove emails
    * where deletion is pending, read new email and close the connection.
+   * @param async Determines if processing messages should happen asynchronous.
    */
   @Override
-  public synchronized void handleEmails() {
+  public synchronized void handleEmails(boolean async) {
     IMAPClient imap;
     if (mailSettings.encryption != Encryption.NONE) {
       imap = new IMAPSClient(mailSettings.encryption.name(), false);
@@ -128,7 +131,7 @@ public class ImapMailReceiver extends MailReceiver {
           if (!imap.expunge()) {
             log.error("Could not expunge IMAP emails");
           }
-          // TODO(hiesel) Call email handling logic with mailMessages
+          dispatchMailProcessor(mailMessages, async);
         } finally {
           imap.logout();
         }

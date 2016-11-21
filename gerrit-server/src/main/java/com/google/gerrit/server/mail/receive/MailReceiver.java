@@ -17,19 +17,30 @@ package com.google.gerrit.server.mail.receive;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Callable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** MailReceiver implements base functionality for receiving emails. */
 public abstract class MailReceiver implements LifecycleListener {
+  private static final Logger log =
+      LoggerFactory.getLogger(MailReceiver.class.getName());
+
   protected EmailSettings mailSettings;
   protected Set<String> pendingDeletion;
+  private MailProcessor mailProcessor;
+  private WorkQueue workQueue;
   private Timer timer;
 
   public static class Module extends LifecycleModule {
@@ -59,8 +70,11 @@ public abstract class MailReceiver implements LifecycleListener {
     }
   }
 
-  public MailReceiver(EmailSettings mailSettings) {
+  MailReceiver(EmailSettings mailSettings, MailProcessor mailProcessor,
+      WorkQueue workQueue) {
     this.mailSettings = mailSettings;
+    this.mailProcessor = mailProcessor;
+    this.workQueue = workQueue;
     pendingDeletion = Collections.synchronizedSet(new HashSet<>());
   }
 
@@ -74,7 +88,7 @@ public abstract class MailReceiver implements LifecycleListener {
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
-        MailReceiver.this.handleEmails();
+        MailReceiver.this.handleEmails(true);
       }
     }, 0L, mailSettings.fetchInterval);
   }
@@ -99,7 +113,35 @@ public abstract class MailReceiver implements LifecycleListener {
   /**
    * handleEmails will open a connection to the mail server, remove emails
    * where deletion is pending, read new email and close the connection.
+   * @param async Determines if processing messages should happen asynchronous.
    */
   @VisibleForTesting
-  public abstract void handleEmails();
+  public abstract void handleEmails(boolean async);
+
+  protected void dispatchMailProcessor(List<MailMessage> messages,
+      boolean async) {
+    for (MailMessage m : messages) {
+      if (async) {
+        Callable task = () -> {
+          try {
+            mailProcessor.process(m);
+            requestDeletion(m.id());
+          } catch (OrmException e) {
+            log.error("Mail: Can't process message " + m.id() +
+                " . Won't delete.", e);
+          }
+          return null;
+        };
+        workQueue.getDefaultQueue().submit(task);
+      } else {
+        // Synchronous processing is used only in tests.
+        try {
+          mailProcessor.process(m);
+          requestDeletion(m.id());
+        } catch (OrmException e) {
+          log.error("Mail: Can't process messages. Won't delete.", e);
+        }
+      }
+    }
+  }
 }

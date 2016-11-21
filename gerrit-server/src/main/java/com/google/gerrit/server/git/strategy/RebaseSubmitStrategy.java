@@ -139,7 +139,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             args.repo, toMerge.change().currentPatchSetId());
         // TODO(tandrii): add extension point to customize this commit message.
         String cherryPickCmtMsg =
-            args.mergeUtil.createCherryPickCommitMessage(toMerge);
+            args.mergeUtil.createDetailedCommitMessage(toMerge);
 
         PersonIdent committer = args.caller.newCommitterIdent(ctx.getWhen(),
             args.serverIdent.getTimeZone());
@@ -171,6 +171,9 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             // later anyway.
             .setCopyApprovals(false)
             .setValidatePolicy(CommitValidators.Policy.NONE)
+            // RebaseAlways should set always modify commit message like
+            // Cherry-Pick strategy.
+            .setDetailedCommitMessage(rebaseAlways)
             // Do not post message after inserting new patchset because there
             // will be one about change being merged already.
             .setPostMessage(false);

@@ -100,7 +100,7 @@ public class CherryPick extends SubmitStrategy {
       psId = ChangeUtil.nextPatchSetId(
           args.repo, toMerge.change().currentPatchSetId());
       String cherryPickCmtMsg =
-          args.mergeUtil.createCherryPickCommitMessage(toMerge);
+          args.mergeUtil.createDetailedCommitMessage(toMerge);
 
       PersonIdent committer = args.caller.newCommitterIdent(
           ctx.getWhen(), args.serverIdent.getTimeZone());

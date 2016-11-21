@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "d091ec62_ab8869b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-21T19:45:51Z",
+      "side": 1,
+      "message": "\u003e Let me turn the question around: what is the downside of including the footers in the email? The only downside I can see is that it\u0027s visual noise;\n\nYes, visual noise is the singular downside I see. Constructing filters will be an infrequent task for any user, whereas displaying footers in every message inflicts the visual noise every time -- including for users who have no interest in writing filters.\n\n\u003e but is that not something we can address with appropriate styling? Or doesn\u0027t Gmail have a feature like where anything after \"\\n--\\n\" it treats  it as a signature that\u0027s collapsed by default?\n\nStyling options are limited, so far as I see. For example, minimizing the footer by shrinking the text or making it gray just makes it harder to read. The \\n--\\n approach is quoted rather differently between Gmail and Inbox. More importantly, in both, it still suffers from the problem in the linked issue, but without the option of the mitigation in this change.\n\nWith that said, I\u0027m going to continue exploring styling options.\n\nAs I understand it (as related to me by Shawn) the footers were originally only included in the body because Gmail did-not / does-not support searching by arbitrary mail headers. By rights, in this regard, they belong among the headers (they are headers, essentially) and consequently only appear in the message source. Granted, Gmail makes even the headers easier to read than the whitespace-stripped HTML footers.\n\n\u003e The problem with documenting it only in documentation (other than the fact that our documentation is in general not very discoverable) is that it makes it harder to interactively construct filters.\n\nDiscoverability of docs sounds to me like an additional problem. SIDETRACK This gives me an idea: part of the existing footer contains a link to user settings ...\n\n  To unsubscribe, visit [settings].\n\nWe might add some helper text regarding footer to the user notifications settings UI, and change the message in the footer to something like ...\n\n  For help writing filters, or to unsubscribe, visit [settings].\n\n/SIDETRACK\n\n\u003e You can\u0027t drill down into a particular email to see why it was/wasn\u0027t caught by a filter like you wanted. (I guess you can if you want to look at the HTML source, but that\u0027s not exactly fun to read what with the stripped whitespace and all.)\n\nIf one does view the source of an email, the footers appearing in the plaintext part are no-less readable than the mail headers. Can certainly force Soy to preserve whitespace in the HTML footer as well.",
+      "parentUuid": "90893441_69df65f7",
+      "revId": "25f2aadf5a118a8ebed356d5d2f8696d2c4a190f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_55c94cb7",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
         "patchSetId": 1

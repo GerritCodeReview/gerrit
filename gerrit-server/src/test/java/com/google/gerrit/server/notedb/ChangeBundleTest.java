@@ -40,12 +40,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
+import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.TestTimeUtil;
-import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
-import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -60,11 +59,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 
-public class ChangeBundleTest {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
+public class ChangeBundleTest extends GerritBaseTests {
   private static final ProtobufCodec<Change> CHANGE_CODEC =
       CodecFactory.encoder(Change.class);
   private static final ProtobufCodec<ChangeMessage> CHANGE_MESSAGE_CODEC =

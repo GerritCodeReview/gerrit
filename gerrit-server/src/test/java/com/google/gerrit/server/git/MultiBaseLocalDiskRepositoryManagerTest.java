@@ -23,9 +23,8 @@ import static org.easymock.EasyMock.reset;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.TempFileUtil;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -45,12 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.SortedSet;
 
-public class MultiBaseLocalDiskRepositoryManagerTest {
-
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
+public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
   private Config cfg;
   private SitePaths site;
   private MultiBaseLocalDiskRepositoryManager repoManager;

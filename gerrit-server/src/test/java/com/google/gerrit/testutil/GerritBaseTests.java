@@ -14,12 +14,19 @@
 
 package com.google.gerrit.testutil;
 
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.StandardKeyEncoder;
+
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
 @Ignore
 public abstract class GerritBaseTests {
+  static {
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
+
   @Rule
   public ExpectedException exception = ExpectedException.none();
 }

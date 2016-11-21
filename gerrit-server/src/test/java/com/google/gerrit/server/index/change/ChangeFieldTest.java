@@ -28,8 +28,6 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.TestTimeUtil;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,10 +38,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ChangeFieldTest extends GerritBaseTests {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   @Before
   public void setUp() {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);

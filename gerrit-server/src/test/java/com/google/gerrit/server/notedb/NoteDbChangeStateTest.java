@@ -27,9 +27,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.notedb.NoteDbChangeState.Delta;
+import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.TestChanges;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -37,11 +36,7 @@ import org.junit.Test;
 import java.util.Optional;
 
 /** Unit tests for {@link NoteDbChangeState}. */
-public class NoteDbChangeStateTest {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
+public class NoteDbChangeStateTest extends GerritBaseTests {
   ObjectId SHA1 =
       ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
   ObjectId SHA2 =

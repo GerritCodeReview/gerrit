@@ -59,9 +59,7 @@ import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gerrit.testutil.TestTimeUtil;
-import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -140,7 +138,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   @Before
   public void setUp() throws Exception {
     setTimeForTesting();
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
 
     serverIdent = new PersonIdent(
         "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);

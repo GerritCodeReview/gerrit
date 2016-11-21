@@ -35,8 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
+import com.google.gerrit.testutil.GerritBaseTests;
 
 import org.easymock.IAnswer;
 import org.junit.Before;
@@ -44,11 +43,7 @@ import org.junit.Test;
 
 import java.util.Set;
 
-public class UniversalGroupBackendTest {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
+public class UniversalGroupBackendTest extends GerritBaseTests {
   private static final AccountGroup.UUID OTHER_UUID =
       new AccountGroup.UUID("other");
 

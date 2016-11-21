@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.primitives.Ints;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.mail.Encryption;
 import com.google.inject.Inject;
@@ -37,16 +38,19 @@ public class Pop3MailReceiver extends MailReceiver {
       LoggerFactory.getLogger(Pop3MailReceiver.class);
 
   @Inject
-  public Pop3MailReceiver(EmailSettings mailSettings) {
-    super(mailSettings);
+  Pop3MailReceiver(EmailSettings mailSettings,
+      MailProcessor mailProcessor,
+      WorkQueue workQueue) {
+    super(mailSettings, mailProcessor, workQueue);
   }
 
   /**
    * handleEmails will open a connection to the mail server, remove emails
    * where deletion is pending, read new email and close the connection.
+   * @param async Determines if processing messages should happen asynchronous.
    */
   @Override
-  public synchronized void handleEmails() {
+  public synchronized void handleEmails(boolean async) {
     POP3Client pop3;
     if (mailSettings.encryption != Encryption.NONE) {
       pop3 = new POP3SClient(mailSettings.encryption.name());
@@ -111,7 +115,7 @@ public class Pop3MailReceiver extends MailReceiver {
               log.error("Could not parse message " + msginfo.number);
             }
           }
-          // TODO(hiesel) Call processing logic with mailMessages
+          dispatchMailProcessor(mailMessages, async);
         } finally {
           pop3.logout();
         }

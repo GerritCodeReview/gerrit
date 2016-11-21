@@ -83,14 +83,14 @@ public class MailIT extends AbstractDaemonTest {
     user.deliver(createSimpleMessage());
     assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(1);
     // Let Gerrit handle emails
-    mailReceiver.handleEmails();
+    mailReceiver.handleEmails(false);
     // Check that the message is still present
     assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(1);
     // Mark the message for deletion
     mailReceiver.requestDeletion(
         mockPop3Server.getReceivedMessages()[0].getMessageID());
     // Let Gerrit handle emails
-    mailReceiver.handleEmails();
+    mailReceiver.handleEmails(false);
     // Check that the message was deleted
     assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(0);
   }

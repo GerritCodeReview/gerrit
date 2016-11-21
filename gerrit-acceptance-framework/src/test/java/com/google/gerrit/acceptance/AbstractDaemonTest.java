@@ -899,6 +899,13 @@ public abstract class AbstractDaemonTest {
       .actions();
   }
 
+  protected String getETag(String id) throws Exception {
+    return gApi.changes()
+        .id(id)
+        .current()
+        .etag();
+  }
+
   private static Iterable<String> changeIds(Iterable<ChangeInfo> changes) {
     return Iterables.transform(changes, i -> i.changeId);
   }

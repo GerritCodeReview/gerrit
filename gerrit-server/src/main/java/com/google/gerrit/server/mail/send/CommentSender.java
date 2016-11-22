@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI.
  */
@@ -480,6 +481,7 @@ public class CommentSender extends ReplyToChangeSender {
         Map<String, Object> commentData = new HashMap<>();
         commentData.put("lines", getLinesOfComment(comment, group.fileData));
         commentData.put("message", comment.message.trim());
+        commentData.put("messageBlocks", formatComment(comment.message));
 
         // Set the prefix.
         String prefix = getCommentLinePrefix(comment);
@@ -533,6 +535,34 @@ public class CommentSender extends ReplyToChangeSender {
     return commentGroups;
   }
 
+  private List<Map<String, Object>> formatComment(String comment) {
+    return CommentFormatter.parse(comment)
+        .stream()
+        .map(b -> {
+          Map<String, Object> map = new HashMap<>();
+          switch (b.type) {
+            case PARAGRAPH:
+              map.put("type", "paragraph");
+              map.put("text", b.text);
+              break;
+            case PRE_FORMATTED:
+              map.put("type", "pre");
+              map.put("text", b.text);
+              break;
+            case QUOTE:
+              map.put("type", "quote");
+              map.put("text", b.text);
+              break;
+            case LIST:
+              map.put("type", "list");
+              map.put("items", b.items);
+              break;
+          }
+          return map;
+        })
+        .collect(Collectors.toList());
+  }
+
   private Repository getRepository() {
     try {
       return args.server.openRepository(projectState.getProject().getNameKey());
@@ -548,6 +578,7 @@ public class CommentSender extends ReplyToChangeSender {
       soyContext.put("commentFiles", getCommentGroupsTemplateData(repo));
     }
     soyContext.put("commentTimestamp", getCommentTimestamp());
+    soyContext.put("coverLetterBlocks", formatComment(getCoverLetter()));
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

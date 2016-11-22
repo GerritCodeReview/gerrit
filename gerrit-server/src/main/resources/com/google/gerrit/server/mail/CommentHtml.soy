@@ -19,6 +19,7 @@
 /**
  * @param commentFiles
  * @param coverLetter
+ * @param coverLetterBlocks
  * @param email
  * @param fromName
  */
@@ -31,10 +32,6 @@
     border-left: 1px solid #aaa;
     margin: 10px 0;
     padding: 0 10px;
-  {/let}
-
-  {let $messageStyle kind="css"}
-    white-space: pre-wrap;
   {/let}
 
   {let $ulStyle kind="css"}
@@ -53,7 +50,7 @@
   {/if}
 
   {if $coverLetter}
-    <div style="white-space:pre-wrap">{$coverLetter}</div>
+    {call .WikiFormat}{param content: $coverLetterBlocks /}{/call}
   {/if}
 
   <ul style="{$ulStyle}">
@@ -114,9 +111,7 @@
                 </p>
               {/if}
 
-              <p style="{$messageStyle}">
-                {$comment.message}
-              </p>
+              {call .WikiFormat}{param content: $comment.messageBlocks /}{/call}
             </li>
           {/foreach}
         </ul>

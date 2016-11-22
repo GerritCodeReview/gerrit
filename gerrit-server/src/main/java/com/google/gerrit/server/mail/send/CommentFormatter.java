@@ -32,7 +32,8 @@ public class CommentFormatter {
   public static class Block {
     public BlockType type;
     public String text;
-    public List<String> items;
+    public List<String> items; // For the items of list blocks.
+    public List<Block> blocks; // For the contents of quote blocks.
   }
 
   /**
@@ -145,15 +146,16 @@ public class CommentFormatter {
   }
 
   private static Block makeQuote(String p) {
-    if (p.startsWith("> ")) {
-      p = p.substring(2);
-    } else if (p.startsWith(" > ")) {
-      p = p.substring(3);
+    String quote = p.replaceAll("\n\\s?>\\s?", "\n");
+    if (quote.startsWith("> ")) {
+      quote = quote.substring(2);
+    } else if (quote.startsWith(" > ")) {
+      quote = quote.substring(3);
     }
 
     Block block = new Block();
     block.type = BlockType.QUOTE;
-    block.text = p.replaceAll("\n\\s?>\\s", "\n").trim();
+    block.blocks = CommentFormatter.parse(quote);
     return block;
   }
 

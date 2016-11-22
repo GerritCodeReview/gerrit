@@ -481,7 +481,8 @@ public class CommentSender extends ReplyToChangeSender {
         Map<String, Object> commentData = new HashMap<>();
         commentData.put("lines", getLinesOfComment(comment, group.fileData));
         commentData.put("message", comment.message.trim());
-        commentData.put("messageBlocks", formatComment(comment.message));
+        commentData.put("messageBlocks",
+            commentBlocksToSoyData(CommentFormatter.parse(comment.message)));
 
         // Set the prefix.
         String prefix = getCommentLinePrefix(comment);
@@ -535,9 +536,9 @@ public class CommentSender extends ReplyToChangeSender {
     return commentGroups;
   }
 
-  private List<Map<String, Object>> formatComment(String comment) {
-    return CommentFormatter.parse(comment)
-        .stream()
+  private List<Map<String, Object>> commentBlocksToSoyData(
+      List<CommentFormatter.Block> blocks) {
+    return blocks.stream()
         .map(b -> {
           Map<String, Object> map = new HashMap<>();
           switch (b.type) {
@@ -551,7 +552,7 @@ public class CommentSender extends ReplyToChangeSender {
               break;
             case QUOTE:
               map.put("type", "quote");
-              map.put("text", b.text);
+              map.put("blocks", commentBlocksToSoyData(b.blocks));
               break;
             case LIST:
               map.put("type", "list");
@@ -578,7 +579,8 @@ public class CommentSender extends ReplyToChangeSender {
       soyContext.put("commentFiles", getCommentGroupsTemplateData(repo));
     }
     soyContext.put("commentTimestamp", getCommentTimestamp());
-    soyContext.put("coverLetterBlocks", formatComment(getCoverLetter()));
+    soyContext.put("coverLetterBlocks",
+        commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

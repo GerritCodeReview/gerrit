@@ -45,10 +45,11 @@
  * Take a list of unescaped comment blocks and emit safely escaped HTML to
  * render it nicely with wiki-like format.
  *
- * Each block is a map with a type key. When the type is 'paragraph', 'quote',
- * or 'pre', it also has a 'text' key that maps to the unescaped text content
- * for the block. If the type is 'list', the map will have a 'items' key which
- * maps to list of unescaped list item strings.
+ * Each block is a map with a type key. When the type is 'paragraph', or 'pre',
+ * it also has a 'text' key that maps to the unescaped text content for the
+ * block. If the type is 'list', the map will have a 'items' key which maps to
+ * list of unescaped list item strings. If the type is quote, the map will have
+ * a 'blocks' key which maps to the blocks contained within the quote.
  *
  * This mechanism encodes as little structure as possible in order to depend on
  * the Soy autoescape mechanism for all of the content.
@@ -66,7 +67,9 @@
     {if $block.type == 'paragraph'}
       <p>{$block.text}</p>
     {elseif $block.type == 'quote'}
-      <blockquote style="{$blockquoteStyle}">{$block.text}</blockquote>
+      <blockquote style="{$blockquoteStyle}">
+        {call .WikiFormat}{param content: $block.blocks /}{/call}
+      </blockquote>
     {elseif $block.type == 'pre'}
       {call .Pre}{param content: $block.text /}{/call}
     {elseif $block.type == 'list'}

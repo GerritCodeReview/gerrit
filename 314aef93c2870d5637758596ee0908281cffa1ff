@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d091ec62_6ba5a1e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-22T13:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d091ec62_ebd99186",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "314aef93c2870d5637758596ee0908281cffa1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70a120aa_53c33628",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-22T13:16:33Z",
       "side": 1,
       "message": "typo?",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "314aef93c2870d5637758596ee0908281cffa1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_5d09bb4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-22T13:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a120aa_53c33628",
       "range": {
         "startLine": 12,
         "startChar": 20,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "104624f2_7d06f73e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-22T13:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104624f2_9d2743e0",
+      "range": {
+        "startLine": 13,
+        "startChar": 30,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "314aef93c2870d5637758596ee0908281cffa1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_5d421b7c",
         "filename": "tools/eclipse/project_bzl.py",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2016-11-22T13:13:40Z",
       "side": 1,
       "message": "GWT, \u0027//gerrit-patch-jgit .. \u0027]",
+      "range": {
+        "startLine": 267,
+        "startChar": 43,
+        "endLine": 267,
+        "endChar": 44
+      },
+      "revId": "314aef93c2870d5637758596ee0908281cffa1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d091ec62_8bb9ed16",
+        "filename": "tools/eclipse/project_bzl.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-22T13:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104624f2_5d421b7c",
       "range": {
         "startLine": 267,
         "startChar": 43,

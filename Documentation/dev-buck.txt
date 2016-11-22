@@ -101,6 +101,14 @@ using the GWT compiler:
 
 To build the Gerrit web application that includes GWT UI and PolyGerrit UI:
 
+When building for the first time:
+
+----
+  buck build --deep gerrit
+----
+
+Subsequent executions do not require the '--deep' flag:
+
 ----
   buck build gerrit
 ----

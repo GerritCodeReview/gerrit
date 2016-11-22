@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "301ec818_f674803f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T22:21:22Z",
+      "side": 1,
+      "message": "In REST endpoints we refer to the latest patch set as \u0027current\u0027.  Maybe it should be the same here for consistency?",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "101b842a_956f046a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T22:21:22Z",
+      "side": 1,
+      "message": "nit: /",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_d6798437",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T22:21:22Z",
+      "side": 1,
+      "message": "nit: one-line if-blocks should also have braces",
+      "range": {
+        "startLine": 206,
+        "startChar": 6,
+        "endLine": 207,
+        "endChar": 17
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_367f181b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T22:21:22Z",
+      "side": 1,
+      "message": "What if the latest patch set is a draft that is not visible to the caller?",
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "101b842a_f574783f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T22:21:22Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

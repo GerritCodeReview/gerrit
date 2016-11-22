@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "d091ec62_4b28e5b0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:52:03Z",
+      "side": 1,
+      "message": "You also must add support for these new fields in NoteDb.",
+      "range": {
+        "startLine": 93,
+        "startChar": 1,
+        "endLine": 97,
+        "endChar": 29
+      },
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90893441_69f5a560",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 1
@@ -30,6 +53,23 @@
       "writtenOn": "2016-11-22T04:54:17Z",
       "side": 1,
       "message": "Javadoc?",
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d091ec62_6b2da1bf",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:52:03Z",
+      "side": 1,
+      "message": "You also must add support for this new field in NoteDb.",
       "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

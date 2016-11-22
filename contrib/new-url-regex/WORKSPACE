@@ -1,0 +1,4 @@
+maven_jar(
+  name = "com_google_re2j_re2j",
+  artifact = "com.google.re2j:re2j:1.0",
+)

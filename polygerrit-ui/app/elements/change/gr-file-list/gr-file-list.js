@@ -179,8 +179,10 @@
         var inserted = obj.lines_inserted ? obj.lines_inserted : 0;
         var deleted = obj.lines_deleted ? obj.lines_deleted : 0;
         var total_size = (obj.size && obj.binary) ? obj.size : 0;
-        var size_delta_inserted = obj.size_delta > 0 ? obj.size_delta : 0;
-        var size_delta_deleted = obj.size_delta < 0 ? obj.size_delta : 0;
+        var size_delta_inserted =
+            obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
+        var size_delta_deleted =
+            obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
 
         return {
           inserted: acc.inserted + inserted,

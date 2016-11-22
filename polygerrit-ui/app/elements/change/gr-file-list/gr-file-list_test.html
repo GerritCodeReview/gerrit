@@ -103,8 +103,20 @@ limitations under the License.
     test('calculate totals for patch number', function() {
       element._files = [
         {__path: '/COMMIT_MSG', lines_inserted: 9},
-        {__path: 'file_added_in_rev2.txt', lines_inserted: 1, lines_deleted: 1},
-        {__path: 'myfile.txt', lines_inserted: 1, lines_deleted: 1},
+        {
+          __path: 'file_added_in_rev2.txt',
+          lines_inserted: 1,
+          lines_deleted: 1,
+          size_delta: 10,
+          size: 100
+        },
+        {
+          __path: 'myfile.txt',
+          lines_inserted: 1,
+          lines_deleted: 1,
+          size_delta: 10,
+          size: 100
+        },
       ];
       assert.deepEqual(element._patchChange, {
         inserted: 2,
@@ -113,6 +125,8 @@ limitations under the License.
         size_delta_deleted: 0,
         total_size: 0,
       });
+      assert.isTrue(element._hideBinaryChangeTotals);
+      assert.isFalse(element._hideChangeTotals);
 
       // Test with a commit message that isn't the first file.
       element._files = [
@@ -127,6 +141,8 @@ limitations under the License.
         size_delta_deleted: 0,
         total_size: 0,
       });
+      assert.isTrue(element._hideBinaryChangeTotals);
+      assert.isFalse(element._hideChangeTotals);
 
       // Test with no commit message.
       element._files = [
@@ -140,6 +156,8 @@ limitations under the License.
         size_delta_deleted: 0,
         total_size: 0,
       });
+      assert.isTrue(element._hideBinaryChangeTotals);
+      assert.isFalse(element._hideChangeTotals);
 
       // Test with files missing either lines_inserted or lines_deleted.
       element._files = [
@@ -153,6 +171,8 @@ limitations under the License.
         size_delta_deleted: 0,
         total_size: 0,
       });
+      assert.isTrue(element._hideBinaryChangeTotals);
+      assert.isFalse(element._hideChangeTotals);
     });
 
     test('binary only files', function() {
@@ -168,6 +188,8 @@ limitations under the License.
         size_delta_deleted: -5,
         total_size: 220,
       });
+      assert.isFalse(element._hideBinaryChangeTotals);
+      assert.isTrue(element._hideChangeTotals);
     });
 
     test('binary and regular files', function() {
@@ -175,7 +197,7 @@ limitations under the License.
         {__path: '/COMMIT_MSG', lines_inserted: 9},
         {__path: 'file_binary', binary: true, size_delta: 10, size: 100},
         {__path: 'file_binary', binary: true, size_delta: -5, size: 120},
-        {__path: 'myfile.txt', lines_deleted: 5},
+        {__path: 'myfile.txt', lines_deleted: 5, size_delta: -10, size: 100},
         {__path: 'myfile2.txt', lines_inserted: 10},
       ];
       assert.deepEqual(element._patchChange, {
@@ -185,9 +207,11 @@ limitations under the License.
         size_delta_deleted: -5,
         total_size: 220,
       });
+      assert.isFalse(element._hideBinaryChangeTotals);
+      assert.isFalse(element._hideChangeTotals);
     });
 
-    test('_formatBytes function', function(){
+    test('_formatBytes function', function() {
       var table = {
         64: '+64 B',
         1023: '+1023 B',
@@ -200,7 +224,7 @@ limitations under the License.
         '-4096': '-4 KiB',
         '-1073741824': '-1 GiB',
         0: '+/-0 B',
-      }
+      };
 
       for (var bytes in table) {
         if (table.hasOwnProperty(bytes)) {
@@ -209,7 +233,7 @@ limitations under the License.
       }
     });
 
-    test('_formatPercentage function', function(){
+    test('_formatPercentage function', function() {
       var table = [
         { size: 100,
           delta: 100,
@@ -235,7 +259,7 @@ limitations under the License.
           delta: 10,
           display: '(+10%)',
         },
-      ]
+      ];
 
       table.forEach(function(item) {
         assert.equal(element._formatPercentage(

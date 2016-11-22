@@ -142,14 +142,6 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     RevCommit original = rw.parseCommit(ObjectId.fromString(oldRev.get()));
     rw.parseBody(original);
 
-    String newCommitMessage;
-    if (detailedCommitMessage) {
-      newCommitMessage = newMergeUtil().createDetailedCommitMessage(original,
-          ctl, originalPatchSet.getId());
-    } else {
-      newCommitMessage = original.getFullMessage();
-    }
-
     RevCommit baseCommit;
     if (baseCommitish != null) {
        baseCommit = rw.parseCommit(ctx.getRepository().resolve(baseCommitish));
@@ -157,6 +149,15 @@ public class RebaseChangeOp extends BatchUpdate.Op {
        baseCommit = rw.parseCommit(rebaseUtil.findBaseRevision(
            originalPatchSet, ctl.getChange().getDest(),
            ctx.getRepository(), ctx.getRevWalk()));
+    }
+
+    String newCommitMessage;
+    if (detailedCommitMessage) {
+      rw.parseBody(baseCommit);
+      newCommitMessage = newMergeUtil().createCommitMessageOnMerge(original,
+          baseCommit, ctl, originalPatchSet.getId());
+    } else {
+      newCommitMessage = original.getFullMessage();
     }
 
     rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage);

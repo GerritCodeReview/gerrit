@@ -137,10 +137,10 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         args.rw.parseBody(toMerge);
         newPatchSetId = ChangeUtil.nextPatchSetId(
             args.repo, toMerge.change().currentPatchSetId());
-        // TODO(tandrii): add extension point to customize this commit message.
+        RevCommit mergeTip = args.mergeTip.getCurrentTip();
+        args.rw.parseBody(mergeTip);
         String cherryPickCmtMsg =
-            args.mergeUtil.createDetailedCommitMessage(toMerge);
-
+            args.mergeUtil.createCommitMessageOnMerge(toMerge, mergeTip);
         PersonIdent committer = args.caller.newCommitterIdent(ctx.getWhen(),
             args.serverIdent.getTimeZone());
         try {
@@ -162,8 +162,6 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // Stale read of patch set is ok; see comments in RebaseChangeOp.
         PatchSet origPs = args.psUtil.get(ctx.getDb(),
             toMerge.getControl().getNotes(), toMerge.getPatchsetId());
-        // TODO(tandrii): add extension point to customize commit message while
-        // rebasing.
         rebaseOp = args.rebaseFactory.create(
               toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
             .setFireRevisionCreated(false)

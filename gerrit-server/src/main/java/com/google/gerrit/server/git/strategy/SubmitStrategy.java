@@ -154,6 +154,7 @@ public abstract class SubmitStrategy {
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
         TagCache tagCache,
+
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commits,
         @Assisted CodeReviewRevWalk rw,

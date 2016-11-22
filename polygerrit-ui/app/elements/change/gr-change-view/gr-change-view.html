@@ -177,7 +177,7 @@ limitations under the License.
         }
         gr-reply-dialog {
           min-width: initial;
-          width: 90vw;
+          width: 100vw;
         }
         .downloadContainer {
           display: none;
@@ -212,6 +212,9 @@ limitations under the License.
         .commitMessage {
           flex: initial;
           margin-right: 0;
+        }
+        .scrollable {
+          @apply(--layout-scroll);
         }
       }
     </style>
@@ -348,6 +351,7 @@ limitations under the License.
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
+        class="scrollable"
         no-cancel-on-outside-click
         on-iron-overlay-opened="_handleReplyOverlayOpen"
         with-backdrop>

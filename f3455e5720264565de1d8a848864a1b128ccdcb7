@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "9071345a_a9c75d32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-22T18:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a120aa_f3b34ac7",
+      "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_b84d35e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 181,
         "endChar": 31
       },
+      "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_259dce41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-22T18:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c70467_b84d35e4",
       "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +112,24 @@
       "writtenOn": "2016-11-22T14:28:11Z",
       "side": 1,
       "message": "Nit: long line here and below",
+      "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_c5b87aaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-22T18:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c70467_9850797d",
       "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -67,7 +67,7 @@ public final class AccountSshKey {
 
   public AccountSshKey(final AccountSshKey.Id i, final String pub) {
     id = i;
-    sshPublicKey = pub;
+    sshPublicKey = pub.replace("\n", "").replace("\r", "");
     valid = id.isValid();
   }
 

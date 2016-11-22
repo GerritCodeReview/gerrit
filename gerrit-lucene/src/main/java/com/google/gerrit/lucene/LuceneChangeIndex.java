@@ -22,6 +22,8 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Collections2;
@@ -120,6 +122,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
+  private static final String REF_STATE_FIELD = ChangeField.REF_STATE.getName();
+  private static final String REF_STATE_PATTERN_FIELD =
+      ChangeField.REF_STATE_PATTERN.getName();
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
   private static final String REVIEWER_FIELD = ChangeField.REVIEWER.getName();
@@ -472,6 +477,12 @@ public class LuceneChangeIndex implements ChangeIndex {
         ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
     decodeSubmitRecords(doc, SUBMIT_RECORD_LENIENT_FIELD,
         ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
+    if (fields.contains(REF_STATE_FIELD)) {
+      decodeRefStates(doc, cd);
+    }
+    if (fields.contains(REF_STATE_PATTERN_FIELD)) {
+      decodeRefStatePatterns(doc, cd);
+    }
     return cd;
   }
 
@@ -572,6 +583,16 @@ public class LuceneChangeIndex implements ChangeIndex {
         opts, cd);
   }
 
+  private void decodeRefStates(Multimap<String, IndexableField> doc,
+      ChangeData cd) {
+    cd.setRefStates(copyAsBytes(doc.get(REF_STATE_FIELD)));
+  }
+
+  private void decodeRefStatePatterns(Multimap<String, IndexableField> doc,
+      ChangeData cd) {
+    cd.setRefStatePatterns(copyAsBytes(doc.get(REF_STATE_PATTERN_FIELD)));
+  }
+
   private static <T> List<T> decodeProtos(Multimap<String, IndexableField> doc,
       String fieldName, ProtobufCodec<T> codec) {
     Collection<IndexableField> fields = doc.get(fieldName);
@@ -585,5 +606,17 @@ public class LuceneChangeIndex implements ChangeIndex {
       result.add(codec.decode(r.bytes, r.offset, r.length));
     }
     return result;
+  }
+
+  private static List<byte[]> copyAsBytes(Collection<IndexableField> fields) {
+    return fields.stream()
+        .map(
+            f -> {
+              BytesRef ref = f.binaryValue();
+              byte[] b = new byte[ref.length];
+              System.arraycopy(ref.bytes, ref.offset, b, 0, ref.length);
+              return b;
+            })
+        .collect(toList());
   }
 }

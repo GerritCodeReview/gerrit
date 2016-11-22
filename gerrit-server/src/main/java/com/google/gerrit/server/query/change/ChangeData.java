@@ -89,7 +89,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -348,9 +347,9 @@ public class ChangeData {
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
   private Set<String> hashtags;
-  private Set<Account.Id> editsByUser;
+  private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
-  private Set<Account.Id> draftsByUser;
+  private Map<Account.Id, Ref> draftsByUser;
   @Deprecated
   private Set<Account.Id> starredByUser;
   private ImmutableMultimap<Account.Id, String> stars;
@@ -359,6 +358,9 @@ public class ChangeData {
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
+
+  private ImmutableList<byte[]> refStates;
+  private ImmutableList<byte[]> refStatePatterns;
 
   @AssistedInject
   private ChangeData(
@@ -1098,21 +1100,25 @@ public class ChangeData {
   }
 
   public Set<Account.Id> editsByUser() throws OrmException {
+    return editRefs().keySet();
+  }
+
+  public Map<Account.Id, Ref> editRefs() throws OrmException {
     if (editsByUser == null) {
       if (!lazyLoad) {
-        return Collections.emptySet();
+        return Collections.emptyMap();
       }
       Change c = change();
       if (c == null) {
-        return Collections.emptySet();
+        return Collections.emptyMap();
       }
-      editsByUser = new HashSet<>();
+      editsByUser = new HashMap<>();
       Change.Id id = checkNotNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
-        for (String ref
-            : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).keySet()) {
-          if (id.equals(Change.Id.fromEditRefPart(ref))) {
-            editsByUser.add(Account.Id.fromRefPart(ref));
+        for (Map.Entry<String, Ref> e
+            : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
+          if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
+            editsByUser.put(Account.Id.fromRefPart(e.getKey()), e.getValue());
           }
         }
       } catch (IOException e) {
@@ -1123,17 +1129,31 @@ public class ChangeData {
   }
 
   public Set<Account.Id> draftsByUser() throws OrmException {
+    return draftRefs().keySet();
+  }
+
+  public Map<Account.Id, Ref> draftRefs() throws OrmException {
     if (draftsByUser == null) {
       if (!lazyLoad) {
-        return Collections.emptySet();
+        return Collections.emptyMap();
       }
       Change c = change();
       if (c == null) {
-        return Collections.emptySet();
+        return Collections.emptyMap();
       }
-      draftsByUser = new HashSet<>();
-      for (Comment sc : commentsUtil.draftByChange(db, notes())) {
-        draftsByUser.add(sc.author.getId());
+
+      draftsByUser = new HashMap<>();
+      if (notesMigration.readChanges()) {
+        for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
+          Account.Id account = Account.Id.fromRefSuffix(ref.getName());
+          if (account != null) {
+            draftsByUser.put(account, ref);
+          }
+        }
+      } else {
+        for (Comment sc : commentsUtil.draftByChange(db, notes())) {
+          draftsByUser.put(sc.author.getId(), null);
+        }
       }
     }
     return draftsByUser;
@@ -1261,5 +1281,21 @@ public class ChangeData {
       this.insertions = insertions;
       this.deletions = deletions;
     }
+  }
+
+  public ImmutableList<byte[]> getRefStates() {
+    return refStates;
+  }
+
+  public void setRefStates(Iterable<byte[]> refStates) {
+    this.refStates = ImmutableList.copyOf(refStates);
+  }
+
+  public ImmutableList<byte[]> getRefStatePatterns() {
+    return refStatePatterns;
+  }
+
+  public void setRefStatePatterns(Iterable<byte[]> refStatePatterns) {
+    this.refStatePatterns = ImmutableList.copyOf(refStatePatterns);
   }
 }

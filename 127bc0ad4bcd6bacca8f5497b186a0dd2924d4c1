@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "104624f2_9d72e3c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T18:04:28Z",
+      "side": 1,
+      "message": "Thanks, fixing this as follow-up is as good.",
+      "parentUuid": "9071345a_e996b52a",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d091ec62_cb64d52a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
         "patchSetId": 7

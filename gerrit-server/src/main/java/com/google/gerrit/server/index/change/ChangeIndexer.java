@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.extensions.events.EventUtil.logEventListenerError;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -45,6 +46,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,9 +110,12 @@ public class ChangeIndexer {
   private final ListeningExecutorService executor;
   private final DynamicSet<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
+  private final boolean reindexAfterIndexUpdate;
 
   @AssistedInject
-  ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+  ChangeIndexer(
+      @GerritServerConfig Config cfg,
+      SchemaFactory<ReviewDb> schemaFactory,
       NotesMigration notesMigration,
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
@@ -129,12 +134,14 @@ public class ChangeIndexer {
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
     this.batchExecutor = batchExecutor;
+    this.reindexAfterIndexUpdate = reindexAfterIndexUpdate(cfg);
     this.index = index;
     this.indexes = null;
   }
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+      @GerritServerConfig Config cfg,
       NotesMigration notesMigration,
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
@@ -153,8 +160,13 @@ public class ChangeIndexer {
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
     this.batchExecutor = batchExecutor;
+    this.reindexAfterIndexUpdate = reindexAfterIndexUpdate(cfg);
     this.index = null;
     this.indexes = indexes;
+  }
+
+  private static boolean reindexAfterIndexUpdate(Config cfg) {
+    return cfg.getBoolean("index", null, "testReindexAfterUpdate", true);
   }
 
   /**
@@ -193,6 +205,26 @@ public class ChangeIndexer {
       i.replace(cd);
     }
     fireChangeIndexedEvent(cd.getId().get());
+
+    // Always double-check whether the change might be stale immediately after
+    // interactively indexing it. This fixes up the case where two writers write
+    // to the primary storage in one order, and the corresponding index writes
+    // happen in the opposite order:
+    //  1. Writer A writes to primary storage.
+    //  2. Writer B writes to primary storage.
+    //  3. Writer B updates index.
+    //  4. Writer A updates index.
+    //
+    // Without the extra reindexIfStale step, A has no way of knowing that it's
+    // about to overwrite the index document with stale data. It doesn't work to
+    // have A check for staleness before attempting its index update, because
+    // B's index update might not have happened when it does the check.
+    //
+    // With the extra reindexIfStale step after (3)/(4), we are able to detect
+    // and fix the staleness. It doesn't matter which order the two
+    // reindexIfStale calls actually execute in; we are guaranteed that at least
+    // one of them will execute after the second index write, (4).
+    reindexAfterIndexUpdate(cd);
   }
 
   private void fireChangeIndexedEvent(int id) {
@@ -224,6 +256,8 @@ public class ChangeIndexer {
   public void index(ReviewDb db, Change change)
       throws IOException, OrmException {
     index(newChangeData(db, change));
+    // See comment in #index(ChangeData).
+    reindexAfterIndexUpdate(change.getProject(), change.getId());
   }
 
   /**
@@ -235,7 +269,10 @@ public class ChangeIndexer {
    */
   public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
       throws IOException, OrmException {
-    index(newChangeData(db, project, changeId));
+    ChangeData cd = newChangeData(db, project, changeId);
+    index(cd);
+    // See comment in #index(ChangeData).
+    reindexAfterIndexUpdate(cd);
   }
 
   /**
@@ -271,6 +308,20 @@ public class ChangeIndexer {
   public CheckedFuture<Boolean, IOException> reindexIfStale(
       Project.NameKey project, Change.Id id) {
     return submit(new ReindexIfStaleTask(project, id), batchExecutor);
+  }
+
+  private void reindexAfterIndexUpdate(ChangeData cd) throws IOException {
+    try {
+      reindexAfterIndexUpdate(cd.project(), cd.getId());
+    } catch (OrmException e) {
+      throw new IOException(e);
+    }
+  }
+
+  private void reindexAfterIndexUpdate(Project.NameKey project, Change.Id id) {
+    if (reindexAfterIndexUpdate) {
+      reindexIfStale(project, id);
+    }
   }
 
   private Collection<ChangeIndex> getWriteIndexes() {

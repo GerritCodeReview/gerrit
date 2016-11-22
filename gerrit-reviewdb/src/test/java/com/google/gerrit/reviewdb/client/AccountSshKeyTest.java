@@ -25,6 +25,12 @@ public class AccountSshKeyTest {
       + "vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5T"
       + "w== john.doe@example.com";
 
+  private static final String KEY_WITH_NEWLINES =
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCgug5VyMXQGnem2H1KVC4/HcRcD4zzBqS\n"
+      + "uJBRWVonSSoz3RoAZ7bWXCVVGwchtXwUURD689wFYdiPecOrWOUgeeyRq754YWRhU+W28\n"
+      + "vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5T\n"
+      + "w== john.doe@example.com";
+
   private final Account.Id accountId = new Account.Id(1);
 
   @Test
@@ -42,6 +48,16 @@ public class AccountSshKeyTest {
   public void testGetters() throws Exception {
     AccountSshKey key = new AccountSshKey(
         new AccountSshKey.Id(accountId, 1), KEY);
+    assertThat(key.getSshPublicKey()).isEqualTo(KEY);
+    assertThat(key.getAlgorithm()).isEqualTo(KEY.split(" ")[0]);
+    assertThat(key.getEncodedKey()).isEqualTo(KEY.split(" ")[1]);
+    assertThat(key.getComment()).isEqualTo(KEY.split(" ")[2]);
+  }
+
+  @Test
+  public void testKeyWithNewLines() throws Exception {
+    AccountSshKey key = new AccountSshKey(
+        new AccountSshKey.Id(accountId, 1), KEY_WITH_NEWLINES);
     assertThat(key.getSshPublicKey()).isEqualTo(KEY);
     assertThat(key.getAlgorithm()).isEqualTo(KEY.split(" ")[0]);
     assertThat(key.getEncodedKey()).isEqualTo(KEY.split(" ")[1]);

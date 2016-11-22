@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90893441_e92995f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T01:53:36Z",
+      "side": 1,
+      "message": "name is already a String. Why do we need to use String.valueOf?",
+      "range": {
+        "startLine": 321,
+        "startChar": 41,
+        "endLine": 321,
+        "endChar": 61
+      },
+      "revId": "6e1915155b73ad3629b5941498cc2de087345fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

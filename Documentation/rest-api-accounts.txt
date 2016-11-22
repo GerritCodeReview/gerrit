@@ -29,7 +29,6 @@ returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -82,7 +81,6 @@ link:#all-emails[all emails] are always returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -118,7 +116,6 @@ Returns an account as an link:#account-info[AccountInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -163,7 +160,6 @@ returned that describes the created account.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -191,7 +187,6 @@ AccountDetailInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -220,7 +215,6 @@ Retrieves the full name of an account.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -255,7 +249,6 @@ As response the new account name is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -301,7 +294,6 @@ Retrieves the username of an account.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -414,7 +406,6 @@ Retrieves the HTTP password of an account.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -450,7 +441,6 @@ As response the new HTTP password is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -496,7 +486,6 @@ that describes the OAuth access token.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
    )]}'
@@ -533,7 +522,6 @@ link:#email-info[EmailInfo] entities.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -567,7 +555,6 @@ describes the email address.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -612,7 +599,6 @@ link:#email-info[EmailInfo] entity.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -680,7 +666,6 @@ link:#ssh-key-info[SshKeyInfo] entities.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -715,7 +700,6 @@ describes the SSH key.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -756,7 +740,6 @@ describes the new SSH key.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -807,7 +790,6 @@ link:#gpg-key-info[GpgKeyInfo] entities, keyed by ID.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -843,7 +825,6 @@ describes the GPG key.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -894,7 +875,6 @@ represented by an empty object.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -955,7 +935,6 @@ link:#capability-info[CapabilityInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -979,7 +958,6 @@ Administrator that has authenticated with digest authentication:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1021,7 +999,6 @@ possible alternative for the caller.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1085,7 +1062,6 @@ entries is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1165,7 +1141,6 @@ Retrieves the URL where the user can change the avatar image.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: text/plain; charset=UTF-8
 
   https://profiles/pictures/john.doe
@@ -1198,7 +1173,6 @@ any account.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1305,7 +1279,6 @@ link:#preferences-info[PreferencesInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1368,7 +1341,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1425,7 +1397,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1463,7 +1434,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
 
   )]}'
@@ -1523,7 +1493,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
 
   )]}'
@@ -1561,7 +1530,6 @@ The result is sorted by project name in ascending order.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1617,7 +1585,6 @@ The result is sorted by project name in ascending order.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1686,7 +1653,6 @@ of link:rest-api-changes.html#change-info[ChangeInfo] entities.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1777,7 +1743,6 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1826,7 +1791,6 @@ returned. The labels are lexicographically sorted.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1869,7 +1833,6 @@ returned. The labels are lexicographically sorted.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1899,7 +1862,6 @@ of link:#contributor-agreement-info[ContributorAgreementInfo] entities.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1938,7 +1900,6 @@ As response the contributor agreement name is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'

@@ -29,7 +29,6 @@ by group name.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -135,7 +134,6 @@ returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -194,7 +192,6 @@ error out.)
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -230,7 +227,6 @@ describes the group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -277,7 +273,6 @@ describes the created group.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -318,7 +313,6 @@ describes the group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -366,7 +360,6 @@ Retrieves the name of a group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -398,7 +391,6 @@ As response the new group name is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -424,7 +416,6 @@ Retrieves the description of a group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -458,7 +449,6 @@ As response the new group description is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -504,7 +494,6 @@ returned that describes the options of the group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -540,7 +529,6 @@ link:#group-options-info[GroupOptionsInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -568,7 +556,6 @@ describes the owner group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -614,7 +601,6 @@ describes the new owner group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -652,7 +638,6 @@ newest audit event comes first.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -737,7 +722,6 @@ full name, preferred email and id.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -776,7 +760,6 @@ are not visible to the calling user are ignored.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -821,7 +804,6 @@ AccountInfo] entity is returned that describes the group member.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -852,7 +834,6 @@ AccountInfo] entity is returned that describes the group member.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -907,7 +888,6 @@ already a member of the group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -996,7 +976,6 @@ The entries in the list are sorted by group name and UUID.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1033,7 +1012,6 @@ describes the included group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1069,7 +1047,6 @@ describes the included group.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1128,7 +1105,6 @@ group was already included in the group.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'

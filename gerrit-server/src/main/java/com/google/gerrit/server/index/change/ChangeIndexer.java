@@ -193,6 +193,26 @@ public class ChangeIndexer {
       i.replace(cd);
     }
     fireChangeIndexedEvent(cd.getId().get());
+
+    // Always double-check whether the change might be stale immediately after
+    // interactively indexing it. This fixes up the case where two writers write
+    // to the primary storage in one order, and the corresponding index writes
+    // happen in the opposite order:
+    //  1. Writer A writes to primary storage.
+    //  2. Writer B writes to primary storage.
+    //  3. Writer B updates index.
+    //  4. Writer A updates index.
+    //
+    // Without the extra reindexIfStale step, A has no way of knowing that it's
+    // about to overwrite the index document with stale data. It doesn't work to
+    // have A check for staleness before attempting its index update, because
+    // B's index update might not have happened when it does the check.
+    //
+    // With the extra reindexIfStale step after (3)/(4), we are able to detect
+    // and fix the staleness. It doesn't matter which order the two
+    // reindexIfStale calls actually execute in; we are guaranteed that at least
+    // one of them will execute after the second index write, (4).
+    reindexIfStale(cd);
   }
 
   private void fireChangeIndexedEvent(int id) {
@@ -224,6 +244,8 @@ public class ChangeIndexer {
   public void index(ReviewDb db, Change change)
       throws IOException, OrmException {
     index(newChangeData(db, change));
+    // See comment in #index(ChangeData).
+    reindexIfStale(change.getProject(), change.getId());
   }
 
   /**
@@ -235,7 +257,10 @@ public class ChangeIndexer {
    */
   public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
       throws IOException, OrmException {
-    index(newChangeData(db, project, changeId));
+    ChangeData cd = newChangeData(db, project, changeId);
+    index(cd);
+    // See comment in #index(ChangeData).
+    reindexIfStale(cd);
   }
 
   /**
@@ -271,6 +296,15 @@ public class ChangeIndexer {
   public CheckedFuture<Boolean, IOException> reindexIfStale(
       Project.NameKey project, Change.Id id) {
     return submit(new ReindexIfStaleTask(project, id), batchExecutor);
+  }
+
+  private CheckedFuture<Boolean, IOException> reindexIfStale(ChangeData cd)
+      throws IOException {
+    try {
+      return reindexIfStale(cd.project(), cd.getId());
+    } catch (OrmException e) {
+      throw new IOException(e);
+    }
   }
 
   private Collection<ChangeIndex> getWriteIndexes() {

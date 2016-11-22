@@ -238,9 +238,9 @@ public class RebaseChangeOp extends BatchUpdate.Op {
    * @throws MergeConflictException the rebase failed due to a merge conflict.
    * @throws IOException the merge failed for another reason.
    */
-  private RevCommit rebaseCommit(RepoContext ctx, RevCommit original,
-      ObjectId base, String commitMessage)
-      throws ResourceConflictException, MergeConflictException, IOException {
+  private RevCommit rebaseCommit(
+      RepoContext ctx, RevCommit original, ObjectId base, String commitMessage)
+      throws ResourceConflictException, IOException {
     RevCommit parentCommit = original.getParent(0);
 
     if (base.equals(parentCommit)) {

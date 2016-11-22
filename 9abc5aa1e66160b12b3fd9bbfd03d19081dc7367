@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bfd0bf_741e48dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T01:14:25Z",
+      "side": 1,
+      "message": "Repurpose",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "9abc5aa1e66160b12b3fd9bbfd03d19081dc7367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90893441_a91f9dd3",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T01:14:25Z",
+      "side": 1,
+      "message": "in the",
+      "range": {
+        "startLine": 106,
+        "startChar": 50,
+        "endLine": 106,
+        "endChar": 52
+      },
+      "revId": "9abc5aa1e66160b12b3fd9bbfd03d19081dc7367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bfd0bf_94220415",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T01:14:25Z",
+      "side": 1,
+      "message": "using the",
+      "range": {
+        "startLine": 107,
+        "startChar": 9,
+        "endLine": 107,
+        "endChar": 14
+      },
+      "revId": "9abc5aa1e66160b12b3fd9bbfd03d19081dc7367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90893441_c92cd10b",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T01:14:25Z",
+      "side": 1,
+      "message": "Other instances of \"Rebase Always\" do not have the hyphen.",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "9abc5aa1e66160b12b3fd9bbfd03d19081dc7367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

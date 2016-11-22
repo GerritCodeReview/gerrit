@@ -17,6 +17,24 @@
       "revId": "d51687a73663b18bf4891c8fba1bc2c8ca1c062d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_c26a625b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-22T18:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d091ec62_0b7a5d65",
+      "revId": "d51687a73663b18bf4891c8fba1bc2c8ca1c062d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

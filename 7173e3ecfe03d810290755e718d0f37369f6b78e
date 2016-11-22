@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_5867c160",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-22T14:17:56Z",
+      "side": 1,
+      "message": "Shawn, was there a specific request from our internal security folks for the current behavior? With all due respect to the IETF, sometimes RFCs make non-optimal security recommendations.",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "7173e3ecfe03d810290755e718d0f37369f6b78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -84,6 +84,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -697,7 +698,7 @@ public class MergeUtil {
       rw.markStart(mergeTip);
       for (RevCommit c : alreadyAccepted) {
         // If branch was not created by this submit.
-        if (c != mergeTip) {
+        if (!Objects.equals(c, mergeTip)) {
           rw.markUninteresting(c);
         }
       }

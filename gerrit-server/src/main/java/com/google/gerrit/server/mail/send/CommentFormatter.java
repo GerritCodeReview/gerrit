@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import com.google.gerrit.common.Nullable;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class CommentFormatter {
    * @return List of block objects, each with unescaped comment content.
    */
   public static List<Block> parse(@Nullable String source) {
-    if (source == null || source.isEmpty()) {
+    if (isNullOrEmpty(source)) {
       return Collections.emptyList();
     }
 

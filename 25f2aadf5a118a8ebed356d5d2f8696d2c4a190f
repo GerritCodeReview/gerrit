@@ -115,6 +115,24 @@
     },
     {
       "key": {
+        "uuid": "70a120aa_5375f638",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T00:06:49Z",
+      "side": 1,
+      "message": "\u003e \u003e As I understand it (as related to me by Shawn) the footers were originally only included in the body because Gmail did-not / does-not support searching by arbitrary mail headers. By rights,\n\u003e \n\u003e I see your point, but that decision was made like 7 years ago, and revisiting those design decisions every few years is not out of the question.\n\nTotally reasonable.\n\n\u003e \u003e  For help writing filters, or to unsubscribe, visit [settings].\n\u003e \n\u003e +1 to this idea, except we need the documentation on the settings page.\n\nFiled at https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4982 .\n\n\u003e \u003e Can certainly force Soy to preserve whitespace in the HTML footer as well.\n\u003e \n\u003e Yes please.\n\nDone.",
+      "parentUuid": "10c70467_753008b1",
+      "revId": "25f2aadf5a118a8ebed356d5d2f8696d2c4a190f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_55c94cb7",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
         "patchSetId": 1
@@ -150,6 +168,24 @@
       "side": 1,
       "message": "Great point. This would also obviate the CommentFooter templates.\n\nUpdating...",
       "parentUuid": "10c70467_55c94cb7",
+      "revId": "25f2aadf5a118a8ebed356d5d2f8696d2c4a190f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_98223915",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T00:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c70467_95d20463",
       "revId": "25f2aadf5a118a8ebed356d5d2f8696d2c4a190f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

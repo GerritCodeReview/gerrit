@@ -239,7 +239,6 @@ public class RestApiServlet extends HttpServlet {
       throws ServletException, IOException {
     final long startNanos = System.nanoTime();
     long auditStartTs = TimeUtil.nowMs();
-    res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
     int status = SC_OK;
     long responseBytes = -1;

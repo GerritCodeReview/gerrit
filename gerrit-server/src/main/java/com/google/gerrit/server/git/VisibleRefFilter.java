@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -89,6 +90,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     if (projectCtl.getProjectState().isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
+
+    addLastestChangeSymref(refs);
 
     if (projectCtl.allRefsAreVisible(ImmutableSet.of(REFS_CONFIG))) {
       return fastHideRefsMetaConfig(refs);
@@ -187,6 +190,35 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         refs.put(s.getName(), s);
       }
     }
+    return refs;
+  }
+
+  private Map<String, Ref> addLastestChangeSymref(Map<String, Ref> refs) {
+    Map<Change.Id, Ref> latestChangeRef = new HashMap<>();
+    Map<Change.Id, PatchSet.Id> latestPatchSetId = new HashMap<>();
+
+    for (Map.Entry<String, Ref> entry : refs.entrySet()) {
+      Ref ref = entry.getValue();
+
+      Change.Id changeId = Change.Id.fromRef(ref.getName());
+      PatchSet.Id patchSetId = PatchSet.Id.fromRef(ref.getName());
+
+      if (changeId == null || patchSetId == null)
+        continue;
+
+      int patchSetIdValue = patchSetId.get();
+      if (!latestPatchSetId.containsKey(changeId)
+          || latestPatchSetId.get(changeId).get() < patchSetIdValue) {
+        latestPatchSetId.put(changeId, patchSetId);
+        latestChangeRef.put(changeId, ref);
+      }
+    }
+
+    for (Map.Entry<Change.Id, Ref> entry : latestChangeRef.entrySet()) {
+      SymbolicRef s = new SymbolicRef(RefNames.changeLatestRef(entry.getKey()), entry.getValue());
+      refs.put(s.getName(), s);
+    }
+
     return refs;
   }
 

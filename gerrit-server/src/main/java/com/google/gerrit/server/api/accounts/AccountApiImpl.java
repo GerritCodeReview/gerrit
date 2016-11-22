@@ -52,6 +52,7 @@ import com.google.gerrit.server.account.GetEditPreferences;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
+import com.google.gerrit.server.account.Index;
 import com.google.gerrit.server.account.PostWatchedProjects;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutAgreement;
@@ -108,6 +109,7 @@ public class AccountApiImpl implements AccountApi {
   private final GetActive getActive;
   private final PutActive putActive;
   private final DeleteActive deleteActive;
+  private final Index index;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -138,6 +140,7 @@ public class AccountApiImpl implements AccountApi {
       GetActive getActive,
       PutActive putActive,
       DeleteActive deleteActive,
+      Index index,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -168,6 +171,7 @@ public class AccountApiImpl implements AccountApi {
     this.getActive = getActive;
     this.putActive = putActive;
     this.deleteActive = deleteActive;
+    this.index = index;
   }
 
   @Override
@@ -435,4 +439,12 @@ public class AccountApiImpl implements AccountApi {
     }
   }
 
+  @Override
+  public void index() throws RestApiException {
+    try {
+      index.apply(account, new Index.Input());
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot index account", e);
+    }
+  }
 }

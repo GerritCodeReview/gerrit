@@ -1945,6 +1945,24 @@ As response the contributor agreement name is returned.
   "Individual"
 ----
 
+[[index-account]]
+=== Index Account
+--
+'POST /accounts/link:#account-id[\{account-id\}]/index'
+--
+
+Adds or updates the account in the secondary index.
+
+.Request
+----
+  POST /accounts/1000096/index HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[ids]]
 == IDs
 

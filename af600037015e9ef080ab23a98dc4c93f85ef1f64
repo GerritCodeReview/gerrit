@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1479839842 -0500\nnonce AG58fQow1yrXSeRYtvy91wmDAOfv066dXd4cBMx91MbSF3Gcg9VOtbiOqseDy3eY070okOdpGzS8\n\n0000000000000000000000000000000000000000 702d1830ed2c8ab6425584592321a3ffadda94fe refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYNJBiAAoJEF/XxZqaEoiM2twQAKRYXsdBylrKFvoaDinza1Q9\nIbSliqHLTaH/klR/pBthKLnbzp8rd37Y5uJ3akHai1bqQ13xZa2W4Gdl10GShPt7\njJvQJFO/uwECskEq/2DkuR7djCxTSXBTFro8eW8M7X/dQntgKQtcAEIaolTvHR7I\nCfHVO7NtU4ng2BFcFe8UTMjdRiqH6opMCCEBZvHKQ961dyEe8OhgWLOw2rpZaXG1\nusRxnI7R9yeKYtgnwIZekozUfiPvPAgYpUiOXDdRgtFS5jaM8ZKLj9iAjr/OZqgW\ndheKLssWl1drOQcDWq58HBdD9QmlrC4MLd/6mbWspc7mQtZcOShI1zp7rs0bjdBN\ncYkhPt//8unAcRoP377dSxTWt5deNFSXbQJ/NVcXYKuwZy9wWQKAQN2FmA0qchhx\nFG0LHDQ3N4yjeIPfafPqDt+QdPxyE3u40tEW4cT7p4Q0elZgzCXPzOufUB3dkXOi\nvH0T5MdDBmcPiCWmaR45VW0dQvQJGzm+CJ0EuVDBfj4U7vhCQdi86QfOM/bFy7xK\n1s7gkR4ADSj4Ne1/sNMq+dAIQNHuOCVx5YOHmoimvL+y2ZOe89E8Pga40XxTesRe\nZ0eBRiHLreIqh1jkG4CucfY/WFxCJOXZc2YgiHDcLy4cBIcdVCHQPrZxDE9Wgs4w\n451BZGap5X6lGf+wT2/9\n\u003dSAMB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0e1d842_02da8a07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-22T19:44:15Z",
+      "side": 1,
+      "message": "I would also be open to storing these in a JSON format like we do for a few other fields, rather than parse Yet Another Format. Any thoughts one way or the other?",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

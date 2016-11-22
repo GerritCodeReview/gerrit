@@ -52,6 +52,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -1609,6 +1610,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     exception.expect(DisabledReviewDb.Disabled.class);
     cd.currentApprovals();
+  }
+
+  @Test
+  public void reindexIfStale() throws Exception {
+    Account.Id user = createAccount("user");
+    Project.NameKey project = new Project.NameKey("repo");
+    TestRepository<Repo> repo = createProject(project.get());
+    Change change = insert(repo, newChange(repo));
+    PatchSet ps = db.patchSets().get(change.currentPatchSetId());
+
+    requestContext.setContext(newRequestContext(user));
+    assertThat(changeEditModifier.createEdit(change, ps))
+        .isEqualTo(RefUpdate.Result.NEW);
+    assertQuery("has:edit", change);
+    assertThat(indexer.reindexIfStale(project, change.getId()).get()).isFalse();
+
+    // Delete edit ref behind index's back.
+    RefUpdate ru = repo.getRepository().updateRef(
+        RefNames.refsEdit(user, change.getId(), ps.getId()));
+    ru.setForceUpdate(true);
+    assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+
+    // Index is stale.
+    assertQuery("has:edit", change);
+    assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
+    assertQuery("has:edit");
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo)

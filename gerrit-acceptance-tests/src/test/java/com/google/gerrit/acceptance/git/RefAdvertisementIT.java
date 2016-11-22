@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.FetchResult;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -184,12 +185,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertUploadPackRefs(
         "HEAD",
         r1 + "1",
+        r1 + "current",
         r1 + "meta",
         r2 + "1",
+        r2 + "current",
         r2 + "meta",
         r3 + "1",
+        r3 + "current",
         r3 + "meta",
         r4 + "1",
+        r4 + "current",
         r4 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
@@ -205,12 +210,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertUploadPackRefs(
         "HEAD",
         r1 + "1",
+        r1 + "current",
         r1 + "meta",
         r2 + "1",
+        r2 + "current",
         r2 + "meta",
         r3 + "1",
+        r3 + "current",
         r3 + "meta",
         r4 + "1",
+        r4 + "current",
         r4 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
@@ -228,8 +237,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertUploadPackRefs(
         "HEAD",
         r1 + "1",
+        r1 + "current",
         r1 + "meta",
         r3 + "1",
+        r3 + "current",
         r3 + "meta",
         "refs/heads/master",
         "refs/tags/master-tag");
@@ -243,8 +254,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     setApiUser(user);
     assertUploadPackRefs(
         r2 + "1",
+        r2 + "current",
         r2 + "meta",
         r4 + "1",
+        r4 + "current",
         r4 + "meta",
         "refs/heads/branch",
         "refs/tags/branch-tag",
@@ -272,8 +285,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertUploadPackRefs(
         "HEAD",
         r1 + "1",
+        r1 + "current",
         r1 + "meta",
         r3 + "1",
+        r3 + "current",
         r3 + "meta",
         "refs/heads/master",
         "refs/tags/master-tag",
@@ -296,12 +311,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           // Change 1 is visible due to accessDatabase capability, even though
           // refs/heads/master is not.
           r1 + "1",
+          r1 + "current",
           r1 + "meta",
           r2 + "1",
+          r2 + "current",
           r2 + "meta",
           r3 + "1",
+          r3 + "current",
           r3 + "meta",
           r4 + "1",
+          r4 + "current",
           r4 + "meta",
           "refs/heads/branch",
           "refs/tags/branch-tag",
@@ -329,14 +348,19 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertUploadPackRefs(
         "HEAD",
         r1 + "1",
+        r1 + "current",
         r1 + "meta",
         r2 + "1",
+        r2 + "current",
         r2 + "meta",
         r3 + "1",
+        r3 + "current",
         r3 + "meta",
         r4 + "1",
+        r4 + "current",
         r4 + "meta",
         r5 + "1",
+        r5 + "current",
         r5 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
@@ -349,12 +373,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertUploadPackRefs(
         "HEAD",
         r1 + "1",
+        r1 + "current",
         r1 + "meta",
         r2 + "1",
+        r2 + "current",
         r2 + "meta",
         r3 + "1",
+        r3 + "current",
         r3 + "meta",
         r4 + "1",
+        r4 + "current",
         r4 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
@@ -376,18 +404,47 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           false,
           "HEAD",
           r1 + "1",
+          r1 + "current",
           r1 + "meta",
           r2 + "1",
+          r2 + "current",
           r2 + "meta",
           r3 + "1",
+          r3 + "current",
           r3 + "meta",
           r4 + "1",
+          r4 + "current",
           r4 + "meta",
           "refs/heads/branch",
           "refs/heads/master",
           "refs/tags/branch-tag",
           "refs/tags/master-tag");
     }
+  }
+
+  @Test
+  public void fetchCurrentPatchSetWithoutDrafts() throws Exception {
+    setApiUser(user);
+    assertFetchResult(testRepo.git().fetch().call(), r1 + "1", r1 + "current");
+  }
+
+  @Test
+  public void fetchCurrentPatchSetWithDrafts() throws Exception {
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo)
+        .to("refs/drafts/master");
+    r.assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/drafts/master", admin, testRepo);
+    r.assertOkStatus();
+    String refPrefix = changeRefPrefix(r.getChange().getId());
+
+    // Currently, a user can fetch any patch set, including drafts,
+    // if the patch set passes the VisibleRefFilter.
+    // However, he/she may have no permission to view it in the website.
+    setApiUser(user);
+    assertFetchResult(testRepo.git().fetch().call(),
+        refPrefix + "3", refPrefix + "current");
   }
 
   @Test
@@ -529,6 +586,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         enableDb(ctx);
       }
     }
+  }
+
+  private void assertFetchResult(FetchResult fResult,
+      String currentPSRealRefName, String currentPSMagicRefName)
+          throws Exception {
+    ObjectId expectedSHA1 = null;
+    ObjectId resultSHA1 = null;
+    for (Ref ref : fResult.getAdvertisedRefs()) {
+      String refName = ref.getName();
+      if (refName.equals(currentPSRealRefName)) {
+        expectedSHA1 = ref.getObjectId();
+      } else if (refName.equals(currentPSMagicRefName)) {
+        resultSHA1 = ref.getObjectId();
+      }
+    }
+    assertThat(expectedSHA1).isEqualTo(resultSHA1);
   }
 
   private ReceiveCommitsAdvertiseRefsHook.Result getReceivePackRefs()

@@ -16,19 +16,14 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
+import com.google.gerrit.testutil.GerritBaseTests;
 
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PatchSetApprovalTest {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
+public class PatchSetApprovalTest extends GerritBaseTests {
   @Test
   public void keyEquality() {
     PatchSetApproval.Key k1 = new PatchSetApproval.Key(

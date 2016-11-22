@@ -45,8 +45,8 @@ public class Schema_127 extends SchemaVersion {
     H2AccountPatchReviewStore.createTableIfNotExists(url);
     try (Connection con = DriverManager.getConnection(url);
         PreparedStatement stmt =
-            con.prepareStatement("INSERT INTO account_patch_reviews "
-                + "(account_id, change_id, patch_set_id, file_name) VALUES "
+            con.prepareStatement("INSERT INTO ACCOUNT_PATCH_REVIEWS "
+                + "(ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME) VALUES "
                 + "(?, ?, ?, ?)")) {
       int batchCount = 0;
 

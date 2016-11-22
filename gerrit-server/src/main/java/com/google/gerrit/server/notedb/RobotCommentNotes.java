@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -43,6 +44,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
 
   private ImmutableListMultimap<RevId, RobotComment> comments;
   private RevisionNoteMap<RobotCommentsRevisionNote> revisionNoteMap;
+  private ObjectId metaId;
 
   @AssistedInject
   RobotCommentNotes(
@@ -70,20 +72,26 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   }
 
   @Override
-  protected String getRefName() {
+  public String getRefName() {
     return RefNames.robotCommentsRef(getChangeId());
+  }
+
+  @Nullable
+  public ObjectId getMetaId() {
+    return metaId;
   }
 
   @Override
   protected void onLoad(LoadHandle handle)
       throws IOException, ConfigInvalidException {
-    ObjectId rev = handle.id();
-    if (rev == null) {
+    metaId = handle.id();
+    if (metaId == null) {
       loadDefaults();
       return;
     }
+    metaId = metaId.copy();
 
-    RevCommit tipCommit = handle.walk().parseCommit(rev);
+    RevCommit tipCommit = handle.walk().parseCommit(metaId);
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap = RevisionNoteMap.parseRobotComments(args.noteUtil, reader,
         NoteMap.read(reader, tipCommit));

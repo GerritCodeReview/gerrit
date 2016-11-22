@@ -36,13 +36,20 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
+import com.google.gerrit.server.index.change.StalenessChecker.RefState;
+import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.notedb.RobotCommentNotes;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -944,6 +951,74 @@ public class ChangeField {
     }
     return result;
   }
+
+  /**
+   * All values of all refs that were used in the course of indexing this
+   * document.
+   * <p>
+   * Emitted as UTF-8 encoded strings of the form
+   * {@code project:ref/name:[hex sha]}.
+   */
+  public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE =
+      new FieldDef.Repeatable<ChangeData, byte[]>(
+          "ref_state", FieldType.STORED_ONLY, true) {
+        @Override
+        public Iterable<byte[]> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          List<byte[]> result = new ArrayList<>();
+          Project.NameKey project = input.change().getProject();
+
+          input.editRefs().values().forEach(
+              r -> result.add(RefState.of(r).toByteArray(project)));
+          input.starRefs().values().forEach(
+              r -> result.add(RefState.of(r.ref()).toByteArray(project)));
+
+          if (PrimaryStorage.of(input.change()) == PrimaryStorage.NOTE_DB) {
+            ChangeNotes notes = input.notes();
+            result.add(RefState.create(notes.getRefName(), notes.getMetaId())
+                .toByteArray(project));
+            notes.getRobotComments(); // Force loading robot comments.
+            RobotCommentNotes robotNotes = notes.getRobotCommentNotes();
+            result.add(
+                RefState.create(robotNotes.getRefName(), robotNotes.getMetaId())
+                    .toByteArray(project));
+            input.draftRefs().values().forEach(
+                r -> result.add(RefState.of(r).toByteArray(args.allUsers)));
+          }
+
+          return result;
+        } };
+
+  /**
+   * All ref wildcard patterns that were used in the course of indexing this
+   * document.
+   * <p>
+   * Emitted as UTF-8 encoded strings of the form {@code project:ref/name/*}.
+   * See {@link RefStatePattern} for the pattern format.
+   */
+  public static final FieldDef<ChangeData, Iterable<byte[]>>
+      REF_STATE_PATTERN = new FieldDef.Repeatable<ChangeData, byte[]>(
+          "ref_state_pattern", FieldType.STORED_ONLY, true) {
+    @Override
+    public Iterable<byte[]> get(ChangeData input, FillArgs args)
+        throws OrmException {
+      Change.Id id = input.getId();
+      Project.NameKey project = input.change().getProject();
+      List<byte[]> result = new ArrayList<>(3);
+      result.add(RefStatePattern.create(
+              RefNames.REFS_USERS + "*/" + RefNames.EDIT_PREFIX + id + "/*")
+          .toByteArray(project));
+      if (PrimaryStorage.of(input.change()) == PrimaryStorage.NOTE_DB) {
+        result.add(
+            RefStatePattern.create(RefNames.refsStarredChangesPrefix(id) + "*")
+                .toByteArray(args.allUsers));
+        result.add(
+            RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
+                .toByteArray(args.allUsers));
+      }
+      return result;
+    }
+  };
 
   public static final Integer NOT_REVIEWED = -1;
 

@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "104624f2_1d04937a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:49:12Z",
+      "side": 1,
+      "message": "nit: unneeded final",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_fd61a74d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:49:12Z",
+      "side": 1,
+      "message": "I see that this is the same behavior in SafeHtml.wikifyList, but I think this is a bug.\n\nIf I have the following block input:\n\"\n Some text:\n * This is the first item in the list\n with some more details in a new line.\n * This is the second item in the list.\n\"\n\nI would expect a list with 2 entries (\"This is the first item in the list with some more details in a new line.\" and \"This is the second item in the list.\") but with this code I get 3 entries \"This is the first item in the list\", \"with some more details in a new line.\" and \"This is the second item in the list.\").\n\nMaybe it\u0027s worth fixing this in SafeHtml.wikifyList and then not to implement the same bug here again?",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d091ec62_cb64d52a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:49:12Z",
+      "side": 1,
+      "message": "Hard-coding 2 here seems to be wrong since isQuote checks if the line starts with \" \u003e\" after trimming the string. So if the line starts multiple spaces we need to cut off more here, don\u0027t we?",
+      "range": {
+        "startLine": 150,
+        "startChar": 17,
+        "endLine": 150,
+        "endChar": 31
+      },
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_9d666363",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:49:12Z",
+      "side": 1,
+      "message": "This is inconsistent with the isQuote method which accepts any number of whitespace before \u0027\u003e\u0027.",
+      "range": {
+        "startLine": 150,
+        "startChar": 47,
+        "endLine": 150,
+        "endChar": 50
+      },
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d091ec62_ab578942",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:49:12Z",
+      "side": 1,
+      "message": "nit: unneeded final\n\nAlso for the 2 methods below.",
+      "range": {
+        "startLine": 168,
+        "startChar": 33,
+        "endLine": 168,
+        "endChar": 38
+      },
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_bd6b1f2c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:49:12Z",
+      "side": 1,
+      "message": "add:\n\n  assertThat(block.items).isNull();",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_5d51bb7e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-22T07:49:12Z",
+      "side": 1,
+      "message": "add:\n\n  assertThat(block.text).isNull();",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

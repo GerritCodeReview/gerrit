@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail.send;
 import com.google.gerrit.common.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

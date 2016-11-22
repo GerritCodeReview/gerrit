@@ -22,6 +22,30 @@
       "revId": "6e1915155b73ad3629b5941498cc2de087345fad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_bd96bfd7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-22T12:54:49Z",
+      "side": 1,
+      "message": "Oh sorry. I was only following how the others were set. I can remove this.",
+      "parentUuid": "90893441_e92995f8",
+      "range": {
+        "startLine": 321,
+        "startChar": 41,
+        "endLine": 321,
+        "endChar": 61
+      },
+      "revId": "6e1915155b73ad3629b5941498cc2de087345fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

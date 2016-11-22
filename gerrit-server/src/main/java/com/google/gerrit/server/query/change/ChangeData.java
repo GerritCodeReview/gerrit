@@ -23,6 +23,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -352,6 +354,7 @@ public class ChangeData {
   @Deprecated
   private Set<Account.Id> starredByUser;
   private ImmutableMultimap<Account.Id, String> stars;
+  private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
@@ -1204,13 +1207,28 @@ public class ChangeData {
       if (!lazyLoad) {
         return ImmutableMultimap.of();
       }
-      stars = checkNotNull(starredChangesUtil).byChange(legacyId);
+      ImmutableMultimap.Builder<Account.Id, String> b =
+          ImmutableMultimap.builder();
+      for (Map.Entry<Account.Id, StarRef> e : starRefs().entrySet()) {
+        b.putAll(e.getKey(), e.getValue().labels());
+      }
+      return b.build();
     }
     return stars;
   }
 
   public void setStars(Multimap<Account.Id, String> stars) {
     this.stars = ImmutableMultimap.copyOf(stars);
+  }
+
+  public ImmutableMap<Account.Id, StarRef> starRefs() throws OrmException {
+    if (starRefs == null) {
+      if (!lazyLoad) {
+        return ImmutableMap.of();
+      }
+      starRefs = checkNotNull(starredChangesUtil).byChange(legacyId);
+    }
+    return starRefs;
   }
 
   @AutoValue

@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -87,6 +88,7 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
@@ -119,6 +121,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected ChangeEditModifier changeEditModifier;
   @Inject protected ChangeIndexCollection indexes;
   @Inject protected ChangeIndexer indexer;
   @Inject protected InMemoryDatabase schemaFactory;
@@ -1493,6 +1496,35 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // NEED records don't have associated users.
     assertQuery("label:CodE-RevieW=need,user1");
     assertQuery("label:CodE-RevieW=need,user");
+  }
+
+  @Test
+  public void hasEdit() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    PatchSet ps1 = db.patchSets().get(change1.currentPatchSetId());
+    Change change2 = insert(repo, newChange(repo));
+    PatchSet ps2 = db.patchSets().get(change2.currentPatchSetId());
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit");
+    assertThat(changeEditModifier.createEdit(change1, ps1))
+        .isEqualTo(RefUpdate.Result.NEW);
+    assertThat(changeEditModifier.createEdit(change2, ps2))
+        .isEqualTo(RefUpdate.Result.NEW);
+
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("has:edit");
+    assertThat(changeEditModifier.createEdit(change2, ps2))
+        .isEqualTo(RefUpdate.Result.NEW);
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit", change2, change1);
+
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("has:edit", change2);
   }
 
   @Test

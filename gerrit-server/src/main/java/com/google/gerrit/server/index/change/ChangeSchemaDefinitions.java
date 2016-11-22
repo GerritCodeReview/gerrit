@@ -73,11 +73,17 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       .add(ChangeField.LABEL2)
       .build();
 
+  @Deprecated
   static final Schema<ChangeData> V35 =
       schema(V34,
           ChangeField.SUBMIT_RECORD,
           ChangeField.STORED_SUBMIT_RECORD_LENIENT,
           ChangeField.STORED_SUBMIT_RECORD_STRICT);
+
+  static final Schema<ChangeData> V36 =
+      schema(V35,
+          ChangeField.REF_STATE,
+          ChangeField.REF_STATE_PATTERN);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE =

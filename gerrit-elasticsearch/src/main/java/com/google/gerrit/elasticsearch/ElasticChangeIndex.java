@@ -23,6 +23,7 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
@@ -397,6 +398,21 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       decodeSubmitRecords(source,
           ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),
           ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
+
+      if (source.get(ChangeField.REF_STATE.getName()) != null) {
+        JsonArray refStates =
+            source.get(ChangeField.REF_STATE.getName()).getAsJsonArray();
+        cd.setRefStates(
+            Iterables.transform(
+                refStates, e -> Base64.decodeBase64(e.getAsString())));
+      }
+      if (source.get(ChangeField.REF_STATE_PATTERN.getName()) != null) {
+        JsonArray refStatePatterns = source.get(
+            ChangeField.REF_STATE_PATTERN.getName()).getAsJsonArray();
+        cd.setRefStatePatterns(
+            Iterables.transform(
+                refStatePatterns, e -> Base64.decodeBase64(e.getAsString())));
+      }
 
       return cd;
     }

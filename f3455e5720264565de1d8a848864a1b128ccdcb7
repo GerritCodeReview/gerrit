@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "70a120aa_f3b34ac7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-22T14:28:40Z",
+      "side": 1,
+      "message": "Don\u0027t need to do it before we finish bikeshedding, but don\u0027t forget to update the commit message to match what we ultimately decide for the configuration.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_b84d35e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
         "patchSetId": 3

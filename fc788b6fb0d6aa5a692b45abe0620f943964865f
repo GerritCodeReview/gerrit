@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d091ec62_0b909d9e",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-22T12:52:58Z",
+      "side": 1,
+      "message": "is this terminology common for load-balancers? if not, explain how the hash is used? \n\nIt\u0027s also not really a hash, is it? You\u0027re extracting a key. it\u0027s up to the LB to decide if and how to hash it.",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_3d6cef1e",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-22T12:52:58Z",
+      "side": 1,
+      "message": "add comment about #",
+      "range": {
+        "startLine": 28,
+        "startChar": 21,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_dd970bd7",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-22T12:52:58Z",
+      "side": 1,
+      "message": "can you make this a map, and check that your scheme yields the desired result?",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 21
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_fd9c47fd",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-22T12:52:58Z",
+      "side": 1,
+      "message": "this is google internal, no?\n\nadd http:// as well.",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 10
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

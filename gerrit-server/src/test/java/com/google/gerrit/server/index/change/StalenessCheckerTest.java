@@ -16,17 +16,30 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.server.index.change.StalenessChecker.isStale;
+import static com.google.gerrit.testutil.TestChanges.newChange;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.StalenessChecker.RefState;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gwtorm.protobuf.CodecFactory;
+import com.google.gwtorm.protobuf.ProtobufCodec;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.stream.Stream;
@@ -37,6 +50,26 @@ public class StalenessCheckerTest extends GerritBaseTests {
 
   private static final Project.NameKey P1 = new Project.NameKey("project1");
   private static final Project.NameKey P2 = new Project.NameKey("project2");
+
+  private static final Change.Id C = new Change.Id(1234);
+
+  private static final ProtobufCodec<Change> CHANGE_CODEC =
+      CodecFactory.encoder(Change.class);
+
+  private GitRepositoryManager repoManager;
+  private Repository r1;
+  private Repository r2;
+  private TestRepository<Repository> tr1;
+  private TestRepository<Repository> tr2;
+
+  @Before
+  public void setUp() throws Exception {
+    repoManager = new InMemoryRepositoryManager();
+    r1 = repoManager.createRepository(P1);
+    tr1 = new TestRepository<>(r1);
+    r2 = repoManager.createRepository(P2);
+    tr2 = new TestRepository<>(r2);
+  }
 
   @Test
   public void parseStates() {
@@ -147,8 +180,180 @@ public class StalenessCheckerTest extends GerritBaseTests {
     }
   }
 
+  @Test
+  public void isStaleRefStatesOnly() throws Exception {
+    String ref1 = "refs/heads/foo";
+    ObjectId id1 = tr1.update(ref1, tr1.commit().message("commit 1"));
+    String ref2 = "refs/heads/bar";
+    ObjectId id2 = tr2.update(ref2, tr2.commit().message("commit 2"));
+
+    // Not stale.
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name()),
+                    P2, RefState.create(ref2, id2.name())),
+                ImmutableMultimap.of()))
+        .isFalse();
+
+    // Wrong ref value.
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, SHA1),
+                    P2, RefState.create(ref2, id2.name())),
+                ImmutableMultimap.of()))
+        .isTrue();
+
+    // Swapped repos.
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id2.name()),
+                    P2, RefState.create(ref2, id1.name())),
+                ImmutableMultimap.of()))
+        .isTrue();
+
+    // Two refs in same repo, not stale.
+    String ref3 = "refs/heads/baz";
+    ObjectId id3 = tr1.update(ref3, tr1.commit().message("commit 3"));
+    tr1.update(ref3, id3);
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name()),
+                    P1, RefState.create(ref3, id3.name())),
+                ImmutableMultimap.of()))
+        .isFalse();
+
+    // Ignore ref not mentioned.
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name())),
+                ImmutableMultimap.of()))
+        .isFalse();
+
+    // One ref wrong.
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name()),
+                    P1, RefState.create(ref3, SHA1)),
+                ImmutableMultimap.of()))
+        .isTrue();
+  }
+
+  @Test
+  public void isStaleWithRefStatePatterns() throws Exception {
+    String ref1 = "refs/heads/foo";
+    ObjectId id1 = tr1.update(ref1, tr1.commit().message("commit 1"));
+
+    // ref1 is only ref matching pattern.
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name())),
+                ImmutableMultimap.of(
+                    P1, RefStatePattern.create("refs/heads/*"))))
+        .isFalse();
+
+    // Now ref2 matches pattern, so stale unless ref2 is present in state map.
+    String ref2 = "refs/heads/bar";
+    ObjectId id2 = tr1.update(ref2, tr1.commit().message("commit 2"));
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name())),
+                ImmutableMultimap.of(
+                    P1, RefStatePattern.create("refs/heads/*"))))
+        .isTrue();
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name()),
+                    P1, RefState.create(ref2, id2.name())),
+                ImmutableMultimap.of(
+                    P1, RefStatePattern.create("refs/heads/*"))))
+        .isFalse();
+  }
+
+  @Test
+  public void isStaleWithNonPrefixPattern() throws Exception {
+    String ref1 = "refs/heads/foo";
+    ObjectId id1 = tr1.update(ref1, tr1.commit().message("commit 1"));
+    tr1.update("refs/heads/bar", tr1.commit().message("commit 2"));
+
+    // ref1 is only ref matching pattern.
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name())),
+                ImmutableMultimap.of(
+                    P1, RefStatePattern.create("refs/*/foo"))))
+        .isFalse();
+
+    // Now ref2 matches pattern, so stale unless ref2 is present in state map.
+    String ref3 = "refs/other/foo";
+    ObjectId id3 = tr1.update(ref3, tr1.commit().message("commit 3"));
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name())),
+                ImmutableMultimap.of(
+                    P1, RefStatePattern.create("refs/*/foo"))))
+        .isTrue();
+    assertThat(
+            isStale(
+                repoManager, C,
+                ImmutableSetMultimap.of(
+                    P1, RefState.create(ref1, id1.name()),
+                    P1, RefState.create(ref3, id3.name())),
+                ImmutableMultimap.of(
+                    P1, RefStatePattern.create("refs/*/foo"))))
+        .isFalse();
+  }
+
+  @Test
+  public void reviewDbChangeIsStale() throws Exception {
+    Change indexChange = newChange(P1, new Account.Id(1));
+    indexChange.setNoteDbState(SHA1);
+
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null))
+        .isFalse();
+
+    Change noteDbPrimary = clone(indexChange);
+    noteDbPrimary.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+    assertThat(
+            StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary))
+        .isFalse();
+
+    assertThat(
+            StalenessChecker.reviewDbChangeIsStale(
+                indexChange, clone(indexChange)))
+        .isFalse();
+
+    // Can't easily change row version to check true case.
+  }
+
   private static Iterable<byte[]> byteArrays(String... strs) {
     return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null)
         .collect(toList());
   }
+
+  private static Change clone(Change change) {
+    return CHANGE_CODEC.decode(CHANGE_CODEC.encodeToByteArray(change));
+  }
+
 }

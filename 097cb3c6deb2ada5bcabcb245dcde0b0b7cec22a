@@ -116,6 +116,24 @@
       "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a120aa_13928e38",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T00:50:24Z",
+      "side": 1,
+      "message": "I\u0027m a little hesitant to duplicate this when gr-account-chip is already pretty minimal. Can gr-account-chip be made into gr-chip with an avatar option and a \"remove\" callback?",
+      "parentUuid": "10c70467_95b92417",
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

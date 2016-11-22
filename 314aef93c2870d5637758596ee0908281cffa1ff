@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d091ec62_ebd99186",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-22T13:13:40Z",
+      "side": 1,
+      "message": "typo.",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "314aef93c2870d5637758596ee0908281cffa1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_9d2743e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-22T13:13:40Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 13,
+        "startChar": 30,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "314aef93c2870d5637758596ee0908281cffa1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104624f2_5d421b7c",
+        "filename": "tools/eclipse/project_bzl.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-22T13:13:40Z",
+      "side": 1,
+      "message": "GWT, \u0027//gerrit-patch-jgit .. \u0027]",
+      "range": {
+        "startLine": 267,
+        "startChar": 43,
+        "endLine": 267,
+        "endChar": 44
+      },
+      "revId": "314aef93c2870d5637758596ee0908281cffa1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

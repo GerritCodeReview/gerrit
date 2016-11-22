@@ -29,7 +29,6 @@ by project name.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -69,7 +68,6 @@ GET /projects/?b=master HTTP/1.0
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -102,7 +100,6 @@ GET /projects/?d HTTP/1.0
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -132,7 +129,6 @@ Query the first project in the project list:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -159,7 +155,6 @@ List all projects that start with `platform/`:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -192,7 +187,6 @@ List all projects that match regex `test.*project`:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -220,7 +214,6 @@ Query the second project in the project list:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -244,7 +237,6 @@ List all projects that match substring `test/`:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -272,7 +264,6 @@ GET /projects/?t HTTP/1.0
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -304,7 +295,6 @@ GET /projects/?type=PERMISSIONS HTTP/1.0
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -337,7 +327,6 @@ describes the project.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -381,7 +370,6 @@ describes the created project.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -409,7 +397,6 @@ Retrieves the description of a project.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -445,7 +432,6 @@ As response the new project description is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -497,7 +483,6 @@ Retrieves the name of a project's parent project. For the
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -531,7 +516,6 @@ As response the new parent project name is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -554,7 +538,6 @@ Retrieves for a project the name of the branch to which `HEAD` points.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -587,7 +570,6 @@ As response the new ref to which `HEAD` points is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -613,7 +595,6 @@ link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -650,7 +631,6 @@ read access to `refs/meta/config`.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -747,7 +727,6 @@ ConfigInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -829,7 +808,6 @@ The response is the streamed output of the garbage collection.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: text/plain; charset=UTF-8
 
   collecting garbage for "plugins/replication":
@@ -874,7 +852,6 @@ The response is empty.
 .Response
 ----
   HTTP/1.1 202 Accepted
-  Content-Disposition: attachment
   Location: https:<host>/a/config/server/tasks/383a0602
 ----
 
@@ -917,7 +894,6 @@ As response a link:#ban-result-info[BanResultInfo] entity is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1088,7 +1064,6 @@ returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1127,7 +1102,6 @@ Limit the number of branches to be included in the results.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1151,7 +1125,6 @@ Skip the given number of branches from the beginning of the list.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1177,7 +1150,6 @@ List all projects that match substring `test`:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1206,7 +1178,6 @@ List all branches that match regex `t.*1`:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1238,7 +1209,6 @@ describes the branch.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1275,7 +1245,6 @@ describes the created branch.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1354,7 +1323,6 @@ The content is returned as base64 encoded string.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: text/plain; charset=UTF-8
 
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
@@ -1386,7 +1354,6 @@ As response a link:rest-api-changes.html#mergeable-info[MergeableInfo] entity is
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1404,7 +1371,6 @@ or when there were conflicts.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1424,7 +1390,6 @@ or when the 'testbranch' has been already merged.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1442,7 +1407,6 @@ or when only the content of 'testbranch' has been merged.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1477,7 +1441,6 @@ returned in reverse order.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1556,7 +1519,6 @@ returned that describe the child projects.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1596,7 +1558,6 @@ are not resolved further.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1654,7 +1615,6 @@ describes the child project.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1702,7 +1662,6 @@ the created tag.
 .Response
 ----
   HTTP/1.1 201 Created
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1740,7 +1699,6 @@ Only includes tags under the `refs/tags/` namespace.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1790,7 +1748,6 @@ Limit the number of tags to be included in the results.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1825,7 +1782,6 @@ Skip the given number of tags from the beginning of the list.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1868,7 +1824,6 @@ As response a link:#tag-info[TagInfo] entity is returned that describes the tag.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1911,7 +1866,6 @@ is returned that describes the commit.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -1958,7 +1912,6 @@ The content is returned as base64 encoded string.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: text/plain; charset=UTF-8
 
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
@@ -1988,7 +1941,6 @@ List all dashboards for the `work/my-project` project:
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -2040,7 +1992,6 @@ that describes the dashboard.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -2076,7 +2027,6 @@ dashboard-id.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'
@@ -2131,7 +2081,6 @@ link:#dashboard-info[DashboardInfo] entity.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'

@@ -33,7 +33,6 @@ results.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 
   )]}'

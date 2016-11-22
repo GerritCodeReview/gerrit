@@ -46,6 +46,30 @@
       "revId": "1f9b0c76ef8b2c143c5363b392672268fff0eb13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0bfd0bf_34621052",
+        "filename": "gerrit-reviewdb/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-22T09:19:59Z",
+      "side": 1,
+      "message": "Yeah, this is not nice, but as you say we\u0027re going to remove GWT soon so I don\u0027t see it being worth the effort to split it up nicely.",
+      "parentUuid": "104624f2_5d38db30",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 1
+      },
+      "revId": "1f9b0c76ef8b2c143c5363b392672268fff0eb13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -68,6 +68,9 @@ public class RefNames {
   /** Suffix of a meta ref in the NoteDb. */
   public static final String META_SUFFIX = "/meta";
 
+  /** Suffix of the ref name for the current/latest patch set. */
+  public static final String CURRENT_PATCHSET_SUFFIX = "/current";
+
   /** Suffix of a ref that stores robot comments in the NoteDb. */
   public static final String ROBOT_COMMENTS_SUFFIX = "/robot-comments";
 
@@ -92,6 +95,14 @@ public class RefNames {
     r.append(REFS_CHANGES);
     r.append(shard(id.get()));
     r.append(META_SUFFIX);
+    return r.toString();
+  }
+
+  public static String changeCurrentPatchSetRef(Change.Id id) {
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_CHANGES);
+    r.append(shard(id.get()));
+    r.append(CURRENT_PATCHSET_SUFFIX);
     return r.toString();
   }
 

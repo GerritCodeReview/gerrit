@@ -26,11 +26,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testutil.TestChanges;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -42,11 +41,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WalkSorterTest {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
+public class WalkSorterTest extends GerritBaseTests {
   private Account.Id userId;
   private InMemoryRepositoryManager repoManager;
 

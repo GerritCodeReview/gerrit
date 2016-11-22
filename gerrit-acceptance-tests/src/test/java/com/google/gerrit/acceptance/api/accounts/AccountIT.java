@@ -675,6 +675,23 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.get(1).seq).isEqualTo(3);
   }
 
+  // reindex is tested by {@link AbstractQueryAccountsTest#reindex}
+  @Test
+  public void reindexPermissions() throws Exception {
+    // admin can reindex any account
+    setApiUser(admin);
+    gApi.accounts().id(user.username).index();
+
+    // user can reindex own account
+    setApiUser(user);
+    gApi.accounts().self().index();
+
+    // user cannot reindex any account
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to index account");
+    gApi.accounts().id(admin.username).index();
+  }
+
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {
     int seq = 1;
     for (SshKeyInfo key : sshKeys) {

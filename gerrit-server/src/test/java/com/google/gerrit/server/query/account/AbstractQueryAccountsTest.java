@@ -56,6 +56,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -353,6 +354,25 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("9999999");
     assertQuery("self");
     assertQuery("username:" + user1.username, user1);
+  }
+
+  // reindex permissions are tested by {@link AccountIT#reindexPermissions}
+  @Test
+  public void reindex() throws Exception {
+    AccountInfo user1 = newAccountWithFullName("tester", "Test Usre");
+
+    // update account in the database so that account index is stale
+    String newName = "Test User";
+    Account account = db.accounts().get(new Account.Id(user1._accountId));
+    account.setFullName(newName);
+    db.accounts().update(Collections.singleton(account));
+
+    assertQuery("name:" + quote(user1.name), user1);
+    assertQuery("name:" + quote(newName));
+
+    gApi.accounts().id(user1.username).index();
+    assertQuery("name:" + quote(user1.name));
+    assertQuery("name:" + quote(newName), user1);
   }
 
   protected AccountInfo newAccount(String username) throws Exception {

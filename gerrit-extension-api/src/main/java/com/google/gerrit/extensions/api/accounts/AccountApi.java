@@ -74,6 +74,8 @@ public interface AccountApi {
   List<AgreementInfo> listAgreements() throws RestApiException;
   void signAgreement(String agreementName) throws RestApiException;
 
+  void index() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -209,6 +211,11 @@ public interface AccountApi {
 
     @Override
     public void signAgreement(String agreementName) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void index() throws RestApiException {
       throw new NotImplementedException();
     }
   }

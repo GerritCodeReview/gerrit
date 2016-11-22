@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "9071345a_e96f9568",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T17:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104624f2_1d04937a",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_fd61a74d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
       "writtenOn": "2016-11-22T07:49:12Z",
       "side": 1,
       "message": "I see that this is the same behavior in SafeHtml.wikifyList, but I think this is a bug.\n\nIf I have the following block input:\n\"\n Some text:\n * This is the first item in the list\n with some more details in a new line.\n * This is the second item in the list.\n\"\n\nI would expect a list with 2 entries (\"This is the first item in the list with some more details in a new line.\" and \"This is the second item in the list.\") but with this code I get 3 entries \"This is the first item in the list\", \"with some more details in a new line.\" and \"This is the second item in the list.\").\n\nMaybe it\u0027s worth fixing this in SafeHtml.wikifyList and then not to implement the same bug here again?",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9071345a_e996b52a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T17:40:12Z",
+      "side": 1,
+      "message": "I agree.\n\n\u003e Maybe it\u0027s worth fixing this in SafeHtml.wikifyList and then not to implement the same bug here again?\n\nPolyGerrit already matches the SafeHtml.wikifyList behavior in this regard. Definitely something we\u0027d want to fix in email at the same time as in the front-ends.\n\nI have filed this as an bug [1] (assigned to me) since this is an existing issue. I definitely agree it\u0027s worth addressing, but I want to avoid skew among the formats. This way the fix can focused on upgrading the three implementations simultaneously,\n\nLook for a dependent change soon.\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4986",
+      "parentUuid": "104624f2_fd61a74d",
       "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +124,42 @@
     },
     {
       "key": {
+        "uuid": "9071345a_49a6e193",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T17:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104624f2_9d666363",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_a590de2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T17:40:12Z",
+      "side": 1,
+      "message": "Good point. The SafeHtml implementation has exactly the logic you describe [1] (although the indices are different because it\u0027s done after escaping).\n\nDone.\n\n\u003e So if the line starts multiple spaces we need to cut off more here, don\u0027t we?\n\nI don\u0027t think there is need to trim more. If the line has more than one space before the \u003e, then it will be a preformatted block. If the line has more than one space after the \u003e, then it represents a preformatted block inside a blockquote.\n\n(Granted, formatting nested in blockquotes isn\u0027t yet parsed. I plan to fix this too in a dependent change soon. Already done in PG.)\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/SafeHtml.java#222",
+      "parentUuid": "d091ec62_cb64d52a",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d091ec62_ab578942",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
         "patchSetId": 7
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_45a6ca93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T17:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d091ec62_ab578942",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_bd6b1f2c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatterTest.java",
         "patchSetId": 7
@@ -128,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "9071345a_898b7901",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T17:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104624f2_bd6b1f2c",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_5d51bb7e",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatterTest.java",
         "patchSetId": 7
@@ -139,6 +247,24 @@
       "writtenOn": "2016-11-22T07:49:12Z",
       "side": 1,
       "message": "add:\n\n  assertThat(block.text).isNull();",
+      "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9071345a_a990bd2d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/CommentFormatterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-22T17:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104624f2_5d51bb7e",
       "revId": "127bc0ad4bcd6bacca8f5497b186a0dd2924d4c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

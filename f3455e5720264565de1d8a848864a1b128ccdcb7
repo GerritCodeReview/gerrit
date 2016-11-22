@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c70467_b84d35e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-22T14:28:11Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 31
+      },
+      "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_d85af19a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-22T14:28:11Z",
+      "side": 1,
+      "message": "If the user has nothing listed in their preferences, this will return an empty list. At some point we want to convert the empty list to a default list of columns. I\u0027m thinking that point should be this method, so that any downstream code depending on GeneralPreferencesInfo can depend on the column list being accurate.",
+      "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c70467_9850797d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-22T14:28:11Z",
+      "side": 1,
+      "message": "Nit: long line here and below",
+      "revId": "f3455e5720264565de1d8a848864a1b128ccdcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

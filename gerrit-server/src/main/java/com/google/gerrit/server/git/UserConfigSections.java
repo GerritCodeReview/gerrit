@@ -29,6 +29,10 @@ public class UserConfigSections {
   public static final String KEY_MATCH = "match";
   public static final String KEY_TOKEN = "token";
 
+  /** The table column user preferences. */
+  public static final String CHANGE_TABLE = "changeTable";
+  public static final String CHANGE_TABLE_COLUMN = "column";
+
   /** The edit user preferences. */
   public static final String EDIT = "edit";
 

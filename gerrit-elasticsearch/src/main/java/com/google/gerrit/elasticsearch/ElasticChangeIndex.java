@@ -151,7 +151,11 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   private static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
       ProtobufCodec<T> codec) {
-    return FluentIterable.from(doc.getAsJsonArray(fieldName))
+    JsonArray field = doc.getAsJsonArray(fieldName);
+    if (field == null) {
+      return null;
+    }
+    return FluentIterable.from(field)
         .transform(i -> codec.decode(decodeBase64(i.toString())))
         .toList();
   }

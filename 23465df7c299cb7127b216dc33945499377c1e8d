@@ -48,6 +48,122 @@
     },
     {
       "key": {
+        "uuid": "70e76057_c00edeaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T09:01:42Z",
+      "side": 1,
+      "message": "+1 let\u0027s be consistent and call that current.\nnit: remove \\",
+      "parentUuid": "301ec818_f674803f",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_bfb817ae",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T09:01:42Z",
+      "side": 1,
+      "message": "changeCurrentPatchsetRef",
+      "range": {
+        "startLine": 101,
+        "startChar": 23,
+        "endLine": 101,
+        "endChar": 38
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_602a72ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T09:01:42Z",
+      "side": 1,
+      "message": "make this a Map\u003cChange.Id, Integer\u003e",
+      "range": {
+        "startLine": 198,
+        "startChar": 32,
+        "endLine": 198,
+        "endChar": 48
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_e01de2de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T09:01:42Z",
+      "side": 1,
+      "message": "looks like you don\u0027t need the key, so you can just iterate over refs.values()",
+      "range": {
+        "startLine": 200,
+        "startChar": 40,
+        "endLine": 200,
+        "endChar": 55
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_20206a0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T09:01:42Z",
+      "side": 1,
+      "message": "optional: psId",
+      "range": {
+        "startLine": 204,
+        "startChar": 18,
+        "endLine": 204,
+        "endChar": 28
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_d6798437",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2
@@ -64,6 +180,29 @@
         "startChar": 6,
         "endLine": 207,
         "endChar": 17
+      },
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_4023ee1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T09:01:42Z",
+      "side": 1,
+      "message": "remove this and call patchSetId.get() inline when you need it",
+      "range": {
+        "startLine": 209,
+        "startChar": 6,
+        "endLine": 209,
+        "endChar": 44
       },
       "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -99,6 +238,29 @@
       "writtenOn": "2016-11-22T22:21:22Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_0019e6f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T09:01:42Z",
+      "side": 1,
+      "message": "no need to return anything, Java is by reference, so this can be a void",
+      "range": {
+        "startLine": 222,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 16
+      },
       "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

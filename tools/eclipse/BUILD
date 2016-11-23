@@ -1,5 +1,8 @@
 load('//tools/bzl:pkg_war.bzl', 'LIBS', 'PGMLIBS')
 load('//tools/bzl:classpath.bzl', 'classpath_collector')
+load('//tools/bzl:plugins.bzl',
+     'CORE_PLUGINS',
+     'CUSTOM_PLUGINS')
 
 PROVIDED_DEPS = [
   '//lib/bouncycastle:bcprov',
@@ -48,10 +51,10 @@ java_library(
 
 classpath_collector(
   name = 'main_classpath_collect',
-  deps = LIBS + PGMLIBS + DEPS + TEST_DEPS + PROVIDED_DEPS,
+  deps = LIBS + PGMLIBS + DEPS + TEST_DEPS + PROVIDED_DEPS +
+    ['//plugins/%s:%s__plugin' % (n, n)
+     for n in CORE_PLUGINS + CUSTOM_PLUGINS],
   testonly = 1,
-  # TODO(davido): Handle plugins
-  #scan_plugins(),
 )
 
 classpath_collector(

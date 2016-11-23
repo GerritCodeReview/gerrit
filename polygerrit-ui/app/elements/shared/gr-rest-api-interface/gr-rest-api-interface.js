@@ -212,6 +212,8 @@
     },
 
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
+      // Invalidate the cache.
+      this._cache['/accounts/self/preferences.diff'] = undefined;
       return this.send('PUT', '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },

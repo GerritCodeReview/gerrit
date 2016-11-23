@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0e1d842_4223f21a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-23T00:03:41Z",
+      "side": 1,
+      "message": "Add a trailing comma here and on l.118.",
+      "range": {
+        "startLine": 111,
+        "startChar": 10,
+        "endLine": 111,
+        "endChar": 19
+      },
+      "revId": "9453af69782f47cc3f20fc536c9c27f36c3c09a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

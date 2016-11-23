@@ -704,7 +704,18 @@ public class ProjectInfoScreen extends ProjectScreen {
         getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {
-
+            if (descTxt.getText().isEmpty() == true) {
+            final ProjectInfoDescWarning projectInfoDescWarning = new ProjectInfoDescWarning();
+            projectInfoDescWarning.setPopupPositionAndShow(new PositionCallback() {
+                @Override
+                public void setPosition(final int pWidth, final int pHeight) {
+                  final int left = (Window.getClientWidth() - pWidth) >> 1;
+                  final int wLeft = Window.getScrollLeft();
+                  final int wTop = Window.getScrollTop();
+                  projectInfoDescWarning.setPopupPosition(wLeft + left, wTop + 50);
+                }
+              });
+            }
 
             enableForm();
             display(result);

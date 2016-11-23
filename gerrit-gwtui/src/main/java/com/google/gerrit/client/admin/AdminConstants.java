@@ -159,4 +159,9 @@ public interface AdminConstants extends Constants {
   String buttonEditConfig();
   String buttonEditConfigDescription();
   String editConfigMessage();
+
+  String noDescClose();
+  String noDescHeader();
+  String noDescContent();
+  String noDescNotice();
 }

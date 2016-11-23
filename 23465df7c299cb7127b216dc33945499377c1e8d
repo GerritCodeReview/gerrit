@@ -227,6 +227,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_c046de99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-23T17:00:39Z",
+      "side": 1,
+      "message": "I\u0027ll kill draft patch sets on non-draft changes next week to come around this. wanted to do this for a long time :)",
+      "parentUuid": "301ec818_367f181b",
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "101b842a_f574783f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2

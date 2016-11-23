@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "301ec818_568614fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-23T02:07:28Z",
+      "side": 1,
+      "message": "I don\u0027t think this is specifically related to that change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "a474c7bea960b2e4f1a45adbe8e58c2ad80abd73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_b6916836",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-23T02:07:28Z",
+      "side": 1,
+      "message": "It might be better to document what --deep actually does and why/when it\u0027s needed.",
+      "revId": "a474c7bea960b2e4f1a45adbe8e58c2ad80abd73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

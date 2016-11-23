@@ -384,9 +384,6 @@
     var text = line.text;
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
-      if (!text) {
-        text = '\xa0';
-      }
     }
     td.classList.add(line.type);
     var html = util.escapeHTML(text);

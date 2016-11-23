@@ -199,6 +199,7 @@
     },
 
     _handleInputKeydown: function(e) {
+      this._focused = true;
       switch (e.keyCode) {
         case 38: // Up
           e.preventDefault();

@@ -91,6 +91,7 @@
     _handleRemove: function(e) {
       var toRemove = e.detail.account;
       this._removeAccount(toRemove);
+      this.$.entry.focus();
     },
 
     _removeAccount: function(toRemove) {
@@ -105,7 +106,6 @@
         }
         if (matches) {
           this.splice('accounts', i, 1);
-          this.$.entry.focus();
           return;
         }
       }

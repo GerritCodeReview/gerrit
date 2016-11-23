@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b0e1d842_62d556a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-23T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105d44d4_05a0d272",
+      "revId": "604e4b10e992fce40783550857e2b90372e28e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9071345a_c9b891af",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
       "writtenOn": "2016-11-22T17:53:23Z",
       "side": 1,
       "message": "\u003e80 chars",
+      "revId": "604e4b10e992fce40783550857e2b90372e28e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_c270a2fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-23T22:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9071345a_c9b891af",
       "revId": "604e4b10e992fce40783550857e2b90372e28e64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

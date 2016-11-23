@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "b0e1d842_a2611e4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-23T16:07:55Z",
+      "side": 1,
+      "message": "(We can always clean this up later; it wouldn\u0027t affect the data stored in the index.)",
+      "parentUuid": "70e76057_e0c8420e",
+      "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_bfc93715",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 3

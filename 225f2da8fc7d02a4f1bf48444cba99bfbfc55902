@@ -19,6 +19,46 @@
     },
     {
       "key": {
+        "uuid": "90e69458_a1ce3e18",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-23T22:08:33Z",
+      "side": 1,
+      "message": "How about...\n\n  getHiddenColumns\n\nThis could use a JSDoc that explains that it will return the complement set to the given column list.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_22db4eda",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-23T22:08:33Z",
+      "side": 1,
+      "message": "I still find it strange that we don\u0027t just use an HTML table for the change list. Maybe Andy knows the reason.\n\nIs this an opportunity to refactor this into a regular table? Just a though.",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1d842_c24382b1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
         "patchSetId": 1
@@ -36,6 +76,52 @@
     },
     {
       "key": {
+        "uuid": "b0e1d842_42b77288",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-23T22:08:33Z",
+      "side": 1,
+      "message": "How about...\n\n  visibleChangeTableColumns",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_21898eb6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-23T22:08:33Z",
+      "side": 1,
+      "message": "Keep attribute values on the same line.",
+      "range": {
+        "startLine": 60,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 14
+      },
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90e69458_c1a2624a",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 1
@@ -47,6 +133,41 @@
       "writtenOn": "2016-11-23T17:31:56Z",
       "side": 1,
       "message": "I tried to call .toLowerCase();  from the template directly and it didn\u0027t seem to work. Is there a way to do that or is this the only option?",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_e19686d8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-23T22:08:33Z",
+      "side": 1,
+      "message": "I doubt there\u0027s a way to lower case in the template expression, so this is fine.\n\nAnother approach would be to make a map:\n\n    var COLUMN_CLASS_MAP \u003d {\n      Subject: \u0027subject\u0027,\n      //... etc\n    };\n\nThat way, if we eventually have column names with more than one word, they can be camel-cased easily.",
+      "parentUuid": "90e69458_c1a2624a",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_418c92c6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-23T22:08:33Z",
+      "side": 1,
+      "message": "This widget is really cool!\n\nMy only suggestion would be to add a gap between the items that are in the list, and the items that are available to be added.\n\nWould need tests also.",
       "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

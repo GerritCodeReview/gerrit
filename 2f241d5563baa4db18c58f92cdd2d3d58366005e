@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "b0e1d842_42381231",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-23T18:29:56Z",
+      "side": 1,
+      "message": "This change is an incremental one, I\u0027m planning on implementing this feature in NoteDb and adding all of the logic for resolving comments in threads as time goes on.",
+      "parentUuid": "d091ec62_4b28e5b0",
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90893441_69f5a560",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 1

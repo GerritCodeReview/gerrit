@@ -68,13 +68,11 @@ junit_tests(
   ],
 )
 
-# TODO(davido): Enable this test again when this bazel bug is fixed:
-# https://github.com/bazelbuild/bazel/issues/2044
-#junit_tests(
-#  name = 'auto_value_tests',
-#  srcs = AUTO_VALUE_TEST_SRCS,
-#  deps = [
-#    '//lib:truth',
-#    '//lib/auto:auto-value',
-#  ],
-#)
+junit_tests(
+  name = 'auto_value_tests',
+  srcs = AUTO_VALUE_TEST_SRCS,
+  deps = [
+    '//lib:truth',
+    '//lib/auto:auto-value',
+  ],
+)

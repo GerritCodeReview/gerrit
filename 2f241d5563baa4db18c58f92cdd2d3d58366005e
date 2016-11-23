@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_61d556a0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-23T20:26:58Z",
+      "side": 1,
+      "message": "I\u0027m ok with doing ReviewDb and NoteDb in separate changes only if there is no way to set this field in a live server until the NoteDb part is implemented.",
+      "parentUuid": "b0e1d842_42381231",
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90893441_69f5a560",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 1

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e69458_81321a4d",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-23T17:31:56Z",
+      "side": 1,
+      "message": "I\u0027m trying to figure out what to do with Labels because it\u0027s more than a single column, and that might be a bit confusing. One option is to not include it as an option (always display), another is to lump them all together in something like \u0027Labels\u0027",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_c24382b1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-23T17:31:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure if cell star and/or cell number should be included as options to hide since there are already other things controlling whether or not they show up-- and it\u0027d be confusing if people saw that as options to remove if they don\u0027t see them already. I suppose we could be smart about displaying it, but let\u0027s discuss.",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_c1a2624a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-23T17:31:56Z",
+      "side": 1,
+      "message": "I tried to call .toLowerCase();  from the template directly and it didn\u0027t seem to work. Is there a way to do that or is this the only option?",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

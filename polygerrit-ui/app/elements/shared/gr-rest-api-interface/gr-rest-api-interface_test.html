@@ -330,5 +330,14 @@ limitations under the License.
       element.getChanges(1, null, 'n,z');
       assert.equal(stub.args[0][3].S, 0);
     });
+
+    test('saveDiffPreferences invalidates cache line', function() {
+      var cacheKey = '/accounts/self/preferences.diff';
+      var sendStub = sandbox.stub(element, 'send');
+      element._cache[cacheKey] = {tab_size: 4};
+      element.saveDiffPreferences({tab_size: 8});
+      assert.isTrue(sendStub.called);
+      assert.notOk(element._cache[cacheKey]);
+    });
   });
 </script>

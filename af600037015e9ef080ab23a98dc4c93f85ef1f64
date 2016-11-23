@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_81d85adc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-23T20:28:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_c0c9be14",
+      "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1d842_02da8a07",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -172,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "b0e1d842_22b4ee81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-23T20:28:38Z",
+      "side": 1,
+      "message": "Good catch.\n\nThis would have been caught in tests if the toByteArray actually round-tripped through RefStatePattern, since this incorrect format would have failed the checks in RefStatePattern#create.\n\nFixed.",
+      "parentUuid": "70e76057_a0ce3a18",
+      "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_9fcef318",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 3
@@ -195,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_41de52ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-23T20:28:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_9fcef318",
+      "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_dfc87b0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/StalenessChecker.java",
         "patchSetId": 3
@@ -212,6 +266,24 @@
         "endLine": 55,
         "endChar": 41
       },
+      "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_21db4eda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-23T20:28:38Z",
+      "side": 1,
+      "message": "Right, ObjectId.fromString would throw, that\u0027s good enough for me.\n\n(Actually it would have to be ObjectId.isId(parts.get(2)) which just seems extra redundant.)",
+      "parentUuid": "50ec1c3c_dfc87b0e",
       "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

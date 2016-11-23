@@ -254,6 +254,32 @@ a:hover {
   white-space: nowrap;
   display: inline;
 }
+.searchPanel .helpButton {
+  font-size: 9pt;
+  border-radius: 50%;
+  height: 16px;
+  cursor: help;
+  box-sizing: content-box;
+  margin: 8.286px 3px 0 0;
+  text-align: center;
+  border: 2px solid;
+  color: #b2b2b2;
+  border-color: rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+}
+.searchPanel .searchHelpPopup {
+  background: #000000 none repeat scroll 0 50%;
+  color: #ffffff;
+  font-family: arial,sans-serif;
+  font-weight: bold;
+  overflow: hidden;
+  text-align: left;
+  text-shadow: 1px 1px 7px #000000;
+  width: 92%;
+  z-index: 1002;
+  opacity: 0.85;
+  border-radius: 10px;
+ }
 .searchPanel .searchTextBox {
   font-size: 9pt;
   margin: 8.286px 3px 0 0;

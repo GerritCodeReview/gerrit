@@ -130,4 +130,6 @@ public interface GerritConstants extends Constants {
 
   String searchDropdownChanges();
   String searchDropdownDoc();
+
+  String helpButton();
 }

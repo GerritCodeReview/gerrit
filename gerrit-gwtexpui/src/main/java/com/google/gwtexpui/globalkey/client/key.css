@@ -97,3 +97,33 @@
 .helpKey {
   color: #dddd00;
 }
+.Operator{
+  color: #ffffff;
+}
+
+.OperatorTab{
+  color: #dddd00;
+  font-weight: bold;
+}
+
+.OperatorDesPopup{
+  background: #ffffcf;
+  color: #000000;
+  border-radius: 5px;
+  z-index: 1003;
+  opacity: 0.85;
+  
+}
+.OperatorDesPopup .popupContent{
+  margin: 10px;
+}
+
+.OperatorHeader{
+  color: #000000;
+  font-weight: bold;
+}
+
+.OperatorDes {
+  color: #000000;
+  width: 350px;
+}

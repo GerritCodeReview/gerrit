@@ -17,7 +17,10 @@ package com.google.gerrit.server.schema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-/* Add resolved field to PatchLineComment */
+/**
+ * Add resolved field to PatchLineComment/ChangeMessage, add parentUuid field to
+ * ChangeMessage
+ */
 public class Schema_138 extends SchemaVersion {
   @Inject
   Schema_138(Provider<Schema_137> prior) {

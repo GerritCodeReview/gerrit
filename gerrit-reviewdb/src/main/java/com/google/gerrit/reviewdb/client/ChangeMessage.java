@@ -93,8 +93,11 @@ public final class ChangeMessage {
   @Column(id = 8, length = 40, notNull = false)
   protected String parentUuid;
 
+  /**
+   * True
+   */
   @Column(id = 9)
-  protected boolean resolved;
+  protected boolean unresolved;
 
   protected ChangeMessage() {
   }

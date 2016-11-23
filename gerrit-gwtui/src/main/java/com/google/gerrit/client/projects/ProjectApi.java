@@ -112,7 +112,7 @@ public class ProjectApi {
   }
 
   public static void setConfig(Project.NameKey name, String description,
-      InheritableBoolean useContributorAgreements,
+      String homePageLink, InheritableBoolean useContributorAgreements,
       InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
       InheritableBoolean createNewChangeForAllNotInTarget,
       InheritableBoolean requireChangeId,
@@ -124,6 +124,7 @@ public class ProjectApi {
       AsyncCallback<ConfigInfo> cb) {
     ConfigInput in = ConfigInput.create();
     in.setDescription(description);
+    in.setHomePageLink(homePageLink);
     in.setUseContributorAgreements(useContributorAgreements);
     in.setUseContentMerge(useContentMerge);
     in.setUseSignedOffBy(useSignedOffBy);
@@ -224,6 +225,9 @@ public class ProjectApi {
 
     final native void setDescription(String d)
     /*-{ if(d)this.description=d; }-*/;
+
+    final native void setHomePageLink(String h)
+    /*-{ if(h)this.home_page_link=h; }-*/;
 
     final void setUseContributorAgreements(InheritableBoolean v) {
       setUseContributorAgreementsRaw(v.name());

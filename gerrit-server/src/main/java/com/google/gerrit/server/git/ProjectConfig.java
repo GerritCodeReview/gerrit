@@ -115,6 +115,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String CAPABILITY = "capability";
 
   private static final String RECEIVE = "receive";
+  private static final String KEY_HOME_PAGE_LINK = "homePageLink";
   private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
   private static final String KEY_REQUIRE_CHANGE_ID = "requireChangeId";
   private static final String KEY_USE_ALL_NOT_IN_TARGET =
@@ -479,8 +480,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (p.getDescription() == null) {
       p.setDescription("");
     }
+
     p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
+    p.setHomePageLink(rc.getString(RECEIVE, null, KEY_HOME_PAGE_LINK));
     p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, InheritableBoolean.INHERIT));
     p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, InheritableBoolean.INHERIT));
     p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT));
@@ -924,8 +927,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     } else {
       rc.unset(PROJECT, null, KEY_DESCRIPTION);
     }
+
     set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
 
+    set(rc, RECEIVE, null,KEY_HOME_PAGE_LINK, p.getHomePageLink());
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), InheritableBoolean.INHERIT);

@@ -50,7 +50,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
-
+    this.homePageLink = p.getHomePageLink();
     InheritedBooleanInfo useContributorAgreements =
         new InheritedBooleanInfo();
     InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
@@ -144,8 +144,8 @@ public class ConfigInfoImpl extends ConfigInfo {
       String configuredValue = cfg.getString(e.getExportName());
       ConfigParameterInfo p = new ConfigParameterInfo();
       p.displayName = configEntry.getDisplayName();
-      p.description = configEntry.getDescription();
       p.warning = configEntry.getWarning(project);
+      p.description = configEntry.getDescription();
       p.type = configEntry.getType();
       p.permittedValues = configEntry.getPermittedValues();
       p.editable = configEntry.isEditable(project) ? true : null;

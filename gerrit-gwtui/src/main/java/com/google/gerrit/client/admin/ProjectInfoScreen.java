@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.OperatorHelpPopup;
 import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
@@ -47,12 +48,16 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -60,6 +65,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
@@ -90,11 +96,13 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
 
   // Section: Contributor Agreements
+  final VerticalPanel vp = new VerticalPanel();
   private ListBox contributorAgreements;
   private ListBox signedOffBy;
 
   private NpTextArea descTxt;
   private Button saveProject;
+  private NpTextBox homePageTxt;
 
   private OnEditEnabler saveEnabler;
 
@@ -125,6 +133,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     add(new ProjectDownloadPanel(getProjectKey().get(), true));
 
     initDescription();
+    initHomePage();
     grid = new LabeledWidgetsGrid();
     pluginOptionsPanel = new FlowPanel();
     actionsGrid = new LabeledWidgetsGrid();
@@ -157,7 +166,7 @@ public class ProjectInfoScreen extends ProjectScreen {
             saveProject.setVisible(isOwner);
           }
         }));
-    ProjectApi.getConfig(project,
+      ProjectApi.getConfig(project,
         cbg.addFinal(new ScreenLoadCallback<ConfigInfo>(this) {
           @Override
           public void preDisplay(ConfigInfo result) {
@@ -181,6 +190,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       enableSignedPush.setEnabled(isOwner);
     }
     descTxt.setEnabled(isOwner);
+    homePageTxt.setEnabled(isOwner);
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);
     requireChangeID.setEnabled(isOwner);
@@ -196,7 +206,6 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void initDescription() {
-    final VerticalPanel vp = new VerticalPanel();
     vp.add(new SmallHeading(Util.C.headingDescription()));
 
     descTxt = new NpTextArea();
@@ -209,9 +218,17 @@ public class ProjectInfoScreen extends ProjectScreen {
     saveEnabler.listenTo(descTxt);
   }
 
+  private void initHomePage() {
+    vp.add(new SmallHeading(Util.C.headingHomePage()));
+    homePageTxt = new NpTextBox();
+    vp.add(homePageTxt);
+    add(vp);
+    saveEnabler = new OnEditEnabler(saveProject);
+    saveEnabler.listenTo(homePageTxt);
+  }
+
   private void initProjectOptions() {
     grid.addHeader(new SmallHeading(Util.C.headingProjectOptions()));
-
     state = new ListBox();
     for (ProjectState stateValue : ProjectState.values()) {
       state.addItem(Util.toLongString(stateValue), stateValue.name());
@@ -372,8 +389,29 @@ public class ProjectInfoScreen extends ProjectScreen {
     return InheritableBoolean.INHERIT;
   }
 
-  void display(ConfigInfo result) {
+  void display(final ConfigInfo result) {
     descTxt.setText(result.description());
+    homePageTxt.setText(result.homePageLink());
+    if(result.homePageLink() == null) {
+      homePageTxt.setText("http://");
+      }
+    else{
+      vp.remove(3);
+      LabeledWidgetsGrid homePageGrid = new LabeledWidgetsGrid();
+      Button homePageBtn = new Button("Edit");
+      Anchor homePageLink = new Anchor(result.homePageLink().replace(" ",""),
+          false, result.homePageLink().replace(" ",""), "_blank" );
+      homePageGrid.add(homePageLink, homePageBtn);
+      homePageBtn.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          vp.remove(3);
+          homePageTxt.setText(result.homePageLink());
+          vp.insert(homePageTxt, 3);
+        }
+      });
+      vp.insert(homePageGrid,3);
+    }
     setBool(contributorAgreements, result.useContributorAgreements());
     setBool(signedOffBy, result.useSignedOffBy());
     setBool(contentMerge, result.useContentMerge());
@@ -612,7 +650,6 @@ public class ProjectInfoScreen extends ProjectScreen {
           actions.get(id)));
     }
 
-    // TODO: The user should have create permission on the branch referred to by
     // HEAD. This would have to happen on the server side.
     if (showCreateChange) {
       actionsPanel.add(createChangeAction());
@@ -657,6 +694,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     InheritableBoolean rsp = requireSignedPush != null
         ? getBool(requireSignedPush) : null;
     ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
+        homePageTxt.getText().replace(" ",""),
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(newChangeForAllNotInTarget), getBool(requireChangeID),
         esp, rsp,
@@ -666,6 +704,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {
+
+
             enableForm();
             display(result);
           }

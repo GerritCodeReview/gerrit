@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class ConfigInfo {
   public String description;
+  public String homePageLink;
   public InheritedBooleanInfo useContributorAgreements;
   public InheritedBooleanInfo useContentMerge;
   public InheritedBooleanInfo useSignedOffBy;
@@ -55,6 +56,7 @@ public class ConfigInfo {
   public static class ConfigParameterInfo {
     public String displayName;
     public String description;
+    public String homepageLink;
     public String warning;
     public ProjectConfigEntryType type;
     public String value;

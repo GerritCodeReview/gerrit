@@ -72,6 +72,8 @@ public final class Project {
 
   protected String description;
 
+  protected String homePageLink;
+
   protected InheritableBoolean useContributorAgreements;
 
   protected InheritableBoolean useSignedOffBy;
@@ -104,6 +106,7 @@ public final class Project {
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
+    homePageLink = "http://";
     submitType = SubmitType.MERGE_IF_NECESSARY;
     state = ProjectState.ACTIVE;
     useContributorAgreements = InheritableBoolean.INHERIT;
@@ -129,6 +132,14 @@ public final class Project {
 
   public void setDescription(final String d) {
     description = d;
+  }
+
+  public String getHomePageLink() {
+    return homePageLink;
+  }
+
+  public void setHomePageLink(final String h) {
+    homePageLink = h;
   }
 
   public InheritableBoolean getUseContributorAgreements() {
@@ -238,6 +249,7 @@ public final class Project {
 
   public void copySettingsFrom(final Project update) {
     description = update.description;
+    homePageLink = update.homePageLink;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
     useContentMerge = update.useContentMerge;

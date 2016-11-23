@@ -62,6 +62,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
   private String projectDescription = "";
 
+  @Option(name = "--home-page-link", aliases = {"-h"}, usage = "home page link of project")
+  private String projectHomePageLink = "";
+
   @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type")
   private SubmitType submitType;
 
@@ -153,6 +156,7 @@ final class CreateProjectCommand extends SshCommand {
         }
         input.permissionsOnly = permissionsOnly;
         input.description = projectDescription;
+        input.homePageLink = projectHomePageLink;
         input.submitType = submitType;
         input.useContributorAgreements = contributorAgreements;
         input.useSignedOffBy = signedOffBy;

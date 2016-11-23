@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_e0c8420e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-23T15:46:15Z",
+      "side": 1,
+      "message": "I missed that STORED_ONLY is always FieldType\u003cbyte[]\u003e. I\u0027m fine with byte[] then.",
+      "parentUuid": "b0e1d842_6201d66a",
+      "revId": "af600037015e9ef080ab23a98dc4c93f85ef1f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_bfc93715",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 3

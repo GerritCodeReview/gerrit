@@ -76,6 +76,10 @@ limitations under the License.
       .message {
         max-width: 80ch;
       }
+      .collapsed .message {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       .collapsed .name,
       .collapsed .content,
       .collapsed .message,
@@ -93,6 +97,7 @@ limitations under the License.
       }
       .collapsed .content {
         flex: 1;
+        margin-right: .25em;
         min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;

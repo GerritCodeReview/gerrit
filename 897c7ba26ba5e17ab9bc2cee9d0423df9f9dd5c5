@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "70e76057_6001d26a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-11-23T10:15:07Z",
+      "side": 1,
+      "message": "I think this statement confuses database name and table name.  The H2AccountPatchReviewStore creates a database named \"account_patch_reviews\" which contains only one table ACCOUNT_PATCH_REVIEWS.\n\nWhat we see in the file system is a file named after the database name: account_patch_reviews.h2.db and this is case sensitive on case sensitive file systems.\n\nThe table name is not reflected in the file system and is case insensitive.\n\nI think that we don\u0027t need this change.",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "897c7ba26ba5e17ab9bc2cee9d0423df9f9dd5c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_76a07074",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
         "patchSetId": 1

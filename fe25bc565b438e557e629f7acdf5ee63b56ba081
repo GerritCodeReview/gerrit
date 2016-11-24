@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "101b842a_552a8ced",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-24T09:54:20Z",
+      "side": 1,
+      "message": "It\u0027s causing all the SubmitBy... tests to hang when run on the command line with buck or bazel.  According to the logs from bazel (I posted a link on an earlier patch set) it\u0027s running into an OutOfMemory exception.  \n\nAlso, after running the tests a few times during trying to track it down, it caused my Macbook Pro to pop up an \"out of memory\" error and I had to reboot it.\n\nThe tests run OK in Eclipse.",
+      "parentUuid": "70e76057_803976ed",
+      "revId": "fe25bc565b438e557e629f7acdf5ee63b56ba081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_1da01373",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 4

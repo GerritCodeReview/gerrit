@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_1f81434d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-11-24T09:19:03Z",
+      "side": 1,
+      "message": "How about using the \"char\" version of replace() here?\n\n    sshPublicKey \u003d pub.replace(\u0027\\n\u0027, \u0027\u0027).replace(\u0027\\r\u0027, \u0027\u0027);",
+      "revId": "a291706e964e3c76383a92f68ad179788b582582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

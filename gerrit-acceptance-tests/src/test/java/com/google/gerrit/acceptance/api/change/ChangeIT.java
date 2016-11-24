@@ -2420,6 +2420,65 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkLabelsForMergedChangeWithNonAuthorCodeReview()
+      throws Exception {
+    // Configure Non-Author-Code-Review
+    RevCommit oldHead = getRemoteHead();
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Configure Non-Author-Code-Review",
+        "rules.pl",
+        "submit_rule(S) :-\n"
+            + "  gerrit:default_submit(X),\n"
+            + "  X =.. [submit | Ls],\n"
+            + "  add_non_author_approval(Ls, R),\n"
+            + "  S =.. [submit | R].\n"
+            + "\n"
+            + "add_non_author_approval(S1, S2) :-\n"
+            + "  gerrit:commit_author(A),\n"
+            + "  gerrit:commit_label(label('Code-Review', 2), R),\n"
+            + "  R \\= A, !,\n"
+            + "  S2 = [label('Non-Author-Code-Review', ok(R)) | S1].\n"
+            + "add_non_author_approval(S1,"
+            + " [label('Non-Author-Code-Review', need(_)) | S1]).");
+    push2.to(RefNames.REFS_CONFIG);
+    testRepo.reset(oldHead);
+
+    // Allow user to approve
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID registeredUsers =
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+    Util.allow(cfg, Permission.forLabel(Util.codeReview().getName()), -2, 2,
+        registeredUsers, heads);
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result r = createChange();
+
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+
+    ChangeInfo change = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.labels.keySet()).containsExactly("Code-Review",
+        "Non-Author-Code-Review");
+    assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
+    assertPermitted(change, "Code-Review", 0, 1, 2);
+  }
+
+  @Test
   public void checkLabelsForAutoClosedChange() throws Exception {
     PushOneCommit.Result r = createChange();
 

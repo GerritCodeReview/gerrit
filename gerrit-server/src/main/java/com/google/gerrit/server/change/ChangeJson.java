@@ -821,8 +821,10 @@ public class ChangeJson {
     }
 
     if (detailed) {
-      labels.entrySet().stream().forEach(
-          e -> setLabelValues(labelTypes.byLabel(e.getKey()), e.getValue()));
+      labels.entrySet().stream()
+          .filter(e -> labelTypes.byLabel(e.getKey()) != null)
+          .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()),
+              e.getValue()));
     }
 
     for (Account.Id accountId : allUsers) {

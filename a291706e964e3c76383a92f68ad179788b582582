@@ -16,6 +16,24 @@
       "revId": "a291706e964e3c76383a92f68ad179788b582582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_b64328b2",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-24T23:29:08Z",
+      "side": 1,
+      "message": "That doesn\u0027t work.  When using char you have to give an actual character as the replacement; using \u0027\u0027 results in \"Invalid character constant\" compilation error.\n\nSee also: http://stackoverflow.com/a/24230273/381622",
+      "parentUuid": "50ec1c3c_1f81434d",
+      "revId": "a291706e964e3c76383a92f68ad179788b582582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

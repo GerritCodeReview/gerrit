@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "50ec1c3c_ff73bf8c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4625,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-11-24T15:09:34Z",
+      "side": 1,
+      "message": "It could be a nice gesture to mark here with something in the lines of:\n\n    \u003d\u003d\u003d Get Hashtags (NoteDB only)",
+      "revId": "f28da56d63c975df629fbe1cc6e151b85c14bb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_1fb78320",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1

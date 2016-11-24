@@ -245,6 +245,24 @@
     },
     {
       "key": {
+        "uuid": "301ec818_762d1004",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-24T05:43:53Z",
+      "side": 1,
+      "message": "Hmm. That sounds like quite a significant behavioural change of how drafts work.  I\u0027d rather not do that unless we\u0027re going to just get rid of drafts completely (ref. the discussion during the recent hackathon).",
+      "parentUuid": "70e76057_c046de99",
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "101b842a_f574783f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2

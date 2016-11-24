@@ -22,6 +22,30 @@
       "revId": "8ad3ae5469a9db9bd49c9aa050bea16fe8e7e5da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_7f504f22",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-11-24T06:58:11Z",
+      "side": 1,
+      "message": "Should be. It doesn\u0027t create a new patch set.",
+      "parentUuid": "101b842a_15d134e7",
+      "range": {
+        "startLine": 329,
+        "startChar": 20,
+        "endLine": 329,
+        "endChar": 28
+      },
+      "revId": "8ad3ae5469a9db9bd49c9aa050bea16fe8e7e5da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

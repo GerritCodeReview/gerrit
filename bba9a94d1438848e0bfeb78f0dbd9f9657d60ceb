@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "101b842a_35d430d7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-24T06:53:10Z",
+      "side": 1,
+      "message": "I checked the move implementation.  It looks like all it does is set the destination branch without any regard for the current parent.",
+      "parentUuid": "50ec1c3c_3f56c720",
+      "revId": "bba9a94d1438848e0bfeb78f0dbd9f9657d60ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0bfd0bf_b4d0e0e3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1

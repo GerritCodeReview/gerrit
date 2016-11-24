@@ -164,24 +164,24 @@ link:https://gerrit.googlesource.com/plugins/admin-console/+doc/master/src/main/
 Documentation]
 
 [[avatars-external]]
-=== avatars/external
+=== avatars-external
 
 This plugin allows to use an external url to load the avatar images
 from.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/avatars/external[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/avatars-external[
 Project] |
-link:https://gerrit.googlesource.com/plugins/avatars/external/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/avatars-external/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/avatars/external/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/avatars-external/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[avatars-gravatar]]
-=== avatars/gravatar
+=== avatars-gravatar
 
 Plugin to display user icons from Gravatar.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/avatars/gravatar[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/avatars-gravatar[
 Project]
 
 [[branch-network]]

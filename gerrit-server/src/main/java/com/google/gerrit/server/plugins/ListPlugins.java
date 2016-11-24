@@ -40,6 +40,10 @@ import java.util.TreeMap;
 public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 
+  @Deprecated
+  @Option(name = "--format", usage = "(deprecated) output format")
+  private OutputFormat format = OutputFormat.TEXT;
+
   @Option(name = "--all", aliases = {"-a"}, usage = "List all plugins, including disabled plugins")
   private boolean all;
 
@@ -48,12 +52,23 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     this.pluginLoader = pluginLoader;
   }
 
+  public OutputFormat getFormat() {
+    return format;
+  }
+
+  public ListPlugins setFormat(OutputFormat fmt) {
+    this.format = fmt;
+    return this;
+  }
+
   @Override
   public Object apply(TopLevelResource resource) {
+    format = OutputFormat.JSON;
     return display(null);
   }
 
   public JsonElement display(PrintWriter stdout) {
+    Map<String, PluginInfo> output = new TreeMap<>();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(plugins, new Comparator<Plugin>() {
       @Override
@@ -62,24 +77,30 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
       }
     });
 
-    if (stdout == null) {
-      Map<String, PluginInfo> output = new TreeMap<>();
-      for (Plugin p : plugins) {
-        PluginInfo info = new PluginInfo(p);
+    if (!format.isJson()) {
+      stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
+      stdout.print("-------------------------------------------------------------------------------\n");
+    }
+
+    for (Plugin p : plugins) {
+      PluginInfo info = new PluginInfo(p);
+      if (format.isJson()) {
         output.put(p.getName(), info);
+      } else {
+        stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
+            Strings.nullToEmpty(info.version),
+            p.isDisabled() ? "DISABLED" : "ENABLED",
+            p.getSrcFile().getFileName());
       }
+    }
+
+    if (stdout == null) {
       return OutputFormat.JSON.newGson().toJsonTree(
           output,
           new TypeToken<Map<String, Object>>() {}.getType());
-    }
-    stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
-    stdout.print("-------------------------------------------------------------------------------\n");
-    for (Plugin p : plugins) {
-      PluginInfo info = new PluginInfo(p);
-      stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
-          Strings.nullToEmpty(info.version),
-          p.isDisabled() ? "DISABLED" : "ENABLED",
-          p.getSrcFile().getFileName());
+    } else if (format.isJson()) {
+      format.newGson().toJson(output,
+          new TypeToken<Map<String, PluginInfo>>() {}.getType(), stdout);
       stdout.print('\n');
     }
     stdout.flush();

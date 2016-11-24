@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_1f12e31b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-24T21:07:52Z",
+      "side": 1,
+      "message": "Why is setValidationQueryTimeout(seconds) is not set as well (say 5 seconds)? Default timeout is -1, that means no timeout. Also shouldn\u0027t setTestWhileIdle(true) be set as well. This property determines whether or not the idle object evictor will validate connections.",
+      "revId": "d88ab0048e8677ba9bd55eea7e10e802306494db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

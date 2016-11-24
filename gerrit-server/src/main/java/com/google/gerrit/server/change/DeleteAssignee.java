@@ -76,10 +76,10 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       Op op = new Op();
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
-      if (op.getDeletedAssignee() == null) {
-        return Response.none();
-      }
-      return Response.ok(AccountJson.toAccountInfo(op.getDeletedAssignee()));
+      Account deletedAssignee = op.getDeletedAssignee();
+      return deletedAssignee == null
+          ? Response.none()
+          : Response.ok(AccountJson.toAccountInfo(deletedAssignee));
     }
   }
 

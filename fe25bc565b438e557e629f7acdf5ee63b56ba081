@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "70e76057_803976ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-24T09:33:47Z",
+      "side": 1,
+      "message": "Why was this reverted?",
+      "revId": "fe25bc565b438e557e629f7acdf5ee63b56ba081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_1da01373",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 4

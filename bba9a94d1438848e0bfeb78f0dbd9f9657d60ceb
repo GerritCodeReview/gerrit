@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "301ec818_16201c0c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-24T05:40:22Z",
+      "side": 1,
+      "message": "If a change is moved to another branch doesn\u0027t it get applied to the current head of that branch?  In that case rebase is not necessary.",
+      "parentUuid": "104624f2_dd1aab89",
+      "revId": "bba9a94d1438848e0bfeb78f0dbd9f9657d60ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0bfd0bf_b4d0e0e3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1

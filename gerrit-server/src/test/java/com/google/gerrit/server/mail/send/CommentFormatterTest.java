@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import static com.google.common.truth.Truth.assertThat;
-
 import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.LIST;
 import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.PARAGRAPH;
 import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.PRE_FORMATTED;

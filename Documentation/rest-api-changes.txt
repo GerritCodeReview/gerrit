@@ -4621,6 +4621,75 @@ describes the resulting cherry picked change.
   }
 ----
 
+[[get-hashtags]]
+=== Get Hashtags
+--
+'GET /changes/link:#change-id[\{change-id\}]/hashtags'
+--
+
+Gets the hashtags associated with a change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/hashtags HTTP/1.0
+----
+
+As response the change's hashtags are returned as a list of strings.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    "hashtag1",
+    "hashtag2"
+  ]
+----
+
+[[set-hashtags]]
+=== Set Hashtags
+--
+'POST /changes/link:#change-id[\{change-id\}]/hashtags'
+--
+
+Adds and/or removes hashtags from a change.
+
+The hashtags to add or remove must be provided in the request body inside a
+link:#hashtags-input[HashtagsInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/hashtags HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "add" : [
+      "hashtag3"
+    ],
+    "remove" : [
+      "hashtag2"
+    ]
+  }
+----
+
+As response the change's hashtags are returned as a list of strings.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    "hashtag1",
+    "hashtag3"
+  ]
+----
+
 [[ids]]
 == IDs
 
@@ -5382,6 +5451,19 @@ The `GroupBaseInfo` entity contains base information about the group.
 |`id`          |The id of the group.
 |`name`        |The name of the group.
 |==========================
+
+[[hashtags-input]]
+=== HashtagsInput
+
+The `HashtagsInput` entity contains information about hashtags to add to,
+and/or remove from, a change.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`add`     |optional|The list of hashtags to be added to the change.
+|`remove   |optional|The list of hashtags to be removed from the change.
+|=======================
 
 [[included-in-info]]
 === IncludedInInfo

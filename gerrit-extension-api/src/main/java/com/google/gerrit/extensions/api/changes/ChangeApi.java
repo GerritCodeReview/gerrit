@@ -163,6 +163,8 @@ public interface ChangeApi {
 
   /**
    * Delete the assignee of a change.
+   *
+   * @return the assignee that was deleted, or null if there was no assignee.
    */
   AccountInfo deleteAssignee() throws RestApiException;
 

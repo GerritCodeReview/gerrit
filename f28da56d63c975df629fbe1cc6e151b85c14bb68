@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_1fb78320",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4658,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-24T10:54:48Z",
+      "side": 1,
+      "message": "Should we add a warning/note here that hashtags only work with NoteDb?",
+      "revId": "f28da56d63c975df629fbe1cc6e151b85c14bb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -112,7 +112,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           mappingBuilder.addString(name);
         } else {
           throw new IllegalArgumentException(
-              "Unsupported filed type " + fieldType.getName());
+              "Unsupported field type " + fieldType.getName());
         }
       }
       MappingProperties mapping = mappingBuilder.build();

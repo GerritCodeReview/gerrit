@@ -76,6 +76,11 @@ of the process.
 * `git/upload-pack/phase_writing`: Time spent transferring bytes to client.
 * `git/upload-pack/pack_bytes`: Distribution of sizes of packs sent to clients.
 
+=== BatchUpdate
+
+* `batch_update/execute_change_ops`: BatchUpdate change update latency,
+excluding reindexing
+
 === NoteDb
 
 * `notedb/update_latency`: NoteDb update latency by table.

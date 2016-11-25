@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "70e76057_601c322e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DB2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-25T12:11:35Z",
+      "side": 1,
+      "message": "I talked to our DB2 DBA, this should work:\n\n  SELECT 1 FROM SYSIBM.SYSDUMMY1\n\nsee also: [1].\n\n* [1] http://stackoverflow.com/questions/4733356/how-to-test-the-connection-to-a-db2-database",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "d88ab0048e8677ba9bd55eea7e10e802306494db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_1f12e31b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 3
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "Done for timeout. I\u0027m not sure about the setTestWhileIdle given by default there is no eviction thread running. We would also need to configure timeBetweenEvictionRunsMillis to activate the idle evictor thread and probably numTestsPerEvictionRun and minEvictableIdleTimeMillis. Do we really want to do this? If so, we need to put all this options configurable, don\u0027t you think?",
       "parentUuid": "50ec1c3c_1f12e31b",
+      "revId": "d88ab0048e8677ba9bd55eea7e10e802306494db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_5fc0eb36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-25T12:11:35Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "b0e1d842_826fba14",
       "revId": "d88ab0048e8677ba9bd55eea7e10e802306494db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

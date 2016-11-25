@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.SchemaUpdater;
+import com.google.gerrit.server.schema.SkipOptionalMigrations;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
@@ -157,6 +158,10 @@ public class BaseInit extends SiteProgram {
 
   protected List<String> getSkippedDownloads() {
     return Collections.emptyList();
+  }
+
+  protected boolean skipOptionalMigrations() {
+    return false;
   }
 
   /**
@@ -427,7 +432,23 @@ public class BaseInit extends SiteProgram {
           bind(InitFlags.class).toInstance(init.flags);
         }
       });
-      sysInjector = createDbInjector(SINGLE_USER).createChildInjector(modules);
+
+      Module initArgModule = new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(Boolean.class).annotatedWith(SkipOptionalMigrations.class)
+              .toProvider(new Provider<Boolean>() {
+                @Override
+                public Boolean get() {
+                  return skipOptionalMigrations();
+                }
+              }).in(SINGLETON);
+        }
+      };
+
+      sysInjector =
+          createDbInjector(SINGLE_USER, initArgModule).createChildInjector(
+              modules);
     }
     return sysInjector;
   }

@@ -35,6 +35,7 @@ import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.server.schema.SkipOptionalMigrations;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
@@ -62,6 +63,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -102,13 +104,15 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   /** @return provides database connectivity and site path. */
-  protected Injector createDbInjector(DataSourceProvider.Context context) {
-    return createDbInjector(false, context);
+  protected Injector createDbInjector(DataSourceProvider.Context context,
+      Module... extraInitModules) {
+    return createDbInjector(false, context, extraInitModules);
   }
 
   /** @return provides database connectivity and site path. */
   protected Injector createDbInjector(final boolean enableMetrics,
-      final DataSourceProvider.Context context) {
+      final DataSourceProvider.Context context,
+      Module... extraInitModules) {
     final Path sitePath = getSitePath();
     final List<Module> modules = new ArrayList<>();
 
@@ -182,6 +186,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new ConfigNotesMigration.Module());
     modules.addAll(LibModuleLoader.loadModules(cfgInjector));
+    modules.addAll(Arrays.asList(extraInitModules));
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

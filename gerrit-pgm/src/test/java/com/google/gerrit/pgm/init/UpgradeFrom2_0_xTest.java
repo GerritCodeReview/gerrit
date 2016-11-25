@@ -72,7 +72,7 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
 
     final InMemorySecureStore secureStore = new InMemorySecureStore();
     final InitFlags flags = new InitFlags(site, secureStore,
-        Collections.<String> emptyList(), false);
+        Collections.<String> emptyList(), false, false);
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
     Section.Factory sections = new Section.Factory() {
       @Override

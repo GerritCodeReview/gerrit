@@ -28,6 +28,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
+import com.google.gerrit.pgm.init.api.SkipOptionalMigrations;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -71,6 +72,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -159,6 +161,10 @@ public class BaseInit extends SiteProgram {
     return Collections.emptyList();
   }
 
+  protected boolean skipOptionalMigrations() {
+    return false;
+  }
+
   /**
    * Invoked before site init is called.
    *
@@ -230,6 +236,7 @@ public class BaseInit extends SiteProgram {
     final List<Module> m = new ArrayList<>();
     final SecureStoreInitData secureStoreInitData = discoverSecureStoreClass();
     final String currentSecureStoreClassName = getConfiguredSecureStoreClass();
+    final boolean skipOptionalMigrations = skipOptionalMigrations();
 
     if (secureStoreInitData != null && currentSecureStoreClassName != null
         && !currentSecureStoreClassName.equals(secureStoreInitData.className)) {
@@ -255,6 +262,8 @@ public class BaseInit extends SiteProgram {
         bind(new TypeLiteral<Boolean>() {}).annotatedWith(
             InstallAllPlugins.class).toInstance(installAllPlugins());
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
+        bind(new TypeLiteral<Boolean>() {}).annotatedWith(
+            SkipOptionalMigrations.class).toInstance(skipOptionalMigrations);
 
         String secureStoreClassName;
         if (secureStoreInitData != null) {

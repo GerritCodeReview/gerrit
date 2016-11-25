@@ -45,6 +45,9 @@ public class InitFlags {
   /** Dev mode */
   public boolean dev;
 
+  /** Skip optional migrations */
+  public boolean skipOptionalMigrations;
+
   public final FileBasedConfig cfg;
   public final SecureStore sec;
   public final List<String> installPlugins;
@@ -55,11 +58,13 @@ public class InitFlags {
   public InitFlags(final SitePaths site,
       final SecureStore secureStore,
       @InstallPlugins final List<String> installPlugins,
-      @InstallAllPlugins final Boolean installAllPlugins) throws IOException,
+      @InstallAllPlugins final Boolean installAllPlugins,
+      @SkipOptionalMigrations Boolean skipOptionalMigrations) throws IOException,
           ConfigInvalidException {
     sec = secureStore;
     this.installPlugins = installPlugins;
     this.installAllPlugins = installAllPlugins;
+    this.skipOptionalMigrations = skipOptionalMigrations;
     cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
     cfg.load();
   }

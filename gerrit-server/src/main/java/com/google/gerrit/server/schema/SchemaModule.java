@@ -30,6 +30,8 @@ import com.google.gerrit.server.config.GerritServerIdProvider;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
+import javax.inject.Provider;
+
 /** Validate the schema and connect to Git. */
 public class SchemaModule extends FactoryModule {
   @Override
@@ -51,5 +53,13 @@ public class SchemaModule extends FactoryModule {
     bind(String.class).annotatedWith(GerritServerId.class)
       .toProvider(GerritServerIdProvider.class)
       .in(SINGLETON);
+
+    bind(Boolean.class).annotatedWith(SkipOptionalMigrations.class)
+    .toProvider(new Provider<Boolean>() {
+      @Override
+      public Boolean get() {
+        return false;
+      }
+    }).in(SINGLETON);
   }
 }

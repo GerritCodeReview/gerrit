@@ -83,6 +83,9 @@ public class Init extends BaseInit {
   @Option(name = "--skip-download", usage = "Don't download given library")
   private List<String> skippedDownloads;
 
+  @Option(name = "--skip-optional-migrations", usage = "Skip optional schemas migrations (advanced users only)")
+  private boolean skipOptionalMigrations;
+
   @Inject
   Browser browser;
 
@@ -190,6 +193,12 @@ public class Init extends BaseInit {
         ? skippedDownloads
         : Collections.<String> emptyList();
   }
+
+  @Override
+  protected boolean skipOptionalMigrations() {
+    return skipOptionalMigrations;
+  }
+
 
   @Override
   protected String getSecureStoreLib() {

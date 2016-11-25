@@ -20,6 +20,7 @@ _java_ -jar gerrit.war _init_
   [--dev]
   [--skip-all-downloads]
   [--skip-download=<LIBRARY_NAME>]
+  [--skip-optional-migrations]
 --
 
 == DESCRIPTION
@@ -98,6 +99,12 @@ objects these SQL statements must be executed manually.
 	Do not automatically download and install the library with the given name.
 	The administrator must manually install the required library in the `lib/`
 	folder.
+
+--skip-optional-migrations::
+	Do not migrate repositories when the schema changes are backward compatible.
+	Use this option with extreme care after having analyzed the impact regarding
+        of performance and housekeeping maintenance of keeping legacy
+	data.
 
 == CONTEXT
 This command can only be run on a server which has direct

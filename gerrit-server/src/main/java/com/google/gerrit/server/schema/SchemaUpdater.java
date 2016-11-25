@@ -72,6 +72,7 @@ public class SchemaUpdater {
         for (Key<?> k : new Key<?>[]{
             Key.get(PersonIdent.class, GerritPersonIdent.class),
             Key.get(String.class, AnonymousCowardName.class),
+            Key.get(Boolean.class, SkipOptionalMigrations.class)
             }) {
           rebind(parent, k);
         }

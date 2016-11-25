@@ -67,6 +67,20 @@ and configured correctly as can be verified by:
 NOTE: If IntelliJ notifies you later on that the EditorConfig settings override
 the code style settings, simply confirm that.
 
+=== Copyright
+Copy the folder `$(gerrit_source_code)/tools/intellij/copyright` (not just the
+contents) to `$(project_data_directory)/.idea`. If it already exists, replace
+it.
+
+=== File header
+By default, IntelliJ adds a file header containing the name of the author and
+the current date to new files. To disable that, follow these steps:
+
+. Go to *File -> Settings -> Editor -> File and Code Templates*.
+. Select the tab *Includes*.
+. Select *File Header*.
+. Remove the template code in the right editor.
+
 == Run configurations
 Run configurations can be accessed on the toolbar. To edit them or add new ones,
 choose *Edit Configurations* on the drop-down list of the run configurations

@@ -81,6 +81,26 @@ the current date to new files. To disable that, follow these steps:
 . Select *File Header*.
 . Remove the template code in the right editor.
 
+=== Commit message
+To simplify the creation of commit messages which are compliant with the
+<<dev-contributing#commit-message,Commit Message>> format, do the following:
+
+. Go to *File -> Settings -> Version Control*.
+. Check *Commit message right margin (columns)*.
+. Make sure that 72 is specified as value.
+. Possibly check *Wrap when typing reaches right margin*.
+
+In addition, you should follow the instructions of
+<<dev-contributing#git_commit_settings,this section>> (if you haven't
+done it already) to
+
+* install the Git hook for the `Change-Id` line and
+* set up the HTTP access.
+
+Setting up the HTTP access will allow you to commit changes via IntelliJ without
+specifying your credentials. The Git hook won't be noticeable most of the time
+as it's executed after the commit dialog of IntelliJ but it will still work.
+
 == Run configurations
 Run configurations can be accessed on the toolbar. To edit them or add new ones,
 choose *Edit Configurations* on the drop-down list of the run configurations

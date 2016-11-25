@@ -5379,7 +5379,7 @@ The `GroupBaseInfo` entity contains base information about the group.
 [options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
-|`id`          |The id of the group.
+|`id`          |The UUID of the group.
 |`name`        |The name of the group.
 |==========================
 

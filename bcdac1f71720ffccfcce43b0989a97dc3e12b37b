@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_3f0b67d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Index.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-25T10:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "101b842a_75c188eb",
+      "range": {
+        "startLine": 49,
+        "startChar": 31,
+        "endLine": 49,
+        "endChar": 43
+      },
+      "revId": "bcdac1f71720ffccfcce43b0989a97dc3e12b37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_16dbfcd9",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2016-11-25T06:05:05Z",
       "side": 1,
       "message": "Test that it\u0027s not possible to reindex another user\u0027s account?",
+      "revId": "bcdac1f71720ffccfcce43b0989a97dc3e12b37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_005d6606",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-25T10:03:35Z",
+      "side": 1,
+      "message": "I\u0027ve added this test in AccountIT.\n\nDone",
+      "parentUuid": "301ec818_16dbfcd9",
       "revId": "bcdac1f71720ffccfcce43b0989a97dc3e12b37b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

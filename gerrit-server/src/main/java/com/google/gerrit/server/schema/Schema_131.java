@@ -40,18 +40,26 @@ public class Schema_131 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
+  private final Boolean skip;
 
   @Inject
   Schema_131(Provider<Schema_130> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      @SkipOptionalMigrations Boolean skip) {
     super(prior);
     this.repoManager = repoManager;
     this.serverUser = serverUser;
+    this.skip = skip;
   }
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
+    if(skip) {
+      ui.message("\tSkipped: migration will happen on-line at first use");
+      return;
+    }
+
     SortedSet<Project.NameKey> repoList = repoManager.list();
     SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
     ui.message("\tMigrating " + repoList.size() + " repositories ...");

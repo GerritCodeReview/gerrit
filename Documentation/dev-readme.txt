@@ -1,6 +1,6 @@
 = Gerrit Code Review - Developer Setup
 
-Facebook Buck is needed to compile the code, and an SQL database to
+Bazel or Facebook Buck is needed to compile the code, and an SQL database to
 house the review metadata.  H2 is recommended for development
 databases, as it requires no external server process.
 
@@ -18,11 +18,11 @@ The `--recursive` option is needed on `git clone` to ensure that
 the core plugins, which are included as git submodules, are also
 cloned.
 
-
+[[compile_project]]
 == Compiling
 
-For details on how to build the source code with Buck, refer to:
-link:dev-buck.html#build[Building on the command line with Buck].
+Please refer to either <<dev-buck#,Building with Buck>> or
+<<dev-bazel#,Building with Bazel>>.
 
 
 == Switching between branches
@@ -40,6 +40,10 @@ revisions for the new branch with the commands:
   git clean -fdx
 ----
 
+CAUTION: If you decide to store your Eclipse/IntelliJ project files in the
+Gerrit source directories, executing `git clean -fdx` will remove them and hence
+screw up your project.
+
 
 == Configuring Eclipse
 
@@ -51,6 +55,8 @@ refer to: link:dev-buck.html#eclipse[Eclipse integration with Buck].
 
 
 == Configuring IntelliJ IDEA
+
+=== Build based on Buck
 
 To use IntelliJ IDEA for development, the easiest way is to follow
 Eclipse integration and then open it as Eclipse project in IDEA.
@@ -68,6 +74,11 @@ them as "Generated Sources Root":
   __server_gen__
 ----
 
+=== Build based on Bazel
+
+Please refer to <<dev-bazel#_intellij,IntelliJ Setup>> for detailed
+instructions.
+
 == Mac OS X
 
 On Mac OS X ensure "Java For Mac OS X 10.5 Update 4" (or later) has
@@ -83,12 +94,24 @@ the terminal.
 [[init]]
 == Site Initialization
 
-After compiling (above), run Gerrit's 'init' command to create a
-testing site for development use:
+After compiling <<compile_project,(above)>>, run Gerrit's 'init' command to
+create a testing site for development use:
 
+.Build based on Buck
 ----
   java -jar buck-out/gen/gerrit/gerrit.war init -d ../gerrit_testsite
 ----
+
+.Build based on Bazel
+----
+  $(bazel info output_base)/external/local_jdk/bin/java \
+     -jar bazel-bin/gerrit.war init -d ../gerrit_testsite
+----
+
+[[special_bazel_java_version]]
+NOTE: You must use the same Java version that Bazel used for the build.
+This Java version is available at
+`$(bazel info output_base)/external/local_jdk/bin/java`.
 
 During initialization, make two changes to the default settings:
 
@@ -149,6 +172,7 @@ shutdown.
 For instructions on running the integration tests with Buck,
 please refer to:
 link:dev-buck.html#tests[Running integration tests with Buck].
+For Bazel, please refer to <<dev-bazel#tests,Running Unit Tests with Bazel>>.
 
 
 === Running the Daemon
@@ -156,9 +180,20 @@ link:dev-buck.html#tests[Running integration tests with Buck].
 The daemon can be directly launched from the build area, without
 copying to the test site:
 
+.Build based on Buck
 ----
   java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite
 ----
+
+.Build based on Bazel
+----
+  $(bazel info output_base)/external/local_jdk/bin/java \
+     -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite
+----
+
+NOTE: Please refer to <<special_bazel_java_version,this explanation>>
+for details why using `java -jar` isn't sufficient.
+
 
 === Running the Daemon with Gerrit Inspector
 
@@ -175,9 +210,19 @@ Python scripts for troubleshooting.
 Gerrit Inspect can be started by adding '-s' option to the
 command used to launch the daemon:
 
+.Build based on Buck
 ----
   java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite -s
 ----
+
+.Build based on Bazel
+----
+  $(bazel info output_base)/external/local_jdk/bin/java \
+     -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite -s
+----
+
+NOTE: Please refer to <<special_bazel_java_version,this explanation>>
+for details why using `java -jar` isn't sufficient.
 
 Gerrit Inspector examines Java libraries first, then loads
 its initialization scripts and then starts a command line
@@ -202,9 +247,19 @@ when using the Inspector.
 The embedded H2 database can be queried and updated from the
 command line.  If the daemon is not currently running:
 
+.Build based on Buck
 ----
   java -jar buck-out/gen/gerrit/gerrit.war gsql -d ../gerrit_testsite
 ----
+
+.Build based on Bazel
+----
+  $(bazel info output_base)/external/local_jdk/bin/java \
+     -jar bazel-bin/gerrit.war gsql -d ../gerrit_testsite -s
+----
+
+NOTE: Please refer to <<special_bazel_java_version,this explanation>>
+for details why using `java -jar` isn't sufficient.
 
 Or, if it is running and the database is in use, connect over SSH
 using an administrator user account:

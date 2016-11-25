@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gwtorm.server.StandardKeyEncoder;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -66,6 +67,7 @@ public interface Changes {
 
   abstract class QueryRequest {
     private String query;
+    private StandardKeyEncoder coder = new StandardKeyEncoder();
     private int limit;
     private int start;
     private EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
@@ -74,6 +76,11 @@ public interface Changes {
 
     public QueryRequest withQuery(String query) {
       this.query = query;
+      return this;
+    }
+
+    public QueryRequest encode() {
+      query = coder.encode(query);
       return this;
     }
 

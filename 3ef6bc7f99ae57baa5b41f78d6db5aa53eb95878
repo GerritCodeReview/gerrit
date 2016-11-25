@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "301ec818_d6c8640e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-25T05:44:50Z",
+      "side": 1,
+      "message": "Unfortunately there are differences between easymock 3.1 and 3.4, so this downgrade broke plugins that depend on 3.4 :(",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "3ef6bc7f99ae57baa5b41f78d6db5aa53eb95878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a54f1d_8bca2d42",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
         "patchSetId": 6

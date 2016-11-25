@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0e1d842_a29c7efc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DB2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-11-25T12:39:46Z",
+      "side": 1,
+      "message": "Done. Thanks for the info.",
+      "parentUuid": "70e76057_601c322e",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "d88ab0048e8677ba9bd55eea7e10e802306494db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_1f12e31b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 3

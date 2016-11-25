@@ -137,6 +137,8 @@ public class DataSourceProvider implements Provider<DataSource>,
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
+      ds.setValidationQuery(dst.getValidationQuery());
+      ds.setValidationQueryTimeout(5);
       exportPoolMetrics(ds);
       return intercept(interceptor, ds);
 

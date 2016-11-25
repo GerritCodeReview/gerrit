@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "301ec818_96a70c59",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-25T01:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301ec818_d64224ab",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "9262b3086b6693577e16ff742a0f177c79cbb0b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "101b842a_d56b3c2b",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
         "patchSetId": 10
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "301ec818_f6ac803e",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-25T01:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "101b842a_d56b3c2b",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9262b3086b6693577e16ff742a0f177c79cbb0b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_3638b830",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
         "patchSetId": 10
@@ -82,6 +130,24 @@
       "writtenOn": "2016-11-24T23:38:38Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "9262b3086b6693577e16ff742a0f177c79cbb0b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_d6b18496",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-25T01:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301ec818_3638b830",
       "revId": "9262b3086b6693577e16ff742a0f177c79cbb0b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +188,54 @@
       "writtenOn": "2016-11-24T23:38:38Z",
       "side": 1,
       "message": "Elasticsearch",
+      "range": {
+        "startLine": 134,
+        "startChar": 46,
+        "endLine": 134,
+        "endChar": 58
+      },
+      "revId": "9262b3086b6693577e16ff742a0f177c79cbb0b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "101b842a_d5421cab",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-25T01:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301ec818_1635bc36",
+      "range": {
+        "startLine": 134,
+        "startChar": 11,
+        "endLine": 134,
+        "endChar": 16
+      },
+      "revId": "9262b3086b6693577e16ff742a0f177c79cbb0b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_36b7188a",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-25T01:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "101b842a_3551d080",
       "range": {
         "startLine": 134,
         "startChar": 46,

@@ -59,6 +59,14 @@ public class ProjectApi {
     return call;
   }
 
+  /** Create a new tag */
+  public static void createTag(Project.NameKey name, String ref,
+      String revision, AsyncCallback<TagInfo> cb) {
+    TagInput input = TagInput.create();
+    input.setRevision(revision);
+    project(name).view("tags").id(ref).ifNoneMatch().put(input, cb);
+  }
+
   /** Retrieve all visible tags of the project */
   public static void getTags(Project.NameKey name,
       AsyncCallback<JsArray<TagInfo>> cb) {
@@ -69,6 +77,23 @@ public class ProjectApi {
       String match, AsyncCallback<JsArray<TagInfo>> cb) {
     getRestApi(name, "tags", limit, start, match).get(cb);
   }
+
+  /**
+   * Delete tags. One call is fired to the server to delete all the
+   * tags.
+   */
+  /* public static void deleteTags(Project.NameKey name,
+      Set<String> refs, AsyncCallback<VoidResult> cb) {
+    if (refs.size() == 1) {
+      project(name).view("tags").id(refs.iterator().next()).delete(cb);
+    } else {
+      DeleteTagsInput d = DeleteTagsInput.create();
+      for (String ref : refs) {
+        d.addTag(ref);
+      }
+      project(name).view("tags:delete").post(d, cb);
+    }
+  } */
 
   /** Create a new branch */
   public static void createBranch(Project.NameKey name, String ref,
@@ -318,6 +343,17 @@ public class ProjectApi {
     public final native void put(String n, ConfigParameterValue v) /*-{ this[n] = v; }-*/;
   }
 
+  private static class TagInput extends JavaScriptObject {
+    static TagInput create() {
+      return (TagInput) createObject();
+    }
+
+    protected TagInput() {
+    }
+
+    final native void setRevision(String r) /*-{ if(r)this.revision=r; }-*/;
+  }
+
   private static class BranchInput extends JavaScriptObject {
     static BranchInput create() {
       return (BranchInput) createObject();
@@ -350,6 +386,20 @@ public class ProjectApi {
 
     final native void setRef(String r) /*-{ if(r)this.ref=r; }-*/;
   }
+
+  /* private static class DeleteTagsInput extends JavaScriptObject {
+    static DeleteTagsInput create() {
+      DeleteTagsInput d = createObject().cast();
+      d.init();
+      return d;
+    }
+
+    protected DeleteTagsInput() {
+    }
+
+    final native void init() /*-{ this.tags = []; }-*/;
+    // final native void addTag(String b) /*-{ this.tags.push(b); }-*/;
+  // }
 
   private static class DeleteBranchesInput extends JavaScriptObject {
     static DeleteBranchesInput create() {

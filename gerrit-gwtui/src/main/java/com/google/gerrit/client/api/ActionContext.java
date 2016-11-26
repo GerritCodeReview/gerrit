@@ -20,6 +20,7 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.projects.BranchInfo;
+import com.google.gerrit.client.projects.TagInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
@@ -151,6 +152,7 @@ public class ActionContext extends JavaScriptObject {
   final native void set(EditInfo e) /*-{ this.edit=e; }-*/;
   final native void set(Project.NameKey p) /*-{ this.project=p; }-*/;
   final native void set(BranchInfo b) /*-{ this.branch=b }-*/;
+  final native void set(TagInfo t) /*-{ this.tag=t }-*/;
   final native void set(RevisionInfo r) /*-{ this.revision=r; }-*/;
 
   final native void button(ActionButton b) /*-{ this._b=b; }-*/;

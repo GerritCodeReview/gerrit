@@ -49,6 +49,10 @@ public interface GerritConstants extends Constants {
 
   String branchCreationConfirmationMessage();
 
+  String tagCreationDialogTitle();
+
+  String tagCreationConfirmationMessage();
+
   String branchDeletionDialogTitle();
 
   String branchDeletionConfirmationMessage();

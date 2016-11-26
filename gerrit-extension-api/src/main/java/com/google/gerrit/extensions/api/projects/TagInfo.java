@@ -14,21 +14,29 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.common.WebLinkInfo;
+
+import java.util.List;
+import java.util.Map;
 
 public class TagInfo extends RefInfo {
   public String object;
   public String message;
   public GitPerson tagger;
 
-  public TagInfo(String ref, String revision) {
+  public TagInfo(String ref, String revision, Boolean canDelete, Map<String, ActionInfo> actions, List<WebLinkInfo> webLinks) {
+    this.canDelete = canDelete;
+    this.actions = actions;
+    this.webLinks = webLinks;
     this.ref = ref;
     this.revision = revision;
   }
 
-  public TagInfo(String ref, String revision, String object,
+  public TagInfo(String ref, String revision, String object, Boolean canDelete, Map<String, ActionInfo> actions, List<WebLinkInfo> webLinks,
       String message, GitPerson tagger) {
-    this(ref, revision);
+    this(ref, revision, canDelete, actions, webLinks);
     this.object = object;
     this.message = message;
     this.tagger = tagger;

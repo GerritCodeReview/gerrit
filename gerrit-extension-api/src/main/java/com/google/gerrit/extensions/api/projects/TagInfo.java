@@ -14,9 +14,15 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 
 public class TagInfo extends RefInfo {
+  public Boolean canDelete;
+  public Map<String, ActionInfo> actions;
+  public List<WebLinkInfo> webLinks;
+
   public String object;
   public String message;
   public GitPerson tagger;

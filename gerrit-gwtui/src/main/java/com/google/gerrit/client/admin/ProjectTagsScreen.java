@@ -16,32 +16,71 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.client.ui.Util.highlight;
 
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.access.AccessMap;
+import com.google.gerrit.client.access.ProjectAccessInfo;
+import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.info.ActionInfo;
+import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.projects.TagInfo;
+import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProjectTagsScreen extends PaginatedProjectScreen {
-  private NpTextBox filterTxt;
-  private Query query;
   private Hyperlink prev;
   private Hyperlink next;
-  private TagsTable tagsTable;
+  private TagsTable tagTable;
+  private Button addTag;
+  private HintTextBox nameTxtBox;
+  private HintTextBox irevTxtBox;
+  private FlowPanel addPanel;
+  private NpTextBox filterTxt;
+  private Query query;
 
   public ProjectTagsScreen(Project.NameKey toShow) {
     super(toShow);
@@ -53,30 +92,90 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
   }
 
   @Override
+  protected void onLoad() {
+    super.onLoad();
+    addPanel.setVisible(false);
+    AccessMap.get(getProjectKey(),
+        new GerritCallback<ProjectAccessInfo>() {
+          @Override
+          public void onSuccess(ProjectAccessInfo result) {
+            addPanel.setVisible(result.canAddRefs());
+          }
+        });
+    query = new Query(match).start(start).run();
+    savedPanel = TAGS;
+  }
+
+  private void updateForm() {
+    addTag.setEnabled(true);
+    nameTxtBox.setEnabled(true);
+    irevTxtBox.setEnabled(true);
+  }
+
+  @Override
   protected void onInitUI() {
     super.onInitUI();
     initPageHeader();
+
     prev = PagingHyperlink.createPrev();
     prev.setVisible(false);
 
     next = PagingHyperlink.createNext();
     next.setVisible(false);
 
-    tagsTable = new TagsTable();
+    addPanel = new FlowPanel();
+
+    final Grid addGrid = new Grid(2, 2);
+    addGrid.setStyleName(Gerrit.RESOURCES.css().addBranch());
+    final int texBoxLength = 50;
+
+    nameTxtBox = new HintTextBox();
+    nameTxtBox.setVisibleLength(texBoxLength);
+    nameTxtBox.setHintText(AdminConstants.I.defaultTagName());
+    nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+          doAddNewTag();
+        }
+      }
+    });
+    addGrid.setText(0, 0, AdminConstants.I.columnTagName() + ":");
+    addGrid.setWidget(0, 1, nameTxtBox);
+
+    irevTxtBox = new HintTextBox();
+    irevTxtBox.setVisibleLength(texBoxLength);
+    irevTxtBox.setHintText(AdminConstants.I.defaultRevisionSpec());
+    irevTxtBox.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+          doAddNewTag();
+        }
+      }
+    });
+    addGrid.setText(1, 0, AdminConstants.I.initialRevision() + ":");
+    addGrid.setWidget(1, 1, irevTxtBox);
+
+    addTag = new Button(AdminConstants.I.buttonAddTag());
+    addTag.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        doAddNewTag();
+      }
+    });
+    addPanel.add(addGrid);
+    addPanel.add(addTag);
+
+    tagTable = new TagsTable();
 
     HorizontalPanel buttons = new HorizontalPanel();
     buttons.setStyleName(Gerrit.RESOURCES.css().branchTablePrevNextLinks());
     buttons.add(prev);
     buttons.add(next);
-    add(tagsTable);
+    add(tagTable);
     add(buttons);
-  }
-
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    query = new Query(match).start(start).run();
-    savedPanel = TAGS;
+    add(addPanel);
   }
 
   private void initPageHeader() {
@@ -95,8 +194,10 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
             Query q = new Query(filterTxt.getValue());
             if (match.equals(q.qMatch)) {
               q.start(start);
-            } else if (query == null) {
-              q.run();
+            } else {
+              if (query == null) {
+                q.run();
+              }
               query = q;
             }
           }
@@ -105,16 +206,107 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     add(hp);
   }
 
+  private void doAddNewTag() {
+    final String tagName = nameTxtBox.getText().trim();
+    if ("".equals(tagName)) {
+      nameTxtBox.setFocus(true);
+      return;
+    }
+
+    final String rev = irevTxtBox.getText().trim();
+    if ("".equals(rev)) {
+      irevTxtBox.setText("HEAD");
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        @Override
+        public void execute() {
+          irevTxtBox.selectAll();
+          irevTxtBox.setFocus(true);
+        }
+      });
+      return;
+    }
+
+    addTag.setEnabled(false);
+    ProjectApi.createTag(getProjectKey(), tagName, rev,
+        new GerritCallback<TagInfo>() {
+          @Override
+          public void onSuccess(TagInfo tag) {
+            showAddedTag(tag);
+            nameTxtBox.setText("");
+            irevTxtBox.setText("");
+            query = new Query(match).start(start).run();
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            addTag.setEnabled(true);
+            selectAllAndFocus(nameTxtBox);
+            new ErrorDialog(caught.getMessage()).center();
+          }
+        });
+  }
+
+  void showAddedTag(TagInfo tag) {
+    SafeHtmlBuilder b = new SafeHtmlBuilder();
+    b.openElement("b");
+    b.append(Gerrit.C.tagCreationConfirmationMessage());
+    b.closeElement("b");
+
+    b.openElement("p");
+    b.append(tag.ref());
+    b.closeElement("p");
+
+    ConfirmationDialog confirmationDialog =
+        new ConfirmationDialog(Gerrit.C.tagCreationDialogTitle(),
+            b.toSafeHtml(), new ConfirmationCallback() {
+      @Override
+      public void onOk() {
+        //do nothing
+      }
+    });
+    confirmationDialog.center();
+    confirmationDialog.setCancelVisible(false);
+  }
+
+  private static void selectAllAndFocus(TextBox textBox) {
+    textBox.selectAll();
+    textBox.setFocus(true);
+  }
+
   private class TagsTable extends NavigationTable<TagInfo> {
 
     TagsTable() {
       table.setWidth("");
       table.setText(0, 1, AdminConstants.I.columnTagName());
-      table.setText(0, 2, AdminConstants.I.columnBranchRevision());
+      table.setText(0, 2, AdminConstants.I.columnTagRevision());
 
-      FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+    }
+
+    Set<String> getCheckedRefs() {
+      Set<String> refs = new HashSet<>();
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final TagInfo k = getRowItem(row);
+        if (k != null && table.getWidget(row, 1) instanceof CheckBox
+            && ((CheckBox) table.getWidget(row, 1)).getValue()) {
+          refs.add(k.ref());
+        }
+      }
+      return refs;
+    }
+
+    void setChecked(Set<String> refs) {
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final TagInfo k = getRowItem(row);
+        if (k != null && refs.contains(k.ref()) &&
+            table.getWidget(row, 1) instanceof CheckBox) {
+          ((CheckBox) table.getWidget(row, 1)).setValue(true);
+        }
+      }
     }
 
     void display(List<TagInfo> tags) {
@@ -127,7 +319,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       }
 
       for (TagInfo k : tags.subList(fromIndex, toIndex)) {
-        int row = table.getRowCount();
+        final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
         populate(row, k);
@@ -135,20 +327,111 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     }
 
     void populate(int row, TagInfo k) {
-      table.setWidget(row, 1, new InlineHTML(highlight(k.getShortName(), match)));
+      table.setText(row, 1, "");
+
+      table.setWidget(row, 2, new InlineHTML(highlight(k.getShortName(), match)));
 
       if (k.revision() != null) {
-        table.setText(row, 2, k.revision());
+        table.setText(row, 3, k.revision());
       } else {
-        table.setText(row, 2, "");
+        table.setText(row, 3, "");
       }
 
-      FlexCellFormatter fmt = table.getFlexCellFormatter();
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
-      fmt.addStyleName(row, 1, dataCellStyle);
+      fmt.addStyleName(row, 1, iconCellStyle);
       fmt.addStyleName(row, 2, dataCellStyle);
+      fmt.addStyleName(row, 3, dataCellStyle);
+      fmt.addStyleName(row, 4, dataCellStyle);
 
       setRowItem(row, k);
+    }
+
+    private void setHeadRevision(final int row, final int column,
+        final String rev) {
+      AccessMap.get(getProjectKey(),
+          new GerritCallback<ProjectAccessInfo>() {
+            @Override
+            public void onSuccess(ProjectAccessInfo result) {
+              if (result.isOwner()) {
+                table.setWidget(row, column, getHeadRevisionWidget(rev));
+              } else {
+                table.setText(row, 3, rev);
+              }
+            }
+          });
+    }
+
+    private Widget getHeadRevisionWidget(final String headRevision) {
+      FlowPanel p = new FlowPanel();
+      final InlineLabel l = new InlineLabel(headRevision);
+      final Image edit = new Image(Gerrit.RESOURCES.edit());
+      edit.addStyleName(Gerrit.RESOURCES.css().editHeadButton());
+
+      final NpTextBox input = new NpTextBox();
+      input.setVisibleLength(35);
+      input.setValue(headRevision);
+      input.setVisible(false);
+      final Button save = new Button();
+      save.setText(AdminConstants.I.saveHeadButton());
+      save.setVisible(false);
+      save.setEnabled(false);
+      final Button cancel = new Button();
+      cancel.setText(AdminConstants.I.cancelHeadButton());
+      cancel.setVisible(false);
+
+      OnEditEnabler e = new OnEditEnabler(save);
+      e.listenTo(input);
+
+      edit.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          l.setVisible(false);
+          edit.setVisible(false);
+          input.setVisible(true);
+          save.setVisible(true);
+          cancel.setVisible(true);
+        }
+      });
+      save.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          save.setEnabled(false);
+          ProjectApi.setHead(getProjectKey(), input.getValue().trim(),
+              new GerritCallback<NativeString>() {
+            @Override
+            public void onSuccess(NativeString result) {
+              Gerrit.display(PageLinks.toProjectTags(getProjectKey()));
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+              super.onFailure(caught);
+              save.setEnabled(true);
+            }
+          });
+        }
+      });
+      cancel.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          l.setVisible(true);
+          edit.setVisible(true);
+          input.setVisible(false);
+          input.setValue(headRevision);
+          save.setVisible(false);
+          save.setEnabled(false);
+          cancel.setVisible(false);
+        }
+      });
+
+      p.add(l);
+      p.add(edit);
+      p.add(input);
+      p.add(save);
+      p.add(cancel);
+      return p;
     }
 
     @Override
@@ -206,7 +489,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
                 query.run();
               }
             }
-          });
+      });
       return this;
     }
 
@@ -216,10 +499,10 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       ProjectTagsScreen.this.start = qStart;
 
       if (result.length() <= pageSize) {
-        tagsTable.display(Natives.asList(result));
+        tagTable.display(Natives.asList(result));
         next.setVisible(false);
       } else {
-        tagsTable.displaySubset(Natives.asList(result), 0, result.length() - 1);
+        tagTable.displaySubset(Natives.asList(result), 0, result.length() - 1);
         setupNavigationLink(next, qMatch, qStart + pageSize);
       }
       if (qStart > 0) {
@@ -227,6 +510,10 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       } else {
         prev.setVisible(false);
       }
+
+      Set<String> checkedRefs = tagTable.getCheckedRefs();
+      tagTable.setChecked(checkedRefs);
+      updateForm();
 
       if (!isCurrentView()) {
         display();

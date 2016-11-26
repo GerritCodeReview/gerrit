@@ -78,10 +78,17 @@ public class Module extends RestApiModule {
     get(COMMIT_KIND).to(GetCommit.class);
     child(COMMIT_KIND, "files").to(FilesInCommitCollection.class);
 
-    child(PROJECT_KIND, "tags").to(TagsCollection.class);
-    get(TAG_KIND).to(GetTag.class);
+    child(PROJECT_KIND, "tags").to(BranchesCollection.class);
     put(TAG_KIND).to(PutTag.class);
+    get(TAG_KIND).to(GetTag.class);
+    delete(TAG_KIND).to(DeleteTag.class);
+    post(PROJECT_KIND, "tags:delete").to(DeleteTags.class);
     factory(CreateTag.Factory.class);
+    get(TAG_KIND, "mergeable").to(CheckMergeability.class);
+    factory(RefValidationHelper.Factory.class);
+    get(TAG_KIND, "reflog").to(GetReflog.class);
+    child(TAG_KIND, "files").to(FilesCollection.class);
+    get(FILE_KIND, "content").to(GetContent.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

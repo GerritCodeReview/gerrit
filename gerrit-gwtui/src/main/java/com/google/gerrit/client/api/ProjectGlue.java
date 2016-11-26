@@ -17,6 +17,7 @@ package com.google.gerrit.client.api;
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.info.ActionInfo;
 import com.google.gerrit.client.projects.BranchInfo;
+import com.google.gerrit.client.projects.TagInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Project;
@@ -37,6 +38,27 @@ public class ProjectGlue {
       c.set(action);
       c.set(project);
       c.set(branch);
+      c.button(button);
+      ApiGlue.invoke(f, c);
+    } else {
+      DefaultActions.invoke(project, action, api);
+    }
+  }
+
+  public static void onAction(
+      Project.NameKey project,
+      TagInfo tag,
+      ActionInfo action,
+      ActionButton button) {
+    RestApi api = ProjectApi.project(project)
+        .view("tags").id(tag.ref())
+        .view(action.id());
+    JavaScriptObject f = tagAction(action.id());
+    if (f != null) {
+      ActionContext c = ActionContext.create(api);
+      c.set(action);
+      c.set(project);
+      c.set(tag);
       c.button(button);
       ApiGlue.invoke(f, c);
     } else {
@@ -67,6 +89,10 @@ public class ProjectGlue {
 
   private static native JavaScriptObject branchAction(String id) /*-{
     return $wnd.Gerrit.branch_actions[id];
+  }-*/;
+
+  private static native JavaScriptObject tagAction(String id) /*-{
+    return $wnd.Gerrit.tag_actions[id];
   }-*/;
 
   private ProjectGlue() {

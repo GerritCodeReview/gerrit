@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Tag;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -158,6 +159,7 @@ public class ProjectControl {
   private List<SectionMatcher> localSections;
   private LabelTypes labelTypes;
   private Map<String, RefControl> refControls;
+  private Map<String, RefControlTag> refControlsTag;
   private Boolean declaredOwner;
 
   @Inject
@@ -230,6 +232,24 @@ public class ProjectControl {
           permissionFilter.filter(access(), refName, user);
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
+    }
+    return ctl;
+  }
+
+  public RefControlTag controlForRefTag(Tag.NameKey ref) {
+    return controlForRefTag(ref.get());
+  }
+
+  public RefControlTag controlForRefTag(String refName) {
+    if (refControlsTag == null) {
+      refControlsTag = new HashMap<>();
+    }
+    RefControlTag ctl = refControlsTag.get(refName);
+    if (ctl == null) {
+      PermissionCollection relevant =
+          permissionFilter.filter(access(), refName, user);
+      ctl = new RefControlTag(this, refName, relevant);
+      refControlsTag.put(refName, ctl);
     }
     return ctl;
   }

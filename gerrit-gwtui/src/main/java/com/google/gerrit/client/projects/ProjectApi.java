@@ -60,6 +60,14 @@ public class ProjectApi {
     return call;
   }
 
+  /** Create a new tag */
+  public static void createTag(Project.NameKey name, String ref,
+      String revision, AsyncCallback<TagInfo> cb) {
+    TagInput input = TagInput.create();
+    input.setRevision(revision);
+    project(name).view("tags").id(ref).ifNoneMatch().put(input, cb);
+  }
+
   /** Retrieve all visible tags of the project */
   public static void getTags(Project.NameKey name, AsyncCallback<JsArray<TagInfo>> cb) {
     project(name).view("tags").get(cb);
@@ -323,6 +331,17 @@ public class ProjectApi {
     protected ConfigParameterValueMap() {}
 
     public final native void put(String n, ConfigParameterValue v) /*-{ this[n] = v; }-*/;
+  }
+
+  private static class TagInput extends JavaScriptObject {
+    static TagInput create() {
+      return (TagInput) createObject();
+    }
+
+    protected TagInput() {
+    }
+
+    final native void setRevision(String r) /*-{ if(r)this.revision=r; }-*/;
   }
 
   private static class BranchInput extends JavaScriptObject {

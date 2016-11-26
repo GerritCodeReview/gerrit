@@ -24,6 +24,7 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.projects.BranchInfo;
+import com.google.gerrit.client.projects.TagInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -40,12 +41,17 @@ public class ActionButton extends Button implements ClickHandler {
   private ActionContext ctx;
 
   public ActionButton(Project.NameKey project, ActionInfo action) {
-    this(project, null, null, null, null, action);
+    this(project, null, null, null, null, null, action);
   }
 
   public ActionButton(Project.NameKey project, BranchInfo branch,
       ActionInfo action) {
-    this(project, branch, null, null, null, action);
+    this(project, branch, null, null, null, null, action);
+  }
+
+  public ActionButton(Project.NameKey project, TagInfo tag,
+      ActionInfo action) {
+    this(project, null, tag, null, null, null, action);
   }
 
   public ActionButton(ChangeInfo change, ActionInfo action) {
@@ -54,11 +60,11 @@ public class ActionButton extends Button implements ClickHandler {
 
   public ActionButton(ChangeInfo change, RevisionInfo revision,
       ActionInfo action) {
-    this(null, null, change, null, revision, action);
+    this(null, null, null, change, null, revision, action);
   }
 
   private ActionButton(Project.NameKey project, BranchInfo branch,
-      ChangeInfo change, EditInfo edit, RevisionInfo revision,
+      TagInfo tag, ChangeInfo change, EditInfo edit, RevisionInfo revision,
       ActionInfo action) {
     super(new SafeHtmlBuilder()
       .openDiv()
@@ -71,6 +77,7 @@ public class ActionButton extends Button implements ClickHandler {
 
     this.project = project;
     this.branch = branch;
+    this.tag = tag;
     this.change = change;
     this.edit = edit;
     this.revision = revision;
@@ -93,6 +100,8 @@ public class ActionButton extends Button implements ClickHandler {
       ChangeGlue.onAction(change, action, this);
     } else if (branch != null) {
       ProjectGlue.onAction(project, branch, action, this);
+    } else if (tag != null) {
+      ProjectGlue.onAction(project, tag, action, this);
     } else if (project != null) {
       ProjectGlue.onAction(project, action, this);
     }

@@ -22,6 +22,7 @@ public interface AdminConstants extends Constants {
   String defaultAccountName();
   String defaultAccountGroupName();
   String defaultBranchName();
+  String defaultTagName();
   String defaultRevisionSpec();
 
   String buttonDeleteIncludedGroup();
@@ -102,12 +103,14 @@ public interface AdminConstants extends Constants {
 
   String columnBranchName();
   String columnBranchRevision();
+  String columnTagName();
+  String columnTagRevision();
   String initialRevision();
   String buttonAddBranch();
   String buttonDeleteBranch();
+  String buttonAddTag();
   String saveHeadButton();
   String cancelHeadButton();
-  String columnTagName();
 
   String groupItemHelp();
 

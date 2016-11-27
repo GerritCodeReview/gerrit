@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e76057_43adb865",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-27T11:54:44Z",
+      "side": 1,
+      "message": "(optional) remove\n\nWould be more consistent with the current docs I think",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "1e7c17aa50ff9888540d0f6b8ceacf7ef241559b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "210328610e575167a33565ca758e0eb791984ed2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_a261204f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-27T07:23:48Z",
+      "side": 1,
+      "message": "Bazel is build tool system from Google, extacted from internal used Blaze tool chain. Bazel build files are written in Skylark, that is a subset of Python. Google\u0027s style guide for Python is: [1] 4 spaces indent, while the java styleguide is 2 spaces indent: [2]. That\u0027s unfortunate, but that is the state of the matters. Obviously, buildifier tool doesn\u0027t provide any means to change the indentation and uses hard coded 4 spaces to enforce the same style to all build files across all projects.\n\nHaving said that, similar questions was already raised on the Bazel issue traceker, see for example: [3].\n\n@Damien, do you have any comments on this?\n\n* [1] https://google.github.io/styleguide/pyguide.html#Indentation\n* [2] https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation\n* [3] https://github.com/bazelbuild/bazel/issues/63",
+      "parentUuid": "50ec1c3c_c2df04f8",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "210328610e575167a33565ca758e0eb791984ed2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

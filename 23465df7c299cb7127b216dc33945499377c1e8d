@@ -263,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_22351037",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-27T12:40:55Z",
+      "side": 1,
+      "message": "I tend to disagree :)\n\nI totally see why people want draft changes (when a change is not ready for review yet) or private changes (which a change should be reviewed in private; e.g. for security implications)\nBut I really see no use case where you would want to have a public change that has X patch sets but only X-Y of them are public.\nTo back my claim, if someone would want that, they can\u0027t prevent users from adding themselves as reviewers and suddenly seeing all the draft patch sets. Also, this leads to a lot of bug reports when patch sets in the middle of a change are drafts and users think: \"Oh, why is there a PS 1 and a PS3 but not PS2?\"\n\nFrom what I recall, the consensus on on our drafts discussion was that people agreed that draft patch sets on public changes are broken and could be removed; drafts could actually be split up into drafts (i.e. preparing for review) and private (i.e. a review done in private until it is merged).\nSome people argued that drafts should be removed completely, but I think the consensus was that this would break a lot of the workflows users have today. Please do correct me here if my memory is wrong.\n\nSo from what I see, we could do two things: Short term, we can prevent users from adding draft patch sets to public changes. Long term I guess with a larger discussion), we should split up draft changes into draft and private changes or rename drafts to private for a simpler fix (this would need more discussion for sure).\n\nBut I am happy to discuss this further. We can also take it to the mailing list to get more input.",
+      "parentUuid": "301ec818_762d1004",
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "101b842a_f574783f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2

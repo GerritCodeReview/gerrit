@@ -15,6 +15,7 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
@@ -76,6 +77,21 @@ public class ProjectApi {
   public static void getTags(Project.NameKey name, int limit, int start,
       String match, AsyncCallback<JsArray<TagInfo>> cb) {
     getRestApi(name, "tags", limit, start, match).get(cb);
+  }
+
+  /**
+   * Delete tags. One call is fired to the server to delete all the
+   * tags.
+   */
+  public static void deleteTags(Project.NameKey name,
+      Set<String> refs, AsyncCallback<VoidResult> cb) {
+    CallbackGroup group = new CallbackGroup();
+    for (String ref : refs) {
+      project(name).view("tags").id(ref)
+          .delete(group.add(cb));
+      cb = CallbackGroup.emptyCallback();
+    }
+    group.done();
   }
 
   /** Create a new branch */

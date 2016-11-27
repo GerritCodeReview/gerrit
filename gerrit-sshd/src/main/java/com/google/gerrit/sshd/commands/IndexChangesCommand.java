@@ -25,6 +25,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -38,13 +39,19 @@ final class IndexChangesCommand extends SshCommand {
   @Inject
   private ChangeArgumentParser changeArgumentParser;
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "CHANGE",
-      usage = "changes to index")
+  @Option(name = "--continue", required = false, usage = "Display failures and continue to reindex remaining changes")
+  boolean continueOnFailures;
+
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "CHANGE", usage = "changes to index")
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, null, false);
     } catch (UnloggedFailure e) {
-      throw new IllegalArgumentException(e.getMessage(), e);
+      if (continueOnFailures) {
+        writeError("warning", e.getMessage());
+      } else {
+        throw new IllegalArgumentException(e.getMessage(), e);
+      }
     } catch (OrmException e) {
       throw new IllegalArgumentException("database is down", e);
     }

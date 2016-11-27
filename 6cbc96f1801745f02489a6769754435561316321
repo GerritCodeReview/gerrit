@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_02672c61",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-11-27T11:32:38Z",
+      "side": 1,
+      "message": "html.setAttribute(\"style\", \"color: inherit\");",
+      "revId": "6cbc96f1801745f02489a6769754435561316321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

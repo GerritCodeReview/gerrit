@@ -6,7 +6,7 @@ gerrit index changes - Index one or more changes.
 == SYNOPSIS
 [verse]
 --
-_ssh_ -p <port> <host> _gerrit index changes_ <CHANGE> [<CHANGE> ...]
+_ssh_ -p <port> <host> _gerrit index changes_ [--continue] <CHANGE> [<CHANGE> ...]
 --
 
 == DESCRIPTION
@@ -23,7 +23,12 @@ to be indexed.
 This command is intended to be used in scripts.
 
 == OPTIONS
---CHANGE::
+--continue::
+    Optional; If set, display failures and continue to reindex remaining changes
+    otherwise stop at first failure. 
+    Defaults to not set if not specified.
+
+CHANGE::
     Required; changes to be indexed.
 
 == EXAMPLES

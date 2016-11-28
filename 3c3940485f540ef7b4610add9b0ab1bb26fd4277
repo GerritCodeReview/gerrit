@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_e246881e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-28T16:09:40Z",
+      "side": 1,
+      "message": "Oh, so i need to re do ProjectApi? I thought you said that was for ui only?",
+      "parentUuid": "301ec818_763990ea",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_56e73463",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
         "patchSetId": 5

@@ -52,6 +52,7 @@ public class ApiGlue {
       revision_actions: {},
       project_actions: {},
       branch_actions: {},
+      tag_actions: {},
 
       getPluginName: @com.google.gerrit.client.api.ApiGlue::getPluginName(),
       injectCss: @com.google.gwt.dom.client.StyleInjector::inject(Ljava/lang/String;),
@@ -88,6 +89,7 @@ public class ApiGlue {
         else if ('revision' == t) this.revision_actions[i]=c;
         else if ('project' == t) this.project_actions[i]=c;
         else if ('branch' == t) this.branch_actions[i]=c;
+        else if ('tag' == t) this.tag_actions[i]=c;
         else if ('screen' == t) _screen(p,t,c);
       },
       screen: function(r,c){this._screen(this.getPluginName(),r,c)},

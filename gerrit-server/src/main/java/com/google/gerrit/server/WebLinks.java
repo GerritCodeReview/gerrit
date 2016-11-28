@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.gerrit.extensions.webui.WebLink;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
@@ -72,6 +73,7 @@ public class WebLinks {
   private final DynamicSet<DiffWebLink> diffLinks;
   private final DynamicSet<ProjectWebLink> projectLinks;
   private final DynamicSet<BranchWebLink> branchLinks;
+  private final DynamicSet<TagWebLink> tagLinks;
 
   @Inject
   public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
@@ -79,13 +81,15 @@ public class WebLinks {
       DynamicSet<FileHistoryWebLink> fileLogLinks,
       DynamicSet<DiffWebLink> diffLinks,
       DynamicSet<ProjectWebLink> projectLinks,
-      DynamicSet<BranchWebLink> branchLinks) {
+      DynamicSet<BranchWebLink> branchLinks,
+      DynamicSet<TagWebLink> tagLinks) {
     this.patchSetLinks = patchSetLinks;
     this.fileLinks = fileLinks;
     this.fileHistoryLinks = fileLogLinks;
     this.diffLinks = diffLinks;
     this.projectLinks = projectLinks;
     this.branchLinks = branchLinks;
+    this.tagLinks = tagLinks;
   }
 
   /**
@@ -195,6 +199,18 @@ public class WebLinks {
     return filterLinks(
         branchLinks,
         webLink -> webLink.getBranchWebLink(project, branch));
+  }
+
+  /**
+   *
+   * @param project Project name
+   * @param tag Tag name
+   * @return Links for tags.
+   */
+  public FluentIterable<WebLinkInfo> getTagLinks(final String project, final String tag) {
+    return filterLinks(
+        tagLinks,
+        webLink -> webLink.getTagWebLink(project, tag));
   }
 
   private <T extends WebLink> FluentIterable<WebLinkInfo> filterLinks(DynamicSet<T> links,

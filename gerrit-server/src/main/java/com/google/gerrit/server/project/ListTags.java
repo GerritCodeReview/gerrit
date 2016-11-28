@@ -14,23 +14,32 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.WebLinks;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -49,9 +58,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
+  private final DynamicMap<RestView<TagResource>> tagViews;
+  private final Provider<WebLinks> webLinks;
   private final Provider<ReviewDb> dbProvider;
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -84,11 +96,15 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Inject
   public ListTags(GitRepositoryManager repoManager,
+      DynamicMap<RestView<TagResource>> tagViews,
+      Provider<WebLinks> webLinks,
       Provider<ReviewDb> dbProvider,
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
       @Nullable SearchingChangeCacheImpl changeCache) {
     this.repoManager = repoManager;
+    this.tagViews = tagViews;
+    this.webLinks = webLinks;
     this.dbProvider = dbProvider;
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
@@ -105,7 +121,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       Map<String, Ref> all = visibleTags(resource.getControl(), repo,
           repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
-        tags.add(createTagInfo(ref, rw));
+        tags.add(createTagInfo(ref, rw, null));
       }
     }
 
@@ -135,20 +151,21 @@ public class ListTags implements RestReadView<ProjectResource> {
       Ref ref = repo.getRefDatabase().exactRef(tagName);
       if (ref != null && !visibleTags(resource.getControl(), repo,
           ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
-        return createTagInfo(ref, rw);
+        RefControl refControl = resource.getControl().controlForRef(ref.getName());
+        return createTagInfo(ref, rw, refControl);
       }
     }
     throw new ResourceNotFoundException(id);
   }
 
-  public static TagInfo createTagInfo(Ref ref, RevWalk rw)
+  public TagInfo createTagInfo(Ref ref, RevWalk rw, RefControl refControl)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
     if (object instanceof RevTag) {
       // Annotated or signed tag
       RevTag tag = (RevTag)object;
       PersonIdent tagger = tag.getTaggerIdent();
-      return new TagInfo(
+      TagInfo info = new TagInfo(
           ref.getName(),
           tag.getName(),
           tag.getObject().getName(),
@@ -156,10 +173,29 @@ public class ListTags implements RestReadView<ProjectResource> {
           tagger != null ?
               CommonConverters.toGitPerson(tag.getTaggerIdent()) : null);
     }
+
     // Lightweight tag
-    return new TagInfo(
+    TagInfo info = new TagInfo(
         ref.getName(),
         ref.getObjectId().getName());
+
+    TagInfo info = new TagInfo();
+    info.canDelete = !targets.contains(ref.getName()) && refControl.canDelete()
+        ? true : null;
+    for (UiAction.Description d : UiActions.from(
+        tagViews,
+        new TagResource(refControl.getProjectControl(), info),
+        Providers.of(refControl.getCurrentUser()))) {
+      if (info.actions == null) {
+        info.actions = new TreeMap<>();
+      }
+      info.actions.put(d.getId(), new ActionInfo(d));
+    }
+    FluentIterable<WebLinkInfo> links =
+      webLinks.getBranchLinks(
+        refControl.getProjectControl().getProject().getName(), ref.getName());
+    info.webLinks = links.isEmpty() ? null : links.toList();
+    return info;
   }
 
   private Repository getRepository(Project.NameKey project)

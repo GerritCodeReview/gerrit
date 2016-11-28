@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_e26168bc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T13:26:47Z",
+      "side": 1,
+      "message": "Move this to the top of the class.",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 87,
+        "endChar": 59
+      },
+      "revId": "423438d9c5008fd60478b354671a752f0872c726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_426774ce",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T13:26:47Z",
+      "side": 1,
+      "message": "nit: use curly braces also for single-line-blocks",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 102,
+        "endChar": 70
+      },
+      "revId": "423438d9c5008fd60478b354671a752f0872c726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

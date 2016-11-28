@@ -20,15 +20,17 @@
     properties: {
       items: Array,
       topContent: Object,
-      horizontalAlign: String,
+      horizontalAlign: {
+        type: String,
+        default: 'left',
+      },
+      _hasAvatars: Boolean,
     },
 
     attached: function() {
       this.$.restAPI.getConfig().then(function(cfg) {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       }.bind(this));
-      this.horizontalAlign = 
-          this.horizontalAlign ? this.horizontalAlign : 'left';
       this.listen(this.$.dropdown, 'tap', '_handleDropdownTap');
     },
 

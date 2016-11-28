@@ -17,6 +17,24 @@
       "revId": "9b6b424a391cbe9a4059e4aa74ecd526bbaaf60f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_a3aac4b8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T14:56:39Z",
+      "side": 1,
+      "message": "Accounts are ordered by activity. All users have no activity in this test, hence we don\u0027t know in which order they are returned.",
+      "parentUuid": "b0e1d842_a24bdea1",
+      "revId": "9b6b424a391cbe9a4059e4aa74ecd526bbaaf60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

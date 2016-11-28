@@ -22,6 +22,30 @@
       "revId": "1e7c17aa50ff9888540d0f6b8ceacf7ef241559b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_23587473",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T10:12:17Z",
+      "side": 1,
+      "message": "I tried to not just have a wall of text but some more structure. For this reason, I included that tip as well as other tips and notes with the other changes for this documentation file. We don\u0027t use those tips in other parts of the documentation yet but I would like to change that and I had to start somewhere.",
+      "parentUuid": "70e76057_43adb865",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "1e7c17aa50ff9888540d0f6b8ceacf7ef241559b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

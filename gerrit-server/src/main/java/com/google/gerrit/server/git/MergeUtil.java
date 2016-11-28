@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -25,6 +26,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -33,6 +35,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -44,6 +47,7 @@ import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -97,6 +101,32 @@ import java.util.Set;
  */
 public class MergeUtil {
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
+
+  static class PluggableCommitMessageGenerator {
+    private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+
+    @Inject
+    public PluggableCommitMessageGenerator(
+        DynamicSet<ChangeMessageModifier> changeMessageModifiers) {
+      this.changeMessageModifiers = changeMessageModifiers;
+    }
+
+    public String generate(RevCommit original, RevCommit mergeTip,
+        ChangeControl ctl, String current) {
+      checkNotNull(original.getRawBuffer());
+      if (mergeTip != null) {
+        checkNotNull(mergeTip.getRawBuffer());
+      }
+      for (ChangeMessageModifier changeMessageModifier : changeMessageModifiers) {
+        current = changeMessageModifier.onSubmit(current, original,
+            mergeTip, ctl.getChange().getDest());
+        checkNotNull(current, changeMessageModifier.getClass().getName()
+            + ".OnSubmit returned null instead of new commit message");
+      }
+      return current;
+    }
+  }
+
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
 
@@ -122,25 +152,28 @@ public class MergeUtil {
   private final ProjectState project;
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
+  private final PluggableCommitMessageGenerator commitMessageGenerator;
 
   @AssistedInject
   MergeUtil(@GerritServerConfig Config serverConfig,
-      final Provider<ReviewDb> db,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final ApprovalsUtil approvalsUtil,
-      @Assisted final ProjectState project) {
+      Provider<ReviewDb> db,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      ApprovalsUtil approvalsUtil,
+      PluggableCommitMessageGenerator commitMessageGenerator,
+      @Assisted ProjectState project) {
     this(serverConfig, db, identifiedUserFactory, urlProvider, approvalsUtil,
-        project, project.isUseContentMerge());
+        project, commitMessageGenerator, project.isUseContentMerge());
   }
 
   @AssistedInject
   MergeUtil(@GerritServerConfig Config serverConfig,
-      final Provider<ReviewDb> db,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final ApprovalsUtil approvalsUtil,
-      @Assisted final ProjectState project,
+      Provider<ReviewDb> db,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      ApprovalsUtil approvalsUtil,
+      @Assisted ProjectState project,
+      PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted boolean useContentMerge) {
     this.db = db;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -149,6 +182,7 @@ public class MergeUtil {
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
+    this.commitMessageGenerator = commitMessageGenerator;
   }
 
   public CodeReviewCommit getFirstFastForward(
@@ -367,12 +401,23 @@ public class MergeUtil {
         msgbuf.append('\n');
       }
     }
-
     return msgbuf.toString();
   }
 
   public String createDetailedCommitMessage(final CodeReviewCommit n) {
     return createDetailedCommitMessage(n, n.getControl(), n.getPatchsetId());
+  }
+
+  public String createCommitMessageOnSubmit(CodeReviewCommit n,
+      RevCommit mergeTip) {
+    return createCommitMessageOnSubmit(n, mergeTip, n.getControl(),
+        n.getPatchsetId());
+  }
+
+  public String createCommitMessageOnSubmit(RevCommit n, RevCommit mergeTip,
+      ChangeControl ctl, Id id) {
+    return commitMessageGenerator.generate(n, mergeTip, ctl,
+        createDetailedCommitMessage(n, ctl, id));
   }
 
   private static boolean isCodeReview(LabelId id) {

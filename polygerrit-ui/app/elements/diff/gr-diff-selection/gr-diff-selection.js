@@ -59,7 +59,7 @@
         return;
       }
       var commentSelected =
-          e.target.parentNode.classList.contains('gr-diff-comment');
+          this._elementDescendedFromClass(e.target, 'gr-diff-comment');
       var side = this.diffBuilder.getSideByLineEl(lineEl);
       var targetClasses = [];
       targetClasses.push(side === 'left' ?
@@ -215,15 +215,6 @@
     _getCommentLines: function(sel, side) {
       var range = sel.getRangeAt(0);
       var content = [];
-      // Fall back to default copy behavior if the selection lies within one
-      // comment body.
-      if (range.startContainer === range.endContainer) {
-        return;
-      }
-      if (this._elementDescendedFromClass(range.commonAncestorContainer,
-          'message')) {
-        return;
-      }
       // Query the diffElement for comments.
       var messages = this.diffBuilder.diffElement.querySelectorAll(
           '.side-by-side [data-side="' + side +
@@ -233,15 +224,25 @@
         var el = messages[i];
         // Check if the comment element exists inside the selection.
         if (sel.containsNode(el, true)) {
-          content.push(el.textContent);
+          // Padded elements require newlines for accurate spacing.
+          if (el.parentElement.id === 'container' ||
+              el.parentElement.nodeName === 'BLOCKQUOTE') {
+            if (content.length && content[content.length - 1] !== '') {
+              content.push('');
+            }
+          }
+
+          if (!el.children.length) {
+            content.push(el.textContent);
+          }
         }
       }
       // Deal with offsets.
-      content[0] = content[0].substring(range.startOffset);
       if (range.endOffset) {
         content[content.length - 1] =
             content[content.length - 1].substring(0, range.endOffset);
       }
+      content[0] = content[0].substring(range.startOffset);
       return content.join('\n');
     },
   });

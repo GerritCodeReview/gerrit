@@ -302,27 +302,6 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).submitRecords.size()).isEqualTo(1);
   }
 
-  @Test
-  public void testQueryWithNonVisibleCurrentPatchSet() throws Exception {
-    String changeId = createChange().getChangeId();
-    amendChangeAsDraft(changeId);
-    String query = "--current-patch-set --patch-sets " + changeId;
-    List<ChangeAttribute> changes = executeSuccessfulQuery(query);
-    assertThat(changes.size()).isEqualTo(1);
-    assertThat(changes.get(0).patchSets).isNotNull();
-    assertThat(changes.get(0).patchSets).hasSize(2);
-    assertThat(changes.get(0).currentPatchSet).isNotNull();
-
-    SshSession userSession = new SshSession(server, user);
-    initSsh(user);
-    userSession.open();
-    changes = executeSuccessfulQuery(query, userSession);
-    assertThat(changes.size()).isEqualTo(1);
-    assertThat(changes.get(0).patchSets).hasSize(1);
-    assertThat(changes.get(0).currentPatchSet).isNull();
-    userSession.close();
-  }
-
   private List<ChangeAttribute> executeSuccessfulQuery(String params,
       SshSession session) throws Exception {
     String rawResponse =

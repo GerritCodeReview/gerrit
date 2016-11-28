@@ -749,6 +749,23 @@ public class ReceiveCommits {
 
     for (Map.Entry<Change.Id, ReplaceRequest> e : replaceByChange.entrySet()) {
       ReplaceRequest replace = e.getValue();
+      if (magicBranch != null && magicBranch.draft) {
+        // Check if this change is a draft
+        try {
+          ChangeNotes notes = notesFactory
+              .create(db, project.getNameKey(), e.getKey());
+          if (notes.getChange().getStatus() != Change.Status.DRAFT) {
+            reject(replace.inputCommand,
+                "can't push draft patchset on public change");
+            continue;
+          }
+        } catch (OrmException ex) {
+          logError("Error while obtaining change status for draft push " +
+              project.getName(), ex);
+          reject(replace.inputCommand, "internal server error");
+        }
+      }
+
       if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
         replaceCount++;
 

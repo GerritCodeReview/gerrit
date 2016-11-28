@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d8b07e1_c09d5e42",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/DeleteTagsInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "nit: missing blank lines",
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_d655043e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Tag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "nit: missing blank lines",
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_365b9873",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Tag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "Wrong javadoc",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 49
+      },
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_80bd169d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "This seems to reuse a lot of code from DeleteBranch.  It might be better to refactor it out to a common class.",
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_60b812ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "nit: missing blank lines",
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_16581c73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "Why is this commented out?",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 8
+      },
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_20c20a26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "nit: missing blank lines",
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_40c70e35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "Is this case possible for tags?",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 14
+      },
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_e0abc250",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line added",
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_00a90658",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T04:58:39Z",
+      "side": 1,
+      "message": "nit: missing blank lines",
+      "revId": "f043ab06617aa990881ae92ee0a5866f1ac5b0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

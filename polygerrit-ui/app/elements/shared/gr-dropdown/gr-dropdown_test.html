@@ -16,22 +16,22 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-account-dropdown</title>
+<title>gr-dropdown</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
-<link rel="import" href="gr-account-dropdown.html">
+<link rel="import" href="gr-dropdown.html">
 
 <test-fixture id="basic">
   <template>
-    <gr-account-dropdown></gr-account-dropdown>
+    <gr-dropdown></gr-dropdown>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-account-dropdown tests', function() {
+  suite('gr-dropdown tests', function() {
     var element;
 
     setup(function() {
@@ -41,10 +41,34 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('account information', function() {
-      element.account = {name: 'John Doe', email: 'john@doe.com'};
-      assert.deepEqual(element.topContent,
-          [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
+    test('tap on trigger opens menu', function() {
+      assert.isFalse(element.$.dropdown.opened);
+      MockInteractions.tap(element.$.trigger);
+      assert.isTrue(element.$.dropdown.opened);
+    });
+
+    test('_computeRelativeURL', function() {
+      var path = '/test';
+      var host = 'http://www.testsite.com';
+      var computedPath = element._computeURLHelper(host, path);
+      assert.equal(computedPath, '//http://www.testsite.com/test');
+    });
+
+    test('_getClassIfBold', function() {
+      var bold = true;
+      assert.equal(element._getClassIfBold(bold), 'bold-text');
+
+      bold = false;
+      assert.equal(element._getClassIfBold(bold), '');
+    });
+
+    test('Top text exists and is bolded correctly', function() {
+      element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
+      flushAsynchronousOperations();
+      var topItems = Polymer.dom(element.root).querySelectorAll('.top-item');
+      assert.equal(topItems.length, 2);
+      assert.isTrue(topItems[0].classList.contains('bold-text'));
+      assert.isFalse(topItems[1].classList.contains('bold-text'));
     });
   });
 </script>

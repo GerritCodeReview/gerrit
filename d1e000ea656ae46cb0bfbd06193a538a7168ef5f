@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "70e76057_03c450f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T08:09:51Z",
+      "side": 1,
+      "message": "Yes, no harm, it is just ignored.",
+      "parentUuid": "70e76057_a3a76458",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "d1e000ea656ae46cb0bfbd06193a538a7168ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_8265fc25",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Permission renamed? Not at the first edit of the project config?",
       "parentUuid": "50ec1c3c_8265fc25",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "d1e000ea656ae46cb0bfbd06193a538a7168ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_62e71864",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T08:09:51Z",
+      "side": 1,
+      "message": "Sorry, what I meant is: When the project config is edited (next time) there is automatic cleanup only for renaming permissions, but not for removing the unneeded force flag.",
+      "parentUuid": "50ec1c3c_4209344e",
       "range": {
         "startLine": 12,
         "startChar": 20,

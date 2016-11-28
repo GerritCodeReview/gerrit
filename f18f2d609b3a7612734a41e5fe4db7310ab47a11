@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_826fbc14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:03:06Z",
+      "side": 1,
+      "message": "Ternary operaor indentation is either on one line, or:\n\n  condition\n      ? foo\n      : bar;",
+      "revId": "f18f2d609b3a7612734a41e5fe4db7310ab47a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70e76057_a3a76458",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-28T07:52:56Z",
+      "side": 1,
+      "message": "OK, only the \"force\" flag is ignored, right? Leaving it on the project, would it create any harm?",
+      "parentUuid": "70e76057_a34804cf",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "d1e000ea656ae46cb0bfbd06193a538a7168ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_8265fc25",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-28T07:29:23Z",
       "side": 1,
       "message": "Sorry, I think we have no automatic cleanup for this. Automatic cleanup is only implemented for the case where permissions are renamed, but not for this \u0027force\u0027 option.",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "d1e000ea656ae46cb0bfbd06193a538a7168ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_4209344e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-28T07:52:56Z",
+      "side": 1,
+      "message": "Permission renamed? Not at the first edit of the project config?",
+      "parentUuid": "50ec1c3c_8265fc25",
       "range": {
         "startLine": 12,
         "startChar": 20,

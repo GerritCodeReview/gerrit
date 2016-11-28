@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_82133c7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-28T07:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d8b07e1_8013d6d3",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "e252d7a0372591aa142b456a8ce76ea54de9c1a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_3642787b",
         "filename": "Documentation/cmd-index-changes.txt",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "70e76057_43b77888",
+        "filename": "Documentation/cmd-index-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-28T07:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301ec818_3642787b",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 35
+      },
+      "revId": "e252d7a0372591aa142b456a8ce76ea54de9c1a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_163f7ce9",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexChangesCommand.java",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2016-11-28T06:04:26Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "e252d7a0372591aa142b456a8ce76ea54de9c1a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_6210b871",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexChangesCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-28T07:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301ec818_163f7ce9",
       "revId": "e252d7a0372591aa142b456a8ce76ea54de9c1a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

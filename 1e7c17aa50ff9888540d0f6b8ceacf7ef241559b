@@ -46,6 +46,30 @@
       "revId": "1e7c17aa50ff9888540d0f6b8ceacf7ef241559b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_624d5887",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-28T10:17:17Z",
+      "side": 1,
+      "message": "Sounds good. My comment was just about consistency, but bringing more structure to the docs sounds like a good plan :)",
+      "parentUuid": "70e76057_23587473",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "1e7c17aa50ff9888540d0f6b8ceacf7ef241559b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

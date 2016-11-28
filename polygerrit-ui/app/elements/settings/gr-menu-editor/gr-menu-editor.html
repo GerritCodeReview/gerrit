@@ -32,6 +32,9 @@ limitations under the License.
       tbody tr:last-of-type td .move-down-button {
         display: none;
       }
+      td.urlCell {
+        word-break: break-word;
+      }
       .newTitleInput {
         width: 10em;
       }
@@ -52,7 +55,7 @@ limitations under the License.
           <template is="dom-repeat" items="[[menuItems]]">
             <tr>
               <td>[[item.name]]</td>
-              <td>[[item.url]]</td>
+              <td class="urlCell">[[item.url]]</td>
               <td>
                 <gr-button
                     data-index="[[index]]"

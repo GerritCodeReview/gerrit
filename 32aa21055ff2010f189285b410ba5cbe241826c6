@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "50ec1c3c_c2a544eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T12:37:24Z",
+      "side": 1,
+      "message": "This is very optimistic :)\n\nI\u0027m sure lots of users are used to push draft patch sets and then self-review them before publish, or drop them if they are bad. It\u0027s true that something like this can be done with change edits, but most users will not know about it.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d8b07e1_e0218213",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 1
@@ -19,6 +42,23 @@
         "endLine": 242,
         "endChar": 43
       },
+      "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_e3fa0c02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T12:37:24Z",
+      "side": 1,
+      "message": "Why not check if the change state is draft?",
       "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

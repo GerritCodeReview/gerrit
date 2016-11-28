@@ -134,6 +134,24 @@
       "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_8265fa25",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-28T18:29:14Z",
+      "side": 1,
+      "message": "\u003e I\u0027m a little hesitant to duplicate this when gr-account-chip is already pretty minimal. Can gr-account-chip be made into gr-chip with an avatar option and a \"remove\" callback?\n\nI don\u0027t think that\u0027s possible without some major refactoring. The account-chip is comprised of an account-link component and a button, whereas this component is just an \u003ca\u003e and a button. I\u0027m not aware of any way to inject a component into another in Polymer à la React props, so the link would have to be computed and populated in the linked-chip externally.",
+      "parentUuid": "70a120aa_13928e38",
+      "revId": "097cb3c6deb2ada5bcabcb245dcde0b0b7cec22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

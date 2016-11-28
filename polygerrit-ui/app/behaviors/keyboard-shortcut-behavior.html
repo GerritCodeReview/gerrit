@@ -21,6 +21,11 @@ limitations under the License.
   'use strict';
 
   var KeyboardShortcutBehaviorImpl = {
+    modifierPressed: function(e) {
+      var event = e.detail.keyboardEvent;
+      return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+    },
+
     shouldSuppressKeyboardShortcut: function(e) {
       e = Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
       if (e.path[0].tagName === 'INPUT' || e.path[0].tagName === 'TEXTAREA') {

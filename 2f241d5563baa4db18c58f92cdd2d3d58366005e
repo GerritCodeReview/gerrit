@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_011f2a88",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-28T19:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bfd0bf_14f6f470",
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d091ec62_4b28e5b0",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
         "patchSetId": 1
@@ -78,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_e12326ca",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-28T19:11:44Z",
+      "side": 1,
+      "message": "That is definitely the case. There are no getters or setters for these fields anywhere.",
+      "parentUuid": "90e69458_61d556a0",
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90893441_69f5a560",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 1
@@ -89,6 +125,24 @@
       "writtenOn": "2016-11-22T04:54:17Z",
       "side": 1,
       "message": "Javadoc?",
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_4242d27b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-28T19:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90893441_69f5a560",
       "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -129,6 +183,24 @@
         "endLine": 20,
         "endChar": 41
       },
+      "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_c214226e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_138.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-28T19:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90893441_8909f998",
       "revId": "2f241d5563baa4db18c58f92cdd2d3d58366005e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

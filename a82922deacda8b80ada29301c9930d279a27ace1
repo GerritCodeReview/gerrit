@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0e1d842_a2463e6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:23:59Z",
+      "side": 1,
+      "message": "s/2015/2016/",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "a82922deacda8b80ada29301c9930d279a27ace1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_e2404655",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:23:59Z",
+      "side": 1,
+      "message": "Can this just be called content?",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "a82922deacda8b80ada29301c9930d279a27ace1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_8167bafb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:23:59Z",
+      "side": 1,
+      "message": "`_hasAvatars` should be declared in the properties.",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "a82922deacda8b80ada29301c9930d279a27ace1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_a1947e93",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:23:59Z",
+      "side": 1,
+      "message": "Set `left` as the default value for horizontalAlign in the property rather than here.",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 63
+      },
+      "revId": "a82922deacda8b80ada29301c9930d279a27ace1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_018a8a6d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:23:59Z",
+      "side": 1,
+      "message": "Here too.",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "a82922deacda8b80ada29301c9930d279a27ace1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -482,6 +482,14 @@ a DynamicItem, so Gerrit may only have one copy.
 Certain operations in Gerrit can be validated by plugins by
 implementing the corresponding link:config-validation.html[listeners].
 
+[[change-message-modifier]]
+== Change Message Modifier
+
+`com.google.gerrit.server.git.ChangeMessageModifier`:
+plugins implementing this can modify commit message of the change being
+submitted by Rebase Always and Cherry Pick submit strategies as well as 
+change being queried with COMMIT_FOOTERS option.
+
 [[receive-pack]]
 == Receive Pack Initializers
 

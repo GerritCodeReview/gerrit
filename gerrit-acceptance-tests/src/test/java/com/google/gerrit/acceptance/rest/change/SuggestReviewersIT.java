@@ -15,7 +15,9 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -97,11 +99,25 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(changeId, name("u"), 6);
-    assertThat(reviewers).hasSize(6);
+    assertReviewers(reviewers, ImmutableList.of(user1, user2, user3),
+        ImmutableList.of(group1, group2, group3));
+
     reviewers = suggestReviewers(changeId, name("u"), 5);
-    assertThat(reviewers).hasSize(5);
+    assertReviewers(reviewers, ImmutableList.of(user1, user2, user3),
+        ImmutableList.of(group1, group2));
+
     reviewers = suggestReviewers(changeId, group3.getName(), 10);
+    assertReviewers(reviewers, ImmutableList.of(), ImmutableList.of(group3));
+
+    // Suggested accounts are ordered by activity. All users have no activity,
+    // hence we don't know which of the matching accounts we get when the query
+    // is limited to 1.
+    reviewers = suggestReviewers(changeId, name("u"), 1);
     assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.get(0).account).isNotNull();
+    assertThat(ImmutableList.of(reviewers.get(0).account._accountId))
+        .containsAnyIn(ImmutableList.of(user1, user2, user3).stream()
+            .map(u -> u.id.get()).collect(toList()));
   }
 
   @Test
@@ -459,5 +475,27 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     ci.subject = "Test change at" + System.nanoTime();
     ci.branch = "master";
     return gApi.changes().create(ci).get().changeId;
+  }
+
+  private void assertReviewers(List<SuggestedReviewerInfo> actual,
+      List<TestAccount> expectedUsers, List<AccountGroup> expectedGroups) {
+    List<Integer> actualAccountIds = actual.stream()
+        .filter(i -> i.account != null)
+        .map(i -> i.account._accountId)
+        .collect(toList());
+    assertThat(actualAccountIds)
+        .containsExactlyElementsIn(
+            expectedUsers.stream().map(u -> u.id.get()).collect(toList()));
+
+    List<String> actualGroupIds = actual.stream()
+        .filter(i -> i.group != null)
+        .map(i -> i.group.id)
+        .collect(toList());
+    assertThat(actualGroupIds)
+        .containsExactlyElementsIn(
+            expectedGroups.stream()
+                .map(g -> g.getGroupUUID().get())
+                .collect(toList()))
+        .inOrder();
   }
 }

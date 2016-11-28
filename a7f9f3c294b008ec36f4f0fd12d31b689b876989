@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_225a303d",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T13:01:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d8b07e1_20744a3e",
+      "range": {
+        "startLine": 58,
+        "startChar": 9,
+        "endLine": 58,
+        "endChar": 18
+      },
+      "revId": "a7f9f3c294b008ec36f4f0fd12d31b689b876989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_a24800cf",
         "filename": "tools/intellij/Gerrit_Code_Style.xml",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-11-27T11:50:28Z",
       "side": 1,
       "message": "Could you place a comment where this was taken from or is inspired by?  I guess [0]?\n\n[0] https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml",
+      "revId": "a7f9f3c294b008ec36f4f0fd12d31b689b876989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_82ddfc74",
+        "filename": "tools/intellij/Gerrit_Code_Style.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T13:01:41Z",
+      "side": 1,
+      "message": "In general, that\u0027s a good suggestion. However, I\u0027m not sure what I should include for this file because:\n- I generated the file by importing the Eclipse code style settings (tools/GoogleFormat.xml) into IntelliJ.\n- I adjusted the layout of the import table as that seems to be defined in another file for Eclipse.\n- I took the code as reference for the import table as neither the Gerrit documentation nor the Google Java style matched the source files.\n\nAs the Gerrit style (e.g. order of imports; right margin) isn\u0027t in accordance with the current Google style it would be wrong to claim that within this file.\n\nBy the way, the file you mentioned is a bit outdated. It neither reflects the style we currently use for Gerrit nor the current Google Java style.",
+      "parentUuid": "50ec1c3c_a24800cf",
       "revId": "a7f9f3c294b008ec36f4f0fd12d31b689b876989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

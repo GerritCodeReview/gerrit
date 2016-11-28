@@ -22,6 +22,8 @@ public interface TagApi {
 
   TagInfo get() throws RestApiException;
 
+  void delete() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -34,6 +36,11 @@ public interface TagApi {
 
     @Override
     public TagInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

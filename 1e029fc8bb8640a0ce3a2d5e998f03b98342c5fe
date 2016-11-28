@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_62da787c",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_4251347f",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 10
+      },
+      "revId": "1e029fc8bb8640a0ce3a2d5e998f03b98342c5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_825b3c9f",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "70e76057_c3fb8808",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_224eb0de",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "1e029fc8bb8640a0ce3a2d5e998f03b98342c5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_a300041e",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_825b3c9f",
+      "range": {
+        "startLine": 95,
+        "startChar": 17,
+        "endLine": 95,
+        "endChar": 19
+      },
+      "revId": "1e029fc8bb8640a0ce3a2d5e998f03b98342c5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_c24384b1",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "70e76057_03f6101e",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T13:03:24Z",
+      "side": 1,
+      "message": "It is reproducible. I was referring to the fact that you won\u0027t notice it during a commit but when you look at the log or create an amended commit, you\u0027ll notice the added Change-Id line. I realized that writing \u0027during a commit\u0027 instead of \u0027most of the time\u0027 might be better and hence adjusted the text accordingly.",
+      "parentUuid": "50ec1c3c_c24384b1",
+      "range": {
+        "startLine": 101,
+        "startChar": 62,
+        "endLine": 101,
+        "endChar": 78
+      },
+      "revId": "1e029fc8bb8640a0ce3a2d5e998f03b98342c5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_6258b8a2",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2016-11-27T11:40:18Z",
       "side": 1,
       "message": "... of IntelliJ was closed.",
+      "range": {
+        "startLine": 102,
+        "startChar": 41,
+        "endLine": 102,
+        "endChar": 76
+      },
+      "revId": "1e029fc8bb8640a0ce3a2d5e998f03b98342c5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_a2aac0b8",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_6258b8a2",
       "range": {
         "startLine": 102,
         "startChar": 41,

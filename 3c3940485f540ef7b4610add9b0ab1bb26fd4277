@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "301ec818_763990ea",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T13:35:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean here.  The method needs to be declared in ProjectApi and implemented in ProjectApiImpl.",
+      "parentUuid": "50ec1c3c_e2f208e9",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_56e73463",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
         "patchSetId": 5

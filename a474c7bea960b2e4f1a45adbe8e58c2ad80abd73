@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_0201ecb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T21:38:03Z",
+      "side": 1,
+      "message": "Yes, it\u0027s entirely unrelated to this change. It\u0027s related to bottom-up to top-down graph traversal switch in Buck. We have seen similar issues in this thread: [1] and I filled the related issue in Buck issue tracker: [2].\n\n* [1] https://groups.google.com/d/topic/repo-discuss/-kcb_BH_qXs/discussion\n* [2] https://github.com/facebook/buck/issues/469",
+      "parentUuid": "301ec818_568614fc",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "a474c7bea960b2e4f1a45adbe8e58c2ad80abd73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_e205e8c3",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T21:38:03Z",
+      "side": 1,
+      "message": "It has nothing to do with first time build. My suggestion is to add known issue in the bottom of this file and quote the related upstream bug and mention bottom-up to top-down graph traversal switch in Buck, and that in some very rare circumstances, when weird error messages are seen\n\n  buck build --deep \u003ctarget\u003e\n\ncould fix those.",
+      "revId": "a474c7bea960b2e4f1a45adbe8e58c2ad80abd73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_b6916836",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1

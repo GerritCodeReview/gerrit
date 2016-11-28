@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1480085654 +0100\nnonce AG58fQpxsGHTGcqkozYH01DdtyZVBhUpyC0kfvAyWW5Zsh13ddrDQ43/EN9wbtevWhmUjMDxUJk7\n\n0000000000000000000000000000000000000000 9b6b424a391cbe9a4059e4aa74ecd526bbaaf60f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYOFCWAAoJEFG1/Zeg0O9R7IYIAK4xuysGEf2cvb9Zb6MpgCce\nuHMqlJZSCkJOrTghKoHsJ5kZRnAmSnI3VveZnnJMBJXqs4TQE3SR1NZzIy5LJ+JZ\nYBANtSMWutPo5WVdPxU89y7brffZb7/3WU6HIFH6fWM23Z635KIpBHoBB83C1LqT\ndv/ga4OpSDO3/Tb4xytx87pI50X8sHH9C4OWXOMJwKnqFsIvdl35Hwh9YGqY325H\nka6szaEc2IwH+qLJFMpRJyhWdEZR1aeinLvN6RBX1PqroYQdoX/Ry5ehITphMt/+\nykebX3fSRmHbmYJOYN9+KTcUtDjaOlW4PwDCCnfwheh/inRx1NtmGhubBNtacRs\u003d\n\u003d5pRb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0e1d842_a24bdea1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-11-28T14:50:59Z",
+      "side": 1,
+      "message": "Why inOrder here but not for account IDs?",
+      "revId": "9b6b424a391cbe9a4059e4aa74ecd526bbaaf60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

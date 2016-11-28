@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_031f3088",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_0251ec51",
+      "revId": "bd05d87e5777bb0bf63513dcff0600640376dc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_835b409f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
         "patchSetId": 4
@@ -105,6 +123,42 @@
         "endLine": 48,
         "endChar": 50
       },
+      "revId": "bd05d87e5777bb0bf63513dcff0600640376dc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_c28f047e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_835b409f",
+      "revId": "bd05d87e5777bb0bf63513dcff0600640376dc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_626438f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_e255e83d",
       "revId": "bd05d87e5777bb0bf63513dcff0600640376dc00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

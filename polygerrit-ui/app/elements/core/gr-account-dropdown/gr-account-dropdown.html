@@ -17,21 +17,12 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-account-dropdown">
   <template>
     <style>
-      :host {
-        display: inline-block;
-      }
-      .dropdown-trigger {
-        text-decoration: none;
-      }
-      .dropdown-content {
-        background-color: #fff;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
-      }
       button {
         background: none;
         border: none;
@@ -43,51 +34,14 @@ limitations under the License.
         width: 2em;
         vertical-align: middle;
       }
-      ul {
-        list-style: none;
-      }
-      ul .accountName {
-        font-weight: bold;
-      }
-      li .accountInfo,
-      li a {
-        display: block;
-        padding: .85em 1em;
-      }
-      li a:link,
-      li a:visited {
-        color: #00e;
-        text-decoration: none;
-      }
-      li a:hover {
-        background-color: #6B82D6;
-        color: #fff;
-      }
     </style>
-    <gr-button link class="dropdown-trigger" id="trigger"
-        on-tap="_showDropdownTapHandler">
+    <gr-dropdown items=[[links]] top-content=[[topContent]]>
+      <gr-button link class="dropdown-trigger" id="trigger">
       <span hidden$="[[_hasAvatars]]" hidden>[[account.name]]</span>
       <gr-avatar account="[[account]]" hidden$="[[!_hasAvatars]]" hidden
           image-size="56"></gr-avatar>
-    </gr-button>
-    <iron-dropdown id="dropdown"
-        vertical-align="top"
-        vertical-offset="25"
-        horizontal-align="right">
-      <div class="dropdown-content">
-        <ul>
-          <li>
-            <div class="accountInfo">
-              <div class="accountName">[[account.name]]</div>
-              <div>[[account.email]]</div>
-            </div>
-          </li>
-          <li><a href$="[[_computeRelativeURL('/settings')]]">Settings</a></li>
-          <li><a href$="[[_computeRelativeURL('/switch-account')]]">Switch account</a></li>
-          <li><a href$="[[_computeRelativeURL('/logout')]]">Sign out</a></li>
-        </ul>
-      </div>
-    </iron-dropdown>
+      </gr-button>
+    </gr-dropdown>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-account-dropdown.js"></script>

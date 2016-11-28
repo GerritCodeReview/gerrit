@@ -237,6 +237,10 @@ public interface AccountConstants extends Constants {
 
   String errorDialogTitleRegisterNewEmail();
 
+  String emailFilterHelpTitle();
+
+  String emailFilterHelp();
+
   String newAgreement();
 
   String agreementName();

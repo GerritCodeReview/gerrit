@@ -41,6 +41,7 @@ limitations under the License.
       main {
         margin: 2em auto;
         max-width: 46em;
+        padding-bottom: 10em;
       }
       h1 {
         margin-bottom: .1em;
@@ -90,6 +91,12 @@ limitations under the License.
           display: none;
         }
       }
+      p {
+        margin-bottom: 1em;
+      }
+      .queryExample em {
+        color: violet;
+      }
     </style>
     <style include="gr-settings-styles"></style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
@@ -108,6 +115,7 @@ limitations under the License.
             SSH Keys
           </a></li>
           <li><a href="#Groups">Groups</a></li>
+          <li><a href="#MailFilters">Mail Filters</a></li>
         </ul>
       </nav>
       <main class="gr-settings-styles">
@@ -390,6 +398,72 @@ limitations under the License.
         <h2 id="Groups">Groups</h2>
         <fieldset>
           <gr-group-list id="groupList"></gr-group-list>
+        </fieldset>
+        <h2 id="MailFilters">Mail Filters</h2>
+        <fieldset>
+          <p>
+            Gerrit emails include metadata about the change to support
+            writing mail filters.
+          </p>
+          <p>
+            Here are some example Gmail queries that can be used for filters or
+            for searching through archived messages.
+          </p>
+          <table>
+            <tbody>
+              <tr><th>Name</th><th>Query</th></tr>
+              <tr>
+                <td>Changes requesting my review</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Reviewer: <em>Your Name</em>
+                    &lt;<em>your.email@example.com</em>&gt;"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Changes from a specific owner</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Owner: <em>Owner name</em>
+                    &lt;<em>owner.email@example.com</em>&gt;"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Changes targeting a specific branch</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Branch: <em>branch-name</em>"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Changes in a specific project</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Project: <em>project-name</em>"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Messages related to a specific Change ID</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Change-Id: <em>Change ID</em>"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Messages related to a specific change number</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Change-Number: <em>change number</em>"
+                  </code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </fieldset>
       </main>
     </div>

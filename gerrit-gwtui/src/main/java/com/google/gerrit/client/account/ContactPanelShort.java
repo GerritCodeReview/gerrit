@@ -21,6 +21,7 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
@@ -152,6 +153,11 @@ class ContactPanelShort extends Composite {
             doSave();
           }
         });
+
+    final ComplexDisclosurePanel mailFilterHelp =
+        new ComplexDisclosurePanel(Util.C.emailFilterHelpTitle(), false);
+    mailFilterHelp.setContent(new HTML(Util.C.emailFilterHelp()));
+    body.add(mailFilterHelp);
 
     emailPick.addChangeHandler(
         new ChangeHandler() {

@@ -36,7 +36,7 @@
     is: 'gr-main-header',
 
     hostAttributes: {
-      role: 'banner'
+      role: 'banner',
     },
 
     properties: {
@@ -88,6 +88,10 @@
           window.location.pathname +
           window.location.search +
           window.location.hash);
+    },
+
+    _showDropdownTapHandler: function(e) {
+      Polymer.dom(this.root).querySelector('#dropdown' + e.target.id).open();
     },
 
     _computeRelativeURL: function(path) {

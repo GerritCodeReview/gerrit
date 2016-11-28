@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d8b07e1_e04f42d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:48:48Z",
+      "side": 1,
+      "message": "Should this be closed?",
+      "range": {
+        "startLine": 44,
+        "startChar": 63,
+        "endLine": 44,
+        "endChar": 66
+      },
+      "revId": "ddbc9a146b9fedccca2c8c85af7f31046ef6d63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_406b8e2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:48:48Z",
+      "side": 1,
+      "message": "nit: \"its\"",
+      "range": {
+        "startLine": 44,
+        "startChar": 76,
+        "endLine": 44,
+        "endChar": 80
+      },
+      "revId": "ddbc9a146b9fedccca2c8c85af7f31046ef6d63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

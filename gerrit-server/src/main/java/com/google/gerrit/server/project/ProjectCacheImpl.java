@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -31,7 +30,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Named;
 
@@ -41,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -67,9 +66,7 @@ public class ProjectCacheImpl implements ProjectCache {
         cache(CACHE_NAME, String.class, ProjectState.class)
           .loader(Loader.class);
 
-        cache(CACHE_LIST,
-            ListKey.class,
-            new TypeLiteral<SortedSet<Project.NameKey>>() {})
+        persist(CACHE_LIST, ListKey.class, ProjectNamesList.class)
           .maximumWeight(1)
           .loader(Lister.class);
 
@@ -85,7 +82,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final LoadingCache<String, ProjectState> byName;
-  private final LoadingCache<ListKey, SortedSet<Project.NameKey>> list;
+  private final LoadingCache<ListKey, ProjectNamesList> list;
   private final Lock listLock;
   private final ProjectCacheClock clock;
 
@@ -94,7 +91,7 @@ public class ProjectCacheImpl implements ProjectCache {
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
-      @Named(CACHE_LIST) LoadingCache<ListKey, SortedSet<Project.NameKey>> list,
+      @Named(CACHE_LIST) LoadingCache<ListKey, ProjectNamesList> list,
       ProjectCacheClock clock) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
@@ -176,9 +173,7 @@ public class ProjectCacheImpl implements ProjectCache {
   public void remove(final Project p) {
     listLock.lock();
     try {
-      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
-      n.remove(p.getNameKey());
-      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+      list.put(ListKey.ALL, list.get(ListKey.ALL).remove(p.getNameKey()));
     } catch (ExecutionException e) {
       log.warn("Cannot list avaliable projects", e);
     } finally {
@@ -191,9 +186,7 @@ public class ProjectCacheImpl implements ProjectCache {
   public void onCreateProject(Project.NameKey newProjectName) {
     listLock.lock();
     try {
-      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
-      n.add(newProjectName);
-      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+      list.put(ListKey.ALL, list.get(ListKey.ALL).add(newProjectName));
     } catch (ExecutionException e) {
       log.warn("Cannot list avaliable projects", e);
     } finally {
@@ -204,7 +197,7 @@ public class ProjectCacheImpl implements ProjectCache {
   @Override
   public SortedSet<Project.NameKey> all() {
     try {
-      return list.get(ListKey.ALL);
+      return list.get(ListKey.ALL).get();
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);
       return Collections.emptySortedSet();
@@ -226,7 +219,7 @@ public class ProjectCacheImpl implements ProjectCache {
   public Iterable<Project.NameKey> byName(final String pfx) {
     final Iterable<Project.NameKey> src;
     try {
-      src = list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx));
+      src = list.get(ListKey.ALL).get().tailSet(new Project.NameKey(pfx));
     } catch (ExecutionException e) {
       return Collections.emptyList();
     }
@@ -303,14 +296,16 @@ public class ProjectCacheImpl implements ProjectCache {
     }
   }
 
-  static class ListKey {
+  static class ListKey implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     static final ListKey ALL = new ListKey();
 
     private ListKey() {
     }
   }
 
-  static class Lister extends CacheLoader<ListKey, SortedSet<Project.NameKey>> {
+  static class Lister extends CacheLoader<ListKey, ProjectNamesList> {
     private final GitRepositoryManager mgr;
 
     @Inject
@@ -319,8 +314,8 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     @Override
-    public SortedSet<Project.NameKey> load(ListKey key) throws Exception {
-      return mgr.list();
+    public ProjectNamesList load(ListKey key) throws Exception {
+      return new ProjectNamesList(mgr.list());
     }
   }
 }

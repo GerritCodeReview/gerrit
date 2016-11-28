@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70e76057_e355ec3d",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T09:47:14Z",
+      "side": 1,
+      "message": "I don\u0027t know why someone else included the company name but I thought that there might be some reason. I think we should remove it when we remove the Buck build.",
+      "parentUuid": "70e76057_a3bda49d",
+      "range": {
+        "startLine": 3,
+        "startChar": 9,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "4b92e0410e600c3b481218d41bde5ce0fab4a843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_b697a8d7",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-27T09:14:35Z",
       "side": 1,
       "message": "Do we need this warning? We don\u0027t have such a warning for the Eclipse project.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 22
+      },
+      "revId": "4b92e0410e600c3b481218d41bde5ce0fab4a843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_a375a4ec",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-28T09:47:14Z",
+      "side": 1,
+      "message": "When I used the previous approach for IntelliJ which was based on creating an IntelliJ project from the Eclipse project, I always broke my IntelliJ project when I executed \u0027git clean -fdx\u0027. That\u0027s why I\u0027ve never used it anymore. I didn\u0027t have the impression that I needed it and was wondering why it\u0027s recommended.\n\nWhen someone uses the new approach, that is an independent IntelliJ project, it depends on whether they store the IntelliJ project files directly in the source directory or not. I prefer to have them separately but a lot of persons don\u0027t. As those project files aren\u0027t checked in like the Eclipse project files, they will be removed if someone executes \u0027git clean -fdx\u0027.\n\nI just thought that it might be nice to warn others.",
+      "parentUuid": "301ec818_b697a8d7",
       "range": {
         "startLine": 43,
         "startChar": 0,

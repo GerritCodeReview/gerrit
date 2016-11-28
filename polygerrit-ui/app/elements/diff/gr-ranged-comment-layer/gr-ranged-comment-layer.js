@@ -32,7 +32,7 @@
       _commentMap: {
         type: Object,
         value: function() { return {left: [], right: []}; },
-      }
+      },
     },
 
     observers: [

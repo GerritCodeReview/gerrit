@@ -17,12 +17,21 @@ limitations under the License.
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 
 <script>
+var getKeyboardEvent = function(e) {
+  return Polymer.dom(e.detail ? e.detail.keyboardEvent : e).event;
+};
+
 (function(window) {
   'use strict';
 
   var KeyboardShortcutBehaviorImpl = {
+    modifierPressed: function(e) {
+      e = getKeyboardEvent(e);
+      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+    },
+
     shouldSuppressKeyboardShortcut: function(e) {
-      e = Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
+      e = getKeyboardEvent(e);
       if (e.path[0].tagName === 'INPUT' || e.path[0].tagName === 'TEXTAREA') {
         return true;
       }

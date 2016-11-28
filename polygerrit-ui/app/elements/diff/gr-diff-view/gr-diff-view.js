@@ -241,6 +241,7 @@
     _handleCKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (this.$.diff.isRangeSelected()) { return; }
+      if (this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       var line = this.$.cursor.getTargetLineElement();

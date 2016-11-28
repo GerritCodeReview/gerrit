@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_e5aa56ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-28T23:38:39Z",
+      "side": 1,
+      "message": "I don\u0027t think it is needed here.\nthis.click() triggers _handleAction(), and that one has a guard already.\nAnd it\u0027s unit tested, too.",
+      "parentUuid": "10c70467_d5b39c30",
+      "revId": "1e07860b8dc9a8fdbb73de83f595e85f5b862ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70a120aa_b0cff8b9",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
         "patchSetId": 3
@@ -36,6 +54,24 @@
         "endLine": 61,
         "endChar": 12
       },
+      "revId": "1e07860b8dc9a8fdbb73de83f595e85f5b862ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_c5a5daea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-28T23:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a120aa_b0cff8b9",
       "revId": "1e07860b8dc9a8fdbb73de83f595e85f5b862ebc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -15,36 +15,44 @@
   'use strict';
 
   Polymer({
-    is: 'gr-account-dropdown',
+    is: 'gr-dropdown',
 
     properties: {
-      account: Object,
-      _hasAvatars: Boolean,
-      links: {
-        type: Array,
-        value: [
-          {name: 'Settings', url: '/settings'},
-          {name: 'Switch account', url: '/switch-account'},
-          {name: 'Sign out', url: '/logout'},
-        ],
+      items: Array,
+      topContent: Object,
+      horizontalAlign: {
+        type: String,
+        default: 'left',
       },
-      topContent: {
-        type: Array,
-        computed: '_getTopContent(account)',
-      },
+      _hasAvatars: String,
     },
 
     attached: function() {
       this.$.restAPI.getConfig().then(function(cfg) {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       }.bind(this));
+      this.listen(this.$.dropdown, 'tap', '_handleDropdownTap');
     },
 
-    _getTopContent: function(account) {
-      return [
-        { text: account.name, bold: true },
-        { text: account.email },
-      ];
+    _handleDropdownTap: function(e) {
+      this.$.dropdown.close();
+    },
+
+    _showDropdownTapHandler: function(e) {
+      this.$.dropdown.open();
+    },
+
+    _getClassIfBold: function(bold) {
+      return bold ? 'bold-text' : '';
+    },
+
+    _computeURLHelper: function(host, path) {
+      return '//' + host + path;
+    },
+
+    _computeRelativeURL: function(path) {
+      var host = window.location.host;
+      this._computeURLHelper(host, path);
     },
   });
 })();

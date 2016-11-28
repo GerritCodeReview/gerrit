@@ -41,11 +41,10 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('tap on trigger opens menu', function() {
-      assert.isFalse(element.$.dropdown.opened);
-      MockInteractions.tap(element.$.trigger);
-      assert.isTrue(element.$.dropdown.opened);
+    test('account information', function() {
+      element.account = {name: 'John Doe', email: 'john@doe.com'};
+      assert.deepEqual(element.topContent,
+          [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
     });
-
   });
 </script>

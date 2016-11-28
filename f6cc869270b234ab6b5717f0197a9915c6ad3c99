@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d8b07e1_208d2a14",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2621,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T00:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_bfc49752",
+      "revId": "f6cc869270b234ab6b5717f0197a9915c6ad3c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_4015ae02",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 11
@@ -30,6 +48,30 @@
       "writtenOn": "2016-11-25T10:50:25Z",
       "side": 1,
       "message": "Can\u0027t we split the refactoring part of this change in its own change?",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "f6cc869270b234ab6b5717f0197a9915c6ad3c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_4092ae37",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T00:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_4015ae02",
       "range": {
         "startLine": 55,
         "startChar": 2,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6d8b07e1_e0a66293",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T00:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_9fc9d36c",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "f6cc869270b234ab6b5717f0197a9915c6ad3c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_dfd35b18",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
         "patchSetId": 11
@@ -76,6 +142,24 @@
       "writtenOn": "2016-11-25T10:50:25Z",
       "side": 1,
       "message": "Nothing in this file is specific to AccountIndex: should be done in its own change.",
+      "revId": "f6cc869270b234ab6b5717f0197a9915c6ad3c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_a0a05a75",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T00:34:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_dfd35b18",
       "revId": "f6cc869270b234ab6b5717f0197a9915c6ad3c99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

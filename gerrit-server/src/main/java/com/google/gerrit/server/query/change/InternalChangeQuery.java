@@ -242,6 +242,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   public List<ChangeData> byProjectCommit(Project.NameKey project,
+      ObjectId id) throws OrmException {
+    return byProjectCommit(project, id.name());
+  }
+
+  public List<ChangeData> byProjectCommit(Project.NameKey project,
       String hash) throws OrmException {
     return query(and(project(project), commit(hash)));
   }

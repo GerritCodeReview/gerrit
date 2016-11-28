@@ -1,0 +1,89 @@
+= IntelliJ Setup
+
+== Prerequisites
+You need an installation of IntelliJ of version 2016.2 or newer.
+
+In addition, Java 8 must be specified on your path or via `JAVA_HOME` so that
+building with Bazel via the Bazel plugin is possible.
+
+TIP: If the synchronization of the project with the BUILD files using the Bazel
+plugin fails and IntelliJ reports the error **Could not get Bazel roots**, this
+indicates that the Bazel plugin couldn't find Java 8.
+
+Bazel must be installed as described by
+<<dev-bazel#installation,Building with Bazel - Installation>>.
+
+== Installation of the Bazel plugin
+
+. Go to *File -> Settings -> Plugins*.
+. Click on *Browse Repositories*.
+. Search for the plugin `IntelliJ with Bazel`.
+. Install it.
+. Restart IntelliJ.
+
+== Creation of IntelliJ project
+
+. Go to *File -> Import Bazel Project*.
+. For *Use existing bazel workspace -> Workspace*, select the directory
+containing the Gerrit source code.
+. Choose *Import from workspace* and select the `.bazelproject` file which is
+located in the top directory of the Gerrit source code.
+. Adjust the path of the project data directory and the name of the project if
+desired.
+
+TIP: The project data directory can be separate from the source code. One
+advantage of this is that project files don't need to be excluded from version
+control.
+
+Unfortunately, the created project seems to have a broken output path. To fix
+it, please complete the following steps:
+
+. Go to *File -> Project Structure -> Project Settings -> Modules*.
+. Switch to the tab *Paths*.
+. Click on *Inherit project compile output path*.
+. Click on *Use module compile output path*.
+
+== Run configurations
+Run configurations can be accessed on the toolbar. To edit them or add new ones,
+choose *Edit Configurations* on the drop-down list of the run configurations
+or go to *Run -> Edit Configurations*.
+
+=== Pre-configured run configurations
+
+In order to be able to use the pre-configured run configurations, the following
+steps are necessary:
+
+. Make sure that the folder `runConfigurations` exists within
+`$(project_data_directory)/.idea`. If it doesn't exist, create it.
+. Specify the IntelliJ path variable `GERRIT_TESTSITE`. (This configuration is
+shared among all IntelliJ projects.)
+.. Go to *Settings -> Appearance & Behavior -> Path Variables*.
+.. Click on the *+* to add a new path variable.
+.. Specify `GERRIT_TESTSITE` as name and the path to your local test site as
+value.
+
+The copied run configurations will be added automatically to the available run
+configurations of the IntelliJ project.
+
+==== Gerrit Daemon
+Copy `$(gerrit_source_code)/tools/intellij/gerrit_daemon.xml` to
+`$(project_data_directory)/.idea/runConfigurations/`.
+
+This run configuration starts the Gerrit daemon similarly as
+<<dev-readme#run_daemon,Running the Daemon>>.
+
+NOTE: The <<dev-readme#init,Site Initialization>> has to be completed
+before this run configuration works properly.
+
+=== Unit tests
+To create run configurations for unit tests, run or debug them via a right-click
+on a method, class, file, or package. The created run configuration is a
+temporary one and can be saved to make it permanent.
+
+Normally, this approach generates JUnit run configurations. When the Bazel
+plugin manages a project, it intercepts the creation and creates a Bazel test
+run configuration instead, which can be used just like the standard ones.
+
+TIP: If you would like to execute a test in NoteDb mode, add
+`--test_env=GERRIT_NOTEDB=READ_WRITE` to the *Bazel flags* of your run
+configuration.

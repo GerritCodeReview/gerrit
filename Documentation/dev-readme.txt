@@ -76,7 +76,7 @@ them as "Generated Sources Root":
 
 === Build based on Bazel
 
-Please refer to <<dev-bazel#_intellij,IntelliJ Setup>> for detailed
+Please refer to <<dev-intellij#,IntelliJ Setup>> for detailed
 instructions.
 
 == Mac OS X
@@ -174,7 +174,7 @@ please refer to:
 link:dev-buck.html#tests[Running integration tests with Buck].
 For Bazel, please refer to <<dev-bazel#tests,Running Unit Tests with Bazel>>.
 
-
+[[run_daemon]]
 === Running the Daemon
 
 The daemon can be directly launched from the build area, without

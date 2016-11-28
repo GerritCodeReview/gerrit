@@ -19,17 +19,23 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -40,6 +46,8 @@ import org.junit.Test;
 import java.util.List;
 
 public class SubmitByCherryPickIT extends AbstractSubmit {
+  @Inject
+  private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -86,6 +94,31 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         headAfterFirstSubmit, newHead);
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
         change2.getChangeId(), newHead.name());
+  }
+
+  @Test
+  public void changeMessageOnSubmit() throws Exception {
+    PushOneCommit.Result change = createChange();
+    RegistrationHandle handle =
+        changeMessageModifiers.add(new ChangeMessageModifier() {
+          @Override
+          public String onSubmit(String newCommitMessage, RevCommit original,
+              RevCommit mergeTip, NameKey destination) {
+            return newCommitMessage + "Custom: " + destination.get();
+          }
+        });
+    try {
+      submit(change.getChangeId());
+    } finally {
+      handle.remove();
+    }
+    testRepo.git().fetch().setRemote("origin").call();
+    ChangeInfo info = get(change.getChangeId());
+    RevCommit c = testRepo.getRevWalk()
+        .parseCommit(ObjectId.fromString(info.currentRevision));
+    testRepo.getRevWalk().parseBody(c);
+    assertThat(c.getFooterLines("Custom")).containsExactly("refs/heads/master");
+    assertThat(c.getFooterLines(FooterConstants.REVIEWED_ON)).hasSize(1);
   }
 
   @Test

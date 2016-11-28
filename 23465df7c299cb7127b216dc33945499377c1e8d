@@ -281,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_02f60c1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-28T08:00:36Z",
+      "side": 1,
+      "message": "I\u0027ve put up a change for review and would suggest we discuss further on that change:\n\nhttps://gerrit-review.googlesource.com/#/c/92231/",
+      "parentUuid": "50ec1c3c_22351037",
+      "revId": "23465df7c299cb7127b216dc33945499377c1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "101b842a_f574783f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2

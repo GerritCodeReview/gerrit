@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e69458_617b9693",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:40:36Z",
+      "side": 1,
+      "message": "This wording feels really indirect and passive. How about...\n\n  Remove the hover state to fix un-dismissible dropdowns on mobile.\n\n...?",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e69458_c1bee208",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:40:36Z",
+      "side": 1,
+      "message": "Why is iron-dropdown imported?",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_624d5687",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:40:36Z",
+      "side": 1,
+      "message": "Use short hex when possible.\n\n  color: #000;\n\n... or just ...\n\n  color: black;",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_c268a2d5",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:40:36Z",
+      "side": 1,
+      "message": "Should this be ems? I guess it doesn\u0027t matter for shadow so much.",
+      "range": {
+        "startLine": 101,
+        "startChar": 26,
+        "endLine": 101,
+        "endChar": 29
+      },
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_a26d9ee3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:40:36Z",
+      "side": 1,
+      "message": "No spaces around the \u003d in an attribute.",
+      "range": {
+        "startLine": 122,
+        "startChar": 17,
+        "endLine": 122,
+        "endChar": 20
+      },
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e1d842_0273aac7",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-28T23:40:36Z",
+      "side": 1,
+      "message": "We shouldn\u0027t reach into a Polymer element like this because it should not work with shadow DOM. Something like this should be internal to the dropdown, or made available as a public method.",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

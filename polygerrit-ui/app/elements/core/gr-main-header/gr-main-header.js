@@ -103,6 +103,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.DocsUrlBehavior,
     ],
 
     observers: [
@@ -188,24 +189,9 @@
     },
 
     _loadConfig() {
-      this.$.restAPI.getConfig().then(config => {
-        if (config && config.gerrit && config.gerrit.doc_url) {
-          this._docBaseUrl = config.gerrit.doc_url;
-        }
-        if (!this._docBaseUrl) {
-          return this._probeDocLink('/Documentation/index.html');
-        }
-      });
-    },
-
-    _probeDocLink(path) {
-      return this.$.restAPI.probePath(this.getBaseUrl() + path).then(ok => {
-        if (ok) {
-          this._docBaseUrl = this.getBaseUrl() + '/Documentation';
-        } else {
-          this._docBaseUrl = null;
-        }
-      });
+      this.$.restAPI.getConfig()
+          .then(config => this.getDocsBaseUrl(config, this.$.restAPI))
+          .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
     },
 
     _accountLoaded(account) {

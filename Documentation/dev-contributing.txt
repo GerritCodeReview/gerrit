@@ -97,6 +97,7 @@ and writing:
 ====
 
 
+[[git_commit_settings]]
 === A sample good Gerrit commit message:
 ====
   Add sample commit message to guidelines doc

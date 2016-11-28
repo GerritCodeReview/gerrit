@@ -43,6 +43,64 @@ it, please complete the following steps:
 . Click on *Inherit project compile output path*.
 . Click on *Use module compile output path*.
 
+== Recommended settings
+
+=== Code style
+. Go to *File -> Settings -> Editor -> Code Style*.
+. Click on *Manage*.
+. Click on *Import*.
+. Choose `IntelliJ IDEA Code Style XML`.
+. Select the file `$(gerrit_source_code)/tools/intellij/Gerrit_Code_Style.xml`.
+. Make sure that `Google Format (Gerrit)` is chosen as *Scheme*.
+
+In addition, the EditorConfig settings (which ensure a consistent style between
+Eclipse, IntelliJ, and other editors) should be applied on top of that. Those
+settings are in the file `.editorconfig` of the Gerrit source code. IntelliJ
+will automatically pick up those settings if the EditorConfig plugin is enabled
+and configured correctly as can be verified by:
+
+. Go to *File -> Settings -> Plugins*.
+. Ensure that the EditorConfig plugin is enabled.
+. Go to *File -> Settings -> Editor -> Code Style*.
+. Ensure that *Enable EditorConfig support* is checked.
+
+NOTE: If IntelliJ notifies you later on that the EditorConfig settings override
+the code style settings, simply confirm that.
+
+=== Copyright
+Copy the folder `$(gerrit_source_code)/tools/intellij/copyright` (not just the
+contents) to `$(project_data_directory)/.idea`. If it already exists, replace
+it.
+
+=== File header
+By default, IntelliJ adds a file header containing the name of the author and
+the current date to new files. To disable that, follow these steps:
+
+. Go to *File -> Settings -> Editor -> File and Code Templates*.
+. Select the tab *Includes*.
+. Select *File Header*.
+. Remove the template code in the right editor.
+
+=== Commit message
+To simplify the creation of commit messages which are compliant with the
+<<dev-contributing#commit-message,Commit Message>> format, do the following:
+
+. Go to *File -> Settings -> Version Control*.
+. Check *Commit message right margin (columns)*.
+. Make sure that 72 is specified as value.
+. Check *Wrap when typing reaches right margin*.
+
+In addition, you should follow the instructions of
+<<dev-contributing#git_commit_settings,this section>> (if you haven't
+done so already):
+
+* Install the Git hook for the `Change-Id` line.
+* Set up the HTTP access.
+
+Setting up the HTTP access will allow you to commit changes via IntelliJ without
+specifying your credentials. The Git hook won't be noticeable during a commit
+as it's executed after the commit dialog of IntelliJ was closed.
+
 == Run configurations
 Run configurations can be accessed on the toolbar. To edit them or add new ones,
 choose *Edit Configurations* on the drop-down list of the run configurations

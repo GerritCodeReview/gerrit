@@ -1997,7 +1997,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Create change as admin
     PushOneCommit push = pushFactory.create(
         db, admin.getIdent(), adminTestRepo);
-    PushOneCommit.Result r1 = push.to("refs/for/master");
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
     r1.assertOkStatus();
 
     // Amend draft as admin
@@ -2023,33 +2023,17 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createNewPatchSetOnInvisibleDraftPatchSet() throws Exception {
-    // Clone separate repositories of the same project as admin and as user
-    TestRepository<InMemoryRepository> adminTestRepo =
-        cloneProject(project, admin);
-    TestRepository<InMemoryRepository> userTestRepo =
+  public void createNewDraftPatchSetOnPublicChange() throws Exception {
+    TestRepository<InMemoryRepository> testRepo =
         cloneProject(project, user);
 
-    // Create change as admin
-    PushOneCommit push = pushFactory.create(
-        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     r1.assertOkStatus();
 
-    // Amend draft as admin
     PushOneCommit.Result r2 = amendChange(
-        r1.getChangeId(), "refs/drafts/master", admin, adminTestRepo);
-    r2.assertOkStatus();
-
-    // Fetch change
-    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
-    userTestRepo.reset("ps");
-
-    // Amend change as user
-    PushOneCommit.Result r3 = amendChange(
-        r1.getChangeId(), "refs/for/master", user, userTestRepo);
-    r3.assertErrorStatus("cannot add patch set to "
-        + r3.getChange().change().getChangeId() + ".");
+        r1.getChangeId(), "refs/drafts/master", user, testRepo);
+    r2.assertErrorStatus("can't push draft patchset on public change");
   }
 
   @Test

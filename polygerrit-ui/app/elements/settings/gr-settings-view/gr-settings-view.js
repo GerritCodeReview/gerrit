@@ -25,6 +25,8 @@
     'email_format',
   ];
 
+  const DOCS_BASE_PATTERN = /^https?:/;
+
   Polymer({
     is: 'gr-settings-view',
 
@@ -103,6 +105,7 @@
         value: null,
       },
       _serverConfig: Object,
+      _docsBaseUrl: String,
 
       /**
        * For testing purposes.
@@ -111,6 +114,8 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.DocsUrlBehavior,
       Gerrit.ChangeTableBehavior,
     ],
 
@@ -144,9 +149,19 @@
 
       promises.push(this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
+        const configPromises = [];
+
         if (this._serverConfig.sshd) {
-          return this.$.sshEditor.loadData();
+          configPromises.push(this.$.sshEditor.loadData());
         }
+
+        configPromises.push(
+          this.getDocsBaseUrl(config, this.$.restAPI).then(baseUrl => {
+            this._docsBaseUrl = baseUrl;
+          })
+        );
+
+        return Promise.all(configPromises);
       }));
 
       if (this.params.emailToken) {
@@ -338,6 +353,14 @@
         this._lastSentVerificationEmail = this._newEmail;
         this._newEmail = '';
       });
+    },
+
+    _getFilterDocsLink(docsBaseUrl) {
+      let base = docsBaseUrl;
+      if (!base || !DOCS_BASE_PATTERN.test(base)) {
+        base = 'https://gerrit-review.googlesource.com/Documentation';
+      }
+      return base + '/user-notify.html';
     },
   });
 })();

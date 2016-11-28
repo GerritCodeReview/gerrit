@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_a2bda09d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_df46bb1e",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_60df1253",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
         "patchSetId": 1
@@ -82,6 +100,24 @@
       "writtenOn": "2016-11-25T08:46:12Z",
       "side": 1,
       "message": "Please document this extension point in dev-plugins.txt",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_02c9ecb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_60df1253",
       "revId": "55aceff038661d0524778288cbf927efc406c54a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_00d8c63d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_9ffb93a0",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_3f3c0784",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
         "patchSetId": 1
@@ -134,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_e0dcc233",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_3f3c0784",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_1f394394",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -145,6 +217,24 @@
       "writtenOn": "2016-11-25T08:46:12Z",
       "side": 1,
       "message": "Move this before the parameter that is annotated with @Assisted. We always have the assisted parameters last.\n\nAlso since all other parameters are final, for consistency reasons the new parameter should be final too. Or you use this change to cleanup this method and you just remove the final for the other parameters.",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_22a35083",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "removed all finals, changed order.",
+      "parentUuid": "50ec1c3c_1f394394",
       "revId": "55aceff038661d0524778288cbf927efc406c54a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +258,24 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_82a05c75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_a0f8facc",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_e0f202e9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -179,6 +287,24 @@
       "writtenOn": "2016-11-25T08:46:12Z",
       "side": 1,
       "message": "Move the static class definition to the top of the class (after the logger declaration) as described in:\n\n  https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_40f2ceb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_e0f202e9",
       "revId": "55aceff038661d0524778288cbf927efc406c54a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_20efcacf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_40e80ef7",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_20e50a1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -219,6 +363,24 @@
       "writtenOn": "2016-11-25T08:46:12Z",
       "side": 1,
       "message": "Maybe provide some useful error message here.",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_629d5841",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "70e76057_20e50a1d",
       "revId": "55aceff038661d0524778288cbf927efc406c54a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -248,6 +410,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_80ecd6d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "50ec1c3c_7f368fa3",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_80e21613",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategy.java",
         "patchSetId": 1
@@ -259,6 +439,24 @@
       "writtenOn": "2016-11-25T08:46:12Z",
       "side": 1,
       "message": "nit: unrelated change, undo?",
+      "revId": "55aceff038661d0524778288cbf927efc406c54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_c2b8a4af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-28T12:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_80e21613",
       "revId": "55aceff038661d0524778288cbf927efc406c54a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

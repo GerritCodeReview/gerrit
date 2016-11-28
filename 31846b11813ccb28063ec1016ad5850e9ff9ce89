@@ -46,6 +46,30 @@
       "revId": "31846b11813ccb28063ec1016ad5850e9ff9ce89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_c21a6489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T08:11:56Z",
+      "side": 1,
+      "message": "Yes, but if the migration is optional, you can never be sure that all projects have been edited since the new name was introduced. Removing the support for the old names, would also mean removing this auto-cleanup.",
+      "parentUuid": "50ec1c3c_2206b03d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "31846b11813ccb28063ec1016ad5850e9ff9ce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e76057_a34804cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T07:29:23Z",
+      "side": 1,
+      "message": "\u0027Push Annotated Tag\u0027 is not removed, only the \u0027force\u0027 option on it is removed, maybe make this more clear here. This is because the \u0027force\u0027 option had no effect on \u0027Push Annotated Tag\u0027.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "d1e000ea656ae46cb0bfbd06193a538a7168ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_8265fc25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T07:29:23Z",
+      "side": 1,
+      "message": "Sorry, I think we have no automatic cleanup for this. Automatic cleanup is only implemented for the case where permissions are renamed, but not for this \u0027force\u0027 option.",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "d1e000ea656ae46cb0bfbd06193a538a7168ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_6262781d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-28T07:29:23Z",
+      "side": 1,
+      "message": "I find this message confusing, even if we have automatic cleanup in place. It sounds like the whole migration will be done after you started Gerrit. This would not be the case, migration for each project would happen implicitly when a project config is touched. If you have 10.000s of projects it may be that some projects will not be migrated in a long time...",
+      "range": {
+        "startLine": 61,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 71
+      },
+      "revId": "d1e000ea656ae46cb0bfbd06193a538a7168ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

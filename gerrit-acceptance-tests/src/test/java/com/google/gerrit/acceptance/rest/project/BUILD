@@ -5,6 +5,7 @@ acceptance_tests(
   srcs = glob(['*IT.java']),
   deps = [
     ':branch',
+    ':tag',
     ':project',
   ],
   labels = ['rest'],
@@ -14,6 +15,18 @@ java_library(
   name = 'branch',
   srcs = [
     'BranchAssert.java',
+  ],
+  deps = [
+    '//lib:truth',
+    '//gerrit-extension-api:api',
+    '//gerrit-server:server',
+  ],
+)
+
+java_library(
+  name = 'tag',
+  srcs = [
+    'TagAssert.java',
   ],
   deps = [
     '//lib:truth',

@@ -404,5 +404,41 @@ limitations under the License.
       state = {sectionIndex: 3, lineIndex: 4};
       assert.isTrue(element._isSectionDone(state));
     });
+
+    test('workaround CPP LT directive', function() {
+      // Does nothing to regular line.
+      var line = 'int main(int argc, char** argv) { return 0; }';
+      assert.equal(element._workaround('cpp', line), line);
+
+      // Does nothing to include directive.
+      line = '#include <stdio>';
+      assert.equal(element._workaround('cpp', line), line);
+
+      // Converts left-shift operator in #define.
+      line = '#define GiB (1ull << 30)';
+      var expected = '#define GiB (1ull || 30)';
+      assert.equal(element._workaround('cpp', line), expected);
+
+      // Converts less-than operator in #if.
+      line = '  #if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 1)';
+      expected = '  #if __GNUC__ | 4 || (__GNUC__ == 4 && __GNUC_MINOR__ | 1)';
+      assert.equal(element._workaround('cpp', line), expected);
+    });
+
+    test('workaround Java param-annotation', function() {
+      // Does nothing to regular line.
+      var line = 'public static void foo(int bar) { }';
+      assert.equal(element._workaround('java', line), line);
+
+      // Does nothing to regular annotation.
+      var line = 'public static void foo(@Nullable int bar) { }';
+      assert.equal(element._workaround('java', line), line);
+
+      // Converts parameterized annotation.
+      line = 'public static void foo(@SuppressWarnings("unused") int bar) { }';
+      var expected = 'public static void foo(@SuppressWarnings "unused" ' +
+          ' int bar) { }';
+      assert.equal(element._workaround('java', line), expected);
+    });
   });
 </script>

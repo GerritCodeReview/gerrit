@@ -78,6 +78,10 @@
     'gr-diff gr-syntax gr-syntax-selector-class': true,
   };
 
+  var CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
+  var JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
+  var GLOBAL_LT_PATTERN = /</g;
+
   Polymer({
     is: 'gr-syntax-layer',
 
@@ -301,6 +305,7 @@
       var result;
 
       if (this._baseLanguage && baseLine !== undefined) {
+        baseLine = this._workaround(this._baseLanguage, baseLine);
         result = this._hljs.highlight(this._baseLanguage, baseLine, true,
             state.baseContext);
         this.push('_baseRanges', this._rangesFromString(result.value));
@@ -308,11 +313,56 @@
       }
 
       if (this._revisionLanguage && revisionLine !== undefined) {
+        revisionLine = this._workaround(this._revisionLanguage, revisionLine);
         result = this._hljs.highlight(this._revisionLanguage, revisionLine,
             true, state.revisionContext);
         this.push('_revisionRanges', this._rangesFromString(result.value));
         state.revisionContext = result.top;
       }
+    },
+
+    /**
+     * Ad hoc fixes for HLJS parsing bugs. Rewrite lines of code in constrained
+     * cases before sending them into HLJS so that they parse correctly.
+     *
+     * Important notes:
+     * * These tests should be as constrained as possible to avoid interfering
+     *   with code it shouldn't AND to avoid executing regexes as much as
+     *   possible.
+     * * These tests should document the issue clearly enough that the test can
+     *   be condidently removed when the issue is solved in HLJS.
+     * * These tests should rewrite the line of code to have the same number of
+     *   characters. This method rewrites the string that gets parsed, but NOT
+     *   the string that gets displayed and highlighted. Thus, the positions
+     *   must be consistent.
+     *
+     * @param {!string} language The name of the HLJS language plugin in use.
+     * @param {!string} line The line of code to potentially rewrite.
+     * @return {string} A potentially-rewritten line of code.
+     */
+    _workaround: function(language, line) {
+      /**
+       * Prevent confusing < and << operators for the start of a meta string by
+       * converting them to a different operator.
+       * {@see Issue 4864}
+       * {@see https://github.com/isagalaev/highlight.js/issues/1341}
+       */
+      if (language === 'cpp' && CPP_DIRECTIVE_WITH_LT_PATTERN.test(line)) {
+        return line.replace(GLOBAL_LT_PATTERN, '|');
+      }
+
+      /**
+       * Prevent confusing the closing paren of a parameterized Java annotation
+       * being applied to a formal argument as the closing paren of the argument
+       * list. Rewrite the parens as spaces.
+       * {@see Issue 4776}
+       * {@see https://github.com/isagalaev/highlight.js/issues/1324}
+       */
+      if (language === 'java' && JAVA_PARAM_ANNOT_PATTERN.test(line)) {
+        return line.replace(JAVA_PARAM_ANNOT_PATTERN, '$1 $2 ');
+      }
+
+      return line;
     },
 
     /**

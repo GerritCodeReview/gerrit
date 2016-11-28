@@ -1,0 +1,238 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "301ec818_16edbc45",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "This method does not exist.",
+      "range": {
+        "startLine": 126,
+        "startChar": 10,
+        "endLine": 126,
+        "endChar": 16
+      },
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_0008268f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "tags",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 36
+      },
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_76ea302f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "method does not exist",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_56e73463",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "Wrong class name.  Should be DeleteTagsInput",
+      "range": {
+        "startLine": 63,
+        "startChar": 32,
+        "endLine": 63,
+        "endChar": 47
+      },
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_b61a0888",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "Tags",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 96,
+        "endChar": 46
+      },
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_961f0c78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagAssert.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "This is almost the same as BranchAssert.  It would be better to refactor that to something like RefAssert and make it generic.",
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_c001de6c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/DeleteTagsInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "missing newline",
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_36f0b81f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "This is for the UI part and should not be in this commit.",
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_605c929c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Tag.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "As far as I could see this is not used?",
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_8061964f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "missing blanks lines",
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_f62480c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "missing blank lines",
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_d629849d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagResource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:14:54Z",
+      "side": 1,
+      "message": "missing blank lines",
+      "revId": "3c3940485f540ef7b4610add9b0ab1bb26fd4277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

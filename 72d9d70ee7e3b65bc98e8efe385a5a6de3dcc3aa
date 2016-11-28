@@ -16,6 +16,24 @@
       "revId": "72d9d70ee7e3b65bc98e8efe385a5a6de3dcc3aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_c29704d7",
+        "filename": "gerrit-elasticsearch/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T07:03:48Z",
+      "side": 1,
+      "message": "Because it works without changes for buck.\n\nBazel seems to take all the files in the srcs glob as junit tests and ElasticTestUtils.java was causing that to fail.",
+      "parentUuid": "50ec1c3c_e27fa8c8",
+      "revId": "72d9d70ee7e3b65bc98e8efe385a5a6de3dcc3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

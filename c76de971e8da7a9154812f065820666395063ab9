@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d8b07e1_004d86e0",
+        "filename": "Documentation/cmd-index-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:49:52Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "range": {
+        "startLine": 28,
+        "startChar": 36,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "c76de971e8da7a9154812f065820666395063ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d8b07e1_a0593aa7",
+        "filename": "Documentation/cmd-index-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T12:49:52Z",
+      "side": 1,
+      "message": "nit: missing period after",
+      "range": {
+        "startLine": 29,
+        "startChar": 31,
+        "endLine": 29,
+        "endChar": 40
+      },
+      "revId": "c76de971e8da7a9154812f065820666395063ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

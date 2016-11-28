@@ -16,6 +16,24 @@
       "revId": "72d9d70ee7e3b65bc98e8efe385a5a6de3dcc3aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_03673061",
+        "filename": "gerrit-elasticsearch/BUCK",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-28T07:07:40Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "50ec1c3c_2262302e",
+      "revId": "72d9d70ee7e3b65bc98e8efe385a5a6de3dcc3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

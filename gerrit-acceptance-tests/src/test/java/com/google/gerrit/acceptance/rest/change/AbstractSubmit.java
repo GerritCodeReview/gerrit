@@ -483,14 +483,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void submitDraftPatchSet() throws Exception {
-    PushOneCommit.Result change = createChange();
+    PushOneCommit.Result change = createChange("refs/drafts/master");
     PushOneCommit.Result draft = amendChangeAsDraft(change.getChangeId());
     Change.Id num = draft.getChange().getId();
 
     submitWithConflict(draft.getChangeId(),
         "Failed to submit 1 change due to the following problems:\n"
-        + "Change " + num + ": submit rule error: "
-        + "Cannot submit draft patch sets");
+        + "Change " + num + ": Change " + num + " is draft");
   }
 
   @Test

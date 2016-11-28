@@ -26,6 +26,8 @@ public class RefNames {
 
   public static final String REFS_CHANGES = "refs/changes/";
 
+  public static final String REFS_META = "refs/meta/";
+
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
   public static final String REFS_REJECT_COMMITS = "refs/meta/reject-commits";
 

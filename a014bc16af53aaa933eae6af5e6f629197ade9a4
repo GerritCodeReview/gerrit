@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_e22cc8c5",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:47:30Z",
+      "side": 1,
+      "message": "The target audience ofthis documentatin is users and not developers. So when developer (and reviewer) decided to mark some migrations as optional, there no need for users to weight pro and cons, right?",
+      "range": {
+        "startLine": 105,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 34
+      },
+      "revId": "a014bc16af53aaa933eae6af5e6f629197ade9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_033e101f",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:47:30Z",
+      "side": 1,
+      "message": "Nit: tab.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 8
+      },
+      "revId": "a014bc16af53aaa933eae6af5e6f629197ade9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_4242d47b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:47:30Z",
+      "side": 1,
+      "message": "Nit: Wrpa too long line.",
+      "range": {
+        "startLine": 86,
+        "startChar": 47,
+        "endLine": 86,
+        "endChar": 55
+      },
+      "revId": "a014bc16af53aaa933eae6af5e6f629197ade9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_823cdcf3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:47:30Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "a014bc16af53aaa933eae6af5e6f629197ade9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_6239d801",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:47:30Z",
+      "side": 1,
+      "message": "Bind to instance?\n\n  .toInstance(skipOptionalMigrations());\n\n(There is also com.google.inject.util.Providers.of() method)",
+      "range": {
+        "startLine": 440,
+        "startChar": 14,
+        "endLine": 445,
+        "endChar": 31
+      },
+      "revId": "a014bc16af53aaa933eae6af5e6f629197ade9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_632f1ce5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:47:30Z",
+      "side": 1,
+      "message": "Why you need to pass this module to createDbInjector? Isn\u0027t it\u0027s sufficient to bind it in  createSiteInit(), and add it to Module that is created on line 250?",
+      "range": {
+        "startLine": 450,
+        "startChar": 10,
+        "endLine": 450,
+        "endChar": 26
+      },
+      "revId": "a014bc16af53aaa933eae6af5e6f629197ade9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_43381831",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-28T07:47:30Z",
+      "side": 1,
+      "message": "Nit: wrong indentation.",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 4
+      },
+      "revId": "a014bc16af53aaa933eae6af5e6f629197ade9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

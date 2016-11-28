@@ -22,12 +22,21 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
+import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
+import java.util.List;
+
 public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
+  @Inject
+  private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -74,6 +83,41 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     // ... but both changes should get reviewed-by footers.
     assertLatestRevisionHasFooters(change1);
     assertLatestRevisionHasFooters(change2);
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void changeMessageOnSubmit() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+
+    RegistrationHandle handle =
+        changeMessageModifiers.add(new ChangeMessageModifier() {
+          @Override
+          public String onSubmit(String newCommitMessage, RevCommit original,
+              RevCommit mergeTip, NameKey destination) {
+            List<String> custom = mergeTip.getFooterLines("Custom");
+            if (!custom.isEmpty()) {
+              newCommitMessage += "Custom-Parent: " + custom.get(0);
+            }
+            return newCommitMessage + "Custom: " + destination.get();
+          }
+        });
+    try {
+      // change1 is a fast-forward, but should be rebased in cherry pick style
+      // anyway, making change2 not a fast-forward, requiring a rebase.
+      approve(change1.getChangeId());
+      submit(change2.getChangeId());
+    } finally {
+      handle.remove();
+    }
+    // ... but both changes should get custom footers.
+    assertThat(getCurrentCommit(change1).getFooterLines("Custom"))
+        .containsExactly("refs/heads/master");
+    assertThat(getCurrentCommit(change2).getFooterLines("Custom"))
+        .containsExactly("refs/heads/master");
+    assertThat(getCurrentCommit(change2).getFooterLines("Custom-Parent"))
+        .containsExactly("refs/heads/master");
   }
 
   private void assertLatestRevisionHasFooters(PushOneCommit.Result change)

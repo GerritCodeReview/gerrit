@@ -11,25 +11,32 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Tag;
 import com.google.inject.TypeLiteral;
 
 public class TagResource extends ProjectResource {
   public static final TypeLiteral<RestView<TagResource>> TAG_KIND =
       new TypeLiteral<RestView<TagResource>>() {};
+  private final TagInfo tagInfo;
 
-  private final TagInfo tag;
-
-  public TagResource(ProjectControl control, TagInfo tag) {
+  public TagResource(ProjectControl control, TagInfo tagInfo) {
     super(control);
-    this.tag = tag;
+    this.tagInfo = tagInfo;
   }
-
   public TagInfo getTagInfo() {
-    return tag;
+    return tagInfo;
+  }
+  public Tag.NameKey getTagKey() {
+    return new Tag.NameKey(getNameKey(), tagInfo.ref);
+  }
+  public String getRef() {
+    return tagInfo.ref;
+  }
+  public String getRevision() {
+    return tagInfo.revision;
   }
 }

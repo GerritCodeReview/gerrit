@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e76057_63971c32",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-29T16:07:01Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_25351a37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1820,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-29T16:07:01Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027{\u0027",
+      "range": {
+        "startLine": 1820,
+        "startChar": 52,
+        "endLine": 1820,
+        "endChar": 53
+      },
+      "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_8532264d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1832,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-29T16:07:01Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027{\u0027",
+      "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

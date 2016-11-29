@@ -512,8 +512,20 @@ limitations under the License.
         assert.isNotNull(approveButton);
       });
 
-      test('not added when no actions available', function() {
-        element.actions = [];
+      test('is first in list of actions', function() {
+        var approveButton = element.$$('gr-button');
+        assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
+      });
+
+      test('not added when no labels are permitted', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {},
+          },
+          permitted_labels: {
+          },
+        };
         flushAsynchronousOperations();
         var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.isNull(approveButton);
@@ -561,6 +573,70 @@ limitations under the License.
         var payload = fireActionStub.lastCall.args[3];
         assert.deepEqual(payload.labels, {foo: '+1'});
         fireActionStub.restore();
+      });
+
+      test('higher permitted score has priority', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {},
+            'bar': {},
+          },
+          permitted_labels: {
+            'foo': [' 0', '+1'],
+            'bar': [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
+      });
+
+      test('button label for missing approval', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {},
+            'bar': {approved: {}},
+          },
+          permitted_labels: {
+            'foo': [' 0', '+1'],
+            'bar': [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
+      });
+
+      test('non-approving score', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'bar': {value: 1},
+          },
+          permitted_labels: {
+            'bar': [' 0', '+1'],
+          },
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButton);
+      });
+
+      test('approving label with a non-max score', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'bar': {value: 1},
+          },
+          permitted_labels: {
+            'bar': [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
       });
     });
   });

@@ -562,6 +562,40 @@ limitations under the License.
         assert.deepEqual(payload.labels, {foo: '+1'});
         fireActionStub.restore();
       });
+
+      test('higher permitted score has priority', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {},
+            'bar': {},
+          },
+          permitted_labels: {
+            'foo': [' 0', '+1'],
+            'bar': [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
+      });
+
+      test('button label for missing approval', function() {
+        element.change = {
+          current_revision: 'abc1234',
+          labels: {
+            'foo': {},
+            'bar': {approved: {}},
+          },
+          permitted_labels: {
+            'foo': [' 0', '+1'],
+            'bar': [' 0', '+1', '+2'],
+          },
+        };
+        flushAsynchronousOperations();
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
+        assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
+      });
     });
   });
 </script>

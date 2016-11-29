@@ -52,10 +52,10 @@
   var QUICK_APPROVE_ACTION = {
     __key: 'review',
     __type: 'change',
+    enabled: true,
     key: 'review',
     label: 'Quick Approve',
     method: 'POST',
-    title: 'Set maximal score to all labels you can.',
   };
 
   Polymer({
@@ -256,10 +256,76 @@
       var actions = this._getActionValues(
         actionsChangeRecord, primariesChangeRecord,
         additionalActionsChangeRecord, ActionType.CHANGE, change);
-      if (actions.length && this._canQuickApprove(change)) {
-        actions.unshift(QUICK_APPROVE_ACTION);
+      var quickApprove = this._getQuickApproveAction();
+      if (quickApprove) {
+        actions.unshift(quickApprove);
       }
       return actions;
+    },
+
+    _getMaxScoreTextForLabel: function(label) {
+      if (!this.change ||
+          !this.change.permitted_labels ||
+          !this.change.permitted_labels[label] ||
+          !this.change.permitted_labels[label].length) {
+        return null;
+      }
+      return this.change.permitted_labels[label].slice(-1)[0];
+    },
+
+    _getMaxScoreForLabel: function(label) {
+      return parseInt(this._getMaxScoreTextForLabel(label), 10);
+    },
+
+    /**
+     * Get highest score for missing permitted label for current change.
+     *
+     * @return {{label: string, score: string}}
+     */
+    _getTopMissingApproval: function() {
+      var change = this.change;
+      if (!change || !change.labels || !change.permitted_labels) {
+        return null;
+      }
+      var missingApprovals = Object.keys(change.labels).filter(function(label) {
+        // Use only permitted labels.
+        return label in change.permitted_labels;
+      }).filter(function(label) {
+        // Use only non-approved, and with score less than permitted.
+        return !change.labels[label].approved &&
+          (change.labels[label].value == null ||
+           this._getMaxScoreForLabel(label) > change.labels[label].value);
+      }.bind(this)).sort(function(a, b) {
+        // Sort descending by max permitted score.
+        return this._getMaxScoreForLabel(b) - this._getMaxScoreForLabel(a);
+      }.bind(this));
+      if (!missingApprovals.length) {
+        return null;
+      }
+      var score = this._getMaxScoreForLabel(missingApprovals[0]);
+      if (isNaN(score) || score <= 0) {
+        return null;
+      }
+      return {
+        label: missingApprovals[0],
+        score: this._getMaxScoreTextForLabel(missingApprovals[0]),
+      };
+    },
+
+    _getQuickApproveAction: function() {
+      var approval = this._getTopMissingApproval();
+      if (!approval) {
+        return null;
+      }
+      var action = Object.assign({}, QUICK_APPROVE_ACTION);
+      action.label = approval.label + approval.score;
+      var review = {
+        drafts: 'PUBLISH_ALL_REVISIONS',
+        labels: {},
+      };
+      review.labels[approval.label] = approval.score;
+      action.payload = review;
+      return action;
     },
 
     _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
@@ -301,17 +367,6 @@
         return Object.assign({}, a);
       });
       return result.concat(additionalActions);
-    },
-
-    _canQuickApprove: function(change) {
-      if (!change || !change.labels || !change.permitted_labels) {
-        return false;
-      }
-      var missingApprovals = Object.keys(change.labels).filter(function(label) {
-        return !change.labels[label].approved;
-      });
-      return missingApprovals.some(
-          function(label) { return label in change.permitted_labels; });
     },
 
     _computeLoadingLabel: function(action) {
@@ -370,17 +425,11 @@
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);
       } else if (key === QUICK_APPROVE_ACTION.key) {
-        var review = {
-          drafts: 'PUBLISH_ALL_REVISIONS',
-          labels: {},
-        };
-        var permittedLabels = this.change.permitted_labels;
-        Object.keys(permittedLabels).forEach(function(label) {
-          // Set label to maximal score permitted for it.
-          review.labels[label] = permittedLabels[label].slice(-1)[0];
+        var action = this._changeActionValues.find(function(o) {
+          return o.key === key;
         });
         this._fireAction(
-            this._prependSlash(key), QUICK_APPROVE_ACTION, true, review);
+          this._prependSlash(key), action, true, action.payload);
       } else {
         this._fireAction(this._prependSlash(key), this.actions[key], false);
       }

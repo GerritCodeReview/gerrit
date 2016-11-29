@@ -22,6 +22,24 @@
       "revId": "7173e3ecfe03d810290755e718d0f37369f6b78e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9071345a_89d7f90d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-11-29T18:02:18Z",
+      "side": 1,
+      "message": "Yes. Google\u0027s security team encouraged us to use \"Content-Disposition: download\" to encourage the browser to avoid rendering the content if it the user got navigated to it. Browsers (especially older ones) are complicated animals, so given them multiple hints to avoid rendering helps.\n\nEven though there is a modern-ish RFC claiming this is not necessary, I still think we should continue setting it.",
+      "parentUuid": "10c70467_5867c160",
+      "revId": "7173e3ecfe03d810290755e718d0f37369f6b78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

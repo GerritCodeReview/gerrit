@@ -56,6 +56,29 @@
       "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_45b77e88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-29T16:20:30Z",
+      "side": 1,
+      "message": "I\u0027ve just realized that I actually need to pass more than branch, but also project. So, I am thinking of passing ChangeControl. Is that sane?",
+      "range": {
+        "startLine": 52,
+        "startChar": 26,
+        "endLine": 52,
+        "endChar": 52
+      },
+      "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

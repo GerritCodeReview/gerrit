@@ -175,5 +175,28 @@ limitations under the License.
       assert.equal(element.$.output.innerHTML, 'foo:baz');
     });
 
+    test('overlapping links', function() {
+      element.config = {
+        b1: {
+          match: '(B:\\s*)(\\d+)',
+          html: '$1<a href="ftp://foo/$2">$2</a>',
+        },
+        b2: {
+          match: '(B:\\s*\\d+\\s*,\\s*)(\\d+)',
+          html: '$1<a href="ftp://foo/$2">$2</a>',
+        },
+      };
+      element.content = '- B: 123, 45';
+      var links = Polymer.dom(element.root).querySelectorAll('a');
+
+      assert.equal(links.length, 2);
+      assert.equal(element.textContent.trim(), '- B: 123, 45');
+
+      assert.equal(links[0].href, 'ftp://foo/123');
+      assert.equal(links[0].textContent, '123');
+
+      assert.equal(links[1].href, 'ftp://foo/45');
+      assert.equal(links[1].textContent, '45');
+    });
   });
 </script>

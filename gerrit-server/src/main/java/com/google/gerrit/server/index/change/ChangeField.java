@@ -987,7 +987,8 @@ public class ChangeField {
           }
 
           return result;
-        } };
+        }
+      };
 
   /**
    * All ref wildcard patterns that were used in the course of indexing this
@@ -999,26 +1000,27 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<byte[]>>
       REF_STATE_PATTERN = new FieldDef.Repeatable<ChangeData, byte[]>(
           "ref_state_pattern", FieldType.STORED_ONLY, true) {
-    @Override
-    public Iterable<byte[]> get(ChangeData input, FillArgs args)
-        throws OrmException {
-      Change.Id id = input.getId();
-      Project.NameKey project = input.change().getProject();
-      List<byte[]> result = new ArrayList<>(3);
-      result.add(RefStatePattern.create(
-              RefNames.REFS_USERS + "*/" + RefNames.EDIT_PREFIX + id + "/*")
-          .toByteArray(project));
-      if (PrimaryStorage.of(input.change()) == PrimaryStorage.NOTE_DB) {
-        result.add(
-            RefStatePattern.create(RefNames.refsStarredChangesPrefix(id) + "*")
+        @Override
+        public Iterable<byte[]> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Change.Id id = input.getId();
+          Project.NameKey project = input.change().getProject();
+          List<byte[]> result = new ArrayList<>(3);
+          result.add(RefStatePattern.create(
+                  RefNames.REFS_USERS + "*/" + RefNames.EDIT_PREFIX + id + "/*")
+              .toByteArray(project));
+          if (PrimaryStorage.of(input.change()) == PrimaryStorage.NOTE_DB) {
+            result.add(
+                RefStatePattern.create(
+                    RefNames.refsStarredChangesPrefix(id) + "*")
                 .toByteArray(args.allUsers));
-        result.add(
-            RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
+            result.add(RefStatePattern.create(
+                    RefNames.refsDraftCommentsPrefix(id) + "*")
                 .toByteArray(args.allUsers));
-      }
-      return result;
-    }
-  };
+          }
+          return result;
+        }
+      };
 
   public static final Integer NOT_REVIEWED = -1;
 

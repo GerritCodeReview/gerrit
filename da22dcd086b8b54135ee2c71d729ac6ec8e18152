@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "70e76057_430bf8d7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3472,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-29T10:53:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure that it\u0027s good to change this REST endpoint like this:\n\n1. It is unexpected that the whole change is published when the \u0027Publish Draft Revision\u0027 endpoint is invoked. At least the tooltip for the UI action would need to be changed so that users are aware.\n\n2. What about existing published changes that have draft patch sets? Should it for these changes still be possible to publish single draft revisions?\n\nWould it be cleaner to change the UI to always use the Publish Draft Change REST endpoint when Publish on a draft change is invoked. And then rather mark this API as deprecated?",
+      "range": {
+        "startLine": 3465,
+        "startChar": 0,
+        "endLine": 3472,
+        "endChar": 31
+      },
+      "revId": "da22dcd086b8b54135ee2c71d729ac6ec8e18152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_966d4ce4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishDraftPatchSet.java",
         "patchSetId": 1

@@ -498,6 +498,23 @@ limitations under the License.
       });
     });
 
+    test('commit sha is populated from getChangeDetail', function(done) {
+      sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', function() {
+        return Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'foo',
+          revisions: {foo: {commit: {}}},
+        });
+      });
+
+      element._getChangeDetail().then(function() {
+        assert.equal('foo', element._commitInfo.commit);
+        done();
+      });
+    });
+
     test('reply dialog focus can be controlled', function() {
       var FocusTarget = element.$.replyDialog.FocusTarget;
       var openSpy = sandbox.spy(element, '_openReplyDialog');

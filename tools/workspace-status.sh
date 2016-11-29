@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This script will be run by bazel when the build process starts to
 # generate key-value information that represents the status of the

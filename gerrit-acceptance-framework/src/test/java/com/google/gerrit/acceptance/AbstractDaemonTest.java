@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -61,6 +62,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Tag;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeFinder;
@@ -622,6 +624,23 @@ public abstract class AbstractDaemonTest {
     return gApi.projects()
         .name(branch.getParentKey().get())
         .branch(branch.get())
+        .create(in);
+  }
+
+  protected TagApi createTag(Tag.NameKey tag) throws Exception {
+    return gApi.projects()
+        .name(tag.getParentKey().get())
+        .tag(tag.get())
+        .create(new TagInput());
+  }
+
+  protected TagApi createTagWithRevision(Tag.NameKey tag,
+      String revision) throws Exception {
+    TagInput in = new TagInput();
+    in.revision = revision;
+    return gApi.projects()
+        .name(tag.getParentKey().get())
+        .tag(tag.get())
         .create(in);
   }
 

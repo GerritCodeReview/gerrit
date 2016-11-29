@@ -30,14 +30,23 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
@@ -532,5 +541,34 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+  }
+
+  @Test
+  public void testPreviewSubmitTgz() throws Exception {
+    Project.NameKey p1 = createProject("project-name");
+
+    TestRepository<?> repo1 = cloneProject(p1);
+    PushOneCommit.Result change1 = createChange(repo1, "master",
+        "test", "a.txt", "1", "topic");
+    approve(change1.getChangeId());
+
+    // get a preview before submitting:
+    BinaryResult request = submitPreview(change1.getChangeId(), "tgz");
+
+    assertThat(request.getContentType()).isEqualTo("application/x-gzip");
+    File tempfile = File.createTempFile("test", null);
+    request.writeTo(new FileOutputStream(tempfile));
+
+    InputStream is = new GZIPInputStream(new FileInputStream(tempfile));
+
+    List<String> untarredFiles = new LinkedList<>();
+    try (TarArchiveInputStream tarInputStream = (TarArchiveInputStream)
+        new ArchiveStreamFactory().createArchiveInputStream("tar", is)) {
+      TarArchiveEntry entry = null;
+      while ((entry = (TarArchiveEntry)tarInputStream.getNextEntry()) != null) {
+        untarredFiles.add(entry.getName());
+      }
+    }
+    assertThat(untarredFiles).containsExactly(name("project-name") + ".git");
   }
 }

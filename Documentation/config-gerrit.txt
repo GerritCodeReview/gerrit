@@ -1828,6 +1828,14 @@ valid JAR file, whose code would have access to cookies on the domain.
 For this reason `zip` format is always excluded from formats offered
 through the `Download` drop down or accessible in the REST API.
 
+[[download.maxBundleSize]]download.maxBundleSize::
++
+Specifies the maximum size of a bundle in bytes that can be downloaded.
+As bundles are kept in memory this setting is to protect the server
+from oom-ing on too large bundles and thereby impacting other users.
++
+Defaults to 100MB.
+
 [[gc]]
 === Section gc
 

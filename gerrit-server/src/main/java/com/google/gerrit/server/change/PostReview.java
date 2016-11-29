@@ -679,34 +679,47 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
+      List<RobotComment> newRobotComments = getNewRobotComments(ctx);
+      commentsUtil.putRobotComments(ctx.getUpdate(psId), newRobotComments);
+      comments.addAll(newRobotComments);
+      return !newRobotComments.isEmpty();
+    }
+
+    private List<RobotComment> getNewRobotComments(ChangeContext ctx)
+        throws OrmException {
       List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
 
       Set<CommentSetEntry> existingIds = in.omitDuplicateComments
           ? readExistingRobotComments(ctx)
           : Collections.emptySet();
 
-      for (Map.Entry<String, List<RobotCommentInput>> ent : in.robotComments.entrySet()) {
+      for (Map.Entry<String, List<RobotCommentInput>> ent :
+          in.robotComments.entrySet()) {
         String path = ent.getKey();
         for (RobotCommentInput c : ent.getValue()) {
-          RobotComment e = commentsUtil.newRobotComment(
-              ctx, path, psId, c.side(), c.message, c.robotId, c.robotRunId);
-          e.parentUuid = Url.decode(c.inReplyTo);
-          e.url = c.url;
-          e.properties = c.properties;
-          e.setLineNbrAndRange(c.line, c.range);
-          e.tag = in.tag;
-          setCommentRevId(e, patchListCache, ctx.getChange(), ps);
-
+          RobotComment e = createRobotCommentFromInput(ctx, path, c);
           if (existingIds.contains(CommentSetEntry.create(e))) {
             continue;
           }
           toAdd.add(e);
         }
       }
+      return toAdd;
+    }
 
-      commentsUtil.putRobotComments(ctx.getUpdate(psId), toAdd);
-      comments.addAll(toAdd);
-      return !toAdd.isEmpty();
+    private RobotComment createRobotCommentFromInput(ChangeContext ctx,
+        String path, RobotCommentInput robotCommentInput) throws OrmException {
+      RobotComment robotComment = commentsUtil.newRobotComment(
+          ctx, path, psId, robotCommentInput.side(), robotCommentInput.message,
+          robotCommentInput.robotId, robotCommentInput.robotRunId);
+      robotComment.parentUuid = Url.decode(robotCommentInput.inReplyTo);
+      robotComment.url = robotCommentInput.url;
+      robotComment.properties = robotCommentInput.properties;
+      robotComment.setLineNbrAndRange(robotCommentInput.line,
+          robotCommentInput.range);
+      robotComment.tag = in.tag;
+      setCommentRevId(robotComment, patchListCache, ctx.getChange(), ps);
+      return robotComment;
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)

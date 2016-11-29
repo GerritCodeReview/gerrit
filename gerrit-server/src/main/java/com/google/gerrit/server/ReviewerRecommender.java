@@ -188,10 +188,10 @@ public class ReviewerRecommender {
 
   private Map<Account.Id, MutableDouble> baseRankingForEmptyQuery(
       double baseWeight) throws OrmException{
-    // Get the user's last 50 changes, check approvals
+    // Get the user's last 25 changes, check approvals
     try {
       List<ChangeData> result = internalChangeQuery
-          .setLimit(50)
+          .setLimit(25)
           .setRequestedFields(ImmutableSet.of(ChangeField.REVIEWER.getName()))
           .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new HashMap<>();
@@ -260,7 +260,7 @@ public class ReviewerRecommender {
     }
 
     List<List<ChangeData>> result = internalChangeQuery
-        .setLimit(100 * predicates.size())
+        .setLimit(25)
         .setRequestedFields(ImmutableSet.of())
         .query(predicates);
 

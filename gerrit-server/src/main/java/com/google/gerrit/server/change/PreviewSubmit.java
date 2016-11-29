@@ -42,6 +42,7 @@ import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -53,6 +54,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   private final Provider<MergeOp> mergeOpProvider;
   private final AllowedFormats allowedFormats;
 
+  private static int MAX_BUNDLE_SIZE = 100 * 1024 * 1024;
   private String format;
 
   @Option(name = "--format")
@@ -120,27 +122,29 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       bin = new BinaryResult() {
         @Override
         public void writeTo(OutputStream out) throws IOException {
-          ArchiveOutputStream aos = f.createArchiveOutputStream(out);
-
-          for (Project.NameKey p : projects) {
-            OpenRepo or = orm.getRepo(p);
-            BundleWriter bw = new BundleWriter(or.getRepo());
-            bw.setObjectCountCallback(null);
-            bw.setPackConfig(null);
-            Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
-            for (ReceiveCommand r : refs) {
-              bw.include(r.getRefName(), r.getNewId());
-              if (!r.getOldId().equals(ObjectId.zeroId())) {
-                bw.assume(or.getCodeReviewRevWalk().parseCommit(r.getOldId()));
+          try (ArchiveOutputStream aos = f.createArchiveOutputStream(out)) {
+            for (Project.NameKey p : projects) {
+              OpenRepo or = orm.getRepo(p);
+              BundleWriter bw = new BundleWriter(or.getRepo());
+              bw.setObjectCountCallback(null);
+              bw.setPackConfig(null);
+              Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
+              for (ReceiveCommand r : refs) {
+                bw.include(r.getRefName(), r.getNewId());
+                if (!r.getOldId().equals(ObjectId.zeroId())) {
+                  bw.assume(or.getCodeReviewRevWalk().parseCommit(r.getOldId()));
+                }
               }
+              // This naming scheme cannot produce directory/file conflicts
+              // as no projects contains ".git/":
+              String path = p.get() + ".git";
+
+              ByteArrayOutputStream bos = new LimitedByteArrayOutputStream(
+                  MAX_BUNDLE_SIZE, 1024);
+              bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
+              f.putEntry(aos, path, bos.toByteArray());
             }
-            // This naming scheme cannot produce directory/file conflicts
-            // as no projects contains ".git/":
-            aos.putArchiveEntry(f.prepareArchiveEntry(p.get() + ".git"));
-            bw.writeBundle(NullProgressMonitor.INSTANCE, aos);
-            aos.closeArchiveEntry();
           }
-          aos.finish();
         }
       };
     }

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9071345a_29c04d36",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-29T20:28:00Z",
+      "side": 1,
+      "message": "This is pretty cool.\n\nMaybe this method should only accept the `keyboardEvent` object instead of the event itself.",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_2512ae0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-29T20:28:00Z",
+      "side": 1,
+      "message": "If we include trailing newlines in the blocks of GR-FORMATTED-TEXT would this be unnecessary?",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_051532f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-29T20:28:00Z",
+      "side": 1,
+      "message": "Optional, the truthiness of\n\n  content.length\n\nworks here.",
+      "range": {
+        "startLine": 230,
+        "startChar": 16,
+        "endLine": 230,
+        "endChar": 34
+      },
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9071345a_09c30946",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-29T20:28:00Z",
+      "side": 1,
+      "message": "Optional also,\n\n  !el.children.length\n\nworks here too.",
+      "range": {
+        "startLine": 235,
+        "startChar": 14,
+        "endLine": 235,
+        "endChar": 38
+      },
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9071345a_69b645dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-29T20:28:00Z",
+      "side": 1,
+      "message": "Prefer textContent to innerText.",
+      "range": {
+        "startLine": 236,
+        "startChar": 28,
+        "endLine": 236,
+        "endChar": 37
+      },
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

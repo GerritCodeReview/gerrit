@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "70e76057_032bb046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-29T10:26:42Z",
+      "side": 1,
+      "message": "\u003e It\u0027s just the comments of the last PS ordered and filtered \n \u003e by timestamp so that we only have the comments from one \n \u003e reviewer\n\nBut if a reviewer makes comments in several patch sets and the base and publishes them all at once, all those comments will be contained in one email, wouldn\u0027t they? If I reply to this email to reply to some comments, the mail is not only containing comments of the last patch set. Would this confuse the parser?\n\nOr, if I reply to an old mail which is not about the current patch set, will it work?",
+      "parentUuid": "10c70467_b52b8091",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "16c86e043d6adaf4ddfb7ad5f8c8fddd56d4e6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_b5054033",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
         "patchSetId": 2

@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
@@ -36,12 +37,14 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -53,6 +56,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   private final Provider<MergeOp> mergeOpProvider;
   private final AllowedFormats allowedFormats;
 
+  private static int MAX_DEFAULT_BUNDLE_SIZE = 100 * 1024 * 1024;
+  private int maxBundleSize;
   private String format;
 
   @Option(name = "--format")
@@ -63,10 +68,13 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   @Inject
   PreviewSubmit(Provider<ReviewDb> dbProvider,
       Provider<MergeOp> mergeOpProvider,
-      AllowedFormats allowedFormats) {
+      AllowedFormats allowedFormats,
+      @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;
     this.mergeOpProvider = mergeOpProvider;
     this.allowedFormats = allowedFormats;
+    this.maxBundleSize = cfg.getInt("download", "maxBundleSize",
+        MAX_DEFAULT_BUNDLE_SIZE);
   }
 
   @Override
@@ -120,27 +128,34 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       bin = new BinaryResult() {
         @Override
         public void writeTo(OutputStream out) throws IOException {
-          ArchiveOutputStream aos = f.createArchiveOutputStream(out);
-
-          for (Project.NameKey p : projects) {
-            OpenRepo or = orm.getRepo(p);
-            BundleWriter bw = new BundleWriter(or.getRepo());
-            bw.setObjectCountCallback(null);
-            bw.setPackConfig(null);
-            Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
-            for (ReceiveCommand r : refs) {
-              bw.include(r.getRefName(), r.getNewId());
-              if (!r.getOldId().equals(ObjectId.zeroId())) {
-                bw.assume(or.getCodeReviewRevWalk().parseCommit(r.getOldId()));
+          try (ArchiveOutputStream aos = f.createArchiveOutputStream(out)) {
+            for (Project.NameKey p : projects) {
+              OpenRepo or = orm.getRepo(p);
+              BundleWriter bw = new BundleWriter(or.getRepo());
+              bw.setObjectCountCallback(null);
+              bw.setPackConfig(null);
+              Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
+              for (ReceiveCommand r : refs) {
+                bw.include(r.getRefName(), r.getNewId());
+                if (!r.getOldId().equals(ObjectId.zeroId())) {
+                  bw.assume(or.getCodeReviewRevWalk().parseCommit(r.getOldId()));
+                }
               }
+              // This naming scheme cannot produce directory/file conflicts
+              // as no projects contains ".git/":
+              String path = p.get() + ".git";
+
+              ByteArrayOutputStream bos = new LimitedByteArrayOutputStream(
+                  maxBundleSize, 1024);
+              bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
+              f.putEntry(aos, path, bos.toByteArray());
             }
-            // This naming scheme cannot produce directory/file conflicts
-            // as no projects contains ".git/":
-            aos.putArchiveEntry(f.prepareArchiveEntry(p.get() + ".git"));
-            bw.writeBundle(NullProgressMonitor.INSTANCE, aos);
-            aos.closeArchiveEntry();
+          } catch (RuntimeException e) {
+            if (e.getMessage() == LimitedByteArrayOutputStream.OVERSIZE_ERROR) {
+              throw new IOException("created bundles too large");
+            }
+            throw e;
           }
-          aos.finish();
         }
       };
     }

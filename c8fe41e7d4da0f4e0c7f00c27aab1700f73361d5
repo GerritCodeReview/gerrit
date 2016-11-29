@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_05ec52d7",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-29T22:08:32Z",
+      "side": 1,
+      "message": "Actually, looking at the below function, there\u0027s a clear pattern I ought to be following that I didn\u0027t.",
+      "parentUuid": "9071345a_29c04d36",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_2512ae0a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
       "writtenOn": "2016-11-29T20:28:00Z",
       "side": 1,
       "message": "If we include trailing newlines in the blocks of GR-FORMATTED-TEXT would this be unnecessary?",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_25e94ec8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-29T22:08:32Z",
+      "side": 1,
+      "message": "Yes, although I assumed that you used padding between sections in gr-formatted-text instead of newlines on purpose. If I can swap out the padding for \\n, then this entire section is unnecessary.",
+      "parentUuid": "105d44d4_2512ae0a",
       "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +141,24 @@
         "endLine": 236,
         "endChar": 37
       },
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_c5c4fa53",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-29T22:08:32Z",
+      "side": 1,
+      "message": "Why?",
+      "parentUuid": "9071345a_69b645dd",
       "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

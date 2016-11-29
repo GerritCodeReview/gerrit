@@ -41,6 +41,7 @@ public interface RevisionApi {
   void submit() throws RestApiException;
   void submit(SubmitInput in) throws RestApiException;
   BinaryResult submitPreview() throws RestApiException;
+  BinaryResult submitPreview(String format) throws RestApiException;
   void publish() throws RestApiException;
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
   ChangeApi rebase() throws RestApiException;
@@ -275,6 +276,11 @@ public interface RevisionApi {
 
     @Override
     public BinaryResult submitPreview() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public BinaryResult submitPreview(String format) throws RestApiException {
       throw new NotImplementedException();
     }
 

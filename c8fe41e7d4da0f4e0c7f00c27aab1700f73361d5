@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_85ce0270",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-29T22:14:08Z",
+      "side": 1,
+      "message": "I\u0027m thinking that if they\u0027re trailing newlines, then they\u0027ll be ignored per HTML whitespace rules. I suppose this won\u0027t be true of PRE... maybe we can only use this rule for PRE?",
+      "parentUuid": "105d44d4_25e94ec8",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_051532f1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 2
@@ -159,6 +177,24 @@
       "side": 1,
       "message": "Why?",
       "parentUuid": "9071345a_69b645dd",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_e5c9f66a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-29T22:14:08Z",
+      "side": 1,
+      "message": "Mainly performance. Just asking for the innerText string can cause a reflow, whereas textContent won\u0027t.\n\nhttp://stackoverflow.com/questions/24427621/innertext-vs-innerhtml-vs-label-vs-text-vs-textcontent-vs-outertext",
+      "parentUuid": "105d44d4_c5c4fa53",
       "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

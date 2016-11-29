@@ -73,6 +73,8 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -91,6 +93,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
@@ -128,6 +131,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Inject
   private BatchUpdate.Factory updateFactory;
+
+  @Inject
+  private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
   @Before
   public void setTimeForTesting() {
@@ -1806,6 +1812,44 @@ public class ChangeIT extends AbstractDaemonTest {
         "Custom2: Administrator <admin@example.com>",
         "Tested-by: Administrator <admin@example.com>");
 
+    assertThat(footers).containsExactlyElementsIn(expectedFooters);
+  }
+
+  @Test
+  public void customCommitFooters() throws Exception{
+    PushOneCommit.Result change = createChange();
+    RegistrationHandle handle =
+        changeMessageModifiers.add(new ChangeMessageModifier() {
+
+          @Override
+          public String onSubmit(String newCommitMessage, RevCommit original,
+              RevCommit mergeTip, ChangeControl ctl) {
+            return newCommitMessage + "Custom: "
+                + ctl.getChange().getDest().get();
+          }
+        });
+    ChangeInfo actual;
+    try{
+      EnumSet<ListChangesOption> options = EnumSet.of(
+          ListChangesOption.ALL_REVISIONS, ListChangesOption.COMMIT_FOOTERS);
+      actual = gApi.changes().id(change.getChangeId()).get(options);
+    }
+    finally {
+      handle.remove();
+    }
+    List<String> footers =
+        new ArrayList<>(Arrays.asList(
+            actual.revisions.get(change.getCommit().getName())
+            .commitWithFooters.split("\\n")));
+    // remove subject + blank line
+    footers.remove(0);
+    footers.remove(0);
+
+    List<String> expectedFooters = Arrays.asList(
+        "Change-Id: " + change.getChangeId(),
+        "Reviewed-on: "
+            + canonicalWebUrl.get() + change.getChange().getId(),
+        "Custom: refs/heads/master");
     assertThat(footers).containsExactlyElementsIn(expectedFooters);
   }
 

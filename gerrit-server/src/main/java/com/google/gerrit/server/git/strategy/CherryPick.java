@@ -33,6 +33,7 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
@@ -99,8 +100,10 @@ public class CherryPick extends SubmitStrategy {
       args.rw.parseBody(toMerge);
       psId = ChangeUtil.nextPatchSetId(
           args.repo, toMerge.change().currentPatchSetId());
+      RevCommit mergeTip = args.mergeTip.getCurrentTip();
+      args.rw.parseBody(mergeTip);
       String cherryPickCmtMsg =
-          args.mergeUtil.createDetailedCommitMessage(toMerge);
+          args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
 
       PersonIdent committer = args.caller.newCommitterIdent(
           ctx.getWhen(), args.serverIdent.getTimeZone());

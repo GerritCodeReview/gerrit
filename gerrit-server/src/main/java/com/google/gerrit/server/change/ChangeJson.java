@@ -121,6 +121,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -1111,9 +1112,15 @@ public class ChangeJson {
           out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS), fillCommit);
         }
         if (addFooters) {
+          Ref ref = repo.exactRef(in.getRefName());
+          RevCommit mergeTip = null;
+          if (ref != null){
+            mergeTip = rw.parseCommit(ref.getObjectId());
+            rw.parseBody(mergeTip);
+          }
           out.commitWithFooters = mergeUtilFactory
               .create(projectCache.get(project))
-              .createDetailedCommitMessage(commit, ctl, in.getId());
+              .createCommitMessageOnSubmit(commit, mergeTip, ctl, in.getId());
         }
       }
     }

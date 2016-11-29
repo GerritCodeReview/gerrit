@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_658602fd",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-29T10:31:12Z",
+      "side": 1,
+      "message": "Keep the instructions about how to push a draft patch set to a draft change?",
+      "revId": "0ee93c172cf87ac9064ca5de2bc1e4d8a372636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

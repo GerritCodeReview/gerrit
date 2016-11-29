@@ -29,6 +29,7 @@ java_library(
 
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcprov',
+    '//lib/commons:compress',
     '//lib/greenmail:greenmail',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',

@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 wct_bin=$(which wct)
-if [[ -z "$wct_bin" ]]; then
+if [ -z "$wct_bin" ]; then
     echo "WCT must be on the path."
     exit 1
 fi
 
 npm_bin=$(which npm)
-if [[ -z "$npm_bin" ]]; then
+if [ -z "$npm_bin" ]; then
     echo "NPM must be on the path."
     exit 1
 fi

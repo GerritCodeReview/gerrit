@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_a575aaec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-11-29T20:45:28Z",
+      "side": 1,
+      "message": "... in which case add a \"WIP:\" prefix to the subject and mention in the body of the commit message:\n\n  TODO: Fix classpath generation for the Eclipse IDE to reflect the changed location of the source jar.",
+      "parentUuid": "70e76057_e3aa0c68",
+      "revId": "b79284f4bb5c5042f70c3bb7130cae381874b2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_7667d0fc",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 1

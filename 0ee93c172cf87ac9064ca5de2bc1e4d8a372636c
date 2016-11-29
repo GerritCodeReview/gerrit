@@ -16,6 +16,24 @@
       "revId": "0ee93c172cf87ac9064ca5de2bc1e4d8a372636c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301ec818_365d5835",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-29T10:32:46Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "50ec1c3c_658602fd",
+      "revId": "0ee93c172cf87ac9064ca5de2bc1e4d8a372636c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

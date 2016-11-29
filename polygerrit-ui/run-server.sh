@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Copyright (C) 2015 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +15,10 @@
 
 set -eu
 
-while [[ ! -f WORKSPACE && "$PWD" != / ]]; do
+while [ ! -f WORKSPACE && "$PWD" != / ]; do
   cd ..
 done
-if [[ ! -f WORKSPACE ]]; then
+if [ ! -f WORKSPACE ]; then
   echo "$(basename "$0"): must be run from a gerrit checkout" 1>&2
   exit 1
 fi

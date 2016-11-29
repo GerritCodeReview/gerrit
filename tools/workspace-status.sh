@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # This script will be run by bazel when the build process starts to
 # generate key-value information that represents the status of the
@@ -10,7 +10,7 @@
 # If the script exits with non-zero code, it's considered as a failure
 # and the output will be discarded.
 
-function rev() {
+rev() {
   cd $1; git describe --always --match "v[0-9].*" --dirty
 }
 

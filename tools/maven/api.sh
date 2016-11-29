@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 # Copyright (C) 2015 The Android Open Source Project
 #
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if [[ "$#" != "1" ]] ; then
+if [ ! "$#" -eq "1" ] ; then
   cat <<EOF
 Usage: run "$0 COMMAND" from the top of your workspace,
 where COMMAND is one of
@@ -53,7 +53,7 @@ war_deploy)
     ;;
 esac
 
-if [[ "${VERBOSE:-x}" != "x" ]]; then
+if [ "${VERBOSE:-x}" != "x" ]; then
   set -o xtrace
 fi
 

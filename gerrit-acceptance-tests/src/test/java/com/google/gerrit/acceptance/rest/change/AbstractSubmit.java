@@ -647,6 +647,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return gApi.changes().id(changeId).current().submitPreview();
   }
 
+  protected BinaryResult submitPreview(String changeId, String format)
+      throws Exception {
+    return gApi.changes().id(changeId).current().submitPreview(format);
+  }
+
   protected void assertSubmittable(String changeId) throws Exception {
     assertThat(get(changeId, SUBMITTABLE).submittable)
         .named("submit bit on ChangeInfo")

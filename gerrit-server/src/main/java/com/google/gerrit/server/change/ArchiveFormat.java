@@ -14,51 +14,27 @@
 
 package com.google.gerrit.server.change;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.eclipse.jgit.api.ArchiveCommand;
+import org.eclipse.jgit.api.ArchiveCommand.Format;
 import org.eclipse.jgit.archive.TarFormat;
 import org.eclipse.jgit.archive.Tbz2Format;
 import org.eclipse.jgit.archive.TgzFormat;
 import org.eclipse.jgit.archive.TxzFormat;
 import org.eclipse.jgit.archive.ZipFormat;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectLoader;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 
 public enum ArchiveFormat {
-  TGZ("application/x-gzip", new TgzFormat()) {
-    @Override
-    public ArchiveEntry prepareArchiveEntry(String fileName) {
-      return new TarArchiveEntry(fileName);
-    }
-  },
-  TAR("application/x-tar", new TarFormat()) {
-    @Override
-    public ArchiveEntry prepareArchiveEntry(String fileName) {
-      return new TarArchiveEntry(fileName);
-    }
-  },
-  TBZ2("application/x-bzip2", new Tbz2Format()) {
-    @Override
-    public ArchiveEntry prepareArchiveEntry(String fileName) {
-      return new TarArchiveEntry(fileName);
-    }
-  },
-  TXZ("application/x-xz", new TxzFormat()) {
-    @Override
-    public ArchiveEntry prepareArchiveEntry(String fileName) {
-      return new TarArchiveEntry(fileName);
-    }
-  },
-  ZIP("application/x-zip", new ZipFormat()) {
-    @Override
-    public ArchiveEntry prepareArchiveEntry(String fileName) {
-      return new ZipArchiveEntry(fileName);
-    }
-  };
+  TGZ("application/x-gzip", new TgzFormat()),
+  TAR("application/x-tar", new TarFormat()),
+  TBZ2("application/x-bzip2", new Tbz2Format()),
+  TXZ("application/x-xz", new TxzFormat()),
+  ZIP("application/x-zip", new ZipFormat());
 
   private final ArchiveCommand.Format<?> format;
   private final String mimeType;
@@ -90,5 +66,11 @@ public enum ArchiveFormat {
     return (ArchiveOutputStream)this.format.createArchiveOutputStream(o);
   }
 
-  public abstract ArchiveEntry prepareArchiveEntry(final String fileName);
+  public <T extends Closeable> void putEntry(T out, String path, byte[] data)
+      throws IOException {
+    @SuppressWarnings("unchecked")
+    ArchiveCommand.Format<T> fmt = (Format<T>) format;
+    fmt.putEntry(out, path, FileMode.REGULAR_FILE,
+          new ObjectLoader.SmallObject(FileMode.TYPE_FILE, data));
+  }
 }

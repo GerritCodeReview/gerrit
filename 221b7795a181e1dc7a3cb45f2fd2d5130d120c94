@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_85c186ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-29T16:29:19Z",
+      "side": 1,
+      "message": "ctl has rich set of accessors to provide project, destination branch, information about patches and notes.  I\u0027m not sure it\u0027s a great idea to expose this.\n\nAlso, maybe I should instead pass all these parameters as one object containing them all s.t. this extension point can be extended without breaking backwards compatibility?",
+      "range": {
+        "startLine": 52,
+        "startChar": 26,
+        "endLine": 52,
+        "endChar": 43
+      },
+      "revId": "221b7795a181e1dc7a3cb45f2fd2d5130d120c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

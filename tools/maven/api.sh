@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash -e
 
 # Copyright (C) 2015 The Android Open Source Project
 #

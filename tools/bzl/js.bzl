@@ -105,7 +105,7 @@ def _bower_archive(ctx):
     ]), False)
 
 def _bash(ctx, cmd):
-  cmd_list = ["/bin/bash", "-c", cmd]
+  cmd_list = ["bash", "-c", cmd]
   out = ctx.execute(cmd_list)
   if out.return_code:
     fail("failed %s: %s" % (" ".join(cmd_list), out.stderr))

@@ -29,6 +29,19 @@
     ],
 
     /**
+     * Get the plain text as it appears in the generated DOM.
+     *
+     * This differs from the `content` property in that it will not include
+     * formatting makrers such as > characters to make quotes or * and - makrers
+     * to make list items.
+     *
+     * @return {string}
+     */
+    getTextContent: function() {
+      return this._blocksToText(this._computeBlocks(this.content));
+    },
+
+    /**
      * Given a source string, update the DOM inside #container.
      */
     _contentOrConfigChanged: function(content) {
@@ -53,11 +66,14 @@
      * * 'pre' (Pre-formatted text.)
      * * 'list' (Unordered list.)
      *
-     * For blocks of type 'paragraph', 'quote' or 'pre', there is a `text`
-     * property that maps to a string of the block's content.
+     * For blocks of type 'paragraph', and 'pre', there is a `text` property
+     * that maps to a string of the block's content.
      *
      * For blocks of type 'list', there is an `items` property that maps to a
      * list of strings representing the list items.
+     *
+     * For blocks of type 'quote', there is a `blocks` property that maps to a
+     * list of blocks contained in the quote.
      *
      * NOTE: Strings appearing in all block objects are NOT escaped.
      *
@@ -231,6 +247,20 @@
           return ul;
         }
       }.bind(this));
+    },
+
+    _blocksToText: function(blocks) {
+      return blocks.map(function(block) {
+        if (block.type === 'paragraph' || block.type === 'pre') {
+          return block.text;
+        }
+        if (block.type === 'quote') {
+          return this._blocksToText(block.blocks);
+        }
+        if (block.type === 'list') {
+          return block.items.join('\n');
+        }
+      }.bind(this)).join('\n\n');
     },
   });
 })();

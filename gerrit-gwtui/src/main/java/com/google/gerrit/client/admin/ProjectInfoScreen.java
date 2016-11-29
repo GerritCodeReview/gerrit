@@ -72,6 +72,7 @@ import java.util.Map.Entry;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private boolean isOwner;
+  private boolean configVisible;
 
   private LabeledWidgetsGrid grid;
   private Panel pluginOptionsPanel;
@@ -154,6 +155,7 @@ public class ProjectInfoScreen extends ProjectScreen {
           @Override
           public void onSuccess(ProjectAccessInfo result) {
             isOwner = result.isOwner();
+            configVisible = result.configVisible();
             enableForm();
             saveProject.setVisible(isOwner);
           }
@@ -625,7 +627,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       actionsPanel.add(createChangeAction());
     }
 
-    if (isOwner) {
+    if (isOwner && configVisible) {
       actionsPanel.add(createEditConfigAction());
     }
   }

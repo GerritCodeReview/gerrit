@@ -210,7 +210,7 @@ def gen_classpath(ext):
       if m:
         prefix = m.group(1)
         suffix = m.group(2)
-        p = path.join(prefix, "src", "%s-src.jar" % suffix)
+        p = path.join(prefix, "jar", "%s-src.jar" % suffix)
         if path.exists(p):
           s = p
       # TODO(davido): make plugins actually work

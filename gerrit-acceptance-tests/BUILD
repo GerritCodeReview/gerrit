@@ -31,6 +31,7 @@ java_library2(
 
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcprov',
+    '//lib/commons:compress',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',

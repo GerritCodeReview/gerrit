@@ -3468,7 +3468,8 @@ message is contained in the response body.
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
 --
 
-Publishes a draft revision.
+Publishes the change that this draft revision belongs to including all other
+draft revisions on that change.
 
 .Request
 ----

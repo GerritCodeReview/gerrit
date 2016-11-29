@@ -159,23 +159,6 @@ public class DraftChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteDraftChangeWithNonDraftPatchSet() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
-
-    PushOneCommit.Result changeResult = createDraftChange();
-    Change.Id id = changeResult.getChange().getId();
-    setDraftStatusOfPatchSetsOfChange(id, false);
-
-    String changeId = changeResult.getChangeId();
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format(
-        "Cannot delete draft change %s: patch set 1 is not a draft", id));
-    gApi.changes()
-        .id(changeId)
-        .delete();
-  }
-
-  @Test
   public void publishDraftChange() throws Exception {
     assume().that(isAllowDrafts()).isTrue();
     PushOneCommit.Result result = createDraftChange();
@@ -193,17 +176,26 @@ public class DraftChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void publishDraftPatchSet() throws Exception {
+  public void publishDraftChangeWithMultiplePatchSets() throws Exception {
     assume().that(isAllowDrafts()).isTrue();
-    PushOneCommit.Result result = createDraftChange();
-    result.assertOkStatus();
-    String changeId = result.getChangeId();
-    String triplet = project.get() + "~master~" + changeId;
+    PushOneCommit.Result c1 = createDraftChange();
+    c1.assertOkStatus();
+    PushOneCommit.Result c2 =
+        amendChange(c1.getChangeId(), "refs/drafts/master");
+    c2.assertOkStatus();
+
+    String triplet = project.get() + "~master~" + c1.getChangeId();
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
-    publishPatchSet(changeId).assertNoContent();
-    assertThat(get(triplet).status).isEqualTo(ChangeStatus.NEW);
+    assertThat(c.revisions.get(c.currentRevision).draft).isTrue();
+
+    publishChange(c1.getChangeId()).assertNoContent();
+
+    c = get(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(getPatchSetDraftStatuses(c1.getChange().getId()))
+        .containsExactly(null, null);
   }
 
   @Test
@@ -250,16 +242,6 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
   private RestResponse publishChange(String changeId) throws Exception {
     return adminRestSession.post("/changes/" + changeId + "/publish");
-  }
-
-  private RestResponse publishPatchSet(String changeId) throws Exception {
-    PatchSet patchSet = Iterables.getOnlyElement(
-        queryProvider.get().byKeyPrefix(changeId)).currentPatchSet();
-    return adminRestSession.post("/changes/"
-        + changeId
-        + "/revisions/"
-        + patchSet.getRevision().get()
-        + "/publish");
   }
 
   private void markChangeAsDraft(Change.Id id) throws Exception {

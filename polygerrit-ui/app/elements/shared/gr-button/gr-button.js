@@ -29,6 +29,11 @@
       },
     },
 
+    listeners: {
+      'tap': '_handleAction',
+      'click': '_handleAction',
+    },
+
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.TooltipBehavior,
@@ -41,6 +46,13 @@
 
     keyBindings: {
       'space enter': '_handleCommitKey',
+    },
+
+    _handleAction: function(e) {
+      if (this.disabled) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
     },
 
     _disabledChanged: function(disabled) {

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_45d49ed7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-29T12:07:26Z",
+      "side": 1,
+      "message": "That will just work as we used the timestamp of when the comments were persisted to group them together. So comments on multiple PS are fine.\nI\u0027ve added this to the email metadata and MetadataParser here: \nhttps://gerrit-review.googlesource.com/#/c/91596/\nhttps://gerrit-review.googlesource.com/#/c/91570/",
+      "parentUuid": "70e76057_032bb046",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "16c86e043d6adaf4ddfb7ad5f8c8fddd56d4e6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10c70467_b5054033",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
         "patchSetId": 2

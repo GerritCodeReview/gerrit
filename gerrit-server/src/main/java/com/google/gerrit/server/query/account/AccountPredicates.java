@@ -47,7 +47,7 @@ public class AccountPredicates {
     return Predicate.or(preds);
   }
 
-  static Predicate<AccountState> id(Account.Id accountId) {
+  public static Predicate<AccountState> id(Account.Id accountId) {
     return new AccountPredicate(AccountField.ID,
         AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
   }

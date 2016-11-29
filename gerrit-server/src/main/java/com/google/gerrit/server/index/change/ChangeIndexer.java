@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.gerrit.server.extensions.events.EventUtil.logEventListenerError;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
@@ -28,7 +29,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -43,6 +46,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,16 +106,23 @@ public class ChangeIndexer {
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
+  private final ListeningExecutorService batchExecutor;
   private final ListeningExecutorService executor;
   private final DynamicSet<ChangeIndexedListener> indexedListeners;
+  private final StalenessChecker stalenessChecker;
+  private final boolean reindexAfterIndexUpdate;
 
   @AssistedInject
-  ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+  ChangeIndexer(
+      @GerritServerConfig Config cfg,
+      SchemaFactory<ReviewDb> schemaFactory,
       NotesMigration notesMigration,
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       DynamicSet<ChangeIndexedListener> indexedListeners,
+      StalenessChecker stalenessChecker,
+      @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
@@ -121,17 +132,23 @@ public class ChangeIndexer {
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
+    this.stalenessChecker = stalenessChecker;
+    this.batchExecutor = batchExecutor;
+    this.reindexAfterIndexUpdate = reindexAfterIndexUpdate(cfg);
     this.index = index;
     this.indexes = null;
   }
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+      @GerritServerConfig Config cfg,
       NotesMigration notesMigration,
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       DynamicSet<ChangeIndexedListener> indexedListeners,
+      StalenessChecker stalenessChecker,
+      @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
@@ -141,8 +158,15 @@ public class ChangeIndexer {
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
+    this.stalenessChecker = stalenessChecker;
+    this.batchExecutor = batchExecutor;
+    this.reindexAfterIndexUpdate = reindexAfterIndexUpdate(cfg);
     this.index = null;
     this.indexes = indexes;
+  }
+
+  private static boolean reindexAfterIndexUpdate(Config cfg) {
+    return cfg.getBoolean("index", null, "testReindexAfterUpdate", true);
   }
 
   /**
@@ -181,6 +205,26 @@ public class ChangeIndexer {
       i.replace(cd);
     }
     fireChangeIndexedEvent(cd.getId().get());
+
+    // Always double-check whether the change might be stale immediately after
+    // interactively indexing it. This fixes up the case where two writers write
+    // to the primary storage in one order, and the corresponding index writes
+    // happen in the opposite order:
+    //  1. Writer A writes to primary storage.
+    //  2. Writer B writes to primary storage.
+    //  3. Writer B updates index.
+    //  4. Writer A updates index.
+    //
+    // Without the extra reindexIfStale step, A has no way of knowing that it's
+    // about to overwrite the index document with stale data. It doesn't work to
+    // have A check for staleness before attempting its index update, because
+    // B's index update might not have happened when it does the check.
+    //
+    // With the extra reindexIfStale step after (3)/(4), we are able to detect
+    // and fix the staleness. It doesn't matter which order the two
+    // reindexIfStale calls actually execute in; we are guaranteed that at least
+    // one of them will execute after the second index write, (4).
+    reindexAfterIndexUpdate(cd);
   }
 
   private void fireChangeIndexedEvent(int id) {
@@ -212,6 +256,8 @@ public class ChangeIndexer {
   public void index(ReviewDb db, Change change)
       throws IOException, OrmException {
     index(newChangeData(db, change));
+    // See comment in #index(ChangeData).
+    reindexAfterIndexUpdate(change.getProject(), change.getId());
   }
 
   /**
@@ -223,7 +269,10 @@ public class ChangeIndexer {
    */
   public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
       throws IOException, OrmException {
-    index(newChangeData(db, project, changeId));
+    ChangeData cd = newChangeData(db, project, changeId);
+    index(cd);
+    // See comment in #index(ChangeData).
+    reindexAfterIndexUpdate(cd);
   }
 
   /**
@@ -245,28 +294,68 @@ public class ChangeIndexer {
     new DeleteTask(id).call();
   }
 
+  /**
+   * Asynchronously check if a change is stale, and reindex if it is.
+   * <p>
+   * Always run on the batch executor, even if this indexer instance is
+   * configured to use a different executor.
+   *
+   * @param project the project to which the change belongs.
+   * @param id ID of the change to index.
+   * @return future for reindexing the change; returns true if the change was
+   *     stale.
+   */
+  public CheckedFuture<Boolean, IOException> reindexIfStale(
+      Project.NameKey project, Change.Id id) {
+    return submit(new ReindexIfStaleTask(project, id), batchExecutor);
+  }
+
+  private void reindexAfterIndexUpdate(ChangeData cd) throws IOException {
+    try {
+      reindexAfterIndexUpdate(cd.project(), cd.getId());
+    } catch (OrmException e) {
+      throw new IOException(e);
+    }
+  }
+
+  private void reindexAfterIndexUpdate(Project.NameKey project, Change.Id id) {
+    if (reindexAfterIndexUpdate) {
+      reindexIfStale(project, id);
+    }
+  }
+
   private Collection<ChangeIndex> getWriteIndexes() {
     return indexes != null
         ? indexes.getWriteIndexes()
         : Collections.singleton(index);
   }
 
-  private CheckedFuture<?, IOException> submit(Callable<?> task) {
+  private <T> CheckedFuture<T, IOException> submit(Callable<T> task) {
+    return submit(task, executor);
+  }
+
+  private static <T> CheckedFuture<T, IOException> submit(Callable<T> task,
+      ListeningExecutorService executor) {
     return Futures.makeChecked(
         Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
   }
 
-  private class IndexTask implements Callable<Void> {
-    private final Project.NameKey project;
-    private final Change.Id id;
+  private abstract class AbstractIndexTask<T> implements Callable<T> {
+    protected final Project.NameKey project;
+    protected final Change.Id id;
 
-    private IndexTask(Project.NameKey project, Change.Id id) {
+    protected AbstractIndexTask(Project.NameKey project, Change.Id id) {
       this.project = project;
       this.id = id;
     }
 
+    protected abstract T callImpl(Provider<ReviewDb> db) throws Exception;
+
     @Override
-    public Void call() throws Exception {
+    public abstract String toString();
+
+    @Override
+    public final T call() throws Exception {
       try {
         final AtomicReference<Provider<ReviewDb>> dbRef =
             Atomics.newReference();
@@ -295,10 +384,7 @@ public class ChangeIndexer {
         };
         RequestContext oldCtx = context.setContext(newCtx);
         try {
-          ChangeData cd = newChangeData(
-              newCtx.getReviewDbProvider().get(), project, id);
-          index(cd);
-          return null;
+          return callImpl(newCtx.getReviewDbProvider());
         } finally  {
           context.setContext(oldCtx);
           Provider<ReviewDb> db = dbRef.get();
@@ -307,17 +393,31 @@ public class ChangeIndexer {
           }
         }
       } catch (Exception e) {
-        log.error(String.format("Failed to index change %d", id.get()), e);
+        log.error("Failed to execute " + this, e);
         throw e;
       }
+    }
+  }
+
+  private class IndexTask extends AbstractIndexTask<Void> {
+    private IndexTask(Project.NameKey project, Change.Id id) {
+      super(project, id);
+    }
+
+    @Override
+    public Void callImpl(Provider<ReviewDb> db) throws Exception {
+      ChangeData cd = newChangeData(db.get(), project, id);
+      index(cd);
+      return null;
     }
 
     @Override
     public String toString() {
-      return "index-change-" + id.get();
+      return "index-change-" + id;
     }
   }
 
+  // Not AbstractIndexTask as it doesn't need ReviewDb.
   private class DeleteTask implements Callable<Void> {
     private final Change.Id id;
 
@@ -336,6 +436,26 @@ public class ChangeIndexer {
       log.info("Deleted change {} from index.", id.get());
       fireChangeDeletedFromIndexEvent(id.get());
       return null;
+    }
+  }
+
+  private class ReindexIfStaleTask extends AbstractIndexTask<Boolean> {
+    private ReindexIfStaleTask(Project.NameKey project, Change.Id id) {
+      super(project, id);
+    }
+
+    @Override
+    public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
+      if (!stalenessChecker.isStale(id)) {
+        return false;
+      }
+      index(newChangeData(db.get(), project, id));
+      return true;
+    }
+
+    @Override
+    public String toString() {
+      return "reindex-if-stale-change-" + id;
     }
   }
 

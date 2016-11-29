@@ -17,8 +17,11 @@ package com.google.gerrit.server.index;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gwtorm.server.OrmException;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Secondary index implementation for arbitrary documents.
@@ -89,6 +92,44 @@ public interface Index<K, V> {
    */
   DataSource<V> getSource(Predicate<V> p, QueryOptions opts)
       throws QueryParseException;
+
+  /**
+   * Get a single document from the index.
+   *
+   * @param key document key.
+   * @param opts query options. Options that do not make sense in the context of
+   *     a single document, such as start, will be ignored.
+   * @return a single document if present.
+   * @throws IOException
+   */
+  default Optional<V> get(K key, QueryOptions opts) throws IOException {
+    opts = opts.withStart(0).withLimit(2);
+    List<V> results;
+    try {
+      results = getSource(keyPredicate(key), opts).read().toList();
+    } catch (QueryParseException e) {
+      throw new IOException("Unexpected QueryParseException during get()", e);
+    } catch (OrmException e) {
+      throw new IOException(e);
+    }
+    switch (results.size()) {
+      case 0:
+        return Optional.empty();
+      case 1:
+        return Optional.of(results.get(0));
+      default:
+        throw new IOException("Multiple results found in index for key "
+            + key + ": " + results);
+    }
+  }
+
+  /**
+   * Get a predicate that looks up a single document by key.
+   *
+   * @param key document key.
+   * @return a single predicate.
+   */
+  Predicate<V> keyPredicate(K key);
 
   /**
    * Mark whether this index is up-to-date and ready to serve reads.

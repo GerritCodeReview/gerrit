@@ -372,6 +372,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return change;
   }
 
+  public ObjectId getMetaId() {
+    return state.metaId();
+  }
+
   public ImmutableSortedMap<PatchSet.Id, PatchSet> getPatchSets() {
     if (patchSets == null) {
       ImmutableSortedMap.Builder<PatchSet.Id, PatchSet> b =
@@ -510,7 +514,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return draftCommentNotes;
   }
 
-  RobotCommentNotes getRobotCommentNotes() {
+  public RobotCommentNotes getRobotCommentNotes() {
     return robotCommentNotes;
   }
 
@@ -532,7 +536,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
-  protected String getRefName() {
+  public String getRefName() {
     return changeMetaRef(getChangeId());
   }
 

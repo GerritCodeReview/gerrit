@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 public class LegacyChangeIdPredicate extends ChangeIndexPredicate {
   private final Change.Id id;
 
-  LegacyChangeIdPredicate(Change.Id id) {
+  public LegacyChangeIdPredicate(Change.Id id) {
     super(LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
     this.id = id;
   }

@@ -110,6 +110,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public static Config defaultConfig() {
     Config cfg = new Config();
     cfg.setBoolean("noteDb", null, "testRebuilderWrapper", true);
+
+    // Disable async reindex-if-stale check after index update. This avoids
+    // unintentional auto-rebuilding of the change in NoteDb during the read
+    // path of the reindex-if-stale check. For the purposes of this test, we
+    // want precise control over when auto-rebuilding happens.
+    cfg.setBoolean("index", null, "testReindexAfterUpdate", false);
+
     return cfg;
   }
 

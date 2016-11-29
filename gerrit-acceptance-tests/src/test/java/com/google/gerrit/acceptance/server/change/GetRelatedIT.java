@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.RawInputUtil;
@@ -648,6 +649,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "index.testReindexAfterUpdate", value = "false")
   public void getRelatedForStaleChange() throws Exception {
     RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")

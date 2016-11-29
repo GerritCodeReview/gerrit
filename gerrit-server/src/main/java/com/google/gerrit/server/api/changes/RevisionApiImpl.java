@@ -220,7 +220,12 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public BinaryResult submitPreview() throws RestApiException {
-    submitPreview.setFormat("zip");
+    return submitPreview("zip");
+  }
+
+  @Override
+  public BinaryResult submitPreview(String format) throws RestApiException {
+    submitPreview.setFormat(format);
     return submitPreview.apply(revision);
   }
 

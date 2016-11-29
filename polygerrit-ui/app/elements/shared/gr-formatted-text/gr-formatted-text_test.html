@@ -346,5 +346,13 @@ limitations under the License.
       assertBlock(result[0].blocks[0].blocks, 0, 'paragraph', 'prior');
       assertBlock(result[0].blocks, 1, 'paragraph', 'next\n');
     });
+
+    test('getTextContent', function() {
+      var comment = 'Paragraph\n\n  pre\n\n* List\n* Of\n* Items\n\n> Quote';
+      element.content = comment;
+      var result = element.getTextContent();
+      var expected = 'Paragraph\n\n  pre\n\nList\nOf\nItems\n\nQuote';
+      assert.equal(result, expected);
+    });
   });
 </script>

@@ -689,8 +689,8 @@
                 if (!change.reviewer_updates) {
                   change.reviewer_updates = null;
                 }
-                var currentRevision =
-                    change.revisions[this._getLatestRevisionSHA(change)];
+                var latestRevisionSha = this._getLatestRevisionSHA(change);
+                var currentRevision = change.revisions[latestRevisionSha];
                 if (currentRevision.commit && currentRevision.commit.message) {
                   this._latestCommitMessage = currentRevision.commit.message;
                 } else {
@@ -700,6 +700,9 @@
                 this._change = change;
                 if (!this._patchRange || !this._patchRange.patchNum ||
                     this._patchRange.patchNum === currentRevision._number) {
+                  if (!currentRevision.commit.commit) {
+                    currentRevision.commit.commit = latestRevisionSha;
+                  }
                   this._commitInfo = currentRevision.commit;
                   this._currentRevisionActions = currentRevision.actions;
                   // TODO: Fetch and process files.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_e5de92f9",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-11-29T13:35:51Z",
+      "side": 1,
+      "message": "is it possible to create a script that just does all these things so people don\u0027t have to hunt for files and menu settings?",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 14
+      },
+      "revId": "b11a075730760652a994d74570524160628c8c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

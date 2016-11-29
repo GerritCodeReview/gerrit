@@ -22,6 +22,30 @@
       "revId": "b11a075730760652a994d74570524160628c8c7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_83c34044",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-11-29T16:12:24Z",
+      "side": 1,
+      "message": "It might be possible. For such a script, you needed to find out which IntelliJ settings files must be modified. Hopefully, all of those settings reside in the project directory because probably not everybody would be happy if such a script changed global IntelliJ settings.\n\nAnother possibility would be to provide a pre-configured IntelliJ project but I don\u0027t know whether that works for projects based on Bazel.",
+      "parentUuid": "50ec1c3c_e5de92f9",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 14
+      },
+      "revId": "b11a075730760652a994d74570524160628c8c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

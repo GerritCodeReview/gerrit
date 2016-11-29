@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_02cf2c6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-29T09:05:22Z",
+      "side": 1,
+      "message": "I am an optimist :)\n... still changed the message",
+      "parentUuid": "50ec1c3c_c2a544eb",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d8b07e1_e0218213",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-28T08:59:22Z",
       "side": 1,
       "message": "Shouldn\u0027t this now fail?",
+      "range": {
+        "startLine": 242,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 43
+      },
+      "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_c2ab846e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-29T09:05:22Z",
+      "side": 1,
+      "message": "Hm I don\u0027t think so as commitBuilder().message().create() will always create a new change. Therefore we push a new draft change that is based on a public change rather than a new draft PS on a public change.",
+      "parentUuid": "6d8b07e1_e0218213",
       "range": {
         "startLine": 242,
         "startChar": 4,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "70e76057_2364f4c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-29T09:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e76057_e3fa0c02",
+      "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301ec818_3609d84f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2016-11-28T08:59:22Z",
       "side": 1,
       "message": "log the error?",
+      "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_436778ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-29T09:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301ec818_3609d84f",
       "revId": "32aa21055ff2010f189285b410ba5cbe241826c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

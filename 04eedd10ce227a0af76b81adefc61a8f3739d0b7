@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed9e1721_1c1895ec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-30T15:13:24Z",
+      "side": 1,
+      "message": "You’re not firing the right event (`ack`). This should fail.",
+      "range": {
+        "startLine": 197,
+        "startChar": 22,
+        "endLine": 197,
+        "endChar": 26
+      },
+      "revId": "04eedd10ce227a0af76b81adefc61a8f3739d0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -187,6 +187,24 @@
       "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_eca3ab80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-11-30T16:52:49Z",
+      "side": 1,
+      "message": "ah, i see. Makes sense.",
+      "parentUuid": "50ec1c3c_a5948a93",
+      "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

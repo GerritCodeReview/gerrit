@@ -1,6 +1,6 @@
 java_library(
-  name = 'dropwizard-core',
-  exports = ['@dropwizard_core//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "dropwizard-core",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@dropwizard_core//jar"],
 )

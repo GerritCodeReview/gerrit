@@ -15,11 +15,9 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -94,13 +92,9 @@ limitations under the License.
       .changeMetadata {
         font-size: .95em;
       }
-      /* Prevent plugin text from overflowing. */
-      #change_plugins {
-        word-break: break-word;
-      }
       .commitMessage {
         font-family: var(--monospace-font-family);
-        flex: 1 0 72ch;
+        flex: 0 0 72ch;
         margin-right: 2em;
         margin-bottom: 1em;
       }
@@ -160,9 +154,6 @@ limitations under the License.
       .latestPatchContainer {
         display: none;
       }
-      .patchSetSelect {
-        max-width: 25em;
-      }
       @media screen and (max-width: 50em) {
         .header {
           align-items: flex-start;
@@ -177,7 +168,7 @@ limitations under the License.
         }
         gr-reply-dialog {
           min-width: initial;
-          width: 100vw;
+          width: 90vw;
         }
         .downloadContainer {
           display: none;
@@ -213,20 +204,17 @@ limitations under the License.
           flex: initial;
           margin-right: 0;
         }
-        .scrollable {
-          @apply(--layout-scroll);
-        }
       }
     </style>
-    <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
+    <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
       <div class="header">
         <span class="header-title">
           <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
           <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
        --><span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span><!--
-       -->:
-          [[_change.subject]]
+       --><span>:</span>
+          <span>[[_change.subject]]</span>
         </span>
       </div>
       <section class="changeInfo">
@@ -243,7 +231,7 @@ limitations under the License.
           <div id="change_plugins"></div>
         </div>
         <div class="changeInfo-column mainChangeInfo">
-          <div class="commitActions" hidden$="[[!_loggedIn]]">
+          <div class="commitActions" hidden$="[[!_loggedIn]]"">
             <gr-button
                 class="reply"
                 secondary
@@ -251,10 +239,7 @@ limitations under the License.
             <gr-change-actions id="actions"
                 change="[[_change]]"
                 actions="[[_change.actions]]"
-                revision-actions="[[_currentRevisionActions]]"
                 change-num="[[_changeNum]]"
-                change-status="[[_change.status]]"
-                commit-num="[[_commitInfo.commit]]"
                 patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
                 commit-message="[[_latestCommitMessage]]"
                 on-reload-change="_handleReloadChange"></gr-change-actions>
@@ -276,32 +261,21 @@ limitations under the License.
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"
                   change="[[_change]]"
-                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]">
-              </gr-related-changes-list>
+                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"></gr-related-changes-list>
             </div>
           </div>
         </div>
       </section>
-      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum,
-          _allPatchSets)]]">
+      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum, _allPatchSets)]]">
         <div class="patchInfo-header">
           <div>
-            <label class="patchSelectLabel" for="patchSetSelect">
-              Patch set
-            </label>
-            <select
-                is="gr-select"
-                id="patchSetSelect"
-                bind-value="{{_selectedPatchSet}}"
-                class="patchSetSelect"
-                on-change="_handlePatchChange">
-              <template is="dom-repeat" items="[[_allPatchSets]]"
-                  as="patchNumber">
-                <option value$="[[patchNumber]]">
-                  [[patchNumber]]
+            <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
+            <select id="patchSetSelect" on-change="_handlePatchChange">
+              <template is="dom-repeat" items="[[_allPatchSets]]" as="patchNumber">
+                <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
+                  <span>[[patchNumber]]</span>
                   /
-                  [[_computeLatestPatchNum(_allPatchSets)]]
-                  [[_computePatchSetDescription(_change, patchNumber)]]
+                  <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
                 </option>
               </template>
             </select>
@@ -328,7 +302,7 @@ limitations under the License.
             comments="[[_comments]]"
             drafts="[[_diffDrafts]]"
             revisions="[[_change.revisions]]"
-            project-config="[[_projectConfig]]"
+            projectConfig="[[_projectConfig]]"
             selected-index="{{viewState.selectedFileIndex}}"
             diff-view-mode="{{viewState.diffMode}}"></gr-file-list>
       </section>
@@ -351,7 +325,6 @@ limitations under the License.
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
-        class="scrollable"
         no-cancel-on-outside-click
         on-iron-overlay-opened="_handleReplyOverlayOpen"
         with-backdrop>
@@ -361,13 +334,13 @@ limitations under the License.
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"
           server-config="[[serverConfig]]"
-          project-config="[[_projectConfig]]"
           on-send="_handleReplySent"
           on-cancel="_handleReplyCancel"
           on-autogrow="_handleReplyAutogrow"
           hidden$="[[!_loggedIn]]">Reply</gr-reply-dialog>
     </gr-overlay>
-    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
+    <gr-js-api-interface id="jsAPI"
+        server-config="[[serverConfig]]"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-view.js"></script>

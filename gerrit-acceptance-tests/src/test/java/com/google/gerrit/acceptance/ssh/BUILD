@@ -1,8 +1,8 @@
-load('//gerrit-acceptance-tests:tests.bzl', 'acceptance_tests')
+load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-  group = 'ssh',
-  srcs = glob(['*IT.java']),
-  deps = ['//lib/commons:compress'],
-  labels = ['ssh'],
+    srcs = glob(["*IT.java"]),
+    group = "ssh",
+    labels = ["ssh"],
+    deps = ["//lib/commons:compress"],
 )

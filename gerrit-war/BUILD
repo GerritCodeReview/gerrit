@@ -1,71 +1,71 @@
-load('//tools/bzl:genrule2.bzl', 'genrule2')
+load("//tools/bzl:genrule2.bzl", "genrule2")
 
 java_library(
-  name = 'init',
-  srcs = glob(['src/main/java/**/*.java']),
-  deps = [
-    '//gerrit-cache-h2:cache-h2',
-    '//gerrit-elasticsearch:elasticsearch',
-    '//gerrit-extension-api:api',
-    '//gerrit-gpg:gpg',
-    '//gerrit-httpd:httpd',
-    '//gerrit-lucene:lucene',
-    '//gerrit-oauth:oauth',
-    '//gerrit-openid:openid',
-    '//gerrit-pgm:http',
-    '//gerrit-pgm:init',
-    '//gerrit-pgm:init-api',
-    '//gerrit-pgm:util',
-    '//gerrit-reviewdb:server',
-    '//gerrit-server:server',
-    '//gerrit-server/src/main/prolog:common',
-    '//gerrit-sshd:sshd',
-    '//lib:guava',
-    '//lib:gwtorm',
-    '//lib:servlet-api-3_1',
-    '//lib/guice:guice',
-    '//lib/guice:guice-servlet',
-    '//lib/jgit/org.eclipse.jgit:jgit',
-    '//lib/log:api',
-  ],
-  visibility = ['//visibility:public'],
+    name = "init",
+    srcs = glob(["src/main/java/**/*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//gerrit-cache-h2:cache-h2",
+        "//gerrit-elasticsearch:elasticsearch",
+        "//gerrit-extension-api:api",
+        "//gerrit-gpg:gpg",
+        "//gerrit-httpd:httpd",
+        "//gerrit-lucene:lucene",
+        "//gerrit-oauth:oauth",
+        "//gerrit-openid:openid",
+        "//gerrit-pgm:http",
+        "//gerrit-pgm:init",
+        "//gerrit-pgm:init-api",
+        "//gerrit-pgm:util",
+        "//gerrit-reviewdb:server",
+        "//gerrit-server:server",
+        "//gerrit-server/src/main/prolog:common",
+        "//gerrit-sshd:sshd",
+        "//lib:guava",
+        "//lib:gwtorm",
+        "//lib:servlet-api-3_1",
+        "//lib/guice",
+        "//lib/guice:guice-servlet",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:api",
+    ],
 )
 
 genrule2(
-  name = 'webapp_assets',
-  cmd = 'cd gerrit-war/src/main/webapp; zip -qr $$ROOT/$@ .',
-  srcs = glob(['src/main/webapp/**/*']),
-  outs = [ 'webapp_assets.zip' ],
-  visibility = ['//visibility:public'],
+    name = "webapp_assets",
+    srcs = glob(["src/main/webapp/**/*"]),
+    outs = ["webapp_assets.zip"],
+    cmd = "cd gerrit-war/src/main/webapp; zip -qr $$ROOT/$@ .",
+    visibility = ["//visibility:public"],
 )
 
 java_import(
-  name = 'log4j-config',
-  jars = [':log4j-config__jar'],
-  visibility = ['//visibility:public'],
+    name = "log4j-config",
+    jars = [":log4j-config__jar"],
+    visibility = ["//visibility:public"],
 )
 
 genrule2(
-  name = 'log4j-config__jar',
-  cmd = 'cd gerrit-war/src/main/resources && zip -9Dqr $$ROOT/$@ .',
-  srcs = ['src/main/resources/log4j.properties'],
-  outs = [ 'log4j-config.jar' ],
+    name = "log4j-config__jar",
+    srcs = ["src/main/resources/log4j.properties"],
+    outs = ["log4j-config.jar"],
+    cmd = "cd gerrit-war/src/main/resources && zip -9Dqr $$ROOT/$@ .",
 )
 
 java_import(
-  name = 'version',
-  jars = [':gen_version'],
-  visibility = ['//visibility:public'],
+    name = "version",
+    jars = [":gen_version"],
+    visibility = ["//visibility:public"],
 )
 
 genrule2(
-  name = 'gen_version',
-  cmd = ' && '.join([
-    'cd $$TMP',
-    'mkdir -p com/google/gerrit/common',
-    'cat $$ROOT/$(location //:version.txt) >com/google/gerrit/common/Version',
-    'zip -9Dqr $$ROOT/$@ .',
-  ]),
-  tools = ['//:version.txt'],
-  outs = [ 'gen_version.jar' ],
+    name = "gen_version",
+    outs = ["gen_version.jar"],
+    cmd = " && ".join([
+        "cd $$TMP",
+        "mkdir -p com/google/gerrit/common",
+        "cat $$ROOT/$(location //:version.txt) >com/google/gerrit/common/Version",
+        "zip -9Dqr $$ROOT/$@ .",
+    ]),
+    tools = ["//:version.txt"],
 )

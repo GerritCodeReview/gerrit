@@ -1,6 +1,6 @@
 java_library(
-  name = 'jsoup',
-  exports = ['@jsoup//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-jsoup'],
+    name = "jsoup",
+    data = ["//lib:LICENSE-jsoup"],
+    visibility = ["//visibility:public"],
+    exports = ["@jsoup//jar"],
 )

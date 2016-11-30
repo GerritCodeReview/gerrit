@@ -1,7 +1,7 @@
-load('//gerrit-acceptance-tests:tests.bzl', 'acceptance_tests')
+load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-  group = 'rest_config',
-  srcs = glob(['*IT.java']),
-  labels = ['rest']
+    srcs = glob(["*IT.java"]),
+    group = "rest_config",
+    labels = ["rest"],
 )

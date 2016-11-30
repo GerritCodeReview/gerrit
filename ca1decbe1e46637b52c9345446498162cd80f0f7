@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "105d44d4_e8ceab19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-11-30T15:27:03Z",
+      "side": 1,
+      "message": "I would implement https://gerrit-review.googlesource.com/Documentation/js-api.html#self_getServerInfo (I believe ServerInfo is the same as serverConfig) instead of adding the argument here.",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 50
+      },
+      "revId": "ca1decbe1e46637b52c9345446498162cd80f0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

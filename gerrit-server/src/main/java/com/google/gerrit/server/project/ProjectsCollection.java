@@ -63,7 +63,7 @@ public class ProjectsCollection implements
   @Override
   public ProjectResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
-    ProjectResource rsrc = _parse(id.get());
+    ProjectResource rsrc = _parse(id.get(), true);
     if (rsrc == null) {
       throw new ResourceNotFoundException(id);
     }
@@ -81,7 +81,24 @@ public class ProjectsCollection implements
    */
   public ProjectResource parse(String id)
       throws UnprocessableEntityException, IOException {
-    ProjectResource rsrc = _parse(id);
+    return parse(id, true);
+  }
+
+  /**
+   * Parses a project ID from a request body and returns the project.
+   *
+   * @param id ID of the project, can be a project name
+   * @param checkVisibility Whether to check or not that project is visible to
+   *        the calling user
+   * @return the project
+   * @throws UnprocessableEntityException thrown if the project ID cannot be
+   *         resolved or if the project is not visible to the calling user and
+   *         checkVisibility is true.
+   * @throws IOException thrown when there is an error.
+   */
+  public ProjectResource parse(String id, boolean checkVisibility)
+      throws UnprocessableEntityException, IOException {
+    ProjectResource rsrc = _parse(id, checkVisibility);
     if (rsrc == null) {
       throw new UnprocessableEntityException(String.format(
           "Project Not Found: %s", id));
@@ -89,7 +106,8 @@ public class ProjectsCollection implements
     return rsrc;
   }
 
-  private ProjectResource _parse(String id) throws IOException {
+  private ProjectResource _parse(String id, boolean checkVisibility)
+      throws IOException {
     if (id.endsWith(Constants.DOT_GIT_EXT)) {
       id = id.substring(0, id.length() - Constants.DOT_GIT_EXT.length());
     }
@@ -101,7 +119,7 @@ public class ProjectsCollection implements
     } catch (NoSuchProjectException e) {
       return null;
     }
-    if (!ctl.isVisible() && !ctl.isOwner()) {
+    if (checkVisibility && !ctl.isVisible() && !ctl.isOwner()) {
       return null;
     }
     return new ProjectResource(ctl);

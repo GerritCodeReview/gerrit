@@ -274,6 +274,26 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertCreateFails(in, ResourceConflictException.class);
   }
 
+  @Test
+  public void testCreateProjectWithCreateProjectCapabilityAndParentNotVisible()
+      throws Exception {
+    Project parent = projectCache.get(allProjects).getProject();
+    parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
+    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+        GlobalCapability.CREATE_PROJECT);
+    try {
+      setApiUser(user);
+      ProjectInput in = new ProjectInput();
+      in.name = name("newProject");
+      ProjectInfo p = gApi.projects().create(in).get();
+      assertThat(p.name).isEqualTo(in.name);
+    } finally {
+      parent.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE);
+      removeGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+          GlobalCapability.CREATE_PROJECT);
+    }
+  }
+
   private AccountGroup.UUID groupUuid(String groupName) {
     return groupCache.get(new AccountGroup.NameKey(groupName)).getGroupUUID();
   }

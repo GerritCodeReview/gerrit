@@ -41,6 +41,7 @@
         type: Object,
         value: {},  // Shared across all instances.
       },
+      serverConfig: Object,
     },
 
     Element: Element,

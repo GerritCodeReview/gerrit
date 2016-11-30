@@ -64,6 +64,15 @@ public class ChangeTest {
   }
 
   @Test
+  public void parseEditRefNames() {
+    assertRef(5, "refs/users/34/1234/edit-5/1");
+    assertRef(5, "refs/users/34/1234/edit-5");
+    assertNotRef("refs/changes/34/1234/edit-5/1");
+    assertNotRef("refs/users/34/1234/EDIT-5/1");
+    assertNotRef("refs/users/34/1234");
+  }
+
+  @Test
   public void parseChangeMetaRefNames() {
     assertRef(1, "refs/changes/01/1/meta");
     assertRef(1234, "refs/changes/34/1234/meta");
@@ -71,6 +80,44 @@ public class ChangeTest {
     assertNotRef("refs/changes/01/1/met");
     assertNotRef("refs/changes/01/1/META");
     assertNotRef("refs/changes/01/1/1/meta");
+  }
+
+  @Test
+  public void parseRobotCommentRefNames() {
+    assertRef(1, "refs/changes/01/1/robot-comments");
+    assertRef(1234, "refs/changes/34/1234/robot-comments");
+
+    assertNotRef("refs/changes/01/1/robot-comment");
+    assertNotRef("refs/changes/01/1/ROBOT-COMMENTS");
+    assertNotRef("refs/changes/01/1/1/robot-comments");
+  }
+
+  @Test
+  public void parseStarredChangesRefNames() {
+    assertAllUsersRef(1, "refs/starred-changes/01/1/1001");
+    assertAllUsersRef(1234, "refs/starred-changes/34/1234/1001");
+
+    assertNotRef("refs/starred-changes/01/1/1001");
+    assertNotAllUsersRef(null);
+    assertNotAllUsersRef("refs/starred-changes/01/1/1xx1");
+    assertNotAllUsersRef("refs/starred-changes/01/1/");
+    assertNotAllUsersRef("refs/starred-changes/01/1");
+    assertNotAllUsersRef("refs/starred-changes/35/1234/1001");
+    assertNotAllUsersRef("refs/starred-changeS/01/1/1001");
+  }
+
+  @Test
+  public void parseDraftRefNames() {
+    assertAllUsersRef(1, "refs/draft-comments/01/1/1001");
+    assertAllUsersRef(1234, "refs/draft-comments/34/1234/1001");
+
+    assertNotRef("refs/draft-comments/01/1/1001");
+    assertNotAllUsersRef(null);
+    assertNotAllUsersRef("refs/draft-comments/01/1/1xx1");
+    assertNotAllUsersRef("refs/draft-comments/01/1/");
+    assertNotAllUsersRef("refs/draft-comments/01/1");
+    assertNotAllUsersRef("refs/draft-comments/35/1234/1001");
+    assertNotAllUsersRef("refs/draft-commentS/01/1/1001");
   }
 
   @Test
@@ -108,6 +155,15 @@ public class ChangeTest {
 
   private static void assertNotRef(String refName) {
     assertThat(Change.Id.fromRef(refName)).isNull();
+  }
+
+  private static void assertAllUsersRef(int changeId, String refName) {
+    assertThat(Change.Id.fromAllUsersRef(refName))
+        .isEqualTo(new Change.Id(changeId));
+  }
+
+  private static void assertNotAllUsersRef(String refName) {
+    assertThat(Change.Id.fromAllUsersRef(refName)).isNull();
   }
 
   private static void assertRefPart(int changeId, String refName) {

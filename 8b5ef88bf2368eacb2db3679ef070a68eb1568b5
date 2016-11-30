@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ed9e1721_3c55513e",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:34:13Z",
+      "side": 1,
+      "message": "Consider moving into a helper method instead of copy-pasting.",
+      "revId": "8b5ef88bf2368eacb2db3679ef070a68eb1568b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_316a105b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:34:13Z",
+      "side": 1,
+      "message": "Non-informative comment - what exactly is done?",
+      "revId": "8b5ef88bf2368eacb2db3679ef070a68eb1568b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed9e1721_fc604927",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
         "patchSetId": 3

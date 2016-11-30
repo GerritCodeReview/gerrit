@@ -34,6 +34,23 @@
       "revId": "ab7454baf0ffedc792162e854b29c7bfa0cd0423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_a890b32d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T00:36:16Z",
+      "side": 1,
+      "message": "This can be large. Do we want to bound the size? Or is there some other safe place to buffer it and then read back?",
+      "revId": "ab7454baf0ffedc792162e854b29c7bfa0cd0423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

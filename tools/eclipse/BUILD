@@ -24,7 +24,6 @@ DEPS = [
   '//gerrit-gwtdebug:gwtdebug',
   '//gerrit-gwtui:ui_module',
   '//gerrit-main:main_lib',
-  '//gerrit-plugin-gwtui:gwtui-api-lib',
   '//gerrit-server:server',
   '//lib/asciidoctor:asciidoc_lib',
   '//lib/asciidoctor:doc_indexer_lib',

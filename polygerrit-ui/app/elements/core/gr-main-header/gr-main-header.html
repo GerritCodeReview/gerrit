@@ -17,8 +17,8 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
+<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../gr-search-bar/gr-search-bar.html">
 
 <dom-module id="gr-main-header">
@@ -42,12 +42,6 @@ limitations under the License.
       ul {
         list-style: none;
       }
-      .links {
-        margin-left: 1em;
-      }
-      .links .menuContainer {
-        display: none;
-      }
       .links > li {
         cursor: default;
         display: inline-block;
@@ -55,31 +49,8 @@ limitations under the License.
         padding: .5em 0;
         position: relative;
       }
-      .links li:hover .menuContainer,
-      .links li:active .menuContainer {
-        background-color: #fff;
-        border-radius: 3px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
-        display: block;
-        left: -.5em;
-        padding: .5em 0;
-        position: absolute;
-        top: 2.4em;
-        z-index: 1000;
-      }
-      .links li ul li a:link,
-      .links li ul li a:visited {
-        color: #00e;
-        display: block;
-        padding: .3em 1em;
-        text-decoration: none;
-        white-space: nowrap;
-      }
-      .links li ul li:hover a,
-      .links li ul li:active a {
-        background-color: var(--selection-background-color);
-      }
       .linksTitle {
+        color: black;
         display: inline-block;
         padding-right: 1em;
         position: relative;
@@ -121,6 +92,13 @@ limitations under the License.
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      .dropdown-trigger {
+        text-decoration: none;
+      }
+      .dropdown-content {
+        background-color: #fff;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: 14px;
@@ -139,16 +117,13 @@ limitations under the License.
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li>
-            <span class="linksTitle">
+          <gr-dropdown
+            items = [[linkGroup.links]]
+            horizontal-align="left">
+            <span class="linksTitle" id="[[linkGroup.title]]">
               [[linkGroup.title]] <i class="downArrow"></i>
             </span>
-            <div class="menuContainer">
-              <ul>
-                <template is="dom-repeat" items="[[linkGroup.links]]" as="link">
-                  <li><a href$="[[link.url]]">[[link.name]]</a></li>
-                </template>
-              </ul>
-            </div>
+          </gr-dropdown>
           </li>
         </template>
       </ul>

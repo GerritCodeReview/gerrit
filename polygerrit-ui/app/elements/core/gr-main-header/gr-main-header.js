@@ -36,7 +36,7 @@
     is: 'gr-main-header',
 
     hostAttributes: {
-      role: 'banner'
+      role: 'banner',
     },
 
     properties: {
@@ -89,7 +89,7 @@
           window.location.search +
           window.location.hash);
     },
-
+    
     _computeRelativeURL: function(path) {
       return '//' + window.location.host + path;
     },

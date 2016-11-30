@@ -16,15 +16,14 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_MATCH;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
-import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
-import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
-
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;

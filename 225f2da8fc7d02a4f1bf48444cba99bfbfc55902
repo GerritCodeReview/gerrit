@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_21534e31",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T00:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90e69458_a1ce3e18",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1d842_22db4eda",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
         "patchSetId": 1
@@ -53,6 +71,24 @@
       "writtenOn": "2016-11-23T22:08:33Z",
       "side": 1,
       "message": "I still find it strange that we don\u0027t just use an HTML table for the change list. Maybe Andy knows the reason.\n\nIs this an opportunity to refactor this into a regular table? Just a though.",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_85d7e20d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T00:08:21Z",
+      "side": 1,
+      "message": "Chatted with Andy, he supported changing to an HTML table.",
+      "parentUuid": "b0e1d842_22db4eda",
       "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_81505a23",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T00:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e1d842_42b77288",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90e69458_21898eb6",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
         "patchSetId": 1
@@ -116,6 +170,24 @@
         "endLine": 61,
         "endChar": 14
       },
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_05e21215",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T00:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90e69458_21898eb6",
       "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "90e69458_c168a2d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T00:08:21Z",
+      "side": 1,
+      "message": "I think I will leave as is for now. I was thinking if we do have a map, it might make more sense to have it in the change table behavior as part of the CHANGE_TABLE_COLUMNS. That could be an array of objects instead of Strings. That way we don\u0027t duplicate the columns.",
+      "parentUuid": "90e69458_e19686d8",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90e69458_418c92c6",
         "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.html",
         "patchSetId": 1
@@ -168,6 +258,24 @@
       "writtenOn": "2016-11-23T22:08:33Z",
       "side": 1,
       "message": "This widget is really cool!\n\nMy only suggestion would be to add a gap between the items that are in the list, and the items that are available to be added.\n\nWould need tests also.",
+      "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_05c3f245",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T00:08:21Z",
+      "side": 1,
+      "message": "tests added",
+      "parentUuid": "90e69458_418c92c6",
       "revId": "225f2da8fc7d02a4f1bf48444cba99bfbfc55902",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

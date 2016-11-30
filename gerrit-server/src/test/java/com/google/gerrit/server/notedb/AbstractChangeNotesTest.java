@@ -79,25 +79,7 @@ import java.sql.Timestamp;
 import java.util.TimeZone;
 
 @Ignore
-@RunWith(ConfigSuite.class)
 public abstract class AbstractChangeNotesTest extends GerritBaseTests {
-  @ConfigSuite.Default
-  public static Config changeNotesLegacy() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "writeJson", false);
-    return cfg;
-  }
-
-  @ConfigSuite.Config
-  public static Config changeNotesJson() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "writeJson", true);
-    return cfg;
-  }
-
-  @ConfigSuite.Parameter
-  public Config testConfig;
-
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 
@@ -160,7 +142,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
       @Override
       public void configure() {
         install(new GitModule());
-        install(NoteDbModule.forTest(testConfig));
+        install(NoteDbModule.forTest(new Config()));
         bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
         bind(String.class).annotatedWith(GerritServerId.class)
             .toInstance("gerrit");
@@ -170,7 +152,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         bind(CapabilityControl.Factory.class)
             .toProvider(Providers.<CapabilityControl.Factory> of(null));
         bind(Config.class).annotatedWith(GerritServerConfig.class)
-            .toInstance(testConfig);
+            .toInstance(new Config());
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

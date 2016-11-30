@@ -34,13 +34,13 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
   final ImmutableMap<RevId, T> revisionNotes;
 
   static RevisionNoteMap<ChangeRevisionNote> parse(ChangeNoteUtil noteUtil,
-      Change.Id changeId, ObjectReader reader, NoteMap noteMap,
+      ObjectReader reader, NoteMap noteMap,
       PatchLineComment.Status status)
           throws ConfigInvalidException, IOException {
     Map<RevId, ChangeRevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
       ChangeRevisionNote rn = new ChangeRevisionNote(
-          noteUtil, changeId, reader, note.getData(), status);
+          noteUtil, reader, note.getData(), status);
       rn.parse();
       result.put(new RevId(note.name()), rn);
     }

@@ -35,22 +35,14 @@ import java.io.Reader;
 import java.util.List;
 
 class ChangeRevisionNote extends RevisionNote<Comment> {
-  private static final byte[] CERT_HEADER =
-      "certificate version ".getBytes(UTF_8);
-  // See org.eclipse.jgit.transport.PushCertificateParser.END_SIGNATURE
-  private static final byte[] END_SIGNATURE =
-      "-----END PGP SIGNATURE-----\n".getBytes(UTF_8);
-
   private final ChangeNoteUtil noteUtil;
-  private final Change.Id changeId;
   private final PatchLineComment.Status status;
   private String pushCert;
 
-  ChangeRevisionNote(ChangeNoteUtil noteUtil, Change.Id changeId,
-      ObjectReader reader, ObjectId noteId, PatchLineComment.Status status) {
+  ChangeRevisionNote(ChangeNoteUtil noteUtil, ObjectReader reader, ObjectId noteId,
+      PatchLineComment.Status status) {
     super(reader, noteId);
     this.noteUtil = noteUtil;
-    this.changeId = changeId;
     this.status = status;
   }
 
@@ -65,27 +57,13 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     MutableInteger p = new MutableInteger();
     p.value = offset;
 
-    if (isJson(raw, p.value)) {
-      RevisionNoteData data = parseJson(noteUtil, raw, p.value);
-      if (status == PatchLineComment.Status.PUBLISHED) {
-        pushCert = data.pushCert;
-      } else {
-        pushCert = null;
-      }
-      return data.comments;
-    }
-
+    RevisionNoteData data = parseJson(noteUtil, raw, p.value);
     if (status == PatchLineComment.Status.PUBLISHED) {
-      pushCert = parsePushCert(changeId, raw, p);
-      trimLeadingEmptyLines(raw, p);
+      pushCert = data.pushCert;
     } else {
       pushCert = null;
     }
-    return noteUtil.parseNote(raw, p, changeId);
-  }
-
-  private static boolean isJson(byte[] raw, int offset) {
-    return raw[offset] == '{' || raw[offset] == '[';
+    return data.comments;
   }
 
   private RevisionNoteData parseJson(ChangeNoteUtil noteUtil, byte[] raw,
@@ -95,20 +73,5 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
         Reader r = new InputStreamReader(is, UTF_8)) {
       return noteUtil.getGson().fromJson(r, RevisionNoteData.class);
     }
-  }
-
-  private static String parsePushCert(Change.Id changeId, byte[] bytes,
-      MutableInteger p) throws ConfigInvalidException {
-    if (RawParseUtils.match(bytes, p.value, CERT_HEADER) < 0) {
-      return null;
-    }
-    int end = Bytes.indexOf(bytes, END_SIGNATURE);
-    if (end < 0) {
-      throw ChangeNotes.parseException(
-          changeId, "invalid push certificate in note");
-    }
-    int start = p.value;
-    p.value = end + END_SIGNATURE.length;
-    return new String(bytes, start, p.value, UTF_8);
   }
 }

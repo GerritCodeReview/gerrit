@@ -37,7 +37,6 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 import java.util.TimeZone;
 
-@RunWith(ConfigSuite.class)
 public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsCommitFormatSimple() throws Exception {

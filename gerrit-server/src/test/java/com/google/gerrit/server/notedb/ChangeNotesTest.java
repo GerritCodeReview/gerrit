@@ -1123,9 +1123,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     String note = readNote(notes, commit);
-    if (!testJson()) {
-      assertThat(note).isEqualTo(pushCert);
-    }
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
     assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
@@ -1146,22 +1143,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
     assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
     assertThat(notes.getComments()).isNotEmpty();
-
-    if (!testJson()) {
-      assertThat(readNote(notes, commit)).isEqualTo(
-          pushCert
-              + "Revision: " + commit.name() + "\n"
-              + "Patch-set: 2\n"
-              + "File: a.txt\n"
-              + "\n"
-              + "1:2-3:4\n"
-              + ChangeNoteUtil.formatTime(serverIdent, ts) + "\n"
-              + "Author: Change Owner <1@gerrit>\n"
-              + "UUID: uuid1\n"
-              + "Bytes: 7\n"
-              + "Comment\n"
-              + "\n");
-    }
   }
 
   @Test
@@ -1514,244 +1495,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void patchLineCommentNotesFormatSide1() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, otherUser);
-    String uuid1 = "uuid1";
-    String uuid2 = "uuid2";
-    String uuid3 = "uuid3";
-    String message1 = "comment 1";
-    String message2 = "comment 2";
-    String message3 = "comment 3";
-    CommentRange range1 = new CommentRange(1, 1, 2, 1);
-    Timestamp time1 = TimeUtil.nowTs();
-    Timestamp time2 = TimeUtil.nowTs();
-    Timestamp time3 = TimeUtil.nowTs();
-    PatchSet.Id psId = c.currentPatchSetId();
-
-    Comment comment1 = newComment(psId, "file1", uuid1, range1,
-        range1.getEndLine(), otherUser, null, time1, message1, (short) 1,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
-    update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment1);
-    update.commit();
-
-    update = newUpdate(c, otherUser);
-    CommentRange range2 = new CommentRange(2, 1, 3, 1);
-    Comment comment2 = newComment(psId, "file1", uuid2, range2,
-        range2.getEndLine(), otherUser, null, time2, message2, (short) 1,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
-    update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment2);
-    update.commit();
-
-    update = newUpdate(c, otherUser);
-    CommentRange range3 = new CommentRange(3, 0, 4, 1);
-    Comment comment3 = newComment(psId, "file2", uuid3, range3,
-        range3.getEndLine(), otherUser, null, time3, message3, (short) 1,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
-    update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment3);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-
-    try (RevWalk walk = new RevWalk(repo)) {
-      ArrayList<Note> notesInTree =
-          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
-      Note note = Iterables.getOnlyElement(notesInTree);
-
-      byte[] bytes =
-          walk.getObjectReader().open(
-              note.getData(), Constants.OBJ_BLOB).getBytes();
-      String noteString = new String(bytes, UTF_8);
-
-      if (!testJson()) {
-        assertThat(noteString).isEqualTo(
-            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-                + "Patch-set: 1\n"
-                + "File: file1\n"
-                + "\n"
-                + "1:1-2:1\n"
-                + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid1\n"
-                + "Bytes: 9\n"
-                + "comment 1\n"
-                + "\n"
-                + "2:1-3:1\n"
-                + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid2\n"
-                + "Bytes: 9\n"
-                + "comment 2\n"
-                + "\n"
-                + "File: file2\n"
-                + "\n"
-                + "3:0-4:1\n"
-                + ChangeNoteUtil.formatTime(serverIdent, time3) + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid3\n"
-                + "Bytes: 9\n"
-                + "comment 3\n"
-                + "\n");
-      }
-    }
-  }
-
-  @Test
-  public void patchLineCommentNotesFormatSide0() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, otherUser);
-    String uuid1 = "uuid1";
-    String uuid2 = "uuid2";
-    String message1 = "comment 1";
-    String message2 = "comment 2";
-    CommentRange range1 = new CommentRange(1, 1, 2, 1);
-    Timestamp time1 = TimeUtil.nowTs();
-    Timestamp time2 = TimeUtil.nowTs();
-    PatchSet.Id psId = c.currentPatchSetId();
-
-    Comment comment1 = newComment(psId, "file1",
-        uuid1, range1, range1.getEndLine(), otherUser, null, time1, message1,
-        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
-    update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment1);
-    update.commit();
-
-    update = newUpdate(c, otherUser);
-    CommentRange range2 = new CommentRange(2, 1, 3, 1);
-    Comment comment2 = newComment(psId, "file1",
-        uuid2, range2, range2.getEndLine(), otherUser, null, time2, message2,
-        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
-    update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment2);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-
-    try (RevWalk walk = new RevWalk(repo)) {
-      ArrayList<Note> notesInTree =
-          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
-      Note note = Iterables.getOnlyElement(notesInTree);
-
-      byte[] bytes =
-          walk.getObjectReader().open(
-              note.getData(), Constants.OBJ_BLOB).getBytes();
-      String noteString = new String(bytes, UTF_8);
-
-      if (!testJson()) {
-        assertThat(noteString).isEqualTo(
-            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-                + "Base-for-patch-set: 1\n"
-                + "File: file1\n"
-                + "\n"
-                + "1:1-2:1\n"
-                + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid1\n"
-                + "Bytes: 9\n"
-                + "comment 1\n"
-                + "\n"
-                + "2:1-3:1\n"
-                + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid2\n"
-                + "Bytes: 9\n"
-                + "comment 2\n"
-                + "\n");
-      }
-    }
-  }
-
-  @Test
-  public void patchLineCommentNotesFormatMultiplePatchSetsSameRevId()
-      throws Exception {
-    Change c = newChange();
-    PatchSet.Id psId1 = c.currentPatchSetId();
-    incrementPatchSet(c);
-    PatchSet.Id psId2 = c.currentPatchSetId();
-    String uuid1 = "uuid1";
-    String uuid2 = "uuid2";
-    String uuid3 = "uuid3";
-    String message1 = "comment 1";
-    String message2 = "comment 2";
-    String message3 = "comment 3";
-    CommentRange range1 = new CommentRange(1, 1, 2, 1);
-    CommentRange range2 = new CommentRange(2, 1, 3, 1);
-    Timestamp time = TimeUtil.nowTs();
-    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
-
-    Comment comment1 =
-        newComment(psId1, "file1", uuid1, range1, range1.getEndLine(),
-            otherUser, null, time, message1, (short) 0, revId.get());
-    Comment comment2 =
-        newComment(psId1, "file1", uuid2, range2, range2.getEndLine(),
-            otherUser, null, time, message2, (short) 0, revId.get());
-    Comment comment3 =
-        newComment(psId2, "file1", uuid3, range1, range1.getEndLine(),
-            otherUser, null, time, message3, (short) 0, revId.get());
-
-    ChangeUpdate update = newUpdate(c, otherUser);
-    update.setPatchSetId(psId2);
-    update.putComment(Status.PUBLISHED, comment3);
-    update.putComment(Status.PUBLISHED, comment2);
-    update.putComment(Status.PUBLISHED, comment1);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-
-    try (RevWalk walk = new RevWalk(repo)) {
-      ArrayList<Note> notesInTree =
-          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
-      Note note = Iterables.getOnlyElement(notesInTree);
-
-      byte[] bytes =
-          walk.getObjectReader().open(
-              note.getData(), Constants.OBJ_BLOB).getBytes();
-      String noteString = new String(bytes, UTF_8);
-      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
-
-      if (!testJson()) {
-        assertThat(noteString).isEqualTo(
-            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-                + "Base-for-patch-set: 1\n"
-                + "File: file1\n"
-                + "\n"
-                + "1:1-2:1\n"
-                + timeStr + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid1\n"
-                + "Bytes: 9\n"
-                + "comment 1\n"
-                + "\n"
-                + "2:1-3:1\n"
-                + timeStr + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid2\n"
-                + "Bytes: 9\n"
-                + "comment 2\n"
-                + "\n"
-                + "Base-for-patch-set: 2\n"
-                + "File: file1\n"
-                + "\n"
-                + "1:1-2:1\n"
-                + timeStr + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "UUID: uuid3\n"
-                + "Bytes: 9\n"
-                + "comment 3\n"
-                + "\n");
-      }
-    }
-    assertThat(notes.getComments()).isEqualTo(
-        ImmutableMultimap.of(
-            revId, comment1,
-            revId, comment2,
-            revId, comment3));
-  }
-
-  @Test
   public void patchLineCommentNotesFormatRealAuthor() throws Exception {
     Change c = newChange();
     CurrentUser ownerAsOtherUser =
@@ -1773,33 +1516,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-
-    try (RevWalk walk = new RevWalk(repo)) {
-      ArrayList<Note> notesInTree =
-          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
-      Note note = Iterables.getOnlyElement(notesInTree);
-
-      byte[] bytes =
-          walk.getObjectReader().open(
-              note.getData(), Constants.OBJ_BLOB).getBytes();
-      String noteString = new String(bytes, UTF_8);
-
-      if (!testJson()) {
-        assertThat(noteString).isEqualTo(
-            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-                + "Patch-set: 1\n"
-                + "File: file\n"
-                + "\n"
-                + "1:1-2:1\n"
-                + ChangeNoteUtil.formatTime(serverIdent, time) + "\n"
-                + "Author: Other Account <2@gerrit>\n"
-                + "Real-author: Change Owner <1@gerrit>\n"
-                + "UUID: uuid\n"
-                + "Bytes: 7\n"
-                + "comment\n"
-                + "\n");
-      }
-    }
     assertThat(notes.getComments())
         .isEqualTo(ImmutableMultimap.of(revId, comment));
   }
@@ -1827,33 +1543,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-
-    try (RevWalk walk = new RevWalk(repo)) {
-      ArrayList<Note> notesInTree =
-          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
-      Note note = Iterables.getOnlyElement(notesInTree);
-
-      byte[] bytes =
-          walk.getObjectReader().open(
-              note.getData(), Constants.OBJ_BLOB).getBytes();
-      String noteString = new String(bytes, UTF_8);
-      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
-
-      if (!testJson()) {
-        assertThat(noteString).isEqualTo(
-            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-                + "Patch-set: 1\n"
-                + "File: file1\n"
-                + "\n"
-                + "1:1-2:1\n"
-                + timeStr + "\n"
-                + "Author: Weird\u0002User <3@gerrit>\n"
-                + "UUID: uuid\n"
-                + "Bytes: 7\n"
-                + "comment\n"
-                + "\n");
-      }
-    }
     assertThat(notes.getComments())
         .isEqualTo(ImmutableMultimap.of(new RevId(comment.revId), comment));
   }
@@ -2536,10 +2225,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getPatchSets()).hasSize(numPatchSets);
     assertThat(notes.getApprovals()).hasSize(numApprovals);
     assertThat(notes.getComments()).hasSize(numComments);
-  }
-
-  private boolean testJson() {
-    return noteUtil.getWriteJson();
   }
 
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {

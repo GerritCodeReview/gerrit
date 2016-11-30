@@ -162,7 +162,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedRevs.add(e.getKey());
       ObjectId id = ObjectId.fromString(e.getKey().get());
-      byte[] data = e.getValue().build(noteUtil, noteUtil.getWriteJson());
+      byte[] data = e.getValue().build(noteUtil);
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;
       }
@@ -223,7 +223,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil, getId(),
+        noteUtil,
         rw.getObjectReader(),
         noteMap,
         PatchLineComment.Status.DRAFT);

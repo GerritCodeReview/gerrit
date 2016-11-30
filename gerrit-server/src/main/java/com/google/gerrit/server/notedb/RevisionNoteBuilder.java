@@ -86,14 +86,10 @@ class RevisionNoteBuilder {
     delete = new HashSet<>();
   }
 
-  public byte[] build(ChangeNoteUtil noteUtil, boolean writeJson)
+  public byte[] build(ChangeNoteUtil noteUtil)
       throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    if (writeJson) {
-      buildNoteJson(noteUtil, out);
-    } else {
-      buildNoteLegacy(noteUtil, out);
-    }
+    buildNoteJson(noteUtil, out);
     return out.toByteArray();
   }
 
@@ -142,23 +138,5 @@ class RevisionNoteBuilder {
     try (OutputStreamWriter osw = new OutputStreamWriter(out, UTF_8)) {
       noteUtil.getGson().toJson(data, osw);
     }
-  }
-
-  private void buildNoteLegacy(ChangeNoteUtil noteUtil, OutputStream out)
-      throws IOException {
-    if (pushCert != null) {
-      byte[] certBytes = pushCert.getBytes(UTF_8);
-      out.write(certBytes, 0, trimTrailingNewlines(certBytes));
-      out.write('\n');
-    }
-    noteUtil.buildNote(buildCommentMap(), out);
-  }
-
-  private static int trimTrailingNewlines(byte[] bytes) {
-    int p = bytes.length;
-    while (p > 1 && bytes[p - 1] == '\n') {
-      p--;
-    }
-    return p;
   }
 }

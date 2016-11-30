@@ -467,7 +467,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       ObjectId data = inserter.insert(
-          OBJ_BLOB, e.getValue().build(noteUtil, noteUtil.getWriteJson()));
+          OBJ_BLOB, e.getValue().build(noteUtil));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 
@@ -497,7 +497,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
         noteUtil,
-        getId(),
         rw.getObjectReader(),
         noteMap,
         PatchLineComment.Status.PUBLISHED);

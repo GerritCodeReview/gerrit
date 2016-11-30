@@ -32,7 +32,7 @@ java_library(
 
 java_library(
   name = 'gwtjsonrpc_src',
-  exports = ['@gwtjsonrpc//src'],
+  exports = ['@gwtjsonrpc//jar:src'],
   visibility = ['//visibility:public'],
   data = ['//lib:LICENSE-Apache2.0'],
 )
@@ -53,7 +53,7 @@ java_library(
 
 java_library(
   name = 'gwtorm_client_src',
-  exports = ['@gwtorm_client//src'],
+  exports = ['@gwtorm_client//jar:src'],
   visibility = ['//visibility:public'],
   data = ['//lib:LICENSE-Apache2.0'],
 )

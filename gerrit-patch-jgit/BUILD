@@ -27,12 +27,12 @@ gwt_module(
 genrule2(
   name = 'jgit_edit_src',
   cmd = ' && '.join([
-    'unzip -qd $$TMP $(location @jgit//src) ' +
+    'unzip -qd $$TMP $(location @jgit//jar:src) ' +
       'org/eclipse/jgit/diff/Edit.java',
     'cd $$TMP',
     'zip -Dq $$ROOT/$@ org/eclipse/jgit/diff/Edit.java',
   ]),
-  tools = ['@jgit//src'],
+  tools = ['@jgit//jar:src'],
   outs = [ 'edit.srcjar' ],
 )
 

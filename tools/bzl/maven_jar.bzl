@@ -49,24 +49,29 @@ def _create_coordinates(fully_qualified_name):
       version = version,
   )
 
-# Provides the syntax "@jar_name//jar" for bin classifier
-# and "@jar_name//src" for sources
-def _generate_build_file(ctx, classifier, filename):
+def _generate_build_file(ctx, binjar, srcjar):
+  srcjar_attr = ""
+  if srcjar:
+    srcjar_attr = 'srcjar = "%s",' % srcjar
   contents = """
 # DO NOT EDIT: automatically generated BUILD file for maven_archive rule {rule_name}
+package(default_visibility = ['//visibility:public'])
 java_import(
-    name = '{classifier}',
-    jars = ['{filename}'],
-    visibility = ['//visibility:public']
+    name = 'jar',
+    {srcjar_attr}
+    jars = ['{binjar}'],
 )
-filegroup(
-    name = 'file',
-    srcs = ['{filename}'],
-    visibility = ['//visibility:public']
-)\n""".format(classifier = classifier,
+\n""".format(srcjar_attr = srcjar_attr,
               rule_name = ctx.name,
-              filename = filename)
-  ctx.file('%s/BUILD' % ctx.path(classifier), contents, False)
+              binjar = binjar)
+  if srcjar:
+    contents += """
+java_import(
+    name = 'src',
+    jars = ['{srcjar}'],
+)
+""".format(srcjar = srcjar)
+  ctx.file('%s/BUILD' % ctx.path("jar"), contents, False)
 
 def _maven_jar_impl(ctx):
   """rule to download a Maven archive."""
@@ -83,10 +88,6 @@ def _maven_jar_impl(ctx):
   binjar_path = ctx.path('/'.join(['jar', binjar]))
   binurl = url + '.jar'
 
-  srcjar = jar + '-src.jar'
-  srcjar_path = ctx.path('/'.join(['src', srcjar]))
-  srcurl = url + '-sources.jar'
-
   python = ctx.which("python")
   script = ctx.path(ctx.attr._download_script)
 
@@ -100,16 +101,20 @@ def _maven_jar_impl(ctx):
 
   if out.return_code:
     fail("failed %s: %s" % (' '.join(args), out.stderr))
-  _generate_build_file(ctx, "jar", binjar)
 
+  srcjar = None
   if ctx.attr.src_sha1 or ctx.attr.attach_source:
+    srcjar = jar + '-src.jar'
+    srcurl = url + '-sources.jar'
+    srcjar_path = ctx.path('jar/' + srcjar)
     args = [python, script, "-o", srcjar_path, "-u", srcurl]
     if ctx.attr.src_sha1:
       args.extend(['-v', ctx.attr.src_sha1])
     out = ctx.execute(args)
     if out.return_code:
       fail("failed %s: %s" % (args, out.stderr))
-    _generate_build_file(ctx, "src", srcjar)
+
+  _generate_build_file(ctx, binjar, srcjar)
 
 maven_jar=repository_rule(
   implementation=_maven_jar_impl,

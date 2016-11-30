@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9071345a_6c20930d",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T00:38:19Z",
+      "side": 1,
+      "message": "Does BUILD need a similar change?",
+      "revId": "ab7454baf0ffedc792162e854b29c7bfa0cd0423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_487fbf19",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
         "patchSetId": 1

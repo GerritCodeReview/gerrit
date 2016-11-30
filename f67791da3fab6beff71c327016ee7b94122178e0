@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1480468539 -0800\nnonce AG58fQo1Y8Bz2s/ASm9S72Pshwx6TmeNeeFBZ9PCcS5PkqwG1mMMxtIDzr+dRGmaEpvDxM25jYRn\n\n0000000000000000000000000000000000000000 f67791da3fab6beff71c327016ee7b94122178e0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYPig7AAoJECdUrmNLj+szDUkP/jWJ37o13fo2aLlyFf3Hk5bN\nAOkF6B+GDz140m84O4/TVexrkpqnfWnIXMjZt/7Lswr7z6vAXW4vXRcxVM/tu0ad\no7FzY2vpEL8fDrInp/iw7u34srEfE4ZocHuYUDZuUPjn0/zURjf1R090dFwC89Ye\nolKzZQtv3+hkNcKM+yrMTzKbpAj6RFdgX/a+Bwrw/KFG5bC+WHtzEMWWnU9vhRMi\npRyZJrbgIee85ggZv+i6L1dFoYS9AyJpisYvb7Ovute+p79ectRPwOFuFgVq+iOk\nB3cGrLXF9vWOZCysIqx8EzDW2hjZBAqpXVH/HKyAip+LSW+N9qK6WIR725Qt+868\n+T/ZxFgCP9b5cdkAj5oCLBWLs2ktoCVdRI96KAy5QUW3z/vrpq4T1TYmAHjNpV1/\nb3ougviKSZGaQWazq4vIZa9Uc9QfQMgZZLqJ5OVD8fo/RE9M+dVeaylf5/NSO5O5\noE+LinM5zr7wI4DEOxxahXTW7q3z2y8UqfRh8aq15Vuwnp6dQEft03Tp1N/7xYS5\nwhgbaElHQCYZ1S85tlLTT5clyzyzA/3GeFLst0juUe5zg71IV01rreX4ZhqyaQm+\ntF+02T0ibqmVZkqxdEmmGHmExOWP2abEUvrZdvTPgceASn2Z8PcOixkzifHIRDyX\nZaTUz6E3Kfv9r7AbgWAl\n\u003d4qbG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "105d44d4_68207b0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T01:29:06Z",
+      "side": 1,
+      "message": "Should this be package-private for now?",
+      "revId": "f67791da3fab6beff71c327016ee7b94122178e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_48233f1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T01:29:06Z",
+      "side": 1,
+      "message": "this could use a javadoc",
+      "revId": "f67791da3fab6beff71c327016ee7b94122178e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_a81d13df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T01:29:06Z",
+      "side": 1,
+      "message": "Should this be configurable?",
+      "revId": "f67791da3fab6beff71c327016ee7b94122178e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,34 +1,33 @@
-
 [java_library(
-  name = n,
-  exports = ['@%s//jar' % n],
-  data = ['//lib:LICENSE-antlr'],
+    name = n,
+    data = ["//lib:LICENSE-antlr"],
+    exports = ["@%s//jar" % n],
 ) for n in [
-  'antlr27',
-  'stringtemplate',
+    "antlr27",
+    "stringtemplate",
 ]]
 
 java_library(
-  name = 'java_runtime',
-  exports = ['@java_runtime//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-antlr'],
+    name = "java_runtime",
+    data = ["//lib:LICENSE-antlr"],
+    visibility = ["//visibility:public"],
+    exports = ["@java_runtime//jar"],
 )
 
 java_binary(
-  name = 'antlr-tool',
-  main_class = 'org.antlr.Tool',
-  runtime_deps = [':tool'],
-  visibility = ['//gerrit-antlr:__pkg__'],
+    name = "antlr-tool",
+    main_class = "org.antlr.Tool",
+    visibility = ["//gerrit-antlr:__pkg__"],
+    runtime_deps = [":tool"],
 )
 
 java_library(
-  name = 'tool',
-  exports = ['@org_antlr//jar'],
-  runtime_deps = [
-    ':antlr27',
-    ':java_runtime',
-    ':stringtemplate',
-  ],
-  data = ['//lib:LICENSE-antlr'],
+    name = "tool",
+    data = ["//lib:LICENSE-antlr"],
+    exports = ["@org_antlr//jar"],
+    runtime_deps = [
+        ":antlr27",
+        ":java_runtime",
+        ":stringtemplate",
+    ],
 )

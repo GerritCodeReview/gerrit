@@ -22,6 +22,24 @@
       "revId": "ca1decbe1e46637b52c9345446498162cd80f0f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_9c5905a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-11-30T18:35:50Z",
+      "side": 1,
+      "message": "Sorry, not sure I follow. Implement self.getServerInfo where?",
+      "parentUuid": "105d44d4_e8ceab19",
+      "revId": "ca1decbe1e46637b52c9345446498162cd80f0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

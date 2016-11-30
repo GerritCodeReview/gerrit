@@ -91,7 +91,7 @@ public class PutAssignee implements
     reviewerInput.state = ReviewerState.CC;
     reviewerInput.confirmed = true;
     reviewerInput.notify = NotifyHandling.NONE;
-    return postReviewers.prepareApplication(rsrc, reviewerInput);
+    return postReviewers.prepareApplication(rsrc, reviewerInput, false);
   }
 
   @Override

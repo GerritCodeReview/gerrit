@@ -147,7 +147,7 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    Addition addition = prepareApplication(rsrc, input);
+    Addition addition = prepareApplication(rsrc, input, true);
     if (addition.op == null) {
       return addition.result;
     }
@@ -161,18 +161,24 @@ public class PostReviewers
     return addition.result;
   }
 
-  public Addition prepareApplication(ChangeResource rsrc, AddReviewerInput input)
-      throws OrmException, RestApiException, IOException {
+  public Addition prepareApplication(ChangeResource rsrc,
+      AddReviewerInput input, boolean allowGroup)
+          throws OrmException, RestApiException, IOException {
     Account.Id accountId;
     try {
       accountId = accounts.parse(input.reviewer).getAccountId();
     } catch (UnprocessableEntityException e) {
-      try {
-        return putGroup(rsrc, input);
-      } catch (UnprocessableEntityException e2) {
-        throw new UnprocessableEntityException(MessageFormat
-            .format(ChangeMessages.get().reviewerNotFound, input.reviewer));
+      if (allowGroup) {
+        try {
+          return putGroup(rsrc, input);
+        } catch (UnprocessableEntityException e2) {
+          throw new UnprocessableEntityException(MessageFormat.format(
+              ChangeMessages.get().reviewerNotFoundUserOrGroup,
+              input.reviewer));
+        }
       }
+      throw new UnprocessableEntityException(MessageFormat
+          .format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
     }
     return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId),
         input.state(), input.notify);

@@ -169,6 +169,24 @@
       "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_a5948a93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMessageModifier.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-30T10:29:46Z",
+      "side": 1,
+      "message": "It\u0027s okay to do, but generally we are not much concerned about breaking plugins. If it happens the plugin must be adapted. That\u0027s the price for being a plugin rather than an extension.",
+      "parentUuid": "70e76057_66860afd",
+      "revId": "553759229384fe0677ad3de270e0de040d2eabe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

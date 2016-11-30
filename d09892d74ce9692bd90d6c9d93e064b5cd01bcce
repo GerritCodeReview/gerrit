@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_2564fac7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-30T14:56:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6d8b07e1_0057c645",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 50
+      },
+      "revId": "d09892d74ce9692bd90d6c9d93e064b5cd01bcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d8b07e1_a0637a20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 3
@@ -83,6 +107,30 @@
       "writtenOn": "2016-11-30T14:53:17Z",
       "side": 1,
       "message": "Should be a ProjectResource",
+      "range": {
+        "startLine": 72,
+        "startChar": 27,
+        "endLine": 72,
+        "endChar": 38
+      },
+      "revId": "d09892d74ce9692bd90d6c9d93e064b5cd01bcce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_45677ece",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-30T14:56:15Z",
+      "side": 1,
+      "message": "Thanks, Done.",
+      "parentUuid": "6d8b07e1_a0637a20",
       "range": {
         "startLine": 72,
         "startChar": 27,

@@ -367,7 +367,8 @@ limitations under the License.
           on-autogrow="_handleReplyAutogrow"
           hidden$="[[!_loggedIn]]">Reply</gr-reply-dialog>
     </gr-overlay>
-    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
+    <gr-js-api-interface id="jsAPI"
+        server-config="[[serverConfig]]"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-view.js"></script>

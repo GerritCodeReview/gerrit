@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed9e1721_1c7ad5da",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:48:50Z",
+      "side": 1,
+      "message": "Indent the children of the GR-BUTTON.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 38
+      },
+      "revId": "4c144390105758b1e7559b00850457eb40be6079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_68eddb44",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:48:50Z",
+      "side": 1,
+      "message": "Remove these spaces inside the curlies.",
+      "range": {
+        "startLine": 45,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 10
+      },
+      "revId": "4c144390105758b1e7559b00850457eb40be6079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_48f01f20",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:48:50Z",
+      "side": 1,
+      "message": "s/default/value/",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "4c144390105758b1e7559b00850457eb40be6079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_3c7f91cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:48:50Z",
+      "side": 1,
+      "message": "Can this be replaced with ...\n\n  on-tap\u003d\"_handleDropdownTap\"\n\n... on the #dropdown element?",
+      "revId": "4c144390105758b1e7559b00850457eb40be6079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

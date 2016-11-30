@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_c5526ef8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-30T14:52:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70e76057_a61932a6",
+      "revId": "4c5370f682ca4aa39f5774f2f186304b53e73af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_061f3e88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_a5576ae6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-30T14:52:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70e76057_061f3e88",
+      "revId": "4c5370f682ca4aa39f5774f2f186304b53e73af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_e6233aca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 2
@@ -64,6 +100,30 @@
       "writtenOn": "2016-11-30T13:54:43Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 60
+      },
+      "revId": "4c5370f682ca4aa39f5774f2f186304b53e73af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_26ed2246",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-30T14:52:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70e76057_e6233aca",
       "range": {
         "startLine": 51,
         "startChar": 2,
@@ -99,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "50ec1c3c_055d7606",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-30T14:52:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70e76057_4609464e",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 45
+      },
+      "revId": "4c5370f682ca4aa39f5774f2f186304b53e73af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70e76057_2606c23d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 2
@@ -110,6 +194,30 @@
       "writtenOn": "2016-11-30T13:54:43Z",
       "side": 1,
       "message": "none of this is needed.",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 3
+      },
+      "revId": "4c5370f682ca4aa39f5774f2f186304b53e73af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_e56172bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-11-30T14:52:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70e76057_2606c23d",
       "range": {
         "startLine": 98,
         "startChar": 2,

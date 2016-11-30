@@ -169,7 +169,6 @@ public class GeneralPreferencesLoader {
       VersionedAccountPreferences v, VersionedAccountPreferences d) {
     r.changeTable = changeTable(v);
 
-    Config cfg = v.getConfig();
     if (r.changeTable.isEmpty() && !v.isDefaults()) {
       r.changeTable = changeTable(d);
     }

@@ -41,6 +41,7 @@
         type: Object,
         value: {},  // Shared across all instances.
       },
+      serverConfig: Object,
     },
 
     Element: Element,
@@ -123,11 +124,12 @@
           }
         }
         try {
-          cb(change, revision);
+          this.serverConfig.change.update_delay = 0;
+          cb(change, revision, this.serverConfig);
         } catch (err) {
           console.error(err);
         }
-      });
+      }.bind(this));
     },
 
     _handleComment: function(detail) {

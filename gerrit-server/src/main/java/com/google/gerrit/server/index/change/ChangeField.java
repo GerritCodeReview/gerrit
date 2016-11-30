@@ -971,7 +971,7 @@ public class ChangeField {
           input.editRefs().values().forEach(
               r -> result.add(RefState.of(r).toByteArray(project)));
           input.starRefs().values().forEach(
-              r -> result.add(RefState.of(r.ref()).toByteArray(project)));
+              r -> result.add(RefState.of(r.ref()).toByteArray(args.allUsers)));
 
           if (PrimaryStorage.of(input.change()) == PrimaryStorage.NOTE_DB) {
             ChangeNotes notes = input.notes();

@@ -62,7 +62,7 @@ public class StalenessChecker {
   private static final Logger log =
       LoggerFactory.getLogger(StalenessChecker.class);
 
-  private final ImmutableSet<String> FIELDS = ImmutableSet.of(
+  public static final ImmutableSet<String> FIELDS = ImmutableSet.of(
       ChangeField.CHANGE.getName(),
       ChangeField.REF_STATE.getName(),
       ChangeField.REF_STATE_PATTERN.getName());

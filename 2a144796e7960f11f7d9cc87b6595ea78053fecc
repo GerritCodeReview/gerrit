@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed9e1721_7c4bd9a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105d44d4_e819cba4",
+      "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_28392302",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "ed9e1721_1c50954d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105d44d4_28392302",
+      "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_c8140f6e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -59,6 +95,24 @@
         "endLine": 301,
         "endChar": 32
       },
+      "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_284da387",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:28:13Z",
+      "side": 1,
+      "message": "If project has non-standard labels.\nWithout this guard CodeReviewNaN will be the button label.",
+      "parentUuid": "105d44d4_c8140f6e",
       "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

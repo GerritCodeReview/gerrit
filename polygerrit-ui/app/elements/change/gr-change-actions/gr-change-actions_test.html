@@ -321,8 +321,24 @@ limitations under the License.
         element._handleCherrypickConfirm();
         assert.equal(fireActionStub.callCount, 0);  // Still needs a message.
 
-        element.$.confirmCherrypick.message = 'foo message';
+        var commitMessageSpy =
+            sinon.spy(element.$.confirmCherrypick, '_computeMessage');
+
+        // Add attributes that are used to determine the message.
+        element.$.confirmCherrypick.commitMessage = 'foo message';
+        element.$.confirmCherrypick.changeStatus = 'OPEN';
+        element.$.confirmCherrypick.commitNum = '123';
+
         element._handleCherrypickConfirm();
+
+        assert.isTrue(commitMessageSpy.calledWith(
+          element.$.confirmCherrypick.changeStatus,
+          element.$.confirmCherrypick.commitNum,
+          element.$.confirmCherrypick.commitMessage
+        ));
+
+        assert.equal(element.$.confirmCherrypick.$.messageInput.value,
+            "foo message");
 
         assert.deepEqual(fireActionStub.lastCall.args, [
           '/cherrypick', action, true, {

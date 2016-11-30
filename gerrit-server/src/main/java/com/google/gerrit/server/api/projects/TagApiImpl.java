@@ -20,8 +20,11 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.CreateTag;
+import com.google.gerrit.server.project.DeleteTag;
 import com.google.gerrit.server.project.ListTags;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.TagResource;
+import com.google.gerrit.server.project.TagsCollection;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -34,16 +37,22 @@ public class TagApiImpl implements TagApi {
 
   private final ListTags listTags;
   private final CreateTag.Factory createTagFactory;
+  private final DeleteTag deleteTag;
+  private final TagsCollection tags;
   private final String ref;
   private final ProjectResource project;
 
   @Inject
   TagApiImpl(ListTags listTags,
       CreateTag.Factory createTagFactory,
+      DeleteTag deleteTag,
+      TagsCollection tags,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.listTags = listTags;
     this.createTagFactory = createTagFactory;
+    this.deleteTag = deleteTag;
+    this.tags = tags;
     this.project = project;
     this.ref = ref;
   }
@@ -65,5 +74,18 @@ public class TagApiImpl implements TagApi {
     } catch (IOException e) {
       throw new RestApiException(e.getMessage());
     }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    try {
+      deleteTag.apply(resource(), new DeleteTag.Input());
+    } catch (IOException e) {
+      throw new RestApiException(e.getMessage());
+    }
+  }
+
+  private TagResource resource() throws RestApiException, IOException {
+    return tags.parse(project, IdString.fromDecoded(ref));
   }
 }

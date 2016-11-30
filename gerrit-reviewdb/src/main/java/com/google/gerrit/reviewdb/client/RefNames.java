@@ -195,7 +195,8 @@ public class RefNames {
   }
 
   public static boolean isRefsEdit(String ref) {
-    return ref.startsWith(REFS_USERS) && ref.contains(EDIT_PREFIX);
+    return ref != null && ref.startsWith(REFS_USERS)
+        && ref.contains(EDIT_PREFIX);
   }
 
   public static boolean isRefsUsers(String ref) {

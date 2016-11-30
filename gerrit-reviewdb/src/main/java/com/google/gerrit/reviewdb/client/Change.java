@@ -143,6 +143,9 @@ public final class Change {
     }
 
     public static Id fromRef(String ref) {
+      if (RefNames.isRefsEdit(ref)) {
+        return fromEditRefPart(ref);
+      }
       int cs = startIndex(ref);
       if (cs < 0) {
         return null;
@@ -154,6 +157,42 @@ public final class Change {
         return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
       }
       return null;
+    }
+
+    public static Id fromAllUsersRef(String ref) {
+      if (ref == null) {
+        return null;
+      }
+      String prefix;
+      if (ref.startsWith(RefNames.REFS_STARRED_CHANGES)) {
+        prefix = RefNames.REFS_STARRED_CHANGES;
+      } else if (ref.startsWith(RefNames.REFS_DRAFT_COMMENTS)) {
+        prefix = RefNames.REFS_DRAFT_COMMENTS;
+      } else {
+        return null;
+      }
+      int cs = startIndex(ref, prefix);
+      if (cs < 0) {
+        return null;
+      }
+      int ce = nextNonDigit(ref, cs);
+      if (ce < ref.length() && ref.charAt(ce) == '/'
+          && isNumeric(ref, ce + 1)) {
+        return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
+      }
+      return null;
+    }
+
+    private static boolean isNumeric(String s, int off) {
+      if (off >= s.length()) {
+        return false;
+      }
+      for (int i = off; i < s.length(); i++) {
+        if (!Character.isDigit(s.charAt(i))) {
+          return false;
+        }
+      }
+      return true;
     }
 
     public static Id fromEditRefPart(String ref) {
@@ -173,12 +212,16 @@ public final class Change {
     }
 
     static int startIndex(String ref) {
-      if (ref == null || !ref.startsWith(REFS_CHANGES)) {
+      return startIndex(ref, REFS_CHANGES);
+    }
+
+    static int startIndex(String ref, String expectedPrefix) {
+      if (ref == null || !ref.startsWith(expectedPrefix)) {
         return -1;
       }
 
       // Last 2 digits.
-      int ls = REFS_CHANGES.length();
+      int ls = expectedPrefix.length();
       int le = nextNonDigit(ref, ls);
       if (le - ls != 2 || le >= ref.length() || ref.charAt(le) != '/') {
         return -1;

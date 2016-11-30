@@ -26,6 +26,12 @@
      */
 
     /**
+     * Fired when the Ack action is triggered.
+     *
+     * @event ack
+     */
+
+    /**
      * Fired when the Done action is triggered.
      *
      * @event done
@@ -287,6 +293,11 @@
       e.preventDefault();
       this.fire(
           'reply', this._getEventPayload({quote: true}), {bubbles: false});
+    },
+
+    _handleAck: function(e) {
+      e.preventDefault();
+      this.fire('ack', this._getEventPayload(), {bubbles: false});
     },
 
     _handleDone: function(e) {

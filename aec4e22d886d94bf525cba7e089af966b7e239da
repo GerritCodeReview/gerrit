@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ec1c3c_65b1e228",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Tag.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T12:29:20Z",
+      "side": 1,
+      "message": "This class is not needed.",
+      "revId": "aec4e22d886d94bf525cba7e089af966b7e239da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_06929ee6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T12:29:20Z",
+      "side": 1,
+      "message": "still lots of missing blank lines",
+      "revId": "aec4e22d886d94bf525cba7e089af966b7e239da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_e6969ad8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T12:29:20Z",
+      "side": 1,
+      "message": "not needed.  see below.",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 58
+      },
+      "revId": "aec4e22d886d94bf525cba7e089af966b7e239da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_45bade0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T12:29:20Z",
+      "side": 1,
+      "message": "this is not used.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 60
+      },
+      "revId": "aec4e22d886d94bf525cba7e089af966b7e239da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e76057_468ca6c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T12:29:20Z",
+      "side": 1,
+      "message": "Rather than doing this with refupdate, we should use JGit\u0027s DeleteTagCommand.",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 30
+      },
+      "revId": "aec4e22d886d94bf525cba7e089af966b7e239da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_25b7da20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T12:29:20Z",
+      "side": 1,
+      "message": "this is not relevant.  there is no such thing as a current tag.",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 75
+      },
+      "revId": "aec4e22d886d94bf525cba7e089af966b7e239da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_85b4e61a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T12:29:20Z",
+      "side": 1,
+      "message": "It would be easier to separate the implementation into two commits. first implement deletion of single tag, and then deletion of multiple tags.",
+      "revId": "aec4e22d886d94bf525cba7e089af966b7e239da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

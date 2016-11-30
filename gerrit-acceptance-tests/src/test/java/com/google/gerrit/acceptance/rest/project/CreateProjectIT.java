@@ -17,13 +17,16 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -257,6 +260,27 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.name = allProjects.get();
     assertCreateFails(in, ResourceConflictException.class);
+  }
+
+  @Test
+  @Sandboxed
+  public void testCreateProjectWithCreateProjectCapabilityAndParentNotVisible()
+      throws Exception {
+    ProjectInfo p = gApi.projects().create(name("hiddenProject")).get();
+    Project hiddenProject =
+        projectCache.get(new Project.NameKey(p.name)).getProject();
+    hiddenProject
+        .setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
+
+    setApiUser(user);
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
+
+    ProjectInput in = new ProjectInput();
+    in.name = name("newProject");
+    in.parent = hiddenProject.getName();
+
+    p = gApi.projects().create(in).get();
+    assertThat(p.name).isEqualTo(in.name);
   }
 
   private AccountGroup.UUID groupUuid(String groupName) {

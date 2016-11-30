@@ -1,66 +1,66 @@
 java_library(
-  name = 'powermock-module-junit4',
-  exports = [
-    '@powermock_module_junit4//jar',
-    ':powermock-module-junit4-common',
-    '//lib:junit',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "powermock-module-junit4",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":powermock-module-junit4-common",
+        "//lib:junit",
+        "@powermock_module_junit4//jar",
+    ],
 )
 
 java_library(
-  name = 'powermock-module-junit4-common',
-  exports = [
-    '@powermock_module_junit4_common//jar',
-    ':powermock-reflect',
-    '//lib:junit',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "powermock-module-junit4-common",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":powermock-reflect",
+        "//lib:junit",
+        "@powermock_module_junit4_common//jar",
+    ],
 )
 
 java_library(
-  name = 'powermock-reflect',
-  exports = [
-    '@powermock_reflect//jar',
-    '//lib:junit',
-    '//lib/easymock:objenesis',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "powermock-reflect",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = [
+        "//lib:junit",
+        "//lib/easymock:objenesis",
+        "@powermock_reflect//jar",
+    ],
 )
 
 java_library(
-  name = 'powermock-api-easymock',
-  exports = [
-    '@powermock_api_easymock//jar',
-    ':powermock-api-support',
-    '//lib/easymock:easymock',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "powermock-api-easymock",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":powermock-api-support",
+        "//lib/easymock",
+        "@powermock_api_easymock//jar",
+    ],
 )
 
 java_library(
-  name = 'powermock-api-support',
-  exports = [
-    '@powermock_api_support//jar',
-    ':powermock-core',
-    ':powermock-reflect',
-    '//lib:junit',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "powermock-api-support",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":powermock-core",
+        ":powermock-reflect",
+        "//lib:junit",
+        "@powermock_api_support//jar",
+    ],
 )
 
 java_library(
-  name = 'powermock-core',
-  exports = [
-    ':powermock-reflect',
-    '//lib:javassist',
-    '//lib:junit',
-  ],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-DO_NOT_DISTRIBUTE'],
+    name = "powermock-core",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":powermock-reflect",
+        "//lib:javassist",
+        "//lib:junit",
+    ],
 )

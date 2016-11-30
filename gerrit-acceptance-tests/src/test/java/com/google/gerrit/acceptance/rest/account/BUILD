@@ -1,24 +1,24 @@
-load('//gerrit-acceptance-tests:tests.bzl', 'acceptance_tests')
+load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-  group = 'rest_account',
-  srcs = glob(['*IT.java']),
-  deps = [':util'],
-  labels = ['rest']
+    srcs = glob(["*IT.java"]),
+    group = "rest_account",
+    labels = ["rest"],
+    deps = [":util"],
 )
 
 java_library(
-  name = 'util',
-  srcs = [
-    'AccountAssert.java',
-    'CapabilityInfo.java',
-  ],
-  deps = [
-    '//gerrit-acceptance-tests:lib',
-    '//gerrit-reviewdb:server',
-    '//lib:gwtorm',
-    '//lib:junit',
-  ],
-  visibility = ['//visibility:public'],
-  testonly = 1,
+    name = "util",
+    testonly = 1,
+    srcs = [
+        "AccountAssert.java",
+        "CapabilityInfo.java",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//gerrit-acceptance-tests:lib",
+        "//gerrit-reviewdb:server",
+        "//lib:gwtorm",
+        "//lib:junit",
+    ],
 )

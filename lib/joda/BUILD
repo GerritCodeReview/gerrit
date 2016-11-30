@@ -1,13 +1,13 @@
 java_library(
-  name = 'joda-time',
-  exports = ['@joda_time//jar'],
-  runtime_deps = ['joda-convert'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "joda-time",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@joda_time//jar"],
+    runtime_deps = ["joda-convert"],
 )
 
 java_library(
-  name = 'joda-convert',
-  exports = ['@joda_convert//jar'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "joda-convert",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@joda_convert//jar"],
 )

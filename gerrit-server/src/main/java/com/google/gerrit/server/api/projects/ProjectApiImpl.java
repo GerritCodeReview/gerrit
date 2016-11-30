@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
+import com.google.gerrit.extensions.api.projects.DeleteTagsInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.DeleteBranches;
+import com.google.gerrit.server.project.DeleteTags;
 import com.google.gerrit.server.project.GetAccess;
 import com.google.gerrit.server.project.GetConfig;
 import com.google.gerrit.server.project.GetDescription;
@@ -87,6 +89,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final ListBranches listBranches;
   private final ListTags listTags;
   private final DeleteBranches deleteBranches;
+  private final DeleteTags deleteTags;
 
   @AssistedInject
   ProjectApiImpl(CurrentUser user,
@@ -107,11 +110,12 @@ public class ProjectApiImpl implements ProjectApi {
       ListBranches listBranches,
       ListTags listTags,
       DeleteBranches deleteBranches,
+      DeleteTags deleteTags,
       @Assisted ProjectResource project) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
         tagApiFactory, getAccess, setAccess, getConfig, putConfig, listBranches,
-        listTags, deleteBranches, project, null);
+        listTags, deleteBranches, deleteTags, project, null);
   }
 
   @AssistedInject
@@ -133,11 +137,12 @@ public class ProjectApiImpl implements ProjectApi {
       ListBranches listBranches,
       ListTags listTags,
       DeleteBranches deleteBranches,
+      DeleteTags deleteTags,
       @Assisted String name) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
         tagApiFactory, getAccess, setAccess, getConfig, putConfig, listBranches,
-        listTags, deleteBranches, null, name);
+        listTags, deleteBranches, deleteTags, null, name);
   }
 
   private ProjectApiImpl(CurrentUser user,
@@ -158,6 +163,7 @@ public class ProjectApiImpl implements ProjectApi {
       ListBranches listBranches,
       ListTags listTags,
       DeleteBranches deleteBranches,
+      DeleteTags deleteTags,
       ProjectResource project,
       String name) {
     this.user = user;
@@ -180,6 +186,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.listBranches = listBranches;
     this.listTags = listTags;
     this.deleteBranches = deleteBranches;
+    this.deleteTags = deleteTags;
   }
 
   @Override
@@ -342,6 +349,15 @@ public class ProjectApiImpl implements ProjectApi {
       deleteBranches.apply(checkExists(), in);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete branches", e);
+    }
+  }
+
+  @Override
+  public void deleteTags(DeleteTagsInput in) throws RestApiException {
+    try {
+      deleteTags.apply(checkExists(), in);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot delete tags", e);
     }
   }
 

@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_8824d7c4",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:59:20Z",
+      "side": 1,
+      "message": "Gotcha. Yeah, it\u0027s fine.",
+      "parentUuid": "105d44d4_68895bb5",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1d842_a26d9ee3",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 1

@@ -393,7 +393,8 @@
           ListChangesOption.CURRENT_ACTIONS,
           ListChangesOption.CURRENT_COMMIT,
           ListChangesOption.DOWNLOAD_COMMANDS,
-          ListChangesOption.SUBMITTABLE
+          ListChangesOption.SUBMITTABLE,
+          ListChangesOption.WEB_LINKS
       );
       return this._getChangeDetail(
           changeNum, options, opt_errFn, opt_cancelCondition);

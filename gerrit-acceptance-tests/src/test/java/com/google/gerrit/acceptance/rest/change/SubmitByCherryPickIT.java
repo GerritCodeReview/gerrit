@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
@@ -104,6 +105,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
           @Override
           public String onSubmit(String newCommitMessage, RevCommit original,
               RevCommit mergeTip, Branch.NameKey destination) {
+            checkState(!original.getName().equals(mergeTip.getName()),
+                original.getName() + " == " + mergeTip.getName());
             return newCommitMessage + "Custom: " + destination.get();
           }
         });

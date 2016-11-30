@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
@@ -1823,6 +1824,8 @@ public class ChangeIT extends AbstractDaemonTest {
           @Override
           public String onSubmit(String newCommitMessage, RevCommit original,
               RevCommit mergeTip, Branch.NameKey destination) {
+            checkState(!original.getName().equals(mergeTip.getName()),
+                original.getName() + " == " + mergeTip.getName());
             return newCommitMessage + "Custom: " + destination.get();
           }
         });

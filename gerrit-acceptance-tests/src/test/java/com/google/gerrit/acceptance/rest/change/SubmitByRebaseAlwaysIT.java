@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -96,6 +97,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
           @Override
           public String onSubmit(String newCommitMessage, RevCommit original,
               RevCommit mergeTip, Branch.NameKey destination) {
+            checkState(!original.getName().equals(mergeTip.getName()),
+                original.getName() + " == " + mergeTip.getName());
             List<String> custom = mergeTip.getFooterLines("Custom");
             if (!custom.isEmpty()) {
               newCommitMessage += "Custom-Parent: " + custom.get(0) + "\n";

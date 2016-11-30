@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed9e1721_fc604927",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:53:36Z",
+      "side": 1,
+      "message": "Why not just use GR-FORMATTED-TEXT elements here?",
+      "range": {
+        "startLine": 37,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "8b5ef88bf2368eacb2db3679ef070a68eb1568b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

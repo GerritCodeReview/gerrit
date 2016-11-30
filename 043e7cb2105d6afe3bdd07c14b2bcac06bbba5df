@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed9e1721_fc560948",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:40:26Z",
+      "side": 1,
+      "message": "Beware, page.js require double-url-encoding.\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4255\nPlease test with slashes, quotes, etc.",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_887297c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:40:26Z",
+      "side": 1,
+      "message": "Please place on a separate line in order not to be missed.",
+      "range": {
+        "startLine": 59,
+        "startChar": 35,
+        "endLine": 59,
+        "endChar": 41
+      },
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_a87753b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:40:26Z",
+      "side": 1,
+      "message": "Is this one needed?",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_485d7f33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-11-30T22:40:26Z",
+      "side": 1,
+      "message": "flushAsynchronousOperations() makes code more readable and produces better error messages in Firefox.\nAlso, you wouldn\u0027t need done().",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

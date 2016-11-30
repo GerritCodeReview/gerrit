@@ -682,7 +682,7 @@ class ChangeNotesParser {
     ObjectReader reader = walk.getObjectReader();
     ChangeNotesCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap = RevisionNoteMap.parse(
-        noteUtil, id, reader, NoteMap.read(reader, tipCommit),
+        noteUtil, reader, NoteMap.read(reader, tipCommit),
         PatchLineComment.Status.PUBLISHED);
     Map<RevId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 

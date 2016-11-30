@@ -213,17 +213,6 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfWithComment() throws Exception {
-    testVoteOnBehalfOfWithComment();
-  }
-
-  @GerritConfig(name = "notedb.writeJson", value = "true")
-  @Test
-  public void voteOnBehalfOfWithCommentWritingJson() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-    testVoteOnBehalfOfWithComment();
-  }
-
-  private void testVoteOnBehalfOfWithComment() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
 
@@ -254,7 +243,6 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(c.getRealAuthor().getId()).isEqualTo(admin.id);
   }
 
-  @GerritConfig(name = "notedb.writeJson", value = "true")
   @Test
   public void voteOnBehalfOfWithRobotComment() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();

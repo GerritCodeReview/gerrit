@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_488c9fc6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T18:59:49Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be, removing.",
+      "parentUuid": "90e69458_c1bee208",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1d842_624d5687",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 1
@@ -59,6 +77,24 @@
         "endLine": 54,
         "endChar": 22
       },
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_7c4af9c6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T18:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e1d842_624d5687",
       "revId": "a7801441a5be4df18df13591825262d6923c5329",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_68895bb5",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T18:59:49Z",
+      "side": 1,
+      "message": "this was taken from the old gr-account-dropdown. I can still change if you want.",
+      "parentUuid": "b0e1d842_c268a2d5",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1d842_a26d9ee3",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 1
@@ -111,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_0886a7a4",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T18:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e1d842_a26d9ee3",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1d842_0273aac7",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 1
@@ -122,6 +194,24 @@
       "writtenOn": "2016-11-28T23:40:36Z",
       "side": 1,
       "message": "We shouldn\u0027t reach into a Polymer element like this because it should not work with shadow DOM. Something like this should be internal to the dropdown, or made available as a public method.",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_8850574f",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T18:59:49Z",
+      "side": 1,
+      "message": "oops- implemented already in gr-dropdown",
+      "parentUuid": "b0e1d842_0273aac7",
       "revId": "a7801441a5be4df18df13591825262d6923c5329",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -194,7 +194,7 @@ limitations under the License.
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         done();
       });
-      commentEl.fire('done', {comment: commentEl.comment}, {bubbles: false});
+      commentEl.fire('ack', {comment: commentEl.comment}, {bubbles: false});
     });
 
     test('done', function(done) {

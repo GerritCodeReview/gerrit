@@ -22,6 +22,30 @@
       "revId": "9c38ec3079627179dff97a57cb21ff48099e468f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_4cb8bfab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-11-30T17:18:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_ae84b7f4",
+      "range": {
+        "startLine": 214,
+        "startChar": 2,
+        "endLine": 223,
+        "endChar": 3
+      },
+      "revId": "9c38ec3079627179dff97a57cb21ff48099e468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

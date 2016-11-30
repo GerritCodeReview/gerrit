@@ -87,6 +87,12 @@ public abstract class ConsoleUI {
   /** Prompt the user for a password, returning the string; null if blank. */
   public abstract String password(String fmt, Object... args);
 
+  /** Display an error message on the system stderr. */
+  public void error(String format, Object... args) {
+    System.err.println(String.format(format, args));
+    System.err.flush();
+  }
+
   /** Prompt the user to make a choice from an enumeration's values. */
   public abstract <T extends Enum<?>> T readEnum(T def, String fmt,
       Object... args);

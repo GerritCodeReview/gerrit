@@ -34,7 +34,7 @@
       changeStatus: String,
       commitMessage: String,
       commitNum: String,
-      _message: {
+      message: {
         type: String,
         computed: '_computeMessage(changeStatus, commitNum, commitMessage)',
       },

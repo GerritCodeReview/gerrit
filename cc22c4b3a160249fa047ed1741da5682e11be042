@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "105d44d4_a823d3ca",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:42:50Z",
+      "side": 1,
+      "message": "This should be a JSDoc comment.",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 6
+      },
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_4809ff4d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:42:50Z",
+      "side": 1,
+      "message": "Why these HTML comments? This isn\u0027t a whitespace-sensitive context is it?",
+      "range": {
+        "startLine": 71,
+        "startChar": 57,
+        "endLine": 72,
+        "endChar": 7
+      },
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_dcdeadc8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:42:50Z",
+      "side": 1,
+      "message": "Looks like it was already this way, but shouldn\u0027t this be a one-way binding?\n\n  [[groups]]",
+      "range": {
+        "startLine": 59,
+        "startChar": 39,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_e800eb1e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:42:50Z",
+      "side": 1,
+      "message": "Break this down like\n\n  \u003ctr class\u003d\"groupHeader\"\u003e\n    \u003ctd class\u003d\"cell\"\u003e[[_groupTitle(groupIndex)]]\u003c/td\u003e\n  \u003c/tr\u003e",
+      "range": {
+        "startLine": 62,
+        "startChar": 12,
+        "endLine": 62,
+        "endChar": 90
+      },
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_fcdb69d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:42:50Z",
+      "side": 1,
+      "message": "This should be indented one more level.",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 67
+      },
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_9cd825db",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:42:50Z",
+      "side": 1,
+      "message": "Nit: move this curly to the end of the previous line. Also, in a few places below.",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 11
+      },
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_5c705dfc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-11-30T21:42:50Z",
+      "side": 1,
+      "message": "Nit: this can be just ...\n\n  })\n\n... also, in a few places below.",
+      "range": {
+        "startLine": 77,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 9
+      },
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

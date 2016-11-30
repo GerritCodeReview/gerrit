@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1480464485 -0800\nnonce AOr0K+RPRNrAOcCh9HS/hyHvN92/9JkELU/yjptrC/nHJk9xJgEYF02nIkfdGXx4Hi7gdsKLVLy/\n\n0000000000000000000000000000000000000000 ab7454baf0ffedc792162e854b29c7bfa0cd0423 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYPhhlAAoJECdUrmNLj+szleAP/iT+vCjyQ+1a+Ok3WGFyLgro\nh/PZxkKWNcArR0IccBHvABjRs85tVFp3W9xYewli8ReCU6SMTSoBjePjZAmmYstw\nyXIUcKWr+ukPEbxoXrEMsXiUMtoOPtThHPOvRATmI5jWdljhUEoDrZiq9qq1x2Tt\nDNsGYVnTJbr4JeKNroOWmDvYdpJvYTKAJsxilHD0n4FjEssUdqvWmH5MbX9wHeWB\n/BBo+PzifiQORcm2tQNTKcavON+hAOHgZsrc32P/Tuo62M27/zEywEFjJ4sgUY7u\n8IH7F3syI3tCnnmSAajk4IiU0coxzORiIrsO37VDkDcuFgTDGfHoFc1WP/SvIVz8\nVIwhSWVBpLlXG4k38DGpI+lM17tQ+5isMMPrtmvWEWDSF4B50XShIRNxmmxLbPlG\nSCYbSWGgdcqYhzV/F5C6xJ3fMQJu1/2KuurgRu9O5lJRBKQXYHy3wwtBKCCbZ3go\nKgjof46MxrQ81AOfhxULirCllwa4QTOyHjh+dRAWm4YYwcyEODVr8QJbA7BngyFV\n/qFiuohwv48nmXE7ZXY8kE3EFntJ31bCBiOmg7tmFaHitiorx4lIxs6T/aXKFMJx\n7/RoHd3dhO8Nq8b4bXWeVWtaZ8N5FIZiKXv8efC5CMhbJTUvYfdSpmYrg/VQOwM0\nuvSnF3LHyq3yb7bmb9UP\n\u003dQBJm\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "105d44d4_487fbf19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T00:17:08Z",
+      "side": 1,
+      "message": "\\o/",
+      "revId": "ab7454baf0ffedc792162e854b29c7bfa0cd0423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9071345a_6cd173e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T00:17:08Z",
+      "side": 1,
+      "message": "I hope some Java wizard can offer a way to make this nicer. Maybe something as simple as\n\n public void putEntry(ArchiveOutputStream out, String path, byte[] data) throws IOException {\n   @SuppressWarnings(\"unchecked\")\n   ArchiveCommand.Format\u003cArchiveOutputStream\u003e fmt \u003d (ArchiveCommand.Format) format;\n   fmt.putEntry(...);\n }\n\nOr to avoid the warning:\n\n public void putEntry(ArchiveOutputStream out, String path, byte[] data) throws IOException {\n   putEntry(format, out, ...);\n }\n\n private static \u003cT extends Closeable\u003e void putEntry(Format\u003cT\u003e fmt, ArchiveOutputStream o, ...) throws ... {\n   T out \u003d (T) o;\n   fmt.putEntry(...);\n }",
+      "revId": "ab7454baf0ffedc792162e854b29c7bfa0cd0423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

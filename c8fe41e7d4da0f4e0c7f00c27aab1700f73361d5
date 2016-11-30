@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "ed9e1721_3c6b112d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-30T18:36:58Z",
+      "side": 1,
+      "message": "Eh, if there isn\u0027t a way to make it work for everything then I\u0027d say we should go with this solution. It\u0027s already functional and generalized enough to work until another nestable element is added to gr-formatted-text or the structure is changed in some major way.",
+      "parentUuid": "105d44d4_85ce0270",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_051532f1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 2
@@ -119,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_286cc31e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-30T18:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105d44d4_051532f1",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9071345a_09c30946",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 2
@@ -136,6 +172,24 @@
         "endLine": 235,
         "endChar": 38
       },
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_dc4f8dd9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-30T18:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9071345a_09c30946",
       "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -195,6 +249,24 @@
       "side": 1,
       "message": "Mainly performance. Just asking for the innerText string can cause a reflow, whereas textContent won\u0027t.\n\nhttp://stackoverflow.com/questions/24427621/innertext-vs-innerhtml-vs-label-vs-text-vs-textcontent-vs-outertext",
       "parentUuid": "105d44d4_c5c4fa53",
+      "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9e1721_fc4cc9e6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-11-30T18:36:58Z",
+      "side": 1,
+      "message": "Cool. Done.",
+      "parentUuid": "105d44d4_e5c9f66a",
       "revId": "c8fe41e7d4da0f4e0c7f00c27aab1700f73361d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

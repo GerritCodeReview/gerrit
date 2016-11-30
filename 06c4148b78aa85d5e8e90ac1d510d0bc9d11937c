@@ -17,6 +17,24 @@
       "revId": "06c4148b78aa85d5e8e90ac1d510d0bc9d11937c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_857ea681",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-11-30T10:40:39Z",
+      "side": 1,
+      "message": "Done\n\nNow explained in the commit message.",
+      "parentUuid": "50ec1c3c_058a966d",
+      "revId": "06c4148b78aa85d5e8e90ac1d510d0bc9d11937c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

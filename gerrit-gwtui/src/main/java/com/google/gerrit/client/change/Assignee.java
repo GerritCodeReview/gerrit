@@ -113,6 +113,8 @@ public class Assignee extends Composite {
     if (currentAssignee != null) {
       suggestBox.setText(FormatUtil.nameEmail(currentAssignee));
       suggestBox.selectAll();
+    } else {
+      suggestBox.setText("");
     }
   }
 
@@ -137,7 +139,7 @@ public class Assignee extends Composite {
   }
 
   private void editAssignee(final String assignee) {
-    if (assignee.isEmpty()) {
+    if (assignee.trim().isEmpty()) {
       ChangeApi.deleteAssignee(changeId.get(),
           new GerritCallback<AccountInfo>() {
             @Override

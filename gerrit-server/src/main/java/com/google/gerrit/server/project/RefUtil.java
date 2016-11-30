@@ -14,7 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import static org.eclipse.jgit.lib.Constants.R_REFS;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
+
 import com.google.common.collect.Iterables;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 
@@ -97,6 +101,23 @@ public class RefUtil {
       return refName.substring(0, i);
     }
     return Constants.R_HEADS;
+  }
+
+  public static String normalizeTagRef(String tag) throws BadRequestException {
+    String result = tag;
+    while (result.startsWith("/")) {
+      result = result.substring(1);
+    }
+    if (result.startsWith(R_REFS) && !result.startsWith(R_TAGS)) {
+      throw new BadRequestException("invalid tag name \"" + result + "\"");
+    }
+    if (!result.startsWith(R_TAGS)) {
+      result = R_TAGS + result;
+    }
+    if (!Repository.isValidRefName(result)) {
+      throw new BadRequestException("invalid tag name \"" + result + "\"");
+    }
+    return result;
   }
 
   /** Error indicating the revision is invalid as supplied. */

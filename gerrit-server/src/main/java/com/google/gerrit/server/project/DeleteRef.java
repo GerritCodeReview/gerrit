@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static java.lang.String.format;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -197,11 +198,12 @@ public class DeleteRef {
           "it doesn't exist or you do not have permission to delete it");
     }
 
-    //TODO: this check should not be done when deletion of tags is added
-    Branch.NameKey branchKey =
-        new Branch.NameKey(project.getNameKey(), ref.getName());
-    if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
-      command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
+    if (!refName.startsWith(R_TAGS)) {
+      Branch.NameKey branchKey =
+          new Branch.NameKey(project.getNameKey(), ref.getName());
+      if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
+        command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
+      }
     }
 
     RefUpdate u = r.updateRef(refName);

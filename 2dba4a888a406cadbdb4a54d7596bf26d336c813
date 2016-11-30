@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1480469202 -0800\nnonce AG58fQp6PXCl/ziioyD7fJepOUw4T7qDj/hsE6BI2dSo0hKWEZNRi8NgtvJHjg7REjZAhwTc8eYw\n\n0000000000000000000000000000000000000000 2dba4a888a406cadbdb4a54d7596bf26d336c813 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYPirSAAoJECdUrmNLj+szwDYP/2ATcQ4sp0RyTLUdCJ7pC+F0\nc6VfVqGPNcXHL4P+/vTPn1g+bsVmKQXFTC88N8/Z7UNKBnSf0eeJQDVxW9yjezHl\noe9UTYoY0eJSEsdI1waWe1JvNY2ERJhQUx3pXLXYscLOPpCBwWRQmjGOqCMaMvQP\n0eyQmQ5Wapo0uB4F/GqDA1F/6drjs0s4o685/r3lmFsNK6gqJ9klBv4rsGipKTfT\nI4S9r5g0pigVCaTsrCccjkYVRpLwlQo9B7x70ctGUflGw8WrTFSGt7F0MClBXxfk\nwXxNx3LBx3wIuXRrq/uKqESwsAWHYXZHczFCdf5iPedwlvjMMUW0nAIqfssG/FPH\n4k0UedMGSblOoFm9IkIw/72lx/Pcvvy9XvbpbuwMZQpd+gT2eqQ1UxYeY0LsHH1p\n1E970dL/sPS5kJg0M6CTn6alRhGtTIJk9+XlaahimnTvdTgw85awmi5fMdfgplqG\n8qc6efX4RvqX1EiWY2pxhl4V4uj2t02nhXUieIVg1pNNdnSecu0gP4sLPIIiDQPo\nraNZJUi1s+KP6LsEh3RMSliGoiEYZFFSY0/2wIsXTA3R2uYMvKJR5CLt2MS3kZ5j\nCbcGVGC0xNt9f4Si4Y8gzkcMmJHfO5ZtFOapwrKP9/ZnDT7MP0lnEjcOnLPz/pbz\nxpWfy8ZoNmAZm4xC0rou\n\u003dAwWx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9071345a_ec61e34d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T01:29:06Z",
+      "side": 1,
+      "message": "shouldn\u0027t need to import",
+      "revId": "2dba4a888a406cadbdb4a54d7596bf26d336c813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9071345a_8c662763",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-11-30T01:29:06Z",
+      "side": 1,
+      "message": "see comments on previous patch set",
+      "revId": "2dba4a888a406cadbdb4a54d7596bf26d336c813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

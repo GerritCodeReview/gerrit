@@ -68,13 +68,11 @@ public class AvatarImage extends Image implements LoadHandler {
         setHeight(info.height() > 0 ? info.height() + "px" : "");
         setUrl(info.url());
         popup(account, addPopup);
-      } else if (account.email() != null) {
+      } else {
         loadAvatar(account, size, addPopup);
       }
-    } else if (account.email() != null) {
-      loadAvatar(account, size, addPopup);
     } else {
-      setVisible(false);
+      loadAvatar(account, size, addPopup);
     }
   }
 
@@ -83,14 +81,8 @@ public class AvatarImage extends Image implements LoadHandler {
       setVisible(false);
       return;
     }
-
-     // TODO Kill /accounts/*/avatar URL.
-    String u = account.email();
-    if (Gerrit.isSignedIn()
-        && u.equals(Gerrit.getUserAccount().email())) {
-      u = "self";
-    }
-    RestApi api = new RestApi("/accounts/").id(u).view("avatar");
+    RestApi api = new RestApi("/accounts/").id(account.getId().toString())
+                                           .view("avatar");
     if (size > 0) {
       api.addParameter("s", size);
       setSize("", size + "px");

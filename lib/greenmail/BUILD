@@ -1,7 +1,8 @@
-package(default_visibility = ['//visibility:public'])
+package(default_visibility = ["//visibility:public"])
+
 java_library(
-  name = 'greenmail',
-  exports = ['@greenmail//jar'],
-  visibility = ['//visibility:public'],
-  data = ['//lib:LICENSE-Apache2.0'],
+    name = "greenmail",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@greenmail//jar"],
 )

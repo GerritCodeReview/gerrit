@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
@@ -65,7 +64,7 @@ public class PutAssignee implements
     if (!rsrc.getControl().canEditAssignee()) {
       throw new AuthException("Changing Assignee not permitted");
     }
-    if (Strings.isNullOrEmpty(input.assignee)) {
+    if (input.assignee == null || input.assignee.trim().isEmpty()) {
       throw new BadRequestException("missing assignee field");
     }
 

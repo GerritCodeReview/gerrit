@@ -44,6 +44,10 @@
     return this._name;
   };
 
+  Plugin.prototype.getServerInfo = function() {
+    return document.createElement('gr-rest-api-interface').getConfig();
+  };
+
   Plugin.prototype.on = function(eventName, callback) {
     Plugin._sharedAPIElement.addEventCallback(eventName, callback);
   };

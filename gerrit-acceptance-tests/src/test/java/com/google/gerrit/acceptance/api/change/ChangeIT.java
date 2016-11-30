@@ -1820,12 +1820,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result change = createChange();
     RegistrationHandle handle =
         changeMessageModifiers.add(new ChangeMessageModifier() {
-
           @Override
           public String onSubmit(String newCommitMessage, RevCommit original,
-              RevCommit mergeTip, ChangeControl ctl) {
-            return newCommitMessage + "Custom: "
-                + ctl.getChange().getDest().get();
+              RevCommit mergeTip, Branch.NameKey destination) {
+            return newCommitMessage + "Custom: " + destination.get();
           }
         });
     ChangeInfo actual;

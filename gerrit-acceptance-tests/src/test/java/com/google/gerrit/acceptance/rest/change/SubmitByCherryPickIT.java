@@ -29,12 +29,12 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -103,9 +103,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         changeMessageModifiers.add(new ChangeMessageModifier() {
           @Override
           public String onSubmit(String newCommitMessage, RevCommit original,
-              RevCommit mergeTip, ChangeControl ctl) {
-            return newCommitMessage + "Custom: "
-                + ctl.getChange().getDest().get();
+              RevCommit mergeTip, Branch.NameKey destination) {
+            return newCommitMessage + "Custom: " + destination.get();
           }
         });
     try {

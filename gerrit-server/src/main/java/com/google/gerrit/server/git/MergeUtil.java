@@ -120,7 +120,7 @@ public class MergeUtil {
       }
       for (ChangeMessageModifier changeMessageModifier : changeMessageModifiers) {
         current = changeMessageModifier.onSubmit(current, original,
-            mergeTip, ctl);
+            mergeTip, ctl.getChange().getDest());
         checkNotNull(current, changeMessageModifier.getClass().getName()
             + ".OnSubmit returned null instead of new commit message");
       }

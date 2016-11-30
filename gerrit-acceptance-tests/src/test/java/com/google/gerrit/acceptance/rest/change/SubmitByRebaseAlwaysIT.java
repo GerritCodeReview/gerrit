@@ -24,8 +24,8 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ChangeMessageModifier;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -95,13 +95,12 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
         changeMessageModifiers.add(new ChangeMessageModifier() {
           @Override
           public String onSubmit(String newCommitMessage, RevCommit original,
-              RevCommit mergeTip, ChangeControl ctl) {
+              RevCommit mergeTip, Branch.NameKey destination) {
             List<String> custom = mergeTip.getFooterLines("Custom");
             if (!custom.isEmpty()) {
               newCommitMessage += "Custom-Parent: " + custom.get(0) + "\n";
             }
-            return newCommitMessage + "Custom: "
-                + ctl.getChange().getDest().get();
+            return newCommitMessage + "Custom: " + destination.get();
           }
         });
     try {

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.reviewdb.client.Branch;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -45,9 +45,9 @@ public interface ChangeMessageModifier {
    *        commit message may be different than newCommitMessage argument.</b>
    * @param mergeTip the current HEAD of the destination branch, which will be a
    *        parent of a new commit being generated
-   * @param ctl
+   * @param destination the branch onto which the change is being submitted
    * @return a new not null commit message.
    */
   String onSubmit(String newCommitMessage, RevCommit original,
-      RevCommit mergeTip, ChangeControl ctl);
+      RevCommit mergeTip, Branch.NameKey destination);
 }

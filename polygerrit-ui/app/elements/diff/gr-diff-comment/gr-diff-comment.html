@@ -93,11 +93,12 @@ limitations under the License.
       .danger .action {
         margin-right: 0;
       }
-      .container:not(.draft) .actions :not(.reply):not(.quote):not(.done) {
+      .container:not(.draft) .actions :not(.reply):not(.quote):not(.ack):not(.done) {
         display: none;
       }
       .draft .reply,
       .draft .quote,
+      .draft .ack,
       .draft .done {
         display: none;
       }
@@ -111,6 +112,7 @@ limitations under the License.
       .editing .message,
       .editing .reply,
       .editing .quote,
+      .editing .ack,
       .editing .done,
       .editing .edit {
         display: none;
@@ -191,6 +193,7 @@ limitations under the License.
       <div class="actions" hidden$="[[!showActions]]">
         <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>
         <gr-button class="action quote" on-tap="_handleQuote">Quote</gr-button>
+        <gr-button class="action ack" on-tap="_handleAck">Ack</gr-button>
         <gr-button class="action done" on-tap="_handleDone">Done</gr-button>
         <gr-button class="action edit" on-tap="_handleEdit">Edit</gr-button>
         <gr-button class="action save" on-tap="_handleSave"

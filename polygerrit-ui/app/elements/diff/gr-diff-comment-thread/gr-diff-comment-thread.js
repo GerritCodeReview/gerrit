@@ -162,6 +162,18 @@
       this.push('comments', reply);
     },
 
+    _handleCommentAck: function(e) {
+      var comment = e.detail.comment;
+      var reply = this._newReply(comment.id, comment.line, 'Ack');
+      this.push('comments', reply);
+
+      // Allow the reply to render in the dom-repeat.
+      this.async(function() {
+        var commentEl = this._commentElWithDraftID(reply.__draftID);
+        commentEl.save();
+      }.bind(this), 1);
+    },
+
     _handleCommentDone: function(e) {
       var comment = e.detail.comment;
       var reply = this._newReply(comment.id, comment.line, 'Done');

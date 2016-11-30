@@ -115,6 +115,13 @@ limitations under the License.
       MockInteractions.tap(element.$$('.quote'));
     });
 
+    test('proper event fires on ack', function(done) {
+      element.addEventListener('ack', function(e) {
+        done();
+      });
+      MockInteractions.tap(element.$$('.ack'));
+    });
+
     test('proper event fires on done', function(done) {
       element.addEventListener('done', function(e) {
         done();
@@ -227,6 +234,7 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
       assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
       assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
+      assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
 
       element.editing = true;
@@ -236,6 +244,7 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is visible');
       assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
       assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
+      assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
 
       element.draft = false;
@@ -247,6 +256,7 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
       assert.isTrue(isVisible(element.$$('.reply')), 'reply is visible');
       assert.isTrue(isVisible(element.$$('.quote')), 'quote is visible');
+      assert.isTrue(isVisible(element.$$('.ack')), 'ack is visible');
       assert.isTrue(isVisible(element.$$('.done')), 'done is visible');
 
       element.comment.id = 'foo';

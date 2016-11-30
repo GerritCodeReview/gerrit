@@ -22,6 +22,30 @@
       "revId": "7a3bddccab93c37ec3ce207b291b242110d7937e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ec1c3c_85dd0675",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexChangesCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-11-30T11:56:42Z",
+      "side": 1,
+      "message": "True, let me remove the parameter and make it the default behaviour.",
+      "parentUuid": "6d8b07e1_6046d29d",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "7a3bddccab93c37ec3ce207b291b242110d7937e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

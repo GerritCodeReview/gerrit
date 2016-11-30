@@ -122,7 +122,7 @@ public class ChangeApi {
       AsyncCallback<AccountInfo> cb) {
     AssigneeInput input = AssigneeInput.create();
     input.assignee(user);
-    change(id).view("assignee").put(user, cb);
+    change(id).view("assignee").put(input, cb);
   }
 
   public static RestApi comments(int id) {

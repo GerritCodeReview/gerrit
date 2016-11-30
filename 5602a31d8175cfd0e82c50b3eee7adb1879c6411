@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_ac2843f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-11-30T20:02:53Z",
+      "side": 1,
+      "message": "it\u0027s advisable to also document the (user-visible) effect this bug would have.",
+      "revId": "5602a31d8175cfd0e82c50b3eee7adb1879c6411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

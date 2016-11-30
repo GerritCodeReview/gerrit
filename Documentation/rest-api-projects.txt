@@ -1904,6 +1904,38 @@ Deletes a tag.
   HTTP/1.1 204 No Content
 ----
 
+[[delete-tags]]
+=== Delete Tags
+--
+'POST /projects/link:#project-name[\{project-name\}]/tags:delete'
+--
+
+Delete one or more tags.
+
+The tags to be deleted must be provided in the request body as a
+link:#delete-tags-input[DeleteBranchesInput] entity.
+
+.Request
+----
+  POST /projects/MyProject/tags:delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "tags": [
+      "tag-1",
+      "tag-2"
+    ]
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If some tags could not be deleted, the response is "`409 Conflict`" and the
+error message is contained in the response body.
+
 [[commit-endpoints]]
 == Commit Endpoints
 

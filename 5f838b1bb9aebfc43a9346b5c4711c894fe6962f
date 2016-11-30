@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "301ec818_b6a5e8eb",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-11-30T15:02:22Z",
+      "side": 1,
+      "message": "DeleteTagsInput\n\nAnd this entity also needs to be added to the documentation.",
+      "range": {
+        "startLine": 1916,
+        "startChar": 24,
+        "endLine": 1916,
+        "endChar": 43
+      },
+      "revId": "5f838b1bb9aebfc43a9346b5c4711c894fe6962f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

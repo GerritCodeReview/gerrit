@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ed9e1721_9c86e5a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T22:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90e69458_617b9693",
+      "revId": "a7801441a5be4df18df13591825262d6923c5329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90e69458_c1bee208",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 1

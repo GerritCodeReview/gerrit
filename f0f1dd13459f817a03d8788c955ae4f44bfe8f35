@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed9e1721_fc8929b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T22:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed9e1721_bc6ac101",
+      "revId": "f0f1dd13459f817a03d8788c955ae4f44bfe8f35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_e81f8b76",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 4
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "105d44d4_e846ab70",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T22:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105d44d4_e81f8b76",
+      "revId": "f0f1dd13459f817a03d8788c955ae4f44bfe8f35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed9e1721_9c6d851e",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 4
@@ -53,6 +89,24 @@
       "writtenOn": "2016-11-30T21:59:20Z",
       "side": 1,
       "message": "Trailing whitespace.",
+      "revId": "f0f1dd13459f817a03d8788c955ae4f44bfe8f35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_883b77df",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-11-30T22:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed9e1721_9c6d851e",
       "revId": "f0f1dd13459f817a03d8788c955ae4f44bfe8f35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

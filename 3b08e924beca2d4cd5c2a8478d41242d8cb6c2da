@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_6c757beb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-01T09:30:10Z",
+      "side": 1,
+      "message": "Thanks, done",
+      "parentUuid": "2dc74f2e_ae01176d",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 67
+      },
+      "revId": "3b08e924beca2d4cd5c2a8478d41242d8cb6c2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_4e5c339c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 13
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_0c7ab7da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-01T09:30:10Z",
+      "side": 1,
+      "message": "Thanks, done",
+      "parentUuid": "2dc74f2e_0e662b66",
+      "range": {
+        "startLine": 85,
+        "startChar": 51,
+        "endLine": 85,
+        "endChar": 70
+      },
+      "revId": "3b08e924beca2d4cd5c2a8478d41242d8cb6c2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_2e6be72c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 13
@@ -82,6 +130,30 @@
       "writtenOn": "2016-12-01T04:57:27Z",
       "side": 1,
       "message": "Tag is already defined at L73 (but that should probably be removed per the comment there)",
+      "range": {
+        "startLine": 86,
+        "startChar": 18,
+        "endLine": 86,
+        "endChar": 21
+      },
+      "revId": "3b08e924beca2d4cd5c2a8478d41242d8cb6c2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_8ed8dbda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-01T09:30:10Z",
+      "side": 1,
+      "message": "Thanks, done",
+      "parentUuid": "2dc74f2e_2e6be72c",
       "range": {
         "startLine": 86,
         "startChar": 18,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_aed597a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-01T09:30:10Z",
+      "side": 1,
+      "message": "Thanks, done",
+      "parentUuid": "edcc5755_ac560375",
+      "range": {
+        "startLine": 88,
+        "startChar": 20,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "3b08e924beca2d4cd5c2a8478d41242d8cb6c2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_8e045b7e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 13
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_cc634f32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-01T09:30:10Z",
+      "side": 1,
+      "message": "Thanks,done",
+      "parentUuid": "2dc74f2e_8e045b7e",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 9
+      },
+      "revId": "3b08e924beca2d4cd5c2a8478d41242d8cb6c2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_6e61ef4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
         "patchSetId": 13
@@ -151,6 +271,30 @@
       "writtenOn": "2016-12-01T04:57:27Z",
       "side": 1,
       "message": "- DeleteTagCommand does not have a getCommands method\n- Result.OK is not imported\n- project is not defined anywhere\n- referenceUpdated.fire was already called at L96\n\nI haven\u0027t checked exactly but IIRC DeleteTagCommand.call() returns a list of tags that were deleted, so here we should be comparing that to the input.  Or maybe if it fails it throws an exception and we can determine from that which tags failed.",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "3b08e924beca2d4cd5c2a8478d41242d8cb6c2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_ec608b27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-01T09:30:10Z",
+      "side": 1,
+      "message": "Thanks, done",
+      "parentUuid": "2dc74f2e_6e61ef4c",
       "range": {
         "startLine": 101,
         "startChar": 6,

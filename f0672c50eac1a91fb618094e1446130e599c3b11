@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6d05c749_506b4c2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T19:05:51Z",
+      "side": 1,
+      "message": "missing implementations of flush and close\n\nShould this inherit from java.io.FilterOutputStream? (Either way seems sensible to me)",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_d1562476",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 7

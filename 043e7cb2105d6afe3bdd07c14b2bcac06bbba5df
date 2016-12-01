@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_1161cc4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-01T18:40:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed9e1721_fc560948",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_887297c1",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
         "patchSetId": 3
@@ -36,6 +54,24 @@
         "endLine": 59,
         "endChar": 41
       },
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_71665867",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-01T18:40:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105d44d4_887297c1",
       "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -142,6 +178,24 @@
       "side": 1,
       "message": "Fair enough. Thanks for clearing it up.",
       "parentUuid": "105d44d4_88c857b6",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_30f7a86f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-01T18:40:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105d44d4_485d7f33",
       "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

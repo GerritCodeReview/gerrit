@@ -381,8 +381,9 @@ public class ReplaceOp extends BatchUpdate.Op {
             cm.setFrom(account.getId());
             cm.setPatchSet(newPatchSet, info);
             cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
-            if (magicBranch != null && magicBranch.notify != null) {
+            if (magicBranch != null) {
               cm.setNotify(magicBranch.notify);
+              cm.setAccountsToNotify(magicBranch.getAccountsToNotify());
             }
             cm.addReviewers(recipients.getReviewers());
             cm.addExtraCC(recipients.getCcOnly());

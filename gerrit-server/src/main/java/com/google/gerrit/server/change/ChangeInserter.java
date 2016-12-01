@@ -20,10 +20,13 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -112,6 +115,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
   private NotifyHandling notify = NotifyHandling.ALL;
+  private Multimap<RecipientType, Account.Id> accountsToNotify =
+      ImmutableListMultimap.of();
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
@@ -232,6 +237,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   public ChangeInserter setNotify(NotifyHandling notify) {
     this.notify = notify;
+    return this;
+  }
+
+  public ChangeInserter setAccountsToNotify(
+      Multimap<RecipientType, Account.Id> accountsToNotify) {
+    this.accountsToNotify = checkNotNull(accountsToNotify);
     return this;
   }
 
@@ -401,7 +412,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException, NoSuchChangeException {
-    if (sendMail) {
+    if (sendMail
+        && (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty())) {
       Runnable sender = new Runnable() {
         @Override
         public void run() {
@@ -411,6 +423,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
             cm.setFrom(change.getOwner());
             cm.setPatchSet(patchSet, patchSetInfo);
             cm.setNotify(notify);
+            cm.setAccountsToNotify(accountsToNotify);
             cm.addReviewers(reviewers);
             cm.addExtraCC(extraCC);
             cm.send();

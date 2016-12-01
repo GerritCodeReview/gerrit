@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -55,11 +58,13 @@ public class SubmitStrategyFactory {
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
       CommitStatus commits, RequestId submissionId,
-      NotifyHandling notifyHandling, SubmoduleOp submoduleOp, boolean dryrun)
-      throws IntegrationException {
+      NotifyHandling notifyHandling,
+      Multimap<RecipientType, Account.Id> accountsToNotify,
+      SubmoduleOp submoduleOp, boolean dryrun) throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
         commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
-        alreadyAccepted, submissionId, notifyHandling, submoduleOp, dryrun);
+        alreadyAccepted, submissionId, notifyHandling, accountsToNotify,
+        submoduleOp, dryrun);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args);

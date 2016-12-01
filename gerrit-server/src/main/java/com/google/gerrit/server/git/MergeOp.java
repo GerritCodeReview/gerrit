@@ -33,11 +33,13 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -47,6 +49,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
@@ -217,6 +220,7 @@ public class MergeOp implements AutoCloseable {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final MergeOpRepoManager orm;
+  private final NotifyUtil notifyUtil;
 
   private Timestamp ts;
   private RequestId submissionId;
@@ -225,6 +229,7 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commits;
   private ReviewDb db;
   private SubmitInput submitInput;
+  private Multimap<RecipientType, Account.Id> accountsToNotify;
   private Set<Project.NameKey> allProjects;
   private boolean dryrun;
 
@@ -237,7 +242,8 @@ public class MergeOp implements AutoCloseable {
       InternalChangeQuery internalChangeQuery,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
-      MergeOpRepoManager orm) {
+      MergeOpRepoManager orm,
+      NotifyUtil notifyUtil) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -247,6 +253,7 @@ public class MergeOp implements AutoCloseable {
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.orm = orm;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
@@ -398,6 +405,8 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules, SubmitInput submitInput, boolean dryrun)
       throws OrmException, RestApiException {
     this.submitInput = submitInput;
+    this.accountsToNotify =
+        notifyUtil.resolveAccounts(submitInput.notifyDetails);
     this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.nowTs();
@@ -545,8 +554,8 @@ public class MergeOp implements AutoCloseable {
           throws IntegrationException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
-        mergeTip, commits, submissionId, submitInput.notify, submoduleOp,
-        dryrun);
+        mergeTip, commits, submissionId, submitInput.notify, accountsToNotify,
+        submoduleOp, dryrun);
   }
 
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or,

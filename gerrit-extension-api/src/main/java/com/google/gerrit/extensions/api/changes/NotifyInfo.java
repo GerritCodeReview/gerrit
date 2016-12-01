@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,13 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.util.List;
 
-import java.util.Map;
+/** Detailed information about who should be notified about an update. */
+public class NotifyInfo {
+  public List<String> accounts;
 
-public class AbandonInput {
-  @DefaultInput
-  public String message;
-  public NotifyHandling notify = NotifyHandling.ALL;
-  public Map<RecipientType, NotifyInfo> notifyDetails;
+  public NotifyInfo(List<String> accounts) {
+    this.accounts = accounts;
+  }
 }
-

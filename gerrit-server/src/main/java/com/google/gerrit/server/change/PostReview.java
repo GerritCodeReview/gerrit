@@ -30,6 +30,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
@@ -43,6 +44,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
@@ -130,6 +132,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final CommentAdded commentAdded;
   private final PostReviewers postReviewers;
   private final NotesMigration migration;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   PostReview(Provider<ReviewDb> db,
@@ -145,7 +148,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       PostReviewers postReviewers,
-      NotesMigration migration) {
+      NotesMigration migration,
+      NotifyUtil notifyUtil) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
@@ -160,6 +164,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.commentAdded = commentAdded;
     this.postReviewers = postReviewers;
     this.migration = migration;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
@@ -197,6 +202,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       log.warn("notify = null; assuming notify = NONE");
       input.notify = NotifyHandling.NONE;
     }
+
+    Multimap<RecipientType, Account.Id> accountsToNotify =
+        notifyUtil.resolveAccounts(input.notifyDetails);
 
     Map<String, AddReviewerResult> reviewerJsonResults = null;
     List<PostReviewers.Addition> reviewerResults = Lists.newArrayList();
@@ -274,23 +282,25 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
-      bu.addOp(
-          revision.getChange().getId(),
-          new Op(revision.getPatchSet().getId(), input, reviewerResults));
+      bu.addOp(revision.getChange().getId(),
+          new Op(revision.getPatchSet().getId(), input, accountsToNotify,
+              reviewerResults));
       bu.execute();
 
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults();
       }
 
-      emailReviewers(revision.getChange(), reviewerResults, input.notify);
+      emailReviewers(revision.getChange(), reviewerResults, input.notify,
+          accountsToNotify);
     }
 
     return Response.ok(output);
   }
 
   private void emailReviewers(Change change,
-      List<PostReviewers.Addition> reviewerAdditions, NotifyHandling notify) {
+      List<PostReviewers.Addition> reviewerAdditions, NotifyHandling notify,
+      Multimap<RecipientType, Account.Id> accountsToNotify) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
     for (PostReviewers.Addition addition : reviewerAdditions) {
@@ -300,7 +310,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         cc.addAll(addition.op.reviewers.keySet());
       }
     }
-    postReviewers.emailReviewers(change, to, cc, notify);
+    postReviewers.emailReviewers(change, to, cc, notify, accountsToNotify);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
@@ -513,6 +523,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private class Op extends BatchUpdate.Op {
     private final PatchSet.Id psId;
     private final ReviewInput in;
+    private final Multimap<RecipientType, Account.Id> accountsToNotify;
     private final List<PostReviewers.Addition> reviewerResults;
 
     private IdentifiedUser user;
@@ -525,9 +536,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private Map<String, Short> oldApprovals = new HashMap<>();
 
     private Op(PatchSet.Id psId, ReviewInput in,
+        Multimap<RecipientType, Account.Id> accountsToNotify,
         List<PostReviewers.Addition> reviewerResults) {
       this.psId = psId;
       this.in = in;
+      this.accountsToNotify = checkNotNull(accountsToNotify);
       this.reviewerResults = reviewerResults;
     }
 
@@ -546,13 +559,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public void postUpdate(Context ctx) throws OrmException {
       if (message == null) {
         return;
       }
-      if (in.notify.compareTo(NotifyHandling.NONE) > 0) {
+      if (in.notify.compareTo(NotifyHandling.NONE) > 0
+          || !accountsToNotify.isEmpty()) {
         email.create(
             in.notify,
+            accountsToNotify,
             notes,
             ps,
             user,

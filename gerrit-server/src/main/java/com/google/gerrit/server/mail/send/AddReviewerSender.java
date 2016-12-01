@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.OrmException;
@@ -26,20 +24,15 @@ import com.google.inject.assistedinject.Assisted;
 /** Asks a user to review a change. */
 public class AddReviewerSender extends NewChangeSender {
   public interface Factory {
-    AddReviewerSender create(Project.NameKey project, Change.Id id,
-        NotifyHandling notify);
+    AddReviewerSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
   public AddReviewerSender(EmailArguments ea,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id,
-      @Assisted @Nullable NotifyHandling notify)
+      @Assisted Change.Id id)
       throws OrmException {
     super(ea, newChangeData(ea, project, id));
-    if (notify != null) {
-      setNotify(notify);
-    }
   }
 
   @Override

@@ -262,6 +262,43 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     m = sender.getMessages().get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress, user2.emailAddress,
         user3.emailAddress);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to="
+        + user3.email);
+    r.assertOkStatus();
+    assertNotifyTo(user3);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-cc="
+        + user3.email);
+    r.assertOkStatus();
+    assertNotifyCc(user3);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-bcc="
+        + user3.email);
+    r.assertOkStatus();
+    assertNotifyBcc(user3);
+
+    // request that sender gets notified as TO, CC and BCC, email should be sent
+    // even if the sender is the only recipient
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to="
+        + admin.email);
+    assertNotifyTo(admin);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-cc="
+        + admin.email);
+    r.assertOkStatus();
+    assertNotifyCc(admin);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-bcc="
+        + admin.email);
+    r.assertOkStatus();
+    assertNotifyBcc(admin);
   }
 
   @Test

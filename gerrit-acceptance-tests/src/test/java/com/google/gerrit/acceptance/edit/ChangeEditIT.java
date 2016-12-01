@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -174,8 +175,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RawInputUtil.create(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
-    editUtil.publish(editUtil.byChange(change).get(), NotifyHandling.NONE);
+            RawInputUtil.create(CONTENT_NEW2)))
+                .isEqualTo(RefUpdate.Result.FORCED);
+    editUtil.publish(editUtil.byChange(change).get(), NotifyHandling.NONE,
+        ImmutableListMultimap.of());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
     assertChangeMessages(change,
@@ -386,7 +389,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
 
-    editUtil.publish(edit.get(), NotifyHandling.NONE);
+    editUtil.publish(edit.get(), NotifyHandling.NONE,
+        ImmutableListMultimap.of());
     assertThat(editUtil.byChange(change).isPresent()).isFalse();
 
     ChangeInfo info = get(changeId, ListChangesOption.CURRENT_COMMIT,
@@ -429,7 +433,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
       assertThat(readContentFromJson(r)).isEqualTo(commit.getFullMessage());
     }
 
-    editUtil.publish(edit.get(), NotifyHandling.NONE);
+    editUtil.publish(edit.get(), NotifyHandling.NONE,
+        ImmutableListMultimap.of());
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
@@ -732,7 +737,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.modifyMessage(edit.get(), newMsg))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    editUtil.publish(edit.get(), NotifyHandling.NONE);
+    editUtil.publish(edit.get(), NotifyHandling.NONE,
+        ImmutableListMultimap.of());
 
     ChangeInfo info = get(changeId);
     assertThat(info.subject).isEqualTo(newSubj);
@@ -759,7 +765,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     editUtil.delete(editUtil.byChange(change).get());
     assertThat(queryEdits()).hasSize(1);
 
-    editUtil.publish(editUtil.byChange(change2).get(), NotifyHandling.NONE);
+    editUtil.publish(editUtil.byChange(change2).get(), NotifyHandling.NONE,
+        ImmutableListMultimap.of());
     assertThat(queryEdits()).hasSize(0);
 
     setApiUser(user);

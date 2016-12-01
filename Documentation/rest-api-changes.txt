@@ -4753,17 +4753,20 @@ This can be:
 The `AbandonInput` entity contains information for abandoning a change.
 
 [options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`message`     |optional|
+|=============================
+|Field Name      ||Description
+|`message`       |optional|
 Message to be added as review comment to the change when abandoning the
 change.
-|`notify`      |optional|
+|`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent after
 the change is abandoned. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|===========================
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[action-info]]
 === ActionInfo
@@ -5201,14 +5204,17 @@ The `DeleteReviewerInput` entity contains options for the deletion of a
 reviewer.
 
 [options="header",cols="1,^1,5"]
-|=======================
-|Field Name||Description
-|`notify`  |optional|
+|=============================
+|Field Name      ||Description
+|`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent
 after the reviewer is deleted. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|=======================
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[delete-vote-input]]
 === DeleteVoteInput
@@ -5216,17 +5222,20 @@ The `DeleteVoteInput` entity contains options for the deletion of a
 vote.
 
 [options="header",cols="1,^1,5"]
-|=======================
-|Field Name||Description
-|`label`   |optional|
+|=============================
+|Field Name      ||Description
+|`label`         |optional|
 The label for which the vote should be deleted. +
 If set, must match the label in the URL.
-|`notify`  |optional|
+|`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent
 after the vote is deleted. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|=======================
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[description-input]]
 === DescriptionInput
@@ -5618,6 +5627,23 @@ The `MoveInput` entity contains information for moving a change to a new branch.
 A message to be posted in this change's comments
 |===========================
 
+[[notify-info]]
+=== NotifyInfo
+The `NotifyInfo` entity contains detailed information about who should
+be notified about an update. These notifications are sent out even if a
+`notify` option in the request input disables normal notifications.
+`NotifyInfo` entities are normally contained in a `notify_details` map
+in the request input where the key is the recipient type. The recipient
+type can be `TO`, `CC` and `BCC`.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`accounts`|optional|
+A list of link:rest-api-accounts.html#account-id[account IDs] that
+identify the accounts that should be should be notified.
+|=======================
+
 [[problem-info]]
 === ProblemInfo
 The `ProblemInfo` entity contains a description of a potential consistency problem
@@ -5643,14 +5669,17 @@ The `PublishChangeEditInput` entity contains options for the publishing of
 change edit.
 
 [options="header",cols="1,^1,5"]
-|=======================
-|Field Name||Description
-|`notify`  |optional|
+|=============================
+|Field Name      ||Description
+|`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent
 after the change edit is published. +
 Allowed values are `NONE` and `ALL`. +
 If not set, the default is `ALL`.
-|=======================
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[push-certificate-info]]
 === PushCertificateInfo
@@ -5830,6 +5859,9 @@ Notify handling that defines to whom email notifications should be sent
 after the review is stored. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
+|`notify_details`         |optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
 |`omit_duplicate_comments`|optional|
 If `true`, comments with the same content at the same place will be omitted.
 |`on_behalf_of`           |optional|
@@ -5862,28 +5894,31 @@ The `ReviewerInput` entity contains information for adding a reviewer
 to a change.
 
 [options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`reviewer`    ||
+|=============================
+|Field Name      ||Description
+|`reviewer`      ||
 The link:rest-api-accounts.html#account-id[ID] of one account that
 should be added as reviewer or the link:rest-api-groups.html#group-id[
 ID] of one group for which all members should be added as reviewers. +
 If an ID identifies both an account and a group, only the account is
 added as reviewer to the change.
-|`state`       |optional|
+|`state`         |optional|
 Add reviewer in this state. Possible reviewer states are `REVIEWER`
 and `CC`. If not given, defaults to `REVIEWER`.
-|`confirmed`   |optional|
+|`confirmed`     |optional|
 Whether adding the reviewer is confirmed. +
 The Gerrit server may be configured to
 link:config-gerrit.html#addreviewer.maxWithoutConfirmation[require a
 confirmation] when adding a group as reviewer that has many members.
-|`notify`  |optional|
+|`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent
 after the reviewer is added. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|===========================
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[revision-info]]
 === RevisionInfo
@@ -6009,20 +6044,23 @@ not with the identity of the CI account.
 The `SubmitInput` entity contains information for submitting a change.
 
 [options="header",cols="1,^1,5"]
-|===========================
+|=============================
 |Field Name      ||Description
-|`on_behalf_of`|optional|
+|`on_behalf_of`  |optional|
 If set, submit the change on behalf of the given user. The value may take any
 format link:rest-api-accounts.html#account-id[accepted by the accounts REST
 API]. Using this option requires
 link:access-control.html#category_submit_on_behalf_of[Submit (On Behalf Of)]
 permission on the branch.
-|`notify`|optional|
+|`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent after
 the change is submitted. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|===========================
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[submit-record]]
 === SubmitRecord

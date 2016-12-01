@@ -46,6 +46,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
@@ -58,6 +59,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -1250,6 +1252,18 @@ public class ReceiveCommits {
             + "OWNER_REVIEWERS, ALL. If not set, the default is ALL.")
     NotifyHandling notify = NotifyHandling.ALL;
 
+    @Option(name = "--notify-to", metaVar = "USER",
+        usage = "user that should be notified")
+    List<Account.Id> tos = new ArrayList<>();
+
+    @Option(name = "--notify-cc", metaVar = "USER",
+        usage = "user that should be CC'd")
+    List<Account.Id> ccs = new ArrayList<>();
+
+    @Option(name = "--notify-bcc", metaVar = "USER",
+        usage = "user that should be BCC'd")
+    List<Account.Id> bccs = new ArrayList<>();
+
     @Option(name = "--reviewer", aliases = {"-r"}, metaVar = "EMAIL",
         usage = "add reviewer to changes")
     void reviewer(Account.Id id) {
@@ -1309,6 +1323,15 @@ public class ReceiveCommits {
 
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
+    }
+
+    Multimap<RecipientType, Account.Id> getAccountsToNotify() {
+      Multimap<RecipientType, Account.Id> accountsToNotify =
+          ArrayListMultimap.create();
+      accountsToNotify.putAll(RecipientType.TO, tos);
+      accountsToNotify.putAll(RecipientType.CC, ccs);
+      accountsToNotify.putAll(RecipientType.BCC, bccs);
+      return accountsToNotify;
     }
 
     String parse(CmdLineParser clp, Repository repo, Set<String> refs,
@@ -2080,6 +2103,7 @@ public class ReceiveCommits {
             .setApprovals(approvals)
             .setMessage(msg.toString())
             .setNotify(magicBranch.notify)
+            .setAccountsToNotify(magicBranch.getAccountsToNotify())
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
             .setUpdateRef(false)

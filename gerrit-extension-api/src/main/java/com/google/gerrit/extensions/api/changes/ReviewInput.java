@@ -57,6 +57,7 @@ public class ReviewInput {
 
   /** Who to send email notifications to after review is stored. */
   public NotifyHandling notify = NotifyHandling.ALL;
+  public Map<RecipientType, NotifyInfo> notifyDetails;
 
   /**
    * If true check to make sure that the comments being posted aren't already

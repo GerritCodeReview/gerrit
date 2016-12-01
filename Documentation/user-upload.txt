@@ -177,6 +177,24 @@ By default all email notifications are sent.
   git push ssh://bot@git.example.com:29418/kernel/common HEAD:refs/for/master%notify=NONE
 ----
 
+In addition uploaders can explicitly specify accounts that should be
+notified, regardless of the value that is given for the `notify`
+option. To notify a specific account specify it by an
+`notify-to='email'`, `notify-cc='email'` or `notify-bcc='email'`
+option. These options can be specified as many times as necessary to
+cover all interested parties. Gerrit will automatically avoid sending
+duplicate email notifications, such as if one of the specified accounts
+had also requested to receive all new change notifications. The
+accounts that are specified by `notify-to='email'`, `notify-cc='email'`
+and `notify-bcc='email'` will only be notified about this one push.
+They are not added as link:#reviewers[reviewers or CCs], hence they are
+not automatically signed up to be notified on further updates of the
+change.
+
+----
+  git push ssh://bot@git.example.com:29418/kernel/common HEAD:refs/for/master%notify=NONE,notify-to=a@a.com
+----
+
 [[topic]]
 ==== Topic
 

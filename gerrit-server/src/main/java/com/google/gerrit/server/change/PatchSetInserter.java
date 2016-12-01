@@ -19,9 +19,13 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -94,6 +98,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
   private NotifyHandling notify = NotifyHandling.ALL;
+  private Multimap<RecipientType, Account.Id> accountsToNotify =
+      ImmutableListMultimap.of();
   private boolean allowClosed;
   private boolean copyApprovals = true;
 
@@ -162,6 +168,12 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   public PatchSetInserter setNotify(NotifyHandling notify) {
     this.notify = notify;
+    return this;
+  }
+
+  public PatchSetInserter setAccountsToNotify(
+      Multimap<RecipientType, Account.Id> accountsToNotify) {
+    this.accountsToNotify = checkNotNull(accountsToNotify);
     return this;
   }
 
@@ -246,7 +258,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
-    if (notify != NotifyHandling.NONE) {
+    if (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty()) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
             ctx.getProject(), change.getId());
@@ -256,6 +268,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
         cm.addReviewers(oldReviewers.byState(REVIEWER));
         cm.addExtraCC(oldReviewers.byState(CC));
         cm.setNotify(notify);
+        cm.setAccountsToNotify(accountsToNotify);
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for new patch set on change "

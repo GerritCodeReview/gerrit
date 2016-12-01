@@ -125,12 +125,7 @@
       this.comment.message = this._messageText;
       this.disabled = true;
 
-      this.$.storage.eraseDraftComment({
-        changeNum: this.changeNum,
-        patchNum: this.patchNum,
-        path: this.comment.path,
-        line: this.comment.line,
-      });
+      this._eraseDraftComment();
 
       this._xhrPromise = this._saveDraft(this.comment).then(function(response) {
         this.disabled = false;
@@ -153,6 +148,15 @@
         this.disabled = false;
         throw err;
       }.bind(this));
+    },
+
+    _eraseDraftComment: function() {
+      this.$.storage.eraseDraftComment({
+        changeNum: this.changeNum,
+        patchNum: this.patchNum,
+        path: this.comment.path,
+        line: this.comment.line,
+      });
     },
 
     _commentChanged: function(comment) {
@@ -338,6 +342,8 @@
       }
       this.editing = false;
       this.disabled = true;
+      this._eraseDraftComment();
+
       if (!this.comment.id) {
         this.disabled = false;
         this._fireDiscard();

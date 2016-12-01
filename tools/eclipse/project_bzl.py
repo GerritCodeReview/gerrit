@@ -170,10 +170,6 @@ def gen_classpath(ext):
     m = java_library.match(p)
     if m:
       gwt_src.add(m.group(1))
-      # Exception: we need source here for GWT SDM mode to work
-      if p.endswith('libEdit.jar'):
-        p = p[:-4] + '-src.jar'
-        lib.add(p)
 
   for s in sorted(src):
     out = None
@@ -213,10 +209,18 @@ def gen_classpath(ext):
         p = path.join(prefix, "jar", "%s-src.jar" % suffix)
         if path.exists(p):
           s = p
-      # TODO(davido): make plugins actually work
       if args.plugins:
         classpathentry('lib', j, s, exported=True)
       else:
+        # Filter out the source JARs that we pull through transitive closure of
+        # GWT plugin API (we add source directories themself).  Exception is
+        # libEdit-src.jar, that is needed for GWT SDM to work.
+        m = java_library.match(j)
+        if m:
+          if m.group(1).startswith("gerrit-") and \
+              j.endswith("-src.jar") and \
+              not j.endswith("libEdit-src.jar"):
+            continue
         classpathentry('lib', j, s)
 
   for s in sorted(gwt_src):

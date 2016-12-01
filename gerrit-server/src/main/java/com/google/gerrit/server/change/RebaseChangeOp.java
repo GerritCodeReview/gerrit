@@ -68,7 +68,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private CommitValidators.Policy validate;
   private boolean forceContentMerge;
   private boolean copyApprovals = true;
-  private boolean detailedCommitMessage = false;
+  private boolean detailedCommitMessage;
   private boolean postMessage = true;
 
   private RevCommit rebasedCommit;

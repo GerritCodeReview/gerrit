@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_91893cb7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T20:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_91601c27",
+      "range": {
+        "startLine": 1835,
+        "startChar": 5,
+        "endLine": 1835,
+        "endChar": 12
+      },
+      "revId": "2bb23fd134d109f2d94ca3613e16559944ce26c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d0bc5c6b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 8
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_307048fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T20:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d05c749_d0bc5c6b",
+      "revId": "2bb23fd134d109f2d94ca3613e16559944ce26c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_30cb280c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
         "patchSetId": 8
@@ -54,6 +96,24 @@
       "writtenOn": "2016-12-01T19:52:08Z",
       "side": 1,
       "message": "missing space between generate and at\n\nThe LimitExceededException exception isn\u0027t thrown by getBundles, so this won\u0027t work as intended. writeTo needs to catch the exception instead.",
+      "revId": "2bb23fd134d109f2d94ca3613e16559944ce26c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_107544ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T20:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d05c749_30cb280c",
       "revId": "2bb23fd134d109f2d94ca3613e16559944ce26c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

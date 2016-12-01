@@ -16,6 +16,24 @@
       "revId": "ee99266bfd4db6858b44653229d41ccc08a5e0cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_8e59bba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-01T06:42:27Z",
+      "side": 1,
+      "message": "I agree with Oleg, it is embarassing to rely on a command that is not available per default on MacOS. See my comments on the corresponding PR: [1] and the issue: [2]. I do use Buck occasionally on MacOS and it was failing for me. It\u0027s not an option for me to use homebrew. It should just work. So, if Buck will stay with us for weeks (or months) I would vote for upgrading it.\n\n* [1] https://github.com/facebook/buck/pull/930\n* [2] https://github.com/facebook/buck/issues/1017",
+      "parentUuid": "4d0ac35e_0f6fe56a",
+      "revId": "ee99266bfd4db6858b44653229d41ccc08a5e0cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

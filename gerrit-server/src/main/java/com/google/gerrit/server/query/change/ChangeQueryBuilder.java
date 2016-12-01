@@ -248,10 +248,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountCache accountCache,
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, opFactories, hasOperands, userFactory,
-          self, capabilityControlFactory, changeControlGenericFactory, notesFactory, changeDataFactory, fillArgs, commentsUtil,
-          accountResolver, groupBackend, allProjectsName, allUsersName, patchListCache, repoManager, projectCache, listChildProjects, submitDryRun, conflictsCache,
-          trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
-          indexConfig, listMembers, starredChangesUtil, accountCache,
+          self, capabilityControlFactory, changeControlGenericFactory, notesFactory,
+          changeDataFactory, fillArgs, commentsUtil, accountResolver, groupBackend,
+          allProjectsName, allUsersName, patchListCache, repoManager, projectCache,
+          listChildProjects, submitDryRun, conflictsCache, trackingFooters,
+          indexes != null ? indexes.getSearchIndex() : null, indexConfig, listMembers,
+          starredChangesUtil, accountCache,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 

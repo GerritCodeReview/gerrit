@@ -34,6 +34,24 @@
       "revId": "fad7217d0b50b33b27fefbdef82cd76ee3f913d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dc7eb66_75c72835",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-01T21:37:26Z",
+      "side": 0,
+      "message": "Do you still need a test for a private method?\nUp to you.",
+      "parentUuid": "6d05c749_10a7045c",
+      "revId": "fad7217d0b50b33b27fefbdef82cd76ee3f913d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

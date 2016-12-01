@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "2df3cfac_4e929337",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:36:53Z",
+      "side": 1,
+      "message": "What about legacy URLs?  Will they still be supported?",
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_dd970bd7",
         "filename": "contrib/new-url-regex/Demo.java",
         "patchSetId": 1
@@ -88,6 +105,47 @@
         "endLine": 76,
         "endChar": 10
       },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df3cfac_6e8dcf13",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:36:53Z",
+      "side": 1,
+      "message": "Neither sso or rpc are in the list of uri schemes [1] so they may well be google internal.  However, git-repo already supports both of them [2,3] for some time.\n\n[1] http://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml\n[2] https://gerrit-review.googlesource.com/#/c/60000/\n[3] https://gerrit-review.googlesource.com/#/c/54170/",
+      "parentUuid": "104624f2_fd9c47fd",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 10
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_2f93c93e",
+        "filename": "contrib/new-url-regex/WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:36:53Z",
+      "side": 1,
+      "message": "So far in the gerrit codebase we use either the standard java.util.regex classes, or dk.briks to handle regex pattern matching.  Is the intention to replace either or both with this?",
       "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

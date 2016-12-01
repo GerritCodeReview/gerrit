@@ -37,6 +37,7 @@ import java.util.TreeSet;
 class Actions extends Composite {
   private static final String[] CORE = {
     "abandon",
+    "assignee",
     "cherrypick",
     "description",
     "followup",

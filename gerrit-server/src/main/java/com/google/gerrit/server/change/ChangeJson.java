@@ -1112,7 +1112,7 @@ public class ChangeJson {
           out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS), fillCommit);
         }
         if (addFooters) {
-          Ref ref = repo.exactRef(in.getRefName());
+          Ref ref = repo.exactRef(ctl.getChange().getDest().get());
           RevCommit mergeTip = null;
           if (ref != null){
             mergeTip = rw.parseCommit(ref.getObjectId());

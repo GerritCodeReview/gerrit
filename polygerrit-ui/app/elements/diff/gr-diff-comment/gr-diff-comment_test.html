@@ -332,6 +332,8 @@ limitations under the License.
       assert.isTrue(element.editing);
 
       element._messageText = '';
+      var eraseMessageDraftSpy = sinon.spy(element, '_eraseDraftComment');
+
       // Save should be disabled on an empty message.
       var disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
@@ -345,7 +347,16 @@ limitations under the License.
       var numDiscardEvents = 0;
       element.addEventListener('comment-discard', function(e) {
         numDiscardEvents++;
-        if (numDiscardEvents == 3) {
+        if (numDiscardEvents === 1) {
+          // Message should not be removed from storage when cancelled.
+          assert.isFalse(eraseMessageDraftSpy.called);
+        } else if (numDiscardEvents === 2) {
+          // When a draft is discarded, the message is removed from storage.
+          assert.isTrue(eraseMessageDraftSpy.called);
+        } else if (numDiscardEvents === 3) {
+          // The message was not removed from storage. The count should sill be
+          // 1.
+          assert.equal(eraseMessageDraftSpy.callCount, 1);
           assert.isFalse(updateStub.called);
           done();
         }

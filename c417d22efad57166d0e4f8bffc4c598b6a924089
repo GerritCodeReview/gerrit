@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_7193f8eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-12-01T20:00:29Z",
+      "side": 1,
+      "message": "This returns a promise, no? The documentation specifies that it should return the config object.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 71
+      },
+      "revId": "c417d22efad57166d0e4f8bffc4c598b6a924089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

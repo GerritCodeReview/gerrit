@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0ac35e_0f6fe56a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T01:53:40Z",
+      "side": 1,
+      "message": "Is this the only reason to upgrade? We\u0027re almost ready to remove the buck build, so I\u0027d rather not do another upgrade unless absolutely necessary.  If we upgrade we\u0027ll also have to do corresponding changes on bucklets, gitiles, and jgit.",
+      "revId": "ee99266bfd4db6858b44653229d41ccc08a5e0cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

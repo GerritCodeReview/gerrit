@@ -100,13 +100,20 @@ public class StalenessChecker {
       return true; // Not in index, but caller wants it to be.
     }
     ChangeData cd = result.get();
-    if (reviewDbChangeIsStale(
-        cd.change(),
-        ChangeNotes.readOneReviewDbChange(db.get(), cd.getId()))) {
-      return true;
-    }
+    return isStale(repoManager, id, cd.change(),
+        ChangeNotes.readOneReviewDbChange(db.get(), id),
+        parseStates(cd), parsePatterns(cd));
+  }
 
-    return isStale(repoManager, id, parseStates(cd), parsePatterns(cd));
+  public static boolean isStale(
+      GitRepositoryManager repoManager,
+      Change.Id id,
+      Change indexChange,
+      @Nullable Change reviewDbChange,
+      SetMultimap<Project.NameKey, RefState> states,
+      Multimap<Project.NameKey, RefStatePattern> patterns) {
+    return reviewDbChangeIsStale(indexChange, reviewDbChange)
+        || isStale(repoManager, id, states, patterns);
   }
 
   @VisibleForTesting
@@ -145,8 +152,7 @@ public class StalenessChecker {
     return parseStates(cd.getRefStates());
   }
 
-  @VisibleForTesting
-  static SetMultimap<Project.NameKey, RefState> parseStates(
+  public static SetMultimap<Project.NameKey, RefState> parseStates(
       Iterable<byte[]> states) {
     RefState.check(states != null, null);
     SetMultimap<Project.NameKey, RefState> result = HashMultimap.create();

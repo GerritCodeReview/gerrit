@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0ac35e_cf84bdf6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:21:12Z",
+      "side": 1,
+      "message": "Can\u0027t we do this with assertThat?\n\n assertThat(original.getName()).isNotEqualTo(mergeTip.getName());",
+      "range": {
+        "startLine": 1827,
+        "startChar": 12,
+        "endLine": 1828,
+        "endChar": 66
+      },
+      "revId": "6f9172d5d7239de28a820fdce1318277eb565c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

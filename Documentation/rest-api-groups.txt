@@ -1207,11 +1207,6 @@ body as a link:#groups-input[GroupsInput] entity.
 [[ids]]
 == IDs
 
-[[account-id]]
-=== link:rest-api-accounts.html#account-id[\{account-id\}]
---
---
-
 [[group-id]]
 === \{group-id\}
 Identifier for a group.
@@ -1319,7 +1314,7 @@ This can be a group UUID, a legacy numeric group ID or a unique group
 name. +
 If not set, the new group will be self-owned.
 |`members`       |optional|The initial members in a list of +
-link:#account-id[account ids].
+link:rest-api-accounts.html#account-id[account ids].
 |===========================
 
 [[group-options-info]]
@@ -1369,11 +1364,11 @@ be added as members to a group or that should be deleted from the group.
 |==========================
 |Field Name   ||Description
 |`_one_member`|optional|
-The link:#account-id[id] of one account that should be added or
-deleted.
-|`members`    |optional|
-A list of link:#account-id[account ids] that identify the accounts that
+The link:rest-api-accounts.html#account-id[id] of one account that
 should be added or deleted.
+|`members`    |optional|
+A list of link:rest-api-accounts.html#account-id[account ids] that
+identify the accounts that should be added or deleted.
 |==========================
 
 

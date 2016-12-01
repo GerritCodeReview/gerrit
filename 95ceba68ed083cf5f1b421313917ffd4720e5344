@@ -201,6 +201,30 @@
       "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_d09d7c42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T07:12:36Z",
+      "side": 1,
+      "message": "The problem is the design of the super class ByteArrayOutputStream, which only throws run time exceptions (the indexoutofboundsexception)\nin case of a problem, i.e. when overriding the write methods I cannot add any non-runtime exception to be thrown.\n\nAnd that\u0027s why I picked the IndexOutOfBoundsException as it is consistent with its superclass, though less than ideal.",
+      "parentUuid": "4d0ac35e_efa0a176",
+      "range": {
+        "startLine": 154,
+        "startChar": 12,
+        "endLine": 154,
+        "endChar": 80
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
